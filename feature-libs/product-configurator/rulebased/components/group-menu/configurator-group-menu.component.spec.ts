@@ -35,6 +35,13 @@ class MockRoutingService {
   }
 }
 
+const baseStyleClass = 'cx-menu-item';
+const completeStyleClass = ' COMPLETE';
+const errorStyleClass = ' ERROR';
+const warningStyleClass = ' WARNING';
+const cloudCPQConfiguratorType = 'CLOUDCPQCONFIGURATOR';
+const CPQConfiguratorType = 'CPQCONFIGURATOR';
+
 const simpleConfig: Configurator.Configuration = {
   configId: mockProductConfiguration.configId,
   groups: [
@@ -57,6 +64,11 @@ const simpleConfig: Configurator.Configuration = {
   ],
   interactionState: {
     issueNavigationDone: false,
+  },
+  owner: {
+    id: PRODUCT_CODE,
+    type: CommonConfigurator.OwnerType.PRODUCT,
+    configuratorType: CPQConfiguratorType,
   },
 };
 
@@ -537,6 +549,158 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
+  describe('getGroupStatusStyles', () => {
+    it('should return COMPLETE style class if group is complete, consistent and type is CPQCONFIGURATOR', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[1].complete = true;
+      mockProductConfiguration.groups[1].consistent = true;
+      mockProductConfiguration.owner.configuratorType = CPQConfiguratorType;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[1],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(baseStyleClass + completeStyleClass)
+        );
+    });
+
+    it('should not return COMPLETE style class if group is complete, consistent and type is CLOUDCPQCONFIGURATOR', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[1].complete = true;
+      mockProductConfiguration.groups[1].consistent = true;
+      mockProductConfiguration.owner.configuratorType = cloudCPQConfiguratorType;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[1],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) => expect(style).toEqual(baseStyleClass));
+    });
+
+    it('should return WARNING style class if group is inconsistent and type is CPQCONFIGURATOR', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = true;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = CPQConfiguratorType;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(baseStyleClass + warningStyleClass)
+        );
+    });
+
+    it('should not return WARNING style class if group is inconsistent and type is CLOUDCPQCONFIGURATOR', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = true;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = cloudCPQConfiguratorType;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) => expect(style).toEqual(baseStyleClass));
+    });
+
+    it('should return ERROR style class if group is incomplete, consistent and type is CLOUDCPQCONFIGURATOR', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = true;
+      mockProductConfiguration.owner.configuratorType = cloudCPQConfiguratorType;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(baseStyleClass + errorStyleClass)
+        );
+    });
+
+    it('should return ERROR style class if group is incomplete, consistent and type is CPQCONFIGURATOR', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = true;
+      mockProductConfiguration.owner.configuratorType = CPQConfiguratorType;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(baseStyleClass + errorStyleClass)
+        );
+    });
+
+    it('should return WARNING and ERROR style class if group is incomplete, inconsistent and type is CPQCONFIGURATOR', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = CPQConfiguratorType;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(
+            baseStyleClass + warningStyleClass + errorStyleClass
+          )
+        );
+    });
+
+    it('should return ERROR style class if group is incomplete, inconsistent and type is CPQCONFIGURATOR', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = cloudCPQConfiguratorType;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(baseStyleClass + errorStyleClass)
+        );
+    });
+  });
+
   describe('verify whether the corresponding group status class stands at cx-menu-item element', () => {
     it("should contain 'WARNING' class despite the group has not been visited", () => {
       simpleConfig.consistent = false;
@@ -568,10 +732,27 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
+    it("should not contain 'WARNING' class despite the group has been visited and has some conflicts but the type is CLOUDCPQCONFIGURATOR ", () => {
+      simpleConfig.consistent = false;
+      simpleConfig.groups[0].consistent = false;
+      simpleConfig.owner.configuratorType = cloudCPQConfiguratorType;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = true;
+      initialize();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.WARNING'
+      );
+    });
+
     it("should not contain 'COMPLETE' class despite the group is complete but it has not been visited", () => {
       simpleConfig.complete = true;
       simpleConfig.groups[0].complete = true;
       simpleConfig.groups[0].consistent = true;
+      simpleConfig.owner.configuratorType = CPQConfiguratorType;
       productConfigurationObservable = of(simpleConfig);
       routerStateObservable = of(mockRouterState);
       mockGroupVisited = false;
@@ -616,6 +797,23 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
+    it("should not contain 'COMPLETE' class despite the group is complete and has been visited but the type is CLOUDCPQCONFIGURATOR", () => {
+      simpleConfig.complete = true;
+      simpleConfig.groups[0].complete = true;
+      simpleConfig.groups[0].consistent = true;
+      simpleConfig.owner.configuratorType = cloudCPQConfiguratorType;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = false;
+      initialize();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.COMPLETE'
+      );
+    });
+
     it("should not contain 'ERROR' class despite the group is incomplete but it has not been visited", () => {
       simpleConfig.complete = false;
       simpleConfig.groups[0].complete = false;
@@ -649,6 +847,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     it("should contain 'DISABLED' class despite the group is empty", () => {
       simpleConfig.complete = true;
       simpleConfig.groups[0].configurable = false;
+      simpleConfig.owner.configuratorType = CPQConfiguratorType;
       productConfigurationObservable = of(simpleConfig);
       routerStateObservable = of(mockRouterState);
       mockGroupVisited = false;

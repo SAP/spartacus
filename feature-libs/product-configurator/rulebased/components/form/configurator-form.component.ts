@@ -1,10 +1,19 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { LanguageService } from '@spartacus/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  LanguageService,
+} from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -16,7 +25,7 @@ import { ConfigFormUpdateEvent } from './configurator-form.event';
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorFormComponent implements OnInit {
+export class ConfiguratorFormComponent implements OnInit, OnDestroy {
   configuration$: Observable<
     Configurator.Configuration
   > = this.configRouterExtractorService.extractRouterData().pipe(
@@ -43,15 +52,30 @@ export class ConfiguratorFormComponent implements OnInit {
   activeLanguage$: Observable<string> = this.languageService.getActive();
 
   uiType = Configurator.UiType;
+  msgSubscription: Subscription;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected languageService: LanguageService
+    protected languageService: LanguageService,
+    protected messageService: GlobalMessageService
   ) {}
 
+  publishUiMessages(configuration: Configurator.Configuration) {
+    configuration.errorMessages?.forEach((msg) => {
+      this.messageService.add(msg, GlobalMessageType.MSG_TYPE_ERROR, 2000);
+    });
+    configuration.warningMessages?.forEach((msg) => {
+      this.messageService.add(msg, GlobalMessageType.MSG_TYPE_WARNING, 2000);
+    });
+  }
+
   ngOnInit(): void {
+    this.msgSubscription = this.configuration$?.subscribe((configuration) => {
+      this.publishUiMessages(configuration);
+    });
+
     this.configRouterExtractorService
       .extractRouterData()
       .pipe(take(1))
@@ -85,6 +109,10 @@ export class ConfiguratorFormComponent implements OnInit {
             });
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.msgSubscription?.unsubscribe();
   }
 
   updateConfiguration(event: ConfigFormUpdateEvent): void {

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
-import { Configurator } from './../core/model/configurator.model';
-import { Cpq } from './cpq.models';
-import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
 import { take } from 'rxjs/operators';
+import { Configurator } from './../core/model/configurator.model';
+import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { Cpq } from './cpq.models';
 
 @Injectable()
 export class CpqConfiguratorNormalizer
@@ -27,12 +27,13 @@ export class CpqConfiguratorNormalizer
         source.failedValidations.length === 0 &&
         source.errorMessages.length === 0 &&
         source.conflictMessages.length === 0,
-      totalNumberOfIssues:
-        source.incompleteAttributes.length + source.numberOfConflicts,
+      totalNumberOfIssues: this.generateTotaltotalNumberOfIssues(source),
       productCode: source.productSystemId,
       priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
       groups: [],
       flatGroups: [],
+      errorMessages: this.generateErrorMessages(source),
+      warningMessages: this.generateWarningMessages(source),
     };
     source.tabs.forEach((tab) =>
       this.convertGroup(
@@ -55,6 +56,31 @@ export class CpqConfiguratorNormalizer
     }
 
     return resultTarget;
+  }
+
+  generateTotaltotalNumberOfIssues(source: Cpq.Configuration): number {
+    let numberOfIssues: number =
+      source.incompleteAttributes.length +
+      source.incompleteMessages.length +
+      source.invalidMessages.length +
+      source.failedValidations.length +
+      source.errorMessages.length;
+    return numberOfIssues;
+  }
+
+  generateWarningMessages(source: Cpq.Configuration): string[] {
+    let warnMsgs: string[] = [];
+    warnMsgs = warnMsgs.concat(source.failedValidations);
+    return warnMsgs;
+  }
+
+  generateErrorMessages(source: Cpq.Configuration): string[] {
+    let errorMsgs: string[] = [];
+    errorMsgs = errorMsgs.concat(source.errorMessages);
+    errorMsgs = errorMsgs.concat(source.incompleteMessages);
+    errorMsgs = errorMsgs.concat(source.conflictMessages);
+    errorMsgs = errorMsgs.concat(source.invalidMessages);
+    return errorMsgs;
   }
 
   convertGroup(
