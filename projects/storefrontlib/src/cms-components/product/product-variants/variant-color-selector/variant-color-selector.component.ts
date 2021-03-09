@@ -7,6 +7,10 @@ import {
   VariantQualifier,
 } from '@spartacus/core';
 
+/**
+ * @deprecated since 3.2
+ * Use feature-library @spartacus/product/variants/components instead
+ */
 @Component({
   selector: 'cx-variant-color-selector',
   templateUrl: './variant-color-selector.component.html',

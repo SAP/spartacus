@@ -16,6 +16,10 @@ import { ProductVariantGuard } from './guards/product-variant.guard';
 import { VariantStyleIconsComponent } from './variant-style-icons/variant-style-icons.component';
 import { VariantGenericSelectorModule } from './variant-generic-selector/variant-generic-selector.module';
 
+/**
+ * @deprecated since 3.2
+ * Use feature-library @spartacus/product/variants/components instead
+ */
 @NgModule({
   imports: [
     CommonModule,
