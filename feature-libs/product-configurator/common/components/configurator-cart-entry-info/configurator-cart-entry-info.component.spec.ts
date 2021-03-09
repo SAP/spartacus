@@ -151,9 +151,18 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
     });
 
     describe('hasStatus', () => {
-      it('should be true if first entry of status summary is in error status', () => {
-        const entry: OrderEntry = { configurationInfos: [{ status: 'ERROR' }] };
+      it('should be true if first entry of status summary is in error status and has a definition of the configurator type', () => {
+        const entry: OrderEntry = {
+          configurationInfos: [
+            { status: 'ERROR', configuratorType: 'CPQCONFIGURATOR' },
+          ],
+        };
         expect(component.hasStatus(entry)).toBe(true);
+      });
+
+      it('should be false if first entry of status summary does not have the definition of the configurator type', () => {
+        const entry: OrderEntry = { configurationInfos: [{ status: 'ERROR' }] };
+        expect(component.hasStatus(entry)).toBe(false);
       });
 
       it('should be false if first entry of status summary carries no status', () => {
@@ -166,7 +175,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         expect(component.hasStatus(entry)).toBe(false);
       });
 
-      it('should be false if configuration infos are emptry', () => {
+      it('should be false if configuration infos are empty', () => {
         const entry: OrderEntry = { configurationInfos: [] };
         expect(component.hasStatus(entry)).toBe(false);
       });

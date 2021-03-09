@@ -35,7 +35,8 @@ export class ConfiguratorCartEntryInfoComponent {
 
     return configurationInfos
       ? configurationInfos.length > 0 &&
-          configurationInfos[0]?.status !== 'NONE'
+          configurationInfos[0]?.status !== 'NONE' &&
+          configurationInfos[0]?.configuratorType === 'CPQCONFIGURATOR'
       : false;
   }
 }
