@@ -13,7 +13,7 @@ import { OccConfigLoaderService } from './occ-config-loader.service';
 export function initConfig(
   configLoader: OccConfigLoaderService,
   config: SiteContextConfig
-): ConfigInitializer {
+): ConfigInitializer | null {
   /**
    * Load config for `context` from backend only when there is no static config for `context.baseSite`
    */

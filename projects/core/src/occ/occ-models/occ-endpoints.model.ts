@@ -438,6 +438,12 @@ export interface OccEndpoints {
    * @member {string}
    */
   baseSites?: string | OccEndpoint;
+  /**
+   * Endpoint for getting all base sites for the site context configuration
+   *
+   * @member {string}
+   */
+  baseSitesForConfig?: string | OccEndpoint;
   /** Endpoint to returns active cost centers
    *
    * @member {string}
