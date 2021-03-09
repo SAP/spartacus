@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { PopoverPosition, PopoverPositionArray } from './popover.model';
+import {
+  PopoverPosition,
+  PopoverPositionArray,
+} from '../../components/popover/popover.model';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +36,10 @@ export class PositioningService {
     return this.winRef.nativeWindow;
   }
 
+  protected get document(): Document {
+    return this.winRef.document;
+  }
+
   protected getAllStyles(
     element: HTMLElement
   ): CSSStyleDeclaration | undefined {
@@ -51,17 +58,17 @@ export class PositioningService {
 
   protected offsetParent(element: HTMLElement): HTMLElement {
     let offsetParentEl =
-      <HTMLElement>element.offsetParent || document.documentElement;
+      <HTMLElement>element.offsetParent || this.document.documentElement;
 
     while (
       offsetParentEl &&
-      offsetParentEl !== document.documentElement &&
+      offsetParentEl !== this.document.documentElement &&
       this.isStaticPositioned(offsetParentEl)
     ) {
       offsetParentEl = <HTMLElement>offsetParentEl.offsetParent;
     }
 
-    return offsetParentEl || document.documentElement;
+    return offsetParentEl || this.document.documentElement;
   }
 
   protected position(element: HTMLElement, round = true): ClientRect {
@@ -90,7 +97,7 @@ export class PositioningService {
 
       elPosition = this.offset(element, false);
 
-      if (offsetParentEl !== document.documentElement) {
+      if (offsetParentEl !== this.document.documentElement) {
         parentOffset = this.offset(offsetParentEl, false);
       }
 
@@ -118,11 +125,11 @@ export class PositioningService {
     const viewportOffset = {
       top:
         (this.window &&
-          this.window.pageYOffset - document.documentElement.clientTop) ||
+          this.window.pageYOffset - this.document.documentElement.clientTop) ||
         0,
       left:
         (this.window &&
-          this.window.pageXOffset - document.documentElement.clientLeft) ||
+          this.window.pageXOffset - this.document.documentElement.clientLeft) ||
         0,
     };
 
@@ -234,7 +241,7 @@ export class PositioningService {
 
       // Check if the targetElement is inside the viewport
       const targetElBCR = targetElement.getBoundingClientRect();
-      const html = document.documentElement;
+      const html = this.document.documentElement;
       const windowHeight = this.window?.innerHeight || html.clientHeight;
       const windowWidth = this.window?.innerWidth || html.clientWidth;
 

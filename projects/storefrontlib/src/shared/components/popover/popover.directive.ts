@@ -16,7 +16,7 @@ import { WindowRef } from '@spartacus/core';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverPosition } from './popover.model';
-import { PositioningService } from './positioning.service';
+import { PositioningService } from '../../services/positioning/positioning.service';
 import { PopoverService } from './popover.service';
 
 /**

@@ -7,7 +7,7 @@ import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { KeyboardFocusTestingModule } from '../../../layout/a11y/keyboard-focus/focus-testing.module';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverPosition } from './popover.model';
-import { PositioningService } from './positioning.service';
+import { PositioningService } from '../../services/positioning/positioning.service';
 
 const mockPopoverPosition = 'top';
 
