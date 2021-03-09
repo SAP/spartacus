@@ -78,7 +78,6 @@ import {
 } from '@spartacus/storefront';
 
 import { AdministrationFeatureModule } from './features/administration-feature.module';
-import { BundleFeatureModule } from './features/bundle-feature.module';
 import { environment } from '../../environments/environment';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
@@ -214,7 +213,6 @@ if (environment.cds) {
     StorefinderFeatureModule,
     QualtricsFeatureModule,
     SmartEditFeatureModule,
-    BundleFeatureModule,
     TrackingFeatureModule,
     ...featureModules,
   ],

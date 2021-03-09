@@ -12,7 +12,7 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2020", "dom"],
     "strictPropertyInitialization": false,
-    "strict": false,
+    "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "stripInternal": true,
@@ -21,14 +21,7 @@
     "paths": {
       "@spartacus/setup": ["core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["core-libs/setup/ssr/public_api"],
-      "@spartacus/bundle/core": [
-        "projects/core/src/cart/bundle/core/public_api"
-      ],
-      "@spartacus/bundle": ["projects/core/src/cart/bundle/public_api"],
-      "@spartacus/bundle/occ": ["projects/core/src/cart/bundle/occ/public_api"],
-      "@spartacus/bundle/root": [
-        "projects/core/src/cart/bundle/root/public_api"
-      ],
+
       "@spartacus/organization/administration/assets": [
         "feature-libs/organization/administration/assets/public_api"
       ],
@@ -145,7 +138,19 @@
       "@spartacus/core": ["projects/core/public_api"],
       "@spartacus/incubator": ["projects/incubator/public_api"],
       "@spartacus/schematics": ["projects/schematics/src/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"]
+      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
+      "@spartacus/core/cart/bundle/core": [
+        "projects/core/src/cart/bundle/core/public_api"
+      ],
+      "@spartacus/core/cart/bundle": [
+        "projects/core/src/cart/bundle/public_api"
+      ],
+      "@spartacus/core/cart/bundle/occ": [
+        "projects/core/src/cart/bundle/occ/public_api"
+      ],
+      "@spartacus/core/cart/bundle/root": [
+        "projects/core/src/cart/bundle/root/public_api"
+      ]
     }
   },
   "exclude": ["./dist", "./projects/storefrontapp-e2e-cypress"]

@@ -8,10 +8,7 @@ export const wishListInitialState = '';
 
 export function activeCartReducer(
   state = activeCartDefaultState,
-  action:
-    | CartActions.CartAction
-    | CartActions.MultiCartActions
-    | CartActions.CartBundleAction
+  action: CartActions.CartAction | CartActions.MultiCartActions
 ): string {
   switch (action.type) {
     case CartActions.LOAD_CART_SUCCESS:
@@ -52,17 +49,6 @@ export function cartEntitiesReducer(
     case CartActions.LOAD_WISH_LIST_SUCCESS:
     case CartActions.SET_TEMP_CART:
       return action.payload.cart;
-    case CartActions.GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS:
-      return {
-        ...state,
-        // TODO: Allowed products needs to be allocated to specific entrygroup
-        ...{
-          entryGroups: [
-            ...state.entryGroups,
-            { allowedProducts: action.payload },
-          ],
-        },
-      };
   }
   return state;
 }

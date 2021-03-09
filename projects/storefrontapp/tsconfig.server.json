@@ -8,10 +8,6 @@
     "paths": {
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
-      "@spartacus/bundle/core": ["../../feature-libs/bundle/core/public_api"],
-      "@spartacus/bundle": ["../../feature-libs/bundle/public_api"],
-      "@spartacus/bundle/occ": ["../../feature-libs/bundle/occ/public_api"],
-      "@spartacus/bundle/root": ["../../feature-libs/bundle/root/public_api"],
       "@spartacus/organization/administration/assets": [
         "../../feature-libs/organization/administration/assets/public_api"
       ],
@@ -135,7 +131,17 @@
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/incubator": ["../../projects/incubator/public_api"],
-      "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"]
+      "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"],
+      "@spartacus/core/cart/bundle/core": [
+        "../../feature-libs/bundle/core/public_api"
+      ],
+      "@spartacus/core/cart/bundle": ["../../feature-libs/bundle/public_api"],
+      "@spartacus/core/cart/bundle/occ": [
+        "../../feature-libs/bundle/occ/public_api"
+      ],
+      "@spartacus/core/cart/bundle/root": [
+        "../../feature-libs/bundle/root/public_api"
+      ]
     }
   },
   "angularCompilerOptions": {
