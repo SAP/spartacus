@@ -37,14 +37,14 @@
             >
           </ng-template>
         </div>
-        <div class="cx-product-card-code">
+        <div class="cx-product-card-code" *ngIf="productAsync.code">
           {{ 'configurator.attribute.id' | cxTranslate }}:
           {{ productAsync.code }}
         </div>
         <cx-configurator-show-more
           *ngIf="productAsync?.description"
           [text]="productAsync?.description"
-          [textSize]="50"
+          [textSize]="45"
         ></cx-configurator-show-more>
       </div>
     </div>
