@@ -95,7 +95,14 @@
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/incubator": ["dist/incubator"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/product/variants": ["dist/product/variants"],
+      "@spartacus/product/variants/assets": ["dist/product/variants/assets"],
+      "@spartacus/product/variants/components": [
+        "dist/product/variants/components"
+      ],
+      "@spartacus/product/variants/occ": ["dist/product/variants/occ"],
+      "@spartacus/product/variants/root": ["dist/product/variants/root"]
     }
   }
 }
