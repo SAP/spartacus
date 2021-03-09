@@ -7,16 +7,10 @@
   >
     <div class="cx-product-card-rows">
       <div class="cx-product-card-imgs">
-        <ng-container *ngIf="product?.images?.PRIMARY; else noimages">
-          <cx-media
-            [container]="product?.images?.PRIMARY"
-            format="product"
-          ></cx-media>
-        </ng-container>
-
-        <ng-template #noimages>
-          <div class="cx-product-card-imgs-fake"></div>
-        </ng-template>
+        <cx-media
+          [container]="product?.images?.PRIMARY"
+          format="product"
+        ></cx-media>
       </div>
 
       <div class="cx-product-card-info">
@@ -35,14 +29,14 @@
             >
           </ng-template>
         </div>
-        <div class="cx-product-card-code">
+        <div class="cx-product-card-code" *ngIf="product.code">
           {{ 'configurator.attribute.id' | cxTranslate }}:
           {{ product.code }}
         </div>
         <cx-configurator-show-more
           *ngIf="product?.description"
           [text]="product?.description"
-          [textSize]="50"
+          [textSize]="45"
         ></cx-configurator-show-more>
       </div>
     </div>
