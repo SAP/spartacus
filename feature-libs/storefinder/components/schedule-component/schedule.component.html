@@ -1,16 +1,15 @@
 <ng-content></ng-content>
 <div class="container cx-store-hours" *ngIf="location.openingHours">
-  <div *ngFor="let day of displayDays" class="row">
-    <div class="cx-days col-4">{{ day | cxDate: 'EEE' }}</div>
-    <div *ngIf="getStoreOpeningTime(day) !== 'closed'" class="cx-hours col-8">
-      {{ getStoreOpeningTime(day) }} -
-      {{ getStoreClosingTime(day) }}
-    </div>
-    <div
-      *ngIf="getStoreOpeningTime(day) === 'closed'"
-      class="cx-hours col-8 closed"
-    >
+  <div *ngFor="let day of weekDays" class="row">
+    <div class="cx-days col-4">{{ day.weekDay }}</div>
+
+    <div *ngIf="day.closed === true" class="cx-hours col-8 closed">
       {{ 'storeFinder.closed' | cxTranslate }}
+    </div>
+
+    <div *ngIf="day.closed === false" class="cx-hours col-8">
+      {{ day.openingTime?.formattedHour }} -
+      {{ day.closingTime?.formattedHour }}
     </div>
   </div>
 </div>

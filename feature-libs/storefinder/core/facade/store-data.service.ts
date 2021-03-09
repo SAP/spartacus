@@ -40,10 +40,13 @@ export class StoreDataService {
   }
 
   /**
+   * @deprecated since 3.1
+   *
    * Returns store closing time
    * @param location store location
    * @param date date to compare
    */
+  // TODO(#11441): Remove all deprecated functions
   getStoreClosingTime(location: PointOfService, date: Date): string {
     const requestedDaySchedule = this.getSchedule(location, date);
 
@@ -59,6 +62,8 @@ export class StoreDataService {
   }
 
   /**
+   * @deprecated since 3.1
+   *
    * Returns store opening time
    * @param location store location
    * @param date date to compare
@@ -78,6 +83,8 @@ export class StoreDataService {
   }
 
   /**
+   * @deprecated since 3.1
+   *
    * Extracts schedule from the given location for the given date
    * @param location location
    * @param date date
