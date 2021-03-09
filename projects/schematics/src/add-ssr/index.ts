@@ -22,7 +22,6 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import {
-  ANGULAR_LOCALIZE,
   ANGULAR_PLATFORM_BROWSER,
   ANGULAR_UNIVERSAL_EXPRESS_VERSION,
   NGUNIVERSAL_EXPRESS_ENGINE,
@@ -192,7 +191,6 @@ export function addSSR(options: SpartacusOptions): Rule {
       ),
       modifyAppModuleFile(),
       installPackageJsonDependencies(),
-      externalSchematic(ANGULAR_LOCALIZE, 'ng-add', options),
     ])(tree, context);
   };
 }

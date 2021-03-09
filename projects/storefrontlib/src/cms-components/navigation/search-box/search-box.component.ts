@@ -2,11 +2,18 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  OnDestroy,
+  OnInit,
   Optional,
 } from '@angular/core';
-import { CmsSearchBoxComponent, WindowRef } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import {
+  CmsSearchBoxComponent,
+  PageType,
+  RoutingService,
+  WindowRef,
+} from '@spartacus/core';
+import { Observable, of, Subscription } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/index';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
@@ -30,7 +37,7 @@ const DEFAULT_SEARCH_BOX_CONFIG: SearchBoxConfig = {
   templateUrl: './search-box.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchBoxComponent {
+export class SearchBoxComponent implements OnInit, OnDestroy {
   @Input() config: SearchBoxConfig;
 
   /**
@@ -50,6 +57,8 @@ export class SearchBoxComponent {
    * for example when we click inside the search result section.
    */
   private ignoreCloseEvent = false;
+  chosenWord = '';
+  public subscription: Subscription;
 
   /**
    * The component data is optional, so that this component
@@ -57,10 +66,30 @@ export class SearchBoxComponent {
    */
 
   constructor(
+    searchBoxComponentService: SearchBoxComponentService,
+    componentData: CmsComponentData<CmsSearchBoxComponent>,
+    winRef: WindowRef
+  );
+
+  /**
+   * @deprecated since version 3.1
+   * Use constructor(searchBoxComponentService: SearchBoxComponentService, componentData: CmsComponentData<CmsSearchBoxComponent>, winRef: WindowRef, protected routingService: RoutingService); instead
+   */
+  // TODO(#11041): Remove deprecated constructors
+  constructor(
+    searchBoxComponentService: SearchBoxComponentService,
+    componentData: CmsComponentData<CmsSearchBoxComponent>,
+    winRef: WindowRef,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    routingService: RoutingService
+  );
+
+  constructor(
     protected searchBoxComponentService: SearchBoxComponentService,
     @Optional()
     protected componentData: CmsComponentData<CmsSearchBoxComponent>,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected routingService?: RoutingService
   ) {}
 
   /**
@@ -92,6 +121,21 @@ export class SearchBoxComponent {
   results$: Observable<SearchResults> = this.config$.pipe(
     switchMap((config) => this.searchBoxComponentService.getResults(config))
   );
+
+  ngOnInit(): void {
+    this.subscription = this.routingService
+      .getRouterState()
+      .pipe(filter((data) => !data.nextState))
+      .subscribe((data) => {
+        if (
+          !(
+            data.state.context?.id === 'search' &&
+            data.state.context?.type === PageType.CONTENT_PAGE
+          )
+        )
+          this.chosenWord = '';
+      });
+  }
 
   /**
    * Closes the searchBox and opens the search result page.
@@ -181,6 +225,10 @@ export class SearchBoxComponent {
     return <HTMLElement>this.winRef.document.activeElement;
   }
 
+  updateChosenWord(chosenWord: string): void {
+    this.chosenWord = chosenWord;
+  }
+
   private getFocusedIndex(): number {
     return this.getResultElements().indexOf(this.getFocusedElement());
   }
@@ -253,5 +301,9 @@ export class SearchBoxComponent {
       el.focus();
       this.ignoreCloseEvent = false;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

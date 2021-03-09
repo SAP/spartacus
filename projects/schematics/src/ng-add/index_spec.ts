@@ -9,7 +9,6 @@ import { getPathResultsForFile } from '../shared/utils/file-utils';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-// tslint:disable:max-line-length
 describe('Spartacus Schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -119,40 +118,5 @@ describe('Spartacus Schematics: ng-add', () => {
         appServerModuleContent.includes('ServerTransferStateModule')
       ).toBeTruthy();
     }
-  });
-
-  describe('@angular/localize', () => {
-    it('should provide import in polyfills.ts and main.server.ts if SSR enabled', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultOptions, name: 'schematics-test', ssr: true },
-          appTree
-        )
-        .toPromise();
-
-      const polyfillsPath = getPathResultsForFile(
-        appTree,
-        'polyfills.ts',
-        '/src'
-      )[0];
-
-      const buffer = tree.read('./server.ts');
-      const polyfillsBuffer = tree.read(polyfillsPath);
-      expect(buffer).toBeTruthy();
-      expect(polyfillsBuffer).toBeTruthy();
-      if (buffer) {
-        const appServerTsFileString = buffer.toString(UTF_8);
-        expect(
-          appServerTsFileString.includes("import '@angular/localize/init'")
-        ).toBeTruthy();
-      }
-      if (polyfillsBuffer) {
-        const polyfills = polyfillsBuffer.toString(UTF_8);
-        expect(
-          polyfills.includes("import '@angular/localize/init'")
-        ).toBeTruthy();
-      }
-    });
   });
 });

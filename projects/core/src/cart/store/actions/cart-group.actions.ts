@@ -1,5 +1,5 @@
-export * from './cart-bundle.action';
 export * from './cart-entry.action';
+export * from './cart-entry-group.action';
 export * from './cart-voucher.action';
 export * from './cart.action';
 export * from './multi-cart.action';

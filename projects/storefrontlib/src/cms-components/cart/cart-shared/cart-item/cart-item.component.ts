@@ -15,7 +15,7 @@ import {
 import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
-import { CartItemComponentOutlets } from './model/cart-item-component-outlets.model';
+import { CartOutlets } from '../../cart-outlets.model';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 import { CartItemContext } from './model/cart-item-context.model';
 
@@ -62,13 +62,13 @@ export class CartItemComponent implements OnInit, OnChanges {
 
   appliedProductPromotions$: Observable<PromotionResult[]>;
   iconTypes = ICON_TYPE;
-  readonly Outlets = CartItemComponentOutlets;
+  readonly CartOutlets = CartOutlets;
 
   // TODO(#10946): make CartItemContextSource a required dependency
-  // tslint:disable-next-line: unified-signatures
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
   constructor(
     promotionService: PromotionService,
-    // tslint:disable-next-line: unified-signatures
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     cartItemContextSource: CartItemContextSource
   );
   /**

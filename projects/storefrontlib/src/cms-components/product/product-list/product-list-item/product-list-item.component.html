@@ -42,13 +42,13 @@
         </p>
       </div>
       <div class="col-12 col-md-4">
-        <cx-add-to-cart
-          *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
-          [showQuantity]="false"
-          [product]="product"
-        ></cx-add-to-cart>
-        <!-- List Item Outlet -->
-        <ng-template [cxOutlet]="Outlets.LIST_ITEM_END"> </ng-template>
+        <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
+          <cx-add-to-cart
+            *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
+            [showQuantity]="false"
+            [product]="product"
+          ></cx-add-to-cart>
+        </ng-template>
       </div>
     </div>
   </div>

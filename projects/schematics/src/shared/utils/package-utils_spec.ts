@@ -3,13 +3,12 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import { ANGULAR_CORE, ANGULAR_LOCALIZE, UTF_8 } from '../constants';
+import { ANGULAR_CORE, UTF_8 } from '../constants';
 import {
   getAngularVersion,
   getMajorVersionNumber,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
-  isAngularLocalizeInstalled,
   readPackageJson,
 } from './package-utils';
 
@@ -110,27 +109,6 @@ describe('Package utils', () => {
       expect(featureLevel).toBeTruthy();
       expect(featureLevel.length).toEqual(3);
       expect(featureLevel).toEqual(version.substring(0, 3));
-    });
-  });
-
-  describe('isAngularLocalizeInstalled', () => {
-    beforeEach(() => {
-      const buffer = appTree.read('package.json');
-      if (!buffer) {
-        throw new Error('package.json not found');
-      }
-      let packageJsonObject = JSON.parse(buffer.toString(UTF_8));
-      packageJsonObject = {
-        ...packageJsonObject,
-        dependencies: {
-          ...packageJsonObject.dependencies,
-          [ANGULAR_LOCALIZE]: '^9.0.0',
-        },
-      };
-      appTree.overwrite('package.json', JSON.stringify(packageJsonObject));
-    });
-    it('should return feature level based on spartacus current version', async () => {
-      expect(isAngularLocalizeInstalled(appTree)).toEqual(true);
     });
   });
 });

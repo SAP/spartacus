@@ -12,10 +12,13 @@
   </ng-container>
 
   <cx-configure-cart-entry
-    *ngIf="orderEntry?.product?.configurable"
+    *ngIf="
+      orderEntry?.product?.configurable && quantityControl$
+        | async as quantityControl
+    "
     [cartEntry]="orderEntry"
     [readOnly]="readonly$ | async"
     [msgBanner]="false"
-    [disabled]="(quantityControl$ | async).disabled"
+    [disabled]="quantityControl.disabled"
   ></cx-configure-cart-entry>
 </ng-container>

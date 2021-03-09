@@ -179,7 +179,7 @@ export class SelectiveCartService {
     return this.cartConfigService.isSelectiveCartEnabled();
   }
 
-  private isEmpty(cart: Cart): boolean {
+  private isEmpty(cart: Cart | undefined): boolean {
     return (
       !cart || (typeof cart === 'object' && Object.keys(cart).length === 0)
     );
@@ -195,31 +195,5 @@ export class SelectiveCartService {
 
   private isLoggedIn(userId: string): boolean {
     return typeof userId !== 'undefined' && userId !== OCC_USER_ID_ANONYMOUS;
-  }
-
-  startBundle(productCode: string, quantity: number, templateId: string): void {
-    let loadAttempted = false;
-    this.cartSelector$
-      .pipe(
-        filter(() => !loadAttempted),
-        switchMap((cartState) => {
-          if (this.isEmpty(cartState.value) && !cartState.loading) {
-            loadAttempted = true;
-            this.load();
-          }
-          return of(cartState);
-        }),
-        filter((cartState) => !this.isEmpty(cartState.value)),
-        take(1)
-      )
-      .subscribe(() => {
-        this.multiCartService.startBundle(
-          this.cartId,
-          this.userId,
-          productCode,
-          quantity,
-          templateId
-        );
-      });
   }
 }

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CartBundleAdapter } from '../../../cart/connectors/bundle';
 import { CartAdapter } from '../../../cart/connectors/cart/cart.adapter';
 import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
 import { CartEntryAdapter } from '../../../cart/connectors/entry/cart-entry.adapter';
@@ -8,12 +7,13 @@ import { SaveCartAdapter } from '../../../cart/connectors/save-cart/save-cart.ad
 import { CartVoucherAdapter } from '../../../cart/connectors/voucher/cart-voucher.adapter';
 import { OccCartNormalizer } from './converters/occ-cart-normalizer';
 import { defaultOccCartConfig } from './default-occ-cart-config';
-import { OccCartBundleAdapter } from './occ-cart-bundle.adapter';
 import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
 import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
 import { OccCartAdapter } from './occ-cart.adapter';
 import { OccSaveCartAdapter } from './occ-save-cart.adapter';
 import { provideDefaultConfig } from '../../../config/config-providers';
+import { OccCartEntryGroupAdapter } from './occ-cart-entry-group.adapter';
+import { CartEntryGroupAdapter } from '../../../cart/connectors/entry-group/cart-entry-group.adapter';
 
 @NgModule({
   imports: [CommonModule],
@@ -29,12 +29,12 @@ import { provideDefaultConfig } from '../../../config/config-providers';
       multi: true,
     },
     {
-      provide: CartBundleAdapter,
-      useClass: OccCartBundleAdapter,
-    },
-    {
       provide: CartEntryAdapter,
       useClass: OccCartEntryAdapter,
+    },
+    {
+      provide: CartEntryGroupAdapter,
+      useClass: OccCartEntryGroupAdapter,
     },
     {
       provide: CartVoucherAdapter,

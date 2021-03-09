@@ -1,11 +1,6 @@
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { version } from '../../../package.json';
-import {
-  ANGULAR_CORE,
-  ANGULAR_LOCALIZE,
-  DEFAULT_ANGULAR_VERSION,
-  UTF_8,
-} from '../constants';
+import { ANGULAR_CORE, DEFAULT_ANGULAR_VERSION, UTF_8 } from '../constants';
 import { getServerTsPath } from './file-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
 
@@ -47,11 +42,6 @@ export function getSpartacusSchematicsVersion(): string {
 
 export function getSpartacusCurrentFeatureLevel(): string {
   return version.split('.').slice(0, 2).join('.');
-}
-
-export function isAngularLocalizeInstalled(tree: Tree): boolean {
-  const packageJsonObject = readPackageJson(tree);
-  return packageJsonObject.dependencies.hasOwnProperty(ANGULAR_LOCALIZE);
 }
 
 export function checkIfSSRIsUsed(tree: Tree): boolean {

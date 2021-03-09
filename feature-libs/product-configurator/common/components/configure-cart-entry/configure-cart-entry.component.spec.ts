@@ -71,6 +71,11 @@ describe('ConfigureCartEntryComponent', () => {
     expect(component.getEntityKey()).toBe('0');
   });
 
+  it('should throw error if entry number not present in entry', () => {
+    component.cartEntry = {};
+    expect(() => component.getEntityKey()).toThrowError();
+  });
+
   it('should compile correct route for cart entry', () => {
     component.cartEntry = {
       entryNumber: 0,

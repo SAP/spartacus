@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, Observable, timer } from 'rxjs';
-import { Product } from '../../model';
 import { Cart, EntryGroup } from '../../model/cart.model';
 import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/index';
@@ -181,12 +180,12 @@ export class MultiCartService {
   getLastEntry(
     cartId: string,
     productCode: string
-  ): Observable<OrderEntry | null> {
+  ): Observable<OrderEntry | null | undefined> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId)),
       map((entries) => {
         const filteredEntries = entries.filter(
-          (entry) => entry.product.code === productCode
+          (entry) => entry.product?.code === productCode
         );
         return filteredEntries
           ? filteredEntries[filteredEntries.length - 1]
@@ -335,63 +334,15 @@ export class MultiCartService {
   }
 
   /**
-   * Start bundle
-   *
-   * @param cartId
-   * @param userId
-   * @param productCode
-   * @param quantity
-   * @param templateId
-   */
-  startBundle(
-    cartId: string,
-    userId: string,
-    productCode: string,
-    quantity: number,
-    templateId: string
-  ) {
-    this.store.dispatch(
-      new CartActions.CreateBundle({
-        cartId,
-        userId,
-        productCode,
-        quantity,
-        templateId,
-      })
-    );
-  }
-
-  /**
-   * Start bundle
-   *
-   * @param cartId
-   * @param userId
-   * @param entryGroupNumber
-   */
-  getBundleAllowedProducts(
-    cartId: string,
-    userId: string,
-    entryGroupNumber: number
-  ) {
-    this.store.dispatch(
-      new CartActions.GetBundleAllowedProducts({
-        cartId,
-        userId,
-        entryGroupNumber,
-      })
-    );
-  }
-
-  /**
    * Remove bundle
    *
    * @param cartId
    * @param userId
    * @param entryGroupNumber
    */
-  removeBundle(cartId: string, userId: string, entryGroupNumber: number) {
+  deleteEntryGroup(cartId: string, userId: string, entryGroupNumber: number) {
     this.store.dispatch(
-      new CartActions.RemoveBundle({
+      new CartActions.DeleteEntryGroup({
         cartId,
         userId,
         entryGroupNumber,
@@ -408,20 +359,18 @@ export class MultiCartService {
    * @param product
    * @param quantity
    */
-  addProductToBundle(
+  addToEntryGroup(
     cartId: string,
     userId: string,
     entryGroupNumber: number,
-    product: Product,
-    quantity: number
+    entry: OrderEntry
   ) {
     this.store.dispatch(
-      new CartActions.UpdateBundle({
+      new CartActions.AddToEntryGroup({
         cartId,
         userId,
         entryGroupNumber,
-        product,
-        quantity,
+        entry,
       })
     );
   }

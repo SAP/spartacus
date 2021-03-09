@@ -21,6 +21,7 @@ import {
   I18nTestingModule,
   PromotionLocation,
 } from '@spartacus/core';
+import { OutletModule } from '@spartacus/storefront';
 import { ModalDirective } from 'projects/storefrontlib/src/shared/components/modal/modal.directive';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
@@ -119,6 +120,7 @@ describe('CartItemComponent', () => {
           ReactiveFormsModule,
           I18nTestingModule,
           FeaturesConfigModule,
+          OutletModule,
         ],
         declarations: [
           CartItemComponent,

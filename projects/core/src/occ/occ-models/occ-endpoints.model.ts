@@ -692,29 +692,17 @@ export interface OccEndpoints {
    */
   b2bUserPermission?: string | OccEndpoint;
   /**
-   * Start a cart bundle with a given identifier
+   * Adds a product to a cart entry group.
    *
    * @member {string} [cart]
    */
-  startBundle?: string | OccEndpoint;
+  addToEntryGroup?: string | OccEndpoint;
   /**
-   * View a cart's bundles with a given identifier
+   * Removes an entry group from an associated cart. The entry group is identified by an entryGroupNumber. The cart is identified by the cartId.
    *
    * @member {string} [cart]
    */
-  viewBundles?: string | OccEndpoint;
-  /**
-   * Modify a cart bundle a cart bundle with a given identifier
-   *
-   * @member {string} [cart]
-   */
-  editBundle?: string | OccEndpoint;
-  /**
-   * Search for allowed products for a given entryGroup
-   *
-   * @member {string} [cart]
-   */
-  bundleAllowedProductsSearch?: string | OccEndpoint;
+  deleteEntryGroup?: string | OccEndpoint;
   /**
    * Endpoint for order approvals
    *

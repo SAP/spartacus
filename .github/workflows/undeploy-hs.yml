@@ -1,0 +1,22 @@
+on:
+  pull_request:
+    types: [closed]
+name: Hosting service - Undeploy
+jobs:
+  hostingServiceUndeploy:
+    name: Undeployment bot
+    environment: dev
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deployment bot
+        uses: ./.github/hs-deploy-action
+        env:
+          UPP_ACTION: 'undeploy'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHT_USER: ${{ secrets.GHT_USER}}
+          GHT_TOKEN: ${{ secrets.GHT_TOKEN}}
+          UPP_TENANT: ${{ secrets.UPP_TENANT}}
+          UPP_CLIENT: ${{ secrets.UPP_CLIENT}}
+          UPP_SECRET: ${{ secrets.UPP_SECRET}}
+      

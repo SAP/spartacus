@@ -17,7 +17,6 @@ export const ANGULAR_FORMS = '@angular/forms';
 export const ANGULAR_ROUTER = '@angular/router';
 export const ANGULAR_HTTP = '@angular/common/http';
 
-export const ANGULAR_LOCALIZE = '@angular/localize';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
@@ -53,6 +52,7 @@ export const COMPILER = 'Compiler';
 export const STORE = 'Store';
 
 export const ACTIONS = 'Actions';
+export const ACTION_SUBJECT = 'ActionsSubject';
 
 export const FORM_BUILDER = 'FormBuilder';
 export const JSONLD_PRODUCT_REVIEW_BUILDER = 'JsonLdProductReviewBuilder';
@@ -329,6 +329,15 @@ export const CURRENT_UNIT_SERVICE = 'CurrentUnitService';
 export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
+
+export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
+export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
+export const PRODUCT_PAGE_EVENT_BUILDER = 'ProductPageEventBuilder';
+export const PAGE_EVENT_BUILDER = 'PageEventBuilder';
+export const CONTEXT = 'context';
+export const SEMANTIC_ROUTE = 'semanticRoute';
+export const URL = 'url';
+export const PARAMS = 'params';
 
 /***** Classes end *****/
 
@@ -647,7 +656,6 @@ export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_QUALTRICS_ROOT = `${SPARTACUS_QUALTRICS}/root`;
 
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
-
 /***** APIs end *****/
 
 /***** Storefinder start *****/
