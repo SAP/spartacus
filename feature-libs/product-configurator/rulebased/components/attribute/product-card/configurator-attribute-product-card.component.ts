@@ -6,25 +6,25 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Configurator } from '../../../core/model/configurator.model';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { Product, ProductService } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Configurator } from '../../../core/model/configurator.model';
+import { QuantityUpdateEvent } from '../../form/configurator-form.event';
+import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
 import {
   ConfiguratorAttributeQuantityComponentOptions,
   Quantity,
 } from '../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
 
-interface ProductExtended extends Product {
+export interface ProductExtended extends Product {
   noLink?: boolean;
 }
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
   preventAction?: boolean;
   multiSelect?: boolean;
-  product?: Configurator.Value;
+  productBoundValue?: Configurator.Value;
   singleDropdown?: boolean;
   withQuantity?: boolean;
 }
@@ -48,13 +48,18 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   constructor(protected productService: ProductService) {}
 
   ngOnInit() {
+    const productSystemId = this.productCardOptions?.productBoundValue
+      ?.productSystemId;
+
     this.product$ = this.productService
-      .get(this.productCardOptions?.product?.productSystemId)
+      .get(productSystemId ? productSystemId : '')
       .pipe(
         map((respProduct) => {
           return respProduct
             ? respProduct
-            : this.transformToProductType(this.productCardOptions?.product);
+            : this.transformToProductType(
+                this.productCardOptions?.productBoundValue
+              );
         })
       );
   }
@@ -62,22 +67,26 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   get showQuantity() {
     return (
       this.productCardOptions?.withQuantity &&
-      this.productCardOptions?.product?.selected &&
+      this.productCardOptions?.productBoundValue?.selected &&
       this.productCardOptions?.multiSelect
     );
   }
 
   onHandleSelect(): void {
     this.loading$.next(true);
-    this.handleSelect.emit(this.productCardOptions?.product?.valueCode);
+    this.handleSelect.emit(
+      this.productCardOptions?.productBoundValue?.valueCode
+    );
   }
 
   onHandleDeselect(): void {
     this.loading$.next(true);
-    this.handleDeselect.emit(this.productCardOptions?.product?.valueCode);
+    this.handleDeselect.emit(
+      this.productCardOptions?.productBoundValue?.valueCode
+    );
   }
 
-  onChangeQuantity(eventObject): void {
+  onChangeQuantity(eventObject: any): void {
     if (!eventObject.quantity) {
       this.onHandleDeselect();
     } else {
@@ -90,11 +99,13 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
 
     this.handleQuantity.emit({
       quantity,
-      valueCode: this.productCardOptions?.product?.valueCode,
+      valueCode: this.productCardOptions?.productBoundValue?.valueCode,
     });
   }
 
-  transformToProductType(value: Configurator.Value): ProductExtended {
+  transformToProductType(
+    value: Configurator.Value | undefined
+  ): ProductExtended {
     return {
       code: value?.productSystemId,
       description: value?.description,
@@ -108,19 +119,21 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
    * Verifies whether the product card is selected
    */
   isProductCardSelected(): boolean {
-    return (
-      this.productCardOptions?.product &&
-      this.productCardOptions?.product?.selected &&
-      !this.productCardOptions?.singleDropdown
-    );
+    const isProductCardSelected =
+      this.productCardOptions?.productBoundValue &&
+      this.productCardOptions?.productBoundValue?.selected &&
+      !this.productCardOptions?.singleDropdown;
+
+    return isProductCardSelected ? isProductCardSelected : false;
   }
 
   getProductPrice(): Configurator.PriceDetails | number {
-    return (
-      this.productCardOptions?.product?.valuePrice ||
-      this.productCardOptions?.product?.quantity ||
-      this.productCardOptions?.product?.valuePriceTotal
-    );
+    const productPrice =
+      this.productCardOptions?.productBoundValue?.valuePrice ||
+      this.productCardOptions?.productBoundValue?.quantity ||
+      this.productCardOptions?.productBoundValue?.valuePriceTotal;
+
+    return productPrice ? productPrice : 0;
   }
 
   /**
@@ -131,15 +144,15 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     if (!this.productCardOptions?.multiSelect) {
       return {
-        price: this.productCardOptions?.product?.valuePrice,
-        isLightedUp: this.productCardOptions?.product?.selected,
+        price: this.productCardOptions?.productBoundValue?.valuePrice,
+        isLightedUp: this.productCardOptions?.productBoundValue?.selected,
       };
     }
     return {
-      quantity: this.productCardOptions?.product?.quantity,
-      price: this.productCardOptions?.product?.valuePrice,
-      priceTotal: this.productCardOptions?.product?.valuePriceTotal,
-      isLightedUp: this.productCardOptions?.product?.selected,
+      quantity: this.productCardOptions?.productBoundValue?.quantity,
+      price: this.productCardOptions?.productBoundValue?.valuePrice,
+      priceTotal: this.productCardOptions?.productBoundValue?.valuePriceTotal,
+      isLightedUp: this.productCardOptions?.productBoundValue?.selected,
     };
   }
 
@@ -152,8 +165,10 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   extractQuantityParameters(
     disableQuantityActions: boolean
   ): ConfiguratorAttributeQuantityComponentOptions {
+    const quantityFromOptions = this.productCardOptions?.productBoundValue
+      ?.quantity;
     const initialQuantity: Quantity = {
-      quantity: this.productCardOptions?.product?.quantity,
+      quantity: quantityFromOptions ? quantityFromOptions : 0,
     };
 
     return {
@@ -169,7 +184,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
    * @param {string} valueCode - Value code
    * @return {boolean} - 'true' if the value code is defined, otherwise 'false'
    */
-  isValueCodeDefined(valueCode: string): boolean {
+  isValueCodeDefined(valueCode: string | null | undefined): boolean {
     return valueCode && valueCode !== '0' ? true : false;
   }
 }
