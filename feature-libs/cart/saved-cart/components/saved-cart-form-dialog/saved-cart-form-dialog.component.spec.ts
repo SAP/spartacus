@@ -77,7 +77,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-fdescribe('SavedCartFormDialogComponent', () => {
+describe('SavedCartFormDialogComponent', () => {
   let component: SavedCartFormDialogComponent;
   let fixture: ComponentFixture<SavedCartFormDialogComponent>;
   let globalMessageService: GlobalMessageService;

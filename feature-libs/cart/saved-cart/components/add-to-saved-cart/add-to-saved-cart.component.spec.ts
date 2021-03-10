@@ -126,7 +126,4 @@ describe('AddToSavedCartComponent', () => {
       });
     });
   });
-
-  // TODO: Michal test clicking the saved carts button as well for the listing page (logggedIn/anonymous)
-  // The use case above is only testing the save cart for later button.
 });
