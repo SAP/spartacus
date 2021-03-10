@@ -13,6 +13,7 @@ import {
   HostListener,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
+import { skip } from 'rxjs/operators';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverPosition } from './popover.model';
@@ -142,23 +143,25 @@ export class PopoverDirective {
    * and based on event performs specific action.
    */
   handlePopoverEvents() {
-    this.popoverContainer.instance.eventSubject.subscribe(
-      (event: PopoverEvent) => {
-        if (event !== PopoverEvent.INSIDE_CLICK) this.close();
+    return this.popoverContainer.instance.eventSubject
+      .pipe(skip(1))
+      .subscribe((event: PopoverEvent) => {
+        if (
+          event !== PopoverEvent.INSIDE_CLICK &&
+          event !== PopoverEvent.CLOSE_BUTTON_KEYDOWN
+        )
+          this.close();
         if (
           event === PopoverEvent.ESCAPE_KEYDOWN ||
           event === PopoverEvent.CLOSE_BUTTON_KEYDOWN
         ) {
-          setTimeout(() =>
-            this.popoverService.setFocusOnElement(
-              this.element,
-              this.focusConfig,
-              this.appendToBody
-            )
+          this.popoverService.setFocusOnElement(
+            this.element,
+            this.focusConfig,
+            this.appendToBody
           );
         }
-      }
-    );
+      });
   }
 
   /**
@@ -171,15 +174,17 @@ export class PopoverDirective {
     this.popoverContainer = this.viewContainer.createComponent(
       containerFactory
     );
-    if (this.popoverContainer && this.popoverContainer.instance) {
-      this.popoverContainer.instance.content = this.cxPopover;
-      this.popoverContainer.instance.triggerElement = this.element;
-      this.popoverContainer.instance.popoverInstance = this.popoverContainer;
-      this.popoverContainer.instance.position = this.placement;
-      this.popoverContainer.instance.customClass = this.customClass;
-      this.popoverContainer.instance.focusConfig = this.focusConfig;
-      this.popoverContainer.instance.appendToBody = this.appendToBody;
-      this.popoverContainer.instance.positionOnScroll = this.positionOnScroll;
+
+    const componentInstance = this.popoverContainer.instance;
+    if (this.popoverContainer && componentInstance) {
+      componentInstance.content = this.cxPopover;
+      componentInstance.triggerElement = this.element;
+      componentInstance.popoverInstance = this.popoverContainer;
+      componentInstance.position = this.placement;
+      componentInstance.customClass = this.customClass;
+      componentInstance.focusConfig = this.focusConfig;
+      componentInstance.appendToBody = this.appendToBody;
+      componentInstance.positionOnScroll = this.positionOnScroll;
 
       if (this.appendToBody) {
         this.renderer.appendChild(
@@ -190,7 +195,7 @@ export class PopoverDirective {
 
       this.popoverContainer.changeDetectorRef.detectChanges();
 
-      setTimeout(() => this.handlePopoverEvents());
+      this.handlePopoverEvents();
     }
   }
 
