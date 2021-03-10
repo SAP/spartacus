@@ -11,6 +11,10 @@ const WEEK_DAYS_NUMBER = 7;
 export class ScheduleComponent implements OnChanges {
   @Input()
   location: PointOfService;
+
+  /**
+   * @deprecated since 3.1 use weekDays instead
+   */
   displayDays: Date[] = null;
   weekDays: WeekdayOpeningDay[];
 
@@ -20,6 +24,7 @@ export class ScheduleComponent implements OnChanges {
     if (changes.location && this.location) {
       this.weekDays = this.location.openingHours
         ?.weekDayOpeningList as WeekdayOpeningDay[];
+      // TODO(#11441): Remove the unused code below with deprecated functions
       const initialDate = this.getInitialDate();
       this.displayDays = [];
 
@@ -32,7 +37,7 @@ export class ScheduleComponent implements OnChanges {
   }
 
   /**
-   * @deprecated since 3.1
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
    *
    * Returns the store's opening time for the given date
    * @param date date
@@ -43,7 +48,7 @@ export class ScheduleComponent implements OnChanges {
   }
 
   /**
-   * @deprecated since 3.1
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
    *
    * Returns the store's closing time for the given date
    * @param date date
@@ -53,7 +58,7 @@ export class ScheduleComponent implements OnChanges {
   }
 
   /**
-   * @deprecated since 3.1
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
    *
    * return initial (first) date to be displayed in the schedule
    */
