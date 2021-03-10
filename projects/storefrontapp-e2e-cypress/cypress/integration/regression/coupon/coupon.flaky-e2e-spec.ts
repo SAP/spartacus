@@ -2,7 +2,7 @@ import * as cartCoupon from '../../../helpers/cart-coupon';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Cart Coupon', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'], () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();
@@ -26,26 +26,25 @@ describe('Cart Coupon', () => {
       cartCoupon.applyWrongCoupon();
     });
 
-    it.skip('should show the promotion for product, discount in price and success message when applied a coupon with product category action successfully.', () => {
+    it('should show the promotion for product, discount in price and success message when applied a coupon with product category action successfully.', () => {
       // product coupon doesn't seem to be working
       const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
       cartCoupon.visitProductPage(cartCoupon.productCode2);
       cartCoupon.addProductToCart(cartCoupon.productCode2);
       cartCoupon.applyCoupon(cartCoupon.couponCode2);
-      cartCoupon.placeOrder(stateAuth).then((orderData) => {
+      cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
         cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponCode2);
       });
     });
 
-    it.skip('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
+    it('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
       //gift coupon doesn't seem to be working
       const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
       cartCoupon.visitProductPage(cartCoupon.productCode3);
       cartCoupon.addProductToCart(cartCoupon.productCode3);
       cartCoupon.applyCoupon(cartCoupon.couponCode3);
       cartCoupon.verifyGiftProductCoupon(cartCoupon.giftProductCode);
-      cartCoupon.verifyCouponAndPromotion(cartCoupon.couponCode3);
-      cartCoupon.placeOrder(stateAuth).then((orderData) => {
+      cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
         cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponCode3);
       });
     });
