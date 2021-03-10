@@ -176,7 +176,7 @@ export class PopoverDirective {
     );
 
     const componentInstance = this.popoverContainer.instance;
-    if (this.popoverContainer && componentInstance) {
+    if (componentInstance) {
       componentInstance.content = this.cxPopover;
       componentInstance.triggerElement = this.element;
       componentInstance.popoverInstance = this.popoverContainer;
