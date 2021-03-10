@@ -15,12 +15,13 @@ export class WindowRef {
    * @deprecated since 3.2. Provide PLATFORM_ID, serverRequestUrl and serverRequestOrigin as constructor parameters
    */
   constructor(
-    @Inject(DOCUMENT) document: Document,
+    // https://github.com/angular/angular/issues/20351
+    @Inject(DOCUMENT) document: any,
     @Inject(PLATFORM_ID) protected platformId?: Object,
     @Optional() @Inject(SERVER_REQUEST_URL) protected serverUrl?: string,
     @Optional() @Inject(SERVER_REQUEST_ORIGIN) protected serverOrigin?: string
   ) {
-    this.document = document;
+    this.document = document as Document;
   }
 
   /**
