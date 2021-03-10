@@ -22,6 +22,10 @@ export interface TmsCollectorConfig {
   collector?: Type<TmsCollector>;
 }
 
+export interface TmsCollectors {
+  [tms: string]: TmsCollectorConfig | undefined;
+}
+
 /**
  * TMS configuration
  */
@@ -33,18 +37,5 @@ export abstract class TmsConfig {
   /**
    * Tag manager config
    */
-  tagManager?: {
-    /**
-     * Google Tag Manager
-     */
-    gtm?: TmsCollectorConfig;
-    /**
-     * Adobe Experience Platform
-     */
-    aep?: TmsCollectorConfig;
-    /**
-     * Any custom collector
-     */
-    [tms: string]: TmsCollectorConfig | undefined;
-  };
+  tagManager?: TmsCollectors;
 }

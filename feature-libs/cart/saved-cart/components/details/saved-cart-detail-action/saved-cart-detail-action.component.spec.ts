@@ -13,6 +13,13 @@ import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/s
 import { SavedCartDetailService } from '../saved-cart-detail.service';
 import { SavedCartDetailActionComponent } from './saved-cart-detail-action.component';
 
+const mockCartId = 'test-cart';
+const mockSavedCart: Cart = {
+  name: 'test-cart-name',
+  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+  description: 'test-cart-description',
+};
+
 class MockSavedCartDetailService implements Partial<SavedCartDetailService> {
   getCartDetails(): Observable<Cart> {
     return of();
@@ -54,6 +61,9 @@ class MockSavedCartFormLaunchDialogService
 describe('SavedCartDetailActionComponent', () => {
   let component: SavedCartDetailActionComponent;
   let fixture: ComponentFixture<SavedCartDetailActionComponent>;
+  let savedCartService: SavedCartService;
+  let routingService: RoutingService;
+  let savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -84,10 +94,67 @@ describe('SavedCartDetailActionComponent', () => {
 
     fixture = TestBed.createComponent(SavedCartDetailActionComponent);
     component = fixture.componentInstance;
+
+    savedCartService = TestBed.inject(SavedCartService);
+    routingService = TestBed.inject(RoutingService);
+    savedCartFormLaunchDialogService = TestBed.inject(
+      SavedCartFormLaunchDialogService
+    );
+
+    spyOn(savedCartService, 'restoreSavedCart').and.stub();
+    spyOn(savedCartService, 'clearRestoreSavedCart').and.stub();
+    spyOn(routingService, 'go').and.stub();
+    spyOn(savedCartFormLaunchDialogService, 'openDialog').and.stub();
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should trigger a restore saved cart', () => {
+    component.restoreSavedCart(mockCartId);
+    expect(savedCartService.restoreSavedCart).toHaveBeenCalledWith(mockCartId);
+  });
+
+  it('should trigger onSuccess when there was a successful restored cart', () => {
+    spyOn(component, 'onSuccess').and.stub();
+    spyOn(
+      savedCartService,
+      'getRestoreSavedCartProcessSuccess'
+    ).and.returnValue(of(true));
+
+    component.ngOnInit();
+    expect(component.onSuccess).toHaveBeenCalled();
+  });
+
+  it('should trigger a redirection and a reset process onSuccess', () => {
+    component.onSuccess(true);
+
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'savedCarts' });
+    expect(savedCartService.clearRestoreSavedCart).toHaveBeenCalled();
+  });
+
+  it('should NOT trigger a redirection and a reset process onSuccess', () => {
+    component.onSuccess(false);
+
+    expect(routingService.go).not.toHaveBeenCalledWith({
+      cxRoute: 'savedCarts',
+    });
+    expect(savedCartService.clearRestoreSavedCart).not.toHaveBeenCalled();
+  });
+
+  it('should trigger an open dialog to delete a saved cart', () => {
+    component.openDialog(mockSavedCart);
+
+    expect(savedCartFormLaunchDialogService.openDialog).toHaveBeenCalledWith(
+      component.element,
+      component['vcr'],
+      {
+        cart: mockSavedCart,
+        layoutOption: 'delete',
+      }
+    );
   });
 });
