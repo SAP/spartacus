@@ -39,6 +39,7 @@ const completeAndConsistentInput: Cpq.Configuration = {
   currencyISOCode: 'USD',
   currencySign: '$',
   responder: { totalPrice: '$3333.33', baseProductPrice: '1000' },
+  numberOfConflicts: 0,
 };
 
 const input: Cpq.Configuration = {

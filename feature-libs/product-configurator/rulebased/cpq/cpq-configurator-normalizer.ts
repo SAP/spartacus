@@ -20,13 +20,13 @@ export class CpqConfiguratorNormalizer
     const resultTarget: Configurator.Configuration = {
       ...target,
       complete:
-        source.incompleteMessages.length === 0 &&
-        source.incompleteAttributes.length === 0,
+        !source.incompleteMessages?.length &&
+        !source.incompleteAttributes?.length,
       consistent:
-        source.invalidMessages.length === 0 &&
-        source.failedValidations.length === 0 &&
-        source.errorMessages.length === 0 &&
-        source.conflictMessages.length === 0,
+        !source.invalidMessages?.length &&
+        !source.failedValidations?.length &&
+        !source.errorMessages?.length &&
+        !source.conflictMessages?.length,
       totalNumberOfIssues: this.generateTotaltotalNumberOfIssues(source),
       productCode: source.productSystemId,
       priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
@@ -60,26 +60,26 @@ export class CpqConfiguratorNormalizer
 
   generateTotaltotalNumberOfIssues(source: Cpq.Configuration): number {
     let numberOfIssues: number =
-      source.incompleteAttributes?.length +
-      source.incompleteMessages?.length +
-      source.invalidMessages?.length +
-      source.failedValidations?.length +
-      source.errorMessages?.length;
+      (source.incompleteAttributes?.length ?? 0) +
+      (source.incompleteMessages?.length ?? 0) +
+      (source.invalidMessages?.length ?? 0) +
+      (source.failedValidations?.length ?? 0) +
+      (source.errorMessages?.length ?? 0);
     return numberOfIssues;
   }
 
   generateWarningMessages(source: Cpq.Configuration): string[] {
     let warnMsgs: string[] = [];
-    warnMsgs = warnMsgs.concat(source.failedValidations);
+    warnMsgs = warnMsgs.concat(source.failedValidations ?? []);
     return warnMsgs;
   }
 
   generateErrorMessages(source: Cpq.Configuration): string[] {
     let errorMsgs: string[] = [];
-    errorMsgs = errorMsgs.concat(source.errorMessages);
-    errorMsgs = errorMsgs.concat(source.incompleteMessages);
-    errorMsgs = errorMsgs.concat(source.conflictMessages);
-    errorMsgs = errorMsgs.concat(source.invalidMessages);
+    errorMsgs = errorMsgs.concat(source.errorMessages ?? []);
+    errorMsgs = errorMsgs.concat(source.incompleteMessages ?? []);
+    errorMsgs = errorMsgs.concat(source.conflictMessages ?? []);
+    errorMsgs = errorMsgs.concat(source.invalidMessages ?? []);
     return errorMsgs;
   }
 
