@@ -8,6 +8,5 @@
       "@ngrx/store": "store",
       "@ngrx/effects": "effects"
     }
-  },
-  "assets": ["**/*.scss"]
+  }
 }

@@ -87,6 +87,7 @@ import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking-feature.module';
+import { VariantsFeatureModule } from './features/variants-feature.module';
 
 const featureModules = [];
 
@@ -214,6 +215,7 @@ if (environment.cds) {
     QualtricsFeatureModule,
     SmartEditFeatureModule,
     TrackingFeatureModule,
+    VariantsFeatureModule,
     ...featureModules,
   ],
 })
