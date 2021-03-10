@@ -158,7 +158,7 @@ describe('SavedCart Effects', () => {
       const completion1 = new SavedCartActions.SaveCart({
         userId: mockUserId,
         cartId: mockActiveCartId,
-        saveCartName: mockActiveCartId,
+        saveCartName: '',
         saveCartDescription: '',
         extraData: { edit: true },
       });
