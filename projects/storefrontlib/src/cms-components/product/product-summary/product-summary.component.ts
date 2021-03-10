@@ -26,7 +26,6 @@ export class ProductSummaryComponent {
   ) {}
 
   startBundle(product: Product, template: any) {
-    console.log(`starting bundle: ${template.name}`, template);
     this.activeCartService.startBundle(<BundleStarter>{
       productCode: product.code,
       quantity: 1,

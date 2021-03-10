@@ -17,7 +17,7 @@
 
   <div *ngFor="let template of product.bundleTemplates">
     <button (click)="startBundle(product, template)">
-      {{ bundle?.rootBundleTemplateName }} - Start {{ bundle?.name }} Bundle
+      Start {{ template?.rootBundleTemplateName }} Bundle
     </button>
   </div>
 
