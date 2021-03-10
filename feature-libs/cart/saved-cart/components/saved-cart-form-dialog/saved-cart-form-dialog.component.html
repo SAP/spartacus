@@ -181,7 +181,7 @@
             </button>
             <button
               (click)="saveOrEditCart(cart?.code)"
-              [disabled]="form.invalid || isLoading$ | async"
+              [disabled]="form.invalid || (isLoading$ | async)"
               aria-label="Save"
               class="ml-2 btn btn-primary"
               type="button"

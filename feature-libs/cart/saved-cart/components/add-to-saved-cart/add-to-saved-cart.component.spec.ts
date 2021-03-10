@@ -127,20 +127,6 @@ describe('AddToSavedCartComponent', () => {
     });
   });
 
-  describe('when user is not logged in', () => {
-    it('should redirect to login page', () => {
-      isLoggedInSubject$.next(false);
-      const routingService = TestBed.inject(RoutingService);
-      spyOn(routingService, 'go').and.callThrough();
-
-      component.saveCart(mockCart);
-
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'login',
-      });
-    });
-  });
-
   // TODO: Michal test clicking the saved carts button as well for the listing page (logggedIn/anonymous)
   // The use case above is only testing the save cart for later button.
 });

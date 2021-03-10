@@ -77,7 +77,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-describe('SavedCartFormDialogComponent', () => {
+fdescribe('SavedCartFormDialogComponent', () => {
   let component: SavedCartFormDialogComponent;
   let fixture: ComponentFixture<SavedCartFormDialogComponent>;
   let globalMessageService: GlobalMessageService;
@@ -165,44 +165,23 @@ describe('SavedCartFormDialogComponent', () => {
     });
   });
 
-  describe('on delete cart', () => {
-    it('should redirect to saved cart list', () => {
-      spyOn(routingService, 'go');
+  it('should apply multiple actions on delete cart', () => {
+    spyOn(routingService, 'go');
+    spyOn(globalMessageService, 'add');
+    spyOn(savedCartService, 'deleteSavedCart');
+    spyOn(component, 'close');
 
-      component.deleteCart(mockCartId);
+    component.deleteCart(mockCartId);
 
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'savedCarts',
-      });
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'savedCarts',
     });
-
-    it('should redirect to saved cart list', () => {
-      spyOn(globalMessageService, 'add');
-
-      component.deleteCart(mockCartId);
-
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        mockDeleteGlobalMessageObject,
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    });
-
-    it('should call savedCartService delete method', () => {
-      spyOn(savedCartService, 'deleteSavedCart');
-
-      component.deleteCart(mockCartId);
-
-      expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(mockCartId);
-    });
-
-    it('should call close method', () => {
-      spyOn(component, 'close');
-      component.deleteCart(mockCartId);
-
-      expect(component.close).toHaveBeenCalledWith(
-        mockSuccessDeleteCloseReason
-      );
-    });
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      mockDeleteGlobalMessageObject,
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(mockCartId);
+    expect(component.close).toHaveBeenCalledWith(mockSuccessDeleteCloseReason);
   });
 
   it('should close dialog on close method', () => {
@@ -214,13 +193,39 @@ describe('SavedCartFormDialogComponent', () => {
     );
   });
 
-  it('should return actual characters left', () => {
-    component?.form?.get('description')?.setValue('test');
+  describe('should return actual characters left', () => {
+    it('when form control has value', () => {
+      component?.form?.get('description')?.setValue('test');
 
-    expect(component.descriptionsCharacterLeft).toEqual(
-      mockDescriptionMaxLength - 4
-    );
+      expect(component.descriptionsCharacterLeft).toEqual(
+        mockDescriptionMaxLength - 4
+      );
+    });
+
+    it('when form control has null value', () => {
+      component?.form?.get('description')?.setValue(null);
+
+      expect(component.descriptionsCharacterLeft).toEqual(
+        mockDescriptionMaxLength
+      );
+    });
+
+    it('when form control has undefined value', () => {
+      component?.form?.get('description')?.setValue(undefined);
+
+      expect(component.descriptionsCharacterLeft).toEqual(
+        mockDescriptionMaxLength
+      );
+    });
+    it('when form control has empty value', () => {
+      component?.form?.get('description')?.setValue('');
+
+      expect(component.descriptionsCharacterLeft).toEqual(
+        mockDescriptionMaxLength
+      );
+    });
   });
+
   //  TODO
   // describe('watch save cart process success', () => {
   //   describe('with success state', () => {
