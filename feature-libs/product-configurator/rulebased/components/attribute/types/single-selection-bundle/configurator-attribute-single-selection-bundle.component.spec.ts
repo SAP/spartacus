@@ -1,20 +1,19 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
-import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
-import { I18nTestingModule } from '@spartacus/core';
-import { ItemCounterComponent } from '@spartacus/storefront';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
+import { ItemCounterComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
+import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 
 const createTestValue = (
-  price: number,
-  total: number,
+  price: number | undefined,
+  total: number | undefined,
   selected = true
 ): Configurator.Value => ({
   selected,
@@ -46,37 +45,19 @@ class MockConfiguratorPriceComponent {
   @Input() totalPrice: number;
 }
 
-class MockConfiguratorAttributeQuantityService {
-  disableQuantityActions(value): boolean {
-    return !value || value === '0';
-  }
-
-  withQuantity(
-    dataType: Configurator.DataType,
-    uiType: Configurator.UiType
-  ): boolean {
-    switch (uiType) {
-      case Configurator.UiType.DROPDOWN_PRODUCT:
-      case Configurator.UiType.DROPDOWN:
-      case Configurator.UiType.RADIOBUTTON_PRODUCT:
-      case Configurator.UiType.RADIOBUTTON:
-        return dataType ===
-          Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
-          ? true
-          : false;
-
-      case Configurator.UiType.CHECKBOXLIST:
-      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
-        return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
-          ? true
-          : false;
-
-      default:
-        return false;
-    }
-  }
+function getSelected(
+  component: ConfiguratorAttributeSingleSelectionBundleComponent,
+  index: number
+): boolean | undefined {
+  const values = component?.attribute?.values;
+  return values ? values[index].selected : false;
 }
-
+function getFirstValue(
+  component: ConfiguratorAttributeSingleSelectionBundleComponent
+): Configurator.Value {
+  const values = component?.attribute?.values;
+  return values ? values[0] : {};
+}
 describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleComponent>;
@@ -93,7 +74,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   const createValue = (
     description: string,
     images: Configurator.Image[],
-    name,
+    name: string,
     quantity: number,
     selected: boolean,
     valueCode: string,
@@ -137,10 +118,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
                 {
                   provide: ConfiguratorAttributeProductCardComponent,
                   useClass: MockProductCardComponent,
-                },
-                {
-                  provide: ConfiguratorAttributeQuantityService,
-                  useClass: MockConfiguratorAttributeQuantityService,
                 },
               ],
             },
@@ -226,10 +203,10 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   });
 
   it('should mark one items as selected', () => {
-    expect(component.attribute.values[0].selected).toEqual(true);
-    expect(component.attribute.values[1].selected).toEqual(false);
-    expect(component.attribute.values[2].selected).toEqual(false);
-    expect(component.attribute.values[3].selected).toEqual(false);
+    expect(getSelected(component, 0)).toEqual(true);
+    expect(getSelected(component, 1)).toEqual(false);
+    expect(getSelected(component, 2)).toEqual(false);
+    expect(getSelected(component, 3)).toEqual(false);
   });
 
   it('should call emit of event onSelect', () => {
@@ -313,7 +290,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         fixture.detectChanges();
 
         const valuePrice = component.getSelectedValuePrice();
-        expect(valuePrice.value).toEqual(100);
+        expect(valuePrice?.value).toEqual(100);
       });
 
       it('on selected value', () => {
@@ -324,7 +301,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         fixture.detectChanges();
 
         const valuePrice = component.getSelectedValuePrice();
-        expect(valuePrice.value).toEqual(100);
+        expect(valuePrice?.value).toEqual(100);
       });
     });
 
@@ -358,7 +335,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         fixture.detectChanges();
 
         const valuePrice = component.getSelectedValuePrice();
-        expect(valuePrice.value).toBeUndefined();
+        expect(valuePrice?.value).toBeUndefined();
       });
     });
   });
@@ -396,8 +373,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       component.attribute.quantity = undefined;
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
-      component.attribute.values[0].valuePrice = undefined;
-      component.attribute.values[0].valuePriceTotal = undefined;
+      getFirstValue(component).valuePrice = undefined;
+      getFirstValue(component).valuePriceTotal = undefined;
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -416,17 +393,15 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         formattedValue: '$10',
         value: 50,
       };
-      component.attribute.values[0].valuePrice = {
+      getFirstValue(component).valuePrice = {
         currencyIso: '$',
         formattedValue: '$10',
         value: 10,
       };
-      component.attribute.values[0].valuePriceTotal = {
+      getFirstValue(component).valuePriceTotal = {
         currencyIso: '$',
-        formattedValue: '$100',
-        value:
-          component.attribute.values[0].valuePrice.value *
-          component.attribute.quantity,
+        formattedValue: '$50',
+        value: 50,
       };
       fixture.detectChanges();
 

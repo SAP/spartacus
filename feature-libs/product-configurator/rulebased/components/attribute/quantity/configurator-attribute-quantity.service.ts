@@ -1,5 +1,5 @@
-import { Configurator } from '../../../core/model/configurator.model';
 import { Injectable } from '@angular/core';
+import { Configurator } from '../../../core/model/configurator.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,8 +10,8 @@ export class ConfiguratorAttributeQuantityService {
   }
 
   withQuantity(
-    dataType: Configurator.DataType,
-    uiType: Configurator.UiType
+    dataType: Configurator.DataType | undefined,
+    uiType: Configurator.UiType | undefined
   ): boolean {
     switch (uiType) {
       case Configurator.UiType.DROPDOWN_PRODUCT:

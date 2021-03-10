@@ -77,7 +77,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     this.selectionChange.emit(event);
   }
 
-  onHandleQuantity(quantity): void {
+  onHandleQuantity(quantity: any): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
@@ -92,7 +92,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject): void {
+  onChangeQuantity(eventObject: any): void {
     if (!eventObject.quantity) {
       this.onDeselect();
     } else {
@@ -142,9 +142,12 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   extractQuantityParameters(
     disableQuantityActions: boolean
   ): ConfiguratorAttributeQuantityComponentOptions {
+    const quantity = this.attribute?.quantity;
     const initialQuantity: Quantity = {
       quantity: this.attribute?.selectedSingleValue
-        ? this.attribute.quantity
+        ? quantity
+          ? quantity
+          : 0
         : 0,
     };
 
