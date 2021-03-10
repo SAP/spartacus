@@ -23,8 +23,8 @@ describe('PageMetaLinkService', () => {
 
   it('should add canonical link', () => {
     service.setCanonicalLink(pageUrl);
-    const linkElement: HTMLLinkElement = winRef.document.getElementById(
-      'cxCanonical'
+    let linkElement: HTMLLinkElement = winRef.document.querySelector(
+      'link[rel="canonical"]'
     ) as HTMLLinkElement;
     expect(linkElement.href).toEqual(pageUrl);
   });
@@ -32,8 +32,8 @@ describe('PageMetaLinkService', () => {
   it('should update existing canonical link', () => {
     service.setCanonicalLink('https://www.myurl.com/first/');
     service.setCanonicalLink('https://www.myurl.com/2nd/');
-    const linkElement: HTMLLinkElement = winRef.document.getElementById(
-      'cxCanonical'
+    let linkElement: HTMLLinkElement = winRef.document.querySelector(
+      'link[rel="canonical"]'
     ) as HTMLLinkElement;
     expect(linkElement.href).toEqual('https://www.myurl.com/2nd/');
   });

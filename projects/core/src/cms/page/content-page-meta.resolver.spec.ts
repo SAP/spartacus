@@ -39,10 +39,7 @@ class MockRoutingPageMetaResolver implements Partial<RoutingPageMetaResolver> {
 }
 
 class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
-  resolveCanonicalUrl(
-    _url?: string,
-    _options?: CanonicalUrlOptions
-  ): Observable<string> {
+  resolveCanonicalUrl(_options?: CanonicalUrlOptions): Observable<string> {
     return of();
   }
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[] | undefined> {

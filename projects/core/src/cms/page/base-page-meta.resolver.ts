@@ -83,10 +83,7 @@ export class BasePageMetaResolver
       ? this.router.events.pipe(
           filter((ev) => ev instanceof NavigationEnd),
           startWith(null),
-          map(() =>
-            // tslint:disable-next-line: no-non-null-assertion
-            this.pageLinkService!.getCanonicalUrl(options)
-          )
+          map(() => this.pageLinkService!.getCanonicalUrl(options))
         )
       : of();
   }

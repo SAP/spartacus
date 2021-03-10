@@ -5,6 +5,9 @@ import {
   PageMetaConfig,
 } from '../config/page-meta.config';
 
+/**
+ * Service to add links to the page meta data, such canonical URLs or alternative links.
+ */
 @Injectable({ providedIn: 'root' })
 export class PageLinkService {
   constructor(
@@ -38,7 +41,7 @@ export class PageLinkService {
     }
 
     if (config.forceWww) {
-      // TODO: can we avoid subdomains to avoid www.subdomain.shop.com ?
+      // this will not allow for not adding wwww. in case of a subdomain
       url = url.replace(/^(https?:\/\/)(?!www\.)(.*)/i, '$1www.$2');
     }
 

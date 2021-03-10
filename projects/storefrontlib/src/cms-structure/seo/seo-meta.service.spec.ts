@@ -27,8 +27,8 @@ describe('SeoTitleService', () => {
   let ngTitleService: Title;
   let ngMetaService: Meta;
 
-  let updateMetaTagSpy;
-  let addCanonicalLinkSpy;
+  let updateMetaTagSpy: jasmine.Spy;
+  let addCanonicalLinkSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,7 +50,7 @@ describe('SeoTitleService', () => {
     updateMetaTagSpy = spyOn(ngMetaService, 'updateTag');
     addCanonicalLinkSpy = spyOn(
       TestBed.inject(PageMetaLinkService),
-      'addCanonicalLink'
+      'setCanonicalLink'
     );
   });
 

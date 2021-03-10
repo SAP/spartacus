@@ -28,7 +28,7 @@ export const defaultPageMetaConfig: PageMetaConfig = {
         property: 'robots',
         method: 'resolveRobots',
       },
-      // enable with next major to avoid a current breaking change
+      // enable with next major to avoid a current breaking change in 3.x version
       // {
       //   property: 'canonicalUrl',
       //   method: 'resolveCanonicalUrl',
@@ -37,7 +37,7 @@ export const defaultPageMetaConfig: PageMetaConfig = {
     ],
     canonicalUrl: {
       forceHttps: true,
-      forceWww: true,
+      forceWww: false,
       removeQueryParams: true,
       forceTrailingSlash: true,
     },

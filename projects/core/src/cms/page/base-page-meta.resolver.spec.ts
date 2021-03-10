@@ -144,10 +144,7 @@ describe('BasePageMetaResolver', () => {
 
   it(`should resolve canonical url`, () => {
     spyOn(pageLinkService, 'getCanonicalUrl');
-    service.resolveCanonicalUrl('my-shop.com').subscribe().unsubscribe();
-    expect(pageLinkService.getCanonicalUrl).toHaveBeenCalledWith(
-      undefined,
-      'my-shop.com'
-    );
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+    expect(pageLinkService.getCanonicalUrl).toHaveBeenCalled();
   });
 });
