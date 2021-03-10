@@ -94,6 +94,7 @@ export class SavedCartEffects {
             userId,
             cartId: activeCartId,
             saveCartName: activeCartId,
+            saveCartDescription: '',
             extraData: { edit: true },
           })
         );
@@ -125,12 +126,16 @@ export class SavedCartEffects {
               cart: savedCart,
             }),
             new SavedCartActions.LoadSavedCarts({ userId }),
-            new SavedCartActions.RestoreSavedCartSuccess(),
+            new SavedCartActions.RestoreSavedCartSuccess({ userId, cartId }),
           ];
         }),
         catchError((error: HttpErrorResponse) =>
           of(
-            new SavedCartActions.RestoreSavedCartFail(normalizeHttpError(error))
+            new SavedCartActions.RestoreSavedCartFail({
+              userId,
+              cartId,
+              error: normalizeHttpError(error),
+            })
           )
         )
       );
@@ -159,7 +164,12 @@ export class SavedCartEffects {
                     cartId,
                     cart: savedCart,
                   }),
-                  new SavedCartActions.SaveCartSuccess(),
+                  new SavedCartActions.SaveCartSuccess({
+                    userId,
+                    cartId,
+                    saveCartName,
+                    saveCartDescription,
+                  }),
                 ];
               } else {
                 this.clearCheckoutService.resetCheckoutProcesses();
@@ -174,12 +184,25 @@ export class SavedCartEffects {
                     cartId,
                     cart: savedCart,
                   }),
-                  new SavedCartActions.SaveCartSuccess(),
+                  new SavedCartActions.SaveCartSuccess({
+                    userId,
+                    cartId,
+                    saveCartName,
+                    saveCartDescription,
+                  }),
                 ];
               }
             }),
             catchError((error: HttpErrorResponse) =>
-              of(new SavedCartActions.SaveCartFail(normalizeHttpError(error)))
+              of(
+                new SavedCartActions.SaveCartFail({
+                  userId,
+                  cartId,
+                  saveCartName,
+                  saveCartDescription,
+                  error: normalizeHttpError(error),
+                })
+              )
             )
           );
       }
