@@ -13,3 +13,4 @@ export * from './spinner/index';
 export * from './split-view/index';
 export * from './star-rating/index';
 export * from './table/index';
+export * from './popover/index';

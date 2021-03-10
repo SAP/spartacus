@@ -95,12 +95,12 @@ export class SavedCartDetailOverviewComponent implements OnDestroy {
     );
   }
 
-  getCartTotal(totalItems: string): Observable<Card> {
+  getCartTotal(totalPriceWithTax: string): Observable<Card> {
     return this.translation.translate('savedCartDetails.total').pipe(
-      filter(() => Boolean(totalItems)),
+      filter(() => Boolean(totalPriceWithTax)),
       map((textTitle) => ({
         title: textTitle,
-        text: [totalItems],
+        text: [totalPriceWithTax],
       }))
     );
   }

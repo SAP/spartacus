@@ -10,7 +10,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   register: { paths: ['login/register'], protected: false },
   forgotPassword: { paths: ['login/forgot-password'], protected: false },
   resetPassword: { paths: ['login/pw/change'], protected: false },
-  logout: { paths: ['logout'] },
+  logout: { paths: ['logout'], protected: false },
   checkoutLogin: { paths: ['checkout-login'] },
 
   checkout: { paths: ['checkout'] },
