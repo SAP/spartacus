@@ -948,8 +948,6 @@ describe('CpqConfiguratorNormalizer', () => {
     const messageObs = cpqConfiguratorNormalizer.generateErrorMessages(
       cpqConfigurationIncompleteConsistent
     );
-    console.log('#####');
-    console.log(messageObs);
     expect(messageObs.length).toBe(0);
   });
 
