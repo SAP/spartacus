@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import { VariantsMultiDimensionalComponent } from './variants-multi-dimensional.component';
 import { RouterModule } from '@angular/router';
-import { VariantsMultiDimensionalSelectorModule } from '../variants-multi-dimensional-selector';
+import { VariantsMultiDimensionalSelectorModule } from '../variants-multi-dimensional-selector/variants-multi-dimensional-selector.module';
 
 @NgModule({
   imports: [
@@ -17,4 +17,4 @@ import { VariantsMultiDimensionalSelectorModule } from '../variants-multi-dimens
   entryComponents: [VariantsMultiDimensionalComponent],
   exports: [VariantsMultiDimensionalComponent],
 })
-export class VariantsMultiDimensionalModule {}
+export class VariantsMultiDimensionalComponentModule {}

@@ -9,9 +9,12 @@ import {
   ProductService,
   RoutingService,
   VariantMatrixElement,
+  ProductScope,
 } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
-import { ProductScope } from '@spartacus/product/multi-d/core';
+
+// TODO: temp solution until real imports from multi-d/core won't show up
+import '@spartacus/product/multi-d/core';
 
 @Component({
   selector: 'cx-variants-multi-dimensional-selector',
@@ -47,12 +50,12 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
           this.setVariants();
         });
     }
-    return null;
+    return;
   }
 
   variantHasImages(variants: VariantMatrixElement[]): boolean {
     return variants.some(
-      (variant: VariantMatrixElement) => variant.parentVariantCategory.hasImage
+      (variant: VariantMatrixElement) => variant.parentVariantCategory?.hasImage
     );
   }
 
@@ -60,7 +63,7 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
     this.variants = [];
 
     const levels = Array.from(
-      { length: this.product.categories.length },
+      { length: this.product?.categories?.length },
       (_, k) => k + 1
     );
 
@@ -83,7 +86,7 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
   private getProductVariantMatrixIndex(matrix: VariantMatrixElement[]): number {
     let productVariantMatrixIndex: number;
     matrix.forEach((variant: VariantMatrixElement, index: number) => {
-      if (variant.variantOption.code === this.product.code) {
+      if (variant.variantOption?.code === this.product.code) {
         productVariantMatrixIndex = index;
       }
     });

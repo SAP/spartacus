@@ -33,24 +33,20 @@ export class VariantsMultiDimensionalGuard implements CanActivate {
     }
 
     return this.productService.get(productCode, ProductScope.VARIANTS).pipe(
-      filter(Boolean),
+      filter((p) => !!p),
       switchMap((product: Product) => {
-        if (product.variantMatrix) {
-          if (!product.purchasable) {
-            return of(
-              this.router.createUrlTree(
-                this.semanticPathService.transform({
-                  cxRoute: 'product',
-                  params: {
-                    code: product.variantMatrix[0].variantOption.code,
-                    name: product.name,
-                  },
-                })
-              )
-            );
-          } else {
-            return of(true);
-          }
+        if (!product.purchasable && product.variantMatrix?.length) {
+          return of(
+            this.router.createUrlTree(
+              this.semanticPathService.transform({
+                cxRoute: 'product',
+                params: {
+                  code: product.variantMatrix[0].variantOption?.code,
+                  name: product.name,
+                },
+              })
+            )
+          );
         } else {
           return of(true);
         }

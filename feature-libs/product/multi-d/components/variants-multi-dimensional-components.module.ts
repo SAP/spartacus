@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { VariantsMultiDimensionalSelectorModule } from './variants-multi-dimensional-selector/variants-multi-dimensional-selector.module';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { VariantsMultiDimensionalComponent } from './variants-multi-dimensional/variants-multi-dimensional.component';
-import { VariantsMultiDimensionalGuard } from '@spartacus/product/multi-d/core';
+import { VariantsMultiDimensionalGuard } from './guards/variants-multi-dimensional.guard';
+import { VariantsMultiDimensionalComponentModule } from './variants-multi-dimensional/variants-multi-dimensional.module';
 
 @NgModule({
-  imports: [VariantsMultiDimensionalSelectorModule],
+  imports: [VariantsMultiDimensionalComponentModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
