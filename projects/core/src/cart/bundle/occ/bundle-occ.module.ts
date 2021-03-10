@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
-
-import { provideDefaultConfig } from '@spartacus/core';
-import { BundleAdapter } from 'projects/core/src/cart/bundle/core/public_api';
-import { OccBundleAdapter } from './adapters';
+import { provideDefaultConfig } from '../../../config/index';
+import { BundleAdapter } from '../core/connectors/bundle.adapter';
 import { defaultOccBundleConfig } from './adapters/default-occ-bundle-config';
+import { OccBundleAdapter } from './adapters/occ-bundle.adapter';
 
 @NgModule({
   providers: [

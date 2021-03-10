@@ -1,4 +1,4 @@
-import { OccConfig } from '@spartacus/core';
+import { OccConfig } from 'projects/core/src/occ/config/occ-config';
 
 export const defaultOccBundleConfig: OccConfig = {
   backend: {

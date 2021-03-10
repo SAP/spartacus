@@ -1,25 +1,19 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { StoreFinderSelectors } from '../store/selectors/index';
-import { StateWithStoreFinder } from '../store/store-finder-state';
-import {
-  GlobalMessageService,
-  RoutingService,
-  SearchConfig,
-  WindowRef,
-} from '@spartacus/core';
-import { StoreEntities } from '../model';
-import { map } from 'rxjs/operators';
-import { BundleActions } from '../store';
-import { BundleStarter } from 'projects/core/src/cart/bundle/core/public_api';
+import { BundleActions, BundleSelectors, StateWithBundle } from '../store';
+import { BundleStarter } from '../model/bundle.model';
+import { WindowRef } from '../../../../window/window-ref';
+import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
+import { RoutingService } from '../../../../routing/facade/routing.service';
+import { SearchConfig } from '../../../../product/model/search-config';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BundleService {
   constructor(
-    protected store: Store<StateWithStoreFinder>,
+    protected store: Store<StateWithBundle>,
     protected winRef: WindowRef,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
@@ -30,25 +24,25 @@ export class BundleService {
    * Returns boolean observable for store's loading state
    */
   getStoresLoading(): Observable<boolean> {
-    return this.store.pipe(select(StoreFinderSelectors.getStoresLoading));
+    return this.store.pipe(select(BundleSelectors.getBundlesLoading));
   }
 
   /**
    * Returns boolean observable for store's success state
    */
   getStoresLoaded(): Observable<boolean> {
-    return this.store.pipe(select(StoreFinderSelectors.getStoresSuccess));
+    return this.store.pipe(select(BundleSelectors.getBundlesSuccess));
   }
 
   /**
    * Returns observable for store's entities
    */
-  getFindStoresEntities(): Observable<StoreEntities> {
-    return this.store.pipe(
-      select(StoreFinderSelectors.getFindStoresEntities),
-      map((data) => data.findStoresEntities)
-    );
-  }
+  // getBundleEntities(): Observable<BundleEntities> {
+  //   return this.store.pipe(
+  //     select(BundleSelectors.getBundlesEntities),
+  //     map((data) => data.bundlesEntities)
+  //   );
+  // }
 
   /**
    * Start bundle

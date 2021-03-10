@@ -1,28 +1,29 @@
-import {
-  Breadcrumb,
-  Facet,
-  SearchState,
-  SpellingSuggestion,
-} from 'projects/core/src/model';
-import { BundleStarter } from 'projects/core/src/cart/bundle/core/model/bundle.model';
-import { OrderEntry } from 'projects/core/src/model/order.model';
-import { Product } from 'projects/core/src/model/product.model';
-import { Pagination, Sort } from 'projects/core/src/model/unused.model';
-import { SearchConfig } from 'projects/core/src/product/model/search-config';
+import { BundleStarter } from '../../model/bundle.model';
 import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
-} from 'projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action';
-import { MULTI_CART_DATA } from '../../../store/multi-cart-state';
+} from '../../../../../state/utils/entity-processes-loader/entity-processes-loader.action';
+import { Pagination, Sort } from '../../../../../model/unused.model';
+import { MULTI_CART_DATA } from '../../../../store/multi-cart-state';
+import {
+  Breadcrumb,
+  Facet,
+  OrderEntry,
+  Product,
+  SearchState,
+  SpellingSuggestion,
+} from '../../../../../model/index';
+import { SearchConfig } from '../../../../../product/model/search-config';
 
-export const START_BUNDLE = '[Cart] Start Bundle';
-export const START_BUNDLE_SUCCESS = '[Cart] Start Bundle Success';
-export const START_BUNDLE_FAIL = '[Cart] Start Bundle Fail';
-export const GET_BUNDLE_ALLOWED_PRODUCTS = '[Cart] Get Bundle Allowed Products';
+export const START_BUNDLE = '[Bundle] Start Bundle';
+export const START_BUNDLE_SUCCESS = '[Bundle] Start Bundle Success';
+export const START_BUNDLE_FAIL = '[Bundle] Start Bundle Fail';
+export const GET_BUNDLE_ALLOWED_PRODUCTS =
+  '[Bundle] Get Bundle Allowed Products';
 export const GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS =
-  '[Cart] Get Bundle Allowed Products Success';
+  '[Bundle] Get Bundle Allowed Products Success';
 export const GET_BUNDLE_ALLOWED_PRODUCTS_FAIL =
-  '[Cart] Get Bundle Allowed Products Fail';
+  '[Bundle] Get Bundle Allowed Products Fail';
 
 export class StartBundle extends EntityProcessesIncrementAction {
   readonly type = START_BUNDLE;
