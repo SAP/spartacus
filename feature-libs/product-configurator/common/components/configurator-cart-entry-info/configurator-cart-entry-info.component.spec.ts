@@ -160,11 +160,6 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         expect(component.hasStatus(entry)).toBe(true);
       });
 
-      it('should be false if first entry of status summary does not have the definition of the configurator type', () => {
-        const entry: OrderEntry = { configurationInfos: [{ status: 'ERROR' }] };
-        expect(component.hasStatus(entry)).toBe(false);
-      });
-
       it('should be false if first entry of status summary carries no status', () => {
         const entry: OrderEntry = { configurationInfos: [{ status: 'NONE' }] };
         expect(component.hasStatus(entry)).toBe(false);

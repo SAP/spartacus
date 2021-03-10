@@ -1,15 +1,15 @@
 import { Component, Optional } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
+import { CommonConfiguratorUtilsService } from '../../shared';
 import { CartItemContext } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
-import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { OrderEntry } from '@spartacus/core';
+import { FormControl } from '@angular/forms';
 
 @Component({
-  selector: 'cx-configurator-cart-entry-info',
-  templateUrl: './configurator-cart-entry-info.component.html',
+  selector: 'cx-configurator-cart-entry-bundle-info',
+  templateUrl: './configurator-cart-entry-bundle-info.component.html',
 })
-export class ConfiguratorCartEntryInfoComponent {
+export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
@@ -42,13 +42,13 @@ export class ConfiguratorCartEntryInfoComponent {
   }
 
   /**
-   * Verifies whether the configurator type is attribute based one.
+   * Verifies whether the configurator type is bundle based one.
    *
    * @param {OrderEntry} item - Order entry item
    * @returns {boolean} - 'True' if the expected configurator type, otherwise 'fasle'
    */
-  isAttributeBasedConfigurator(item: OrderEntry): boolean {
-    return this.commonConfigUtilsService.isAttributeBasedConfigurator(
+  isBundleBasedConfigurator(item: OrderEntry): boolean {
+    return this.commonConfigUtilsService.isBundleBasedConfigurator(
       item?.configurationInfos[0]?.configuratorType
     );
   }

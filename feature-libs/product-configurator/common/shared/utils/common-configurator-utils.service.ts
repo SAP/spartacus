@@ -103,4 +103,33 @@ export class CommonConfiguratorUtilsService {
     });
     return numberOfIssues;
   }
+
+  /**
+   * Verifies whether the configurator type is attribute based one.
+   *
+   * @param {string} configuratorType - Configurator type
+   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'fasle'
+   */
+  isAttributeBasedConfigurator(configuratorType: string): boolean {
+    if (configuratorType) {
+      return (
+        configuratorType === 'CPQCONFIGURATOR' ||
+        configuratorType === 'TEXTFIELDCONFIGURATOR'
+      );
+    }
+    return false;
+  }
+
+  /**
+   * Verifies whether the configurator type is bundle based one.
+   *
+   * @param {string} configuratorType - Configurator type
+   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'fasle'
+   */
+  isBundleBasedConfigurator(configuratorType: string): boolean {
+    if (configuratorType) {
+      return configuratorType === 'CLOUDCPQCONFIGURATOR';
+    }
+    return false;
+  }
 }

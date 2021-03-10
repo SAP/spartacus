@@ -1,5 +1,9 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
-  <ng-container *ngIf="isAttributeBasedConfigurator(orderEntry)">
+  <ng-container *ngIf="isBundleBasedConfigurator(orderEntry)">
+    <div>bundle items</div>
+    <div>
+      <a href="#">hide items</a>
+    </div>
     <ng-container *ngIf="hasStatus(orderEntry)">
       <div
         class="cx-configuration-info"
