@@ -94,6 +94,7 @@ export class SavedCartEffects {
             userId,
             cartId: activeCartId,
             saveCartName: activeCartId,
+            saveCartDescription: '',
             extraData: { edit: true },
           })
         );

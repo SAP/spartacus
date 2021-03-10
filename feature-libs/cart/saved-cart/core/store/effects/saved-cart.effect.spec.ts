@@ -159,6 +159,7 @@ describe('SavedCart Effects', () => {
         userId: mockUserId,
         cartId: mockActiveCartId,
         saveCartName: mockActiveCartId,
+        saveCartDescription: '',
         extraData: { edit: true },
       });
       const completion2 = new CartActions.SetActiveCartId(mockCartId);
