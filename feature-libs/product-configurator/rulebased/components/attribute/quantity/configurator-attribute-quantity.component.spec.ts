@@ -1,21 +1,49 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  discardPeriodicTasks,
+  fakeAsync,
+  TestBed,
+  tick,
+  waitForAsync,
+} from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
-import {
-  ConfiguratorUISettings,
-  DefaultConfiguratorUISettings,
-} from '../../config/configurator-ui-settings';
+import { ConfiguratorUISettings } from '../../config/configurator-ui-settings';
 import {
   ConfiguratorAttributeQuantityComponent,
   Quantity,
 } from './configurator-attribute-quantity.component';
 
-describe(' ConfiguratorAttributeQuantityComponent', () => {
-  let component: ConfiguratorAttributeQuantityComponent;
-  let fixture: ComponentFixture<ConfiguratorAttributeQuantityComponent>;
+const fakeDebounceTime = 750;
+const changedQty = 9;
+const TestConfiguratorUISettings: ConfiguratorUISettings = {
+  rulebasedConfigurator: {
+    quantityDebounceTime: fakeDebounceTime,
+  },
+};
 
+let component: ConfiguratorAttributeQuantityComponent;
+let fixture: ComponentFixture<ConfiguratorAttributeQuantityComponent>;
+
+function initialize(disable: boolean) {
+  fixture = TestBed.createComponent(ConfiguratorAttributeQuantityComponent);
+
+  component = fixture.componentInstance;
+  component.quantity = new FormControl(1);
+  const initialQuantity: Quantity = {
+    quantity: 1,
+  };
+  component.quantityOptions = {
+    allowZero: true,
+    initialQuantity: initialQuantity,
+    disableQuantityActions: disable,
+  };
+  fixture.detectChanges();
+}
+
+describe(' ConfiguratorAttributeQuantityComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -27,7 +55,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
         providers: [
           {
             provide: ConfiguratorUISettings,
-            useValue: DefaultConfiguratorUISettings,
+            useValue: TestConfiguratorUISettings,
           },
         ],
       })
@@ -41,21 +69,8 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConfiguratorAttributeQuantityComponent);
-
-    component = fixture.componentInstance;
-    component.quantity = new FormControl(1);
-    const initialQuantity: Quantity = {
-      quantity: 1,
-    };
-    component.quantityOptions = {
-      allowZero: true,
-      initialQuantity: initialQuantity,
-      disableQuantityActions: false,
-    };
-
+    initialize(false);
     spyOn(component.changeQuantity, 'emit').and.callThrough();
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -64,7 +79,27 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
 
   it('should call handleQuantity on event onChangeQuantity', () => {
     component.onChangeQuantity();
-
     expect(component.changeQuantity.emit).toHaveBeenCalled();
+  });
+
+  it('should not emit change event on quantity change if debounce time has not yet passed', fakeAsync(() => {
+    component.quantity.setValue(changedQty);
+    fixture.detectChanges();
+    tick(fakeDebounceTime - 100);
+    expect(component.changeQuantity.emit).toHaveBeenCalledTimes(0);
+    discardPeriodicTasks();
+  }));
+
+  it('should emit change event on quantity change after debounce time has passed', fakeAsync(() => {
+    component.quantity.setValue(changedQty);
+    fixture.detectChanges();
+    tick(fakeDebounceTime + 10);
+    expect(component.changeQuantity.emit).toHaveBeenCalled();
+    discardPeriodicTasks();
+  }));
+
+  it('should de-activate quantity control if options say so', () => {
+    initialize(true);
+    expect(component.quantity.disabled).toBe(true);
   });
 });
