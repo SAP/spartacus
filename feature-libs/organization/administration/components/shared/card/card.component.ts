@@ -60,11 +60,11 @@ export class CardComponent<T extends BaseItem> {
     if (
       this.itemKey !== undefined &&
       item?.code !== this.itemKey &&
-      item.uid !== this.itemKey &&
-      item.customerId !== this.itemKey
+      item?.uid !== this.itemKey &&
+      item?.customerId !== this.itemKey
     ) {
       this.messageService.clear();
     }
-    this.itemKey = item?.code ?? item.uid ?? item.customerId;
+    this.itemKey = item?.code ?? item?.uid ?? item?.customerId;
   }
 }
