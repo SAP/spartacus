@@ -12,6 +12,9 @@ export abstract class PageMetaConfig {
 export interface PageMetaResolversConfig {
   resolvers?: PageMetaResolverConfig[];
 
+  /**
+   * Specifies how the canonical url is created.
+   */
   canonicalUrl?: CanonicalUrlOptions;
 
   /**
@@ -53,12 +56,20 @@ export interface CanonicalUrlOptions {
   forceHttps?: boolean;
 
   /**
-   * Forces the `www` subdomain, do that canonical URLs are always prefixed.
+   * Forces the `www` subdomain, so that canonical URLs are always prefixed with `www.`.
+   *
+   * Please be aware that the logic will not detect whether your domain includes a subdomain.
    */
   forceWww?: boolean;
 
   /**
    * Removes query parameters from the URL to avoid page duplicates.
+   *
+   * This is useful in case page urls have various query parameters that are added by
+   * integrations (i.e. generated links from social platform).
+   *
+   * The query parameter can either be removed completely, or an array of query parameter keys
+   * can be provided.
    */
   removeQueryParams?: boolean | string[];
 }
