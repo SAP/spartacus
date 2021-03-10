@@ -365,7 +365,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
         module: 'spartacus',
         project: options.project,
       }),
-      // add base storefront to declarations
 
       // add the configuration
       updateAppModule(options),

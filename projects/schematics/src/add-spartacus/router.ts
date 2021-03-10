@@ -39,7 +39,7 @@ function configureRouterModule(
         routerModule = addModuleImport(sourceFile, {
           moduleSpecifier: ANGULAR_ROUTER,
           namedImports: ['RouterModule'],
-          importContent: `RouterModule.forRoot([])`,
+          content: `RouterModule.forRoot([])`,
         });
       }
       configureOptionsInRouterModule(routerModule as CallExpression);

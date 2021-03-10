@@ -35,12 +35,12 @@ function configureStoreModules(
       addModuleImport(sourceFile, {
         moduleSpecifier: NGRX_STORE,
         namedImports: ['StoreModule'],
-        importContent: `StoreModule.forRoot({})`,
+        content: `StoreModule.forRoot({})`,
       });
       addModuleImport(sourceFile, {
         moduleSpecifier: NGRX_EFFECTS,
         namedImports: ['EffectsModule'],
-        importContent: `EffectsModule.forRoot([])`,
+        content: `EffectsModule.forRoot([])`,
       });
       sourceFile.organizeImports();
       sourceFile.saveSync();

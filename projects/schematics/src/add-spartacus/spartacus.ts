@@ -1,6 +1,9 @@
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { BASE_STOREFRONT_MODULE, SPARTACUS_STOREFRONTLIB } from '../shared';
-import { addModuleImport } from '../shared/utils/new-module-utils';
+import {
+  addModuleExport,
+  addModuleImport,
+} from '../shared/utils/new-module-utils';
 import { createProgram } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
@@ -35,7 +38,12 @@ function configureSpartacusModules(
       addModuleImport(sourceFile, {
         moduleSpecifier: SPARTACUS_STOREFRONTLIB,
         namedImports: [BASE_STOREFRONT_MODULE],
-        importContent: BASE_STOREFRONT_MODULE,
+        content: BASE_STOREFRONT_MODULE,
+      });
+      addModuleExport(sourceFile, {
+        moduleSpecifier: SPARTACUS_STOREFRONTLIB,
+        namedImports: [BASE_STOREFRONT_MODULE],
+        content: BASE_STOREFRONT_MODULE,
       });
       sourceFile.organizeImports();
       sourceFile.saveSync();

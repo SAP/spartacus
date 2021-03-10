@@ -48,11 +48,81 @@ export function ensureModuleExists(options: {
 
 export function addModuleImport(
   sourceFile: SourceFile,
-  options: {
+  insertOptions: {
     moduleSpecifier: string;
     namedImports: string[];
-    importContent: string;
-  }
+    content: string;
+  },
+  createIfMissing = true
+): CallExpression | undefined {
+  return addToModuleInternal(
+    sourceFile,
+    'imports',
+    insertOptions,
+    createIfMissing
+  );
+}
+
+export function addModuleExport(
+  sourceFile: SourceFile,
+  insertOptions: {
+    moduleSpecifier: string;
+    namedImports: string[];
+    content: string;
+  },
+  createIfMissing = true
+): CallExpression | undefined {
+  return addToModuleInternal(
+    sourceFile,
+    'exports',
+    insertOptions,
+    createIfMissing
+  );
+}
+
+export function addModuleDeclaration(
+  sourceFile: SourceFile,
+  insertOptions: {
+    moduleSpecifier: string;
+    namedImports: string[];
+    content: string;
+  },
+  createIfMissing = true
+): CallExpression | undefined {
+  return addToModuleInternal(
+    sourceFile,
+    'declarations',
+    insertOptions,
+    createIfMissing
+  );
+}
+
+export function addModuleProvider(
+  sourceFile: SourceFile,
+  insertOptions: {
+    moduleSpecifier: string;
+    namedImports: string[];
+    content: string;
+  },
+  createIfMissing = true
+): CallExpression | undefined {
+  return addToModuleInternal(
+    sourceFile,
+    'providers',
+    insertOptions,
+    createIfMissing
+  );
+}
+
+function addToModuleInternal(
+  sourceFile: SourceFile,
+  propertyName: 'imports' | 'exports' | 'declarations' | 'providers',
+  insertOptions: {
+    moduleSpecifier: string;
+    namedImports: string[];
+    content: string;
+  },
+  createIfMissing = true
 ): CallExpression | undefined {
   let storeNode;
 
@@ -68,17 +138,24 @@ export function addModuleImport(
         if (args.length > 0) {
           const arg = args[0];
           if (Node.isObjectLiteralExpression(arg)) {
-            const property = arg.getProperty('imports');
+            if (!arg.getProperty(propertyName) && createIfMissing) {
+              arg.addPropertyAssignment({
+                name: propertyName,
+                initializer: '[]',
+              });
+            }
+
+            const property = arg.getProperty(propertyName);
             if (property && Node.isPropertyAssignment(property)) {
               const initializer = property.getInitializerIfKind(
                 tsMorph.SyntaxKind.ArrayLiteralExpression
               );
               if (initializer) {
                 sourceFile.addImportDeclaration({
-                  moduleSpecifier: options.moduleSpecifier,
-                  namedImports: options.namedImports,
+                  moduleSpecifier: insertOptions.moduleSpecifier,
+                  namedImports: insertOptions.namedImports,
                 });
-                storeNode = initializer.addElement(options.importContent);
+                storeNode = initializer.addElement(insertOptions.content);
               }
             }
           }
