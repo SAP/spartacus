@@ -93,7 +93,7 @@ export class SavedCartEffects {
           new SavedCartActions.SaveCart({
             userId,
             cartId: activeCartId,
-            saveCartName: activeCartId,
+            saveCartName: '',
             saveCartDescription: '',
             extraData: { edit: true },
           })
