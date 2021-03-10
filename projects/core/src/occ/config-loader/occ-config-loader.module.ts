@@ -1,8 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import {
-  ConfigInitializer,
-  CONFIG_INITIALIZER,
-} from '../../config/config-initializer/config-initializer';
+import { ConfigInitializer } from '../../config/config-initializer/config-initializer';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
 import { OccConfigLoaderService } from './occ-config-loader.service';
@@ -35,12 +32,12 @@ export class OccConfigLoaderModule {
     return {
       ngModule: OccConfigLoaderModule,
       providers: [
-        {
+        /*{
           provide: CONFIG_INITIALIZER,
           useFactory: initConfig,
           deps: [OccConfigLoaderService, SiteContextConfig],
           multi: true,
-        },
+        },*/
       ],
     };
   }

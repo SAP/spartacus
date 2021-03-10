@@ -16,8 +16,11 @@ import { OccLoadedConfig } from './occ-loaded-config';
 export class OccLoadedConfigConverter {
   constructor(private javaRegExpConverter: JavaRegExpConverter) {}
 
-  fromOccBaseSites(baseSites: BaseSite[], currentUrl: string): OccLoadedConfig {
-    const baseSite = baseSites.find((site) =>
+  fromOccBaseSites(
+    baseSites: BaseSite[] | undefined,
+    currentUrl: string
+  ): OccLoadedConfig {
+    const baseSite = baseSites?.find((site: any) =>
       this.isCurrentBaseSite(site, currentUrl)
     );
     if (!baseSite) {

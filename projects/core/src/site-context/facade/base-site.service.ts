@@ -1,8 +1,16 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import {
+  Inject,
+  Injectable,
+  isDevMode,
+  Optional,
+  PLATFORM_ID,
+} from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { BaseSite } from '../../model/misc.model';
+import { SERVER_REQUEST_URL } from '../../util/ssr.tokens';
 import { getContextParameterDefault } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
@@ -15,8 +23,27 @@ import { SiteContext } from './site-context.interface';
 export class BaseSiteService implements SiteContext<BaseSite> {
   constructor(
     protected store: Store<StateWithSiteContext>,
-    protected config: SiteContextConfig
+    protected config: SiteContextConfig,
+    @Inject(PLATFORM_ID) protected platform?: any,
+    @Inject(DOCUMENT) protected document?: any,
+    @Optional()
+    @Inject(SERVER_REQUEST_URL)
+    protected serverRequestUrl?: string
   ) {}
+
+  private get currentUrl(): string | undefined {
+    if (this.platform && isPlatformBrowser(this.platform)) {
+      return this.document.location.href;
+    }
+    if (this.serverRequestUrl) {
+      return this.serverRequestUrl;
+    }
+    if (isDevMode()) {
+      console.error(
+        `Please provide token 'SERVER_REQUEST_URL' with the requested URL for SSR`
+      );
+    }
+  }
 
   /**
    * Represents the current baseSite uid.
@@ -46,17 +73,21 @@ export class BaseSiteService implements SiteContext<BaseSite> {
   /**
    * Get base site data based on site uid
    */
-  get(siteUid?: string): Observable<BaseSite> {
-    if (siteUid) {
-      return this.getAll().pipe(
-        map((sites) => sites.find((site) => site.uid === siteUid))
-      );
+  get(siteUid?: string): Observable<BaseSite | undefined> {
+    let activeSiteUid: string;
+    if (!siteUid) {
+      this.getActive()
+        .pipe(take(1))
+        .subscribe((siteUid) => (activeSiteUid = siteUid));
     }
 
-    return this.getActive().pipe(
-      switchMap((activeSiteUid) =>
-        this.getAll().pipe(
-          map((sites) => sites.find((site) => site.uid === activeSiteUid))
+    return this.getAll().pipe(
+      map((sites) =>
+        sites.find(
+          (site) =>
+            site.uid === siteUid ||
+            site.uid === activeSiteUid ||
+            this.isCurrentBaseSite(site)
         )
       )
     );
@@ -90,5 +121,15 @@ export class BaseSiteService implements SiteContext<BaseSite> {
     this.setActive(
       getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID)
     );
+  }
+
+  private isCurrentBaseSite(site: BaseSite): boolean {
+    const index = (site.urlPatterns || []).findIndex((jsRegexp: any) => {
+      if (jsRegexp) {
+        return jsRegexp.test(this.currentUrl || '');
+      }
+    });
+
+    return index !== -1;
   }
 }
