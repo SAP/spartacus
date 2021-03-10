@@ -4,6 +4,7 @@ import {
   Product,
   SelectiveCartService,
 } from '@spartacus/core';
+import { BundleStarter } from '@spartacus/core/cart/bundle/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductDetailOutlets } from '../product-outlets.model';
@@ -24,9 +25,12 @@ export class ProductSummaryComponent {
     protected activeCartService: ActiveCartService
   ) {}
 
-  startBundle(product, bundle) {
-    console.log(`starting bundle: ${bundle.name}`, bundle);
-    // this.selectiveCartService.startBundle(product.code, 1, bundle.id);
-    this.activeCartService.startBundle(product.code, 1, bundle.id);
+  startBundle(product: Product, template: any) {
+    console.log(`starting bundle: ${template.name}`, template);
+    this.activeCartService.startBundle(<BundleStarter>{
+      productCode: product.code,
+      quantity: 1,
+      templateId: template.id,
+    });
   }
 }

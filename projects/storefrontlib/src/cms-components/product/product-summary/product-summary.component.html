@@ -15,9 +15,9 @@
     <p [innerHTML]="product?.summary" class="summary"></p>
   </ng-template>
 
-  <div *ngFor="let bundle of product.bundleTemplates">
-    <button (click)="startBundle(product, bundle)">
-      {{ bundle.rootBundleTemplateName }} - Start {{ bundle.name }} Bundle
+  <div *ngFor="let template of product.bundleTemplates">
+    <button (click)="startBundle(product, template)">
+      {{ bundle?.rootBundleTemplateName }} - Start {{ bundle?.name }} Bundle
     </button>
   </div>
 

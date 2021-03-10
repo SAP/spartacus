@@ -5,7 +5,6 @@ import {
   Cart,
   EntryGroup,
   OrderEntry,
-  Product,
   PromotionLocation,
   PromotionResult,
   RoutingService,
@@ -88,11 +87,11 @@ export class CartDetailsComponent implements OnInit {
   }
 
   removeBundle(entryGroupNumber: number) {
-    this.activeCartService.removeBundle(entryGroupNumber);
+    this.activeCartService.deleteEntryGroup(entryGroupNumber);
   }
 
-  addProductToBundle(entryGroupNumber, product: Product) {
+  addProductToBundle(entryGroupNumber, product: OrderEntry) {
     console.log(entryGroupNumber, product);
-    this.activeCartService.addProductToBundle(entryGroupNumber, product);
+    this.activeCartService.addToEntryGroup(entryGroupNumber, product);
   }
 }
