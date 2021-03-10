@@ -1,17 +1,13 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CartModification } from 'projects/core/src/model/cart.model';
+import { OccEndpointsService } from 'projects/core/src/occ/services/occ-endpoints.service';
+import { SearchConfig } from 'projects/core/src/product/model/search-config';
+import { ConverterService } from 'projects/core/src/util/converter.service';
 import { Observable } from 'rxjs';
-import {
-  CartModification,
-  CART_MODIFICATION_NORMALIZER,
-  ConverterService,
-  OccEndpointsService,
-  SearchConfig,
-} from '@spartacus/core';
-import {
-  BundleAdapter,
-  BundleStarter,
-} from 'projects/core/src/cart/bundle/core/public_api';
+import { CART_MODIFICATION_NORMALIZER } from '../../../connectors/entry-group';
+import { BundleAdapter } from '../../core/connectors/bundle.adapter';
+import { BundleStarter } from '../../core/model/bundle.model';
 
 @Injectable()
 export class OccBundleAdapter implements BundleAdapter {

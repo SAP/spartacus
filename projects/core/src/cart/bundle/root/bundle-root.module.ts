@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { provideDefaultConfig } from 'projects/core/src/config/config-providers';
 import { defaultBundleLayoutConfig } from './config/default-bundle-layout-config';
 
 @NgModule({

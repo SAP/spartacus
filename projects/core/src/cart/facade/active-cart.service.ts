@@ -38,6 +38,8 @@ import { activeCartInitialState } from '../store/reducers/multi-cart.reducer';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { getCartIdByUserId, isTempCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
+import { BundleService } from '../bundle/core/facade/bundle.service';
+import { BundleStarter } from '../bundle/core/model/bundle.model';
 
 @Injectable({
   providedIn: 'root',
@@ -71,7 +73,8 @@ export class ActiveCartService implements OnDestroy {
   constructor(
     protected store: Store<StateWithMultiCart>,
     protected multiCartService: MultiCartService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected bundleService?: BundleService
   ) {
     this.initActiveCart();
   }
@@ -564,6 +567,42 @@ export class ActiveCartService implements OnDestroy {
           userId,
           entryGroupNumber,
           entry
+        );
+      });
+    });
+  }
+
+  /**
+   * Start bundle
+   *
+   * @param productCode
+   * @param quantity
+   * @param templateId
+   */
+  startBundle(starter: BundleStarter) {
+    this.requireLoadedCart().subscribe((cartState) => {
+      this.userIdService.takeUserId().subscribe((userId) => {
+        this.bundleService?.startBundle(
+          getCartIdByUserId(cartState.value, userId),
+          userId,
+          starter
+        );
+      });
+    });
+  }
+
+  /**
+   * Get allowed Bundle Products
+   *
+   * @param entryGroupNumber
+   */
+  getBundleAllowedProducts(entryGroupNumber: number) {
+    this.requireLoadedCart().subscribe((cartState) => {
+      this.userIdService.takeUserId().subscribe((userId) => {
+        this.bundleService?.getBundleAllowedProducts(
+          getCartIdByUserId(cartState.value, userId),
+          userId,
+          entryGroupNumber
         );
       });
     });

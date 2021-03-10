@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import {
-  CartActions,
-  CartModification,
-  SiteContextActions,
-  withdrawOn,
-} from '@spartacus/core';
-import { BundleConnector } from 'projects/core/src/cart/bundle/core/connectors/bundle.connector';
+import { BundleConnector } from '../../connectors/bundle.connector';
+import { CartActions } from '../../../../store/actions';
+import { CartModification } from '../../../../../model/cart.model';
+import { SiteContextActions } from '../../../../../site-context/store/actions';
+import { withdrawOn } from '../../../../../util/rxjs/withdraw-on';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { BundleActions } from '../actions';

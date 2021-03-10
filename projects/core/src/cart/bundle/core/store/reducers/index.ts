@@ -2,12 +2,12 @@ import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 
 import { InjectionToken, Provider } from '@angular/core';
 import { BundleState, BUNDLE_DATA } from '../bundle-state';
-import { StateUtils } from '@spartacus/core';
 import { bundleReducer } from './bundle.reducer';
+import { StateUtils } from 'projects/core/src/state/utils';
 
 export function getReducers(): ActionReducerMap<BundleState> {
   return {
-    findStores: StateUtils.loaderReducer(BUNDLE_DATA, bundleReducer),
+    bundles: StateUtils.loaderReducer(BUNDLE_DATA, bundleReducer),
   };
 }
 

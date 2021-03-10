@@ -1,7 +1,7 @@
-import { SearchConfig } from 'projects/core/src/product/model/search-config';
+import { SearchConfig } from '../../../../product/model/search-config';
 import { Observable } from 'rxjs';
-import { CartModification } from '@spartacus/core';
 import { BundleStarter } from '../model/bundle.model';
+import { CartModification } from '../../../../model/cart.model';
 
 export abstract class BundleAdapter {
   /**
