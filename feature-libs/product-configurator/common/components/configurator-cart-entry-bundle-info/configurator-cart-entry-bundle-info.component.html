@@ -1,21 +1,27 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
   <ng-container *ngIf="isBundleBasedConfigurator(orderEntry)">
-    <div>bundle items</div>
-    <div>
-      <a href="#">hide items</a>
-    </div>
     <ng-container *ngIf="hasStatus(orderEntry)">
+      <div>
+        {{ getBundleItems(orderEntry) }}
+        {{ 'configurator.header.bundleItems' | cxTranslate }}
+      </div>
+      <a href="#">
+        {{ 'configurator.header.unhideItems' | cxTranslate }}
+      </a>
       <div
-        class="cx-configuration-info"
+        class="cx-bundle-info"
         *ngFor="let info of orderEntry.configurationInfos"
       >
-        <div class="cx-label">{{ info?.configurationLabel }}:</div>
-        <div class="cx-value">
+        <div class="cx-name">
+          <a href="#">{{ info?.configurationLabel }}</a>
+        </div>
+        <div class="cx-price">
           {{ info?.configurationValue }}
+        </div>
+        <div class="cx-quantity">
         </div>
       </div>
     </ng-container>
-
     <cx-configure-cart-entry
       *ngIf="
         orderEntry?.product?.configurable && quantityControl$

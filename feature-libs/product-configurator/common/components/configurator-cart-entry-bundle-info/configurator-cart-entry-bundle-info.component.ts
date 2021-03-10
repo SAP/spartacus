@@ -41,6 +41,10 @@ export class ConfiguratorCartEntryBundleInfoComponent {
       : false;
   }
 
+  getBundleItems(item: OrderEntry): number {
+    return item?.configurationInfos?.length;
+  }
+
   /**
    * Verifies whether the configurator type is bundle based one.
    *
