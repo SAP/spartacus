@@ -17,11 +17,15 @@ import { MainModule } from '../layout/main/main.module';
 import { StorefrontConfig } from '../storefront-config';
 import { StorefrontFoundationModule } from './storefront-foundation.module';
 
+/**
+ * @deprecated since 3.1, see https://sap.github.io/spartacus-docs/reference-app-structure
+ */
 @NgModule({
   imports: [
     RouterModule.forRoot([], {
       anchorScrolling: 'enabled',
       relativeLinkResolution: 'corrected',
+      initialNavigation: 'enabled',
     }),
 
     StoreModule.forRoot({}),

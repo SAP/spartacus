@@ -39,50 +39,34 @@ context('Apparel - checkout as guest', () => {
     it('should go to product page add the variant style of the product from category page', () => {
       checkout.goToCheapProductDetailsPage(products[0]);
       addVariantOfSameProductToCart();
-    });
 
-    it('should visit the product without variant page', () => {
       visitProductWithoutVariantPage();
       addMutipleProductWithoutVariantToCart();
-    });
 
-    it('should go to product page, and add product to cart from category page and proceed to checkout', () => {
       checkout.goToCheapProductDetailsPage(products[0]);
       checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);
-    });
 
-    it('should login as guest', () => {
       guestCheckout.loginAsGuest(variantUser);
-    });
 
-    it('should fill in address form', () => {
       checkout.fillAddressFormWithCheapProduct(
         variantUser,
         cartWithTotalVariantProduct
       );
-    });
 
-    it('should choose delivery', () => {
       checkout.verifyDeliveryMethod(APPAREL_DEFAULT_DELIVERY_MODE);
-    });
 
-    it('should fill in payment form', () => {
       checkout.fillPaymentFormWithCheapProduct(
         variantUser,
         undefined,
         cartWithTotalVariantProduct
       );
-    });
 
-    it('should review and place order', () => {
       checkout.placeOrderWithCheapProduct(
         variantUser,
         cartWithTotalVariantProduct,
         APPAREL_CURRENCY
       );
-    });
 
-    it('should display summary page', () => {
       checkout.verifyOrderConfirmationPageWithCheapProduct(
         variantUser,
         variantProduct,
@@ -150,6 +134,7 @@ context('Apparel - checkout as guest', () => {
 
   describe('Guest cart merge', () => {
     it('should keep guest cart content and restart checkout', () => {
+      cy.clearLocalStorage();
       checkout.goToCheapProductDetailsPage(products[0]);
       checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);
 

@@ -4,26 +4,38 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Permission } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
-import { OrganizationCardTestingModule } from '../../shared/organization-card/organization-card.testing.module';
-import { OrganizationItemService } from '../../shared/organization-item.service';
-import { MessageTestingModule } from '../../shared/organization-message/message.testing.module';
+import { of, Subject } from 'rxjs';
+import { DisableInfoModule } from '../../shared';
+import { CardTestingModule } from '../../shared/card/card.testing.module';
+import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
+import { ItemExistsDirective } from '../../shared/item-exists.directive';
+import { ItemService } from '../../shared/item.service';
+import { MessageTestingModule } from '../../shared/message/message.testing.module';
+import { MessageService } from '../../shared/message/services/message.service';
 import { PermissionDetailsComponent } from './permission-details.component';
 
 import createSpy = jasmine.createSpy;
 
 const mockCode = 'p1';
 
-class MockPermissionItemService
-  implements Partial<OrganizationItemService<Permission>> {
+class MockPermissionItemService implements Partial<ItemService<Permission>> {
   key$ = of(mockCode);
   load = createSpy('load').and.returnValue(of());
+  error$ = of(false);
+}
+
+class MockMessageService {
+  add() {
+    return new Subject();
+  }
+  clear() {}
+  close() {}
 }
 
 describe('PermissionDetailsComponent', () => {
   let component: PermissionDetailsComponent;
   let fixture: ComponentFixture<PermissionDetailsComponent>;
-  let itemService: OrganizationItemService<Permission>;
+  let itemService: ItemService<Permission>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,19 +44,32 @@ describe('PermissionDetailsComponent', () => {
         RouterTestingModule,
         I18nTestingModule,
         UrlTestingModule,
-        OrganizationCardTestingModule,
+        CardTestingModule,
         MessageTestingModule,
+        ToggleStatusModule,
+        DisableInfoModule,
       ],
-      declarations: [PermissionDetailsComponent],
+      declarations: [PermissionDetailsComponent, ItemExistsDirective],
       providers: [
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useClass: MockPermissionItemService,
         },
       ],
-    }).compileComponents();
+    })
+      .overrideComponent(PermissionDetailsComponent, {
+        set: {
+          providers: [
+            {
+              provide: MessageService,
+              useClass: MockMessageService,
+            },
+          ],
+        },
+      })
+      .compileComponents();
 
-    itemService = TestBed.inject(OrganizationItemService);
+    itemService = TestBed.inject(ItemService);
 
     fixture = TestBed.createComponent(PermissionDetailsComponent);
     component = fixture.componentInstance;

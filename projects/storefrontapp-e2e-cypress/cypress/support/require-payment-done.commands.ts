@@ -28,7 +28,7 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
       )}/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
     });
   }
@@ -41,7 +41,7 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
       body: data,
       form: true,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
     });
   }
@@ -66,7 +66,7 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
       body: data,
       form: true,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
     });
   }

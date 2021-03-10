@@ -255,9 +255,14 @@ describe('OrgUnit Effects', () => {
         address,
       });
       const completion1 = new OrgUnitActions.CreateAddressSuccess(address);
-      const completion2 = new OrganizationActions.OrganizationClearData();
+      const completion2 = new OrgUnitActions.CreateAddressSuccess({ id: null });
+      const completion3 = new OrganizationActions.OrganizationClearData();
       actions$ = hot('-a', { a: action });
-      expected = cold('-(bc)', { b: completion1, c: completion2 });
+      expected = cold('-(bcd)', {
+        b: completion1,
+        c: completion2,
+        d: completion3,
+      });
 
       expect(effects.createAddress$).toBeObservable(expected);
       expect(orgUnitConnector.createAddress).toHaveBeenCalledWith(

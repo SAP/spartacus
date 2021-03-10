@@ -1,12 +1,9 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
-import {
-  AuthService,
-  ConfigInitializerService,
-  provideConfig,
-} from '@spartacus/core';
+import { ConfigInitializerService, provideConfig } from '@spartacus/core';
+import { LogoutGuard } from '@spartacus/storefront';
 import { CdcAuthModule } from './auth/cdc-auth.module';
-import { CdcAuthService } from './auth/facade/cdc-auth.service';
 import { CdcJsService } from './auth/facade/cdc-js.service';
+import { CdcLogoutGuard } from './auth/guards/cdc-logout.guard';
 import { GigyaRaasModule } from './cms-components/gigya-raas/gigya-raas.module';
 import { CdcConfig } from './config/cdc-config';
 
@@ -23,7 +20,7 @@ export function cdcJsFactory(
 
 @NgModule({
   imports: [GigyaRaasModule, CdcAuthModule],
-  providers: [{ provide: AuthService, useClass: CdcAuthService }],
+  providers: [{ provide: LogoutGuard, useExisting: CdcLogoutGuard }],
 })
 export class CdcModule {
   static forRoot(config: CdcConfig): ModuleWithProviders<CdcModule> {

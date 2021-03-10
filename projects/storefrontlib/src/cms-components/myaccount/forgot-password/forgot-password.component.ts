@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { RoutingService, UserService } from '@spartacus/core';
+import {
+  AuthConfigService,
+  OAuthFlow,
+  RoutingService,
+  UserService,
+} from '@spartacus/core';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 @Component({
   selector: 'cx-forgot-password',
@@ -10,9 +15,10 @@ export class ForgotPasswordComponent implements OnInit {
   forgotPasswordForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private routingService: RoutingService
+    protected fb: FormBuilder,
+    protected userService: UserService,
+    protected routingService: RoutingService,
+    protected authConfigService: AuthConfigService
   ) {}
 
   ngOnInit() {
@@ -29,7 +35,12 @@ export class ForgotPasswordComponent implements OnInit {
       this.userService.requestForgotPasswordEmail(
         this.forgotPasswordForm.value.userEmail
       );
-      this.routingService.go({ cxRoute: 'login' });
+      if (
+        this.authConfigService.getOAuthFlow() ===
+        OAuthFlow.ResourceOwnerPasswordFlow
+      ) {
+        this.routingService.go({ cxRoute: 'login' });
+      }
     } else {
       this.forgotPasswordForm.markAllAsTouched();
     }

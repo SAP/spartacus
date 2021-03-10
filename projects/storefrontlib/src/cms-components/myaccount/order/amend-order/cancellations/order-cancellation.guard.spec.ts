@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { RoutingService } from '@spartacus/core';
+import { SemanticPathService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderCancellationGuard } from './order-cancellation.guard';
 import { OrderCancellationService } from './order-cancellation.service';
@@ -11,27 +12,29 @@ const mockForm = new FormGroup({
   any: mockControl,
 });
 
-class MockRoutingService {
-  go() {}
-}
-
-class MockOrderCancellationService {
+class MockOrderCancellationService
+  implements Partial<OrderCancellationService> {
   getForm(): Observable<FormGroup> {
     return of(new FormGroup({}));
+  }
+}
+
+class MockSemanticPathService implements Partial<SemanticPathService> {
+  get(a: string) {
+    return `/${a}`;
   }
 }
 
 describe(`OrderCancellationGuard`, () => {
   let guard: OrderCancellationGuard;
   let service: OrderCancellationService;
-  let routing: RoutingService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: RoutingService,
-          useClass: MockRoutingService,
+          provide: SemanticPathService,
+          useClass: MockSemanticPathService,
         },
         {
           provide: OrderCancellationService,
@@ -43,30 +46,26 @@ describe(`OrderCancellationGuard`, () => {
 
     guard = TestBed.inject(OrderCancellationGuard);
     service = TestBed.inject(OrderCancellationService);
-    routing = TestBed.inject(RoutingService);
 
     spyOn(service, 'getForm').and.returnValue(of(mockForm));
-    spyOn(routing, 'go').and.stub();
   });
 
   it(`should redirect to the order detail page`, () => {
-    let result;
+    let result: boolean | UrlTree;
     guard
       .canActivate()
       .subscribe((r) => (result = r))
       .unsubscribe();
-    expect(result).toBeFalsy();
-    expect(routing.go).toHaveBeenCalled();
+    expect(result.toString()).toEqual('/orders');
   });
 
-  it(`should not redirect to the order detail page`, () => {
+  it(`should return true when the form data is valid`, () => {
     mockControl.setValue(100);
-    let result;
+    let result: boolean | UrlTree;
     guard
       .canActivate()
       .subscribe((r) => (result = r))
       .unsubscribe();
-    expect(result).toBeTruthy();
-    expect(routing.go).not.toHaveBeenCalled();
+    expect(result).toBeTrue();
   });
 });

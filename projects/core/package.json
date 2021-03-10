@@ -1,19 +1,16 @@
 {
   "name": "@spartacus/core",
-  "version": "3.0.0-next.5",
+  "version": "3.2.0-next.1",
   "description": "Spartacus - the core framework",
-  "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
     "spartacus",
     "storefront",
     "angular",
     "framework"
   ],
-  "license": "Apache-2.0",
-  "publishConfig": {
-    "access": "public"
-  },
+  "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/core",
+  "license": "Apache-2.0",
   "dependencies": {
     "tslib": "^2.0.0"
   },
@@ -22,11 +19,15 @@
     "@angular/core": "^10.1.0",
     "@angular/platform-browser": "^10.1.0",
     "@angular/router": "^10.1.0",
-    "rxjs": "^6.6.0",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/router-store": "^10.0.0",
     "@ngrx/store": "^10.0.0",
+    "angular-oauth2-oidc": "^10.0.1",
     "i18next": "^19.3.4",
-    "i18next-xhr-backend": "^3.2.2"
+    "i18next-xhr-backend": "^3.2.2",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

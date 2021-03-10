@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { UserAddressConnector } from '../../../user/connectors/address/user-address.connector';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { CheckoutActions } from '../actions/index';
 
 @Injectable()
@@ -18,9 +18,7 @@ export class AddressVerificationEffect {
       this.userAddressConnector.verify(payload.userId, payload.address).pipe(
         map((data) => new CheckoutActions.VerifyAddressSuccess(data)),
         catchError((error) =>
-          of(
-            new CheckoutActions.VerifyAddressFail(makeErrorSerializable(error))
-          )
+          of(new CheckoutActions.VerifyAddressFail(normalizeHttpError(error)))
         )
       )
     )

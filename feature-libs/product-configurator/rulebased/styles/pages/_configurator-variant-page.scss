@@ -1,0 +1,28 @@
+%VariantConfigurationTemplate {
+  @include cx-configurator-template();
+
+  cx-page-slot.VariantConfigContent,
+  cx-page-slot.VariantConfigMenu {
+    height: fit-content;
+  }
+
+  @include media-breakpoint-up(lg) {
+    cx-page-slot.VariantConfigMenu {
+      max-inline-size: 30%;
+    }
+
+    cx-page-slot.VariantConfigContent {
+      max-inline-size: 70%;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    cx-page-slot.VariantConfigMenu {
+      max-inline-size: calc(1140px * 0.3);
+    }
+
+    cx-page-slot.VariantConfigContent {
+      max-inline-size: calc(1140px * 0.7);
+    }
+  }
+}

@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { AsmConfig, AuthService, RoutingService } from '@spartacus/core';
+import { AsmConfig, RoutingService, UserIdService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -25,9 +25,9 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   constructor(
     private config: AsmConfig,
     private asmComponentService: AsmComponentService,
-    private authService: AuthService,
     private routingService: RoutingService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private userIdService: UserIdService
   ) {}
 
   ngOnInit(): void {
@@ -58,8 +58,8 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
 
   private resetOnCustomerSessionChange(): void {
     this.subscriptions.add(
-      this.authService
-        .getOccUserId()
+      this.userIdService
+        .getUserId()
         .pipe(distinctUntilChanged())
         .subscribe(() => this.resetTimer())
     );

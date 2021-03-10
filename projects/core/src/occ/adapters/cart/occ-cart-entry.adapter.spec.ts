@@ -74,6 +74,7 @@ describe('OccCartEntryAdapter', () => {
         {
           userId,
           cartId,
+          quantity: 5,
         },
         { code: '147852', qty: 5 }
       );

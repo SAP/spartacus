@@ -8,7 +8,7 @@ export const enum MOVE_FOCUS {
   PREV = -1,
 }
 
-// tslint:disable-next-line: no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface BaseFocusConfig {}
 
 export interface VisibleFocusConfig {
@@ -66,6 +66,29 @@ export interface TabFocusConfig extends AutoFocusConfig {
   tab?: boolean | 'scroll' | string;
 }
 
+export enum TrapFocus {
+  /**
+   * Will trap the focus at the start of the focus group.
+   */
+  start = 'start',
+  /**
+   * Will trap the focus only at the end of the focus group.
+   */
+  end = 'end',
+  /**
+   * Will not trap the focus in both directions. This is actually not are
+   * a great example of focus trap, but it will give the benefit of keyboard
+   * tabbing by arrows.
+   */
+  both = 'both',
+}
+
+export type TrapFocusType =
+  | boolean
+  | TrapFocus.start
+  | TrapFocus.end
+  | TrapFocus.both;
+
 /**
  * The keyboard navigation (tab, shift-tab and up down keys) is _trapped_
  * for the nested focusable elements. This means that the focus can not
@@ -74,7 +97,7 @@ export interface TabFocusConfig extends AutoFocusConfig {
  */
 export interface TrapFocusConfig extends TabFocusConfig {
   /** traps the focus */
-  trap?: boolean | 'start' | 'end';
+  trap?: TrapFocusType;
 }
 
 export interface LockFocusConfig extends TrapFocusConfig {
@@ -84,5 +107,5 @@ export interface LockFocusConfig extends TrapFocusConfig {
   lock?: boolean;
 }
 
-// tslint:disable-next-line: no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface FocusConfig extends LockFocusConfig {}

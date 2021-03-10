@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { TREE_TOGGLE } from './unit-tree.model';
+import { B2BUnitTreeNode } from '@spartacus/organization/administration/core';
 import { UnitTreeService } from './unit-tree.service';
 
 const mockedTree = {
@@ -50,7 +50,7 @@ describe('UnitTreeService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should `colapseAll` method to be defined', () => {
+  it('should `collapseAll` method to be defined', () => {
     expect(service.collapseAll).toBeDefined();
   });
 
@@ -62,57 +62,135 @@ describe('UnitTreeService', () => {
     expect(service.toggle).toBeDefined();
   });
 
-  it('should `getToggleState` method to be defined', () => {
-    expect(service.getToggleState).toBeDefined();
-  });
-
   it('should `isExpanded` method to be defined', () => {
     expect(service.isExpanded).toBeDefined();
   });
 
-  it('should `toggle` toggle unit and set COLLAPSED/EXPANDED state', () => {
-    let state: number;
-
-    service.initialize(mockedTree, mockedTree.id);
-
-    service.toggle(mockedTree);
-    state = service.getToggleState(mockedTree.id);
-    expect(state).toEqual(2);
-    expect(TREE_TOGGLE[state]).toEqual(TREE_TOGGLE[2]);
-
-    service.toggle(mockedTree);
-    state = service.getToggleState(mockedTree.id);
-    expect(state).toEqual(1);
-    expect(TREE_TOGGLE[state]).toEqual(TREE_TOGGLE[1]);
+  it('should expand units with level < minimalExpanded', () => {
+    expect(service.isExpanded(mockedTree.id, 0)).toEqual(true);
+    expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(false);
+    expect(
+      service.isExpanded(mockedTree.children[0].children[0].id, 2)
+    ).toEqual(false);
+    expect(service.isExpanded(mockedTree.children[1].id, 1)).toEqual(false);
   });
 
-  it('should `expandAll` set EXPAND_ALL state', () => {
-    service.initialize(mockedTree, mockedTree.id);
-
-    service.expandAll(mockedTree.id);
-    const state = service.getToggleState(mockedTree.id);
-    expect(TREE_TOGGLE[state]).toEqual(TREE_TOGGLE[3]);
+  it('should expand only first child', () => {
+    service.toggle(mockedTree.children[0] as B2BUnitTreeNode);
+    expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(true);
+    expect(
+      service.isExpanded(mockedTree.children[0].children[0].id, 2)
+    ).toEqual(false);
+    expect(service.isExpanded(mockedTree.children[1].id, 1)).toEqual(false);
   });
 
-  it('should `collapseAll` set COLLAPSE_ALL state', () => {
-    service.initialize(mockedTree, mockedTree.id);
-
-    service.collapseAll(mockedTree.id);
-    const state = service.getToggleState(mockedTree.id);
-    expect(TREE_TOGGLE[state]).toEqual(TREE_TOGGLE[4]);
+  it('should collapse first child', () => {
+    service.toggle(mockedTree.children[0] as B2BUnitTreeNode);
+    service.toggle(mockedTree.children[0] as B2BUnitTreeNode);
+    expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(false);
   });
 
-  it('should `isExpanded` return expanded property state', () => {
-    let state: boolean;
+  it('should keep grand child expanded', () => {
+    service.toggle(mockedTree.children[0] as B2BUnitTreeNode);
+    service.toggle(mockedTree.children[0].children[0] as B2BUnitTreeNode);
+    service.toggle(mockedTree.children[0] as B2BUnitTreeNode);
+    expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(false);
+    expect(
+      service.isExpanded(mockedTree.children[0].children[0].id, 1)
+    ).toEqual(true);
+  });
 
-    service.initialize(mockedTree, mockedTree.id);
+  describe('initialize', () => {
+    it('should expand ancestors of the active unit', () => {
+      service.initialize(mockedTree, mockedTree.children[0].children[0].id);
+      expect(service.isExpanded(mockedTree.id, 0)).toEqual(true);
+      expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(true);
+    });
 
-    service.collapseAll(mockedTree.id);
-    state = service.isExpanded(mockedTree.id, 0);
-    expect(state).toBeFalse();
+    it('should not expand the active unit on initialization', () => {
+      service.initialize(mockedTree, mockedTree.children[0].children[0].id);
+      expect(
+        service.isExpanded(mockedTree.children[0].children[0].id, 1)
+      ).toEqual(false);
+    });
 
-    service.expandAll(mockedTree.id);
-    state = service.isExpanded(mockedTree.id, 0);
-    expect(state).toBeTrue();
+    it('should not expand sibling ancestors of the active unit ancestors', () => {
+      service.initialize(mockedTree, mockedTree.children[0].children[0].id);
+      expect(service.isExpanded(mockedTree.children[1].id, 1)).toEqual(false);
+    });
+  });
+
+  describe('expandAll()', () => {
+    beforeEach(() => {
+      service.expandAll();
+    });
+
+    it('should expand all units', () => {
+      expect(service.isExpanded(mockedTree.id, 0)).toEqual(true);
+      expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(true);
+      expect(
+        service.isExpanded(mockedTree.children[0].children[0].id, 2)
+      ).toEqual(true);
+      expect(service.isExpanded(mockedTree.children[1].id, 1)).toEqual(true);
+    });
+
+    it('should collapse root unit', () => {
+      expect(service.isExpanded(mockedTree.id, 0)).toEqual(true);
+      service.toggle(mockedTree);
+      expect(service.isExpanded(mockedTree.id, 0)).toEqual(false);
+    });
+
+    it('should collapse child unit', () => {
+      expect(service.isExpanded(mockedTree.children[0].id, 0)).toEqual(true);
+      service.toggle(mockedTree.children[0] as B2BUnitTreeNode);
+      expect(service.isExpanded(mockedTree.children[0].id, 0)).toEqual(false);
+    });
+
+    it('should collapse grand child unit', () => {
+      expect(
+        service.isExpanded(mockedTree.children[0].children[0].id, 0)
+      ).toEqual(true);
+      service.toggle(mockedTree.children[0].children[0] as B2BUnitTreeNode);
+      expect(
+        service.isExpanded(mockedTree.children[0].children[0].id, 0)
+      ).toEqual(false);
+    });
+  });
+
+  describe('collapseAll()', () => {
+    beforeEach(() => {
+      service.collapseAll();
+    });
+
+    it('should collapse all units', () => {
+      expect(service.isExpanded(mockedTree.id, 0)).toEqual(false);
+      expect(service.isExpanded(mockedTree.children[0].id, 1)).toEqual(false);
+      expect(
+        service.isExpanded(mockedTree.children[0].children[0].id, 2)
+      ).toEqual(false);
+      expect(service.isExpanded(mockedTree.children[1].id, 1)).toEqual(false);
+    });
+
+    it('should expand root unit on toggle', () => {
+      expect(service.isExpanded(mockedTree.id, 0)).toEqual(false);
+      service.toggle(mockedTree);
+      expect(service.isExpanded(mockedTree.id, 0)).toEqual(true);
+    });
+
+    it('should collapse child unit', () => {
+      expect(service.isExpanded(mockedTree.children[0].id, 0)).toEqual(false);
+      service.toggle(mockedTree.children[0] as B2BUnitTreeNode);
+      expect(service.isExpanded(mockedTree.children[0].id, 0)).toEqual(true);
+    });
+
+    it('should collapse grand child unit', () => {
+      expect(
+        service.isExpanded(mockedTree.children[0].children[0].id, 0)
+      ).toEqual(false);
+      service.toggle(mockedTree.children[0].children[0] as B2BUnitTreeNode);
+      expect(
+        service.isExpanded(mockedTree.children[0].children[0].id, 0)
+      ).toEqual(true);
+    });
   });
 });

@@ -29,7 +29,7 @@ Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
       )}?cartId=${cartId}&termsChecked=true`,
       form: false,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
       body: Cypress.env('OCC_PREFIX_USER_ENDPOINT')
         ? {
@@ -45,5 +45,5 @@ Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
   }
 
   cy.server();
-  placeOrder().then((resp) => cy.wrap(resp));
+  placeOrder().then((response) => cy.wrap(response));
 });

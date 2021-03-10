@@ -1,0 +1,20 @@
+{
+  "name": "cache-builded-libs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@actions/cache": "^1.0.5",
+    "@actions/core": "^1.2.6",
+    "@actions/exec": "^1.0.4",
+    "@actions/github": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
+}

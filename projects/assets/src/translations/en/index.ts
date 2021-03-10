@@ -7,7 +7,6 @@ import { myAccount } from './my-account';
 import { payment } from './payment';
 import { product } from './product';
 import { pwa } from './pwa';
-import { storeFinder } from './store-finder';
 import { user } from './user';
 
 export const en = {
@@ -20,6 +19,5 @@ export const en = {
   payment,
   product,
   pwa,
-  storeFinder,
   user,
 };

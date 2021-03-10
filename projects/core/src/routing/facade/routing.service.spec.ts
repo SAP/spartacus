@@ -188,4 +188,14 @@ describe('RoutingService', () => {
     service.getParams();
     expect(spy).toHaveBeenCalled();
   });
+
+  describe('changeNextPageContext', () => {
+    it('should dispatch ChangeNextPageContext action', () => {
+      const context: PageContext = { id: 'test ' };
+      service.changeNextPageContext(context);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new RoutingActions.ChangeNextPageContext(context)
+      );
+    });
+  });
 });

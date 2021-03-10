@@ -4,6 +4,7 @@ import {
   ElementRef,
   Injectable,
   Injector,
+  NgModuleRef,
   ViewContainerRef,
 } from '@angular/core';
 import { ComponentHandler } from './component-handler';
@@ -29,7 +30,8 @@ export class DefaultComponentHandler implements ComponentHandler {
   launcher(
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
-    elementInjector?: Injector
+    elementInjector?: Injector,
+    module?: NgModuleRef<any>
   ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }> {
     return new Observable<{
       elementRef: ElementRef;
@@ -54,7 +56,9 @@ export class DefaultComponentHandler implements ComponentHandler {
         componentRef = viewContainerRef.createComponent(
           factory,
           undefined,
-          injector
+          injector,
+          undefined,
+          module
         );
         subscriber.next({ elementRef: componentRef.location, componentRef });
       }

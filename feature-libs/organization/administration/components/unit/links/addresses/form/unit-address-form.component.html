@@ -1,8 +1,14 @@
-<cx-organization-form i18nRoot="unitAddress">
+<cx-org-form
+  i18nRoot="orgUnitAddress"
+  [animateBack]="!(key$ | async)"
+  [subtitle]="
+    'orgUnitAddress.details.subtitle' | cxTranslate: { item: (unit$ | async) }
+  "
+>
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label aria-required="true" formGroupName="country">
       <span class="label-content required">{{
-        'unitAddress.country' | cxTranslate
+        'orgUnitAddress.country' | cxTranslate
       }}</span>
       <ng-select
         class="country-select"
@@ -12,8 +18,8 @@
         [items]="countries$ | async"
         bindLabel="name"
         bindValue="isocode"
-        placeholder="{{ 'unitAddress.selectOne' | cxTranslate }}"
-        appendTo=".organization"
+        placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('country.isocode')"></cx-form-errors>
@@ -21,7 +27,7 @@
 
     <label aria-required="true">
       <span class="label-content required">{{
-        'unitAddress.titles' | cxTranslate
+        'orgUnitAddress.titles' | cxTranslate
       }}</span>
       <ng-select
         formControlName="titleCode"
@@ -30,32 +36,32 @@
         [items]="titles$ | async"
         bindLabel="name"
         bindValue="code"
-        placeholder="{{ 'unitAddress.selectOne' | cxTranslate }}"
-        appendTo=".organization"
+        placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}"
+        appendTo="cx-org-list"
       >
       </ng-select>
     </label>
 
     <label>
       <span class="label-content required">{{
-        'unitAddress.firstName' | cxTranslate
+        'orgUnitAddress.firstName' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="text"
-        placeholder="{{ 'unitAddress.firstName' | cxTranslate }}"
+        placeholder="{{ 'orgUnitAddress.firstName' | cxTranslate }}"
         formControlName="firstName"
       />
       <cx-form-errors [control]="form.get('firstName')"></cx-form-errors>
     </label>
     <label>
       <span class="label-content required">{{
-        'unitAddress.lastName' | cxTranslate
+        'orgUnitAddress.lastName' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{ 'unitAddress.lastName' | cxTranslate }}"
+        placeholder="{{ 'orgUnitAddress.lastName' | cxTranslate }}"
         formControlName="lastName"
       />
       <cx-form-errors [control]="form.get('lastName')"></cx-form-errors>
@@ -63,12 +69,12 @@
 
     <label class="full-width">
       <span class="label-content required">{{
-        'unitAddress.address1' | cxTranslate
+        'orgUnitAddress.address1' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{ 'unitAddress.streetAddress' | cxTranslate }}"
+        placeholder="{{ 'orgUnitAddress.streetAddress' | cxTranslate }}"
         formControlName="line1"
       />
       <cx-form-errors [control]="form.get('line1')"></cx-form-errors>
@@ -76,36 +82,36 @@
 
     <label class="full-width">
       <span class="label-content">{{
-        'unitAddress.address2' | cxTranslate
+        'orgUnitAddress.address2' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{ 'unitAddress.aptSuite' | cxTranslate }}"
+        placeholder="{{ 'orgUnitAddress.aptSuite' | cxTranslate }}"
         formControlName="line2"
       />
     </label>
 
     <label class="full-width">
       <span class="label-content">{{
-        'unitAddress.phoneNumber' | cxTranslate
+        'orgUnitAddress.phoneNumber' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{ 'unitAddress.phoneNumber' | cxTranslate }}"
+        placeholder="{{ 'orgUnitAddress.phoneNumber' | cxTranslate }}"
         formControlName="phone"
       />
     </label>
 
     <label>
       <span class="label-content required">{{
-        'unitAddress.city' | cxTranslate
+        'orgUnitAddress.city' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{ 'unitAddress.city' | cxTranslate }}"
+        placeholder="{{ 'orgUnitAddress.city' | cxTranslate }}"
         formControlName="town"
       />
       <cx-form-errors [control]="form.get('town')"></cx-form-errors>
@@ -113,12 +119,12 @@
 
     <label>
       <span class="label-content required">{{
-        'unitAddress.zipCode' | cxTranslate
+        'orgUnitAddress.zipCode' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
-        placeholder="{{ 'unitAddress.zipCode' | cxTranslate }}"
+        placeholder="{{ 'orgUnitAddress.zipCode' | cxTranslate }}"
         formControlName="postalCode"
       />
       <cx-form-errors [control]="form.get('postalCode')"></cx-form-errors>
@@ -134,7 +140,7 @@
         *ngIf="regions.length > 0"
       >
         <span class="label-content required">{{
-          'unitAddress.state' | cxTranslate
+          'orgUnitAddress.state' | cxTranslate
         }}</span>
         <ng-select
           class="region-select"
@@ -144,12 +150,12 @@
           [items]="regions"
           bindLabel="name"
           bindValue="isocode"
-          placeholder="{{ 'unitAddress.selectOne' | cxTranslate }}"
-          appendTo=".organization"
+          placeholder="{{ 'orgUnitAddress.selectOne' | cxTranslate }}"
+          appendTo="cx-org-list"
         >
         </ng-select>
         <cx-form-errors [control]="form.get('region.isocode')"></cx-form-errors>
       </label>
     </ng-container>
   </ng-container>
-</cx-organization-form>
+</cx-org-form>

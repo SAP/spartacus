@@ -6,7 +6,6 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FeaturesConfig } from '@spartacus/core';
 import { OutletRefDirective } from './outlet-ref/outlet-ref.directive';
 import { OutletPosition, USE_STACKED_OUTLETS } from './outlet.model';
 import { OutletService } from './outlet.service';
@@ -53,13 +52,7 @@ describe('OutletService', () => {
     TestBed.configureTestingModule({
       imports: [AnyModule],
       declarations: [TestContainerComponent, OutletRefDirective],
-      providers: [
-        OutletService,
-        {
-          provide: FeaturesConfig,
-          useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated since 2.1, see #8116
-        },
-      ],
+      providers: [OutletService],
     }).compileComponents();
 
     outletService = TestBed.inject(OutletService);

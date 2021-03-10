@@ -1,38 +1,32 @@
 {
   "name": "@spartacus/schematics",
-  "version": "3.0.0-next.5",
+  "version": "3.2.0-next.1",
   "description": "Spartacus schematics",
-  "homepage": "https://github.com/SAP/spartacus",
-  "repository": "https://github.com/SAP/spartacus/tree/develop/projects/schematics",
   "keywords": [
     "spartacus",
     "schematics"
   ],
-  "scripts": {
-    "clean": "rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
-    "build": "yarn clean && tsc -p tsconfig.json",
-    "test": "yarn build && jasmine \"src/**/*_spec.js\""
-  },
-  "author": "",
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/projects/schematics",
   "license": "MIT",
-  "schematics": "./src/collection.json",
+  "author": "",
+  "main": "src/public_api.js",
+  "scripts": {
+    "build": "yarn clean && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean": "../../node_modules/.bin/rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
+    "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
   "dependencies": {
-    "@angular-devkit/core": "^10.1.0",
-    "@angular-devkit/schematics": "^10.1.0",
-    "@angular/cdk": "^10.2.0",
-    "@angular/localize": "^10.1.0",
     "@angular/pwa": "^0.1001.0",
     "@nguniversal/express-engine": "^10.1.0",
-    "@schematics/angular": "^10.1.0",
-    "@schematics/update": "^0.1001.0"
+    "tslib": "^2.0.0"
   },
-  "devDependencies": {
-    "@types/jasmine": "^3.5.0",
-    "@types/node": "^12.11.1",
-    "@types/shelljs": "^0.8.7",
-    "jasmine": "^3.5.0",
-    "rimraf": "^3.0.2",
-    "shelljs": "^0.8.3",
+  "peerDependencies": {
+    "@angular-devkit/core": "^10.1.0",
+    "@angular-devkit/schematics": "^10.1.0",
+    "@angular/compiler": "^10.1.0",
+    "@schematics/angular": "^10.1.0",
+    "parse5": "^6.0.1",
     "typescript": "~4.0.2"
   },
   "ng-add": {
@@ -49,9 +43,13 @@
       "@spartacus/incubator",
       "@spartacus/organization",
       "@spartacus/product",
+      "@spartacus/storefinder",
+      "@spartacus/smartedit",
+      "@spartacus/qualtrics",
       "@spartacus/cdc",
+      "@spartacus/tracking",
       "@spartacus/setup"
     ]
   },
-  "main": "src/public_api.js"
+  "schematics": "./src/collection.json"
 }

@@ -9,10 +9,6 @@
     @extend %cardHeader !optional;
     @extend %cardMain !optional;
     @extend %cardSection !optional;
-
-    cx-toggle-status {
-      display: contents;
-    }
   }
 }
 
@@ -86,20 +82,6 @@
   .main {
     position: relative;
     background: var(--cx-color-background);
-    table {
-      tr {
-        // tables should link to details on this level according to UX team
-        // pointer-events: none;
-      }
-      th {
-        &:first-child {
-          padding: var(--cx-spatial-md) var(--cx-spatial-lg);
-        }
-      }
-      td:first-child a {
-        padding: var(--cx-spatial-md) var(--cx-spatial-lg);
-      }
-    }
   }
 }
 

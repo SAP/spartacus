@@ -1,37 +1,41 @@
-<cx-organization-card
-  *ngIf="model$ | async as model"
-  i18nRoot="userGroup.details"
->
+<cx-org-card *ngIf="model$ | async as model" i18nRoot="orgUserGroup.details">
   <a
     actions
     class="link edit"
-    [routerLink]="{ cxRoute: 'userGroupEdit', params: model } | cxUrl"
+    [routerLink]="{ cxRoute: 'orgUserGroupEdit', params: model } | cxUrl"
+    [class.disabled]="isInEditMode$ | async"
   >
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <section main class="details">
+  <cx-org-delete-item
+    actions
+    key="uid"
+    i18nRoot="orgUserGroup"
+  ></cx-org-delete-item>
+
+  <section main class="details" cxOrgItemExists>
     <div class="property">
-      <label>{{ 'userGroup.name' | cxTranslate }}</label>
+      <label>{{ 'orgUserGroup.name' | cxTranslate }}</label>
       <span class="value">
         {{ model.name }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'userGroup.uid' | cxTranslate }}</label>
+      <label>{{ 'orgUserGroup.uid' | cxTranslate }}</label>
       <span class="value">
         {{ model.uid }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'userGroup.orgUnit' | cxTranslate }}</label>
+      <label>{{ 'orgUserGroup.orgUnit' | cxTranslate }}</label>
       <a
         class="value"
         [routerLink]="
           {
-            cxRoute: 'unitDetails',
+            cxRoute: 'orgUnitDetails',
             params: model.orgUnit
           } | cxUrl
         "
@@ -42,19 +46,23 @@
   </section>
 
   <section main class="link-list">
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userGroupUsers', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'userGroup.links.user' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'userGroupPermissions', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'userGroup.links.permission' | cxTranslate }}
-    </a>
+    <ng-container *ngIf="model.uid">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUserGroupUsers', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUserGroup.links.user' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="
+          { cxRoute: 'orgUserGroupPermissions', params: model } | cxUrl
+        "
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUserGroup.links.permission' | cxTranslate }}
+      </a>
+    </ng-container>
   </section>
-</cx-organization-card>
+</cx-org-card>

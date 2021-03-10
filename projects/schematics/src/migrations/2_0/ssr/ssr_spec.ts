@@ -2,8 +2,8 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../../../shared/constants';
 import { runMigration } from '../../../shared/utils/test-utils';
-import { UTF_8 } from '../../../shared/constants';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v2-ssr-07';
 
@@ -79,6 +79,16 @@ describe('ssr', () => {
       )
       .toPromise();
 
+    const angularJson = JSON.parse(appTree.readContent('/angular.json'));
+    angularJson.projects[appOptions.name].architect['server'] = {
+      options: {
+        outputPath: `dist/${appOptions.name}/server`,
+        main: '/server.ts',
+      },
+    };
+
+    appTree.overwrite('angular.json', JSON.stringify(angularJson, null, 2));
+
     appTree.create('/server.ts', 'server content');
     appTree.create('/webpack.server.config.js', 'webpack config content');
     appTree.create('/src/main.server.ts', MAIN_SERVER_FILE_TEST);
@@ -92,15 +102,6 @@ describe('ssr', () => {
       'old build:client-and-server-bundles';
 
     appTree.overwrite('/package.json', JSON.stringify(pkg, null, 2));
-
-    const angularJson = JSON.parse(appTree.readContent('/angular.json'));
-    angularJson.projects[appOptions.name].architect['server'] = {
-      options: {
-        outputPath: `dist/${appOptions.name}/server`,
-      },
-    };
-
-    appTree.overwrite('angular.json', JSON.stringify(angularJson, null, 2));
   });
 
   describe('Schematics SSR migration', () => {
@@ -112,9 +113,9 @@ describe('ssr', () => {
 
       await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
 
-      expect(appTree.exists('/server.ts')).toBeFalse();
-      expect(appTree.exists('/server.ts.bak')).toBeFalse();
-      expect(appTree.exists('/webpack.server.config.js.bak')).toBeFalse();
+      expect(appTree.exists('/server.ts')).toBeFalsy();
+      expect(appTree.exists('/server.ts.bak')).toBeFalsy();
+      expect(appTree.exists('/webpack.server.config.js.bak')).toBeFalsy();
     });
     it(`should backup old 'server.ts' and 'webpack.server.config.js'`, async () => {
       await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
@@ -124,7 +125,7 @@ describe('ssr', () => {
       expect(appTree.exists('/webpack.server.config.js.bak')).toBeTruthy();
     });
 
-    it(`should create new server.ts file with new configuration'`, async () => {
+    it(`should create new server.ts file with new configuration`, async () => {
       await runMigration(appTree, appSchematicRunner, MIGRATION_SCRIPT_NAME);
 
       expect(appTree.exists('/server.ts')).toBeTruthy();
@@ -160,7 +161,7 @@ describe('ssr', () => {
       expect(scripts['build:client-and-server-bundles_bak']).toBeDefined();
       expect(scripts['compile:server_bak']).toBeDefined();
       expect(scripts['serve:ssr_bak']).toBeDefined();
-      expect(dependencies['@nguniversal/express-engine']).toBeDefined();
+      expect(dependencies[NGUNIVERSAL_EXPRESS_ENGINE]).toBeDefined();
       expect(devDependencies['@nguniversal/builders']).toBeDefined();
     });
 

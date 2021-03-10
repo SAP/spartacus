@@ -13,41 +13,29 @@ context('Checkout as guest', () => {
     cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
   });
 
-  describe('Add product and proceed to checkout', () => {
+  beforeEach(() => {
+    cy.restoreLocalStorage();
+  });
+
+  afterEach(() => {
+    cy.saveLocalStorage();
+  });
+
+  describe('Guest checkout', () => {
     it('should add product to cart and go to login', () => {
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndProceedToCheckout();
-    });
 
-    it('should show the guest checkout button', () => {
       cy.get('.register').findByText(/Guest Checkout/i);
-    });
-  });
 
-  describe('Login as guest', () => {
-    it('should login as guest', () => {
       guestCheckout.loginAsGuest();
     });
-  });
 
-  describe('Checkout', () => {
-    it('should fill in address form', () => {
+    it('should checkout as guest', () => {
       checkout.fillAddressFormWithCheapProduct();
-    });
-
-    it('should choose delivery', () => {
       checkout.verifyDeliveryMethod();
-    });
-
-    it('should fill in payment form', () => {
       checkout.fillPaymentFormWithCheapProduct();
-    });
-
-    it('should review and place order', () => {
       checkout.placeOrderWithCheapProduct();
-    });
-
-    it('should display summary page', () => {
       checkout.verifyOrderConfirmationPageWithCheapProduct();
     });
   });
@@ -59,15 +47,6 @@ context('Checkout as guest', () => {
   });
 
   describe('Guest account', () => {
-    it('should be able to check order in order history', () => {
-      // hack: visit other page to trigger store -> local storage sync
-      cy.selectUserMenuOption({
-        option: 'Personal Details',
-      });
-      cy.waitForOrderToBePlacedRequest();
-      checkout.viewOrderHistoryWithCheapProduct();
-    });
-
     it('should show address in Address Book', () => {
       cy.selectUserMenuOption({
         option: 'Address Book',
@@ -109,6 +88,7 @@ context('Checkout as guest', () => {
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
     it('should keep guest cart content and restart checkout', () => {
+      cy.clearLocalStorage();
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndProceedToCheckout();
 

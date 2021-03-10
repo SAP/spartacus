@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ReturnRequest, ReturnRequestList } from '../../../model/order.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserOrderConnector } from '../../connectors/order/user-order.connector';
 import { UserActions } from '../actions/index';
 
@@ -26,7 +26,7 @@ export class OrderReturnRequestEffect {
           catchError((error) =>
             of(
               new UserActions.CreateOrderReturnRequestFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -51,7 +51,7 @@ export class OrderReturnRequestEffect {
           catchError((error) =>
             of(
               new UserActions.LoadOrderReturnRequestFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -77,7 +77,7 @@ export class OrderReturnRequestEffect {
           catchError((error) =>
             of(
               new UserActions.CancelOrderReturnRequestFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -109,7 +109,7 @@ export class OrderReturnRequestEffect {
           catchError((error) =>
             of(
               new UserActions.LoadOrderReturnRequestListFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )

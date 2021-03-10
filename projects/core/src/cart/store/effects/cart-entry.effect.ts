@@ -4,8 +4,8 @@ import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { CartModification } from '../../../model/cart.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
-import { withdrawOn } from '../../../util/withdraw-on';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { withdrawOn } from '../../../util/rxjs/withdraw-on';
 import { CartEntryConnector } from '../../connectors/entry/cart-entry.connector';
 import { CartActions } from '../actions/index';
 
@@ -46,7 +46,7 @@ export class CartEntryEffects {
             from([
               new CartActions.CartAddEntryFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -80,7 +80,7 @@ export class CartEntryEffects {
             from([
               new CartActions.CartRemoveEntryFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,
@@ -119,7 +119,7 @@ export class CartEntryEffects {
             from([
               new CartActions.CartUpdateEntryFail({
                 ...payload,
-                error: makeErrorSerializable(error),
+                error: normalizeHttpError(error),
               }),
               new CartActions.LoadCart({
                 cartId: payload.cartId,

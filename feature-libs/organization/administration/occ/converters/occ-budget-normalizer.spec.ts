@@ -1,6 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Occ, OccConfig } from '@spartacus/core';
-import { Budget } from '@spartacus/organization/administration/core';
+import { Occ, OccConfig, TimeUtils } from '@spartacus/core';
+import { TestingTimeUtils } from '../../../../../projects/core/src/util/testing-time-utils';
+import { Budget } from '../../core/model/budget.model';
 import { OccBudgetNormalizer } from './occ-budget-normalizer';
 
 const MockOccModuleConfig: OccConfig = {
@@ -51,5 +52,17 @@ describe('BudgetNormalizer', () => {
   it('should convert budget with applied target', () => {
     const result = service.convert(budget, {});
     expect(result).toEqual({});
+  });
+
+  it('should convert with start date and end date', () => {
+    TestingTimeUtils.fakeDateTimezoneOffset(-120, () => {
+      const result = service.convert({
+        startDate: `2021-05-31T22:00:00${TimeUtils.getLocalTimezoneOffset()}`,
+        endDate: `2021-06-11T21:59:59${TimeUtils.getLocalTimezoneOffset()}`,
+      });
+
+      expect(result.startDate).toEqual('2021-06-01');
+      expect(result.endDate).toEqual('2021-06-11');
+    });
   });
 });

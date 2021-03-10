@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { ProductSearchConnector } from '../../connectors/search/product-search.connector';
 import { ProductActions } from '../actions/index';
 
@@ -29,7 +29,7 @@ export class ProductsSearchEffects {
               catchError((error) =>
                 of(
                   new ProductActions.SearchProductsFail(
-                    makeErrorSerializable(error),
+                    normalizeHttpError(error),
                     action.auxiliary
                   )
                 )
@@ -60,7 +60,7 @@ export class ProductsSearchEffects {
           catchError((error) =>
             of(
               new ProductActions.GetProductSuggestionsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )

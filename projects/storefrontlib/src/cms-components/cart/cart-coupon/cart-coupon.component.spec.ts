@@ -1,10 +1,9 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import {
   ActiveCartService,
-  AuthService,
   Cart,
   CartVoucherService,
   CustomerCouponSearchResult,
@@ -43,8 +42,6 @@ describe('CartCouponComponent', () => {
     'isStable',
   ]);
 
-  const mockAuthService = jasmine.createSpyObj('AuthService', ['getOccUserId']);
-
   const mockCartVoucherService = jasmine.createSpyObj('CartVoucherService', [
     'addVoucher',
     'getAddVoucherResultSuccess',
@@ -71,23 +68,27 @@ describe('CartCouponComponent', () => {
 
   const appliedVouchers: Voucher[] = [{ code: 'CustomerCoupon1' }];
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        ReactiveFormsModule,
-        FeaturesConfigModule,
-        FormErrorsModule,
-      ],
-      declarations: [CartCouponComponent, MockAppliedCouponsComponent],
-      providers: [
-        { provide: ActiveCartService, useValue: mockActiveCartService },
-        { provide: AuthService, useValue: mockAuthService },
-        { provide: CartVoucherService, useValue: mockCartVoucherService },
-        { provide: CustomerCouponService, useValue: mockCustomerCouponService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          I18nTestingModule,
+          ReactiveFormsModule,
+          FeaturesConfigModule,
+          FormErrorsModule,
+        ],
+        declarations: [CartCouponComponent, MockAppliedCouponsComponent],
+        providers: [
+          { provide: ActiveCartService, useValue: mockActiveCartService },
+          { provide: CartVoucherService, useValue: mockCartVoucherService },
+          {
+            provide: CustomerCouponService,
+            useValue: mockCustomerCouponService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartCouponComponent);
@@ -99,7 +100,6 @@ describe('CartCouponComponent', () => {
     );
     mockActiveCartService.getActiveCartId.and.returnValue(of<string>('123'));
     mockActiveCartService.isStable.and.returnValue(of(true));
-    mockAuthService.getOccUserId.and.returnValue(of('testUserId'));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of());
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of());
     mockCartVoucherService.addVoucher.and.stub();
@@ -234,7 +234,7 @@ describe('CartCouponComponent', () => {
     expect(mockCustomerCouponService.loadCustomerCoupons).toHaveBeenCalled();
   });
 
-  it('should reset state when ondestory is triggered', () => {
+  it('should reset state when on destroy is triggered', () => {
     mockCartVoucherService.getAddVoucherResultLoading.and.returnValue(of(true));
     mockCartVoucherService.getAddVoucherResultSuccess.and.returnValue(of(true));
     fixture.detectChanges();

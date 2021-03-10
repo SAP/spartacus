@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   GlobalMessageEntities,
   GlobalMessageService,
@@ -36,15 +36,17 @@ describe('GlobalMessageComponent', () => {
   let messageService: GlobalMessageService;
   let fixture: ComponentFixture<GlobalMessageComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [GlobalMessageComponent, MockCxIconComponent],
-      providers: [
-        { provide: GlobalMessageService, useClass: MockMessageService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [GlobalMessageComponent, MockCxIconComponent],
+        providers: [
+          { provide: GlobalMessageService, useClass: MockMessageService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GlobalMessageComponent);

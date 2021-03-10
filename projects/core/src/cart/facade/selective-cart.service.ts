@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
@@ -39,10 +39,10 @@ export class SelectiveCartService {
   constructor(
     protected store: Store<StateWithMultiCart>,
     protected userService: UserService,
-    protected authService: AuthService,
     protected multiCartService: MultiCartService,
     protected baseSiteService: BaseSiteService,
-    protected cartConfigService: CartConfigService
+    protected cartConfigService: CartConfigService,
+    protected userIdService: UserIdService
   ) {
     combineLatest([
       this.userService.get(),
@@ -56,7 +56,7 @@ export class SelectiveCartService {
       }
     });
 
-    this.authService.getOccUserId().subscribe((userId) => {
+    this.userIdService.getUserId().subscribe((userId) => {
       this.userId = userId;
 
       if (this.isJustLoggedIn(userId)) {
@@ -101,6 +101,15 @@ export class SelectiveCartService {
   getLoaded(): Observable<boolean> {
     return this.cartSelector$.pipe(
       map((cart) => (cart.success || cart.error) && !cart.loading)
+    );
+  }
+
+  /**
+   * Returns true when selective cart is stable (not loading and not pending processes on cart)
+   */
+  isStable(): Observable<boolean> {
+    return this.cartId$.pipe(
+      switchMap((cartId) => this.multiCartService.isStable(cartId))
     );
   }
 

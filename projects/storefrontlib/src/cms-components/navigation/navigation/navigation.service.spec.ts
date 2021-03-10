@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   CmsNavigationComponent,
   CmsService,
+  NodeItem,
   SemanticPathService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -313,11 +314,11 @@ describe('NavigationComponentService', () => {
               uid: 'MockNavigationNode001',
               title: 'root node',
             },
-          })
+          } as NodeItem)
         )
         .subscribe((node) => (result = node));
 
-      expect(result).toBeTruthy();
+      expect(result.title).toEqual('root node');
     });
 
     it('should not populate empty node', () => {
@@ -330,7 +331,7 @@ describe('NavigationComponentService', () => {
             navigationNode: {
               uid: 'MockNavigationNode001',
             },
-          })
+          } as NodeItem)
         )
         .subscribe((node) => (result = node));
 
@@ -345,7 +346,7 @@ describe('NavigationComponentService', () => {
             url: '/main',
             target: false,
           },
-        })
+        } as NodeItem)
       );
 
       let result: NavigationNode;
@@ -393,102 +394,265 @@ describe('NavigationComponentService', () => {
       expect(result.children).toBeFalsy();
     });
 
-    it('should populate _blank target', () => {
-      mockCmsService.getNavigationEntryItems.and.returnValue(
-        of({
-          Id_Super: {
-            linkName: 'entry linkName',
-            url: '/main',
-            target: true,
-          },
-        })
-      );
+    describe('styling', () => {
+      describe('root navigation', () => {
+        it('should populate style class', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
 
-      let result: NavigationNode;
-      navigationService
-        .getNavigationNode(
-          of({
-            navigationNode: {
-              uid: 'MockNavigationNode001',
-              title: 'root node',
-              entries: [
-                {
-                  itemId: 'Id',
-                  itemSuperType: 'Super',
-                  itemType: 'CMSLinkComponent',
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(
+              of({
+                navigationNode: {
+                  uid: 'MockNavigationNode001',
+                  title: 'root node',
+                  styleClasses: 'first-cls',
                 },
-              ],
-            } as NavigationNode,
-          })
-        )
-        .subscribe((node) => (result = node));
+              } as CmsNavigationComponent)
+            )
+            .subscribe((node) => (result = node));
+          expect(result.styleClasses).toEqual('first-cls');
+        });
 
-      expect(result.target).toEqual('_blank');
+        it('should not populate style class', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(
+              of({
+                navigationNode: {
+                  uid: 'MockNavigationNode001',
+                  title: 'root node',
+                },
+              } as CmsNavigationComponent)
+            )
+            .subscribe((node) => (result = node));
+          expect(result.styleClasses).toBeUndefined();
+        });
+
+        it('should populate style attributes', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(
+              of({
+                navigationNode: {
+                  uid: 'MockNavigationNode001',
+                  title: 'root node',
+                  styleAttributes: 'color: red;',
+                },
+              } as CmsNavigationComponent)
+            )
+            .subscribe((node) => (result = node));
+          expect(result.styleAttributes).toEqual('color: red;');
+        });
+
+        it('should populate style attributes', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(of({}));
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(
+              of({
+                navigationNode: {
+                  uid: 'MockNavigationNode001',
+                  title: 'root node',
+                },
+              } as CmsNavigationComponent)
+            )
+            .subscribe((node) => (result = node));
+          expect(result.styleAttributes).toBeUndefined();
+        });
+      });
+
+      describe('child nodes', () => {
+        const mockNavNode = {
+          navigationNode: {
+            uid: 'MockNavigationNode001',
+            entries: [
+              {
+                itemId: 'Id',
+                itemSuperType: 'Super',
+                itemType: 'CMSLinkComponent',
+              },
+            ],
+          },
+        };
+
+        it('should populate style class', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(
+            of({
+              Id_Super: {
+                styleClasses: 'first second',
+              },
+            } as NodeItem)
+          );
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(of(mockNavNode))
+            .subscribe((node) => (result = node));
+
+          expect(result.styleClasses).toEqual('first second');
+        });
+
+        it('should not populate style class', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(
+            of({
+              Id_Super: {},
+            } as NodeItem)
+          );
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(of(mockNavNode))
+            .subscribe((node) => (result = node));
+          expect(result.styleClasses).toBeUndefined();
+        });
+
+        it('should populate style attributes', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(
+            of({
+              Id_Super: {
+                styleAttributes: 'color: red;',
+              },
+            } as NodeItem)
+          );
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(of(mockNavNode))
+            .subscribe((node) => (result = node));
+
+          expect(result.styleAttributes).toEqual('color: red;');
+        });
+
+        it('should not populate style attributes', () => {
+          mockCmsService.getNavigationEntryItems.and.returnValue(
+            of({
+              Id_Super: {},
+            } as NodeItem)
+          );
+
+          let result: NavigationNode;
+          navigationService
+            .getNavigationNode(of(mockNavNode))
+            .subscribe((node) => (result = node));
+          expect(result.styleAttributes).toBeUndefined();
+        });
+      });
     });
 
-    it('should not populate _blank target', () => {
-      mockCmsService.getNavigationEntryItems.and.returnValue(
-        of({
-          Id_Super: {
-            linkName: 'entry linkName',
-            url: '/main',
-            target: false,
-          },
-        })
-      );
+    describe('target', () => {
+      const mockNavigationData = {
+        navigationNode: {
+          uid: 'MockNavigationNode001',
+          title: 'root node',
+          entries: [
+            {
+              itemId: 'Id',
+              itemSuperType: 'Super',
+              itemType: 'CMSLinkComponent',
+            },
+          ],
+        } as NavigationNode,
+      };
 
-      let result: NavigationNode;
-      navigationService
-        .getNavigationNode(
+      it('should populate _blank target', () => {
+        mockCmsService.getNavigationEntryItems.and.returnValue(
           of({
-            navigationNode: {
-              uid: 'MockNavigationNode001',
-              title: 'root node',
-              entries: [
-                {
-                  itemId: 'Id',
-                  itemSuperType: 'Super',
-                  itemType: 'CMSLinkComponent',
-                },
-              ],
-            } as NavigationNode,
+            Id_Super: {
+              linkName: 'entry linkName',
+              url: '/main',
+              target: true,
+            },
           })
-        )
-        .subscribe((node) => (result = node));
+        );
 
-      expect(result.target).toBeFalsy();
-    });
+        let result: NavigationNode;
+        navigationService
+          .getNavigationNode(of(mockNavigationData))
+          .subscribe((node) => (result = node));
 
-    it('should not populate target if there is no URL', () => {
-      mockCmsService.getNavigationEntryItems.and.returnValue(
-        of({
-          Id_Super: {
-            linkName: 'entry linkName',
-            target: true,
-          },
-        })
-      );
+        expect(result.target).toEqual('_blank');
+      });
 
-      let result: NavigationNode;
-      navigationService
-        .getNavigationNode(
+      it('should populate _blank target for "true" value', () => {
+        mockCmsService.getNavigationEntryItems.and.returnValue(
           of({
-            navigationNode: {
-              uid: 'MockNavigationNode001',
-              title: 'root node',
-              entries: [
-                {
-                  itemId: 'Id',
-                  itemSuperType: 'Super',
-                  itemType: 'CMSLinkComponent',
-                },
-              ],
-            } as NavigationNode,
+            Id_Super: {
+              linkName: 'entry linkName',
+              url: '/main',
+              target: 'true',
+            },
           })
-        )
-        .subscribe((node) => (result = node));
+        );
 
-      expect(result.target).toBeFalsy();
+        let result: NavigationNode;
+        navigationService
+          .getNavigationNode(of(mockNavigationData))
+          .subscribe((node) => (result = node));
+
+        expect(result.target).toEqual('_blank');
+      });
+
+      it('should not populate _blank target', () => {
+        mockCmsService.getNavigationEntryItems.and.returnValue(
+          of({
+            Id_Super: {
+              linkName: 'entry linkName',
+              url: '/main',
+              target: false,
+            },
+          })
+        );
+
+        let result: NavigationNode;
+        navigationService
+          .getNavigationNode(of(mockNavigationData))
+          .subscribe((node) => (result = node));
+
+        expect(result.target).toBeFalsy();
+      });
+
+      it('should not populate _blank target for "false" target', () => {
+        mockCmsService.getNavigationEntryItems.and.returnValue(
+          of({
+            Id_Super: {
+              linkName: 'entry linkName',
+              url: '/main',
+              target: 'false',
+            },
+          })
+        );
+
+        let result: NavigationNode;
+        navigationService
+          .getNavigationNode(of(mockNavigationData))
+          .subscribe((node) => (result = node));
+
+        expect(result.target).toBeFalsy();
+      });
+
+      it('should not populate target if there is no URL', () => {
+        mockCmsService.getNavigationEntryItems.and.returnValue(
+          of({
+            Id_Super: {
+              linkName: 'entry linkName',
+              target: true,
+            },
+          })
+        );
+
+        let result: NavigationNode;
+        navigationService
+          .getNavigationNode(of(mockNavigationData))
+          .subscribe((node) => (result = node));
+
+        expect(result.target).toBeFalsy();
+      });
     });
   });
 });

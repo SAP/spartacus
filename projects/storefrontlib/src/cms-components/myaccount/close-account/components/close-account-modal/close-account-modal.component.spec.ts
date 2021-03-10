@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AuthService,
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../../../cms-components/misc/index';
@@ -14,38 +13,38 @@ import { ModalService } from '../../../../../shared/components/modal/index';
 import { CloseAccountModalComponent } from './close-account-modal.component';
 import createSpy = jasmine.createSpy;
 
-class MockGlobalMessageService {
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-class MockModalService {
+class MockModalService implements Partial<ModalService> {
   dismissActiveModal(): void {}
 }
 
-class MockUserService {
-  remove(_userId: string): void {}
-  getRemoveUserResultSuccess(): Observable<Boolean> {
+class MockUserService implements Partial<UserService> {
+  remove(): void {}
+  getRemoveUserResultSuccess(): Observable<boolean> {
     return of();
   }
 
-  getRemoveUserResultError(): Observable<Boolean> {
+  getRemoveUserResultError(): Observable<boolean> {
     return of();
   }
 
-  getRemoveUserResultLoading(): Observable<Boolean> {
+  getRemoveUserResultLoading(): Observable<boolean> {
     return of(false);
   }
 
   resetRemoveUserProcessState(): void {}
 }
 
-class MockAuthService {
-  getUserToken(): Observable<UserToken> {
+class MockAuthService implements Partial<AuthService> {
+  isUserLoggedIn(): Observable<boolean> {
     return of();
   }
 }
 
-class MockRoutingService {
+class MockRoutingService implements Partial<RoutingService> {
   go() {}
 }
 
@@ -71,38 +70,40 @@ describe('CloseAccountModalComponent', () => {
   let globalMessageService: any;
   let mockModalService: MockModalService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CloseAccountModalComponent,
-        MockCxSpinnerComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
-        {
-          provide: UserService,
-          useClass: MockUserService,
-        },
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: AuthService,
-          useClass: MockAuthService,
-        },
-        {
-          provide: ModalService,
-          useClass: MockModalService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          CloseAccountModalComponent,
+          MockCxSpinnerComponent,
+          MockCxIconComponent,
+        ],
+        providers: [
+          {
+            provide: UserService,
+            useClass: MockUserService,
+          },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: AuthService,
+            useClass: MockAuthService,
+          },
+          {
+            provide: ModalService,
+            useClass: MockModalService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountModalComponent);

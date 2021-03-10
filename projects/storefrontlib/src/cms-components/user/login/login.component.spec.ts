@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -61,32 +61,34 @@ describe('LoginComponent', () => {
   let authService: AuthService;
   let userService: UserService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [LoginComponent, MockDynamicSlotComponent, MockUrlPipe],
-      providers: [
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              firstChild: {
-                routeConfig: {
-                  canActivate: [{ GUARD_NAME: 'AuthGuard' }],
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [LoginComponent, MockDynamicSlotComponent, MockUrlPipe],
+        providers: [
+          {
+            provide: ActivatedRoute,
+            useValue: {
+              snapshot: {
+                firstChild: {
+                  routeConfig: {
+                    canActivate: [{ GUARD_NAME: 'AuthGuard' }],
+                  },
                 },
               },
             },
           },
-        },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: UserService, useClass: MockUserService },
-        { provide: AuthService, useClass: MockAuthService },
-      ],
-    }).compileComponents();
+          { provide: RoutingService, useClass: MockRoutingService },
+          { provide: UserService, useClass: MockUserService },
+          { provide: AuthService, useClass: MockAuthService },
+        ],
+      }).compileComponents();
 
-    authService = TestBed.inject(AuthService);
-    userService = TestBed.inject(UserService);
-  }));
+      authService = TestBed.inject(AuthService);
+      userService = TestBed.inject(UserService);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LoginComponent);

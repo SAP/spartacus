@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CmsService, Page } from '../../cms';
+import {
+  BasePageMetaResolver,
+  CmsService,
+  Page,
+  PageRobotsMeta,
+} from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { ProductSearchService } from '../facade';
@@ -46,6 +51,11 @@ class MockProductSearchService {
     });
   }
 }
+class MockBasePageMetaResolver {
+  resolveRobots() {
+    return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
+  }
+}
 
 describe('CategoryPageMetaResolver', () => {
   let service: CategoryPageMetaResolver;
@@ -54,8 +64,10 @@ describe('CategoryPageMetaResolver', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
+        CategoryPageMetaResolver,
         { provide: CmsService, useClass: MockCmsService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
+        { provide: BasePageMetaResolver, useClass: MockBasePageMetaResolver },
       ],
     });
 
@@ -84,5 +96,17 @@ describe('CategoryPageMetaResolver', () => {
       .unsubscribe();
 
     expect(result.length).toEqual(2);
+  });
+
+  describe('resolveRobots', () => {
+    it('should resolve title from the BasePageMetaResolver', async () => {
+      let result;
+      service
+        .resolveRobots()
+        .subscribe((robots) => (result = robots))
+        .unsubscribe();
+      expect(result).toContain(PageRobotsMeta.FOLLOW);
+      expect(result).toContain(PageRobotsMeta.INDEX);
+    });
   });
 });

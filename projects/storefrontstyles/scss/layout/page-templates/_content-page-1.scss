@@ -1,7 +1,7 @@
 %ContentPage1Template {
   // @extend %pageBody !optional;
 
-  max-width: 1140px;
+  max-width: var(--cx-page-width-max);
   padding-top: 2rem;
   padding-inline-end: 1.5rem;
   padding-bottom: 0;

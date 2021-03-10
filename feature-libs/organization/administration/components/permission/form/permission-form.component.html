@@ -1,14 +1,14 @@
-<cx-organization-form i18nRoot="permission">
+<cx-org-form i18nRoot="orgPurchaseLimit">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
-        'permission.code' | cxTranslate
+        'orgPurchaseLimit.code' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{ 'permission.code' | cxTranslate }}"
+        placeholder="{{ 'orgPurchaseLimit.code' | cxTranslate }}"
         formControlName="code"
       />
       <cx-form-errors [control]="form.get('code')"></cx-form-errors>
@@ -20,7 +20,7 @@
       [formGroup]="form.get('orderApprovalPermissionType')"
     >
       <span class="label-content required">{{
-        'permission.orderApprovalPermissionType' | cxTranslate
+        'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
       }}</span>
       <ng-select
         formControlName="code"
@@ -30,7 +30,7 @@
         bindLabel="name"
         bindValue="code"
         [readonly]="form.disabled"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors
@@ -40,14 +40,14 @@
 
     <label aria-required="true" *ngIf="form.get('periodRange')">
       <span class="label-content required">{{
-        'permission.periodRange' | cxTranslate
+        'orgPurchaseLimit.periodRange' | cxTranslate
       }}</span>
       <ng-select
         formControlName="periodRange"
         [searchable]="false"
         [clearable]="false"
         [items]="periods"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('periodRange')"></cx-form-errors>
@@ -59,7 +59,7 @@
       [formGroup]="form.get('currency')"
     >
       <span class="label-content required">{{
-        'permission.currency' | cxTranslate
+        'orgPurchaseLimit.currency' | cxTranslate
       }}</span>
       <ng-select
         *ngIf="currencies$ | async as currencies"
@@ -76,13 +76,13 @@
 
     <label *ngIf="form.get('threshold')">
       <span class="label-content required">{{
-        'permission.threshold' | cxTranslate
+        'orgPurchaseLimit.threshold' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="number"
         required
-        placeholder="{{ 'permission.threshold' | cxTranslate }}"
+        placeholder="{{ 'orgPurchaseLimit.threshold' | cxTranslate }}"
         formControlName="threshold"
       />
       <cx-form-errors [control]="form.get('threshold')"></cx-form-errors>
@@ -90,20 +90,21 @@
 
     <label aria-required="true" [formGroup]="form.get('orgUnit')">
       <span class="label-content required">{{
-        'permission.orgUnit' | cxTranslate
+        'orgPurchaseLimit.orgUnit' | cxTranslate
       }}</span>
       <ng-select
         formControlName="uid"
-        [searchable]="false"
+        [searchable]="true"
         [clearable]="false"
         [items]="units$ | async"
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit').disabled"
-        appendTo=".organization"
+        appendTo="cx-org-list"
+        [placeholder]="'orgPurchaseLimit.orgUnit' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
     </label>
   </ng-container>
-</cx-organization-form>
+</cx-org-form>

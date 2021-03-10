@@ -52,6 +52,7 @@ scripts/install/config.sh
 npm-debug.log
 yarn-error.log
 testem.log
+debug.log
 
 # System Files
 .DS_Store

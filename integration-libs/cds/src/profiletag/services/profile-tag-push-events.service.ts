@@ -267,6 +267,7 @@ export class ProfileTagPushEventsService {
             productSku: item.entry.product.code,
             productName: item.entry.product.name,
             cartId: item.cartId,
+            cartCode: item.cartCode,
             productPrice: this.getProductPrice(item),
             categories: this.categoriesToIds(item.entry.product.categories),
             productCategoryName: item.entry.product.categories
@@ -299,6 +300,7 @@ export class ProfileTagPushEventsService {
             productSku: item.entry.product.code,
             productName: item.entry.product.name,
             cartId: item.cartId,
+            cartCode: item.cartCode,
             productCategoryName: item.entry.product.categories
               ? item.entry.product.categories[
                   item.entry.product.categories.length - 1
@@ -331,6 +333,7 @@ export class ProfileTagPushEventsService {
             productSku: item.entry.product.code,
             productName: item.entry.product.name,
             cartId: item.cartId,
+            cartCode: item.cartCode,
             categories: this.categoriesToIds(item.entry.product.categories),
             productCategoryName: item.entry.product.categories
               ? item.entry.product.categories[

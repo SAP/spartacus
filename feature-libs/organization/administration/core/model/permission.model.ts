@@ -1,9 +1,8 @@
-import { B2BUnit, Currency } from '@spartacus/core';
-
-export interface OrderApprovalPermissionType {
-  code?: string;
-  name?: string;
-}
+import {
+  B2BUnit,
+  Currency,
+  OrderApprovalPermissionType,
+} from '@spartacus/core';
 
 export enum Period {
   DAY = 'DAY',

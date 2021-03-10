@@ -4,14 +4,12 @@ import { B2BUserService } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../../constants';
-import { CurrentOrganizationItemService } from '../../shared/current-organization-item.service';
+import { CurrentItemService } from '../../shared/current-item.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CurrentUserService extends CurrentOrganizationItemService<
-  B2BUser
-> {
+export class CurrentUserService extends CurrentItemService<B2BUser> {
   readonly name$: Observable<string> = this.item$.pipe(
     map((user: B2BUser) => user.name)
   );
@@ -29,5 +27,9 @@ export class CurrentUserService extends CurrentOrganizationItemService<
 
   protected getItem(code: string): Observable<B2BUser> {
     return this.b2bUserService.get(code);
+  }
+
+  getError(code: string): Observable<boolean> {
+    return this.b2bUserService.getErrorState(code);
   }
 }

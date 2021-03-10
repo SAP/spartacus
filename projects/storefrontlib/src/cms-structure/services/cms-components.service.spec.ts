@@ -31,6 +31,11 @@ const mockConfig: CmsConfig = {
         children: [{ path: 'route1' }, { path: 'route2' }],
       },
     },
+    staticComponent: {
+      data: {
+        foo: 'bar',
+      } as any,
+    },
   },
 };
 
@@ -44,7 +49,7 @@ class MockFeatureModulesService implements Partial<FeatureModulesService> {
   private testResovler = new Subject();
 
   hasFeatureFor = createSpy().and.callFake((type) => type === 'feature');
-  getInjectors = createSpy();
+  getModule = createSpy();
 
   getCmsMapping() {
     return this.testResovler;
@@ -103,6 +108,16 @@ describe('CmsComponentsService', () => {
     });
   });
 
+  describe('getStaticData', () => {
+    it('should not return static data', () => {
+      expect(service.getStaticData('exampleMapping1')).toBeUndefined();
+    });
+
+    it('should return static data', () => {
+      expect(service.getStaticData<any>('staticComponent').foo).toEqual('bar');
+    });
+  });
+
   describe('shouldRender', () => {
     it('should return true for disableSrr not set', () => {
       expect(service.shouldRender('exampleMapping1')).toBeTruthy();
@@ -148,18 +163,16 @@ describe('CmsComponentsService', () => {
     });
   });
 
-  describe('getInjectors', () => {
+  describe('getModule', () => {
     it('should call FeatureModulesService', () => {
       const featureModulesService = TestBed.inject(FeatureModulesService);
-      service.getInjectors('feature');
-      expect(featureModulesService.getInjectors).toHaveBeenCalledWith(
-        'feature'
-      );
+      service.getModule('feature');
+      expect(featureModulesService.getModule).toHaveBeenCalledWith('feature');
     });
     it('should not call FeatureModulesService if there is no such a feature', () => {
       const featureModulesService = TestBed.inject(FeatureModulesService);
-      service.getInjectors('unknownType');
-      expect(featureModulesService.getInjectors).not.toHaveBeenCalled();
+      service.getModule('unknownType');
+      expect(featureModulesService.getModule).not.toHaveBeenCalled();
     });
   });
 });

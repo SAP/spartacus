@@ -19,18 +19,18 @@ export class ProductCarouselComponent {
 
   protected readonly componentData$: Observable<
     CmsProductCarouselComponent
-  > = this.componentData.data$.pipe(filter(Boolean));
+  > = this.componentData.data$.pipe(filter((data) => Boolean(data)));
 
   protected products: Map<string, Observable<Product>> = new Map();
   protected loadState: Map<string, boolean> = new Map();
 
   /** A unique key for the focusable group  */
-  focusGroup: string;
+  focusGroup: string | undefined;
 
   /**
    * returns an Observable string for the title.
    */
-  title$: Observable<string> = this.componentData$.pipe(
+  title$: Observable<string | undefined> = this.componentData$.pipe(
     map((data) => data.title)
   );
 
@@ -41,7 +41,8 @@ export class ProductCarouselComponent {
    */
   items$: Observable<string[]> = this.componentData$.pipe(
     tap((data) => (this.focusGroup = data.uid)),
-    map((data) => data.productCodes.trim().split(' ')),
+    map((data) => data.productCodes?.trim().split(' ') ?? []),
+    // TODO: consider making the default dynamic
     startWith(['', '', '', ''])
   );
 
@@ -50,7 +51,7 @@ export class ProductCarouselComponent {
     protected productService: ProductService
   ) {}
 
-  getProduct(code: string, prefetch: boolean): Observable<Product> {
+  getProduct(code: string, prefetch: boolean): Observable<Product> | undefined {
     if (!this.loadState.get(code) && prefetch) {
       // we must update the
       this.products.set(

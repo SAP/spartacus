@@ -1,28 +1,26 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  AuthRedirectService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
   WindowRef,
 } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { from } from 'rxjs';
+import { tap, withLatestFrom } from 'rxjs/operators';
 import { CustomFormValidators } from '../../../shared/index';
 
 @Component({
   selector: 'cx-login-form',
   templateUrl: './login-form.component.html',
 })
-export class LoginFormComponent implements OnInit, OnDestroy {
-  sub: Subscription;
+export class LoginFormComponent implements OnInit {
   loginForm: FormGroup;
 
   constructor(
     protected auth: AuthService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
-    protected authRedirectService: AuthRedirectService,
     protected winRef: WindowRef
   ) {}
 
@@ -47,26 +45,23 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    if (this.sub) {
-      this.sub.unsubscribe();
-    }
-  }
-
   protected loginUser(): void {
     const { userId, password } = this.loginForm.controls;
-    this.auth.authorize(
-      userId.value.toLowerCase(), // backend accepts lowercase emails only
-      password.value
-    );
-
-    if (!this.sub) {
-      this.sub = this.auth.getUserToken().subscribe((data) => {
-        if (data && data.access_token) {
-          this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-          this.authRedirectService.redirect();
-        }
-      });
-    }
+    from(
+      this.auth.loginWithCredentials(
+        userId.value.toLowerCase(), // backend accepts lowercase emails only
+        password.value
+      )
+    )
+      .pipe(
+        withLatestFrom(this.auth.isUserLoggedIn()),
+        tap(([_, isLoggedIn]) => {
+          if (isLoggedIn) {
+            // We want to remove error messages on successful login (primary the bad username/password combination)
+            this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+          }
+        })
+      )
+      .subscribe();
   }
 }

@@ -229,7 +229,10 @@ export function addCheapProductToCartAndLogin(
     'getShippingPage'
   );
   loginUser(sampleUser);
-  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  // Double timeout, because we have here a cascade of requests (login, load /checkout page, merge cart, load shipping page)
+  cy.wait(`@${shippingPage}`, { timeout: 30000 })
+    .its('status')
+    .should('eq', 200);
 }
 
 export function addCheapProductToCartAndProceedToCheckout(
@@ -409,12 +412,14 @@ export function viewOrderHistoryWithCheapProduct(
 }
 
 export function waitForPage(page: string, alias: string): string {
+  // homepage is not explicitly being asked as it's driven by the backend.
+  const endpoint = page === 'homepage' ? `*` : `*${page}*`;
   cy.server();
   cy.route(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?*${page}*`
+    )}/cms/pages${endpoint}`
   ).as(alias);
   return alias;
 }

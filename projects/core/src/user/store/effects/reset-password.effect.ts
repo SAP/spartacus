@@ -4,7 +4,7 @@ import { from, Observable } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConnector } from '../../connectors/user/user.connector';
 import { UserActions } from '../actions/index';
 
@@ -30,7 +30,7 @@ export class ResetPasswordEffects {
         catchError((error) => {
           const actions: Array<
             UserActions.ResetPasswordFail | GlobalMessageActions.AddMessage
-          > = [new UserActions.ResetPasswordFail(makeErrorSerializable(error))];
+          > = [new UserActions.ResetPasswordFail(normalizeHttpError(error))];
           if (error?.error?.errors) {
             error.error.errors.forEach((err) => {
               if (err.message) {

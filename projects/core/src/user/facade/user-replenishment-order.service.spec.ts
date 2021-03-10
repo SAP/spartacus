@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { AuthService } from '../../auth/facade/auth.service';
+import { Subscription } from 'rxjs';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
@@ -36,15 +37,16 @@ const mockReplenishmentOrderList: ReplenishmentOrderList = {
   sorts: [{ selected: true }],
 };
 
-class MockAuthService {
+class MockUserIdService implements Partial<UserIdService> {
   invokeWithUserId(cb) {
     cb(mockUserId);
+    return new Subscription();
   }
 }
 
 describe('UserReplenishmentOrderService', () => {
   let userReplenishmentOrderService: UserReplenishmentOrderService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let store: Store<StateWithUser | StateWithProcess<void>>;
 
   beforeEach(() => {
@@ -59,14 +61,14 @@ describe('UserReplenishmentOrderService', () => {
       ],
       providers: [
         UserReplenishmentOrderService,
-        { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
     userReplenishmentOrderService = TestBed.inject(
       UserReplenishmentOrderService
     );
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -91,7 +93,7 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
-      spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
+      spyOn(userIdService, 'invokeWithUserId').and.callFake((cb) =>
         cb(OCC_USER_ID_ANONYMOUS)
       );
 
@@ -192,7 +194,7 @@ describe('UserReplenishmentOrderService', () => {
     });
 
     it('should NOT be able to load replenishment order details when user is anonymous', () => {
-      spyOn(authService, 'invokeWithUserId').and.callFake((cb) =>
+      spyOn(userIdService, 'invokeWithUserId').and.callFake((cb) =>
         cb(OCC_USER_ID_ANONYMOUS)
       );
 

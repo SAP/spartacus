@@ -21,7 +21,7 @@ class MockRoutingService {
   go() {}
 }
 class MockBaseSiteService {
-  getBaseSiteData(): Observable<BaseSite> {
+  get(): Observable<BaseSite> {
     return of();
   }
 }
@@ -120,7 +120,7 @@ describe('SmartEditService', () => {
           },
         } as any)
       );
-      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+      spyOn(baseSiteService, 'get').and.returnValue(
         of({
           defaultPreviewProductCode: 'test product code',
           defaultPreviewCategoryCode: 'test category code',
@@ -178,7 +178,7 @@ describe('SmartEditService', () => {
           },
         } as any)
       );
-      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+      spyOn(baseSiteService, 'get').and.returnValue(
         of({
           defaultPreviewProductCode: 'test product code',
         })
@@ -206,7 +206,7 @@ describe('SmartEditService', () => {
           },
         } as any)
       );
-      spyOn(baseSiteService, 'getBaseSiteData').and.returnValue(
+      spyOn(baseSiteService, 'get').and.returnValue(
         of({
           defaultPreviewCategoryCode: 'test category code',
         })

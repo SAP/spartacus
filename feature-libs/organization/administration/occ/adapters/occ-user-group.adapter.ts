@@ -16,6 +16,7 @@ import {
   UserGroupAdapter,
   USER_GROUPS_NORMALIZER,
   USER_GROUP_NORMALIZER,
+  USER_GROUP_SERIALIZER,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
@@ -67,6 +68,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   }
 
   create(userId: string, userGroup: UserGroup): Observable<UserGroup> {
+    userGroup = this.converter.convert(userGroup, USER_GROUP_SERIALIZER);
     return this.http
       .post<Occ.OrgUnitUserGroup>(this.getUserGroupsEndpoint(userId), userGroup)
       .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
@@ -85,6 +87,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
     userGroupId: string,
     userGroup: UserGroup
   ): Observable<UserGroup> {
+    userGroup = this.converter.convert(userGroup, USER_GROUP_SERIALIZER);
     return this.http
       .patch<Occ.OrgUnitUserGroup>(
         this.getUserGroupEndpoint(userId, userGroupId),

@@ -1,9 +1,10 @@
-import { ListModel, SearchConfig, StateUtils } from '@spartacus/core';
 import {
+  ListModel,
+  SearchConfig,
+  StateUtils,
   OrderApprovalPermissionType,
-  Permission,
-} from '../../model/permission.model';
-import { serializeSearchConfig } from '../../utils/serializer';
+} from '@spartacus/core';
+import { Permission } from '../../model/permission.model';
 import {
   PERMISSION_ENTITIES,
   PERMISSION_LIST,
@@ -70,7 +71,7 @@ export class LoadPermissions extends StateUtils.EntityLoadAction {
       params: SearchConfig;
     }
   ) {
-    super(PERMISSION_LIST, serializeSearchConfig(payload.params));
+    super(PERMISSION_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 
@@ -79,7 +80,7 @@ export class LoadPermissionsFail extends StateUtils.EntityFailAction {
   constructor(public payload: { params: SearchConfig; error: any }) {
     super(
       PERMISSION_LIST,
-      serializeSearchConfig(payload.params),
+      StateUtils.serializeSearchConfig(payload.params),
       payload.error
     );
   }
@@ -93,7 +94,7 @@ export class LoadPermissionsSuccess extends StateUtils.EntitySuccessAction {
       params: SearchConfig;
     }
   ) {
-    super(PERMISSION_LIST, serializeSearchConfig(payload.params));
+    super(PERMISSION_LIST, StateUtils.serializeSearchConfig(payload.params));
   }
 }
 

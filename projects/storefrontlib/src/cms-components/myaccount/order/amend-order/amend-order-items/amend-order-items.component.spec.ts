@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { MockFeatureLevelDirective } from '../../../../../shared/test/mock-feature-level-directive';
@@ -60,23 +60,25 @@ describe('CancelOrReturnItemsComponent', () => {
   let fixture: ComponentFixture<CancelOrReturnItemsComponent>;
   let orderAmendService: OrderAmendService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule],
-      providers: [
-        {
-          provide: OrderAmendService,
-          useClass: MockOrderAmendService,
-        },
-      ],
-      declarations: [
-        CancelOrReturnItemsComponent,
-        MockMediaComponent,
-        MockItemCounterComponent,
-        MockFeatureLevelDirective,
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, I18nTestingModule],
+        providers: [
+          {
+            provide: OrderAmendService,
+            useClass: MockOrderAmendService,
+          },
+        ],
+        declarations: [
+          CancelOrReturnItemsComponent,
+          MockMediaComponent,
+          MockItemCounterComponent,
+          MockFeatureLevelDirective,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelOrReturnItemsComponent);

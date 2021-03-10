@@ -1,38 +1,38 @@
-<cx-organization-card *ngIf="model$ | async as model" i18nRoot="unit.details">
+<cx-org-card *ngIf="model$ | async as model" i18nRoot="orgUnit.details">
   <a
     actions
     class="link edit"
-    [class.disabled]="!model.active"
+    [class.disabled]="!model.active || (isInEditMode$ | async)"
     [routerLink]="{ cxRoute: 'orgUnitEdit', params: model } | cxUrl"
   >
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <cx-toggle-status
-    *ngIf="model.parentOrgUnit"
+  <cx-org-toggle-status
     actions
-    [disabled]="!model.parentOrgUnit.active"
     key="uid"
-    i18nRoot="unit"
-  ></cx-toggle-status>
+    i18nRoot="orgUnit"
+  ></cx-org-toggle-status>
 
-  <section main class="details">
+  <cx-org-disable-info info i18nRoot="orgUnit"> </cx-org-disable-info>
+
+  <section main class="details" cxOrgItemExists>
     <div class="property">
-      <label>{{ 'unit.name' | cxTranslate }}</label>
+      <label>{{ 'orgUnit.name' | cxTranslate }}</label>
       <span class="value">
         {{ model.name }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'unit.uid' | cxTranslate }}</label>
+      <label>{{ 'orgUnit.uid' | cxTranslate }}</label>
       <span class="value">
         {{ model.uid }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'unit.active' | cxTranslate }}</label>
+      <label>{{ 'orgUnit.active' | cxTranslate }}</label>
       <span class="value" [class.is-active]="model.active">
         {{
           (model.active ? 'organization.enabled' : 'organization.disabled')
@@ -42,19 +42,19 @@
     </div>
 
     <div class="property" *ngIf="model.approvalProcess?.name">
-      <label>{{ 'unit.approvalProcess' | cxTranslate }}</label>
+      <label>{{ 'orgUnit.approvalProcess' | cxTranslate }}</label>
       <span class="value">
         {{ model.approvalProcess?.name }}
       </span>
     </div>
 
     <div class="property" *ngIf="model.parentOrgUnit">
-      <label>{{ 'unit.parentUnit' | cxTranslate }}</label>
+      <label>{{ 'orgUnit.parentUnit' | cxTranslate }}</label>
       <a
         class="value"
         [routerLink]="
           {
-            cxRoute: 'unitDetails',
+            cxRoute: 'orgUnitDetails',
             params: model.parentOrgUnit
           } | cxUrl
         "
@@ -65,40 +65,42 @@
   </section>
 
   <section main class="link-list">
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'orgUnitChildren', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'unit.links.units' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'unitUserList', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'unit.links.users' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'orgUnitApprovers', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'unit.links.approvers' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'unitAddressList', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'unit.links.shippingAddresses' | cxTranslate }}
-    </a>
-    <a
-      class="link"
-      [routerLink]="{ cxRoute: 'orgUnitCostCenters', params: model } | cxUrl"
-      routerLinkActive="is-current"
-    >
-      {{ 'unit.links.costCenters' | cxTranslate }}
-    </a>
+    <ng-container *ngIf="model.uid">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitChildren', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUnit.links.units' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitUserList', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUnit.links.users' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitApprovers', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUnit.links.approvers' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitAddressList', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUnit.links.shippingAddresses' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitCostCenters', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUnit.links.costCenters' | cxTranslate }}
+      </a>
+    </ng-container>
   </section>
-</cx-organization-card>
+</cx-org-card>

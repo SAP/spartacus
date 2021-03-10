@@ -5,7 +5,7 @@
 }
 
 :root {
-  // spinner size is added to the root so that it can be overriden on individual elements
+  // spinner size is added to the root so that it can be overridden on individual elements
   --cx-spinner-size: 40px;
 }
 
@@ -28,6 +28,13 @@
   // add smooth transition
   opacity: var(--cx-opacity, 0);
   transition: all var(--cx-transition-duration, 0.6s);
+
+  // We prevent pointer events on this pseudo class to avoid any direct mouse
+  // interaction. Mouse interaction with the spinner class affects developer
+  // experience badly, as you can't inspect the actual elements. Also, users
+  // would be blocked to use the context menu to open a link or image in a
+  // new tab.
+  pointer-events: none;
 }
 
 %overlay {

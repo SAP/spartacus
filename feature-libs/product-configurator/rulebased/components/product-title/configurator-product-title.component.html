@@ -1,0 +1,42 @@
+<ng-container *ngIf="product$ | async as product">
+  <div class="cx-general-product-info">
+    <div class="cx-title">
+      {{ product.name }}
+    </div>
+    <a role="link" (click)="triggerDetails()" tabindex="0">
+      <ng-container *ngIf="!showMore">
+        <div class="cx-toggle-details-link-text">
+          {{ 'configurator.header.showMore' | cxTranslate }}
+        </div>
+        <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
+      </ng-container>
+
+      <ng-container *ngIf="showMore">
+        <div class="cx-toggle-details-link-text">
+          {{ 'configurator.header.showLess' | cxTranslate }}
+        </div>
+        <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
+      </ng-container>
+    </a>
+    <div class="cx-details" [class.open]="showMore">
+      <div class="cx-details-image">
+        <img
+          [alt]="getProductImageAlt(product)"
+          [src]="getProductImageURL(product)"
+        />
+      </div>
+      <div class="cx-details-content">
+        <div class="cx-detail-title">
+          {{ product.name }}
+        </div>
+        <div class="cx-code">
+          {{ product.code }}
+        </div>
+
+        <div class="cx-description">
+          {{ product.description }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

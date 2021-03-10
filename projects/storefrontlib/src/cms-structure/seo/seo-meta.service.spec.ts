@@ -16,6 +16,7 @@ class MockPageMetaService {
 
 describe('SeoTitleService', () => {
   let seoMetaService: SeoMetaService;
+  let pageMetaService: PageMetaService;
 
   let ngTitleService: Title;
   let ngMetaService: Meta;
@@ -33,9 +34,12 @@ describe('SeoTitleService', () => {
     });
 
     seoMetaService = TestBed.inject(SeoMetaService);
+    pageMetaService = TestBed.inject(PageMetaService);
 
     ngTitleService = TestBed.inject(Title);
     ngMetaService = TestBed.inject(Meta);
+
+    incrementSpy = spyOn(ngMetaService, 'updateTag');
   });
 
   it('should inject service', () => {
@@ -48,7 +52,6 @@ describe('SeoTitleService', () => {
   });
 
   it('Should add description meta tag', () => {
-    incrementSpy = spyOn(ngMetaService, 'updateTag');
     seoMetaService.init();
     expect(incrementSpy).toHaveBeenCalledWith({
       name: 'description',
@@ -56,12 +59,87 @@ describe('SeoTitleService', () => {
     });
   });
 
-  it('Should add `INDEX FOLLOW` in robots meta tag', () => {
-    incrementSpy = spyOn(ngMetaService, 'updateTag');
-    seoMetaService.init();
-    expect(incrementSpy).toHaveBeenCalledWith({
-      name: 'robots',
-      content: 'INDEX, FOLLOW',
+  describe('robots', () => {
+    it('Should add `INDEX FOLLOW` in robots meta tag', () => {
+      seoMetaService.init();
+      expect(incrementSpy).toHaveBeenCalledWith({
+        name: 'robots',
+        content: 'INDEX, FOLLOW',
+      });
+    });
+
+    it('Should add `NOINDEX FOLLOW` in robots meta tag', () => {
+      spyOn(pageMetaService, 'getMeta').and.returnValue(
+        of({
+          title: 'Test title',
+          description: 'Test description',
+          robots: [PageRobotsMeta.NOINDEX, PageRobotsMeta.FOLLOW],
+        })
+      );
+      seoMetaService.init();
+      expect(incrementSpy).toHaveBeenCalledWith({
+        name: 'robots',
+        content: 'NOINDEX, FOLLOW',
+      });
+    });
+
+    it('should not add robot meta tags if robots are empty ([])', () => {
+      spyOn(pageMetaService, 'getMeta').and.returnValue(
+        of({
+          title: 'Test title',
+          description: 'Test description',
+          robots: [],
+        })
+      );
+      seoMetaService.init();
+      expect(incrementSpy).not.toHaveBeenCalledWith({
+        name: 'robots',
+        content: 'INDEX, FOLLOW',
+      });
+    });
+
+    it('should add robot meta tags if robots are not provided', () => {
+      spyOn(pageMetaService, 'getMeta').and.returnValue(
+        of({
+          title: 'Test title',
+          description: 'Test description',
+        })
+      );
+      seoMetaService.init();
+      expect(incrementSpy).toHaveBeenCalledWith({
+        name: 'robots',
+        content: 'INDEX, FOLLOW',
+      });
+    });
+
+    it('should add robot meta tags if robots are null', () => {
+      spyOn(pageMetaService, 'getMeta').and.returnValue(
+        of({
+          title: 'Test title',
+          description: 'Test description',
+          robots: null,
+        })
+      );
+      seoMetaService.init();
+      expect(incrementSpy).toHaveBeenCalledWith({
+        name: 'robots',
+        content: 'INDEX, FOLLOW',
+      });
+    });
+
+    it('should add robot meta tags if robots are undefined', () => {
+      spyOn(pageMetaService, 'getMeta').and.returnValue(
+        of({
+          title: 'Test title',
+          description: 'Test description',
+          robots: undefined,
+        })
+      );
+      seoMetaService.init();
+      expect(incrementSpy).toHaveBeenCalledWith({
+        name: 'robots',
+        content: 'INDEX, FOLLOW',
+      });
     });
   });
 });

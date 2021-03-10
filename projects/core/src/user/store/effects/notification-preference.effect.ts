@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserNotificationPreferenceConnector } from '../../connectors/notification-preference/user-notification-preference.connector';
 import { UserActions } from '../actions/index';
 
@@ -23,7 +23,7 @@ export class NotificationPreferenceEffects {
         catchError((error) =>
           of(
             new UserActions.LoadNotificationPreferencesFail(
-              makeErrorSerializable(error)
+              normalizeHttpError(error)
             )
           )
         )
@@ -48,7 +48,7 @@ export class NotificationPreferenceEffects {
         catchError((error) =>
           of(
             new UserActions.UpdateNotificationPreferencesFail(
-              makeErrorSerializable(error)
+              normalizeHttpError(error)
             )
           )
         )

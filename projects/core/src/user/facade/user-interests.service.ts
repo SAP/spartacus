@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   NotificationType,
   ProductInterestEntryRelation,
@@ -28,7 +28,7 @@ import {
 export class UserInterestsService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -44,7 +44,7 @@ export class UserInterestsService {
     productCode?: string,
     notificationType?: NotificationType
   ): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadProductInterests({
           userId,
@@ -103,7 +103,7 @@ export class UserInterestsService {
     item: ProductInterestEntryRelation,
     singleDelete?: boolean
   ): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.RemoveProductInterest({
           userId,
@@ -142,7 +142,7 @@ export class UserInterestsService {
     productCode: string,
     notificationType: NotificationType
   ): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.AddProductInterest({
           userId,

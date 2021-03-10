@@ -3,15 +3,14 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
   ConsignmentEntry,
+  FeatureConfigService,
+  OrderEntry,
   PromotionLocation,
   SelectiveCartService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import {
-  CartItemComponentOptions,
-  Item,
-} from '../cart-item/cart-item.component';
+import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-cart-item-list',
@@ -28,18 +27,17 @@ export class CartItemListComponent {
     optionalBtn: null,
   };
 
-  private _items: Item[] = [];
-  form: FormGroup;
+  private _items: OrderEntry[] = [];
+  form: FormGroup = this.featureConfigService?.isLevel('3.1')
+    ? new FormGroup({})
+    : undefined;
 
   @Input('items')
-  // TODO: currently we're getting a new array of items if the cart changes.
-  // pretty annoying as it forces a repaint on the screen,
-  // which is noticable in the UI.
-  set items(items: Item[]) {
+  set items(items: OrderEntry[]) {
     this.resolveItems(items);
     this.createForm();
   }
-  get items(): Item[] {
+  get items(): OrderEntry[] {
     return this._items;
   }
 
@@ -57,14 +55,15 @@ export class CartItemListComponent {
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected selectiveCartService: SelectiveCartService
+    protected selectiveCartService: SelectiveCartService,
+    public featureConfigService?: FeatureConfigService
   ) {}
 
   /**
    * The items we're getting form the input do not have a consistent model.
    * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
    */
-  private resolveItems(items: Item[]): void {
+  private resolveItems(items: OrderEntry[]): void {
     if (!items) {
       this._items = [];
       return;
@@ -80,12 +79,26 @@ export class CartItemListComponent {
         return entry;
       });
     } else {
-      this._items = items;
+      // We'd like to avoid the unnecessary re-renders of unchanged cart items after the data reload.
+      // OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
+      // So we update each array element to the new object only when it's any different to the previous one.
+      if (this.featureConfigService?.isLevel('3.1')) {
+        for (let i = 0; i < items.length; i++) {
+          if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
+            this._items[i] = items[i];
+          }
+        }
+      } else {
+        this._items = items;
+      }
     }
   }
 
   private createForm(): void {
-    this.form = new FormGroup({});
+    if (!this.featureConfigService?.isLevel('3.1')) {
+      this.form = new FormGroup({});
+    }
+
     this._items.forEach((item) => {
       const controlName = this.getControlName(item);
       const group = new FormGroup({
@@ -99,11 +112,11 @@ export class CartItemListComponent {
     });
   }
 
-  protected getControlName(item: Item): string {
+  protected getControlName(item: OrderEntry): string {
     return item.entryNumber.toString();
   }
 
-  removeEntry(item: Item): void {
+  removeEntry(item: OrderEntry): void {
     if (this.selectiveCartService && this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
     } else {
@@ -112,9 +125,9 @@ export class CartItemListComponent {
     delete this.form.controls[this.getControlName(item)];
   }
 
-  getControl(item: Item): Observable<FormGroup> {
+  getControl(item: OrderEntry): Observable<FormGroup> {
     return this.form.get(this.getControlName(item)).valueChanges.pipe(
-      // tslint:disable-next-line:deprecation
+      // eslint-disable-next-line import/no-deprecated
       startWith(null),
       map((value) => {
         if (value && this.selectiveCartService && this.options.isSaveForLater) {

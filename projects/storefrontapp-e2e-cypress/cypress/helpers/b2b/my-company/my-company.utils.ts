@@ -1,115 +1,28 @@
-import { MyCompanyRowConfig, MyCompanyConfig } from './models/index';
-import { testListFromConfig } from './my-company-list';
-import { testCreateUpdateFromConfig } from './my-company-form';
-import { nextPage } from '../../product-search';
+import { ENTITY_UID_COOKIE_KEY, MyCompanyConfig } from './models/index';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
-
-export const IGNORE_CASE = {
-  matchCase: false,
-};
+import { testFeaturesFromConfig } from './my-company-features';
 
 export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
-  describe(`My Company - ${config.name}`, () => {
+  describe(`My Company - ${config.name}${config.nameSuffix || ''}`, () => {
     before(() => {
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
     });
 
-    testListFromConfig(config);
-    testCreateUpdateFromConfig(config);
-  });
-}
+    beforeEach(() => {
+      cy.restoreLocalStorage();
 
-/**
- * Assert table headers are correctly labelled.
- * @param configs Row configurations containing header labels.
- */
-export function checkRowHeaders(configs: MyCompanyRowConfig[]): void {
-  configs.forEach((config: any) => {
-    if (config.showInTable) {
-      cy.get('th').should('contain.text', config.label);
-    }
-  });
-}
-
-export function checkRows(rows): void {
-  let j = 1; // Skip header table row at 0
-  rows.forEach((row: any) => {
-    if (row.text.length) {
-      cy.get('tr')
-        .eq(j)
-        .within(() => {
-          for (let i = 0; i < row.text.length; i++) {
-            if (row.text[i]) {
-              if (Array.isArray(row.text[i])) {
-                // Used in user roles array
-                // Because we can't use translate pipe, have to check per case
-                row.text[i].forEach((text) => {
-                  switch (text) {
-                    case 'b2bcustomergroup':
-                      return cy.get('td').eq(i).contains('Customer');
-                    case 'b2bmanagergroup':
-                      return cy.get('td').eq(i).contains('Manager');
-                    case 'b2bapprovergroup':
-                      return cy.get('td').eq(i).contains('Approver');
-                    case 'b2badmingroup':
-                      return cy.get('td').eq(i).contains('Admin');
-                  }
-                });
-              } else {
-                cy.get('td').eq(i).contains(row.text[i]);
-              }
-            }
-          }
-        });
-      j++;
-    }
-  });
-}
-
-export function getListRowsFromBody(
-  body: any,
-  objectType: string,
-  rows: MyCompanyRowConfig[]
-) {
-  return body[objectType].map((data) => {
-    const table = { text: [] };
-    rows.map((row) => {
-      if (row.showInTable) {
-        if (Array.isArray(row.variableName)) {
-          row.variableName.forEach((variable) => {
-            // TODO: Think of a way to use some sort of tranformation function/config
-            if (variable === 'startDate') {
-              let foundText = getVariableFromName(variable, data);
-              if (row.useDatePipe) {
-                const foundDate = new Date(foundText);
-                foundText = getFormattedDate(foundDate);
-              }
-              table.text.push(foundText);
-            }
-          });
-        } else {
-          const foundText = getVariableFromName(row.variableName, data);
-          table.text.push(foundText);
-        }
+      if (config.preserveCookies) {
+        Cypress.Cookies.preserveOnce(ENTITY_UID_COOKIE_KEY);
       }
     });
-    return table;
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
+    testFeaturesFromConfig(config);
   });
-
-  function getVariableFromName(name: string, dataset: any) {
-    return name.split('.').reduce((p, c) => (p && p[c]) || null, dataset);
-  }
-
-  function getMonthPartFromDate(date: Date): string {
-    return date.toString().slice(4, 7);
-  }
-
-  function getFormattedDate(date: Date): string {
-    return `${getMonthPartFromDate(
-      date
-    )} ${date.getDate()}, ${date.getFullYear()}`;
-  }
 }
 
 export function waitForData(thenCommand, waitForCommand?): void {
@@ -123,28 +36,19 @@ export function waitForData(thenCommand, waitForCommand?): void {
   });
 }
 
-export function verifyList(rows, rowConfig): void {
-  cy.get('cx-table').within(() => {
-    checkRowHeaders(rowConfig);
-    checkRows(rows);
-  });
-}
-
 /**
  * Login as user with organization administration powers.
  */
 export function loginAsMyCompanyAdmin(): void {
+  var minWait = 750;
+  var maxWait = 1500;
+  cy.wait(Math.floor(Math.random() * (maxWait - minWait) + minWait));
   cy.requireLoggedIn(myCompanyAdminUser);
 }
 
-export function scanTablePagesForText(text: string, config): void {
-  cy.get('cx-table').then(($table) => {
-    if ($table.text().indexOf(text) === -1) {
-      cy.server();
-      cy.route('GET', `**/${config.apiEndpoint}**`).as('getData');
-      nextPage();
-      cy.wait('@getData');
-      scanTablePagesForText(text, config);
-    }
-  });
+/**
+ * Converts string value to RegExp ignoring case sensivity.
+ */
+export function ignoreCaseSensivity(base: string): RegExp {
+  return new RegExp(base, 'i');
 }

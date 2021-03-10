@@ -6,3 +6,4 @@ export * from './facade/index';
 export * from './store/actions/index';
 export * from './store/anonymous-consents-state';
 export * from './store/selectors/index';
+export * from './services/index';

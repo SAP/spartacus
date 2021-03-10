@@ -15,8 +15,8 @@ export function userGroupEntitiesReducer(
     case UserGroupActions.CREATE_USER_GROUP_SUCCESS:
     case UserGroupActions.UPDATE_USER_GROUP_SUCCESS:
       return action.payload;
-    case B2BUserActions.CREATE_B2B_USER_USER_GROUP_SUCCESS:
-    case B2BUserActions.DELETE_B2B_USER_USER_GROUP_SUCCESS:
+    case B2BUserActions.ASSIGN_B2B_USER_USER_GROUP_SUCCESS:
+    case B2BUserActions.UNASSIGN_B2B_USER_USER_GROUP_SUCCESS:
       return {
         ...state,
         ...action.payload,

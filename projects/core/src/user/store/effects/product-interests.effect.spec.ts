@@ -66,7 +66,7 @@ describe('Product Interests Effect', () => {
         throwError('Error')
       );
       const action = new UserActions.LoadProductInterests(loadParams);
-      const completion = new UserActions.LoadProductInterestsFail('Error');
+      const completion = new UserActions.LoadProductInterestsFail(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -144,7 +144,7 @@ describe('Product Interests Effect', () => {
         throwError('Error')
       );
       const action = new UserActions.RemoveProductInterest(delParams);
-      const completion = new UserActions.RemoveProductInterestFail('Error');
+      const completion = new UserActions.RemoveProductInterestFail(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

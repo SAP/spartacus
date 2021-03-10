@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { B2BUnit } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
+import { FormService } from '../../shared/form/form.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class UnitFormService extends OrganizationFormService<B2BUnit> {
+export class UnitFormService extends FormService<B2BUnit> {
   protected patchData(item?: B2BUnit) {
     this.toggleParentUnit(item);
     super.patchData(item);
@@ -49,8 +49,13 @@ export class UnitFormService extends OrganizationFormService<B2BUnit> {
   }
 
   protected isRootUnit(item: B2BUnit): boolean {
+    // as we don't have full response after toggle item status,
+    // we have situation where we have object like {uid, active},
+    // so decided to check name as alternative required property
     return (
-      item?.uid && (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
+      item?.uid &&
+      item?.name &&
+      (!item?.parentOrgUnit || item?.uid === item?.parentOrgUnit)
     );
   }
 }

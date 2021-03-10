@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, Observable, timer } from 'rxjs';
 import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
+import { UserIdService } from '../../auth/user-auth/facade/index';
 import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
@@ -13,7 +14,10 @@ import { MultiCartSelectors } from '../store/selectors/index';
   providedIn: 'root',
 })
 export class MultiCartService {
-  constructor(protected store: Store<StateWithMultiCart>) {}
+  constructor(
+    protected store: Store<StateWithMultiCart>,
+    protected userIdService: UserIdService
+  ) {}
 
   /**
    * Returns cart from store as an observable
@@ -310,12 +314,30 @@ export class MultiCartService {
    * @param cartId
    * @param userId
    */
-  deleteCart(cartId: string, userId: string) {
+  deleteCart(cartId: string, userId: string): void {
     this.store.dispatch(
       new CartActions.DeleteCart({
         userId,
         cartId,
       })
+    );
+  }
+
+  /**
+   * Reloads the cart with specified id.
+   *
+   * @param cartId
+   * @param extraData
+   */
+  reloadCart(cartId: string, extraData?: { active: boolean }): void {
+    this.userIdService.invokeWithUserId((userId) =>
+      this.store.dispatch(
+        new CartActions.LoadCart({
+          userId,
+          cartId,
+          extraData,
+        })
+      )
     );
   }
 }

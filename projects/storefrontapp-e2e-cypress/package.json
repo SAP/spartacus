@@ -1,31 +1,21 @@
 {
   "name": "storefrontapp-e2e-cypress",
-  "version": "1.0.0",
+  "version": "3.0.0",
   "main": "index.js",
-  "author": "Spartacus team",
-  "license": "MIT",
+  "author": "SAP, Spartacus team",
+  "license": "Apache-2.0",
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "cy:run:ci:1905": "cypress run --config-file cypress.ci.1905.json --record --key $CYPRESS_KEY --tag \"1905,all\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
-    "cy:run:ci:2005": "cypress run --config-file cypress.ci.2005.json --record --key $CYPRESS_KEY --tag \"2005,all\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
-    "cy:run:ci:ccv2": "cypress run --config-file cypress.ci.ccv2.json --record --key $CYPRESS_KEY --tag \"ccv2,all\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
-    "cy:run:mobile": "cypress run --spec \"cypress/integration/mobile/**/*\"",
-    "cy:run:mobile:ci": "cypress run --config-file cypress.ci.1905.json --spec \"cypress/integration/mobile/**/*\"",
-    "cy:run:regression": "cypress run --spec \"cypress/integration/regression/**/*\"",
-    "cy:cds:run:vendor": "cypress run --spec \"cypress/integration/vendor/cds/**/*\"",
-    "cy:run:regression:ci": "cypress run --config-file cypress.ci.1905.json --spec \"cypress/integration/regression/**/*\"",
-    "cy:run:smoke": "cypress run --spec \"cypress/integration/smoke/**/*\"",
-    "cy:run:smoke:ci:1905": "cypress run --config-file cypress.ci.1905.json --record --key $CYPRESS_KEY --tag \"1905,smoke\" --spec \"cypress/integration/smoke/**/*\"",
-    "cy:run:smoke:ci:2005": "cypress run --config-file cypress.ci.2005.json --record --key $CYPRESS_KEY --tag \"2005,smoke\" --spec \"cypress/integration/smoke/**/*\"",
-    "cy:run:smoke:ci:ccv2": "cypress run --config-file cypress.ci.ccv2.json --record --key $CYPRESS_KEY --tag \"ccv2,smoke\" --spec \"cypress/integration/smoke/**/*\"",
-    "cy:run:b2b": "cypress run --config-file cypress.ci.2005.json --env BASE_SITE=powertools-spa,B2B=true,OCC_PREFIX_USER_ENDPOINT=orgUsers --spec \"cypress/integration/b2b/**/*\"",
-    "cy:run:b2b:ci": "cypress run --config-file cypress.ci.2005.json --env BASE_SITE=powertools-spa,B2B=true,OCC_PREFIX_USER_ENDPOINT=orgUsers --record --key $CYPRESS_KEY --tag \"2005,b2b\" --spec \"cypress/integration/b2b/**/*\"",
-    "cy:open:b2b": "cypress open --config-file cypress.ci.2005.json --env BASE_SITE=powertools-spa,B2B=true,OCC_PREFIX_USER_ENDPOINT=orgUsers --config testFiles=**/b2b/**/*"
+    "cy:run:ci": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,all,parallel\" --parallel --group B2C --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
+    "cy:run:ci:b2b": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2b,all\" --group B2B --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/b2b/**/*.e2e-spec.ts\"",
+    "cy:run:ci:cds": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,all-cds\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts,cypress/integration/vendor/cds/**/*.e2e-spec.ts\"",
+    "cy:run:ci:flaky": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,parallel,flaky\" --parallel --group flaky --spec \"cypress/integration/!(vendor|b2b)/**/*.flaky-e2e-spec.ts\"",
+    "cy:run:product-configuration": "cypress run --spec \"cypress/integration/**/*-configuration*.*e2e-spec.ts\""
   },
   "devDependencies": {
-    "@cypress/webpack-preprocessor": "^5.4.6",
-    "@testing-library/cypress": "^6.0.1",
-    "cypress": "^5.3.0"
+    "@cypress/webpack-preprocessor": "^5.5.0",
+    "@testing-library/cypress": "^7.0.3",
+    "cypress": "^6.2.0"
   }
 }

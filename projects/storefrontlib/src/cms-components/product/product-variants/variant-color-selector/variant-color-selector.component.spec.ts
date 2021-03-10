@@ -1,5 +1,5 @@
-/* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import {
   I18nTestingModule,
@@ -40,13 +40,15 @@ describe('VariantColorSelectorComponent', () => {
   let component: VariantColorSelectorComponent;
   let fixture: ComponentFixture<VariantColorSelectorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [VariantColorSelectorComponent],
-      imports: [RouterTestingModule, I18nTestingModule],
-      providers: [{ provide: RoutingService, useClass: MockRoutingService }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [VariantColorSelectorComponent],
+        imports: [RouterTestingModule, I18nTestingModule],
+        providers: [{ provide: RoutingService, useClass: MockRoutingService }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VariantColorSelectorComponent);

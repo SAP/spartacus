@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import {
   filter,
   map,
+  shareReplay,
   startWith,
   switchMap,
   switchMapTo,
@@ -66,7 +67,7 @@ export class AddedToCartDialogComponent implements OnInit {
         map((entry) => this.getFormControl(entry)),
         switchMap(() =>
           this.form.valueChanges.pipe(
-            // tslint:disable-next-line:deprecation
+            // eslint-disable-next-line import/no-deprecated
             startWith(null),
             tap((valueChange) => {
               if (valueChange) {
@@ -83,7 +84,8 @@ export class AddedToCartDialogComponent implements OnInit {
             })
           )
         ),
-        map(() => <FormControl>this.form.get('quantity'))
+        map(() => <FormControl>this.form.get('quantity')),
+        shareReplay({ bufferSize: 1, refCount: true })
       );
     }
     return this.quantityControl$;

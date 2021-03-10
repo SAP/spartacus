@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NavigationExtras } from '@angular/router';
 import {
@@ -85,29 +85,31 @@ describe('UpdateProfileComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        UpdateProfileComponent,
-        MockUpdateProfileFormComponent,
-        MockCxSpinnerComponent,
-      ],
-      providers: [
-        {
-          provide: UserService,
-          useClass: UserServiceMock,
-        },
-        {
-          provide: RoutingService,
-          useClass: RoutingServiceMock,
-        },
-        {
-          provide: GlobalMessageService,
-          useClass: GlobalMessageServiceMock,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          UpdateProfileComponent,
+          MockUpdateProfileFormComponent,
+          MockCxSpinnerComponent,
+        ],
+        providers: [
+          {
+            provide: UserService,
+            useClass: UserServiceMock,
+          },
+          {
+            provide: RoutingService,
+            useClass: RoutingServiceMock,
+          },
+          {
+            provide: GlobalMessageService,
+            useClass: GlobalMessageServiceMock,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdateProfileComponent);

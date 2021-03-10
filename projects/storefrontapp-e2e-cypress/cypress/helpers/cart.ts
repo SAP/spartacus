@@ -120,10 +120,17 @@ export function addToCart() {
   cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
 }
 
-export function registerCartRefreshRoute() {
-  cy.server();
+export function registerCartPageRoute() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+  ).as('cart_page');
+}
 
-  cy.route(
+export function registerCartRefreshRoute() {
+  cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
@@ -132,9 +139,7 @@ export function registerCartRefreshRoute() {
 }
 
 export function registerCreateCartRoute() {
-  cy.server();
-
-  cy.route(
+  cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
@@ -143,9 +148,7 @@ export function registerCreateCartRoute() {
 }
 
 export function registerSaveCartRoute() {
-  cy.server();
-
-  cy.route(
+  cy.intercept(
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
@@ -180,24 +183,41 @@ export function checkAddedToCartDialog(itemsNumber = 1) {
 }
 
 export function addProductToCartViaAutoComplete(mobile: boolean) {
+  registerCartRefreshRoute();
+  registerCartPageRoute();
   const product = products[0];
   goToFirstProductFromSearch(product.code, mobile);
   addToCart();
+
+  cy.wait('@refresh_cart');
+
   closeAddedToCartDialog();
-  checkMiniCartCount(1).click({ force: true });
+  checkMiniCartCount(1);
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait('@cart_page');
+
   checkProductInCart(product);
 }
 
 export function addProductToCartViaSearchPage(mobile: boolean) {
+  registerCartRefreshRoute();
+  registerCartPageRoute();
+
   const product = products[4];
 
   goToFirstProductFromSearch(product.code, mobile);
 
   addToCart();
 
+  cy.wait('@refresh_cart');
+
   closeAddedToCartDialog();
 
   checkMiniCartCount(2).click({ force: true });
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait('@cart_page');
 
   checkProductInCart(product);
 }
@@ -332,18 +352,22 @@ export function logOutAndEmptyCart() {
 export function manipulateCartQuantity() {
   const product = products[1];
 
-  cy.visit(`/product/${product.code}`);
-
   registerCartRefreshRoute();
+  registerCartPageRoute();
+
+  cy.visit(`/product/${product.code}`);
 
   addToCart();
 
-  cy.wait('@refresh_cart').its('status').should('eq', 200);
+  cy.wait('@refresh_cart');
 
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 
-  checkMiniCartCount(1).click({ force: true });
+  checkMiniCartCount(1);
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait('@cart_page');
 
   checkProductInCart(product, 1).within(() => {
     incrementQuantity();

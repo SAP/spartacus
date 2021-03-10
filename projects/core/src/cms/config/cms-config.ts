@@ -1,8 +1,7 @@
 import { Injectable, StaticProvider } from '@angular/core';
 import { Route } from '@angular/router';
-import { AuthConfig } from '../../auth/config/auth-config';
 import { Config } from '../../config/config-tokens';
-import { KymaConfig } from '../../kyma/config/kyma-config';
+import { CmsComponent } from '../../model/cms.model';
 import { OccConfig } from '../../occ/config/occ-config';
 
 export interface StandardCmsComponentConfig {
@@ -52,13 +51,21 @@ export interface CmsComponentChildRoutesConfig {
   children?: Route[];
 }
 
-export interface CmsComponentMapping {
+export interface CmsComponentMapping<T = CmsComponent> {
   component?: any;
   providers?: StaticProvider[];
   childRoutes?: Route[] | CmsComponentChildRoutesConfig;
   disableSSR?: boolean;
   i18nKeys?: string[];
   guards?: any[];
+
+  /**
+   * The component data can be statically configured. The data can be used for various reasons:
+   * - Improve performance with an initial data that doesn't require API response
+   * - Introduce UI properties that are not available on the API
+   * - Build ghost design based on the initial data that is used prior to the backend data is loaded
+   */
+  data?: T;
 
   /**
    * DeferLoading can be specified globally, but also per component.
@@ -79,7 +86,7 @@ export enum DeferLoadingStrategy {
 export interface CMSComponentConfig
   extends StandardCmsComponentConfig,
     JspIncludeCmsComponentConfig {
-  [componentType: string]: CmsComponentMapping;
+  [componentType: string]: CmsComponentMapping | undefined;
 }
 
 export interface FeatureModuleConfig {
@@ -88,9 +95,9 @@ export interface FeatureModuleConfig {
    */
   module?: () => Promise<any>;
   /**
-   * Lazy resolved dependency modules
+   * Lazy resolved dependency modules or features referenced by name
    */
-  dependencies?: (() => Promise<any>)[];
+  dependencies?: ((() => Promise<any>) | string)[];
   /**
    * Cms components covered by this feature
    */
@@ -101,15 +108,7 @@ export interface FeatureModuleConfig {
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class CmsConfig
-  extends OccConfig
-  implements AuthConfig, KymaConfig {
-  authentication?: {
-    client_id?: string;
-    client_secret?: string;
-    kyma_client_id?: string;
-    kyma_client_secret?: string;
-  };
+export abstract class CmsConfig extends OccConfig {
   featureModules?: { [featureName: string]: FeatureModuleConfig };
   cmsComponents?: CMSComponentConfig;
 }

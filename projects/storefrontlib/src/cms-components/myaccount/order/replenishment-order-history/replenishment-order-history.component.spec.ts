@@ -9,7 +9,7 @@ import {
   PipeTransform,
   ViewContainerRef,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -116,34 +116,36 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   let replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        ReplenishmentOrderHistoryComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
-      ],
-      providers: [
-        { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: UserReplenishmentOrderService,
-          useClass: MockUserReplenishmentOrderService,
-        },
-        {
-          provide: ReplenishmentOrderCancellationLaunchDialogService,
-          useClass: MockReplenishmentOrderCancellationLaunchDialogService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [
+          ReplenishmentOrderHistoryComponent,
+          MockUrlPipe,
+          MockPaginationComponent,
+          MockSortingComponent,
+        ],
+        providers: [
+          { provide: RoutingService, useClass: MockRoutingService },
+          {
+            provide: UserReplenishmentOrderService,
+            useClass: MockUserReplenishmentOrderService,
+          },
+          {
+            provide: ReplenishmentOrderCancellationLaunchDialogService,
+            useClass: MockReplenishmentOrderCancellationLaunchDialogService,
+          },
+        ],
+      }).compileComponents();
 
-    userService = TestBed.inject(UserReplenishmentOrderService);
-    routingService = TestBed.inject(RoutingService);
-    replenishmentOrderCancellationLaunchDialogService = TestBed.inject(
-      ReplenishmentOrderCancellationLaunchDialogService
-    );
-  }));
+      userService = TestBed.inject(UserReplenishmentOrderService);
+      routingService = TestBed.inject(RoutingService);
+      replenishmentOrderCancellationLaunchDialogService = TestBed.inject(
+        ReplenishmentOrderCancellationLaunchDialogService
+      );
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderHistoryComponent);

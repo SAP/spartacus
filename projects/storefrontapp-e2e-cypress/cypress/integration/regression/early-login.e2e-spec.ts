@@ -43,7 +43,7 @@ context('Early login', () => {
       it('should redirect to login page and redirect back after sign in', () => {
         cy.url().should('contain', '/login');
 
-        login.registerUser();
+        login.registerUserFromLoginPage();
         login.loginUser();
         headingContains(FAQ_HEADING);
       });

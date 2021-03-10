@@ -9,7 +9,6 @@ import {
   StateUtils,
 } from '@spartacus/core';
 import { B2BUnitNode } from '../../model/unit-node.model';
-import { denormalizeCustomB2BSearch } from '../../utils/serializer';
 import {
   OrganizationState,
   OrgUnits,
@@ -87,6 +86,15 @@ export const getOrgUnitValue = (
   );
 };
 
+export const getOrgUnitState = (
+  orgUnitId: string
+): MemoizedSelector<StateWithOrganization, StateUtils.LoaderState<B2BUnit>> =>
+  createSelector(
+    getOrgUnitsState,
+    (state: StateUtils.EntityLoaderState<B2BUnit>) =>
+      StateUtils.entityLoaderStateSelector(state, orgUnitId)
+  );
+
 export const getOrgUnitList = (): MemoizedSelector<
   StateWithOrganization,
   StateUtils.LoaderState<B2BUnitNode[]>
@@ -129,7 +137,7 @@ export const getAssignedUsers = (
     getB2BOrgUnitState,
     getB2BUsersState,
     (state: OrgUnits, users: StateUtils.EntityLoaderState<B2BUser>) =>
-      denormalizeCustomB2BSearch(
+      StateUtils.denormalizeCustomB2BSearch(
         state.users,
         users,
         params,
@@ -145,7 +153,7 @@ export const getB2BAddresses = (
   StateUtils.LoaderState<EntitiesModel<Address>>
 > =>
   createSelector(getB2BOrgUnitState, (state: OrgUnits) =>
-    denormalizeCustomB2BSearch(
+    StateUtils.denormalizeCustomB2BSearch(
       state.addressList,
       state.addressEntities,
       params,

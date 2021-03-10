@@ -54,9 +54,12 @@ describe('MultiCartStatePersistenceService', () => {
 
   it('state should be cleared on base site change', () => {
     service['onRead'](null);
-    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledTimes(2);
     expect(store.dispatch).toHaveBeenCalledWith(
       new CartActions.ClearCartState()
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CartActions.SetActiveCartId('')
     );
   });
 
@@ -77,7 +80,7 @@ describe('MultiCartStatePersistenceService', () => {
     spyOn(siteContextParamsService, 'getValues').and.returnValue(context$);
     spyOn(service as any, 'getCartState').and.returnValue(state$);
 
-    service.sync();
+    service.initSync();
     expect(persistenceService.syncWithStorage).toHaveBeenCalledWith(
       jasmine.objectContaining({
         key: 'cart',
@@ -91,11 +94,12 @@ describe('MultiCartStatePersistenceService', () => {
     ]);
   });
 
-  it('should return active from cart state', () => {
+  it('should return active from cart state', (done) => {
     service['getCartState']()
       .pipe(take(1))
       .subscribe((state) => {
         expect(state).toEqual({ active: '' });
+        done();
       });
   });
 });

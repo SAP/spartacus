@@ -7,21 +7,19 @@ import {
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { OrganizationItemService } from '../shared/organization-item.service';
-import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
-import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
-import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
-import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
-import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { ItemService } from '../shared/item.service';
+import { ListComponent } from '../shared/list/list.component';
+import { ListService } from '../shared/list/list.service';
+import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
+import { ActiveLinkCellComponent } from '../shared/table/active-link/active-link-cell.component';
+import { CellComponent } from '../shared/table/cell.component';
+import { StatusCellComponent } from '../shared/table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { CostCenterAssignedBudgetListComponent } from './budgets/assigned/cost-center-assigned-budget-list.component';
 import { CostCenterBudgetListComponent } from './budgets/cost-center-budget-list.component';
 import { CostCenterDetailsComponent } from './details/cost-center-details.component';
 import { CostCenterFormComponent } from './form/cost-center-form.component';
-import { ActiveCostCenterGuard } from './guards/active-cost-center.guard';
-import { ExistCostCenterGuard } from './guards/exist-cost-center.guard';
 import { CostCenterItemService } from './services/cost-center-item.service';
 import { CostCenterListService } from './services/cost-center-list.service';
 import { CostCenterRoutePageMetaResolver } from './services/cost-center-route-page-meta.resolver';
@@ -34,22 +32,25 @@ const paramsMapping: ParamsMapping = {
 export const costCenterRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      costCenterCreate: {
+      orgCostCenter: {
+        paths: ['/organization/cost-centers'],
+      },
+      orgCostCenterCreate: {
         paths: ['organization/cost-centers/create'],
       },
-      costCenterDetails: {
+      orgCostCenterDetails: {
         paths: [`${listPath}`],
         paramsMapping,
       },
-      costCenterBudgets: {
+      orgCostCenterBudgets: {
         paths: [`${listPath}/budgets`],
         paramsMapping,
       },
-      costCenterAssignBudgets: {
+      orgCostCenterAssignBudgets: {
         paths: [`${listPath}/budgets/assign`],
         paramsMapping,
       },
-      costCenterEdit: {
+      orgCostCenterEdit: {
         paths: [`${listPath}/edit`],
         paramsMapping,
       },
@@ -60,14 +61,14 @@ export const costCenterRoutingConfig: RoutingConfig = {
 export const costCenterCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageCostCentersListComponent: {
-      component: OrganizationListComponent,
+      component: ListComponent,
       providers: [
         {
-          provide: OrganizationListService,
+          provide: ListService,
           useExisting: CostCenterListService,
         },
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useExisting: CostCenterItemService,
         },
       ],
@@ -75,7 +76,7 @@ export const costCenterCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'costCenter.breadcrumbs.list',
+              breadcrumb: 'orgCostCenter.breadcrumbs.list',
               resolver: CostCenterRoutePageMetaResolver,
             },
           },
@@ -88,21 +89,19 @@ export const costCenterCmsConfig: CmsConfig = {
           {
             path: `:${ROUTE_PARAMS.costCenterCode}`,
             component: CostCenterDetailsComponent,
-            canActivate: [ExistCostCenterGuard],
             data: {
-              cxPageMeta: { breadcrumb: 'costCenter.breadcrumbs.details' },
+              cxPageMeta: { breadcrumb: 'orgCostCenter.breadcrumbs.details' },
             },
             children: [
               {
                 path: 'edit',
                 component: CostCenterFormComponent,
-                canActivate: [ActiveCostCenterGuard],
               },
               {
                 path: 'budgets',
                 data: {
                   cxPageMeta: {
-                    breadcrumb: 'costCenter.breadcrumbs.budgets',
+                    breadcrumb: 'orgCostCenter.breadcrumbs.budgets',
                   },
                 },
                 children: [
@@ -142,7 +141,7 @@ export const costCenterTableConfig: TableConfig = {
             dataComponent: StatusCellComponent,
           },
           currency: {
-            dataComponent: OrganizationCellComponent,
+            dataComponent: CellComponent,
           },
           unit: {
             dataComponent: UnitCellComponent,

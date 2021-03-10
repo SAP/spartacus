@@ -6,7 +6,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -122,29 +122,31 @@ describe('OrderHistoryComponent', () => {
   let userService: UserOrderService | MockUserOrderService;
   let routingService: RoutingService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        OrderHistoryComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
-      ],
-      providers: [
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: UserOrderService, useClass: MockUserOrderService },
-        { provide: TranslationService, useClass: MockTranslationService },
-        {
-          provide: UserReplenishmentOrderService,
-          useClass: MockUserReplenishmentOrderService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [
+          OrderHistoryComponent,
+          MockUrlPipe,
+          MockPaginationComponent,
+          MockSortingComponent,
+        ],
+        providers: [
+          { provide: RoutingService, useClass: MockRoutingService },
+          { provide: UserOrderService, useClass: MockUserOrderService },
+          { provide: TranslationService, useClass: MockTranslationService },
+          {
+            provide: UserReplenishmentOrderService,
+            useClass: MockUserReplenishmentOrderService,
+          },
+        ],
+      }).compileComponents();
 
-    userService = TestBed.inject(UserOrderService);
-    routingService = TestBed.inject(RoutingService);
-  }));
+      userService = TestBed.inject(UserOrderService);
+      routingService = TestBed.inject(RoutingService);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderHistoryComponent);

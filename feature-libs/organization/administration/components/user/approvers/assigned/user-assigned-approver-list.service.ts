@@ -17,6 +17,6 @@ export class UserAssignedApproverListService extends UserApproverListService {
   ): Observable<EntitiesModel<B2BUser>> {
     return super
       .load(pagination, code)
-      .pipe(map((userGroups) => this.filterSelected(userGroups)));
+      .pipe(map((users) => this.filterSelected(users)));
   }
 }

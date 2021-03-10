@@ -48,7 +48,7 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
       body: _address,
       form: false,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
     });
   }

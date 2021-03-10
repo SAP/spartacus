@@ -4,12 +4,11 @@ import {
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
-import { UTF_8 } from '../shared/constants';
+import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../shared/constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-// tslint:disable:max-line-length
 describe('Spartacus Schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -54,8 +53,13 @@ describe('Spartacus Schematics: ng-add', () => {
 
   it('should add spartacus deps', async () => {
     const tree = await schematicRunner
-      .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+      .runSchematicAsync(
+        'ng-add',
+        { ...defaultOptions, name: 'schematics-test' },
+        appTree
+      )
       .toPromise();
+
     const packageJson = tree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
@@ -72,6 +76,7 @@ describe('Spartacus Schematics: ng-add', () => {
         appTree
       )
       .toPromise();
+
     const buffer = tree.read('src/manifest.webmanifest');
     expect(buffer).toBeTruthy();
 
@@ -103,9 +108,7 @@ describe('Spartacus Schematics: ng-add', () => {
 
     if (packageJsonBuffer) {
       const packageJSON = JSON.parse(packageJsonBuffer.toString(UTF_8));
-      expect(
-        packageJSON.dependencies['@nguniversal/express-engine']
-      ).toBeTruthy();
+      expect(packageJSON.dependencies[NGUNIVERSAL_EXPRESS_ENGINE]).toBeTruthy();
       expect(packageJSON.dependencies['@angular/platform-server']).toBeTruthy();
     }
 
@@ -115,40 +118,5 @@ describe('Spartacus Schematics: ng-add', () => {
         appServerModuleContent.includes('ServerTransferStateModule')
       ).toBeTruthy();
     }
-  });
-
-  describe('@angular/localize', () => {
-    it('should provide import in polyfills.ts and main.server.ts if SSR enabled', async () => {
-      const tree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultOptions, name: 'schematics-test', ssr: true },
-          appTree
-        )
-        .toPromise();
-
-      const polyfillsPath = getPathResultsForFile(
-        appTree,
-        'polyfills.ts',
-        '/src'
-      )[0];
-
-      const buffer = tree.read('./server.ts');
-      const polyfillsBuffer = tree.read(polyfillsPath);
-      expect(buffer).toBeTruthy();
-      expect(polyfillsBuffer).toBeTruthy();
-      if (buffer) {
-        const appServerTsFileString = buffer.toString(UTF_8);
-        expect(
-          appServerTsFileString.includes("import '@angular/localize/init'")
-        ).toBeTruthy();
-      }
-      if (polyfillsBuffer) {
-        const polyfills = polyfillsBuffer.toString(UTF_8);
-        expect(
-          polyfills.includes("import '@angular/localize/init'")
-        ).toBeTruthy();
-      }
-    });
   });
 });

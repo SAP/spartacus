@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CouponCardComponent } from './coupon-card.component';
 import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
@@ -69,19 +69,21 @@ describe('CouponCardComponent', () => {
     'MyCouponsComponentService',
     ['launchSearchPage']
   );
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
-      imports: [I18nTestingModule, RouterTestingModule],
-      providers: [
-        { provide: NgbActiveModal, useValue: { open: () => {} } },
-        {
-          provide: MyCouponsComponentService,
-          useValue: couponComponentService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
+        imports: [I18nTestingModule, RouterTestingModule],
+        providers: [
+          { provide: NgbActiveModal, useValue: { open: () => {} } },
+          {
+            provide: MyCouponsComponentService,
+            useValue: couponComponentService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MyCouponsComponent);

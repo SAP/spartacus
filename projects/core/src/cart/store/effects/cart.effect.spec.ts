@@ -4,8 +4,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { AUTH_FEATURE } from '../../../auth/store/auth-state';
-import * as fromAuthReducers from '../../../auth/store/reducers/index';
+import { CLIENT_AUTH_FEATURE } from '../../../auth/client-auth/store/client-auth-state';
+import * as fromClientAuthReducers from '../../../auth/client-auth/store/reducers/index';
 import { Cart } from '../../../model/cart.model';
 import { OccConfig } from '../../../occ/config/occ-config';
 import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
@@ -17,6 +17,8 @@ import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
+import { HttpErrorResponse } from '@angular/common/http';
+import { normalizeHttpError } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
@@ -67,7 +69,10 @@ describe('Cart effect', () => {
         HttpClientTestingModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature(USER_FEATURE, fromUserReducers.getReducers()),
-        StoreModule.forFeature(AUTH_FEATURE, fromAuthReducers.getReducers()),
+        StoreModule.forFeature(
+          CLIENT_AUTH_FEATURE,
+          fromClientAuthReducers.getReducers()
+        ),
         StoreModule.forFeature(
           MULTI_CART_FEATURE,
           fromCartReducers.getMultiCartReducers()
@@ -180,23 +185,22 @@ describe('Cart effect', () => {
         cartId,
         extraData: { active: true },
       };
+      const httpError = new HttpErrorResponse({
+        error: {
+          errors: [
+            {
+              reason: 'notFound',
+              subjectType: 'cart',
+              subject: 'selectivecart-electronicsspa-123456',
+            },
+          ],
+        },
+      });
       const action = new CartActions.LoadCart(payload);
-      loadMock.and.returnValue(
-        throwError({
-          error: {
-            errors: [
-              {
-                reason: 'notFound',
-                subjectType: 'cart',
-                subject: 'selectivecart-electronicsspa-123456',
-              },
-            ],
-          },
-        })
-      );
+      loadMock.and.returnValue(throwError(httpError));
       const removeCartCompletion = new CartActions.LoadCartFail({
         ...payload,
-        error: { error: 'unknown error' },
+        error: normalizeHttpError(httpError),
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', {

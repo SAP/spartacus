@@ -8,22 +8,20 @@ import {
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  B2BUserGroup,
+  B2BUserRole,
   I18nTestingModule,
   Title,
   UserService,
 } from '@spartacus/core';
 import {
+  B2BUnitNode,
   B2BUserService,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import {
-  DateTimePickerModule,
-  FormErrorsComponent,
-} from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { Observable, of } from 'rxjs';
-import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UserItemService } from '../services/user-item.service';
 import { UserFormComponent } from './user-form.component';
 
@@ -41,6 +39,8 @@ const mockForm = new FormGroup({
   roles: new FormArray([]),
 });
 
+const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);
+
 class MockUserService {
   getTitles(): Observable<Title[]> {
     return of();
@@ -52,22 +52,20 @@ class MockUserService {
 class MockB2BUserService implements Partial<B2BUserService> {
   getAllRoles() {
     return [
-      B2BUserGroup.B2B_CUSTOMER_GROUP,
-      B2BUserGroup.B2B_MANAGER_GROUP,
-      B2BUserGroup.B2B_APPROVER_GROUP,
-      B2BUserGroup.B2B_ADMIN_GROUP,
+      B2BUserRole.CUSTOMER,
+      B2BUserRole.MANAGER,
+      B2BUserRole.APPROVER,
+      B2BUserRole.ADMIN,
     ];
   }
 }
 
 class MockOrgUnitService {
-  getActiveUnitList() {
-    return of([]);
-  }
+  getActiveUnitList = () => activeUnitList$.asObservable();
   loadList() {}
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {}
 }
 
@@ -83,13 +81,12 @@ describe('UserFormComponent', () => {
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        DateTimePickerModule,
-        OrganizationFormTestingModule,
+        FormTestingModule,
       ],
       declarations: [UserFormComponent, FormErrorsComponent],
       providers: [
         { provide: OrgUnitService, useClass: MockOrgUnitService },
-        { provide: UserItemService, useClass: MockOrganizationItemService },
+        { provide: UserItemService, useClass: MockItemService },
         { provide: UserService, useClass: MockUserService },
         { provide: B2BUserService, useClass: MockB2BUserService },
       ],
@@ -134,5 +131,24 @@ describe('UserFormComponent', () => {
     component.form = mockForm;
     fixture.detectChanges();
     expect(b2bUnitService.loadList).toHaveBeenCalled();
+  });
+
+  describe('autoSelect uid', () => {
+    beforeEach(() => {
+      component.form = mockForm;
+      component.form.get('orgUnit.uid').setValue(null);
+    });
+
+    it('should auto-select unit if only one is available', () => {
+      activeUnitList$.next([{ id: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toEqual('test');
+    });
+
+    it('should not auto-select unit if more than one is available', () => {
+      activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toBeNull();
+    });
   });
 });

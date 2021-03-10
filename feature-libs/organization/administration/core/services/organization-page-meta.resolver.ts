@@ -1,9 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import {
+  BasePageMetaResolver,
   BreadcrumbMeta,
   ContentPageMetaResolver,
   PageBreadcrumbResolver,
   PageMetaResolver,
+  PageRobotsMeta,
+  PageRobotsResolver,
   PageTitleResolver,
   PageType,
   RoutingService,
@@ -23,7 +26,7 @@ import {
  *
  * Breadcrumbs are built in this implementation only.
  *
- * @property {string} ORGANIZATION_ROOT_PATH the default root path for organization pages.
+ * @property {string} ORGANIZATION_SEMANTIC_ROUTE the default root path for organization pages.
  * @property {string} ORGANIZATION_TRANSLATION_KEY the default i18n key for the organization breadcrumb label.
  */
 @Injectable({
@@ -31,7 +34,7 @@ import {
 })
 export class OrganizationPageMetaResolver
   extends PageMetaResolver
-  implements PageBreadcrumbResolver, PageTitleResolver {
+  implements PageBreadcrumbResolver, PageTitleResolver, PageRobotsResolver {
   pageTemplate = 'CompanyPageTemplate';
   pageType = PageType.CONTENT_PAGE;
 
@@ -46,11 +49,30 @@ export class OrganizationPageMetaResolver
    */
   protected readonly ORGANIZATION_SEMANTIC_ROUTE = 'organization';
 
+  /**
+   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
+   */
+  // TODO(#10467): Remove deprecated constructors
+  constructor(
+    contentPageMetaResolver: ContentPageMetaResolver,
+    translation: TranslationService,
+    semanticPath: SemanticPathService,
+    routingService: RoutingService
+  );
+  constructor(
+    contentPageMetaResolver: ContentPageMetaResolver,
+    translation: TranslationService,
+    semanticPath: SemanticPathService,
+    routingService: RoutingService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver
+  );
   constructor(
     protected contentPageMetaResolver: ContentPageMetaResolver,
     protected translation: TranslationService,
     protected semanticPath: SemanticPathService,
-    protected routingService: RoutingService
+    protected routingService: RoutingService,
+    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
   }
@@ -83,7 +105,13 @@ export class OrganizationPageMetaResolver
    */
   protected breadcrumbs$: Observable<BreadcrumbMeta[]> = combineLatest([
     this.organizationPageBreadcrumb$,
-    defer(() => this.contentPageMetaResolver.resolveBreadcrumbs()),
+    defer(
+      // TODO(#10467): Remove usage of contentPageMetaResolver
+      () =>
+        (
+          this.basePageMetaResolver ?? this.contentPageMetaResolver
+        ).resolveBreadcrumbs()
+    ),
   ]).pipe(
     map(([organizationPageBreadcrumb, breadcrumbs]) => {
       const [home, ...restBreadcrumbs] = breadcrumbs;
@@ -104,6 +132,16 @@ export class OrganizationPageMetaResolver
   }
 
   resolveTitle(): Observable<string> {
-    return this.contentPageMetaResolver.resolveTitle();
+    // TODO(#10467): Remove usage of contentPageMetaResolver
+    return (
+      this.basePageMetaResolver ?? this.contentPageMetaResolver
+    ).resolveTitle();
+  }
+
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    // TODO(#10467): Remove usage of contentPageMetaResolver
+    return (
+      this.basePageMetaResolver ?? this.contentPageMetaResolver
+    ).resolveRobots();
   }
 }

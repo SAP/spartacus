@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ActiveCartService,
   Cart,
@@ -18,31 +18,33 @@ describe('CheckoutOrderSummaryComponent', () => {
   let fixture: ComponentFixture<CheckoutOrderSummaryComponent>;
   let mockActiveCartService: any;
 
-  beforeEach(async(() => {
-    mockActiveCartService = {
-      getActive(): BehaviorSubject<Cart> {
-        return new BehaviorSubject({
-          totalItems: 5141,
-          subTotal: { formattedValue: '11119' },
-        });
-      },
-      loadDetails: createSpy(),
-    };
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CheckoutOrderSummaryComponent,
-        OrderSummaryComponent,
-        PromotionsComponent,
-        AppliedCouponsComponent,
-        MockFeatureLevelDirective,
-      ],
-      providers: [
-        { provide: ActiveCartService, useValue: mockActiveCartService },
-        { provide: CartVoucherService, useValue: {} },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      mockActiveCartService = {
+        getActive(): BehaviorSubject<Cart> {
+          return new BehaviorSubject({
+            totalItems: 5141,
+            subTotal: { formattedValue: '11119' },
+          });
+        },
+        loadDetails: createSpy(),
+      };
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          CheckoutOrderSummaryComponent,
+          OrderSummaryComponent,
+          PromotionsComponent,
+          AppliedCouponsComponent,
+          MockFeatureLevelDirective,
+        ],
+        providers: [
+          { provide: ActiveCartService, useValue: mockActiveCartService },
+          { provide: CartVoucherService, useValue: {} },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutOrderSummaryComponent);

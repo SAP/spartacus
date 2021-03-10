@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CartVoucherService,
   I18nTestingModule,
@@ -27,17 +27,19 @@ describe('OrderSummary', () => {
   let component: OrderSummaryComponent;
   let fixture: ComponentFixture<OrderSummaryComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [CommonModule, PromotionsModule, I18nTestingModule],
-      declarations: [
-        OrderSummaryComponent,
-        MockAppliedCouponsComponent,
-        MockFeatureLevelDirective,
-      ],
-      providers: [{ provide: CartVoucherService, useValue: {} }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [CommonModule, PromotionsModule, I18nTestingModule],
+        declarations: [
+          OrderSummaryComponent,
+          MockAppliedCouponsComponent,
+          MockFeatureLevelDirective,
+        ],
+        providers: [{ provide: CartVoucherService, useValue: {} }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderSummaryComponent);

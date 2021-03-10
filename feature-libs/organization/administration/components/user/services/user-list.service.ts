@@ -4,7 +4,7 @@ import { B2BUserService } from '@spartacus/organization/administration/core';
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
+import { ListService } from '../../shared/list/list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 
 /**
@@ -25,7 +25,7 @@ export interface UserModel {
 @Injectable({
   providedIn: 'root',
 })
-export class UserListService extends OrganizationListService<UserModel> {
+export class UserListService extends ListService<UserModel> {
   protected tableType = OrganizationTableType.USER;
 
   constructor(

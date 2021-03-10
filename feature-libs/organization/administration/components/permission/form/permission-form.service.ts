@@ -4,7 +4,7 @@ import { Permission } from '@spartacus/organization/administration/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
-import { OrganizationFormService } from '../../shared/organization-form/organization-form.service';
+import { FormService } from '../../shared/form/form.service';
 
 export enum PermissionType {
   ORDER = 'B2BOrderThresholdPermission',
@@ -15,7 +15,7 @@ export enum PermissionType {
   providedIn: 'root',
 })
 export class PermissionFormService
-  extends OrganizationFormService<Permission>
+  extends FormService<Permission>
   implements OnDestroy {
   protected subscription = new Subscription();
 

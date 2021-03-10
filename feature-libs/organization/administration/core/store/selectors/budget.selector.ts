@@ -1,7 +1,6 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { EntitiesModel, SearchConfig, StateUtils } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
-import { denormalizeSearch } from '../../utils/serializer';
 import {
   BUDGET_FEATURE,
   BudgetManagement,
@@ -50,5 +49,5 @@ export const getBudgetList = (
   StateUtils.LoaderState<EntitiesModel<Budget>>
 > =>
   createSelector(getBudgetManagementState, (state: BudgetManagement) =>
-    denormalizeSearch<Budget>(state, params)
+    StateUtils.denormalizeSearch<Budget>(state, params)
   );

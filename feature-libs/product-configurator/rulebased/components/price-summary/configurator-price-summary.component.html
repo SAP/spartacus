@@ -1,0 +1,30 @@
+<ng-container *ngIf="configuration$ | async as configuration">
+  <div class="cx-price-summary-container">
+    <div class="cx-total-summary">
+      <div class="cx-summary-row cx-base-price">
+        <div class="cx-label">
+          {{ 'configurator.priceSummary.basePrice' | cxTranslate }}:
+        </div>
+        <div class="cx-amount">
+          {{ configuration?.priceSummary?.basePrice?.formattedValue }}
+        </div>
+      </div>
+      <div class="cx-summary-row cx-selected-options">
+        <div class="cx-label">
+          {{ 'configurator.priceSummary.selectedOptions' | cxTranslate }}:
+        </div>
+        <div class="cx-amount">
+          {{ configuration?.priceSummary?.selectedOptions?.formattedValue }}
+        </div>
+      </div>
+      <div class="cx-summary-row cx-total-price">
+        <div class="cx-label">
+          {{ 'configurator.priceSummary.totalPrice' | cxTranslate }}:
+        </div>
+        <div class="cx-amount">
+          {{ configuration?.priceSummary?.currentTotal?.formattedValue }}
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
