@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ImageGroup, Product, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { Configurator } from '../../../core/model/index';
-import { ConfiguratorPriceComponentOptions } from '../../../components/price/configurator-price.component';
 import { map } from 'rxjs/operators';
+import { ConfiguratorPriceComponentOptions } from '../../../components/price/configurator-price.component';
+import { Configurator } from '../../../core/model/index';
 
 interface ProductExtended extends Product {
   noLink?: boolean;
@@ -11,9 +11,9 @@ interface ProductExtended extends Product {
 
 @Component({
   selector: 'cx-configurator-cpq-overview-attribute',
-  templateUrl: './configurator-cpq-overview-attribute.component.html',
+  templateUrl: './configurator-overview-bundle-attribute.component.html',
 })
-export class ConfiguratorCPQOverviewAttributeComponent implements OnInit {
+export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
   product$: Observable<ProductExtended>;
 
   @Input() attributeOverview: Configurator.AttributeOverview;

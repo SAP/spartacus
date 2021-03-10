@@ -1,1 +1,1 @@
-export * from './overview-attribute/index';
+export * from './overview-bundle-attribute/index';
