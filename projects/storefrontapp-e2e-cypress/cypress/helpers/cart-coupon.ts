@@ -141,9 +141,10 @@ export function placeOrder(token: any) {
     .first()
     .then(($cart) => {
       const cartId = $cart.text().match(/[0-9]+/)[0];
-      cy.requireShippingAddressAdded(user.address, token);
-      cy.requireShippingMethodSelected(token);
-      cy.requirePaymentDone(token);
+      // Need to pass numeric CartId explicitly to avoid using the wrong cart for checkout
+      cy.requireShippingAddressAdded(user.address, token, cartId);
+      cy.requireShippingMethodSelected(token, cartId);
+      cy.requirePaymentDone(token, cartId);
       return cy.requirePlacedOrder(token, cartId);
     });
 }

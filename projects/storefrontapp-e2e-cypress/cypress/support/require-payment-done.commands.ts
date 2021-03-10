@@ -4,21 +4,24 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Adds a payment method to the current cart of the current user.
+       * Adds a payment method to a cart of the current user.
        * Returns payment method object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         ```
-        cy.requirePaymentDone(auth);
+        cy.requirePaymentDone(token, cartId);
         ```
        */
-      requirePaymentDone: (token: {}) => Cypress.Chainable<{}>;
+      requirePaymentDone: (
+        token: {},
+        cartId: 'current'
+      ) => Cypress.Chainable<{}>;
     }
   }
 }
-Cypress.Commands.add('requirePaymentDone', (token) => {
+Cypress.Commands.add('requirePaymentDone', (token, cartId) => {
   function getResponseUrl() {
     return cy.request({
       method: 'GET',
@@ -26,7 +29,7 @@ Cypress.Commands.add('requirePaymentDone', (token) => {
         'OCC_PREFIX'
       )}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
+      )}/users/current/carts/${cartId}/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
       headers: {
         Authorization: `bearer ${token.access_token}`,
@@ -63,7 +66,7 @@ Cypress.Commands.add('requirePaymentDone', (token) => {
         'OCC_PREFIX'
       )}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/current/payment/sop/response`,
+      )}/users/current/carts/${cartId}/payment/sop/response`,
       body: data,
       form: true,
       headers: {
