@@ -56,17 +56,6 @@ describe('SavedCartDetailService', () => {
       .getSavedCartId()
       .subscribe((data) => (result = data))
       .unsubscribe();
-
-    expect(result).toEqual(mockCartId);
-  });
-
-  it('should get the saved cart id', () => {
-    let result: string | undefined;
-
-    service
-      .getSavedCartId()
-      .subscribe((data) => (result = data))
-      .unsubscribe();
     expect(result).toEqual(mockCartId);
   });
 
