@@ -2,6 +2,8 @@ import * as configuration from '../../helpers/product-configuration';
 import * as configurationOverview from '../../helpers/product-configuration-overview';
 import * as productSearch from '../../helpers/product-search';
 import * as cart from '../../helpers/cart';
+import { CART } from '../../helpers/site-context-selector';
+import { cartWithTotalVariantProduct } from '../../sample-data/apparel-checkout-flow';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'cpq03@sap.com';
@@ -491,7 +493,7 @@ context('CPQ Configuration', () => {
       configuration.checkWarningMessageShown();
     });
 
-    it.only('check correct number of issues displayed in overview', () => {
+    it('check correct number of issues displayed in overview', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
@@ -522,22 +524,37 @@ context('CPQ Configuration', () => {
       configurationOverview.verifyNotificationBannerOnOP(6);
     });
 
-    it('check correct number of issues displayed in cart', () => {
+    it.only('check correct number of issues displayed in cart', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
       configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
+      cy.wait(1000);
 
       configuration.clickOnGroup(3);
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
+      configuration.closeErrorMessages();
       configuration.selectAttribute(ATTR_REFR_UNIT, RADGRP_PROD, VAL_SIZE_UNIT);
-      configuration.setQuantity(RADGRP_PROD, 3, ATTR_REFR_UNIT);
+      configuration.checkValueSelected(
+        RADGRP_PROD,
+        ATTR_REFR_UNIT,
+        VAL_SIZE_UNIT
+      );
+      configuration.closeErrorMessages();
+      configuration.setQuantity(RADGRP_PROD, 5, ATTR_REFR_UNIT);
+      configuration.checkPrice(
+        RADGRP_PROD,
+        '5x($300.00) + $1,500.00',
+        ATTR_REFR_UNIT
+      );
 
-      configuration.goToCart(POWERTOOLS);
+      configuration.clickAddToCartBtn();
+      configurationOverview.verifyNotificationBannerOnOP();
 
-      configurationOverview.verifyNotificationBannerOnOP(6);
+      configurationOverview.clickContinueToCartBtnOnOP();
+      configuration.verifyNotificationBannerInCart(0, 6);
     });
   });
 });
