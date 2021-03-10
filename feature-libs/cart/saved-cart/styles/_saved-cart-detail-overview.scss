@@ -68,7 +68,7 @@ cx-saved-cart-detail-overview {
         padding: 0 0.5rem;
 
         &:first-child {
-          border-right: 1px solid var(--cx-color-text);
+          border-inline-end: 1px solid var(--cx-color-text);
         }
       }
     }
