@@ -10,7 +10,7 @@ import {
 import { MediaModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { Configurator } from '../../../core/model/index';
+import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 
 const mockAttributeOverviewInput: Configurator.AttributeOverview = {

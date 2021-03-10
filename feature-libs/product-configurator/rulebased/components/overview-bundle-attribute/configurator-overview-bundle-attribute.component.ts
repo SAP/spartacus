@@ -2,8 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ImageGroup, Product, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ConfiguratorPriceComponentOptions } from '../../../components/price/configurator-price.component';
-import { Configurator } from '../../../core/model/index';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 
 interface ProductExtended extends Product {
   noLink?: boolean;
