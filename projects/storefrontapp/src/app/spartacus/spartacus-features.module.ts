@@ -9,7 +9,6 @@ import {
   CheckoutOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
-  PersonalizationModule,
   ProductModule,
   ProductOccModule,
   UserModule,
@@ -87,6 +86,7 @@ import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking-feature.module';
+import { VariantsFeatureModule } from './features/variants-feature.module';
 
 const featureModules = [];
 
@@ -192,9 +192,6 @@ if (environment.cds) {
     ReplenishmentOrderDetailsModule,
     ReplenishmentOrderConfirmationModule,
 
-    // Personalization
-    PersonalizationModule.forRoot(),
-
     // Asm Core
     AsmOccModule,
     // Asm UI
@@ -207,7 +204,6 @@ if (environment.cds) {
     PageEventModule,
     ProductPageEventModule,
 
-    TrackingFeatureModule,
     /************************* Opt-in features *************************/
 
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
@@ -218,6 +214,8 @@ if (environment.cds) {
     StorefinderFeatureModule,
     QualtricsFeatureModule,
     SmartEditFeatureModule,
+    TrackingFeatureModule,
+    VariantsFeatureModule,
     ...featureModules,
   ],
 })
