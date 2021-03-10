@@ -212,10 +212,13 @@ export class ProductPageMetaResolver
    * this might be too opinionated for your business though.
    */
   protected findBaseProduct(product: Product): Observable<Product> {
-    if (product.baseProduct) {
+    if (product?.baseProduct) {
       return this.productService
         .get(product.baseProduct, ProductScope.LIST)
-        .pipe(switchMap((product) => this.findBaseProduct(product)));
+        .pipe(
+          filter((product) => Boolean(product)),
+          switchMap((baseProduct) => this.findBaseProduct(baseProduct))
+        );
     }
     return of(product);
   }

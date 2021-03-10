@@ -292,4 +292,15 @@ describe('ProductPageMetaResolver', () => {
       'https://store.com/product/super_base_1234'
     );
   });
+
+  it('should not resolve canonical url for undefined product', async () => {
+    spyOn(productService, 'get').and.returnValues(of(undefined));
+    spyOn(routingService, 'getFullUrl').and.returnValue(
+      'https://store.com/product/123'
+    );
+
+    spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+    expect(pageLinkService.getCanonicalUrl).not.toHaveBeenCalled();
+  });
 });
