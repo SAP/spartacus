@@ -15,6 +15,9 @@ import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths'
 import { parseCSV } from '../shared/utils/transform-utils';
 import { Schema as SpartacusOptions } from './schema';
 
+const DEFAULT_B2C_BASE_SITES = ['electronics-spa'];
+const DEFAULT_B2B_BASE_SITES = ['powertools-spa'];
+
 export function addSpartacusConfiguration(options: SpartacusOptions): Rule {
   return (tree: Tree): Tree => {
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
@@ -50,7 +53,7 @@ function addConfiguration(
       if (options.configuration === 'b2c') {
         addB2cConfiguration(sourceFile, options);
       } else {
-        addB2bConfiguration(sourceFile);
+        addB2bConfiguration(sourceFile, options);
       }
 
       saveAndFormat(sourceFile);
@@ -64,29 +67,13 @@ function addB2cConfiguration(
   sourceFile: SourceFile,
   options: SpartacusOptions
 ): void {
-  addCommonConfiguration(sourceFile);
-
-  const config = createStorefrontConfig(options);
-  addModuleProvider(sourceFile, {
-    import: [
-      {
-        moduleSpecifier: SPARTACUS_CORE,
-        namedImports: [PROVIDE_CONFIG_FUNCTION],
-      },
-      {
-        moduleSpecifier: SPARTACUS_ASSETS,
-        namedImports: ['translations'],
-      },
-      {
-        moduleSpecifier: SPARTACUS_ASSETS,
-        namedImports: ['translationChunksConfig'],
-      },
-    ],
-    content: `provideConfig(${config})`,
-  });
+  addCommonConfiguration(sourceFile, options);
 }
 
-function addCommonConfiguration(sourceFile: SourceFile): void {
+function addCommonConfiguration(
+  sourceFile: SourceFile,
+  options: SpartacusOptions
+): void {
   addModuleProvider(sourceFile, {
     import: [
       {
@@ -120,10 +107,32 @@ function addCommonConfiguration(sourceFile: SourceFile): void {
     },
     content: `...defaultCmsContentProviders`,
   });
+
+  const config = createStorefrontConfig(options);
+  addModuleProvider(sourceFile, {
+    import: [
+      {
+        moduleSpecifier: SPARTACUS_CORE,
+        namedImports: [PROVIDE_CONFIG_FUNCTION],
+      },
+      {
+        moduleSpecifier: SPARTACUS_ASSETS,
+        namedImports: ['translations'],
+      },
+      {
+        moduleSpecifier: SPARTACUS_ASSETS,
+        namedImports: ['translationChunksConfig'],
+      },
+    ],
+    content: `provideConfig(${config})`,
+  });
 }
 
-function addB2bConfiguration(sourceFile: SourceFile): void {
-  addCommonConfiguration(sourceFile);
+function addB2bConfiguration(
+  sourceFile: SourceFile,
+  options: SpartacusOptions
+): void {
+  addCommonConfiguration(sourceFile, options);
 
   addModuleProvider(sourceFile, {
     import: [
@@ -161,13 +170,14 @@ function prepareSiteContextConfig(options: SpartacusOptions): string {
         currency: [${currency}],
         language: [${language}],`;
 
-  if (options.baseSite) {
-    const baseSites = parseCSV(options.baseSite);
-    context += `
-        baseSite: [${baseSites}]`;
-  }
-  context += `
-      },`;
+  const defaultBaseSites =
+    options.configuration === 'b2c'
+      ? DEFAULT_B2C_BASE_SITES
+      : DEFAULT_B2B_BASE_SITES;
+  const baseSites = parseCSV(options.baseSite, defaultBaseSites);
+  context += `\nbaseSite: [${baseSites}]`;
+
+  context += `},`;
 
   return context;
 }

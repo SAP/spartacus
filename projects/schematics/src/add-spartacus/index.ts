@@ -24,6 +24,7 @@ import {
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_MODULE,
   SPARTACUS_ROUTING_MODULE,
+  SPARTACUS_SETUP,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
 } from '../shared/constants';
@@ -162,11 +163,14 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   };
 }
 
-function prepareDependencies(tree: Tree): NodeDependency[] {
+function prepareDependencies(
+  tree: Tree,
+  options: SpartacusOptions
+): NodeDependency[] {
   const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
   const angularVersion = getAngularVersion(tree);
 
-  return [
+  const dependencies = [
     {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
@@ -242,6 +246,15 @@ function prepareDependencies(tree: Tree): NodeDependency[] {
       name: ANGULAR_OAUTH2_OIDC,
     },
   ];
+  if (options.configuration === 'b2b') {
+    dependencies.push({
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_SETUP,
+    });
+  }
+
+  return dependencies;
 }
 
 export function addSpartacus(options: SpartacusOptions): Rule {
@@ -249,7 +262,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     const project = getProjectFromWorkspace(tree, options);
 
     return chain([
-      addPackageJsonDependencies(prepareDependencies(tree)),
+      addPackageJsonDependencies(prepareDependencies(tree, options)),
       ensureModuleExists({
         name: SPARTACUS_ROUTING_MODULE,
         path: 'app',
