@@ -218,9 +218,7 @@ export class OccPermissionTypeNormalizer
     target?: OrderApprovalPermissionType
   ): OrderApprovalPermissionType {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-      };
+      target &#x3D; { ...(source as any) };
     }
     return target;
   }

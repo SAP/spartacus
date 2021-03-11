@@ -659,6 +659,7 @@ import {
 } from &#x27;@angular/platform-browser&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { map, tap } from &#x27;rxjs/operators&#x27;;
+import { Config } from &#x27;../../config/config-tokens&#x27;;
 import { deepMerge } from &#x27;../../config/utils/deep-merge&#x27;;
 import { I18nConfig } from &#x27;../../i18n/config/i18n-config&#x27;;
 import { SiteContextConfig } from &#x27;../../site-context/config/site-context-config&#x27;;
@@ -666,7 +667,6 @@ import { SERVER_REQUEST_URL } from &#x27;../../util/ssr.tokens&#x27;;
 import { OccLoadedConfig } from &#x27;./occ-loaded-config&#x27;;
 import { OccLoadedConfigConverter } from &#x27;./occ-loaded-config-converter&#x27;;
 import { OccSitesConfigLoader } from &#x27;./occ-sites-config-loader&#x27;;
-import { Config } from &#x27;../../config/config-tokens&#x27;;
 
 export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey&lt;string&gt; &#x3D; makeStateKey&lt;
   string

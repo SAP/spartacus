@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/vendor/cds/merchandising-carousel.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/viewport.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,10 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#waitForCarouselEvent">waitForCarouselEvent</a>
+                                        <a href="#onDesktop">onDesktop</a>
+                                </li>
+                                <li>
+                                        <a href="#onMobile">onMobile</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +99,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="waitForCarouselEvent"></a>
-                                        <span class="name"><b>waitForCarouselEvent</b><a href="#waitForCarouselEvent"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="onDesktop"></a>
+                                        <span class="name"><b>onDesktop</b><a href="#onDesktop"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>waitForCarouselEvent:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>onDesktop:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +124,42 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Wait for a carousel event to be sent to CDS. Returns the sent event</p>
+                                    <div class="io-description"><p>Run commands only in desktop view</p>
+</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <a name="onMobile"></a>
+                                        <span class="name"><b>onMobile</b><a href="#onMobile"><span class="icon ion-ios-link"></span></a></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="col-md-4">
+                                        <code>onMobile:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+</code>
+                                    </td>
+                                </tr>
+
+
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+
+                                        </td>
+                                    </tr>
+
+
+
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-description"><p>Run commands only in mobile view</p>
 </div>
                                 </td>
                             </tr>
@@ -132,38 +170,51 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { carouselEventRequestAlias } from &#x27;../../../helpers/vendor/cds/merchandising-carousel&#x27;;
-
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      /**
-       * Wait for a carousel event to be sent to CDS. Returns the sent event
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare namespace Cypress {
+  interface Chainable {
+    /**
+       * Run commands only in mobile view
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.waitForCarouselEvent(eventSchema);
+        cy.onMobile(() &#x3D;&gt; {
+          cy.get(&#x27;something&#x27;)
+        })
         &#x60;&#x60;&#x60;
        */
-      waitForCarouselEvent: (eventSchema: string) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
-    }
+    onMobile: (cb: () &#x3D;&gt; unknown) &#x3D;&gt; void;
+    /**
+       * Run commands only in desktop view
+       *
+       * @memberof Cypress.Chainable
+       *
+       * @example
+        &#x60;&#x60;&#x60;
+        cy.onDesktop(() &#x3D;&gt; {
+          cy.get(&#x27;something&#x27;)
+        })
+        &#x60;&#x60;&#x60;
+       */
+    onDesktop: (cb: () &#x3D;&gt; unknown) &#x3D;&gt; void;
   }
 }
 
-Cypress.Commands.add(&#x27;waitForCarouselEvent&#x27;, (eventSchema: string) &#x3D;&gt; {
-  cy.wait(&#x60;@${carouselEventRequestAlias}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 201);
+const mobileBreakpoint &#x3D; 992;
 
-  cy.get&lt;Cypress.WaitXHR&gt;(&#x60;@${carouselEventRequestAlias}&#x60;).then(
-    ({ request }) &#x3D;&gt; {
-      if (request.headers[&#x27;hybris-schema&#x27;] !&#x3D;&#x3D; eventSchema) {
-        return cy.waitForCarouselEvent(eventSchema);
-      }
+Cypress.Commands.add(&#x27;onMobile&#x27;, (cb: () &#x3D;&gt; unknown) &#x3D;&gt; {
+  const viewportWidth &#x3D; Cypress.config(&#x27;viewportWidth&#x27;);
+  if (viewportWidth &lt; mobileBreakpoint) {
+    cb();
+  }
+});
 
-      return cy.wrap(request.body);
-    }
-  );
+Cypress.Commands.add(&#x27;onDesktop&#x27;, (cb: () &#x3D;&gt; unknown) &#x3D;&gt; {
+  const viewportWidth &#x3D; Cypress.config(&#x27;viewportWidth&#x27;);
+  if (viewportWidth &gt;&#x3D; mobileBreakpoint) {
+    cb();
+  }
 });
 </code></pre>
     </div>

@@ -328,14 +328,14 @@ export default async function run(
   let fromToken: string;
   try {
     const packageVersions &#x3D; await versionsHelper.fetchPackageVersions(
-      args.library
+      args.library!
     );
     const previousVersion &#x3D; versionsHelper.extractPreviousVersionForChangelog(
       packageVersions,
-      newVersion.version
+      newVersion?.version!
     );
-    fromToken &#x3D;
-      previousVersion &amp;&amp; args.to.split(newVersion).join(previousVersion);
+    fromToken &#x3D; (previousVersion &amp;&amp;
+      args.to.split(newVersion?.version!).join(previousVersion)) as string;
   } catch (err) {
     // package not found - assuming first release
     fromToken &#x3D; &#x27;&#x27;;
@@ -347,7 +347,7 @@ export default async function run(
     &#x27;&#x27;
   ).trim();
 
-  const libraryPaths &#x3D; {
+  const libraryPaths: Record&lt;string, string&gt; &#x3D; {
     &#x27;@spartacus/storefront&#x27;: &#x27;projects/storefrontlib&#x27;,
     &#x27;@spartacus/core&#x27;: &#x27;projects/core&#x27;,
     &#x27;@spartacus/styles&#x27;: &#x27;projects/storefrontstyles&#x27;,
@@ -359,12 +359,19 @@ export default async function run(
     &#x27;@spartacus/product&#x27;: &#x27;feature-libs/product&#x27;,
     &#x27;@spartacus/product-configurator&#x27;: &#x27;feature-libs/product-configurator&#x27;,
     &#x27;@spartacus/storefinder&#x27;: &#x27;feature-libs/storefinder&#x27;,
+    &#x27;@spartacus/smartedit&#x27;: &#x27;feature-libs/smartedit&#x27;,
+    &#x27;@spartacus/tracking&#x27;: &#x27;feature-libs/tracking&#x27;,
     &#x27;@spartacus/qualtrics&#x27;: &#x27;feature-libs/qualtrics&#x27;,
     &#x27;@spartacus/cdc&#x27;: &#x27;integration-libs/cdc&#x27;,
     &#x27;@spartacus/setup&#x27;: &#x27;core-libs/setup&#x27;,
   };
 
-  const duplexUtil &#x3D; through(function (chunk, _, callback) {
+  const duplexUtil &#x3D; through(function (
+    this: NodeJS.ReadStream,
+    chunk: unknown,
+    _: unknown,
+    callback: () &#x3D;&gt; {}
+  ) {
     this.push(chunk);
     callback();
   });
@@ -425,7 +432,6 @@ export default async function run(
               chunk.gitTags &amp;&amp; (chunk.gitTags as string).match(/tag: (.*)/);
             const tags &#x3D; maybeTag &amp;&amp; maybeTag[1].split(/,/g);
             chunk[&#x27;tags&#x27;] &#x3D; tags;
-            // tslint:disable-next-line:triple-equals
             if (tags &amp;&amp; tags.find((x) &#x3D;&gt; x &#x3D;&#x3D; args.to)) {
               toSha &#x3D; chunk.hash as string;
             }
@@ -484,7 +490,6 @@ export default async function run(
     })
     .then(([body, markdown]) &#x3D;&gt; {
       const json &#x3D; body.body;
-      // tslint:disable-next-line:triple-equals
       const maybeRelease &#x3D; json.find((x: JsonObject) &#x3D;&gt; x.tag_name &#x3D;&#x3D; args.to);
       const id &#x3D; maybeRelease ? &#x60;/${maybeRelease.id}&#x60; : &#x27;&#x27;;
 
@@ -576,6 +581,12 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
       break;
     case &#x27;product&#x27;:
     case &#x27;@spartacus/product&#x27;:
+    case &#x27;@spartacus/product/configurators&#x27;:
+    case &#x27;@spartacus/product/configurators/common&#x27;:
+    case &#x27;@spartacus/product/configurators/cpq&#x27;:
+    case &#x27;@spartacus/product/configurators/variant&#x27;:
+    case &#x27;@spartacus/product/configurators/textfield&#x27;:
+    case &#x27;@spartacus/product/variants&#x27;:
       config.library &#x3D; &#x27;@spartacus/product&#x27;;
       break;
     case &#x27;product-configurator&#x27;:
@@ -590,9 +601,17 @@ if (typeof config.to &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
     case &#x27;@spartacus/storefinder&#x27;:
       config.library &#x3D; &#x27;@spartacus/storefinder&#x27;;
       break;
+    case &#x27;tracking&#x27;:
+    case &#x27;@spartacus/tracking&#x27;:
+      config.library &#x3D; &#x27;@spartacus/tracking&#x27;;
+      break;
     case &#x27;qualtrics&#x27;:
     case &#x27;@spartacus/qualtrics&#x27;:
       config.library &#x3D; &#x27;@spartacus/qualtrics&#x27;;
+      break;
+    case &#x27;smartedit&#x27;:
+    case &#x27;@spartacus/smartedit&#x27;:
+      config.library &#x3D; &#x27;@spartacus/smartedit&#x27;;
       break;
     case &#x27;setup&#x27;:
     case &#x27;@spartacus/setup&#x27;:

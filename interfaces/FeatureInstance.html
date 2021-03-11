@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-structure/services/feature-modules.service.ts</code>
+            <code>projects/storefrontlib/src/cms-structure/services/cms-features.service.ts</code>
         </p>
 
 
@@ -87,10 +87,6 @@
                                 <li>
                                             <span class="modifier">Optional</span>
                                         <a href="#componentsMappings">componentsMappings</a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#dependencyModuleRefs">dependencyModuleRefs</a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
@@ -145,40 +141,6 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="dependencyModuleRefs"></a>
-                                        <span class="name"><b>dependencyModuleRefs</b><a href="#dependencyModuleRefs"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>dependencyModuleRefs:         <code><a href="../interfaces/Module.html" target="_self" >NgModuleRef&lt;any&gt;[]</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/Module.html" target="_self" >NgModuleRef&lt;any&gt;[]</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
                                         <a name="moduleRef"></a>
                                         <span class="name"><b>moduleRef</b><a href="#moduleRef"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
@@ -214,13 +176,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  Injectable,
-  InjectFlags,
-  Injector,
-  NgModuleRef,
-  OnDestroy,
-} from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, InjectFlags, Injector, NgModuleRef } from &#x27;@angular/core&#x27;;
 import {
   CMSComponentConfig,
   CmsComponentMapping,
@@ -230,14 +186,13 @@ import {
   deepMerge,
   DefaultConfigChunk,
   FeatureModuleConfig,
-  LazyModulesService,
+  FeatureModulesService,
 } from &#x27;@spartacus/core&#x27;;
-import { defer, forkJoin, merge, Observable, of } from &#x27;rxjs&#x27;;
-import { map, shareReplay, switchMap } from &#x27;rxjs/operators&#x27;;
+import { defer, Observable, of } from &#x27;rxjs&#x27;;
+import { map, shareReplay } from &#x27;rxjs/operators&#x27;;
 
 interface FeatureInstance extends FeatureModuleConfig {
   moduleRef?: NgModuleRef&lt;any&gt;;
-  dependencyModuleRefs?: NgModuleRef&lt;any&gt;[];
   componentsMappings?: CMSComponentConfig;
 }
 
@@ -247,7 +202,7 @@ interface FeatureInstance extends FeatureModuleConfig {
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class FeatureModulesService implements OnDestroy {
+export class CmsFeaturesService {
   // feature modules configuration
   private featureModulesConfig?: {
     [featureName: string]: FeatureModuleConfig;
@@ -260,29 +215,34 @@ export class FeatureModulesService implements OnDestroy {
    * Contains either FeatureInstance or FeatureInstance resolver for not yet
    * resolved feature modules
    */
-  private features: Map&lt;string, Observable&lt;FeatureInstance&gt;&gt; &#x3D; new Map();
+  private featureInstances: Map&lt;
+    string,
+    Observable&lt;FeatureInstance&gt;
+  &gt; &#x3D; new Map();
 
   constructor(
     protected configInitializer: ConfigInitializerService,
-    protected lazyModules: LazyModulesService
+    protected featureModules: FeatureModulesService
   ) {
     this.initFeatureMap();
   }
 
   private initFeatureMap(): void {
-    this.configInitializer.getStable(&#x27;featureModules&#x27;).subscribe((config) &#x3D;&gt; {
-      this.featureModulesConfig &#x3D; config.featureModules ?? {};
+    this.configInitializer
+      .getStable(&#x27;featureModules&#x27;)
+      .subscribe((config: CmsConfig) &#x3D;&gt; {
+        this.featureModulesConfig &#x3D; config.featureModules ?? {};
 
-      for (const [featureName, featureConfig] of Object.entries(
-        this.featureModulesConfig
-      )) {
-        if (featureConfig?.module &amp;&amp; featureConfig?.cmsComponents?.length) {
-          for (const component of featureConfig.cmsComponents) {
-            this.componentFeatureMap.set(component, featureName);
+        for (const [featureName, featureConfig] of Object.entries(
+          this.featureModulesConfig
+        )) {
+          if (featureConfig?.module &amp;&amp; featureConfig?.cmsComponents?.length) {
+            for (const component of featureConfig.cmsComponents) {
+              this.componentFeatureMap.set(component, featureName);
+            }
           }
         }
-      }
-    });
+      });
   }
 
   /**
@@ -296,12 +256,18 @@ export class FeatureModulesService implements OnDestroy {
   /**
    * Return full CmsComponent mapping defined in feature module
    */
-  getCmsMapping(componentType: string): Observable&lt;CmsComponentMapping&gt; {
+  getCmsMapping(
+    componentType: string
+  ): Observable&lt;CmsComponentMapping | undefined&gt; {
     const feature &#x3D; this.componentFeatureMap.get(componentType);
 
-    return this.resolveFeature(feature).pipe(
+    if (!feature) {
+      return of(undefined);
+    }
+
+    return this.resolveFeatureInstance(feature).pipe(
       map(
-        (featureInstance) &#x3D;&gt; featureInstance.componentsMappings[componentType]
+        (featureInstance) &#x3D;&gt; featureInstance.componentsMappings?.[componentType]
       )
     );
   }
@@ -313,10 +279,15 @@ export class FeatureModulesService implements OnDestroy {
    */
   getModule(componentType: string): NgModuleRef&lt;any&gt; | undefined {
     const feature &#x3D; this.componentFeatureMap.get(componentType);
+
+    if (!feature) {
+      return undefined;
+    }
+
     let module;
 
     // we are returning injectors only for already resolved features
-    this.features
+    this.featureInstances
       .get(feature)
       ?.subscribe((featureInstance) &#x3D;&gt; {
         module &#x3D; featureInstance.moduleRef;
@@ -330,77 +301,53 @@ export class FeatureModulesService implements OnDestroy {
    *
    * It will first resolve all module dependencies if defined
    */
-  private resolveFeature(featureName: string): Observable&lt;FeatureInstance&gt; {
+  private resolveFeatureInstance(
+    featureName: string
+  ): Observable&lt;FeatureInstance&gt; {
     return defer(() &#x3D;&gt; {
-      if (!this.features.has(featureName)) {
-        const featureConfig &#x3D; this.featureModulesConfig[featureName];
-
-        if (!featureConfig?.module) {
-          throw new Error(
-            &#x27;No module defined for Feature Module &#x27; + featureName
-          );
-        }
-
-        // resolve dependencies first (if any)
-        const depsResolve &#x3D; featureConfig.dependencies?.length
-          ? forkJoin(
-              featureConfig.dependencies.map((depModuleFunc) &#x3D;&gt;
-                this.lazyModules.resolveDependencyModuleInstance(depModuleFunc)
-              )
-            )
-          : of(undefined);
-
-        this.features.set(
+      if (!this.featureInstances.has(featureName)) {
+        this.featureInstances.set(
           featureName,
-          depsResolve.pipe(
-            switchMap((deps) &#x3D;&gt;
-              this.resolveFeatureModule(featureConfig, deps, featureName)
+          this.featureModules.resolveFeature(featureName).pipe(
+            map((moduleRef) &#x3D;&gt;
+              this.createFeatureInstance(moduleRef, featureName)
             ),
             shareReplay()
           )
         );
       }
 
-      return this.features.get(featureName);
+      return this.featureInstances.get(featureName);
     });
   }
 
   /**
-   * Initialize feature module by returning feature instance
+   * Create feature instance from feature&#x27;s moduleRef
    */
-  private resolveFeatureModule(
-    featureConfig: FeatureModuleConfig,
-    dependencyModuleRefs: NgModuleRef&lt;any&gt;[] &#x3D; [],
+  private createFeatureInstance(
+    moduleRef: NgModuleRef&lt;any&gt;,
     feature: string
-  ): Observable&lt;FeatureInstance&gt; {
-    return this.lazyModules
-      .resolveModuleInstance(
-        featureConfig?.module,
-        feature,
-        dependencyModuleRefs
-      )
-      .pipe(
-        map((moduleRef) &#x3D;&gt; {
-          const featureInstance: FeatureInstance &#x3D; {
-            ...featureConfig,
-            moduleRef,
-            dependencyModuleRefs,
-            componentsMappings: {},
-          };
+  ): FeatureInstance {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const featureConfig &#x3D; this.featureModulesConfig![feature];
 
-          // resolve configuration for feature module
-          const resolvedConfiguration &#x3D; this.resolveFeatureConfiguration(
-            moduleRef.injector
-          );
+    const featureInstance: FeatureInstance &#x3D; {
+      moduleRef,
+      componentsMappings: {},
+    };
 
-          // extract cms components configuration from feature config
-          for (const componentType of featureInstance.cmsComponents) {
-            featureInstance.componentsMappings[componentType] &#x3D;
-              resolvedConfiguration.cmsComponents[componentType];
-          }
-          return featureInstance;
-        })
-      );
+    // resolve configuration for feature module
+    const resolvedConfiguration &#x3D; this.resolveFeatureConfiguration(
+      moduleRef.injector
+    );
+
+    // extract cms components configuration from feature config
+    for (const componentType of featureConfig.cmsComponents ?? []) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      featureInstance.componentsMappings![componentType] &#x3D;
+        resolvedConfiguration.cmsComponents?.[componentType] ?? {};
+    }
+    return featureInstance;
   }
 
   /**
@@ -425,13 +372,6 @@ export class FeatureModulesService implements OnDestroy {
       ...(featureDefaultConfigChunks ?? []),
       ...(featureConfigChunks ?? [])
     ) as CmsConfig;
-  }
-
-  ngOnDestroy(): void {
-    // clean up all initialized features
-    merge(...Array.from(this.features.values())).subscribe((featureInstance) &#x3D;&gt;
-      featureInstance.moduleRef?.destroy()
-    );
   }
 }
 </code></pre>

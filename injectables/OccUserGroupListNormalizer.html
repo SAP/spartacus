@@ -256,13 +256,11 @@ export class OccUserGroupListNormalizer
     target?: EntitiesModel&lt;UserGroup&gt;
   ): EntitiesModel&lt;UserGroup&gt; {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-        values: source.orgUnitUserGroups.map((userGroup) &#x3D;&gt; ({
-          ...this.converter.convert(userGroup, USER_GROUP_NORMALIZER),
-        })),
-      };
+      target &#x3D; { ...(source as any) };
     }
+    target.values &#x3D; source.orgUnitUserGroups.map((userGroup) &#x3D;&gt; ({
+      ...this.converter.convert(userGroup, USER_GROUP_NORMALIZER),
+    }));
     return target;
   }
 }

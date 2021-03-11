@@ -256,13 +256,11 @@ export class OccPermissionListNormalizer
     target?: EntitiesModel&lt;Permission&gt;
   ): EntitiesModel&lt;Permission&gt; {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-        values: source.orderApprovalPermissions.map((permission) &#x3D;&gt; ({
-          ...this.converter.convert(permission, PERMISSION_NORMALIZER),
-        })),
-      };
+      target &#x3D; { ...(source as any) };
     }
+    target.values &#x3D; source.orderApprovalPermissions.map((permission) &#x3D;&gt; ({
+      ...this.converter.convert(permission, PERMISSION_NORMALIZER),
+    }));
     return target;
   }
 }

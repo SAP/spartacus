@@ -194,9 +194,7 @@ import { Budget } from &#x27;@spartacus/organization/administration/core&#x27;;
 export class OccBudgetNormalizer implements Converter&lt;Occ.Budget, Budget&gt; {
   convert(source: Occ.Budget, target?: Budget): Budget {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-      };
+      target &#x3D; { ...(source as any) };
     }
 
     if (source.startDate) {

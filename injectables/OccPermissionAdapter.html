@@ -125,7 +125,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:22</a></div>
                             </td>
                         </tr>
 
@@ -214,8 +214,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:44</a></div>
                 </td>
             </tr>
 
@@ -298,8 +298,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:73</a></div>
                 </td>
             </tr>
 
@@ -382,8 +382,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:83</a></div>
                 </td>
             </tr>
 
@@ -466,8 +466,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:90</a></div>
                 </td>
             </tr>
 
@@ -505,8 +505,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="29"
+                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:29</a></div>
                 </td>
             </tr>
 
@@ -587,8 +587,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:35</a></div>
                 </td>
             </tr>
 
@@ -669,8 +669,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:65</a></div>
                 </td>
             </tr>
 
@@ -708,8 +708,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-permission.adapter.ts:51</a></div>
                 </td>
             </tr>
 
@@ -802,6 +802,7 @@ import {
   PERMISSIONS_NORMALIZER,
   PERMISSION_NORMALIZER,
   PERMISSION_TYPES_NORMALIZER,
+  PERMISSION_SERIALIZER,
 } from &#x27;@spartacus/organization/administration/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 
@@ -829,6 +830,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
   }
 
   create(userId: string, permission: Permission): Observable&lt;Permission&gt; {
+    permission &#x3D; this.converter.convert(permission, PERMISSION_SERIALIZER);
     return this.http
       .post&lt;Occ.Permission&gt;(this.getPermissionsEndpoint(userId), permission)
       .pipe(this.converter.pipeable(PERMISSION_NORMALIZER));
@@ -839,6 +841,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
     permissionCode: string,
     permission: Permission
   ): Observable&lt;Permission&gt; {
+    permission &#x3D; this.converter.convert(permission, PERMISSION_SERIALIZER);
     return this.http
       .patch&lt;Occ.Permission&gt;(
         this.getPermissionEndpoint(userId, permissionCode),

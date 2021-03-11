@@ -215,9 +215,7 @@ export class OccUserGroupNormalizer
 
   convert(source: Occ.OrgUnitUserGroup, target?: UserGroup): UserGroup {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-      };
+      target &#x3D; { ...(source as any) };
     }
     return target;
   }

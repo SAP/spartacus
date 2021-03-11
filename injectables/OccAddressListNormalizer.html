@@ -254,13 +254,12 @@ export class OccAddressListNormalizer
     target?: EntitiesModel&lt;Address&gt;
   ): EntitiesModel&lt;Address&gt; {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-        values: source.addresses.map((address) &#x3D;&gt; ({
-          ...this.converter.convert(address, ADDRESS_NORMALIZER),
-        })),
-      };
+      target &#x3D; { ...(source as any) };
     }
+    target.values &#x3D; source.addresses.map((address) &#x3D;&gt; ({
+      ...this.converter.convert(address, ADDRESS_NORMALIZER),
+    }));
+
     return target;
   }
 }

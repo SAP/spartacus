@@ -520,7 +520,7 @@ export function insertHtmlComment(
   );
 
   resultingElements
-    .map((node: Element) &#x3D;&gt; node.sourceSpan.start.line)
+    .map((node: Node) &#x3D;&gt; node.sourceSpan.start.line)
     .forEach((line, i) &#x3D;&gt; {
       const split &#x3D; content.split(&#x27;\n&#x27;);
       split.splice(line + i, 0, comment);
@@ -1483,19 +1483,20 @@ export function getMetadataProperty(
   propertyName: string
 ): ts.PropertyAssignment {
   const properties &#x3D; (metadata as ts.ObjectLiteralExpression).properties;
-  const property &#x3D; properties
-    .filter((prop) &#x3D;&gt; prop.kind &#x3D;&#x3D;&#x3D; ts.SyntaxKind.PropertyAssignment)
-    .filter((prop: ts.PropertyAssignment) &#x3D;&gt; {
-      const name &#x3D; prop.name;
-      switch (name.kind) {
-        case ts.SyntaxKind.Identifier:
-          return (name as ts.Identifier).getText() &#x3D;&#x3D;&#x3D; propertyName;
-        case ts.SyntaxKind.StringLiteral:
-          return (name as ts.StringLiteral).text &#x3D;&#x3D;&#x3D; propertyName;
-      }
-
+  const property &#x3D; properties.filter((prop) &#x3D;&gt; {
+    if (!ts.isPropertyAssignment(prop)) {
       return false;
-    })[0];
+    }
+    const name &#x3D; prop.name;
+    switch (name.kind) {
+      case ts.SyntaxKind.Identifier:
+        return (name as ts.Identifier).getText() &#x3D;&#x3D;&#x3D; propertyName;
+      case ts.SyntaxKind.StringLiteral:
+        return (name as ts.StringLiteral).text &#x3D;&#x3D;&#x3D; propertyName;
+    }
+
+    return false;
+  })[0];
 
   return property as ts.PropertyAssignment;
 }

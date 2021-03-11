@@ -286,9 +286,9 @@ export interface FeatureModuleConfig {
    */
   module?: () &#x3D;&gt; Promise&lt;any&gt;;
   /**
-   * Lazy resolved dependency modules
+   * Lazy resolved dependency modules or features referenced by name
    */
-  dependencies?: (() &#x3D;&gt; Promise&lt;any&gt;)[];
+  dependencies?: ((() &#x3D;&gt; Promise&lt;any&gt;) | string)[];
   /**
    * Cms components covered by this feature
    */

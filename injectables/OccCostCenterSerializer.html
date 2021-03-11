@@ -196,12 +196,10 @@ export class OccCostCenterSerializer
   implements Converter&lt;CostCenter, Occ.CostCenter&gt; {
   convert(source: CostCenter, target?: Occ.CostCenter): Occ.CostCenter {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-        activeFlag: source.active,
-      };
-      delete target.active;
+      target &#x3D; { ...(source as any) };
     }
+    target.activeFlag &#x3D; source.active;
+    delete target.active;
     return target;
   }
 }

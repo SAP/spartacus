@@ -176,7 +176,7 @@
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.router.events.pipe(
     filter((event) &#x3D;&gt; event instanceof NavigationEnd),
-    // tslint:disable-next-line: deprecation https://github.com/ReactiveX/rxjs/issues/4772
+    // eslint-disable-next-line import/no-deprecated
     startWith(undefined), // emit value for consumer who subscribed lately after NavigationEnd event
     map(() &#x3D;&gt; {
       let route &#x3D; this.router.routerState.snapshot.root;
@@ -233,7 +233,7 @@ export class ActivatedRoutesService {
     ActivatedRouteSnapshot[]
   &gt; &#x3D; this.router.events.pipe(
     filter((event) &#x3D;&gt; event instanceof NavigationEnd),
-    // tslint:disable-next-line: deprecation https://github.com/ReactiveX/rxjs/issues/4772
+    // eslint-disable-next-line import/no-deprecated
     startWith(undefined), // emit value for consumer who subscribed lately after NavigationEnd event
     map(() &#x3D;&gt; {
       let route &#x3D; this.router.routerState.snapshot.root;

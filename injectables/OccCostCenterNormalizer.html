@@ -206,8 +206,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/core/src/occ/adapters/cost-center/converters/occ-cost-center-normalizer.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/core/src/occ/adapters/cost-center/converters/occ-cost-center-normalizer.ts:24</a></div>
                 </td>
             </tr>
 
@@ -275,11 +275,10 @@ export class OccCostCenterNormalizer
   implements Converter&lt;Occ.CostCenter, CostCenter&gt; {
   convert(source: Occ.CostCenter, target?: CostCenter): CostCenter {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-        active: this.normalizeBoolean(source.active),
-      };
+      target &#x3D; { ...(source as any) };
     }
+    target.active &#x3D; this.normalizeBoolean(source.active);
+
     return target;
   }
 

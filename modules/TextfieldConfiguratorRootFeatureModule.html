@@ -80,18 +80,26 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
 import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 
+const cmsComponents: string[] &#x3D; [&#x27;TextfieldConfigurationForm&#x27;];
+
 /**
  * Contains feature module configuration
  */
-
 @NgModule({
   imports: [],
   providers: [
     provideDefaultConfig({
       featureModules: {
-        textfield: {
-          cmsComponents: [&#x27;TextfieldConfigurationForm&#x27;],
-        },
+        /**
+         * @deprecated since 3.1.0-RC.3 - use key &#x60;productConfiguratorTextfield&#x60; instead.
+         *
+         * TODO(#11232) remove &#x60;textfield&#x60; key
+         *
+         * It depends on customer&#x27;s app module, which KEY will be used. The KEY
+         * with undefined &#x60;config.featureModules[KEY].module&#x60; will be ignored.
+         */
+        textfield: { cmsComponents },
+        productConfiguratorTextfield: { cmsComponents },
       },
     }),
   ],

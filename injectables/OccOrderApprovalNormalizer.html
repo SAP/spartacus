@@ -250,12 +250,10 @@ export class OccOrderApprovalNormalizer
 
   convert(source: Occ.OrderApproval, target?: OrderApproval): OrderApproval {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-      };
-      if (source.order) {
-        target.order &#x3D; this.converter.convert(source.order, ORDER_NORMALIZER);
-      }
+      target &#x3D; { ...(source as any) };
+    }
+    if (source.order) {
+      target.order &#x3D; this.converter.convert(source.order, ORDER_NORMALIZER);
     }
     return target;
   }

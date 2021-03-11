@@ -256,13 +256,11 @@ export class OccBudgetListNormalizer
     target?: EntitiesModel&lt;Budget&gt;
   ): EntitiesModel&lt;Budget&gt; {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-        values: source.budgets.map((budget) &#x3D;&gt; ({
-          ...this.converter.convert(budget, BUDGET_NORMALIZER),
-        })),
-      };
+      target &#x3D; { ...(source as any) };
     }
+    target.values &#x3D; source.budgets.map((budget) &#x3D;&gt; ({
+      ...this.converter.convert(budget, BUDGET_NORMALIZER),
+    }));
     return target;
   }
 }

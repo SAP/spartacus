@@ -254,13 +254,11 @@ export class OccOrderApprovalListNormalizer
     target?: EntitiesModel&lt;OrderApproval&gt;
   ): EntitiesModel&lt;OrderApproval&gt; {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-        values: source.orderApprovals.map((orderApproval) &#x3D;&gt; ({
-          ...this.converter.convert(orderApproval, ORDER_APPROVAL_NORMALIZER),
-        })),
-      };
+      target &#x3D; { ...(source as any) };
     }
+    target.values &#x3D; source.orderApprovals.map((orderApproval) &#x3D;&gt; ({
+      ...this.converter.convert(orderApproval, ORDER_APPROVAL_NORMALIZER),
+    }));
     return target;
   }
 }

@@ -80,30 +80,38 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
 import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
 
+const cmsComponents: string[] &#x3D; [
+  &#x27;ConfiguratorForm&#x27;,
+  &#x27;ConfiguratorOverview&#x27;,
+  &#x27;ConfiguratorUpdateMessage&#x27;,
+  &#x27;ConfiguratorAddToCartButton&#x27;,
+  &#x27;ConfiguratorMenu&#x27;,
+  &#x27;ConfiguratorGroupTitle&#x27;,
+  &#x27;ConfiguratorOverviewBanner&#x27;,
+  &#x27;ConfiguratorPrevNext&#x27;,
+  &#x27;ConfiguratorPriceSummary&#x27;,
+  &#x27;ConfiguratorTitle&#x27;,
+  &#x27;ConfiguratorTabBar&#x27;,
+];
+
 /**
  * Contains feature module configuration
  */
-
 @NgModule({
   imports: [],
   providers: [
     provideDefaultConfig({
       featureModules: {
-        rulebased: {
-          cmsComponents: [
-            &#x27;ConfiguratorForm&#x27;,
-            &#x27;ConfiguratorOverview&#x27;,
-            &#x27;ConfiguratorUpdateMessage&#x27;,
-            &#x27;ConfiguratorAddToCartButton&#x27;,
-            &#x27;ConfiguratorMenu&#x27;,
-            &#x27;ConfiguratorGroupTitle&#x27;,
-            &#x27;ConfiguratorOverviewBanner&#x27;,
-            &#x27;ConfiguratorPrevNext&#x27;,
-            &#x27;ConfiguratorPriceSummary&#x27;,
-            &#x27;ConfiguratorTitle&#x27;,
-            &#x27;ConfiguratorTabBar&#x27;,
-          ],
-        },
+        /**
+         * @deprecated since 3.1.0-RC.3 - use key &#x60;productConfiguratorRulebased&#x60; instead.
+         *
+         * TODO(#11232) remove &#x60;rulebased&#x60; key
+         *
+         * It depends on customer&#x27;s app module, which KEY will be used. The KEY
+         * with undefined &#x60;config.featureModules[KEY].module&#x60; will be ignored.
+         */
+        rulebased: { cmsComponents },
+        productConfiguratorRulebased: { cmsComponents },
       },
     }),
   ],

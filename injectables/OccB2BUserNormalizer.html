@@ -213,11 +213,10 @@ export class OccB2BUserNormalizer implements Converter&lt;Occ.B2BUser, B2BUser&g
 
   convert(source: Occ.B2BUser, target?: B2BUser): B2BUser {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-        email: source?.uid,
-      };
+      target &#x3D; { ...(source as any) };
     }
+    target.email &#x3D; source?.uid;
+
     return target;
   }
 }

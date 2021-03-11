@@ -195,9 +195,7 @@ export class OccPermissionNormalizer
   implements Converter&lt;Occ.Permission, Permission&gt; {
   convert(source: Occ.Permission, target?: Permission): Permission {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-      };
+      target &#x3D; { ...(source as any) };
     }
     return target;
   }

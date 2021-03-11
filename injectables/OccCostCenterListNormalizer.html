@@ -254,13 +254,12 @@ export class OccCostCenterListNormalizer
     target?: EntitiesModel&lt;CostCenter&gt;
   ): EntitiesModel&lt;CostCenter&gt; {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-        values: source.costCenters.map((costCenter) &#x3D;&gt; ({
-          ...this.converter.convert(costCenter, COST_CENTER_NORMALIZER),
-        })),
-      };
+      target &#x3D; { ...(source as any) };
     }
+    target.values &#x3D; source.costCenters.map((costCenter) &#x3D;&gt; ({
+      ...this.converter.convert(costCenter, COST_CENTER_NORMALIZER),
+    }));
+
     return target;
   }
 }

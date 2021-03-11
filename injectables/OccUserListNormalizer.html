@@ -254,13 +254,11 @@ export class OccUserListNormalizer
     target?: EntitiesModel&lt;B2BUser&gt;
   ): EntitiesModel&lt;B2BUser&gt; {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-        values: source.users.map((b2bUser) &#x3D;&gt; ({
-          ...this.converter.convert(b2bUser, B2B_USER_NORMALIZER),
-        })),
-      };
+      target &#x3D; { ...(source as any) };
     }
+    target.values &#x3D; source.users.map((b2bUser) &#x3D;&gt; ({
+      ...this.converter.convert(b2bUser, B2B_USER_NORMALIZER),
+    }));
     return target;
   }
 }

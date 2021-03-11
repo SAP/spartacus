@@ -213,13 +213,11 @@ export class OccB2bUserSerializer implements Converter&lt;B2BUser, Occ.B2BUser&g
 
   convert(source: B2BUser, target?: Occ.B2BUser): Occ.B2BUser {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; {
-        ...(source as any),
-      };
-      delete (target as B2BUser).isAssignedToApprovers;
-      if (target.active &#x3D;&#x3D;&#x3D; false) {
-        target.roles &#x3D; [];
-      }
+      target &#x3D; { ...(source as any) };
+    }
+    delete (target as B2BUser).isAssignedToApprovers;
+    if (target.active &#x3D;&#x3D;&#x3D; false) {
+      target.roles &#x3D; [];
     }
     return target;
   }

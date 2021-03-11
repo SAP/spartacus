@@ -351,8 +351,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="301"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:301</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="300"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:300</a></div>
                 </td>
             </tr>
 
@@ -697,8 +697,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="265"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:265</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="264"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:264</a></div>
                 </td>
             </tr>
 
@@ -856,8 +856,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="308"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:308</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="307"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:307</a></div>
                 </td>
             </tr>
 
@@ -1061,8 +1061,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="216"
-                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:216</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="215"
+                            class="link-to-prism">projects/core/src/occ/services/occ-endpoints.service.ts:215</a></div>
                 </td>
             </tr>
 
@@ -1275,7 +1275,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.1 - use &quot;getRawEndpointValue&quot; or &quot;buildUrl&quot; instead
+   * @Deprecated since 3.2 - use &quot;getRawEndpointValue&quot; or &quot;buildUrl&quot; instead
    *
    * Returns an endpoint starting from the OCC baseUrl (no baseSite)
    * @param endpoint Endpoint suffix
@@ -1306,7 +1306,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.1 - use &quot;buildUrl&quot; instead
+   * @Deprecated since 3.2 - use &quot;buildUrl&quot; instead
    *
    * Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
    * Most OCC endpoints are related to a baseSite context and are therefor prefixed
@@ -1322,7 +1322,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.1 - use &quot;getBaseUrl&quot; with the same parameters
+   * @Deprecated since 3.2 - use &quot;getBaseUrl&quot; with the same parameters
    *
    * Returns base OCC endpoint (baseUrl + prefix + baseSite) by if no parameters are specified
    *
@@ -1337,7 +1337,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.1 - use &quot;buildUrl&quot; with configurable endpoints instead
+   * @Deprecated since 3.2 - use &quot;buildUrl&quot; with configurable endpoints instead
    *
    * Returns an OCC endpoint including baseUrl and baseSite
    *
@@ -1433,7 +1433,7 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.1 - use &quot;buildUrl&quot; instead
+   * @Deprecated since 3.2 - use &quot;buildUrl&quot; instead
    *
    * Returns a fully qualified OCC Url (including baseUrl and baseSite)
    * @param endpoint Name of the OCC endpoint key config
@@ -1441,7 +1441,6 @@ export class OccEndpointsService {
    * @param queryParams Query parameters
    * @param scope
    */
-  // TODO #10729: Handle deprecation
   getUrl(
     endpoint: string,
     urlParams?: object,

@@ -243,6 +243,7 @@ export interface FeatureConfig {
     importPath: string;
   };
   styles?: StylingConfig;
+  assets?: AssetsConfig;
 }
 
 export interface Module {
@@ -261,6 +262,12 @@ export interface StylingConfig {
   importStyle: string;
 }
 
+export interface AssetsConfig {
+  input: string;
+  output?: string;
+  glob: string;
+}
+
 export function shouldAddFeature(features: string[], feature: string): boolean {
   return features.includes(feature);
 }
@@ -273,6 +280,7 @@ export function addLibraryFeature&lt;T extends LibraryOptions&gt;(
   return chain([
     handleFeature(appModulePath, options, config),
     config.styles ? addLibraryStyles(config.styles) : noop(),
+    config.assets ? addLibraryAssets(config.assets) : noop(),
   ]);
 }
 
@@ -536,7 +544,69 @@ function provideI18NConfig(
   return changes;
 }
 
-function addLibraryStyles(stylingConfig: StylingConfig): Rule {
+function addLibraryAssets(assetsConfig: AssetsConfig): Rule {
+  return (tree: Tree) &#x3D;&gt; {
+    const { path, workspace: angularJson } &#x3D; getWorkspace(tree);
+    const defaultProject &#x3D; getDefaultProjectNameFromWorkspace(tree);
+    const architect &#x3D; angularJson.projects[defaultProject].architect;
+
+    // &#x60;build&#x60; architect section
+    const architectBuild &#x3D; architect?.build;
+    const buildOptions &#x3D; {
+      ...architectBuild?.options,
+      assets: [
+        ...(architectBuild?.options?.assets
+          ? architectBuild?.options?.assets
+          : []),
+        {
+          glob: assetsConfig.glob,
+          input: &#x27;./node_modules/@spartacus/&#x27; + assetsConfig.input,
+          output: assetsConfig.output || &#x27;assets/&#x27;,
+        },
+      ],
+    };
+
+    // &#x60;test&#x60; architect section
+    const architectTest &#x3D; architect?.test;
+    const testOptions &#x3D; {
+      ...architectTest?.options,
+      assets: [
+        ...(architectTest?.options?.assets
+          ? architectTest?.options?.assets
+          : []),
+        {
+          glob: assetsConfig.glob,
+          input: &#x27;./node_modules/@spartacus/&#x27; + assetsConfig.input,
+          output: assetsConfig.output || &#x27;assets/&#x27;,
+        },
+      ],
+    };
+
+    const updatedAngularJson &#x3D; {
+      ...angularJson,
+      projects: {
+        ...angularJson.projects,
+        [defaultProject]: {
+          ...angularJson.projects[defaultProject],
+          architect: {
+            ...architect,
+            build: {
+              ...architectBuild,
+              options: buildOptions,
+            },
+            test: {
+              ...architectTest,
+              options: testOptions,
+            },
+          },
+        },
+      },
+    };
+    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+  };
+}
+
+export function addLibraryStyles(stylingConfig: StylingConfig): Rule {
   return (tree: Tree, context: SchematicContext) &#x3D;&gt; {
     const libraryScssPath &#x3D; &#x60;${getSourceRoot(tree)}/styles/spartacus/${
       stylingConfig.scssFileName
