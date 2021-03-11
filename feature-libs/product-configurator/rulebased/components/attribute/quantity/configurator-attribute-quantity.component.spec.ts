@@ -86,7 +86,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     component.quantity.setValue(changedQty);
     fixture.detectChanges();
     tick(fakeDebounceTime - 100);
-    expect(component.changeQuantity.emit).toHaveBeenCalledTimes(0);
+    expect(component.changeQuantity.emit).not.toHaveBeenCalled();
     discardPeriodicTasks();
   }));
 
