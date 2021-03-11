@@ -48,6 +48,7 @@ import { addSpartacusConfiguration } from './configuration';
 import { setupRouterModule } from './router';
 import { Schema as SpartacusOptions } from './schema';
 import { setupSpartacusModule } from './spartacus';
+import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
 
 function installStyles(options: SpartacusOptions): Rule {
@@ -279,12 +280,14 @@ export function addSpartacus(options: SpartacusOptions): Rule {
         project: options.project,
       }),
       setupSpartacusModule(options.project),
+
       ensureModuleExists({
         name: SPARTACUS_FEATURES_MODULE,
         path: 'app/spartacus',
         module: 'spartacus',
         project: options.project,
       }),
+      setupSpartacusFeaturesModule(options.project),
 
       ensureModuleExists({
         name: SPARTACUS_CONFIGURATION_MODULE,
