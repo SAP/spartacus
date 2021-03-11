@@ -27,6 +27,9 @@
       "@spartacus/cart/saved-cart/root": [
         "../../feature-libs/cart/saved-cart/root/public_api"
       ],
+      "@spartacus/cart/saved-cart/events": [
+        "../../feature-libs/cart/saved-cart/events/public_api"
+      ],
       "@spartacus/organization/administration/assets": [
         "../../feature-libs/organization/administration/assets/public_api"
       ],
