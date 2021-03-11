@@ -1,9 +1,13 @@
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { CallExpression, Node, SourceFile, ts } from 'ts-morph';
-import { ANGULAR_CORE, ANGULAR_ROUTER } from '../shared/constants';
+import {
+  ANGULAR_CORE,
+  ANGULAR_ROUTER,
+  SPARTACUS_ROUTING_MODULE,
+} from '../shared/constants';
 import { isImportedFrom } from '../shared/utils/import-utils';
 import { addModuleImport } from '../shared/utils/new-module-utils';
-import { createProgram } from '../shared/utils/program';
+import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
 /** Migration that ensures that we have correct RouterModule.forRoot set */
@@ -33,18 +37,22 @@ function configureRouterModule(
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
   appSourceFiles.forEach((sourceFile) => {
-    if (sourceFile.getFilePath().includes('app-routing.module.ts')) {
+    if (
+      sourceFile.getFilePath().includes(`${SPARTACUS_ROUTING_MODULE}.module.ts`)
+    ) {
       let routerModule = getRouterModule(sourceFile);
       if (!routerModule) {
         routerModule = addModuleImport(sourceFile, {
-          moduleSpecifier: ANGULAR_ROUTER,
-          namedImports: ['RouterModule'],
+          import: {
+            moduleSpecifier: ANGULAR_ROUTER,
+            namedImports: ['RouterModule'],
+          },
           content: `RouterModule.forRoot([])`,
         });
       }
       configureOptionsInRouterModule(routerModule as CallExpression);
-      sourceFile.organizeImports();
-      sourceFile.saveSync();
+
+      saveAndFormat(sourceFile);
     }
   });
 }

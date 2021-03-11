@@ -11,6 +11,17 @@
         "$source": "projectName"
       }
     },
+    "configuration": {
+      "description": "The Spartacus configuration to use in the application.",
+      "type": "string",
+      "default": "b2c",
+      "enum": ["b2c", "b2b"],
+      "x-prompt": {
+        "message": "Please choose which configuration you would like to add.",
+        "type": "list",
+        "items": ["b2c", "b2b"]
+      }
+    },
     "baseUrl": {
       "type": "string",
       "description": "The url of the OCC backend",

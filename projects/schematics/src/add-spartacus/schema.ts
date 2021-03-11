@@ -1,5 +1,6 @@
 export interface Schema {
   project: string;
+  configuration: 'b2c' | 'b2b';
   baseUrl?: string;
   occPrefix?: string;
   baseSite?: string;

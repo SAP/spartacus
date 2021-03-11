@@ -27,3 +27,12 @@ export function createProgram(
     appSourceFiles,
   };
 }
+
+export function saveAndFormat(sourceFile: SourceFile): void {
+  sourceFile.organizeImports();
+  sourceFile.formatText({
+    ensureNewLineAtEndOfFile: true,
+    indentSize: 2,
+  });
+  sourceFile.saveSync();
+}

@@ -5,139 +5,49 @@ import {
   noop,
   Rule,
   SchematicContext,
-  SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { isImported } from '@schematics/angular/utility/ast-utils';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
   ANGULAR_OAUTH2_OIDC,
-  B2C_STOREFRONT_MODULE,
   DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
   DEFAULT_NGRX_VERSION,
+  NGRX_EFFECTS,
+  NGRX_ROUTER_STORE,
+  NGRX_STORE,
   SPARTACUS_ASSETS,
+  SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
+  SPARTACUS_FEATURES_MODULE,
+  SPARTACUS_MODULE,
+  SPARTACUS_ROUTING_MODULE,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
 } from '../shared/constants';
-import { getIndexHtmlPath, getTsSourceFile } from '../shared/utils/file-utils';
+import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
   installPackageJsonDependencies,
 } from '../shared/utils/lib-utils';
-import {
-  addImport,
-  addToModuleImportsAndCommitChanges,
-} from '../shared/utils/module-file-utils';
 import { ensureModuleExists } from '../shared/utils/new-module-utils';
 import {
   getAngularVersion,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
 } from '../shared/utils/package-utils';
-import { parseCSV } from '../shared/utils/transform-utils';
 import {
   getProjectFromWorkspace,
   getProjectTargets,
 } from '../shared/utils/workspace-utils';
+import { addSpartacusConfiguration } from './configuration';
 import { setupRouterModule } from './router';
 import { Schema as SpartacusOptions } from './schema';
 import { setupSpartacusModule } from './spartacus';
 import { setupStoreModules } from './store';
-
-function prepareSiteContextConfig(options: SpartacusOptions): string {
-  const currency = parseCSV(options.currency, ['USD']).toUpperCase();
-  const language = parseCSV(options.language, ['en']).toLowerCase();
-  let context = `
-      context: {
-        currency: [${currency}],
-        language: [${language}],`;
-
-  if (options.baseSite) {
-    const baseSites = parseCSV(options.baseSite);
-    context += `
-        baseSite: [${baseSites}]`;
-  }
-  context += `
-      },`;
-
-  return context;
-}
-
-/**
- * Creates a spartacus config based on the provided `options`.
- * @param options
- */
-function createStorefrontConfig(options: SpartacusOptions): string {
-  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}'`;
-  const context = prepareSiteContextConfig(options);
-
-  const occPrefixPart = options.occPrefix
-    ? `,
-          prefix: '${options.occPrefix}'`
-    : '';
-
-  return `{
-      backend: {
-        occ: {${options.useMetaTags ? '' : baseUrlPart}${occPrefixPart}
-        }
-      },${context}
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en'
-      },
-      features: {
-        level: '${options.featureLevel || getSpartacusCurrentFeatureLevel()}'
-      }
-    }`;
-}
-
-function updateAppModule(options: SpartacusOptions): Rule {
-  return (host: Tree, context: SchematicContext): Tree => {
-    context.logger.debug('Updating main module');
-
-    // find app module
-    const projectTargets = getProjectTargets(host, options.project);
-
-    if (!projectTargets.build) {
-      throw new SchematicsException(`Project target "build" not found.`);
-    }
-
-    const mainPath = projectTargets.build.options.main;
-    const modulePath = getAppModulePath(host, mainPath);
-    context.logger.debug(`main module path: ${modulePath}`);
-    const moduleSource = getTsSourceFile(host, modulePath);
-    if (
-      !isImported(moduleSource, B2C_STOREFRONT_MODULE, SPARTACUS_STOREFRONTLIB)
-    ) {
-      // add imports
-      addImport(host, modulePath, 'translations', SPARTACUS_ASSETS);
-      addImport(host, modulePath, 'translationChunksConfig', SPARTACUS_ASSETS);
-      addImport(
-        host,
-        modulePath,
-        B2C_STOREFRONT_MODULE,
-        SPARTACUS_STOREFRONTLIB
-      );
-
-      addToModuleImportsAndCommitChanges(
-        host,
-        modulePath,
-        `${B2C_STOREFRONT_MODULE}.withConfig(${createStorefrontConfig(
-          options
-        )})`
-      );
-    }
-
-    return host;
-  };
-}
 
 function installStyles(options: SpartacusOptions): Rule {
   return (host: Tree): void => {
@@ -252,93 +162,96 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   };
 }
 
+function prepareDependencies(tree: Tree): NodeDependency[] {
+  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+  const angularVersion = getAngularVersion(tree);
+
+  return [
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_CORE,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_STOREFRONTLIB,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_ASSETS,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_STYLES,
+    },
+
+    {
+      type: NodeDependencyType.Default,
+      version: '^7.0.0',
+      name: '@ng-bootstrap/ng-bootstrap',
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: '^4.0.0',
+      name: '@ng-select/ng-select',
+    },
+
+    {
+      type: NodeDependencyType.Default,
+      version: DEFAULT_NGRX_VERSION,
+      name: NGRX_STORE,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: DEFAULT_NGRX_VERSION,
+      name: NGRX_EFFECTS,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: DEFAULT_NGRX_VERSION,
+      name: NGRX_ROUTER_STORE,
+    },
+
+    {
+      type: NodeDependencyType.Default,
+      version: '4.2.1',
+      name: 'bootstrap',
+    },
+    { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
+    {
+      type: NodeDependencyType.Default,
+      version: '^3.2.2',
+      name: 'i18next-xhr-backend',
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: angularVersion,
+      name: '@angular/service-worker',
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: '^8.0.0',
+      name: 'ngx-infinite-scroll',
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
+      name: ANGULAR_OAUTH2_OIDC,
+    },
+  ];
+}
+
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-    const angularVersion = getAngularVersion(tree);
-
-    const dependencies: NodeDependency[] = [
-      {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_CORE,
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_STOREFRONTLIB,
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_ASSETS,
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_STYLES,
-      },
-
-      {
-        type: NodeDependencyType.Default,
-        version: '^7.0.0',
-        name: '@ng-bootstrap/ng-bootstrap',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: '^4.0.0',
-        name: '@ng-select/ng-select',
-      },
-
-      {
-        type: NodeDependencyType.Default,
-        version: DEFAULT_NGRX_VERSION,
-        name: '@ngrx/store',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: DEFAULT_NGRX_VERSION,
-        name: '@ngrx/effects',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: DEFAULT_NGRX_VERSION,
-        name: '@ngrx/router-store',
-      },
-
-      {
-        type: NodeDependencyType.Default,
-        version: '4.2.1',
-        name: 'bootstrap',
-      },
-      { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
-      {
-        type: NodeDependencyType.Default,
-        version: '^3.2.2',
-        name: 'i18next-xhr-backend',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: angularVersion,
-        name: '@angular/service-worker',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: '^8.0.0',
-        name: 'ngx-infinite-scroll',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
-        name: ANGULAR_OAUTH2_OIDC,
-      },
-    ];
 
     return chain([
-      addPackageJsonDependencies(dependencies),
+      addPackageJsonDependencies(prepareDependencies(tree)),
       ensureModuleExists({
-        name: 'app-routing',
+        name: SPARTACUS_ROUTING_MODULE,
         path: 'app',
         module: 'app',
         project: options.project,
@@ -347,27 +260,27 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       setupStoreModules(options.project),
 
       ensureModuleExists({
-        name: 'spartacus',
+        name: SPARTACUS_MODULE,
         path: 'app/spartacus',
         module: 'app',
         project: options.project,
       }),
       setupSpartacusModule(options.project),
       ensureModuleExists({
-        name: 'spartacus-features',
-        path: 'app/spartacus',
-        module: 'spartacus',
-        project: options.project,
-      }),
-      ensureModuleExists({
-        name: 'spartacus-configuration',
+        name: SPARTACUS_FEATURES_MODULE,
         path: 'app/spartacus',
         module: 'spartacus',
         project: options.project,
       }),
 
-      // add the configuration
-      updateAppModule(options),
+      ensureModuleExists({
+        name: SPARTACUS_CONFIGURATION_MODULE,
+        path: 'app/spartacus',
+        module: 'spartacus',
+        project: options.project,
+      }),
+      addSpartacusConfiguration(options),
+
       installStyles(options),
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),

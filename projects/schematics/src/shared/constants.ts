@@ -33,6 +33,7 @@ export const SPARTACUS_STYLES = '@spartacus/styles';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
+export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
 
@@ -667,3 +668,10 @@ export const CSS_V2_DOCS_URL =
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
 /***** Storefinder end *****/
+
+/******* CLI start *******/
+export const SPARTACUS_ROUTING_MODULE = 'app-routing';
+export const SPARTACUS_MODULE = 'spartacus';
+export const SPARTACUS_FEATURES_MODULE = 'spartacus-features';
+export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
+/******* CLI end *******/

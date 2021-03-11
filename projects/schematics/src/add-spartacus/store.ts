@@ -1,7 +1,7 @@
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { NGRX_EFFECTS, NGRX_STORE } from '../shared/constants';
 import { addModuleImport } from '../shared/utils/new-module-utils';
-import { createProgram } from '../shared/utils/program';
+import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
 /** Migration that ensures that we have correct RouterModule.forRoot set */
@@ -33,17 +33,21 @@ function configureStoreModules(
   appSourceFiles.forEach((sourceFile) => {
     if (sourceFile.getFilePath().includes('app.module.ts')) {
       addModuleImport(sourceFile, {
-        moduleSpecifier: NGRX_STORE,
-        namedImports: ['StoreModule'],
+        import: {
+          moduleSpecifier: NGRX_STORE,
+          namedImports: ['StoreModule'],
+        },
         content: `StoreModule.forRoot({})`,
       });
       addModuleImport(sourceFile, {
-        moduleSpecifier: NGRX_EFFECTS,
-        namedImports: ['EffectsModule'],
+        import: {
+          moduleSpecifier: NGRX_EFFECTS,
+          namedImports: ['EffectsModule'],
+        },
         content: `EffectsModule.forRoot([])`,
       });
-      sourceFile.organizeImports();
-      sourceFile.saveSync();
+
+      saveAndFormat(sourceFile);
     }
   });
 }

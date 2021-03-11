@@ -1,10 +1,14 @@
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
-import { BASE_STOREFRONT_MODULE, SPARTACUS_STOREFRONTLIB } from '../shared';
+import {
+  BASE_STOREFRONT_MODULE,
+  SPARTACUS_MODULE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../shared/constants';
 import {
   addModuleExport,
   addModuleImport,
 } from '../shared/utils/new-module-utils';
-import { createProgram } from '../shared/utils/program';
+import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
 /** Migration which ensures the spartacus is being correctly set up */
@@ -14,7 +18,7 @@ export function setupSpartacusModule(project: string): Rule {
 
     if (!buildPaths.length) {
       throw new SchematicsException(
-        'Could not find any tsconfig file. Cannot set RouterModule.'
+        'Could not find any tsconfig file. Cannot configure SpartacusModule.'
       );
     }
 
@@ -34,19 +38,23 @@ function configureSpartacusModules(
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
   for (const sourceFile of appSourceFiles) {
-    if (sourceFile.getFilePath().includes('spartacus.module.ts')) {
+    if (sourceFile.getFilePath().includes(`${SPARTACUS_MODULE}.module.ts`)) {
       addModuleImport(sourceFile, {
-        moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-        namedImports: [BASE_STOREFRONT_MODULE],
+        import: {
+          moduleSpecifier: SPARTACUS_STOREFRONTLIB,
+          namedImports: [BASE_STOREFRONT_MODULE],
+        },
         content: BASE_STOREFRONT_MODULE,
       });
       addModuleExport(sourceFile, {
-        moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-        namedImports: [BASE_STOREFRONT_MODULE],
+        import: {
+          moduleSpecifier: SPARTACUS_STOREFRONTLIB,
+          namedImports: [BASE_STOREFRONT_MODULE],
+        },
         content: BASE_STOREFRONT_MODULE,
       });
-      sourceFile.organizeImports();
-      sourceFile.saveSync();
+
+      saveAndFormat(sourceFile);
 
       break;
     }

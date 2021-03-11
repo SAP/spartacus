@@ -12,6 +12,11 @@ import { getTsSourceFile } from './file-utils';
 import { isImportedFrom } from './import-utils';
 import { getSourceRoot } from './workspace-utils';
 
+export interface Import {
+  moduleSpecifier: string;
+  namedImports: string[];
+}
+
 export function ensureModuleExists(options: {
   name: string;
   path: string;
@@ -49,8 +54,7 @@ export function ensureModuleExists(options: {
 export function addModuleImport(
   sourceFile: SourceFile,
   insertOptions: {
-    moduleSpecifier: string;
-    namedImports: string[];
+    import: Import | Import[];
     content: string;
   },
   createIfMissing = true
@@ -66,8 +70,7 @@ export function addModuleImport(
 export function addModuleExport(
   sourceFile: SourceFile,
   insertOptions: {
-    moduleSpecifier: string;
-    namedImports: string[];
+    import: Import | Import[];
     content: string;
   },
   createIfMissing = true
@@ -83,8 +86,7 @@ export function addModuleExport(
 export function addModuleDeclaration(
   sourceFile: SourceFile,
   insertOptions: {
-    moduleSpecifier: string;
-    namedImports: string[];
+    import: Import | Import[];
     content: string;
   },
   createIfMissing = true
@@ -100,8 +102,7 @@ export function addModuleDeclaration(
 export function addModuleProvider(
   sourceFile: SourceFile,
   insertOptions: {
-    moduleSpecifier: string;
-    namedImports: string[];
+    import: Import | Import[];
     content: string;
   },
   createIfMissing = true
@@ -118,8 +119,7 @@ function addToModuleInternal(
   sourceFile: SourceFile,
   propertyName: 'imports' | 'exports' | 'declarations' | 'providers',
   insertOptions: {
-    moduleSpecifier: string;
-    namedImports: string[];
+    import: Import | Import[];
     content: string;
   },
   createIfMissing = true
@@ -151,10 +151,13 @@ function addToModuleInternal(
                 tsMorph.SyntaxKind.ArrayLiteralExpression
               );
               if (initializer) {
-                sourceFile.addImportDeclaration({
-                  moduleSpecifier: insertOptions.moduleSpecifier,
-                  namedImports: insertOptions.namedImports,
-                });
+                const imports = ([] as Import[]).concat(insertOptions.import);
+                imports.forEach((specifiedImport) =>
+                  sourceFile.addImportDeclaration({
+                    moduleSpecifier: specifiedImport.moduleSpecifier,
+                    namedImports: specifiedImport.namedImports,
+                  })
+                );
                 storeNode = initializer.addElement(insertOptions.content);
               }
             }
