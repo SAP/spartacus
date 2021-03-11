@@ -3,13 +3,13 @@ import {
   BuilderOutput,
   createBuilder,
 } from '@angular-devkit/architect';
-import { JsonObject, logging } from '@angular-devkit/core';
 import { NgPackagrBuilderOptions } from '@angular-devkit/build-angular';
+import { JsonObject, logging } from '@angular-devkit/core';
+import { promises as fs } from 'fs';
+import * as globModule from 'glob';
+import * as path from 'path';
 import { from, Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { promises as fs } from 'fs';
-import * as path from 'path';
-import * as globModule from 'glob';
 import { promisify } from 'util';
 const glob = promisify(globModule);
 
@@ -98,13 +98,14 @@ async function propagateAugmentableTypes(
       if (!typingsFile) {
         continue;
       }
-      const typingsFilePath = path.join(libPath, typingsFile);
+      const packageJsonDir = path.dirname(packageJsonFile);
+      const typingsFilePath = path.join(packageJsonDir, typingsFile);
       let typingsFileSource = await fs.readFile(typingsFilePath, 'utf8');
 
       // look for export from public api file
       const regex = /export \* from '(.+)\'/;
       const publicApiFile = typingsFileSource.match(regex)![1];
-      const apiFilePath = path.join(libPath, publicApiFile + '.d.ts');
+      const apiFilePath = path.join(packageJsonDir, publicApiFile + '.d.ts');
 
       let publicApiFileSource = await fs.readFile(apiFilePath, 'utf8');
 
@@ -112,7 +113,7 @@ async function propagateAugmentableTypes(
       const augTypesStart = publicApiFileSource.indexOf(DELIMITER_START);
 
       if (augTypesStart === -1) {
-        return;
+        continue;
       }
 
       const augTypesEnd =

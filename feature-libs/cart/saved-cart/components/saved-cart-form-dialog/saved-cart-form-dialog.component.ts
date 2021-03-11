@@ -22,6 +22,11 @@ import { Subscription } from 'rxjs';
 import { SavedCartFormType } from '../../core/model/saved-cart.model';
 import { SavedCartService } from '../../core/services/saved-cart.service';
 
+export interface SavedCartFormDialogOptions {
+  cart: Cart;
+  layoutOption?: string;
+}
+
 @Component({
   selector: 'cx-saved-cart-form-dialog',
   templateUrl: './saved-cart-form-dialog.component.html',
@@ -34,7 +39,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   form: FormGroup;
   iconTypes = ICON_TYPE;
   cart: Cart;
-  layoutOption: string;
+  layoutOption: string | undefined;
 
   descriptionMaxLength: number = 500;
   nameMaxLength: number = 50;
@@ -66,10 +71,12 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.build();
 
     this.subscription.add(
-      this.launchDialogService.data$.subscribe((data) => {
-        this.cart = data.cart;
-        this.layoutOption = data.layoutOption;
-      })
+      this.launchDialogService.data$.subscribe(
+        (data: SavedCartFormDialogOptions) => {
+          this.cart = data.cart;
+          this.layoutOption = data.layoutOption;
+        }
+      )
     );
 
     this.subscription.add(

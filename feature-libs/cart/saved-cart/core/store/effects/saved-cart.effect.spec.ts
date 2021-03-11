@@ -62,8 +62,6 @@ describe('SavedCart Effects', () => {
   let connector: SavedCartConnector;
   let effects: fromEffects.SavedCartEffects;
   let actions$: Observable<Action>;
-  //   TODO: related to line 202
-  //   let activeCartService: ActiveCartService;
   let globalMessageService: GlobalMessageService;
   let clearCheckoutService: ClearCheckoutService;
   let multiCartService: MultiCartService;
@@ -97,10 +95,9 @@ describe('SavedCart Effects', () => {
       ],
     });
 
-    connector = TestBed.inject(SavedCartConnector);
+    activeCartId$.next(mockActiveCartId);
     effects = TestBed.inject(fromEffects.SavedCartEffects);
-    // TODO: related to line 202
-    // activeCartService = TestBed.inject(ActiveCartService);
+    connector = TestBed.inject(SavedCartConnector);
     globalMessageService = TestBed.inject(GlobalMessageService);
     clearCheckoutService = TestBed.inject(ClearCheckoutService);
     multiCartService = TestBed.inject(MultiCartService);
@@ -151,8 +148,7 @@ describe('SavedCart Effects', () => {
     });
   });
 
-  xdescribe('restoreSavedCart$', () => {
-    // TODO this test is failing
+  describe('restoreSavedCart$', () => {
     it('should restore a saved cart and make it active and save current active cart', () => {
       const action = new SavedCartActions.RestoreSavedCart({
         userId: mockUserId,
@@ -162,7 +158,8 @@ describe('SavedCart Effects', () => {
       const completion1 = new SavedCartActions.SaveCart({
         userId: mockUserId,
         cartId: mockActiveCartId,
-        saveCartName: mockActiveCartId,
+        saveCartName: '',
+        saveCartDescription: '',
         extraData: { edit: true },
       });
       const completion2 = new CartActions.SetActiveCartId(mockCartId);
@@ -174,7 +171,10 @@ describe('SavedCart Effects', () => {
       const completion4 = new SavedCartActions.LoadSavedCarts({
         userId: mockUserId,
       });
-      const completion5 = new SavedCartActions.RestoreSavedCartSuccess();
+      const completion5 = new SavedCartActions.RestoreSavedCartSuccess({
+        userId: mockUserId,
+        cartId: mockCartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcdef)', {
@@ -220,7 +220,10 @@ describe('SavedCart Effects', () => {
       const completion3 = new SavedCartActions.LoadSavedCarts({
         userId: mockUserId,
       });
-      const completion4 = new SavedCartActions.RestoreSavedCartSuccess();
+      const completion4 = new SavedCartActions.RestoreSavedCartSuccess({
+        userId: mockUserId,
+        cartId: mockCartId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcde)', {
@@ -264,7 +267,12 @@ describe('SavedCart Effects', () => {
         cartId: mockCartId,
         cart: mockSavedCarts[0],
       });
-      const completion2 = new SavedCartActions.SaveCartSuccess();
+      const completion2 = new SavedCartActions.SaveCartSuccess({
+        userId: mockUserId,
+        cartId: mockCartId,
+        saveCartName: mockSavedCarts[0].name,
+        saveCartDescription: mockSavedCarts[0].description,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -295,7 +303,12 @@ describe('SavedCart Effects', () => {
         cartId: mockCartId,
         cart: mockSavedCarts[0],
       });
-      const completion2 = new SavedCartActions.SaveCartSuccess();
+      const completion2 = new SavedCartActions.SaveCartSuccess({
+        userId: mockUserId,
+        cartId: mockCartId,
+        saveCartName: mockSavedCarts[0].name,
+        saveCartDescription: mockSavedCarts[0].description,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {

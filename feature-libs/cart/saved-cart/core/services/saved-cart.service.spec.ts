@@ -265,7 +265,12 @@ describe('SavedCartService', () => {
     });
 
     it('should return the loading flag', () => {
-      store.dispatch(new SavedCartActions.RestoreSavedCartSuccess());
+      store.dispatch(
+        new SavedCartActions.RestoreSavedCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
 
       let result: boolean | undefined;
 
@@ -278,7 +283,12 @@ describe('SavedCartService', () => {
     });
 
     it('should return the success flag', () => {
-      store.dispatch(new SavedCartActions.RestoreSavedCartSuccess());
+      store.dispatch(
+        new SavedCartActions.RestoreSavedCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
 
       let result: boolean | undefined;
 
@@ -291,7 +301,13 @@ describe('SavedCartService', () => {
     });
 
     it('should return the error flag', () => {
-      store.dispatch(new SavedCartActions.RestoreSavedCartFail(mockError));
+      store.dispatch(
+        new SavedCartActions.RestoreSavedCartFail({
+          userId: mockUserId,
+          cartId: mockCartId,
+          error: mockError,
+        })
+      );
 
       let result: boolean | undefined;
 
@@ -338,7 +354,12 @@ describe('SavedCartService', () => {
     });
 
     it('should return the loading flag', () => {
-      store.dispatch(new SavedCartActions.SaveCartSuccess());
+      store.dispatch(
+        new SavedCartActions.SaveCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
 
       let result: boolean | undefined;
 
@@ -351,7 +372,12 @@ describe('SavedCartService', () => {
     });
 
     it('should return the success flag', () => {
-      store.dispatch(new SavedCartActions.SaveCartSuccess());
+      store.dispatch(
+        new SavedCartActions.SaveCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
 
       let result: boolean | undefined;
 
@@ -364,7 +390,13 @@ describe('SavedCartService', () => {
     });
 
     it('should return the error flag', () => {
-      store.dispatch(new SavedCartActions.SaveCartFail(mockError));
+      store.dispatch(
+        new SavedCartActions.SaveCartFail({
+          userId: mockUserId,
+          cartId: mockCartId,
+          error: mockError,
+        })
+      );
 
       let result: boolean | undefined;
 

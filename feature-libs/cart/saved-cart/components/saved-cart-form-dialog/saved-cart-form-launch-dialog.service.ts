@@ -23,7 +23,7 @@ export class SavedCartFormLaunchDialogService {
         component,
         this.launchDialogService.dialogClose,
       ]).pipe(
-        filter(([, close]) => close && close !== undefined),
+        filter(([, close]) => close !== undefined),
         tap(([comp]) => {
           openElement?.nativeElement.focus();
           this.launchDialogService.clear(LAUNCH_CALLER.ADD_TO_SAVED_CART);
