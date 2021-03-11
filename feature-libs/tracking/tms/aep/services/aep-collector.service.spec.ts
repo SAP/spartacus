@@ -1,16 +1,29 @@
 import { TestBed } from '@angular/core/testing';
-import { LoginEvent } from '@spartacus/core';
-import { TmsCollectorConfig, WindowObject } from '@spartacus/tracking/tms/core';
+import { LoginEvent, ScriptLoader } from '@spartacus/core';
+import { WindowObject } from '@spartacus/tracking/tms/core';
+import '../config/default-aep.config';
+import { AepCollectorConfig } from '../config/default-aep.config';
 import { AepCollectorService } from './aep-collector.service';
 
-const config: TmsCollectorConfig = {};
+class MockScriptLoader implements Partial<ScriptLoader> {
+  embedScript(_options: object): void {}
+}
+
+const scriptName = 'xxx.js';
+const config: AepCollectorConfig = {
+  scriptUrl: scriptName,
+};
 
 describe('AepCollectorService', () => {
   let service: AepCollectorService;
+  let scriptLoader: ScriptLoader;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [{ provide: ScriptLoader, useClass: MockScriptLoader }],
+    });
     service = TestBed.inject(AepCollectorService);
+    scriptLoader = TestBed.inject(ScriptLoader);
   });
 
   it('should be created', () => {
@@ -22,7 +35,17 @@ describe('AepCollectorService', () => {
       const windowObject = {} as WindowObject;
       expect(windowObject.digitalData).toBeFalsy();
       service.init(config, windowObject);
-      expect(windowObject.digitalData).toEqual({});
+      expect(windowObject.digitalData).toBeTruthy();
+    });
+
+    it('should embed the script tag', () => {
+      spyOn(scriptLoader, 'embedScript').and.stub();
+      const windowObject = {} as WindowObject;
+      service.init(config, windowObject);
+      expect(scriptLoader.embedScript).toHaveBeenCalledTimes(1);
+      expect(scriptLoader.embedScript).toHaveBeenCalledWith({
+        src: scriptName,
+      });
     });
   });
 

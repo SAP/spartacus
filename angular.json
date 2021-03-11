@@ -51,6 +51,10 @@
                 "bundleName": "storefinder"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-product.scss",
+                "bundleName": "product"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-qualtrics.scss",
                 "bundleName": "qualtrics"
               }
@@ -657,7 +661,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "feature-libs/tracking/tsconfig.lib.json",
             "project": "feature-libs/tracking/ng-package.json"

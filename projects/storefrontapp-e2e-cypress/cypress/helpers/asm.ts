@@ -5,6 +5,8 @@ import * as loginHelper from '../helpers/login';
 import * as profile from '../helpers/update-profile';
 import { login } from './auth-forms';
 import { getErrorAlert } from './global-message';
+import { fillShippingAddress } from './checkout-forms';
+import { newAddress } from '../helpers/address-book';
 
 let customer: any;
 
@@ -107,7 +109,7 @@ export function asmTests(isMobile: boolean) {
       });
 
       it('agent should create new address', () => {
-        addressBook.createNewAddress();
+        fillShippingAddress(newAddress);
         cy.get('cx-card').should('have.length', 1);
         addressBook.verifyNewAddress();
       });

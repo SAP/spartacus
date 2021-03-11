@@ -1,6 +1,7 @@
 export * from './approvers/index';
 export * from './change-password-form/index';
 export * from './details/index';
+export * from './details-cell/index';
 export * from './form/index';
 export * from './permissions/index';
 export * from './services/index';
