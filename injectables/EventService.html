@@ -128,10 +128,6 @@ event type.</p>
                             </li>
                             <li>
                                     <span class="modifier">Private</span>
-                                <a href="#validateCxEvent">validateCxEvent</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
                                 <a href="#validateEventType">validateEventType</a>
                             </li>
                         </ul>
@@ -146,54 +142,6 @@ event type.</p>
     </table>
 </section>
 
-            <section>
-    <h3 id="constructor">Constructor</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-<code>constructor(featureConfigService?: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/core/src/event/event.service.ts:41</a></div>
-                            </td>
-                        </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                            <div>
-                                    <b>Parameters :</b>
-                                    <table class="params">
-                                        <thead>
-                                            <tr>
-                                                <td>Name</td>
-                                                    <td>Type</td>
-                                                <td>Optional</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                                <tr>
-                                                        <td>featureConfigService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/FeatureConfigService.html" target="_self" >FeatureConfigService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            Yes
-                                                    </td>
-                                                    
-                                                </tr>
-                                        </tbody>
-                                    </table>
-                            </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-</section>
 
             <section>
     
@@ -217,15 +165,15 @@ event type.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createEventMeta(eventType: <a href="../undefineds/Type.html">AbstractType<T></a>)</code>
+                    <code>createEventMeta(eventType: <a href="../undefineds/Type.html">Type<T></a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="143"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:143</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:130</a></div>
                 </td>
             </tr>
 
@@ -240,6 +188,8 @@ event type.</p>
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Creates the event meta object for the given event type</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -255,7 +205,7 @@ event type.</p>
                                 <tr>
                                     <td>eventType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >AbstractType&lt;T&gt;</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type&lt;T&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -302,8 +252,8 @@ event type.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="105"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:105</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:88</a></div>
                 </td>
             </tr>
 
@@ -397,15 +347,15 @@ If the eventType is provided a new event will be created for that type and with 
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>get(eventType: <a href="../undefineds/Type.html">AbstractType<T></a>)</code>
+<code>get(eventType: <a href="../undefineds/Type.html">Type<T></a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="90"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:90</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:73</a></div>
                 </td>
             </tr>
 
@@ -437,7 +387,7 @@ If the eventType is provided a new event will be created for that type and with 
                                 <tr>
                                     <td>eventType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >AbstractType&lt;T&gt;</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type&lt;T&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -479,15 +429,15 @@ If the eventType is provided a new event will be created for that type and with 
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getEventMeta(eventType: <a href="../undefineds/Type.html">AbstractType<T></a>)</code>
+                    <code>getEventMeta(eventType: <a href="../undefineds/Type.html">Type<T></a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="133"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:133</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -519,7 +469,7 @@ If the eventType is provided a new event will be created for that type and with 
                                 <tr>
                                     <td>eventType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >AbstractType&lt;T&gt;</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type&lt;T&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -561,15 +511,15 @@ If the eventType is provided a new event will be created for that type and with 
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getInputSubject(eventType: <a href="../undefineds/Type.html">AbstractType<T></a>)</code>
+                    <code>getInputSubject(eventType: <a href="../undefineds/Type.html">Type<T></a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="120"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:120</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="103"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:103</a></div>
                 </td>
             </tr>
 
@@ -603,7 +553,7 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
                                 <tr>
                                     <td>eventType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >AbstractType&lt;T&gt;</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type&lt;T&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -649,15 +599,15 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getValidatedEventStream(source$: Observable<T>, eventType: <a href="../undefineds/Type.html">AbstractType<T></a>)</code>
+                    <code>getValidatedEventStream(source$: Observable<T>, eventType: <a href="../undefineds/Type.html">Type<T></a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="209"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:209</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:155</a></div>
                 </td>
             </tr>
 
@@ -702,7 +652,7 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
                                 <tr>
                                     <td>eventType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >AbstractType&lt;T&gt;</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type&lt;T&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -742,15 +692,15 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>register(eventType: <a href="../undefineds/Type.html">AbstractType<T></a>, source$: Observable<T>)</code>
+<code>register(eventType: <a href="../undefineds/Type.html">Type<T></a>, source$: Observable<T>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:51</a></div>
                 </td>
             </tr>
 
@@ -786,7 +736,7 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
                                 <tr>
                                     <td>eventType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >AbstractType&lt;T&gt;</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type&lt;T&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -836,89 +786,6 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="validateCxEvent"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            validateCxEvent
-                        </b>
-                        <a href="#validateCxEvent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>validateCxEvent(eventType: <a href="../undefineds/Type.html">AbstractType<T></a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="186"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:186</a></div>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Type parameters :</b>
-                    <ul class="type-parameters">
-                        <li>T</li>
-                    </ul>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Validates if the given type (or its prototype chain) extends from the CxEvent.</p>
-<p>Should be used only in the dev mode.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>eventType</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >AbstractType&lt;T&gt;</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
                     <a name="validateEventType"></a>
                     <span class="name">
                         <b>
@@ -932,15 +799,15 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>validateEventType(eventType: <a href="../undefineds/Type.html">AbstractType<T></a>)</code>
+                    <code>validateEventType(eventType: <a href="../undefineds/Type.html">Type<T></a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="168"
-                            class="link-to-prism">projects/core/src/event/event.service.ts:168</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">projects/core/src/event/event.service.ts:142</a></div>
                 </td>
             </tr>
 
@@ -973,7 +840,7 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
                                 <tr>
                                     <td>eventType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >AbstractType&lt;T&gt;</a></code>
+                                                <code><a href="../miscellaneous/enumerations.html#Type" target="_self" >Type&lt;T&gt;</a></code>
                                     </td>
 
                                     <td>
@@ -1019,12 +886,12 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>new Map&lt;AbstractType&lt;any&gt; | any, EventMeta&lt;any&gt;&gt;()</code>
+                            <i>Default value : </i><code>new Map&lt;Type&lt;any&gt;, EventMeta&lt;any&gt;&gt;()</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/core/src/event/event.service.ts:51</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/event/event.service.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -1043,18 +910,10 @@ The subject is created on demand, when it&#39;s needed for the first time.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  AbstractType,
-  Injectable,
-  isDevMode,
-  Optional,
-  Type,
-} from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode, Type } from &#x27;@angular/core&#x27;;
 import { Observable, Subject } from &#x27;rxjs&#x27;;
 import { tap } from &#x27;rxjs/operators&#x27;;
-import { FeatureConfigService } from &#x27;../features-config/services/feature-config.service&#x27;;
 import { createFrom } from &#x27;../util/create-from&#x27;;
-import { CxEvent } from &#x27;./cx-event&#x27;;
 import { MergingSubject } from &#x27;./utils/merging-subject&#x27;;
 
 /**
@@ -1084,16 +943,10 @@ interface EventMeta&lt;T&gt; {
   providedIn: &#x27;root&#x27;,
 })
 export class EventService {
-  constructor(
-    // TODO: #10896 - remove this
-    /** @deprecated @since 3.1 - this will be removed in 4.0 */ @Optional()
-    protected featureConfigService?: FeatureConfigService
-  ) {}
-
   /**
    * The various events meta are collected in a map, stored by the event type class
    */
-  private eventsMeta &#x3D; new Map&lt;AbstractType&lt;any&gt; | any, EventMeta&lt;any&gt;&gt;();
+  private eventsMeta &#x3D; new Map&lt;Type&lt;any&gt;, EventMeta&lt;any&gt;&gt;();
 
   /**
    * Register an event source for the given event type.
@@ -1102,15 +955,12 @@ export class EventService {
    *  when the event source is no longer maintained by its creator
    * (i.e. in &#x60;ngOnDestroy&#x60; if the event source was registered in the component).
    *
-   * @since 3.1 - registers the given &#x60;source$&#x60; for the parent classes of the given &#x60;eventType&#x60;.
-   *
    * @param eventType the event type
    * @param source$ an observable that represents the source
    *
    * @returns a teardown function which unregisters the given event source
    */
-  // TODO: #10896 - change from &#x60;AbstractType&#x60; to &#x60;Type&#x60;.
-  register&lt;T&gt;(eventType: AbstractType&lt;T&gt;, source$: Observable&lt;T&gt;): () &#x3D;&gt; void {
+  register&lt;T&gt;(eventType: Type&lt;T&gt;, source$: Observable&lt;T&gt;): () &#x3D;&gt; void {
     const eventMeta &#x3D; this.getEventMeta(eventType);
     if (eventMeta.mergingSubject.has(source$)) {
       if (isDevMode()) {
@@ -1132,7 +982,7 @@ export class EventService {
    * Returns a stream of events for the given event type
    * @param eventTypes event type
    */
-  get&lt;T&gt;(eventType: AbstractType&lt;T&gt;): Observable&lt;T&gt; {
+  get&lt;T&gt;(eventType: Type&lt;T&gt;): Observable&lt;T&gt; {
     let output$ &#x3D; this.getEventMeta(eventType).mergingSubject.output$;
     if (isDevMode()) {
       output$ &#x3D; this.getValidatedEventStream(output$, eventType);
@@ -1162,7 +1012,7 @@ export class EventService {
    * The subject is created on demand, when it&#x27;s needed for the first time.
    * @param eventType type of event
    */
-  private getInputSubject&lt;T&gt;(eventType: AbstractType&lt;T&gt;): Subject&lt;T&gt; {
+  private getInputSubject&lt;T&gt;(eventType: Type&lt;T&gt;): Subject&lt;T&gt; {
     const eventMeta &#x3D; this.getEventMeta(eventType);
 
     if (!eventMeta.inputSubject$) {
@@ -1175,34 +1025,25 @@ export class EventService {
   /**
    * Returns the event meta object for the given event type
    */
-  private getEventMeta&lt;T&gt;(eventType: AbstractType&lt;T&gt;): EventMeta&lt;T&gt; {
+  private getEventMeta&lt;T&gt;(eventType: Type&lt;T&gt;): EventMeta&lt;T&gt; {
+    if (isDevMode()) {
+      this.validateEventType(eventType);
+    }
+
     if (!this.eventsMeta.get(eventType)) {
-      if (isDevMode()) {
-        this.validateEventType(eventType);
-      }
       this.createEventMeta(eventType);
     }
     return this.eventsMeta.get(eventType);
   }
 
-  private createEventMeta&lt;T&gt;(eventType: AbstractType&lt;T&gt;): void {
-    const eventMeta: EventMeta&lt;T&gt; &#x3D; {
+  /**
+   * Creates the event meta object for the given event type
+   */
+  private createEventMeta&lt;T&gt;(eventType: Type&lt;T&gt;): void {
+    this.eventsMeta.set(eventType, {
       inputSubject$: null, // will be created lazily by the &#x60;dispatch&#x60; method
-      mergingSubject: new MergingSubject&lt;T&gt;(),
-    };
-    this.eventsMeta.set(eventType, eventMeta);
-
-    // TODO: #10896 - remove this if block, and leave its body
-    if (this.featureConfigService?.isLevel(&#x27;3.1&#x27;)) {
-      let parentEvent &#x3D; Object.getPrototypeOf(eventType);
-      while (
-        parentEvent !&#x3D;&#x3D; null &amp;&amp;
-        Object.getPrototypeOf(parentEvent) !&#x3D;&#x3D; Object.getPrototypeOf({})
-      ) {
-        this.register(parentEvent, eventMeta.mergingSubject.output$);
-        parentEvent &#x3D; Object.getPrototypeOf(parentEvent);
-      }
-    }
+      mergingSubject: new MergingSubject(),
+    });
   }
 
   /**
@@ -1210,40 +1051,12 @@ export class EventService {
    *
    * Should be used only in dev mode.
    */
-  private validateEventType&lt;T&gt;(eventType: AbstractType&lt;T&gt;): void {
+  private validateEventType&lt;T&gt;(eventType: Type&lt;T&gt;): void {
     if (!eventType?.constructor) {
       throw new Error(
         &#x60;EventService:  ${eventType} is not a valid event type. Please provide a class reference.&#x60;
       );
     }
-
-    // TODO: #10896 - remove this if block and leave its body
-    if (this.featureConfigService?.isLevel(&#x27;3.1&#x27;)) {
-      this.validateCxEvent(eventType);
-    }
-  }
-
-  /**
-   * Validates if the given type (or its prototype chain) extends from the CxEvent.
-   *
-   * Should be used only in the dev mode.
-   */
-  private validateCxEvent&lt;T&gt;(eventType: AbstractType&lt;T&gt;): void {
-    let parentType &#x3D; eventType;
-    while (
-      parentType !&#x3D;&#x3D; null &amp;&amp;
-      Object.getPrototypeOf(parentType) !&#x3D;&#x3D; Object.getPrototypeOf({})
-    ) {
-      if ((parentType as any).type &#x3D;&#x3D;&#x3D; CxEvent.type) {
-        return;
-      }
-
-      parentType &#x3D; Object.getPrototypeOf(parentType);
-    }
-
-    console.warn(
-      &#x60;The ${eventType.name} (or one of its parent classes) does not inherit from the ${CxEvent.type}&#x60;
-    );
   }
 
   /**
@@ -1253,7 +1066,7 @@ export class EventService {
    */
   private getValidatedEventStream&lt;T&gt;(
     source$: Observable&lt;T&gt;,
-    eventType: AbstractType&lt;T&gt;
+    eventType: Type&lt;T&gt;
   ): Observable&lt;T&gt; {
     return source$.pipe(
       tap((event) &#x3D;&gt; {

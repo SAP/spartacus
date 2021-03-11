@@ -135,15 +135,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>expectElementNotPresent(expect: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, htmlElement: Element, querySelector: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>expectElementNotPresent(expect, htmlElement: Element, querySelector: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/testing/common-configurator-test-utils.service.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/testing/common-configurator-test-utils.service.ts:53</a></div>
                 </td>
             </tr>
 
@@ -168,7 +168,6 @@
                                 <tr>
                                     <td>expect</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
@@ -252,7 +251,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>expectElementPresent(expect: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, htmlElement: Element, querySelector: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>expectElementPresent(expect, htmlElement: Element, querySelector: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -285,7 +284,6 @@
                                 <tr>
                                     <td>expect</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
@@ -369,7 +367,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>expectElementToContainText(expect: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, htmlElement: Element, querySelector: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, expectedText: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>expectElementToContainText(expect, htmlElement: Element, querySelector: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, expectedText: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -402,7 +400,6 @@
                                 <tr>
                                     <td>expect</td>
                                     <td>
-                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
@@ -506,7 +503,7 @@
    * @param querySelector - Query selector
    */
   static expectElementPresent(
-    expect: any,
+    expect,
     htmlElement: Element,
     querySelector: string
   ) {
@@ -528,13 +525,14 @@
    * @param expectedText - Expected text
    */
   static expectElementToContainText(
-    expect: any,
+    expect,
     htmlElement: Element,
     querySelector: string,
     expectedText: string
   ) {
-    const text &#x3D; htmlElement.querySelector(querySelector)?.textContent;
-    expect(text ? text.trim() : &#x27;&#x27;).toBe(expectedText);
+    expect(htmlElement.querySelector(querySelector).textContent.trim()).toBe(
+      expectedText
+    );
   }
 
   /**
@@ -545,7 +543,7 @@
    * @param querySelector - Query selector
    */
   static expectElementNotPresent(
-    expect: any,
+    expect,
     htmlElement: Element,
     querySelector: string
   ) {

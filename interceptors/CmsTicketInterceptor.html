@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/smartedit/root/http-interceptors/cms-ticket.interceptor.ts</code>
+            <code>projects/core/src/smart-edit/http-interceptors/cms-ticket.interceptor.ts</code>
         </p>
 
 
@@ -96,12 +96,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(service: <a href="../injectables/SmartEditLauncherService.html">SmartEditLauncherService</a>)</code>
+<code>constructor(service: <a href="../injectables/SmartEditService.html">SmartEditService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">feature-libs/smartedit/root/http-interceptors/cms-ticket.interceptor.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/smart-edit/http-interceptors/cms-ticket.interceptor.ts:13</a></div>
                             </td>
                         </tr>
 
@@ -122,7 +122,7 @@
                                                         <td>service</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/SmartEditLauncherService.html" target="_self" >SmartEditLauncherService</a></code>
+                                                                        <code><a href="../injectables/SmartEditService.html" target="_self" >SmartEditService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -166,8 +166,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">feature-libs/smartedit/root/http-interceptors/cms-ticket.interceptor.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/core/src/smart-edit/http-interceptors/cms-ticket.interceptor.ts:16</a></div>
                 </td>
             </tr>
 
@@ -232,25 +232,26 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import {
   HttpRequest,
+  HttpHandler,
+  HttpEvent,
+  HttpInterceptor,
 } from &#x27;@angular/common/http&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { SmartEditLauncherService } from &#x27;../services/smart-edit-launcher.service&#x27;;
+
+import { SmartEditService } from &#x27;../services/smart-edit.service&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class CmsTicketInterceptor implements HttpInterceptor {
-  constructor(private service: SmartEditLauncherService) {}
+  constructor(private service: SmartEditService) {}
 
   intercept(
     request: HttpRequest&lt;any&gt;,
     next: HttpHandler
   ): Observable&lt;HttpEvent&lt;any&gt;&gt; {
-    if (this.service.cmsTicketId &amp;&amp; request.url.includes(&#x27;/cms/&#x27;)) {
+    if (request.url.includes(&#x27;/cms/&#x27;) &amp;&amp; this.service.cmsTicketId) {
       request &#x3D; request.clone({
         setParams: {
           cmsTicketId: this.service.cmsTicketId,

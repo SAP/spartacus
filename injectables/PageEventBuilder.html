@@ -77,7 +77,15 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Protected</span>
+                                <a href="#buildHomePageEvent">buildHomePageEvent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#buildPageEvent">buildPageEvent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#getNavigatedEvent">getNavigatedEvent</a>
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
@@ -101,12 +109,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions: ActionsSubject, eventService: <a href="../injectables/EventService.html">EventService</a>, featureConfigService?: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
+<code>constructor(actions: ActionsSubject, eventService: <a href="../injectables/EventService.html">EventService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/storefrontlib/src/events/page/page-event.builder.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/events/page/page-event.builder.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -147,18 +155,6 @@
                                                     </td>
                                                     
                                                 </tr>
-                                                <tr>
-                                                        <td>featureConfigService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/FeatureConfigService.html" target="_self" >FeatureConfigService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            Yes
-                                                    </td>
-                                                    
-                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -173,6 +169,47 @@
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="buildHomePageEvent"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            buildHomePageEvent
+                        </b>
+                        <a href="#buildHomePageEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>buildHomePageEvent()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">projects/storefrontlib/src/events/page/page-event.builder.ts:43</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/Page.html" target="_self" >Observable&lt;HomePageEvent&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -197,8 +234,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="39"
-                            class="link-to-prism">projects/storefrontlib/src/events/page/page-event.builder.ts:39</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/storefrontlib/src/events/page/page-event.builder.ts:30</a></div>
                 </td>
             </tr>
 
@@ -208,6 +245,47 @@
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../interfaces/Page.html" target="_self" >Observable&lt;PageEvent&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getNavigatedEvent"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            getNavigatedEvent
+                        </b>
+                        <a href="#getNavigatedEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getNavigatedEvent()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/storefrontlib/src/events/page/page-event.builder.ts:50</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;ActivatedRouterStateSnapshot&gt;</code>
 
                     </div>
                 </td>
@@ -238,8 +316,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/storefrontlib/src/events/page/page-event.builder.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/storefrontlib/src/events/page/page-event.builder.ts:25</a></div>
                 </td>
             </tr>
 
@@ -262,56 +340,60 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { ofType } from &#x27;@ngrx/effects&#x27;;
+import { RouterNavigatedAction, ROUTER_NAVIGATED } from &#x27;@ngrx/router-store&#x27;;
 import { ActionsSubject } from &#x27;@ngrx/store&#x27;;
 import {
+  ActivatedRouterStateSnapshot,
   createFrom,
   EventService,
-  FeatureConfigService,
 } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { map } from &#x27;rxjs/operators&#x27;;
-import { NavigationEvent } from &#x27;../navigation/navigation.event&#x27;;
-import { PageEvent } from &#x27;./page.events&#x27;;
+import { filter, map } from &#x27;rxjs/operators&#x27;;
+import { HomePageEvent, PageEvent } from &#x27;./page.events&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-// TODO: #10896 - delete this whole file
-/**
- * @deprecated @since 3.1 - this builder will be removed in 4.0. Please use NavigationEventBuilder and NavigationEvent instead.
- */
 export class PageEventBuilder {
   constructor(
-    /** @deprecated @since 3.1 - this will be removed in 4.0 */
     protected actions: ActionsSubject,
-    protected eventService: EventService,
-    /** @deprecated @since 3.1 - this will be removed in 4.0 */ protected featureConfigService?: FeatureConfigService
+    protected eventService: EventService
   ) {
     this.register();
   }
 
   protected register(): void {
-    if (this.featureConfigService?.isLevel(&#x27;!3.1&#x27;)) {
-      this.eventService.register(PageEvent, this.buildPageEvent());
-    }
+    this.eventService.register(PageEvent, this.buildPageEvent());
+    this.eventService.register(HomePageEvent, this.buildHomePageEvent());
   }
 
-  /**
-   * @deprecated @since 3.1 - this will be removed in 4.0. Please use &#x60;NavigationEvent&#x60; instead.
-   */
   protected buildPageEvent(): Observable&lt;PageEvent&gt; {
-    return this.eventService.get(NavigationEvent).pipe(
-      map((navigationEvent) &#x3D;&gt;
+    return this.getNavigatedEvent().pipe(
+      map((state) &#x3D;&gt;
         createFrom(PageEvent, {
-          context: navigationEvent.context,
-          semanticRoute: navigationEvent.semanticRoute,
-          url: navigationEvent.url,
-          params: navigationEvent.params,
-          navigation: {
-            ...navigationEvent,
-          },
+          context: state.context,
+          semanticRoute: state.semanticRoute,
+          url: state.url,
+          params: state.params,
         })
       )
+    );
+  }
+
+  protected buildHomePageEvent(): Observable&lt;HomePageEvent&gt; {
+    return this.buildPageEvent().pipe(
+      filter((pageEvent) &#x3D;&gt; pageEvent.semanticRoute &#x3D;&#x3D;&#x3D; &#x27;home&#x27;),
+      map((pageEvent) &#x3D;&gt; createFrom(HomePageEvent, pageEvent))
+    );
+  }
+
+  private getNavigatedEvent(): Observable&lt;ActivatedRouterStateSnapshot&gt; {
+    return this.actions.pipe(
+      ofType&lt;RouterNavigatedAction&lt;ActivatedRouterStateSnapshot&gt;&gt;(
+        ROUTER_NAVIGATED
+      ),
+      map((event) &#x3D;&gt; event.payload.routerState)
     );
   }
 }

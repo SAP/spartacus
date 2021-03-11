@@ -461,8 +461,8 @@ The CSR application is returned with the &quot;Cache-Control: no-store&quot; res
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="183"
-                            class="link-to-prism">core-libs/setup/ssr/optimized-engine/optimized-ssr-engine.ts:183</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="182"
+                            class="link-to-prism">core-libs/setup/ssr/optimized-engine/optimized-ssr-engine.ts:182</a></div>
                 </td>
             </tr>
 
@@ -751,8 +751,8 @@ The CSR application is returned with the &quot;Cache-Control: no-store&quot; res
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="176"
-                            class="link-to-prism">core-libs/setup/ssr/optimized-engine/optimized-ssr-engine.ts:176</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="175"
+                            class="link-to-prism">core-libs/setup/ssr/optimized-engine/optimized-ssr-engine.ts:175</a></div>
                 </td>
             </tr>
 
@@ -840,8 +840,8 @@ The CSR application is returned with the &quot;Cache-Control: no-store&quot; res
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="113"
-                            class="link-to-prism">core-libs/setup/ssr/optimized-engine/optimized-ssr-engine.ts:113</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">core-libs/setup/ssr/optimized-engine/optimized-ssr-engine.ts:112</a></div>
                 </td>
             </tr>
 
@@ -1243,7 +1243,7 @@ export class OptimizedSsrEngine {
       this.log(&#x60;CSR fallback: rendering in progress (${request.url})&#x60;);
     } else if (concurrencyLimitExceed) {
       this.log(
-        &#x60;CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})&#x60;
+        &#x60;CSR fallback: Concurrency limit exceeded (${this.ssrOptions.concurrency})&#x60;
       );
     }
 
@@ -1275,8 +1275,7 @@ export class OptimizedSsrEngine {
     const key &#x3D; this.getRenderingKey(request);
 
     if (this.renderingCache.isReady(key)) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const cached &#x3D; this.renderingCache.get(key)!;
+      const cached &#x3D; this.renderingCache.get(key);
       callback(cached.err, cached.html);
 
       if (!this.ssrOptions?.cache) {
@@ -1301,7 +1300,7 @@ export class OptimizedSsrEngine {
     if (!this.returnCachedRender(request, callback)) {
       if (this.shouldRender(request)) {
         this.currentConcurrency++;
-        let waitingForRender: NodeJS.Timeout | undefined;
+        let waitingForRender;
 
         if (this.shouldTimeout(request)) {
           // establish timeout for rendering
@@ -1352,7 +1351,7 @@ export class OptimizedSsrEngine {
   }
 
   protected log(message: string, debug &#x3D; true) {
-    if (!debug || this.ssrOptions?.debug) {
+    if (!debug || this.ssrOptions.debug) {
       console.log(message);
     }
   }

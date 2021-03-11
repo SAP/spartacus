@@ -127,7 +127,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -192,8 +192,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:18</a></div>
                 </td>
             </tr>
 
@@ -276,8 +276,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="126"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:126</a></div>
                 </td>
             </tr>
 
@@ -348,8 +348,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="103"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:103</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:99</a></div>
                 </td>
             </tr>
 
@@ -434,8 +434,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="92"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:92</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:88</a></div>
                 </td>
             </tr>
 
@@ -509,8 +509,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:71</a></div>
                 </td>
             </tr>
 
@@ -593,8 +593,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="120"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:120</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:116</a></div>
                 </td>
             </tr>
 
@@ -686,8 +686,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:67</a></div>
                 </td>
             </tr>
 
@@ -755,8 +755,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-loaded-config-converter.ts:50</a></div>
                 </td>
             </tr>
 
@@ -816,7 +816,6 @@ import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
-  THEME_CONTEXT_ID,
 } from &#x27;../../site-context/providers/context-ids&#x27;;
 import { Occ } from &#x27;../occ-models/occ.models&#x27;;
 import { JavaRegExpConverter } from &#x27;./java-reg-exp-converter&#x27;;
@@ -855,7 +854,6 @@ export class OccLoadedConfigConverter {
         baseStore.defaultCurrency
       ),
       urlParameters: this.getUrlParams(baseSite.urlEncodingAttributes),
-      theme: baseSite.theme,
     };
   }
 
@@ -864,7 +862,6 @@ export class OccLoadedConfigConverter {
     languages,
     currencies,
     urlParameters: urlEncodingAttributes,
-    theme,
   }: OccLoadedConfig): SiteContextConfig {
     const result &#x3D; {
       context: {
@@ -872,7 +869,6 @@ export class OccLoadedConfigConverter {
         [BASE_SITE_CONTEXT_ID]: [baseSite],
         [LANGUAGE_CONTEXT_ID]: languages,
         [CURRENCY_CONTEXT_ID]: currencies,
-        [THEME_CONTEXT_ID]: [theme],
       },
     };
     return result;

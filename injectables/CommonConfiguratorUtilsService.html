@@ -438,8 +438,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -520,8 +520,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts:79</a></div>
                 </td>
             </tr>
 
@@ -733,12 +733,7 @@ export class CommonConfiguratorUtilsService {
    * @returns Cart identifier
    */
   getCartId(cart: Cart): string {
-    const cartId &#x3D;
-      cart.user?.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
-    if (!cartId) {
-      throw new Error(&#x27;Cart ID is not defined&#x27;);
-    }
-    return cartId;
+    return cart.user.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
   }
 
   /**
@@ -761,10 +756,7 @@ export class CommonConfiguratorUtilsService {
     let numberOfIssues &#x3D; 0;
     cartItem?.statusSummaryList?.forEach((statusSummary) &#x3D;&gt; {
       if (statusSummary.status &#x3D;&#x3D;&#x3D; OrderEntryStatus.Error) {
-        const numberOfIssuesFromStatus &#x3D; statusSummary.numberOfIssues;
-        numberOfIssues &#x3D; numberOfIssuesFromStatus
-          ? numberOfIssuesFromStatus
-          : 0;
+        numberOfIssues &#x3D; statusSummary.numberOfIssues;
       }
     });
     return numberOfIssues;

@@ -151,7 +151,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>dependencies:     <code>( | string)[]</code>
+                                        <code>dependencies:     <code>(function)[]</code>
 </code>
                                     </td>
                                 </tr>
@@ -159,7 +159,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>    <code>( | string)[]</code>
+                                            <i>Type : </i>    <code>(function)[]</code>
 
                                         </td>
                                     </tr>
@@ -175,7 +175,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Lazy resolved dependency modules or features referenced by name</p>
+                                    <div class="io-description"><p>Lazy resolved dependency modules</p>
 </div>
                                 </td>
                             </tr>
@@ -323,9 +323,9 @@ export interface FeatureModuleConfig {
    */
   module?: () &#x3D;&gt; Promise&lt;any&gt;;
   /**
-   * Lazy resolved dependency modules or features referenced by name
+   * Lazy resolved dependency modules
    */
-  dependencies?: ((() &#x3D;&gt; Promise&lt;any&gt;) | string)[];
+  dependencies?: (() &#x3D;&gt; Promise&lt;any&gt;)[];
   /**
    * Cms components covered by this feature
    */

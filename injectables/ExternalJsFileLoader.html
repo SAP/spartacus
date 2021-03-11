@@ -61,11 +61,6 @@
 
 
 
-            <p class="comment">
-                <h3>Example</h3>
-            </p>
-            <div class="io-description">
-            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -111,7 +106,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts:7</a></div>
                             </td>
                         </tr>
 
@@ -190,14 +185,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts:20</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Loads a javascript from an external URL. Loading is skipped during SSR.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -315,8 +312,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/core/src/util/external-js-file-loader/external-js-file-loader.service.ts:56</a></div>
                 </td>
             </tr>
 
@@ -379,9 +376,6 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DOCUMENT, isPlatformServer } from &#x27;@angular/common&#x27;;
 import { Inject, Injectable, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 
-/**
- * @deprecated since 3.2, use ScriptLoader instead
- */
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
@@ -392,8 +386,6 @@ export class ExternalJsFileLoader {
   ) {}
 
   /**
-   * @deprecated since 3.2, use ScriptLoader.embedScript(embedOptions) instead
-   *
    * Loads a javascript from an external URL. Loading is skipped during SSR.
    * @param src URL for the script to be loaded
    * @param params additional parameters to be attached to the given URL

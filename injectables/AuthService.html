@@ -307,7 +307,7 @@ To perform logout it is best to use <code>logout</code> method. Use this method 
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
 
                     </div>
                 </td>
@@ -607,7 +607,7 @@ export class AuthService {
    * Revokes tokens and clears state for logged user (tokens, userId).
    * To perform logout it is best to use &#x60;logout&#x60; method. Use this method with caution.
    */
-  coreLogout(): Promise&lt;void&gt; {
+  coreLogout(): Promise&lt;any&gt; {
     this.userIdService.clearUserId();
     return new Promise((resolve) &#x3D;&gt; {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() &#x3D;&gt; {

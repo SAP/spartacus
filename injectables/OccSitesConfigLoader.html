@@ -301,7 +301,7 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>&#x27;basesites?fields&#x3D;baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme)&#x27;</code>
+                            <i>Default value : </i><code>&#x27;basesites?fields&#x3D;baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))&#x27;</code>
                         </td>
                     </tr>
                         <tr>
@@ -381,7 +381,7 @@ export class OccSitesConfigLoader {
   constructor(protected config: OccConfig, protected http: HttpClient) {}
 
   protected readonly endpoint &#x3D;
-    &#x27;basesites?fields&#x3D;baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme)&#x27;;
+    &#x27;basesites?fields&#x3D;baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))&#x27;;
 
   private getPrefix(): string {
     if (

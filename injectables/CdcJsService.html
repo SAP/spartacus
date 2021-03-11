@@ -149,7 +149,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cdcConfig: <a href="../injectables/CdcConfig.html">CdcConfig</a>, baseSiteService: <a href="../injectables/BaseSiteService.html">BaseSiteService</a>, languageService: <a href="../injectables/LanguageService.html">LanguageService</a>, scriptLoader: <a href="../injectables/ScriptLoader.html">ScriptLoader</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, cdcAuth: <a href="../injectables/CdcAuthService.html">CdcAuthService</a>, auth: <a href="../injectables/AuthService.html">AuthService</a>, zone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>, userService: <a href="../injectables/UserService.html">UserService</a>, platform: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>constructor(cdcConfig: <a href="../injectables/CdcConfig.html">CdcConfig</a>, baseSiteService: <a href="../injectables/BaseSiteService.html">BaseSiteService</a>, languageService: <a href="../injectables/LanguageService.html">LanguageService</a>, externalJsFileLoader: <a href="../injectables/ExternalJsFileLoader.html">ExternalJsFileLoader</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, cdcAuth: <a href="../injectables/CdcAuthService.html">CdcAuthService</a>, auth: <a href="../injectables/AuthService.html">AuthService</a>, zone: <a href="https://angular.io/api/core/NgZone" target="_blank">NgZone</a>, userService: <a href="../injectables/UserService.html">UserService</a>, platform: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -208,10 +208,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>scriptLoader</td>
+                                                        <td>externalJsFileLoader</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/ScriptLoader.html" target="_self" >ScriptLoader</a></code>
+                                                                        <code><a href="../injectables/ExternalJsFileLoader.html" target="_self" >ExternalJsFileLoader</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -329,8 +329,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:125</a></div>
                 </td>
             </tr>
 
@@ -485,8 +485,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="101"
+                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:101</a></div>
                 </td>
             </tr>
 
@@ -637,8 +637,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="166"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:166</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:165</a></div>
                 </td>
             </tr>
 
@@ -676,8 +676,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:140</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="139"
+                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:139</a></div>
                 </td>
             </tr>
 
@@ -760,8 +760,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="157"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:157</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="156"
+                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:156</a></div>
                 </td>
             </tr>
 
@@ -834,8 +834,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-js.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -994,8 +994,8 @@ import {
 import {
   AuthService,
   BaseSiteService,
+  ExternalJsFileLoader,
   LanguageService,
-  ScriptLoader,
   User,
   UserService,
   WindowRef,
@@ -1017,7 +1017,7 @@ export class CdcJsService implements OnDestroy {
     protected cdcConfig: CdcConfig,
     protected baseSiteService: BaseSiteService,
     protected languageService: LanguageService,
-    protected scriptLoader: ScriptLoader,
+    protected externalJsFileLoader: ExternalJsFileLoader,
     protected winRef: WindowRef,
     protected cdcAuth: CdcAuthService,
     protected auth: AuthService,
@@ -1065,18 +1065,17 @@ export class CdcJsService implements OnDestroy {
             );
             if (scriptForBaseSite) {
               const javascriptUrl &#x3D; &#x60;${scriptForBaseSite}&amp;lang&#x3D;${language}&#x60;;
-              this.scriptLoader.embedScript({
-                src: javascriptUrl,
-                params: undefined,
-                attributes: { type: &#x27;text/javascript&#x27; },
-                callback: () &#x3D;&gt; {
+              this.externalJsFileLoader.load(
+                javascriptUrl,
+                undefined,
+                () &#x3D;&gt; {
                   this.registerEventListeners(baseSite);
                   this.loaded$.next(true);
                 },
-                errorCallback: () &#x3D;&gt; {
+                () &#x3D;&gt; {
                   this.errorLoading$.next(true);
-                },
-              });
+                }
+              );
               this.winRef.nativeWindow[&#x27;__gigyaConf&#x27;] &#x3D; { include: &#x27;id_token&#x27; };
             }
           })

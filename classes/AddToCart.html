@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.ts</code>
+            <code>feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts</code>
         </p>
 
 
@@ -106,12 +106,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(payload: <a href="../s/Config.html">Configurator.AddToCartParameters</a>)</code>
+<code>constructor(payload: <a href="../s/Config.html">ConfiguratorTextfield.AddToCartParameters</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.ts:76</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:61</a></div>
                             </td>
                         </tr>
 
@@ -132,7 +132,7 @@
                                                         <td>payload</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.AddToCartParameters</a></code>
+                                                                        <code><a href="../miscellaneous/variables.html#Config" target="_self" >ConfiguratorTextfield.AddToCartParameters</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -169,13 +169,13 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.AddToCartParameters</a></code>
+                            <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >ConfiguratorTextfield.AddToCartParameters</a></code>
 
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.ts:77</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:62</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +202,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="76" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.ts:76</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:61</a></div>
                             </td>
                         </tr>
 
@@ -221,124 +221,133 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Action } from &#x27;@ngrx/store&#x27;;
-import { MULTI_CART_DATA, StateUtils } from &#x27;@spartacus/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;@spartacus/core&#x27;;
 import { CommonConfigurator } from &#x27;@spartacus/product-configurator/common&#x27;;
-import { Configurator } from &#x27;../../model/configurator.model&#x27;;
-import { CONFIGURATOR_DATA } from &#x27;../configurator-state&#x27;;
+import { ConfiguratorTextfield } from &#x27;../../model/configurator-textfield.model&#x27;;
+import { CONFIGURATION_TEXTFIELD_DATA } from &#x27;../configuration-textfield-state&#x27;;
 
+export const CREATE_CONFIGURATION &#x3D;
+  &#x27;[Configurator] Create Configuration Textfield&#x27;;
+export const CREATE_CONFIGURATION_FAIL &#x3D;
+  &#x27;[Configurator] Create Configuration Textfield Fail&#x27;;
+export const CREATE_CONFIGURATION_SUCCESS &#x3D;
+  &#x27;[Configurator] Create Configuration Textfield Success&#x27;;
+export const UPDATE_CONFIGURATION &#x3D;
+  &#x27;[Configurator] Update Configuration Textfield&#x27;;
+export const ADD_TO_CART &#x3D; &#x27;[Configurator] Add to cart Textfield&#x27;;
+export const ADD_TO_CART_FAIL &#x3D; &#x27;[Configurator] Add to cart Textfield Fail&#x27;;
 export const READ_CART_ENTRY_CONFIGURATION &#x3D;
-  &#x27;[Configurator] Read Cart Entry Configuration&#x27;;
-export const READ_CART_ENTRY_CONFIGURATION_SUCCESS &#x3D;
-  &#x27;[Configurator] Read Cart Entry Configuration Success&#x27;;
+  &#x27;[Configurator] Read cart entry configuration Textfield&#x27;;
 export const READ_CART_ENTRY_CONFIGURATION_FAIL &#x3D;
-  &#x27;[Configurator] Read Cart Entry Configuration Fail&#x27;;
-export const READ_ORDER_ENTRY_CONFIGURATION &#x3D;
-  &#x27;[Configurator] Read Order Entry Configuration&#x27;;
-export const READ_ORDER_ENTRY_CONFIGURATION_SUCCESS &#x3D;
-  &#x27;[Configurator] Read Order Entry Configuration Success&#x27;;
-export const READ_ORDER_ENTRY_CONFIGURATION_FAIL &#x3D;
-  &#x27;[Configurator] Read Order Entry Configuration Fail&#x27;;
+  &#x27;[Configurator] Read cart entry configuration Textfield Fail&#x27;;
+export const READ_CART_ENTRY_CONFIGURATION_SUCCESS &#x3D;
+  &#x27;[Configurator] Read cart entry configuration Textfield Success&#x27;;
+export const UPDATE_CART_ENTRY_CONFIGURATION &#x3D;
+  &#x27;[Configurator] Update cart entry configuration Textfield&#x27;;
+export const UPDATE_CART_ENTRY_CONFIGURATION_FAIL &#x3D;
+  &#x27;[Configurator] Update cart entry configuration Textfield Fail&#x27;;
 
-export const ADD_TO_CART &#x3D; &#x27;[Configurator] Add to cart&#x27;;
-export const UPDATE_CART_ENTRY &#x3D; &#x27;[Configurator] Update cart entry&#x27;;
-export const UPDATE_CART_ENTRY_SUCCESS &#x3D;
-  &#x27;[Configurator] Update cart entry success&#x27;;
+export const REMOVE_CONFIGURATION &#x3D;
+  &#x27;[Configurator] Remove Configuration Textfield&#x27;;
 
-export const ADD_NEXT_OWNER &#x3D; &#x27;[Configurator] Add next owner&#x27;;
-export const SET_NEXT_OWNER_CART_ENTRY &#x3D;
-  &#x27;[Configurator] Set next owner cart entry&#x27;;
+export class CreateConfiguration extends StateUtils.LoaderLoadAction {
+  readonly type &#x3D; CREATE_CONFIGURATION;
+  constructor(
+    public payload: { productCode: string; owner: CommonConfigurator.Owner }
+  ) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
 
-export class ReadCartEntryConfiguration extends StateUtils.EntityLoadAction {
+export class CreateConfigurationFail extends StateUtils.LoaderFailAction {
+  readonly type &#x3D; CREATE_CONFIGURATION_FAIL;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA, payload);
+  }
+}
+
+export class CreateConfigurationSuccess extends StateUtils.LoaderSuccessAction {
+  readonly type &#x3D; CREATE_CONFIGURATION_SUCCESS;
+  constructor(public payload: ConfiguratorTextfield.Configuration) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class UpdateConfiguration extends StateUtils.LoaderLoadAction {
+  readonly type &#x3D; UPDATE_CONFIGURATION;
+  constructor(public payload: ConfiguratorTextfield.Configuration) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class AddToCart extends StateUtils.LoaderLoadAction {
+  readonly type &#x3D; ADD_TO_CART;
+  constructor(public payload: ConfiguratorTextfield.AddToCartParameters) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class AddToCartFail extends StateUtils.LoaderFailAction {
+  readonly type &#x3D; ADD_TO_CART_FAIL;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA, payload);
+  }
+}
+
+export class UpdateCartEntryConfiguration extends StateUtils.LoaderLoadAction {
+  readonly type &#x3D; UPDATE_CART_ENTRY_CONFIGURATION;
+  constructor(public payload: ConfiguratorTextfield.UpdateCartEntryParameters) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class UpdateCartEntryConfigurationFail extends StateUtils.LoaderFailAction {
+  readonly type &#x3D; UPDATE_CART_ENTRY_CONFIGURATION_FAIL;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA, payload);
+  }
+}
+
+export class ReadCartEntryConfiguration extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; READ_CART_ENTRY_CONFIGURATION;
   constructor(
     public payload: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
+    super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class ReadCartEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
+export class ReadCartEntryConfigurationSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; READ_CART_ENTRY_CONFIGURATION_SUCCESS;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
+  constructor(public payload: ConfiguratorTextfield.Configuration) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class ReadCartEntryConfigurationFail extends StateUtils.EntityFailAction {
+export class ReadCartEntryConfigurationFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; READ_CART_ENTRY_CONFIGURATION_FAIL;
-  constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA, payload);
   }
 }
 
-export class ReadOrderEntryConfiguration extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; READ_ORDER_ENTRY_CONFIGURATION;
-  constructor(
-    public payload: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
-  ) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
+export class RemoveConfiguration extends StateUtils.LoaderResetAction {
+  readonly type &#x3D; REMOVE_CONFIGURATION;
+  constructor() {
+    super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class ReadOrderEntryConfigurationSuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; READ_ORDER_ENTRY_CONFIGURATION_SUCCESS;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class ReadOrderEntryConfigurationFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; READ_ORDER_ENTRY_CONFIGURATION_FAIL;
-  constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
-  }
-}
-
-export class AddToCart extends StateUtils.EntityProcessesIncrementAction {
-  readonly type &#x3D; ADD_TO_CART;
-  constructor(public payload: Configurator.AddToCartParameters) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class UpdateCartEntry extends StateUtils.EntityProcessesIncrementAction {
-  readonly type &#x3D; UPDATE_CART_ENTRY;
-  constructor(
-    public payload: Configurator.UpdateConfigurationForCartEntryParameters
-  ) {
-    super(MULTI_CART_DATA, payload.cartId);
-  }
-}
-
-export class AddNextOwner implements Action {
-  readonly type &#x3D; ADD_NEXT_OWNER;
-  constructor(public payload: { ownerKey: string; cartEntryNo: string }) {}
-}
-
-export class SetNextOwnerCartEntry extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; SET_NEXT_OWNER_CART_ENTRY;
-
-  constructor(
-    public payload: {
-      configuration: Configurator.Configuration;
-      cartEntryNo: string;
-    }
-  ) {
-    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
-  }
-}
-
-export type ConfiguratorCartAction &#x3D;
-  | AddNextOwner
-  | SetNextOwnerCartEntry
-  | ReadCartEntryConfiguration
-  | ReadCartEntryConfigurationSuccess
+export type ConfiguratorActions &#x3D;
+  | CreateConfiguration
+  | CreateConfigurationFail
+  | CreateConfigurationSuccess
+  | UpdateConfiguration
   | ReadCartEntryConfigurationFail
-  | ReadOrderEntryConfiguration
-  | ReadOrderEntryConfigurationSuccess
-  | ReadOrderEntryConfigurationFail
-  | UpdateCartEntry;
+  | ReadCartEntryConfigurationSuccess
+  | ReadCartEntryConfiguration
+  | UpdateCartEntryConfiguration
+  | RemoveConfiguration;
 </code></pre>
     </div>
 </div>

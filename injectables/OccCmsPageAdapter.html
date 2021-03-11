@@ -423,7 +423,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
     const params &#x3D; this.getPagesRequestParams(pageContext);
 
     const endpoint &#x3D; !pageContext.type
-      ? this.occEndpoints.getUrl(&#x27;page&#x27;, { id: pageContext.id })
+      ? this.occEndpoints.getUrl(&#x27;page&#x27;, undefined, params)
       : this.occEndpoints.getUrl(&#x27;pages&#x27;, undefined, params);
 
     return this.http

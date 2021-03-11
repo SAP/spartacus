@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/tracking/personalization/core/services/personalization-context.service.ts</code>
+            <code>projects/core/src/personalization/services/personalization-context.service.ts</code>
         </p>
 
 
@@ -105,7 +105,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">feature-libs/tracking/personalization/core/services/personalization-context.service.ts:11</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/personalization/services/personalization-context.service.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -184,8 +184,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">feature-libs/tracking/personalization/core/services/personalization-context.service.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">projects/core/src/personalization/services/personalization-context.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -254,8 +254,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">feature-libs/tracking/personalization/core/services/personalization-context.service.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/personalization/services/personalization-context.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -264,7 +264,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;PersonalizationContext&gt;</code>
+                        <b>Returns : </b>        <code><a href="../interfaces/PersonalizationContext.html" target="_self" >Observable&lt;PersonalizationContext&gt;</a></code>
 
                     </div>
                 </td>
@@ -277,11 +277,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, isDevMode } from &#x27;@angular/core&#x27;;
-import { CmsService, ContentSlotComponentData, Page } from &#x27;@spartacus/core&#x27;;
-import { PersonalizationConfig } from &#x27;@spartacus/tracking/personalization/root&#x27;;
-import { EMPTY, Observable } from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
 import { filter, map } from &#x27;rxjs/operators&#x27;;
+import { CmsService } from &#x27;../../cms/facade/cms.service&#x27;;
+import { ContentSlotComponentData } from &#x27;../../cms/model/content-slot-component-data.model&#x27;;
+import { ContentSlotData } from &#x27;../../cms/model/content-slot-data.model&#x27;;
+import { Page } from &#x27;../../cms/model/page.model&#x27;;
+import { PersonalizationConfig } from &#x27;../config/personalization-config&#x27;;
 import { PersonalizationContext } from &#x27;../model/personalization-context.model&#x27;;
 
 @Injectable({
@@ -294,33 +297,28 @@ export class PersonalizationContextService {
   ) {}
 
   getPersonalizationContext(): Observable&lt;PersonalizationContext&gt; {
-    if (!this.config.personalization.context) {
-      if (isDevMode()) {
-        console.warn(&#x60;There is no context configured in Personalization&#x60;);
-      }
-      return EMPTY;
-    } else {
-      const context &#x3D; this.config.personalization.context;
-      return this.cmsService.getCurrentPage().pipe(
-        filter&lt;Page&gt;(Boolean),
-        map((page: Page) &#x3D;&gt; page.slots?.[context.slotPosition]),
-        filter&lt;any&gt;(Boolean),
-        map((slot) &#x3D;&gt;
-          slot.components?.find(
-            (i: ContentSlotComponentData) &#x3D;&gt; i.uid &#x3D;&#x3D;&#x3D; context.componentId
-          )
-        ),
-        filter&lt;ContentSlotComponentData&gt;(Boolean),
-        map((component: ContentSlotComponentData) &#x3D;&gt;
-          this.buildPersonalizationContext(component.properties.script.data)
+    return this.cmsService.getCurrentPage().pipe(
+      filter(Boolean),
+      map(
+        (page: Page) &#x3D;&gt;
+          page.slots[this.config.personalization.context.slotPosition]
+      ),
+      filter(Boolean),
+      map((slot: ContentSlotData) &#x3D;&gt;
+        slot.components.find(
+          (i) &#x3D;&gt; i.uid &#x3D;&#x3D;&#x3D; this.config.personalization.context.componentId
         )
-      );
-    }
+      ),
+      filter(Boolean),
+      map((component: ContentSlotComponentData) &#x3D;&gt;
+        this.buildPersonalizationContext(component.properties.script.data)
+      )
+    );
   }
 
   private buildPersonalizationContext(data: string): PersonalizationContext {
     const context &#x3D; JSON.parse(atob(data));
-    context.actions.forEach((action: any) &#x3D;&gt; {
+    context.actions.forEach((action) &#x3D;&gt; {
       Object.keys(action).forEach((key) &#x3D;&gt; {
         action[key] &#x3D; atob(action[key]);
       });

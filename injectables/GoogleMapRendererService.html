@@ -134,12 +134,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../injectables/StoreFinderConfig.html">StoreFinderConfig</a>, externalJsFileLoader: <a href="../injectables/ExternalJsFileLoader.html">ExternalJsFileLoader</a>, storeDataService: <a href="../injectables/StoreDataService.html">StoreDataService</a>, scriptLoader?: <a href="../injectables/ScriptLoader.html">ScriptLoader</a>)</code>
+<code>constructor(config: <a href="../injectables/StoreFinderConfig.html">StoreFinderConfig</a>, externalJsFileLoader: <a href="../injectables/ExternalJsFileLoader.html">ExternalJsFileLoader</a>, storeDataService: <a href="../injectables/StoreDataService.html">StoreDataService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -192,18 +192,6 @@
                                                     </td>
                                                     
                                                 </tr>
-                                                <tr>
-                                                        <td>scriptLoader</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/ScriptLoader.html" target="_self" >ScriptLoader</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            Yes
-                                                    </td>
-                                                    
-                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -240,8 +228,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:51</a></div>
                 </td>
             </tr>
 
@@ -335,8 +323,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:93</a></div>
                 </td>
             </tr>
 
@@ -430,8 +418,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:60</a></div>
                 </td>
             </tr>
 
@@ -509,8 +497,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="156"
-                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:156</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:128</a></div>
                 </td>
             </tr>
 
@@ -618,8 +606,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="100"
-                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:100</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:72</a></div>
                 </td>
             </tr>
 
@@ -702,8 +690,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">feature-libs/storefinder/core/service/google-map-renderer.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -863,10 +851,10 @@ If map already exists it will use an existing map otherwise it will create one</
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { ExternalJsFileLoader, ScriptLoader } from &#x27;@spartacus/core&#x27;;
-import { StoreFinderConfig } from &#x27;../config/store-finder-config&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ExternalJsFileLoader } from &#x27;@spartacus/core&#x27;;
+import { Injectable } from &#x27;@angular/core&#x27;;
 import { StoreDataService } from &#x27;../facade/store-data.service&#x27;;
+import { StoreFinderConfig } from &#x27;../config/store-finder-config&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -876,26 +864,9 @@ export class GoogleMapRendererService {
   private markers: google.maps.Marker[];
 
   constructor(
-    config: StoreFinderConfig,
-    externalJsFileLoader: ExternalJsFileLoader,
-    storeDataService: StoreDataService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    scriptLoader?: ScriptLoader
-  );
-  /**
-   * @deprecated since 3.2
-   */
-  constructor(
-    config: StoreFinderConfig,
-    externalJsFileLoader: ExternalJsFileLoader,
-    storeDataService: StoreDataService
-  );
-  // TODO: remove externalJsFileLoader in 4.0
-  constructor(
     protected config: StoreFinderConfig,
     protected externalJsFileLoader: ExternalJsFileLoader,
-    protected storeDataService: StoreDataService,
-    protected scriptLoader?: ScriptLoader
+    protected storeDataService: StoreDataService
   ) {}
 
   /**
@@ -912,24 +883,13 @@ export class GoogleMapRendererService {
   ): void {
     if (Object.entries(locations[Object.keys(locations)[0]]).length &gt; 0)
       if (this.googleMap &#x3D;&#x3D;&#x3D; null) {
-        if (this.scriptLoader) {
-          this.scriptLoader.embedScript({
-            src: this.config.googleMaps.apiUrl,
-            params: { key: this.config.googleMaps.apiKey },
-            attributes: { type: &#x27;text/javascript&#x27; },
-            callback: () &#x3D;&gt; {
-              this.drawMap(mapElement, locations, selectMarkerHandler);
-            },
-          });
-        } else {
-          this.externalJsFileLoader.load(
-            this.config.googleMaps.apiUrl,
-            { key: this.config.googleMaps.apiKey },
-            () &#x3D;&gt; {
-              this.drawMap(mapElement, locations, selectMarkerHandler);
-            }
-          );
-        }
+        this.externalJsFileLoader.load(
+          this.config.googleMaps.apiUrl,
+          { key: this.config.googleMaps.apiKey },
+          () &#x3D;&gt; {
+            this.drawMap(mapElement, locations, selectMarkerHandler);
+          }
+        );
       } else {
         this.drawMap(mapElement, locations, selectMarkerHandler);
       }

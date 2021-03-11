@@ -1243,7 +1243,7 @@ export class PageLayoutService {
     }
     if (!this.logSlots[page.template]) {
       // the info log is not printed in production
-      // eslint-disable-next-line no-console
+      // tslint:disable-next-line: no-console
       console.info(
         &#x60;Available CMS page slots: &#x27;${Object.keys(page.slots).join(&#x60;&#x27;,&#x27;&#x60;)}&#x27;&#x60;
       );

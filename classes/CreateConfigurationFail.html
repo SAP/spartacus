@@ -60,7 +60,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/product-configurator/rulebased/core/state/actions/configurator.action.ts</code>
+            <code>feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts</code>
         </p>
 
 
@@ -106,12 +106,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(payload: literal type)</code>
+<code>constructor(payload: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator.action.ts:60</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -132,7 +132,7 @@
                                                         <td>payload</td>
                                                   
                                                         <td>
-                                                                    <code>literal type</code>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -169,13 +169,13 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>literal type</code>
+                            <i>Type : </i>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
 
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator.action.ts:62</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:41</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +202,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/actions/configurator.action.ts:60</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">feature-libs/product-configurator/textfield/core/state/actions/configurator-textfield.action.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -223,285 +223,131 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;@spartacus/core&#x27;;
 import { CommonConfigurator } from &#x27;@spartacus/product-configurator/common&#x27;;
-import { Configurator } from &#x27;../../model/configurator.model&#x27;;
-import { CONFIGURATOR_DATA } from &#x27;../configurator-state&#x27;;
+import { ConfiguratorTextfield } from &#x27;../../model/configurator-textfield.model&#x27;;
+import { CONFIGURATION_TEXTFIELD_DATA } from &#x27;../configuration-textfield-state&#x27;;
 
-export const CREATE_CONFIGURATION &#x3D; &#x27;[Configurator] Create Configuration&#x27;;
+export const CREATE_CONFIGURATION &#x3D;
+  &#x27;[Configurator] Create Configuration Textfield&#x27;;
 export const CREATE_CONFIGURATION_FAIL &#x3D;
-  &#x27;[Configurator] Create Configuration Fail&#x27;;
+  &#x27;[Configurator] Create Configuration Textfield Fail&#x27;;
 export const CREATE_CONFIGURATION_SUCCESS &#x3D;
-  &#x27;[Configurator] Create Configuration Sucess&#x27;;
-export const READ_CONFIGURATION &#x3D; &#x27;[Configurator] Read Configuration&#x27;;
-export const READ_CONFIGURATION_FAIL &#x3D; &#x27;[Configurator] Read Configuration Fail&#x27;;
-export const READ_CONFIGURATION_SUCCESS &#x3D;
-  &#x27;[Configurator] Read Configuration Sucess&#x27;;
+  &#x27;[Configurator] Create Configuration Textfield Success&#x27;;
+export const UPDATE_CONFIGURATION &#x3D;
+  &#x27;[Configurator] Update Configuration Textfield&#x27;;
+export const ADD_TO_CART &#x3D; &#x27;[Configurator] Add to cart Textfield&#x27;;
+export const ADD_TO_CART_FAIL &#x3D; &#x27;[Configurator] Add to cart Textfield Fail&#x27;;
+export const READ_CART_ENTRY_CONFIGURATION &#x3D;
+  &#x27;[Configurator] Read cart entry configuration Textfield&#x27;;
+export const READ_CART_ENTRY_CONFIGURATION_FAIL &#x3D;
+  &#x27;[Configurator] Read cart entry configuration Textfield Fail&#x27;;
+export const READ_CART_ENTRY_CONFIGURATION_SUCCESS &#x3D;
+  &#x27;[Configurator] Read cart entry configuration Textfield Success&#x27;;
+export const UPDATE_CART_ENTRY_CONFIGURATION &#x3D;
+  &#x27;[Configurator] Update cart entry configuration Textfield&#x27;;
+export const UPDATE_CART_ENTRY_CONFIGURATION_FAIL &#x3D;
+  &#x27;[Configurator] Update cart entry configuration Textfield Fail&#x27;;
 
-export const UPDATE_CONFIGURATION &#x3D; &#x27;[Configurator] Update Configuration&#x27;;
-export const UPDATE_CONFIGURATION_FAIL &#x3D;
-  &#x27;[Configurator] Update Configuration Fail&#x27;;
-export const UPDATE_CONFIGURATION_SUCCESS &#x3D;
-  &#x27;[Configurator] Update Configuration Success&#x27;;
+export const REMOVE_CONFIGURATION &#x3D;
+  &#x27;[Configurator] Remove Configuration Textfield&#x27;;
 
-export const UPDATE_CONFIGURATION_FINALIZE_SUCCESS &#x3D;
-  &#x27;[Configurator] Update Configuration finalize success&#x27;;
-export const UPDATE_CONFIGURATION_FINALIZE_FAIL &#x3D;
-  &#x27;[Configurator] Update Configuration finalize fail&#x27;;
-export const CHANGE_GROUP &#x3D; &#x27;[Configurator] Change group&#x27;;
-export const CHANGE_GROUP_FINALIZE &#x3D; &#x27;[Configurator] Change group finalize&#x27;;
-
-export const REMOVE_CONFIGURATION &#x3D; &#x27;[Configurator] Remove configuration&#x27;;
-
-export const UPDATE_PRICE_SUMMARY &#x3D;
-  &#x27;[Configurator] Update Configuration Summary Price&#x27;;
-export const UPDATE_PRICE_SUMMARY_FAIL &#x3D;
-  &#x27;[Configurator] Update Configuration Price Summary fail&#x27;;
-export const UPDATE_PRICE_SUMMARY_SUCCESS &#x3D;
-  &#x27;[Configurator] Update Configuration Price Summary success&#x27;;
-
-export const GET_CONFIGURATION_OVERVIEW &#x3D;
-  &#x27;[Configurator] Get Configuration Overview&#x27;;
-export const GET_CONFIGURATION_OVERVIEW_FAIL &#x3D;
-  &#x27;[Configurator] Get Configuration Overview fail&#x27;;
-export const GET_CONFIGURATION_OVERVIEW_SUCCESS &#x3D;
-  &#x27;[Configurator] Get Configuration Overview success&#x27;;
-
-export const SET_INTERACTION_STATE &#x3D; &#x27;[Configurator] Set interaction state&#x27;;
-export const SET_CURRENT_GROUP &#x3D; &#x27;[Configurator] Set current group to State&#x27;;
-export const SET_MENU_PARENT_GROUP &#x3D;
-  &#x27;[Configurator] Set current parent group for menu to State&#x27;;
-
-export const SET_GROUPS_VISITED &#x3D; &#x27;[Configurator] Set groups to visited&#x27;;
-
-export class CreateConfiguration extends StateUtils.EntityLoadAction {
+export class CreateConfiguration extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; CREATE_CONFIGURATION;
-  constructor(public payload: CommonConfigurator.Owner) {
-    super(CONFIGURATOR_DATA, payload.key);
+  constructor(
+    public payload: { productCode: string; owner: CommonConfigurator.Owner }
+  ) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class CreateConfigurationFail extends StateUtils.EntityFailAction {
+export class CreateConfigurationFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; CREATE_CONFIGURATION_FAIL;
-  constructor(
-    public payload: {
-      ownerKey: string;
-      error: any;
-    }
-  ) {
-    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA, payload);
   }
 }
 
-export class CreateConfigurationSuccess extends StateUtils.EntitySuccessAction {
+export class CreateConfigurationSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; CREATE_CONFIGURATION_SUCCESS;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
+  constructor(public payload: ConfiguratorTextfield.Configuration) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class ReadConfiguration extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; READ_CONFIGURATION;
-  constructor(
-    public payload: {
-      configuration: Configurator.Configuration;
-      groupId: string;
-    }
-  ) {
-    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
-  }
-}
-
-export class ReadConfigurationFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; READ_CONFIGURATION_FAIL;
-  constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
-  }
-}
-
-export class ReadConfigurationSuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; READ_CONFIGURATION_SUCCESS;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class UpdateConfiguration extends StateUtils.EntityProcessesIncrementAction {
+export class UpdateConfiguration extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; UPDATE_CONFIGURATION;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-    this.meta.loader &#x3D; {
-      load: true,
-    };
+  constructor(public payload: ConfiguratorTextfield.Configuration) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class UpdateConfigurationFail extends StateUtils.EntityProcessesDecrementAction {
-  readonly type &#x3D; UPDATE_CONFIGURATION_FAIL;
+export class AddToCart extends StateUtils.LoaderLoadAction {
+  readonly type &#x3D; ADD_TO_CART;
+  constructor(public payload: ConfiguratorTextfield.AddToCartParameters) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class AddToCartFail extends StateUtils.LoaderFailAction {
+  readonly type &#x3D; ADD_TO_CART_FAIL;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA, payload);
+  }
+}
+
+export class UpdateCartEntryConfiguration extends StateUtils.LoaderLoadAction {
+  readonly type &#x3D; UPDATE_CART_ENTRY_CONFIGURATION;
+  constructor(public payload: ConfiguratorTextfield.UpdateCartEntryParameters) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
+  }
+}
+
+export class UpdateCartEntryConfigurationFail extends StateUtils.LoaderFailAction {
+  readonly type &#x3D; UPDATE_CART_ENTRY_CONFIGURATION_FAIL;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA, payload);
+  }
+}
+
+export class ReadCartEntryConfiguration extends StateUtils.LoaderLoadAction {
+  readonly type &#x3D; READ_CART_ENTRY_CONFIGURATION;
   constructor(
-    public payload: { configuration: Configurator.Configuration; error: any }
+    public payload: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ) {
-    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
-    this.meta.loader &#x3D; {
-      error: payload.error,
-    };
+    super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class UpdateConfigurationSuccess extends StateUtils.EntityProcessesDecrementAction {
-  readonly type &#x3D; UPDATE_CONFIGURATION_SUCCESS;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
+export class ReadCartEntryConfigurationSuccess extends StateUtils.LoaderSuccessAction {
+  readonly type &#x3D; READ_CART_ENTRY_CONFIGURATION_SUCCESS;
+  constructor(public payload: ConfiguratorTextfield.Configuration) {
+    super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class UpdateConfigurationFinalizeSuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; UPDATE_CONFIGURATION_FINALIZE_SUCCESS;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
+export class ReadCartEntryConfigurationFail extends StateUtils.LoaderFailAction {
+  readonly type &#x3D; READ_CART_ENTRY_CONFIGURATION_FAIL;
+  constructor(public payload: any) {
+    super(CONFIGURATION_TEXTFIELD_DATA, payload);
   }
 }
 
-export class UpdateConfigurationFinalizeFail extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; UPDATE_CONFIGURATION_FINALIZE_FAIL;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class UpdatePriceSummary extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; UPDATE_PRICE_SUMMARY;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-export class UpdatePriceSummaryFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; UPDATE_PRICE_SUMMARY_FAIL;
-  constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
-  }
-}
-
-export class UpdatePriceSummarySuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; UPDATE_PRICE_SUMMARY_SUCCESS;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class ChangeGroup extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; CHANGE_GROUP;
-  constructor(
-    public payload: {
-      configuration: Configurator.Configuration;
-      groupId: string;
-      parentGroupId: string;
-    }
-  ) {
-    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
-  }
-}
-
-export class ChangeGroupFinalize extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; CHANGE_GROUP_FINALIZE;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class RemoveConfiguration extends StateUtils.EntityLoaderResetAction {
+export class RemoveConfiguration extends StateUtils.LoaderResetAction {
   readonly type &#x3D; REMOVE_CONFIGURATION;
-  constructor(public payload: { ownerKey: string | string[] }) {
-    super(CONFIGURATOR_DATA, payload.ownerKey);
+  constructor() {
+    super(CONFIGURATION_TEXTFIELD_DATA);
   }
 }
 
-export class GetConfigurationOverview extends StateUtils.EntityLoadAction {
-  readonly type &#x3D; GET_CONFIGURATION_OVERVIEW;
-  constructor(public payload: Configurator.Configuration) {
-    super(CONFIGURATOR_DATA, payload.owner.key);
-  }
-}
-
-export class GetConfigurationOverviewFail extends StateUtils.EntityFailAction {
-  readonly type &#x3D; GET_CONFIGURATION_OVERVIEW_FAIL;
-  constructor(public payload: { ownerKey: string; error: any }) {
-    super(CONFIGURATOR_DATA, payload.ownerKey, payload.error);
-  }
-}
-
-export class GetConfigurationOverviewSuccess extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; GET_CONFIGURATION_OVERVIEW_SUCCESS;
-  constructor(
-    public payload: { ownerKey: string; overview: Configurator.Overview }
-  ) {
-    super(CONFIGURATOR_DATA, payload.ownerKey);
-  }
-}
-
-export class SetInteractionState extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; SET_INTERACTION_STATE;
-
-  constructor(
-    public payload: {
-      entityKey: string | string[];
-      interactionState: Configurator.InteractionState;
-    }
-  ) {
-    super(CONFIGURATOR_DATA, payload.entityKey, payload.interactionState);
-  }
-}
-
-export class SetCurrentGroup extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; SET_CURRENT_GROUP;
-
-  constructor(
-    public payload: { entityKey: string | string[]; currentGroup: string }
-  ) {
-    super(CONFIGURATOR_DATA, payload.entityKey, payload.currentGroup);
-  }
-}
-
-export class SetMenuParentGroup extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; SET_MENU_PARENT_GROUP;
-
-  constructor(
-    public payload: { entityKey: string | string[]; menuParentGroup: string }
-  ) {
-    super(CONFIGURATOR_DATA, payload.entityKey, payload.menuParentGroup);
-  }
-}
-
-export class SetGroupsVisited extends StateUtils.EntitySuccessAction {
-  readonly type &#x3D; SET_GROUPS_VISITED;
-  constructor(public payload: { entityKey: string; visitedGroups: string[] }) {
-    super(CONFIGURATOR_DATA, payload.entityKey, payload.visitedGroups);
-  }
-}
-
-export type ConfiguratorAction &#x3D;
+export type ConfiguratorActions &#x3D;
   | CreateConfiguration
   | CreateConfigurationFail
   | CreateConfigurationSuccess
-  | ReadConfiguration
-  | ReadConfigurationFail
-  | ReadConfigurationSuccess
   | UpdateConfiguration
-  | UpdateConfigurationFail
-  | UpdateConfigurationSuccess
-  | UpdateConfigurationFinalizeFail
-  | UpdateConfigurationFinalizeSuccess
-  | UpdatePriceSummary
-  | UpdatePriceSummaryFail
-  | UpdatePriceSummarySuccess
-  | ChangeGroup
-  | ChangeGroupFinalize
-  | GetConfigurationOverview
-  | GetConfigurationOverviewFail
-  | GetConfigurationOverviewSuccess
-  | RemoveConfiguration
-  | SetInteractionState
-  | SetMenuParentGroup
-  | SetCurrentGroup
-  | SetGroupsVisited;
+  | ReadCartEntryConfigurationFail
+  | ReadCartEntryConfigurationSuccess
+  | ReadCartEntryConfiguration
+  | UpdateCartEntryConfiguration
+  | RemoveConfiguration;
 </code></pre>
     </div>
 </div>

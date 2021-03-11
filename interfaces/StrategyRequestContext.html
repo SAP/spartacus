@@ -439,8 +439,11 @@ function verifyMerchandisingCarouselRendersProducts(): void {
 }
 
 function verifyCarouselEvent(carouselEvent: any) {
+  // tslint:disable-next-line: no-unused-expression
   expect(carouselEvent[&#x27;strategyId&#x27;]).to.be.ok;
+  // tslint:disable-next-line: no-unused-expression
   expect(carouselEvent[&#x27;carouselId&#x27;]).to.be.ok;
+  // tslint:disable-next-line: no-unused-expression
   expect(carouselEvent[&#x27;carouselName&#x27;]).to.be.ok;
   expect(carouselEvent[&#x27;mixCardId&#x27;]).to.equal(
     STRATEGY_RESPONSE.metadata.mixcardId
@@ -457,6 +460,7 @@ function verifyCarouselViewEvent(carouselEvent: any) {
 
 function verifyCarouselClickEvent(productSku: string, carouselEvent: any) {
   verifyCarouselEvent(carouselEvent);
+  // tslint:disable-next-line: no-unused-expression
   expect(carouselEvent[&#x27;imageUrl&#x27;]).to.be.ok;
   expect(carouselEvent[&#x27;sku&#x27;]).to.equal(productSku);
 }
