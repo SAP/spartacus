@@ -19,10 +19,10 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity/configurato
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 interface SelectionValue {
-  name: string;
-  quantity: number;
-  selected: boolean;
-  valueCode: string;
+  name: string | undefined;
+  quantity: number | undefined;
+  selected: boolean | undefined;
+  valueCode: string | undefined;
 }
 
 @Component({
@@ -85,8 +85,8 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
    */
   get withQuantity(): boolean {
     return this.quantityService.withQuantity(
-      this.attribute.dataType,
-      this.attribute.uiType
+      this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+      this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
     );
   }
 
@@ -144,9 +144,10 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
    *
    * @return {ConfigFormUpdateEvent} - form update event
    */
-  protected updateMultipleSelectionValuesQuantity(
-    eventValue: any
-  ): ConfigFormUpdateEvent {
+  protected updateMultipleSelectionValuesQuantity(eventValue: {
+    valueCode: string;
+    quantity: number;
+  }): ConfigFormUpdateEvent | undefined {
     const value: Configurator.Value = this.multipleSelectionValues.find(
       (selectionValue) => selectionValue?.valueCode === eventValue.valueCode
     );
@@ -267,7 +268,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     disableQuantityActions: boolean
   ): ConfiguratorAttributeQuantityComponentOptions {
     const initialQuantity: Quantity = {
-      quantity: this.attribute.quantity,
+      quantity: this.attribute.quantity ? this.attribute.quantity : 0,
     };
 
     return {
