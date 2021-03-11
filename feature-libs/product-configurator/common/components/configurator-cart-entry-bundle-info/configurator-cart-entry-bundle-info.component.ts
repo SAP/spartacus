@@ -1,9 +1,11 @@
 import { Component, Optional } from '@angular/core';
-import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { CartItemContext } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { OrderEntry } from '@spartacus/core';
 import { FormControl } from '@angular/forms';
+import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
+import { LineItem } from './configurator-cart-entry-bundle-info.model';
 
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
@@ -12,6 +14,7 @@ import { FormControl } from '@angular/forms';
 export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
+    protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
     // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
@@ -32,34 +35,62 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   }
 
   /**
-   * Verifies whether the configuration infos have any entries and the first entry has a status.
-   * Only in this case we want to display the configuration summary
+   * Retrieves the number of cart items.
    *
-   * @param {OrderEntry} item - Cart item
-   * @returns {boolean} - whether the status of configuration infos entry has status
+   * @param {OrderEntry} item - Order entry item
+   * @returns {number} - Returns a number of cart items
    */
-  hasStatus(item: OrderEntry): boolean {
-    const configurationInfos = item?.configurationInfos;
-
-    return configurationInfos
-      ? configurationInfos.length > 0 &&
-          configurationInfos[0]?.status !== 'NONE'
-      : false;
+  retrieveNumberOfLineItems(item: OrderEntry): number {
+    return this.configCartEntryBundleInfoService.retrieveNumberOfLineItems(
+      item
+    );
   }
 
-  getBundleItems(item: OrderEntry): number {
-    return item?.configurationInfos?.length;
+  /**
+   * Retrieves the line items for an order entry.
+   *
+   * @param {OrderEntry} entry order entry
+   * @returns {LineItem[]} - array of line items
+   */
+  retrieveLineItems(entry: OrderEntry): LineItem[] {
+    return this.configCartEntryBundleInfoService.retrieveLineItems(entry);
   }
 
   /**
    * Verifies whether the configurator type is bundle based one.
    *
    * @param {OrderEntry} item - Order entry item
-   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'fasle'
+   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'false'
    */
   isBundleBasedConfigurator(item: OrderEntry): boolean {
     return this.commonConfigUtilsService.isBundleBasedConfigurator(
       item?.configurationInfos[0]?.configuratorType
     );
+  }
+
+  /**
+   * Retrieves a translation key for the bundle item.
+   *
+   * @param {OrderEntry} item - Order entry item
+   * @returns {string} - bundle item translation key
+   */
+  getBundleItemsKey(item: OrderEntry): string {
+    if (this.retrieveNumberOfLineItems(item) > 1) {
+      return 'configurator.header.bundleItems';
+    }
+    return 'configurator.header.bundleItem';
+  }
+
+  /**
+   * Retrieves a translation key for the hide / unhide item.
+   *
+   * @param {OrderEntry} item - Order entry item
+   * @returns {string} - bundle item translation key
+   */
+  geToggleItemsKey(item: OrderEntry): string {
+    if (this.retrieveNumberOfLineItems(item) > 1) {
+      return 'configurator.header.hideItems';
+    }
+    return 'configurator.header.hideItem';
   }
 }

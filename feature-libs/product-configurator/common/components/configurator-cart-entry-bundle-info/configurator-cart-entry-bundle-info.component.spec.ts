@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
 describe('ConfiguratorCartEntryBundleInfoComponent', () => {
@@ -20,5 +19,9 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('getBundleItemsKey', () => {
+    it('', () => {});
   });
 });
