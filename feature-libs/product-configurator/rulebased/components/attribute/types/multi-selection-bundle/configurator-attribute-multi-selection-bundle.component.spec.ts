@@ -9,7 +9,6 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
 
 @Component({
@@ -18,34 +17,12 @@ import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurat
 })
 class MockProductCardComponent {}
 
-class MockConfiguratorAttributeQuantityService {
-  disableQuantityActions(value): boolean {
-    return !value || value === '0';
-  }
-  withQuantity(
-    dataType: Configurator.DataType,
-    uiType: Configurator.UiType
-  ): boolean {
-    switch (uiType) {
-      case Configurator.UiType.DROPDOWN_PRODUCT:
-      case Configurator.UiType.DROPDOWN:
-      case Configurator.UiType.RADIOBUTTON_PRODUCT:
-      case Configurator.UiType.RADIOBUTTON:
-        return dataType ===
-          Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
-          ? true
-          : false;
-
-      case Configurator.UiType.CHECKBOXLIST:
-      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
-        return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
-          ? true
-          : false;
-
-      default:
-        return false;
-    }
-  }
+function getSelected(
+  component: ConfiguratorAttributeMultiSelectionBundleComponent,
+  index: number
+): boolean | undefined {
+  const values = component?.attribute?.values;
+  return values ? values[index].selected : false;
 }
 
 describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
@@ -64,7 +41,7 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   const createValue = (
     description: string,
     images: Configurator.Image[],
-    name,
+    name: string,
     quantity: number,
     selected: boolean,
     valueCode: string,
@@ -106,10 +83,6 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
               {
                 provide: ConfiguratorAttributeProductCardComponent,
                 useClass: MockProductCardComponent,
-              },
-              {
-                provide: ConfiguratorAttributeQuantityService,
-                useClass: MockConfiguratorAttributeQuantityService,
               },
             ],
           },
@@ -195,10 +168,10 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   it('should mark two items as selected', () => {
     component.ngOnInit();
 
-    expect(component.attribute.values[0].selected).toEqual(true);
-    expect(component.attribute.values[1].selected).toEqual(true);
-    expect(component.attribute.values[2].selected).toEqual(false);
-    expect(component.attribute.values[3].selected).toEqual(false);
+    expect(getSelected(component, 0)).toEqual(true);
+    expect(getSelected(component, 1)).toEqual(true);
+    expect(getSelected(component, 2)).toEqual(false);
+    expect(getSelected(component, 3)).toEqual(false);
   });
 
   it('should call selectionChange on event onChangeValueQuantity', () => {
