@@ -2,7 +2,7 @@
   <ng-container *ngIf="isBundleBasedConfigurator(orderEntry)">
     <div>
       {{
-        getBundleItemsKey(orderEntry)
+        'configurator.header.bundleItems'
           | cxTranslate: { param: retrieveNumberOfLineItems(orderEntry) }
       }}
     </div>
@@ -10,13 +10,13 @@
     <a role="link" (click)="toggleItems()" tabindex="0">
       <ng-container *ngIf="hideItems">
         <div class="cx-toggle-hide-items">
-          {{ geToggleItemsKey(orderEntry) | cxTranslate }}
+          {{ 'configurator.header.show' | cxTranslate }}
         </div>
       </ng-container>
 
       <ng-container *ngIf="!hideItems">
         <div class="cx-toggle-hide-items">
-          {{ geToggleItemsKey(orderEntry) | cxTranslate }}
+          {{ 'configurator.header.hide' | cxTranslate }}
         </div>
       </ng-container>
     </a>

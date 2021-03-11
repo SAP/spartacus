@@ -67,30 +67,4 @@ export class ConfiguratorCartEntryBundleInfoComponent {
       item?.configurationInfos[0]?.configuratorType
     );
   }
-
-  /**
-   * Retrieves a translation key for the bundle item.
-   *
-   * @param {OrderEntry} item - Order entry item
-   * @returns {string} - bundle item translation key
-   */
-  getBundleItemsKey(item: OrderEntry): string {
-    if (this.retrieveNumberOfLineItems(item) > 1) {
-      return 'configurator.header.bundleItems';
-    }
-    return 'configurator.header.bundleItem';
-  }
-
-  /**
-   * Retrieves a translation key for the hide / unhide item.
-   *
-   * @param {OrderEntry} item - Order entry item
-   * @returns {string} - bundle item translation key
-   */
-  geToggleItemsKey(item: OrderEntry): string {
-    if (this.retrieveNumberOfLineItems(item) > 1) {
-      return 'configurator.header.hideItems';
-    }
-    return 'configurator.header.hideItem';
-  }
 }
