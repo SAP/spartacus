@@ -94,15 +94,6 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     }
   }
 
-  onHandleQuantity(quantity: number): void {
-    this.loading$.next(true);
-
-    this.handleQuantity.emit({
-      quantity,
-      valueCode: this.productCardOptions?.productBoundValue?.valueCode,
-    });
-  }
-
   /**
    * Verifies whether the product card refers to a selected value
    * @return {boolean} - Selected?
@@ -191,5 +182,14 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
       name: value?.valueDisplay,
       noLink: true,
     };
+  }
+
+  protected onHandleQuantity(quantity: number): void {
+    this.loading$.next(true);
+
+    this.handleQuantity.emit({
+      quantity,
+      valueCode: this.productCardOptions?.productBoundValue?.valueCode,
+    });
   }
 }

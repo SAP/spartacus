@@ -173,7 +173,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     };
 
     spyOn(component, 'onHandleDeselect').and.callThrough();
-    spyOn(component, 'onHandleQuantity').and.callThrough();
+    spyOn(component as any, 'onHandleQuantity').and.callThrough();
     spyOn(component, 'onHandleSelect').and.callThrough();
 
     fixture.detectChanges();
@@ -296,7 +296,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     it('should call handleQuantity on event onHandleQuantity', () => {
       spyOn(component.handleQuantity, 'emit').and.callThrough();
 
-      component.onHandleQuantity(1);
+      component['onHandleQuantity'](1);
 
       expect(component.handleQuantity.emit).toHaveBeenCalledWith(
         jasmine.objectContaining({
@@ -319,7 +319,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       component.onChangeQuantity(quantity);
 
-      expect(component.onHandleQuantity).toHaveBeenCalled();
+      expect(component['onHandleQuantity']).toHaveBeenCalled();
     });
 
     it('should transformToProductType return Product', () => {
