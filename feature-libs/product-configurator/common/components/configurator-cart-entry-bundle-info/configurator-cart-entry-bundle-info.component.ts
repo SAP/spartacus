@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
@@ -28,22 +29,19 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
 
+  numberOfLineItems$: Observable<number> = this.orderEntry$.pipe(
+    map((entry) =>
+      this.configCartEntryBundleInfoService.retrieveNumberOfLineItems(entry)
+    )
+  );
+
   hideItems = true;
 
+  /**
+   * Toggles the state of the items list.
+   */
   toggleItems(): void {
     this.hideItems = !this.hideItems;
-  }
-
-  /**
-   * Retrieves the number of cart items.
-   *
-   * @param {OrderEntry} item - Order entry item
-   * @returns {number} - Returns a number of cart items
-   */
-  retrieveNumberOfLineItems(item: OrderEntry): number {
-    return this.configCartEntryBundleInfoService.retrieveNumberOfLineItems(
-      item
-    );
   }
 
   /**
