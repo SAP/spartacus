@@ -27,6 +27,7 @@ export class StoreDataService {
    * Returns store latitude
    * @param location store location
    */
+  // TODO(#11411): Move getStoreLatitude and getStoreLongitude to StoreFinderService
   getStoreLatitude(location: PointOfService): number {
     return location?.geoPoint?.latitude;
   }
@@ -40,10 +41,13 @@ export class StoreDataService {
   }
 
   /**
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
+   *
    * Returns store closing time
    * @param location store location
    * @param date date to compare
    */
+  // TODO(#11441): Remove all deprecated functions
   getStoreClosingTime(location: PointOfService, date: Date): string {
     const requestedDaySchedule = this.getSchedule(location, date);
 
@@ -59,6 +63,8 @@ export class StoreDataService {
   }
 
   /**
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
+   *
    * Returns store opening time
    * @param location store location
    * @param date date to compare
@@ -78,6 +84,8 @@ export class StoreDataService {
   }
 
   /**
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
+   *
    * Extracts schedule from the given location for the given date
    * @param location location
    * @param date date
