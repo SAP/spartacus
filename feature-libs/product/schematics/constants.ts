@@ -22,3 +22,19 @@ export const VARIANTS_TRANSLATIONS = 'variantsTranslations';
 export const VARIANTS_TRANSLATION_CHUNKS_CONFIG =
   'variantsTranslationChunksConfig';
 export const CLI_VARIANTS_FEATURE = 'Variants';
+
+export const VARIANTS_MULTIDIMENSIONAL_MODULE =
+  'VariantsMultiDimensionalModule';
+export const VARIANTS_MULTIDIMENSIONAL_FEATURE_NAME =
+  'variantsMultidimensional';
+export const VARIANTS_MULTIDIMENSIONAL_ROOT_MODULE =
+  'VariantsMultiDimensionalRootModule';
+export const SPARTACUS_VARIANTS_MULTIDIMENSIONAL = `${SPARTACUS_PRODUCT}/multi-d`;
+export const SPARTACUS_VARIANTS_MULTIDIMENSIONAL_ROOT = `${SPARTACUS_VARIANTS_MULTIDIMENSIONAL}/root`;
+export const SPARTACUS_VARIANTS_MULTIDIMENSIONAL_ASSETS = `${SPARTACUS_VARIANTS_MULTIDIMENSIONAL}/assets`;
+export const VARIANTS_MULTIDIMENSIONAL_TRANSLATIONS =
+  'variantsMultidimensionalTranslations';
+export const VARIANTS_MULTIDIMENSIONAL_TRANSLATION_CHUNKS_CONFIG =
+  'variantsMultidimensionalTranslationChunksConfig';
+export const CLI_VARIANTS_MULTIDIMENSIONAL_FEATURE =
+  'Variants-Multidimensional';

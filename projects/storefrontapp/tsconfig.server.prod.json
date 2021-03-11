@@ -113,6 +113,9 @@
       "@spartacus/product/variants/occ": ["../../dist/product/variants/occ"],
       "@spartacus/product/variants/root": ["../../dist/product/variants/root"],
       "@spartacus/product/multi-d": ["../../dist/product/multi-d"],
+      "@spartacus/product/multi-d/assets": [
+        "../../dist/product/multi-d/assets"
+      ],
       "@spartacus/product/multi-d/components": [
         "../../dist/product/multi-d/components"
       ],

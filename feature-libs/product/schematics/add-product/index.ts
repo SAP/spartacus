@@ -21,12 +21,14 @@ import {
   SPARTACUS_PRODUCT,
   CLI_VARIANTS_FEATURE,
   PRODUCT_SCSS_FILE_NAME,
+  CLI_VARIANTS_MULTIDIMENSIONAL_FEATURE,
 } from '../constants';
 import { addBulkPricingFeatures } from '../add-bulk-pricing';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import { addVariantsMultiDimensionalFeatures } from '../add-variants-multidimensional';
 
 export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
@@ -41,6 +43,11 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
       shouldAddFeature(options.features, CLI_VARIANTS_FEATURE)
         ? addVariantsFeatures(options)
         : noop(),
+
+      shouldAddFeature(options.features, CLI_VARIANTS_MULTIDIMENSIONAL_FEATURE)
+        ? addVariantsMultiDimensionalFeatures(options)
+        : noop(),
+
       addProductStylesFile(),
       addProductPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),

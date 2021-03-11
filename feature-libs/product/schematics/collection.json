@@ -18,6 +18,11 @@
       "factory": "./add-variants/index#addVariantsFeatures",
       "description": "Add product base variants features",
       "aliases": ["variants"]
+    },
+    "add-variants-multidimensional": {
+      "factory": "./add-variants-multidimensional/index#addVariantsMultiDimensionalFeatures",
+      "description": "Add product variants multidimensional feature",
+      "aliases": ["variants-multidimensional"]
     }
   }
 }

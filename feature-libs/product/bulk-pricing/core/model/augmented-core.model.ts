@@ -1,9 +1,6 @@
-import { ProductScope } from '@spartacus/core';
-
+import '@spartacus/core';
 declare module '@spartacus/core' {
-  enum ProductScope {
+  const enum ProductScope {
     BULK_PRICES = 'bulkPrices',
   }
 }
-
-(ProductScope as any)['BULK_PRICES'] = 'bulkPrices';
