@@ -15,10 +15,11 @@ import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
   production: false,
-  occBaseUrl: buildProcess.env.CX_BASE_URL ?? 'https://localhost:9002',
-  //'https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com',
+  occBaseUrl:
+    buildProcess.env.CX_BASE_URL ??
+    'https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com',
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
-  b2b: buildProcess.env.CX_B2B ?? true,
+  b2b: buildProcess.env.CX_B2B ?? false,
   cdc: buildProcess.env.CX_CDC ?? false,
 };

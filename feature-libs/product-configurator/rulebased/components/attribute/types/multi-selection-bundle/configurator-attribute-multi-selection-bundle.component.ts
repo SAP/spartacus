@@ -42,13 +42,13 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
     super();
   }
 
   ngOnInit() {
-    if (this.attribute.values && this.attribute.values.length > 0) {
-      this.multipleSelectionValues = this.attribute.values.map(
+    if (this.attribute?.values && this.attribute?.values?.length > 0) {
+      this.multipleSelectionValues = this.attribute?.values.map(
         ({ name, quantity, selected, valueCode }) => ({
           name,
           quantity,
@@ -66,40 +66,25 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     }
   }
 
-  /**
-   * Returns true if the quantity control should be displayed on attribute level for this component.
-   *
-   * @return {boolean} - Returns true if quantity control should be displayed.
-   */
-  get withQuantityOnAttributeLevel(): boolean {
+  get withQuantityOnAttributeLevel() {
     return (
-      this.attribute.dataType ===
+      this.attribute?.dataType ===
       Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
     );
   }
 
-  /**
-   * Returns true if the quantity control should be displayed on value level for this component.
-   *
-   * @return {boolean} - Returns true if quantity control should be displayed.
-   */
-  get withQuantity(): boolean {
+  get withQuantity() {
     return this.quantityService.withQuantity(
-      this.attribute.dataType,
-      this.attribute.uiType
+      this.attribute?.dataType,
+      this.attribute?.uiType
     );
   }
 
-  /**
-   * Returns true if the quantity control should be disabled.
-   *
-   * @return {boolean} - Returns true if quantity control should be disabled.
-   */
-  get disableQuantityActions(): boolean {
+  get disableQuantityActions() {
     return (
       this.attribute?.dataType ===
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL &&
-      (!this.attribute.values.find((value) => value.selected) ||
+      (!this.attribute?.values.find((value) => value.selected) ||
         this.attribute?.quantity === 0)
     );
   }
@@ -147,7 +132,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     return event;
   }
 
-  onHandleAttributeQuantity(quantity: any): void {
+  onHandleAttributeQuantity(quantity): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
@@ -162,13 +147,13 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     this.selectionChange.emit(event);
   }
 
-  onSelect(eventValue: any): void {
+  onSelect(eventValue): void {
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, true)
     );
   }
 
-  onDeselect(eventValue: any): void {
+  onDeselect(eventValue): void {
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, false)
     );
@@ -186,13 +171,13 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeValueQuantity(eventValue: any): void {
+  onChangeValueQuantity(eventValue): void {
     this.selectionChange.emit(
       this.updateMultipleSelectionValuesQuantity(eventValue)
     );
   }
 
-  onChangeAttributeQuantity(eventObject: any): void {
+  onChangeAttributeQuantity(eventObject): void {
     this.loading$.next(true);
 
     if (!eventObject.quantity) {
@@ -213,7 +198,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       price: {
         value: 0,
       },
-      priceTotal: this.attribute.attributePriceTotal,
+      priceTotal: this.attribute?.attributePriceTotal,
       isLightedUp: true,
     };
   }
@@ -247,11 +232,11 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     disableQuantityActions: boolean
   ): ConfiguratorAttributeQuantityComponentOptions {
     const initialQuantity: Quantity = {
-      quantity: this.attribute.quantity,
+      quantity: this.attribute?.quantity,
     };
 
     return {
-      allowZero: !this.attribute.required,
+      allowZero: !this.attribute?.required,
       initialQuantity: initialQuantity,
       disableQuantityActions: disableQuantityActions,
     };
