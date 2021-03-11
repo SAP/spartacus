@@ -230,13 +230,42 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     expect(component.selectionChange.emit).toHaveBeenCalled();
   });
 
+  it('should extract initial quantity from attribute, if a selection is already made', () => {
+    component.attribute.quantity = 3;
+    component.attributeDropDownForm.setValue(values[1].valueCode);
+    expect(
+      component.extractQuantityParameters(false).initialQuantity?.quantity
+    ).toBe(3);
+  });
+
+  it('should set initial quantity to zero if only the "No Option Selected"-Value is selected', () => {
+    component.attribute.quantity = 3;
+    component.attributeDropDownForm.setValue(values[0].valueCode); // value 0 is the "No Option Selected"-Value
+    expect(
+      component.extractQuantityParameters(false).initialQuantity?.quantity
+    ).toBe(0);
+  });
+
+  it('should set initial quantity to zero if no quantity is provided.', () => {
+    component.attributeDropDownForm.setValue(values[1].valueCode);
+    component.attribute.quantity = undefined;
+    expect(
+      component.extractQuantityParameters(true).initialQuantity?.quantity
+    ).toBe(0);
+  });
+
+  it('should set initial quantity to zero if nothing selected', () => {
+    component.attributeDropDownForm.setValue(undefined);
+    expect(
+      component.extractQuantityParameters(false).initialQuantity?.quantity
+    ).toBe(0);
+  });
+
   describe('quantity at attribute level', () => {
     it('should display attribute quantity when dataType is with attribute quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
-
       fixture.detectChanges();
-
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -247,15 +276,29 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     it('should not display attribute quantity when dataType is no quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
-
       fixture.detectChanges();
+      checkQuantityStepperNotDisplayed(htmlElem);
+    });
 
+    it('should not display attribute quantity when dataType is not filled', () => {
+      component.attribute.dataType = undefined;
+      fixture.detectChanges();
+      checkQuantityStepperNotDisplayed(htmlElem);
+    });
+
+    it('should not display attribute quantity when uiType is not filled', () => {
+      component.attribute.uiType = undefined;
+      fixture.detectChanges();
+      checkQuantityStepperNotDisplayed(htmlElem);
+    });
+
+    function checkQuantityStepperNotDisplayed(htmlElem: HTMLElement) {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         'cx-configurator-attribute-quantity'
       );
-    });
+    }
   });
 
   describe('price info at attribute level', () => {
