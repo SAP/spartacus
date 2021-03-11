@@ -44,6 +44,7 @@ const configResponseNoTab: Cpq.Configuration = {
 const configResponseTab1: Cpq.Configuration = {
   productSystemId: productCode,
   completed: false,
+  errorMessages: [],
   tabs: [
     { id: 1, isSelected: true },
     { id: 2, isSelected: false },
@@ -55,6 +56,7 @@ const configResponseTab1: Cpq.Configuration = {
 const configResponseTab2: Cpq.Configuration = {
   productSystemId: productCode,
   completed: false,
+  errorMessages: [],
   tabs: [
     { id: 1, isSelected: false },
     { id: 2, isSelected: true },
@@ -66,6 +68,7 @@ const configResponseTab2: Cpq.Configuration = {
 const configResponseTab3: Cpq.Configuration = {
   productSystemId: productCode,
   completed: false,
+  errorMessages: [],
   tabs: [
     { id: 1, isSelected: false },
     { id: 2, isSelected: false },
@@ -128,6 +131,10 @@ describe('CpqConfiguratorRestService', () => {
     serviceUnderTest = TestBed.inject(
       CpqConfiguratorRestService as Type<CpqConfiguratorRestService>
     );
+
+    configResponseTab1.errorMessages = [];
+    configResponseTab2.errorMessages = [];
+    configResponseTab3.errorMessages = [];
   });
 
   afterEach(() => {
@@ -215,6 +222,21 @@ describe('CpqConfiguratorRestService', () => {
     });
 
     mockDisplayConfig(configResponseOnlyOneTab);
+  });
+
+  it('should not read error messages from first tab ', () => {
+    configResponseTab1.errorMessages = [];
+    configResponseTab2.errorMessages = ['error'];
+    configResponseTab3.errorMessages = ['error'];
+    serviceUnderTest['getConfigurationWithAllTabsAndAttribues'](
+      configId
+    ).subscribe((mergedConfig) => {
+      expect(mergedConfig.errorMessages.length).toEqual(1);
+    });
+
+    mockDisplayConfig();
+    mockDisplayConfigWithTabId('2');
+    mockDisplayConfigWithTabId('3');
   });
 
   it('should merge results for configuration without group', () => {

@@ -24,14 +24,32 @@ const tab: Cpq.Tab = {
 };
 
 const PRODUCT_CODE = 'PCODE';
-const input: Cpq.Configuration = {
+
+const ERROR_MSG = 'This is an error message';
+const CONFLICT_MSG = 'conflict message';
+const VALIDATION_MSG = 'this is a failed validation';
+const INVALID_MSG = 'This is an invalid message';
+const INCOMPLETE_ATTR_1 = 'Attribute1';
+const INCOMPLETE_ATTR_2 = 'Attribute2';
+const INCOMPLETE_MSG = 'incomplete message';
+
+const completeAndConsistentInput: Cpq.Configuration = {
   productSystemId: PRODUCT_CODE,
-  incompleteAttributes: ['Camera Body'],
-  numberOfConflicts: 2,
   tabs: [tab, { id: 2 }],
   currencyISOCode: 'USD',
   currencySign: '$',
   responder: { totalPrice: '$3333.33', baseProductPrice: '1000' },
+  numberOfConflicts: 0,
+};
+
+const input: Cpq.Configuration = {
+  ...completeAndConsistentInput,
+  incompleteMessages: [INCOMPLETE_MSG],
+  incompleteAttributes: [INCOMPLETE_ATTR_1, INCOMPLETE_ATTR_2],
+  invalidMessages: [INVALID_MSG],
+  failedValidations: [VALIDATION_MSG],
+  errorMessages: [ERROR_MSG],
+  conflictMessages: [CONFLICT_MSG],
 };
 
 const singleSelectionValues: Cpq.Value[] = [
@@ -144,7 +162,13 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
   });
 
   it('should calculate total number of issues', () => {
-    expect(serviceUnderTest.convert(input).totalNumberOfIssues).toBe(3);
+    expect(serviceUnderTest.convert(input).totalNumberOfIssues).toBe(6);
+  });
+
+  it('should have zero issues if complete and consistent', () => {
+    expect(
+      serviceUnderTest.convert(completeAndConsistentInput).totalNumberOfIssues
+    ).toBe(0);
   });
 
   it('should prepare price summary', () => {
