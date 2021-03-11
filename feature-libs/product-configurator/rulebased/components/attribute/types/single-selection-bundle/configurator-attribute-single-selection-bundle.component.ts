@@ -30,7 +30,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
     super();
   }
 
