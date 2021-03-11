@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -7,11 +8,10 @@ import {
   ProductService,
 } from '@spartacus/core';
 import { MediaModule } from '@spartacus/storefront';
-import { Configurator } from '../../../../rulebased/core/model/index';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ConfiguratorCPQOverviewAttributeComponent } from './configurator-cpq-overview-attribute.component';
-import { Component, Input } from '@angular/core';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 
 const mockAttributeOverviewInput: Configurator.AttributeOverview = {
   attribute: 'testAttribute',
@@ -52,16 +52,16 @@ class MockConfiguratorPriceComponent {
   @Input() quantity = 1;
 }
 
-describe('ConfiguratorCPQOverviewAttributeComponent', () => {
-  let component: ConfiguratorCPQOverviewAttributeComponent;
-  let fixture: ComponentFixture<ConfiguratorCPQOverviewAttributeComponent>;
+describe('ConfiguratorOverviewBundleAttributeComponent', () => {
+  let component: ConfiguratorOverviewBundleAttributeComponent;
+  let fixture: ComponentFixture<ConfiguratorOverviewBundleAttributeComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [MediaModule, I18nTestingModule],
         declarations: [
-          ConfiguratorCPQOverviewAttributeComponent,
+          ConfiguratorOverviewBundleAttributeComponent,
           MockConfiguratorPriceComponent,
         ],
         providers: [{ provide: ProductService, useClass: MockProductService }],
@@ -71,7 +71,7 @@ describe('ConfiguratorCPQOverviewAttributeComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ConfiguratorCPQOverviewAttributeComponent
+      ConfiguratorOverviewBundleAttributeComponent
     );
     component = fixture.componentInstance;
   });
