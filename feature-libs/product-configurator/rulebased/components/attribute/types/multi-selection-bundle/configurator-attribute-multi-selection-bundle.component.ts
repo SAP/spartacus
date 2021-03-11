@@ -6,17 +6,17 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { BehaviorSubject } from 'rxjs';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
 import {
   ConfiguratorAttributeQuantityComponentOptions,
   Quantity,
 } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 interface SelectionValue {
   name: string;
@@ -216,7 +216,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       preventAction: preventAction,
-      product: value,
+      productBoundValue: value,
       multiSelect: true,
       withQuantity: this.withQuantity,
     };

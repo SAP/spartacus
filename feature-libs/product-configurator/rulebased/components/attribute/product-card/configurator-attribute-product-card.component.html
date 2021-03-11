@@ -1,4 +1,4 @@
-<ng-container *ngIf="product$ | async as productAsync">
+<ng-container *ngIf="product$ | async as product">
   <div
     class="cx-product-card"
     [ngClass]="{
@@ -7,44 +7,36 @@
   >
     <div class="cx-product-card-rows">
       <div class="cx-product-card-imgs">
-        <ng-container *ngIf="productAsync?.images?.PRIMARY; else noimages">
-          <cx-media
-            [container]="productAsync?.images?.PRIMARY"
-            format="product"
-          ></cx-media>
-        </ng-container>
-
-        <ng-template #noimages>
-          <div class="cx-product-card-imgs-fake"></div>
-        </ng-template>
+        <cx-media
+          [container]="product?.images?.PRIMARY"
+          format="product"
+        ></cx-media>
       </div>
 
       <div class="cx-product-card-info">
         <div class="cx-product-card-name">
-          <p *ngIf="productAsync?.noLink; else withLink">
-            {{ productAsync.name }}
+          <p *ngIf="product?.noLink; else withLink">
+            {{ product.name }}
           </p>
           <ng-template #withLink>
             <a
-              [routerLink]="
-                { cxRoute: 'product', params: productAsync } | cxUrl
-              "
+              [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
               class="cx-link"
               cxModal="dismiss"
               target="_blank"
             >
-              {{ productAsync.name }}</a
+              {{ product.name }}</a
             >
           </ng-template>
         </div>
-        <div class="cx-product-card-code">
+        <div class="cx-product-card-code" *ngIf="product.code">
           {{ 'configurator.attribute.id' | cxTranslate }}:
-          {{ productAsync.code }}
+          {{ product.code }}
         </div>
         <cx-configurator-show-more
-          *ngIf="productAsync?.description"
-          [text]="productAsync?.description"
-          [textSize]="50"
+          *ngIf="product?.description"
+          [text]="product?.description"
+          [textSize]="45"
         ></cx-configurator-show-more>
       </div>
     </div>
@@ -74,7 +66,10 @@
         >
           <ng-container *ngIf="productCardOptions?.multiSelect; else single">
             <button
-              *ngIf="productCardOptions?.product?.selected; else select"
+              *ngIf="
+                productCardOptions?.productBoundValue?.selected;
+                else select
+              "
               class="btn btn-action"
               (click)="onHandleDeselect()"
               [disabled]="
@@ -98,14 +93,19 @@
               class="btn btn-primary"
               (click)="onHandleSelect()"
               [disabled]="loading$ | async"
-              *ngIf="!productCardOptions?.product?.selected; else deselect"
+              *ngIf="
+                !productCardOptions?.productBoundValue?.selected;
+                else deselect
+              "
             >
               {{ 'configurator.button.select' | cxTranslate }}
             </button>
             <ng-template #deselect>
               <ng-container
                 *ngIf="
-                  isValueCodeDefined(productCardOptions?.product?.valueCode)
+                  isValueCodeDefined(
+                    productCardOptions?.productBoundValue?.valueCode
+                  )
                 "
               >
                 <button

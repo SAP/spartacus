@@ -9,6 +9,7 @@
     padding-block-start: 16px;
     padding-block-end: 16px;
     width: 100%;
+    min-height: 140px;
     border-bottom: solid 1px var(--cx-color-light);
 
     @include media-breakpoint-down(sm) {
@@ -46,6 +47,7 @@
         justify-content: space-between;
         align-items: flex-start;
         margin-block-end: 16px;
+        min-height: 48px;
 
         @include media-breakpoint-down(sm) {
           margin-block-start: 0.5rem;
