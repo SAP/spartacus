@@ -13,9 +13,15 @@ import {
   validateSpartacusInstallation,
   addPackageJsonDependencies,
   getSpartacusSchematicsVersion,
+  addLibraryStyles,
 } from '@spartacus/schematics';
-import { CLI_BULK_PRICING_FEATURE, SPARTACUS_PRODUCT } from '../constants';
-
+import { addVariantsFeatures } from '../add-variants';
+import {
+  CLI_BULK_PRICING_FEATURE,
+  SPARTACUS_PRODUCT,
+  CLI_VARIANTS_FEATURE,
+  PRODUCT_SCSS_FILE_NAME,
+} from '../constants';
 import { addBulkPricingFeatures } from '../add-bulk-pricing';
 import {
   NodeDependency,
@@ -31,6 +37,11 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
       shouldAddFeature(options.features, CLI_BULK_PRICING_FEATURE)
         ? addBulkPricingFeatures(options)
         : noop(),
+
+      shouldAddFeature(options.features, CLI_VARIANTS_FEATURE)
+        ? addVariantsFeatures(options)
+        : noop(),
+      addProductStylesFile(),
       addProductPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
@@ -47,4 +58,11 @@ function addProductPackageJsonDependencies(packageJson: any): Rule {
     },
   ];
   return addPackageJsonDependencies(dependencies, packageJson);
+}
+
+function addProductStylesFile(): Rule {
+  return addLibraryStyles({
+    scssFileName: PRODUCT_SCSS_FILE_NAME,
+    importStyle: SPARTACUS_PRODUCT,
+  });
 }
