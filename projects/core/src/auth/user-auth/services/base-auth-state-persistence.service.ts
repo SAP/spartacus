@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StaticPersistenceService } from 'projects/core/src/util';
+import { StaticPersistenceService } from '../../../state/services/static-persistence.service';
 import { SyncedAuthState } from './auth-state-persistence.service';
 
 @Injectable({ providedIn: 'root' })

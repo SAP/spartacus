@@ -47,6 +47,8 @@ export class StatePersistenceService extends StaticPersistenceService {
    * @param context$ Context for state
    * @param storageType Storage type to be used to persist state
    * @param onRead Function to be executed on each storage read after context change
+   * @param ignoreConsent Should the consent be ignore (default false)
+   * @param consentTemplate The template id of the consent blocking the persistence, `ignoreConsent` should be false to use this
    *
    * @returns Subscriptions for reading/writing in storage on context/state change
    */
@@ -57,6 +59,7 @@ export class StatePersistenceService extends StaticPersistenceService {
     storageType = StorageSyncType.LOCAL_STORAGE,
     onRead = () => {},
     ignoreConsent = false,
+    consentTemplate = 'STORE_USER_INFORMATION',
   }: {
     key: string;
     state$: Observable<T>;
@@ -64,6 +67,7 @@ export class StatePersistenceService extends StaticPersistenceService {
     storageType?: StorageSyncType;
     onRead?: (stateFromStorage: T) => void;
     ignoreConsent?: boolean;
+    consentTemplate?: string;
   }): Subscription {
     const storage = getStorage(storageType, this.winRef);
 
@@ -84,40 +88,26 @@ export class StatePersistenceService extends StaticPersistenceService {
         .subscribe()
     );
 
-    // TODO (): Remove null check for consentService
-    const stream$: Observable<T | [boolean, T]> = iif(
-      () => ignoreConsent || !Boolean(this.consentService),
-      state$,
+    subscriptions.add(
       combineLatest([
-        (this.consentService as ConsentService).checkConsentGivenByTemplateId(
-          'STORE_USER_INFORMATION'
-        ),
+        this.canPersistToStorage(consentTemplate, ignoreConsent),
         state$,
       ])
-    );
-
-    subscriptions.add(
-      stream$
         .pipe(withLatestFrom(context$))
         .subscribe(
-          ([state, context]: [T | [Boolean, T], string | string[]]) => {
-            if (Array.isArray(state)) {
-              if (state[0]) {
-                persistToStorage(
-                  this.generateKeyWithContext(context, key),
-                  state[1],
-                  storage
-                );
-              } else {
-                removeFromStorage(
-                  this.generateKeyWithContext(context, key),
-                  storage
-                );
-              }
-            } else {
+          ([[consentGiven, state], context]: [
+            [boolean, T],
+            string | string[]
+          ]) => {
+            if (consentGiven) {
               persistToStorage(
                 this.generateKeyWithContext(context, key),
                 state,
+                storage
+              );
+            } else {
+              removeFromStorage(
+                this.generateKeyWithContext(context, key),
                 storage
               );
             }
@@ -126,6 +116,29 @@ export class StatePersistenceService extends StaticPersistenceService {
     );
 
     return subscriptions;
+  }
+
+  /**
+   * Returns true if the specified consent is given and if it should be taken into account
+   *
+   * @param consentTemplate - id of the consent template
+   * @param ignoreConsent - should the consent be taken into account
+   */
+  protected canPersistToStorage(
+    consentTemplate: string,
+    ignoreConsent: boolean
+  ): Observable<boolean> {
+    // TODO (): Remove null check for consentService
+    return iif(
+      () =>
+        Boolean(consentTemplate) ||
+        ignoreConsent ||
+        !Boolean(this.consentService),
+      (this.consentService as ConsentService).checkConsentGivenByTemplateId(
+        consentTemplate
+      ),
+      of(true)
+    );
   }
 
   /**
