@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { ConfiguratorCPQOverviewAttributeModule } from '../../cpq/index';
 import { ConfiguratorOverviewAttributeModule } from '../overview-attribute/configurator-overview-attribute.module';
+import { ConfiguratorOverviewBundleAttributeModule } from '../overview-bundle-attribute/configurator-overview-bundle-attribute.module';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ConfiguratorOverviewAttributeModule,
-    ConfiguratorCPQOverviewAttributeModule,
+    ConfiguratorOverviewBundleAttributeModule,
     I18nModule,
   ],
   providers: [
