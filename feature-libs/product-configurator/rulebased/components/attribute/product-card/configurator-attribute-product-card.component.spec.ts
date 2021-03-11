@@ -324,7 +324,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
     it('should transformToProductType return Product', () => {
       expect(
-        component.transformToProductType(
+        component['transformToProductType'](
           component.productCardOptions.productBoundValue
         )
       ).toEqual(productTransformed);

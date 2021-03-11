@@ -11,6 +11,8 @@ import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-s
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 
+const selectedValue = 'a';
+const attributeQuantity = 4;
 const createTestValue = (
   price: number | undefined,
   total: number | undefined,
@@ -202,7 +204,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     expect(cardList.length).toBe(4);
   });
 
-  it('should mark one items as selected', () => {
+  it('should mark one item as selected', () => {
     expect(getSelected(component, 0)).toEqual(true);
     expect(getSelected(component, 1)).toEqual(false);
     expect(getSelected(component, 2)).toEqual(false);
@@ -289,7 +291,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         };
         fixture.detectChanges();
 
-        const valuePrice = component.getSelectedValuePrice();
+        const valuePrice = component['getSelectedValuePrice']();
         expect(valuePrice?.value).toEqual(100);
       });
 
@@ -300,7 +302,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         };
         fixture.detectChanges();
 
-        const valuePrice = component.getSelectedValuePrice();
+        const valuePrice = component['getSelectedValuePrice']();
         expect(valuePrice?.value).toEqual(100);
       });
     });
@@ -312,7 +314,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         };
         fixture.detectChanges();
 
-        const valuePrice = component.getSelectedValuePrice();
+        const valuePrice = component['getSelectedValuePrice']();
         expect(valuePrice).toBeUndefined();
       });
 
@@ -323,7 +325,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         };
         fixture.detectChanges();
 
-        const valuePrice = component.getSelectedValuePrice();
+        const valuePrice = component['getSelectedValuePrice']();
         expect(valuePrice).toBeUndefined();
       });
 
@@ -334,7 +336,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         };
         fixture.detectChanges();
 
-        const valuePrice = component.getSelectedValuePrice();
+        const valuePrice = component['getSelectedValuePrice']();
         expect(valuePrice?.value).toBeUndefined();
       });
     });
@@ -409,6 +411,28 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('extractQuantityParameters', () => {
+    it('should return 0 as initial if no selected value is specified  ', () => {
+      const quantityParameters = component.extractQuantityParameters(false);
+      expect(quantityParameters.initialQuantity?.quantity).toBe(0);
+    });
+
+    it('should return 0 as initial if a selected value but no attribute quantity is specified', () => {
+      component.attribute.selectedSingleValue = selectedValue;
+      const quantityParameters = component.extractQuantityParameters(false);
+      expect(quantityParameters.initialQuantity?.quantity).toBe(0);
+    });
+
+    it('should return attribute quantity as initial if a selected value is specified', () => {
+      component.attribute.selectedSingleValue = selectedValue;
+      component.attribute.quantity = attributeQuantity;
+      const quantityParameters = component.extractQuantityParameters(false);
+      expect(quantityParameters.initialQuantity?.quantity).toBe(
+        attributeQuantity
       );
     });
   });

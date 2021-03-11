@@ -103,20 +103,9 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     });
   }
 
-  transformToProductType(
-    value: Configurator.Value | undefined
-  ): ProductExtended {
-    return {
-      code: value?.productSystemId,
-      description: value?.description,
-      images: {},
-      name: value?.valueDisplay,
-      noLink: true,
-    };
-  }
-
   /**
-   * Verifies whether the product card is selected
+   * Verifies whether the product card refers to a selected value
+   * @return {boolean} - Selected?
    */
   isProductCardSelected(): boolean {
     const isProductCardSelected =
@@ -127,6 +116,10 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     return isProductCardSelected ? isProductCardSelected : false;
   }
 
+  /**
+   * Computes product price
+   * @return {Configurator.PriceDetails | number} - Price
+   */
   getProductPrice(): Configurator.PriceDetails | number {
     const productPrice =
       this.productCardOptions?.productBoundValue?.valuePrice ||
@@ -186,5 +179,17 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
    */
   isValueCodeDefined(valueCode: string | null | undefined): boolean {
     return valueCode && valueCode !== '0' ? true : false;
+  }
+
+  protected transformToProductType(
+    value: Configurator.Value | undefined
+  ): ProductExtended {
+    return {
+      code: value?.productSystemId,
+      description: value?.description,
+      images: {},
+      name: value?.valueDisplay,
+      noLink: true,
+    };
   }
 }
