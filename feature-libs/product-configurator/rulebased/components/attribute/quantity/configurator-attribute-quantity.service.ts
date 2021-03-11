@@ -1,14 +1,27 @@
-import { Configurator } from '../../../core/model/configurator.model';
 import { Injectable } from '@angular/core';
+import { Configurator } from '../../../core/model/configurator.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfiguratorAttributeQuantityService {
-  disableQuantityActions(value): boolean {
+  /**
+   * Checks if the interaction with the quantity control needs
+   * to be disabled
+   * @param value Selected value
+   * @returns Quantity actions disabled?
+   */
+  disableQuantityActions(value: any): boolean {
     return !value || value === '0';
   }
 
+  /**
+   * Checks if an attribute needs to be equipped with the option to select
+   * a quantity
+   * @param dataType Attribute data type
+   * @param uiType Attribute ui type, refers to how an attribute must be rendered
+   * @returns Render a quantity component?
+   */
   withQuantity(
     dataType: Configurator.DataType,
     uiType: Configurator.UiType
