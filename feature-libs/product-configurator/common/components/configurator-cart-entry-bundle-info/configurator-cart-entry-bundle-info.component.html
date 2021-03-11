@@ -26,13 +26,13 @@
         class="cx-item-info"
         *ngFor="let lineItem of retrieveLineItems(orderEntry)"
       >
-        <div *ngIf="lineItem?.name" class="cx-item-name">
+        <div class="cx-item-name">
           <a href="#">{{ lineItem?.name }}</a>
         </div>
-        <div *ngIf="lineItem?.formattedPrice" class="cx-item-price">
+        <div class="cx-item-price">
           {{ lineItem?.formattedPrice }}
         </div>
-        <div *ngIf="lineItem?.formattedQuantity" class="cx-item-quantity"></div>
+        <div class="cx-item-quantity"></div>
         {{ lineItem?.formattedQuantity }}
       </div>
     </div>

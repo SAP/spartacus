@@ -51,11 +51,12 @@ export class ConfiguratorCartEntryBundleInfoService {
       : [];
     return {
       name: configurationInfo.configurationLabel
-        ? configurationInfo.configurationLabel
+        ? configurationInfo.configurationLabel.replace(':', '')
         : '',
       formattedQuantity:
-        quantityAndPrice.length >= 1 ? quantityAndPrice[0] : '',
-      formattedPrice: quantityAndPrice.length >= 2 ? quantityAndPrice[0] : '',
+        quantityAndPrice.length >= 1 ? quantityAndPrice[0].trim() : '',
+      formattedPrice:
+        quantityAndPrice.length >= 2 ? quantityAndPrice[1].trim() : '',
     };
   }
 }

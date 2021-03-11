@@ -19,7 +19,6 @@
       // A larger value than the details need, this will be used to animate the closing/opening.
       // If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
       max-block-size: fit-content;
-      padding-block-start: 15px;
       padding-block-end: 15px;
     }
 
@@ -27,13 +26,14 @@
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
+      justify-content: space-between;
       padding-block-start: 15px;
       padding-block-end: 15px;
       border-bottom: solid 1px var(--cx-color-light);
 
       .cx-item-name,
       .cx-item-price,
-      cx-item-quantity {
+      .cx-item-quantity {
         font-weight: normal;
       }
     }
