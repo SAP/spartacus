@@ -5,17 +5,17 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { BehaviorSubject } from 'rxjs';
+import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
 import {
   ConfiguratorAttributeQuantityComponentOptions,
   Quantity,
 } from '../../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle',
@@ -129,7 +129,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       preventAction: this.attribute?.required,
-      product: value,
+      productBoundValue: value,
     };
   }
 
