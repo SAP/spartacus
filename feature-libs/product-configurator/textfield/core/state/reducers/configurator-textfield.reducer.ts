@@ -4,7 +4,7 @@ import { ConfiguratorTextfieldActions } from '../actions/index';
 
 export const initialState: ConfiguratorTextfield.Configuration = {
   configurationInfos: [],
-  owner: {},
+  owner: { key: '' }, //TODO CHHI
 };
 
 export function reducer(

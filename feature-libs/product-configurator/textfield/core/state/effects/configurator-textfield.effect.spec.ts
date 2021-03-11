@@ -130,7 +130,9 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a success action with content for an action of type readConfigurationFromCart if read from cart is successful', () => {
-    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {};
+    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
+      owner: CommonConfigurator.createOwner(),
+    };
     const action = new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
       payloadInput
     );
@@ -148,7 +150,9 @@ describe('ConfiguratorTextfieldEffect', () => {
 
   it('should emit a fail action in case read from cart leads to an error', () => {
     readFromCartEntryMock.and.returnValue(throwError(errorResponse));
-    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {};
+    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
+      owner: CommonConfigurator.createOwner(),
+    };
     const action = new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
       payloadInput
     );

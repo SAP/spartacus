@@ -175,6 +175,7 @@ export class ConfiguratorCartEffects {
           const newOwner: CommonConfigurator.Owner = {
             type: CommonConfigurator.OwnerType.CART_ENTRY,
             id: action.payload.cartEntryNo,
+            key: '', //TODO CHHI
           };
           this.commonConfigUtilsService.setOwnerKey(newOwner);
 

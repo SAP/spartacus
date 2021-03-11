@@ -20,11 +20,11 @@ describe('ConfiguratorTextfieldSelectors', () => {
         status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
       },
     ],
-    owner: {},
+    owner: { key: '' }, //TODO CHHI
   };
   const configurationInitial: ConfiguratorTextfield.Configuration = {
     configurationInfos: [],
-    owner: {},
+    owner: { key: '' }, //TODO CHHI
   };
 
   beforeEach(() => {

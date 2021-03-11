@@ -9,6 +9,9 @@ export const initialState: Configurator.Configuration = {
     groupsVisited: {},
     menuParentGroup: null,
   },
+  owner: {
+    key: '', //TODO CHHI
+  },
 };
 export const initialStatePendingChanges = 0;
 
@@ -68,6 +71,7 @@ export function configuratorReducer(
       content.nextOwner = {
         type: CommonConfigurator.OwnerType.CART_ENTRY,
         id: action.payload.cartEntryNo,
+        key: '', //TODO CHHI
       };
       const result = {
         ...state,

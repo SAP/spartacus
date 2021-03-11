@@ -7,6 +7,7 @@ import {
 } from '@spartacus/core';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { OrderEntryStatus } from './../../core/model/common-configurator.model';
+import { getOwnerKey } from './common-configurator-model-utils';
 
 /**
  * Utilities for generic configuration
@@ -20,22 +21,7 @@ export class CommonConfiguratorUtilsService {
    * @param owner Specifies the owner of a product configuration
    */
   setOwnerKey(owner: CommonConfigurator.Owner) {
-    if (owner.type === CommonConfigurator.OwnerType.PRODUCT) {
-      if (!owner.id) {
-        throw new Error('We expect a product code!');
-      }
-    } else if (owner.type === CommonConfigurator.OwnerType.CART_ENTRY) {
-      if (!owner.id) {
-        throw new Error('We expect a document entry Id!');
-      }
-    } else if (owner.type === CommonConfigurator.OwnerType.ORDER_ENTRY) {
-      if (!owner.id) {
-        throw new Error('We expect a document entry Id!');
-      }
-    } else {
-      throw new Error('We expect an owner type!');
-    }
-    owner.key = owner.type + '/' + owner.id;
+    owner.key = getOwnerKey(owner.type, owner.id);
   }
 
   /**

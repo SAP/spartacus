@@ -194,6 +194,7 @@ export class VariantConfiguratorOccAdapter
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
           overview: overview,
+          owner: { key: '' }, //TODO CHHI
         };
         return configuration;
       }),
@@ -224,6 +225,7 @@ export class VariantConfiguratorOccAdapter
         const result: Configurator.Configuration = {
           configId: configuration.configId,
           priceSummary: pricingResult,
+          owner: { key: '' }, //TODO CHHI
         };
         return result;
       }),

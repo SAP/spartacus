@@ -1,8 +1,5 @@
 import { StateUtils } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  StrictUtils,
-} from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 
@@ -55,7 +52,7 @@ export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
   constructor(public payload: CommonConfigurator.Owner) {
-    super(CONFIGURATOR_DATA, StrictUtils.ensureStringDefined(payload.key));
+    super(CONFIGURATOR_DATA, payload.key);
   }
 }
 
@@ -74,10 +71,7 @@ export class CreateConfigurationFail extends StateUtils.EntityFailAction {
 export class CreateConfigurationSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CREATE_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
@@ -89,10 +83,7 @@ export class ReadConfiguration extends StateUtils.EntityLoadAction {
       groupId: string;
     }
   ) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.configuration?.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
   }
 }
 
@@ -106,20 +97,14 @@ export class ReadConfigurationFail extends StateUtils.EntityFailAction {
 export class ReadConfigurationSuccess extends StateUtils.EntitySuccessAction {
   readonly type = READ_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class UpdateConfiguration extends StateUtils.EntityProcessesIncrementAction {
   readonly type = UPDATE_CONFIGURATION;
   constructor(public payload: Configurator.Configuration) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.owner.key);
     this.meta.loader = {
       load: true,
     };
@@ -131,10 +116,7 @@ export class UpdateConfigurationFail extends StateUtils.EntityProcessesDecrement
   constructor(
     public payload: { configuration: Configurator.Configuration; error: any }
   ) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.configuration?.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
     this.meta.loader = {
       error: payload.error,
     };
@@ -144,40 +126,28 @@ export class UpdateConfigurationFail extends StateUtils.EntityProcessesDecrement
 export class UpdateConfigurationSuccess extends StateUtils.EntityProcessesDecrementAction {
   readonly type = UPDATE_CONFIGURATION_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class UpdateConfigurationFinalizeSuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_FINALIZE_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class UpdateConfigurationFinalizeFail extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_CONFIGURATION_FINALIZE_FAIL;
   constructor(public payload: Configurator.Configuration) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
 export class UpdatePriceSummary extends StateUtils.EntityLoadAction {
   readonly type = UPDATE_PRICE_SUMMARY;
   constructor(public payload: Configurator.Configuration) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 export class UpdatePriceSummaryFail extends StateUtils.EntityFailAction {
@@ -190,10 +160,7 @@ export class UpdatePriceSummaryFail extends StateUtils.EntityFailAction {
 export class UpdatePriceSummarySuccess extends StateUtils.EntitySuccessAction {
   readonly type = UPDATE_PRICE_SUMMARY_SUCCESS;
   constructor(public payload: Configurator.Configuration) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
@@ -206,20 +173,14 @@ export class ChangeGroup extends StateUtils.EntityLoadAction {
       parentGroupId: string;
     }
   ) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.configuration?.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.configuration.owner.key);
   }
 }
 
 export class ChangeGroupFinalize extends StateUtils.EntityLoadAction {
   readonly type = CHANGE_GROUP_FINALIZE;
   constructor(public payload: Configurator.Configuration) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 
@@ -233,10 +194,7 @@ export class RemoveConfiguration extends StateUtils.EntityLoaderResetAction {
 export class GetConfigurationOverview extends StateUtils.EntityLoadAction {
   readonly type = GET_CONFIGURATION_OVERVIEW;
   constructor(public payload: Configurator.Configuration) {
-    super(
-      CONFIGURATOR_DATA,
-      StrictUtils.ensureStringDefined(payload.owner?.key)
-    );
+    super(CONFIGURATOR_DATA, payload.owner.key);
   }
 }
 

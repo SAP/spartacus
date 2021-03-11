@@ -1,3 +1,4 @@
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../actions/index';
 import { reducer } from './configurator-textfield.reducer';
@@ -7,11 +8,11 @@ describe('ConfiguratorTextfieldReducer', () => {
 
   const productConfigurationInitial: ConfiguratorTextfield.Configuration = {
     configurationInfos: [],
-    owner: {},
+    owner: CommonConfigurator.createOwner(),
   };
   const productConfiguration: ConfiguratorTextfield.Configuration = {
     configurationInfos: [{ configurationLabel: attributeName }],
-    owner: {},
+    owner: CommonConfigurator.createOwner(),
   };
   const productCode = 'CONF_LAPTOP';
 
@@ -20,7 +21,7 @@ describe('ConfiguratorTextfieldReducer', () => {
       productConfigurationInitial,
       new ConfiguratorTextfieldActions.CreateConfiguration({
         productCode: productCode,
-        owner: undefined,
+        owner: CommonConfigurator.createOwner(),
       })
     );
     expect(result).toBeDefined();

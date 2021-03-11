@@ -8,7 +8,10 @@ import {
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
@@ -31,11 +34,16 @@ const CART_ENTRY_NUMBER = '2';
 const owner: CommonConfigurator.Owner = {
   id: PRODUCT_CODE,
   type: CommonConfigurator.OwnerType.PRODUCT,
+  key: '', //TODO CHHI
 };
 
 const ownerCartRelated: CommonConfigurator.Owner = {
   id: CART_ENTRY_NUMBER,
   type: CommonConfigurator.OwnerType.CART_ENTRY,
+  key: ModelUtils.getOwnerKey(
+    CommonConfigurator.OwnerType.CART_ENTRY,
+    CART_ENTRY_NUMBER
+  ),
 };
 const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
   userId: 'anonymous',
@@ -51,6 +59,10 @@ const productConfiguration: ConfiguratorTextfield.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
+    key: ModelUtils.getOwnerKey(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    ),
   },
 };
 
@@ -85,6 +97,10 @@ const changedProductConfiguration: ConfiguratorTextfield.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
+    key: ModelUtils.getOwnerKey(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    ),
   },
 };
 

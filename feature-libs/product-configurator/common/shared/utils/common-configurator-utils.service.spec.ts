@@ -14,7 +14,7 @@ import { CommonConfiguratorUtilsService } from './common-configurator-utils.serv
 const productCode = 'CONF_LAPTOP';
 const documentId = '12344';
 const entryNumber = 4;
-let owner: CommonConfigurator.Owner = null;
+let owner: CommonConfigurator.Owner;
 
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
@@ -53,7 +53,7 @@ describe('CommonConfiguratorUtilsService', () => {
     classUnderTest = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    owner = {};
+    owner = { key: '' }; //TODO CHHI
     cartItem = {};
   });
 

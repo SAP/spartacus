@@ -1,3 +1,3 @@
-import * as StrictUtils from './common-configurator-strict-utils';
+import * as ModelUtils from './common-configurator-model-utils';
 export * from './common-configurator-utils.service';
-export { StrictUtils };
+export { ModelUtils };

@@ -50,6 +50,7 @@ describe('ConfigAttributeFooterComponent', () => {
   const owner: CommonConfigurator.Owner = {
     id: 'PRODUCT_CODE',
     type: CommonConfigurator.OwnerType.CART_ENTRY,
+    key: '', //TODO CHHI
   };
 
   beforeEach(

@@ -1,3 +1,4 @@
+import { CommonConfigurator } from 'feature-libs/product-configurator/common';
 import * as ConfiguratorTextfieldActions from './configurator-textfield.action';
 
 describe('ConfiguratorTextfieldActions', () => {
@@ -41,7 +42,7 @@ describe('ConfiguratorTextfieldActions', () => {
     const productCode = 'CONF_LAPTOP';
     const createAction = new ConfiguratorTextfieldActions.CreateConfiguration({
       productCode: productCode,
-      owner: undefined,
+      owner: CommonConfigurator.createOwner(),
     });
     expect(createAction.payload.productCode).toBe(productCode);
   });

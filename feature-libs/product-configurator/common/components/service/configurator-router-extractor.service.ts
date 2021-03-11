@@ -51,7 +51,7 @@ export class ConfiguratorRouterExtractorService {
   createOwnerFromRouterState(
     routerState: RouterState
   ): CommonConfigurator.Owner {
-    const owner: CommonConfigurator.Owner = {};
+    const owner: CommonConfigurator.Owner = { key: '' }; //TODO CHHI default
     const params = routerState.state.params;
     if (params.ownerType) {
       const entityKey = params.entityKey;

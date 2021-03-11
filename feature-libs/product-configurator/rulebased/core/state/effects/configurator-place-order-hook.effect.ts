@@ -36,6 +36,7 @@ export class ConfiguratorPlaceOrderHookEffects {
             const owner: CommonConfigurator.Owner = {
               type: CommonConfigurator.OwnerType.CART_ENTRY,
               id: String(entry.entryNumber),
+              key: '', //TODO CHHI
             };
             this.commonConfigUtilsService.setOwnerKey(owner);
 

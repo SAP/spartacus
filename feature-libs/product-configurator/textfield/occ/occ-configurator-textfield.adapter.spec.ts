@@ -58,6 +58,7 @@ const readParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = 
   userId: USER_ID,
   cartId: CART_ID,
   cartEntryNumber: '0',
+  owner: { key: '' }, //TODO CHHI
 };
 
 describe('OccConfigurationTextfieldAdapter', () => {
