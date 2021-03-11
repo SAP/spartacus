@@ -22,10 +22,16 @@ import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
 
+/**
+ * @deprecated since 3.2, it is not used any more
+ */
 export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
   string
 >('cx-external-config');
 
+/**
+ * @deprecated since 3.2, this service is not used any more
+ */
 @Injectable({ providedIn: 'root' })
 export class OccConfigLoaderService {
   constructor(

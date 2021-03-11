@@ -12,6 +12,9 @@ import { JavaRegExpConverter } from '../adapters/site-context/converters/java-re
 import { Occ } from '../occ-models/occ.models';
 import { OccLoadedConfig } from './occ-loaded-config';
 
+/**
+ * @deprecated since 3.2, this converter is not used any more
+ */
 @Injectable({ providedIn: 'root' })
 export class OccLoadedConfigConverter {
   constructor(private javaRegExpConverter: JavaRegExpConverter) {}

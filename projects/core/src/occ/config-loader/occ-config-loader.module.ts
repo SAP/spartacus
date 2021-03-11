@@ -1,5 +1,9 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { ConfigInitializer } from '../../config/config-initializer/config-initializer';
+import {
+  ConfigInitializer,
+  CONFIG_INITIALIZER,
+} from '../../config/config-initializer/config-initializer';
+import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
 import { OccConfigLoaderService } from './occ-config-loader.service';
@@ -9,12 +13,20 @@ import { OccConfigLoaderService } from './occ-config-loader.service';
  */
 export function initConfig(
   configLoader: OccConfigLoaderService,
-  config: SiteContextConfig
+  config: SiteContextConfig,
+  /**
+   * @deprecated since 3.2, TODO: remove it in 4.0
+   */
+  featureConfigService?: FeatureConfigService
 ): ConfigInitializer | null {
+  if (featureConfigService && featureConfigService.isLevel('3.2')) {
+    return null;
+  }
   /**
    * Load config for `context` from backend only when there is no static config for `context.baseSite`
    */
   if (!config.context || !config.context[BASE_SITE_CONTEXT_ID]) {
+    console.log('here');
     return {
       scopes: ['context', 'i18n.fallbackLang'],
       configFactory: () => configLoader.loadConfig(),
@@ -32,12 +44,16 @@ export class OccConfigLoaderModule {
     return {
       ngModule: OccConfigLoaderModule,
       providers: [
-        /*{
+        {
           provide: CONFIG_INITIALIZER,
           useFactory: initConfig,
-          deps: [OccConfigLoaderService, SiteContextConfig],
+          deps: [
+            OccConfigLoaderService,
+            SiteContextConfig,
+            FeatureConfigService,
+          ],
           multi: true,
-        },*/
+        },
       ],
     };
   }

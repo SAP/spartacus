@@ -1,3 +1,6 @@
+/**
+ * @deprecated since 3.2, this interface is not used any more
+ */
 export interface OccLoadedConfig {
   /**
    * Uid of the base site
