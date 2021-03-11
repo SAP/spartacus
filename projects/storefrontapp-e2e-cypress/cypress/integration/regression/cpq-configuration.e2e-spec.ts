@@ -452,7 +452,7 @@ context('CPQ Configuration', () => {
       );
       configurationOverview.checkGroupHeaderDisplayed(GRP_COF_DESIGN, 1);
       configurationOverview.clickContinueToCartBtnOnOP();
-      configuration.checkGlobalMessageNotDisplayed();
+      configuration.checkSuccessMessageNotDisplayed();
 
       cart.verifyCartNotEmpty();
       configuration.clickOnRemoveLink(0);
@@ -467,11 +467,11 @@ context('CPQ Configuration', () => {
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
       configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
+      cy.wait(1000);
 
       configuration.clickOnGroup(3);
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
       configuration.selectAttribute(ATTR_REFR_UNIT, RADGRP_PROD, VAL_SIZE_UNIT);
-      //configuration.setQuantity(RADGRP_PROD, 5, ATTR_REFR_UNIT);
 
       configuration.checkGlobalErrorMessageShown();
     });
@@ -521,10 +521,10 @@ context('CPQ Configuration', () => {
 
       configuration.navigateToOverviewPage();
 
-      configurationOverview.verifyNotificationBannerOnOP(6);
+      configurationOverview.verifyNotificationBannerOnOP(8);
     });
 
-    it.only('check correct number of issues displayed in cart', () => {
+    it('check correct number of issues displayed in cart', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
@@ -550,11 +550,16 @@ context('CPQ Configuration', () => {
         ATTR_REFR_UNIT
       );
 
+      configuration.closeWarningMessages();
+
       configuration.clickAddToCartBtn();
-      configurationOverview.verifyNotificationBannerOnOP();
+      configurationOverview.verifyNotificationBannerOnOP(8);
 
       configurationOverview.clickContinueToCartBtnOnOP();
-      configuration.verifyNotificationBannerInCart(0, 6);
+      configuration.verifyNotificationBannerInCart(0, 8);
+
+      configuration.clickOnRemoveLink(0);
+      configuration.checkCartEmpty();
     });
   });
 });

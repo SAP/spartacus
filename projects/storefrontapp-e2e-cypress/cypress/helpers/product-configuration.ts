@@ -132,13 +132,6 @@ export function checkLoadingMsgNotDisplayed(): void {
 }
 
 /**
- * Verifies whether the global message is not displayed on the top of the configuration.
- */
-export function checkGlobalMessageNotDisplayed(): void {
-  cy.get('cx-global-message').should('not.be.visible');
-}
-
-/**
  * Verifies whether the updating configuration message is not displayed on the top of the configuration.
  */
 export function checkUpdatingMessageNotDisplayed(): void {
@@ -270,7 +263,7 @@ export function clickOnPreviousBtn(previousGroup: string): void {
  */
 export function checkConfigPageDisplayed(): void {
   //checkLoadingMsgNotDisplayed();
-  checkGlobalMessageNotDisplayed();
+  checkSuccessMessageNotDisplayed();
   checkTabBarDisplayed();
   checkGroupTitleDisplayed();
   checkGroupFormDisplayed();
@@ -1087,9 +1080,9 @@ export function clickAddToCartBtn(): void {
     .then(() => {
       cy.location('pathname').should('contain', 'cartEntry/entityKey/');
       checkUpdatingMessageNotDisplayed();
-      checkGlobalMessageNotDisplayed();
+      checkSuccessMessageNotDisplayed();
       checkUpdatingMessageNotDisplayed();
-      checkGlobalMessageNotDisplayed();
+      checkSuccessMessageNotDisplayed();
     });
 }
 
@@ -1348,8 +1341,22 @@ export function checkWarningMessageShown() {
 }
 
 /**
+ * Verifies whether the global success message is not displayed on the top of the configuration.
+ */
+export function checkSuccessMessageNotDisplayed(): void {
+  globalMessage.getSuccessAlert().should('not.be.visible');
+}
+
+/**
  * Close global error messages
  */
 export function closeErrorMessages() {
-  cy.get('.alert-danger .close').click({ multiple: true });
+  cy.get('.alert-danger .close').click({ multiple: true, force: true });
+}
+
+/**
+ * Close global warning messages
+ */
+export function closeWarningMessages() {
+  cy.get('.alert-warning .close').click({ multiple: true, force: true });
 }
