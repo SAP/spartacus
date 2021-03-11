@@ -104,7 +104,18 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     );
   }
 
-  protected updateMultipleSelectionValues(valueCode, state) {
+  /**
+   * Updates the value dependent on the provided state
+   *
+   * @param  valueCode - value code to be updated
+   * @param  state - selected state
+   *
+   * @return {ConfigFormUpdateEvent} - form update event
+   */
+  protected updateMultipleSelectionValues(
+    valueCode: any,
+    state: any
+  ): ConfigFormUpdateEvent {
     const index = this.multipleSelectionValues.findIndex(
       (value) => value.valueCode === valueCode
     );
@@ -126,7 +137,16 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     return event;
   }
 
-  protected updateMultipleSelectionValuesQuantity(eventValue) {
+  /**
+   * Updates the quantity of the given value
+   *
+   * @param  eventValue - event value
+   *
+   * @return {ConfigFormUpdateEvent} - form update event
+   */
+  protected updateMultipleSelectionValuesQuantity(
+    eventValue: any
+  ): ConfigFormUpdateEvent {
     const value: Configurator.Value = this.multipleSelectionValues.find(
       (selectionValue) => selectionValue?.valueCode === eventValue.valueCode
     );
