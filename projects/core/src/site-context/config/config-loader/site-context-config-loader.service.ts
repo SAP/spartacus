@@ -1,6 +1,14 @@
-import { Injectable } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import {
+  Inject,
+  Injectable,
+  isDevMode,
+  Optional,
+  PLATFORM_ID,
+} from '@angular/core';
 import { filter, map, take } from 'rxjs/operators';
 import { BaseSite } from '../../../model/misc.model';
+import { SERVER_REQUEST_URL } from '../../../util/ssr.tokens';
 import { BaseSiteService } from '../../facade/base-site.service';
 import {
   BASE_SITE_CONTEXT_ID,
@@ -12,19 +20,43 @@ import { SiteContextConfig } from '../site-context-config';
 
 @Injectable({ providedIn: 'root' })
 export class SiteContextConfigLoaderService {
-  constructor(protected baseSiteService: BaseSiteService) {}
+  constructor(
+    protected baseSiteService: BaseSiteService,
+    @Inject(PLATFORM_ID) protected platform?: any,
+    @Inject(DOCUMENT) protected document?: any,
+    @Optional()
+    @Inject(SERVER_REQUEST_URL)
+    protected serverRequestUrl?: string
+  ) {}
+
+  private get currentUrl(): string | undefined {
+    if (isPlatformBrowser(this.platform)) {
+      return this.document.location.href;
+    }
+    if (this.serverRequestUrl) {
+      return this.serverRequestUrl;
+    }
+    if (isDevMode()) {
+      console.error(
+        `Please provide token 'SERVER_REQUEST_URL' with the requested URL for SSR`
+      );
+    }
+  }
 
   /**
    * Returns the site context config basing on the current base site data
    */
   loadConfig(): Promise<SiteContextConfig> {
     return this.baseSiteService
-      .get()
+      .getAll()
       .pipe(
+        map((baseSites) =>
+          baseSites?.find((site) => this.isCurrentBaseSite(site))
+        ),
         filter((baseSite: any) => {
           if (!baseSite) {
             throw new Error(
-              `Error: Cannot get base site config! Current url doesn't match any of url patterns of any base sites.`
+              `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match any of url patterns of any base sites.`
             );
           }
           return Boolean(baseSite);
@@ -53,6 +85,16 @@ export class SiteContextConfigLoaderService {
     } as SiteContextConfig;
 
     return result;
+  }
+
+  private isCurrentBaseSite(site: BaseSite): boolean {
+    const index = (site.urlPatterns || []).findIndex((jsRegexp: any) => {
+      if (jsRegexp) {
+        return jsRegexp.test(this.currentUrl || '');
+      }
+    });
+
+    return index !== -1;
   }
 
   /**
