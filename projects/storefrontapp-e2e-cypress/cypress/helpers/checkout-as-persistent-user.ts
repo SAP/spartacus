@@ -319,20 +319,3 @@ export function deletePaymentCard() {
       });
     });
 }
-
-export function checkoutAsPersistentUserTest() {
-  it('Should perform checkout', () => {
-    loginSuccessfully();
-    addShippingAddress();
-    goToProductPageFromCategory();
-    addProductToCart();
-    addPaymentMethod();
-    selectShippingAddress();
-    selectDeliveryMethod();
-    selectPaymentMethod();
-    verifyAndPlaceOrder();
-    displaySummaryPage();
-    deleteShippingAddress();
-    deletePaymentCard();
-  });
-}
