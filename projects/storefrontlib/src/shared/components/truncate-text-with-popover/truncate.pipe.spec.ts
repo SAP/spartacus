@@ -19,8 +19,8 @@ describe('TruncatePipe', () => {
 
   it('should transforms text to be shorten to 20 characters with trail', () => {
     expect(pipe.transform(mockText, ['test']).length).toEqual(23);
-    expect(pipe.transform(mockText, ['test', 'test']).length).toEqual(23);
     expect(pipe.transform(mockText, [null, null]).length).toEqual(23);
     expect(pipe.transform(mockText, [undefined, undefined]).length).toEqual(23);
+    expect(pipe.transform(mockText, ['test', 'test']).length).toEqual(23);
   });
 });

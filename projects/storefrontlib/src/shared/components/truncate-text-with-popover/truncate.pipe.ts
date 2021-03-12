@@ -1,5 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+const defaultLimit = 20;
+
 @Pipe({
   name: 'cxTruncate',
 })
@@ -13,12 +15,18 @@ export class TruncatePipe implements PipeTransform {
     }
 
     let trail = '...';
+
     const limit =
       args.length > 0 && args[0] && Number.isInteger(+args[0])
         ? parseInt(args[0], 10)
-        : 20;
+        : defaultLimit;
 
-    if (args.length > 1 && args[1] && !!args[1] === false) {
+    if (
+      args.length > 1 &&
+      args[1] !== null &&
+      args[1] !== undefined &&
+      !!args[1] === false
+    ) {
       trail = '';
     }
 

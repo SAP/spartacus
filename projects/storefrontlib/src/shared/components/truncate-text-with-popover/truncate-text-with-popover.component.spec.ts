@@ -1,6 +1,5 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
 import { TruncateTextWithPopoverComponent } from './truncate-text-with-popover.component';
 import { TruncateTextWithPopoverModule } from './truncate-text-with-popover.module';
 
@@ -13,11 +12,7 @@ describe('TruncateTextWithPopoverComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          KeyboardFocusTestingModule,
-          TruncateTextWithPopoverModule,
-        ],
+        imports: [I18nTestingModule, TruncateTextWithPopoverModule],
         declarations: [TruncateTextWithPopoverComponent],
       }).compileComponents();
     })
