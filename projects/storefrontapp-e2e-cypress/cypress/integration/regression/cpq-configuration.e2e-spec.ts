@@ -29,6 +29,10 @@ const VAL_COF_CUPS_500 = '8842';
 const ATTR_COF_MODE = '2933';
 /** Starbucks Mode*/
 const VAL_COF_MODE = '8845';
+/**Refridge unit */
+const ATTR_REFR_UNIT = '2943';
+/**Refridge unit */
+const VAL_SIZE_UNIT = '8873';
 
 /** CONF_COFFEEMACHINE_3000_GEN_OPT*/
 const GRP_COF_GEN_OPT = 'CONF_COFFEEMACHINE_3000_GEN_OPT';
@@ -87,6 +91,8 @@ const ATTR_NAMES = {
     'Extended Warranty',
   ],
 };
+
+const CPQ_BACKEND_URL = '**/api/configuration/v1/configurations/**';
 
 context('CPQ Configuration', () => {
   beforeEach(() => {
@@ -446,9 +452,133 @@ context('CPQ Configuration', () => {
       );
       configurationOverview.checkGroupHeaderDisplayed(GRP_COF_DESIGN, 1);
       configurationOverview.clickContinueToCartBtnOnOP();
-      configuration.checkGlobalMessageNotDisplayed();
+      configuration.checkSuccessMessageNotDisplayed();
 
       cart.verifyCartNotEmpty();
+      configuration.clickOnRemoveLink(0);
+      configuration.checkCartEmpty();
+    });
+  });
+
+  describe('conflict handling', () => {
+    it('check error messages displayed', () => {
+      cy.server();
+      cy.route('PATCH', CPQ_BACKEND_URL).as('updateConfig');
+      cy.route('GET', CPQ_BACKEND_URL).as('readConfig');
+
+      configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+      configuration.clickOnConfigureBtnInCatalog();
+
+      configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
+      configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
+      configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
+      cy.wait('@updateConfig');
+      cy.wait('@readConfig');
+      cy.wait(50);
+
+      configuration.clickOnGroup(3);
+      configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
+      configuration.selectAttribute(ATTR_REFR_UNIT, RADGRP_PROD, VAL_SIZE_UNIT);
+
+      configuration.checkGlobalErrorMessageShown();
+    });
+
+    it('check warning messages displayed', () => {
+      configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+      configuration.clickOnConfigureBtnInCatalog();
+
+      configuration.clickOnGroup(3);
+      configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
+      configuration.selectAttribute(ATTR_REFR_UNIT, RADGRP_PROD, VAL_SIZE_UNIT);
+      configuration.checkValueSelected(
+        RADGRP_PROD,
+        ATTR_REFR_UNIT,
+        VAL_SIZE_UNIT
+      );
+      configuration.setQuantity(RADGRP_PROD, 4, ATTR_REFR_UNIT);
+
+      configuration.checkWarningMessageShown();
+    });
+
+    it('check correct number of issues displayed in overview', () => {
+      cy.server();
+      cy.route('PATCH', CPQ_BACKEND_URL).as('updateConfig');
+      cy.route('GET', CPQ_BACKEND_URL).as('readConfig');
+
+      configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+      configuration.clickOnConfigureBtnInCatalog();
+
+      configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
+      configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
+      configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
+      cy.wait('@updateConfig');
+      cy.wait('@readConfig');
+      cy.wait(50);
+
+      configuration.clickOnGroup(3);
+      configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
+      configuration.closeErrorMessages();
+      configuration.selectAttribute(ATTR_REFR_UNIT, RADGRP_PROD, VAL_SIZE_UNIT);
+      configuration.checkValueSelected(
+        RADGRP_PROD,
+        ATTR_REFR_UNIT,
+        VAL_SIZE_UNIT
+      );
+      configuration.closeErrorMessages();
+      configuration.setQuantity(RADGRP_PROD, 5, ATTR_REFR_UNIT);
+      configuration.checkPrice(
+        RADGRP_PROD,
+        '5x($300.00) + $1,500.00',
+        ATTR_REFR_UNIT
+      );
+
+      configuration.navigateToOverviewPage();
+
+      configurationOverview.waitForNotificationBanner(8);
+      configurationOverview.verifyNotificationBannerOnOP(8);
+    });
+
+    it.only('check correct number of issues displayed in cart', () => {
+      cy.server();
+      cy.route('PATCH', CPQ_BACKEND_URL).as('updateConfig');
+      cy.route('GET', CPQ_BACKEND_URL).as('readConfig');
+
+      configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+      configuration.clickOnConfigureBtnInCatalog();
+
+      configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
+      configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
+      configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
+      cy.wait('@updateConfig');
+      cy.wait('@readConfig');
+      cy.wait(50);
+
+      configuration.clickOnGroup(3);
+      configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
+      configuration.closeErrorMessages();
+      configuration.selectAttribute(ATTR_REFR_UNIT, RADGRP_PROD, VAL_SIZE_UNIT);
+      configuration.checkValueSelected(
+        RADGRP_PROD,
+        ATTR_REFR_UNIT,
+        VAL_SIZE_UNIT
+      );
+      configuration.closeErrorMessages();
+      configuration.setQuantity(RADGRP_PROD, 5, ATTR_REFR_UNIT);
+      configuration.checkPrice(
+        RADGRP_PROD,
+        '5x($300.00) + $1,500.00',
+        ATTR_REFR_UNIT
+      );
+
+      configuration.closeWarningMessages();
+
+      configuration.clickAddToCartBtn();
+      configurationOverview.waitForNotificationBanner(8);
+      configurationOverview.verifyNotificationBannerOnOP(8);
+
+      configurationOverview.clickContinueToCartBtnOnOP();
+      configuration.verifyNotificationBannerInCart(0, 8);
+
       configuration.clickOnRemoveLink(0);
       configuration.checkCartEmpty();
     });
