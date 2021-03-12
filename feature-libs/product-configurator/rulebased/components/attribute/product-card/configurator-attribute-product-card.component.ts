@@ -36,7 +36,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
 })
 export class ConfiguratorAttributeProductCardComponent implements OnInit {
   product$: Observable<ProductExtended>;
-  loading$ = new BehaviorSubject<boolean>(true);
+  loading$ = new BehaviorSubject<boolean>(false);
 
   @Input()
   productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -48,6 +48,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   constructor(protected productService: ProductService) {}
 
   ngOnInit() {
+    this.loading$.next(true);
     const productSystemId = this.productCardOptions?.productBoundValue
       ?.productSystemId;
 
