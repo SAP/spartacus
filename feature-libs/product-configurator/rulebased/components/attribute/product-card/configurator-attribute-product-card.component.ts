@@ -36,7 +36,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
 })
 export class ConfiguratorAttributeProductCardComponent implements OnInit {
   product$: Observable<ProductExtended>;
-  loading$ = new BehaviorSubject<boolean>(false);
+  loading$ = new BehaviorSubject<boolean>(true);
 
   @Input()
   productCardOptions: ConfiguratorAttributeProductCardComponentOptions;

@@ -192,7 +192,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     component.product$.subscribe().unsubscribe(); // fetch product
     subscription.unsubscribe();
     expect(loadingState.length).toBe(3);
-    expect(loadingState[0]).toBe(false); // initial
+    expect(loadingState[0]).toBe(false); // state from before each
     expect(loadingState[1]).toBe(true); // loading
     expect(loadingState[2]).toBe(false); // loading done
   });
