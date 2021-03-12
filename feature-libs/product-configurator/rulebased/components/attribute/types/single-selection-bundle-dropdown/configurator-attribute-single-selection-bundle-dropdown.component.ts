@@ -30,7 +30,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   implements OnInit {
   attributeDropDownForm = new FormControl('');
   loading$ = new BehaviorSubject<boolean>(false);
-  selectionValue: Configurator.Value;
+  selectionValue: Configurator.Value | undefined;
 
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
@@ -54,8 +54,8 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
 
   get withQuantity() {
     return this.quantityService.withQuantity(
-      this.attribute?.dataType,
-      this.attribute?.uiType
+      this.attribute?.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+      this.attribute?.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
     );
   }
 
@@ -90,7 +90,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject): void {
+  onChangeQuantity(eventObject: { quantity: number }): void {
     this.loading$.next(true);
 
     if (!eventObject.quantity) {
@@ -153,7 +153,9 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   ): ConfiguratorAttributeQuantityComponentOptions {
     const initialQuantity: Quantity = {
       quantity:
-        this.attributeDropDownForm.value !== '0' ? this.attribute?.quantity : 0,
+        this.attributeDropDownForm.value !== '0'
+          ? this.attribute?.quantity ?? 0
+          : 0,
     };
 
     return {
