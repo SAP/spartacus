@@ -5,6 +5,7 @@ import {
   noop,
   Rule,
   SchematicContext,
+  SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
 import {
@@ -12,6 +13,7 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import {
+  ANGULAR_HTTP,
   ANGULAR_OAUTH2_OIDC,
   DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
   DEFAULT_NGRX_VERSION,
@@ -34,12 +36,17 @@ import {
   addPackageJsonDependencies,
   installPackageJsonDependencies,
 } from '../shared/utils/lib-utils';
-import { ensureModuleExists } from '../shared/utils/new-module-utils';
+import {
+  addModuleImport,
+  ensureModuleExists,
+} from '../shared/utils/new-module-utils';
 import {
   getAngularVersion,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
 } from '../shared/utils/package-utils';
+import { createProgram, saveAndFormat } from '../shared/utils/program';
+import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
   getProjectFromWorkspace,
   getProjectTargets,
@@ -258,6 +265,40 @@ function prepareDependencies(
   return dependencies;
 }
 
+export function updateAppModule(project: string): Rule {
+  return (tree: Tree): Tree => {
+    const { buildPaths } = getProjectTsConfigPaths(tree, project);
+
+    if (!buildPaths.length) {
+      throw new SchematicsException(
+        'Could not find any tsconfig file. Cannot configure AppModule.'
+      );
+    }
+
+    const basePath = process.cwd();
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const sourceFile of appSourceFiles) {
+        if (sourceFile.getFilePath().includes(`app.module.ts`)) {
+          addModuleImport(sourceFile, {
+            import: {
+              moduleSpecifier: ANGULAR_HTTP,
+              namedImports: ['HttpClientModule'],
+            },
+            content: 'HttpClientModule',
+          });
+
+          saveAndFormat(sourceFile);
+
+          break;
+        }
+      }
+    }
+    return tree;
+  };
+}
+
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
@@ -297,6 +338,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       }),
       addSpartacusConfiguration(options),
 
+      updateAppModule(options.project),
       installStyles(options),
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
