@@ -30,20 +30,31 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
     super();
   }
 
-  get withQuantity() {
+  /**
+   * Checks if we are supposed to render a quantity control, which
+   * can be derived from the attribute meta data
+   *
+   * @return {boolean} - Display quantity picker?
+   */
+  get withQuantity(): boolean {
     return this.quantityService.withQuantity(
-      this.attribute?.dataType,
-      this.attribute?.uiType
+      this.attribute.dataType,
+      this.attribute.uiType
     );
   }
 
-  get disableQuantityActions() {
+  /**
+   * Checks if quantity control should be disabled
+   *
+   * @return {boolean} - Disable quantity picker?
+   */
+  get disableQuantityActions(): boolean {
     return this.quantityService.disableQuantityActions(
-      this.attribute?.selectedSingleValue
+      this.attribute.selectedSingleValue
     );
   }
 
@@ -77,7 +88,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     this.selectionChange.emit(event);
   }
 
-  onHandleQuantity(quantity): void {
+  onHandleQuantity(quantity: any): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
@@ -92,16 +103,12 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject): void {
+  onChangeQuantity(eventObject: any): void {
     if (!eventObject.quantity) {
       this.onDeselect();
     } else {
       this.onHandleQuantity(eventObject.quantity);
     }
-  }
-
-  getSelectedValuePrice(): Configurator.PriceDetails | undefined {
-    return this.attribute?.values?.find((value) => value?.selected)?.valuePrice;
   }
 
   /**
@@ -111,9 +118,9 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {
-      quantity: this.attribute?.quantity,
+      quantity: this.attribute.quantity,
       price: this.getSelectedValuePrice(),
-      priceTotal: this.attribute?.attributePriceTotal,
+      priceTotal: this.attribute.attributePriceTotal,
       isLightedUp: true,
     };
   }
@@ -128,7 +135,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     value: Configurator.Value
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      preventAction: this.attribute?.required,
+      preventAction: this.attribute.required,
       productBoundValue: value,
     };
   }
@@ -142,16 +149,23 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   extractQuantityParameters(
     disableQuantityActions: boolean
   ): ConfiguratorAttributeQuantityComponentOptions {
+    const quantity = this.attribute.quantity;
     const initialQuantity: Quantity = {
-      quantity: this.attribute?.selectedSingleValue
-        ? this.attribute.quantity
+      quantity: this.attribute.selectedSingleValue
+        ? quantity
+          ? quantity
+          : 0
         : 0,
     };
 
     return {
-      allowZero: !this.attribute?.required,
+      allowZero: !this.attribute.required,
       initialQuantity: initialQuantity,
       disableQuantityActions: disableQuantityActions,
     };
+  }
+
+  protected getSelectedValuePrice(): Configurator.PriceDetails | undefined {
+    return this.attribute.values?.find((value) => value?.selected)?.valuePrice;
   }
 }

@@ -173,7 +173,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     };
 
     spyOn(component, 'onHandleDeselect').and.callThrough();
-    spyOn(component, 'onHandleQuantity').and.callThrough();
+    spyOn(component as any, 'onHandleQuantity').and.callThrough();
     spyOn(component, 'onHandleSelect').and.callThrough();
 
     fixture.detectChanges();
@@ -296,7 +296,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     it('should call handleQuantity on event onHandleQuantity', () => {
       spyOn(component.handleQuantity, 'emit').and.callThrough();
 
-      component.onHandleQuantity(1);
+      component['onHandleQuantity'](1);
 
       expect(component.handleQuantity.emit).toHaveBeenCalledWith(
         jasmine.objectContaining({
@@ -319,12 +319,12 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       component.onChangeQuantity(quantity);
 
-      expect(component.onHandleQuantity).toHaveBeenCalled();
+      expect(component['onHandleQuantity']).toHaveBeenCalled();
     });
 
     it('should transformToProductType return Product', () => {
       expect(
-        component.transformToProductType(
+        component['transformToProductType'](
           component.productCardOptions.productBoundValue
         )
       ).toEqual(productTransformed);
@@ -399,9 +399,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       productBoundValue.valuePriceTotal = undefined;
       fixture.detectChanges();
 
-      expect(component.getProductPrice()).toBe(
-        component?.productCardOptions?.productBoundValue?.quantity
-      );
+      expect(component.hasPriceDisplay()).toBe(true);
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -425,9 +423,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       productBoundValue.valuePriceTotal = undefined;
       fixture.detectChanges();
 
-      expect(component.getProductPrice()).toBe(
-        component.productCardOptions?.productBoundValue?.valuePrice
-      );
+      expect(component.hasPriceDisplay()).toBe(true);
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -451,15 +447,27 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       };
       fixture.detectChanges();
 
-      expect(component.getProductPrice()).toBe(
-        component.productCardOptions?.productBoundValue?.valuePriceTotal
-      );
+      expect(component.hasPriceDisplay()).toBe(true);
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         'cx-configurator-price'
       );
+    });
+
+    it('should state that no price display is needed if no price related fields are available', () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        0
+      );
+
+      productBoundValue.valuePrice = undefined;
+      productBoundValue.valuePriceTotal = undefined;
+      fixture.detectChanges();
+
+      expect(component.hasPriceDisplay()).toBe(false);
     });
 
     it('should display content of cx-configurator-price ', () => {
@@ -481,7 +489,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       };
       fixture.detectChanges();
 
-      expect(component.getProductPrice()).not.toBeUndefined();
+      expect(component.hasPriceDisplay()).not.toBeUndefined();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,

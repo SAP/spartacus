@@ -94,29 +94,9 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     }
   }
 
-  onHandleQuantity(quantity: number): void {
-    this.loading$.next(true);
-
-    this.handleQuantity.emit({
-      quantity,
-      valueCode: this.productCardOptions?.productBoundValue?.valueCode,
-    });
-  }
-
-  transformToProductType(
-    value: Configurator.Value | undefined
-  ): ProductExtended {
-    return {
-      code: value?.productSystemId,
-      description: value?.description,
-      images: {},
-      name: value?.valueDisplay,
-      noLink: true,
-    };
-  }
-
   /**
-   * Verifies whether the product card is selected
+   * Verifies whether the product card refers to a selected value
+   * @return {boolean} - Selected?
    */
   isProductCardSelected(): boolean {
     const isProductCardSelected =
@@ -127,13 +107,19 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     return isProductCardSelected ? isProductCardSelected : false;
   }
 
-  getProductPrice(): Configurator.PriceDetails | number {
+  /**
+   * Checks if price needs to be displayed. This is the
+   * case if either value price, quantity or value price total
+   * are present
+   * @return {boolean} - Price display?
+   */
+  hasPriceDisplay(): boolean {
     const productPrice =
       this.productCardOptions?.productBoundValue?.valuePrice ||
       this.productCardOptions?.productBoundValue?.quantity ||
       this.productCardOptions?.productBoundValue?.valuePriceTotal;
 
-    return productPrice ? productPrice : 0;
+    return productPrice ? true : false;
   }
 
   /**
@@ -186,5 +172,26 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
    */
   isValueCodeDefined(valueCode: string | null | undefined): boolean {
     return valueCode && valueCode !== '0' ? true : false;
+  }
+
+  protected transformToProductType(
+    value: Configurator.Value | undefined
+  ): ProductExtended {
+    return {
+      code: value?.productSystemId,
+      description: value?.description,
+      images: {},
+      name: value?.valueDisplay,
+      noLink: true,
+    };
+  }
+
+  protected onHandleQuantity(quantity: number): void {
+    this.loading$.next(true);
+
+    this.handleQuantity.emit({
+      quantity,
+      valueCode: this.productCardOptions?.productBoundValue?.valueCode,
+    });
   }
 }
