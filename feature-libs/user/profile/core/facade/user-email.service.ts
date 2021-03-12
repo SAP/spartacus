@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { normalizeHttpError } from '@spartacus/core';
-import { ConnectableObservable, Observable, throwError } from 'rxjs';
-import { catchError, publishReplay, switchMap, take } from 'rxjs/operators';
+import { CommandService } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { UserProfileService } from './user-profile.service';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
@@ -10,8 +10,22 @@ import { UserProfileConnector } from '../connectors/user-profile.connector';
 export class UserEmailService implements UserEmailFacade {
   constructor(
     protected userProfileService: UserProfileService,
-    private userProfileConnector: UserProfileConnector
+    protected userProfileConnector: UserProfileConnector,
+    protected command: CommandService
   ) {}
+
+  protected updateCommand = this.command.create<{
+    password: string;
+    newUid: string;
+  }>((payload) =>
+    this.userProfileService
+      .get()
+      .pipe(
+        switchMap(({ uid }) =>
+          this.userProfileConnector.updateEmail(uid, payload.password, payload.newUid)
+        )
+      )
+  );
 
   /**
    * Updates the user's email.
@@ -20,17 +34,6 @@ export class UserEmailService implements UserEmailFacade {
    * @param newUid the new proposed email address.
    */
   update(password: string, newUid: string): Observable<unknown> {
-    const update$ = this.userProfileService.get().pipe(
-      take(1),
-      switchMap((user) =>
-        this.userProfileConnector
-          // tslint:disable-next-line:no-non-null-assertion
-          .updateEmail(user.uid!, password, newUid)
-          .pipe(catchError((error) => throwError(normalizeHttpError(error))))
-      ),
-      publishReplay()
-    ) as ConnectableObservable<unknown>;
-    update$.connect();
-    return update$;
+    return this.updateCommand.execute({ password, newUid });
   }
 }

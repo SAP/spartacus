@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AuthService, normalizeHttpError } from '@spartacus/core';
+import { AuthService, CommandService } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
-import { ConnectableObservable, Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   Title,
   UserProfileFacade,
@@ -9,14 +9,31 @@ import {
   UserSignUp,
 } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '../connectors';
-import { catchError, publishReplay, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
+  protected registerCommand = this.command.create<{ user: UserSignUp }>(
+    ({ user }) => this.userConnector.register(user)
+  );
+
+  protected registerGuestCommand = this.command.create<{
+    guid: string;
+    password: string;
+  }>((payload) =>
+    this.userConnector.registerGuest(payload.guid, payload.password).pipe(
+      tap((user) => {
+        // tslint:disable-next-line:no-non-null-assertion
+        this.authService.loginWithCredentials(user.uid!, payload.password);
+      })
+    )
+  );
+
   constructor(
     protected userProfile: UserProfileFacade,
     private userConnector: UserProfileConnector,
-    private authService: AuthService
+    private authService: AuthService,
+    protected command: CommandService
   ) {}
 
   /**
@@ -25,12 +42,7 @@ export class UserRegisterService implements UserRegisterFacade {
    * @param submitFormData as UserRegisterFormData
    */
   register(user: UserSignUp): Observable<User> {
-    const register$ = this.userConnector.register(user).pipe(
-      catchError((error) => throwError(normalizeHttpError(error))),
-      publishReplay()
-    ) as ConnectableObservable<User>;
-    register$.connect();
-    return register$;
+    return this.registerCommand.execute({ user });
   }
 
   /**
@@ -40,16 +52,7 @@ export class UserRegisterService implements UserRegisterFacade {
    * @param password
    */
   registerGuest(guid: string, password: string): Observable<User> {
-    const register$ = this.userConnector.registerGuest(guid, password).pipe(
-      tap((user) => {
-        // tslint:disable-next-line:no-non-null-assertion
-        this.authService.loginWithCredentials(user.uid!, password);
-      }),
-      catchError((error) => throwError(normalizeHttpError(error))),
-      publishReplay()
-    ) as ConnectableObservable<User>;
-    register$.connect();
-    return register$;
+    return this.registerGuestCommand.execute({ guid, password });
   }
 
   /**
