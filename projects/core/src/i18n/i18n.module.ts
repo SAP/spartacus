@@ -1,6 +1,6 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { map, take } from 'rxjs/operators';
-import { ConfigInitializerService } from '../config/config-initializer';
+import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
 import { provideDefaultConfig } from '../config/config-providers';
 import { defaultI18nConfig } from './config/default-i18n-config';
 import { CxDatePipe } from './date.pipe';
@@ -28,6 +28,7 @@ export function initI18nConfig(configInit: ConfigInitializerService) {
       .toPromise();
   return result;
 }
+
 @NgModule({
   declarations: [TranslatePipe, CxDatePipe],
   exports: [TranslatePipe, CxDatePipe],
