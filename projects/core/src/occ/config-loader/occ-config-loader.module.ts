@@ -15,7 +15,7 @@ export function initConfig(
   configLoader: OccConfigLoaderService,
   config: SiteContextConfig,
   /**
-   * @deprecated since 3.2, TODO: remove it in 4.0
+   * TODO: remove it in 4.0
    */
   featureConfigService?: FeatureConfigService
 ): ConfigInitializer | null {
@@ -26,7 +26,6 @@ export function initConfig(
    * Load config for `context` from backend only when there is no static config for `context.baseSite`
    */
   if (!config.context || !config.context[BASE_SITE_CONTEXT_ID]) {
-    console.log('here');
     return {
       scopes: ['context', 'i18n.fallbackLang'],
       configFactory: () => configLoader.loadConfig(),
@@ -36,6 +35,8 @@ export function initConfig(
 }
 
 /**
+ * @deprecated since 3.2, use SiteContextConfigLoaderModule instead
+ *
  * Re-provides the external config chunk given before Angular bootstrap
  */
 @NgModule()

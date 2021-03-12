@@ -15,7 +15,7 @@ export class SiteContextConfigLoaderService {
   constructor(protected baseSiteService: BaseSiteService) {}
 
   /**
-   * Initializes the SiteContextConfig asynchronously basing on the external config
+   * Returns the site context config basing on the current base site data
    */
   loadConfig(): Promise<SiteContextConfig> {
     return this.baseSiteService
@@ -29,13 +29,13 @@ export class SiteContextConfigLoaderService {
           }
           return Boolean(baseSite);
         }),
-        map((baseSite) => this.toSiteContextConfig(baseSite)),
+        map((baseSite) => this.getConfig(baseSite)),
         take(1)
       )
       .toPromise();
   }
 
-  toSiteContextConfig(source: BaseSite): SiteContextConfig {
+  protected getConfig(source: BaseSite): SiteContextConfig {
     const result = {
       context: {
         urlParameters: this.getUrlParams(source.urlEncodingAttributes),
