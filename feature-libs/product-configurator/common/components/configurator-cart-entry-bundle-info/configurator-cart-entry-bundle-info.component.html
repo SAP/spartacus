@@ -1,41 +1,43 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
   <ng-container *ngIf="isBundleBasedConfigurator(orderEntry)">
-    <div>
-      {{
-        getBundleItemsKey(orderEntry)
-          | cxTranslate: { param: retrieveNumberOfLineItems(orderEntry) }
-      }}
-    </div>
-
-    <a role="link" (click)="toggleItems()" tabindex="0">
-      <ng-container *ngIf="hideItems">
-        <div class="cx-toggle-hide-items">
-          {{ geToggleItemsKey(orderEntry) | cxTranslate }}
-        </div>
-      </ng-container>
-
-      <ng-container *ngIf="!hideItems">
-        <div class="cx-toggle-hide-items">
-          {{ geToggleItemsKey(orderEntry) | cxTranslate }}
-        </div>
-      </ng-container>
-    </a>
-
-    <div class="cx-item-infos" [class.open]="!hideItems">
-      <div
-        class="cx-item-info"
-        *ngFor="let lineItem of retrieveLineItems(orderEntry)"
-      >
-        <div class="cx-item-name">
-          <a href="#">{{ lineItem?.name }}</a>
-        </div>
-        <div class="cx-item-price">
-          {{ lineItem?.formattedPrice }}
-        </div>
-        <div class="cx-item-quantity"></div>
-        {{ lineItem?.formattedQuantity }}
+    <ng-container *ngIf="(numberOfLineItems$ | async) > 0">
+      <div>
+        {{
+          'configurator.header.bundleItems'
+            | cxTranslate: { param: numberOfLineItems$ | async }
+        }}
       </div>
-    </div>
+
+      <a role="link" (click)="toggleItems()" tabindex="0">
+        <ng-container *ngIf="hideItems">
+          <div class="cx-toggle-hide-items">
+            {{ 'configurator.header.show' | cxTranslate }}
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="!hideItems">
+          <div class="cx-toggle-hide-items">
+            {{ 'configurator.header.hide' | cxTranslate }}
+          </div>
+        </ng-container>
+      </a>
+
+      <div class="cx-item-infos" [class.open]="!hideItems">
+        <div
+          class="cx-item-info"
+          *ngFor="let lineItem of retrieveLineItems(orderEntry)"
+        >
+          <div class="cx-item-name">
+            <a href="#">{{ lineItem?.name }}</a>
+          </div>
+          <div class="cx-item-price">
+            {{ lineItem?.formattedPrice }}
+          </div>
+          <div class="cx-item-quantity"></div>
+          {{ lineItem?.formattedQuantity }}
+        </div>
+      </div>
+    </ng-container>
   </ng-container>
 
   <cx-configure-cart-entry
