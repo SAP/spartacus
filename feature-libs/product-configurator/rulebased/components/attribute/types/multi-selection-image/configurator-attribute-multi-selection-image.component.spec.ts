@@ -15,7 +15,7 @@ class MockGroupService {}
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: any;
 }
 
 describe('ConfigAttributeMultiSelectionImageComponent', () => {
@@ -71,11 +71,12 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     };
     return value;
   }
+  let value1: Configurator.Value;
 
   beforeEach(() => {
     const image = createImage('url', 'altText');
     const images: Configurator.Image[] = [image, image, image];
-    const value1 = createValue('1', 'val1', false, images);
+    value1 = createValue('1', 'val1', false, images);
     const value2 = createValue('2', 'val2', true, images);
     const value3 = createValue('3', 'val3', true, images);
     const value4 = createValue('4', 'val4', false, images);
@@ -121,7 +122,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       '#cx-configurator--multi_selection_image--' +
       component.attribute.name +
       '--' +
-      component.attribute.values[0].valueCode +
+      value1.valueCode +
       '-input';
     const valueToSelect = fixture.debugElement.query(
       By.css(singleSelectionImageId)

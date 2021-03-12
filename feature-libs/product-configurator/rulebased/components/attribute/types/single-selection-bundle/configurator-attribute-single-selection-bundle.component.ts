@@ -6,6 +6,7 @@ import {
   Output,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -143,25 +144,22 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   /**
    *  Extract corresponding quantity parameters
    *
-   * @param {boolean} disableQuantityActions - Disable quantity actions
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
-  extractQuantityParameters(
-    disableQuantityActions: boolean
-  ): ConfiguratorAttributeQuantityComponentOptions {
-    const quantity = this.attribute.quantity;
+  extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
+    const quantity: number = this.attribute.quantity ?? 0;
     const initialQuantity: Quantity = {
-      quantity: this.attribute.selectedSingleValue
-        ? quantity
-          ? quantity
-          : 0
-        : 0,
+      quantity: this.attribute.selectedSingleValue ? quantity : 0,
     };
 
     return {
       allowZero: !this.attribute.required,
       initialQuantity: initialQuantity,
-      disableQuantityActions: disableQuantityActions,
+      disableQuantityActions: this.loading$.pipe(
+        map((loading) => {
+          return loading || this.disableQuantityActions;
+        })
+      ),
     };
   }
 

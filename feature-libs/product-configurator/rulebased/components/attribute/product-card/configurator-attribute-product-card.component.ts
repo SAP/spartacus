@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Product, ProductService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
@@ -36,7 +36,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
 })
 export class ConfiguratorAttributeProductCardComponent implements OnInit {
   product$: Observable<ProductExtended>;
-  loading$ = new BehaviorSubject<boolean>(false);
+  loading$ = new BehaviorSubject<boolean>(true);
 
   @Input()
   productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -60,7 +60,8 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
             : this.transformToProductType(
                 this.productCardOptions?.productBoundValue
               );
-        })
+        }),
+        tap(() => this.loading$.next(false))
       );
   }
 
@@ -148,9 +149,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
    * @param {boolean} disableQuantityActions - Disable quantity actions
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
-  extractQuantityParameters(
-    disableQuantityActions: boolean
-  ): ConfiguratorAttributeQuantityComponentOptions {
+  extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
     const quantityFromOptions = this.productCardOptions?.productBoundValue
       ?.quantity;
     const initialQuantity: Quantity = {
@@ -160,7 +159,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     return {
       allowZero: !this.productCardOptions?.preventAction,
       initialQuantity: initialQuantity,
-      disableQuantityActions: disableQuantityActions,
+      disableQuantityActions: this.loading$,
     };
   }
 

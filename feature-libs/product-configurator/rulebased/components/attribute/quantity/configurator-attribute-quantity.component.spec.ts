@@ -10,6 +10,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorUISettings } from '../../config/configurator-ui-settings';
 import {
   ConfiguratorAttributeQuantityComponent,
@@ -38,7 +39,7 @@ function initialize(disable: boolean) {
   component.quantityOptions = {
     allowZero: true,
     initialQuantity: initialQuantity,
-    disableQuantityActions: disable,
+    disableQuantityActions: new BehaviorSubject(disable),
   };
   fixture.detectChanges();
 }

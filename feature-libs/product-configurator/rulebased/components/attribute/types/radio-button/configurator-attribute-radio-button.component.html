@@ -4,9 +4,7 @@
     <cx-configurator-attribute-quantity
       *ngIf="withQuantity"
       (changeQuantity)="onChangeQuantity($event)"
-      [quantityOptions]="
-        extractQuantityParameters(disableQuantityActions || (loading$ | async))
-      "
+      [quantityOptions]="extractQuantityParameters()"
     ></cx-configurator-attribute-quantity>
 
     <div class="form-check" *ngFor="let value of attribute.values">

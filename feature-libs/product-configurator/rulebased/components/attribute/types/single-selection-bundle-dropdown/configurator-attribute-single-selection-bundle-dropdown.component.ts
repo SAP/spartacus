@@ -7,7 +7,8 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -148,9 +149,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
    * @param {boolean} disableQuantityActions - Disable quantity actions
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
-  extractQuantityParameters(
-    disableQuantityActions: boolean
-  ): ConfiguratorAttributeQuantityComponentOptions {
+  extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
     const initialQuantity: Quantity = {
       quantity:
         this.attributeDropDownForm.value !== '0'
@@ -158,10 +157,16 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
           : 0,
     };
 
+    let quantityDisableObs: Observable<boolean> = this.loading$.pipe(
+      map((isLoading) => {
+        return isLoading || this.disableQuantityActions;
+      })
+    );
+
     return {
       allowZero: !this.attribute?.required,
       initialQuantity: initialQuantity,
-      disableQuantityActions: disableQuantityActions,
+      disableQuantityActions: quantityDisableObs,
     };
   }
 }

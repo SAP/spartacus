@@ -9,15 +9,16 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import {
   ConfiguratorAttributeQuantityComponentOptions,
   Quantity,
 } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
@@ -184,13 +185,11 @@ export class ConfiguratorAttributeCheckBoxListComponent
    *
    * @param {boolean} allowZero - Allow zero
    * @param {number} initialQuantity - Initial quantity
-   * @param {boolean} disableQuantityActions - Disable quantity actions
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(
     allowZero: boolean,
-    initialQuantity: number,
-    disableQuantityActions: boolean
+    initialQuantity: number
   ): ConfiguratorAttributeQuantityComponentOptions {
     const initQuantity: Quantity = {
       quantity: initialQuantity,
@@ -199,7 +198,11 @@ export class ConfiguratorAttributeCheckBoxListComponent
     return {
       allowZero: allowZero,
       initialQuantity: initQuantity,
-      disableQuantityActions: disableQuantityActions,
+      disableQuantityActions: this.loading$.pipe(
+        map((loading) => {
+          return loading || this.disableQuantityActions;
+        })
+      ),
     };
   }
 }

@@ -50,7 +50,7 @@
           <cx-configurator-attribute-quantity
             *ngIf="showQuantity"
             (changeQuantity)="onChangeQuantity($event)"
-            [quantityOptions]="extractQuantityParameters(loading$ | async)"
+            [quantityOptions]="extractQuantityParameters()"
           ></cx-configurator-attribute-quantity>
         </div>
         <div class="cx-product-card-price">
