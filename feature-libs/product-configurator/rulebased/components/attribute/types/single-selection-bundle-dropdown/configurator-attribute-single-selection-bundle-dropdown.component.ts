@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
@@ -157,16 +157,14 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
           : 0,
     };
 
-    let quantityDisableObs: Observable<boolean> = this.loading$.pipe(
-      map((isLoading) => {
-        return isLoading || this.disableQuantityActions;
-      })
-    );
-
     return {
       allowZero: !this.attribute?.required,
       initialQuantity: initialQuantity,
-      disableQuantityActions: quantityDisableObs,
+      disableQuantityActions: this.loading$.pipe(
+        map((isLoading) => {
+          return isLoading || this.disableQuantityActions;
+        })
+      ),
     };
   }
 }
