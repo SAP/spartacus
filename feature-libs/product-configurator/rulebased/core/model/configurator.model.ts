@@ -51,6 +51,7 @@ export namespace Configurator {
 
   export interface Configuration {
     configId: string;
+    owner: CommonConfigurator.Owner;
     consistent?: boolean;
     complete?: boolean;
     totalNumberOfIssues?: number;
@@ -59,7 +60,6 @@ export namespace Configurator {
     flatGroups?: Group[];
     priceSummary?: PriceSummary;
     overview?: Overview;
-    owner: CommonConfigurator.Owner;
     nextOwner?: CommonConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
     interactionState?: InteractionState;
@@ -121,8 +121,8 @@ export namespace Configurator {
   }
 
   export interface UpdateConfigurationForCartEntryParameters {
-    userId?: string;
     cartId: string;
+    userId?: string;
     cartEntryNumber?: string;
     configuration?: Configurator.Configuration;
   }
