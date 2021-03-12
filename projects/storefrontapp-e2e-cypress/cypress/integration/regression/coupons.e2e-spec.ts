@@ -27,7 +27,6 @@ describe('Cart Coupon', () => {
     });
 
     it('should show the promotion for product, discount in price and success message when applied a coupon with product category action successfully.', () => {
-      // product coupon doesn't seem to be working
       const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
       cartCoupon.visitProductPage(cartCoupon.productCode2);
       cartCoupon.addProductToCart(cartCoupon.productCode2);

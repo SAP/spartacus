@@ -100,6 +100,7 @@ const applyCartCoupon = (code: string) => {
 };
 
 export function applyMyCouponAsAnonymous(couponCode: string) {
+  visitProductPage(productCode4);
   addProductToCart(productCode4);
   applyCartCoupon(couponCode);
   getCouponItemFromCart(couponCode).should('not.exist');
@@ -326,6 +327,7 @@ export function verifyProductInCart(productCode: string) {
 
 export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
   const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token;
+  visitProductPage(productCode4);
   addProductToCart(productCode4);
   verifyProductInCart(productCode4);
   verifyEmptyCoupons();
@@ -347,6 +349,7 @@ export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
 
 export function verifyCustomerCouponRemoving() {
   const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token;
+  visitProductPage(productCode4);
   claimCoupon(myCouponCode2);
   addProductToCart(productCode4);
   ApplyMyCoupons(myCouponCode2);
