@@ -196,7 +196,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
           cy.get('cx-org-sub-list cx-table tr td')
             .eq(0)
             .then((el) => {
-              firstOption = el.text();
+              firstOption = el.text().trim();
 
               clickAssign(firstOption);
 
@@ -225,6 +225,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
           clickUnassign(firstOption);
           cy.get('cx-org-sub-list')
             .contains(firstOption)
+            .parent()
             .parent()
             .parent()
             .contains(ASSIGNMENT_LABELS.ASSIGN);
@@ -282,6 +283,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
         .contains(option)
         .parent()
         .parent()
+        .parent()
         .contains(ASSIGNMENT_LABELS.ASSIGN)
         .click();
       cy.wait('@assign');
@@ -292,6 +294,7 @@ export function assignmentsTest(config: MyCompanyConfig) {
       cy.route('DELETE', '**').as('unassign');
       cy.get('cx-org-sub-list')
         .contains(option)
+        .parent()
         .parent()
         .parent()
         .contains(ASSIGNMENT_LABELS.UNASSIGN)
