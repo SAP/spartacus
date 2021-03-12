@@ -15,9 +15,6 @@ import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths'
 import { parseCSV } from '../shared/utils/transform-utils';
 import { Schema as SpartacusOptions } from './schema';
 
-const DEFAULT_B2C_BASE_SITES = ['electronics-spa'];
-const DEFAULT_B2B_BASE_SITES = ['powertools-spa'];
-
 export function addSpartacusConfiguration(options: SpartacusOptions): Rule {
   return (tree: Tree): Tree => {
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
@@ -170,12 +167,10 @@ function prepareSiteContextConfig(options: SpartacusOptions): string {
         currency: [${currency}],
         language: [${language}],`;
 
-  const defaultBaseSites =
-    options.configuration === 'b2c'
-      ? DEFAULT_B2C_BASE_SITES
-      : DEFAULT_B2B_BASE_SITES;
-  const baseSites = parseCSV(options.baseSite, defaultBaseSites);
-  context += `\nbaseSite: [${baseSites}]`;
+  if (options.baseSite) {
+    const baseSites = parseCSV(options.baseSite);
+    context += `\nbaseSite: [${baseSites}]`;
+  }
 
   context += `},`;
 
