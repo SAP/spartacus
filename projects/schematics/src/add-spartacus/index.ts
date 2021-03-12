@@ -282,6 +282,7 @@ export function updateAppModule(project: string): Rule {
       for (const sourceFile of appSourceFiles) {
         if (sourceFile.getFilePath().includes(`app.module.ts`)) {
           addModuleImport(sourceFile, {
+            order: 1,
             import: {
               moduleSpecifier: ANGULAR_HTTP,
               namedImports: ['HttpClientModule'],

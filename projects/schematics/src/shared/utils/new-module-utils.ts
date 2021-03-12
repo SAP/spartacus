@@ -56,6 +56,7 @@ export function addModuleImport(
   insertOptions: {
     import: Import | Import[];
     content: string;
+    order?: number;
   },
   createIfMissing = true
 ): CallExpression | undefined {
@@ -72,6 +73,7 @@ export function addModuleExport(
   insertOptions: {
     import: Import | Import[];
     content: string;
+    order?: number;
   },
   createIfMissing = true
 ): CallExpression | undefined {
@@ -88,6 +90,7 @@ export function addModuleDeclaration(
   insertOptions: {
     import: Import | Import[];
     content: string;
+    order?: number;
   },
   createIfMissing = true
 ): CallExpression | undefined {
@@ -104,6 +107,7 @@ export function addModuleProvider(
   insertOptions: {
     import: Import | Import[];
     content: string;
+    order?: number;
   },
   createIfMissing = true
 ): CallExpression | undefined {
@@ -121,10 +125,11 @@ function addToModuleInternal(
   insertOptions: {
     import: Import | Import[];
     content: string;
+    order?: number;
   },
   createIfMissing = true
 ): CallExpression | undefined {
-  let storeNode;
+  let createdNode;
 
   function visitor(node: Node) {
     if (Node.isCallExpression(node)) {
@@ -158,7 +163,15 @@ function addToModuleInternal(
                     namedImports: specifiedImport.namedImports,
                   })
                 );
-                storeNode = initializer.addElement(insertOptions.content);
+
+                if (insertOptions.order || insertOptions.order === 0) {
+                  initializer.insertElement(
+                    insertOptions.order,
+                    insertOptions.content
+                  );
+                } else {
+                  createdNode = initializer.addElement(insertOptions.content);
+                }
               }
             }
           }
@@ -169,5 +182,5 @@ function addToModuleInternal(
   }
 
   sourceFile.forEachChild(visitor);
-  return storeNode;
+  return createdNode;
 }
