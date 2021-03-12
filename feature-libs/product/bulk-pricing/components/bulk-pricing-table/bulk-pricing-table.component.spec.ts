@@ -1,9 +1,11 @@
+import { CommonModule } from '@angular/common';
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BulkPrice } from '../../core/model/bulk-price.model';
 
 import { BulkPricingTableComponent } from './bulk-pricing-table.component';
 
-import { RoutingService } from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { BulkPricingService } from '../../core/services/bulk-pricing.service';
 import { Observable, of } from 'rxjs';
 
@@ -27,8 +29,61 @@ const mockTierWithoutMaxQuantity: BulkPrice = {
   value: 200,
   discount: 20,
 };
+
+const mockBulkPrices = [
+  {
+    currencyIso: 'USD',
+    formattedValue: '$4.00',
+    maxQuantity: 9,
+    minQuantity: 1,
+    priceType: 'BUY',
+    value: 4,
+    formattedDiscount: '0%',
+    discount: 0,
+  },
+  {
+    currencyIso: 'USD',
+    formattedValue: '$3.89',
+    maxQuantity: 29,
+    minQuantity: 10,
+    priceType: 'BUY',
+    value: 3.89,
+    formattedDiscount: '-3%',
+    discount: 3,
+  },
+  {
+    currencyIso: 'USD',
+    formattedValue: '$3.69',
+    maxQuantity: 49,
+    minQuantity: 30,
+    priceType: 'BUY',
+    value: 3.69,
+    formattedDiscount: '-8%',
+    discount: 8,
+  },
+  {
+    currencyIso: 'USD',
+    formattedValue: '$3.49',
+    maxQuantity: 99,
+    minQuantity: 50,
+    priceType: 'BUY',
+    value: 3.49,
+    formattedDiscount: '-13%',
+    discount: 13,
+  },
+  {
+    currencyIso: 'USD',
+    formattedValue: '$2.99',
+    maxQuantity: undefined,
+    minQuantity: 100,
+    priceType: 'BUY',
+    value: 2.99,
+    formattedDiscount: '-25%',
+    discount: 25,
+  },
+];
+
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
   getRouterState(): Observable<any> {
     return of(mockState);
   }
@@ -36,7 +91,7 @@ class MockRoutingService implements Partial<RoutingService> {
 
 class MockBulkPricingService implements Partial<BulkPricingService> {
   getBulkPrices(): Observable<BulkPrice[]> {
-    return of([]);
+    return of(mockBulkPrices);
   }
 }
 
@@ -47,19 +102,19 @@ describe('BulkPricingTableComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [CommonModule, I18nTestingModule],
       declarations: [BulkPricingTableComponent],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: BulkPricingService, useClass: MockBulkPricingService },
       ],
-    }).compileComponents();
-
-    bulkPricingService = TestBed.inject(BulkPricingService);
+    });
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BulkPricingTableComponent);
     component = fixture.componentInstance;
+    bulkPricingService = TestBed.inject(BulkPricingService);
     fixture.detectChanges();
   });
 
@@ -89,7 +144,7 @@ describe('BulkPricingTableComponent', () => {
 
   describe('getPrices', () => {
     it('should call getBulkPrices with a right parameter', () => {
-      spyOn(bulkPricingService, 'getBulkPrices');
+      spyOn(bulkPricingService, 'getBulkPrices').and.callThrough();
 
       component
         .getPrices()

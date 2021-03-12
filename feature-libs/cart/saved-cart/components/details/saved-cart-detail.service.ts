@@ -21,7 +21,7 @@ export class SavedCartDetailService {
   );
 
   protected savedCart$ = this.savedCartId$.pipe(
-    filter(Boolean),
+    filter((cartId) => Boolean(cartId)),
     tap((savedCartId: string) =>
       this.savedCartService.loadSavedCart(savedCartId)
     ),

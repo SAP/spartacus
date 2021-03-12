@@ -97,15 +97,26 @@ export class RestoreSavedCart extends StateUtils.EntityLoadAction {
 
 export class RestoreSavedCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = RESTORE_SAVED_CART_SUCCESS;
-  constructor() {
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+    }
+  ) {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID);
   }
 }
 
 export class RestoreSavedCartFail extends StateUtils.EntityFailAction {
   readonly type = RESTORE_SAVED_CART_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID, payload);
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      error: any;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID, payload.error);
   }
 }
 
@@ -135,15 +146,30 @@ export class SaveCart extends StateUtils.EntityLoadAction {
 
 export class SaveCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = SAVE_CART_SUCCESS;
-  constructor() {
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+      saveCartDescription?: string;
+    }
+  ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
   }
 }
 
 export class SaveCartFail extends StateUtils.EntityFailAction {
   readonly type = SAVE_CART_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload);
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+      saveCartDescription?: string;
+      error: any;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
   }
 }
 

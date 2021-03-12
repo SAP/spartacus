@@ -88,6 +88,13 @@
       "@spartacus/storefinder/occ": ["dist/storefinder/occ"],
       "@spartacus/storefinder/root": ["dist/storefinder/root"],
       "@spartacus/tracking": ["dist/tracking"],
+      "@spartacus/tracking/personalization/core": [
+        "dist/tracking/personalization/core"
+      ],
+      "@spartacus/tracking/personalization": ["dist/tracking/personalization"],
+      "@spartacus/tracking/personalization/root": [
+        "dist/tracking/personalization/root"
+      ],
       "@spartacus/tracking/tms/aep": ["dist/tracking/tms/aep"],
       "@spartacus/tracking/tms/core": ["dist/tracking/tms/core"],
       "@spartacus/tracking/tms/gtm": ["dist/tracking/tms/gtm"],
@@ -97,7 +104,14 @@
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/incubator": ["dist/incubator"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/product/variants": ["dist/product/variants"],
+      "@spartacus/product/variants/assets": ["dist/product/variants/assets"],
+      "@spartacus/product/variants/components": [
+        "dist/product/variants/components"
+      ],
+      "@spartacus/product/variants/occ": ["dist/product/variants/occ"],
+      "@spartacus/product/variants/root": ["dist/product/variants/root"]
     }
   }
 }
