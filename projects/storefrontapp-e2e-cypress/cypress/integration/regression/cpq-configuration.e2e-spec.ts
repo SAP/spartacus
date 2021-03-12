@@ -92,8 +92,7 @@ const ATTR_NAMES = {
   ],
 };
 
-const CPQ_BACKEND_URL =
-  'https://eudev.webcomcpq.com//api/configuration/v1/configurations/**';
+const CPQ_BACKEND_URL = '**/api/configuration/v1/configurations/**';
 
 context('CPQ Configuration', () => {
   beforeEach(() => {
