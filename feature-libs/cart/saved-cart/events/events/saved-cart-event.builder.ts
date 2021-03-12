@@ -48,12 +48,15 @@ export class SavedCartEventBuilder {
    * Registers events for the saved cart
    */
   protected register(): void {
-    this.registerRestoreEvents();
-    this.registerDeleteEvents();
-    this.registerSaveEvents();
+    this.registerRestoreSavedCartEvents();
+    this.registerDeleteSavedCartEvents();
+    this.registerSaveCartEvents();
   }
 
-  protected registerRestoreEvents(): void {
+  /**
+   * Registers restore saved cart events
+   */
+  protected registerRestoreSavedCartEvents(): void {
     this.buildRestoreSavedCartEvents(
       {
         action: SavedCartActions.RESTORE_SAVED_CART,
@@ -76,7 +79,10 @@ export class SavedCartEventBuilder {
     );
   }
 
-  protected registerDeleteEvents(): void {
+  /**
+   * Registers delete saved cart events
+   */
+  protected registerDeleteSavedCartEvents(): void {
     this.stateEventService.register({
       action: CartActions.DELETE_CART,
       event: DeleteSavedCartEvent,
@@ -108,7 +114,10 @@ export class SavedCartEventBuilder {
     });
   }
 
-  protected registerSaveEvents(): void {
+  /**
+   * Registers save cart events
+   */
+  protected registerSaveCartEvents(): void {
     this.buildSaveCartSuccessEvent({
       action: SavedCartActions.SAVE_CART_SUCCESS,
       event: SaveCartSuccessEvent,
