@@ -52,4 +52,23 @@ describe('ProductNameNormalizer', () => {
     const result = service.convert(product);
     expect(result).toEqual(convertedProduct);
   });
+
+  describe('slug', () => {
+    const reservedChars = ` !*'();:@&=+$,/?%#[]`;
+
+    // try all chars separately
+    reservedChars.split('').forEach((char) => {
+      it(`should replace "${char}"`, () => {
+        const result = service.convert({
+          name: `a product with ${char} included`,
+        });
+        expect(result.slug).toEqual('a-product-with-included');
+      });
+    });
+
+    it('should not alter the original name', () => {
+      const result = service.convert({ name: 'my product title' });
+      expect(result.name).toEqual('my product title');
+    });
+  });
 });
