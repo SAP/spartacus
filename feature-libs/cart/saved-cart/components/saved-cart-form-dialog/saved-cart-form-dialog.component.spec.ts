@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SavedCartFormType } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
   GlobalMessageService,
@@ -24,13 +25,14 @@ const mockCart: Cart = {
   name: 'testCartName',
   saveTime: new Date(),
 };
-const mockDeleteGlobalMessageObject = {
-  key: 'savedCartDialog.deleteCartSuccess',
-};
+
 const mockSuccessDeleteCloseReason = 'Succesfully deleted a saved cart';
 const mockFilledDialogData: SavedCartFormDialogOptions = {
   cart: mockCart,
   layoutOption: 'edit',
+};
+const mockFilledDialogDataWithOutLayout: SavedCartFormDialogOptions = {
+  cart: mockCart,
 };
 const mockEmptyDialogData = {} as SavedCartFormDialogOptions;
 const mockDialogData$ = new BehaviorSubject<SavedCartFormDialogOptions>(
@@ -124,6 +126,16 @@ describe('SavedCartFormDialogComponent', () => {
       );
     });
 
+    it('with fetched cart values from restored cart', () => {
+      mockDialogData$.next(mockFilledDialogDataWithOutLayout);
+      fixture.detectChanges();
+
+      expect(component.form?.get('name')?.value).toEqual(mockCart.name);
+      expect(component.form?.get('description')?.value).toEqual(
+        mockCart.description
+      );
+    });
+
     it('with empty values', () => {
       mockDialogData$.next(mockEmptyDialogData);
       fixture.detectChanges();
@@ -177,7 +189,7 @@ describe('SavedCartFormDialogComponent', () => {
       cxRoute: 'savedCarts',
     });
     expect(globalMessageService.add).toHaveBeenCalledWith(
-      mockDeleteGlobalMessageObject,
+      { key: 'savedCartDialog.deleteCartSuccess' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(mockCartId);
@@ -226,20 +238,50 @@ describe('SavedCartFormDialogComponent', () => {
     });
   });
 
-  //  TODO
-  // describe('watch save cart process success', () => {
-  //   describe('with success state', () => {
-  //     it('should call onSuccess', () => {
-  //       mockSaveCartProcessData$.next(true);
-  //       component.ngOnInit();
-  //       fixture.detectChanges();
+  it('should trigger onSuccess when there was a successful saved cart', () => {
+    spyOn(component, 'onSuccess').and.stub();
+    spyOn(savedCartService, 'getSaveCartProcessSuccess').and.returnValue(
+      of(true)
+    );
 
-  //       spyOn(component, 'close');
+    component.ngOnInit();
+    expect(component.onSuccess).toHaveBeenCalled();
+  });
 
-  //       expect(component.close).toHaveBeenCalledWith(
-  //         mockSuccessSaveCloseReason
-  //       );
-  //     });
-  //   });
-  // });
+  it('should trigger close modal, clear actions and add global message on save', () => {
+    spyOn(component, 'close');
+    spyOn(savedCartService, 'clearRestoreSavedCart');
+    spyOn(savedCartService, 'clearSaveCart');
+    spyOn(globalMessageService, 'add');
+
+    mockDialogData$.next(mockFilledDialogData);
+    fixture.detectChanges();
+
+    component.onSuccess(true, SavedCartFormType.EDIT);
+
+    expect(component.close).toHaveBeenCalledWith('Succesfully saved cart');
+    expect(savedCartService.clearSaveCart).toHaveBeenCalled();
+    expect(savedCartService.clearRestoreSavedCart).toHaveBeenCalled();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'savedCartDialog.editCartSuccess',
+        params: {
+          cartName: mockCart.name,
+        },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  });
+
+  it('should NOT close modal, clear actions and add global message on save', () => {
+    spyOn(component, 'close');
+    spyOn(savedCartService, 'clearRestoreSavedCart');
+    spyOn(savedCartService, 'clearSaveCart');
+
+    component.onSuccess(false, SavedCartFormType.EDIT);
+
+    expect(component.close).not.toHaveBeenCalled();
+    expect(savedCartService.clearRestoreSavedCart).not.toHaveBeenCalled();
+    expect(savedCartService.clearSaveCart).not.toHaveBeenCalled();
+  });
 });

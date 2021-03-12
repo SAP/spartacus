@@ -124,7 +124,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.launchDialogService.closeDialog(reason);
   }
 
-  protected onSuccess(success: boolean, saveCartAction: string): void {
+  onSuccess(success: boolean, saveCartAction: string): void {
     if (success) {
       switch (saveCartAction) {
         case SavedCartFormType.DELETE: {
