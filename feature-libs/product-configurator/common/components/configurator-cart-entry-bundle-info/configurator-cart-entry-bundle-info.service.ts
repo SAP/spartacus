@@ -51,12 +51,25 @@ export class ConfiguratorCartEntryBundleInfoService {
       : [];
     return {
       name: configurationInfo.configurationLabel
-        ? configurationInfo.configurationLabel.replace(':', '')
+        ? this.removeDelimiter(configurationInfo.configurationLabel)
         : '',
       formattedQuantity:
         quantityAndPrice.length >= 1 ? quantityAndPrice[0].trim() : '',
       formattedPrice:
         quantityAndPrice.length >= 2 ? quantityAndPrice[1].trim() : '',
     };
+  }
+
+  protected removeDelimiter(label: string): string {
+    let preparedLabel: string = label.trim();
+    if (preparedLabel) {
+      const lastCharacter: string = preparedLabel.charAt(
+        preparedLabel.length - 1
+      );
+      if (lastCharacter === ':') {
+        preparedLabel = preparedLabel.substr(0, preparedLabel.length - 1);
+      }
+    }
+    return preparedLabel;
   }
 }
