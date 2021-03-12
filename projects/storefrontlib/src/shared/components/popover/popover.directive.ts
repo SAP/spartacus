@@ -16,7 +16,7 @@ import { WindowRef } from '@spartacus/core';
 import { skip } from 'rxjs/operators';
 import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
 import { PopoverComponent } from './popover.component';
-import { PopoverEvent, PopoverPosition } from './popover.model';
+import { PopoverEvent, PopoverOptions } from './popover.model';
 import { PositioningService } from '../../services/positioning/positioning.service';
 import { PopoverService } from './popover.service';
 
@@ -33,33 +33,9 @@ export class PopoverDirective {
   @Input() cxPopover: string | TemplateRef<any>;
 
   /**
-   * The preferred placement of the popover. Default popover position is 'auto'.
-   *
-   *  Allowed popover positions: 'auto', 'top', 'bottom', 'left', 'right',
-   * 'top-left', 'top-right', 'bottom-left', 'bottom-right',
-   * 'left-top', 'left-bottom', 'right-top', 'right-bottom'.
+   * Options set for popover component.
    */
-  @Input() placement?: PopoverPosition;
-
-  /**
-   * Flag used to prevent firing popover open function.
-   */
-  @Input() disablePopover?: boolean;
-
-  /**
-   * Custom class name for popover component wrapper.
-   */
-  @Input() customClass? = 'cx-popover';
-
-  /**
-   * Append popover component into 'body' selector.
-   */
-  @Input() appendToBody?: boolean;
-
-  /**
-   * Flag indicates if popover should be re-positioned on scroll event.
-   */
-  @Input() positionOnScroll?: boolean;
+  @Input() cxPopoverOptions?: PopoverOptions;
 
   /**
    * An event emitted when the popover is opened.
@@ -106,11 +82,11 @@ export class PopoverDirective {
    * Method performs open action for popover component.
    */
   open(event: MouseEvent | KeyboardEvent) {
-    if (!this.disablePopover) {
+    if (!this.cxPopoverOptions?.disable) {
       this.isOpen = true;
       this.focusConfig = this.popoverService.getFocusConfig(
         event,
-        this.appendToBody || false
+        this.cxPopoverOptions?.appendToBody || false
       );
 
       this.renderPopover();
@@ -158,7 +134,7 @@ export class PopoverDirective {
           this.popoverService.setFocusOnElement(
             this.element,
             this.focusConfig,
-            this.appendToBody
+            this.cxPopoverOptions?.appendToBody
           );
         }
       });
@@ -180,13 +156,14 @@ export class PopoverDirective {
       componentInstance.content = this.cxPopover;
       componentInstance.triggerElement = this.element;
       componentInstance.popoverInstance = this.popoverContainer;
-      componentInstance.position = this.placement;
-      componentInstance.customClass = this.customClass;
+      componentInstance.position = this.cxPopoverOptions?.placement;
+      componentInstance.customClass = this.cxPopoverOptions?.class;
       componentInstance.focusConfig = this.focusConfig;
-      componentInstance.appendToBody = this.appendToBody;
-      componentInstance.positionOnScroll = this.positionOnScroll;
+      componentInstance.appendToBody = this.cxPopoverOptions?.appendToBody;
+      componentInstance.positionOnScroll = this.cxPopoverOptions?.positionOnScroll;
+      componentInstance.displayCloseButton = this.cxPopoverOptions?.displayCloseButton;
 
-      if (this.appendToBody) {
+      if (this.cxPopoverOptions?.appendToBody) {
         this.renderer.appendChild(
           this.winRef.document.body,
           this.popoverContainer.location.nativeElement
@@ -194,7 +171,6 @@ export class PopoverDirective {
       }
 
       this.popoverContainer.changeDetectorRef.detectChanges();
-
       this.handlePopoverEvents();
     }
   }

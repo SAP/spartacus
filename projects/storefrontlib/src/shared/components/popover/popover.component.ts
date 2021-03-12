@@ -7,7 +7,6 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
-  Input,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -31,25 +30,25 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**
    * String or template to be rendered inside popover wrapper component.
    */
-  @Input() content: string | TemplateRef<any>;
+  content: string | TemplateRef<any>;
 
   /**
    * Element which triggers displaying popover component.
    * This property is needed to calculate valid position for popover.
    */
-  @Input() triggerElement: ElementRef;
+  triggerElement: ElementRef;
 
   /**
    * Current initiated popover instance.
    */
-  @Input() popoverInstance: ComponentRef<PopoverComponent>;
+  popoverInstance: ComponentRef<PopoverComponent>;
 
   /**
    * Flag which informs positioning service if popover component
    * should be appended to body. Otherwise popover is displayed right after
    * trigger element in DOM.
    */
-  @Input() appendToBody?: boolean;
+  appendToBody?: boolean;
 
   /**
    * The preferred placement of the popover. Default popover position is 'auto'.
@@ -58,12 +57,17 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
    * 'top-left', 'top-right', 'bottom-left', 'bottom-right',
    * 'left-top', 'left-bottom', 'right-top', 'right-bottom'.
    */
-  @Input() position?: PopoverPosition;
+  position?: PopoverPosition;
 
   /**
    * Custom class name passed to popover component.
    */
-  @Input() customClass? = 'cx-popover';
+  customClass? = 'cx-popover';
+
+  /**
+   * Flag used to hide close button in popover component.
+   */
+  displayCloseButton? = true;
 
   /**
    * Flag which indicates if passed content is a TemplateRef or string.
