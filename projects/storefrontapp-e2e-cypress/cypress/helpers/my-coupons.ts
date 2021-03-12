@@ -6,12 +6,12 @@ import { generateMail, randomString } from './user';
 export const testUser = 'test-user-with-coupons@ydev.hybris.com';
 export const testPassword = 'Password123.';
 export const claimCouponUrl = '/my-account/coupon/claim/';
-export const myCouponsContainUrl = '/my-account/coupons';
+export const myCouponsUrl = '/my-account/coupons';
 export const validCouponCode = 'customerCoupon1';
 export const invalidCouponCode = 'invalidCoupon';
-export const CouponWithOpenCatalog = 'dragonboat';
-export const CouponWithProductCategory = 'springfestival';
-export const CouponWithProducts = 'midautumn';
+export const CouponWithOpenCatalog = 'dragonboat'; //Buy over $1000 get 20% off on cart (order)
+export const CouponWithProductCategory = 'springfestival'; //Buy any item in the webcam category get $5 on cart (cart)
+export const CouponWithProducts = 'midautumn'; //Buy PowerShot A480 and get $20 off (product)
 export const PageSize = 10;
 export const NumberInPage2 = 1;
 
@@ -57,17 +57,17 @@ export function verifyPagingAndSorting() {
   cy.get('.cx-coupon-card').should('have.length', NumberInPage2);
 }
 
-export function verifyClaimCouponSuccessAsAnonymous(couponCode: string) {
+export function verifyClaimCouponSuccess(couponCode: string) {
   claimCoupon(couponCode);
-  cy.location('pathname').should('contain', myCouponsContainUrl);
+  cy.location('pathname').should('contain', myCouponsUrl);
   cy.get('.cx-coupon-card').within(() => {
     cy.get('.cx-coupon-card-id').should('contain', couponCode);
   });
 }
 
-export function verifyClaimCouponFailedAsAnonymous(couponCode: string) {
+export function verifyClaimCouponFail(couponCode: string) {
   claimCoupon(couponCode, 400);
-  cy.location('pathname').should('contain', myCouponsContainUrl);
+  cy.location('pathname').should('contain', myCouponsUrl);
   cy.get('.cx-coupon-card').within(() => {
     cy.get('.cx-coupon-card-id').should('not.contain', couponCode);
   });
@@ -105,7 +105,7 @@ export function claimCoupon(
 
   const getCoupons = waitClaimCouponGetRequest();
 
-  const couponsPage = waitForPage(myCouponsContainUrl, 'getCouponsPage');
+  const couponsPage = waitForPage(myCouponsUrl, 'getCouponsPage');
 
   cy.visit(claimCouponUrl + couponCode);
 
@@ -133,7 +133,7 @@ export function verifyCouponsClaiming() {
     'You have no coupons available'
   );
   claimCoupon(CouponWithOpenCatalog);
-  cy.location('pathname').should('contain', myCouponsContainUrl);
+  cy.location('pathname').should('contain', myCouponsUrl);
   cy.get('.cx-coupon-card:first').within(() => {
     cy.get('.cx-coupon-card-id').should('contain', CouponWithOpenCatalog);
   });

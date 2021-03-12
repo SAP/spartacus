@@ -14,9 +14,9 @@ describe('Cart Coupon', () => {
 
       //TODO products can be added to cart asynchronously
       cartCoupon.addProductToCart(cartCoupon.productCode1);
-      cartCoupon.applyCoupon(cartCoupon.couponCode1);
+      cartCoupon.applyCoupon(cartCoupon.couponForCart);
       cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
-        cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponCode1);
+        cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponForCart);
       });
     });
 
@@ -30,21 +30,20 @@ describe('Cart Coupon', () => {
       const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
       cartCoupon.visitProductPage(cartCoupon.productCode2);
       cartCoupon.addProductToCart(cartCoupon.productCode2);
-      cartCoupon.applyCoupon(cartCoupon.couponCode2);
+      cartCoupon.applyCoupon(cartCoupon.couponForProduct);
       cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
-        cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponCode2);
+        cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponForProduct);
       });
     });
 
     it('should show gift product, correct price and success message when applied a coupon with gift product action', () => {
-      //gift coupon doesn't seem to be working
       const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
       cartCoupon.visitProductPage(cartCoupon.productCode3);
       cartCoupon.addProductToCart(cartCoupon.productCode3);
-      cartCoupon.applyCoupon(cartCoupon.couponCode3);
+      cartCoupon.applyCoupon(cartCoupon.freeGiftCoupon);
       cartCoupon.verifyGiftProductCoupon(cartCoupon.giftProductCode);
       cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
-        cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponCode3);
+        cartCoupon.verifyOrderHistory(orderData, cartCoupon.freeGiftCoupon);
       });
     });
 
@@ -52,8 +51,8 @@ describe('Cart Coupon', () => {
       const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
       cartCoupon.visitProductPage(cartCoupon.productCode1);
       cartCoupon.addProductToCart(cartCoupon.productCode1);
-      cartCoupon.applyCoupon(cartCoupon.couponCode1);
-      cartCoupon.removeCoupon(cartCoupon.couponCode1);
+      cartCoupon.applyCoupon(cartCoupon.couponForCart);
+      cartCoupon.removeCoupon(cartCoupon.couponForCart);
 
       cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
         cartCoupon.verifyOrderHistory(orderData);

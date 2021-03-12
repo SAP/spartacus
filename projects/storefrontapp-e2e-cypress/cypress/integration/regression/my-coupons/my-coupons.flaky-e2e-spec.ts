@@ -9,7 +9,7 @@ describe('My coupons - Anonymous user', () => {
   });
 
   it('should apply customer coupon that fails for anonymous user', () => {
-    cartCoupon.applyMyCouponAsAnonymous(cartCoupon.myCouponCode2);
+    cartCoupon.applyMyCouponAsAnonymous();
   });
 });
 
@@ -23,13 +23,13 @@ describe('My coupons - Authenticated user', () => {
 
   describe('Claim customer coupon', () => {
     it('should claim customer coupon successfully', () => {
-      myCoupons.verifyClaimCouponSuccessAsAnonymous(myCoupons.validCouponCode);
+      myCoupons.verifyClaimCouponSuccess(myCoupons.validCouponCode);
       cy.saveLocalStorage();
     });
 
     it('should not claim invalid customer coupon', () => {
       cy.restoreLocalStorage();
-      myCoupons.verifyClaimCouponFailedAsAnonymous(myCoupons.invalidCouponCode);
+      myCoupons.verifyClaimCouponFail(myCoupons.invalidCouponCode);
     });
   });
 
@@ -54,7 +54,6 @@ describe('My coupons test for pagination and sort', () => {
   before(() => {
     cy.window().then((win) => {
       win.sessionStorage.clear();
-      win.localStorage.clear();
     });
     cy.login(myCoupons.testUser, myCoupons.testPassword);
     visitHomePage();
