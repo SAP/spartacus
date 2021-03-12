@@ -12,22 +12,13 @@ export class TruncatePipe implements PipeTransform {
       return value;
     }
 
+    let trail = '...';
     const limit =
-      args.length > 0 &&
-      args[0] !== null &&
-      args[0] !== undefined &&
-      Number.isInteger(+args[0])
+      args.length > 0 && args[0] && Number.isInteger(+args[0])
         ? parseInt(args[0], 10)
         : 20;
 
-    let trail = '...';
-
-    if (
-      args.length > 1 &&
-      args[1] !== null &&
-      args[1] !== undefined &&
-      !!args[1] === false
-    ) {
+    if (args.length > 0 && args[1] && !!args[1] === false) {
       trail = '';
     }
 
