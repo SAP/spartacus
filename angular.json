@@ -665,7 +665,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "feature-libs/tracking/tsconfig.lib.json",
             "project": "feature-libs/tracking/ng-package.json"
@@ -759,13 +759,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "feature-libs/cart/tsconfig.lib.json",
-              "feature-libs/cart/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": [
+              "feature-libs/cart/**/*.ts",
+              "feature-libs/cart/**/*.html"
+            ]
           }
         }
       }
