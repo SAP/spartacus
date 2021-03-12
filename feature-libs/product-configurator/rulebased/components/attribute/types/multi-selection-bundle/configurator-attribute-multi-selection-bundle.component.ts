@@ -149,18 +149,21 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   }
 
   onSelect(eventValue): void {
+    this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, true)
     );
   }
 
   onDeselect(eventValue): void {
+    this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, false)
     );
   }
 
   onDeselectAll(): void {
+    this.loading$.next(true);
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
@@ -173,6 +176,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   }
 
   onChangeValueQuantity(eventValue): void {
+    this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValuesQuantity(eventValue)
     );

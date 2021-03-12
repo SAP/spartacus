@@ -10,7 +10,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorUISettings } from '../../config/configurator-ui-settings';
 import {
   ConfiguratorAttributeQuantityComponent,
@@ -29,6 +29,10 @@ let component: ConfiguratorAttributeQuantityComponent;
 let fixture: ComponentFixture<ConfiguratorAttributeQuantityComponent>;
 
 function initialize(disable: boolean) {
+  initializeWithObs(new BehaviorSubject(disable));
+}
+
+function initializeWithObs(disableObs: Observable<boolean>) {
   fixture = TestBed.createComponent(ConfiguratorAttributeQuantityComponent);
 
   component = fixture.componentInstance;
@@ -39,8 +43,10 @@ function initialize(disable: boolean) {
   component.quantityOptions = {
     allowZero: true,
     initialQuantity: initialQuantity,
-    disableQuantityActions: new BehaviorSubject(disable),
+    disableQuantityActions: disableObs,
   };
+  spyOn(component.changeQuantity, 'emit').and.callThrough();
+  //component.ngOnInit();
   fixture.detectChanges();
 }
 
@@ -69,21 +75,19 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     })
   );
 
-  beforeEach(() => {
-    initialize(false);
-    spyOn(component.changeQuantity, 'emit').and.callThrough();
-  });
-
   it('should create', () => {
+    initialize(false);
     expect(component).toBeTruthy();
   });
 
   it('should call handleQuantity on event onChangeQuantity', () => {
+    initialize(false);
     component.onChangeQuantity();
     expect(component.changeQuantity.emit).toHaveBeenCalled();
   });
 
   it('should not emit change event on quantity change if debounce time has not yet passed', fakeAsync(() => {
+    initialize(false);
     component.quantity.setValue(changedQty);
     fixture.detectChanges();
     tick(fakeDebounceTime - 100);
@@ -92,6 +96,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
   }));
 
   it('should emit change event on quantity change after debounce time has passed', fakeAsync(() => {
+    initialize(false);
     component.quantity.setValue(changedQty);
     fixture.detectChanges();
     tick(fakeDebounceTime + 10);
@@ -103,4 +108,43 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     initialize(true);
     expect(component.quantity.disabled).toBe(true);
   });
+
+  it('should not emit same quantity twice just because it gets disabled in between', fakeAsync(() => {
+    const subject = new BehaviorSubject(false);
+    initializeWithObs(subject);
+
+    component.quantity.setValue(changedQty);
+    fixture.detectChanges();
+    tick(fakeDebounceTime + 10);
+    subject.next(true);
+    subject.next(false);
+    tick(fakeDebounceTime + 10);
+
+    expect(component.changeQuantity.emit).toHaveBeenCalledTimes(1);
+    discardPeriodicTasks();
+  }));
+
+  it('should not emit initial quantity just because it gets disabled in between', fakeAsync(() => {
+    const subject = new BehaviorSubject(false);
+    initializeWithObs(subject);
+    subject.next(true);
+    subject.next(false);
+    tick(fakeDebounceTime + 10);
+
+    expect(component.changeQuantity.emit).not.toHaveBeenCalled();
+    discardPeriodicTasks();
+  }));
+
+  it('should not emit same quantity twice just because it gets enabled multiple times', fakeAsync(() => {
+    const subject = new BehaviorSubject(false);
+    initializeWithObs(subject);
+    subject.next(false);
+    subject.next(false);
+
+    component.quantity.setValue(changedQty);
+    fixture.detectChanges();
+    tick(fakeDebounceTime + 10);
+    expect(component.changeQuantity.emit).toHaveBeenCalledTimes(1);
+    discardPeriodicTasks();
+  }));
 });

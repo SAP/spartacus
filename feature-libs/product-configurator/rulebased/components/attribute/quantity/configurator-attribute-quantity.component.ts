@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable, Subscription, timer } from 'rxjs';
-import { debounce } from 'rxjs/operators';
+import { debounce, distinct } from 'rxjs/operators';
 import { ConfiguratorUISettings } from '../../config/configurator-ui-settings';
 
 export interface Quantity {
@@ -31,6 +31,7 @@ export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit {
   quantity = new FormControl(1);
   protected managedSubscriptions: Subscription = new Subscription();
+  protected qunatitySubscription: Subscription = new Subscription();
 
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
 
@@ -38,31 +39,37 @@ export class ConfiguratorAttributeQuantityComponent
 
   constructor(protected config: ConfiguratorUISettings) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.quantity.setValue(this.quantityOptions?.initialQuantity?.quantity);
-    const sub = this.quantityOptions.disableQuantityActions?.subscribe(
-      (disable) => {
+    const sub = this.quantityOptions.disableQuantityActions
+      ?.pipe(distinct())
+      .subscribe((disable) => {
         if (disable) {
           this.quantity.disable();
+          this.qunatitySubscription.unsubscribe();
         } else {
+          // enabling will emit actual value, regardless if it was changed. Hence
+          // we subscribe / unsubscribe on enable disable
           this.quantity.enable();
+          this.qunatitySubscription.add(
+            this.quantity.valueChanges
+              .pipe(
+                debounce(() =>
+                  timer(
+                    this.config?.rulebasedConfigurator?.quantityDebounceTime
+                  )
+                )
+              )
+              .subscribe(() => this.onChangeQuantity())
+          );
         }
-      }
-    );
+      });
     if (sub) this.managedSubscriptions.add(sub);
-
-    const debounceQuantity = this.quantity.valueChanges.pipe(
-      debounce(() =>
-        timer(this.config?.rulebasedConfigurator?.quantityDebounceTime)
-      )
-    );
-    this.managedSubscriptions.add(
-      debounceQuantity.subscribe(() => this.onChangeQuantity())
-    );
   }
 
   ngOnDestroy() {
     this.managedSubscriptions.unsubscribe();
+    this.qunatitySubscription.unsubscribe();
   }
 
   onChangeQuantity(): void {
