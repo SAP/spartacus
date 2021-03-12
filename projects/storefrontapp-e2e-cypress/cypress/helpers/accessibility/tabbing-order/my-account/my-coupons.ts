@@ -1,6 +1,9 @@
-import { TabElement } from '../../tabbing-order.model';
+import {
+  claimCoupon,
+  CouponWithOpenCatalog,
+} from '../../../coupons/my-coupons';
 import { verifyTabbingOrder } from '../../tabbing-order';
-import { claimCoupon, CouponWithOpenCatalog } from '../../../my-coupons';
+import { TabElement } from '../../tabbing-order.model';
 
 const containerSelector = 'cx-my-coupons';
 

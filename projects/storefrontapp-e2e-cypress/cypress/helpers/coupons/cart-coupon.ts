@@ -1,5 +1,5 @@
-import { user } from '../sample-data/checkout-flow';
-import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
+import { user } from '../../sample-data/checkout-flow';
+import { waitForOrderToBePlacedRequest } from '../../support/utils/order-placed';
 
 export const productCode1 = '300938';
 export const couponForCart = 'CouponForCart'; //Get $10 off your order

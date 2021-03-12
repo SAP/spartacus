@@ -1,7 +1,7 @@
-import { standardUser } from '../sample-data/shared-users';
-import { waitForPage } from './checkout-flow';
-import * as alerts from './global-message';
-import { generateMail, randomString } from './user';
+import { standardUser } from '../../sample-data/shared-users';
+import { waitForPage } from '../checkout-flow';
+import * as alerts from '../global-message';
+import { generateMail, randomString } from '../user';
 
 export const testUser = 'test-user-with-coupons@ydev.hybris.com';
 export const testPassword = 'Password123.';

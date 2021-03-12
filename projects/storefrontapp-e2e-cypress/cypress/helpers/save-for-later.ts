@@ -1,5 +1,5 @@
 import * as cart from './cart';
-import * as cartCoupon from './cart-coupon';
+import * as cartCoupon from './coupons/cart-coupon';
 
 interface TestProduct {
   code: string;

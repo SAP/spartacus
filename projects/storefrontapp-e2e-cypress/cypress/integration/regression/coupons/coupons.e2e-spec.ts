@@ -1,5 +1,5 @@
-import * as cartCoupon from '../../helpers/cart-coupon';
-import { viewportContext } from '../../helpers/viewport-context';
+import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Cart Coupon', () => {
   viewportContext(['mobile', 'desktop'], () => {

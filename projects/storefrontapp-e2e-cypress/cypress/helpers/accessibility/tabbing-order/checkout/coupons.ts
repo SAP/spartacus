@@ -1,4 +1,4 @@
-import * as cartCoupon from '../../../cart-coupon';
+import * as cartCoupon from '../../../coupons/cart-coupon';
 import { addProduct, verifyTabbingOrder } from '../../tabbing-order';
 import { TabElement } from '../../tabbing-order.model';
 
