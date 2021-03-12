@@ -41,6 +41,7 @@ function configureSpartacusModules(
         .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
     ) {
       addModuleImport(sourceFile, {
+        // WHEN UPDATING THE IMPORTS LIST, DON'T FORGET TO UPDATE THE ACTUAL MODULE'S IMPORT ARRAY!
         import: [
           {
             moduleSpecifier: SPARTACUS_CORE,
