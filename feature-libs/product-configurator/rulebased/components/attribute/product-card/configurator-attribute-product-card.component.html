@@ -43,7 +43,7 @@
 
     <div
       class="cx-product-card-rows column"
-      *ngIf="!productCardOptions.singleDropdown || getProductPrice()"
+      *ngIf="!productCardOptions.singleDropdown || hasPriceDisplay()"
     >
       <div class="cx-product-card-quantity-price">
         <div class="cx-product-card-quantity">

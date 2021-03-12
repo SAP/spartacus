@@ -108,16 +108,18 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   }
 
   /**
-   * Computes product price
-   * @return {Configurator.PriceDetails | number} - Price
+   * Checks if price needs to be displayed. This is the
+   * case if either value price, quantity or value price total
+   * are present
+   * @return {boolean} - Price display?
    */
-  getProductPrice(): Configurator.PriceDetails | number {
+  hasPriceDisplay(): boolean {
     const productPrice =
       this.productCardOptions?.productBoundValue?.valuePrice ||
       this.productCardOptions?.productBoundValue?.quantity ||
       this.productCardOptions?.productBoundValue?.valuePriceTotal;
 
-    return productPrice ? productPrice : 0;
+    return productPrice ? true : false;
   }
 
   /**

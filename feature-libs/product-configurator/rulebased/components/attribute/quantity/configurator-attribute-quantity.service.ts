@@ -23,8 +23,8 @@ export class ConfiguratorAttributeQuantityService {
    * @returns Render a quantity component?
    */
   withQuantity(
-    dataType: Configurator.DataType | undefined,
-    uiType: Configurator.UiType | undefined
+    dataType: Configurator.DataType,
+    uiType: Configurator.UiType
   ): boolean {
     switch (uiType) {
       case Configurator.UiType.DROPDOWN_PRODUCT:
