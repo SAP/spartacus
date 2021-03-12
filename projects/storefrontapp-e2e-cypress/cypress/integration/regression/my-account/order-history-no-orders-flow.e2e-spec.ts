@@ -1,16 +1,24 @@
-import * as loginHelper from '../../../helpers/login';
+import * as userAccountHelpers from '../../../helpers/login';
+import { clickHamburger } from '../../../helpers/homepage';
 import { orderHistoryTest } from '../../../helpers/order-history';
 import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Order History with no orders', () => {
-  before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
-    cy.visit('/');
-    loginHelper.registerUser();
-    verifyGlobalMessageAfterRegistration();
-  });
+   viewportContext(['mobile', 'desktop'], () => {
+      before(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
+        cy.visit('/');
+        cy.onMobile(() => {
+          clickHamburger();
+        });
+        userAccountHelpers.registerUser();
+        verifyGlobalMessageAfterRegistration();
+      });
 
-  orderHistoryTest.checkRedirectNotLoggedInUser();
-  orderHistoryTest.checkRedirectLoggedInUser();
-  orderHistoryTest.checkStartShoppingButton();
+      orderHistoryTest.checkRedirectNotLoggedInUser();
+      orderHistoryTest.checkRedirectLoggedInUser();
+      orderHistoryTest.checkStartShoppingButton();
+
+  });
 });
