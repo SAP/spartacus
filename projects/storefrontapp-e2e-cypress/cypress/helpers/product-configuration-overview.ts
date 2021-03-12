@@ -5,6 +5,8 @@ const continueToCartButtonSelector =
 const resolveIssuesLinkSelector =
   'cx-configurator-overview-notification-banner button.cx-action-link';
 
+const resolveIssuesText = ' must be resolved before checkout.  Resolve Issues';
+
 /**
  * Navigates to the configured product overview page.
  *
@@ -82,8 +84,6 @@ export function checkNotificationBannerOnOP(
   element,
   numberOfIssues?: number
 ): void {
-  const resolveIssuesText =
-    ' issues must be resolved before checkout.  Resolve Issues';
   element
     .get('.cx-error-msg')
     .first()
@@ -91,7 +91,7 @@ export function checkNotificationBannerOnOP(
     .then((text) => {
       expect(text).contains(resolveIssuesText);
       if (numberOfIssues > 1) {
-        const issues = text.replace(resolveIssuesText, '').trim();
+        const issues = text.replace(' issues' + resolveIssuesText, '').trim();
         expect(issues).match(/^[0-9]/);
         expect(issues).eq(numberOfIssues.toString());
       }
@@ -110,6 +110,24 @@ export function verifyNotificationBannerOnOP(numberOfIssues?: number): void {
   } else {
     element.get('.cx-error-msg').should('not.be.visible');
   }
+}
+
+/**
+ * Waits for the notitication banner to display the correct number of issues
+ *
+ * @param {number} numberOfIssues - Expected number of issues
+ */
+export function waitForNotificationBanner(numberOfIssues?: number): void {
+  const element = cy.get('cx-configurator-overview-notification-banner');
+  let numberOfIssueText;
+
+  if (numberOfIssues > 1) {
+    numberOfIssueText = numberOfIssues + ' issues' + resolveIssuesText;
+  } else {
+    numberOfIssueText = numberOfIssues + ' issue' + resolveIssuesText;
+  }
+
+  element.get(`.cx-error-msg:contains(${numberOfIssueText})`);
 }
 
 /**

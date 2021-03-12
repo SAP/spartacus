@@ -2,8 +2,6 @@ import * as configuration from '../../helpers/product-configuration';
 import * as configurationOverview from '../../helpers/product-configuration-overview';
 import * as productSearch from '../../helpers/product-search';
 import * as cart from '../../helpers/cart';
-import { CART } from '../../helpers/site-context-selector';
-import { cartWithTotalVariantProduct } from '../../sample-data/apparel-checkout-flow';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'cpq03@sap.com';
@@ -93,6 +91,9 @@ const ATTR_NAMES = {
     'Extended Warranty',
   ],
 };
+
+const CPQ_BACKEND_URL =
+  'https://eudev.webcomcpq.com//api/configuration/v1/configurations/**';
 
 context('CPQ Configuration', () => {
   beforeEach(() => {
@@ -459,15 +460,22 @@ context('CPQ Configuration', () => {
       configuration.checkCartEmpty();
     });
   });
+
   describe('conflict handling', () => {
     it('check error messages displayed', () => {
+      cy.server();
+      cy.route('PATCH', CPQ_BACKEND_URL).as('updateConfig');
+      cy.route('GET', CPQ_BACKEND_URL).as('readConfig');
+
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
       configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
-      cy.wait(1000);
+      cy.wait('@updateConfig');
+      cy.wait('@readConfig');
+      cy.wait(50);
 
       configuration.clickOnGroup(3);
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
@@ -494,13 +502,19 @@ context('CPQ Configuration', () => {
     });
 
     it('check correct number of issues displayed in overview', () => {
+      cy.server();
+      cy.route('PATCH', CPQ_BACKEND_URL).as('updateConfig');
+      cy.route('GET', CPQ_BACKEND_URL).as('readConfig');
+
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
       configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
-      cy.wait(1000);
+      cy.wait('@updateConfig');
+      cy.wait('@readConfig');
+      cy.wait(50);
 
       configuration.clickOnGroup(3);
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
@@ -521,17 +535,24 @@ context('CPQ Configuration', () => {
 
       configuration.navigateToOverviewPage();
 
+      configurationOverview.waitForNotificationBanner(8);
       configurationOverview.verifyNotificationBannerOnOP(8);
     });
 
-    it('check correct number of issues displayed in cart', () => {
+    it.only('check correct number of issues displayed in cart', () => {
+      cy.server();
+      cy.route('PATCH', CPQ_BACKEND_URL).as('updateConfig');
+      cy.route('GET', CPQ_BACKEND_URL).as('readConfig');
+
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
       configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
-      cy.wait(1000);
+      cy.wait('@updateConfig');
+      cy.wait('@readConfig');
+      cy.wait(50);
 
       configuration.clickOnGroup(3);
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
@@ -553,6 +574,7 @@ context('CPQ Configuration', () => {
       configuration.closeWarningMessages();
 
       configuration.clickAddToCartBtn();
+      configurationOverview.waitForNotificationBanner(8);
       configurationOverview.verifyNotificationBannerOnOP(8);
 
       configurationOverview.clickContinueToCartBtnOnOP();

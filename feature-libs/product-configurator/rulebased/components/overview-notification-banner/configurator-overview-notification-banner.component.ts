@@ -29,7 +29,16 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     switchMap((routerData) =>
       this.configuratorCommonsService.getConfiguration(routerData.owner)
     ),
-    map((configuration) => configuration?.overview?.totalNumberOfIssues)
+    map((configuration) => {
+      if (configuration.overview?.totalNumberOfIssues) {
+        return configuration.overview.totalNumberOfIssues;
+      } else if (configuration.totalNumberOfIssues) {
+        return configuration.totalNumberOfIssues;
+      } else {
+        //TODO fix before merging to develop. We can never reach that line
+        return 0;
+      }
+    })
   );
 
   iconTypes = ICON_TYPE;
