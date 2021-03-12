@@ -46,7 +46,6 @@ function initializeWithObs(disableObs: Observable<boolean>) {
     disableQuantityActions: disableObs,
   };
   spyOn(component.changeQuantity, 'emit').and.callThrough();
-  //component.ngOnInit();
   fixture.detectChanges();
 }
 
