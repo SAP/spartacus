@@ -1,6 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -16,11 +19,10 @@ class MockConfiguratorGroupsService {
 
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
-
-  const owner: CommonConfigurator.Owner = {
-    id: 'testProduct',
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  };
+  const owner = ModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    'testProduct'
+  );
 
   beforeEach(() => {
     TestBed.configureTestingModule({

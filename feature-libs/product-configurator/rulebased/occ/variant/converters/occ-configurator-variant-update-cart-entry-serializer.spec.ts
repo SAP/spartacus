@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ModelUtils } from '@spartacus/product-configurator/common';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 import { OccConfiguratorVariantUpdateCartEntrySerializer } from './occ-configurator-variant-update-cart-entry-serializer';
@@ -18,7 +19,11 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
   const sourceParameters: Configurator.UpdateConfigurationForCartEntryParameters = {
     userId: USER_ID,
     cartId: CART_ID,
-    configuration: { productCode: PRODUCT_CODE, configId: CONFIG_ID },
+    configuration: {
+      productCode: PRODUCT_CODE,
+      configId: CONFIG_ID,
+      owner: ModelUtils.createInitialOwner(),
+    },
   };
 
   const targetParameters: OccConfigurator.UpdateConfigurationForCartEntryParameters = {

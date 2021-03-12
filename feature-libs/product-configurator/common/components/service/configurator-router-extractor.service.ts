@@ -3,6 +3,7 @@ import { RouterState, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import { ModelUtils } from '../../shared/utils/';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { ConfiguratorRouter } from './configurator-router-data';
 
@@ -51,7 +52,7 @@ export class ConfiguratorRouterExtractorService {
   createOwnerFromRouterState(
     routerState: RouterState
   ): CommonConfigurator.Owner {
-    const owner: CommonConfigurator.Owner = { key: '' }; //TODO CHHI default
+    const owner: CommonConfigurator.Owner = ModelUtils.createInitialOwner();
     const params = routerState.state.params;
     if (params.ownerType) {
       const entityKey = params.entityKey;

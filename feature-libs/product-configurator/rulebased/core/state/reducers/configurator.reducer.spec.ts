@@ -1,4 +1,7 @@
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import * as StateReduce from './configurator.reducer';
@@ -167,6 +170,7 @@ describe('Configurator reducer', () => {
       const configurationWithOverview: Configurator.Configuration = {
         configId: 'A',
         overview: {},
+        owner: ModelUtils.createInitialOwner(),
       };
       const state = StateReduce.configuratorReducer(
         configurationWithOverview,

@@ -7,6 +7,7 @@ import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -194,6 +195,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     const configWOOverviewGroups: Configurator.Configuration = {
       configId: configId,
       overview: {},
+      owner: ModelUtils.createInitialOwner(),
     };
     expect(component.hasAttributes(configWOOverviewGroups)).toBe(false);
   });
@@ -203,6 +205,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     const configWOOverviewAttributes: Configurator.Configuration = {
       configId: configId,
       overview: { groups: [{ id: 'GROUP1' }] },
+      owner: ModelUtils.createInitialOwner(),
     };
     expect(component.hasAttributes(configWOOverviewAttributes)).toBe(false);
   });
@@ -210,11 +213,12 @@ describe('ConfigurationOverviewFormComponent', () => {
 
 describe('ConfigurationOverviewFormComponent with forceReload', () => {
   let configuratorCommonsServiceMock: ConfiguratorCommonsService;
-  const theOwner = {
-    id: '1',
-    type: CommonConfigurator.OwnerType.CART_ENTRY,
-    configuratorType: 'cpqconfigurator',
-  };
+  const theOwner = ModelUtils.createOwner(
+    CommonConfigurator.OwnerType.CART_ENTRY,
+    '1',
+    'cpqconfigurator'
+  );
+
   beforeEach(
     waitForAsync(() => {
       const bed = TestBed.configureTestingModule({

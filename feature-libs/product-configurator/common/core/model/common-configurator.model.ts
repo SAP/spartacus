@@ -22,21 +22,11 @@ export namespace CommonConfigurator {
     configuratorType?: string;
   }
 
-  /**
-   * Creates empty configuration owner
-   * @returns {CommonConfigurator.Owner} - initial configuration owner
-   */
-  export function createOwner(): CommonConfigurator.Owner {
-    return {
-      key: 'INITIAL',
-    };
-  }
-
   export interface ReadConfigurationFromCartEntryParameters {
+    owner: CommonConfigurator.Owner;
     userId?: string;
     cartId?: string;
     cartEntryNumber?: string;
-    owner: CommonConfigurator.Owner;
   }
 
   export interface ReadConfigurationFromOrderEntryParameters {

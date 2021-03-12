@@ -1,4 +1,4 @@
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from './../../core/model/common-configurator.model';
 
 /**
  * Compiles a unique key for a configuration owner from id and type
@@ -29,4 +29,17 @@ export function getOwnerKey(
 
 export function createInitialOwner(): CommonConfigurator.Owner {
   return { key: 'INITIAL' };
+}
+
+export function createOwner(
+  ownerType: CommonConfigurator.OwnerType,
+  ownerId: string,
+  configuratorType: string | undefined = undefined
+): CommonConfigurator.Owner {
+  return {
+    type: ownerType,
+    id: ownerId,
+    configuratorType: configuratorType,
+    key: getOwnerKey(ownerType, ownerId),
+  };
 }

@@ -7,6 +7,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { ModelUtils } from '.';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { OrderEntryStatus } from './../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
@@ -53,7 +54,7 @@ describe('CommonConfiguratorUtilsService', () => {
     classUnderTest = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    owner = { key: '' }; //TODO CHHI
+    owner = ModelUtils.createInitialOwner();
     cartItem = {};
   });
 

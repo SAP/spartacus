@@ -31,20 +31,16 @@ const CHANGED_VALUE = 'theNewValue';
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const CART_ENTRY_NUMBER = '2';
-const owner: CommonConfigurator.Owner = {
-  id: PRODUCT_CODE,
-  type: CommonConfigurator.OwnerType.PRODUCT,
-  key: '', //TODO CHHI
-};
+const owner = ModelUtils.createOwner(
+  CommonConfigurator.OwnerType.PRODUCT,
+  PRODUCT_CODE
+);
 
-const ownerCartRelated: CommonConfigurator.Owner = {
-  id: CART_ENTRY_NUMBER,
-  type: CommonConfigurator.OwnerType.CART_ENTRY,
-  key: ModelUtils.getOwnerKey(
-    CommonConfigurator.OwnerType.CART_ENTRY,
-    CART_ENTRY_NUMBER
-  ),
-};
+const ownerCartRelated = ModelUtils.createOwner(
+  CommonConfigurator.OwnerType.CART_ENTRY,
+  CART_ENTRY_NUMBER
+);
+
 const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
   userId: 'anonymous',
   cartId: CART_GUID,
@@ -56,14 +52,10 @@ const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [
     { configurationLabel: ATTRIBUTE_NAME, configurationValue: ATTRIBUTE_VALUE },
   ],
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-    key: ModelUtils.getOwnerKey(
-      CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
-    ),
-  },
+  owner: ModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    PRODUCT_CODE
+  ),
 };
 
 const loaderState: ConfigurationTextfieldState = {
@@ -94,14 +86,10 @@ const changedProductConfiguration: ConfiguratorTextfield.Configuration = {
       status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
     },
   ],
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-    key: ModelUtils.getOwnerKey(
-      CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
-    ),
-  },
+  owner: ModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    PRODUCT_CODE
+  ),
 };
 
 const cart: Cart = {

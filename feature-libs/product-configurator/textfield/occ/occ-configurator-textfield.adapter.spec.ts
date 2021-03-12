@@ -9,7 +9,10 @@ import {
   ConverterService,
   OccEndpointsService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ModelUtils,
+} from '@spartacus/product-configurator/common';
 import { OccConfiguratorTextfieldAdapter } from '.';
 import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../core/connectors/converters';
 import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';
@@ -58,7 +61,7 @@ const readParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = 
   userId: USER_ID,
   cartId: CART_ID,
   cartEntryNumber: '0',
-  owner: { key: '' }, //TODO CHHI
+  owner: ModelUtils.createInitialOwner(),
 };
 
 describe('OccConfigurationTextfieldAdapter', () => {
@@ -134,10 +137,13 @@ describe('OccConfigurationTextfieldAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-      'readTextfieldConfigurationForCartEntry',
-      readParams
-    );
+    expect(
+      occEnpointsService.getUrl
+    ).toHaveBeenCalledWith('readTextfieldConfigurationForCartEntry', {
+      userId: USER_ID,
+      cartId: CART_ID,
+      cartEntryNumber: '0',
+    });
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');

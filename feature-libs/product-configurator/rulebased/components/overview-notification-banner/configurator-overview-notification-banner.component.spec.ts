@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
+  ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
@@ -35,21 +36,21 @@ const configuratorType = 'cpqconfigurator';
 const routerData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
-  owner: {
-    type: CommonConfigurator.OwnerType.CART_ENTRY,
-    id: '3',
-    configuratorType: configuratorType,
-  },
+  owner: ModelUtils.createOwner(
+    CommonConfigurator.OwnerType.CART_ENTRY,
+    '3',
+    configuratorType
+  ),
 };
 
 const orderRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
-  owner: {
-    type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-    id: '3',
-    configuratorType: configuratorType,
-  },
+  owner: ModelUtils.createOwner(
+    CommonConfigurator.OwnerType.ORDER_ENTRY,
+    '3',
+    configuratorType
+  ),
 };
 
 let routerObs;

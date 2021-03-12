@@ -1,4 +1,4 @@
-import { CommonConfigurator } from 'feature-libs/product-configurator/common';
+import { ModelUtils } from '@spartacus/product-configurator/common';
 import * as ConfiguratorTextfieldActions from './configurator-textfield.action';
 
 describe('ConfiguratorTextfieldActions', () => {
@@ -42,7 +42,7 @@ describe('ConfiguratorTextfieldActions', () => {
     const productCode = 'CONF_LAPTOP';
     const createAction = new ConfiguratorTextfieldActions.CreateConfiguration({
       productCode: productCode,
-      owner: CommonConfigurator.createOwner(),
+      owner: ModelUtils.createInitialOwner(),
     });
     expect(createAction.payload.productCode).toBe(productCode);
   });

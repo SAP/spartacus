@@ -13,6 +13,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
+  ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -36,19 +37,19 @@ const mockRouterState: any = {
 };
 
 const config: Configurator.Configuration = {
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  },
+  owner: ModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    PRODUCT_CODE
+  ),
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
 };
 
 const orderEntryconfig: Configurator.Configuration = {
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-  },
+  owner: ModelUtils.createOwner(
+    CommonConfigurator.OwnerType.ORDER_ENTRY,
+    PRODUCT_CODE
+  ),
   configId: CONFIG_ID,
   overview: {
     productCode: PRODUCT_CODE,
