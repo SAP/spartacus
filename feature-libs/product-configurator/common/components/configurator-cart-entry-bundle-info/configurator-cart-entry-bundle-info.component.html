@@ -1,9 +1,9 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
   <ng-container *ngIf="isBundleBasedConfigurator(orderEntry)">
     <ng-container *ngIf="(numberOfLineItems$ | async) > 0">
-      <div>
+      <div class="cx-number-items">
         {{
-          'configurator.header.bundleItems'
+          'configurator.header.items'
             | cxTranslate: { param: numberOfLineItems$ | async }
         }}
       </div>

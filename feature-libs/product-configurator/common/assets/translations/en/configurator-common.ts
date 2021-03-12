@@ -11,7 +11,7 @@ export const configurator = {
       updateMessage: 'The configuration is being updated in the background',
       showMore: 'show more',
       showLess: 'show less',
-      bundleItems: '{{param}} items',
+      items: '{{param}} items',
       show: 'show',
       hide: 'hide',
     },

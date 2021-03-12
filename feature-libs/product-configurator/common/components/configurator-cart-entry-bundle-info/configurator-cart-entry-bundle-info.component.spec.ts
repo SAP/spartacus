@@ -6,6 +6,7 @@ import { CartItemContext } from '@spartacus/storefront';
 import { ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import {
+  CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
@@ -18,27 +19,35 @@ class MockCartItemContext implements Partial<CartItemContext> {
   quantityControl$ = new ReplaySubject<FormControl>(1);
 }
 
-const emptyEntry: OrderEntry = {
-  configurationInfos: [],
-};
-
 const configurationInfos: ConfigurationInfo[] = [
   {
-    configurationLabel: 'Canon EOS 80D',
+    configurationLabel: 'Canon ABC',
     configurationValue: '1 x $1,000.00',
+    configuratorType: 'CLOUDCPQCONFIGURATOR',
+    status: 'SUCCESS',
+  },
+  {
+    configurationLabel: 'Canon DEF',
+    configurationValue: '10 x $1,000.00',
+    configuratorType: 'CLOUDCPQCONFIGURATOR',
+    status: 'SUCCESS',
+  },
+  {
+    configurationLabel: 'Canon HJZ',
+    configurationValue: '5 x $1,000.00',
     configuratorType: 'CLOUDCPQCONFIGURATOR',
     status: 'SUCCESS',
   },
 ];
 
-const item: OrderEntry = {
+const entry: OrderEntry = {
   configurationInfos: configurationInfos,
 };
 
 describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   let component: ConfiguratorCartEntryBundleInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
-  //let htmlElem: HTMLElement;
+  let htmlElem: HTMLElement;
   let mockCartItemContext: MockCartItemContext;
   let commonConfigUtilsService: CommonConfiguratorUtilsService;
   let configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService;
@@ -81,7 +90,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
     component = fixture.componentInstance;
-    //htmlElem = fixture.nativeElement;
+    htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
 
     fixture.detectChanges();
@@ -129,11 +138,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       });
       mockCartItemContext.readonly$.next(false);
 
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-item-infos').length).toBe(
-        0,
-        "expected configuration info identified by selector '.cx-item-infos' not to be present, but it is! innerHtml: " +
-          htmlElem.innerHTML
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-item-infos'
       );
     });
 
@@ -150,13 +158,12 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         ],
       });
       mockCartItemContext.readonly$.next(false);
-
       fixture.detectChanges();
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-item-infos').length).toBe(
-        1,
-        "expected configuration info identified by selector '.cx-item-infos' to be present, but it is not! innerHtml: " +
-          htmlElem.innerHTML
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-item-infos'
       );
     });
 
@@ -175,11 +182,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       mockCartItemContext.readonly$.next(false);
 
       fixture.detectChanges();
-      const htmlElem = fixture.nativeElement;
-      expect(htmlElem.querySelectorAll('.cx-item-infos').length).toBe(
-        1,
-        "expected configuration info identified by selector '.cx-item-infos' to be present, but it is not! innerHtml: " +
-          htmlElem.innerHTML
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '.cx-item-infos'
       );
     });
   });
@@ -196,26 +202,149 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   describe('retrieveLineItems', () => {
     it('should return empty list of line items', () => {
+      const emptyEntry: OrderEntry = {
+        configurationInfos: [],
+      };
       expect(component.retrieveLineItems(emptyEntry)?.length).toBe(0);
     });
 
     it('should return a list of line items that contains one line item', () => {
-      expect(component.retrieveLineItems(item)?.length).toBe(1);
+      expect(component.retrieveLineItems(entry)?.length).toBe(3);
     });
   });
 
   describe('isBundleBasedConfigurator', () => {
     it('should return false because the configurator type is not bundle based one', () => {
-      item.configurationInfos[0].configuratorType =
+      entry.configurationInfos[0].configuratorType =
         'notBundleBasedConfiguratorType';
       fixture.detectChanges();
-      expect(component.isBundleBasedConfigurator(item)).toBe(false);
+      expect(component.isBundleBasedConfigurator(entry)).toBe(false);
     });
 
     it('should return true because the configurator type is a bundle based one', () => {
-      item.configurationInfos[0].configuratorType = 'CLOUDCPQCONFIGURATOR';
+      entry.configurationInfos[0].configuratorType = 'CLOUDCPQCONFIGURATOR';
       fixture.detectChanges();
-      expect(component.isBundleBasedConfigurator(item)).toBe(true);
+      expect(component.isBundleBasedConfigurator(entry)).toBe(true);
+    });
+  });
+
+  describe('check component structure', () => {
+    describe('without any line item information', () => {
+      beforeEach(() => {
+        mockCartItemContext.item$.next({
+          statusSummaryList: null,
+          configurationInfos: [],
+          product: {
+            configurable: true,
+          },
+        });
+        mockCartItemContext.readonly$.next(false);
+        mockCartItemContext.quantityControl$.next(new FormControl());
+        fixture.detectChanges();
+      });
+
+      it('should not display number of bundle items', () => {
+        let numberOfItems: number = 0;
+        component.numberOfLineItems$.subscribe(
+          (value) => (numberOfItems = value)
+        );
+        expect(numberOfItems).toBe(0);
+
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-number-items'
+        );
+      });
+
+      it('should not display toggle link', () => {
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
+          expect,
+          htmlElem,
+          '.cx-toggle-hide-items'
+        );
+      });
+
+      it('should display Edit Configuration link', () => {
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'cx-configure-cart-entry'
+        );
+      });
+    });
+
+    describe('with line item information', () => {
+      beforeEach(() => {
+        mockCartItemContext.item$.next({
+          statusSummaryList: null,
+          configurationInfos: configurationInfos,
+          product: {
+            configurable: true,
+          },
+        });
+        mockCartItemContext.readonly$.next(false);
+        mockCartItemContext.quantityControl$.next(new FormControl());
+        fixture.detectChanges();
+      });
+
+      it('should display number of bundle items', () => {
+        let numberOfItems: number = 0;
+        component.numberOfLineItems$.subscribe(
+          (value) => (numberOfItems = value)
+        );
+        expect(numberOfItems).toBe(3);
+
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-number-items'
+        );
+
+        const expectedText = 'configurator.header.items param:' + numberOfItems;
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-number-items',
+          expectedText
+        );
+      });
+
+      it('should display toggle link', () => {
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-toggle-hide-items'
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-toggle-hide-items',
+          'configurator.header.show'
+        );
+
+        expect(component.hideItems).toBe(true);
+        component.toggleItems();
+        fixture.detectChanges();
+        expect(component.hideItems).toBe(false);
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-toggle-hide-items',
+          'configurator.header.hide'
+        );
+      });
+
+      it('should display Edit Configuration link', () => {
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          'cx-configure-cart-entry'
+        );
+      });
     });
   });
 });
