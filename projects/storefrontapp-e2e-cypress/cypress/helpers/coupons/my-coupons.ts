@@ -65,7 +65,7 @@ export function verifyClaimCouponSuccess(couponCode: string) {
 }
 
 export function verifyClaimCouponFail(couponCode: string) {
-  claimCoupon(couponCode, 400);
+  claimCoupon(couponCode);
   cy.location('pathname').should('contain', myCouponsUrl);
   cy.get('.cx-coupon-card').within(() => {
     cy.get('.cx-coupon-card-id').should('not.contain', couponCode);

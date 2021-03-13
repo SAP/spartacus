@@ -52,10 +52,6 @@ export function applyCoupon(couponCode: string) {
   });
 }
 
-export function verifyEmptyCoupons() {
-  cy.get('.cx-available-coupon').should('not.exist');
-}
-
 export function verifyMyCoupons() {
   cy.get('.cx-available-coupon .coupon-id').should('have.length', 2);
   cy.get('.cx-available-coupon .coupon-id').should(
@@ -338,7 +334,7 @@ export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
   visitProductPage(powerShotA480);
   addProductToCart(powerShotA480);
   verifyProductInCart(powerShotA480);
-  verifyEmptyCoupons();
+  cy.get('.cx-available-coupon').should('not.exist');
   claimCoupon(springFestivalCoupon);
   claimCoupon(midAutumnCoupon);
 
