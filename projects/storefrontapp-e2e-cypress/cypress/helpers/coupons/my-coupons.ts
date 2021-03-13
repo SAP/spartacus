@@ -1,6 +1,5 @@
 import { standardUser } from '../../sample-data/shared-users';
 import { waitForPage } from '../checkout-flow';
-import * as alerts from '../global-message';
 import { generateMail, randomString } from '../user';
 
 export const testUser = 'test-user-with-coupons@ydev.hybris.com';
@@ -89,37 +88,25 @@ export function verifyMyCoupons() {
   verifyFindProduct(CouponWithProducts, 1);
 }
 
-export function claimCoupon(
-  couponCode: string,
-  validCouponPostRequest: number = 201
-) {
-  // sometimes we need to wait for the document to load
-  cy.wait(1000);
-
+export function claimCoupon(couponCode: string) {
   const claimCouponPage = waitForPage(
     claimCouponUrl + couponCode,
     'getClaimedCouponPage'
   );
 
-  const claimCouponsPostRequest = waitClaimCouponPostRequest(couponCode);
+  const claimCoupon = waitForClaimCoupon(couponCode);
 
-  const getCoupons = waitClaimCouponGetRequest();
+  const getCoupons = waitForGetCoupons();
 
   const couponsPage = waitForPage(myCouponsUrl, 'getCouponsPage');
 
   cy.visit(claimCouponUrl + couponCode);
 
-  cy.wait(`@${claimCouponPage}`).its('status').should('eq', 200);
-  cy.wait(`@${claimCouponsPostRequest}`)
-    .its('status')
-    .should('eq', validCouponPostRequest);
+  cy.wait(`@${claimCouponPage}`);
+  cy.wait(`@${claimCoupon}`);
 
-  if (validCouponPostRequest === 400) {
-    alerts.getErrorAlert().should('exist');
-  }
-
-  cy.wait(`@${couponsPage}`).its('status').should('eq', 200);
-  cy.wait(`@${getCoupons}`).its('status').should('eq', 200);
+  cy.wait(`@${couponsPage}`);
+  cy.wait(`@${getCoupons}`);
 }
 
 export function createStandardUser() {
@@ -203,19 +190,20 @@ export function verifyFindProduct(couponCode: string, productNumber: number) {
   cy.get('cx-product-list-item').should('have.length', productNumber);
 }
 
-export function waitClaimCouponPostRequest(couponCode: string): string {
-  const aliasName = 'claimCoupon';
-  cy.server();
-  cy.route(
-    'POST',
-    `${pageUrl}/users/current/customercoupons/${couponCode}/claim*`
-  ).as(aliasName);
+export function waitForClaimCoupon(couponCode: string): string {
+  const aliasName = `claimCoupon_${couponCode}`;
+  cy.intercept({
+    method: 'POST',
+    url: `${pageUrl}/users/current/customercoupons/${couponCode}/claim`,
+  }).as(aliasName);
   return `${aliasName}`;
 }
 
-export function waitClaimCouponGetRequest(): string {
+export function waitForGetCoupons(): string {
   const aliasName = 'getCoupons';
-  cy.server();
-  cy.route('GET', `${pageUrl}/users/current/customercoupons*`).as(aliasName);
+  cy.intercept({
+    method: 'GET',
+    url: `${pageUrl}/users/current/customercoupons`,
+  }).as(aliasName);
   return `${aliasName}`;
 }
