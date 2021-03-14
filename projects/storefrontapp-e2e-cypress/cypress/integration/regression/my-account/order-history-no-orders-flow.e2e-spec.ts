@@ -5,20 +5,19 @@ import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register'
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Order History with no orders', () => {
-   viewportContext(['mobile', 'desktop'], () => {
-      before(() => {
-        cy.window().then((win) => win.sessionStorage.clear());
-        cy.visit('/');
-        cy.onMobile(() => {
-          clickHamburger();
-        });
-        userAccountHelpers.registerUser();
-        verifyGlobalMessageAfterRegistration();
+  viewportContext(['mobile', 'desktop'], () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.visit('/');
+      cy.onMobile(() => {
+        clickHamburger();
       });
+      userAccountHelpers.registerUser();
+      verifyGlobalMessageAfterRegistration();
+    });
 
-      orderHistoryTest.checkRedirectNotLoggedInUser();
-      orderHistoryTest.checkRedirectLoggedInUser();
-      orderHistoryTest.checkStartShoppingButton();
-
+    orderHistoryTest.checkRedirectNotLoggedInUser();
+    orderHistoryTest.checkRedirectLoggedInUser();
+    orderHistoryTest.checkStartShoppingButton();
   });
 });

@@ -123,11 +123,13 @@ export const orderHistoryTest = {
         element.text().replace(',', '').replace('.', '').split(' ');
       let dayNumberEN: string;
 
-      cy.wait('@getOrderHistoryPage').its('response.statusCode').should('eq', 200);
+      cy.wait('@getOrderHistoryPage')
+        .its('response.statusCode')
+        .should('eq', 200);
 
       cy.onMobile(() => {
-          clickHamburger();
-        });
+        clickHamburger();
+      });
       switchLanguage('en');
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')
@@ -137,8 +139,8 @@ export const orderHistoryTest = {
         });
 
       cy.onMobile(() => {
-          clickHamburger();
-        });
+        clickHamburger();
+      });
       switchLanguage('de');
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')
@@ -148,8 +150,8 @@ export const orderHistoryTest = {
         });
 
       cy.onMobile(() => {
-          clickHamburger();
-        });
+        clickHamburger();
+      });
       switchLanguage('en'); // switch language back
     });
   },
