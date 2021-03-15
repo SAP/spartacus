@@ -1,22 +1,26 @@
 cx-add-to-saved-cart {
+  max-height: 70px;
+
   .cx-add-to-saved-cart-container {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     margin-top: 3rem;
 
     .cx-action-link {
       font-size: 1rem;
       color: var(--cx-color-primary);
-      margin-inline-start: 0.5rem;
-      margin-inline-end: 0.5rem;
       text-transform: uppercase;
 
       &:last-child {
         margin-inline-end: 0;
-      }
-
-      &:first-child {
-        margin-inline-start: 0;
+        &:before {
+          content: '|';
+          color: var(--cx-color-light);
+          display: inline-block;
+          text-decoration: none;
+          margin-inline-start: 0.313rem;
+          margin-inline-end: 0.313rem;
+        }
       }
     }
 
