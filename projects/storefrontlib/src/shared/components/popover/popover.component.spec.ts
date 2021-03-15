@@ -82,6 +82,12 @@ describe('PopoverComponent', () => {
     expect(fixture.debugElement.query(By.css('button.close'))).toBeTruthy();
   });
 
+  it('should not display close button', () => {
+    component.displayCloseButton = false;
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('button.close'))).toBeFalsy();
+  });
+
   it('should emit `insideClick` event', () => {
     component.eventSubject.pipe(take(1)).subscribe((event: PopoverEvent) => {
       expect(event).toBe(PopoverEvent.INSIDE_CLICK);
