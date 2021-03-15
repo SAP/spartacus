@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { SavedCartEventModule } from './events/saved-cart-event.module';
+import { SavedCartEventBuilder } from './events/saved-cart-event.builder';
 
-@NgModule({
-  imports: [SavedCartEventModule],
-})
-export class SavedCartEventsModule {}
+@NgModule({})
+export class SavedCartEventsModule {
+  constructor(_savedCartEventBuilder: SavedCartEventBuilder) {}
+}

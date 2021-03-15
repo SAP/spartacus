@@ -1,8 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { SavedCartActions } from '@spartacus/cart/saved-cart/core';
-import { Cart, CartActions, MultiCartService } from '@spartacus/core';
-import { EventService } from 'projects/core/src/event';
+import {
+  Cart,
+  CartActions,
+  EventService,
+  MultiCartService,
+} from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SavedCartEventBuilder } from './saved-cart-event.builder';
@@ -29,6 +33,12 @@ const mockSavedCartDescription = 'description';
 const mockSavedCartName = 'name';
 const mockCartData: Cart = {
   code: mockSavedCartCode,
+  description: mockSavedCartDescription,
+  name: mockSavedCartName,
+};
+
+const mockSavedCartData: Cart = {
+  code: mockSavedCartCode,
   saveTime: mockSavedCartTime as any,
   description: mockSavedCartDescription,
   name: mockSavedCartName,
@@ -38,9 +48,10 @@ class MockMultiCartService implements Partial<MultiCartService> {
   getCart = () => of(mockCartData);
 }
 
-describe('SavedCartEventBuilder', () => {
+fdescribe('SavedCartEventBuilder', () => {
   let actions$: Subject<ActionWithPayload>;
   let eventService: EventService;
+  let multiCartService: MultiCartService;
 
   beforeEach(() => {
     actions$ = new Subject();
@@ -55,6 +66,7 @@ describe('SavedCartEventBuilder', () => {
     TestBed.inject(SavedCartEventBuilder); // register events
 
     eventService = TestBed.inject(EventService);
+    multiCartService = TestBed.inject(MultiCartService);
   });
 
   describe('Save Cart Events', () => {
@@ -72,7 +84,7 @@ describe('SavedCartEventBuilder', () => {
           ...payload,
         };
 
-        let result: SaveCartEvent = null as any;
+        let result: SaveCartEvent | undefined;
         eventService
           .get(SaveCartEvent)
           .pipe(take(1))
@@ -89,6 +101,10 @@ describe('SavedCartEventBuilder', () => {
 
     describe('SaveCartSuccessEvent', () => {
       it('should emit the event when the action is fired', () => {
+        spyOn(multiCartService, 'getCart').and.returnValue(
+          of(mockSavedCartData)
+        );
+
         const payload = {
           cartId: mockSavedCartCode,
           userId: mockUserId,
@@ -102,7 +118,7 @@ describe('SavedCartEventBuilder', () => {
           ...payload,
         };
 
-        let result: SaveCartSuccessEvent = null as any;
+        let result: SaveCartSuccessEvent | undefined;
         eventService
           .get(SaveCartSuccessEvent)
           .pipe(take(1))
@@ -132,7 +148,7 @@ describe('SavedCartEventBuilder', () => {
           ...payload,
         };
 
-        let result: SaveCartFailEvent = null as any;
+        let result: SaveCartFailEvent | undefined;
         eventService
           .get(SaveCartFailEvent)
           .pipe(take(1))
@@ -151,6 +167,10 @@ describe('SavedCartEventBuilder', () => {
   describe('Restore Save Cart Events', () => {
     describe('RestoreSavedCartEvent', () => {
       it('should emit the event when the action is fired', () => {
+        spyOn(multiCartService, 'getCart').and.returnValue(
+          of(mockSavedCartData)
+        );
+
         const payload = {
           cartId: mockSavedCartCode,
           userId: mockUserId,
@@ -162,7 +182,7 @@ describe('SavedCartEventBuilder', () => {
           ...payload,
         };
 
-        let result: RestoreSavedCartEvent = null as any;
+        let result: RestoreSavedCartEvent | undefined;
         eventService
           .get(RestoreSavedCartEvent)
           .pipe(take(1))
@@ -189,7 +209,7 @@ describe('SavedCartEventBuilder', () => {
           ...payload,
         };
 
-        let result: RestoreSavedCartSuccessEvent = null as any;
+        let result: RestoreSavedCartSuccessEvent | undefined;
         eventService
           .get(RestoreSavedCartSuccessEvent)
           .pipe(take(1))
@@ -206,6 +226,10 @@ describe('SavedCartEventBuilder', () => {
 
     describe('RestoreSavedCartFailEvent', () => {
       it('should emit the event when the action is fired', () => {
+        spyOn(multiCartService, 'getCart').and.returnValue(
+          of(mockSavedCartData)
+        );
+
         const payload = {
           cartId: mockSavedCartCode,
           userId: mockUserId,
@@ -220,7 +244,7 @@ describe('SavedCartEventBuilder', () => {
           ...payload,
         };
 
-        let result: RestoreSavedCartFailEvent = null as any;
+        let result: RestoreSavedCartFailEvent | undefined;
         eventService
           .get(RestoreSavedCartFailEvent)
           .pipe(take(1))
@@ -249,7 +273,7 @@ describe('SavedCartEventBuilder', () => {
           ...payload,
         };
 
-        let result: DeleteSavedCartEvent = null as any;
+        let result: DeleteSavedCartEvent | undefined;
         eventService
           .get(DeleteSavedCartEvent)
           .pipe(take(1))
@@ -276,7 +300,7 @@ describe('SavedCartEventBuilder', () => {
           ...payload,
         };
 
-        let result: DeleteSavedCartSuccessEvent = null as any;
+        let result: DeleteSavedCartSuccessEvent | undefined;
         eventService
           .get(DeleteSavedCartSuccessEvent)
           .pipe(take(1))
@@ -304,7 +328,7 @@ describe('SavedCartEventBuilder', () => {
           ...payload,
         };
 
-        let result: DeleteSavedCartFailEvent = null as any;
+        let result: DeleteSavedCartFailEvent | undefined;
         eventService
           .get(DeleteSavedCartFailEvent)
           .pipe(take(1))
