@@ -87,10 +87,6 @@ cx-saved-cart-list {
     .cx-saved-cart-list-cart-name {
       padding-inline-start: 20px;
 
-      // @include media-breakpoint-up(md) {
-      //   width: 15%;
-      // }
-
       @include media-breakpoint-up(lg) {
         width: 20%;
       }
