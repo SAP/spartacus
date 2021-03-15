@@ -45,6 +45,7 @@ describe('PopoverComponent', () => {
     component.content = mockPopoverProperties.content;
     component.customClass = mockPopoverProperties.customClass;
     component.triggerElement = mockPopoverProperties.triggerElement;
+    component.displayCloseButton = mockPopoverProperties.displayCloseButton;
 
     component.ngOnInit();
 
