@@ -1,6 +1,7 @@
 <div class="arrow"></div>
 <div class="popover-body" [cxFocus]="focusConfig">
   <button
+    *ngIf="displayCloseButton"
     type="button"
     class="close"
     (keydown.enter)="close($event)"
