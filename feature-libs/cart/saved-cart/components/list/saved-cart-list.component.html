@@ -89,8 +89,12 @@
                 } | cxUrl
               "
               class="cx-saved-cart-list-value"
-              >{{ savedCart?.description }}</a
-            >
+              >{{ savedCart?.description }}
+              <cx-truncate-text-with-popover
+                [content]="savedCart?.description"
+                [maxLength]="50"
+              ></cx-truncate-text-with-popover>
+            </a>
           </td>
 
           <td class="cx-saved-cart-list-quantity">
@@ -122,8 +126,8 @@
               "
               class="cx-saved-cart-list-value"
             >
-              {{ savedCart?.totalPrice?.formattedValue }}</a
-            >
+              {{ savedCart?.totalPrice?.formattedValue }}
+            </a>
           </td>
           <td class="cx-saved-cart-list-make-cart-active">
             <div class="cx-table-label-mobile cx-saved-cart-list-label"></div>

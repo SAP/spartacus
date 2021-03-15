@@ -8,6 +8,8 @@
   </ng-template>
 
   <button
+    *ngIf="isLengthExceed"
+    (click)="stopPropagation($event)"
     [appendToBody]="true"
     [cxPopover]="fullText"
     class="ml-1 link cx-action-link"
