@@ -39,7 +39,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   cart: Cart;
   layoutOption: string | undefined;
 
-  descriptionMaxLength: number = 500;
+  descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
 
   focusConfig: FocusConfig = {

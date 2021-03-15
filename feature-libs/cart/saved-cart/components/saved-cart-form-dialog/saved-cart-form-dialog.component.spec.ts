@@ -17,7 +17,7 @@ import {
   SavedCartFormDialogOptions,
 } from './saved-cart-form-dialog.component';
 
-const mockDescriptionMaxLength = 500;
+const mockDescriptionMaxLength = 250;
 const mockCartId = '123456789';
 const mockCart: Cart = {
   code: '123456789',
