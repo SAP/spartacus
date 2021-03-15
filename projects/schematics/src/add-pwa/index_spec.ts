@@ -2,6 +2,10 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 
@@ -18,12 +22,12 @@ describe('Spartacus Schematics: add-pwa', () => {
     version: '0.5.0',
   };
 
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
   };
 

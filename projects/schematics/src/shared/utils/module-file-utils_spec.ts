@@ -2,6 +2,10 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
 import * as path from 'path';
 import ts from 'typescript';
 import { UTF_8 } from '../constants';
@@ -44,12 +48,12 @@ describe('Module file utils', () => {
     name: 'workspace',
     version: '0.5.0',
   };
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
     projectRoot: '',
   };
