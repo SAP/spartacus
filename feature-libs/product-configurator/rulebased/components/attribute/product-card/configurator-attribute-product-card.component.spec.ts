@@ -183,6 +183,20 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should indicate loading state when fetching product data', () => {
+    const loadingState: boolean[] = [];
+    let subscription = component.loading$.subscribe((loading) => {
+      loadingState.push(loading);
+    });
+    component.ngOnInit();
+    component.product$.subscribe().unsubscribe(); // fetch product
+    subscription.unsubscribe();
+    expect(loadingState.length).toBe(3);
+    expect(loadingState[0]).toBe(false); // state from before each
+    expect(loadingState[1]).toBe(true); // loading
+    expect(loadingState[2]).toBe(false); // loading done
+  });
+
   describe('Buttons constellation', () => {
     it('should button be enabled when card actions are disabled and card is no selected', () => {
       const button = fixture.debugElement.query(By.css('button.btn'))

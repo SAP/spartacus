@@ -234,7 +234,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     component.attribute.quantity = 3;
     component.attributeDropDownForm.setValue(values[1].valueCode);
     expect(
-      component.extractQuantityParameters(false).initialQuantity?.quantity
+      component.extractQuantityParameters().initialQuantity?.quantity
     ).toBe(3);
   });
 
@@ -242,7 +242,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     component.attribute.quantity = 3;
     component.attributeDropDownForm.setValue(values[0].valueCode); // value 0 is the "No Option Selected"-Value
     expect(
-      component.extractQuantityParameters(false).initialQuantity?.quantity
+      component.extractQuantityParameters().initialQuantity?.quantity
     ).toBe(0);
   });
 
@@ -250,14 +250,14 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     component.attributeDropDownForm.setValue(values[1].valueCode);
     component.attribute.quantity = undefined;
     expect(
-      component.extractQuantityParameters(true).initialQuantity?.quantity
+      component.extractQuantityParameters().initialQuantity?.quantity
     ).toBe(0);
   });
 
   it('should set initial quantity to zero if nothing selected', () => {
     component.attributeDropDownForm.setValue(undefined);
     expect(
-      component.extractQuantityParameters(false).initialQuantity?.quantity
+      component.extractQuantityParameters().initialQuantity?.quantity
     ).toBe(0);
   });
 

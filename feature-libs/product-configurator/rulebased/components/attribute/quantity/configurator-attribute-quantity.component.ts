@@ -8,8 +8,8 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subscription, timer } from 'rxjs';
-import { debounce } from 'rxjs/operators';
+import { Observable, Subscription, timer } from 'rxjs';
+import { debounce, distinct, take } from 'rxjs/operators';
 import { ConfiguratorUISettings } from '../../config/configurator-ui-settings';
 
 export interface Quantity {
@@ -19,7 +19,7 @@ export interface Quantity {
 export interface ConfiguratorAttributeQuantityComponentOptions {
   allowZero?: boolean;
   initialQuantity?: Quantity;
-  disableQuantityActions?: boolean;
+  disableQuantityActions?: Observable<boolean>;
 }
 
 @Component({
@@ -30,32 +30,47 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
 export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit {
   quantity = new FormControl(1);
-  protected sub: Subscription;
-
+  optionsChangeSub: Subscription = new Subscription();
+  quantityChangeSub: Subscription = new Subscription();
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-
   @Output() changeQuantity = new EventEmitter<Quantity>();
 
   constructor(protected config: ConfiguratorUISettings) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.quantity.setValue(this.quantityOptions?.initialQuantity?.quantity);
-
-    if (this.quantityOptions?.disableQuantityActions) {
-      this.quantity.disable();
-    }
-
-    const debounceQuantity = this.quantity.valueChanges.pipe(
-      debounce(() =>
-        timer(this.config?.rulebasedConfigurator?.quantityDebounceTime)
-      )
+    this.optionsChangeSub.add(
+      this.quantityOptions.disableQuantityActions
+        ?.pipe(distinct())
+        .subscribe((disable) => {
+          // stepper always emits an value when it gets enabled regardless, if the original value was changed.
+          // so we subscribe to quantity change when stepper gets enabled and unsubscribe when it gets disbaled
+          // this way we will not get the unwanted emission on enabling the stepper.
+          if (disable) {
+            this.quantity.disable();
+            this.quantityChangeSub.unsubscribe();
+          } else {
+            this.quantity.enable();
+            this.quantityChangeSub.add(this.subscribeToQuantityChange());
+          }
+        })
     );
+  }
 
-    this.sub = debounceQuantity.subscribe(() => this.onChangeQuantity());
+  subscribeToQuantityChange() {
+    return this.quantity.valueChanges
+      .pipe(
+        debounce(() =>
+          timer(this.config?.rulebasedConfigurator?.quantityDebounceTime)
+        ),
+        take(1)
+      )
+      .subscribe(() => this.onChangeQuantity());
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.optionsChangeSub.unsubscribe();
+    this.quantityChangeSub.unsubscribe();
   }
 
   onChangeQuantity(): void {

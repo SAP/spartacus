@@ -15,7 +15,7 @@ class MockGroupService {}
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: any;
 }
 
 describe('ConfigAttributeRadioButtonComponent', () => {

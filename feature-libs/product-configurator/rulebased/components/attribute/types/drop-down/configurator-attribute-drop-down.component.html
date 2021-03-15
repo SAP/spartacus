@@ -21,9 +21,7 @@
 
   <cx-configurator-attribute-quantity
     (changeQuantity)="onChangeQuantity($event)"
-    [quantityOptions]="
-      extractQuantityParameters(disableQuantityActions || (loading$ | async))
-    "
+    [quantityOptions]="extractQuantityParameters()"
     *ngIf="withQuantity"
   ></cx-configurator-attribute-quantity>
 </div>
