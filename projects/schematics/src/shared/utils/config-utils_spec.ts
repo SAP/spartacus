@@ -19,7 +19,8 @@ import { commitChanges, getTsSourceFile } from './file-utils';
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
-describe('Storefront config utils', () => {
+// TODO:#10744 - cleanup after implementing the new config utils.
+xdescribe('Storefront config utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: any = {
     name: 'workspace',
