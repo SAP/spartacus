@@ -8,8 +8,10 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { ListNavigationModule } from '@spartacus/storefront';
-import { TruncateTextWithPopoverModule } from 'projects/storefrontlib/src/shared/components/truncate-text-with-popover';
+import {
+  ListNavigationModule,
+  TruncateTextWithPopoverModule,
+} from '@spartacus/storefront';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 @NgModule({
