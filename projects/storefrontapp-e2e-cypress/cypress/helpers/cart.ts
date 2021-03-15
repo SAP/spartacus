@@ -227,7 +227,7 @@ export function removeAllItemsFromCart() {
 
   removeCartItem(products[0]);
 
-  cy.wait('@refresh_cart').its('status').should('eq', 200);
+  cy.wait('@refresh_cart');
 
   removeCartItem(products[4]);
 
@@ -242,11 +242,6 @@ export function removeCartItem(product) {
 
 export function loginRegisteredUser() {
   standardUser.registrationData.email = generateMail(randomString(), true);
-  // Hack to make it more stable
-  // cy.requireLoggedIn works thanks to rehydration.
-  // Unfortunately it is not always stable. Sometimes app could override localStorage data.
-  // Issue for proper fix: #4671
-  cy.wait(2000);
   cy.requireLoggedIn(standardUser);
   cy.reload();
 }
@@ -255,14 +250,16 @@ export function addProductWhenLoggedIn(mobile: boolean) {
   const product = products[1];
 
   goToFirstProductFromSearch(product.code, mobile);
+
+  addToCart();
+
   /**
    * This waits is added here to delay Add to cart click until wishlist is created.
    * Wishlist is created on first render of wishlist components.
    * Without that there might be a race condition that active cart will use the same cart as wishlist.
    */
   cy.wait('@create_cart');
-  cy.wait('@save_cart');
-  addToCart();
+  // cy.wait('@save_cart');
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 }
@@ -327,7 +324,13 @@ export function verifyMergedCartWhenLoggedIn() {
 
   cy.get('cx-breadcrumb h1').should('contain', '1 result');
 
-  checkMiniCartCount(2).click({ force: true });
+  const cartPage = waitForPage('/cart', 'getCartPage');
+
+  checkMiniCartCount(2);
+
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
 
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
@@ -344,7 +347,7 @@ export function logOutAndEmptyCart() {
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+  cy.wait(`@${cartPage}`);
 
   validateEmptyCart();
 }

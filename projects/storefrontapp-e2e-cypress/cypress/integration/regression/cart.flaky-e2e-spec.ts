@@ -25,6 +25,7 @@ describe('Cart', () => {
     cart.registerCreateCartRoute();
     cart.registerSaveCartRoute();
     cart.loginRegisteredUser();
+
     cart.addProductWhenLoggedIn(false);
     cart.logOutAndNavigateToEmptyCart();
     cart.addProductAsAnonymous();
@@ -75,7 +76,6 @@ describe('Cart', () => {
   });
 
   it('should be loaded after user login', () => {
-    cy.server();
     cart.registerCartUser();
     cart.loginCartUser();
     cy.visit(`/product/${cart.products[0].code}`);
@@ -261,10 +261,10 @@ describe('Cart', () => {
     // cleanup
     cart.registerCartRefreshRoute();
     cart.removeCartItem(cart.products[0]);
-    cy.wait('@refresh_cart').its('status').should('eq', 200);
+    cy.wait('@refresh_cart');
 
     cart.removeCartItem(cart.products[1]);
-    cy.wait('@refresh_cart').its('status').should('eq', 200);
+    cy.wait('@refresh_cart');
 
     cart.validateEmptyCart();
   });
@@ -314,10 +314,10 @@ describe('Cart', () => {
 
     cy.visit(`/${Cypress.env('BASE_SITE')}/en/USD/cart`);
     cart.checkProductInCart(cart.products[0]);
-    alerts.getErrorAlert().should('not.contain', 'Cart not found');
+    cy.get('cx-global-message .alert-danger').should('not.exist');
 
     cy.visit(`/apparel-uk-spa/en/GBP/cart`);
     cart.checkProductInCart(apparelProduct, 1, 'GBP');
-    alerts.getErrorAlert().should('not.contain', 'Cart not found');
+    cy.get('cx-global-message .alert-danger').should('not.exist');
   });
 });
