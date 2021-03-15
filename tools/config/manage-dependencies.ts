@@ -351,12 +351,8 @@ function filterNativeNodeAPIs(
           if (nodeAPIs.includes(imp.importPath)) {
             // Don't run the check in fix mode
             if (!options.fix) {
-              // Don't allow to use node api outside of schematics spec files
-              if (
-                imp.usageIn.spec ||
-                imp.usageIn.lib ||
-                imp.usageIn.schematics
-              ) {
+              // Don't allow to use node api outside of schematics files
+              if (imp.usageIn.spec || imp.usageIn.lib) {
                 imp.files.forEach((file) => {
                   // Allow to use Node APIs in SSR
                   if (!file.includes('ssr')) {
@@ -369,7 +365,7 @@ function filterNativeNodeAPIs(
                         )}\` is referenced.`,
                       ],
                       [
-                        `Node.js APIs can only be used in SSR code or in schematics specs.`,
+                        `Node.js APIs can only be used in SSR code or in schematics.`,
                         `You might have wanted to import it from some library instead.`,
                       ]
                     );
