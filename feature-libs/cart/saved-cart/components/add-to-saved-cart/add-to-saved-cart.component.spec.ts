@@ -68,8 +68,6 @@ describe('AddToSavedCartComponent', () => {
     savedCartFormLaunchDialogService = TestBed.inject(
       SavedCartFormLaunchDialogService
     );
-    spyOn(routingService, 'go').and.callThrough();
-    spyOn(savedCartFormLaunchDialogService, 'openDialog').and.stub();
   });
 
   beforeEach(() => {
@@ -86,9 +84,25 @@ describe('AddToSavedCartComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should open service dialog', () => {
+    spyOn(savedCartFormLaunchDialogService, 'openDialog').and.stub();
+
+    component.openDialog(mockCart);
+
+    expect(savedCartFormLaunchDialogService.openDialog).toHaveBeenCalledWith(
+      component.element,
+      component['vcr'],
+      {
+        cart: mockCart,
+      }
+    );
+  });
+
   describe('should trigger action on save cart method', () => {
     describe('when user is not logged in', () => {
       it('should redirect to login page', () => {
+        spyOn(routingService, 'go').and.callThrough();
+
         component.saveCart(mockCart);
 
         expect(routingService.go).toHaveBeenCalledWith({
@@ -99,6 +113,7 @@ describe('AddToSavedCartComponent', () => {
 
     describe('when user is logged in', () => {
       it('should open dialog ', () => {
+        spyOn(savedCartFormLaunchDialogService, 'openDialog').and.stub();
         isLoggedInSubject$.next(true);
 
         component.saveCart(mockCart);
@@ -111,7 +126,4 @@ describe('AddToSavedCartComponent', () => {
       });
     });
   });
-
-  // TODO: Michal test clicking the saved carts button as well for the listing page (logggedIn/anonymous)
-  // The use case above is only testing the save cart for later button.
 });
