@@ -105,6 +105,9 @@ export class ConfiguratorGroupMenuComponent {
 
   click(group: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
+      if (configuration.interactionState?.currentGroup === group.id) {
+        return;
+      }
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
         this.configuratorGroupsService.navigateToGroup(configuration, group.id);
         this.hamburgerMenuService.toggle(true);
