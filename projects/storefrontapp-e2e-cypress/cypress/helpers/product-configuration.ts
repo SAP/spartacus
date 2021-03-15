@@ -1360,3 +1360,15 @@ export function closeErrorMessages() {
 export function closeWarningMessages() {
   cy.get('.alert-warning .close').click({ multiple: true, force: true });
 }
+
+/**
+ * Get number of cart items
+ * @returns number of cart items
+ */
+export function getNumberOfCartItems(): number {
+  let numberOfCartItems = 0;
+  cy.get('.cx-item-list-row').within((itemRows) => {
+    numberOfCartItems = itemRows.length;
+  });
+  return numberOfCartItems;
+}
