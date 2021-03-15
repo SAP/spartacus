@@ -18,6 +18,7 @@ export function initI18nConfig(configInit: ConfigInitializerService) {
           if (config?.i18n?.fallbackLang !== undefined) {
             return {
               i18n: {
+                // the first language in the array is the default one
                 fallbackLang: config?.context?.langauge?.[0],
               },
             };
