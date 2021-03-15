@@ -3,6 +3,7 @@ import {
   noop,
   Rule,
   SchematicContext,
+  SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
@@ -12,11 +13,14 @@ import {
   addPackageJsonDependency,
   NodeDependency,
 } from '@schematics/angular/utility/dependencies';
+import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import * as ts from 'typescript';
 import {
+  ANGULAR_CORE,
   PROVIDE_CONFIG_FUNCTION,
   PROVIDE_DEFAULT_CONFIG,
   SPARTACUS_CORE,
+  SPARTACUS_FEATURES_MODULE,
 } from '../constants';
 import {
   createNewConfig,
@@ -24,11 +28,14 @@ import {
   getExistingStorefrontConfigNode,
 } from './config-utils';
 import { commitChanges, getTsSourceFile } from './file-utils';
+import { isImportedFrom } from './import-utils';
 import {
   addToModuleImports,
   addToModuleProviders,
   createImportChange,
 } from './module-file-utils';
+import { createProgram } from './program';
+import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
   getDefaultProjectNameFromWorkspace,
   getSourceRoot,
@@ -81,19 +88,101 @@ export function shouldAddFeature(features: string[], feature: string): boolean {
 }
 
 export function addLibraryFeature<T extends LibraryOptions>(
-  appModulePath: string,
   options: T,
-  config: FeatureConfig
+  config: FeatureConfig,
+  project: string
 ): Rule {
-  return chain([
-    handleFeature(appModulePath, options, config),
-    config.styles ? addLibraryStyles(config.styles) : noop(),
-    config.assets ? addLibraryAssets(config.assets) : noop(),
-  ]);
+  return (tree: Tree) => {
+    const spartacusFeatureModuleExists = checkAppStructure(tree, project);
+    if (spartacusFeatureModuleExists) {
+      throw new SchematicsException(
+        'Your application structure is not supported. Migrate manually to new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/ and add the library once again.'
+      );
+    }
+    return chain([
+      handleFeature(options, config),
+      config.styles ? addLibraryStyles(config.styles) : noop(),
+      config.assets ? addLibraryAssets(config.assets) : noop(),
+    ]);
+  };
+}
+
+export function checkAppStructure(tree: Tree, project: string): boolean {
+  const { buildPaths } = getProjectTsConfigPaths(tree, project);
+
+  if (!buildPaths.length) {
+    throw new SchematicsException(
+      "Could not find any tsconfig file. Can't find SpartacusFeaturesModule."
+    );
+  }
+
+  const basePath = process.cwd();
+  let result = false;
+  for (const tsconfigPath of buildPaths) {
+    if (spartacusFeatureModuleExists(tree, tsconfigPath, basePath)) {
+      result = true;
+    }
+  }
+  return result;
+}
+
+function spartacusFeatureModuleExists(
+  tree: Tree,
+  tsconfigPath: string,
+  basePath: string
+): boolean {
+  const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+  appSourceFiles.forEach((sourceFile) => {
+    if (
+      sourceFile
+        .getFilePath()
+        .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
+    ) {
+      if (getSpartacusFeaturesModule(sourceFile)) {
+        return true;
+      }
+    }
+  });
+  return false;
+}
+
+function getSpartacusFeaturesModule(
+  sourceFile: SourceFile
+): CallExpression | undefined {
+  let spartacusFeaturesModule;
+
+  function visitor(node: Node) {
+    if (Node.isCallExpression(node)) {
+      const expression = node.getExpression();
+      if (
+        Node.isIdentifier(expression) &&
+        expression.getText() === 'NgModule' &&
+        isImportedFrom(expression, ANGULAR_CORE)
+      ) {
+        const classDeclaration = node.getFirstAncestorByKind(
+          tsMorph.SyntaxKind.ClassDeclaration
+        );
+        if (classDeclaration) {
+          const identifier = classDeclaration.getNameNode();
+          if (
+            identifier &&
+            identifier.getText() === 'SpartacusFeaturesModule'
+          ) {
+            spartacusFeaturesModule = node;
+          }
+        }
+      }
+    }
+
+    node.forEachChild(visitor);
+  }
+
+  sourceFile.forEachChild(visitor);
+  return spartacusFeaturesModule;
 }
 
 function handleFeature<T extends LibraryOptions>(
-  appModulePath: string,
   options: T,
   config: FeatureConfig
 ): Rule {
