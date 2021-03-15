@@ -136,7 +136,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
    */
   extractProductCardParameters(): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      preventAction: true,
+      preventRemoveAction: true,
       productBoundValue: this.selectionValue,
       singleDropdown: true,
       withQuantity: false,

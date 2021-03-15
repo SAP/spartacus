@@ -210,17 +210,19 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   /**
    * Extract corresponding product card parameters
-   *
-   * @param {boolean} preventAction - Prevent action
+   * @param {boolean} preventAllActions - Prevent all actions, e.g. while loading
+   * @param {boolean} preventRemoveAction - Prevent remove action, e.g. if only value required attribute
    * @param {Configurator.Value} value - Value
    * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
    */
   extractProductCardParameters(
-    preventAction: boolean,
+    preventAllActions: boolean,
+    preventRemoveAction: boolean,
     value: Configurator.Value
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      preventAction: preventAction,
+      preventAllActions: preventAllActions,
+      preventRemoveAction: preventRemoveAction,
       productBoundValue: value,
       multiSelect: true,
       withQuantity: this.withQuantity,

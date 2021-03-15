@@ -26,7 +26,8 @@
     *ngFor="let value of attribute?.values"
     [productCardOptions]="
       extractProductCardParameters(
-        (preventAction$ | async) || (loading$ | async),
+        loading$ | async,
+        preventAction$ | async,
         value
       )
     "

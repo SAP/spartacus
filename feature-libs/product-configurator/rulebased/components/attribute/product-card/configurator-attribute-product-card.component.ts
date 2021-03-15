@@ -22,7 +22,8 @@ export interface ProductExtended extends Product {
 }
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
-  preventAction?: boolean;
+  preventAllActions?: boolean;
+  preventRemoveAction?: boolean;
   multiSelect?: boolean;
   productBoundValue?: Configurator.Value;
   singleDropdown?: boolean;
@@ -158,7 +159,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     };
 
     return {
-      allowZero: !this.productCardOptions?.preventAction,
+      allowZero: !this.productCardOptions?.preventRemoveAction,
       initialQuantity: initialQuantity,
       disableQuantityActions: this.loading$,
     };
