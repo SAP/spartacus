@@ -7,6 +7,7 @@ import {
   WorkspaceProject,
 } from '@schematics/angular/utility/workspace-models';
 import * as path from 'path';
+import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import {
   buildDefaultPath,
   getProjectFromWorkspace,
@@ -32,8 +33,9 @@ describe('Workspace utils', () => {
     skipTests: false,
     projectRoot: '',
   };
-  const defaultOptions = {
+  const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
+    configuration: 'b2c',
   };
 
   beforeEach(async () => {

@@ -17,7 +17,7 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import {
   addLibraryFeature,
   addPackageJsonDependencies,

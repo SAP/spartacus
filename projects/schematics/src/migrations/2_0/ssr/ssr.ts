@@ -23,7 +23,7 @@ import {
   NodeDependencyType,
   removePackageJsonDependency,
 } from '@schematics/angular/utility/dependencies';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import {
   ANGULAR_CORE,
   ANGULAR_UNIVERSAL_BUILDERS,

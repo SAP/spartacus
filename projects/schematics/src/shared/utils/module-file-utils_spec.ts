@@ -3,7 +3,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { UTF_8 } from '../constants';
 import { getPathResultsForFile } from './file-utils';
 import {

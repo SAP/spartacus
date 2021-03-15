@@ -29,6 +29,7 @@ describe('Spartacus Schematics: add-pwa', () => {
 
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
+    configuration: 'b2c',
   };
 
   beforeEach(async () => {

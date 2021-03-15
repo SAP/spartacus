@@ -35,6 +35,7 @@ describe('add-ssr', () => {
     project: 'schematics-test',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
+    configuration: 'b2c',
   };
 
   beforeEach(async () => {

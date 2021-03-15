@@ -3,6 +3,11 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_STYLES,
+} from '../shared';
 import { Schema as SpartacusOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -32,6 +37,7 @@ describe('add-spartacus', () => {
     occPrefix: 'xxx',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
+    configuration: 'b2c',
   };
 
   const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
@@ -61,9 +67,9 @@ describe('add-spartacus', () => {
     const packageJson = tree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
-    expect(depPackageList.includes('@spartacus/core')).toBe(true);
-    expect(depPackageList.includes('@spartacus/storefront')).toBe(true);
-    expect(depPackageList.includes('@spartacus/styles')).toBe(true);
+    expect(depPackageList.includes(SPARTACUS_CORE)).toBe(true);
+    expect(depPackageList.includes(SPARTACUS_STOREFRONTLIB)).toBe(true);
+    expect(depPackageList.includes(SPARTACUS_STYLES)).toBe(true);
   });
 
   it('Import Spartacus modules in app.module', async () => {

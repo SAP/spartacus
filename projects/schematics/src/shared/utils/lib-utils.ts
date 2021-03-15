@@ -12,7 +12,7 @@ import {
   addPackageJsonDependency,
   NodeDependency,
 } from '@schematics/angular/utility/dependencies';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import {
   PROVIDE_CONFIG_FUNCTION,
   PROVIDE_DEFAULT_CONFIG,
