@@ -30,7 +30,8 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
 export class ConfiguratorAttributeQuantityComponent
   implements OnDestroy, OnInit {
   quantity = new FormControl(1);
-  managedSubscriptions: Subscription = new Subscription();
+  optionsChangeSub: Subscription = new Subscription();
+  quantityChangeSub: Subscription = new Subscription();
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
   @Output() changeQuantity = new EventEmitter<Quantity>();
 
@@ -38,32 +39,38 @@ export class ConfiguratorAttributeQuantityComponent
 
   ngOnInit(): void {
     this.quantity.setValue(this.quantityOptions?.initialQuantity?.quantity);
-    // max to 2 changes are expected: 1) gets active, 2) gets disabled before update ==> take(2)
-    this.managedSubscriptions.add(
+    this.optionsChangeSub.add(
       this.quantityOptions.disableQuantityActions
-        ?.pipe(distinct(), take(2))
+        ?.pipe(distinct())
         .subscribe((disable) => {
+          // stepper always emits an value when it gets enabled regardless, if the original value was changed.
+          // so we subscribe to quantity change when stepper gets enabled and unsubscribe when it gets disbaled
+          // this way we will not get the unwanted emission on enabling the stepper.
           if (disable) {
             this.quantity.disable();
+            this.quantityChangeSub.unsubscribe();
           } else {
             this.quantity.enable();
+            this.quantityChangeSub.add(this.subscribeToQuantityChange());
           }
         })
     );
-    this.managedSubscriptions.add(
-      this.quantity.valueChanges
-        .pipe(
-          debounce(() =>
-            timer(this.config?.rulebasedConfigurator?.quantityDebounceTime)
-          ),
-          take(1)
-        )
-        .subscribe(() => this.onChangeQuantity())
-    );
+  }
+
+  subscribeToQuantityChange() {
+    return this.quantity.valueChanges
+      .pipe(
+        debounce(() =>
+          timer(this.config?.rulebasedConfigurator?.quantityDebounceTime)
+        ),
+        take(1)
+      )
+      .subscribe(() => this.onChangeQuantity());
   }
 
   ngOnDestroy() {
-    this.managedSubscriptions.unsubscribe();
+    this.optionsChangeSub.unsubscribe();
+    this.quantityChangeSub.unsubscribe();
   }
 
   onChangeQuantity(): void {

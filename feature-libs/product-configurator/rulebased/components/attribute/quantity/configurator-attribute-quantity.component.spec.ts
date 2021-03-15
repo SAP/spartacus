@@ -123,6 +123,17 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
     discardPeriodicTasks();
   }));
 
+  it('should not emit initial quantity just because it gets disabled in between', fakeAsync(() => {
+    const subject = new BehaviorSubject(false);
+    initializeWithObs(subject);
+    subject.next(true);
+    subject.next(false);
+    tick(fakeDebounceTime + 10);
+
+    expect(component.changeQuantity.emit).not.toHaveBeenCalled();
+    discardPeriodicTasks();
+  }));
+
   it('should not emit same quantity twice just because it gets enabled multiple times', fakeAsync(() => {
     const subject = new BehaviorSubject(false);
     initializeWithObs(subject);
