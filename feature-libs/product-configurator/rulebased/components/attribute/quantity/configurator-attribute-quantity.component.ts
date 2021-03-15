@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -27,8 +26,7 @@ export interface ConfiguratorAttributeQuantityComponentOptions {
   templateUrl: './configurator-attribute-quantity.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeQuantityComponent
-  implements OnDestroy, OnInit {
+export class ConfiguratorAttributeQuantityComponent implements OnInit {
   quantity = new FormControl(1);
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
   @Output() changeQuantity = new EventEmitter<Quantity>();
@@ -56,8 +54,6 @@ export class ConfiguratorAttributeQuantityComponent
       )
       .subscribe(() => this.onChangeQuantity());
   }
-
-  ngOnDestroy() {}
 
   onChangeQuantity(): void {
     this.changeQuantity.emit({
