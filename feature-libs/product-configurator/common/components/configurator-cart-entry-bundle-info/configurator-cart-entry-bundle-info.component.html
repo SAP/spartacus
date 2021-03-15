@@ -1,43 +1,42 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
-  <ng-container *ngIf="isBundleBasedConfigurator(orderEntry)">
-    <ng-container *ngIf="(numberOfLineItems$ | async) > 0">
-      <div class="cx-number-items">
-        {{
-          'configurator.header.items'
-            | cxTranslate: { param: numberOfLineItems$ | async }
-        }}
-      </div>
+  <ng-container
+    *ngIf="
+      isBundleBasedConfigurator(orderEntry) && (numberOfLineItems$ | async) > 0
+    "
+  >
+    <div class="cx-number-items">
+      {{
+        'configurator.header.items'
+          | cxTranslate: { param: numberOfLineItems$ | async }
+      }}
+    </div>
 
-      <a role="link" (click)="toggleItems()" tabindex="0">
+    <a role="link" (click)="toggleItems()" tabindex="0">
+      <div class="cx-toggle-hide-items">
         <ng-container *ngIf="hideItems">
-          <div class="cx-toggle-hide-items">
-            {{ 'configurator.header.show' | cxTranslate }}
-          </div>
+          {{ 'configurator.header.show' | cxTranslate }}
         </ng-container>
-
         <ng-container *ngIf="!hideItems">
-          <div class="cx-toggle-hide-items">
-            {{ 'configurator.header.hide' | cxTranslate }}
-          </div>
+          {{ 'configurator.header.hide' | cxTranslate }}
         </ng-container>
-      </a>
-
-      <div class="cx-item-infos" [class.open]="!hideItems">
-        <div
-          class="cx-item-info"
-          *ngFor="let lineItem of retrieveLineItems(orderEntry)"
-        >
-          <div class="cx-item-name">
-            <a href="#">{{ lineItem?.name }}</a>
-          </div>
-          <div class="cx-item-price">
-            {{ lineItem?.formattedPrice }}
-          </div>
-          <div class="cx-item-quantity"></div>
-          {{ lineItem?.formattedQuantity }}
-        </div>
       </div>
-    </ng-container>
+    </a>
+
+    <div class="cx-item-infos" [class.open]="!hideItems">
+      <div
+        class="cx-item-info"
+        *ngFor="let lineItem of retrieveLineItems(orderEntry)"
+      >
+        <div class="cx-item-name">
+          <a href="#">{{ lineItem?.name }}</a>
+        </div>
+        <div class="cx-item-price">
+          {{ lineItem?.formattedPrice }}
+        </div>
+        <div class="cx-item-quantity"></div>
+        {{ lineItem?.formattedQuantity }}
+      </div>
+    </div>
   </ng-container>
 
   <cx-configure-cart-entry

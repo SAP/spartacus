@@ -47,22 +47,22 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   /**
    * Retrieves the line items for an order entry.
    *
-   * @param {OrderEntry} entry order entry
-   * @returns {LineItem[]} - array of line items
+   * @param {OrderEntry} entry - Order entry
+   * @returns {LineItem[]} - Array of line items
    */
   retrieveLineItems(entry: OrderEntry): LineItem[] {
     return this.configCartEntryBundleInfoService.retrieveLineItems(entry);
   }
 
   /**
-   * Verifies whether the configurator type is bundle based one.
+   * Verifies whether the configurator type is a bundle based one.
    *
-   * @param {OrderEntry} item - Order entry item
+   * @param {OrderEntry} entry - Order entry
    * @returns {boolean} - 'True' if the expected configurator type, otherwise 'false'
    */
-  isBundleBasedConfigurator(item: OrderEntry): boolean {
+  isBundleBasedConfigurator(entry: OrderEntry): boolean {
     return this.commonConfigUtilsService.isBundleBasedConfigurator(
-      item?.configurationInfos[0]?.configuratorType
+      entry?.configurationInfos[0]?.configuratorType
     );
   }
 }

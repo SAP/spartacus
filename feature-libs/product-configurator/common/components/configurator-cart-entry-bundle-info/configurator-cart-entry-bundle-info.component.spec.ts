@@ -134,9 +134,14 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
         statusSummaryList: null,
-        configurationInfos: null,
+        configurationInfos: [
+          {
+            configuratorType: 'ANOTHERCPQCONFIGURATOR',
+          },
+        ],
       });
       mockCartItemContext.readonly$.next(false);
+      fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
