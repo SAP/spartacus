@@ -220,18 +220,16 @@ fdescribe('Multi Cart reducer', () => {
         const state = fromMultiCart.cartEntitiesReducer(initialState, action);
         expect(state).toEqual(payload.cart);
       });
+
     });
 
     describe('LOAD_CARTS_SUCCESS action', () => {
       it('should set cart in state', () => {
-        const initialState = {};
-        const payload = testCart;
+        const initialState = fromMultiCart.cartEntitiesInitialState;
+        const payload = [testCart];
         const action = new CartActions.LoadCartsSuccess(payload);
         const state = fromMultiCart.cartEntitiesReducer(initialState, action);
-        // TODO: renuchan figure out the best way for types
-        // the carts success takes an arrays of Cart, but outputs a single cart at a time
-        // note: state is of type Cart, so you can't do what you had earlier like state[0].code
-        expect(state).toEqual(payload);
+        expect(state).toEqual(testCart);
       });
     });
 
