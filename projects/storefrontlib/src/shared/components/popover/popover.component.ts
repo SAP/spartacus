@@ -65,9 +65,9 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   customClass? = 'cx-popover';
 
   /**
-   * Flag used to hide close button in popover component.
+   * Flag used to show/hide close button in popover component.
    */
-  displayCloseButton? = true;
+  displayCloseButton?: boolean;
 
   /**
    * Flag which indicates if passed content is a TemplateRef or string.

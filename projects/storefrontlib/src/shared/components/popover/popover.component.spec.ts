@@ -14,6 +14,7 @@ const mockPopoverPosition = 'top';
 const mockPopoverProperties = {
   content: 'Test content',
   customClass: 'test-class',
+  displayCloseButton: true,
   triggerElement: new ElementRef('a'),
 };
 

@@ -156,9 +156,9 @@ export class PopoverDirective {
       componentInstance.content = this.cxPopover;
       componentInstance.triggerElement = this.element;
       componentInstance.popoverInstance = this.popoverContainer;
+      componentInstance.focusConfig = this.focusConfig;
       componentInstance.position = this.cxPopoverOptions?.placement;
       componentInstance.customClass = this.cxPopoverOptions?.class;
-      componentInstance.focusConfig = this.focusConfig;
       componentInstance.appendToBody = this.cxPopoverOptions?.appendToBody;
       componentInstance.positionOnScroll = this.cxPopoverOptions?.positionOnScroll;
       componentInstance.displayCloseButton = this.cxPopoverOptions?.displayCloseButton;
