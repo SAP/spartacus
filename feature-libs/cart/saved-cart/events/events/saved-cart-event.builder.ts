@@ -9,17 +9,8 @@ import {
   MultiCartService,
   StateEventService,
 } from '@spartacus/core';
-import {
-  DeleteCart,
-  DeleteCartFail,
-  DeleteCartSuccess,
-} from 'projects/core/src/cart/store/actions/cart.action';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import {
-  SaveCart,
-  SaveCartFail,
-} from '../../core/store/actions/saved-cart.action';
 import { SavedCartActions } from '../../core/store/index';
 import {
   DeleteSavedCartEvent,
@@ -86,7 +77,7 @@ export class SavedCartEventBuilder {
     this.stateEventService.register({
       action: CartActions.DELETE_CART,
       event: DeleteSavedCartEvent,
-      factory: (action: DeleteCart) =>
+      factory: (action: CartActions.DeleteCart) =>
         createFrom(DeleteSavedCartEvent, {
           ...action.payload,
           cartCode: action.payload.cartId,
@@ -96,7 +87,7 @@ export class SavedCartEventBuilder {
     this.stateEventService.register({
       action: CartActions.DELETE_CART_SUCCESS,
       event: DeleteSavedCartSuccessEvent,
-      factory: (action: DeleteCartSuccess) =>
+      factory: (action: CartActions.DeleteCartSuccess) =>
         createFrom(DeleteSavedCartSuccessEvent, {
           ...action.payload,
           cartCode: action.payload.cartId,
@@ -106,7 +97,7 @@ export class SavedCartEventBuilder {
     this.stateEventService.register({
       action: CartActions.DELETE_CART_FAIL,
       event: DeleteSavedCartFailEvent,
-      factory: (action: DeleteCartFail) =>
+      factory: (action: CartActions.DeleteCartFail) =>
         createFrom(DeleteSavedCartFailEvent, {
           ...action.payload,
           cartCode: action.payload.cartId,
@@ -126,7 +117,7 @@ export class SavedCartEventBuilder {
     this.stateEventService.register({
       action: SavedCartActions.SAVE_CART_FAIL,
       event: SaveCartFailEvent,
-      factory: (action: SaveCartFail) =>
+      factory: (action: SavedCartActions.SaveCartFail) =>
         createFrom(SaveCartFailEvent, {
           ...action.payload,
           cartCode: action.payload.cartId,
@@ -136,7 +127,7 @@ export class SavedCartEventBuilder {
     this.stateEventService.register({
       action: SavedCartActions.SAVE_CART,
       event: SaveCartEvent,
-      factory: (action: SaveCart) => {
+      factory: (action: SavedCartActions.SaveCart) => {
         return createFrom(SaveCartEvent, {
           ...action.payload,
           cartCode: action.payload.cartId,
