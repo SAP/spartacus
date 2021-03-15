@@ -24,7 +24,7 @@ const savedCart: Cart = {
   code: 'mock',
 };
 
-fdescribe('Cart Actions', () => {
+describe('Cart Actions', () => {
   describe('CreateCart Actions', () => {
     describe('CreateCart', () => {
       it('should create the action', () => {
