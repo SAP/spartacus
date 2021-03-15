@@ -93,16 +93,12 @@ cx-saved-cart-list {
 
       .cx-saved-cart-list-value {
         text-decoration: underline;
-        color: var(--cx-color-primary);
       }
     }
 
     .cx-saved-cart-list-make-cart-active {
       .cx-saved-cart-make-active {
-        text-transform: uppercase;
         text-decoration: underline;
-        font-size: 1rem;
-        color: var(--cx-color-primary);
       }
     }
 
@@ -113,7 +109,6 @@ cx-saved-cart-list {
     }
 
     .cx-saved-cart-list-label {
-      text-transform: uppercase;
       color: var(--cx-color-secondary);
 
       @include media-breakpoint-down(md) {
