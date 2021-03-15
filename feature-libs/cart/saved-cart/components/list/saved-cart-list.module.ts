@@ -9,6 +9,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { ListNavigationModule } from '@spartacus/storefront';
+import { TruncateTextWithPopoverModule } from 'projects/storefrontlib/src/shared/components/truncate-text-with-popover';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 @NgModule({
@@ -18,6 +19,7 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     RouterModule,
     ListNavigationModule,
     I18nModule,
+    TruncateTextWithPopoverModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

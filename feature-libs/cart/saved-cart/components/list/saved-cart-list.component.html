@@ -90,8 +90,12 @@
                   } | cxUrl
                 "
                 class="cx-saved-cart-list-value"
-                >{{ savedCart?.description }}</a
               >
+                <cx-truncate-text-with-popover
+                  [content]="savedCart?.description"
+                  [maxLength]="50"
+                ></cx-truncate-text-with-popover>
+              </a>
             </td>
 
             <td class="cx-saved-cart-list-quantity">

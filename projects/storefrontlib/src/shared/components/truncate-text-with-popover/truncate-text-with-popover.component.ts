@@ -16,4 +16,13 @@ export class TruncateTextWithPopoverComponent {
    * Maximum length of the string to be rendered as static.
    */
   @Input() maxLength: number = 100;
+
+  get isLengthExceed(): boolean {
+    return this.content.length > +this.maxLength;
+  }
+
+  stopPropagation(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+  }
 }
