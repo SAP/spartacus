@@ -9,6 +9,7 @@ import {
 } from './checkout-forms';
 import { navigation } from './navigation';
 import Chainable = Cypress.Chainable;
+import * as globalMessage from './global-message';
 
 const shippingAddressData: AddressData = user;
 const billingAddress: AddressData = user;
@@ -128,13 +129,6 @@ export function goToCart(shopName: string) {
 export function checkLoadingMsgNotDisplayed(): void {
   cy.log('Wait until the loading notification is not displayed anymore');
   cy.get('cx-storefront').contains('Loading').should('not.be.visible');
-}
-
-/**
- * Verifies whether the global message is not displayed on the top of the configuration.
- */
-export function checkGlobalMessageNotDisplayed(): void {
-  cy.get('cx-global-message').should('not.be.visible');
 }
 
 /**
@@ -269,7 +263,7 @@ export function clickOnPreviousBtn(previousGroup: string): void {
  */
 export function checkConfigPageDisplayed(): void {
   //checkLoadingMsgNotDisplayed();
-  checkGlobalMessageNotDisplayed();
+  checkSuccessMessageNotDisplayed();
   checkTabBarDisplayed();
   checkGroupTitleDisplayed();
   checkGroupFormDisplayed();
@@ -570,7 +564,12 @@ export function selectAttribute(
     case 'checkBoxListProduct':
       const btnLoc = `#${valueId} .cx-product-card-action button`;
       cy.get(btnLoc).then((el) => cy.log(`text before click: '${el.text()}'`));
-      cy.get(btnLoc).click({ force: true });
+      cy.get(btnLoc)
+        .click({ force: true })
+        .then(() => {
+          checkUpdatingMessageNotDisplayed();
+          checkValueSelected(uiType, attributeName, valueName);
+        });
       break;
     default:
       throw new AssertionError({
@@ -839,7 +838,8 @@ export function checkNotificationBanner(
   element,
   numberOfIssues?: number
 ): void {
-  const resolveIssuesText = 'must be resolved before checkout.  Resolve Issues';
+  const resolveIssuesText =
+    'issues must be resolved before checkout.  Resolve Issues';
   element
     .get('.cx-error-msg')
     .first()
@@ -1080,9 +1080,9 @@ export function clickAddToCartBtn(): void {
     .then(() => {
       cy.location('pathname').should('contain', 'cartEntry/entityKey/');
       checkUpdatingMessageNotDisplayed();
-      checkGlobalMessageNotDisplayed();
+      checkSuccessMessageNotDisplayed();
       checkUpdatingMessageNotDisplayed();
-      checkGlobalMessageNotDisplayed();
+      checkSuccessMessageNotDisplayed();
     });
 }
 
@@ -1325,4 +1325,38 @@ export function login(email: string, password: string, name: string): void {
  */
 export function waitForProductCardsLoad(expectedLength: number) {
   cy.get('.cx-product-card').should('have.length', expectedLength);
+}
+/**
+ * Check for global error message to be shown
+ */
+export function checkGlobalErrorMessageShown() {
+  globalMessage.getErrorAlert().should('be.visible');
+}
+
+/**
+ * Check for global warning message to be shown
+ */
+export function checkWarningMessageShown() {
+  globalMessage.getAlert().should('be.visible');
+}
+
+/**
+ * Verifies whether the global success message is not displayed on the top of the configuration.
+ */
+export function checkSuccessMessageNotDisplayed(): void {
+  globalMessage.getSuccessAlert().should('not.be.visible');
+}
+
+/**
+ * Close global error messages
+ */
+export function closeErrorMessages() {
+  cy.get('.alert-danger .close').click({ multiple: true, force: true });
+}
+
+/**
+ * Close global warning messages
+ */
+export function closeWarningMessages() {
+  cy.get('.alert-warning .close').click({ multiple: true, force: true });
 }

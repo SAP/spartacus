@@ -111,7 +111,9 @@ export class CpqConfiguratorRestService {
     tabReqResultList: Cpq.Configuration[]
   ): Cpq.Configuration {
     const ovConfig = {
-      ...tabReqResultList[0],
+      // first tab will be the current tab. It might not contain all error messages (bug in CPQ). So we just use the last tab.
+      // this whole logic will be obsolete, as soon as CPQ provides and API to fetch everything.
+      ...tabReqResultList[tabReqResultList.length - 1],
     };
     ovConfig.attributes = undefined;
     ovConfig.tabs = [];

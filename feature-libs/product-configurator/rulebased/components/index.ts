@@ -7,6 +7,7 @@ export * from './form/index';
 export * from './group-menu/index';
 export * from './group-title/index';
 export * from './overview-attribute/index';
+export * from './overview-bundle-attribute/index';
 export * from './overview-form/index';
 export * from './overview-notification-banner/index';
 export * from './previous-next-buttons/index';
