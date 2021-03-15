@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CommandService } from '@spartacus/core';
+import { CommandService, CommandStrategy } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { UserProfileService } from './user-profile.service';
@@ -24,7 +24,10 @@ export class UserEmailService implements UserEmailFacade {
         switchMap(({ uid }) =>
           this.userProfileConnector.updateEmail(uid, payload.password, payload.newUid)
         )
-      )
+      ),
+    {
+      strategy: CommandStrategy.Queue
+    }
   );
 
   /**

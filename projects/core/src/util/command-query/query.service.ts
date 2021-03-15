@@ -31,9 +31,9 @@ export interface QueryState<T> {
   data: T | undefined;
 }
 
-export interface Query<T> {
-  get(): Observable<T>;
-  getState(): Observable<QueryState<T>>;
+export interface Query<T, P extends any[] = []> {
+  get(...params: P): Observable<T | undefined>;
+  getState(...params: P): Observable<QueryState<T>>;
 }
 
 @Injectable({
@@ -109,7 +109,7 @@ export class QueryService implements OnDestroy {
 
     const data$ = query$.pipe(pluck('data'), distinctUntilChanged());
 
-    return { get: () => data$, getState: () => state$ };
+    return { get: () => data$, getState: () => query$ };
   }
 
   protected getTriggersStream(triggers: QueryNotifier[]): Observable<any> {

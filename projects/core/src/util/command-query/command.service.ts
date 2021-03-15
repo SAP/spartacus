@@ -4,6 +4,7 @@ import {
   catchError,
   concatMap,
   finalize,
+  map,
   mergeMap,
   retry,
   switchMap,
@@ -41,15 +42,6 @@ export class CommandService implements OnDestroy {
     let process$: Observable<any>;
 
     switch (options?.strategy) {
-      case CommandStrategy.Queue:
-        process$ = zip(commands$, results$).pipe(
-          concatMap(([command, notifier$]) =>
-            loading(command).pipe(tap(notifier$))
-          ),
-          retry()
-        );
-        break;
-
       case CommandStrategy.CancelPrevious:
       case CommandStrategy.ErrorPrevious:
         process$ = zip(commands$, results$).pipe(
@@ -68,13 +60,23 @@ export class CommandService implements OnDestroy {
         break;
 
       case CommandStrategy.Parallel:
-      default:
         process$ = zip(commands$, results$).pipe(
           mergeMap(([command, notifier$]) =>
             loading(command).pipe(tap(notifier$))
           ),
           retry()
         );
+        break;
+
+      case CommandStrategy.Queue:
+      default:
+        process$ = zip(commands$, results$).pipe(
+          concatMap(([command, notifier$]) =>
+            loading(command).pipe(tap(notifier$))
+          ),
+          retry()
+        );
+        break;
     }
 
     this.subscriptions.add(process$.subscribe());
@@ -89,13 +91,19 @@ export class CommandService implements OnDestroy {
     };
   }
 
-  createOld<P = undefined, R = unknown>(
-    loading: (trigger: Observable<[P, Subject<R>]>) => Observable<any>
+  createFlow<P = undefined, R = unknown>(
+    loading: (
+      trigger: Observable<{ payload: P; notifier: Subject<R> }>
+    ) => Observable<any>
   ): Command<P, R> {
     const commands$ = new Subject<P>();
-    const results$ = new Subject<Subject<R>>();
+    const notifiers$ = new Subject<Subject<R>>();
 
-    const process$ = loading(zip(commands$, results$));
+    const process$ = loading(
+      zip(commands$, notifiers$).pipe(
+        map(([payload, notifier]) => ({ payload, notifier }))
+      )
+    );
 
     this.subscriptions.add(
       process$
@@ -111,7 +119,7 @@ export class CommandService implements OnDestroy {
     return {
       execute: (parameters: P) => {
         const result = new Subject<R>();
-        results$.next(result);
+        notifiers$.next(result);
         commands$.next(parameters);
         return result;
       },

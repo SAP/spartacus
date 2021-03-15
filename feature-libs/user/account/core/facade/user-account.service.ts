@@ -14,7 +14,7 @@ export class UserAccountService implements UserAccountFacade {
         .takeUserId(true)
         .pipe(switchMap((userId) => this.userAccountConnector.get(userId))),
     {
-      reloadOn: [UserAccountChangedEvent, UserAccountChangedEvent],
+      reloadOn: [UserAccountChangedEvent],
       resetOn: [LogoutEvent],
     }
   );
