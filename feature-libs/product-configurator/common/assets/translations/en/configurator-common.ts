@@ -11,6 +11,10 @@ export const configurator = {
       updateMessage: 'The configuration is being updated in the background',
       showMore: 'show more',
       showLess: 'show less',
+      items: '{{count}} item',
+      items_plural: '{{count}} items',
+      show: 'show',
+      hide: 'hide',
     },
     tabBar: {
       configuration: 'Configuration',
