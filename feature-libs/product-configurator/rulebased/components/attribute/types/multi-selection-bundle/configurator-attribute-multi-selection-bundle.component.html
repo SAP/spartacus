@@ -25,7 +25,10 @@
     (handleSelect)="onSelect($event)"
     *ngFor="let value of attribute?.values"
     [productCardOptions]="
-      extractProductCardParameters(preventAction$ | async, value)
+      extractProductCardParameters(
+        (preventAction$ | async) || (loading$ | async),
+        value
+      )
     "
   >
   </cx-configurator-attribute-product-card>
