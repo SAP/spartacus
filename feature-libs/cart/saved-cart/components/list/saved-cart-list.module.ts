@@ -8,7 +8,10 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { ListNavigationModule } from '@spartacus/storefront';
+import {
+  ListNavigationModule,
+  TruncateTextWithPopoverModule,
+} from '@spartacus/storefront';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 @NgModule({
@@ -18,6 +21,7 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     RouterModule,
     ListNavigationModule,
     I18nModule,
+    TruncateTextWithPopoverModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
