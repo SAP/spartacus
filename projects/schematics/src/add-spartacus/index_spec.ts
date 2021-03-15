@@ -2,12 +2,17 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
 import * as path from 'path';
 import {
+  SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
-} from '../shared';
+} from '../shared/constants';
 import { Schema as SpartacusOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -23,12 +28,12 @@ describe('add-spartacus', () => {
     version: '0.5.0',
   };
 
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
   };
 
@@ -72,7 +77,7 @@ describe('add-spartacus', () => {
     expect(depPackageList.includes(SPARTACUS_STYLES)).toBe(true);
   });
 
-  it('Import Spartacus modules in app.module', async () => {
+  it('Import SpartacusModule in app.module', async () => {
     const tree = await schematicRunner
       .runSchematicAsync('add-spartacus', defaultOptions, appTree)
       .toPromise();
@@ -81,10 +86,9 @@ describe('add-spartacus', () => {
     );
     expect(
       appModule.includes(
-        `import { B2cStorefrontModule } from '@spartacus/storefront';`
+        `import { SpartacusModule } from './spartacus/spartacus.module';`
       )
     ).toBe(true);
-    expect(appModule.includes('B2cStorefrontModule.withConfig')).toBe(true);
   });
 
   describe('Setup configuration', () => {
@@ -97,7 +101,7 @@ describe('add-spartacus', () => {
         )
         .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/app/app.module.ts'
+        `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
       expect(appModule.includes(`baseUrl: 'test-url'`)).toBe(true);
     });
@@ -111,7 +115,7 @@ describe('add-spartacus', () => {
         )
         .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/app/app.module.ts'
+        `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
       expect(appModule.includes(`prefix: '/occ/v2/'`)).toBe(true);
     });
@@ -121,7 +125,7 @@ describe('add-spartacus', () => {
         .runSchematicAsync('add-spartacus', { ...defaultOptions }, appTree)
         .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/app/app.module.ts'
+        `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
       expect(appModule.includes(`prefix: '/occ/v2/'`)).toBe(false);
     });
@@ -135,7 +139,7 @@ describe('add-spartacus', () => {
         )
         .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/app/app.module.ts'
+        `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
       expect(appModule.includes(`level: '1.5'`)).toBe(true);
     });
@@ -165,7 +169,7 @@ describe('add-spartacus', () => {
             )
             .toPromise();
           const appModule = tree.readContent(
-            '/projects/schematics-test/src/app/app.module.ts'
+            `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
           );
           expect(appModule.includes(`baseSite: ['test-site']`)).toBe(true);
         });
@@ -183,7 +187,7 @@ describe('add-spartacus', () => {
             )
             .toPromise();
           const appModule = tree.readContent(
-            '/projects/schematics-test/src/app/app.module.ts'
+            `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
           );
 
           expect(
@@ -206,7 +210,7 @@ describe('add-spartacus', () => {
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
         expect(appModule.includes(`baseSite: [`)).toBeFalsy();
@@ -225,7 +229,7 @@ describe('add-spartacus', () => {
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
         expect(appModule.includes(`currency: ['USD']`)).toBe(true);
@@ -242,7 +246,7 @@ describe('add-spartacus', () => {
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
         expect(appModule.includes(`currency: ['RSD']`)).toBe(true);
@@ -259,7 +263,7 @@ describe('add-spartacus', () => {
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
         expect(appModule.includes(`currency: ['CAD', 'RSD']`)).toBe(true);
@@ -277,7 +281,7 @@ describe('add-spartacus', () => {
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
         expect(appModule.includes(`language: ['en']`)).toBe(true);
@@ -288,16 +292,16 @@ describe('add-spartacus', () => {
             'add-spartacus',
             {
               ...defaultOptions,
-              language: 'SR',
+              language: 'RS',
             },
             appTree
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
-        expect(appModule.includes(`language: ['sr']`)).toBe(true);
+        expect(appModule.includes(`language: ['rs']`)).toBe(true);
       });
       it('should set multiple languages', async () => {
         const tree = await schematicRunner
@@ -305,16 +309,16 @@ describe('add-spartacus', () => {
             'add-spartacus',
             {
               ...defaultOptions,
-              language: 'EN,SR',
+              language: 'EN,RS',
             },
             appTree
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
-        expect(appModule.includes(`language: ['en', 'sr']`)).toBe(true);
+        expect(appModule.includes(`language: ['en', 'rs']`)).toBe(true);
       });
     });
 
@@ -328,22 +332,21 @@ describe('add-spartacus', () => {
               baseSite:
                 'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
               currency: 'CAD,rsd',
-              language: 'EN,SR',
+              language: 'EN,RS',
             },
             appTree
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
+        expect(appModule.includes(`currency: ['CAD', 'RSD'],`)).toBe(true);
+        expect(appModule.includes(`language: ['en', 'rs'],`)).toBe(true);
         expect(
-          appModule.includes(`
-      context: {
-        currency: ['CAD', 'RSD'],
-        language: ['en', 'sr'],
-        baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de']
-      },`)
+          appModule.includes(
+            `baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de']`
+          )
         ).toBe(true);
       });
     });
