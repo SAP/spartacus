@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { filter, map, take } from 'rxjs/operators';
 import { BaseSite } from '../../../model/misc.model';
+import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
 import { SERVER_REQUEST_URL } from '../../../util/ssr.tokens';
 import { BaseSiteService } from '../../facade/base-site.service';
 import {
@@ -22,6 +23,7 @@ import { SiteContextConfig } from '../site-context-config';
 export class SiteContextConfigLoaderService {
   constructor(
     protected baseSiteService: BaseSiteService,
+    protected javaRegExpConverter: JavaRegExpConverter,
     @Inject(PLATFORM_ID) protected platform?: any,
     @Inject(DOCUMENT) protected document?: any,
     @Optional()
@@ -29,18 +31,16 @@ export class SiteContextConfigLoaderService {
     protected serverRequestUrl?: string
   ) {}
 
-  private get currentUrl(): string | undefined {
+  private get currentUrl(): string {
     if (isPlatformBrowser(this.platform)) {
       return this.document.location.href;
     }
-    if (this.serverRequestUrl) {
-      return this.serverRequestUrl;
-    }
-    if (isDevMode()) {
+    if (!this.serverRequestUrl && isDevMode()) {
       console.error(
         `Please provide token 'SERVER_REQUEST_URL' with the requested URL for SSR`
       );
     }
+    return this.serverRequestUrl as string;
   }
 
   /**
@@ -88,9 +88,11 @@ export class SiteContextConfigLoaderService {
   }
 
   private isCurrentBaseSite(site: BaseSite): boolean {
-    const index = (site.urlPatterns || []).findIndex((jsRegexp: any) => {
+    const index = (site.urlPatterns || []).findIndex((javaRegexp: string) => {
+      const jsRegexp = this.javaRegExpConverter.toJsRegExp(javaRegexp);
       if (jsRegexp) {
-        return jsRegexp.test(this.currentUrl || '');
+        const result = jsRegexp.test(this.currentUrl);
+        return result;
       }
     });
 

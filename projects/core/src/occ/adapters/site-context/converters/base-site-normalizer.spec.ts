@@ -2,11 +2,9 @@ import { inject, TestBed } from '@angular/core/testing';
 import { BaseSite, BaseStore } from '../../../../model/misc.model';
 import { Occ } from '../../../occ-models/occ.models';
 import { BaseSiteNormalizer } from './base-site-normalizer';
-import { JavaRegExpConverter } from './java-reg-exp-converter';
 
 describe('BaseSiteNormalizer', () => {
   let service: BaseSiteNormalizer;
-  let javaRegExpConverter: JavaRegExpConverter;
 
   const store: BaseStore = {
     languages: [{ isocode: 'de' }, { isocode: 'en' }],
@@ -30,19 +28,10 @@ describe('BaseSiteNormalizer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        BaseSiteNormalizer,
-        {
-          provide: JavaRegExpConverter,
-          useValue: {
-            toJsRegExp: jasmine.createSpy().and.callFake((x) => new RegExp(x)),
-          },
-        },
-      ],
+      providers: [BaseSiteNormalizer],
     });
 
     service = TestBed.inject(BaseSiteNormalizer);
-    javaRegExpConverter = TestBed.inject(JavaRegExpConverter);
   });
 
   it('should inject BaseSiteNormalizer', inject(
@@ -55,6 +44,5 @@ describe('BaseSiteNormalizer', () => {
   it('should convert base site', () => {
     const result = service.convert(baseSite);
     expect(result).toEqual(convertedBaseSite);
-    expect(javaRegExpConverter.toJsRegExp).toHaveBeenCalledWith('testUrl1');
   });
 });

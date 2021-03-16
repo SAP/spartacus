@@ -112,8 +112,7 @@ export interface BaseSite {
   theme?: string;
   uid?: string;
   stores?: BaseStore[];
-  // TODO: remove string[] in 4.0
-  urlPatterns?: string[] | (RegExp | null)[];
+  urlPatterns?: string[];
   urlEncodingAttributes?: string[];
   baseStore?: BaseStore;
 }

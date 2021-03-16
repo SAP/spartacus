@@ -8,7 +8,7 @@ import {
   LANGUAGE_CONTEXT_ID,
   THEME_CONTEXT_ID,
 } from '../../site-context/providers/context-ids';
-import { JavaRegExpConverter } from '../adapters/site-context/converters/java-reg-exp-converter';
+import { JavaRegExpConverter } from '../../util/java-reg-exp-converter/java-reg-exp-converter';
 import { Occ } from '../occ-models/occ.models';
 import { OccLoadedConfig } from './occ-loaded-config';
 
