@@ -40,7 +40,7 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <h5
+      <a
         [attr.aria-label]="node.title"
         [attr.tabindex]="flyout && (depth === 0 || node.url) ? 0 : -1"
       >
@@ -49,7 +49,7 @@
           *ngIf="flyout && node.children?.length > 0"
           [type]="iconType.CARET_DOWN"
         ></cx-icon>
-      </h5>
+    </a>
     </ng-template>
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
