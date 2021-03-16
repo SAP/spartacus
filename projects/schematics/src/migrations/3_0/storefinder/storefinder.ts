@@ -65,7 +65,7 @@ export function migrate(): Rule {
           removeOldSetup(appModulePath),
 
           addStorefinderPackageJsonDependencies(packageJson),
-          addStorefinderFeature(appModulePath),
+          addStorefinderFeature(),
           installPackageJsonDependencies(),
         ])
       : noop();
@@ -142,9 +142,8 @@ function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
   return addPackageJsonDependencies(dependencies, packageJson);
 }
 
-function addStorefinderFeature(appModulePath: string): Rule {
+function addStorefinderFeature(): Rule {
   return addLibraryFeature(
-    appModulePath,
     { lazy: false, project: '', features: [CLI_STOREFINDER_FEATURE] },
     {
       name: STOREFINDER_FEATURE_NAME,

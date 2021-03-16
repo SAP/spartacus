@@ -11,7 +11,6 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependencies,
-  getAppModule,
   getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusProductConfiguratorOptions,
@@ -53,11 +52,9 @@ export function addProductConfiguratorFeatures(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options.project);
-
     return chain([
-      addProductConfiguratorRulebasedFeature(appModulePath, options),
-      addProductConfiguratorTextfieldFeature(appModulePath, options),
+      addProductConfiguratorRulebasedFeature(options),
+      addProductConfiguratorTextfieldFeature(options),
       addProductConfiguratorPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
@@ -65,10 +62,9 @@ export function addProductConfiguratorFeatures(
 }
 
 function addProductConfiguratorRulebasedFeature(
-  appModulePath: string,
   options: SpartacusProductConfiguratorOptions
 ): Rule {
-  return addLibraryFeature(appModulePath, options, {
+  return addLibraryFeature(options, {
     name: PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME,
     featureModule: {
       name: PRODUCT_CONFIGURATOR_RULEBASED_MODULE,
@@ -91,10 +87,9 @@ function addProductConfiguratorRulebasedFeature(
 }
 
 function addProductConfiguratorTextfieldFeature(
-  appModulePath: string,
   options: SpartacusProductConfiguratorOptions
 ): Rule {
-  return addLibraryFeature(appModulePath, options, {
+  return addLibraryFeature(options, {
     name: PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
     featureModule: {
       name: PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE,

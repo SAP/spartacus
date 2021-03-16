@@ -68,10 +68,10 @@ export function addSpartacusOrganization(
     return chain([
       updateAppModule(appModulePath),
       shouldAddFeature(options.features, CLI_ADMINISTRATION_FEATURE)
-        ? addAdministrationFeature(appModulePath, options)
+        ? addAdministrationFeature(options)
         : noop(),
       shouldAddFeature(options.features, CLI_ORDER_APPROVAL_FEATURE)
-        ? addOrderApprovalsFeature(appModulePath, options)
+        ? addOrderApprovalsFeature(options)
         : noop(),
       addOrganizationPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
@@ -157,11 +157,8 @@ function addOrganizationPackageJsonDependencies(packageJson: any): Rule {
   return addPackageJsonDependencies(dependencies, packageJson);
 }
 
-function addAdministrationFeature(
-  appModulePath: string,
-  options: SpartacusOrganizationOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
+function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
+  return addLibraryFeature(options, {
     name: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
     defaultConfig: {
       name: DEFAULT_B2B_OCC_CONFIG,
@@ -187,11 +184,8 @@ function addAdministrationFeature(
   });
 }
 
-function addOrderApprovalsFeature(
-  appModulePath: string,
-  options: SpartacusOrganizationOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
+function addOrderApprovalsFeature(options: SpartacusOrganizationOptions): Rule {
+  return addLibraryFeature(options, {
     name: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
     defaultConfig: {
       name: DEFAULT_B2B_OCC_CONFIG,

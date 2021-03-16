@@ -11,7 +11,6 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependencies,
-  getAppModule,
   getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusQualtricsOptions,
@@ -30,21 +29,16 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options.project);
-
     return chain([
-      addQualtricsFeature(appModulePath, options),
+      addQualtricsFeature(options),
       addQualtricsPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
 }
 
-function addQualtricsFeature(
-  appModulePath: string,
-  options: SpartacusQualtricsOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
+function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {
+  return addLibraryFeature(options, {
     name: QUALTRICS_FEATURE_NAME,
     featureModule: {
       name: QUALTRICS_MODULE,

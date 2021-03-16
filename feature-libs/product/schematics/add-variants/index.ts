@@ -6,42 +6,36 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  getAppModule,
   installPackageJsonDependencies,
+  LibraryOptions as SpartacusVariantsOptions,
   readPackageJson,
   validateSpartacusInstallation,
-  LibraryOptions as SpartacusVariantsOptions,
 } from '@spartacus/schematics';
-
 import {
+  SPARTACUS_VARIANTS,
+  SPARTACUS_VARIANTS_ASSETS,
+  SPARTACUS_VARIANTS_ROOT,
   VARIANTS_FEATURE_NAME,
   VARIANTS_MODULE,
   VARIANTS_ROOT_MODULE,
-  SPARTACUS_VARIANTS,
-  SPARTACUS_VARIANTS_ROOT,
-  SPARTACUS_VARIANTS_ASSETS,
-  VARIANTS_TRANSLATION_CHUNKS_CONFIG,
   VARIANTS_TRANSLATIONS,
+  VARIANTS_TRANSLATION_CHUNKS_CONFIG,
 } from './../constants';
 
 export function addVariantsFeatures(options: SpartacusVariantsOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
-    const appModulePath = getAppModule(tree, options.project);
 
     return chain([
-      addVariantsFeature(appModulePath, options),
+      addVariantsFeature(options),
       installPackageJsonDependencies(),
     ]);
   };
 }
 
-function addVariantsFeature(
-  appModulePath: string,
-  options: SpartacusVariantsOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
+function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
+  return addLibraryFeature(options, {
     name: VARIANTS_FEATURE_NAME,
     featureModule: {
       name: VARIANTS_MODULE,

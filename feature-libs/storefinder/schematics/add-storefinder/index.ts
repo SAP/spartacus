@@ -11,7 +11,6 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependencies,
-  getAppModule,
   getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusStorefinderOptions,
@@ -19,12 +18,12 @@ import {
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFINDER_ASSETS,
   SPARTACUS_STOREFINDER_ROOT,
-  STORE_FINDER_SCSS_FILE_NAME,
   STOREFINDER_FEATURE_NAME,
   STOREFINDER_MODULE,
   STOREFINDER_ROOT_MODULE,
-  STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
   STOREFINDER_TRANSLATIONS,
+  STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
+  STORE_FINDER_SCSS_FILE_NAME,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 
@@ -35,21 +34,16 @@ export function addStorefinderFeatures(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options.project);
-
     return chain([
-      addStorefinderFeature(appModulePath, options),
+      addStorefinderFeature(options),
       addStorefinderPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
 }
 
-function addStorefinderFeature(
-  appModulePath: string,
-  options: SpartacusStorefinderOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
+function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
+  return addLibraryFeature(options, {
     name: STOREFINDER_FEATURE_NAME,
     featureModule: {
       name: STOREFINDER_MODULE,

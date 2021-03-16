@@ -11,7 +11,6 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependencies,
-  getAppModule,
   getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusSmartEditOptions,
@@ -32,21 +31,16 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options.project);
-
     return chain([
-      addSmartEditFeature(appModulePath, options),
+      addSmartEditFeature(options),
       addSmartEditPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
 }
 
-function addSmartEditFeature(
-  appModulePath: string,
-  options: SpartacusSmartEditOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
+function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
+  return addLibraryFeature(options, {
     name: SMARTEDIT_FEATURE_NAME,
     featureModule: {
       name: SMARTEDIT_MODULE,
