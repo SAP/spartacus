@@ -6,6 +6,7 @@
   <cx-media
     class="cx-product-image"
     [container]="product.images?.PRIMARY"
+    format="product"
     [alt]="product.summary"
   ></cx-media>
 </a>
@@ -19,7 +20,6 @@
   <cx-star-rating
     *ngIf="product.averageRating"
     [rating]="product?.averageRating"
-    [disabled]="true"
   ></cx-star-rating>
   <div *ngIf="!product.averageRating">
     {{ 'productDetails.noReviews' | cxTranslate }}
@@ -37,8 +37,10 @@
   ></cx-variant-style-icons>
 </div>
 
-<cx-add-to-cart
-  *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
-  [showQuantity]="false"
-  [product]="product"
-></cx-add-to-cart>
+<ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
+  <cx-add-to-cart
+    *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
+    [showQuantity]="false"
+    [product]="product"
+  ></cx-add-to-cart>
+</ng-template>

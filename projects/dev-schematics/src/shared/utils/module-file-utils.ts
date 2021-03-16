@@ -6,7 +6,6 @@ import {
 import { InsertChange } from '@schematics/angular/utility/change';
 import {
   ANGULAR_CORE,
-  B2C_STOREFRONT_MODULE,
   commitChanges,
   getTsSourceFile,
   InsertDirection,
@@ -15,13 +14,15 @@ import * as ts from 'typescript';
 
 export function insertPropertyInStorefrontModuleCallExpression(
   host: Tree,
+  configModuleName: string,
   modulePath: string,
   insertion: string
 ): void {
   const appModuleSourceFile = getTsSourceFile(host, modulePath);
   const moduleElementImportsAST = getExistingStorefrontConfigNode(
     host,
-    modulePath
+    modulePath,
+    configModuleName
   );
   if (!moduleElementImportsAST) {
     return;
@@ -44,7 +45,8 @@ export function insertPropertyInStorefrontModuleCallExpression(
 
 export function getExistingStorefrontConfigNode(
   host: Tree,
-  modulePath: string
+  modulePath: string,
+  configModuleName: string
 ): ts.CallExpression | undefined {
   const appModuleSourceFile = getTsSourceFile(host, modulePath);
   const metadata = getDecoratorMetadata(
@@ -70,6 +72,6 @@ export function getExistingStorefrontConfigNode(
   return arrayLiteral.elements.filter(
     (node) =>
       ts.isCallExpression(node) &&
-      node.getFullText().indexOf(`${B2C_STOREFRONT_MODULE}.withConfig`) !== -1
+      node.getFullText().indexOf(`${configModuleName}.withConfig`) !== -1
   )[0] as ts.CallExpression;
 }

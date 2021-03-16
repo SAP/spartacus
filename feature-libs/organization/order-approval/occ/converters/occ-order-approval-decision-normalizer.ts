@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Converter, Occ } from '@spartacus/core';
 import { OrderApprovalDecision } from '../../core/model/order-approval.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccOrderApprovalDecisionNormalizer
   implements Converter<Occ.OrderApprovalDecision, OrderApprovalDecision> {
   constructor() {}
@@ -12,9 +14,7 @@ export class OccOrderApprovalDecisionNormalizer
     target?: OrderApprovalDecision
   ): OrderApprovalDecision {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-      };
+      target = { ...(source as any) };
     }
     return target;
   }

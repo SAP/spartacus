@@ -9,9 +9,9 @@ import createSpy = jasmine.createSpy;
 
 @Component({
   template: '<ng-content select="[actions]"></ng-content>',
-  selector: 'cx-organization-list',
+  selector: 'cx-org-list',
 })
-class MockOrganizationListComponent {}
+class MockListComponent {}
 
 class MockUnitTreeService {
   expandAll = createSpy('expandAll');
@@ -22,11 +22,12 @@ describe('UnitListComponent', () => {
   let component: UnitListComponent;
   let unitTreeService: UnitTreeService;
   let fixture: ComponentFixture<UnitListComponent>;
-  let expandAll: HTMLElement, collapseAll: HTMLElement;
+  let expandAll: HTMLElement;
+  let collapseAll: HTMLElement;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, UrlTestingModule],
-      declarations: [MockOrganizationListComponent, UnitListComponent],
+      declarations: [MockListComponent, UnitListComponent],
       providers: [
         {
           provide: UnitTreeService,
@@ -51,8 +52,8 @@ describe('UnitListComponent', () => {
   });
 
   it('should render links', () => {
-    expect(expandAll.innerText).toEqual('unit.tree.expandAll');
-    expect(collapseAll.innerText).toEqual('unit.tree.collapseAll');
+    expect(expandAll.innerText).toEqual('orgUnit.tree.expandAll');
+    expect(collapseAll.innerText).toEqual('orgUnit.tree.collapseAll');
   });
 
   it('should call expandAll', () => {

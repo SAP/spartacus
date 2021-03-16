@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
 import { AnonymousConsentLaunchDialogService } from '../anonymous-consent-launch-dialog.service';
@@ -19,27 +19,29 @@ describe('AnonymousConsentOpenDialogComponent', () => {
   let fixture: ComponentFixture<AnonymousConsentOpenDialogComponent>;
   let anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [AnonymousConsentOpenDialogComponent],
-      providers: [
-        {
-          provide: ModalService,
-          useClass: MockModalService,
-        },
-        {
-          provide: AnonymousConsentLaunchDialogService,
-          useClass: MockAnonymousConsentLaunchDialogService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [AnonymousConsentOpenDialogComponent],
+        providers: [
+          {
+            provide: ModalService,
+            useClass: MockModalService,
+          },
+          {
+            provide: AnonymousConsentLaunchDialogService,
+            useClass: MockAnonymousConsentLaunchDialogService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AnonymousConsentOpenDialogComponent);
     component = fixture.componentInstance;
-    anonymousConsentLaunchDialogService = TestBed.get(
+    anonymousConsentLaunchDialogService = TestBed.inject(
       AnonymousConsentLaunchDialogService
     );
 

@@ -8,7 +8,7 @@ import {
 import { TableService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { OrganizationListService } from '../../shared/organization-list/organization-list.service';
+import { ListService } from '../../shared/list/list.service';
 import { OrganizationTableType } from '../../shared/organization.model';
 import { UnitItemService } from './unit-item.service';
 import { UnitTreeService } from './unit-tree.service';
@@ -20,7 +20,7 @@ import { UnitTreeService } from './unit-tree.service';
 @Injectable({
   providedIn: 'root',
 })
-export class UnitListService extends OrganizationListService<B2BUnitTreeNode> {
+export class UnitListService extends ListService<B2BUnitTreeNode> {
   protected tableType = OrganizationTableType.UNIT;
 
   constructor(
@@ -66,12 +66,15 @@ export class UnitListService extends OrganizationListService<B2BUnitTreeNode> {
       depthLevel,
       // tmp, should be normalized
       uid: unit.id,
+      children: [...unit.children].sort((unitA, unitB) =>
+        unitA.name.localeCompare(unitB.name)
+      ),
     };
 
     values.push(node);
     pagination.totalResults++;
 
-    unit.children.forEach((childUnit) => {
+    node.children.forEach((childUnit) => {
       const childList = this.convertListItem(
         childUnit,
         depthLevel + 1,

@@ -4,7 +4,7 @@ import { CmsService, Page, PageMetaResolver } from '..';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { PageMetaService } from '../facade';
-import { BreadcrumbMeta } from '../model/page.model';
+import { BreadcrumbMeta, PageRobotsMeta } from '../model/page.model';
 import { ContentPageMetaResolver } from './content-page-meta.resolver';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 
@@ -12,6 +12,7 @@ const mockContentPage: Page = {
   type: PageType.CONTENT_PAGE,
   title: 'Page title',
   slots: {},
+  robots: [PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX],
 };
 
 class MockCmsService implements Partial<CmsService> {
@@ -110,5 +111,18 @@ describe('ContentPageMetaResolver', () => {
       label: 'child route breadcrumb',
       link: '/child',
     });
+  });
+
+  it(`should resolve robots for page data`, () => {
+    let result: PageRobotsMeta[];
+    service
+      .resolveRobots()
+      .subscribe((meta) => {
+        result = meta;
+      })
+      .unsubscribe();
+
+    expect(result).toContain(PageRobotsMeta.FOLLOW);
+    expect(result).toContain(PageRobotsMeta.INDEX);
   });
 });

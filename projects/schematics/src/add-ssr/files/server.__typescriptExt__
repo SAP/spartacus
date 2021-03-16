@@ -1,7 +1,7 @@
 import 'zone.js/dist/zone-node';
 
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
-import { NgExpressEngineDecorator } from '@spartacus/core';
+import { NgExpressEngineDecorator } from '@spartacus/setup/ssr';
 import * as express from 'express';
 import { join } from 'path';
 
@@ -18,6 +18,8 @@ export function app() {
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? 'index.original.html'
     : 'index';
+
+  server.set('trust proxy', 'loopback');
 
   server.engine(
     'html',

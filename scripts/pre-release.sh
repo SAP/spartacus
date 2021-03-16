@@ -32,7 +32,7 @@ function delete_dir {
 
 function build_libs {
     echo '--> Building Spartacus libraries'
-    yarn build:core:lib
+    yarn build:libs
 }
 
 function generate_docs {

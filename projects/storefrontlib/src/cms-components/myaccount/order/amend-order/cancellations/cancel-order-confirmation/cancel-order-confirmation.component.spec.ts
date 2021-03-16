@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Order, OrderEntry } from '@spartacus/core';
@@ -59,24 +59,26 @@ describe('CancelOrderConfirmationComponent', () => {
   let fixture: ComponentFixture<CancelOrderConfirmationComponent>;
   let service: OrderAmendService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        ReactiveFormsModule,
-      ],
-      providers: [
-        { provide: OrderAmendService, useClass: MockOrderAmendService },
-      ],
-      declarations: [
-        CancelOrderConfirmationComponent,
-        MockAmendOrderActionComponent,
-        MockCancelOrReturnItemsComponent,
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          CommonModule,
+          RouterTestingModule,
+          I18nTestingModule,
+          ReactiveFormsModule,
+        ],
+        providers: [
+          { provide: OrderAmendService, useClass: MockOrderAmendService },
+        ],
+        declarations: [
+          CancelOrderConfirmationComponent,
+          MockAmendOrderActionComponent,
+          MockCancelOrReturnItemsComponent,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CancelOrderConfirmationComponent);

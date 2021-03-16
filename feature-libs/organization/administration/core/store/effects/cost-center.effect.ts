@@ -1,14 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { from, Observable, of } from 'rxjs';
-import {
-  catchError,
-  map,
-  switchMap,
-  groupBy,
-  mergeMap,
-  filter,
-} from 'rxjs/operators';
+import { catchError, map, switchMap, groupBy, mergeMap } from 'rxjs/operators';
 import {
   EntitiesModel,
   CostCenter,
@@ -23,7 +16,6 @@ import {
 import { Budget } from '../../model/budget.model';
 import { CostCenterConnector } from '../../connectors/cost-center/cost-center.connector';
 import { HttpErrorResponse } from '@angular/common/http';
-import { isValidUser } from '../../utils/check-user';
 
 @Injectable()
 export class CostCenterEffects {
@@ -34,7 +26,6 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.LOAD_COST_CENTER),
     map((action: CostCenterActions.LoadCostCenter) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap(({ userId, costCenterCode }) => {
       return this.costCenterConnector.get(userId, costCenterCode).pipe(
         map((costCenter: CostCenter) => {
@@ -60,7 +51,6 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.LOAD_COST_CENTERS),
     map((action: CostCenterActions.LoadCostCenters) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.costCenterConnector.getList(payload.userId, payload.params).pipe(
         switchMap((costCenters: EntitiesModel<CostCenter>) => {
@@ -96,7 +86,6 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.CREATE_COST_CENTER),
     map((action: CostCenterActions.CreateCostCenter) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.costCenterConnector.create(payload.userId, payload.costCenter).pipe(
         switchMap((data) => [
@@ -124,7 +113,6 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.UPDATE_COST_CENTER),
     map((action: CostCenterActions.UpdateCostCenter) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     switchMap((payload) =>
       this.costCenterConnector
         .update(payload.userId, payload.costCenterCode, payload.costCenter)
@@ -154,7 +142,6 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.LOAD_ASSIGNED_BUDGETS),
     map((action: CostCenterActions.LoadAssignedBudgets) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     groupBy(({ costCenterCode, params }) =>
       StateUtils.serializeParams(costCenterCode, params)
     ),
@@ -201,7 +188,6 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.ASSIGN_BUDGET),
     map((action: CostCenterActions.AssignBudget) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     mergeMap(({ userId, costCenterCode, budgetCode }) =>
       this.costCenterConnector
         .assignBudget(userId, costCenterCode, budgetCode)
@@ -234,7 +220,6 @@ export class CostCenterEffects {
   > = this.actions$.pipe(
     ofType(CostCenterActions.UNASSIGN_BUDGET),
     map((action: CostCenterActions.UnassignBudget) => action.payload),
-    filter((payload) => isValidUser(payload.userId)),
     mergeMap(({ userId, costCenterCode, budgetCode }) =>
       this.costCenterConnector
         .unassignBudget(userId, costCenterCode, budgetCode)

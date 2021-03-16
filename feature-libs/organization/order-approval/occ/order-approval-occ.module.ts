@@ -25,17 +25,17 @@ import { defaultOccOrderApprovalConfig } from './config/default-occ-organization
     },
     {
       provide: ORDER_APPROVAL_NORMALIZER,
-      useClass: OccOrderApprovalNormalizer,
+      useExisting: OccOrderApprovalNormalizer,
       multi: true,
     },
     {
       provide: ORDER_APPROVALS_NORMALIZER,
-      useClass: OccOrderApprovalListNormalizer,
+      useExisting: OccOrderApprovalListNormalizer,
       multi: true,
     },
     {
       provide: ORDER_APPROVAL_DECISION_NORMALIZER,
-      useClass: OccOrderApprovalDecisionNormalizer,
+      useExisting: OccOrderApprovalDecisionNormalizer,
       multi: true,
     },
   ],

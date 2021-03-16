@@ -1,8 +1,7 @@
 {
   "name": "@spartacus/cdc",
-  "version": "0.300.0-next.5",
+  "version": "0.302.0-next.2",
   "description": "Customer Data Cloud Integration library for Spartacus",
-  "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
     "spartacus",
     "framework",
@@ -11,11 +10,9 @@
     "gigya",
     "cdc"
   ],
-  "license": "Apache-2.0",
-  "publishConfig": {
-    "access": "public"
-  },
+  "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/cdc",
+  "license": "Apache-2.0",
   "dependencies": {
     "tslib": "^2.0.0"
   },
@@ -23,8 +20,13 @@
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
     "@angular/router": "^10.1.0",
-    "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0-next.5",
-    "@spartacus/storefront": "3.0.0-next.5"
+    "@ngrx/effects": "^10.0.0",
+    "@ngrx/store": "^10.0.0",
+    "@spartacus/core": "3.2.0-next.2",
+    "@spartacus/storefront": "3.2.0-next.2",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

@@ -3,46 +3,58 @@ import {
   noop,
   Rule,
   SchematicContext,
-  SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { findNodes, isImported } from '@schematics/angular/utility/ast-utils';
-import { Change, NoopChange } from '@schematics/angular/utility/change';
+import { isImported } from '@schematics/angular/utility/ast-utils';
+import { Change, ReplaceChange } from '@schematics/angular/utility/change';
 import {
-  addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
-import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import {
-  addToModuleImports,
-  addToModuleProviders,
-  ADMINISTRATION_MODULE,
-  ADMINISTRATION_ROOT_MODULE,
+  addLibraryFeature,
+  addPackageJsonDependencies,
+  B2B_STOREFRONT_MODULE,
+  B2C_STOREFRONT_MODULE,
   commitChanges,
   createImportChange,
-  createNewConfig,
   DEFAULT_B2B_OCC_CONFIG,
-  getConfig,
-  getDefaultProjectNameFromWorkspace,
-  getExistingStorefrontConfigNode,
-  getProjectTargets,
-  getSourceRoot,
+  findMultiLevelNodesByTextAndKind,
+  getAppModule,
   getSpartacusSchematicsVersion,
   getTsSourceFile,
-  getWorkspace,
-  mergeConfig,
-  PROVIDE_DEFAULT_CONFIG,
-  SPARTACUS_ADMINISTRATION,
-  SPARTACUS_ADMINISTRATION_ROOT,
-  SPARTACUS_CORE,
-  SPARTACUS_ORGANIZATION,
+  installPackageJsonDependencies,
+  LibraryOptions as SpartacusOrganizationOptions,
+  readPackageJson,
+  removeImport,
+  shouldAddFeature,
   SPARTACUS_SETUP,
-  UTF_8,
+  SPARTACUS_STOREFRONTLIB,
+  validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import * as ts from 'typescript';
-import { Schema as SpartacusOrganizationOptions } from './schema';
+import {
+  ADMINISTRATION_MODULE,
+  ADMINISTRATION_ROOT_MODULE,
+  CLI_ADMINISTRATION_FEATURE,
+  CLI_ORDER_APPROVAL_FEATURE,
+  ORDER_APPROVAL_MODULE,
+  ORDER_APPROVAL_ROOT_MODULE,
+  ORDER_APPROVAL_TRANSLATIONS,
+  ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG,
+  ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+  ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
+  ORGANIZATION_TRANSLATIONS,
+  ORGANIZATION_TRANSLATION_CHUNKS_CONFIG,
+  SCSS_FILE_NAME,
+  SPARTACUS_ADMINISTRATION,
+  SPARTACUS_ADMINISTRATION_ASSETS,
+  SPARTACUS_ADMINISTRATION_ROOT,
+  SPARTACUS_ORDER_APPROVAL,
+  SPARTACUS_ORDER_APPROVAL_ASSETS,
+  SPARTACUS_ORDER_APPROVAL_ROOT,
+  SPARTACUS_ORGANIZATION,
+} from '../constants';
 
 export function addSpartacusOrganization(
   options: SpartacusOrganizationOptions
@@ -51,291 +63,156 @@ export function addSpartacusOrganization(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
+    const appModulePath = getAppModule(tree, options.project);
+
     return chain([
-      addPackageJsonDependencies(packageJson),
-      updateAppModule(options),
-      addStyles(),
+      updateAppModule(appModulePath),
+      shouldAddFeature(options.features, CLI_ADMINISTRATION_FEATURE)
+        ? addAdministrationFeature(appModulePath, options)
+        : noop(),
+      shouldAddFeature(options.features, CLI_ORDER_APPROVAL_FEATURE)
+        ? addOrderApprovalsFeature(appModulePath, options)
+        : noop(),
+      addOrganizationPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
 }
 
-function addPackageJsonDependencies(packageJson: any): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-
-    const spartacusMyAccountDependency: NodeDependency = {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_ORGANIZATION,
-    };
-    addPackageJsonDependency(tree, spartacusMyAccountDependency);
-    context.logger.info(
-      `✅️ Added '${spartacusMyAccountDependency.name}' into ${spartacusMyAccountDependency.type}`
-    );
-
-    if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_SETUP)) {
-      const spartacusSetupDependency: NodeDependency = {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_SETUP,
-      };
-
-      addPackageJsonDependency(tree, spartacusSetupDependency);
-      context.logger.info(
-        `✅️ Added '${spartacusSetupDependency.name}' into ${spartacusSetupDependency.type}`
-      );
-    }
-
-    return tree;
-  };
-}
-
-function validateSpartacusInstallation(packageJson: any): void {
-  if (!packageJson.dependencies.hasOwnProperty(SPARTACUS_CORE)) {
-    throw new SchematicsException(
-      `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
-    To see more options, please check our documentation.`
-    );
-  }
-}
-
-function addStyles(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const myAccountScssPath = `${getSourceRoot(
-      tree
-    )}/styles/spartacus-organization.scss`;
-    if (tree.exists(myAccountScssPath)) {
-      context.logger.info(
-        `Skipping the creation of '${myAccountScssPath}', as it already exists.`
-      );
-      return noop();
-    }
-
-    tree.create(myAccountScssPath, `@import "${SPARTACUS_ORGANIZATION}";`);
-
-    const { path, workspace: angularJson } = getWorkspace(tree);
-    const defaultProject = getDefaultProjectNameFromWorkspace(tree);
-
-    const architect = angularJson.projects[defaultProject].architect;
-
-    // `build` architect section
-    const architectBuild = architect?.build;
-    const buildOptions = {
-      ...architectBuild?.options,
-      styles: [
-        ...(architectBuild?.options?.styles
-          ? architectBuild?.options?.styles
-          : []),
-        myAccountScssPath,
-      ],
-    };
-
-    // `test` architect section
-    const architectTest = architect?.test;
-    const testOptions = {
-      ...architectTest?.options,
-      styles: [
-        ...(architectTest?.options?.styles
-          ? architectTest?.options?.styles
-          : []),
-        myAccountScssPath,
-      ],
-    };
-
-    const updatedAngularJson = {
-      ...angularJson,
-      projects: {
-        ...angularJson.projects,
-        [defaultProject]: {
-          ...angularJson.projects[defaultProject],
-          architect: {
-            ...architect,
-            build: {
-              ...architectBuild,
-              options: buildOptions,
-            },
-            test: {
-              ...architectTest,
-              options: testOptions,
-            },
-          },
-        },
-      },
-    };
-    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
-  };
-}
-
-function installPackageJsonDependencies(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    context.addTask(new NodePackageInstallTask());
-    context.logger.log('info', `🔍 Installing packages...`);
-    return tree;
-  };
-}
-
-function readPackageJson(tree: Tree): any {
-  const pkgPath = '/package.json';
-  const buffer = tree.read(pkgPath);
-  if (!buffer) {
-    throw new SchematicsException('Could not find package.json');
-  }
-
-  return JSON.parse(buffer.toString(UTF_8));
-}
-
-function updateAppModule(options: SpartacusOrganizationOptions): Rule {
-  return (host: Tree, context: SchematicContext) => {
-    const projectTargets = getProjectTargets(host, options.project);
-
-    if (!projectTargets.build) {
-      throw new SchematicsException(`Project target "build" not found.`);
-    }
-
-    const mainPath = projectTargets.build.options.main;
-    const modulePath = getAppModulePath(host, mainPath);
-    const moduleTs = getTsSourceFile(host, modulePath);
-
+function updateAppModule(appModulePath: string): Rule {
+  return (host: Tree, _context: SchematicContext) => {
     const changes: Change[] = [];
-    const providersChanges = addToModuleProviders(
-      host,
-      modulePath,
-      `${PROVIDE_DEFAULT_CONFIG}(${DEFAULT_B2B_OCC_CONFIG})`,
-      moduleTs
-    );
-    changes.push(...providersChanges);
+    if (
+      isImported(
+        getTsSourceFile(host, appModulePath),
+        B2C_STOREFRONT_MODULE,
+        SPARTACUS_STOREFRONTLIB
+      )
+    ) {
+      const importRemovalChange = removeImport(
+        getTsSourceFile(host, appModulePath),
+        {
+          className: B2C_STOREFRONT_MODULE,
+          importPath: SPARTACUS_STOREFRONTLIB,
+        }
+      );
+      changes.push(importRemovalChange);
+    }
 
-    if (!isImported(moduleTs, PROVIDE_DEFAULT_CONFIG, SPARTACUS_CORE)) {
-      const coreImportChange = createImportChange(
-        host,
-        modulePath,
-        PROVIDE_DEFAULT_CONFIG,
-        SPARTACUS_CORE
-      );
-      changes.push(coreImportChange);
-    }
-    if (!isImported(moduleTs, DEFAULT_B2B_OCC_CONFIG, SPARTACUS_SETUP)) {
-      const setupImportChange = createImportChange(
-        host,
-        modulePath,
-        DEFAULT_B2B_OCC_CONFIG,
-        SPARTACUS_SETUP
-      );
-      changes.push(setupImportChange);
-    }
+    const b2cNodeResults = findMultiLevelNodesByTextAndKind(
+      getTsSourceFile(host, appModulePath).getChildren(),
+      B2C_STOREFRONT_MODULE,
+      ts.SyntaxKind.Identifier
+    );
+
+    b2cNodeResults.forEach((result) => {
+      // skip the `import {B2cStorefrontModule} from '@spartacus/storefront'` node
+      if (result.parent.kind !== ts.SyntaxKind.ImportSpecifier) {
+        const b2bModuleReplaceChange = new ReplaceChange(
+          appModulePath,
+          result.getStart(),
+          B2C_STOREFRONT_MODULE,
+          B2B_STOREFRONT_MODULE
+        );
+        changes.push(b2bModuleReplaceChange);
+      }
+    });
+
+    commitChanges(host, appModulePath, changes);
 
     if (
       !isImported(
-        moduleTs,
-        ADMINISTRATION_ROOT_MODULE,
-        SPARTACUS_ADMINISTRATION_ROOT
+        getTsSourceFile(host, appModulePath),
+        B2B_STOREFRONT_MODULE,
+        SPARTACUS_SETUP
       )
     ) {
-      const rootModuleImportChange = createImportChange(
+      const b2bModuleImportChange = createImportChange(
         host,
-        modulePath,
-        ADMINISTRATION_ROOT_MODULE,
-        SPARTACUS_ADMINISTRATION_ROOT
+        appModulePath,
+        B2B_STOREFRONT_MODULE,
+        SPARTACUS_SETUP
       );
-      const rootModuleAddedToImportsChanges = addToModuleImports(
-        host,
-        modulePath,
-        ADMINISTRATION_ROOT_MODULE
-      );
-      changes.push(rootModuleImportChange, ...rootModuleAddedToImportsChanges);
+      commitChanges(host, appModulePath, [b2bModuleImportChange]);
     }
 
-    if (options.lazy) {
-      const lazyLoadingChange = mergeLazyLoadingConfig(context, moduleTs);
-      changes.push(lazyLoadingChange);
-    } else {
-      if (
-        !isImported(moduleTs, ADMINISTRATION_MODULE, SPARTACUS_ADMINISTRATION)
-      ) {
-        const featureModuleImportChange = createImportChange(
-          host,
-          modulePath,
-          ADMINISTRATION_MODULE,
-          SPARTACUS_ADMINISTRATION
-        );
-        changes.push(featureModuleImportChange);
-      }
-
-      const addedToImportsChanges = addToModuleImports(
-        host,
-        modulePath,
-        ADMINISTRATION_MODULE
-      );
-      changes.push(...addedToImportsChanges);
-    }
-
-    commitChanges(host, modulePath, changes);
+    return host;
   };
 }
 
-function mergeLazyLoadingConfig(
-  context: SchematicContext,
-  moduleSource: ts.SourceFile
-): Change {
-  const storefrontConfig = getExistingStorefrontConfigNode(moduleSource);
+function addOrganizationPackageJsonDependencies(packageJson: any): Rule {
+  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+  const dependencies: NodeDependency[] = [
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_ORGANIZATION,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_SETUP,
+    },
+  ];
+  return addPackageJsonDependencies(dependencies, packageJson);
+}
 
-  if (!storefrontConfig) {
-    context.logger
-      .warn(`Storefront config not detected in ${moduleSource.fileName}, unable to configure lazy loading.
-Please manually append the following configuration:
+function addAdministrationFeature(
+  appModulePath: string,
+  options: SpartacusOrganizationOptions
+): Rule {
+  return addLibraryFeature(appModulePath, options, {
+    name: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+    defaultConfig: {
+      name: DEFAULT_B2B_OCC_CONFIG,
+      importPath: SPARTACUS_SETUP,
+    },
+    featureModule: {
+      name: ADMINISTRATION_MODULE,
+      importPath: SPARTACUS_ADMINISTRATION,
+    },
+    rootModule: {
+      name: ADMINISTRATION_ROOT_MODULE,
+      importPath: SPARTACUS_ADMINISTRATION_ROOT,
+    },
+    i18n: {
+      resources: ORGANIZATION_TRANSLATIONS,
+      chunks: ORGANIZATION_TRANSLATION_CHUNKS_CONFIG,
+      importPath: SPARTACUS_ADMINISTRATION_ASSETS,
+    },
+    styles: {
+      scssFileName: SCSS_FILE_NAME,
+      importStyle: SPARTACUS_ORGANIZATION,
+    },
+  });
+}
 
-featureModules: {
-  organizationAdministration: {
-    module: () =>
-    import('@spartacus/organization/administration').then(
-      (m) => m.AdministrationModule
-    ),
-  },
-},
-`);
-    return new NoopChange();
-  }
-
-  const currentFeatureModulesConfig = getConfig(
-    storefrontConfig,
-    'featureModules'
-  );
-
-  if (currentFeatureModulesConfig) {
-    return mergeConfig(
-      moduleSource.fileName,
-      currentFeatureModulesConfig,
-      'organizationAdministration',
-      `{
-  module: () =>
-    import('@spartacus/organization/administration').then(
-      (m) => m.AdministrationModule
-    )
-  }`
-    );
-  }
-
-  const syntaxListNodes = findNodes(
-    storefrontConfig,
-    ts.SyntaxKind.SyntaxList,
-    1,
-    true
-  )[0] as ts.SyntaxList;
-
-  const change = createNewConfig(
-    moduleSource.fileName,
-    syntaxListNodes,
-    '',
-    `\nfeatureModules: {
-        organizationAdministration: {
-          module: () =>
-            import('@spartacus/organization/administration').then(
-              (m) => m.AdministrationModule
-            ),
-        }
-      }`
-  );
-  change.pos = change.pos + 1;
-  return change;
+function addOrderApprovalsFeature(
+  appModulePath: string,
+  options: SpartacusOrganizationOptions
+): Rule {
+  return addLibraryFeature(appModulePath, options, {
+    name: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
+    defaultConfig: {
+      name: DEFAULT_B2B_OCC_CONFIG,
+      importPath: SPARTACUS_SETUP,
+    },
+    featureModule: {
+      name: ORDER_APPROVAL_MODULE,
+      importPath: SPARTACUS_ORDER_APPROVAL,
+    },
+    rootModule: {
+      name: ORDER_APPROVAL_ROOT_MODULE,
+      importPath: SPARTACUS_ORDER_APPROVAL_ROOT,
+    },
+    i18n: {
+      resources: ORDER_APPROVAL_TRANSLATIONS,
+      chunks: ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG,
+      importPath: SPARTACUS_ORDER_APPROVAL_ASSETS,
+    },
+    styles: {
+      scssFileName: SCSS_FILE_NAME,
+      importStyle: SPARTACUS_ORGANIZATION,
+    },
+  });
 }

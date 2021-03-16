@@ -6,7 +6,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -105,21 +105,26 @@ describe('AddToWishListComponent', () => {
   let wishListService: WishListService;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [AddToWishListComponent, MockIconComponent, MockUrlPipe],
-      providers: [
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: WishListService, useClass: MockWishListService },
-        { provide: CurrentProductService, useClass: MockCurrentProductService },
-      ],
-    })
-      .overrideComponent(AddToWishListComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule],
+        declarations: [AddToWishListComponent, MockIconComponent, MockUrlPipe],
+        providers: [
+          { provide: AuthService, useClass: MockAuthService },
+          { provide: WishListService, useClass: MockWishListService },
+          {
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
+          },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(AddToWishListComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddToWishListComponent);

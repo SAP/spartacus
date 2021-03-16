@@ -150,7 +150,7 @@ export class CsAgentAuthService {
       this.authStorageService.clearEmulatedUserToken();
       this.store.dispatch(new AuthActions.Login());
     } else {
-      this.authService.initLogout();
+      this.authService.logout();
     }
   }
 }

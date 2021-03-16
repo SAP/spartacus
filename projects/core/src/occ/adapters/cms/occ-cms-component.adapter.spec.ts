@@ -45,13 +45,12 @@ const context: PageContext = {
 
 const ids = ['comp_uid1', 'comp_uid2'];
 
-const spyOnLoadEndpint =
+const spyOnLoadEndpoint =
   endpoint + `/components/comp1?productCode=${context.id}`;
-// const spyOnNormalizerEndpoint = endpoint + '/components';
+
 const spyOnGetEndpoint =
   endpoint +
   `/components?componentIds=${ids.toString()}&productCode=${context.id}`;
-const spyOnPostEndpoint = endpoint + `/components?productCode=${context.id}`;
 
 describe('OccCmsComponentAdapter', () => {
   let service: OccCmsComponentAdapter;
@@ -86,13 +85,13 @@ describe('OccCmsComponentAdapter', () => {
 
   describe('load', () => {
     it('should get cms component data', () => {
-      spyOnEndpoint(spyOnLoadEndpint);
+      spyOnEndpoint(spyOnLoadEndpoint);
 
       service.load('comp1', context).subscribe((result) => {
         expect(result).toEqual(component);
       });
 
-      const testRequest = mockHttpRequest('GET', spyOnLoadEndpint);
+      const testRequest = mockHttpRequest('GET', spyOnLoadEndpoint);
 
       expect(endpointsService.getUrl).toHaveBeenCalledWith(
         'component',
@@ -104,11 +103,11 @@ describe('OccCmsComponentAdapter', () => {
     });
 
     it('should use normalizer', () => {
-      spyOnEndpoint(spyOnLoadEndpint);
+      spyOnEndpoint(spyOnLoadEndpoint);
 
       service.load('comp1', context).subscribe();
 
-      assertNormalizer(spyOnLoadEndpint);
+      assertNormalizer(spyOnLoadEndpoint);
 
       expect(converter.pipeable).toHaveBeenCalledWith(CMS_COMPONENT_NORMALIZER);
     });
@@ -149,45 +148,6 @@ describe('OccCmsComponentAdapter', () => {
     });
   });
 
-  describe('load list of cms component data using POST request', () => {
-    it('should get a list of cms component data using POST request without pagination parameters', () => {
-      spyOnEndpoint(spyOnPostEndpoint);
-
-      assertPostSubscription(service);
-
-      const testRequest = mockHttpRequest('POST', spyOnPostEndpoint);
-
-      assertPostTestRequestBody(testRequest);
-
-      assertPostRequestGetUrl('DEFAULT', '2');
-
-      assertTestRequest(testRequest, componentList);
-    });
-
-    it('should get a list of cms component data using POST request with pagination parameters', () => {
-      spyOnEndpoint(spyOnPostEndpoint);
-
-      assertPostSubscription(service, 'FULL', 0, 5);
-
-      const testRequest = mockHttpRequest('POST', spyOnPostEndpoint);
-
-      assertPostTestRequestBody(testRequest);
-
-      assertPostRequestGetUrl('FULL', '5');
-
-      assertTestRequest(testRequest, componentList);
-    });
-
-    it('should use normalizer', () => {
-      spyOnEndpoint(spyOnPostEndpoint);
-
-      assertPostSubscription(service);
-
-      assertNormalizer(spyOnPostEndpoint);
-      assertConverterPipeableMany();
-    });
-  });
-
   function spyOnEndpoint(requestUrl: string): jasmine.Spy {
     return spyOn(endpointsService, 'getUrl').and.returnValue(requestUrl);
   }
@@ -201,10 +161,6 @@ describe('OccCmsComponentAdapter', () => {
     });
   }
 
-  function assertPostTestRequestBody(testRequest: TestRequest) {
-    expect(testRequest.request.body).toEqual({ idList: ids });
-  }
-
   function assertTestRequest(
     testRequest: TestRequest,
     componentObj: CmsComponent | Occ.ComponentList
@@ -212,14 +168,6 @@ describe('OccCmsComponentAdapter', () => {
     expect(testRequest.cancelled).toBeFalsy();
     expect(testRequest.request.responseType).toEqual('json');
     testRequest.flush(componentObj);
-  }
-
-  function assertPostRequestGetUrl(fields: string, pageSize: string) {
-    expect(endpointsService.getUrl).toHaveBeenCalledWith(
-      'components',
-      {},
-      { fields, productCode: '123', currentPage: '0', pageSize }
-    );
   }
 
   function assertGetRequestGetUrl(fields: string, pageSize: string) {
@@ -244,19 +192,6 @@ describe('OccCmsComponentAdapter', () => {
 
   function assertNormalizer(requestUrl: string) {
     httpMock.expectOne((req) => req.url === requestUrl).flush(componentList);
-  }
-
-  function assertPostSubscription(
-    adapter: OccCmsComponentAdapter,
-    fields?: string,
-    currentPage?: number,
-    pageSize?: number
-  ) {
-    adapter
-      .findComponentsByIdsLegacy(ids, context, fields, currentPage, pageSize)
-      .subscribe((result) => {
-        expect(result).toEqual(componentList.component);
-      });
   }
 
   function assertGetSubscription(

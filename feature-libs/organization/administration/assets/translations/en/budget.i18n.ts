@@ -1,4 +1,4 @@
-export const budget = {
+export const orgBudget = {
   header: 'All budgets ({{count}})',
 
   code: 'Code',
@@ -34,9 +34,18 @@ export const budget = {
   },
 
   messages: {
+    deactivateTitle: 'Disable this budget?',
     deactivate: 'Are you sure you want to disable this budget?',
+    deactivateBody:
+      'Disabled budgets no longer apply to the cost centers they are assigned to. Ensure that the associated cost center has at least one budget.',
     confirmEnabled: 'Budget {{ item.name }} enabled successfully',
     confirmDisabled: 'Budget {{ item.name }} disabled successfully',
+    update: 'Budget {{ item.name }} updated successfully',
+    create: 'Budget {{ item.name }} created successfully',
+  },
+  info: {
+    disabledEdit: 'Enable the budget to allow editing.',
+    disabledEnable: 'Unit must be enabled before this budget may be enabled.',
   },
 
   links: {
@@ -49,7 +58,7 @@ export const budget = {
   },
 };
 
-export const budgetAssignedCostCenters = {
+export const orgBudgetAssignedCostCenters = {
   title: 'Cost centers',
   subtitle: 'Budget: {{ item.name }}',
 };

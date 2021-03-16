@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -45,21 +45,23 @@ describe('ResetPasswordFormComponent', () => {
 
   const validPassword = 'test1234Test@';
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        RouterTestingModule,
-        I18nTestingModule,
-        FormErrorsModule,
-      ],
-      declarations: [ResetPasswordFormComponent],
-      providers: [
-        { provide: UserService, useClass: MockUserService },
-        { provide: RoutingService, useClass: MockRoutingService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          RouterTestingModule,
+          I18nTestingModule,
+          FormErrorsModule,
+        ],
+        declarations: [ResetPasswordFormComponent],
+        providers: [
+          { provide: UserService, useClass: MockUserService },
+          { provide: RoutingService, useClass: MockRoutingService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordFormComponent);

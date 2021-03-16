@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { combineLatest, from, Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
-import { AuthToken } from '../../auth';
 import { StateWithClientAuth } from '../../auth/client-auth/store/client-auth-state';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
 import { AuthRedirectService } from '../../auth/user-auth/services/auth-redirect.service';
-import { BasicAuthService } from '../../auth/user-auth/services/basic-auth.service';
 import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
 import { AuthActions } from '../../auth/user-auth/store/actions/index';
 import {
@@ -17,13 +17,13 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 /**
- * Version of BasicAuthService that is working for both user na CS agent.
- * Overrides BasicAuthService when ASM module is enabled.
+ * Version of AuthService that is working for both user na CS agent.
+ * Overrides AuthService when ASM module is enabled.
  */
 @Injectable({
   providedIn: 'root',
 })
-export class AsmAuthService extends BasicAuthService {
+export class AsmAuthService extends AuthService {
   constructor(
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
@@ -74,9 +74,9 @@ export class AsmAuthService extends BasicAuthService {
    * @param userId
    * @param password
    */
-  public async authorize(userId: string, password: string): Promise<void> {
+  async loginWithCredentials(userId: string, password: string): Promise<void> {
     if (this.canUserLogin()) {
-      await super.authorize(userId, password);
+      await super.loginWithCredentials(userId, password);
     } else {
       this.warnAboutLoggedCSAgent();
     }
@@ -85,7 +85,7 @@ export class AsmAuthService extends BasicAuthService {
   /**
    * Initialize Implicit/Authorization Code flow by redirecting to OAuth server when CS agent is not logged in.
    */
-  public loginWithRedirect(): boolean {
+  loginWithRedirect(): boolean {
     if (this.canUserLogin()) {
       super.loginWithRedirect();
       return true;
@@ -96,9 +96,10 @@ export class AsmAuthService extends BasicAuthService {
   }
 
   /**
-   * Logout a storefront customer.
+   * Revokes tokens and clears state for logged user (tokens, userId).
+   * To perform logout it is best to use `logout` method. Use this method with caution.
    */
-  public logout(): Promise<any> {
+  coreLogout(): Promise<any> {
     return this.userIdService
       .isEmulated()
       .pipe(
@@ -110,7 +111,7 @@ export class AsmAuthService extends BasicAuthService {
             this.store.dispatch(new AuthActions.Logout());
             return of(true);
           } else {
-            return from(super.logout());
+            return from(super.coreLogout());
           }
         })
       )
@@ -120,7 +121,7 @@ export class AsmAuthService extends BasicAuthService {
   /**
    * Returns `true` if user is logged in or being emulated.
    */
-  public isUserLoggedIn(): Observable<boolean> {
+  isUserLoggedIn(): Observable<boolean> {
     return combineLatest([
       this.authStorageService.getToken(),
       this.userIdService.isEmulated(),

@@ -1,30 +1,35 @@
+import { B2BUnit } from '@spartacus/core';
+
 export enum OrganizationTableType {
-  BUDGET = 'budget',
-  BUDGET_ASSIGNED_COST_CENTERS = 'budgetAssignedCostCenters',
-  COST_CENTER = 'costCenter',
-  COST_CENTER_BUDGETS = 'costCenterBudgets',
-  COST_CENTER_ASSIGNED_BUDGETS = 'costCenterAssignedBudgets',
-  UNIT = 'unit',
-  UNIT_USERS = 'unitUsers',
-  UNIT_CHILDREN = 'unitChildren',
-  UNIT_APPROVERS = 'unitApprovers',
-  UNIT_ASSIGNED_APPROVERS = 'unitAssignedApprovers',
-  UNIT_ASSIGNED_ROLES = 'unitAssignRoles',
-  UNIT_ADDRESS = 'unitAddress',
-  UNIT_COST_CENTERS = 'unitCostCenters',
-  USER_GROUP = 'userGroup',
-  USER_GROUP_USERS = 'userGroupUsers',
-  USER_GROUP_ASSIGNED_USERS = 'userGroupAssignedUsers',
-  USER_GROUP_PERMISSIONS = 'userGroupPermissions',
-  USER_GROUP_ASSIGNED_PERMISSIONS = 'userGroupAssignedPermissions',
-  USER = 'user',
-  USER_APPROVERS = 'userApprovers',
-  USER_ASSIGNED_APPROVERS = 'userAssignedApprovers',
-  USER_PERMISSIONS = 'userPermissions',
-  USER_ASSIGNED_PERMISSIONS = 'userAssignedPermissions',
-  USER_USER_GROUPS = 'userUserGroups',
-  USER_ASSIGNED_USER_GROUPS = 'userAssignedUserGroups',
-  PERMISSION = 'permission',
+  BUDGET = 'orgBudget',
+  BUDGET_ASSIGNED_COST_CENTERS = 'orgBudgetAssignedCostCenters',
+  COST_CENTER = 'orgCostCenter',
+  COST_CENTER_BUDGETS = 'orgCostCenterBudgets',
+  COST_CENTER_ASSIGNED_BUDGETS = 'orgCostCenterAssignedBudgets',
+  UNIT = 'orgUnit',
+  UNIT_USERS = 'orgUnitUsers',
+  UNIT_CHILDREN = 'orgUnitChildren',
+  UNIT_APPROVERS = 'orgUnitApprovers',
+  UNIT_ASSIGNED_APPROVERS = 'orgUnitAssignedApprovers',
+  /**
+   * @deprecated since 3.0, unused value
+   */
+  UNIT_ASSIGNED_ROLES = 'orgUnitAssignRoles',
+  UNIT_ADDRESS = 'orgUnitAddress',
+  UNIT_COST_CENTERS = 'orgUnitCostCenters',
+  USER_GROUP = 'orgUserGroup',
+  USER_GROUP_USERS = 'orgUserGroupUsers',
+  USER_GROUP_ASSIGNED_USERS = 'orgUserGroupAssignedUsers',
+  USER_GROUP_PERMISSIONS = 'orgUserGroupPermissions',
+  USER_GROUP_ASSIGNED_PERMISSIONS = 'orgUserGroupAssignedPermissions',
+  USER = 'orgUser',
+  USER_APPROVERS = 'orgUserApprovers',
+  USER_ASSIGNED_APPROVERS = 'orgUserAssignedApprovers',
+  USER_PERMISSIONS = 'orgUserPermissions',
+  USER_ASSIGNED_PERMISSIONS = 'orgUserAssignedPermissions',
+  USER_USER_GROUPS = 'orgUserUserGroups',
+  USER_ASSIGNED_USER_GROUPS = 'orgUserAssignedUserGroups',
+  PERMISSION = 'orgPurchaseLimit',
 }
 
 export type BaseItem = {
@@ -32,8 +37,12 @@ export type BaseItem = {
   selected?: boolean;
   // tmp alternative "key"
   customerId?: string;
+  uid?: string;
   id?: string;
 
   active?: boolean;
-  orgUnit?: any;
+  // tmp alternative "orgUnit"
+  orgUnit?: B2BUnit;
+  parentOrgUnit?: B2BUnit;
+  unit?: B2BUnit;
 };

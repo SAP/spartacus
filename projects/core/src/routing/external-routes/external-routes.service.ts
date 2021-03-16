@@ -17,7 +17,7 @@ export class ExternalRoutesService {
     protected injector: Injector
   ) {}
 
-  protected get internalUrlPatterns(): ExternalRoutesConfig['routing']['internal'] {
+  protected get internalUrlPatterns(): string[] {
     return (
       (this.config && this.config.routing && this.config.routing.internal) || []
     );

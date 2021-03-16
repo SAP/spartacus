@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   I18nTestingModule,
@@ -44,19 +44,21 @@ describe('AppliedCouponsComponent', () => {
     'removeVoucher',
   ]);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        AppliedCouponsComponent,
-        MockCxIconComponent,
-        MockedCartCouponComponent,
-      ],
-      providers: [
-        { provide: CartVoucherService, useValue: mockCartVoucherService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          AppliedCouponsComponent,
+          MockCxIconComponent,
+          MockedCartCouponComponent,
+        ],
+        providers: [
+          { provide: CartVoucherService, useValue: mockCartVoucherService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MockedCartCouponComponent);

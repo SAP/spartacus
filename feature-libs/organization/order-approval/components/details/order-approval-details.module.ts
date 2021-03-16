@@ -12,15 +12,16 @@ import {
 import {
   CartSharedModule,
   FormErrorsModule,
-  OrderDetailApprovalDetailsComponent,
   OrderDetailItemsComponent,
   OrderDetailShippingComponent,
   OrderDetailsService,
   OrderDetailTotalsComponent,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { ApproverGuard } from '../../core/guards/approver.guard';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
 import { OrderApprovalDetailService } from './order-approval-detail.service';
+import { OrderDetailPermissionResultsComponent } from './order-detail-permission-results/order-detail-permission-results.component';
 
 @NgModule({
   imports: [
@@ -42,18 +43,22 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
               useExisting: OrderApprovalDetailService,
             },
           ],
-          guards: [AuthGuard],
+          guards: [AuthGuard, ApproverGuard],
         },
         OrderApprovalDetailApprovalDetailsComponent: {
-          component: OrderDetailApprovalDetailsComponent,
+          component: OrderDetailPermissionResultsComponent,
           providers: [
             {
               provide: OrderDetailsService,
               useExisting: OrderApprovalDetailService,
             },
           ],
-          guards: [AuthGuard],
+          guards: [AuthGuard, ApproverGuard],
         },
+        AccountOrderDetailsApprovalDetailsComponent: {
+          component: OrderDetailPermissionResultsComponent,
+        },
+
         OrderApprovalDetailShippingComponent: {
           component: OrderDetailShippingComponent,
           providers: [
@@ -62,7 +67,7 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
               useExisting: OrderApprovalDetailService,
             },
           ],
-          guards: [AuthGuard],
+          guards: [AuthGuard, ApproverGuard],
         },
         OrderApprovalDetailItemsComponent: {
           component: OrderDetailItemsComponent,
@@ -72,17 +77,26 @@ import { OrderApprovalDetailService } from './order-approval-detail.service';
               useExisting: OrderApprovalDetailService,
             },
           ],
-          guards: [AuthGuard],
+          guards: [AuthGuard, ApproverGuard],
         },
         OrderApprovalDetailFormComponent: {
           component: OrderApprovalDetailFormComponent,
-          guards: [AuthGuard],
+          guards: [AuthGuard, ApproverGuard],
         },
       },
     }),
   ],
-  declarations: [OrderApprovalDetailFormComponent],
-  exports: [OrderApprovalDetailFormComponent],
-  entryComponents: [OrderApprovalDetailFormComponent],
+  declarations: [
+    OrderApprovalDetailFormComponent,
+    OrderDetailPermissionResultsComponent,
+  ],
+  exports: [
+    OrderApprovalDetailFormComponent,
+    OrderDetailPermissionResultsComponent,
+  ],
+  entryComponents: [
+    OrderApprovalDetailFormComponent,
+    OrderDetailPermissionResultsComponent,
+  ],
 })
 export class OrderApprovalDetailsModule {}

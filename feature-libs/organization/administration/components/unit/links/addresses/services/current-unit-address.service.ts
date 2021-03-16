@@ -4,19 +4,17 @@ import { OrgUnitService } from '@spartacus/organization/administration/core';
 import { Observable, of } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
 import { ROUTE_PARAMS } from '../../../../constants';
-import { CurrentOrganizationItemService } from '../../../../shared/current-organization-item.service';
+import { CurrentItemService } from '../../../../shared/current-item.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CurrentUnitAddressService extends CurrentOrganizationItemService<
-  Address
-> {
+export class CurrentUnitAddressService extends CurrentItemService<Address> {
   // override item$ as we need to use the unit code as well
   readonly item$: Observable<Address> = this.b2bUnit$.pipe(
-    filter((unit) => Boolean(unit)),
-    switchMap((unit) =>
-      this.key$.pipe(switchMap((code: string) => this.getItem(unit, code)))
+    filter((unitUid) => Boolean(unitUid)),
+    switchMap((unitUid) =>
+      this.key$.pipe(switchMap((code: string) => this.getItem(unitUid, code)))
     )
   );
 
@@ -28,7 +26,7 @@ export class CurrentUnitAddressService extends CurrentOrganizationItemService<
   }
 
   getDetailsRoute(): string {
-    return 'unitAddressDetails';
+    return 'orgUnitAddressDetails';
   }
 
   protected getParamKey() {
@@ -36,6 +34,12 @@ export class CurrentUnitAddressService extends CurrentOrganizationItemService<
   }
 
   protected getItem(unitUid: string, addressId: string): Observable<Address> {
-    return addressId ? this.unitService.getAddress(unitUid, addressId) : of({});
+    return addressId
+      ? this.unitService.getAddress(unitUid, addressId)
+      : of(null);
+  }
+
+  getError(code: string): Observable<boolean> {
+    return this.unitService.getErrorState(code);
   }
 }

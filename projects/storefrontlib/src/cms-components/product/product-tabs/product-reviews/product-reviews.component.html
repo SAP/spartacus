@@ -16,7 +16,6 @@
         *ngIf="product.averageRating"
         class="rating"
         [rating]="product.averageRating"
-        [disabled]="true"
       ></cx-star-rating>
       <div class="rating" *ngIf="!product.averageRating">
         {{ 'productDetails.noReviews' | cxTranslate }}
@@ -31,10 +30,7 @@
           *ngFor="let review of reviews | slice: 0:maxListItems"
         >
           <div class="title">{{ review.headline }}</div>
-          <cx-star-rating
-            [rating]="review.rating"
-            [disabled]="true"
-          ></cx-star-rating>
+          <cx-star-rating [rating]="review.rating"></cx-star-rating>
           <div class="name">
             {{ review.alias ? review.alias : review.principal?.name }}
           </div>
@@ -98,7 +94,10 @@
             'productReview.rating' | cxTranslate
           }}</span>
           <input type="number" formControlName="rating" class="rating-input" />
-          <cx-star-rating (change)="setRating($event)"></cx-star-rating>
+          <cx-star-rating
+            (change)="setRating($event)"
+            [disabled]="false"
+          ></cx-star-rating>
           <cx-form-errors [control]="reviewForm.get('rating')"></cx-form-errors>
         </label>
       </div>

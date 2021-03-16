@@ -71,7 +71,7 @@ export function registerNewUserAndLogin(
   hiddenConsent?
 ) {
   const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.findByText(/Sign in \/ Register/i).click();
+  cy.get('cx-login [role="link"]').click();
   cy.wait(`@${loginPage}`).its('status').should('eq', 200);
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.findByText('Register').click();
@@ -80,10 +80,6 @@ export function registerNewUserAndLogin(
   cy.get('cx-breadcrumb').contains('Login');
 
   login(newUser.email, newUser.password);
-}
-
-export function navigateToHome() {
-  cy.get('cx-generic-link a[title="SAP Commerce"]').click({ force: true });
 }
 
 export function navigateToConsentPage() {
@@ -249,7 +245,8 @@ export function moveAnonymousUserToLoggedInUser() {
     navigateToConsentPage();
     giveConsent();
 
-    navigateToHome();
+    cy.visit('/');
+
     checkBanner();
     signOutUser();
 
@@ -258,7 +255,7 @@ export function moveAnonymousUserToLoggedInUser() {
     closeDialog();
 
     const loginPage = waitForPage('/login', 'getLoginPage');
-    cy.findByText(/Sign in \/ Register/i).click();
+    cy.get('cx-login [role="link"]').click();
     cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
     login(
@@ -292,7 +289,7 @@ export function testAsLoggedInUser() {
     closeDialog();
 
     const loginPage = waitForPage('/login', 'getLoginPage');
-    cy.findByText(/Sign in \/ Register/i).click();
+    cy.get('cx-login [role="link"]').click();
     cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
     login(

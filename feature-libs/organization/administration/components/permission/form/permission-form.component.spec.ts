@@ -3,21 +3,20 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  Currency,
   CurrencyService,
   I18nTestingModule,
   OrderApprovalPermissionType,
 } from '@spartacus/core';
 import {
+  B2BUnitNode,
   OrgUnitService,
   PermissionService,
 } from '@spartacus/organization/administration/core';
-import {
-  DateTimePickerModule,
-  FormErrorsComponent,
-} from '@spartacus/storefront';
+import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
-import { OrganizationFormTestingModule } from '../../shared/organization-form/organization-form.testing.module';
+import { BehaviorSubject, of } from 'rxjs';
+import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { PermissionItemService } from '../services/permission-item.service';
 import { PermissionFormComponent } from './permission-form.component';
 
@@ -38,18 +37,19 @@ const mockForm = new FormGroup({
   }),
 });
 
+const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);
+const currencies$: BehaviorSubject<Currency[]> = new BehaviorSubject([]);
+
 class MockOrgUnitService {
-  getActiveUnitList() {
-    return of([]);
-  }
+  getActiveUnitList = () => activeUnitList$.asObservable();
   loadList() {}
 }
 
 class MockCurrencyService {
-  getAll() {}
+  getAll = () => currencies$.asObservable();
 }
 
-class MockOrganizationItemService {
+class MockItemService {
   getForm() {}
 }
 const mockPermissionTypes: OrderApprovalPermissionType[] = [
@@ -79,8 +79,7 @@ describe('PermissionFormComponent', () => {
         UrlTestingModule,
         ReactiveFormsModule,
         NgSelectModule,
-        DateTimePickerModule,
-        OrganizationFormTestingModule,
+        FormTestingModule,
       ],
       declarations: [PermissionFormComponent, FormErrorsComponent],
       providers: [
@@ -88,7 +87,7 @@ describe('PermissionFormComponent', () => {
         { provide: OrgUnitService, useClass: MockOrgUnitService },
         {
           provide: PermissionItemService,
-          useClass: MockOrganizationItemService,
+          useClass: MockItemService,
         },
         { provide: PermissionService, useClass: MockPermissionService },
       ],
@@ -140,5 +139,43 @@ describe('PermissionFormComponent', () => {
     component.form = mockForm;
     fixture.detectChanges();
     expect(b2bUnitService.loadList).toHaveBeenCalled();
+  });
+
+  describe('autoSelect uid', () => {
+    beforeEach(() => {
+      component.form = mockForm;
+      component.form.get('orgUnit.uid').setValue(null);
+    });
+
+    it('should auto-select unit if only one is available', () => {
+      activeUnitList$.next([{ id: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toEqual('test');
+    });
+
+    it('should not auto-select unit if more than one is available', () => {
+      activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toBeNull();
+    });
+  });
+
+  describe('autoSelect currency', () => {
+    beforeEach(() => {
+      component.form = mockForm;
+      component.form.get('currency.isocode').setValue(null);
+    });
+
+    it('should auto-select currency if only one is available', () => {
+      currencies$.next([{ isocode: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('currency.isocode').value).toEqual('test');
+    });
+
+    it('should not auto-select currency if more than one is available', () => {
+      currencies$.next([{ isocode: 'test1' }, { isocode: 'test2' }]);
+      fixture.detectChanges();
+      expect(component.form.get('currency.isocode').value).toBeNull();
+    });
   });
 });

@@ -2,14 +2,10 @@
 set -e
 set -o pipefail
 
-function validatestyles {
-    echo "-----"
-    echo "Validating styles app"
-    pushd projects/storefrontstyles
-    yarn
-    yarn sass
-    rm -rf temp-scss
-    popd
+function validateStylesLint {
+    echo "----"
+    echo "Running styleslint"
+    yarn lint:styles
 }
 
 function validateTsConfigFile {
@@ -54,18 +50,12 @@ else
     exit 1
 fi
 
-validatestyles
+validateStylesLint
 
 echo "Validating code linting"
 ng lint
 
 echo "-----"
-
-echo "Cleaning projects/schematics and feature-libs/organization schematics before prettier runs..."
-yarn --cwd projects/schematics
-yarn --cwd projects/schematics run clean
-yarn --cwd feature-libs/organization
-yarn --cwd feature-libs/organization run clean:schematics
 
 echo "Validating code formatting (using prettier)"
 yarn prettier 2>&1 |  tee prettier.log

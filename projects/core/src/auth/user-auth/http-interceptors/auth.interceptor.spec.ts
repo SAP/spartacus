@@ -14,10 +14,10 @@ import { TestBed } from '@angular/core/testing';
 import { Observable, of, Subscription } from 'rxjs';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthConfigService } from '../services/auth-config.service';
-import { AuthHeaderService } from '../services/auth-header.service';
+import { AuthHttpHeaderService } from '../services/auth-http-header.service';
 import { AuthInterceptor } from './auth.interceptor';
 
-class MockAuthHeaderService implements Partial<AuthHeaderService> {
+class MockAuthHeaderService implements Partial<AuthHttpHeaderService> {
   alterRequest(req) {
     return req;
   }
@@ -39,13 +39,13 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
 describe('AuthInterceptor', () => {
   let httpMock: HttpTestingController;
   let http: HttpClient;
-  let authHeaderService: AuthHeaderService;
+  let authHeaderService: AuthHttpHeaderService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        { provide: AuthHeaderService, useClass: MockAuthHeaderService },
+        { provide: AuthHttpHeaderService, useClass: MockAuthHeaderService },
         { provide: AuthConfigService, useClass: MockAuthConfigService },
         {
           provide: HTTP_INTERCEPTORS,
@@ -56,7 +56,7 @@ describe('AuthInterceptor', () => {
     });
 
     httpMock = TestBed.inject(HttpTestingController);
-    authHeaderService = TestBed.inject(AuthHeaderService);
+    authHeaderService = TestBed.inject(AuthHttpHeaderService);
     http = TestBed.inject(HttpClient);
   });
 

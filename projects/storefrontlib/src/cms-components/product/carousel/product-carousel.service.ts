@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Product,
-  ProductReference,
-  ProductReferenceService,
-  ProductService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { Product, ProductService, SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { ProductCarouselItem } from './product-carousel.model';
@@ -16,7 +10,6 @@ import { ProductCarouselItem } from './product-carousel.model';
 export class ProductCarouselService {
   constructor(
     protected productService: ProductService,
-    protected referenceService: ProductReferenceService,
     protected semanticPathService: SemanticPathService
   ) {}
 
@@ -27,22 +20,6 @@ export class ProductCarouselService {
     return this.productService.get(code).pipe(
       filter(Boolean),
       map((product) => this.convertProduct(product))
-    );
-  }
-
-  getProductReferences(
-    code: string,
-    referenceType: string,
-    displayTitle: boolean,
-    displayProductPrices: boolean
-  ): Observable<ProductCarouselItem[]> {
-    return this.referenceService.get(code, referenceType).pipe(
-      filter(Boolean),
-      map((refs: ProductReference[]) =>
-        refs.map((ref) =>
-          this.convertProduct(ref.target, displayTitle, displayProductPrices)
-        )
-      )
     );
   }
 

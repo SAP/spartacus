@@ -3,13 +3,13 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import * as path from 'path';
-import { ANGULAR_CORE, ANGULAR_LOCALIZE, UTF_8 } from '../constants';
+import { ANGULAR_CORE, UTF_8 } from '../constants';
 import {
   getAngularVersion,
   getMajorVersionNumber,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
-  isAngularLocalizeInstalled,
+  readPackageJson,
 } from './package-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
@@ -55,6 +55,17 @@ describe('Package utils', () => {
       .toPromise();
   });
 
+  describe('readPackageJson', () => {
+    it('should return parsed package.json content', async () => {
+      const buffer = appTree.read('package.json');
+
+      if (buffer) {
+        const packageJsonObject = JSON.parse(buffer.toString(UTF_8));
+        expect(packageJsonObject).toEqual(readPackageJson(appTree));
+      }
+    });
+  });
+
   describe('getAngularVersion', () => {
     it('should return angular version', async () => {
       const testVersion = '5.5.5';
@@ -98,27 +109,6 @@ describe('Package utils', () => {
       expect(featureLevel).toBeTruthy();
       expect(featureLevel.length).toEqual(3);
       expect(featureLevel).toEqual(version.substring(0, 3));
-    });
-  });
-
-  describe('isAngularLocalizeInstalled', () => {
-    beforeEach(() => {
-      const buffer = appTree.read('package.json');
-      if (!buffer) {
-        throw new Error('package.json not found');
-      }
-      let packageJsonObject = JSON.parse(buffer.toString(UTF_8));
-      packageJsonObject = {
-        ...packageJsonObject,
-        dependencies: {
-          ...packageJsonObject.dependencies,
-          [ANGULAR_LOCALIZE]: '^9.0.0',
-        },
-      };
-      appTree.overwrite('package.json', JSON.stringify(packageJsonObject));
-    });
-    it('should return feature level based on spartacus current version', async () => {
-      expect(isAngularLocalizeInstalled(appTree)).toEqual(true);
     });
   });
 });

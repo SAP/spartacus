@@ -7,7 +7,9 @@ cx-order-approval-detail-form {
     background-color: var(--cx-color-background);
 
     .cx-approval-form-label {
-      @include type('4');
+      font-size: var(--cx-font-size, 1.125rem);
+      font-weight: var(--cx-font-weight-bold);
+      line-height: var(--cx-line-height, 1.2222222222);
     }
   }
 

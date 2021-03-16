@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AuthService,
   GlobalMessageService,
@@ -70,38 +70,40 @@ describe('CloseAccountModalComponent', () => {
   let globalMessageService: any;
   let mockModalService: MockModalService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        CloseAccountModalComponent,
-        MockCxSpinnerComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
-        {
-          provide: UserService,
-          useClass: MockUserService,
-        },
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: AuthService,
-          useClass: MockAuthService,
-        },
-        {
-          provide: ModalService,
-          useClass: MockModalService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          CloseAccountModalComponent,
+          MockCxSpinnerComponent,
+          MockCxIconComponent,
+        ],
+        providers: [
+          {
+            provide: UserService,
+            useClass: MockUserService,
+          },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: AuthService,
+            useClass: MockAuthService,
+          },
+          {
+            provide: ModalService,
+            useClass: MockModalService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CloseAccountModalComponent);

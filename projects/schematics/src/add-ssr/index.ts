@@ -1,4 +1,4 @@
-import { experimental, strings } from '@angular-devkit/core';
+import { strings } from '@angular-devkit/core';
 import {
   apply,
   branchAndMerge,
@@ -15,72 +15,37 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
-import { appendHtmlElementToHead } from '@angular/cdk/schematics';
 import { isImported } from '@schematics/angular/utility/ast-utils';
 import {
-  addPackageJsonDependency,
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import {
-  ANGULAR_LOCALIZE,
   ANGULAR_PLATFORM_BROWSER,
   ANGULAR_UNIVERSAL_EXPRESS_VERSION,
+  NGUNIVERSAL_EXPRESS_ENGINE,
+  SPARTACUS_SETUP,
 } from '../shared/constants';
 import {
   getIndexHtmlPath,
   getPathResultsForFile,
   getTsSourceFile,
 } from '../shared/utils/file-utils';
+import { appendHtmlElementToHead } from '../shared/utils/html-utils';
+import {
+  addPackageJsonDependencies,
+  installPackageJsonDependencies,
+} from '../shared/utils/lib-utils';
 import {
   addImport,
   addToModuleImportsAndCommitChanges,
 } from '../shared/utils/module-file-utils';
-import { getAngularVersion } from '../shared/utils/package-utils';
-import { getProjectFromWorkspace } from '../shared/utils/workspace-utils';
-
-function addPackageJsonDependencies(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const angularVersion = getAngularVersion(tree);
-    const dependencies: NodeDependency[] = [
-      {
-        type: NodeDependencyType.Default,
-        version: angularVersion,
-        name: '@angular/platform-server',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: ANGULAR_UNIVERSAL_EXPRESS_VERSION,
-        name: '@nguniversal/express-engine',
-      },
-      {
-        type: NodeDependencyType.Dev,
-        version: '^6.0.4',
-        name: 'ts-loader',
-      },
-    ];
-
-    dependencies.forEach((dependency) => {
-      addPackageJsonDependency(tree, dependency);
-      context.logger.log(
-        'info',
-        `✅️ Added '${dependency.name}' into ${dependency.type}`
-      );
-    });
-
-    return tree;
-  };
-}
-
-function installPackageJsonDependencies(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    context.addTask(new NodePackageInstallTask());
-    context.logger.log('info', `🔍 Installing packages...`);
-    return tree;
-  };
-}
+import {
+  getAngularVersion,
+  getSpartacusSchematicsVersion,
+  readPackageJson,
+} from '../shared/utils/package-utils';
 
 function modifyAppServerModuleFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -112,16 +77,13 @@ function modifyAppServerModuleFile(): Rule {
   };
 }
 
-function modifyIndexHtmlFile(
-  project: experimental.workspace.WorkspaceProject,
-  options: SpartacusOptions
-): Rule {
+function modifyIndexHtmlFile(options: SpartacusOptions): Rule {
   return (tree: Tree) => {
     const buffer = tree.read('src/index.html');
     if (buffer) {
       const indexContent = buffer.toString();
       if (!indexContent.includes('<meta name="occ-backend-base-url"')) {
-        const projectIndexHtmlPath = getIndexHtmlPath(project);
+        const projectIndexHtmlPath = getIndexHtmlPath(tree);
         const baseUrl = options.baseUrl || 'OCC_BACKEND_BASE_URL_VALUE';
         const metaTags = [
           `<meta name="occ-backend-base-url" content="${baseUrl}" />`,
@@ -187,23 +149,48 @@ function modifyAppModuleFile(): Rule {
 
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const project = getProjectFromWorkspace(tree, options);
     const serverTemplate = provideServerFile(options);
+    const packageJsonObject = readPackageJson(tree);
+
+    const angularVersion = getAngularVersion(tree);
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+
+    const dependencies: NodeDependency[] = [
+      {
+        type: NodeDependencyType.Default,
+        version: angularVersion,
+        name: '@angular/platform-server',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: ANGULAR_UNIVERSAL_EXPRESS_VERSION,
+        name: NGUNIVERSAL_EXPRESS_ENGINE,
+      },
+      {
+        type: NodeDependencyType.Dev,
+        version: '^6.0.4',
+        name: 'ts-loader',
+      },
+      {
+        type: NodeDependencyType.Default,
+        version: spartacusVersion,
+        name: SPARTACUS_SETUP,
+      },
+    ];
 
     return chain([
-      addPackageJsonDependencies(),
-      externalSchematic('@nguniversal/express-engine', 'ng-add', {
+      addPackageJsonDependencies(dependencies, packageJsonObject),
+      externalSchematic(NGUNIVERSAL_EXPRESS_ENGINE, 'ng-add', {
         clientProject: options.project,
       }),
       modifyAppServerModuleFile(),
-      modifyIndexHtmlFile(project, options),
+      modifyIndexHtmlFile(options),
       branchAndMerge(
         chain([mergeWith(serverTemplate, MergeStrategy.Overwrite)]),
         MergeStrategy.Overwrite
       ),
       modifyAppModuleFile(),
       installPackageJsonDependencies(),
-      externalSchematic(ANGULAR_LOCALIZE, 'ng-add', options),
     ])(tree, context);
   };
 }

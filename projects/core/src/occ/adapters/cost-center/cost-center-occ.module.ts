@@ -16,17 +16,17 @@ import { defaultOccCostCentersConfig } from './default-occ-cost-centers-config';
   providers: [
     {
       provide: COST_CENTERS_NORMALIZER,
-      useClass: OccCostCenterListNormalizer,
+      useExisting: OccCostCenterListNormalizer,
       multi: true,
     },
     {
       provide: COST_CENTER_NORMALIZER,
-      useClass: OccCostCenterNormalizer,
+      useExisting: OccCostCenterNormalizer,
       multi: true,
     },
     {
       provide: COST_CENTER_SERIALIZER,
-      useClass: OccCostCenterSerializer,
+      useExisting: OccCostCenterSerializer,
       multi: true,
     },
   ],

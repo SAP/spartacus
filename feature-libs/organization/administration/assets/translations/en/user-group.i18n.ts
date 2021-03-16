@@ -1,4 +1,4 @@
-export const userGroup = {
+export const orgUserGroup = {
   header: 'All user groups ({{count}})',
   disabled: '(disabled)',
   uid: 'Code',
@@ -31,6 +31,16 @@ export const userGroup = {
     permission: 'Purchase limits',
   },
 
+  messages: {
+    update: 'User Group {{ item.name }} updated successfully',
+    create: 'User Group {{ item.name }} created successfully',
+    deleteTitle: 'Delete this user group?',
+    delete: 'Are you sure you want to delete user group {{ item.name }}?',
+    deleteBody:
+      'The users in this group are not affected when the user group is deleted.',
+    deleted: 'User Group {{ item.name }} deleted successfully',
+  },
+
   breadcrumbs: {
     list: 'All user groups',
     details: '{{name}}',
@@ -39,28 +49,29 @@ export const userGroup = {
   },
 };
 
-export const userGroupAssignedUsers = {
+export const orgUserGroupAssignedUsers = {
   title: 'Assigned users',
   subtitle: 'User group: {{ item.name }}',
   assigned: 'User {{item.name}} assigned successfully',
   unassigned: 'User {{item.name}} unassigned successfully',
 };
 
-export const userGroupUsers = {
+export const orgUserGroupUsers = {
   title: 'Manage users',
   subtitle: 'User group: {{ item.name }}',
   assigned: 'User {{item.name}} assigned successfully',
   unassigned: 'User {{item.name}} unassigned successfully',
   unassignAll: 'Unassign All',
+  unassignAllConfirmation: 'All users unassigned successfully',
 };
-export const userGroupAssignedPermissions = {
+export const orgUserGroupAssignedPermissions = {
   title: 'Assigned purchase limits',
   subtitle: 'Limit: {{ item.name }}',
   assigned: 'Purchase limits {{item.code}} assigned successfully',
   unassigned: 'Purchase limits {{item.code}} unassigned successfully',
 };
 
-export const userGroupPermissions = {
+export const orgUserGroupPermissions = {
   title: 'Manage purchase limits',
   subtitle: 'Limit: {{ item.name }}',
   assigned: 'Purchase limits {{item.code}} assigned successfully',

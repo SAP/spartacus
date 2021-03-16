@@ -7,10 +7,11 @@
 //Bring in the theme
 @import 'theme';
 @import 'theme/theme-2';
+
 //Fonts must be added separate from the theme
 @import 'fonts';
 
-//Bootsrap modules (these are things we are NOT changing at all)
+// Bootstrap modules (these are things we are NOT changing at all)
 @import '~bootstrap/scss/reboot';
 @import '~bootstrap/scss/type';
 @import '~bootstrap/scss/grid';
@@ -25,7 +26,7 @@
 // new
 @import 'cxbase/index';
 
-//bootsrap enhancements (these are things we ARE changing)
+//bootstrap enhancements (these are things we ARE changing)
 @import 'cxbase/blocks/buttons';
 @import 'cxbase/blocks/forms';
 @import 'cxbase/blocks/modal';
@@ -42,7 +43,6 @@
 @import 'cxbase/layout/app';
 @import 'cxbase/layout/page';
 @import 'cxbase/layout/section';
-@import 'cxbase/layout/container';
 //non-bootstrap blocks and components here below
 @import 'cxbase/blocks/paragraph';
 

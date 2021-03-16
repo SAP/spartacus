@@ -54,9 +54,12 @@ describe('MultiCartStatePersistenceService', () => {
 
   it('state should be cleared on base site change', () => {
     service['onRead'](null);
-    expect(store.dispatch).toHaveBeenCalledTimes(1);
+    expect(store.dispatch).toHaveBeenCalledTimes(2);
     expect(store.dispatch).toHaveBeenCalledWith(
       new CartActions.ClearCartState()
+    );
+    expect(store.dispatch).toHaveBeenCalledWith(
+      new CartActions.SetActiveCartId('')
     );
   });
 

@@ -7,23 +7,21 @@ import {
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { OrganizationItemService } from '../shared/organization-item.service';
-import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
-import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
-import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
-import { RolesCellComponent } from '../shared/organization-table/roles/roles-cell.component';
-import { StatusCellComponent } from '../shared/organization-table/status/status-cell.component';
-import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { ItemService } from '../shared/item.service';
+import { ListComponent } from '../shared/list/list.component';
+import { ListService } from '../shared/list/list.service';
+import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
+import { ActiveLinkCellComponent } from '../shared/table/active-link/active-link-cell.component';
+import { CellComponent } from '../shared/table/cell.component';
+import { RolesCellComponent } from '../shared/table/roles/roles-cell.component';
+import { StatusCellComponent } from '../shared/table/status/status-cell.component';
+import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserAssignedApproverListComponent } from './approvers/assigned/user-assigned-approver-list.component';
 import { UserApproverListComponent } from './approvers/user-approver-list.component';
-import { ChangePasswordFormComponent } from './change-password-form/change-password-form.component';
+import { UserChangePasswordFormComponent } from './change-password-form/user-change-password-form.component';
 import { UserDetailsComponent } from './details/user-details.component';
 import { UserFormComponent } from './form/user-form.component';
-import { ActiveUserGuard } from './guards/active-user.guard';
-import { ExistUserGuard } from './guards/exist-user.guard';
 import { UserAssignedPermissionListComponent } from './permissions/assigned/user-assigned-permission-list.component';
 import { UserPermissionListComponent } from './permissions/user-permission-list.component';
 import { UserItemService } from './services/user-item.service';
@@ -31,6 +29,9 @@ import { UserListService } from './services/user-list.service';
 import { UserRoutePageMetaResolver } from './services/user-route-page-meta.resolver';
 import { UserUserGroupListComponent } from './user-groups';
 import { UserAssignedUserGroupListComponent } from './user-groups/assigned/user-assigned-user-group-list.component';
+import { UserDetailsCellComponent } from './details-cell/user-details-cell.component';
+import { UserGroupDetailsCellComponent } from '../user-group/details-cell/user-group-details-cell.component';
+import { PermissionDetailsCellComponent } from '../permission/details-cell/permission-details-cell.component';
 
 const listPath = `organization/users/:${ROUTE_PARAMS.userCode}`;
 const paramsMapping: ParamsMapping = {
@@ -40,45 +41,45 @@ const paramsMapping: ParamsMapping = {
 export const userRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      user: {
+      orgUser: {
         paths: ['organization/users'],
       },
-      userCreate: {
+      orgUserCreate: {
         paths: ['organization/users/create'],
       },
-      userDetails: {
+      orgUserDetails: {
         paths: [listPath],
         paramsMapping,
       },
-      userEdit: {
+      orgUserEdit: {
         paths: [`${listPath}/edit`],
         paramsMapping,
       },
-      userChangePassword: {
+      orgUserChangePassword: {
         paths: [`${listPath}/change-password`],
         paramsMapping,
       },
-      userApprovers: {
+      orgUserApprovers: {
         paths: [`${listPath}/approvers`],
         paramsMapping,
       },
-      userAssignApprovers: {
+      orgUserAssignApprovers: {
         paths: [`${listPath}/approvers/assign`],
         paramsMapping,
       },
-      userPermissions: {
+      orgUserPermissions: {
         paths: [`${listPath}/purchase-limits`],
         paramsMapping,
       },
-      userAssignPermissions: {
+      orgUserAssignPermissions: {
         paths: [`${listPath}/purchase-limits/assign`],
         paramsMapping,
       },
-      userUserGroups: {
+      orgUserUserGroups: {
         paths: [`${listPath}/user-groups`],
         paramsMapping,
       },
-      userAssignUserGroups: {
+      orgUserAssignUserGroups: {
         paths: [`${listPath}/user-groups/assign`],
         paramsMapping,
       },
@@ -89,14 +90,14 @@ export const userRoutingConfig: RoutingConfig = {
 export const userCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageUsersListComponent: {
-      component: OrganizationListComponent,
+      component: ListComponent,
       providers: [
         {
-          provide: OrganizationListService,
+          provide: ListService,
           useExisting: UserListService,
         },
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useExisting: UserItemService,
         },
       ],
@@ -104,7 +105,7 @@ export const userCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'user.breadcrumbs.list',
+              breadcrumb: 'orgUser.breadcrumbs.list',
               resolver: UserRoutePageMetaResolver,
             },
           },
@@ -117,24 +118,22 @@ export const userCmsConfig: CmsConfig = {
           {
             path: `:${ROUTE_PARAMS.userCode}`,
             component: UserDetailsComponent,
-            canActivate: [ExistUserGuard],
             data: {
-              cxPageMeta: { breadcrumb: 'user.breadcrumbs.details' },
+              cxPageMeta: { breadcrumb: 'orgUser.breadcrumbs.details' },
             },
             children: [
               {
                 path: `edit`,
                 component: UserFormComponent,
-                canActivate: [ActiveUserGuard],
               },
               {
                 path: `change-password`,
-                component: ChangePasswordFormComponent,
+                component: UserChangePasswordFormComponent,
               },
               {
                 path: 'user-groups',
                 data: {
-                  cxPageMeta: { breadcrumb: 'user.breadcrumbs.userGroups' },
+                  cxPageMeta: { breadcrumb: 'orgUser.breadcrumbs.userGroups' },
                 },
                 children: [
                   {
@@ -150,7 +149,7 @@ export const userCmsConfig: CmsConfig = {
               {
                 path: 'approvers',
                 data: {
-                  cxPageMeta: { breadcrumb: 'user.breadcrumbs.approvers' },
+                  cxPageMeta: { breadcrumb: 'orgUser.breadcrumbs.approvers' },
                 },
                 children: [
                   {
@@ -166,7 +165,7 @@ export const userCmsConfig: CmsConfig = {
               {
                 path: 'purchase-limits',
                 data: {
-                  cxPageMeta: { breadcrumb: 'user.breadcrumbs.permissions' },
+                  cxPageMeta: { breadcrumb: 'orgUser.breadcrumbs.permissions' },
                 },
                 children: [
                   {
@@ -192,11 +191,10 @@ export function userTableConfigFactory(): TableConfig {
   return userTableConfig;
 }
 
-const cells = {
-  actions: {
-    dataComponent: AssignCellComponent,
-  },
+const actions = {
+  dataComponent: AssignCellComponent,
 };
+
 const pagination = {
   pageSize: MAX_OCC_INTEGER_VALUE,
 };
@@ -206,9 +204,6 @@ export const userTableConfig: TableConfig = {
     [OrganizationTableType.USER]: {
       cells: ['name', 'active', 'uid', 'roles', 'unit'],
       options: {
-        pagination: {
-          sort: 'byName',
-        },
         cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
@@ -217,7 +212,7 @@ export const userTableConfig: TableConfig = {
             dataComponent: StatusCellComponent,
           },
           uid: {
-            dataComponent: OrganizationCellComponent,
+            dataComponent: CellComponent,
           },
           roles: {
             dataComponent: RolesCellComponent,
@@ -231,39 +226,69 @@ export const userTableConfig: TableConfig = {
     [OrganizationTableType.USER_APPROVERS]: {
       cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_APPROVERS]: {
       cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
+          actions,
+        },
         pagination,
       },
     },
     [OrganizationTableType.USER_USER_GROUPS]: {
-      cells: ['uid', 'actions'],
+      cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserGroupDetailsCellComponent,
+          },
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_USER_GROUPS]: {
-      cells: ['uid', 'actions'],
+      cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserGroupDetailsCellComponent,
+          },
+          actions,
+        },
         pagination,
       },
     },
     [OrganizationTableType.USER_PERMISSIONS]: {
       cells: ['code', 'actions'],
       options: {
-        cells,
+        cells: {
+          code: {
+            dataComponent: PermissionDetailsCellComponent,
+          },
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_PERMISSIONS]: {
       cells: ['code', 'actions'],
       options: {
-        cells,
+        cells: {
+          code: {
+            dataComponent: PermissionDetailsCellComponent,
+          },
+          actions,
+        },
         pagination,
       },
     },

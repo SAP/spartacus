@@ -4,6 +4,6 @@
 yarn.lock
 .release-it.*
 *_spec.ts
-*_spec.js
-*_spec.js.map
-tsconfig.json
+jest.ts
+jest.schematics.config.js
+tsconfig.schematics.json

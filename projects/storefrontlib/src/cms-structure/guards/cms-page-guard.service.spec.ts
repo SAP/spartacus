@@ -7,6 +7,7 @@ import {
   Page,
   PageContext,
   PageType,
+  RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
 import { NEVER, of } from 'rxjs';
@@ -15,6 +16,7 @@ import { CmsI18nService } from '../services/cms-i18n.service';
 import { CmsRoutesService } from '../services/cms-routes.service';
 import { CmsPageGuardService } from './cms-page-guard.service';
 import { CmsComponentsService } from '@spartacus/storefront';
+import createSpy = jasmine.createSpy;
 
 const NOT_FOUND_ROUTE_NAME = 'notFound';
 const NOT_FOUND_URL = '/not-found';
@@ -46,6 +48,10 @@ class MockCmsComponentsService implements Partial<CmsComponentsService> {
   determineMappings = (c) => of(c);
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  changeNextPageContext = createSpy();
+}
+
 describe('CmsPageGuardService', () => {
   let cms: CmsService;
   let cmsRoutes: CmsRoutesService;
@@ -65,6 +71,10 @@ describe('CmsPageGuardService', () => {
         {
           provide: CmsComponentsService,
           useClass: MockCmsComponentsService,
+        },
+        {
+          provide: RoutingService,
+          useClass: MockRoutingService,
         },
       ],
       imports: [RouterTestingModule],
@@ -327,6 +337,33 @@ describe('CmsPageGuardService', () => {
         state
       );
       expect(result).toBe(expected);
+    });
+
+    it('should change the page context', () => {
+      const notFoundPageIndex = 'notFoundPageIndex';
+      spyOn(service, 'canActivatePage').and.returnValue(of({} as any));
+      spyOn(cms, 'getPage').and.returnValue(of(notFoundPageData));
+      spyOn(cms, 'getPageIndex').and.callFake((ctx: PageContext) =>
+        ctx.id === NOT_FOUND_URL
+          ? of(notFoundPageIndex)
+          : of(undefined, notFoundPageIndex)
+      );
+
+      const notFoundCmsPageContext: PageContext = {
+        type: PageType.CONTENT_PAGE,
+        id: NOT_FOUND_URL,
+      };
+
+      const routingService = TestBed.inject(RoutingService);
+
+      service
+        .canActivateNotFoundPage(pageContext, route, state)
+        .subscribe()
+        .unsubscribe();
+
+      expect(routingService.changeNextPageContext).toHaveBeenCalledWith(
+        notFoundCmsPageContext
+      );
     });
   });
 });

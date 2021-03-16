@@ -43,7 +43,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'returnRequestList',
     'returnRequest',
   ],
-  storeFinder: ['storeFinder'],
   pwa: ['pwa'],
   checkout: [
     'checkout',

@@ -1,14 +1,23 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { combineLatest, EMPTY, Observable, Subscription, timer } from 'rxjs';
 import {
-  auditTime,
+  combineLatest,
+  EMPTY,
+  Observable,
+  of,
+  Subscription,
+  timer,
+  using,
+} from 'rxjs';
+import {
   debounce,
   distinctUntilChanged,
   filter,
   map,
+  pairwise,
   shareReplay,
   switchMap,
+  switchMapTo,
   take,
   tap,
   withLatestFrom,
@@ -25,6 +34,7 @@ import {
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
 import { StateWithMultiCart } from '../store/multi-cart-state';
+import { activeCartInitialState } from '../store/reducers/multi-cart.reducer';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { getCartIdByUserId, isTempCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
@@ -33,34 +43,35 @@ import { MultiCartService } from './multi-cart.service';
   providedIn: 'root',
 })
 export class ActiveCartService implements OnDestroy {
-  private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
-    'PREVIOUS_USER_ID_INITIAL_VALUE';
-  private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
   private activeCart$: Observable<Cart>;
   protected subscription = new Subscription();
 
-  private userId = OCC_USER_ID_ANONYMOUS;
-  private cartId;
-  private cartUser: User;
-
-  private activeCartId$ = this.store.pipe(
+  // This stream is used for referencing carts in API calls.
+  private activeCartId$ = this.userIdService.getUserId().pipe(
+    // We want to wait with initialization of cartId until we have userId initialized
+    // We have take(1) to not trigger this stream, when userId changes.
+    take(1),
+    switchMapTo(this.store),
     select(MultiCartSelectors.getActiveCartId),
-    filter((cartId) => typeof cartId !== 'undefined'),
+    // We also wait until we initialize cart from localStorage. Before that happens cartId in store === null
+    filter((cartId) => cartId !== activeCartInitialState),
     map((cartId) => {
-      if (!cartId) {
+      if (cartId === '') {
+        // We fallback to current when we don't have particular cart id -> cartId === '', because that's how you reference latest user cart.
         return OCC_CART_ID_CURRENT;
       }
       return cartId;
     })
   );
+
   private cartSelector$ = this.activeCartId$.pipe(
     switchMap((cartId) => this.multiCartService.getCartEntity(cartId))
   );
 
   constructor(
     protected store: Store<StateWithMultiCart>,
-    protected userIdService: UserIdService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartService,
+    protected userIdService: UserIdService
   ) {
     this.initActiveCart();
   }
@@ -70,40 +81,39 @@ export class ActiveCartService implements OnDestroy {
   }
 
   protected initActiveCart() {
+    // Any change of user id is also interesting for us, because we have to merge/load/switch cart in those cases.
     this.subscription.add(
-      combineLatest([
-        this.userIdService.getUserId(),
-        this.activeCartId$.pipe(auditTime(0)),
-      ])
-        .pipe(map(([userId]) => userId))
-        .subscribe((userId) => {
-          this.userId = userId;
-          if (this.userId !== OCC_USER_ID_ANONYMOUS) {
-            if (this.isJustLoggedIn(userId)) {
-              this.loadOrMerge(this.cartId);
-            }
+      this.userIdService
+        .getUserId()
+        .pipe(
+          // We never trigger cart merge/load on app initialization here and that's why we wait with pairwise for a change of userId (not initialization).
+          pairwise(),
+          switchMap(([previousUserId, userId]) =>
+            // We need cartId once we have the previous and current userId. We don't want to subscribe to cartId stream before.
+            combineLatest([
+              of(previousUserId),
+              of(userId),
+              this.activeCartId$,
+            ]).pipe(take(1))
+          )
+        )
+        .subscribe(([previousUserId, userId, cartId]) => {
+          // Only change of user and not a logout (current user id !== anonymous) should trigger loading mechanism
+          if (this.isJustLoggedIn(userId, previousUserId)) {
+            this.loadOrMerge(cartId, userId, previousUserId);
           }
-          this.previousUserId = userId;
         })
     );
 
-    this.subscription.add(
-      this.activeCartId$.subscribe((cartId) => {
-        this.cartId = cartId;
-      })
-    );
-
-    this.activeCart$ = this.cartSelector$.pipe(
-      withLatestFrom(this.activeCartId$),
-      map(([cartEntity, activeCartId]: [ProcessesLoaderState<Cart>, string]): {
+    // Stream for getting the cart value
+    const activeCartValue$ = this.cartSelector$.pipe(
+      map((cartEntity: ProcessesLoaderState<Cart>): {
         cart: Cart;
-        cartId: string;
         isStable: boolean;
         loaded: boolean;
       } => {
         return {
           cart: cartEntity.value,
-          cartId: activeCartId,
           isStable: !cartEntity.loading && cartEntity.processesCount === 0,
           loaded:
             (cartEntity.error || cartEntity.success) && !cartEntity.loading,
@@ -112,23 +122,30 @@ export class ActiveCartService implements OnDestroy {
       // we want to emit empty carts even if those are not stable
       // on merge cart action we want to switch to empty cart so no one would use old cartId which can be already obsolete
       // so on merge action the resulting stream looks like this: old_cart -> {} -> new_cart
-      filter(({ isStable, cart }) => isStable || this.isEmpty(cart)),
-      tap(({ cart, cartId, loaded, isStable }) => {
+      filter(({ isStable, cart }) => isStable || this.isEmpty(cart))
+    );
+
+    // Responsible for loading cart when it's not (eg. app initialization when we have only cart id)
+    const activeCartLoading$ = activeCartValue$.pipe(
+      withLatestFrom(this.activeCartId$, this.userIdService.getUserId()),
+      tap(([{ cart, loaded, isStable }, cartId, userId]) => {
         if (
           isStable &&
           this.isEmpty(cart) &&
           !loaded &&
           !isTempCartId(cartId)
         ) {
-          this.load(cartId);
+          this.load(cartId, userId);
         }
-      }),
+      })
+    );
+
+    this.activeCart$ = using(
+      () => activeCartLoading$.subscribe(),
+      () => activeCartValue$
+    ).pipe(
+      // Normalization for empty cart value. It will always be returned as empty object.
       map(({ cart }) => (cart ? cart : {})),
-      tap((cart) => {
-        if (cart) {
-          this.cartUser = cart.user;
-        }
-      }),
       distinctUntilChanged(),
       shareReplay({ bufferSize: 1, refCount: true })
     );
@@ -146,7 +163,8 @@ export class ActiveCartService implements OnDestroy {
    */
   getActiveCartId(): Observable<string> {
     return this.activeCart$.pipe(
-      map((cart) => getCartIdByUserId(cart, this.userId)),
+      withLatestFrom(this.userIdService.getUserId()),
+      map(([cart, userId]) => getCartIdByUserId(cart, userId)),
       distinctUntilChanged()
     );
   }
@@ -202,12 +220,17 @@ export class ActiveCartService implements OnDestroy {
     );
   }
 
-  private loadOrMerge(cartId: string): void {
+  private loadOrMerge(
+    cartId: string,
+    userId: string,
+    previousUserId: string
+  ): void {
     // for login user, whenever there's an existing cart, we will load the user
     // current cart and merge it into the existing cart
-    if (!cartId || cartId === OCC_CART_ID_CURRENT) {
+    // cartId will be defined (not '', null, undefined)
+    if (cartId === OCC_CART_ID_CURRENT) {
       this.multiCartService.loadCart({
-        userId: this.userId,
+        userId,
         cartId: OCC_CART_ID_CURRENT,
         extraData: {
           active: true,
@@ -216,22 +239,23 @@ export class ActiveCartService implements OnDestroy {
     } else if (this.isGuestCart()) {
       this.guestCartMerge(cartId);
     } else if (
-      this.userId !== this.previousUserId &&
-      this.userId !== OCC_USER_ID_ANONYMOUS &&
-      this.previousUserId !== OCC_USER_ID_ANONYMOUS
+      userId !== previousUserId &&
+      userId !== OCC_USER_ID_ANONYMOUS &&
+      previousUserId !== OCC_USER_ID_ANONYMOUS
     ) {
       // This case covers the case when you are logged in and then asm user logs in and you don't want to merge, but only load emulated user cart
       // Similarly when you are logged in as asm user and you logout and want to resume previous user session
       this.multiCartService.loadCart({
-        userId: this.userId,
+        userId,
         cartId,
         extraData: {
           active: true,
         },
       });
     } else {
+      // We have particular cart locally, but we logged in, so we need to combine this with current cart or make it ours.
       this.multiCartService.mergeToCurrentCart({
-        userId: this.userId,
+        userId,
         cartId,
         extraData: {
           active: true,
@@ -240,19 +264,12 @@ export class ActiveCartService implements OnDestroy {
     }
   }
 
-  private load(cartId: string): void {
-    if (this.userId !== OCC_USER_ID_ANONYMOUS) {
+  private load(cartId: string, userId: string): void {
+    // We want to load cart in every case apart from anonymous user and current cart combination
+    if (!(userId === OCC_USER_ID_ANONYMOUS && cartId === OCC_CART_ID_CURRENT)) {
       this.multiCartService.loadCart({
-        userId: this.userId,
-        cartId: cartId ? cartId : OCC_CART_ID_CURRENT,
-        extraData: {
-          active: true,
-        },
-      });
-    } else if (cartId && cartId !== OCC_CART_ID_CURRENT) {
-      this.multiCartService.loadCart({
-        userId: this.userId,
-        cartId: cartId,
+        userId,
+        cartId,
         extraData: {
           active: true,
         },
@@ -265,13 +282,15 @@ export class ActiveCartService implements OnDestroy {
       productCode: entry.product.code,
       quantity: entry.quantity,
     }));
-    this.requireLoadedCartForGuestMerge().subscribe((cartState) => {
-      this.multiCartService.addEntries(
-        this.userId,
-        getCartIdByUserId(cartState.value, this.userId),
-        entriesToAdd
-      );
-    });
+    this.requireLoadedCartForGuestMerge()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cartState, userId]) => {
+        this.multiCartService.addEntries(
+          userId,
+          getCartIdByUserId(cartState.value, userId),
+          entriesToAdd
+        );
+      });
   }
 
   private requireLoadedCartForGuestMerge() {
@@ -280,17 +299,20 @@ export class ActiveCartService implements OnDestroy {
     );
   }
 
-  private isCartCreating(cartState) {
+  private isCartCreating(
+    cartState: ProcessesLoaderState<Cart>,
+    cartId: string
+  ) {
     // cart creating is always represented with loading flags
     // when all loading flags are false it means that we restored wrong cart id
     // could happen on context change or reload right in the middle on cart create call
     return (
-      isTempCartId(this.cartId) &&
+      isTempCartId(cartId) &&
       (cartState.loading || cartState.success || cartState.error)
     );
   }
 
-  private requireLoadedCart(
+  requireLoadedCart(
     customCartSelector$?: Observable<ProcessesLoaderState<Cart>>
   ): Observable<ProcessesLoaderState<Cart>> {
     // For guest cart merge we want to filter guest cart in the whole stream
@@ -303,42 +325,49 @@ export class ActiveCartService implements OnDestroy {
     return cartSelector$.pipe(
       filter((cartState) => !cartState.loading),
       // Avoid load/create call when there are new cart creating at the moment
-      filter((cartState) => !this.isCartCreating(cartState)),
+      withLatestFrom(this.activeCartId$),
+      filter(([cartState, cartId]) => !this.isCartCreating(cartState, cartId)),
+      map(([cartState]) => cartState),
       take(1),
-      switchMap((cartState) => {
+      withLatestFrom(this.userIdService.getUserId()),
+      tap(([cartState, userId]) => {
         // Try to load the cart, because it might have been created on another device between our login and add entry call
-        if (
-          this.isEmpty(cartState.value) &&
-          this.userId !== OCC_USER_ID_ANONYMOUS
-        ) {
-          this.load(undefined);
+        if (this.isEmpty(cartState.value) && userId !== OCC_USER_ID_ANONYMOUS) {
+          this.load(OCC_CART_ID_CURRENT, userId);
         }
+      }),
+      switchMap(() => {
         return cartSelector$;
       }),
       filter((cartState) => !cartState.loading),
       // create cart can happen to anonymous user if it is not empty or to any other user if it is loaded and empty
+      withLatestFrom(this.userIdService.getUserId()),
       filter(
-        (cartState) =>
-          this.userId === OCC_USER_ID_ANONYMOUS ||
+        ([cartState, userId]) =>
+          userId === OCC_USER_ID_ANONYMOUS ||
           cartState.success ||
           cartState.error
       ),
       take(1),
-      switchMap((cartState) => {
+      tap(([cartState, userId]) => {
         if (this.isEmpty(cartState.value)) {
           this.multiCartService.createCart({
-            userId: this.userId,
+            userId,
             extraData: {
               active: true,
             },
           });
         }
+      }),
+      switchMap(() => {
         return cartSelector$;
       }),
       filter((cartState) => !cartState.loading),
       filter((cartState) => cartState.success || cartState.error),
       // wait for active cart id to point to code/guid to avoid some work on temp cart entity
-      filter((cartState) => !this.isCartCreating(cartState)),
+      withLatestFrom(this.activeCartId$),
+      filter(([cartState, cartId]) => !this.isCartCreating(cartState, cartId)),
+      map(([cartState]) => cartState),
       filter((cartState) => !this.isEmpty(cartState.value)),
       take(1)
     );
@@ -351,14 +380,16 @@ export class ActiveCartService implements OnDestroy {
    * @param quantity
    */
   addEntry(productCode: string, quantity: number): void {
-    this.requireLoadedCart().subscribe((cartState) => {
-      this.multiCartService.addEntry(
-        this.userId,
-        getCartIdByUserId(cartState.value, this.userId),
-        productCode,
-        quantity
-      );
-    });
+    this.requireLoadedCart()
+      .pipe(withLatestFrom(this.userIdService.getUserId()))
+      .subscribe(([cartState, userId]) => {
+        this.multiCartService.addEntry(
+          userId,
+          getCartIdByUserId(cartState.value, userId),
+          productCode,
+          quantity
+        );
+      });
   }
 
   /**
@@ -367,11 +398,11 @@ export class ActiveCartService implements OnDestroy {
    * @param entry
    */
   removeEntry(entry: OrderEntry): void {
-    this.multiCartService.removeEntry(
-      this.userId,
-      this.cartId,
-      entry.entryNumber
-    );
+    this.activeCartId$
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) => {
+        this.multiCartService.removeEntry(userId, cartId, entry.entryNumber);
+      });
   }
 
   /**
@@ -381,12 +412,16 @@ export class ActiveCartService implements OnDestroy {
    * @param quantity
    */
   updateEntry(entryNumber: number, quantity: number): void {
-    this.multiCartService.updateEntry(
-      this.userId,
-      this.cartId,
-      entryNumber,
-      quantity
-    );
+    this.activeCartId$
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) => {
+        this.multiCartService.updateEntry(
+          userId,
+          cartId,
+          entryNumber,
+          quantity
+        );
+      });
   }
 
   /**
@@ -409,7 +444,11 @@ export class ActiveCartService implements OnDestroy {
    * @param email
    */
   addEmail(email: string): void {
-    this.multiCartService.assignEmail(this.cartId, this.userId, email);
+    this.activeCartId$
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) => {
+        this.multiCartService.assignEmail(cartId, userId, email);
+      });
   }
 
   /**
@@ -419,14 +458,21 @@ export class ActiveCartService implements OnDestroy {
     return this.getActive().pipe(map((cart) => cart.user));
   }
 
+  // TODO: Make cart required param in 4.0 and drop the subscribe/unsubscribe.
   /**
    * Returns true for guest cart
    */
-  isGuestCart(): boolean {
+  isGuestCart(cart?: Cart): boolean {
+    if (!cart) {
+      this.activeCart$
+        .subscribe((activeCart) => (cart = activeCart))
+        .unsubscribe();
+    }
+    const cartUser = cart?.user;
     return (
-      this.cartUser &&
-      (this.cartUser.name === OCC_USER_ID_GUEST ||
-        this.isEmail(this.cartUser.uid.split('|').slice(1).join('|')))
+      cartUser &&
+      (cartUser.name === OCC_USER_ID_GUEST ||
+        this.isEmail(cartUser.uid.split('|').slice(1).join('|')))
     );
   }
 
@@ -470,10 +516,10 @@ export class ActiveCartService implements OnDestroy {
     );
   }
 
-  private isJustLoggedIn(userId: string): boolean {
+  private isJustLoggedIn(userId: string, previousUserId: string): boolean {
     return (
-      this.previousUserId !== userId && // *just* logged in
-      this.previousUserId !== this.PREVIOUS_USER_ID_INITIAL_VALUE // not app initialization
+      userId !== OCC_USER_ID_ANONYMOUS && // not logged out
+      previousUserId !== userId // *just* logged in / switched to ASM emulation
     );
   }
 }

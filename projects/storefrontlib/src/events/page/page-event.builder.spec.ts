@@ -1,24 +1,33 @@
 import { TestBed } from '@angular/core/testing';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { Action, ActionsSubject } from '@ngrx/store';
-import { ActivatedRouterStateSnapshot, EventService } from '@spartacus/core';
+import { ActionsSubject } from '@ngrx/store';
+import {
+  createFrom,
+  EventService,
+  FeatureConfigService,
+} from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { NavigationEvent } from '../navigation/navigation.event';
 import { PageEventBuilder } from './page-event.builder';
-import { HomePageEvent, PageEvent } from './page.events';
+import { PageEvent } from './page.events';
 
-interface ActionWithPayload extends Action {
-  payload: any;
+// TODO: #10896 - delete this whole file
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel(_version: string): boolean {
+    return true;
+  }
 }
 
 describe('PageEventBuilder', () => {
   let eventService: EventService;
-  let actions$: Subject<ActionWithPayload>;
 
   beforeEach(() => {
-    actions$ = new Subject();
     TestBed.configureTestingModule({
-      providers: [{ provide: ActionsSubject, useValue: actions$ }],
+      providers: [
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
+        // TODO: #10896 - remove this
+        { provide: ActionsSubject, useValue: new Subject() },
+      ],
     });
 
     TestBed.inject(PageEventBuilder); // register events
@@ -26,38 +35,20 @@ describe('PageEventBuilder', () => {
   });
 
   it('PageEvent', () => {
-    const payload = {
-      routerState: {
-        semanticRoute: 'aPage',
-        url: 'random url',
-      } as ActivatedRouterStateSnapshot,
-    };
-
     let result: PageEvent;
     eventService
       .get(PageEvent)
       .pipe(take(1))
       .subscribe((value) => (result = value));
 
-    actions$.next({ type: ROUTER_NAVIGATED, payload });
-    expect(result).toEqual(jasmine.objectContaining(payload.routerState));
-  });
-
-  it('HomePageEvent', () => {
-    const payload = {
-      routerState: {
-        semanticRoute: 'home',
-        url: 'home url',
-      } as ActivatedRouterStateSnapshot,
-    };
-
-    let result: HomePageEvent;
-    eventService
-      .get(HomePageEvent)
-      .pipe(take(1))
-      .subscribe((value) => (result = value));
-
-    actions$.next({ type: ROUTER_NAVIGATED, payload });
-    expect(result).toEqual(jasmine.objectContaining(payload.routerState));
+    const navigationEvent = createFrom(NavigationEvent, {
+      context: { id: 'aPage' },
+      semanticRoute: 'aPage',
+      url: 'random url',
+      params: undefined,
+    });
+    eventService.dispatch(navigationEvent);
+    expect(result).toBeTruthy();
+    expect(result).toEqual(jasmine.objectContaining({ ...navigationEvent }));
   });
 });

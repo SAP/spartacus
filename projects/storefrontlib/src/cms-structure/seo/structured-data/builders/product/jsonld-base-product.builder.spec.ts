@@ -36,31 +36,35 @@ describe('JsonLdBaseProductBuilder', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should build simple product schema', () => {
+  it('should have simple product schema', () => {
+    let result;
     service
       .build(simpeProductMock)
       .subscribe((schema) => {
-        expect(schema).toEqual({
-          sku: '123',
-          name: 'Product 123',
-          description: 'Product 123 summary',
-        });
+        result = schema;
       })
       .unsubscribe();
+    expect(result).toEqual({
+      sku: '123',
+      name: 'Product 123',
+      description: 'Product 123 summary',
+    });
   });
 
-  it('should build full base product schema', () => {
+  it('should have full base product schema', () => {
+    let result;
     service
       .build(completeProductMock)
       .subscribe((schema) => {
-        expect(schema).toEqual({
-          sku: '456',
-          name: 'Product 456',
-          description: 'Product 456 summary',
-          image: 'https://images.com/456.jpg',
-          brand: 'mybrand',
-        });
+        result = schema;
       })
       .unsubscribe();
+    expect(result).toEqual({
+      sku: '456',
+      name: 'Product 456',
+      description: 'Product 456 summary',
+      image: 'https://images.com/456.jpg',
+      brand: 'mybrand',
+    });
   });
 });

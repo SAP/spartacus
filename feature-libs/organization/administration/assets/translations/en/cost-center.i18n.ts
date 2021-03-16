@@ -1,4 +1,4 @@
-export const costCenter = {
+export const orgCostCenter = {
   header: 'All cost centers ({{count}})',
 
   code: 'Code',
@@ -17,9 +17,19 @@ export const costCenter = {
   },
 
   messages: {
+    deactivateTitle: 'Disable this cost center?',
     deactivate: 'Are you sure you want to disable this cost center?',
+    deactivateBody:
+      'Disabled cost centers cannot be used for placing new orders. Ensure that your unit has at least one cost center. Existing orders are not affected.',
     confirmEnabled: 'Cost Center {{ item.name }} enabled successfully',
     confirmDisabled: 'Cost Center {{ item.name }} disabled successfully',
+    update: 'Cost Center {{ item.name }} updated successfully',
+    create: 'Cost Center {{ item.name }} created successfully',
+  },
+  info: {
+    disabledEdit: 'Enable the cost center to allow editing.',
+    disabledEnable:
+      'Unit must be enabled before this cost center may be enabled.',
   },
 
   details: {
@@ -48,16 +58,16 @@ export const costCenter = {
   },
 };
 
-export const costCenterAssignedBudgets = {
+export const orgCostCenterAssignedBudgets = {
   title: 'Assigned budgets',
   subtitle: 'Cost Center: {{ item.name }}',
-  assigned: 'Budget "{{ item.name }}" assigned successfully',
-  unassigned: 'Budget "{{ item.name }}" unassigned successfully',
+  assigned: 'Budget {{ item.name }} assigned successfully',
+  unassigned: 'Budget {{ item.name }} unassigned successfully',
 };
 
-export const costCenterBudgets = {
+export const orgCostCenterBudgets = {
   title: 'Manage budgets',
   subtitle: 'Cost Center: {{ item.name }}',
-  assigned: 'Budget assigned successfully',
-  unassigned: 'Budget unassigned successfully',
+  assigned: 'Budget {{ item.name }} assigned successfully',
+  unassigned: 'Budget {{ item.name }} unassigned successfully',
 };

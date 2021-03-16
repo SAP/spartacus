@@ -52,7 +52,11 @@ export class OccAsmAdapter implements AsmAdapter {
       params = params.set('pageSize', '' + options.pageSize);
     }
 
-    const url = this.occEndpointsService.getRawEndpoint('asmCustomerSearch');
+    const url = this.occEndpointsService.buildUrl(
+      'asmCustomerSearch',
+      {},
+      { prefix: false, baseSite: false }
+    );
 
     return this.http
       .get<CustomerSearchPage>(url, { headers, params })

@@ -5,7 +5,7 @@ import {
   ElementRef,
   Input,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseFocusService } from '../base/base-focus.service';
 import { VisibleFocusConfig } from '../keyboard-focus.model';
@@ -90,22 +90,24 @@ const MockTabKeyEvent = {
 
 describe('VisibleFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        MockComponent,
-        CustomFocusDirective,
-        CustomFakeFocusDirective,
-      ],
-      providers: [
-        {
-          provide: BaseFocusService,
-          useClass: MockVisibleFocusService,
-        },
-      ],
-    }).compileComponents();
-    fixture = TestBed.createComponent(MockComponent);
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          MockComponent,
+          CustomFocusDirective,
+          CustomFakeFocusDirective,
+        ],
+        providers: [
+          {
+            provide: BaseFocusService,
+            useClass: MockVisibleFocusService,
+          },
+        ],
+      }).compileComponents();
+      fixture = TestBed.createComponent(MockComponent);
+    })
+  );
 
   beforeEach(() => {
     fixture.detectChanges();

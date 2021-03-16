@@ -74,16 +74,8 @@
 }
 
 %organizationList {
-  // A lot of components that are inside the split view should disappear, so that the
-  // alignment of nested cx-view elements will flow nicely.
-  ng-component,
-  cx-organization-sub-list,
-  form,
-  cx-unit-list,
-  cx-organization-card,
-  cx-organization-form,
-  // we have only a few components that have specific selectors that should disappear
-  cx-unit-form {
+  .content-wrapper,
+  form {
     display: contents;
   }
 
@@ -188,7 +180,7 @@
 
       th,
       td {
-        .content-wrapper {
+        cx-table-data-cell {
           min-height: auto;
           a {
             padding-top: 0;
@@ -235,22 +227,17 @@
     }
   }
 
-  &.unit {
-    .list > cx-table {
-      .name {
-        ng-component {
-          padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
-          button.tree-item-toggle {
-            margin-inline-start: -40px;
-          }
-        }
+  cx-org-toggle-link-cell {
+    padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
+    button.tree-item-toggle {
+      margin-inline-start: -40px;
+      min-width: 40px;
+    }
+  }
 
-        @include media-breakpoint-down(md) {
-          ng-component {
-            padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
-          }
-        }
-      }
+  @include media-breakpoint-down(md) {
+    cx-org-toggle-link-cell {
+      padding-inline-start: calc(2.5rem + var(--cx-depth-level) * 1.5rem);
     }
   }
 }
@@ -275,10 +262,14 @@
         @include visible-focus();
         outline-offset: -2px;
       }
+
+      .hide-focus-border {
+        outline: none;
+      }
     }
   }
 
-  cx-organization-sub-list {
+  cx-org-sub-list {
     &:not(.has-nested-view) {
       cx-table.vertical,
       table {
@@ -329,7 +320,7 @@
       height: 74px;
     }
 
-    &.vertical td .content-wrapper {
+    &.vertical td cx-table-data-cell {
       display: inline;
       align-items: center;
       height: 74px;
@@ -384,6 +375,10 @@
         @include media-breakpoint-up(lg) {
           padding-inline-start: 20px;
         }
+
+        &.button {
+          color: var(--cx-color-primary);
+        }
       }
       ul.text {
         margin: 0;
@@ -398,15 +393,17 @@
         }
       }
       a {
-        @include media-breakpoint-up(lg) {
-          padding-inline-start: 20px;
-          display: flex;
-          align-items: center;
-          width: 100%;
-          min-height: 74px;
+        padding-inline-start: 20px;
 
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-height: 74px;
+
+        @include media-breakpoint-up(lg) {
           .text {
-            padding-inline-start: 0; // reset padding for .text, when it's already added for parent <a>
+            // reset padding for .text, when it's already added for parent <a>
+            padding-inline-start: 0;
           }
         }
 

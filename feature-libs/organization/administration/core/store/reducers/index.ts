@@ -14,8 +14,9 @@ import {
   B2BUser,
   CostCenter,
   ListModel,
-  StateUtils,
   OrderApprovalPermissionType,
+  SiteContextActions,
+  StateUtils,
 } from '@spartacus/core';
 import { Budget } from '../../model/budget.model';
 import { Permission } from '../../model/permission.model';
@@ -209,6 +210,9 @@ export function clearOrganizationState(
       state = undefined;
     }
     if (action.type === AuthActions.LOGOUT) {
+      state = undefined;
+    }
+    if (action.type === SiteContextActions.LANGUAGE_CHANGE) {
       state = undefined;
     }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConnector } from '../../connectors/user/user.connector';
 import { UserActions } from '../actions/index';
 
@@ -29,7 +29,7 @@ export class UpdatePasswordEffects {
         .pipe(
           map(() => new UserActions.UpdatePasswordSuccess()),
           catchError((error) =>
-            of(new UserActions.UpdatePasswordFail(makeErrorSerializable(error)))
+            of(new UserActions.UpdatePasswordFail(normalizeHttpError(error)))
           )
         )
     )

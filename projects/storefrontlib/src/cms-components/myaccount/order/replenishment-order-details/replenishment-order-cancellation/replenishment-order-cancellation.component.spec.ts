@@ -5,7 +5,7 @@ import {
   PipeTransform,
   ViewContainerRef,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -52,22 +52,24 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   let fixture: ComponentFixture<ReplenishmentOrderCancellationComponent>;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
-      providers: [
-        {
-          provide: UserReplenishmentOrderService,
-          useClass: MockUserReplenishmentOrderService,
-        },
-        {
-          provide: ReplenishmentOrderCancellationLaunchDialogService,
-          useClass: MockReplenishmentOrderCancellationLaunchDialogService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule],
+        declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
+        providers: [
+          {
+            provide: UserReplenishmentOrderService,
+            useClass: MockUserReplenishmentOrderService,
+          },
+          {
+            provide: ReplenishmentOrderCancellationLaunchDialogService,
+            useClass: MockReplenishmentOrderCancellationLaunchDialogService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderCancellationComponent);

@@ -6,7 +6,7 @@ import { ASM_ENABLED_LOCAL_STORAGE_KEY } from '../asm-constants';
 import { AsmComponentService } from './asm-component.service';
 
 class MockAuthService implements Partial<AuthService> {
-  initLogout(): void {}
+  logout(): void {}
 }
 
 class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
@@ -72,9 +72,9 @@ describe('AsmComponentService', () => {
 
   describe('logoutCustomer()', () => {
     it('should logout customer and redirect to home.', () => {
-      spyOn(authService, 'initLogout').and.stub();
+      spyOn(authService, 'logout').and.stub();
       asmComponentService.logoutCustomer();
-      expect(authService.initLogout).toHaveBeenCalled();
+      expect(authService.logout).toHaveBeenCalled();
     });
   });
 

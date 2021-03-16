@@ -5,9 +5,9 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  Cart,
   ConverterService,
   PAYMENT_TYPE_NORMALIZER,
-  Cart,
 } from '@spartacus/core';
 import { Occ, OccConfig } from '../../index';
 import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../../../auth/user-auth/facade/auth.service';
 import { UserSignUp } from '../../../model/misc.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConnector } from '../../connectors/user/user.connector';
 import { UserActions } from '../actions/index';
 
@@ -20,7 +20,7 @@ export class UserRegisterEffects {
       this.userConnector.register(user).pipe(
         map(() => new UserActions.RegisterUserSuccess()),
         catchError((error) =>
-          of(new UserActions.RegisterUserFail(makeErrorSerializable(error)))
+          of(new UserActions.RegisterUserFail(normalizeHttpError(error)))
         )
       )
     )
@@ -35,11 +35,11 @@ export class UserRegisterEffects {
     mergeMap(({ guid, password }) =>
       this.userConnector.registerGuest(guid, password).pipe(
         switchMap((user) => {
-          this.authService.authorize(user.uid, password);
+          this.authService.loginWithCredentials(user.uid, password);
           return [new UserActions.RegisterGuestSuccess()];
         }),
         catchError((error) =>
-          of(new UserActions.RegisterGuestFail(makeErrorSerializable(error)))
+          of(new UserActions.RegisterGuestFail(normalizeHttpError(error)))
         )
       )
     )
@@ -54,11 +54,11 @@ export class UserRegisterEffects {
     mergeMap((userId: string) => {
       return this.userConnector.remove(userId).pipe(
         switchMap(() => {
-          this.authService.initLogout();
+          this.authService.logout();
           return [new UserActions.RemoveUserSuccess()];
         }),
         catchError((error) =>
-          of(new UserActions.RemoveUserFail(makeErrorSerializable(error)))
+          of(new UserActions.RemoveUserFail(normalizeHttpError(error)))
         )
       );
     })

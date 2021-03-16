@@ -1,18 +1,14 @@
-/*!
-  CXBASE VARIABLES
-  This is NOT a theme.
+// CXBASE VARIABLES
+// This is NOT a theme.
 
-  This file should include ONLY new variables that Bootstrap does not provide.
-  For example, Bootstrap does not have a variable for semi font weight.
+// This file should include ONLY new variables that Bootstrap does not provide.
+// For example, Bootstrap does not have a variable for semi font weight.
 
-  Same case for directionality.
+// Same case for directionality.
 
-  Also be aware of items that should be configurable.
-  The Sparta buttons use uppercase type but future themes may want normal case
-  so a variable was created to make this available for other themes.
-
-*/
-
+// Also be aware of items that should be configurable.
+// The Sparta buttons use uppercase type but future themes may want normal case
+// so a variable was created to make this available for other themes.
 @import 'functions';
 @import '~bootstrap/scss/variables';
 

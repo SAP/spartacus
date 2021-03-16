@@ -6,7 +6,7 @@ import {
   Output,
   Type,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Address,
@@ -102,33 +102,35 @@ describe('AddressBookComponent', () => {
   let userAddressService: UserAddressService;
   let checkoutDeliveryService: CheckoutDeliveryService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [SpinnerModule, I18nTestingModule, CardModule],
-      providers: [
-        {
-          provide: AddressBookComponentService,
-          useClass: MockComponentService,
-        },
-        { provide: UserAddressService, useClass: MockUserAddressService },
-        {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
-        },
-      ],
-      declarations: [AddressBookComponent, MockAddressFormComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [SpinnerModule, I18nTestingModule, CardModule],
+        providers: [
+          {
+            provide: AddressBookComponentService,
+            useClass: MockComponentService,
+          },
+          { provide: UserAddressService, useClass: MockUserAddressService },
+          {
+            provide: CheckoutDeliveryService,
+            useClass: MockCheckoutDeliveryService,
+          },
+        ],
+        declarations: [AddressBookComponent, MockAddressFormComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddressBookComponent);
     component = fixture.componentInstance;
     spyOn(component, 'addAddressButtonHandle');
     el = fixture.debugElement;
-    userAddressService = TestBed.get(
+    userAddressService = TestBed.inject(
       UserAddressService as Type<UserAddressService>
     );
-    checkoutDeliveryService = TestBed.get(
+    checkoutDeliveryService = TestBed.inject(
       CheckoutDeliveryService as Type<CheckoutDeliveryService>
     );
 

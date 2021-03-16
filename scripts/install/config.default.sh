@@ -6,8 +6,7 @@
 # Url of the hybris backend
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
-BACKEND_URL="https://localhost:9002"
-
+BACKEND_URL="https://20.83.184.244:9002"
 OCC_PREFIX="/occ/v2/"
 
 SPARTACUS_PROJECTS=(
@@ -19,6 +18,10 @@ SPARTACUS_PROJECTS=(
         "integration-libs/cds"
         "core-libs/setup"
         "feature-libs/organization"
+        "feature-libs/storefinder"
+        "feature-libs/smartedit"
+        "feature-libs/product-configurator"
+        "feature-libs/qualtrics"
         )
 
 SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"
@@ -39,4 +42,10 @@ CSR_PORT="4200"
 SSR_PORT="4100"
 SSR_PWA_PORT=
 
+CSR_APP_NAME="csr"
+SSR_APP_NAME="ssr"
+SSR_PWA_APP_NAME="ssr-pwa"
+
 ADD_B2B_LIBS=false
+
+ADD_PRODUCT_CONFIGURATOR=true

@@ -11,7 +11,7 @@ import {
   switchMapTo,
   tap,
 } from 'rxjs/operators';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { WindowRef } from '../../../window/window-ref';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
@@ -33,9 +33,7 @@ export class LanguagesEffects {
         ),
         catchError((error) =>
           of(
-            new SiteContextActions.LoadLanguagesFail(
-              makeErrorSerializable(error)
-            )
+            new SiteContextActions.LoadLanguagesFail(normalizeHttpError(error))
           )
         )
       );

@@ -80,7 +80,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
           this.cxComponentWrapper.flexType,
           this.cxComponentWrapper.uid,
           this.injector
-        )
+        ),
+        this.cmsComponentsService.getModule(this.cxComponentWrapper.flexType)
       )
       ?.subscribe(({ elementRef, componentRef }) => {
         this.cmpRef = componentRef;
@@ -90,11 +91,19 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   private decorate(elementRef: ElementRef): void {
-    this.dynamicAttributeService.addDynamicAttributes(
-      elementRef.nativeElement,
-      this.renderer,
-      { componentData: this.cxComponentWrapper }
-    );
+    if (this.dynamicAttributeService.addAttributesToComponent) {
+      this.dynamicAttributeService.addAttributesToComponent(
+        elementRef.nativeElement,
+        this.renderer,
+        this.cxComponentWrapper
+      );
+    } else {
+      this.dynamicAttributeService.addDynamicAttributes(
+        elementRef.nativeElement,
+        this.renderer,
+        { componentData: this.cxComponentWrapper }
+      );
+    }
   }
 
   ngOnDestroy() {

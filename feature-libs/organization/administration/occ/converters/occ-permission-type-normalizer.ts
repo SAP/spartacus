@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Converter, Occ, OrderApprovalPermissionType } from '@spartacus/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccPermissionTypeNormalizer
   implements
     Converter<Occ.OrderApprovalPermissionType, OrderApprovalPermissionType> {
@@ -12,9 +14,7 @@ export class OccPermissionTypeNormalizer
     target?: OrderApprovalPermissionType
   ): OrderApprovalPermissionType {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-      };
+      target = { ...(source as any) };
     }
     return target;
   }

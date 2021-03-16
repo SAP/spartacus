@@ -122,13 +122,13 @@ describe('AsmAuthService', () => {
     }
   ));
 
-  describe('authorize()', () => {
+  describe('loginWithCredentials()', () => {
     it('should authorize if user can login', () => {
       spyOn(
         oAuthLibWrapperService,
         'authorizeWithPasswordFlow'
       ).and.callThrough();
-      service.authorize(loginInfo.userId, loginInfo.password);
+      service.loginWithCredentials(loginInfo.userId, loginInfo.password);
 
       expect(
         oAuthLibWrapperService.authorizeWithPasswordFlow
@@ -138,7 +138,7 @@ describe('AsmAuthService', () => {
     it('should warn about CS Agent if user cannot login', () => {
       tokenTarget$.next(TokenTarget.CSAgent);
 
-      service.authorize(loginInfo.userId, loginInfo.password);
+      service.loginWithCredentials(loginInfo.userId, loginInfo.password);
 
       expect(globalMessageService.add).toHaveBeenCalled();
     });
@@ -162,9 +162,9 @@ describe('AsmAuthService', () => {
     });
   });
 
-  describe('logout()', () => {
+  describe('coreLogout()', () => {
     it('should logout when user not emulated', () => {
-      service.logout();
+      service.coreLogout();
 
       expect(userIdService.clearUserId).toHaveBeenCalled();
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
@@ -173,7 +173,7 @@ describe('AsmAuthService', () => {
     it('should logout when emulating user', (done: DoneFn) => {
       isEmulated$.next(true);
 
-      service.logout().then(() => {
+      service.coreLogout().then(() => {
         expect(asmAuthStorageService.clearEmulatedUserToken).toHaveBeenCalled();
         expect(userIdService.clearUserId).toHaveBeenCalled();
         expect(store.dispatch).toHaveBeenCalled();

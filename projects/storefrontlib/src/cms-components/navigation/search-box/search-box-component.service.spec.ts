@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import {
   CmsComponent,
+  createFrom,
+  EventService,
   I18nTestingModule,
+  Product,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
@@ -10,8 +13,13 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
+import {
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 import createSpy = jasmine.createSpy;
 
@@ -71,9 +79,20 @@ const mockSearchResults: ProductSearchPage = {
   freeTextSearch: 'query',
 };
 
+const mockSuggestions: Suggestion[] = [
+  { value: 'camera' },
+  { value: 'test1' },
+  { value: 'test2' },
+];
+
+const mockProduct: Product = {
+  code: '123456',
+};
+
 describe('SearchBoxComponentService', () => {
   let service: SearchBoxComponentService;
   let searchBoxService: SearchboxService;
+  let eventService: EventService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
@@ -97,6 +116,7 @@ describe('SearchBoxComponentService', () => {
     });
     service = TestBed.inject(SearchBoxComponentService);
     searchBoxService = TestBed.inject(SearchboxService);
+    eventService = TestBed.inject(EventService);
   });
 
   it('should be created', () => {
@@ -240,6 +260,95 @@ describe('SearchBoxComponentService', () => {
 
       service.getResults(searchBoxConfig).subscribe((r) => (result = r));
       expect(result.message).toBeFalsy();
+    });
+  });
+
+  describe('UI Events', () => {
+    describe('Suggestion Event', () => {
+      it('should fire the correct event', () => {
+        let result: SearchBoxSuggestionSelectedEvent;
+        eventService
+          .get(SearchBoxSuggestionSelectedEvent)
+          .pipe(take(1))
+          .subscribe((value) => (result = value));
+
+        const mockEventData: SearchBoxSuggestionSelectedEvent = {
+          freeText: 'camera',
+          selectedSuggestion: mockSuggestions[0].value,
+          searchSuggestions: mockSuggestions,
+        };
+
+        const searchBoxSuggestionSelectedEvent = createFrom(
+          SearchBoxSuggestionSelectedEvent,
+          mockEventData
+        );
+
+        service.dispatchSuggestionSelectedEvent(mockEventData);
+
+        expect(result).toEqual(
+          jasmine.objectContaining(searchBoxSuggestionSelectedEvent)
+        );
+      });
+
+      it('should fire multiple event', () => {
+        const result: SearchBoxSuggestionSelectedEvent[] = [];
+        eventService
+          .get(SearchBoxSuggestionSelectedEvent)
+          .subscribe((value) => result.push(value));
+
+        const mockEventData1 = {
+          freeText: 'camera',
+          selectedSuggestion: mockSuggestions[0].value,
+          searchSuggestions: mockSuggestions,
+        };
+
+        const mockEventData2 = {
+          freeText: 'camileo',
+          selectedSuggestion: mockSuggestions[1].value,
+          searchSuggestions: mockSuggestions,
+        };
+
+        const mockEventData3 = {
+          freeText: 'cameras',
+          selectedSuggestion: mockSuggestions[2].value,
+          searchSuggestions: mockSuggestions,
+        };
+
+        service.dispatchSuggestionSelectedEvent(mockEventData1);
+        service.dispatchSuggestionSelectedEvent(mockEventData2);
+        service.dispatchSuggestionSelectedEvent(mockEventData3);
+
+        expect(result.length).toEqual(3);
+      });
+    });
+
+    describe('Product Event', () => {
+      it('should fire the correct event', () => {
+        let result: SearchBoxProductSelectedEvent;
+        eventService
+          .get(SearchBoxProductSelectedEvent)
+          .pipe(take(1))
+          .subscribe((value) => (result = value));
+
+        const mockEventData: SearchBoxProductSelectedEvent = {
+          freeText: 'camera',
+          productCode: mockProduct.code,
+        };
+
+        const searchBoxProductSelectedEvent = createFrom(
+          SearchBoxProductSelectedEvent,
+          {
+            freeText: 'camera',
+            productCode: mockProduct.code,
+          }
+        );
+
+        service.dispatchProductSelectedEvent(mockEventData);
+
+        expect(result).toEqual(
+          jasmine.objectContaining(searchBoxProductSelectedEvent)
+        );
+      });
     });
   });
 });

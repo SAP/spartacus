@@ -3,7 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
 import { User } from '../../../model/misc.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConnector } from '../../connectors/user/user.connector';
 import { UserActions } from '../actions/index';
 
@@ -21,7 +21,7 @@ export class UserDetailsEffects {
           return new UserActions.LoadUserDetailsSuccess(user);
         }),
         catchError((error) =>
-          of(new UserActions.LoadUserDetailsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadUserDetailsFail(normalizeHttpError(error)))
         )
       );
     })
@@ -39,9 +39,7 @@ export class UserDetailsEffects {
           () => new UserActions.UpdateUserDetailsSuccess(payload.userDetails)
         ),
         catchError((error) =>
-          of(
-            new UserActions.UpdateUserDetailsFail(makeErrorSerializable(error))
-          )
+          of(new UserActions.UpdateUserDetailsFail(normalizeHttpError(error)))
         )
       )
     )

@@ -7,7 +7,9 @@ import {
 } from '@spartacus/core';
 import { PERMISSION_TYPE_NORMALIZER } from '@spartacus/organization/administration/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccPermissionTypeListNormalizer
   implements
     Converter<
@@ -20,11 +22,10 @@ export class OccPermissionTypeListNormalizer
     source: Occ.OrderApprovalPermissionTypeList,
     target?: OrderApprovalPermissionType[]
   ): OrderApprovalPermissionType[] {
-    if (target === undefined) {
-      target = source.orderApprovalPermissionTypes.map((permissionType) =>
-        this.converter.convert(permissionType, PERMISSION_TYPE_NORMALIZER)
-      );
-    }
+    target = source.orderApprovalPermissionTypes.map((permissionType) =>
+      this.converter.convert(permissionType, PERMISSION_TYPE_NORMALIZER)
+    );
+
     return target;
   }
 }

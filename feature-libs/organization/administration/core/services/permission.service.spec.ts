@@ -7,6 +7,7 @@ import {
   SearchConfig,
   UserIdService,
 } from '@spartacus/core';
+import { BehaviorSubject, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import {
   LoadStatus,
@@ -20,7 +21,6 @@ import {
 } from '../store/organization-state';
 import * as fromReducers from '../store/reducers/index';
 import { PermissionService } from './permission.service';
-import createSpy = jasmine.createSpy;
 
 const userId = 'current';
 const permissionCode = 'testPermission';
@@ -39,8 +39,9 @@ const mockPermissionType: OrderApprovalPermissionType = {
 };
 const mockPermissionTypes: OrderApprovalPermissionType[] = [mockPermissionType];
 
+let takeUserId$: BehaviorSubject<string | never>;
 class MockUserIdService implements Partial<UserIdService> {
-  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
+  takeUserId = () => takeUserId$.asObservable();
 }
 
 describe('PermissionService', () => {
@@ -68,8 +69,10 @@ describe('PermissionService', () => {
     service = TestBed.inject(PermissionService);
     userIdService = TestBed.inject(UserIdService);
     spyOn(store, 'dispatch').and.callThrough();
+    spyOn(userIdService, 'takeUserId').and.callThrough();
 
     actions$ = TestBed.inject(ActionsSubject);
+    takeUserId$ = new BehaviorSubject(userId);
   });
 
   it('should PermissionService is injected', inject(
@@ -106,7 +109,7 @@ describe('PermissionService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
+      expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(permissionDetails).toEqual(permission);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermission({ userId, permissionCode })
@@ -126,7 +129,7 @@ describe('PermissionService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
+      expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(permissions).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.LoadPermissions({ userId, params })
@@ -155,7 +158,7 @@ describe('PermissionService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
+      expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(permissions).toEqual(permissionList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new PermissionActions.LoadPermissions({ userId, params })
@@ -167,7 +170,7 @@ describe('PermissionService', () => {
     it('create() should should dispatch CreatePermission action', () => {
       service.create(permission);
 
-      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
+      expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.CreatePermission({ userId, permission })
       );
@@ -178,7 +181,7 @@ describe('PermissionService', () => {
     it('update() should should dispatch UpdatePermission action', () => {
       service.update(permissionCode, permission);
 
-      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
+      expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new PermissionActions.UpdatePermission({
           userId,
@@ -260,6 +263,19 @@ describe('PermissionService', () => {
         status: LoadStatus.ERROR,
         item: undefined,
       });
+    });
+  });
+
+  describe('getErrorState', () => {
+    it('getErrorState() should be able to get status error', () => {
+      let errorState: boolean;
+      spyOn<any>(service, 'getPermissionState').and.returnValue(
+        of({ loading: false, success: false, error: true })
+      );
+
+      service.getErrorState('code').subscribe((error) => (errorState = error));
+
+      expect(errorState).toBeTrue();
     });
   });
 });

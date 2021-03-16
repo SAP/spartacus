@@ -2,6 +2,7 @@ export * from './occ-b2b-user-normalizer';
 export * from './occ-b2b-user-serializer';
 export * from './occ-budget-list-normalizer';
 export * from './occ-budget-normalizer';
+export * from './occ-budget-serializer';
 export * from './occ-org-unit-approval-processes-normalizer';
 export * from './occ-org-unit-node-list-normalizer';
 export * from './occ-org-unit-node-normalizer';

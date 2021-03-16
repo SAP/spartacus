@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver, Inject } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { FeaturesConfig, getLastValueSync } from '@spartacus/core';
+import { getLastValueSync } from '@spartacus/core';
 import { OutletService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DeferLoaderService } from '../../layout/loading/defer-loader.service';
@@ -73,28 +73,26 @@ describe('OutletDirective', () => {
     })
     class MockOutletAfterComponent {}
 
-    beforeEach(async(() => {
-      TestBed.configureTestingModule({
-        imports: [],
-        declarations: [
-          MockTemplateComponent,
-          MockOutletBeforeComponent,
-          MockOutletAfterComponent,
-          OutletDirective,
-          OutletRefDirective,
-        ],
-        providers: [
-          {
-            provide: DeferLoaderService,
-            useClass: MockDeferLoaderService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-          },
-        ],
-      }).compileComponents();
-    }));
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          imports: [],
+          declarations: [
+            MockTemplateComponent,
+            MockOutletBeforeComponent,
+            MockOutletAfterComponent,
+            OutletDirective,
+            OutletRefDirective,
+          ],
+          providers: [
+            {
+              provide: DeferLoaderService,
+              useClass: MockDeferLoaderService,
+            },
+          ],
+        }).compileComponents();
+      })
+    );
 
     it('should render the provided template ref', () => {
       const fixture = TestBed.createComponent(MockTemplateComponent);
@@ -175,27 +173,25 @@ describe('OutletDirective', () => {
 
     let compiled: HTMLElement;
 
-    beforeEach(async(() => {
-      TestBed.configureTestingModule({
-        imports: [],
-        declarations: [
-          MockStackedReplaceOutletComponent,
-          MockStackedBeforeOutletComponent,
-          OutletDirective,
-          OutletRefDirective,
-        ],
-        providers: [
-          {
-            provide: DeferLoaderService,
-            useClass: MockDeferLoaderService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-          },
-        ],
-      }).compileComponents();
-    }));
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          imports: [],
+          declarations: [
+            MockStackedReplaceOutletComponent,
+            MockStackedBeforeOutletComponent,
+            OutletDirective,
+            OutletRefDirective,
+          ],
+          providers: [
+            {
+              provide: DeferLoaderService,
+              useClass: MockDeferLoaderService,
+            },
+          ],
+        }).compileComponents();
+      })
+    );
 
     it('should add two templates in outlet', () => {
       const fixture = TestBed.createComponent(
@@ -245,28 +241,26 @@ describe('OutletDirective', () => {
 
     let deferLoaderService: DeferLoaderService;
 
-    beforeEach(async(() => {
-      TestBed.configureTestingModule({
-        imports: [],
-        declarations: [
-          MockInstantOutletComponent,
-          MockDeferredOutletComponent,
-          OutletDirective,
-        ],
-        providers: [
-          {
-            provide: DeferLoaderService,
-            useClass: MockDeferLoaderService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-          },
-        ],
-      }).compileComponents();
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          imports: [],
+          declarations: [
+            MockInstantOutletComponent,
+            MockDeferredOutletComponent,
+            OutletDirective,
+          ],
+          providers: [
+            {
+              provide: DeferLoaderService,
+              useClass: MockDeferLoaderService,
+            },
+          ],
+        }).compileComponents();
 
-      deferLoaderService = TestBed.inject(DeferLoaderService);
-    }));
+        deferLoaderService = TestBed.inject(DeferLoaderService);
+      })
+    );
 
     it('should use instant loading', () => {
       spyOn(deferLoaderService, 'load').and.callThrough();
@@ -297,24 +291,22 @@ describe('OutletDirective', () => {
 
     let hostFixture: ComponentFixture<HostComponent>;
 
-    beforeEach(async(() => {
-      TestBed.configureTestingModule({
-        imports: [],
-        declarations: [HostComponent, OutletDirective, OutletRefDirective],
-        providers: [
-          {
-            provide: DeferLoaderService,
-            useClass: MockDeferLoaderService,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-          },
-        ],
-      }).compileComponents();
+    beforeEach(
+      waitForAsync(() => {
+        TestBed.configureTestingModule({
+          imports: [],
+          declarations: [HostComponent, OutletDirective, OutletRefDirective],
+          providers: [
+            {
+              provide: DeferLoaderService,
+              useClass: MockDeferLoaderService,
+            },
+          ],
+        }).compileComponents();
 
-      hostFixture = TestBed.createComponent(HostComponent);
-    }));
+        hostFixture = TestBed.createComponent(HostComponent);
+      })
+    );
 
     function getContent(fixture: ComponentFixture<any>): string {
       return fixture.debugElement.nativeElement.innerText;
@@ -360,33 +352,31 @@ describe('OutletDirective', () => {
       constructor(public outlet: OutletContextData) {}
     }
 
-    beforeEach(async(() => {
-      mockContextSubject$ = new BehaviorSubject('fakeContext');
+    beforeEach(
+      waitForAsync(() => {
+        mockContextSubject$ = new BehaviorSubject('fakeContext');
 
-      TestBed.configureTestingModule({
-        imports: [],
-        declarations: [
-          MockTemplateComponent,
-          MockOutletComponent,
-          OutletDirective,
-          OutletRefDirective,
-        ],
-        providers: [
-          {
-            provide: DeferLoaderService,
-            useClass: MockDeferLoaderService,
-          },
-          {
-            provide: 'mockContext',
-            useValue: mockContextSubject$,
-          },
-          {
-            provide: FeaturesConfig,
-            useValue: { features: { level: '2.1' } } as FeaturesConfig, // deprecated, see #8201
-          },
-        ],
-      }).compileComponents();
-    }));
+        TestBed.configureTestingModule({
+          imports: [],
+          declarations: [
+            MockTemplateComponent,
+            MockOutletComponent,
+            OutletDirective,
+            OutletRefDirective,
+          ],
+          providers: [
+            {
+              provide: DeferLoaderService,
+              useClass: MockDeferLoaderService,
+            },
+            {
+              provide: 'mockContext',
+              useValue: mockContextSubject$,
+            },
+          ],
+        }).compileComponents();
+      })
+    );
 
     it('should render component', () => {
       const outletService = TestBed.inject(OutletService);

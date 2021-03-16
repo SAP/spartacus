@@ -29,6 +29,7 @@ describe('SiteContextRoutesHandler', () => {
 
     mockLocation = {
       replaceState: createSpy(),
+      path: () => 'test',
     };
 
     activeLanguage = new BehaviorSubject('en');
@@ -78,24 +79,11 @@ describe('SiteContextRoutesHandler', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('init', () => {
-    it('should return promise that will be resolved after first route navigation', (done) => {
-      let resolved = false;
-
-      service.init().then(() => {
-        resolved = true;
-      });
-
-      setTimeout(() => {
-        expect(resolved).toBe(false);
-        mockRouterEvents.next(new NavigationStart(1, 'en'));
-      }, 0);
-
-      setTimeout(() => {
-        expect(resolved).toBe(true);
-        done();
-      }, 1);
-    });
+  it('should set context parameter on init', () => {
+    expect(mockSiteContextParamsService.setValue).toHaveBeenCalledWith(
+      'language',
+      'test'
+    );
   });
 
   it('should set context parameter on route navigation', () => {

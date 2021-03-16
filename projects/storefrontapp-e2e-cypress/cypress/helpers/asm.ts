@@ -5,6 +5,8 @@ import * as loginHelper from '../helpers/login';
 import * as profile from '../helpers/update-profile';
 import { login } from './auth-forms';
 import { getErrorAlert } from './global-message';
+import { fillShippingAddress } from './checkout-forms';
+import { newAddress } from '../helpers/address-book';
 
 let customer: any;
 
@@ -107,7 +109,7 @@ export function asmTests(isMobile: boolean) {
       });
 
       it('agent should create new address', () => {
-        addressBook.createNewAddress();
+        fillShippingAddress(newAddress);
         cy.get('cx-card').should('have.length', 1);
         addressBook.verifyNewAddress();
       });
@@ -264,7 +266,7 @@ export function agentLogin(): void {
   cy.get('cx-customer-selection').should('not.exist');
   cy.get('cx-csagent-login-form form').within(() => {
     cy.get('[formcontrolname="userId"]').type('asagent');
-    cy.get('[formcontrolname="password"]').type('123456');
+    cy.get('[formcontrolname="password"]').type('pw4all');
     cy.get('button[type="submit"]').click();
   });
 
@@ -304,9 +306,9 @@ function loginCustomerInStorefront() {
 }
 
 function agentSignOut() {
-  const tokenRevocationAlias = loginHelper.listenForTokenRevocationReqest();
+  const tokenRevocationAlias = loginHelper.listenForTokenRevocationRequest();
   cy.get('button[title="Sign Out"]').click();
-  cy.wait(tokenRevocationAlias).its('status').should('eq', 200);
+  cy.wait(tokenRevocationAlias);
   cy.get('cx-csagent-login-form').should('exist');
   cy.get('cx-customer-selection').should('not.exist');
 }

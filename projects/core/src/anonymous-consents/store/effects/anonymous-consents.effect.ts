@@ -31,11 +31,6 @@ export class AnonymousConsentsEffects {
     ofType(AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS),
     withLatestFrom(this.anonymousConsentService.getConsents()),
     concatMap(([_, currentConsents]) => {
-      // TODO{#8158} - remove this if block
-      if (!this.anonymousConsentTemplatesConnector.loadAnonymousConsents()) {
-        return of(new AnonymousConsentsActions.LoadAnonymousConsentTemplates());
-      }
-
       return this.anonymousConsentTemplatesConnector
         .loadAnonymousConsents()
         .pipe(

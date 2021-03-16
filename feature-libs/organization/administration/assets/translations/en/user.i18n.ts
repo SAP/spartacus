@@ -1,4 +1,4 @@
-export const user = {
+export const orgUser = {
   header: 'All users ({{count}})',
   disabled: '(disabled)',
   uid: 'Email',
@@ -41,9 +41,22 @@ export const user = {
   },
 
   messages: {
+    deactivateTitle: 'Disable this user?',
     deactivate: 'Are you sure you want to disable this user?',
-    confirmEnabled: 'User {{item.name}} enabled successfully',
-    confirmDisabled: 'User {{item.name}}  disabled successfully',
+    deactivateBody:
+      'Disabled users cannot log onto the storefront and place orders.',
+    confirmEnabled:
+      'User {{item.firstName}} {{item.lastName}} enabled successfully',
+    confirmDisabled:
+      'User {{item.firstName}} {{item.lastName}} disabled successfully',
+    update: 'User {{item.firstName}} {{item.lastName}} updated successfully',
+    create: 'User {{item.firstName}} {{item.lastName}} created successfully',
+    updatePassword:
+      'User {{item.firstName}} {{item.lastName}} password updated successfully',
+  },
+  info: {
+    disabledEdit: 'Enable the user to allow editing.',
+    disabledEnable: 'Unit must be enabled before this user may be enabled.',
   },
 
   approver: {
@@ -96,7 +109,7 @@ export const user = {
 
   password: {
     title: 'Change password',
-    subtitle: '',
+    subtitle: 'User: {{ item.email }}',
     newPassword: 'New password',
     confirmPassword: 'Retype new password',
   },
@@ -110,43 +123,43 @@ export const user = {
   },
 };
 
-export const userAssignedApprovers = {
+export const orgUserAssignedApprovers = {
   title: 'Assigned approvers',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Approver assigned successfully',
-  unassigned: 'Approver unassigned successfully',
+  assigned: 'Approver {{ item.name }} assigned successfully',
+  unassigned: 'Approver {{ item.name }} unassigned successfully',
 };
-export const userApprovers = {
+export const orgUserApprovers = {
   title: 'Manage approvers',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Approver assigned successfully',
-  unassigned: 'Approver unassigned successfully',
+  assigned: 'Approver {{ item.name }} assigned successfully',
+  unassigned: 'Approver {{ item.name }} unassigned successfully',
 };
 
-export const userAssignedPermissions = {
+export const orgUserAssignedPermissions = {
   title: 'Assigned purchase limits',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Purchase limit assigned successfully',
-  unassigned: 'Purchase limit unassigned successfully',
+  assigned: 'Purchase limit {{ item.code }} assigned successfully',
+  unassigned: 'Purchase limit {{ item.code }} unassigned successfully',
 };
 
-export const userPermissions = {
+export const orgUserPermissions = {
   title: 'Manage purchase limits',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'Purchase limit assigned successfully',
-  unassigned: 'Purchase limit unassigned successfully',
+  assigned: 'Purchase limit {{ item.code }} assigned successfully',
+  unassigned: 'Purchase limit {{ item.code }} unassigned successfully',
 };
 
-export const userAssignedUserGroups = {
+export const orgUserAssignedUserGroups = {
   title: 'Assigned user groups',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'User group "{{item.name}}" assigned successfully',
-  unassigned: 'User group "{{item.name}}" unassigned successfully',
+  assigned: 'User group {{item.name}} assigned successfully',
+  unassigned: 'User group {{item.name}} unassigned successfully',
 };
 
-export const userUserGroups = {
+export const orgUserUserGroups = {
   title: 'Manage user groups',
   subtitle: 'User: {{ item.name }}',
-  assigned: 'User group "{{item.name}}" assigned successfully',
-  unassigned: 'User group "{{item.name}}" unassigned successfully',
+  assigned: 'User group {{item.name}} assigned successfully',
+  unassigned: 'User group {{item.name}} unassigned successfully',
 };

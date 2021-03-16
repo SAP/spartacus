@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Address,
   DeliveryMode,
@@ -118,15 +118,17 @@ describe('OrderOverviewComponent', () => {
   let fixture: ComponentFixture<OrderOverviewComponent>;
   let translationService: TranslationService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [OrderOverviewComponent, MockCardComponent],
-      providers: [
-        { provide: TranslationService, useClass: MockTranslationService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [OrderOverviewComponent, MockCardComponent],
+        providers: [
+          { provide: TranslationService, useClass: MockTranslationService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderOverviewComponent);

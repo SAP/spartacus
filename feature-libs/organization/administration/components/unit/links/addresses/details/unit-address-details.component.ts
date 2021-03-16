@@ -8,16 +8,18 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { OrganizationItemService } from '../../../../shared/organization-item.service';
+import { ItemService } from '../../../../shared/item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitAddressItemService } from '../services/unit-address-item.service';
 
 @Component({
+  selector: 'cx-org-unit-address-details',
   templateUrl: './unit-address-details.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'content-wrapper' },
   providers: [
     {
-      provide: OrganizationItemService,
+      provide: ItemService,
       useExisting: UnitAddressItemService,
     },
   ],
@@ -45,16 +47,8 @@ export class UnitAddressDetailsComponent {
   }
 
   constructor(
-    protected itemService: OrganizationItemService<Address>,
+    protected itemService: ItemService<Address>,
     protected currentUnitService: CurrentUnitService,
     protected userAddressService: UserAddressService
   ) {}
-
-  deleteAddress(unitUid: string, addressId: string) {
-    // TODO: redirect & notify
-    ((this.itemService as any) as UnitAddressItemService).deleteAddress(
-      unitUid,
-      addressId
-    );
-  }
 }

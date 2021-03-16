@@ -7,7 +7,7 @@ import { map, switchMap, catchError } from 'rxjs/operators';
 import { UserActions } from '../actions/index';
 import { ProductInterestSearchResult } from '../../../model/product-interest.model';
 import { UserInterestsConnector } from '../../connectors/interests/user-interests.connector';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 
 @Injectable()
 export class ProductInterestsEffect {
@@ -39,7 +39,7 @@ export class ProductInterestsEffect {
           catchError((error) =>
             of(
               new UserActions.LoadProductInterestsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -71,7 +71,7 @@ export class ProductInterestsEffect {
           catchError((error) =>
             of(
               new UserActions.RemoveProductInterestFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -101,9 +101,7 @@ export class ProductInterestsEffect {
           ]),
           catchError((error) =>
             of(
-              new UserActions.AddProductInterestFail(
-                makeErrorSerializable(error)
-              )
+              new UserActions.AddProductInterestFail(normalizeHttpError(error))
             )
           )
         )

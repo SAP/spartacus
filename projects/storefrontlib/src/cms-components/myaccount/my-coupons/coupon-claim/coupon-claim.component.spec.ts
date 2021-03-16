@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { CouponClaimComponent } from './coupon-claim.component';
 import {
   RoutingService,
@@ -42,16 +42,18 @@ describe('CouponClaimComponent', () => {
   const globalMessageService = jasmine.createSpyObj('GlobalMessageService', [
     'add',
   ]);
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [CouponClaimComponent],
-      providers: [
-        { provide: CustomerCouponService, useValue: couponService },
-        { provide: RoutingService, useValue: routingService },
-        { provide: GlobalMessageService, useValue: globalMessageService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CouponClaimComponent],
+        providers: [
+          { provide: CustomerCouponService, useValue: couponService },
+          { provide: RoutingService, useValue: routingService },
+          { provide: GlobalMessageService, useValue: globalMessageService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     couponService.claimCustomerCoupon.and.stub();

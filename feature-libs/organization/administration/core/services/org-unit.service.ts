@@ -25,6 +25,7 @@ import {
   getB2BAddresses,
   getOrgUnit,
   getOrgUnitList,
+  getOrgUnitState,
   getOrgUnitTree,
   getOrgUnitValue,
 } from '../store/selectors/org-unit.selector';
@@ -37,53 +38,78 @@ export class OrgUnitService {
     protected userIdService: UserIdService
   ) {}
 
+  clearAssignedUsersList(
+    orgUnitId: string,
+    roleId: string,
+    params: SearchConfig
+  ): void {
+    this.store.dispatch(
+      new OrgUnitActions.ClearAssignedUsers({ orgUnitId, roleId, params })
+    );
+  }
+
   load(orgUnitId: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId }))
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
+        ),
+      () => {}
     );
   }
 
   loadList(): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId }))
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId })),
+      () => {}
     );
   }
 
   loadTree(): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new OrgUnitActions.LoadTree({ userId }))
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => this.store.dispatch(new OrgUnitActions.LoadTree({ userId })),
+      () => {}
     );
   }
 
   loadApprovalProcesses(): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new OrgUnitActions.LoadApprovalProcesses({ userId }))
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.LoadApprovalProcesses({ userId })
+        ),
+      () => {}
     );
   }
 
   loadUsers(orgUnitId: string, roleId: string, params: SearchConfig): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new OrgUnitActions.LoadAssignedUsers({
-          userId,
-          orgUnitId,
-          roleId,
-          params,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.LoadAssignedUsers({
+            userId,
+            orgUnitId,
+            roleId,
+            params,
+          })
+        ),
+      () => {}
     );
   }
 
   loadAddresses(orgUnitId: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      // TODO: replace it after turn on loadAddresses$
-      // this.store.dispatch(
-      //   new OrgUnitActions.LoadAddresses({ userId, orgUnitId })
-      // );
-      this.store.dispatch(
-        new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
-      );
-    });
+    // TODO: replace it after turn on loadAddresses$
+    // this.store.dispatch(
+    //   new OrgUnitActions.LoadAddresses({ userId, orgUnitId })
+    // );
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
+        ),
+      () => {}
+    );
   }
 
   private getOrgUnit(
@@ -223,8 +249,17 @@ export class OrgUnitService {
 
   getActiveUnitList(): Observable<B2BUnitNode[]> {
     return this.getList().pipe(
-      map((units) => units.filter((unit) => unit.active))
+      map((units) => units.filter((unit) => unit.active)),
+      map((units) => units.sort(this.sortUnitList))
     );
+  }
+
+  protected sortUnitList(a: B2BUnitNode, b: B2BUnitNode) {
+    return a.id.toLowerCase() < b.id.toLowerCase()
+      ? -1
+      : a.id.toLowerCase() > b.id.toLowerCase()
+      ? 1
+      : 0;
   }
 
   getUsers(
@@ -247,17 +282,27 @@ export class OrgUnitService {
     );
   }
 
+  getErrorState(orgCustomerId): Observable<boolean> {
+    return this.getOrgUnitState(orgCustomerId).pipe(
+      map((state) => state.error)
+    );
+  }
+
   create(unit: B2BUnit): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(new OrgUnitActions.CreateUnit({ userId, unit }))
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(new OrgUnitActions.CreateUnit({ userId, unit })),
+      () => {}
     );
   }
 
   update(unitCode: string, unit: B2BUnit): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new OrgUnitActions.UpdateUnit({ userId, unitCode, unit })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.UpdateUnit({ userId, unitCode, unit })
+        ),
+      () => {}
     );
   }
 
@@ -268,26 +313,30 @@ export class OrgUnitService {
   }
 
   assignRole(orgCustomerId: string, roleId: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new OrgUnitActions.AssignRole({
-          userId,
-          orgCustomerId,
-          roleId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.AssignRole({
+            userId,
+            orgCustomerId,
+            roleId,
+          })
+        ),
+      () => {}
     );
   }
 
   unassignRole(orgCustomerId: string, roleId: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new OrgUnitActions.UnassignRole({
-          userId,
-          orgCustomerId,
-          roleId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.UnassignRole({
+            userId,
+            orgCustomerId,
+            roleId,
+          })
+        ),
+      () => {}
     );
   }
 
@@ -296,15 +345,17 @@ export class OrgUnitService {
     orgCustomerId: string,
     roleId: string
   ): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new OrgUnitActions.AssignApprover({
-          orgUnitId,
-          userId,
-          orgCustomerId,
-          roleId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.AssignApprover({
+            orgUnitId,
+            userId,
+            orgCustomerId,
+            roleId,
+          })
+        ),
+      () => {}
     );
   }
 
@@ -313,27 +364,31 @@ export class OrgUnitService {
     orgCustomerId: string,
     roleId: string
   ): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new OrgUnitActions.UnassignApprover({
-          orgUnitId,
-          userId,
-          orgCustomerId,
-          roleId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.UnassignApprover({
+            orgUnitId,
+            userId,
+            orgCustomerId,
+            roleId,
+          })
+        ),
+      () => {}
     );
   }
 
   createAddress(orgUnitId: string, address: Address): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new OrgUnitActions.CreateAddress({
-          userId,
-          orgUnitId,
-          address,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.CreateAddress({
+            userId,
+            orgUnitId,
+            address,
+          })
+        ),
+      () => {}
     );
   }
 
@@ -364,15 +419,17 @@ export class OrgUnitService {
   }
 
   updateAddress(orgUnitId: string, addressId: string, address: Address): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new OrgUnitActions.UpdateAddress({
-          userId,
-          orgUnitId,
-          addressId,
-          address,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.UpdateAddress({
+            userId,
+            orgUnitId,
+            addressId,
+            address,
+          })
+        ),
+      () => {}
     );
   }
 
@@ -383,14 +440,22 @@ export class OrgUnitService {
   }
 
   deleteAddress(orgUnitId: string, addressId: string): void {
-    this.userIdService.invokeWithUserId((userId) =>
-      this.store.dispatch(
-        new OrgUnitActions.DeleteAddress({
-          userId,
-          orgUnitId,
-          addressId,
-        })
-      )
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) =>
+        this.store.dispatch(
+          new OrgUnitActions.DeleteAddress({
+            userId,
+            orgUnitId,
+            addressId,
+          })
+        ),
+      () => {}
     );
+  }
+
+  private getOrgUnitState(
+    orgUnitId: string
+  ): Observable<StateUtils.LoaderState<B2BUnit>> {
+    return this.store.select(getOrgUnitState(orgUnitId));
   }
 }

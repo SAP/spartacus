@@ -1,46 +1,48 @@
-<cx-organization-card *ngIf="model$ | async as model" i18nRoot="budget.details">
+<cx-org-card *ngIf="model$ | async as model" i18nRoot="orgBudget.details">
   <a
     actions
     class="link edit"
-    [class.disabled]="!model.active"
-    [routerLink]="{ cxRoute: 'budgetEdit', params: model } | cxUrl"
+    [class.disabled]="!model.active || (isInEditMode$ | async)"
+    [routerLink]="{ cxRoute: 'orgBudgetEdit', params: model } | cxUrl"
   >
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <cx-toggle-status actions i18nRoot="budget"></cx-toggle-status>
+  <cx-org-toggle-status actions i18nRoot="orgBudget"></cx-org-toggle-status>
 
-  <section main class="details">
+  <cx-org-disable-info info i18nRoot="orgBudget"> </cx-org-disable-info>
+
+  <section main class="details" cxOrgItemExists>
     <div class="property">
-      <label>{{ 'budget.name' | cxTranslate }}</label>
+      <label>{{ 'orgBudget.name' | cxTranslate }}</label>
       <span class="value">
         {{ model.name }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'budget.code' | cxTranslate }}</label>
+      <label>{{ 'orgBudget.code' | cxTranslate }}</label>
       <span class="value">
         {{ model.code }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'budget.startDate' | cxTranslate }}</label>
+      <label>{{ 'orgBudget.startDate' | cxTranslate }}</label>
       <span class="value">
         {{ model.startDate | cxDate }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'budget.endDate' | cxTranslate }}</label>
+      <label>{{ 'orgBudget.endDate' | cxTranslate }}</label>
       <span class="value">
         {{ model.endDate | cxDate }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'budget.active' | cxTranslate }}</label>
+      <label>{{ 'orgBudget.active' | cxTranslate }}</label>
       <span class="value" [class.is-active]="model.active">
         {{
           (model.active ? 'organization.enabled' : 'organization.disabled')
@@ -50,19 +52,19 @@
     </div>
 
     <div class="property">
-      <label>{{ 'budget.amount' | cxTranslate }}</label>
+      <label>{{ 'orgBudget.amount' | cxTranslate }}</label>
       <span class="value">
         {{ model.budget }} {{ model.currency?.isocode }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'budget.unit' | cxTranslate }}</label>
+      <label>{{ 'orgBudget.unit' | cxTranslate }}</label>
       <a
         class="value"
         [routerLink]="
           {
-            cxRoute: 'unitDetails',
+            cxRoute: 'orgUnitDetails',
             params: model.orgUnit
           } | cxUrl
         "
@@ -74,11 +76,12 @@
 
   <section main class="link-list">
     <a
+      *ngIf="model.code"
       class="link"
-      [routerLink]="{ cxRoute: 'budgetCostCenters', params: model } | cxUrl"
+      [routerLink]="{ cxRoute: 'orgBudgetCostCenters', params: model } | cxUrl"
       routerLinkActive="is-current"
     >
-      {{ 'budget.links.costCenters' | cxTranslate }}
+      {{ 'orgBudget.links.costCenters' | cxTranslate }}
     </a>
   </section>
-</cx-organization-card>
+</cx-org-card>

@@ -30,8 +30,8 @@ import { CheckoutSelectors } from '../store/selectors/index';
 export class CheckoutService {
   constructor(
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
-    protected userIdService: UserIdService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -172,6 +172,15 @@ export class CheckoutService {
   getCheckoutDetailsLoaded(): Observable<boolean> {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getCheckoutDetailsLoaded)
+    );
+  }
+
+  /**
+   * Check if checkout details are stable (no longer loading)
+   */
+  isLoading(): Observable<boolean> {
+    return this.checkoutStore.pipe(
+      select(CheckoutSelectors.getCheckoutLoading)
     );
   }
 

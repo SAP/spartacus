@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsInjectorService } from './cms-injector.service';
-import { CmsComponentsService } from '../../../services/cms-components.service';
 import { CmsService } from '@spartacus/core';
-import { of } from 'rxjs';
 import { CmsComponentData } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import { CmsComponentsService } from '../../../services/cms-components.service';
+import { CmsInjectorService } from './cms-injector.service';
 
 const mockCmsComponentsService = jasmine.createSpyObj('CmsMappingService', [
   'getMapping',
-  'getInjectors',
+  'getStaticData',
 ]);
 
 const mockCmsService = {
@@ -44,9 +44,10 @@ describe('CmsInjectorService', () => {
       expect(data).toBeTruthy();
       expect(data.uid).toEqual('sampleUid');
     });
-    it('should call getInjectors from CmsComponentsService', () => {
+
+    it('should call getMapping from CmsComponentsService', () => {
       service.getInjector('aaa', 'sampleUid');
-      expect(mockCmsComponentsService.getInjectors).toHaveBeenCalled();
+      expect(mockCmsComponentsService.getMapping).toHaveBeenCalled();
     });
   });
 });

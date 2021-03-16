@@ -22,7 +22,7 @@ import * as fromReducers from '../store/reducers/index';
 import { CsAgentAuthService } from './csagent-auth.service';
 
 class MockAuthService implements Partial<AuthService> {
-  initLogout() {}
+  logout() {}
 }
 
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
@@ -298,11 +298,11 @@ describe('CsAgentAuthService', () => {
     });
 
     it('should logout user, when we can not restore old session', async () => {
-      spyOn(authService, 'initLogout').and.callThrough();
+      spyOn(authService, 'logout').and.callThrough();
 
       await service.logoutCustomerSupportAgent();
 
-      expect(authService.initLogout).toHaveBeenCalled();
+      expect(authService.logout).toHaveBeenCalled();
     });
   });
 });

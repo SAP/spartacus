@@ -70,8 +70,8 @@ export class ProductScrollComponent implements OnDestroy {
   }
 
   private setComponentConfigurations(scrollConfig: ViewConfig): void {
-    const isButton = scrollConfig.view.infiniteScroll.showMoreButton;
-    const configProductLimit = scrollConfig.view.infiniteScroll.productLimit;
+    const isButton = scrollConfig.view?.infiniteScroll?.showMoreButton;
+    const configProductLimit = scrollConfig.view?.infiniteScroll?.productLimit;
 
     //Display "show more" button every time when button configuration is true
     //Otherwise, only display "show more" when the configuration product limit is reached

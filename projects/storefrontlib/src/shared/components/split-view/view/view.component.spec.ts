@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { SplitViewService } from '../split-view.service';
 import { ViewComponent } from './view.component';
@@ -27,20 +27,22 @@ describe('ViewComponent', () => {
   let fixture: ComponentFixture<ViewComponent>;
   let service: SplitViewService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ViewComponent],
-      providers: [
-        { provide: SplitViewService, useClass: MockSplitViewService },
-      ],
-    })
-      .overrideComponent(ViewComponent, {
-        set: {
-          changeDetection: ChangeDetectionStrategy.Default,
-        },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ViewComponent],
+        providers: [
+          { provide: SplitViewService, useClass: MockSplitViewService },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ViewComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ViewComponent);

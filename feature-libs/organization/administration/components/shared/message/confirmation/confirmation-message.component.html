@@ -1,0 +1,32 @@
+<div class="inner" [cxFocus]="{ focusOnEscape: true }" (esc)="close()">
+  <ng-container *cxFeatureLevel="'3.2'">
+    <p class="messageTitle" *ngIf="messageTitle">
+      {{ messageTitle | cxTranslate }}
+    </p>
+  </ng-container>
+  <div class="message">
+    <cx-icon *ngIf="messageIcon" [type]="messageIcon"></cx-icon>
+    <p>
+      {{ message | cxTranslate }}
+    </p>
+  </div>
+  <div class="actions" [cxFocus]="{ autofocus: 'button.primary' }">
+    <button class="button cancel" (click)="close()">
+      <ng-container *cxFeatureLevel="'3.2'">
+        {{ cancelText | cxTranslate }}
+      </ng-container>
+      <ng-container *cxFeatureLevel="'!3.2'">
+        {{ 'organization.confirmation.cancel' | cxTranslate }}
+      </ng-container>
+    </button>
+
+    <button class="button primary confirm" (click)="confirm()">
+      <ng-container *cxFeatureLevel="'3.2'">
+        {{ confirmText | cxTranslate }}
+      </ng-container>
+      <ng-container *cxFeatureLevel="'!3.2'">
+        {{ 'organization.confirmation.confirm' | cxTranslate }}
+      </ng-container>
+    </button>
+  </div>
+</div>

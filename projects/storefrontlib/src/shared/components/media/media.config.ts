@@ -1,6 +1,6 @@
-import { MediaFormatSize } from './media.model';
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+import { ImageLoadingStrategy, MediaFormatSize } from './media.model';
 
 /**
  * Provides configuration specific to Media, such as images. This is used to optimize
@@ -22,4 +22,16 @@ export abstract class MediaConfig {
      */
     [format: string]: MediaFormatSize;
   };
+
+  /**
+   * Indicates how the browser should load the image. There's only one
+   * global strategy for all media cross media in Spartacus.
+   *
+   * See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img for more
+   * information.
+   *
+   * If the `lazy` strategy is in place, the `loading="lazy"` attribute is added to the
+   * img element.
+   */
+  imageLoadingStrategy?: ImageLoadingStrategy;
 }

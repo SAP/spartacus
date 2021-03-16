@@ -5,17 +5,22 @@ import {
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import {
   InsertChange,
+  NoopChange,
   RemoveChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
 import * as ts from 'typescript';
-import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations/component-deprecations-data';
+import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations/component-deprecations';
 import {
+  ANGULAR_CORE,
   ANONYMOUS_CONSENTS,
+  ANY_TYPE,
   AUTH_SERVICE,
   FEATURE_CONFIG_SERVICE,
   NGRX_STORE,
+  PLATFORM,
+  PLATFORM_ID_STRING,
   SPARTACUS_CORE,
   STORE,
   TODO_SPARTACUS,
@@ -44,9 +49,11 @@ import {
   isCandidateForConstructorDeprecation,
   isInheriting,
   removeConstructorParam,
+  removeInjectImports,
   renameIdentifierNode,
+  shouldRemoveDecorator,
 } from './file-utils';
-import { getProjectFromWorkspace, getSourceRoot } from './workspace-utils';
+import { getSourceRoot } from './workspace-utils';
 
 const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
     import { ActionsSubject, Store } from '@ngrx/store';
@@ -237,12 +244,49 @@ export class Test extends UserAddressService {}
 const HTML_EXAMPLE = `<cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
 <cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
-const HTML_EXAMPLE_EXPECTED = `<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
+const HTML_EXAMPLE_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>
 <div>test</div>
-<!-- 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
+<!-- ${TODO_SPARTACUS} 'isLevel13' property has been removed. --><cx-consent-management-form isLevel13="xxx"></cx-consent-management-form>`;
 const HTML_EXAMPLE_NGIF = `<div *ngIf="isThumbsEmpty">test</div>`;
-const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- 'isThumbsEmpty' property has been removed. -->
+const HTML_EXAMPLE_NGIF_EXPECTED = `<!-- ${TODO_SPARTACUS} 'isThumbsEmpty' property has been removed. -->
 <div *ngIf="isThumbsEmpty">test</div>`;
+
+const SINGLE_DECORATOR_CONSTRUCTOR = `
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import {
+  LaunchDialogService,
+  LayoutConfig,
+} from '@spartacus/storefront';
+
+@Injectable({ providedIn: 'root' })
+export class ServiceNameService extends LaunchDialogService {
+  constructor(
+    @Inject(PLATFORM_ID) protected platform: any,
+    protected layoutConfig: LayoutConfig
+  ) {
+    super(platform, layoutConfig);
+  }
+}`;
+
+const MULTIPLE_DECORATOR_CONSTRUCTOR = `
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import {
+  LaunchDialogService,
+  LaunchRenderStrategy,
+  LayoutConfig,
+} from '@spartacus/storefront';
+
+@Injectable({ providedIn: 'root' })
+export class ServiceNameService extends LaunchDialogService {
+  constructor(
+    @Inject(PLATFORM_ID) protected platform: any,
+    @Inject(LaunchRenderStrategy)
+    launchRenderStrategy: LaunchRenderStrategy[],
+    protected layoutConfig: LayoutConfig
+  ) {
+    super(platform, launchRenderStrategy, layoutConfig);
+  }
+}`;
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -307,9 +351,7 @@ describe('File utils', () => {
 
   describe('getIndexHtmlPath', () => {
     it('should return index.html path', async () => {
-      const project = getProjectFromWorkspace(appTree, defaultOptions);
-      const projectIndexHtmlPath = getIndexHtmlPath(project);
-
+      const projectIndexHtmlPath = getIndexHtmlPath(appTree);
       expect(projectIndexHtmlPath).toEqual(`src/index.html`);
     });
   });
@@ -411,7 +453,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('findConstructor', async () => {
+  describe('findConstructor', () => {
     it('should return the constructor if found', () => {
       const constructorNode: ts.Node = {
         kind: ts.SyntaxKind.Constructor,
@@ -426,7 +468,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('findConstructor', async () => {
+  describe('findConstructor', () => {
     it('should return the constructor if found', () => {
       const constructorNode: ts.Node = {
         kind: ts.SyntaxKind.Constructor,
@@ -455,7 +497,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('isCandidateForConstructorDeprecation', async () => {
+  describe('isCandidateForConstructorDeprecation', () => {
     it('should return false if the inheritance condition is not satisfied', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
@@ -627,7 +669,7 @@ describe('File utils', () => {
     });
   });
 
-  describe('isInheriting', async () => {
+  describe('isInheriting', () => {
     it('should return true if the class is inheriting the provided service name', () => {
       const source = ts.createSourceFile(
         'xxx.ts',
@@ -719,6 +761,47 @@ describe('File utils', () => {
         );
       });
     });
+    describe('when adding an @Inject decorator', () => {
+      it('should return the expected changes', () => {
+        const sourcePath = 'xxx.ts';
+        const source = ts.createSourceFile(
+          sourcePath,
+          VALID_ADD_CONSTRUCTOR_PARAM_CLASS,
+          ts.ScriptTarget.Latest,
+          true
+        );
+        const nodes = getSourceNodes(source);
+        const constructorNode = findConstructor(nodes);
+        const paramToAdd: ClassType = {
+          className: PLATFORM,
+          literalInference: ANY_TYPE,
+          injectionToken: {
+            token: PLATFORM_ID_STRING,
+            importPath: ANGULAR_CORE,
+          },
+        };
+
+        const changes = addConstructorParam(
+          source,
+          sourcePath,
+          constructorNode,
+          paramToAdd
+        );
+        expect(changes.length).toEqual(4);
+        expect(changes[0].description).toEqual(
+          `Inserted , @Inject(PLATFORM_ID) platform: any into position 288 of ${sourcePath}`
+        );
+        expect(changes[1].description).toContain(
+          `import { Inject } from '@angular/core' into position 153 of ${sourcePath}`
+        );
+        expect(changes[2].description).toContain(
+          `import { PLATFORM_ID } from '@angular/core' into position 153 of ${sourcePath}`
+        );
+        expect(changes[3].description).toEqual(
+          `Inserted , platform into position 311 of ${sourcePath}`
+        );
+      });
+    });
   });
 
   describe('removeConstructorParam', () => {
@@ -743,7 +826,7 @@ describe('File utils', () => {
         constructorNode,
         paramToRemove
       );
-      expect(changes.length).toEqual(5);
+      expect(changes.length).toEqual(6);
       expect(changes[0].description).toEqual(
         `Removed FeatureConfigService, into position 81 of ${sourcePath}`
       );
@@ -753,10 +836,11 @@ describe('File utils', () => {
       expect(changes[2].description).toEqual(
         `Removed featureConfigService?: FeatureConfigService into position 318 of ${sourcePath}`
       );
-      expect(changes[3].description).toEqual(
+      expect(changes[3]).toEqual(new NoopChange());
+      expect(changes[4].description).toEqual(
         `Removed , into position 400 of ${sourcePath}`
       );
-      expect(changes[4].description).toEqual(
+      expect(changes[5].description).toEqual(
         `Removed featureConfigService into position 402 of ${sourcePath}`
       );
     });
@@ -772,13 +856,13 @@ describe('File utils', () => {
         getStart: () => 10,
       } as ts.Node;
 
-      const result = injectService(
-        ctorNode,
-        testPath,
-        'dummyService',
-        'private',
-        'DummyProperty'
-      );
+      const result = injectService({
+        constructorNode: ctorNode,
+        path: testPath,
+        serviceName: 'dummyService',
+        modifier: 'private',
+        propertyName: 'DummyProperty',
+      });
       expect(result).toBeTruthy();
       expect(result.toAdd).toEqual(`private dummyProperty: DummyService`);
     });
@@ -862,6 +946,101 @@ describe('File utils', () => {
       );
 
       expect(lines[0]).toEqual(content.indexOf(testLine));
+    });
+  });
+
+  describe('removeInjectImports', () => {
+    it('should remove injection token AND Inject decorator imports when there is one decorator in the constructor', () => {
+      const sourcePath = 'xxx.ts';
+      const source = ts.createSourceFile(
+        sourcePath,
+        SINGLE_DECORATOR_CONSTRUCTOR,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const paramToRemove: ClassType = {
+        className: PLATFORM,
+        literalInference: ANY_TYPE,
+        injectionToken: {
+          token: PLATFORM_ID_STRING,
+          importPath: ANGULAR_CORE,
+        },
+      };
+
+      const nodes = getSourceNodes(source);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const constructorNode = findConstructor(nodes)!;
+      const changes = removeInjectImports(
+        source,
+        constructorNode,
+        paramToRemove
+      );
+      expect(changes.length).toEqual(2);
+      expect(changes[0].description).toEqual(
+        `Removed Inject, into position 10 of ${sourcePath}`
+      );
+      expect(changes[1].description).toContain(
+        `Removed PLATFORM_ID into position 30 of ${sourcePath}`
+      );
+    });
+    it('should remove ONLY injection token when there are many decorators in the constructor', () => {
+      const sourcePath = 'xxx.ts';
+      const source = ts.createSourceFile(
+        sourcePath,
+        MULTIPLE_DECORATOR_CONSTRUCTOR,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const paramToRemove: ClassType = {
+        className: PLATFORM,
+        literalInference: ANY_TYPE,
+        injectionToken: {
+          token: PLATFORM_ID_STRING,
+          importPath: ANGULAR_CORE,
+        },
+      };
+
+      const nodes = getSourceNodes(source);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const constructorNode = findConstructor(nodes)!;
+      const changes = removeInjectImports(
+        source,
+        constructorNode,
+        paramToRemove
+      );
+      expect(changes.length).toEqual(1);
+      expect(changes[0].description).toContain(
+        `Removed PLATFORM_ID into position 30 of ${sourcePath}`
+      );
+    });
+  });
+
+  describe('shouldRemoveDecorator', () => {
+    it('should return true if the decorator is present one time', () => {
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        SINGLE_DECORATOR_CONSTRUCTOR,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const nodes = getSourceNodes(source);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const constructorNode = findConstructor(nodes)!;
+      expect(shouldRemoveDecorator(constructorNode, 'Inject')).toEqual(true);
+    });
+
+    it('should return false if the decorator is present multiple times', () => {
+      const source = ts.createSourceFile(
+        'xxx.ts',
+        MULTIPLE_DECORATOR_CONSTRUCTOR,
+        ts.ScriptTarget.Latest,
+        true
+      );
+      const nodes = getSourceNodes(source);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const constructorNode = findConstructor(nodes)!;
+      const res = shouldRemoveDecorator(constructorNode, 'Inject');
+      expect(res).toEqual(false);
     });
   });
 });

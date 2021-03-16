@@ -1,5 +1,5 @@
 import { Component, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import {
   I18nTestingModule,
@@ -59,34 +59,36 @@ describe('PaymentTypeComponent', () => {
   let paymentTypeService: PaymentTypeService;
   let checkoutStepService: CheckoutStepService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [PaymentTypeComponent, MockSpinnerComponent],
-      providers: [
-        {
-          provide: PaymentTypeService,
-          useClass: MockPaymentTypeService,
-        },
-        {
-          provide: CheckoutStepService,
-          useClass: MockCheckoutStepService,
-        },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [PaymentTypeComponent, MockSpinnerComponent],
+        providers: [
+          {
+            provide: PaymentTypeService,
+            useClass: MockPaymentTypeService,
+          },
+          {
+            provide: CheckoutStepService,
+            useClass: MockCheckoutStepService,
+          },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+      }).compileComponents();
 
-    paymentTypeService = TestBed.inject(
-      PaymentTypeService as Type<PaymentTypeService>
-    );
-    checkoutStepService = TestBed.inject(
-      CheckoutStepService as Type<CheckoutStepService>
-    );
+      paymentTypeService = TestBed.inject(
+        PaymentTypeService as Type<PaymentTypeService>
+      );
+      checkoutStepService = TestBed.inject(
+        CheckoutStepService as Type<CheckoutStepService>
+      );
 
-    spyOn(paymentTypeService, 'getPaymentTypes').and.returnValue(
-      of(mockPaymentTypes)
-    );
-  }));
+      spyOn(paymentTypeService, 'getPaymentTypes').and.returnValue(
+        of(mockPaymentTypes)
+      );
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentTypeComponent);

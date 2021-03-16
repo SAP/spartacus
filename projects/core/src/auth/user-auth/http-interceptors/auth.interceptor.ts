@@ -9,16 +9,16 @@ import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { AuthConfigService } from '../services/auth-config.service';
-import { AuthHeaderService } from '../services/auth-header.service';
+import { AuthHttpHeaderService } from '../services/auth-http-header.service';
 
 /**
  * Responsible for catching auth errors and providing `Authorization` header for API calls.
- * Uses AuthHeaderService for request manipulation and error handling. Interceptor only hooks into request send/received events.
+ * Uses AuthHttpHeaderService for request manipulation and error handling. Interceptor only hooks into request send/received events.
  */
 @Injectable({ providedIn: 'root' })
 export class AuthInterceptor implements HttpInterceptor {
   constructor(
-    protected authHeaderService: AuthHeaderService,
+    protected authHttpHeaderService: AuthHttpHeaderService,
     protected authConfigService: AuthConfigService
   ) {}
 
@@ -26,9 +26,11 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const shouldCatchError = this.authHeaderService.shouldCatchError(request);
+    const shouldCatchError = this.authHttpHeaderService.shouldCatchError(
+      request
+    );
 
-    request = this.authHeaderService.alterRequest(request);
+    request = this.authHttpHeaderService.alterRequest(request);
 
     return next.handle(request).pipe(
       catchError((errResponse: any) => {
@@ -36,7 +38,7 @@ export class AuthInterceptor implements HttpInterceptor {
           switch (errResponse.status) {
             case 401: // Unauthorized
               if (this.isExpiredToken(errResponse) && shouldCatchError) {
-                return this.authHeaderService.handleExpiredAccessToken(
+                return this.authHttpHeaderService.handleExpiredAccessToken(
                   request,
                   next
                 );
@@ -48,7 +50,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 ) &&
                 errResponse.error.error === 'invalid_token'
               ) {
-                this.authHeaderService.handleExpiredRefreshToken();
+                this.authHttpHeaderService.handleExpiredRefreshToken();
                 return of<HttpEvent<any>>();
               }
 
@@ -61,7 +63,7 @@ export class AuthInterceptor implements HttpInterceptor {
                 errResponse.error.error === 'invalid_grant'
               ) {
                 if (request.body.get('grant_type') === 'refresh_token') {
-                  this.authHeaderService.handleExpiredRefreshToken();
+                  this.authHttpHeaderService.handleExpiredRefreshToken();
                 }
               }
               break;

@@ -5,7 +5,7 @@ import {
   ActiveCartService,
   AuthRedirectService,
   AuthService,
-  B2BUserGroup,
+  B2BUserRole,
   GlobalMessageService,
   GlobalMessageType,
   SemanticPathService,
@@ -15,6 +15,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../services';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
+
 import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
@@ -29,6 +30,9 @@ class ActiveCartServiceStub implements Partial<ActiveCartService> {
   }
   isGuestCart(): boolean {
     return true;
+  }
+  isStable(): Observable<boolean> {
+    return of(true);
   }
 }
 
@@ -165,6 +169,17 @@ describe('CheckoutAuthGuard', () => {
     });
   });
 
+  describe(', when user is in checkout pages,', () => {
+    it('should NOT redirect route when cart is unstable', () => {
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+      spyOn(activeCartService, 'isStable').and.returnValue(of(false));
+      spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
+
+      checkoutGuard.canActivate().subscribe().unsubscribe();
+      expect(authRedirectService.reportAuthGuard).not.toHaveBeenCalled();
+    });
+  });
+
   describe(', when user is authorized,', () => {
     beforeEach(() => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
@@ -192,6 +207,15 @@ describe('CheckoutAuthGuard', () => {
         );
       });
 
+      it('should redirect to same route when cart is stable', () => {
+        let result: boolean;
+        checkoutGuard
+          .canActivate()
+          .subscribe((value) => (result = value != null))
+          .unsubscribe();
+        expect(result).toBeTruthy();
+      });
+
       it('should return true', () => {
         let result: boolean | UrlTree;
         checkoutGuard
@@ -209,7 +233,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should return true when user roles has b2bcustomergroup', () => {
         spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: [B2BUserGroup.B2B_CUSTOMER_GROUP] })
+          of({ uid: 'testUser', roles: [B2BUserRole.CUSTOMER] })
         );
         let result: boolean | UrlTree;
         checkoutGuard
@@ -221,7 +245,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should return false when user roles does not have b2bcustomergroup', () => {
         spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: [B2BUserGroup.B2B_ADMIN_GROUP] })
+          of({ uid: 'testUser', roles: [B2BUserRole.ADMIN] })
         );
         let result: boolean | UrlTree;
         checkoutGuard

@@ -18,12 +18,19 @@ export class AuthConfigService {
   ) {}
 
   /**
+   * Utility to make access to authentication config easier.
+   */
+  private get config(): AuthConfig['authentication'] {
+    return this.authConfig?.authentication ?? {};
+  }
+
+  /**
    * Get client_id
    *
    * @return client_id
    */
   public getClientId(): string {
-    return this.authConfig.authentication.client_id ?? '';
+    return this.config.client_id ?? '';
   }
 
   /**
@@ -32,7 +39,7 @@ export class AuthConfigService {
    * @return client_secret
    */
   public getClientSecret(): string {
-    return this.authConfig.authentication.client_secret ?? '';
+    return this.config.client_secret ?? '';
   }
 
   /**
@@ -40,8 +47,8 @@ export class AuthConfigService {
    */
   public getBaseUrl(): string {
     return (
-      this.authConfig.authentication.baseUrl ??
-      this.occConfig.backend.occ.baseUrl + '/authorizationserver'
+      this.config.baseUrl ??
+      (this.occConfig?.backend?.occ?.baseUrl ?? '') + '/authorizationserver'
     );
   }
 
@@ -49,7 +56,7 @@ export class AuthConfigService {
    * Returns endpoint for getting the auth token
    */
   public getTokenEndpoint(): string {
-    const tokenEndpoint = this.authConfig.authentication.tokenEndpoint ?? '';
+    const tokenEndpoint = this.config.tokenEndpoint ?? '';
     return this.prefixEndpoint(tokenEndpoint);
   }
 
@@ -57,7 +64,7 @@ export class AuthConfigService {
    * Returns url for redirect to the authorization server to get token/code
    */
   public getLoginUrl(): string {
-    const loginUrl = this.authConfig.authentication.loginUrl ?? '';
+    const loginUrl = this.config.loginUrl ?? '';
     return this.prefixEndpoint(loginUrl);
   }
 
@@ -65,7 +72,7 @@ export class AuthConfigService {
    * Returns endpoint for token revocation (both access and refresh token).
    */
   public getRevokeEndpoint(): string {
-    const revokeEndpoint = this.authConfig.authentication.revokeEndpoint ?? '';
+    const revokeEndpoint = this.config.revokeEndpoint ?? '';
     return this.prefixEndpoint(revokeEndpoint);
   }
 
@@ -73,7 +80,7 @@ export class AuthConfigService {
    * Returns logout url to redirect to on logout.
    */
   public getLogoutUrl(): string {
-    const logoutUrl = this.authConfig.authentication.logoutUrl ?? '';
+    const logoutUrl = this.config.logoutUrl ?? '';
     return this.prefixEndpoint(logoutUrl);
   }
 
@@ -81,8 +88,7 @@ export class AuthConfigService {
    * Returns userinfo endpoint of the OAuth server.
    */
   public getUserinfoEndpoint(): string {
-    const userinfoEndpoint =
-      this.authConfig.authentication.userinfoEndpoint ?? '';
+    const userinfoEndpoint = this.config.userinfoEndpoint ?? '';
     return this.prefixEndpoint(userinfoEndpoint);
   }
 
@@ -90,7 +96,7 @@ export class AuthConfigService {
    * Returns configuration specific for the angular-oauth2-oidc library.
    */
   public getOAuthLibConfig(): AuthLibConfig {
-    return this.authConfig.authentication?.OAuthLibConfig ?? {};
+    return this.config.OAuthLibConfig ?? {};
   }
 
   protected prefixEndpoint(endpoint: string): string {
@@ -106,8 +112,7 @@ export class AuthConfigService {
    * Use when you have to perform particular action only in some of the OAuth flow scenarios.
    */
   public getOAuthFlow(): OAuthFlow {
-    const responseType = this.authConfig.authentication?.OAuthLibConfig
-      ?.responseType;
+    const responseType = this.config.OAuthLibConfig?.responseType;
     if (responseType) {
       const types = responseType.split(' ');
       if (types.includes('code')) {

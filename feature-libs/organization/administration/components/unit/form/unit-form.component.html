@@ -1,26 +1,29 @@
-<cx-organization-form [i18nRoot]="i18nRoot">
+<cx-org-form [i18nRoot]="i18nRoot">
   <ng-container *ngIf="form$ | async as form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
-        'unit.name' | cxTranslate
+        'orgUnit.name' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{ 'unit.name' | cxTranslate }}"
+        placeholder="{{ 'orgUnit.name' | cxTranslate }}"
         formControlName="name"
+        (blur)="createUidWithName(form.get('name'), form.get('uid'))"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
     </label>
 
     <label>
-      <span class="label-content required">{{ 'unit.uid' | cxTranslate }}</span>
+      <span class="label-content required">{{
+        'orgUnit.uid' | cxTranslate
+      }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{ 'unit.uid' | cxTranslate }}"
+        placeholder="{{ 'orgUnit.uid' | cxTranslate }}"
         formControlName="uid"
       />
       <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
@@ -32,7 +35,7 @@
       aria-required="true"
     >
       <span class="label-content required">{{
-        'unit.approvalProcess' | cxTranslate
+        'orgUnit.approvalProcess' | cxTranslate
       }}</span>
       <ng-select
         formControlName="code"
@@ -40,7 +43,7 @@
         [items]="approvalProcess$ | async"
         bindLabel="name"
         bindValue="code"
-        appendTo=".organization"
+        appendTo="cx-org-list"
       >
       </ng-select>
       <cx-form-errors
@@ -54,7 +57,7 @@
       formGroupName="parentOrgUnit"
     >
       <span class="label-content required">{{
-        'unit.form.parentOrgUnit' | cxTranslate
+        'orgUnit.form.parentOrgUnit' | cxTranslate
       }}</span>
       <ng-select
         formControlName="uid"
@@ -63,7 +66,8 @@
         [items]="units$ | async"
         bindLabel="name"
         bindValue="id"
-        appendTo=".organization"
+        appendTo="cx-org-list"
+        [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors
@@ -71,4 +75,4 @@
       ></cx-form-errors>
     </label>
   </ng-container>
-</cx-organization-form>
+</cx-org-form>

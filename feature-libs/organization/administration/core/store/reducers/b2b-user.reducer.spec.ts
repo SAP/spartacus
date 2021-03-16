@@ -221,7 +221,7 @@ describe('B2B User Entities Reducer', () => {
           selected: true,
         };
 
-        const action = new B2BUserActions.CreateB2BUserApproverSuccess(payload);
+        const action = new B2BUserActions.AssignB2BUserApproverSuccess(payload);
         const result = b2bUserEntitiesReducer(b2bUserInitialState, action);
 
         expect(result).toEqual(payload);
@@ -240,7 +240,7 @@ describe('B2B User Entities Reducer', () => {
           ...payload,
         };
 
-        const action = new B2BUserActions.CreateB2BUserApproverSuccess(payload);
+        const action = new B2BUserActions.AssignB2BUserApproverSuccess(payload);
         const result = b2bUserEntitiesReducer(payloadB2BUser, action);
 
         expect(result).toEqual(expected);
@@ -256,7 +256,9 @@ describe('B2B User Entities Reducer', () => {
           selected: true,
         };
 
-        const action = new B2BUserActions.DeleteB2BUserApproverSuccess(payload);
+        const action = new B2BUserActions.UnassignB2BUserApproverSuccess(
+          payload
+        );
         const result = b2bUserEntitiesReducer(b2bUserInitialState, action);
 
         expect(result).toEqual(payload);
@@ -275,7 +277,9 @@ describe('B2B User Entities Reducer', () => {
           ...payload,
         };
 
-        const action = new B2BUserActions.DeleteB2BUserApproverSuccess(payload);
+        const action = new B2BUserActions.UnassignB2BUserApproverSuccess(
+          payload
+        );
         const result = b2bUserEntitiesReducer(payloadB2BUser, action);
 
         expect(result).toEqual(expected);

@@ -1,0 +1,4 @@
+%cx-configurator-attribute-drop-down {
+  @include cx-configurator-attribute-type();
+  @include cx-configurator-form-group();
+}

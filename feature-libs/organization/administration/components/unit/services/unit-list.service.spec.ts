@@ -23,7 +23,6 @@ function verifyExpandedAll({ values }: EntitiesModel<B2BUnitTreeNode>) {
 }
 
 function verifyCollapsedAll({ values }: EntitiesModel<B2BUnitTreeNode>) {
-  console.log(values);
   const root = values[0];
 
   expect(values.length).toEqual(1);
@@ -88,13 +87,214 @@ const mockedTree = {
   ],
 };
 
+const mockedTreeBeforeConvert = {
+  id: 'Rustic',
+  name: 'Rustic',
+  active: true,
+  children: [
+    {
+      id: 'test3',
+      name: 'test3',
+      parent: 'Rustic',
+      active: true,
+      children: [],
+    },
+    {
+      id: 'test1',
+      name: 'test1',
+      parent: 'Rustic',
+      active: true,
+      children: [],
+    },
+    {
+      id: 'test2',
+      name: 'test2',
+      parent: 'Rustic',
+      active: true,
+      children: [
+        {
+          id: 'test6',
+          name: 'test6',
+          parent: 'test2',
+          active: true,
+          children: [],
+        },
+        {
+          id: 'test5',
+          name: 'test5',
+          parent: 'test2',
+          active: true,
+          children: [],
+        },
+        {
+          id: 'test4',
+          name: 'test4',
+          parent: 'test2',
+          active: true,
+          children: [],
+        },
+      ],
+    },
+  ],
+};
+
+const mockedTreeAfterConvert = {
+  values: [
+    {
+      id: 'Rustic',
+      name: 'Rustic',
+      active: true,
+      children: [
+        {
+          id: 'test1',
+          name: 'test1',
+          parent: 'Rustic',
+          active: true,
+          children: [],
+        },
+        {
+          id: 'test2',
+          name: 'test2',
+          parent: 'Rustic',
+          active: true,
+          children: [
+            {
+              id: 'test6',
+              name: 'test6',
+              parent: 'test2',
+              active: true,
+              children: [],
+            },
+            {
+              id: 'test5',
+              name: 'test5',
+              parent: 'test2',
+              active: true,
+              children: [],
+            },
+            {
+              id: 'test4',
+              name: 'test4',
+              parent: 'test2',
+              active: true,
+              children: [],
+            },
+          ],
+        },
+        {
+          id: 'test3',
+          name: 'test3',
+          parent: 'Rustic',
+          active: true,
+          children: [],
+        },
+      ],
+      count: 3,
+      expanded: true,
+      depthLevel: 0,
+      uid: 'Rustic',
+    },
+    {
+      id: 'test1',
+      name: 'test1',
+      parent: 'Rustic',
+      active: true,
+      children: [],
+      count: 0,
+      expanded: true,
+      depthLevel: 1,
+      uid: 'test1',
+    },
+    {
+      id: 'test2',
+      name: 'test2',
+      parent: 'Rustic',
+      active: true,
+      children: [
+        {
+          id: 'test4',
+          name: 'test4',
+          parent: 'test2',
+          active: true,
+          children: [],
+        },
+        {
+          id: 'test5',
+          name: 'test5',
+          parent: 'test2',
+          active: true,
+          children: [],
+        },
+        {
+          id: 'test6',
+          name: 'test6',
+          parent: 'test2',
+          active: true,
+          children: [],
+        },
+      ],
+      count: 3,
+      expanded: true,
+      depthLevel: 1,
+      uid: 'test2',
+    },
+    {
+      id: 'test4',
+      name: 'test4',
+      parent: 'test2',
+      active: true,
+      children: [],
+      count: 0,
+      expanded: true,
+      depthLevel: 2,
+      uid: 'test4',
+    },
+    {
+      id: 'test5',
+      name: 'test5',
+      parent: 'test2',
+      active: true,
+      children: [],
+      count: 0,
+      expanded: true,
+      depthLevel: 2,
+      uid: 'test5',
+    },
+    {
+      id: 'test6',
+      name: 'test6',
+      parent: 'test2',
+      active: true,
+      children: [],
+      count: 0,
+      expanded: true,
+      depthLevel: 2,
+      uid: 'test6',
+    },
+    {
+      id: 'test3',
+      name: 'test3',
+      parent: 'Rustic',
+      active: true,
+      children: [],
+      count: 0,
+      expanded: true,
+      depthLevel: 1,
+      uid: 'test3',
+    },
+  ],
+  pagination: { totalResults: 7 },
+};
+
 const treeToggle$ = new BehaviorSubject(
   new Map().set(mockedTree.id, TREE_TOGGLE.EXPANDED)
 );
 
+const mockTree$ = new BehaviorSubject(mockedTree);
+
 class MockUnitService {
   getTree(): Observable<B2BUnitNode> {
-    return of(mockedTree);
+    return mockTree$.asObservable();
   }
 }
 
@@ -108,9 +308,6 @@ export class MockTableService {
 export class MockUnitTreeService {
   treeToggle$ = treeToggle$.asObservable();
   initialize = createSpy('initialize');
-  getToggleState = createSpy('getToggleState')
-    .withArgs(mockedTree.id)
-    .and.returnValue(treeToggle$.value?.get(mockedTree.id));
   isExpanded = createSpy('isExpanded').and.returnValue(false);
 }
 
@@ -156,18 +353,29 @@ describe('UnitListService', () => {
 
     it('should get collapsed all items structure', () => {
       let result: EntitiesModel<B2BUnitTreeNode>;
-
+      mockTree$.next(mockedTree);
       service.getData().subscribe((table) => (result = table));
       verifyCollapsedAll(result);
     });
 
     it('should get expanded all items structure', () => {
       let result: EntitiesModel<B2BUnitTreeNode>;
-
+      mockTree$.next(mockedTree);
       treeService.isExpanded = createSpy().and.returnValue(true);
 
       service.getData().subscribe((table) => (result = table));
+
       verifyExpandedAll(result);
+    });
+
+    it('should automatically sort unit tree by name', () => {
+      let result: EntitiesModel<B2BUnitTreeNode>;
+      mockTree$.next(mockedTreeBeforeConvert);
+      treeService.isExpanded = createSpy().and.returnValue(true);
+
+      service.getData().subscribe((table) => (result = table));
+
+      expect(result).toEqual(mockedTreeAfterConvert);
     });
   });
 });

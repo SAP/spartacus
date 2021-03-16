@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -23,7 +23,6 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../..';
-import { Item } from '../../../../cms-components/cart/index';
 import { Card } from '../../../../shared/components/card/card.component';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { IconTestingModule } from '../../../misc/icon/testing/icon-testing.module';
@@ -85,7 +84,7 @@ const mockPaymentTypes: PaymentType[] = [
   template: '',
 })
 class MockCartItemListComponent {
-  @Input() items: Item[];
+  @Input() items: OrderEntry[];
   @Input() readonly: boolean;
   @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 }
@@ -203,54 +202,56 @@ describe('ReviewSubmitComponent', () => {
   let fixture: ComponentFixture<ReviewSubmitComponent>;
   let mockCheckoutDeliveryService: CheckoutDeliveryService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        I18nTestingModule,
-        PromotionsModule,
-        RouterTestingModule,
-        IconTestingModule,
-      ],
-      declarations: [
-        ReviewSubmitComponent,
-        MockCartItemListComponent,
-        MockCardComponent,
-        MockUrlPipe,
-      ],
-      providers: [
-        {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
-        },
-        {
-          provide: CheckoutPaymentService,
-          useClass: MockCheckoutPaymentService,
-        },
-        { provide: UserAddressService, useClass: MockUserAddressService },
-        { provide: ActiveCartService, useClass: MockActiveCartService },
-        {
-          provide: CheckoutStepService,
-          useClass: MockCheckoutStepService,
-        },
-        {
-          provide: PromotionService,
-          useClass: MockPromotionService,
-        },
-        {
-          provide: PaymentTypeService,
-          useClass: MockPaymentTypeService,
-        },
-        {
-          provide: CheckoutCostCenterService,
-          useClass: MockCheckoutCostCenterService,
-        },
-        {
-          provide: UserCostCenterService,
-          useClass: MockUserCostCenterService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          I18nTestingModule,
+          PromotionsModule,
+          RouterTestingModule,
+          IconTestingModule,
+        ],
+        declarations: [
+          ReviewSubmitComponent,
+          MockCartItemListComponent,
+          MockCardComponent,
+          MockUrlPipe,
+        ],
+        providers: [
+          {
+            provide: CheckoutDeliveryService,
+            useClass: MockCheckoutDeliveryService,
+          },
+          {
+            provide: CheckoutPaymentService,
+            useClass: MockCheckoutPaymentService,
+          },
+          { provide: UserAddressService, useClass: MockUserAddressService },
+          { provide: ActiveCartService, useClass: MockActiveCartService },
+          {
+            provide: CheckoutStepService,
+            useClass: MockCheckoutStepService,
+          },
+          {
+            provide: PromotionService,
+            useClass: MockPromotionService,
+          },
+          {
+            provide: PaymentTypeService,
+            useClass: MockPaymentTypeService,
+          },
+          {
+            provide: CheckoutCostCenterService,
+            useClass: MockCheckoutCostCenterService,
+          },
+          {
+            provide: UserCostCenterService,
+            useClass: MockUserCostCenterService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);

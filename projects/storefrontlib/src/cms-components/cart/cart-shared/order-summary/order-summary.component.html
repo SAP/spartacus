@@ -22,7 +22,7 @@
       {{
         cart.deliveryCost?.formattedValue
           ? cart.deliveryCost.formattedValue
-          : 'TBD'
+          : ('orderCost.toBeDetermined' | cxTranslate)
       }}
     </div>
   </div>
@@ -47,7 +47,11 @@
     {{ cart.totalDiscounts?.formattedValue }}
   </div>
   <div class="cx-summary-row" *ngIf="!cart.net">
-    {{ 'orderCost.grossTax' | cxTranslate }}
+    {{
+      cart.totalPriceWithTax.value !== cart.totalPrice.value
+        ? ('orderCost.grossTax' | cxTranslate)
+        : ('orderCost.grossIncludeTax' | cxTranslate)
+    }}
     {{ cart.totalTax?.formattedValue }}.
   </div>
 </div>

@@ -1,5 +1,20 @@
-<cx-organization-sub-list key="customerId" [routerKey]="routerKey">
-  <a actions class="link" routerLink="create">
+<cx-org-sub-list key="customerId" [routerKey]="routerKey">
+  <a
+    actions
+    class="link"
+    routerLink="create"
+    [class.disabled]="!(unit$ | async)?.active"
+  >
     {{ 'organization.create' | cxTranslate }}
   </a>
-</cx-organization-sub-list>
+  <cx-org-disable-info
+    info
+    i18nRoot="orgUnitUsers"
+    [displayInfoConfig]="{
+      disabledCreate: true,
+      disabledEnable: false,
+      disabledEdit: false
+    }"
+  >
+  </cx-org-disable-info>
+</cx-org-sub-list>

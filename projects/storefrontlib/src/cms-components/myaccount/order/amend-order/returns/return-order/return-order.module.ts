@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AuthGuard, CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { CmsPageGuard } from '../../../../../../cms-structure/guards/cms-page.guard';
 import { PageLayoutComponent } from '../../../../../../cms-structure/page/page-layout/page-layout.component';
+import { FormErrorsModule } from '../../../../../../shared/index';
 import { AmendOrderActionsModule } from '../../amend-order-actions/amend-order-actions.module';
 import { AmendOrderItemsModule } from '../../amend-order-items/amend-order-items.module';
 import { OrderAmendService } from '../../amend-order.service';
@@ -25,6 +26,7 @@ import { ReturnOrderComponent } from './return-order.component';
     ]),
     AmendOrderItemsModule,
     AmendOrderActionsModule,
+    FormErrorsModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

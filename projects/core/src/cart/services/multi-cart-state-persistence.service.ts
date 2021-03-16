@@ -50,6 +50,8 @@ export class MultiCartStatePersistenceService implements OnDestroy {
     this.store.dispatch(new CartActions.ClearCartState());
     if (state) {
       this.store.dispatch(new CartActions.SetActiveCartId(state.active));
+    } else {
+      this.store.dispatch(new CartActions.SetActiveCartId(''));
     }
   }
 

@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
 import { ParagraphComponent } from './paragraph.component';
@@ -27,17 +27,19 @@ describe('CmsParagraphComponent in CmsLib', () => {
     data$: data$.asObservable(),
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ParagraphComponent],
-      providers: [
-        {
-          provide: CmsComponentData,
-          useValue: MockCmsComponentData,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ParagraphComponent],
+        providers: [
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ParagraphComponent);

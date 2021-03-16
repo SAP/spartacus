@@ -4,9 +4,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { CdcUserTokenEffects } from './effects';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    EffectsModule.forFeature([CdcUserTokenEffects]),
-  ],
+  imports: [CommonModule, EffectsModule.forFeature([CdcUserTokenEffects])],
 })
 export class CdcAuthStoreModule {}

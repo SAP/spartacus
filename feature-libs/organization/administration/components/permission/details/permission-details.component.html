@@ -1,28 +1,39 @@
-<cx-organization-card
+<cx-org-card
   *ngIf="model$ | async as model"
-  i18nRoot="permission.details"
+  i18nRoot="orgPurchaseLimit.details"
 >
   <a
     actions
     class="link edit"
-    [class.disabled]="!model.active || !model.orgUnit.active"
-    [routerLink]="{ cxRoute: 'permissionEdit', params: model } | cxUrl"
+    [class.disabled]="!model.active || (isInEditMode$ | async)"
+    [routerLink]="{ cxRoute: 'orgPurchaseLimitEdit', params: model } | cxUrl"
   >
     {{ 'organization.edit' | cxTranslate }}
   </a>
 
-  <cx-toggle-status actions i18nRoot="permission"></cx-toggle-status>
+  <cx-org-toggle-status
+    actions
+    i18nRoot="orgPurchaseLimit"
+    [disabled]="false"
+  ></cx-org-toggle-status>
 
-  <section main class="details">
+  <cx-org-disable-info
+    info
+    i18nRoot="orgPurchaseLimit"
+    [displayInfoConfig]="{ disabledEnable: false }"
+  >
+  </cx-org-disable-info>
+
+  <section main class="details" cxOrgItemExists>
     <div class="property">
-      <label>{{ 'permission.code' | cxTranslate }}</label>
+      <label>{{ 'orgPurchaseLimit.code' | cxTranslate }}</label>
       <span class="value">
         {{ model.code }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'budget.active' | cxTranslate }}</label>
+      <label>{{ 'orgPurchaseLimit.active' | cxTranslate }}</label>
       <span class="value" [class.is-active]="model.active">
         {{
           (model.active ? 'organization.enabled' : 'organization.disabled')
@@ -33,7 +44,7 @@
 
     <div class="property">
       <label>{{
-        'permission.orderApprovalPermissionType' | cxTranslate
+        'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
       }}</label>
       <span class="value">
         {{ model.orderApprovalPermissionType?.name }}
@@ -41,26 +52,27 @@
     </div>
 
     <div class="property" *ngIf="model.threshold || model.threshold === 0">
-      <label>{{ 'permission.threshold' | cxTranslate }}</label>
+      <label>{{ 'orgPurchaseLimit.threshold' | cxTranslate }}</label>
       <span class="value">
         {{ model.threshold }} {{ model.currency?.symbol }}
       </span>
     </div>
 
     <div class="property" *ngIf="model.periodRange">
-      <label>{{ 'permission.periodRange' | cxTranslate }}</label>
+      <label>{{ 'orgPurchaseLimit.periodRange' | cxTranslate }}</label>
       <span class="value">
         {{ model.periodRange }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'permission.unit' | cxTranslate }}</label>
+      <label>{{ 'orgPurchaseLimit.unit' | cxTranslate }}</label>
       <a
+        *ngIf="model.code"
         class="value"
         [routerLink]="
           {
-            cxRoute: 'unitDetails',
+            cxRoute: 'orgUnitDetails',
             params: model.orgUnit
           } | cxUrl
         "
@@ -69,4 +81,4 @@
       </a>
     </div>
   </section>
-</cx-organization-card>
+</cx-org-card>

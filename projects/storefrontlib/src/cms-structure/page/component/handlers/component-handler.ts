@@ -2,6 +2,7 @@ import {
   ComponentRef,
   ElementRef,
   Injector,
+  NgModuleRef,
   ViewContainerRef,
 } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -24,11 +25,13 @@ export abstract class ComponentHandler implements Applicable {
    * @param componentMapping
    * @param viewContainerRef
    * @param elementInjector
+   * @param module
    */
   abstract launcher(
     componentMapping: CmsComponentMapping,
     viewContainerRef: ViewContainerRef,
-    elementInjector?: Injector
+    elementInjector?: Injector,
+    module?: NgModuleRef<any>
   ): Observable<{ elementRef: ElementRef; componentRef?: ComponentRef<any> }>;
 
   abstract hasMatch(componentMapping: CmsComponentMapping): boolean;

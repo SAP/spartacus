@@ -1,4 +1,5 @@
 import { MyCompanyRowConfig } from './my-company-row.config';
+import { MY_COMPANY_FEATURE } from './my-company.model';
 
 export interface MyCompanyConfig {
   /**
@@ -24,7 +25,7 @@ export interface MyCompanyConfig {
   baseUrl?: string;
 
   /**
-   * API Endpoint corresponding to requests/responses of the category
+   * API Endpoint corresponding to requests/responses of the category.
    * @example apiEndpoint: '/orgUnitUserGroup'
    */
   apiEndpoint?: string;
@@ -47,7 +48,6 @@ export interface MyCompanyConfig {
    * {
    *   label: 'Name',
    *   variableName: 'name',
-   *   link: '/organization/cost-centers/',
    *   inputType: 'text',
    *   createValue: `Test Entity ${randomString()}`,
    *   updateValue: `Edited Test Entity ${randomString()}`,
@@ -78,11 +78,12 @@ export interface MyCompanyConfig {
    * {
    *   label: 'Unit',
    *   variableName: 'orgUnit.name',
-   *   link: `/organization/units/`,
+   *   link: `/organization/units/Custom%20Retail`,
+   *   updatedLink: `/organization/units/Rustic%20Retail`,
    *   sortLabel: 'unit',
    *   inputType: 'ngSelect',
    *   createValue: 'Custom Retail',
-   *   updateValue: 'Rustic',
+   *   updateValue: 'Rustic Retail',
    *   showInTable: true,
    *   formLabel: 'Parent Unit',
    *   showInDetails: true,
@@ -91,7 +92,7 @@ export interface MyCompanyConfig {
   rows?: MyCompanyRowConfig[]; // First object is default sort
 
   /**
-   * Set to true to test assignment management of a given subCategory
+   * Set to true to test assignment management of a given subCategory.
    */
   manageAssignments?: boolean;
 
@@ -101,17 +102,58 @@ export interface MyCompanyConfig {
   canUnassignAll?: boolean;
 
   /**
-   * Determine entity ID for possible route checks and usage between tests
+   * Determine entity ID for possible route checks and usage between tests.
    */
   entityIdField?: string;
 
   /**
-   * Test list utilizing a nested tree ux.
+   * Configuration of preserve cookies value.
    */
-  nestedTableRows?: boolean;
+  preserveCookies?: boolean;
 
   /**
-   * Set to true if checking list features for such config is not needed.
+   * SUBCATEGORY: Config for creating entities from submenu.
    */
-  disableListChecking?: boolean;
+  createConfig?: MyCompanyConfig;
+
+  /**
+   * Indicates which features should be tested in the current suite.
+   * @example features: [MY_COMPANY_FEATURE.USER_PASSWORD]
+   */
+  features?: MY_COMPANY_FEATURE[];
+
+  /**
+   * SUBCATEGORY: Config for updating entities from submenu.
+   */
+  editConfig?: MyCompanyConfig;
+
+  /**
+   * SUBCATEGORY: Name of the entity to be updated.
+   */
+  updateEntity?: string;
+
+  /**
+   * SUBCATEGORY: Name of the entity to deleted.
+   */
+  deleteEntity?: string;
+
+  /**
+   * SUBCATEGORY: Config for modifying user roles.
+   */
+  rolesConfig?: MyCompanyConfig;
+
+  /**
+   * Set to true to check status in details pane.
+   */
+  verifyStatusInDetails?: boolean;
+
+  /**
+   * Define request required to be complete before create/update form filling.
+   */
+  selectOptionsEndpoint?: string;
+
+  /**
+   * Skip waiting for requests in assignment tests (used when GET requests aren't fired).
+   */
+  skipAssignmentWaits?: boolean;
 }

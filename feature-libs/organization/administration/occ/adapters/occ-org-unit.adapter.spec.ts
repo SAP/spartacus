@@ -6,6 +6,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   Address,
   ADDRESS_LIST_NORMALIZER,
+  ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
   ConverterService,
   OccEndpointsService,
@@ -16,6 +17,7 @@ import {
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
+  B2BUNIT_SERIALIZER,
   B2B_USERS_NORMALIZER,
 } from '@spartacus/organization/administration/core';
 import { OccOrgUnitAdapter } from './occ-org-unit.adapter';
@@ -35,7 +37,7 @@ const addressId: string = address.id;
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
   );
 }
@@ -60,6 +62,7 @@ describe('OccOrgUnitAdapter', () => {
     service = TestBed.inject(OccOrgUnitAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(converterService, 'convert').and.callThrough();
   });
 
   afterEach(() => {
@@ -121,6 +124,10 @@ describe('OccOrgUnitAdapter', () => {
   describe('update orgUnit', () => {
     it('should update orgUnit', () => {
       service.update(userId, orgUnitId, orgUnit).subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        orgUnit,
+        B2BUNIT_SERIALIZER
+      );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'PATCH' &&
@@ -251,6 +258,10 @@ describe('OccOrgUnitAdapter', () => {
   describe('create address', () => {
     it('should create address', () => {
       service.createAddress(userId, orgUnitId, address).subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        address,
+        ADDRESS_SERIALIZER
+      );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'POST' &&
@@ -261,7 +272,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ADDRESS_SERIALIZER
+        ADDRESS_NORMALIZER
       );
     });
   });
@@ -269,6 +280,10 @@ describe('OccOrgUnitAdapter', () => {
   describe('update address', () => {
     it('should update address', () => {
       service.updateAddress(userId, orgUnitId, addressId, address).subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        address,
+        ADDRESS_SERIALIZER
+      );
       const mockReq = httpMock.expectOne(
         (req) => req.method === 'PATCH' && req.url === 'orgUnitsAddress'
       );
@@ -276,7 +291,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ADDRESS_SERIALIZER
+        ADDRESS_NORMALIZER
       );
     });
   });
@@ -291,7 +306,7 @@ describe('OccOrgUnitAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orgUnit);
       expect(converterService.pipeable).toHaveBeenCalledWith(
-        ADDRESS_SERIALIZER
+        ADDRESS_NORMALIZER
       );
     });
   });

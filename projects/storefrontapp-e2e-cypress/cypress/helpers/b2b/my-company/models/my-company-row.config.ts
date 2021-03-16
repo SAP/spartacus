@@ -19,6 +19,10 @@ export interface MyCompanyRowConfig {
    */
   link?: string;
   /**
+   * Url property should link to in details (after updating item)
+   */
+  updatedLink?: string;
+  /**
    * Input type in form
    */
   inputType?: INPUT_TYPE;
@@ -47,6 +51,10 @@ export interface MyCompanyRowConfig {
    * eg. For ids
    */
   useInUrl?: boolean;
+  /**
+   * Name of shared cookie key
+   */
+  useCookie?: string;
   /**
    * Label to identify property in form
    */

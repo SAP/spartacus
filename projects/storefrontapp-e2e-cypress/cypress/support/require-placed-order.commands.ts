@@ -45,5 +45,5 @@ Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
   }
 
   cy.server();
-  placeOrder().then((resp) => cy.wrap(resp));
+  placeOrder().then((response) => cy.wrap(response));
 });

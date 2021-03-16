@@ -66,7 +66,7 @@ describe('User Group Entities Reducer', () => {
           selected: true,
         };
 
-        const action = new B2BUserActions.CreateB2BUserUserGroupSuccess(
+        const action = new B2BUserActions.AssignB2BUserUserGroupSuccess(
           payload
         );
         const result = userGroupEntitiesReducer(userGroupInitialState, action);
@@ -87,7 +87,7 @@ describe('User Group Entities Reducer', () => {
           ...payload,
         };
 
-        const action = new B2BUserActions.CreateB2BUserUserGroupSuccess(
+        const action = new B2BUserActions.AssignB2BUserUserGroupSuccess(
           payload
         );
         const result = userGroupEntitiesReducer(payloadUserGroup, action);
@@ -105,7 +105,7 @@ describe('User Group Entities Reducer', () => {
           selected: true,
         };
 
-        const action = new B2BUserActions.DeleteB2BUserUserGroupSuccess(
+        const action = new B2BUserActions.UnassignB2BUserUserGroupSuccess(
           payload
         );
         const result = userGroupEntitiesReducer(userGroupInitialState, action);
@@ -126,7 +126,7 @@ describe('User Group Entities Reducer', () => {
           ...payload,
         };
 
-        const action = new B2BUserActions.DeleteB2BUserUserGroupSuccess(
+        const action = new B2BUserActions.UnassignB2BUserUserGroupSuccess(
           payload
         );
         const result = userGroupEntitiesReducer(payloadUserGroup, action);

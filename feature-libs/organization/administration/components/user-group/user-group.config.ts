@@ -7,17 +7,16 @@ import {
 import { AdminGuard } from '@spartacus/organization/administration/core';
 import { TableConfig } from '@spartacus/storefront';
 import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
-import { OrganizationItemService } from '../shared/organization-item.service';
-import { OrganizationListComponent } from '../shared/organization-list/organization-list.component';
-import { OrganizationListService } from '../shared/organization-list/organization-list.service';
-import { AssignCellComponent } from '../shared/organization-sub-list/assign-cell.component';
-import { ActiveLinkCellComponent } from '../shared/organization-table/active-link/active-link-cell.component';
-import { OrganizationCellComponent } from '../shared/organization-table/organization-cell.component';
-import { UnitCellComponent } from '../shared/organization-table/unit/unit-cell.component';
+import { ItemService } from '../shared/item.service';
+import { ListComponent } from '../shared/list/list.component';
+import { ListService } from '../shared/list/list.service';
+import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
+import { ActiveLinkCellComponent } from '../shared/table/active-link/active-link-cell.component';
+import { CellComponent } from '../shared/table/cell.component';
+import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
 import { OrganizationTableType } from '../shared/organization.model';
 import { UserGroupDetailsComponent } from './details/user-group-details.component';
 import { UserGroupFormComponent } from './form/user-group-form.component';
-import { ExistUserGroupGuard } from './guards/exist-user-group.guard';
 import { UserGroupAssignedPermissionListComponent } from './permissions/assigned/user-group-assigned-permission-list.component';
 import { UserGroupPermissionListComponent } from './permissions/user-group-permission-list.component';
 import { UserGroupItemService } from './services/user-group-item.service';
@@ -25,6 +24,8 @@ import { UserGroupListService } from './services/user-group-list.service';
 import { UserGroupRoutePageMetaResolver } from './services/user-group-route-page-meta.resolver';
 import { UserGroupAssignedUserListComponent } from './users/assigned/user-group-assigned-user-list.component';
 import { UserGroupUserListComponent } from './users/user-group-user-list.component';
+import { UserDetailsCellComponent } from '../user/details-cell/user-details-cell.component';
+import { PermissionDetailsCellComponent } from '../permission/details-cell/permission-details-cell.component';
 
 const listPath = `organization/user-groups/:${ROUTE_PARAMS.userGroupCode}`;
 const paramsMapping: ParamsMapping = {
@@ -35,33 +36,33 @@ const paramsMapping: ParamsMapping = {
 export const userGroupRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      userGroup: {
+      orgUserGroup: {
         paths: ['organization/user-groups'],
       },
-      userGroupCreate: {
+      orgUserGroupCreate: {
         paths: ['organization/user-groups/create'],
       },
-      userGroupDetails: {
+      orgUserGroupDetails: {
         paths: [listPath],
         paramsMapping,
       },
-      userGroupEdit: {
+      orgUserGroupEdit: {
         paths: [`${listPath}/edit`],
         paramsMapping,
       },
-      userGroupUsers: {
+      orgUserGroupUsers: {
         paths: [`${listPath}/users`],
         paramsMapping,
       },
-      userGroupAssignUsers: {
+      orgUserGroupAssignUsers: {
         paths: [`${listPath}/users/assign`],
         paramsMapping,
       },
-      userGroupPermissions: {
+      orgUserGroupPermissions: {
         paths: [`${listPath}/purchase-limits`],
         paramsMapping,
       },
-      userGroupAssignPermissions: {
+      orgUserGroupAssignPermissions: {
         paths: [`${listPath}/purchase-limits/assign`],
         paramsMapping,
       },
@@ -72,14 +73,14 @@ export const userGroupRoutingConfig: RoutingConfig = {
 export const userGroupCmsConfig: CmsConfig = {
   cmsComponents: {
     ManageUserGroupsListComponent: {
-      component: OrganizationListComponent,
+      component: ListComponent,
       providers: [
         {
-          provide: OrganizationListService,
+          provide: ListService,
           useExisting: UserGroupListService,
         },
         {
-          provide: OrganizationItemService,
+          provide: ItemService,
           useExisting: UserGroupItemService,
         },
       ],
@@ -87,7 +88,7 @@ export const userGroupCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'userGroup.breadcrumbs.list',
+              breadcrumb: 'orgUserGroup.breadcrumbs.list',
               resolver: UserGroupRoutePageMetaResolver,
             },
           },
@@ -100,9 +101,8 @@ export const userGroupCmsConfig: CmsConfig = {
           {
             path: `:${ROUTE_PARAMS.userGroupCode}`,
             component: UserGroupDetailsComponent,
-            canActivate: [ExistUserGroupGuard],
             data: {
-              cxPageMeta: { breadcrumb: 'userGroup.breadcrumbs.details' },
+              cxPageMeta: { breadcrumb: 'orgUserGroup.breadcrumbs.details' },
             },
             children: [
               {
@@ -112,7 +112,7 @@ export const userGroupCmsConfig: CmsConfig = {
               {
                 path: 'users',
                 data: {
-                  cxPageMeta: { breadcrumb: 'userGroup.breadcrumbs.users' },
+                  cxPageMeta: { breadcrumb: 'orgUserGroup.breadcrumbs.users' },
                 },
                 children: [
                   {
@@ -129,7 +129,7 @@ export const userGroupCmsConfig: CmsConfig = {
                 path: 'purchase-limits',
                 data: {
                   cxPageMeta: {
-                    breadcrumb: 'userGroup.breadcrumbs.permissions',
+                    breadcrumb: 'orgUserGroup.breadcrumbs.permissions',
                   },
                 },
                 children: [
@@ -161,13 +161,13 @@ export const userGroupTableConfig: TableConfig = {
     [OrganizationTableType.USER_GROUP]: {
       cells: ['name', 'uid', 'unit'],
       options: {
-        dataComponent: OrganizationCellComponent,
+        dataComponent: CellComponent,
         cells: {
           name: {
             dataComponent: ActiveLinkCellComponent,
           },
           uid: {
-            dataComponent: OrganizationCellComponent,
+            dataComponent: CellComponent,
           },
           unit: {
             dataComponent: UnitCellComponent,
@@ -179,6 +179,9 @@ export const userGroupTableConfig: TableConfig = {
       cells: ['name', 'actions'],
       options: {
         cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
           actions: {
             dataComponent: AssignCellComponent,
           },
@@ -193,6 +196,9 @@ export const userGroupTableConfig: TableConfig = {
       cells: ['name', 'actions'],
       options: {
         cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
           actions: {
             dataComponent: AssignCellComponent,
           },
@@ -203,6 +209,9 @@ export const userGroupTableConfig: TableConfig = {
       cells: ['code', 'actions'],
       options: {
         cells: {
+          code: {
+            dataComponent: PermissionDetailsCellComponent,
+          },
           actions: {
             dataComponent: AssignCellComponent,
           },
@@ -213,6 +222,9 @@ export const userGroupTableConfig: TableConfig = {
       cells: ['code', 'actions'],
       options: {
         cells: {
+          code: {
+            dataComponent: PermissionDetailsCellComponent,
+          },
           actions: {
             dataComponent: AssignCellComponent,
           },

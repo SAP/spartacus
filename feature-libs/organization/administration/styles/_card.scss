@@ -9,10 +9,6 @@
     @extend %cardHeader !optional;
     @extend %cardMain !optional;
     @extend %cardSection !optional;
-
-    cx-toggle-status {
-      display: contents;
-    }
   }
 }
 
