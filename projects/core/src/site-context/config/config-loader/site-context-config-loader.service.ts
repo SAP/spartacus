@@ -6,6 +6,7 @@ import {
   Optional,
   PLATFORM_ID,
 } from '@angular/core';
+import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { BaseSite } from '../../../model/misc.model';
 import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
@@ -44,27 +45,24 @@ export class SiteContextConfigLoaderService {
   }
 
   /**
-   * Returns the site context config basing on the current base site data
+   * Emits the site context config basing on the current base site data. Completes after emitting the value.
    */
-  loadConfig(): Promise<SiteContextConfig> {
-    return this.baseSiteService
-      .getAll()
-      .pipe(
-        map((baseSites) =>
-          baseSites?.find((site) => this.isCurrentBaseSite(site))
-        ),
-        filter((baseSite: any) => {
-          if (!baseSite) {
-            throw new Error(
-              `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match any of url patterns of any base sites.`
-            );
-          }
-          return Boolean(baseSite);
-        }),
-        map((baseSite) => this.getConfig(baseSite)),
-        take(1)
-      )
-      .toPromise();
+  loadConfig(): Observable<SiteContextConfig> {
+    return this.baseSiteService.getAll().pipe(
+      map((baseSites) =>
+        baseSites?.find((site) => this.isCurrentBaseSite(site))
+      ),
+      filter((baseSite: any) => {
+        if (!baseSite) {
+          throw new Error(
+            `Error: Cannot get base site config! Current url (${this.currentUrl}) doesn't match any of url patterns of any base sites.`
+          );
+        }
+        return Boolean(baseSite);
+      }),
+      map((baseSite) => this.getConfig(baseSite)),
+      take(1)
+    );
   }
 
   protected getConfig(source: BaseSite): SiteContextConfig {
