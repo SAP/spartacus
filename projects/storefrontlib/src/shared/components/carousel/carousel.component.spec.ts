@@ -126,12 +126,12 @@ describe('Carousel Component', () => {
         component.items = [of()];
       });
 
-      it('should have h3 with title', () => {
+      it('should have h2 with title', () => {
         component.title = 'test carousel with title';
         component.ngOnInit();
         fixture.detectChanges();
 
-        const el = fixture.debugElement.query(By.css('h3'));
+        const el = fixture.debugElement.query(By.css('h2'));
         expect(el.nativeElement).toBeTruthy();
 
         expect((<HTMLElement>el.nativeElement).innerText).toEqual(
