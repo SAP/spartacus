@@ -1080,6 +1080,7 @@ export function clickAddToCartBtn(): void {
     .then(() => {
       cy.location('pathname').should('contain', 'cartEntry/entityKey/');
       checkUpdatingMessageNotDisplayed();
+      //TODO: check it whether the statements below are necessary
       checkSuccessMessageNotDisplayed();
       checkUpdatingMessageNotDisplayed();
       checkSuccessMessageNotDisplayed();

@@ -428,7 +428,7 @@ context('CPQ Configuration', () => {
   });
 
   describe('Add to the cart then read and update the cart configuration', () => {
-    it.only('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it', () => {
+    it('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
@@ -463,10 +463,13 @@ context('CPQ Configuration', () => {
 
       configurationOverview.checkConfigOverviewPageDisplayed();
       configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
-      configurationOverview.checkAttrDisplayed(ATTR_CAM_BODY, '8712', 0);
+      configurationOverview.checkAttrDisplayed(
+        'Camera Body',
+        'Canon EOS 80D',
+        0
+      );
 
       configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_ACC, 1);
-      configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_IAW, 2);
       configurationOverview.clickContinueToCartBtnOnOP();
 
       cart.verifyCartNotEmpty();
