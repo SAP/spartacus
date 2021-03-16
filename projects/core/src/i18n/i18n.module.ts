@@ -12,7 +12,7 @@ import { TranslationService } from './translation.service';
 export function initI18nConfig(configInit: ConfigInitializerService) {
   const result = () =>
     configInit
-      .getStable('context.i18n')
+      .getStable('context.language')
       .pipe(
         map((config) => {
           if (config?.i18n?.fallbackLang !== undefined) {
