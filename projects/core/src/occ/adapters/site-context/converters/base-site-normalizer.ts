@@ -14,7 +14,7 @@ export class BaseSiteNormalizer implements Converter<Occ.BaseSite, BaseSite> {
 
     // We take the first store as the base store.
     target.baseStore = source.stores?.[0];
-    delete source.stores;
+    delete target.stores;
 
     return target;
   }
