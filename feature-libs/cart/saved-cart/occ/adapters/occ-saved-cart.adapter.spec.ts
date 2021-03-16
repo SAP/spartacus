@@ -3,6 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { SaveCartResult } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
   CartList,
@@ -11,7 +12,6 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
-import { SaveCartResult } from '../../core/model/saved-cart.model';
 import { OccSavedCartAdapter } from './occ-saved-cart.adapter';
 
 const mockCartId = 'test-cart';

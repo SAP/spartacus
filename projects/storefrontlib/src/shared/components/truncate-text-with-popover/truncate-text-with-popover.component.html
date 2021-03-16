@@ -1,0 +1,19 @@
+<ng-container>
+  <ng-container>
+    {{ content | cxTruncate: [maxLength, true] }}
+  </ng-container>
+
+  <ng-template #fullText>
+    {{ content }}
+  </ng-template>
+
+  <button
+    *ngIf="isLengthExceed"
+    (click)="stopPropagation($event)"
+    [appendToBody]="true"
+    [cxPopover]="fullText"
+    class="ml-1 link cx-action-link"
+  >
+    {{ 'common.more' | cxTranslate }}
+  </button>
+</ng-container>

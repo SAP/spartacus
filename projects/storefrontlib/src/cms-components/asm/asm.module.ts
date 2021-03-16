@@ -17,6 +17,9 @@ import { CustomerEmulationComponent } from './customer-emulation/customer-emulat
 import { CustomerSelectionComponent } from './customer-selection/customer-selection.component';
 import { defaultAsmLayoutConfig } from './default-asm-layout.config';
 
+/**
+ * @deprecated since 3.2, use asm lib instead
+ */
 @NgModule({
   imports: [
     CommonModule,

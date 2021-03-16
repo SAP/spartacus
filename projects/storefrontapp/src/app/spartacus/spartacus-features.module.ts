@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
-  AsmOccModule,
   AuthModule,
   CartModule,
   CartOccModule,
@@ -18,7 +17,6 @@ import {
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
-  AsmModule,
   BannerCarouselModule,
   BannerModule,
   BreadcrumbModule,
@@ -77,6 +75,7 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
+import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
@@ -192,11 +191,6 @@ if (environment.cds) {
     ReplenishmentOrderDetailsModule,
     ReplenishmentOrderConfirmationModule,
 
-    // Asm Core
-    AsmOccModule,
-    // Asm UI
-    AsmModule,
-
     // Page Events
     NavigationEventModule,
     HomePageEventModule,
@@ -211,6 +205,7 @@ if (environment.cds) {
 
     /************************* External features *************************/
 
+    AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
     SmartEditFeatureModule,

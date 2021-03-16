@@ -12,6 +12,7 @@ export const common = {
     home: 'Home',
     noData: 'No data.',
     confirm: 'Confirm',
+    more: 'more',
   },
   pageMetaResolver: {
     category: {

@@ -18,6 +18,7 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     RouterModule,
     ListNavigationModule,
     I18nModule,
+    // TruncateTextWithPopoverModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

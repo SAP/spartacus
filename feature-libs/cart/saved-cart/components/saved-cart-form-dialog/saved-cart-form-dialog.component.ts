@@ -8,6 +8,10 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  SavedCartFormType,
+  SavedCartService,
+} from '@spartacus/cart/saved-cart/core';
+import {
   Cart,
   GlobalMessageService,
   GlobalMessageType,
@@ -18,9 +22,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
-import { SavedCartFormType } from '../../core/model/saved-cart.model';
-import { SavedCartService } from '../../core/services/saved-cart.service';
+import { Observable, Subscription } from 'rxjs';
 
 export interface SavedCartFormDialogOptions {
   cart: Cart;
@@ -33,15 +35,13 @@ export interface SavedCartFormDialogOptions {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
-  private subscription = new Subscription();
-
   savedCartFormType = SavedCartFormType;
   form: FormGroup;
   iconTypes = ICON_TYPE;
   cart: Cart;
   layoutOption: string | undefined;
 
-  descriptionMaxLength: number = 500;
+  descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
 
   focusConfig: FocusConfig = {
@@ -50,6 +50,10 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     autofocus: 'button',
     focusOnEscape: true,
   };
+
+  isLoading$: Observable<boolean>;
+
+  private subscription = new Subscription();
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
@@ -68,13 +72,15 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.build();
+    this.isLoading$ = this.savedCartService.getSaveCartProcessLoading();
 
     this.subscription.add(
       this.launchDialogService.data$.subscribe(
         (data: SavedCartFormDialogOptions) => {
           this.cart = data.cart;
           this.layoutOption = data.layoutOption;
+
+          this.build(this.cart);
         }
       )
     );
@@ -151,16 +157,25 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected build(): void {
-    this.form = new FormGroup({
-      name: new FormControl('', [
+  protected build(cart?: Cart) {
+    const form = new FormGroup({});
+    form.setControl(
+      'name',
+      new FormControl('', [
         Validators.required,
         Validators.maxLength(this.nameMaxLength),
-      ]),
-      description: new FormControl('', [
-        Validators.maxLength(this.descriptionMaxLength),
-      ]),
-    });
+      ])
+    );
+    form.setControl(
+      'description',
+      new FormControl('', [Validators.maxLength(this.descriptionMaxLength)])
+    );
+    this.form = form;
+    this.patchData(cart);
+  }
+
+  protected patchData(item?: any): void {
+    this.form.patchValue({ ...item });
   }
 
   ngOnDestroy(): void {

@@ -4,6 +4,8 @@ import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
 import { AuthStorageService } from '../../auth/user-auth/services/auth-storage.service';
 
 /**
+ * @deprecated since 3.2, use asm lib instead
+ *
  * Indicates if auth token is for regular user or CS Agent.
  */
 export enum TokenTarget {
@@ -12,6 +14,8 @@ export enum TokenTarget {
 }
 
 /**
+ * @deprecated since 3.2, use asm lib instead
+ *
  * With AsmAuthStorageService apart from storing the token we also need to store
  * information for which user is the token (regular user or CS Agent).
  *
