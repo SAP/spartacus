@@ -152,7 +152,7 @@ export class SavedCartEventBuilder {
           cartCode: cart.code,
           saveCartName: cart.name,
           saveCartDescription: cart.description,
-          ...(cart?.saveTime && { saveTime: cart.saveTime }),
+          ...(cart.saveTime && { saveTime: cart.saveTime }),
         })
       )
     );
