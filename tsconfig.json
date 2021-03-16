@@ -30,6 +30,24 @@
       "@spartacus/setup/ssr": [
         "core-libs/setup/ssr/public_api"
       ],
+      "@spartacus/asm/assets": [
+        "feature-libs/asm/assets/public_api"
+      ],
+      "@spartacus/asm/components": [
+        "feature-libs/asm/components/public_api"
+      ],
+      "@spartacus/asm/core": [
+        "feature-libs/asm/core/public_api"
+      ],
+      "@spartacus/asm": [
+        "feature-libs/asm/public_api"
+      ],
+      "@spartacus/asm/occ": [
+        "feature-libs/asm/occ/public_api"
+      ],
+      "@spartacus/asm/root": [
+        "feature-libs/asm/root/public_api"
+      ],
       "@spartacus/organization/administration/assets": [
         "feature-libs/organization/administration/assets/public_api"
       ],

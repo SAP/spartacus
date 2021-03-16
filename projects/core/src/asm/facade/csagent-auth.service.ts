@@ -19,6 +19,8 @@ import { AsmActions } from '../store/actions';
 import { StateWithAsm } from '../store/asm-state';
 
 /**
+ * @deprecated since 3.2, use asm lib instead
+ *
  * Auth service for CS agent. Useful to login/logout agent, start emulation
  * or get information about the status of emulation.
  */
