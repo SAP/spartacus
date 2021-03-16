@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { Cart, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -9,7 +10,6 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { SavedCartService } from '../../core/services/saved-cart.service';
 
 @Injectable({
   providedIn: 'root',

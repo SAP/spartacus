@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { Cart, I18nTestingModule, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { SavedCartService } from '../../core/services/saved-cart.service';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 class MockSavedCartService implements Partial<SavedCartService> {

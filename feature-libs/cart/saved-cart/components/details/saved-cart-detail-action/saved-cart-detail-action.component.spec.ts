@@ -1,5 +1,6 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
   GlobalMessageService,
@@ -8,7 +9,6 @@ import {
   Translatable,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { SavedCartService } from '../../../core/services/saved-cart.service';
 import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailService } from '../saved-cart-detail.service';
 import { SavedCartDetailActionComponent } from './saved-cart-detail-action.component';

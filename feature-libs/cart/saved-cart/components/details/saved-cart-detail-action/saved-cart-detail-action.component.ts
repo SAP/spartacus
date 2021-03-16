@@ -6,10 +6,10 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { Cart, GlobalMessageService, RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { SavedCartService } from '../../../core/services/saved-cart.service';
 import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailService } from '../saved-cart-detail.service';
 

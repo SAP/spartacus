@@ -31,8 +31,6 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
 
-    // ASM module must be imported before the `AuthModule (which is imported in `StorefrontFoundationModule`)
-    // since we might have conflicting interceptor logic. See #5461.
     AsmModule,
 
     StorefrontFoundationModule,
