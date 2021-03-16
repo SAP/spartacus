@@ -69,6 +69,7 @@ describe('SavedCartListComponent', () => {
   let component: SavedCartListComponent;
   let fixture: ComponentFixture<SavedCartListComponent>;
   let savedCartService: SavedCartService | MockSavedCartService;
+  let routingService: RoutingService | MockRoutingService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -84,6 +85,7 @@ describe('SavedCartListComponent', () => {
 
   beforeEach(() => {
     savedCartService = TestBed.inject(SavedCartService);
+    routingService = TestBed.inject(RoutingService);
     fixture = TestBed.createComponent(SavedCartListComponent);
     component = fixture.componentInstance;
   });
@@ -105,10 +107,58 @@ describe('SavedCartListComponent', () => {
   it('should render empty message if no saved carts exist', () => {
     const el = fixture.debugElement;
     component.savedCarts$ = of([]);
-    savedCartService.getList();
     fixture.detectChanges();
     expect(
       el.query(By.css('.cx-saved-cart-list-no-saved-carts'))
     ).not.toBeNull();
+  });
+
+  it('should trigger loadSavedCarts OnInit', () => {
+    spyOn(savedCartService, 'loadSavedCarts').and.callThrough();
+    component.savedCarts$ = savedCartService.getList();
+    fixture.detectChanges();
+    expect(savedCartService.loadSavedCarts).toHaveBeenCalledWith();
+  });
+
+  it('should trigger OnSuccess after OnInit', () => {
+    const OnSuccessReturn = true;
+    spyOn(
+      savedCartService,
+      'getRestoreSavedCartProcessSuccess'
+    ).and.returnValue(of(OnSuccessReturn));
+    spyOn(component, 'onSuccess').and.callThrough();
+    component.savedCarts$ = savedCartService.getList();
+    fixture.detectChanges();
+    expect(component.onSuccess).toHaveBeenCalledWith(OnSuccessReturn);
+  });
+
+  it('should trigger goToSavedCartDetails with proper route', () => {
+    spyOn(routingService, 'go').and.callThrough();
+    component.goToSavedCartDetails(mockCart1);
+    fixture.detectChanges();
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'savedCartsDetails',
+      params: { savedCartId: mockCart1.code },
+    });
+  });
+
+  it('should restore proper cart when restoreSavedCart is triggered', () => {
+    const mockMethod = function () {};
+    const mockEvent: any = {};
+    const cartId: string = '00001';
+    mockEvent['stopPropagation'] = mockMethod;
+    spyOn(savedCartService, 'restoreSavedCart').and.callThrough();
+    component.restoreSavedCart(mockEvent, cartId);
+    expect(savedCartService.restoreSavedCart).toHaveBeenCalledWith(
+      mockCart1.code
+    );
+  });
+
+  it('should clear cart when OnSuccess called', () => {
+    spyOn(savedCartService, 'clearRestoreSavedCart').and.callThrough();
+    spyOn(savedCartService, 'clearSaveCart').and.callThrough();
+    component.onSuccess(true);
+    expect(savedCartService.clearRestoreSavedCart).toHaveBeenCalledWith();
+    expect(savedCartService.clearSaveCart).toHaveBeenCalledWith();
   });
 });

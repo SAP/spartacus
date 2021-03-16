@@ -12,7 +12,7 @@ const testCart: Cart = {
   savedBy: { name: 'user', uid: 'userId' },
 };
 
-fdescribe('Multi Cart reducer', () => {
+describe('Multi Cart reducer', () => {
   describe('activeCartReducer', () => {
     describe('LOAD_CART_SUCCESS action', () => {
       it('should set active cart id when extraData.active is truthy', () => {
@@ -220,7 +220,6 @@ fdescribe('Multi Cart reducer', () => {
         const state = fromMultiCart.cartEntitiesReducer(initialState, action);
         expect(state).toEqual(payload.cart);
       });
-
     });
 
     describe('LOAD_CARTS_SUCCESS action', () => {
