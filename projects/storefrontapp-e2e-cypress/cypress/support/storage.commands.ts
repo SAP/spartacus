@@ -24,6 +24,17 @@ declare namespace Cypress {
         ```
        */
     restoreLocalStorage: () => void;
+    /**
+       * Reset the local storage memory.
+       *
+       * @memberof Cypress.Chainable
+       *
+       * @example
+        ```
+        cy.resetLocalStorageMemory()
+        ```
+       */
+    clearLocalStorageMemory: () => void;
   }
 }
 
@@ -37,4 +48,8 @@ Cypress.Commands.add('restoreLocalStorage', () => {
   Object.keys(LOCAL_STORAGE_MEMORY).forEach((key) => {
     localStorage.setItem(key, LOCAL_STORAGE_MEMORY[key]);
   });
+});
+
+Cypress.Commands.add('clearLocalStorageMemory', () => {
+  LOCAL_STORAGE_MEMORY = {};
 });
