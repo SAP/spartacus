@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SavedCartFormType } from '@spartacus/cart/saved-cart/core';
+import {
+  SavedCartFormType,
+  SavedCartService,
+} from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
   GlobalMessageService,
@@ -11,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { SavedCartService } from '../../core/services/saved-cart.service';
 import {
   SavedCartFormDialogComponent,
   SavedCartFormDialogOptions,

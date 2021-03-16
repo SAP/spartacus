@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { Cart, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { SavedCartService } from '../../core/services/saved-cart.service';
 import { SavedCartDetailService } from './saved-cart-detail.service';
 
 const mockCartId = 'test-cart';
