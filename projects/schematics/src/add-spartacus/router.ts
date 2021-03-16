@@ -3,7 +3,7 @@ import { CallExpression, Node, SourceFile, ts } from 'ts-morph';
 import {
   ANGULAR_CORE,
   ANGULAR_ROUTER,
-  SPARTACUS_ROUTING_MODULE,
+  SPARTACUS_ROUTING_MODULE
 } from '../shared/constants';
 import { isImportedFrom } from '../shared/utils/import-utils';
 import { addModuleImport } from '../shared/utils/new-module-utils';
@@ -36,7 +36,7 @@ function configureRouterModule(
 ): void {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
-  appSourceFiles.forEach((sourceFile) => {
+  for (const sourceFile of appSourceFiles) {
     if (
       sourceFile.getFilePath().includes(`${SPARTACUS_ROUTING_MODULE}.module.ts`)
     ) {
@@ -53,8 +53,10 @@ function configureRouterModule(
       configureOptionsInRouterModule(routerModule as CallExpression);
 
       saveAndFormat(sourceFile);
+
+      break;
     }
-  });
+  }
 }
 
 function getRouterModule(sourceFile: SourceFile): CallExpression | undefined {

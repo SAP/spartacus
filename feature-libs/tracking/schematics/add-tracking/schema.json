@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "PersonalizationSchematics",
-  "title": "Personalization Schematics",
+  "id": "TrackingSchematics",
+  "title": "Tracking Schematics",
   "type": "object",
   "properties": {
     "project": {
@@ -13,8 +13,26 @@
     },
     "lazy": {
       "type": "boolean",
-      "description": "Lazy load the personalization features.",
+      "description": "Lazy load the tracking features.",
       "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "Personalization",
+          "Google Tag Manager",
+          "Adobe Experience Launch Platform"
+        ],
+        "type": "string"
+      },
+      "default": [
+        "Personalization",
+        "Google Tag Manager",
+        "Adobe Experience Launch Platform"
+      ],
+      "x-prompt": "Which features would you like to setup?"
     }
   },
   "required": []

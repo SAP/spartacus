@@ -68,19 +68,37 @@ function buildLibs() {
   execSync('yarn build:libs', { stdio: 'inherit' });
 }
 
-function buildSchematics() {
+function buildSchematics(options: { publish: boolean } = { publish: false }) {
   execSync('yarn build:schematics', { stdio: 'inherit' });
+  if (options.publish) {
+    publishLibs();
+  }
+}
+
+function buildTrackingSchematics() {
+  buildSchematics();
+  execSync('yarn build:tracking', {
+    stdio: 'inherit',
+  });
+  publishLibs();
 }
 
 async function executeCommand(
-  command: 'publish' | 'build projects/schematics' | 'build all libs'
+  command:
+    | 'publish'
+    | 'build projects/schematics'
+    | 'build tracking/schematics'
+    | 'build all libs'
 ): Promise<void> {
   switch (command) {
     case 'publish':
       publishLibs();
       break;
     case 'build projects/schematics':
-      buildSchematics();
+      buildSchematics({ publish: true });
+      break;
+    case 'build tracking/schematics':
+      buildTrackingSchematics();
       break;
     case 'build all libs':
       buildLibs();
@@ -104,6 +122,7 @@ async function program() {
       const choices = <const>[
         'publish',
         'build projects/schematics',
+        'build tracking/schematics',
         'build all libs',
         'exit',
       ];
