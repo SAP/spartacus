@@ -1,3 +1,6 @@
+/**
+ * @deprecated since 3.2, use asm lib instead
+ */
 export const asm = {
   asm: {
     mainLogoLabel: 'SAP',
