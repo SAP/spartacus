@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SavedCartAdapter } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
   CART_NORMALIZER,
@@ -9,7 +10,6 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { pluck } from 'rxjs/operators';
-import { SavedCartAdapter } from '../../core/connectors/saved-cart.adapter';
 
 @Injectable()
 export class OccSavedCartAdapter implements SavedCartAdapter {

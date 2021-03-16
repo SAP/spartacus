@@ -4,10 +4,14 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { Cart, RoutingService, TranslationService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
+<<<<<<< HEAD
 import { map } from 'rxjs/operators';
 import { SavedCartService } from '../../core/services/saved-cart.service';
+=======
+>>>>>>> 56202968af8f37a6e87647c31aa237d486df9832
 
 @Component({
   selector: 'cx-saved-cart-list',

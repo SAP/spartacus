@@ -91,10 +91,7 @@
                 "
                 class="cx-saved-cart-list-value"
               >
-                <cx-truncate-text-with-popover
-                  [content]="savedCart?.description"
-                  [maxLength]="25"
-                ></cx-truncate-text-with-popover>
+                {{ savedCart?.description }}
               </a>
             </td>
 
