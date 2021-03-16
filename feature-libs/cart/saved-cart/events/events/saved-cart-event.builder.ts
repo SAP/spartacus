@@ -149,10 +149,10 @@ export class SavedCartEventBuilder {
       map(([action, cart]) =>
         createFrom(mapping.event as Type<T>, {
           ...action.payload,
-          cartCode: cart?.code,
-          saveCartName: cart?.name,
-          saveCartDescription: cart?.description,
-          ...(cart?.saveTime && { saveTime: cart?.saveTime }),
+          cartCode: cart.code,
+          saveCartName: cart.name,
+          saveCartDescription: cart.description,
+          ...(cart?.saveTime && { saveTime: cart.saveTime }),
         })
       )
     );

@@ -48,7 +48,7 @@ class MockMultiCartService implements Partial<MultiCartService> {
   getCart = () => of(mockCartData);
 }
 
-fdescribe('SavedCartEventBuilder', () => {
+describe('SavedCartEventBuilder', () => {
   let actions$: Subject<ActionWithPayload>;
   let eventService: EventService;
   let multiCartService: MultiCartService;
