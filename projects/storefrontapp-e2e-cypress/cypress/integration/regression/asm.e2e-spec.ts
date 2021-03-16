@@ -23,7 +23,7 @@ context('ASM e2e Test', () => {
       cy.reload(true);
       cy.onMobile(() => {
         isMobile = true;
-        clickHamburger();
+        checkout.clickHamburger();
       });
       cy.onDesktop(() => {
         isMobile = false;
@@ -338,8 +338,4 @@ export function deleteFirstAddress() {
   cy.get('.cx-card-delete button.btn-primary').click();
   cy.wait('@deleteAddress').its('status').should('eq', 200);
   cy.wait('@fetchAddresses').its('status').should('eq', 200);
-}
-
-export function clickHamburger() {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
 }
