@@ -4,6 +4,7 @@ import { createProgram } from '../../../shared/utils/program';
 import { getProjectTsConfigPaths } from '../../../shared/utils/project-tsconfig-paths';
 import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
+import { ImportDeclarationStructure } from 'ts-morph';
 
 
 export function migrateRenamedSymbols(
@@ -19,34 +20,43 @@ export function migrateRenamedSymbols(
 
         const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
-        // let desiredImportDeclarations = [];
-
         appSourceFiles.map((sourceFile) => {
-            const desiredImportDeclarations = sourceFile.getImportDeclarations().filter((el) => {
-                return el.getImportClause().getNamedImports().filter(ni => {
-                    return renamedSymbols.some(rs => ni.getName() === rs.previousNode);
-                })  
-            });
+            const importDeclarationStructures: ImportDeclarationStructure[] = [];
+            sourceFile.getImportDeclarations().forEach((id) => {
+                id.getImportClause().getNamedImports().forEach((namedImport) => {
+                    if (renamedSymbols.some(rs => namedImport.getName() === rs.previousNode)) {
+                        const renamedSymbol = renamedSymbols.find(_ => _.previousNode === namedImport.getName()); // &&
+                                                                    //    _.previousImportPath === id.getModuleSpecifier().getText())
+                        importDeclarationStructures.push({
+                            namedImports: [renamedSymbol.newNode],
+                            moduleSpecifier: renamedSymbol.newImportPath
+                        } as ImportDeclarationStructure);
+                    } else {
+                        importDeclarationStructures.push({
+                            namedImports: [namedImport.getName()],
+                            moduleSpecifier: id.getModuleSpecifier().getText()
+                        } as ImportDeclarationStructure);
+                    }
+                });
+                id.remove();
 
-            // return desiredImportDeclarations.length > 0;
-            desiredImportDeclarations.forEach((i) => {
-                // console.log(sourceFile.getFilePath(), i.getText());
-                renamedSymbols.forEach((rs) => {
-                    if (i.getText().includes(rs.previousNode)) {
-                        console.log('DELETE!');                   }
-                        i.remove();
-                        sourceFile.addImportDeclaration({
-                            defaultImport: rs.newNode,
-                            moduleSpecifier: rs.newImportPath
-                        });
-                })
-                // if (i.getText().includes(renamedSymbols))
             })
+
+            // importDeclarationStructures.forEach((ids) => {
+            //     sourceFile.addImportDeclaration({
+            //         namedImports: ids.namedImports,
+            //         moduleSpecifier: ids.moduleSpecifier
+            //     });
+            // })
+            sourceFile.addImportDeclarations(importDeclarationStructures);
+
             sourceFile.saveSync();
         });
-        // .forEach((file) => {
-            // console.log(file.getImportDeclarations())
-        // });
+
+        for (const sourceFile of appSourceFiles) {
+            sourceFile.organizeImports();
+            sourceFile.saveSync();
+        }
     }
 
     return tree;
