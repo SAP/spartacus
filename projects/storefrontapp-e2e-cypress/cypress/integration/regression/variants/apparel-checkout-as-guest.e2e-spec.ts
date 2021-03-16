@@ -2,6 +2,7 @@ import { assertAddressForm } from '../../../helpers/address-book';
 import { login } from '../../../helpers/auth-forms';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
+import * as loginHelper from '../../../helpers/login';
 import { validateUpdateProfileForm } from '../../../helpers/update-profile';
 import {
   addMutipleProductWithoutVariantToCart,
@@ -12,31 +13,34 @@ import {
   configureProductWithVariants,
   visitProductWithoutVariantPage,
 } from '../../../helpers/variants/apparel-checkout-flow';
+import { viewportContext } from '../../../helpers/viewport-context';
 import {
   cartWithSingleVariantProduct,
   cartWithTotalVariantProduct,
+  getApparelCheckoutUser,
   products,
   variantProduct,
-  variantUser,
 } from '../../../sample-data/apparel-checkout-flow';
 
 context('Apparel - checkout as guest', () => {
-  before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
-    Cypress.env('BASE_SITE', APPAREL_BASESITE);
-  });
+  let variantUser;
+  viewportContext(['mobile', 'desktop'], () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      Cypress.env('BASE_SITE', APPAREL_BASESITE);
+      variantUser = getApparelCheckoutUser();
+    });
 
-  beforeEach(() => {
-    configureProductWithVariants();
-    cy.restoreLocalStorage();
-  });
+    beforeEach(() => {
+      configureProductWithVariants();
+      cy.restoreLocalStorage();
+    });
 
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
 
-  describe('when adding a single variant product to cart and completing checkout.', () => {
-    it('should go to product page add the variant style of the product from category page', () => {
+    it('should perform checkout as guest, create an account and verify guest data', () => {
       checkout.goToCheapProductDetailsPage(products[0]);
       addVariantOfSameProductToCart();
 
@@ -73,26 +77,12 @@ context('Apparel - checkout as guest', () => {
         cartWithTotalVariantProduct,
         true
       );
-    });
-  });
-
-  describe('Create account', () => {
-    it('should create an account', () => {
       guestCheckout.createAccountFromGuest(variantUser.password);
-    });
-  });
 
-  describe('Guest account', () => {
-    it('should be able to check order in order history', () => {
-      // hack: visit other page to trigger store -> local storage sync
       cy.selectUserMenuOption({
         option: 'Personal Details',
       });
-      cy.waitForOrderToBePlacedRequest(APPAREL_BASESITE, APPAREL_CURRENCY);
-      checkout.viewOrderHistoryWithCheapProduct(cartWithTotalVariantProduct);
-    });
 
-    it('should show address in Address Book', () => {
       cy.selectUserMenuOption({
         option: 'Address Book',
       });
@@ -106,9 +96,7 @@ context('Apparel - checkout as guest', () => {
         },
         'GB'
       );
-    });
 
-    it('should show payment in Payment Methods', () => {
       cy.selectUserMenuOption({
         option: 'Payment Details',
       });
@@ -116,9 +104,7 @@ context('Apparel - checkout as guest', () => {
       cy.get('.cx-payment .cx-body').then(() => {
         cy.get('cx-card').should('exist');
       });
-    });
 
-    it('should show personal details in Personal Details', () => {
       cy.selectUserMenuOption({
         option: 'Personal Details',
       });
@@ -130,9 +116,7 @@ context('Apparel - checkout as guest', () => {
       );
       checkout.signOut();
     });
-  });
 
-  describe('Guest cart merge', () => {
     it('should keep guest cart content and restart checkout', () => {
       cy.clearLocalStorage();
       checkout.goToCheapProductDetailsPage(products[0]);
@@ -149,6 +133,8 @@ context('Apparel - checkout as guest', () => {
         '/checkout/shipping-address',
         'getShippingPage'
       );
+
+      checkout.clickHamburger();
 
       const loginPage = checkout.waitForPage('/login', 'getLoginPage');
       cy.findByText(/Sign in \/ Register/i).click();
@@ -168,6 +154,7 @@ context('Apparel - checkout as guest', () => {
         .within(() => {
           cy.get('cx-item-counter input').should('have.value', '1');
         });
+      loginHelper.signOutUser();
     });
   });
 });

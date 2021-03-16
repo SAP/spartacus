@@ -1,15 +1,15 @@
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SavedCartListComponent } from './saved-cart-list.component';
+import { By } from '@angular/platform-browser';
+import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
+  I18nTestingModule,
   RoutingService,
   TranslationService,
-  I18nTestingModule,
 } from '@spartacus/core';
-import { SavedCartService } from '../../core/services/saved-cart.service';
-import { By } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
-import { Pipe, PipeTransform } from '@angular/core';
+import { SavedCartListComponent } from './saved-cart-list.component';
 
 @Pipe({
   name: 'cxUrl',

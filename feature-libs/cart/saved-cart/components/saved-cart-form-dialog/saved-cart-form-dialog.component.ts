@@ -8,6 +8,10 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  SavedCartFormType,
+  SavedCartService,
+} from '@spartacus/cart/saved-cart/core';
+import {
   Cart,
   GlobalMessageService,
   GlobalMessageType,
@@ -19,8 +23,6 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { SavedCartFormType } from '../../core/model/saved-cart.model';
-import { SavedCartService } from '../../core/services/saved-cart.service';
 
 export interface SavedCartFormDialogOptions {
   cart: Cart;

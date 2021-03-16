@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
+import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { Cart } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { SavedCartService } from '../../../core/services/saved-cart.service';
 import { SavedCartDetailService } from '../saved-cart-detail.service';
 import { SavedCartDetailItemsComponent } from './saved-cart-detail-items.component';
 

@@ -4,9 +4,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { Cart, RoutingService, TranslationService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { SavedCartService } from '../../core/services/saved-cart.service';
 
 @Component({
   selector: 'cx-saved-cart-list',
