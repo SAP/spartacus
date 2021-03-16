@@ -1,6 +1,6 @@
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
-import { waitForPage } from './checkout-flow';
+import { clickHamburger, waitForPage } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
@@ -157,7 +157,7 @@ export function registerSaveCartRoute() {
 }
 
 export function closeAddedToCartDialog() {
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
+  cy.get('span > .cx-icon.fa-times').click({ force: true });
 }
 
 export function checkProductInCart(product, qty = 1, currency = 'USD') {
@@ -271,6 +271,8 @@ export function logOutAndNavigateToEmptyCart() {
   });
   cy.wait(`@${logoutPage}`);
 
+  clickHamburger();
+
   cy.get('cx-login [role="link"]').should('contain', 'Sign In');
 
   const cartPage = waitForPage('/cart', 'getCartPage');
@@ -283,6 +285,7 @@ export function logOutAndNavigateToEmptyCart() {
 export function addProductAsAnonymous() {
   const product = products[2];
 
+  cy.server();
   createProductQuery(
     QUERY_ALIAS.PRODUCE_CODE,
     product.code,
@@ -314,6 +317,9 @@ export function verifyMergedCartWhenLoggedIn() {
   const product1 = products[2];
 
   const loginPage = waitForPage('/login', 'getLoginPage');
+
+  clickHamburger();
+
   cy.get('cx-login [role="link"]').click();
   cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
