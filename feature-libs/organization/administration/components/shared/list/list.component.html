@@ -3,11 +3,25 @@
     <cx-view class="list" *ngIf="listData$ | async as data">
       <div class="header">
         <div class="title">
-          <h3>
-            {{
-              viewType + '.header' | cxTranslate: { count: getListCount(data) }
-            }}
-          </h3>
+          <section>
+            <cx-icon
+              [cxPopover]="listHint"
+              [cxPopoverOptions]="{
+                placement: 'auto',
+                class: 'my-company-popover',
+                appendToBody: true,
+                displayCloseButton: false
+              }"
+              [type]="iconTypes.INFO"
+            >
+            </cx-icon>
+            <h3>
+              {{
+                viewType + '.header'
+                  | cxTranslate: { count: getListCount(data) }
+              }}
+            </h3>
+          </section>
         </div>
 
         <div class="actions">
@@ -64,5 +78,11 @@
 <ng-template #emptyList>
   <p class="instruction is-empty">
     {{ 'organization.messages.emptyList' | cxTranslate }}
+  </p>
+</ng-template>
+
+<ng-template #listHint>
+  <p>
+    {{ viewType + '.hint' | cxTranslate }}
   </p>
 </ng-template>

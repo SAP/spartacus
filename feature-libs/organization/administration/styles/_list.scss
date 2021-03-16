@@ -452,6 +452,15 @@
         padding: 20px;
       }
 
+      section {
+        display: flex;
+        cx-icon {
+          align-self: flex-start;
+          margin-top: 4px;
+          color: var(--cx-color, var(--cx-color-info));
+          margin-inline-end: 1rem;
+        }
+      }
       .actions {
         display: flex;
         align-items: center;

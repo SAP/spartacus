@@ -6,6 +6,8 @@ export const orgUnit = {
   approvalProcess: 'Approval process',
   parentUnit: 'Parent Unit',
   active: 'Status',
+  hint:
+    'Units represent departments, stores, regions, or any other logical grouping that makes sense to you. The cost centers and shipping addresses available to a buyer when checking out, depend on their unit. Users have access to all child units of their primary unit.',
   details: {
     title: 'Unit Details',
     subtitle: 'Unit: {{ item.name }}',
