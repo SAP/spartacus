@@ -270,8 +270,8 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
-      it('should display Edit Configuration link', () => {
-        CommonConfiguratorTestUtilsService.expectElementPresent(
+      it('should not display Edit Configuration link', () => {
+        CommonConfiguratorTestUtilsService.expectElementNotPresent(
           expect,
           htmlElem,
           'cx-configure-cart-entry'
@@ -298,7 +298,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         component.numberOfLineItems$.subscribe(
           (value) => (numberOfItems = value)
         );
-        expect(numberOfItems).toBe(3);
+        expect(numberOfItems).toBe(configurationInfos?.length);
 
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
@@ -306,7 +306,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           '.cx-number-items'
         );
 
-        const expectedText = 'configurator.header.items param:' + numberOfItems;
+        const expectedText = 'configurator.header.items count:' + numberOfItems;
 
         CommonConfiguratorTestUtilsService.expectElementToContainText(
           expect,
