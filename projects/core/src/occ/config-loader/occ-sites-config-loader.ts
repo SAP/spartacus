@@ -7,8 +7,9 @@ import { OccConfig } from '../config/occ-config';
 import { Occ } from '../occ-models/occ.models';
 
 /**
- * @deprecated since 3.2, use SiteConnector instead
+ * @deprecated since 3.2, use `SiteConnector` instead
  */
+// TODO(#11515): drop it in 4.0
 @Injectable({ providedIn: 'root' })
 export class OccSitesConfigLoader {
   constructor(protected config: OccConfig, protected http: HttpClient) {}

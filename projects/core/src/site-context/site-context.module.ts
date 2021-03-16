@@ -5,6 +5,7 @@ import {
 } from '../config/config-initializer/config-initializer';
 import { provideDefaultConfigFactory } from '../config/config-providers';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
+import { FeatureConfigService } from '../features-config/services/feature-config.service';
 import { StateModule } from '../state/index';
 import { baseSiteConfigValidator } from './config/base-site-config-validator';
 import { SiteContextConfigLoaderService } from './config/config-loader/site-context-config-loader.service';
@@ -22,8 +23,14 @@ import { SiteContextStoreModule } from './store/site-context-store.module';
  */
 export function initSiteContextConfig(
   configLoader: SiteContextConfigLoaderService,
-  config: SiteContextConfig
+  config: SiteContextConfig,
+  featureConfigService: FeatureConfigService
 ): ConfigInitializer | null {
+  // TODO(#11515): in 4.0 drop the feature level guard
+  if (!featureConfigService.isLevel('3.2')) {
+    return null;
+  }
+
   /**
    * Load config for `context` from backend only when there is no static config for `context.baseSite`
    */
@@ -51,7 +58,11 @@ export class SiteContextModule {
         {
           provide: CONFIG_INITIALIZER,
           useFactory: initSiteContextConfig,
-          deps: [SiteContextConfigLoaderService, SiteContextConfig],
+          deps: [
+            SiteContextConfigLoaderService,
+            SiteContextConfig,
+            FeatureConfigService,
+          ],
           multi: true,
         },
       ],

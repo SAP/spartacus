@@ -1,6 +1,7 @@
 /**
- * @deprecated since 3.2, this interface is not used any more
+ * @deprecated since 3.2 - the standard ngrx transfer state of basesites is used instead
  */
+// TODO(#11515): drop it in 4.0
 export interface OccLoadedConfig {
   /**
    * Uid of the base site

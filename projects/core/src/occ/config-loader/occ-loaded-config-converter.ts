@@ -13,8 +13,9 @@ import { Occ } from '../occ-models/occ.models';
 import { OccLoadedConfig } from './occ-loaded-config';
 
 /**
- * @deprecated since 3.2, this converter is not used any more
+ * @deprecated since 3.2 - use `SiteContextConfigLoaderService` instead
  */
+// TODO(#11515): drop it in 4.0
 @Injectable({ providedIn: 'root' })
 export class OccLoadedConfigConverter {
   constructor(private javaRegExpConverter: JavaRegExpConverter) {}

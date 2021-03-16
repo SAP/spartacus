@@ -441,8 +441,11 @@ export interface OccEndpoints {
   /**
    * Endpoint for getting all base sites for the site context configuration
    *
+   * @deprecated since 3.2
+   *
    * @member {string}
    */
+  // TODO(#11515): in 4.0, replace the value of `baseSites` with `baseSitesForConfig` and remove `baseSitesForConfig`.
   baseSitesForConfig?: string | OccEndpoint;
   /** Endpoint to returns active cost centers
    *

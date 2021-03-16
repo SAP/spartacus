@@ -23,15 +23,17 @@ import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
 
 /**
- * @deprecated since 3.2, it is not used any more
+ * @deprecated since 3.2, no replacement - the standard ngrx transfer state of basesites is used instead
  */
+// TODO(#11515): drop it in 4.0
 export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
   string
 >('cx-external-config');
 
 /**
- * @deprecated since 3.2, this service is not used any more
+ * @deprecated since 3.2 - use `SiteContextConfigLoaderService` instead
  */
+// TODO(#11515): drop it in 4.0
 @Injectable({ providedIn: 'root' })
 export class OccConfigLoaderService {
   constructor(
