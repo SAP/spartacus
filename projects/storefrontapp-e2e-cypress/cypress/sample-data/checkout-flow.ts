@@ -37,31 +37,35 @@ export interface SampleCartProduct {
   totalAndShipping: string;
 }
 
-export const user = {
-  firstName: 'Winston',
-  lastName: 'Rumfoord',
-  fullName: 'Winston Rumfoord',
-  password: 'Password123.',
-  email: generateMail(randomString(), true),
-  phone: '555 555 555',
-  address: {
-    city: 'Tralfamadore',
-    line1: 'Chrono-Synclastic Infundibulum',
-    line2: 'Betelgeuse',
-    country: 'United States',
-    state: 'Connecticut',
-    postal: '06247',
-  },
-  payment: {
-    card: 'Visa',
-    number: '4111111111111111',
-    expires: {
-      month: '07',
-      year: '2022',
+export const user = getSampleUser();
+
+export function getSampleUser() {
+  return {
+    firstName: 'Cypress',
+    lastName: 'customer',
+    fullName: 'Cypress customer',
+    password: 'Password123.',
+    email: generateMail(randomString(), true),
+    phone: '555 555 555',
+    address: {
+      city: 'Los Angeles',
+      line1: '1111 S Figueroa St',
+      line2: 'US-CA',
+      country: 'United States',
+      state: 'California',
+      postal: '90015',
     },
-    cvv: '123',
-  },
-};
+    payment: {
+      card: 'Visa',
+      number: '4111111111111111',
+      expires: {
+        month: '12',
+        year: '2025',
+      },
+      cvv: '123',
+    },
+  };
+}
 
 export const product: SampleProduct = {
   name: 'Alpha 350',
