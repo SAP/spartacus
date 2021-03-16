@@ -18,9 +18,9 @@ import { OccConfigLoaderService } from './occ-config-loader.service';
 export function initConfig(
   configLoader: OccConfigLoaderService,
   config: SiteContextConfig,
-  featureConfigService?: FeatureConfigService
+  featureConfigService: FeatureConfigService
 ): ConfigInitializer | null {
-  if (featureConfigService && featureConfigService.isLevel('3.2')) {
+  if (featureConfigService.isLevel('3.2')) {
     return null;
   }
   /**
