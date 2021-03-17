@@ -1,0 +1,9 @@
+<a class="toggleUi" (click)="toggleUi()">
+  <span [ngClass]="!isCollapsed ? 'collapseIcon' : 'expandIcon'"></span>
+  <span *ngIf="!isCollapsed" class="label">
+    {{ 'asm.toggleUi.collapse' | cxTranslate }}
+  </span>
+  <span *ngIf="isCollapsed" class="label">
+    {{ 'asm.toggleUi.expand' | cxTranslate }}
+  </span>
+</a>
