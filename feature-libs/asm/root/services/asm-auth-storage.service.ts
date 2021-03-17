@@ -20,9 +20,9 @@ export enum TokenTarget {
   providedIn: 'root',
 })
 export class AsmAuthStorageService extends AuthStorageService {
-  protected _tokenTarget$: Observable<TokenTarget> = new BehaviorSubject<
-    TokenTarget
-  >(TokenTarget.User);
+  protected _tokenTarget$: Observable<TokenTarget> = new BehaviorSubject<TokenTarget>(
+    TokenTarget.User
+  );
 
   /**
    * When CS Agent logs in during regular user session we store the regular
