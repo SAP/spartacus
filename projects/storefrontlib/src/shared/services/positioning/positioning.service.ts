@@ -317,4 +317,16 @@ export class PositioningService {
 
     return testPlacement;
   }
+
+  getPositioningClass(
+    position?: PopoverPosition,
+    autoPositioning?: boolean
+  ): string {
+    let positionClass = `${position || 'top'}`;
+    if (autoPositioning) {
+      positionClass = `${positionClass} auto`;
+    }
+
+    return positionClass;
+  }
 }
