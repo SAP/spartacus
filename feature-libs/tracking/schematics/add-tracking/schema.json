@@ -22,8 +22,8 @@
       "items": {
         "enum": [
           "Personalization",
-          "Google Tag Manager",
-          "Adobe Experience Launch Platform"
+          "Tag Management System - Google Tag Manager",
+          "Tag Management System - Adobe Experience Launch Platform"
         ],
         "type": "string"
       },
