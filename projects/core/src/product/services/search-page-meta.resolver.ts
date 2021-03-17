@@ -25,16 +25,14 @@ import { ProductSearchService } from '../facade/product-search.service';
 export class SearchPageMetaResolver
   extends PageMetaResolver
   implements PageMetaResolver, PageTitleResolver, PageRobotsResolver {
-  protected total$: Observable<
-    number
-  > = this.productSearchService.getResults().pipe(
-    filter((data) => !!data?.pagination),
-    map((results) => results.pagination.totalResults)
-  );
+  protected total$: Observable<number> = this.productSearchService
+    .getResults()
+    .pipe(
+      filter((data) => !!data?.pagination),
+      map((results) => results.pagination.totalResults)
+    );
 
-  protected query$: Observable<
-    string
-  > = this.routingService
+  protected query$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map((state) => state.state.params['query']));
 

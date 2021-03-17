@@ -10,9 +10,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class UserReplenishmentOrdersEffect {
   @Effect()
-  loadUserReplenishmentOrders$: Observable<
-    UserActions.UserReplenishmentOrdersAction
-  > = this.actions$.pipe(
+  loadUserReplenishmentOrders$: Observable<UserActions.UserReplenishmentOrdersAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_REPLENISHMENT_ORDERS),
     map((action: UserActions.LoadUserReplenishmentOrders) => action.payload),
     switchMap((payload) => {
