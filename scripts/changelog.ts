@@ -326,6 +326,7 @@ if (typeof config.to === 'undefined') {
     case 'checkout':
     case '@spartacus/checkout':
       config.library = '@spartacus/checkout';
+      break;
     case 'tracking':
     case '@spartacus/tracking':
       config.library = '@spartacus/tracking';
