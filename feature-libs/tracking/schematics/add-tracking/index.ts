@@ -7,18 +7,12 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
   addModuleImport,
   addModuleProvider,
-  addPackageJsonDependencies,
   createProgram,
   getAppModule,
   getProjectTsConfigPaths,
-  getSpartacusSchematicsVersion,
   Import,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusTrackingOptions,
@@ -41,7 +35,6 @@ import {
   SPARTACUS_TMS_AEP,
   SPARTACUS_TMS_CORE,
   SPARTACUS_TMS_GTM,
-  SPARTACUS_TRACKING,
   TMS_AEP_MODULE,
   TMS_BASE_MODULE,
   TMS_CONFIG,
@@ -66,7 +59,6 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
         ? addPersonalizationFeature(appModulePath, options)
         : noop(),
 
-      addTrackingPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -194,16 +186,4 @@ function addPersonalizationFeature(
       importPath: SPARTACUS_PERSONALIZATION_ROOT,
     },
   });
-}
-
-function addTrackingPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_TRACKING,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
