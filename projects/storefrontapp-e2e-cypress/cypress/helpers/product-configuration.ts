@@ -1080,9 +1080,6 @@ export function clickAddToCartBtn(): void {
     .then(() => {
       cy.location('pathname').should('contain', 'cartEntry/entityKey/');
       checkUpdatingMessageNotDisplayed();
-      checkSuccessMessageNotDisplayed();
-      checkUpdatingMessageNotDisplayed();
-      checkSuccessMessageNotDisplayed();
     });
 }
 
@@ -1344,7 +1341,7 @@ export function checkWarningMessageShown() {
  * Verifies whether the global success message is not displayed on the top of the configuration.
  */
 export function checkSuccessMessageNotDisplayed(): void {
-  globalMessage.getSuccessAlert().should('not.be.visible');
+  globalMessage.getSuccessAlert().should('not.exist');
 }
 
 /**
@@ -1359,4 +1356,16 @@ export function closeErrorMessages() {
  */
 export function closeWarningMessages() {
   cy.get('.alert-warning .close').click({ multiple: true, force: true });
+}
+
+/**
+ * Get number of cart items
+ * @returns number of cart items
+ */
+export function getNumberOfCartItems(): number {
+  let numberOfCartItems = 0;
+  cy.get('.cx-item-list-row').within((itemRows) => {
+    numberOfCartItems = itemRows.length;
+  });
+  return numberOfCartItems;
 }

@@ -429,30 +429,48 @@ context('CPQ Configuration', () => {
 
   describe('Add to the cart then read and update the cart configuration', () => {
     it('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it', () => {
-      configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+      configuration.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
-      cart.verifyCartNotEmpty();
-      //We assume only one product is in the cart
-      configuration.clickOnEditConfigurationLink(0);
 
-      configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
-      configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_300);
-      configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_300);
-      configuration.selectAttribute(ATTR_COF_CUPS, RADGRP, VAL_COF_CUPS_500);
-      configuration.checkValueSelected(RADGRP, ATTR_COF_CUPS, VAL_COF_CUPS_500);
+      //We assume the last product in the cart is the one we added
+      configuration.clickOnEditConfigurationLink(
+        configuration.getNumberOfCartItems() - 1
+      );
+
+      configuration.checkAttributeDisplayed(ATTR_CAM_BODY, RADGRP_PROD);
+      configuration.selectAttribute(
+        ATTR_CAM_BODY,
+        RADGRP_PROD,
+        VAL_CAM_BODY_D850
+      );
+      configuration.checkValueSelected(
+        RADGRP_PROD,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_D850
+      );
+      configuration.selectAttribute(
+        ATTR_CAM_BODY,
+        RADGRP_PROD,
+        VAL_CAM_BODY_EOS80D
+      );
+      configuration.checkValueSelected(
+        RADGRP_PROD,
+        ATTR_CAM_BODY,
+        VAL_CAM_BODY_EOS80D
+      );
       configuration.clickAddToCartBtn();
 
       configurationOverview.checkConfigOverviewPageDisplayed();
-      configurationOverview.checkGroupHeaderDisplayed(GRP_COF_GEN_OPT, 0);
+      configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
       configurationOverview.checkAttrDisplayed(
-        'COFFEE_MACHINE_CUPS_DAY',
-        '500-1000 Cups per Day',
+        'Camera Body',
+        'Canon EOS 80D',
         0
       );
-      configurationOverview.checkGroupHeaderDisplayed(GRP_COF_DESIGN, 1);
+
+      configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_ACC, 1);
       configurationOverview.clickContinueToCartBtnOnOP();
-      configuration.checkSuccessMessageNotDisplayed();
 
       cart.verifyCartNotEmpty();
       configuration.clickOnRemoveLink(0);
