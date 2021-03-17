@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
@@ -46,15 +46,7 @@ export class CategoryPageMetaResolver
     )
   );
 
-  /**
-   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
-   */
   // TODO(#10467): Remove deprecated constructors
-  constructor(
-    productSearchService: ProductSearchService,
-    cmsService: CmsService,
-    translation: TranslationService
-  );
   constructor(
     productSearchService: ProductSearchService,
     cmsService: CmsService,
@@ -62,11 +54,19 @@ export class CategoryPageMetaResolver
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     basePageMetaResolver?: BasePageMetaResolver
   );
+  /**
+   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
+   */
+  constructor(
+    productSearchService: ProductSearchService,
+    cmsService: CmsService,
+    translation: TranslationService
+  );
   constructor(
     protected productSearchService: ProductSearchService,
     protected cms: CmsService,
     protected translation: TranslationService,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CATEGORY_PAGE;

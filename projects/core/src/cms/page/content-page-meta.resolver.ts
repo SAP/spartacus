@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { combineLatest, defer, Observable, of } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
@@ -32,14 +32,27 @@ export class ContentPageMetaResolver
     PageBreadcrumbResolver,
     PageRobotsResolver,
     CanonicalPageResolver {
+  // TODO(#10467): Remove deprecated constructors
+  constructor(
+    cmsService: CmsService,
+    translation: TranslationService,
+    routingPageMetaResolver: RoutingPageMetaResolver,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver
+  );
   /**
    * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions.
    */
   constructor(
+    cmsService: CmsService,
+    translation: TranslationService,
+    routingPageMetaResolver: RoutingPageMetaResolver
+  );
+  constructor(
     protected cmsService: CmsService,
     protected translation: TranslationService,
     protected routingPageMetaResolver: RoutingPageMetaResolver,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;

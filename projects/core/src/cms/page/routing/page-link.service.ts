@@ -34,22 +34,22 @@ export class PageLinkService {
 
   protected buildCanonicalUrl(
     url: string,
-    config: CanonicalUrlOptions
+    options: CanonicalUrlOptions
   ): string {
-    if (config.forceHttps) {
+    if (options.forceHttps) {
       url = url.replace(/^http(?!s):/i, 'https:');
     }
 
-    if (config.forceWww) {
+    if (options.forceWww) {
       // this will not allow for not adding wwww. in case of a subdomain
       url = url.replace(/^(https?:\/\/)(?!www\.)(.*)/i, '$1www.$2');
     }
 
-    if (config.removeQueryParams) {
-      url = this.removeQueryParams(url, config);
+    if (options.removeQueryParams) {
+      url = this.removeQueryParams(url, options);
     }
 
-    if (config.forceTrailingSlash) {
+    if (options.forceTrailingSlash) {
       url = url.replace(/^([^\?]+[^\/\?]$)$/i, '$1/');
     }
 

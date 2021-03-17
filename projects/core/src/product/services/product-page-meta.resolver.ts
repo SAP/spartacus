@@ -49,21 +49,33 @@ export class ProductPageMetaResolver
     filter((p) => Boolean(p))
   );
 
-  /**
-   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
-   */
   // TODO(#10467): Remove deprecated constructors
   constructor(
     routingService: RoutingService,
     productService: ProductService,
-    translation: TranslationService
+    translation: TranslationService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    pageLinkService?: PageLinkService
   );
+  /**
+   * @deprecated since 3.2, we'll use the PageLinkService in future versions
+   */
   constructor(
     routingService: RoutingService,
     productService: ProductService,
     translation: TranslationService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     basePageMetaResolver?: BasePageMetaResolver
+  );
+  /**
+   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
+   */
+  constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    translation: TranslationService
   );
   constructor(
     protected routingService: RoutingService,

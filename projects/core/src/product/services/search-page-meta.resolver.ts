@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { PageRobotsMeta } from '../../cms/model/page.model';
@@ -26,10 +26,10 @@ export class SearchPageMetaResolver
   extends PageMetaResolver
   implements PageMetaResolver, PageTitleResolver, PageRobotsResolver {
   protected total$: Observable<
-    number
+    number | undefined
   > = this.productSearchService.getResults().pipe(
     filter((data) => !!data?.pagination),
-    map((results) => results.pagination.totalResults)
+    map((results) => results?.pagination?.totalResults)
   );
 
   protected query$: Observable<
@@ -38,15 +38,7 @@ export class SearchPageMetaResolver
     .getRouterState()
     .pipe(map((state) => state.state.params['query']));
 
-  /**
-   * @deprecated since 3.1 we'll use the `BasePageMetaResolver` going forward
-   */
   // TODO(#10467): Remove deprecated constructors
-  constructor(
-    routingService: RoutingService,
-    productSearchService: ProductSearchService,
-    translation: TranslationService
-  );
   constructor(
     routingService: RoutingService,
     productSearchService: ProductSearchService,
@@ -54,11 +46,19 @@ export class SearchPageMetaResolver
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     basePageMetaResolver?: BasePageMetaResolver
   );
+  /**
+   * @deprecated since 3.1 we'll use the `BasePageMetaResolver` going forward
+   */
+  constructor(
+    routingService: RoutingService,
+    productSearchService: ProductSearchService,
+    translation: TranslationService
+  );
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
     protected translation: TranslationService,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -68,10 +68,10 @@ export class SearchPageMetaResolver
   resolveTitle(): Observable<string> {
     const sources = [this.total$, this.query$];
     return combineLatest(sources).pipe(
-      switchMap(([t, q]: [number, string]) =>
+      switchMap(([count, query]) =>
         this.translation.translate('pageMetaResolver.search.title', {
-          count: t,
-          query: q,
+          count,
+          query,
         })
       )
     );
