@@ -209,6 +209,9 @@ export const orgUnitAddress = {
       'Address {{ item.firstName }} {{ item.lastName }} updated successfully',
     delete:
       'Are you sure you want to delete address {{ item.firstName }} {{ item.lastName }}?',
+    deleteTitle: 'Delete this address?',
+    deleteBody:
+      'The address cannot be brought back. Existing orders are not affected.',
     deleted:
       'Address {{ item.firstName }} {{ item.lastName }} deleted successfully',
   },
