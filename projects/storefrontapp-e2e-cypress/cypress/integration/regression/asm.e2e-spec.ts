@@ -29,9 +29,7 @@ context('ASM e2e Test', () => {
         isMobile = false;
       });
       customer = getSampleUser();
-      cy.log('customer', customer);
       checkout.registerUser(false, customer);
-      cy.log('customer2', customer);
     });
 
     beforeEach(() => {
@@ -61,7 +59,6 @@ context('ASM e2e Test', () => {
       });
 
       it('agent should start customer emulation.', () => {
-        cy.log('customer3', customer);
         startCustomerEmulation();
       });
     });
@@ -266,13 +263,11 @@ export function agentLogin(): void {
 }
 
 function startCustomerEmulation(): void {
-  cy.log('customer4', customer);
   const customerSearchRequestAlias = listenForCustomerSearchRequest();
   const userDetailsRequestAlias = listenForUserDetailsRequest();
 
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');
-  cy.log('customer5', customer);
   cy.get('cx-customer-selection form').within(() => {
     cy.get('[formcontrolname="searchTerm"]').type(customer.email);
   });
