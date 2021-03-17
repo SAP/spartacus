@@ -7,11 +7,11 @@ import { generateMail, randomString } from './user';
 
 interface TestProduct {
   code: string;
-  type?: string;
   name?: string;
   price?: number;
 }
 
+//TODO check against product response and remove this afterwards
 const formatPrice = (price: number, currency: string = 'USD') => {
   if (currency === 'USD') {
     return new Intl.NumberFormat('en-US', {
@@ -31,19 +31,16 @@ const formatPrice = (price: number, currency: string = 'USD') => {
 export const products: TestProduct[] = [
   {
     code: '1934793',
-    type: 'camera',
     name: 'PowerShot A480',
     price: 99.85,
   },
   {
     code: '300938',
-    type: 'camera',
     name: 'Photosmart E317 Digital Camera',
     price: 114.12,
   },
   {
     code: '3470545',
-    type: 'camera',
     name: 'EASYSHARE M381',
     price: 370.72,
   },
@@ -52,7 +49,6 @@ export const products: TestProduct[] = [
   },
   {
     code: '932577',
-    type: 'camera',
     name: 'Digital Camera Tripod',
     price: 24.47,
   },
@@ -108,6 +104,96 @@ function checkMiniCartCount(expectedCount) {
   });
 }
 
+export function clickAddToCart() {
+  cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
+}
+
+export function addProductToCart() {
+  const pdpUrl = `${getBaseUrlPrefix()}/product/${products[0].code}`;
+
+  registerCartRefreshRoute();
+  registerCartPageRoute();
+
+  // Add product from PDP directly
+  cy.visit(pdpUrl);
+
+  clickAddToCart();
+
+  cy.wait('@refresh_cart');
+
+  closeAddedToCartDialog();
+  checkMiniCartCount(1);
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait('@cart_page');
+
+  checkProductInCart(products[0]);
+
+  cy.visit(`product/${products[4].code}`);
+
+  clickAddToCart();
+
+  cy.wait('@refresh_cart');
+
+  closeAddedToCartDialog();
+  checkMiniCartCount(2);
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait('@cart_page');
+
+  checkProductInCart(products[4]);
+
+  removeCartItem(products[0]);
+
+  cy.wait('@refresh_cart');
+
+  removeCartItem(products[4]);
+
+  cy.wait('@refresh_cart');
+
+  validateEmptyCart();
+}
+
+export function addProductToCartViaAutoComplete(mobile: boolean) {
+  registerCartRefreshRoute();
+  registerCartPageRoute();
+  const product = products[0];
+  goToFirstProductFromSearch(product.code, mobile);
+  clickAddToCart();
+
+  cy.wait('@refresh_cart');
+
+  closeAddedToCartDialog();
+  checkMiniCartCount(1);
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait('@cart_page');
+
+  checkProductInCart(product);
+}
+
+export function addProductToCartViaSearchPage(mobile: boolean) {
+  registerCartRefreshRoute();
+  registerCartPageRoute();
+
+  const product = products[4];
+
+  goToFirstProductFromSearch(product.code, mobile);
+
+  clickAddToCart();
+
+  cy.wait('@refresh_cart');
+
+  closeAddedToCartDialog();
+
+  checkMiniCartCount(2).click({ force: true });
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait('@cart_page');
+
+  checkProductInCart(product);
+}
+
 export function validateEmptyCart() {
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
   cy.get('.EmptyCartMiddleContent').should(
@@ -116,43 +202,41 @@ export function validateEmptyCart() {
   );
 }
 
-export function addToCart() {
-  cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
+function getOccUrlPrefix() {
+  return `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}`;
+}
+
+function getBaseUrlPrefix() {
+  return `/${Cypress.env('BASE_SITE')}/${Cypress.env(
+    'BASE_LANG'
+  )}/${Cypress.env('BASE_CURRENCY')}`;
 }
 
 export function registerCartPageRoute() {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+    `${getOccUrlPrefix()}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
   ).as('cart_page');
 }
 
 export function registerCartRefreshRoute() {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${getOccUrlPrefix()}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 }
 
 export function registerCreateCartRoute() {
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts?fields=*&lang=en&curr=USD`
+    `${getOccUrlPrefix()}/users/*/carts?fields=*&lang=en&curr=USD`
   ).as('create_cart');
 }
 
 export function registerSaveCartRoute() {
   cy.intercept(
     'PATCH',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts/*/save?lang=en&curr=USD`
+    `${getOccUrlPrefix()}/users/*/carts/*/save?lang=en&curr=USD`
   ).as('save_cart');
 }
 
@@ -180,46 +264,6 @@ export function checkAddedToCartDialog(itemsNumber = 1) {
     'contain',
     `Cart total (${itemsNumber} item${itemsNumber > 1 ? 's' : ''})`
   );
-}
-
-export function addProductToCartViaAutoComplete(mobile: boolean) {
-  registerCartRefreshRoute();
-  registerCartPageRoute();
-  const product = products[0];
-  goToFirstProductFromSearch(product.code, mobile);
-  addToCart();
-
-  cy.wait('@refresh_cart');
-
-  closeAddedToCartDialog();
-  checkMiniCartCount(1);
-  cy.get('cx-mini-cart > a').click({ force: true });
-
-  cy.wait('@cart_page');
-
-  checkProductInCart(product);
-}
-
-export function addProductToCartViaSearchPage(mobile: boolean) {
-  registerCartRefreshRoute();
-  registerCartPageRoute();
-
-  const product = products[4];
-
-  goToFirstProductFromSearch(product.code, mobile);
-
-  addToCart();
-
-  cy.wait('@refresh_cart');
-
-  closeAddedToCartDialog();
-
-  checkMiniCartCount(2).click({ force: true });
-  cy.get('cx-mini-cart > a').click({ force: true });
-
-  cy.wait('@cart_page');
-
-  checkProductInCart(product);
 }
 
 export function removeAllItemsFromCart() {
@@ -251,7 +295,7 @@ export function addProductWhenLoggedIn(mobile: boolean) {
 
   goToFirstProductFromSearch(product.code, mobile);
 
-  addToCart();
+  clickAddToCart();
 
   /**
    * This waits is added here to delay Add to cart click until wishlist is created.
@@ -301,7 +345,7 @@ export function addProductAsAnonymous() {
   cy.get('cx-product-list')
     .contains('cx-product-list-item', product.name)
     .within(() => {
-      addToCart();
+      clickAddToCart();
     });
 
   checkAddedToCartDialog();
@@ -366,7 +410,7 @@ export function manipulateCartQuantity() {
 
   cy.visit(`/product/${product.code}`);
 
-  addToCart();
+  clickAddToCart();
 
   cy.wait('@refresh_cart');
 
