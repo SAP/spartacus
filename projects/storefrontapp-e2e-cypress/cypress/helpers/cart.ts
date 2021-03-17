@@ -108,7 +108,12 @@ export function clickAddToCart() {
   cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
 }
 
-export function addProductToCart() {
+export function checkBasicCart() {
+  const cartUrl = `${getBaseUrlPrefix()}/cart`;
+  cy.visit(cartUrl);
+
+  validateEmptyCart();
+
   const pdpUrl = `${getBaseUrlPrefix()}/product/${products[0].code}`;
 
   registerCartRefreshRoute();
@@ -129,9 +134,15 @@ export function addProductToCart() {
 
   checkProductInCart(products[0]);
 
-  cy.visit(`product/${products[4].code}`);
+  cy.onMobile(() => {
+    cy.get('.search').click();
+  });
 
-  clickAddToCart();
+  cy.get('cx-searchbox input').clear().type(`cameras{enter}`);
+
+  cy.get(
+    ':nth-child(2) > :nth-child(1) > :nth-child(2) > .row > .col-md-4 > cx-add-to-cart > .ng-untouched > .btn'
+  ).click();
 
   cy.wait('@refresh_cart');
 
@@ -152,46 +163,6 @@ export function addProductToCart() {
   cy.wait('@refresh_cart');
 
   validateEmptyCart();
-}
-
-export function addProductToCartViaAutoComplete(mobile: boolean) {
-  registerCartRefreshRoute();
-  registerCartPageRoute();
-  const product = products[0];
-  goToFirstProductFromSearch(product.code, mobile);
-  clickAddToCart();
-
-  cy.wait('@refresh_cart');
-
-  closeAddedToCartDialog();
-  checkMiniCartCount(1);
-  cy.get('cx-mini-cart > a').click({ force: true });
-
-  cy.wait('@cart_page');
-
-  checkProductInCart(product);
-}
-
-export function addProductToCartViaSearchPage(mobile: boolean) {
-  registerCartRefreshRoute();
-  registerCartPageRoute();
-
-  const product = products[4];
-
-  goToFirstProductFromSearch(product.code, mobile);
-
-  clickAddToCart();
-
-  cy.wait('@refresh_cart');
-
-  closeAddedToCartDialog();
-
-  checkMiniCartCount(2).click({ force: true });
-  cy.get('cx-mini-cart > a').click({ force: true });
-
-  cy.wait('@cart_page');
-
-  checkProductInCart(product);
 }
 
 export function validateEmptyCart() {

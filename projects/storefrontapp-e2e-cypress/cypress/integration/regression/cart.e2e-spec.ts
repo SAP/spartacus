@@ -8,8 +8,8 @@ import { login } from '../../support/utils/login';
 describe('Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
     context('Basic functionality', () => {
-      it.skip('should add and remove products', () => {
-        cart.addProductToCart();
+      it('should add and remove products', () => {
+        cart.checkBasicCart();
       });
     });
 
@@ -17,18 +17,6 @@ describe('Cart', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         visitHomePage();
-      });
-
-      it('should add products via search (autocomplete)', () => {
-        cart.addProductToCartViaAutoComplete(false);
-      });
-
-      it('should add products through search results page', () => {
-        cart.addProductToCartViaSearchPage(false);
-      });
-
-      it('should display empty cart if no items added and when items are removed', () => {
-        cart.removeAllItemsFromCart();
       });
 
       it('should merge carts when user is authenticated', () => {
