@@ -25,7 +25,7 @@ import { SubListComponent } from '../../shared/sub-list/sub-list.component';
 export class UserGroupUserListComponent {
   /**
    * @deprecated since version 3.2
-   * Use constructor(protected currentUserGroupService: CurrentUserGroupService, userGroupUserListService: UserGroupUserListService) {} instead
+   * Use constructor(protected currentUserGroupService: CurrentUserGroupService, protected userGroupUserListService: UserGroupUserListService) {} instead
    */
   // TODO(#11530): Remove deprecated constructors
   constructor(
