@@ -12,7 +12,7 @@
     "cy:run:ci:cds": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,all-cds\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts,cypress/integration/vendor/cds/**/*.e2e-spec.ts\"",
     "cy:run:ci:flaky": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,parallel,flaky\" --parallel --group flaky --spec \"cypress/integration/!(vendor|b2b)/**/*.flaky-e2e-spec.ts\"",
     "cy:run:product-configuration": "cypress run --spec \"cypress/integration/**/*-configuration*.*e2e-spec.ts\"",
-    "cy:run:cpq": "cypress run  --config-file cypress.cpq.json --record --tag \"2005,parallel\" --parallel --group B2B --ci-build-id ${BUILD_ID} --spec \"cypress/integration/**/cpq-configuration.e2e-spec.ts\""
+    "cy:run:cpq": "cypress run  --config-file cypress.cpq.json --spec \"cypress/integration/**/cpq-configuration.e2e-spec.ts\" --browser chrome"
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.5.0",
