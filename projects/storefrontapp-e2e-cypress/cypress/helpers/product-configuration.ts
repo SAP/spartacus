@@ -1341,7 +1341,7 @@ export function checkWarningMessageShown() {
  * Verifies whether the global success message is not displayed on the top of the configuration.
  */
 export function checkSuccessMessageNotDisplayed(): void {
-  globalMessage.getSuccessAlert().should('not.be.visible');
+  globalMessage.getSuccessAlert().should('not.exist');
 }
 
 /**
