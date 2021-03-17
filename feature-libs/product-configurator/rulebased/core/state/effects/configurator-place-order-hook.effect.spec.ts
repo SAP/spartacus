@@ -90,9 +90,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
     });
 
     configPlaceOrderHookEffects = TestBed.inject(
-      fromEffects.ConfiguratorPlaceOrderHookEffects as Type<
-        fromEffects.ConfiguratorPlaceOrderHookEffects
-      >
+      fromEffects.ConfiguratorPlaceOrderHookEffects as Type<fromEffects.ConfiguratorPlaceOrderHookEffects>
     );
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>

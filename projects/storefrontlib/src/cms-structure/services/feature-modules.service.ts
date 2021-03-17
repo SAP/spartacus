@@ -18,6 +18,7 @@ import {
 } from '@spartacus/core';
 import { defer, forkJoin, merge, Observable, of } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { CmsFeaturesService } from './cms-features.service';
 
 interface FeatureInstance extends FeatureModuleConfig {
   moduleRef?: NgModuleRef<any>;
@@ -27,9 +28,12 @@ interface FeatureInstance extends FeatureModuleConfig {
 
 /**
  * Service responsible for resolving cms config based feature modules.
+ *
+ * @deprecated since 3.2, use CmsFeaturesService instead
  */
 @Injectable({
   providedIn: 'root',
+  useExisting: CmsFeaturesService,
 })
 export class FeatureModulesService implements OnDestroy {
   // feature modules configuration
@@ -128,9 +132,15 @@ export class FeatureModulesService implements OnDestroy {
         // resolve dependencies first (if any)
         const depsResolve = featureConfig.dependencies?.length
           ? forkJoin(
-              featureConfig.dependencies.map((depModuleFunc) =>
-                this.lazyModules.resolveDependencyModuleInstance(depModuleFunc)
-              )
+              featureConfig.dependencies.map((depModuleFunc) => {
+                return typeof depModuleFunc === 'string'
+                  ? this.resolveFeature(depModuleFunc).pipe(
+                      map((feature) => feature.moduleRef)
+                    )
+                  : this.lazyModules.resolveDependencyModuleInstance(
+                      depModuleFunc
+                    );
+              })
             )
           : of(undefined);
 
@@ -164,7 +174,7 @@ export class FeatureModulesService implements OnDestroy {
         dependencyModuleRefs
       )
       .pipe(
-        map((moduleRef) => {
+        map((moduleRef: NgModuleRef<any>) => {
           const featureInstance: FeatureInstance = {
             ...featureConfig,
             moduleRef,
@@ -180,7 +190,7 @@ export class FeatureModulesService implements OnDestroy {
           // extract cms components configuration from feature config
           for (const componentType of featureInstance.cmsComponents) {
             featureInstance.componentsMappings[componentType] =
-              resolvedConfiguration.cmsComponents[componentType];
+              resolvedConfiguration.cmsComponents?.[componentType] ?? {};
           }
           return featureInstance;
         })

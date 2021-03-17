@@ -52,6 +52,7 @@ export const COMPILER = 'Compiler';
 export const STORE = 'Store';
 
 export const ACTIONS = 'Actions';
+export const ACTION_SUBJECT = 'ActionsSubject';
 
 export const FORM_BUILDER = 'FormBuilder';
 export const JSONLD_PRODUCT_REVIEW_BUILDER = 'JsonLdProductReviewBuilder';
@@ -329,6 +330,15 @@ export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
 
+export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
+export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
+export const PRODUCT_PAGE_EVENT_BUILDER = 'ProductPageEventBuilder';
+export const PAGE_EVENT_BUILDER = 'PageEventBuilder';
+export const CONTEXT = 'context';
+export const SEMANTIC_ROUTE = 'semanticRoute';
+export const URL = 'url';
+export const PARAMS = 'params';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -499,6 +509,14 @@ export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
 export const QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME =
   'qualtrics-embedded-feedback.scss';
+
+// uncomment product variants deprecation on 4.0 migration works (#11391)
+// export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
+// export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
+// export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
+// export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
+// export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -646,7 +664,6 @@ export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_QUALTRICS_ROOT = `${SPARTACUS_QUALTRICS}/root`;
 
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
-
 /***** APIs end *****/
 
 /***** Storefinder start *****/

@@ -41,7 +41,10 @@ export const orgUser = {
   },
 
   messages: {
+    deactivateTitle: 'Disable this user?',
     deactivate: 'Are you sure you want to disable this user?',
+    deactivateBody:
+      'Disabled users cannot log onto the storefront and place orders.',
     confirmEnabled:
       'User {{item.firstName}} {{item.lastName}} enabled successfully',
     confirmDisabled:
@@ -50,6 +53,10 @@ export const orgUser = {
     create: 'User {{item.firstName}} {{item.lastName}} created successfully',
     updatePassword:
       'User {{item.firstName}} {{item.lastName}} password updated successfully',
+  },
+  info: {
+    disabledEdit: 'Enable the user to allow editing.',
+    disabledEnable: 'Unit must be enabled before this user may be enabled.',
   },
 
   approver: {

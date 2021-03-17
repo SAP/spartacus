@@ -31,9 +31,11 @@ export class ConfiguratorCartEntryInfoComponent {
    * @returns {boolean} - whether the status of configuration infos entry has status
    */
   hasStatus(item: OrderEntry): boolean {
-    return (
-      item?.configurationInfos?.length > 0 &&
-      item?.configurationInfos[0]?.status !== 'NONE'
-    );
+    const configurationInfos = item?.configurationInfos;
+
+    return configurationInfos
+      ? configurationInfos.length > 0 &&
+          configurationInfos[0]?.status !== 'NONE'
+      : false;
   }
 }

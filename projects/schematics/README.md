@@ -147,7 +147,7 @@ The migration scripts that are listed here should be executed each time customer
 
 The `v*` refers _only_ to the _latest major_ Spartacus version (v3 as of this moment).
 
-Please bump the `version` in `migration.json` only for the migration scripts listed above, and _do not change the other script's versions_.
+Please bump the `version` in `migrations.json` only for the migration scripts listed above, and _do not change the other script's versions_.
 This means that the scripts for the older major Spartacus versions should _also **not** be updated_.
 
 This is _really_ important for the Angular's update mechanism, as it is used to automatically execute the required migration scripts for the current project's version.

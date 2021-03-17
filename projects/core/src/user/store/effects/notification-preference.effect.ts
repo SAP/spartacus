@@ -9,9 +9,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class NotificationPreferenceEffects {
   @Effect()
-  loadPreferences$: Observable<
-    UserActions.NotificationPreferenceAction
-  > = this.actions$.pipe(
+  loadPreferences$: Observable<UserActions.NotificationPreferenceAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_NOTIFICATION_PREFERENCES),
     map((action: UserActions.LoadNotificationPreferences) => action.payload),
     switchMap((payload) =>
@@ -32,9 +30,7 @@ export class NotificationPreferenceEffects {
   );
 
   @Effect()
-  updatePreferences$: Observable<
-    UserActions.NotificationPreferenceAction
-  > = this.actions$.pipe(
+  updatePreferences$: Observable<UserActions.NotificationPreferenceAction> = this.actions$.pipe(
     ofType(UserActions.UPDATE_NOTIFICATION_PREFERENCES),
     map((action: UserActions.UpdateNotificationPreferences) => action.payload),
     mergeMap((payload) =>

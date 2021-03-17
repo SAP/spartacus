@@ -1,4 +1,3 @@
-// tslint:disable:no-implicit-dependencies
 import { JsonObject, logging } from '@angular-devkit/core';
 import chalk from 'chalk';
 import program from 'commander';
@@ -49,14 +48,14 @@ export default async function run(
   let fromToken: string;
   try {
     const packageVersions = await versionsHelper.fetchPackageVersions(
-      args.library
+      args.library!
     );
     const previousVersion = versionsHelper.extractPreviousVersionForChangelog(
       packageVersions,
-      newVersion.version
+      newVersion?.version!
     );
-    fromToken =
-      previousVersion && args.to.split(newVersion).join(previousVersion);
+    fromToken = (previousVersion &&
+      args.to.split(newVersion?.version!).join(previousVersion)) as string;
   } catch (err) {
     // package not found - assuming first release
     fromToken = '';
@@ -68,7 +67,7 @@ export default async function run(
     ''
   ).trim();
 
-  const libraryPaths = {
+  const libraryPaths: Record<string, string> = {
     '@spartacus/storefront': 'projects/storefrontlib',
     '@spartacus/core': 'projects/core',
     '@spartacus/styles': 'projects/storefrontstyles',
@@ -81,12 +80,20 @@ export default async function run(
     '@spartacus/product-configurator': 'feature-libs/product-configurator',
     '@spartacus/storefinder': 'feature-libs/storefinder',
     '@spartacus/checkout': 'feature-libs/checkout',
+    '@spartacus/asm': 'feature-libs/asm',
+    '@spartacus/smartedit': 'feature-libs/smartedit',
+    '@spartacus/tracking': 'feature-libs/tracking',
     '@spartacus/qualtrics': 'feature-libs/qualtrics',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
   };
 
-  const duplexUtil = through(function (chunk, _, callback) {
+  const duplexUtil = through(function (
+    this: NodeJS.ReadStream,
+    chunk: unknown,
+    _: unknown,
+    callback: () => {}
+  ) {
     this.push(chunk);
     callback();
   });
@@ -147,7 +154,6 @@ export default async function run(
               chunk.gitTags && (chunk.gitTags as string).match(/tag: (.*)/);
             const tags = maybeTag && maybeTag[1].split(/,/g);
             chunk['tags'] = tags;
-            // tslint:disable-next-line:triple-equals
             if (tags && tags.find((x) => x == args.to)) {
               toSha = chunk.hash as string;
             }
@@ -206,7 +212,6 @@ export default async function run(
     })
     .then(([body, markdown]) => {
       const json = body.body;
-      // tslint:disable-next-line:triple-equals
       const maybeRelease = json.find((x: JsonObject) => x.tag_name == args.to);
       const id = maybeRelease ? `/${maybeRelease.id}` : '';
 
@@ -298,6 +303,12 @@ if (typeof config.to === 'undefined') {
       break;
     case 'product':
     case '@spartacus/product':
+    case '@spartacus/product/configurators':
+    case '@spartacus/product/configurators/common':
+    case '@spartacus/product/configurators/cpq':
+    case '@spartacus/product/configurators/variant':
+    case '@spartacus/product/configurators/textfield':
+    case '@spartacus/product/variants':
       config.library = '@spartacus/product';
       break;
     case 'product-configurator':
@@ -315,10 +326,17 @@ if (typeof config.to === 'undefined') {
     case 'checkout':
     case '@spartacus/checkout':
       config.library = '@spartacus/checkout';
+    case 'tracking':
+    case '@spartacus/tracking':
+      config.library = '@spartacus/tracking';
       break;
     case 'qualtrics':
     case '@spartacus/qualtrics':
       config.library = '@spartacus/qualtrics';
+      break;
+    case 'smartedit':
+    case '@spartacus/smartedit':
+      config.library = '@spartacus/smartedit';
       break;
     case 'setup':
     case '@spartacus/setup':

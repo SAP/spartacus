@@ -67,7 +67,12 @@ export class CommonConfiguratorUtilsService {
    * @returns Cart identifier
    */
   getCartId(cart: Cart): string {
-    return cart.user.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+    const cartId =
+      cart.user?.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+    if (!cartId) {
+      throw new Error('Cart ID is not defined');
+    }
+    return cartId;
   }
 
   /**
@@ -90,7 +95,10 @@ export class CommonConfiguratorUtilsService {
     let numberOfIssues = 0;
     cartItem?.statusSummaryList?.forEach((statusSummary) => {
       if (statusSummary.status === OrderEntryStatus.Error) {
-        numberOfIssues = statusSummary.numberOfIssues;
+        const numberOfIssuesFromStatus = statusSummary.numberOfIssues;
+        numberOfIssues = numberOfIssuesFromStatus
+          ? numberOfIssuesFromStatus
+          : 0;
       }
     });
     return numberOfIssues;

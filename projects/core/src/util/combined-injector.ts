@@ -35,7 +35,7 @@ export class CombinedInjector implements Injector {
   ): T;
   get(token: any, notFoundValue?: any): any;
   get(token, notFoundValue?: any, flags?: InjectFlags): any {
-    // tslint:disable-next-line:no-bitwise
+    // eslint-disable-next-line no-bitwise
     if (flags & InjectFlags.Self) {
       if (notFoundValue !== undefined) {
         return notFoundValue;
@@ -45,7 +45,7 @@ export class CombinedInjector implements Injector {
       );
     }
 
-    for (const injector of [...this.complementaryInjectors]) {
+    for (const injector of this.complementaryInjectors) {
       // First we are resolving providers provided at Self level
       // in all complementary injectors...
       const service = injector.get(token, NOT_FOUND_SYMBOL, InjectFlags.Self);
@@ -53,7 +53,15 @@ export class CombinedInjector implements Injector {
         return service;
       }
     }
-    // ...and then fallback to main injector passing the flag
-    return this.mainInjector.get(token, notFoundValue, flags);
+
+    for (const injector of this.complementaryInjectors) {
+      // next we try to resolve tokens from all levels
+      const service = injector.get(token, NOT_FOUND_SYMBOL);
+      if (service !== NOT_FOUND_SYMBOL) {
+        return service;
+      }
+    }
+    // ...and then fallback to main injector
+    return this.mainInjector.get(token, notFoundValue);
   }
 }

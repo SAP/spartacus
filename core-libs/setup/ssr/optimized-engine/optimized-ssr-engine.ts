@@ -57,8 +57,20 @@ export class OptimizedSsrEngine {
       ? this.currentConcurrency >= this.ssrOptions.concurrency
       : false;
 
+    const isRendering = this.renderingCache.isRendering(
+      this.getRenderingKey(request)
+    );
+
+    if (isRendering) {
+      this.log(`CSR fallback: rendering in progress (${request.url})`);
+    } else if (concurrencyLimitExceed) {
+      this.log(
+        `CSR fallback: Concurrency limit exceeded (${this.ssrOptions?.concurrency})`
+      );
+    }
+
     return (
-      (!this.renderingCache.isRendering(this.getRenderingKey(request)) &&
+      (!isRendering &&
         !concurrencyLimitExceed &&
         this.getRenderingStrategy(request) !== RenderingStrategy.ALWAYS_CSR) ||
       this.getRenderingStrategy(request) === RenderingStrategy.ALWAYS_SSR
@@ -85,7 +97,8 @@ export class OptimizedSsrEngine {
     const key = this.getRenderingKey(request);
 
     if (this.renderingCache.isReady(key)) {
-      const cached = this.renderingCache.get(key);
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const cached = this.renderingCache.get(key)!;
       callback(cached.err, cached.html);
 
       if (!this.ssrOptions?.cache) {
@@ -101,7 +114,7 @@ export class OptimizedSsrEngine {
     filePath: string,
     options: any,
     callback: (err?: Error | null, html?: string) => void
-  ) {
+  ): void {
     const request: Request = options.req;
     const response: Response = options.res || options.req.res;
 
@@ -110,25 +123,30 @@ export class OptimizedSsrEngine {
     if (!this.returnCachedRender(request, callback)) {
       if (this.shouldRender(request)) {
         this.currentConcurrency++;
-        let waitingForRender;
+        let waitingForRender: NodeJS.Timeout | undefined;
 
         if (this.shouldTimeout(request)) {
           // establish timeout for rendering
+          const timeout = this.getTimeout(request);
           waitingForRender = setTimeout(() => {
             waitingForRender = undefined;
             this.fallbackToCsr(response, filePath, callback);
-            console.log(
-              `SSR rendering exceeded timeout, fallbacking to CSR for ${request?.url}`
+            this.log(
+              `SSR rendering exceeded timeout ${timeout}, fallbacking to CSR for ${request?.url}`,
+              false
             );
-          }, this.getTimeout(request));
+          }, timeout);
         } else {
           this.fallbackToCsr(response, filePath, callback);
         }
 
         // start rendering
         this.renderingCache.setAsRendering(renderingKey);
+        this.log(`Rendering started (${request?.url})`);
         this.expressEngine(filePath, options, (err, html) => {
           this.currentConcurrency--;
+
+          this.log(`Rendering completed (${request?.url})`);
 
           if (waitingForRender) {
             // if request is still waiting for render, return it
@@ -150,6 +168,14 @@ export class OptimizedSsrEngine {
         // if there is already rendering in progress, return the fallback
         this.fallbackToCsr(response, filePath, callback);
       }
+    } else {
+      this.log(`Render from cache (${request?.url})`);
+    }
+  }
+
+  protected log(message: string, debug = true) {
+    if (!debug || this.ssrOptions?.debug) {
+      console.log(message);
     }
   }
 

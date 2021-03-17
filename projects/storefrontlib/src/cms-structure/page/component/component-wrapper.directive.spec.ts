@@ -7,10 +7,10 @@ import {
   Type,
 } from '@angular/core';
 import {
-  waitForAsync,
   ComponentFixture,
   TestBed,
   TestModuleMetadata,
+  waitForAsync,
 } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -23,8 +23,8 @@ import {
 import { ComponentHandler, PageComponentModule } from '@spartacus/storefront';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
-import { CxApiService } from './services/cx-api.service';
 import { WebComponentHandler } from './handlers/web-component.handler';
+import { CxApiService } from './services/cx-api.service';
 
 const testText = 'test text';
 
@@ -65,7 +65,7 @@ class MockCmsService {
 }
 
 class MockDynamicAttributeService {
-  addDynamicAttributes(): void {}
+  addAttributesToComponent(): void {}
 }
 
 @Component({
@@ -180,23 +180,21 @@ describe('ComponentWrapperDirective', () => {
       it('should add smartedit contract if app launch in smart edit', () => {
         spyOn(
           dynamicAttributeService,
-          'addDynamicAttributes'
+          'addAttributesToComponent'
         ).and.callThrough();
 
         fixture.detectChanges();
         const el = fixture.debugElement;
         const compEl = el.query(By.css('cx-test')).nativeElement;
         expect(
-          dynamicAttributeService.addDynamicAttributes
+          dynamicAttributeService.addAttributesToComponent
         ).toHaveBeenCalledWith(compEl, renderer, {
-          componentData: {
-            typeCode: 'cms_typeCode',
-            flexType: 'CMSTestComponent',
-            uid: 'test_uid',
-            properties: {
-              smartedit: {
-                test: 'test',
-              },
+          typeCode: 'cms_typeCode',
+          flexType: 'CMSTestComponent',
+          uid: 'test_uid',
+          properties: {
+            smartedit: {
+              test: 'test',
             },
           },
         });
