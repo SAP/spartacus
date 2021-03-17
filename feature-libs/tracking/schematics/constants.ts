@@ -15,5 +15,6 @@ export const TMS_AEP_MODULE = 'AepModule';
 export const SPARTACUS_TMS_AEP = '@spartacus/tracking/tms/aep';
 
 export const CLI_PERSONALIZATION_FEATURE = 'Personalization';
-export const CLI_TMS_GTM_FEATURE = 'Google Tag Manager';
-export const CLI_TMS_AEP_FEATURE = 'Adobe Experience Launch Platform';
+export const CLI_TMS_GTM_FEATURE = 'Tag Management System - Google Tag Manager';
+export const CLI_TMS_AEP_FEATURE =
+  'Tag Management System - Adobe Experience Launch Platform';
