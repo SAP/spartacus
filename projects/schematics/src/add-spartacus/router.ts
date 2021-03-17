@@ -3,7 +3,7 @@ import { CallExpression, Node, SourceFile, ts } from 'ts-morph';
 import {
   ANGULAR_CORE,
   ANGULAR_ROUTER,
-  SPARTACUS_ROUTING_MODULE
+  SPARTACUS_ROUTING_MODULE,
 } from '../shared/constants';
 import { isImportedFrom } from '../shared/utils/import-utils';
 import { addModuleImport } from '../shared/utils/new-module-utils';
