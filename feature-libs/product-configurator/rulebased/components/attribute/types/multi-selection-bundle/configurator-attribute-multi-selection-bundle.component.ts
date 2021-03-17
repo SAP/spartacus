@@ -20,10 +20,10 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity/configurato
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 interface SelectionValue {
-  name: string;
-  quantity: number;
-  selected: boolean;
-  valueCode: string;
+  name: string | undefined;
+  quantity: number | undefined;
+  selected: boolean | undefined;
+  valueCode: string | undefined;
 }
 
 @Component({
@@ -43,13 +43,13 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
     super();
   }
 
   ngOnInit() {
-    if (this.attribute?.values && this.attribute?.values?.length > 0) {
-      this.multipleSelectionValues = this.attribute?.values.map(
+    if (this.attribute.values && this.attribute.values.length > 0) {
+      this.multipleSelectionValues = this.attribute.values.map(
         ({ name, quantity, selected, valueCode }) => ({
           name,
           quantity,
@@ -67,30 +67,56 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     }
   }
 
-  get withQuantityOnAttributeLevel() {
+  /**
+   * Returns true if the quantity control should be displayed on attribute level for this component.
+   *
+   * @return {boolean} - Returns true if quantity control should be displayed.
+   */
+  get withQuantityOnAttributeLevel(): boolean {
     return (
-      this.attribute?.dataType ===
+      this.attribute.dataType ===
       Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
     );
   }
 
-  get withQuantity() {
+  /**
+   * Returns true if the quantity control should be displayed on value level for this component.
+   *
+   * @return {boolean} - Returns true if quantity control should be displayed.
+   */
+  get withQuantity(): boolean {
     return this.quantityService.withQuantity(
-      this.attribute?.dataType,
-      this.attribute?.uiType
+      this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+      this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
     );
   }
 
-  get disableQuantityActions() {
+  /**
+   * Returns true if the quantity control should be disabled.
+   *
+   * @return {boolean} - Returns true if quantity control should be disabled.
+   */
+  get disableQuantityActions(): boolean {
     return (
       this.attribute?.dataType ===
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL &&
-      (!this.attribute?.values.find((value) => value.selected) ||
+      (!this.attribute.values.find((value) => value.selected) ||
         this.attribute?.quantity === 0)
     );
   }
 
-  protected updateMultipleSelectionValues(valueCode, state) {
+  /**
+   * Updates the value dependent on the provided state
+   *
+   * @param  {any} valueCode - value code to be updated
+   * @param  {any} state - selected state
+   *
+   * @return {ConfigFormUpdateEvent} - form update event
+   */
+  protected updateMultipleSelectionValues(
+    valueCode: any,
+    state: any
+  ): ConfigFormUpdateEvent {
     const index = this.multipleSelectionValues.findIndex(
       (value) => value.valueCode === valueCode
     );
@@ -112,7 +138,17 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     return event;
   }
 
-  protected updateMultipleSelectionValuesQuantity(eventValue) {
+  /**
+   * Updates the quantity of the given value
+   *
+   * @param  eventValue - event value
+   *
+   * @return {ConfigFormUpdateEvent} - form update event
+   */
+  protected updateMultipleSelectionValuesQuantity(eventValue: {
+    valueCode: string;
+    quantity: number;
+  }): ConfigFormUpdateEvent | undefined {
     const value: Configurator.Value = this.multipleSelectionValues.find(
       (selectionValue) => selectionValue?.valueCode === eventValue.valueCode
     );
@@ -133,7 +169,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     return event;
   }
 
-  onHandleAttributeQuantity(quantity): void {
+  onHandleAttributeQuantity(quantity: any): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
@@ -148,14 +184,14 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     this.selectionChange.emit(event);
   }
 
-  onSelect(eventValue): void {
+  onSelect(eventValue: any): void {
     this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, true)
     );
   }
 
-  onDeselect(eventValue): void {
+  onDeselect(eventValue: any): void {
     this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, false)
@@ -175,14 +211,14 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeValueQuantity(eventValue): void {
+  onChangeValueQuantity(eventValue: any): void {
     this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValuesQuantity(eventValue)
     );
   }
 
-  onChangeAttributeQuantity(eventObject): void {
+  onChangeAttributeQuantity(eventObject: any): void {
     this.loading$.next(true);
 
     if (!eventObject.quantity) {
@@ -203,7 +239,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       price: {
         value: 0,
       },
-      priceTotal: this.attribute?.attributePriceTotal,
+      priceTotal: this.attribute.attributePriceTotal,
       isLightedUp: true,
     };
   }
@@ -238,7 +274,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     };
 
     return {
-      allowZero: !this.attribute?.required,
+      allowZero: !this.attribute.required,
       initialQuantity: initialQuantity,
       disableQuantityActions: this.loading$.pipe(
         map((loading) => {
