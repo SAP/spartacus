@@ -73,6 +73,7 @@ export function addSpartacusOrganization(
       shouldAddFeature(options.features, CLI_ORDER_APPROVAL_FEATURE)
         ? addOrderApprovalsFeature(appModulePath, options)
         : noop(),
+
       addOrganizationPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
