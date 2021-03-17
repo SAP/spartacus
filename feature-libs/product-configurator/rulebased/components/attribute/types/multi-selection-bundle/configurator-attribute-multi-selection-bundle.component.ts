@@ -108,8 +108,8 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   /**
    * Updates the value dependent on the provided state
    *
-   * @param  valueCode - value code to be updated
-   * @param  state - selected state
+   * @param  {any} valueCode - value code to be updated
+   * @param  {any} state - selected state
    *
    * @return {ConfigFormUpdateEvent} - form update event
    */
@@ -184,14 +184,14 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     this.selectionChange.emit(event);
   }
 
-  onSelect(eventValue): void {
+  onSelect(eventValue: any): void {
     this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, true)
     );
   }
 
-  onDeselect(eventValue): void {
+  onDeselect(eventValue: any): void {
     this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, false)
@@ -211,7 +211,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeValueQuantity(eventValue): void {
+  onChangeValueQuantity(eventValue: any): void {
     this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValuesQuantity(eventValue)
