@@ -68,13 +68,13 @@ context('ASM e2e Test', () => {
 
     describe('Customer Emulation - Checkout', () => {
       it('agent should checkout on behalf of customer.', () => {
-        checkout.clickCheapProductDetailsFromHomePage();
+        checkout.goToCheapProductDetailsPage();
         checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
-        checkout.fillAddressFormWithCheapProduct();
+        checkout.fillAddressFormWithCheapProduct(customer);
         checkout.verifyDeliveryMethod();
-        checkout.fillPaymentFormWithCheapProduct();
-        checkout.placeOrderWithCheapProduct();
-        checkout.verifyOrderConfirmationPageWithCheapProduct();
+        checkout.fillPaymentFormWithCheapProduct(customer);
+        checkout.placeOrderWithCheapProduct(customer);
+        checkout.verifyOrderConfirmationPageWithCheapProduct(customer);
       });
     });
 
