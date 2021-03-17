@@ -84,7 +84,7 @@ export class CartItemListComponent {
     protected activeCartService: ActiveCartService,
     protected selectiveCartService: SelectiveCartService,
     @Optional()
-    protected featureConfigService: FeatureConfigService,
+    public featureConfigService: FeatureConfigService,
     protected multiCartService?: MultiCartService
   ) {}
 
