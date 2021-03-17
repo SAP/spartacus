@@ -38,6 +38,10 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     protected vcr: ViewContainerRef
   ) {}
 
+  get tabIndex(): number {
+    return 0;
+  }
+
   ngOnInit(): void {
     this.cart$ = combineLatest([
       this.activeCartService.getActive(),

@@ -98,6 +98,10 @@ describe('AddToSavedCartComponent', () => {
     );
   });
 
+  it('should return tab index as 0', () => {
+    expect(component.tabIndex).toEqual(0);
+  });
+
   describe('should trigger action on save cart method', () => {
     describe('when user is not logged in', () => {
       it('should redirect to login page', () => {
