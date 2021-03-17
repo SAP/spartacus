@@ -73,7 +73,9 @@
               class="btn btn-action"
               (click)="onHandleDeselect()"
               [disabled]="
-                productCardOptions?.preventAction || (loading$ | async)
+                productCardOptions?.disableAllButtons ||
+                productCardOptions?.hideRemoveButton ||
+                (loading$ | async)
               "
             >
               {{ 'configurator.button.remove' | cxTranslate }}
@@ -82,7 +84,9 @@
               <button
                 class="btn btn-primary"
                 (click)="onHandleSelect()"
-                [disabled]="loading$ | async"
+                [disabled]="
+                  productCardOptions?.disableAllButtons || (loading$ | async)
+                "
               >
                 {{ 'configurator.button.add' | cxTranslate }}
               </button>
@@ -92,7 +96,9 @@
             <button
               class="btn btn-primary"
               (click)="onHandleSelect()"
-              [disabled]="loading$ | async"
+              [disabled]="
+                productCardOptions?.disableAllButtons || (loading$ | async)
+              "
               *ngIf="
                 !productCardOptions?.productBoundValue?.selected;
                 else deselect
@@ -109,10 +115,12 @@
                 "
               >
                 <button
-                  *ngIf="!productCardOptions?.preventAction"
+                  *ngIf="!productCardOptions?.hideRemoveButton"
                   class="btn btn-action"
                   (click)="onHandleDeselect()"
-                  [disabled]="loading$ | async"
+                  [disabled]="
+                    productCardOptions?.hideRemoveButton || (loading$ | async)
+                  "
                 >
                   {{ 'configurator.button.deselect' | cxTranslate }}
                 </button>

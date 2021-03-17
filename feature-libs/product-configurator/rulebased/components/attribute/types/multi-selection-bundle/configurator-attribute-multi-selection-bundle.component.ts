@@ -4,7 +4,7 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
 import {
   ConfiguratorAttributeQuantityComponentOptions,
-  Quantity,
+  Quantity
 } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
@@ -246,17 +246,19 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
 
   /**
    * Extract corresponding product card parameters
-   *
-   * @param {boolean} preventAction - Prevent action
+   * @param {boolean} disableAllButtons - Prevent all actions, e.g. while loading
+   * @param {boolean} hideRemoveButton - hide remove action, e.g. if only value required attribute
    * @param {Configurator.Value} value - Value
    * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
    */
   extractProductCardParameters(
-    preventAction: boolean,
+    disableAllButtons: boolean,
+    hideRemoveButton: boolean,
     value: Configurator.Value
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      preventAction: preventAction,
+      disableAllButtons: disableAllButtons,
+      hideRemoveButton: hideRemoveButton,
       productBoundValue: value,
       multiSelect: true,
       withQuantity: this.withQuantity,
