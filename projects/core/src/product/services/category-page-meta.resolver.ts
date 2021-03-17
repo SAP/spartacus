@@ -34,12 +34,14 @@ export class CategoryPageMetaResolver
   protected searchPage$: Observable<
     ProductSearchPage | Page
   > = this.cms.getCurrentPage().pipe(
-    filter(Boolean),
+    filter((page) => Boolean(page)),
     switchMap((page: Page) =>
       // only the existence of a plp component tells us if products
       // are rendered or if this is an ordinary content page
       this.hasProductListComponent(page)
-        ? this.productSearchService.getResults().pipe(filter(Boolean))
+        ? this.productSearchService
+            .getResults()
+            .pipe(filter((result) => Boolean(result)))
         : of(page)
     )
   );
@@ -71,11 +73,11 @@ export class CategoryPageMetaResolver
   }
 
   resolveTitle(): Observable<string> {
-    return this.searchPage$.pipe(
+    return (<Observable<ProductSearchPage>>this.searchPage$).pipe(
       filter((page: ProductSearchPage) => !!page.pagination),
       switchMap((p: ProductSearchPage) =>
         this.translation.translate('pageMetaResolver.category.title', {
-          count: p.pagination.totalResults,
+          count: p.pagination?.totalResults,
           query: p.breadcrumbs?.length
             ? p.breadcrumbs[0].facetValueName
             : undefined,
@@ -86,13 +88,13 @@ export class CategoryPageMetaResolver
 
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
     return combineLatest([
-      this.searchPage$.pipe(),
+      (<Observable<ProductSearchPage>>this.searchPage$).pipe(),
       this.translation.translate('common.home'),
     ]).pipe(
-      map(([p, label]: [ProductSearchPage, string]) =>
-        p.breadcrumbs
-          ? this.resolveBreadcrumbData(<ProductSearchPage>p, label)
-          : null
+      map(([page, label]: [ProductSearchPage, string]) =>
+        page.breadcrumbs
+          ? this.resolveBreadcrumbData(<ProductSearchPage>page, label)
+          : []
       )
     );
   }
@@ -104,27 +106,29 @@ export class CategoryPageMetaResolver
     const breadcrumbs: BreadcrumbMeta[] = [];
     breadcrumbs.push({ label: label, link: '/' });
 
-    for (const br of page.breadcrumbs) {
-      if (br.facetCode === 'category' || br.facetCode === 'allCategories') {
-        breadcrumbs.push({
-          label: br.facetValueName,
-          link: `/c/${br.facetValueCode}`,
-        });
-      }
-      if (br.facetCode === 'brand') {
-        breadcrumbs.push({
-          label: br.facetValueName,
-          link: `/Brands/${br.facetValueName}/c/${br.facetValueCode}`,
-        });
+    for (const br of page.breadcrumbs ?? []) {
+      if (br.facetValueName) {
+        if (br.facetCode === 'category' || br.facetCode === 'allCategories') {
+          breadcrumbs.push({
+            label: br.facetValueName,
+            link: `/c/${br.facetValueCode}`,
+          });
+        }
+        if (br.facetCode === 'brand') {
+          breadcrumbs.push({
+            label: br.facetValueName,
+            link: `/Brands/${br.facetValueName}/c/${br.facetValueCode}`,
+          });
+        }
       }
     }
     return breadcrumbs;
   }
 
   protected hasProductListComponent(page: Page): boolean {
-    return !!Object.keys(page.slots).find(
+    return !!Object.keys(page.slots || {}).find(
       (key) =>
-        !!page.slots[key].components?.find(
+        !!page.slots?.[key].components?.find(
           (comp) =>
             comp.typeCode === 'CMSProductListComponent' ||
             comp.typeCode === 'ProductGridComponent'
