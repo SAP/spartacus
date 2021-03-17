@@ -100,7 +100,7 @@ export function signOutUser(sampleUser: SampleUser = user) {
   const logoutPage = waitForPage('/logout', 'getLogoutPage');
   signOut();
   cy.wait(`@${logoutPage}`);
-  cy.get('.cx-login-greet').should('not.contain', sampleUser.fullName);
+  cy.get('.cx-login-greet').should('not.exist');
 }
 
 export function goToProductDetailsPage() {
