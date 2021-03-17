@@ -11,13 +11,15 @@ import { Configurator } from '../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorPriceSummaryComponent {
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.configRouterExtractorService.extractRouterData().pipe(
-    switchMap((routerData) => {
-      return this.configuratorCommonsService.getConfiguration(routerData.owner);
-    })
-  );
+  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      switchMap((routerData) => {
+        return this.configuratorCommonsService.getConfiguration(
+          routerData.owner
+        );
+      })
+    );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
