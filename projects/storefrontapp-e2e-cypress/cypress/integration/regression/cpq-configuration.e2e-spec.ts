@@ -538,7 +538,7 @@ context('CPQ Configuration', () => {
       configurationOverview.verifyNotificationBannerOnOP(8);
     });
 
-    it.only('check correct number of issues displayed in cart', () => {
+    it('check correct number of issues displayed in cart', () => {
       cy.server();
       cy.route('PATCH', CPQ_BACKEND_URL).as('updateConfig');
       cy.route('GET', CPQ_BACKEND_URL).as('readConfig');
