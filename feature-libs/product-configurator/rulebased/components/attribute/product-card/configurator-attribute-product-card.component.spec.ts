@@ -165,7 +165,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     );
 
     component.productCardOptions = {
-      preventRemoveAction: false,
+      hideRemoveButton: false,
       multiSelect: false,
       productBoundValue: value,
       singleDropdown: false,

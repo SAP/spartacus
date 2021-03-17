@@ -22,8 +22,11 @@ export interface ProductExtended extends Product {
 }
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
-  preventAllActions?: boolean;
-  preventRemoveAction?: boolean;
+  /** If set to `true`, all action buttons will be disabled.  */
+  disableAllButtons?: boolean;
+  /** If set to `true`, the remove/deselect button won't be available. Usefull for required attributes,
+   *  where a deselct/remove of last value shall not be possible.  */
+  hideRemoveButton?: boolean;
   multiSelect?: boolean;
   productBoundValue?: Configurator.Value;
   singleDropdown?: boolean;
@@ -159,7 +162,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     };
 
     return {
-      allowZero: !this.productCardOptions?.preventRemoveAction,
+      allowZero: !this.productCardOptions?.hideRemoveButton,
       initialQuantity: initialQuantity,
       disableQuantityActions: this.loading$,
     };
