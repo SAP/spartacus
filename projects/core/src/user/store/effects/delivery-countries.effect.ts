@@ -10,9 +10,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class DeliveryCountriesEffects {
   @Effect()
-  loadDeliveryCountries$: Observable<
-    UserActions.DeliveryCountriesAction
-  > = this.actions$.pipe(
+  loadDeliveryCountries$: Observable<UserActions.DeliveryCountriesAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_DELIVERY_COUNTRIES),
     switchMap(() => {
       return this.siteConnector.getCountries(CountryType.SHIPPING).pipe(

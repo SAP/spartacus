@@ -8,9 +8,7 @@ import {
 } from '../configuration-textfield-state';
 import { reducer as configuratorTextfieldReducer } from './configurator-textfield.reducer';
 
-export function getConfiguratorTextfieldReducers(): ActionReducerMap<
-  ConfigurationTextfieldState
-> {
+export function getConfiguratorTextfieldReducers(): ActionReducerMap<ConfigurationTextfieldState> {
   return {
     loaderState: StateUtils.loaderReducer<ConfiguratorTextfield.Configuration>(
       CONFIGURATION_TEXTFIELD_DATA,
@@ -19,9 +17,9 @@ export function getConfiguratorTextfieldReducers(): ActionReducerMap<
   };
 }
 
-export const configuratorTextfieldReducerToken: InjectionToken<ActionReducerMap<
-  ConfigurationTextfieldState
->> = new InjectionToken<ActionReducerMap<ConfigurationTextfieldState>>(
+export const configuratorTextfieldReducerToken: InjectionToken<
+  ActionReducerMap<ConfigurationTextfieldState>
+> = new InjectionToken<ActionReducerMap<ConfigurationTextfieldState>>(
   'ConfiguratorReducers'
 );
 

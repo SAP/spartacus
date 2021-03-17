@@ -14,9 +14,7 @@ import {
 @Injectable()
 export class OrderDetailsEffect {
   @Effect()
-  loadOrderDetails$: Observable<
-    UserActions.OrderDetailsAction
-  > = this.actions$.pipe(
+  loadOrderDetails$: Observable<UserActions.OrderDetailsAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_DETAILS),
     map((action: UserActions.LoadOrderDetails) => action.payload),
     switchMap((payload) => {
