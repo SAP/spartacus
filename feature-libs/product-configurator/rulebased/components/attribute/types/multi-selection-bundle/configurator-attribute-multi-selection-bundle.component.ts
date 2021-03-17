@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -183,19 +184,22 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     this.selectionChange.emit(event);
   }
 
-  onSelect(eventValue: any): void {
+  onSelect(eventValue): void {
+    this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, true)
     );
   }
 
-  onDeselect(eventValue: any): void {
+  onDeselect(eventValue): void {
+    this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValues(eventValue, false)
     );
   }
 
   onDeselectAll(): void {
+    this.loading$.next(true);
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
@@ -207,7 +211,8 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeValueQuantity(eventValue: any): void {
+  onChangeValueQuantity(eventValue): void {
+    this.loading$.next(true);
     this.selectionChange.emit(
       this.updateMultipleSelectionValuesQuantity(eventValue)
     );
@@ -261,20 +266,21 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   /**
    *  Extract corresponding quantity parameters
    *
-   * @param {boolean} disableQuantityActions - Disable quantity actions
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
-  extractQuantityParameters(
-    disableQuantityActions: boolean
-  ): ConfiguratorAttributeQuantityComponentOptions {
+  extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
     const initialQuantity: Quantity = {
-      quantity: this.attribute.quantity ? this.attribute.quantity : 0,
+      quantity: this.attribute?.quantity ?? 0,
     };
 
     return {
       allowZero: !this.attribute.required,
       initialQuantity: initialQuantity,
-      disableQuantityActions: disableQuantityActions,
+      disableQuantityActions: this.loading$.pipe(
+        map((loading) => {
+          return loading || this.disableQuantityActions;
+        })
+      ),
     };
   }
 }

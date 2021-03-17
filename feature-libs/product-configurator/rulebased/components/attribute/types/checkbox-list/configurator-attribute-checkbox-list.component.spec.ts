@@ -13,7 +13,7 @@ import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attri
 
 class MockGroupService {}
 class MockConfiguratorAttributeQuantityService {
-  disableQuantityActions(value): boolean {
+  disableQuantityActions(value: any): boolean {
     return !value || value === '0';
   }
   withQuantity(
@@ -45,7 +45,7 @@ class MockConfiguratorAttributeQuantityService {
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: any;
 }
 
 describe('ConfigAttributeCheckBoxListComponent', () => {
@@ -91,12 +91,12 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     };
     return value;
   }
-
+  let values: Configurator.Value[];
   beforeEach(() => {
     const value1 = createValue('1', 'val1', true);
     const value2 = createValue('2', 'val2', false);
     const value3 = createValue('3', 'val3', true);
-    const values: Configurator.Value[] = [value1, value2, value3];
+    values = [value1, value2, value3];
 
     fixture = TestBed.createComponent(
       ConfiguratorAttributeCheckBoxListComponent
@@ -133,7 +133,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       '#cx-configurator--checkBoxList--' +
       component.attribute.name +
       '--' +
-      component.attribute.values[1].valueCode;
+      values[1].valueCode;
     const valueToSelect = fixture.debugElement.query(By.css(checkboxId))
       .nativeElement;
     expect(valueToSelect.checked).toBeFalsy();

@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { Product, ProductService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
@@ -36,7 +36,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
 })
 export class ConfiguratorAttributeProductCardComponent implements OnInit {
   product$: Observable<ProductExtended>;
-  loading$ = new BehaviorSubject<boolean>(false);
+  loading$ = new BehaviorSubject<boolean>(true);
 
   @Input()
   productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -48,6 +48,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   constructor(protected productService: ProductService) {}
 
   ngOnInit() {
+    this.loading$.next(true);
     const productSystemId = this.productCardOptions?.productBoundValue
       ?.productSystemId;
 
@@ -60,7 +61,8 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
             : this.transformToProductType(
                 this.productCardOptions?.productBoundValue
               );
-        })
+        }),
+        tap(() => this.loading$.next(false))
       );
   }
 
@@ -94,29 +96,9 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     }
   }
 
-  onHandleQuantity(quantity: number): void {
-    this.loading$.next(true);
-
-    this.handleQuantity.emit({
-      quantity,
-      valueCode: this.productCardOptions?.productBoundValue?.valueCode,
-    });
-  }
-
-  transformToProductType(
-    value: Configurator.Value | undefined
-  ): ProductExtended {
-    return {
-      code: value?.productSystemId,
-      description: value?.description,
-      images: {},
-      name: value?.valueDisplay,
-      noLink: true,
-    };
-  }
-
   /**
-   * Verifies whether the product card is selected
+   * Verifies whether the product card refers to a selected value
+   * @return {boolean} - Selected?
    */
   isProductCardSelected(): boolean {
     const isProductCardSelected =
@@ -127,13 +109,19 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     return isProductCardSelected ? isProductCardSelected : false;
   }
 
-  getProductPrice(): Configurator.PriceDetails | number {
+  /**
+   * Checks if price needs to be displayed. This is the
+   * case if either value price, quantity or value price total
+   * are present
+   * @return {boolean} - Price display?
+   */
+  hasPriceDisplay(): boolean {
     const productPrice =
       this.productCardOptions?.productBoundValue?.valuePrice ||
       this.productCardOptions?.productBoundValue?.quantity ||
       this.productCardOptions?.productBoundValue?.valuePriceTotal;
 
-    return productPrice ? productPrice : 0;
+    return productPrice ? true : false;
   }
 
   /**
@@ -162,9 +150,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
    * @param {boolean} disableQuantityActions - Disable quantity actions
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
-  extractQuantityParameters(
-    disableQuantityActions: boolean
-  ): ConfiguratorAttributeQuantityComponentOptions {
+  extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
     const quantityFromOptions = this.productCardOptions?.productBoundValue
       ?.quantity;
     const initialQuantity: Quantity = {
@@ -174,7 +160,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     return {
       allowZero: !this.productCardOptions?.preventAction,
       initialQuantity: initialQuantity,
-      disableQuantityActions: disableQuantityActions,
+      disableQuantityActions: this.loading$,
     };
   }
 
@@ -186,5 +172,26 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
    */
   isValueCodeDefined(valueCode: string | null | undefined): boolean {
     return valueCode && valueCode !== '0' ? true : false;
+  }
+
+  protected transformToProductType(
+    value: Configurator.Value | undefined
+  ): ProductExtended {
+    return {
+      code: value?.productSystemId,
+      description: value?.description,
+      images: {},
+      name: value?.valueDisplay,
+      noLink: true,
+    };
+  }
+
+  protected onHandleQuantity(quantity: number): void {
+    this.loading$.next(true);
+
+    this.handleQuantity.emit({
+      quantity,
+      valueCode: this.productCardOptions?.productBoundValue?.valueCode,
+    });
   }
 }

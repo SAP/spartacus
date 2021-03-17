@@ -1,47 +1,18 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
+import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
-import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
-import { I18nTestingModule } from '@spartacus/core';
-import { RouterTestingModule } from '@angular/router/testing';
-import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 
-class MockConfiguratorAttributeQuantityService {
-  disableQuantityActions(value): boolean {
-    return !value || value === '0';
-  }
-  withQuantity(
-    dataType: Configurator.DataType,
-    uiType: Configurator.UiType
-  ): boolean {
-    switch (uiType) {
-      case Configurator.UiType.DROPDOWN_PRODUCT:
-      case Configurator.UiType.DROPDOWN:
-      case Configurator.UiType.RADIOBUTTON_PRODUCT:
-      case Configurator.UiType.RADIOBUTTON:
-        return dataType ===
-          Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
-          ? true
-          : false;
-
-      case Configurator.UiType.CHECKBOXLIST:
-      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
-        return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
-          ? true
-          : false;
-
-      default:
-        return false;
-    }
-  }
-}
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
@@ -58,6 +29,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   const attrCode = 1234;
   const groupId = 'theGroupId';
   const selectedSingleValue = '0';
+  let values: Configurator.Value[];
 
   const createImage = (url: string, altText: string): Configurator.Image => {
     const image: Configurator.Image = {
@@ -117,7 +89,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
                 },
                 {
                   provide: ConfiguratorAttributeQuantityService,
-                  useClass: MockConfiguratorAttributeQuantityService,
+                  useClass: ConfiguratorAttributeQuantityService,
                 },
               ],
             },
@@ -132,7 +104,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     );
 
-    const values: Configurator.Value[] = [
+    values = [
       createValue('', [], '', 1, true, '0', 'No Selected'),
       createValue(
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
@@ -220,7 +192,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   });
 
   it('should show product card when product selected', () => {
-    component.selectionValue = component.attribute.values[1];
+    component.selectionValue = values[1];
 
     fixture.detectChanges();
 
@@ -258,13 +230,42 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     expect(component.selectionChange.emit).toHaveBeenCalled();
   });
 
+  it('should extract initial quantity from attribute, if a selection is already made', () => {
+    component.attribute.quantity = 3;
+    component.attributeDropDownForm.setValue(values[1].valueCode);
+    expect(
+      component.extractQuantityParameters().initialQuantity?.quantity
+    ).toBe(3);
+  });
+
+  it('should set initial quantity to zero if only the "No Option Selected"-Value is selected', () => {
+    component.attribute.quantity = 3;
+    component.attributeDropDownForm.setValue(values[0].valueCode); // value 0 is the "No Option Selected"-Value
+    expect(
+      component.extractQuantityParameters().initialQuantity?.quantity
+    ).toBe(0);
+  });
+
+  it('should set initial quantity to zero if no quantity is provided.', () => {
+    component.attributeDropDownForm.setValue(values[1].valueCode);
+    component.attribute.quantity = undefined;
+    expect(
+      component.extractQuantityParameters().initialQuantity?.quantity
+    ).toBe(0);
+  });
+
+  it('should set initial quantity to zero if nothing selected', () => {
+    component.attributeDropDownForm.setValue(undefined);
+    expect(
+      component.extractQuantityParameters().initialQuantity?.quantity
+    ).toBe(0);
+  });
+
   describe('quantity at attribute level', () => {
     it('should display attribute quantity when dataType is with attribute quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
-
       fixture.detectChanges();
-
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
@@ -275,15 +276,29 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     it('should not display attribute quantity when dataType is no quantity', () => {
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
-
       fixture.detectChanges();
+      checkQuantityStepperNotDisplayed(htmlElem);
+    });
 
+    it('should not display attribute quantity when dataType is not filled', () => {
+      component.attribute.dataType = undefined;
+      fixture.detectChanges();
+      checkQuantityStepperNotDisplayed(htmlElem);
+    });
+
+    it('should not display attribute quantity when uiType is not filled', () => {
+      component.attribute.uiType = undefined;
+      fixture.detectChanges();
+      checkQuantityStepperNotDisplayed(htmlElem);
+    });
+
+    function checkQuantityStepperNotDisplayed(htmlElem: HTMLElement) {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
         'cx-configurator-attribute-quantity'
       );
-    });
+    }
   });
 
   describe('price info at attribute level', () => {
@@ -291,8 +306,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
       component.attribute.quantity = undefined;
       component.attribute.dataType =
         Configurator.DataType.USER_SELECTION_NO_QTY;
-      component.attribute.values[0].valuePrice = undefined;
-      component.attribute.values[0].valuePriceTotal = undefined;
+      values[0].valuePrice = undefined;
+      values[0].valuePriceTotal = undefined;
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -311,18 +326,16 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         formattedValue: '$10',
         value: 50,
       };
-      component.attribute.values[0].selected = false;
-      component.attribute.values[1].valuePrice = {
+      values[0].selected = false;
+      values[1].valuePrice = {
         currencyIso: '$',
         formattedValue: '$10',
         value: 10,
       };
-      component.attribute.values[1].valuePriceTotal = {
+      values[1].valuePriceTotal = {
         currencyIso: '$',
         formattedValue: '$100',
-        value:
-          component.attribute.values[1].valuePrice.value *
-          component.attribute.quantity,
+        value: values[1].valuePrice.value ?? 0 * component.attribute.quantity,
       };
       fixture.detectChanges();
 

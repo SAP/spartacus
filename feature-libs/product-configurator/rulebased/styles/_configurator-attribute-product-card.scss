@@ -130,6 +130,7 @@
       }
 
       .cx-product-card-code {
+        @include cx-configurator-truncate-content();
         color: var(--cx-color-secondary);
         font-size: 0.875rem;
         margin-block-start: 0.5rem;

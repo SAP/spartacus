@@ -33,9 +33,7 @@
 <div *ngIf="withQuantity" class="cx-attribute-level-quantity-price">
   <cx-configurator-attribute-quantity
     (changeQuantity)="onChangeQuantity($event)"
-    [quantityOptions]="
-      extractQuantityParameters(disableQuantityActions || (loading$ | async))
-    "
+    [quantityOptions]="extractQuantityParameters()"
   ></cx-configurator-attribute-quantity>
   <cx-configurator-price
     [formula]="extractPriceFormulaParameters()"

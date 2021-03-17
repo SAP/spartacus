@@ -193,4 +193,56 @@ describe('CommonConfiguratorUtilsService', () => {
       expect(classUnderTest.hasIssues(cartItem)).toBeFalse();
     });
   });
+
+  describe('isAttributeBasedConfigurator', () => {
+    it('should return false, because the configurator type is null', () => {
+      expect(classUnderTest.isAttributeBasedConfigurator(null)).toBe(false);
+    });
+
+    it('should return false, because the configurator type is undefined', () => {
+      expect(classUnderTest.isAttributeBasedConfigurator(undefined)).toBe(
+        false
+      );
+    });
+
+    it('should return false, because the configurator type is not an attribute based one', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator('ANYCONFIGURATOR')
+      ).toBe(false);
+    });
+
+    it('should return true, because it is CPQCONFIGURATOR configurator type', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator('CPQCONFIGURATOR')
+      ).toBe(true);
+    });
+
+    it('should return true, because it is TEXTFIELDCONFIGURATOR configurator type', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator('TEXTFIELDCONFIGURATOR')
+      ).toBe(true);
+    });
+  });
+
+  describe('isBundleBasedConfigurator', () => {
+    it('should return false, because the configurator type is null', () => {
+      expect(classUnderTest.isBundleBasedConfigurator(null)).toBe(false);
+    });
+
+    it('should return false, because the configurator type is undefined', () => {
+      expect(classUnderTest.isBundleBasedConfigurator(undefined)).toBe(false);
+    });
+
+    it('should return false, because the configurator type is not an attribute based one', () => {
+      expect(classUnderTest.isBundleBasedConfigurator('ANYCONFIGURATOR')).toBe(
+        false
+      );
+    });
+
+    it('should return true, because it is CLOUDCPQCONFIGURATOR configurator type', () => {
+      expect(
+        classUnderTest.isBundleBasedConfigurator('CLOUDCPQCONFIGURATOR')
+      ).toBe(true);
+    });
+  });
 });

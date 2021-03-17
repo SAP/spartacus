@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
+import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
   selector: 'cx-configurator-cart-entry-info',
@@ -10,6 +11,7 @@ import { EMPTY, Observable } from 'rxjs';
 })
 export class ConfiguratorCartEntryInfoComponent {
   constructor(
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
@@ -37,5 +39,17 @@ export class ConfiguratorCartEntryInfoComponent {
       ? configurationInfos.length > 0 &&
           configurationInfos[0]?.status !== 'NONE'
       : false;
+  }
+
+  /**
+   * Verifies whether the configurator type is attribute based one.
+   *
+   * @param {OrderEntry} item - Order entry item
+   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'fasle'
+   */
+  isAttributeBasedConfigurator(item: OrderEntry): boolean {
+    return this.commonConfigUtilsService.isAttributeBasedConfigurator(
+      item?.configurationInfos[0]?.configuratorType
+    );
   }
 }

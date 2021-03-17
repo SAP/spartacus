@@ -43,14 +43,14 @@
 
     <div
       class="cx-product-card-rows column"
-      *ngIf="!productCardOptions.singleDropdown || getProductPrice()"
+      *ngIf="!productCardOptions.singleDropdown || hasPriceDisplay()"
     >
       <div class="cx-product-card-quantity-price">
         <div class="cx-product-card-quantity">
           <cx-configurator-attribute-quantity
             *ngIf="showQuantity"
             (changeQuantity)="onChangeQuantity($event)"
-            [quantityOptions]="extractQuantityParameters(loading$ | async)"
+            [quantityOptions]="extractQuantityParameters()"
           ></cx-configurator-attribute-quantity>
         </div>
         <div class="cx-product-card-price">
