@@ -1,9 +1,15 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Optional,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
   ConsignmentEntry,
   FeatureConfigService,
+  MultiCartService,
   OrderEntry,
   PromotionLocation,
   SelectiveCartService,
@@ -18,14 +24,16 @@ import { CartItemComponentOptions } from '../cart-item/cart-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartItemListComponent {
-  @Input() readonly = false;
+  @Input() readonly: boolean = false;
 
-  @Input() hasHeader = true;
+  @Input() hasHeader: boolean = true;
 
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
   };
+
+  @Input() cart: { userId: string; cartId: string };
 
   private _items: OrderEntry[] = [];
   form: FormGroup = this.featureConfigService?.isLevel('3.1')
@@ -54,9 +62,30 @@ export class CartItemListComponent {
   }
 
   constructor(
+    activeCartService: ActiveCartService,
+    selectiveCartService: SelectiveCartService,
+    featureConfigService: FeatureConfigService
+  );
+
+  /**
+   * @deprecated since version 3.2
+   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, multiCartService: MultiCartService); instead
+   */
+  // TODO(#11037): Remove deprecated constructors
+  constructor(
+    activeCartService: ActiveCartService,
+    selectiveCartService: SelectiveCartService,
+    featureConfigService: FeatureConfigService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    multiCartService: MultiCartService
+  );
+
+  constructor(
     protected activeCartService: ActiveCartService,
     protected selectiveCartService: SelectiveCartService,
-    public featureConfigService?: FeatureConfigService
+    @Optional()
+    protected featureConfigService: FeatureConfigService,
+    protected multiCartService?: MultiCartService
   ) {}
 
   /**
@@ -119,6 +148,12 @@ export class CartItemListComponent {
   removeEntry(item: OrderEntry): void {
     if (this.selectiveCartService && this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
+    } else if (this.cart?.cartId && this.cart?.userId) {
+      this.multiCartService?.removeEntry(
+        this.cart.userId,
+        this.cart.cartId,
+        item.entryNumber
+      );
     } else {
       this.activeCartService.removeEntry(item);
     }
@@ -132,6 +167,13 @@ export class CartItemListComponent {
       map((value) => {
         if (value && this.selectiveCartService && this.options.isSaveForLater) {
           this.selectiveCartService.updateEntry(
+            value.entryNumber,
+            value.quantity
+          );
+        } else if (value && this.cart?.cartId && this.cart?.userId) {
+          this.multiCartService?.updateEntry(
+            this.cart.userId,
+            this.cart.cartId,
             value.entryNumber,
             value.quantity
           );

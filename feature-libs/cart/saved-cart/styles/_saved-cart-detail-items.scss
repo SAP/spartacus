@@ -1,3 +1,7 @@
 cx-saved-cart-detail-items {
   @extend %cx-cart-details;
+
+  .cx-empty-cart-details {
+    padding: 1rem;
+  }
 }
