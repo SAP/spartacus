@@ -478,7 +478,7 @@ context('CPQ Configuration', () => {
     });
   });
 
-  describe('conflict handling', () => {
+  describe.only('conflict handling', () => {
     it('check error messages displayed', () => {
       cy.server();
       cy.route('PATCH', CPQ_BACKEND_URL).as('updateConfig');
@@ -492,13 +492,15 @@ context('CPQ Configuration', () => {
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
       cy.wait('@updateConfig');
       cy.wait('@readConfig');
-      cy.wait(50);
+      cy.wait(1000);
 
       configuration.clickOnGroup(3);
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
       configuration.selectAttribute(ATTR_REFR_UNIT, RADGRP_PROD, VAL_SIZE_UNIT);
 
       configuration.checkGlobalErrorMessageShown();
+
+      cy.debug();
     });
 
     it('check warning messages displayed', () => {
@@ -531,7 +533,7 @@ context('CPQ Configuration', () => {
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
       cy.wait('@updateConfig');
       cy.wait('@readConfig');
-      cy.wait(50);
+      cy.wait(1000);
 
       configuration.clickOnGroup(3);
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
@@ -569,7 +571,7 @@ context('CPQ Configuration', () => {
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
       cy.wait('@updateConfig');
       cy.wait('@readConfig');
-      cy.wait(50);
+      cy.wait(1000);
 
       configuration.clickOnGroup(3);
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
