@@ -1,1 +1,1 @@
-export * from './bundle.selectors';
+export * from './available-entries.selectors';

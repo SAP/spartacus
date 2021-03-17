@@ -6,7 +6,7 @@ import { CartModification } from '../../../../../model/cart.model';
 import { SiteContextActions } from '../../../../../site-context/store/actions';
 import { withdrawOn } from '../../../../../util/rxjs/withdraw-on';
 import { from, Observable } from 'rxjs';
-import { catchError, concatMap, map } from 'rxjs/operators';
+import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
 import { BundleActions } from '../actions';
 
 @Injectable()
@@ -62,8 +62,8 @@ export class BundleEffects {
   > = this.actions$.pipe(
     ofType(BundleActions.GET_BUNDLE_ALLOWED_PRODUCTS),
     map((action: BundleActions.GetBundleAllowedProducts) => action.payload),
-    concatMap((payload) => {
-      return this.bundleConnector
+    mergeMap((payload) =>
+      this.bundleConnector
         .bundleAllowedProductsSearch(
           payload.userId,
           payload.cartId,
@@ -72,11 +72,12 @@ export class BundleEffects {
         )
         .pipe(
           map(
-            (cartModification: CartModification) =>
+            (data) =>
+              // (cartModification: CartModification) =>
               // TODO: Type should not be cast to "any"
               new BundleActions.GetBundleAllowedProductsSuccess(<any>{
                 ...payload,
-                ...(cartModification as Required<CartModification>),
+                data,
               })
           ),
           catchError((error) =>
@@ -91,13 +92,13 @@ export class BundleEffects {
               }),
             ])
           )
-        );
-    }),
+        )
+    ),
     withdrawOn(this.contextChange$)
   );
 
   constructor(
     private actions$: Actions,
     private bundleConnector: BundleConnector
-  ) {}
+  ) { }
 }

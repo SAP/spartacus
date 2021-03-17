@@ -45,7 +45,7 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
       'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.getUrl('editBundle', {
+    const url = this.occEndpointsService.getUrl('addToEntryGroup', {
       userId,
       cartId,
       entryGroupNumber,
@@ -77,7 +77,7 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
       'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.getUrl('editBundle', {
+    const url = this.occEndpointsService.getUrl('deleteEntryGroup', {
       userId,
       cartId,
       entryGroupNumber,
