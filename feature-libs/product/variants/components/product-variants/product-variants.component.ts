@@ -1,8 +1,14 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Product, BaseOption, VariantType } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  BaseOption,
+  isNotNull,
+  Product,
+  Required,
+  VariantType,
+} from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { tap, filter, distinctUntilChanged } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-product-variants',
@@ -18,11 +24,15 @@ export class ProductVariantsComponent implements OnInit {
 
   ngOnInit(): void {
     this.product$ = this.currentProductService.getProduct().pipe(
-      filter((product: Product | null) => !!(product && product.baseOptions)),
+      filter(isNotNull),
+      filter(
+        (product): product is Required<Product, 'baseOptions'> =>
+          !!product.baseOptions
+      ),
       distinctUntilChanged(),
-      tap((product: Product | null) => {
-        product?.baseOptions?.forEach((option: BaseOption) => {
-          if (option && option.variantType) {
+      tap((product) => {
+        product.baseOptions.forEach((option: BaseOption) => {
+          if (option?.variantType) {
             this.variants[option.variantType] = option;
           }
         });

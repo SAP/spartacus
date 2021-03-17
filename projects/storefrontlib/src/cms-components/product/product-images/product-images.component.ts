@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { isNotNull, Product } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
@@ -15,9 +15,9 @@ export class ProductImagesComponent {
   private product$: Observable<
     Product
   > = this.currentProductService.getProduct().pipe(
-    filter(Boolean),
+    filter(isNotNull),
     distinctUntilChanged(),
-    tap((p: Product) => {
+    tap((p) => {
       this.mainMediaContainer.next(p.images?.PRIMARY ? p.images.PRIMARY : {});
     })
   );
