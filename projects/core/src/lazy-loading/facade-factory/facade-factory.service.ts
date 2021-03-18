@@ -33,19 +33,17 @@ export class FacadeFactoryService {
   ) {}
 
   protected getResolver<T>(
-    feature: string | string[],
+    feature: string,
     facadeClass: AbstractType<T>,
     async = false
   ): Observable<T> {
-    const featureToLoad = this.findConfiguredFeature(feature);
-
-    if (!featureToLoad) {
+    if (!this.featureModules.isConfigured(feature)) {
       return throwError(
         new Error(`Feature ${[].concat(feature)[0]} is not configured properly`)
       );
     }
 
-    let facadeService$ = this.featureModules.resolveFeature(featureToLoad).pipe(
+    let facadeService$ = this.featureModules.resolveFeature(feature).pipe(
       map((moduleRef) => moduleRef.injector),
       map((injector) => injector.get(facadeClass))
     );
@@ -53,16 +51,6 @@ export class FacadeFactoryService {
       facadeService$ = facadeService$.pipe(delay(0));
     }
     return facadeService$.pipe(shareReplay());
-  }
-
-  protected findConfiguredFeature(
-    feature: string | string[]
-  ): string | undefined {
-    for (const feat of [].concat(feature)) {
-      if (this.featureModules.isConfigured(feat)) {
-        return feat;
-      }
-    }
   }
 
   /**
@@ -114,12 +102,12 @@ export class FacadeFactoryService {
   }
 
   create<T extends object>({
-    facade,
-    feature,
-    methods,
-    properties,
-    async,
-  }: FacadeDescriptor<T>): T {
+                             facade,
+                             feature,
+                             methods,
+                             properties,
+                             async,
+                           }: FacadeDescriptor<T>): T {
     const resolver$ = this.getResolver(feature, facade, async);
 
     const result: any = new (class extends (facade as any) {})();
