@@ -12,9 +12,7 @@ import { SavedCartDetailService } from '../saved-cart-detail.service';
 })
 export class SavedCartDetailItemsComponent {
   savedCart$: Observable<Cart> = this.savedCartDetailService.getCartDetails();
-  cartLoaded$: Observable<
-    boolean
-  > = this.savedCartDetailService
+  cartLoaded$: Observable<boolean> = this.savedCartDetailService
     .getSavedCartId()
     .pipe(switchMap((cartId) => this.savedCartService.isStable(cartId)));
 
