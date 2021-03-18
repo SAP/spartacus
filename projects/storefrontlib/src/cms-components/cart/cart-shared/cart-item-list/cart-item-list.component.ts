@@ -74,6 +74,7 @@ export class CartItemListComponent {
   constructor(
     activeCartService: ActiveCartService,
     selectiveCartService: SelectiveCartService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     featureConfigService: FeatureConfigService
   );
 
@@ -81,6 +82,7 @@ export class CartItemListComponent {
     activeCartService: ActiveCartService,
     selectiveCartService: SelectiveCartService,
     featureConfigService: FeatureConfigService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     multiCartService: MultiCartService
   );
 
