@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import {
-  AsmAuthStorageService,
   AuthActions,
   AuthRedirectService,
   AuthStorageService,
@@ -9,7 +9,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   OCC_USER_ID_CURRENT,
-  TokenTarget,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';

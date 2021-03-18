@@ -375,6 +375,10 @@
         @include media-breakpoint-up(lg) {
           padding-inline-start: 20px;
         }
+
+        &.button {
+          color: var(--cx-color-primary);
+        }
       }
       ul.text {
         margin: 0;

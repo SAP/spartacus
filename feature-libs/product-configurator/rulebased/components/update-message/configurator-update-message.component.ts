@@ -10,33 +10,33 @@ import { MessageConfig } from '../config/message-config';
   templateUrl: './configurator-update-message.component.html',
 })
 export class ConfiguratorUpdateMessageComponent {
-  hasPendingChanges$: Observable<
-    boolean
-  > = this.configRouterExtractorService.extractRouterData().pipe(
-    switchMap((routerData) =>
-      this.configuratorCommonsService
-        .hasPendingChanges(routerData.owner)
-        .pipe(
-          switchMap((hasPendingChanges) =>
-            this.configuratorCommonsService
-              .isConfigurationLoading(routerData.owner)
-              .pipe(map((isLoading) => hasPendingChanges || isLoading))
+  hasPendingChanges$: Observable<boolean> = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService
+          .hasPendingChanges(routerData.owner)
+          .pipe(
+            switchMap((hasPendingChanges) =>
+              this.configuratorCommonsService
+                .isConfigurationLoading(routerData.owner)
+                .pipe(map((isLoading) => hasPendingChanges || isLoading))
+            )
           )
-        )
-    ),
-    distinctUntilChanged(), // avoid subsequent emissions of the same value from the source observable
-    switchMap(
-      (isLoading) =>
-        isLoading
-          ? of(isLoading).pipe(
-              delay(
-                this.config?.productConfigurator?.updateConfigurationMessage
-                  ?.waitingTime || 1000
-              )
-            ) // delay information if its loading
-          : of(isLoading) // inform disappears immediately if it's not loading anymore
-    )
-  );
+      ),
+      distinctUntilChanged(), // avoid subsequent emissions of the same value from the source observable
+      switchMap(
+        (isLoading) =>
+          isLoading
+            ? of(isLoading).pipe(
+                delay(
+                  this.config?.productConfigurator?.updateConfigurationMessage
+                    ?.waitingTime || 1000
+                )
+              ) // delay information if its loading
+            : of(isLoading) // inform disappears immediately if it's not loading anymore
+      )
+    );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,

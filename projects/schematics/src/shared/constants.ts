@@ -509,6 +509,14 @@ export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
 export const QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME =
   'qualtrics-embedded-feedback.scss';
+
+// uncomment product variants deprecation on 4.0 migration works (#11391)
+// export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
+// export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
+// export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
+// export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
+// export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -656,7 +664,6 @@ export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_QUALTRICS_ROOT = `${SPARTACUS_QUALTRICS}/root`;
 
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
-
 /***** APIs end *****/
 
 /***** Storefinder start *****/

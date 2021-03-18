@@ -51,6 +51,10 @@
                 "bundleName": "storefinder"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-product.scss",
+                "bundleName": "product"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-qualtrics.scss",
                 "bundleName": "qualtrics"
               }
@@ -657,7 +661,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "feature-libs/tracking/tsconfig.lib.json",
             "project": "feature-libs/tracking/ng-package.json"
@@ -719,6 +723,43 @@
             "lintFilePatterns": [
               "feature-libs/smartedit/**/*.ts",
               "feature-libs/smartedit/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "asm": {
+      "projectType": "library",
+      "root": "feature-libs/asm",
+      "sourceRoot": "feature-libs/asm",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "feature-libs/asm/tsconfig.lib.json",
+            "project": "feature-libs/asm/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/asm/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/asm/test.ts",
+            "tsConfig": "feature-libs/asm/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/asm/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/asm/**/*.ts",
+              "feature-libs/asm/**/*.html"
             ]
           }
         }

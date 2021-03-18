@@ -1,9 +1,11 @@
 import * as addressBook from '../helpers/address-book';
+import { newAddress } from '../helpers/address-book';
 import * as checkout from '../helpers/checkout-flow';
 import * as consent from '../helpers/consent-management';
 import * as loginHelper from '../helpers/login';
 import * as profile from '../helpers/update-profile';
 import { login } from './auth-forms';
+import { fillShippingAddress } from './checkout-forms';
 import { getErrorAlert } from './global-message';
 
 let customer: any;
@@ -74,16 +76,6 @@ export function asmTests(isMobile: boolean) {
     });
 
     describe('Customer Emulation - My Account', () => {
-      it('agent should be able to check order in order history', () => {
-        // hack: visit other page to trigger store -> local storage sync
-        cy.selectUserMenuOption({
-          option: 'Personal Details',
-          isMobile,
-        });
-        cy.waitForOrderToBePlacedRequest();
-        checkout.viewOrderHistoryWithCheapProduct();
-      });
-
       it('agent should update personal details.', () => {
         cy.selectUserMenuOption({
           option: 'Personal Details',
@@ -102,12 +94,12 @@ export function asmTests(isMobile: boolean) {
           isMobile,
         });
         cy.get('cx-card').should('have.length', 1);
-        addressBook.deleteFirstAddress();
+        deleteFirstAddress();
         cy.get('cx-card').should('have.length', 0);
       });
 
       it('agent should create new address', () => {
-        addressBook.createNewAddress();
+        fillShippingAddress(newAddress);
         cy.get('cx-card').should('have.length', 1);
         addressBook.verifyNewAddress();
       });
@@ -323,4 +315,25 @@ function assertCustomerIsSignedIn(isMobile: boolean) {
 
 function clickHambergerMenu() {
   cy.get('cx-hamburger-menu [aria-label="Menu"]').click({ force: true });
+}
+
+export function deleteFirstAddress() {
+  cy.server();
+  cy.route(
+    'DELETE',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/addresses/*?lang=en&curr=USD`
+  ).as('deleteAddress');
+  cy.route(
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/addresses?lang=en&curr=USD`
+  ).as('fetchAddresses');
+
+  const firstCard = cy.get('cx-card').first();
+  firstCard.contains('Delete').click();
+  cy.get('.cx-card-delete button.btn-primary').click();
+  cy.wait('@deleteAddress').its('status').should('eq', 200);
+  cy.wait('@fetchAddresses').its('status').should('eq', 200);
 }
