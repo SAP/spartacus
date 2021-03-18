@@ -2,17 +2,6 @@
   <div class="header">
     <div class="title-bar">
       <div class="title">
-        <cx-icon
-          [cxPopover]="detailHint"
-          [cxPopoverOptions]="{
-            placement: 'auto',
-            class: 'my-company-popover',
-            appendToBody: false,
-            displayCloseButton: false
-          }"
-          [type]="iconTypes.INFO"
-        >
-        </cx-icon>
         <div class="subtitle">
           <h3>
             {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
@@ -25,6 +14,17 @@
             &nbsp;
           </h4>
         </div>
+        <button
+          [cxPopover]="detailHint"
+          [cxPopoverOptions]="{
+            placement: 'auto',
+            class: 'hint-popover',
+            appendToBody: true,
+            displayCloseButton: false
+          }"
+        >
+          <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+        </button>
       </div>
       <div class="actions">
         <ng-content select="[actions]"></ng-content>
