@@ -17,27 +17,28 @@ export class CheckoutStepService {
     CheckoutStep[]
   >(undefined);
 
-  readonly activeStepIndex$: Observable<
-    number
-  > = this.routingService.getRouterState().pipe(
-    switchMap((router) => {
-      const activeStepUrl = router.state.context.id;
-      return this.steps$.pipe(
-        map((steps) => {
-          let activeIndex;
-          steps.forEach((step, index) => {
-            const routeUrl = `/${
-              this.routingConfigService.getRouteConfig(step.routeName).paths[0]
-            }`;
-            if (routeUrl === activeStepUrl) {
-              activeIndex = index;
-            }
-          });
-          return activeIndex;
-        })
-      );
-    })
-  );
+  readonly activeStepIndex$: Observable<number> = this.routingService
+    .getRouterState()
+    .pipe(
+      switchMap((router) => {
+        const activeStepUrl = router.state.context.id;
+        return this.steps$.pipe(
+          map((steps) => {
+            let activeIndex;
+            steps.forEach((step, index) => {
+              const routeUrl = `/${
+                this.routingConfigService.getRouteConfig(step.routeName)
+                  .paths[0]
+              }`;
+              if (routeUrl === activeStepUrl) {
+                activeIndex = index;
+              }
+            });
+            return activeIndex;
+          })
+        );
+      })
+    );
 
   constructor(
     protected routingService: RoutingService,

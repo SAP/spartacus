@@ -14,23 +14,23 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
   templateUrl: './configurator-product-title.component.html',
 })
 export class ConfiguratorProductTitleComponent {
-  product$: Observable<
-    Product
-  > = this.configRouterExtractorService.extractRouterData().pipe(
-    switchMap((routerData) =>
-      this.configuratorCommonsService.getConfiguration(routerData.owner)
-    ),
-    map((configuration) => {
-      switch (configuration.owner.type) {
-        case CommonConfigurator.OwnerType.PRODUCT:
-        case CommonConfigurator.OwnerType.CART_ENTRY:
-          return configuration.productCode;
-        case CommonConfigurator.OwnerType.ORDER_ENTRY:
-          return configuration.overview.productCode;
-      }
-    }),
-    switchMap((productCode) => this.productService.get(productCode))
-  );
+  product$: Observable<Product> = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      ),
+      map((configuration) => {
+        switch (configuration.owner.type) {
+          case CommonConfigurator.OwnerType.PRODUCT:
+          case CommonConfigurator.OwnerType.CART_ENTRY:
+            return configuration.productCode;
+          case CommonConfigurator.OwnerType.ORDER_ENTRY:
+            return configuration.overview.productCode;
+        }
+      }),
+      switchMap((productCode) => this.productService.get(productCode))
+    );
   showMore = false;
   iconTypes = ICON_TYPE;
 
