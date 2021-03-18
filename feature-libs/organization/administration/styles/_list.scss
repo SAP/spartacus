@@ -79,7 +79,7 @@
     display: contents;
   }
 
-  div.title{
+  div.title {
     display: flex;
     flex-direction: row;
     cx-icon {
@@ -88,7 +88,7 @@
       color: var(--cx-color, var(--cx-color-info));
       margin-inline-end: 1rem;
     }
-    div.subtitle{
+    div.subtitle {
       flex-direction: column;
     }
   }

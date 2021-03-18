@@ -3,28 +3,28 @@
     <div class="title-bar">
       <div class="title">
         <cx-icon
-              [cxPopover]="detailHint"
-              [cxPopoverOptions]="{
-                placement: 'auto',
-                class: 'my-company-popover',
-                appendToBody: false,
-                displayCloseButton: false
-              }"
-              [type]="iconTypes.INFO"
-            >
-            </cx-icon>
+          [cxPopover]="detailHint"
+          [cxPopoverOptions]="{
+            placement: 'auto',
+            class: 'my-company-popover',
+            appendToBody: false,
+            displayCloseButton: false
+          }"
+          [type]="iconTypes.INFO"
+        >
+        </cx-icon>
         <div class="subtitle">
-        <h3>
-          {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
-        </h3>
-        <h4>
-          {{
-            subtitle ||
-              (i18nRoot + '.subtitle' | cxTranslate: { item: item$ | async })
-          }}
-          &nbsp;
-        </h4>
-      </div>
+          <h3>
+            {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
+          </h3>
+          <h4>
+            {{
+              subtitle ||
+                (i18nRoot + '.subtitle' | cxTranslate: { item: item$ | async })
+            }}
+            &nbsp;
+          </h4>
+        </div>
       </div>
       <div class="actions">
         <ng-content select="[actions]"></ng-content>

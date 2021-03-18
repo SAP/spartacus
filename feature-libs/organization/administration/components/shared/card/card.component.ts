@@ -27,7 +27,7 @@ export class CardComponent<T extends BaseItem> {
   protected itemKey;
 
   iconTypes = ICON_TYPE;
-  
+
   item$: Observable<T> = this.itemService.current$.pipe(
     tap((item) => this.refreshMessages(item))
   );

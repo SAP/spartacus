@@ -3,23 +3,22 @@
     <cx-view class="list" *ngIf="listData$ | async as data">
       <div class="header">
         <div class="title">
-            <cx-icon
-              [cxPopover]="listHint"
-              [cxPopoverOptions]="{
-                placement: 'auto',
-                class: 'my-company-popover',
-                appendToBody: false,
-                displayCloseButton: false
-              }"
-              [type]="iconTypes.INFO"
-            >
-            </cx-icon>
-            <h3>
-              {{
-                viewType + '.header'
-                  | cxTranslate: { count: getListCount(data) }
-              }}
-            </h3>
+          <cx-icon
+            [cxPopover]="listHint"
+            [cxPopoverOptions]="{
+              placement: 'auto',
+              class: 'my-company-popover',
+              appendToBody: false,
+              displayCloseButton: false
+            }"
+            [type]="iconTypes.INFO"
+          >
+          </cx-icon>
+          <h3>
+            {{
+              viewType + '.header' | cxTranslate: { count: getListCount(data) }
+            }}
+          </h3>
         </div>
 
         <div class="actions">
