@@ -203,11 +203,17 @@ export class ConfiguratorAddToCartButtonComponent {
                 isOverview,
                 true
               );
-              // we clean up both the product related configuration (no longer needed)
-              // and the cart entry related configuration, as we might have a configuration
-              // for the same cart entry number stored already.
+
+              // we clean up the cart entry related configuration, as we might have a
+              // configuration for the same cart entry number stored already.
               // (Cart entries might have been deleted)
-              this.configuratorCommonsService.removeConfiguration(owner);
+
+              // we do not clean up the product bound configuration yet, as existing
+              // observables would instantly trigger a re-create.
+              // Cleaning up this obsolete product bound configuration will only happen
+              // when a new config form requests a new observable for a product bound
+              // configuration
+
               this.configuratorCommonsService.removeConfiguration(
                 configWithNextOwner.nextOwner
               );
