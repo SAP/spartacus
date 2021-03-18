@@ -26,22 +26,20 @@ import { ConfigFormUpdateEvent } from './configurator-form.event';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorFormComponent implements OnInit, OnDestroy {
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.configRouterExtractorService.extractRouterData().pipe(
-    filter(
-      (routerData) =>
-        routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
-    ),
-    switchMap((routerData) => {
-      return this.configuratorCommonsService.getOrCreateConfiguration(
-        routerData.owner
-      );
-    })
-  );
-  currentGroup$: Observable<
-    Configurator.Group
-  > = this.configRouterExtractorService
+  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      filter(
+        (routerData) =>
+          routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
+      ),
+      switchMap((routerData) => {
+        return this.configuratorCommonsService.getOrCreateConfiguration(
+          routerData.owner
+        );
+      })
+    );
+  currentGroup$: Observable<Configurator.Group> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>

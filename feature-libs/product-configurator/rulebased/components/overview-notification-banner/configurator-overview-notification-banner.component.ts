@@ -16,9 +16,7 @@ import { Configurator } from '../../core/model/configurator.model';
   templateUrl: './configurator-overview-notification-banner.component.html',
 })
 export class ConfiguratorOverviewNotificationBannerComponent {
-  routerData$: Observable<
-    ConfiguratorRouter.Data
-  > = this.configRouterExtractorService.extractRouterData();
+  routerData$: Observable<ConfiguratorRouter.Data> = this.configRouterExtractorService.extractRouterData();
 
   numberOfIssues$: Observable<number> = this.routerData$.pipe(
     filter(

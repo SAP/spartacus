@@ -73,9 +73,12 @@
 <button
   class="button text"
   [cxPopover]="details"
-  [placement]="'auto'"
-  [appendToBody]="true"
-  [customClass]="'my-company-popover'"
+  [cxPopoverOptions]="{
+    placement: 'auto',
+    class: 'my-company-popover',
+    appendToBody: true,
+    displayCloseButton: true
+  }"
 >
   {{ model.name }}
 </button>

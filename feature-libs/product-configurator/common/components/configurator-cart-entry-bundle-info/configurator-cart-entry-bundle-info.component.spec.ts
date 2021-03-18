@@ -70,9 +70,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configCartEntryBundleInfoService = TestBed.inject(
-      ConfiguratorCartEntryBundleInfoService as Type<
-        ConfiguratorCartEntryBundleInfoService
-      >
+      ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>
     );
 
     spyOn(

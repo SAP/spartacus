@@ -4,7 +4,7 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
 import {
   ConfiguratorAttributeQuantityComponentOptions,
-  Quantity
+  Quantity,
 } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';

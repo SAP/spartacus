@@ -58,6 +58,7 @@ const packageJsonPaths = [
   path.join(__dirname, '..', 'feature-libs', 'organization', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'product', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'storefinder', 'package.json'),
+  path.join(__dirname, '..', 'feature-libs', 'asm', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'smartedit', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'tracking', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'qualtrics', 'package.json'),

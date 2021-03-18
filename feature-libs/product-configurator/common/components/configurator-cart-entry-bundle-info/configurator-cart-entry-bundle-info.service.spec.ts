@@ -70,9 +70,7 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
     });
 
     configuratorCartEntryBundleInfoService = TestBed.inject(
-      ConfiguratorCartEntryBundleInfoService as Type<
-        ConfiguratorCartEntryBundleInfoService
-      >
+      ConfiguratorCartEntryBundleInfoService as Type<ConfiguratorCartEntryBundleInfoService>
     );
   });
 
