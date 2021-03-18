@@ -67,7 +67,7 @@ class MockSavedCartService implements Partial<SavedCartService> {
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(_loggedIn: boolean): Observable<string> {
+  getUserId(): Observable<string> {
     return of(mockUserId);
   }
 }
@@ -141,21 +141,14 @@ describe('SavedCartDetailItemsComponent', () => {
     component.savedCart$
       .subscribe((savedCart) => {
         expect(savedCart).toEqual(mockSavedCart);
-        expect(routingService.go).not.toHaveBeenCalledWith({
-          cxRoute: 'savedCarts',
-        });
-        expect(globalMessageService.add).not.toHaveBeenCalledWith(
-          { key: 'savedCartDialog.deleteCartSuccess' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-        expect(savedCartService.deleteSavedCart).not.toHaveBeenCalledWith(
-          mockCartId
-        );
+        expect(routingService.go).not.toHaveBeenCalled();
+        expect(globalMessageService.add).not.toHaveBeenCalled();
+        expect(savedCartService.deleteSavedCart).not.toHaveBeenCalled();
       })
       .unsubscribe();
   });
 
-  it('should delete saved cart when there are cart entries', () => {
+  it('should delete saved cart when cart is empty', () => {
     cart$.next(mockEmptyEntriesCart);
 
     component.savedCart$

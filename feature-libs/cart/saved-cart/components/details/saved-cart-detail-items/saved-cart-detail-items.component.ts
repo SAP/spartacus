@@ -17,7 +17,7 @@ import { SavedCartDetailService } from '../saved-cart-detail.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavedCartDetailItemsComponent {
-  userId$ = this.userIdService.takeUserId(true);
+  userId$ = this.userIdService.getUserId();
 
   cartLoaded$: Observable<
     boolean
@@ -28,7 +28,7 @@ export class SavedCartDetailItemsComponent {
   savedCart$: Observable<
     Cart | undefined
   > = this.savedCartDetailService.getCartDetails().pipe(
-    tap((cart: Cart) => {
+    tap((cart) => {
       if (cart?.entries?.length <= 0) {
         this.routingService.go({ cxRoute: 'savedCarts' });
         this.globalMessageService.add(
