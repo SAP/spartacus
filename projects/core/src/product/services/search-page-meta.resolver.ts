@@ -29,7 +29,7 @@ export class SearchPageMetaResolver
     number | undefined
   > = this.productSearchService.getResults().pipe(
     filter((data) => !!data?.pagination),
-    map((results) => results?.pagination?.totalResults)
+    map((results) => results.pagination?.totalResults)
   );
 
   protected query$: Observable<

@@ -15,9 +15,7 @@ import { ConfiguratorActions } from '../actions/index';
  */
 export class ConfiguratorPlaceOrderHookEffects {
   @Effect()
-  placeOrder$: Observable<
-    ConfiguratorActions.RemoveConfiguration
-  > = this.actions$.pipe(
+  placeOrder$: Observable<ConfiguratorActions.RemoveConfiguration> = this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map(() => {
       const ownerKeys = [];

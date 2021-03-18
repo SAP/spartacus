@@ -33,9 +33,7 @@ describe('OccConfiguratorTextfieldNormalizer', () => {
     });
 
     occConfiguratorTextfieldNormalizer = TestBed.inject(
-      OccConfiguratorTextfieldNormalizer as Type<
-        OccConfiguratorTextfieldNormalizer
-      >
+      OccConfiguratorTextfieldNormalizer as Type<OccConfiguratorTextfieldNormalizer>
     );
   });
 

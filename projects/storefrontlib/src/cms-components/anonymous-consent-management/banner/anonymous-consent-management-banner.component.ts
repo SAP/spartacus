@@ -11,9 +11,7 @@ import { AnonymousConsentLaunchDialogService } from '../anonymous-consent-launch
 export class AnonymousConsentManagementBannerComponent implements OnDestroy {
   private subscriptions = new Subscription();
 
-  bannerVisible$: Observable<
-    boolean
-  > = this.anonymousConsentsService.isBannerVisible();
+  bannerVisible$: Observable<boolean> = this.anonymousConsentsService.isBannerVisible();
 
   constructor(
     protected anonymousConsentsService: AnonymousConsentsService,

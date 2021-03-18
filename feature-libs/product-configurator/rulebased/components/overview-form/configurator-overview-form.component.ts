@@ -16,20 +16,22 @@ import { Configurator } from '../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorOverviewFormComponent {
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.configRouterExtractorService.extractRouterData().pipe(
-    switchMap((routerData) =>
-      this.configuratorCommonsService.getOrCreateConfiguration(routerData.owner)
-    ),
-    distinctUntilKeyChanged('configId'),
-    switchMap((configuration) =>
-      this.configuratorCommonsService.getConfigurationWithOverview(
-        configuration
-      )
-    ),
-    filter((configuration) => configuration.overview != null)
-  );
+  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getOrCreateConfiguration(
+          routerData.owner
+        )
+      ),
+      distinctUntilKeyChanged('configId'),
+      switchMap((configuration) =>
+        this.configuratorCommonsService.getConfigurationWithOverview(
+          configuration
+        )
+      ),
+      filter((configuration) => configuration.overview != null)
+    );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
