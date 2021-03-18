@@ -77,7 +77,7 @@ export class FeatureModulesService {
   ): FeatureModuleConfig | undefined {
     return this.cmsConfig.featureModules?.[
       this.resolveFeatureAlias(featureName)
-      ] as FeatureModuleConfig | undefined;
+    ] as FeatureModuleConfig | undefined;
   }
 
   /**
@@ -105,15 +105,15 @@ export class FeatureModulesService {
   ): Observable<NgModuleRef<any>[] | undefined> {
     return dependencies?.length
       ? forkJoin(
-        dependencies.map((dependency) => {
-          if (typeof dependency === 'string') {
-            // dependency is a feature, referenced by a feature name
-            return this.resolveFeature(dependency);
-          }
-          // resolve dependency from a module function
-          return this.lazyModules.resolveDependencyModuleInstance(dependency);
-        })
-      )
+          dependencies.map((dependency) => {
+            if (typeof dependency === 'string') {
+              // dependency is a feature, referenced by a feature name
+              return this.resolveFeature(dependency);
+            }
+            // resolve dependency from a module function
+            return this.lazyModules.resolveDependencyModuleInstance(dependency);
+          })
+        )
       : of(undefined);
   }
 }

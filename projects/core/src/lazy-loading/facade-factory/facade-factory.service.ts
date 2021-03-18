@@ -102,12 +102,12 @@ export class FacadeFactoryService {
   }
 
   create<T extends object>({
-                             facade,
-                             feature,
-                             methods,
-                             properties,
-                             async,
-                           }: FacadeDescriptor<T>): T {
+    facade,
+    feature,
+    methods,
+    properties,
+    async,
+  }: FacadeDescriptor<T>): T {
     const resolver$ = this.getResolver(feature, facade, async);
 
     const result: any = new (class extends (facade as any) {})();
