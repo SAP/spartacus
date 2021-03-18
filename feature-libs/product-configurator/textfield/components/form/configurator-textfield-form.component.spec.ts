@@ -48,9 +48,7 @@ class MockConfiguratorTextfieldService {
     });
   }
   updateConfiguration(): void {}
-  readConfigurationForCartEntry(): Observable<
-    ConfiguratorTextfield.Configuration
-  > {
+  readConfigurationForCartEntry(): Observable<ConfiguratorTextfield.Configuration> {
     return cold('-p', {
       p: productConfig,
     });

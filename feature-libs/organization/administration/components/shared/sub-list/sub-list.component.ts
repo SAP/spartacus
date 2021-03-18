@@ -38,7 +38,5 @@ export class SubListComponent extends ListComponent {
     })
   );
 
-  readonly dataStructure$: Observable<
-    TableStructure
-  > = this.service.getStructure();
+  readonly dataStructure$: Observable<TableStructure> = this.service.getStructure();
 }

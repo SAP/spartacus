@@ -183,7 +183,7 @@
     "npm-package-versions": "^1.0.1",
     "postcss": "^8.2.3",
     "postcss-scss": "^3.0.4",
-    "prettier": "~2.1.1",
+    "prettier": "~2.2.1",
     "release-it": "^14.2.2",
     "rimraf": "^3.0.2",
     "sass": "^1.22.10",
