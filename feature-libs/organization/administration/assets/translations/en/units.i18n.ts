@@ -11,6 +11,7 @@ export const orgUnit = {
   details: {
     title: 'Unit Details',
     subtitle: 'Unit: {{ item.name }}',
+    hint: 'Units represent departments, stores, regions, or any other logical grouping that makes sense to you. Disabling a unit disables all children of the unit, including child units, users, approvers, and cost centers. Disabled units cannot be edited.'
   },
   edit: {
     title: 'Edit Unit',
@@ -57,7 +58,7 @@ export const orgUnit = {
     },
     messages: {
       create: 'Unit {{ item.name }} created successfully',
-    },
+    }
   },
 
   costCenters: {
@@ -96,6 +97,7 @@ export const orgUnit = {
       uncheck: "To remove an approver, clear the user's check box.",
       changes: 'Changes are saved automatically.',
     },
+    hint: 'Users displayed under the Approvers list are assigned approval privileges for the buyers of this unit and of child units. Note that a user who has the approver role is separate from an approver who appears under the Approvers list. If an approver doesn\'t exist for a unit, or if approvers do not have sufficient approval purchase privileges, an approver higher up the unit hierarchy is found, until an administration is chosen.',
   },
 
   breadcrumbs: {
@@ -116,6 +118,7 @@ export const orgUnitChildren = {
   info: {
     disabledCreate: 'Child unit can not be created for disabled unit.',
   },
+  hint: 'Units represent departments, stores, regions, or any other logical grouping that makes sense to you. Users "inherit" child units, meaning buyers have access to cost centers and shipping addresses of child units when checking out.',
 };
 
 export const orgUnitAssignedRoles = {
@@ -141,6 +144,7 @@ export const orgUnitAssignedApprovers = {
   subtitle: 'Unit: {{item.name}}',
   assigned: 'User {{item.name}} assigned successfully',
   unassigned: 'User {{item.name}} unassigned successfully',
+  hint: 'Users displayed under the Approvers list are assigned approval privileges for the buyers of this unit and of child units. Note that a user who has the approver role is separate from an approver who appears under the Approvers list. If an approver doesn\'t exist for a unit, or if approvers do not have sufficient approval purchase privileges, an approver higher up the unit hierarchy is found, until an administration is chosen.'
 };
 
 export const orgUnitAssignedUsers = {
@@ -154,6 +158,7 @@ export const orgUnitUsers = {
   info: {
     disabledCreate: 'User can not be created for disabled unit.',
   },
+  hint: 'Users are the buyers, approvers, managers, and administrators of your organization. Each user is assigned a role for making or approving purchases. Users "inherit" child units, meaning buyers have access to cost centers and shipping addresses of child units when checking out.',
 };
 
 export const orgUnitUserRoles = {
@@ -170,6 +175,7 @@ export const orgUnitCostCenters = {
   info: {
     disabledCreate: 'Cost center can not be created for disabled unit.',
   },
+  hint: 'All orders placed through your organization\'s purchase account are linked to a cost center for tracking purposes. A buyer selects a cost center when checking out using the "Account" purchase method. Each unit can have multiple cost centers, but a single cost center can only be assigned to a single unit. To define ultimate spending limits, budgets are assigned to cost centers. '
 };
 
 export const orgUnitAddress = {
@@ -191,6 +197,7 @@ export const orgUnitAddress = {
   aptSuite: 'Apt, Suite',
   selectOne: 'Select One...',
 
+  hint: 'When a buyer is checking out using the "Account" purchase method, they much choose a cost center. The shipping addresses available to the buyer depend on the unit of the cost center chosen.',
   details: {
     title: 'Address details',
     subtitle: 'Unit: {{item.name}}',

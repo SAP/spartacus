@@ -10,6 +10,7 @@ import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
 import { MessageService } from '../message/services/message.service';
 import { BaseItem } from '../organization.model';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-org-card',
@@ -25,6 +26,8 @@ export class CardComponent<T extends BaseItem> {
 
   protected itemKey;
 
+  iconTypes = ICON_TYPE;
+  
   item$: Observable<T> = this.itemService.current$.pipe(
     tap((item) => this.refreshMessages(item))
   );

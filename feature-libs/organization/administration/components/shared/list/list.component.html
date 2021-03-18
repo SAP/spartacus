@@ -3,13 +3,12 @@
     <cx-view class="list" *ngIf="listData$ | async as data">
       <div class="header">
         <div class="title">
-          <section>
             <cx-icon
               [cxPopover]="listHint"
               [cxPopoverOptions]="{
                 placement: 'auto',
                 class: 'my-company-popover',
-                appendToBody: true,
+                appendToBody: false,
                 displayCloseButton: false
               }"
               [type]="iconTypes.INFO"
@@ -21,7 +20,6 @@
                   | cxTranslate: { count: getListCount(data) }
               }}
             </h3>
-          </section>
         </div>
 
         <div class="actions">

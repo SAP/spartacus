@@ -79,6 +79,19 @@
     display: contents;
   }
 
+  div.title{
+    display: flex;
+    flex-direction: row;
+    cx-icon {
+      align-self: flex-start;
+      margin-top: 4px;
+      color: var(--cx-color, var(--cx-color-info));
+      margin-inline-end: 1rem;
+    }
+    div.subtitle{
+      flex-direction: column;
+    }
+  }
   cx-split-view:not([active-view='1']) .list table {
     th,
     td {
