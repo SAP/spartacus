@@ -7,15 +7,16 @@ import { configuratorReducer } from './configurator.reducer';
 
 export function getConfiguratorReducers(): ActionReducerMap<ConfiguratorState> {
   return {
-    configurations: StateUtils.entityProcessesLoaderReducer<
-      Configurator.Configuration
-    >(CONFIGURATOR_DATA, configuratorReducer),
+    configurations: StateUtils.entityProcessesLoaderReducer<Configurator.Configuration>(
+      CONFIGURATOR_DATA,
+      configuratorReducer
+    ),
   };
 }
 
-export const configuratorReducerToken: InjectionToken<ActionReducerMap<
-  ConfiguratorState
->> = new InjectionToken<ActionReducerMap<ConfiguratorState>>(
+export const configuratorReducerToken: InjectionToken<
+  ActionReducerMap<ConfiguratorState>
+> = new InjectionToken<ActionReducerMap<ConfiguratorState>>(
   'ConfiguratorReducers'
 );
 
