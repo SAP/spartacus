@@ -32,9 +32,7 @@ export class SearchPageMetaResolver
     map((results) => results.pagination?.totalResults)
   );
 
-  protected query$: Observable<
-    string
-  > = this.routingService
+  protected query$: Observable<string> = this.routingService
     .getRouterState()
     .pipe(map((state) => state.state.params['query']));
 

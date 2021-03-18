@@ -40,14 +40,14 @@ export class ProductPageMetaResolver
     PageImageResolver,
     PageRobotsResolver {
   // reusable observable for product data based on the current page
-  protected product$: Observable<
-    Product
-  > = this.routingService.getRouterState().pipe(
-    map((state) => state.state.params['productCode']),
-    filter((code) => !!code),
-    switchMap((code) => this.productService.get(code, ProductScope.DETAILS)),
-    filter((p) => Boolean(p))
-  );
+  protected product$: Observable<Product> = this.routingService
+    .getRouterState()
+    .pipe(
+      map((state) => state.state.params['productCode']),
+      filter((code) => !!code),
+      switchMap((code) => this.productService.get(code, ProductScope.DETAILS)),
+      filter((p) => Boolean(p))
+    );
 
   // TODO(#10467): Remove deprecated constructors
   constructor(
