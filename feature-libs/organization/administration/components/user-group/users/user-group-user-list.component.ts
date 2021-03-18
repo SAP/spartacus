@@ -66,13 +66,25 @@ export class UserGroupUserListComponent {
   }
 
   protected notify(item: UserGroup) {
-    this.subList.messageService.add({
-      message: {
-        key: `orgUserGroupUsers.unassignAllConfirmation`,
-        params: {
-          item,
+    // TODO(#11530): Remove deprecated condition
+    if (this.subList) {
+      this.subList.messageService.add({
+        message: {
+          key: `orgUserGroupUsers.unassignAllConfirmation`,
+          params: {
+            item,
+          },
         },
-      },
-    });
+      });
+    } else {
+      this.messageService?.add({
+        message: {
+          key: `orgUserGroupUsers.unassignAllConfirmation`,
+          params: {
+            item,
+          },
+        },
+      });
+    }
   }
 }
