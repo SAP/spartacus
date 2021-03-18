@@ -323,7 +323,7 @@ export class PositioningService {
     autoPositioning?: boolean
   ): string {
     let positionClass = `${position || 'top'}`;
-    if (autoPositioning) {
+    if (autoPositioning && positionClass !== 'auto') {
       positionClass = `${positionClass} auto`;
     }
 
