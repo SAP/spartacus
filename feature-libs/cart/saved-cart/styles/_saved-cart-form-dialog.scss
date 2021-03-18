@@ -9,10 +9,10 @@ cx-saved-cart-form-dialog {
       @extend .modal-content;
 
       .cx-saved-cart-form-header {
-        @extend .modal-header;
-
         .cx-saved-cart-form-title {
-          font-weight: bold;
+          font-size: var(--cx-font-size, 1.375rem);
+          font-weight: var(--cx-font-weight-semi);
+          line-height: var(--cx-line-height, 1.2222222222);
         }
       }
 
@@ -59,6 +59,14 @@ cx-saved-cart-form-dialog {
 
         button {
           flex: 0 0 calc(50% - 0.5rem);
+
+          &:first-child {
+            margin-inline-end: 0.5rem;
+          }
+
+          &:last-child {
+            margin-inline-start: 0.5rem;
+          }
         }
       }
     }
