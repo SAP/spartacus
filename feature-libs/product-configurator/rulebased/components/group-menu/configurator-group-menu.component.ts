@@ -17,13 +17,9 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorGroupMenuComponent {
-  routerData$: Observable<
-    ConfiguratorRouter.Data
-  > = this.configRouterExtractorService.extractRouterData();
+  routerData$: Observable<ConfiguratorRouter.Data> = this.configRouterExtractorService.extractRouterData();
 
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.routerData$.pipe(
+  configuration$: Observable<Configurator.Configuration> = this.routerData$.pipe(
     switchMap((routerData) =>
       this.configCommonsService
         .getConfiguration(routerData.owner)
@@ -52,9 +48,7 @@ export class ConfiguratorGroupMenuComponent {
     )
   );
 
-  displayedParentGroup$: Observable<
-    Configurator.Group
-  > = this.configuration$.pipe(
+  displayedParentGroup$: Observable<Configurator.Group> = this.configuration$.pipe(
     switchMap((configuration) =>
       this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
     ),

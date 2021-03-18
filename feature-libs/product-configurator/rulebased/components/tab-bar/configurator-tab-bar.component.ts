@@ -13,9 +13,7 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorTabBarComponent {
-  routerData$: Observable<
-    ConfiguratorRouter.Data
-  > = this.configRouterExtractorService.extractRouterData();
+  routerData$: Observable<ConfiguratorRouter.Data> = this.configRouterExtractorService.extractRouterData();
 
   isOverviewPage$: Observable<boolean> = this.routerData$.pipe(
     map(
