@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Permission } from '@spartacus/organization/administration/core';
-import { Observable } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
 import { PermissionItemService } from '../services/permission-item.service';
+import { DetailsComponent } from '../../shared/detail/detail.component';
 
 @Component({
   selector: 'cx-org-permission-details',
@@ -17,12 +16,4 @@ import { PermissionItemService } from '../services/permission-item.service';
   ],
   host: { class: 'content-wrapper' },
 })
-export class PermissionDetailsComponent {
-  model$: Observable<Permission> = this.itemService.key$.pipe(
-    switchMap((code) => this.itemService.load(code)),
-    startWith({})
-  );
-  isInEditMode$ = this.itemService.isInEditMode$;
-
-  constructor(protected itemService: ItemService<Permission>) {}
-}
+export class PermissionDetailsComponent extends DetailsComponent<Permission> {}

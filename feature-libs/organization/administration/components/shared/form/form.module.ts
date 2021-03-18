@@ -6,7 +6,8 @@ import { I18nModule } from '@spartacus/core';
 import { ItemActiveModule } from '../item-active.module';
 import { CardModule } from '../card/card.module';
 import { MessageModule } from '../message/message.module';
-import { MessageService } from '../message/services/message.service';
+// TODO: remove in 4.0
+// import { MessageService } from '../message/services/message.service';
 import { FormComponent } from './form.component';
 
 @NgModule({
@@ -20,7 +21,8 @@ import { FormComponent } from './form.component';
     ItemActiveModule,
   ],
   declarations: [FormComponent],
-  providers: [MessageService],
+  // TODO: remove in 4.0
+  // providers: [MessageService],
   exports: [FormComponent],
 })
 export class FormModule {}

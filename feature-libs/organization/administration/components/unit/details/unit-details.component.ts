@@ -1,10 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
-import { ICON_TYPE } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
 import { UnitItemService } from '../services/unit-item.service';
+import { DetailsComponent } from '../../shared/detail/detail.component';
 
 @Component({
   selector: 'cx-org-unit-details',
@@ -18,13 +16,4 @@ import { UnitItemService } from '../services/unit-item.service';
   ],
   host: { class: 'content-wrapper' },
 })
-export class UnitDetailsComponent {
-  model$: Observable<B2BUnit> = this.itemService.key$.pipe(
-    switchMap((code) => this.itemService.load(code)),
-    startWith({})
-  );
-  isInEditMode$ = this.itemService.isInEditMode$;
-
-  constructor(protected itemService: ItemService<B2BUnit>) {}
-  iconTypes = ICON_TYPE;
-}
+export class UnitDetailsComponent extends DetailsComponent<B2BUnit> {}

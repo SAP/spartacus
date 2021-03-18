@@ -3,6 +3,7 @@ import {
   Component,
   HostBinding,
   Input,
+  ViewChild,
 } from '@angular/core';
 import { EntitiesModel } from '@spartacus/core';
 import { TableStructure } from '@spartacus/storefront';
@@ -38,5 +39,7 @@ export class SubListComponent extends ListComponent {
     })
   );
 
-  readonly dataStructure$: Observable<TableStructure> = this.service.getStructure();
+  readonly dataStructure$: Observable<
+    TableStructure
+  > = this.service.getStructure();
 }
