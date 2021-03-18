@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  Optional,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
@@ -53,7 +48,7 @@ export class CartItemListComponent {
 
   @Input('cartIsLoading') set setLoading(value: boolean) {
     if (!this.readonly) {
-      // Whenver the cart is loading, we disable the complete form
+      // Whenever the cart is loading, we disable the complete form
       // to avoid any user interaction with the cart.
       value
         ? this.form.disable({ emitEvent: false })
@@ -61,30 +56,38 @@ export class CartItemListComponent {
     }
   }
 
+  /**
+   * @deprecated since version 3.1
+   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, multiCartService: MultiCartService); instead
+   */
+  // TODO(#11037): Remove deprecated constructors
+  constructor(
+    activeCartService: ActiveCartService,
+    selectiveCartService: SelectiveCartService
+  );
+
+  /**
+   * @deprecated since version 3.2
+   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, multiCartService: MultiCartService); instead
+   */
+  // TODO(#11037): Remove deprecated constructors
   constructor(
     activeCartService: ActiveCartService,
     selectiveCartService: SelectiveCartService,
     featureConfigService: FeatureConfigService
   );
 
-  /**
-   * @deprecated since version 3.2
-   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, multiCartService: MultiCartService); instead
-   */
-  // TODO(#11037): Remove deprecated constructors
   constructor(
     activeCartService: ActiveCartService,
     selectiveCartService: SelectiveCartService,
     featureConfigService: FeatureConfigService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
     multiCartService: MultiCartService
   );
 
   constructor(
     protected activeCartService: ActiveCartService,
     protected selectiveCartService: SelectiveCartService,
-    @Optional()
-    public featureConfigService: FeatureConfigService,
+    public featureConfigService?: FeatureConfigService,
     protected multiCartService?: MultiCartService
   ) {}
 
