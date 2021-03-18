@@ -1,8 +1,8 @@
 <div class="cx-review">
   <!-- TITLE -->
-  <h3 class="cx-review-title d-none d-lg-block d-xl-block">
+  <h2 class="cx-review-title d-none d-lg-block d-xl-block">
     {{ 'checkoutReview.review' | cxTranslate }}
-  </h3>
+  </h2>
 
   <div class="cx-review-summary row">
     <ng-container *ngIf="(steps$ | async).slice(0, -1) as steps">
@@ -162,13 +162,13 @@
 
   <!-- CART ITEM SECTION -->
   <ng-container *ngIf="cart$ | async as cart">
-    <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
+    <h4 class="cx-review-cart-total d-none d-lg-block d-xl-block">
       {{
         'cartItems.cartTotal'
           | cxTranslate: { count: cart.deliveryItemsQuantity }
       }}:
       {{ cart.totalPrice?.formattedValue }}
-    </div>
+    </h4>
     <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">
       {{ 'checkoutReview.placeOrder' | cxTranslate }}
     </h4>

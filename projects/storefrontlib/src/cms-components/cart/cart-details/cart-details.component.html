@@ -1,9 +1,9 @@
 <ng-container *ngIf="cart$ | async as cart">
   <ng-container *ngIf="entries$ | async as entries">
     <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
-      <div class="cx-total">
+      <h4 class="cx-total">
         {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
-      </div>
+      </h4>
 
       <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
         <cx-promotions [promotions]="orderPromotions"></cx-promotions>

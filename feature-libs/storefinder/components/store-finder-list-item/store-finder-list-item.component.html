@@ -3,7 +3,7 @@
     <div class="cx-store-list-order">
       {{ listOrderLabel }}
     </div>
-    <div class="cx-store-name">
+    <h2 class="cx-store-name">
       <button
         *ngIf="useClickEvent"
         (click)="handleStoreItemClick()"
@@ -14,7 +14,7 @@
       <a *ngIf="!useClickEvent" [routerLink]="[location.name]">{{
         location.displayName || location.name
       }}</a>
-    </div>
+    </h2>
     <div class="cx-store-address" *ngIf="location.address">
       <div class="cx-store-address-street">
         {{ location.address.line1 }} {{ location.address.line2 }}
