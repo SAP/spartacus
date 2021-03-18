@@ -1,7 +1,7 @@
 <ng-container *ngIf="cart$ | async as cart">
   <div class="cx-add-to-saved-cart-container">
     <button
-      class="mr-2 link cx-action-link"
+      class="link cx-action-link"
       [routerLink]="
         {
           cxRoute: 'savedCarts'
@@ -13,7 +13,7 @@
     </button>
     <button
       #element
-      class="ml-2 link cx-action-link"
+      class="link cx-action-link"
       (click)="saveCart(cart)"
       cxAutoFocus
     >
