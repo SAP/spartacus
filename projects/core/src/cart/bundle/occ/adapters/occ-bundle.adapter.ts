@@ -34,21 +34,17 @@ export class OccBundleAdapter implements BundleAdapter {
     cartId: string,
     bundleStarter: BundleStarter
   ): Observable<CartModification> {
-    const toAdd = JSON.stringify({
-      bundleStarter: bundleStarter,
-    });
-
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.getUrl('startBundle', {
+    const url = this.occEndpointsService.getUrl('bundleStart', {
       userId,
       cartId,
     });
 
     return this.http
-      .post<CartModification>(url, toAdd, { headers })
+      .post<CartModification>(url, <HttpParams>bundleStarter, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 

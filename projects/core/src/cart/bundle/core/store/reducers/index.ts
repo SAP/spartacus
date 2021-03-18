@@ -1,19 +1,18 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
-
 import { InjectionToken, Provider } from '@angular/core';
-import { BundleState, BUNDLE_DATA } from '../bundle-state';
-import { bundleReducer } from './bundle.reducer';
+import { BundlesState, BUNDLE_DATA } from '../bundle-state';
 import { StateUtils } from 'projects/core/src/state/utils';
+import { availableEntriesReducer } from './available-entries.reducer';
 
-export function getReducers(): ActionReducerMap<BundleState> {
+export function getReducers(): ActionReducerMap<BundlesState> {
   return {
-    bundles: StateUtils.loaderReducer(BUNDLE_DATA, bundleReducer),
+    availableEntries: StateUtils.loaderReducer(BUNDLE_DATA, availableEntriesReducer),
   };
 }
 
 export const reducerToken: InjectionToken<ActionReducerMap<
-  BundleState
->> = new InjectionToken<ActionReducerMap<BundleState>>('BundleReducers');
+  BundlesState
+>> = new InjectionToken<ActionReducerMap<BundlesState>>('BundleReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
