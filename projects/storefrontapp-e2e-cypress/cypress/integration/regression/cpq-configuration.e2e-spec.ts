@@ -4,9 +4,9 @@ import * as productSearch from '../../helpers/product-search';
 import * as cart from '../../helpers/cart';
 
 const POWERTOOLS = 'powertools-spa';
-const EMAIL = 'cpq03@sap.com';
+const EMAIL = 'cpq08@sap.com';
 const PASSWORD = 'welcome';
-const CPQ_USER = 'cpq03';
+const CPQ_USER = 'cpq08';
 
 // UI types
 const RADGRP = 'radioGroup';
@@ -29,15 +29,16 @@ const VAL_COF_CUPS_500 = '8842';
 const ATTR_COF_MODE = '2933';
 /** Starbucks Mode*/
 const VAL_COF_MODE = '8845';
+/** CONF_COFFEEMACHINE_3000_DESIGN*/
+const GR_CONF_COF_3000_DES = 'CONF_COFFEEMACHINE_3000_DESIGN';
+/** CONF_COFFEEMACHINE_3000_BREW_UNIT*/
+const GR_CONF_COF_3000_BREW_UNIT = 'CONF_COFFEEMACHINE_3000_BREW_UNIT';
+/** CONF_COFFEEMACHINE_3000_MILK */
+const GR_COF_3000_MILK = 'CONF_COFFEEMACHINE_3000_MILK';
 /**Refridge unit */
 const ATTR_REFR_UNIT = '2943';
 /**Refridge unit */
 const VAL_SIZE_UNIT = '8873';
-
-/** CONF_COFFEEMACHINE_3000_GEN_OPT*/
-const GRP_COF_GEN_OPT = 'CONF_COFFEEMACHINE_3000_GEN_OPT';
-/** CONF_COFFEEMACHINE_3000_DESIGN*/
-const GRP_COF_DESIGN = 'CONF_COFFEEMACHINE_3000_DESIGN';
 
 /***************************** */
 /** Configurable Camera Bundle */
@@ -96,10 +97,9 @@ const CPQ_BACKEND_URL = '**/api/configuration/v1/configurations/**';
 
 context('CPQ Configuration', () => {
   beforeEach(() => {
+    configuration.defineAliases(CPQ_BACKEND_URL);
     cy.visit('/');
-    //configuration.checkLoadingMsgNotDisplayed();
     configuration.login(EMAIL, PASSWORD, CPQ_USER);
-    //configuration.checkLoadingMsgNotDisplayed();
   });
 
   describe('Navigate to Product Configuration Page', () => {
@@ -110,8 +110,9 @@ context('CPQ Configuration', () => {
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
         )}/products/suggestions?term=${PROD_CODE_CAM}*`
-      );
+      ).as('productSearch');
       productSearch.searchForProduct(PROD_CODE_CAM);
+      cy.wait('@productSearch');
       configuration.clickOnConfigureBtnInCatalog();
     });
 
@@ -480,24 +481,24 @@ context('CPQ Configuration', () => {
 
   describe('conflict handling', () => {
     it('check error messages displayed', () => {
-      cy.server();
-      cy.route('PATCH', CPQ_BACKEND_URL).as('updateConfig');
-      cy.route('GET', CPQ_BACKEND_URL).as('readConfig');
-
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
-
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
       configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
-      cy.wait('@updateConfig');
-      cy.wait('@readConfig');
-      cy.wait(50);
 
-      configuration.clickOnGroup(3);
+      configuration.clickOnNextBtn(GR_CONF_COF_3000_DES);
+      configuration.clickOnNextBtn(GR_CONF_COF_3000_BREW_UNIT);
+      configuration.clickOnNextBtn(GR_COF_3000_MILK);
+
+      configuration.checkCurrentGroupActive(GR_COF_3000_MILK);
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
       configuration.selectAttribute(ATTR_REFR_UNIT, RADGRP_PROD, VAL_SIZE_UNIT);
-
+      configuration.checkValueSelected(
+        RADGRP_PROD,
+        ATTR_REFR_UNIT,
+        VAL_SIZE_UNIT
+      );
       configuration.checkGlobalErrorMessageShown();
     });
 
@@ -505,7 +506,10 @@ context('CPQ Configuration', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
-      configuration.clickOnGroup(3);
+      configuration.clickOnNextBtn(GR_CONF_COF_3000_DES);
+      configuration.clickOnNextBtn(GR_CONF_COF_3000_BREW_UNIT);
+      configuration.clickOnNextBtn(GR_COF_3000_MILK);
+
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
       configuration.selectAttribute(ATTR_REFR_UNIT, RADGRP_PROD, VAL_SIZE_UNIT);
       configuration.checkValueSelected(
@@ -514,26 +518,30 @@ context('CPQ Configuration', () => {
         VAL_SIZE_UNIT
       );
       configuration.setQuantity(RADGRP_PROD, 4, ATTR_REFR_UNIT);
-
       configuration.checkWarningMessageShown();
     });
 
     it('check correct number of issues displayed in overview', () => {
       cy.server();
-      cy.route('PATCH', CPQ_BACKEND_URL).as('updateConfig');
-      cy.route('GET', CPQ_BACKEND_URL).as('readConfig');
+      cy.route(
+        'GET',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/products/suggestions?term=${PROD_CODE_COF}*`
+      ).as('productSearch');
+      productSearch.searchForProduct(PROD_CODE_COF);
+      cy.wait('@productSearch');
 
-      configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
 
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
       configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
-      cy.wait('@updateConfig');
-      cy.wait('@readConfig');
-      cy.wait(50);
 
-      configuration.clickOnGroup(3);
+      configuration.clickOnNextBtn(GR_CONF_COF_3000_DES);
+      configuration.clickOnNextBtn(GR_CONF_COF_3000_BREW_UNIT);
+      configuration.clickOnNextBtn(GR_COF_3000_MILK);
+
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
       configuration.closeErrorMessages();
       configuration.selectAttribute(ATTR_REFR_UNIT, RADGRP_PROD, VAL_SIZE_UNIT);
@@ -553,25 +561,29 @@ context('CPQ Configuration', () => {
       configuration.navigateToOverviewPage();
 
       configurationOverview.waitForNotificationBanner(8);
-      configurationOverview.verifyNotificationBannerOnOP(8);
+      //configurationOverview.checkNotificationBannerOnOP(8);
     });
 
-    it('check correct number of issues displayed in cart', () => {
+    it.only('check correct number of issues displayed in cart', () => {
       cy.server();
-      cy.route('PATCH', CPQ_BACKEND_URL).as('updateConfig');
-      cy.route('GET', CPQ_BACKEND_URL).as('readConfig');
-
-      configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
+      cy.route(
+        'GET',
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/products/suggestions?term=${PROD_CODE_COF}*`
+      ).as('productSearch');
+      productSearch.searchForProduct(PROD_CODE_COF);
+      cy.wait('@productSearch');
       configuration.clickOnConfigureBtnInCatalog();
 
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
       configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
-      cy.wait('@updateConfig');
-      cy.wait('@readConfig');
-      cy.wait(50);
 
-      configuration.clickOnGroup(3);
+      configuration.clickOnNextBtn(GR_CONF_COF_3000_DES);
+      configuration.clickOnNextBtn(GR_CONF_COF_3000_BREW_UNIT);
+      configuration.clickOnNextBtn(GR_COF_3000_MILK);
+
       configuration.checkAttributeDisplayed(ATTR_REFR_UNIT, RADGRP_PROD);
       configuration.closeErrorMessages();
       configuration.selectAttribute(ATTR_REFR_UNIT, RADGRP_PROD, VAL_SIZE_UNIT);
@@ -592,10 +604,10 @@ context('CPQ Configuration', () => {
 
       configuration.clickAddToCartBtn();
       configurationOverview.waitForNotificationBanner(8);
-      configurationOverview.verifyNotificationBannerOnOP(8);
+      configurationOverview.checkNotificationBannerOnOP(8);
 
       configurationOverview.clickContinueToCartBtnOnOP();
-      configuration.verifyNotificationBannerInCart(0, 8);
+      configuration.checkNotificationBannerInCart(0, 8);
 
       configuration.clickOnRemoveLink(0);
       configuration.checkCartEmpty();
