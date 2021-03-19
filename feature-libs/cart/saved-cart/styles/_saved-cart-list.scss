@@ -105,12 +105,6 @@ cx-saved-cart-list {
       }
     }
 
-    .cx-saved-cart-list-cart-description {
-      @include media-breakpoint-up(lg) {
-        width: 25%;
-      }
-    }
-
     .cx-saved-cart-list-label {
       color: var(--cx-color-secondary);
 

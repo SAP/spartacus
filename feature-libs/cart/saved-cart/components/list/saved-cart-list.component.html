@@ -17,9 +17,6 @@
           <th scope="col">{{ 'savedCartList.cartId' | cxTranslate }}</th>
           <th scope="col">{{ 'savedCartList.dateSaved' | cxTranslate }}</th>
           <th scope="col">
-            {{ 'savedCartList.cartDescription' | cxTranslate }}
-          </th>
-          <th scope="col">
             {{ 'savedCartList.quantity' | cxTranslate }}
           </th>
           <th scope="col">{{ 'savedCartList.total' | cxTranslate }}</th>
@@ -78,23 +75,6 @@
                 >{{ savedCart?.saveTime | cxDate: 'longDate' }}</a
               >
             </td>
-            <td class="cx-saved-cart-list-cart-description">
-              <div class="cx-table-label-mobile cx-saved-cart-list-label">
-                {{ 'savedCartList.cartDescription' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
-                  } | cxUrl
-                "
-                class="cx-saved-cart-list-value"
-              >
-                {{ savedCart?.description }}
-              </a>
-            </td>
-
             <td class="cx-saved-cart-list-quantity">
               <div class="cx-table-label-mobile cx-saved-cart-list-label">
                 {{ 'savedCartList.quantity' | cxTranslate }}

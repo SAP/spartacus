@@ -1,6 +1,6 @@
 <ng-container>
   <ng-container>
-    {{ content | cxTruncate: [maxLength, true] }}
+    {{ content | cxTruncate: [charactersLimit, true] }}
   </ng-container>
 
   <ng-template #fullText>
@@ -9,9 +9,12 @@
 
   <button
     *ngIf="isLengthExceed"
-    (click)="stopPropagation($event)"
-    [appendToBody]="true"
     [cxPopover]="fullText"
+    [cxPopoverOptions]="{
+      placement: 'auto',
+      appendToBody: true,
+      displayCloseButton: true
+    }"
     class="ml-1 link cx-action-link"
   >
     {{ 'common.more' | cxTranslate }}
