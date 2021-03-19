@@ -5,19 +5,11 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  DEFAULT_B2B_OCC_CONFIG,
   getAppModule,
-  getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
-  SPARTACUS_SETUP,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import {
@@ -40,7 +32,6 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
 
     return chain([
       addAsmFeature(appModulePath, options),
-      addAsmPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -52,10 +43,6 @@ function addAsmFeature(
 ): Rule {
   return addLibraryFeature(appModulePath, options, {
     name: ASM_FEATURE_NAME,
-    defaultConfig: {
-      name: DEFAULT_B2B_OCC_CONFIG,
-      importPath: SPARTACUS_SETUP,
-    },
     featureModule: {
       name: ASM_MODULE,
       importPath: SPARTACUS_ASM,
@@ -70,16 +57,4 @@ function addAsmFeature(
       importPath: SPARTACUS_ASM_ASSETS,
     },
   });
-}
-
-function addAsmPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_ASM,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
