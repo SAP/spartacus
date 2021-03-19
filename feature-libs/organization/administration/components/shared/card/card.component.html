@@ -15,6 +15,7 @@
           </h4>
         </div>
         <button
+          *ngIf="showHint"
           [cxPopover]="detailHint"
           [cxPopoverOptions]="{
             placement: 'auto',

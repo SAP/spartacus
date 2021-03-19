@@ -49,5 +49,8 @@ html[dir='rtl'] cx-org-list {
 }
 
 .hint-popover {
-  max-width: calc(60%);
+  font-size: 0.75rem;
+  p {
+    margin: 0;
+  }
 }

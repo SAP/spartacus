@@ -23,6 +23,7 @@ export class CardComponent<T extends BaseItem> {
   @Input() i18nRoot: string;
   @Input() previous: boolean | string = true;
   @Input() subtitle?: string;
+  @Input() showHint?: boolean;
 
   protected itemKey;
 

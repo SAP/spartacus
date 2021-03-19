@@ -3,6 +3,7 @@
     *ngIf="model$ | async as model"
     i18nRoot="orgUnitAddress.details"
     [subtitle]="'orgUnitAddress.details.subtitle' | cxTranslate: { item: unit }"
+    [showHint]="true"
   >
     <a class="link" actions routerLink="edit">
       {{ 'organization.edit' | cxTranslate }}
