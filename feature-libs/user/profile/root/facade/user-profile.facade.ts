@@ -3,12 +3,12 @@ import { facadeFactory } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { Title } from '../model/user-profile.model';
-import { USER_PROFILE_FEATURE } from '../feature-name';
+import { USER_PROFILE_CORE_FEATURE } from '../feature-name';
 
 export function UserProfileFacadeFactory() {
   return facadeFactory({
     facade: UserProfileFacade,
-    feature: USER_PROFILE_FEATURE,
+    feature: USER_PROFILE_CORE_FEATURE,
     methods: ['get', 'update', 'close', 'getTitles'],
   });
 }

@@ -2,7 +2,7 @@ import { Injectable, NgModuleRef } from '@angular/core';
 import { LazyModulesService } from './lazy-modules.service';
 import { defer, forkJoin, Observable, of, throwError } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
-import { CmsConfig } from '../cms/config/cms-config';
+import { CmsConfig, FeatureModuleConfig } from '../cms/config/cms-config';
 
 @Injectable({
   providedIn: 'root',
@@ -24,7 +24,7 @@ export class FeatureModulesService {
    * @param featureName
    */
   isConfigured(featureName: string): boolean {
-    return !!this.cmsConfig.featureModules?.[featureName]?.module;
+    return !!this.getFeatureConfig(featureName)?.module;
   }
 
   /**
@@ -33,6 +33,8 @@ export class FeatureModulesService {
    * It will first resolve all module dependencies if defined
    */
   resolveFeature(featureName: string): Observable<NgModuleRef<any>> {
+    featureName = this.resolveFeatureAlias(featureName);
+
     return defer(() => {
       if (!this.features.has(featureName)) {
         if (!this.isConfigured(featureName)) {
@@ -42,7 +44,7 @@ export class FeatureModulesService {
         }
 
         // tslint:disable-next-line:no-non-null-assertion
-        const featureConfig = this.cmsConfig.featureModules![featureName];
+        const featureConfig = this.getFeatureConfig(featureName);
 
         this.features.set(
           featureName,
@@ -62,6 +64,28 @@ export class FeatureModulesService {
 
       return this.features.get(featureName);
     });
+  }
+
+  getFeatureConfig(
+    featureName: string
+  ): FeatureModuleConfig | undefined {
+    return this.cmsConfig.featureModules?.[
+      this.resolveFeatureAlias(featureName)
+    ] as FeatureModuleConfig | undefined;
+  }
+
+  /**
+   * Will return target feature name, resolving optional feature to feature
+   * string mapping
+   *
+   * @param featureName
+   * @protected
+   */
+  protected resolveFeatureAlias(featureName: string): string {
+    while (typeof this.cmsConfig.featureModules?.[featureName] === 'string') {
+      featureName = this.cmsConfig.featureModules?.[featureName] as string;
+    }
+    return featureName;
   }
 
   protected resolveDependencies(

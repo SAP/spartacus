@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { USER_PROFILE_FEATURE } from '../feature-name';
+import { USER_PROFILE_CORE_FEATURE } from '../feature-name';
 
 export function UserEmailFacadeFactory() {
   return facadeFactory({
     facade: UserEmailFacade,
-    feature: USER_PROFILE_FEATURE,
+    feature: USER_PROFILE_CORE_FEATURE,
     methods: ['update'],
   });
 }

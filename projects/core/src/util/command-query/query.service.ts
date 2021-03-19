@@ -127,6 +127,55 @@ export class QueryService implements OnDestroy {
     return merge(...observables);
   }
 
+  // protected defaultMapper = (...params) =>
+  //   params
+  //     .map((x) =>
+  //       typeof x === 'object'
+  //         ? Object.entries(x).sort(([a], [b]) => (a > b ? 1 : -1))
+  //         : x
+  //     )
+  //     .join('-');
+  //
+  // createMulti<T, P extends any[]>(
+  //   loadFunc: (...params: P) => Observable<T>,
+  //   options?: {
+  //     reloadOn?: QueryNotifier[];
+  //     resetOn?: QueryNotifier[];
+  //     transferState?: string | (() => string);
+  //     keyMapper?: (...params: P) => string;
+  //   }
+  // ): Query<T, P> {
+  //   const keyMapper = options?.keyMapper ?? this.defaultMapper;
+  //
+  //   const allPars = new Map<any, Query<T>>();
+  //
+  //   const initForParams = (key: string, ...params: P) => {
+  //     if (!allPars.has(key)) {
+  //       allPars.set(
+  //         key,
+  //         this.create<T>(() => loadFunc(...params), options)
+  //       );
+  //     }
+  //   };
+  //
+  //   const getState = (...params: P) => {
+  //     const key = keyMapper(...params);
+  //     initForParams(key, ...params);
+  //     return allPars.get(key).getState();
+  //   };
+  //
+  //   const get = (...params: P) => {
+  //     const key = keyMapper(...params);
+  //     initForParams(key, ...params);
+  //     return allPars.get(key).get();
+  //   };
+  //
+  //   return {
+  //     get,
+  //     getState,
+  //   };
+  // }
+
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }

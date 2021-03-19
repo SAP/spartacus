@@ -9,7 +9,7 @@ export interface FacadeDescriptor<T extends object> {
   /**
    * Feature name or names that should be used to resolve facade
    */
-  feature: string | string[];
+  feature: string;
   /**
    * Methods of the facade that will be proxied from lazy loaded services.
    *

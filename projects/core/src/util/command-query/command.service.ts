@@ -11,8 +11,8 @@ import {
   tap,
 } from 'rxjs/operators';
 
-export interface Command<P = undefined, R = unknown> {
-  execute(params: P): Observable<R>;
+export abstract class Command<P = undefined, R = unknown> {
+  abstract execute(params: P): Observable<R>;
 }
 
 export enum CommandStrategy {
@@ -45,8 +45,8 @@ export class CommandService implements OnDestroy {
       case CommandStrategy.CancelPrevious:
       case CommandStrategy.ErrorPrevious:
         process$ = zip(commands$, results$).pipe(
-          switchMap(([command, notifier$]) =>
-            loading(command).pipe(
+          switchMap(([cmd, notifier$]) =>
+            loading(cmd).pipe(
               tap(notifier$),
               finalize(() =>
                 options.strategy === CommandStrategy.CancelPrevious
@@ -61,8 +61,8 @@ export class CommandService implements OnDestroy {
 
       case CommandStrategy.Parallel:
         process$ = zip(commands$, results$).pipe(
-          mergeMap(([command, notifier$]) =>
-            loading(command).pipe(tap(notifier$))
+          mergeMap(([cmd, notifier$]) =>
+            loading(cmd).pipe(tap(notifier$))
           ),
           retry()
         );
@@ -71,8 +71,8 @@ export class CommandService implements OnDestroy {
       case CommandStrategy.Queue:
       default:
         process$ = zip(commands$, results$).pipe(
-          concatMap(([command, notifier$]) =>
-            loading(command).pipe(tap(notifier$))
+          concatMap(([cmd, notifier$]) =>
+            loading(cmd).pipe(tap(notifier$))
           ),
           retry()
         );
@@ -81,14 +81,16 @@ export class CommandService implements OnDestroy {
 
     this.subscriptions.add(process$.subscribe());
 
-    return {
-      execute: (parameters: P) => {
+    const command: Command<P, R> = new (class extends Command {
+      execute = (parameters: P) => {
         const result = new Subject<R>();
         results$.next(result);
         commands$.next(parameters);
         return result;
-      },
-    };
+      };
+    })();
+
+    return command;
   }
 
   createFlow<P = undefined, R = unknown>(
