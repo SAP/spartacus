@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-  CommandService,
-  GlobalMessageService,
-  GlobalMessageType,
-  normalizeHttpError,
-} from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap, take, tap } from 'rxjs/operators';
+import { CommandService } from '@spartacus/core';
+import { Observable } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { UserProfileService } from './user-profile.service';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
@@ -31,48 +26,18 @@ export class UserPasswordService implements UserPasswordFacade {
     token: string;
     password: string;
   }>((payload) =>
-    this.userAccountConnector
-      .resetPassword(payload.token, payload.password)
-      .pipe(
-        tap(() => {
-          this.globalMessage.add(
-            { key: 'forgottenPassword.passwordResetSuccess' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-        }),
-        catchError((error) => {
-          if (error?.error?.errors) {
-            error.error.errors.forEach((err: any) => {
-              if (err.message) {
-                this.globalMessage.add(
-                  { raw: err.message },
-                  GlobalMessageType.MSG_TYPE_ERROR
-                );
-              }
-            });
-          }
-          return throwError(normalizeHttpError(error));
-        })
-      )
+    this.userAccountConnector.resetPassword(payload.token, payload.password)
   );
 
   protected requestForgotPasswordEmailCommand = this.command.create<{
     email: string;
   }>((payload) =>
-    this.userProfileConnector.requestForgotPasswordEmail(payload.email).pipe(
-      tap(() => {
-        this.globalMessage.add(
-          { key: 'forgottenPassword.passwordResetEmailSent' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-      })
-    )
+    this.userProfileConnector.requestForgotPasswordEmail(payload.email)
   );
 
   constructor(
     protected userProfileService: UserProfileService,
     protected userAccountConnector: UserProfileConnector,
-    protected globalMessage: GlobalMessageService,
     protected userProfileConnector: UserProfileConnector,
     protected command: CommandService
   ) {}

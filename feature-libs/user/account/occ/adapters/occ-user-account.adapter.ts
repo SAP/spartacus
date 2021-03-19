@@ -1,12 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
+import {
+  ConverterService,
+  normalizeHttpError,
+  Occ,
+  OccEndpointsService,
+} from '@spartacus/core';
 import {
   USER_ACCOUNT_NORMALIZER,
   UserAccountAdapter,
 } from '@spartacus/user/account/core';
 import { User } from '@spartacus/user/account/root';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable()
 export class OccUserAccountAdapter implements UserAccountAdapter {
@@ -18,8 +24,9 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
 
   load(userId: string): Observable<User> {
     const url = this.occEndpoints.getUrl('user', { userId });
-    return this.http
-      .get<Occ.User>(url)
-      .pipe(this.converter.pipeable(USER_ACCOUNT_NORMALIZER));
+    return this.http.get<Occ.User>(url).pipe(
+      catchError((error) => throwError(normalizeHttpError(error))),
+      this.converter.pipeable(USER_ACCOUNT_NORMALIZER)
+    );
   }
 }

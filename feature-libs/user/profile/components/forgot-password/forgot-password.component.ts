@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthConfigService, OAuthFlow, RoutingService } from '@spartacus/core';
+import {
+  AuthConfigService,
+  GlobalMessageService,
+  GlobalMessageType,
+  OAuthFlow,
+  RoutingService,
+} from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
+
 @Component({
   selector: 'cx-forgot-password',
   templateUrl: './forgot-password.component.html',
@@ -14,7 +21,8 @@ export class ForgotPasswordComponent implements OnInit {
     protected fb: FormBuilder,
     protected userPassword: UserPasswordFacade,
     protected routingService: RoutingService,
-    protected authConfigService: AuthConfigService
+    protected authConfigService: AuthConfigService,
+    protected globalMessage: GlobalMessageService
   ) {}
 
   ngOnInit() {
@@ -28,9 +36,16 @@ export class ForgotPasswordComponent implements OnInit {
 
   requestForgotPasswordEmail() {
     if (this.forgotPasswordForm.valid) {
-      this.userPassword.requestForgotPasswordEmail(
-        this.forgotPasswordForm.value.userEmail
-      );
+      this.userPassword
+        .requestForgotPasswordEmail(this.forgotPasswordForm.value.userEmail)
+        .pipe()
+        .subscribe(() => {
+          this.globalMessage.add(
+            { key: 'forgottenPassword.passwordResetEmailSent' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        });
+
       if (
         this.authConfigService.getOAuthFlow() ===
         OAuthFlow.ResourceOwnerPasswordFlow

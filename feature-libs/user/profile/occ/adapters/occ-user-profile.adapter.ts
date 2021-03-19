@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import {
   ConverterService,
   InterceptorUtil,
+  normalizeHttpError,
   Occ,
   OccEndpointsService,
   USE_CLIENT_TOKEN,
@@ -16,8 +17,8 @@ import {
   UserProfileAdapter,
 } from '@spartacus/user/profile/core';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable()
 export class OccUserProfileAdapter implements UserProfileAdapter {
@@ -30,7 +31,9 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   update(userId: string, user: User): Observable<unknown> {
     const url = this.occEndpoints.getUrl('user', { userId });
     user = this.converter.convert(user, USER_PROFILE_SERIALIZER);
-    return this.http.patch(url, user);
+    return this.http
+      .patch(url, user)
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   register(user: UserSignUp): Observable<User> {
@@ -43,7 +46,10 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
     return this.http
       .post<User>(url, user, { headers })
-      .pipe(this.converter.pipeable(USER_PROFILE_NORMALIZER));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(USER_PROFILE_NORMALIZER)
+      );
   }
 
   registerGuest(guid: string, password: string): Observable<User> {
@@ -59,7 +65,10 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
 
     return this.http
       .post<User>(url, httpParams, { headers })
-      .pipe(this.converter.pipeable(USER_PROFILE_NORMALIZER));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        this.converter.pipeable(USER_PROFILE_NORMALIZER)
+      );
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable<unknown> {
@@ -72,7 +81,9 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
-    return this.http.post(url, httpParams, { headers });
+    return this.http
+      .post(url, httpParams, { headers })
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   resetPassword(token: string, newPassword: string): Observable<unknown> {
@@ -82,7 +93,9 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     });
     headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
 
-    return this.http.post(url, { token, newPassword }, { headers });
+    return this.http
+      .post(url, { token, newPassword }, { headers })
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   updateEmail(
@@ -97,7 +110,9 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
-    return this.http.put(url, httpParams, { headers });
+    return this.http
+      .put(url, httpParams, { headers })
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   updatePassword(
@@ -112,17 +127,22 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
-    return this.http.put(url, httpParams, { headers });
+    return this.http
+      .put(url, httpParams, { headers })
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   close(userId: string): Observable<unknown> {
     const url = this.occEndpoints.getUrl('user', { userId });
-    return this.http.delete<User>(url);
+    return this.http
+      .delete<User>(url)
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   loadTitles(): Observable<Title[]> {
     const url = this.occEndpoints.getUrl('titles');
     return this.http.get<Occ.TitleList>(url).pipe(
+      catchError((error) => throwError(normalizeHttpError(error))),
       map((titleList) => titleList.titles ?? []),
       this.converter.pipeableMany(TITLE_NORMALIZER)
     );
