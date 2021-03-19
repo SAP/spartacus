@@ -84,8 +84,8 @@ export function checkNotificationBannerOnOP(
   element,
   numberOfIssues?: number
 ): void {
-  element
-    .get('.cx-error-msg')
+  //element //Why use element instead of cy?
+  cy.get('.cx-error-msg')
     .first()
     .invoke('text')
     .then((text) => {

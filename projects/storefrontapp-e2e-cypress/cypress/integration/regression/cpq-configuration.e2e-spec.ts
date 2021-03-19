@@ -4,9 +4,9 @@ import * as productSearch from '../../helpers/product-search';
 import * as cart from '../../helpers/cart';
 
 const POWERTOOLS = 'powertools-spa';
-const EMAIL = 'cpq08@sap.com';
+const EMAIL = 'cpq03@sap.com';
 const PASSWORD = 'welcome';
-const CPQ_USER = 'cpq08';
+const CPQ_USER = 'cpq03';
 
 // UI types
 const RADGRP = 'radioGroup';
@@ -479,13 +479,14 @@ context('CPQ Configuration', () => {
     });
   });
 
-  describe.only('conflict handling', () => {
+  describe('conflict handling', () => {
     it('check error messages displayed', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configuration.clickOnConfigureBtnInCatalog();
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
       configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
+      cy.wait('@readConfig');
 
       configuration.clickOnNextBtn(GR_CONF_COF_3000_DES);
       configuration.clickOnNextBtn(GR_CONF_COF_3000_BREW_UNIT);
@@ -500,8 +501,6 @@ context('CPQ Configuration', () => {
         VAL_SIZE_UNIT
       );
       configuration.checkGlobalErrorMessageShown();
-
-      cy.debug();
     });
 
     it('check warning messages displayed', () => {
@@ -539,6 +538,7 @@ context('CPQ Configuration', () => {
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
       configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
+      cy.wait('@readConfig');
 
       configuration.clickOnNextBtn(GR_CONF_COF_3000_DES);
       configuration.clickOnNextBtn(GR_CONF_COF_3000_BREW_UNIT);
@@ -561,12 +561,10 @@ context('CPQ Configuration', () => {
       );
 
       configuration.navigateToOverviewPage();
-
-      configurationOverview.waitForNotificationBanner(8);
-      //configurationOverview.checkNotificationBannerOnOP(8);
+      configurationOverview.checkNotificationBannerOnOP(8);
     });
 
-    it.only('check correct number of issues displayed in cart', () => {
+    it('check correct number of issues displayed in cart', () => {
       cy.server();
       cy.route(
         'GET',
@@ -581,6 +579,7 @@ context('CPQ Configuration', () => {
       configuration.checkAttributeDisplayed(ATTR_COF_CUPS, RADGRP);
       configuration.selectAttribute(ATTR_COF_MODE, CHKBOX, VAL_COF_MODE);
       configuration.checkValueSelected(CHKBOX, ATTR_COF_MODE, VAL_COF_MODE);
+      cy.wait('@readConfig');
 
       configuration.clickOnNextBtn(GR_CONF_COF_3000_DES);
       configuration.clickOnNextBtn(GR_CONF_COF_3000_BREW_UNIT);
