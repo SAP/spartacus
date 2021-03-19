@@ -20,7 +20,6 @@ context('ASM e2e Test', () => {
       cy.window().then((win) => win.localStorage.clear());
       cy.clearLocalStorageMemory();
       checkout.visitHomePage();
-      cy.reload(true);
       cy.onMobile(() => {
         isMobile = true;
         checkout.clickHamburger();

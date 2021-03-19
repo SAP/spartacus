@@ -3,7 +3,7 @@ let LOCAL_STORAGE_MEMORY = {};
 declare namespace Cypress {
   interface Chainable {
     /**
-       * Save localStorage
+       * Save localStorage as state in the command since cypress clears the local storage of the browser in between tests
        *
        * @memberof Cypress.Chainable
        *
@@ -50,6 +50,9 @@ Cypress.Commands.add('restoreLocalStorage', () => {
   });
 });
 
+/**
+ * Clears the command local storage
+ */
 Cypress.Commands.add('clearLocalStorageMemory', () => {
   LOCAL_STORAGE_MEMORY = {};
 });
