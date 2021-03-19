@@ -68,11 +68,11 @@ export class CloseAccountModalComponent implements OnInit {
     this.userProfile.close().subscribe({
       next: () => {
         this.onSuccess();
-        this.isLoading$.next(false)
+        this.isLoading$.next(false);
       },
       error: () => {
         this.onError();
-        this.isLoading$.next(false)
+        this.isLoading$.next(false);
       },
     });
   }

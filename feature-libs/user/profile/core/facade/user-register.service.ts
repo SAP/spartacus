@@ -17,10 +17,13 @@ export class UserRegisterService implements UserRegisterFacade {
     ({ user }) => this.userConnector.register(user)
   );
 
-  protected registerGuestCommand = this.command.create<{
-    guid: string;
-    password: string;
-  }, User>((payload) =>
+  protected registerGuestCommand = this.command.create<
+    {
+      guid: string;
+      password: string;
+    },
+    User
+  >((payload) =>
     this.userConnector.registerGuest(payload.guid, payload.password).pipe(
       tap((user) => {
         // tslint:disable-next-line:no-non-null-assertion

@@ -17,16 +17,21 @@ export class UserEmailService implements UserEmailFacade {
   protected updateCommand = this.command.create<{
     password: string;
     newUid: string;
-  }>((payload) =>
-    this.userProfileService
-      .get()
-      .pipe(
-        switchMap((user) =>
-          this.userProfileConnector.updateEmail(user!.uid!, payload.password, payload.newUid)
-        )
-      ),
+  }>(
+    (payload) =>
+      this.userProfileService
+        .get()
+        .pipe(
+          switchMap((user) =>
+            this.userProfileConnector.updateEmail(
+              user!.uid!,
+              payload.password,
+              payload.newUid
+            )
+          )
+        ),
     {
-      strategy: CommandStrategy.Queue
+      strategy: CommandStrategy.Queue,
     }
   );
 

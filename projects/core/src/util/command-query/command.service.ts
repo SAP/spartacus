@@ -61,9 +61,7 @@ export class CommandService implements OnDestroy {
 
       case CommandStrategy.Parallel:
         process$ = zip(commands$, results$).pipe(
-          mergeMap(([cmd, notifier$]) =>
-            loading(cmd).pipe(tap(notifier$))
-          ),
+          mergeMap(([cmd, notifier$]) => loading(cmd).pipe(tap(notifier$))),
           retry()
         );
         break;
@@ -71,9 +69,7 @@ export class CommandService implements OnDestroy {
       case CommandStrategy.Queue:
       default:
         process$ = zip(commands$, results$).pipe(
-          concatMap(([cmd, notifier$]) =>
-            loading(cmd).pipe(tap(notifier$))
-          ),
+          concatMap(([cmd, notifier$]) => loading(cmd).pipe(tap(notifier$))),
           retry()
         );
         break;
