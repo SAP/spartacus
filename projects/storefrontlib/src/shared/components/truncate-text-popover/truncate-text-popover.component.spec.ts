@@ -1,12 +1,12 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { TruncateTextPopoverComponent } from './truncate-text-popover.component';
-import { TruncateTextPopoverModule } from './truncate-text-with-popover.module';
+import { TruncateTextPopoverModule } from './truncate-text-popover.module';
 
 const mockContent =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-describe('TruncateTextPopoverComponent', () => {
+fdescribe('TruncateTextPopoverComponent', () => {
   let component: TruncateTextPopoverComponent;
   let fixture: ComponentFixture<TruncateTextPopoverComponent>;
 
