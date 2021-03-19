@@ -154,9 +154,7 @@ export class CpqConfiguratorNormalizer
       attrCode: sourceAttribute.stdAttrCode,
       name: sourceAttribute.pA_ID.toString(),
       description: sourceAttribute.description,
-      label: sourceAttribute.label
-        ? sourceAttribute.label
-        : sourceAttribute.name,
+      label: this.cpqUtilitiesService.retrieveAttributeLabel(sourceAttribute),
       required: sourceAttribute.required,
       isLineItem: sourceAttribute.isLineItem,
       uiType: this.convertAttributeType(sourceAttribute),
