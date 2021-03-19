@@ -1,11 +1,5 @@
 <ng-container *ngIf="savedCarts$ | async as savedCarts">
-  <div *ngIf="isLoading$ | async; else savedCartListContainer">
-    <div class="cx-spinner">
-      <cx-spinner></cx-spinner>
-    </div>
-  </div>
-
-  <ng-template #savedCartListContainer>
+  <ng-container *ngIf="!(isLoading$ | async); else loading">
     <div class="cx-saved-cart-list-header">
       <h3>
         {{
@@ -155,5 +149,11 @@
         </div>
       </div>
     </ng-template>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="cx-spinner">
+      <cx-spinner></cx-spinner>
+    </div>
   </ng-template>
 </ng-container>
