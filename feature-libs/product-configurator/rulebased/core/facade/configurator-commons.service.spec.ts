@@ -68,6 +68,11 @@ let productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
 };
 
+const productConfigurationProductBoundObsolete: Configurator.Configuration = {
+  configId: CONFIG_ID,
+  nextOwner: OWNER_CART_ENTRY,
+};
+
 const productConfigurationChanged: Configurator.Configuration = {
   configId: CONFIG_ID,
 };
@@ -534,6 +539,30 @@ describe('ConfiguratorCommonsService', () => {
           done();
         })
         .unsubscribe();
+    });
+  });
+
+  describe('removeObsoleteProductBoundConfiguration', () => {
+    it('should not dispatch any action if the configuration does not carry a next owner', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfiguration)
+      );
+      serviceUnderTest['removeObsoleteProductBoundConfiguration'](
+        OWNER_PRODUCT
+      );
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should dispatch the remove action if the configuration carries a next owner', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfigurationProductBoundObsolete)
+      );
+      serviceUnderTest['removeObsoleteProductBoundConfiguration'](
+        OWNER_PRODUCT
+      );
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });
 });

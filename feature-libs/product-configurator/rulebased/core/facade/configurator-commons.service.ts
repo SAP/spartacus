@@ -209,17 +209,34 @@ export class ConfiguratorCommonsService {
       )
     );
   }
+  protected removeObsoleteProductBoundConfiguration(
+    owner: CommonConfigurator.Owner
+  ): void {
+    this.store
+      .pipe(
+        select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
+        take(1)
+      )
+      .subscribe((configuration) => {
+        if (
+          this.configuratorUtils.isConfigurationCreated(configuration) &&
+          configuration.nextOwner
+        ) {
+          this.removeConfiguration(owner);
+        }
+      });
+  }
 
   protected getOrCreateConfigurationForProduct(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
+    this.removeObsoleteProductBoundConfiguration(owner);
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
           owner.key
         )
       ),
-
       tap((configurationState) => {
         if (
           !this.configuratorUtils.isConfigurationCreated(
