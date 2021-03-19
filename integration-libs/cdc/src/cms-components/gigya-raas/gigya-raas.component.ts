@@ -10,7 +10,7 @@ import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
 import { CdcJsService } from '../../auth/facade/cdc-js.service';
-import { CdcConfig } from '../../config';
+import { CdcConfig } from '../../../root/config';
 import { GigyaRaasComponentData } from '../cms.model';
 
 @Component({

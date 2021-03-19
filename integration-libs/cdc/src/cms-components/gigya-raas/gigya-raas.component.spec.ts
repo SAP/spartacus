@@ -9,7 +9,7 @@ import {
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CdcJsService } from '../../auth/facade/cdc-js.service';
-import { CdcConfig } from '../../config';
+import { CdcConfig } from '../../../root/config';
 import { GigyaRaasComponentData } from '../cms.model';
 import { GigyaRaasComponent } from './gigya-raas.component';
 
