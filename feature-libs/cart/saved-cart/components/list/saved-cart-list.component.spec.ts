@@ -17,6 +17,9 @@ class MockSavedCartService implements Partial<SavedCartService> {
   getRestoreSavedCartProcessSuccess(): Observable<boolean> {
     return of();
   }
+  getSavedCartListProcessLoading(): Observable<boolean> {
+    return of(true);
+  }
 }
 
 class MockRoutingService implements Partial<RoutingService> {
