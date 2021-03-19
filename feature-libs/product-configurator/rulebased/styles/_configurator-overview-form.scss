@@ -40,6 +40,12 @@
       padding-block-start: 15px;
       padding-block-end: 15px;
       border: solid 1px var(--cx-color-light);
+
+      span {
+        @include forVersion(3.1) {
+          @include cx-configurator-truncate-content();
+        }
+      }
     }
 
     .cx-attribute-value-pair {

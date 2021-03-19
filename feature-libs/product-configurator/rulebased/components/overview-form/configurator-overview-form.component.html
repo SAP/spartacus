@@ -3,7 +3,7 @@
     <ng-container *ngFor="let group of configuration.overview.groups">
       <div class="cx-group">
         <h2>
-          {{ group.groupDescription }}
+          <span>{{ group.groupDescription }}</span>
         </h2>
         <div
           *ngFor="let attributeOverview of group.attributes; let i = index"
