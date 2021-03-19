@@ -2,6 +2,10 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { UTF_8 } from '../constants';
@@ -86,18 +90,19 @@ describe('Lib utils', () => {
       version: '0.5.0',
     };
 
-    const appOptions: any = {
+    const appOptions: ApplicationOptions = {
       name: 'schematics-test',
       inlineStyle: false,
       inlineTemplate: false,
       routing: false,
-      style: 'scss',
+      style: Style.Scss,
       skipTests: false,
       projectRoot: '',
     };
 
     const spartacusDefaultOptions: SpartacusOptions = {
       project: 'schematics-test',
+      configuration: 'b2c',
     };
 
     beforeEach(async () => {
@@ -195,7 +200,8 @@ describe('Lib utils', () => {
       });
     });
     describe('when the lazy loading is configured', () => {
-      it('should add it in the lazy loading way', async () => {
+      // TODO:#10744 - uncomment after refactoring is done in lib utils.
+      xit('should add it in the lazy loading way', async () => {
         const rule = addLibraryFeature(
           appModulePath,
           BASE_OPTIONS,

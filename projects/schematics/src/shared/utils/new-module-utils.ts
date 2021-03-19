@@ -5,7 +5,13 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { getDecoratorMetadata } from '@schematics/angular/utility/ast-utils';
-import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
+import {
+  ArrayLiteralExpression,
+  CallExpression,
+  Node,
+  SourceFile,
+  ts as tsMorph,
+} from 'ts-morph';
 import ts from 'typescript';
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from '../constants';
 import { getTsSourceFile } from './file-utils';
@@ -131,7 +137,7 @@ function addToModuleInternal(
 ): CallExpression | undefined {
   let createdNode;
 
-  function visitor(node: Node) {
+  function visitor<T>(node: Node): T | undefined {
     if (Node.isCallExpression(node)) {
       const expression = node.getExpression();
       if (
@@ -157,6 +163,15 @@ function addToModuleInternal(
               );
               if (initializer) {
                 const imports = ([] as Import[]).concat(insertOptions.import);
+                // check if the 'imports', 'declarations' or 'exports' arrays already contain the specified content
+                if (
+                  propertyName !== 'providers' &&
+                  elementExists(initializer, insertOptions.content)
+                ) {
+                  // don't duplicate the module in the specified array
+                  return;
+                }
+
                 imports.forEach((specifiedImport) =>
                   sourceFile.addImportDeclaration({
                     moduleSpecifier: specifiedImport.moduleSpecifier,
@@ -183,4 +198,17 @@ function addToModuleInternal(
 
   sourceFile.forEachChild(visitor);
   return createdNode;
+}
+
+function elementExists(
+  initializer: ArrayLiteralExpression,
+  moduleToCheck: string
+): boolean {
+  for (const element of initializer.getElements()) {
+    if (element.getText() === moduleToCheck) {
+      return true;
+    }
+  }
+
+  return false;
 }

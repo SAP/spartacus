@@ -12,15 +12,15 @@ import { CurrentProductService } from '../current-product.service';
 export class ProductImagesComponent {
   private mainMediaContainer = new BehaviorSubject(null);
 
-  private product$: Observable<
-    Product
-  > = this.currentProductService.getProduct().pipe(
-    filter(Boolean),
-    distinctUntilChanged(),
-    tap((p: Product) => {
-      this.mainMediaContainer.next(p.images?.PRIMARY ? p.images.PRIMARY : {});
-    })
-  );
+  private product$: Observable<Product> = this.currentProductService
+    .getProduct()
+    .pipe(
+      filter(Boolean),
+      distinctUntilChanged(),
+      tap((p: Product) => {
+        this.mainMediaContainer.next(p.images?.PRIMARY ? p.images.PRIMARY : {});
+      })
+    );
 
   thumbs$: Observable<any[]> = this.product$.pipe(
     map((p: Product) => this.createThumbs(p))

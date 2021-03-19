@@ -3,6 +3,10 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
+import {
   LibraryOptions as SpartacusPersonalizationOptions,
   SpartacusOptions,
 } from '@spartacus/schematics';
@@ -22,12 +26,12 @@ describe('Spartacus Personalization schematics: ng-add', () => {
     version: '0.5.0',
   };
 
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
     projectRoot: '',
   };
@@ -40,6 +44,7 @@ describe('Spartacus Personalization schematics: ng-add', () => {
 
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
+    configuration: 'b2c',
   };
 
   beforeEach(async () => {

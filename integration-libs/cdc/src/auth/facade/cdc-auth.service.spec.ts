@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { TokenTarget } from '@spartacus/asm/root';
 import {
   AuthActions,
   AuthRedirectService,
@@ -8,7 +9,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   OCC_USER_ID_CURRENT,
-  TokenTarget,
   UserIdService,
   WindowRef,
 } from '@spartacus/core';

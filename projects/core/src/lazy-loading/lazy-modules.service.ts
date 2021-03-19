@@ -151,9 +151,9 @@ export class LazyModulesService implements OnDestroy {
       [],
       InjectFlags.Self
     );
-    const asyncInitPromises: Promise<
-      any
-    >[] = this.runModuleInitializerFunctions(moduleInits);
+    const asyncInitPromises: Promise<any>[] = this.runModuleInitializerFunctions(
+      moduleInits
+    );
     if (asyncInitPromises.length) {
       return from(Promise.all(asyncInitPromises)).pipe(
         catchError((error) => {

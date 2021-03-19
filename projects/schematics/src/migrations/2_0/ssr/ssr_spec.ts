@@ -2,6 +2,10 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
 import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../../../shared/constants';
 import { runMigration } from '../../../shared/utils/test-utils';
 
@@ -47,12 +51,12 @@ describe('ssr', () => {
     version: '9.0.0',
   };
 
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
     projectRoot: '',
   };

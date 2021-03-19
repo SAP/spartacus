@@ -18,7 +18,7 @@ import fs, { readFileSync } from 'fs';
 import glob from 'glob';
 import postcss from 'postcss-scss';
 import semver from 'semver';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { PACKAGE_JSON, SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from './const';
 import {
   error,

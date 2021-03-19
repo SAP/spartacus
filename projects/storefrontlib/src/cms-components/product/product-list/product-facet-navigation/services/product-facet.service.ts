@@ -23,9 +23,7 @@ export class ProductFacetService {
     .getRouterState()
     .pipe(pluck('state'));
 
-  protected readonly searchResult$: Observable<
-    ProductSearchPage
-  > = this.routeState$.pipe(
+  protected readonly searchResult$: Observable<ProductSearchPage> = this.routeState$.pipe(
     switchMap((state) =>
       this.productListComponentService.model$.pipe(
         filter((page) => this.filterForPage(state, page)),

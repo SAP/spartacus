@@ -30,7 +30,7 @@ function configureStoreModules(
 ): void {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
-  appSourceFiles.forEach((sourceFile) => {
+  for (const sourceFile of appSourceFiles) {
     if (sourceFile.getFilePath().includes('app.module.ts')) {
       addModuleImport(sourceFile, {
         import: {
@@ -48,6 +48,8 @@ function configureStoreModules(
       });
 
       saveAndFormat(sourceFile);
+
+      break;
     }
-  });
+  }
 }

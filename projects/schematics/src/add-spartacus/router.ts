@@ -36,7 +36,7 @@ function configureRouterModule(
 ): void {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
-  appSourceFiles.forEach((sourceFile) => {
+  for (const sourceFile of appSourceFiles) {
     if (
       sourceFile.getFilePath().includes(`${SPARTACUS_ROUTING_MODULE}.module.ts`)
     ) {
@@ -53,8 +53,10 @@ function configureRouterModule(
       configureOptionsInRouterModule(routerModule as CallExpression);
 
       saveAndFormat(sourceFile);
+
+      break;
     }
-  });
+  }
 }
 
 function getRouterModule(sourceFile: SourceFile): CallExpression | undefined {

@@ -2,6 +2,10 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
 import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import {
   InsertChange,
@@ -10,7 +14,7 @@ import {
   ReplaceChange,
 } from '@schematics/angular/utility/change';
 import * as path from 'path';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations/component-deprecations';
 import {
   ANGULAR_CORE,
@@ -297,12 +301,12 @@ describe('File utils', () => {
     name: 'workspace',
     version: '0.5.0',
   };
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
     projectRoot: '',
   };

@@ -16,6 +16,9 @@ import {
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
 } from '../../utils/interceptor-util';
 
+/**
+ * @deprecated since 3.2, use asm lib instead
+ */
 @Injectable()
 export class OccAsmAdapter implements AsmAdapter {
   private activeBaseSite: string;

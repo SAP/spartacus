@@ -2,8 +2,12 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
 import * as path from 'path';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import {
   createNewConfig,
   getConfig,
@@ -15,18 +19,19 @@ import { commitChanges, getTsSourceFile } from './file-utils';
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
-describe('Storefront config utils', () => {
+// TODO:#10744 - cleanup after implementing the new config utils.
+xdescribe('Storefront config utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: any = {
     name: 'workspace',
     version: '0.5.0',
   };
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
     projectRoot: '',
   };

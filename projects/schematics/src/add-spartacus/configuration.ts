@@ -182,12 +182,11 @@ function prepareSiteContextConfig(options: SpartacusOptions): string {
  * @param options
  */
 function createStorefrontConfig(options: SpartacusOptions): string {
-  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}'`;
+  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
   const context = prepareSiteContextConfig(options);
 
   const occPrefixPart = options.occPrefix
-    ? `,
-          prefix: '${options.occPrefix}'`
+    ? `prefix: '${options.occPrefix}'`
     : '';
 
   return `{

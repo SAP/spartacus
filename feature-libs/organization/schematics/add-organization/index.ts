@@ -31,7 +31,7 @@ import {
   SPARTACUS_STOREFRONTLIB,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import {
   ADMINISTRATION_MODULE,
   ADMINISTRATION_ROOT_MODULE,
@@ -72,6 +72,7 @@ export function addSpartacusOrganization(
       shouldAddFeature(options.features, CLI_ORDER_APPROVAL_FEATURE)
         ? addOrderApprovalsFeature(options)
         : noop(),
+
       addOrganizationPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
