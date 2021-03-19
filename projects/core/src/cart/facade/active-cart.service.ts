@@ -74,7 +74,7 @@ export class ActiveCartService implements OnDestroy {
     protected store: Store<StateWithMultiCart>,
     protected multiCartService: MultiCartService,
     protected userIdService: UserIdService,
-    protected bundleService?: BundleService
+    protected bundleService: BundleService
   ) {
     this.initActiveCart();
   }
@@ -606,5 +606,28 @@ export class ActiveCartService implements OnDestroy {
         );
       });
     });
+  }
+
+  /**
+   * Get allowed Bundle Products
+   *
+   * @param entryGroupNumber
+   */
+  getAvailableEntries(entryGroupNumber: number) {
+    let cartId
+
+    combineLatest([
+      this.requireLoadedCart(),
+      this.userIdService.takeUserId(),
+    ]).pipe(
+      take(1),
+    ).subscribe(([cartState, userId]) => {
+      cartId = getCartIdByUserId(cartState.value, userId)
+    });
+
+    return this.bundleService.getAvailableEntriesEntity(
+      cartId,
+      entryGroupNumber
+    );
   }
 }
