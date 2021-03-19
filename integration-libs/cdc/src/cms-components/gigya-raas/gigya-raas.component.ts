@@ -93,23 +93,24 @@ export class GigyaRaasComponent implements OnInit {
   }
 
   protected getSessionExpirationValue(): number {
-    const filteredConfigs: any = this.cdcConfig.cdc.filter(
-      (conf) => conf.baseSite === this.getCurrentBaseSite()
-    );
-    if (filteredConfigs && filteredConfigs.length > 0) {
-      return filteredConfigs[0].sessionExpiration;
+    if (this.cdcConfig?.cdc !== undefined) {
+      const filteredConfigs: any = this.cdcConfig.cdc.filter(
+        (conf) => conf.baseSite === this.getCurrentBaseSite()
+      );
+      if (filteredConfigs && filteredConfigs.length > 0) {
+        return filteredConfigs[0].sessionExpiration;
+      }
     }
     // Return a default value
     return 3600;
   }
 
   private getCurrentBaseSite(): string {
-    let baseSite: string;
+    let baseSite: string = '';
     this.baseSiteService
       .getActive()
       .pipe(take(1))
       .subscribe((data) => (baseSite = data));
-
     return baseSite;
   }
 

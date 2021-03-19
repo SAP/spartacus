@@ -92,7 +92,11 @@ export class CdcJsService implements OnDestroy {
                   this.errorLoading$.next(true);
                 },
               });
-              this.winRef.nativeWindow['__gigyaConf'] = { include: 'id_token' };
+              if (this.winRef?.nativeWindow !== undefined) {
+                this.winRef.nativeWindow['__gigyaConf'] = {
+                  include: 'id_token',
+                };
+              }
             }
           })
       );
