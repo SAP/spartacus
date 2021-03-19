@@ -10,6 +10,7 @@ import {
   installPackageJsonDependencies,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
+  SPARTACUS_ASM,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import {
@@ -18,7 +19,6 @@ import {
   ASM_ROOT_MODULE,
   ASM_TRANSLATIONS,
   ASM_TRANSLATION_CHUNKS_CONFIG,
-  SPARTACUS_ASM,
   SPARTACUS_ASM_ASSETS,
   SPARTACUS_ASM_ROOT,
 } from '../constants';

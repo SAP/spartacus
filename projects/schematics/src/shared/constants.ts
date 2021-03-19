@@ -30,6 +30,11 @@ export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE =
+  '@spartacus/organization/administration/core';
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS =
+  '@spartacus/organization/administration/components';
+export const SPARTACUS_ASM = '@spartacus/asm';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -37,10 +42,6 @@ export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
 
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE =
-  '@spartacus/organization/administration/core';
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS =
-  '@spartacus/organization/administration/components';
 /***** Imports end *****/
 
 /***** Classes start *****/
@@ -648,6 +649,7 @@ export const SET_RATE_ON_EVENT = 'setRateOnEvent';
 export const SET_RATE = 'setRate';
 export const GET_META = 'getMeta';
 export const GET_META_RESOLVER = 'getMetaResolver';
+export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 export const STOREFINDER_FEATURE_NAME = 'storeFinder';
@@ -665,7 +667,7 @@ export const QUALTRICS_ROOT_MODULE = 'QualtricsRootModule';
 export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_QUALTRICS_ROOT = `${SPARTACUS_QUALTRICS}/root`;
 
-export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
+export const CLI_ASM_FEATURE = 'Assisted Services Module';
 /***** APIs end *****/
 
 /***** Storefinder start *****/

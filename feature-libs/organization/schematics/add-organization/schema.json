@@ -13,7 +13,7 @@
     },
     "lazy": {
       "type": "boolean",
-      "description": "Lazy load the Administration feature.",
+      "description": "Lazy load the organization features.",
       "default": true
     },
     "features": {
