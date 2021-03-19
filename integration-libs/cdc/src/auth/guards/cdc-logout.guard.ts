@@ -5,9 +5,9 @@ import {
   CmsService,
   ProtectedRoutesService,
   SemanticPathService,
+  WindowRef,
 } from '@spartacus/core';
 import { LogoutGuard } from '@spartacus/storefront';
-import { CdcAuthService } from '../facade';
 
 /**
  * @override
@@ -24,12 +24,23 @@ export class CdcLogoutGuard extends LogoutGuard {
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
     protected router: Router,
-    protected cdcAuthService: CdcAuthService
+    protected winRef: WindowRef
   ) {
     super(auth, cms, semanticPathService, protectedRoutes, router);
   }
 
+  /**
+   * Logout user from CDC
+   */
+  protected logoutFromCdc(): void {
+    this.winRef.nativeWindow?.['gigya']?.accounts?.logout();
+  }
+
+  /**
+   * @override
+   * @returns promise to resolve after complete logout
+   */
   protected logout(): Promise<any> {
-    return Promise.all([super.logout(), this.cdcAuthService.logoutFromCdc()]);
+    return Promise.all([super.logout(), this.logoutFromCdc()]);
   }
 }

@@ -100,7 +100,7 @@ export class CdcJsService implements OnDestroy {
   }
 
   private getJavascriptUrlForCurrentSite(baseSite: string): string {
-    const filteredConfigs: any = this.cdcConfig.cdc.filter(
+    const filteredConfigs = (this.cdcConfig.cdc ?? []).filter(
       (conf) => conf.baseSite === baseSite
     );
     if (filteredConfigs && filteredConfigs.length > 0) {

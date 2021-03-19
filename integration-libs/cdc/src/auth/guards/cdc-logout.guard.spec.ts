@@ -8,9 +8,9 @@ import {
   ProtectedRoutesService,
   RoutingConfig,
   SemanticPathService,
+  WindowRef,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CdcAuthService } from '../facade/cdc-auth.service';
 import { CdcLogoutGuard } from './cdc-logout.guard';
 
 class MockAuthService implements Partial<AuthService> {
@@ -19,11 +19,17 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-class MockCdcAuthService implements Partial<CdcAuthService> {
-  logoutFromCdc() {
-    return Promise.resolve();
-  }
-}
+const gigya = {
+  accounts: {
+    logout: (): void => {},
+  },
+};
+
+const mockedWindowRef = {
+  nativeWindow: {
+    gigya: gigya,
+  },
+};
 
 @Component({
   selector: 'cx-page-layout',
@@ -45,7 +51,8 @@ class MockProtectedRoutesService implements Partial<ProtectedRoutesService> {
 
 describe('CdcLogoutGuard', () => {
   let authService: AuthService;
-  let cdcAuthService: CdcAuthService;
+  let winRef: WindowRef;
+  let guard: CdcLogoutGuard;
 
   let zone: NgZone;
   let router: Router;
@@ -83,7 +90,7 @@ describe('CdcLogoutGuard', () => {
         },
         { provide: AuthService, useClass: MockAuthService },
         { provide: CmsService, useClass: MockCmsService },
-        { provide: CdcAuthService, useClass: MockCdcAuthService },
+        { provide: WindowRef, useValue: mockedWindowRef },
         {
           provide: ProtectedRoutesService,
           useClass: MockProtectedRoutesService,
@@ -92,17 +99,28 @@ describe('CdcLogoutGuard', () => {
       ],
     });
     authService = TestBed.inject(AuthService);
+    winRef = TestBed.inject(WindowRef);
     router = TestBed.inject(Router);
-    cdcAuthService = TestBed.inject(CdcAuthService);
     zone = TestBed.inject(NgZone);
+    guard = TestBed.inject(CdcLogoutGuard);
+  });
+
+  it('logoutFromCdc should logout user from CDC', () => {
+    const cdcLogout = spyOn(
+      winRef.nativeWindow['gigya']?.accounts,
+      'logout'
+    ).and.stub();
+    guard['logoutFromCdc']();
+
+    expect(cdcLogout).toHaveBeenCalled();
   });
 
   it('should logout in spartacus and from CDC', async () => {
     spyOn(authService, 'coreLogout').and.callThrough();
-    spyOn(cdcAuthService, 'logoutFromCdc').and.callThrough();
+    spyOn(guard as any, 'logoutFromCdc').and.callThrough();
 
     await zone.run(() => router.navigateByUrl('/logout'));
     expect(authService.coreLogout).toHaveBeenCalled();
-    expect(cdcAuthService.logoutFromCdc).toHaveBeenCalled();
+    expect(guard['logoutFromCdc']).toHaveBeenCalled();
   });
 });
