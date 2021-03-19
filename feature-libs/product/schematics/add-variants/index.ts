@@ -22,6 +22,7 @@ import {
   VARIANTS_TRANSLATION_CHUNKS_CONFIG,
 } from './../constants';
 
+// TODO: Index file for product schematics
 export function addVariantsFeatures(options: SpartacusVariantsOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);

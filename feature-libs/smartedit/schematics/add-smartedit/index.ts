@@ -5,13 +5,7 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusSmartEditOptions,
   readPackageJson,
@@ -33,7 +27,6 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
 
     return chain([
       addSmartEditFeature(options),
-      addSmartEditPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -55,16 +48,4 @@ function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
       glob: '**/*',
     },
   });
-}
-
-function addSmartEditPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_SMARTEDIT,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }

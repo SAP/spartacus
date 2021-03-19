@@ -5,13 +5,7 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
@@ -55,7 +49,6 @@ export function addProductConfiguratorFeatures(
     return chain([
       addProductConfiguratorRulebasedFeature(options),
       addProductConfiguratorTextfieldFeature(options),
-      addProductConfiguratorPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -109,16 +102,4 @@ function addProductConfiguratorTextfieldFeature(
       importStyle: SPARTACUS_PRODUCT_CONFIGURATOR,
     },
   });
-}
-
-function addProductConfiguratorPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_PRODUCT_CONFIGURATOR,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }

@@ -5,13 +5,7 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
@@ -36,7 +30,6 @@ export function addStorefinderFeatures(
 
     return chain([
       addStorefinderFeature(options),
-      addStorefinderPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -63,16 +56,4 @@ function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
       importStyle: SPARTACUS_STOREFINDER,
     },
   });
-}
-
-function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_STOREFINDER,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }

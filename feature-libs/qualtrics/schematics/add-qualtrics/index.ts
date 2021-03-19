@@ -5,13 +5,7 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusQualtricsOptions,
   QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
@@ -31,7 +25,6 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
 
     return chain([
       addQualtricsFeature(options),
-      addQualtricsPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
@@ -53,16 +46,4 @@ function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {
       importStyle: SPARTACUS_QUALTRICS,
     },
   });
-}
-
-function addQualtricsPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_QUALTRICS,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
