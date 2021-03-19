@@ -164,25 +164,19 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  clearDeliveryModesOnCurrencyChange$: Observable<
-    CheckoutActions.ClearSupportedDeliveryModes
-  > = this.actions$.pipe(
+  clearDeliveryModesOnCurrencyChange$: Observable<CheckoutActions.ClearSupportedDeliveryModes> = this.actions$.pipe(
     ofType(SiteContextActions.CURRENCY_CHANGE),
     map(() => new CheckoutActions.ClearSupportedDeliveryModes())
   );
 
   @Effect()
-  clearCheckoutDataOnLogout$: Observable<
-    CheckoutActions.ClearCheckoutData
-  > = this.actions$.pipe(
+  clearCheckoutDataOnLogout$: Observable<CheckoutActions.ClearCheckoutData> = this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
     map(() => new CheckoutActions.ClearCheckoutData())
   );
 
   @Effect()
-  clearCheckoutDataOnLogin$: Observable<
-    CheckoutActions.ClearCheckoutData
-  > = this.actions$.pipe(
+  clearCheckoutDataOnLogin$: Observable<CheckoutActions.ClearCheckoutData> = this.actions$.pipe(
     ofType(AuthActions.LOGIN),
     map(() => new CheckoutActions.ClearCheckoutData())
   );
@@ -337,9 +331,7 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  reloadDetailsOnMergeCart$: Observable<
-    CheckoutActions.LoadCheckoutDetails
-  > = this.actions$.pipe(
+  reloadDetailsOnMergeCart$: Observable<CheckoutActions.LoadCheckoutDetails> = this.actions$.pipe(
     ofType(CartActions.MERGE_CART_SUCCESS),
     map((action: CartActions.MergeCartSuccess) => action.payload),
     map((payload) => {

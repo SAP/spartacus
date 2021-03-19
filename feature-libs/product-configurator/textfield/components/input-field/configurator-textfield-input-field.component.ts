@@ -19,9 +19,8 @@ export class ConfiguratorTextfieldInputFieldComponent implements OnInit {
   attributeInputForm = new FormControl('');
 
   @Input() attribute: ConfiguratorTextfield.ConfigurationInfo;
-  @Output() inputChange = new EventEmitter<
-    ConfiguratorTextfield.ConfigurationInfo
-  >();
+  @Output()
+  inputChange = new EventEmitter<ConfiguratorTextfield.ConfigurationInfo>();
 
   constructor() {}
 

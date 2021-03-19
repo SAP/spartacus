@@ -45,9 +45,7 @@ export class ProductPageEventBuilder {
     );
   }
 
-  protected buildProductDetailsPageEvent(): Observable<
-    ProductDetailsPageEvent
-  > {
+  protected buildProductDetailsPageEvent(): Observable<ProductDetailsPageEvent> {
     return this.eventService.get(NavigationEvent).pipe(
       filter((navigationEvent) => navigationEvent.semanticRoute === 'product'),
       switchMap((navigationEvent) =>
@@ -69,9 +67,7 @@ export class ProductPageEventBuilder {
     );
   }
 
-  protected buildCategoryResultsPageEvent(): Observable<
-    CategoryPageResultsEvent
-  > {
+  protected buildCategoryResultsPageEvent(): Observable<CategoryPageResultsEvent> {
     const searchResults$ = this.productSearchService.getResults().pipe(
       // skipping the initial value, and preventing emission of the previous search state
       skip(1)
