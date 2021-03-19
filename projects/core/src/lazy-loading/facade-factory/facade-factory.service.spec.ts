@@ -14,7 +14,6 @@ import {
 } from 'rxjs';
 import { Injectable, NgModule } from '@angular/core';
 import { EventService } from '../../event/event.service';
-import { FeatureModulesService } from '../feature-modules.service';
 import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
 import { ModuleInitializedEvent } from '../events/module-initialized-event';
 import { CmsConfig } from '../../cms/config/cms-config';
@@ -123,17 +122,6 @@ describe('FacadeFactoryService', () => {
       service.create(testFacadeDescriptor);
       flushMicrotasks();
       expect(moduleInitializedEvent).toBeUndefined();
-    }));
-
-    it('should resolve all feature names until success', fakeAsync(() => {
-      const featureModule = TestBed.inject(FeatureModulesService);
-      spyOn(featureModule, 'isConfigured').and.callThrough();
-      service.create({
-        ...testFacadeDescriptor,
-        feature: ['a', 'b', TEST_FEATURE_NAME, 'c'],
-      });
-      flushMicrotasks();
-      expect(featureModule.isConfigured).toHaveBeenCalledTimes(3);
     }));
 
     describe('async option', () => {

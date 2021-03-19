@@ -26,7 +26,7 @@ import { MediaModule } from '../shared/components/media/media.module';
 import { ViewConfigModule } from '../shared/config/view-config.module';
 
 /**
- * @deprecated since 3.1, see https://sap.github.io/spartacus-docs/getting-started/reference-app-structure
+ * @deprecated since 3.1, see https://sap.github.io/spartacus-docs/reference-app-structure
  */
 @NgModule({
   imports: [

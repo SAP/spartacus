@@ -10,9 +10,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class UserDetailsEffects {
   @Effect()
-  loadUserDetails$: Observable<
-    UserActions.UserDetailsAction
-  > = this.actions$.pipe(
+  loadUserDetails$: Observable<UserActions.UserDetailsAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_DETAILS),
     map((action: UserActions.LoadUserDetails) => action.payload),
     tap(() => console.log('old load user effect')),

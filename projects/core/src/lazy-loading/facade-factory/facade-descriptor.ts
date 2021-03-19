@@ -7,7 +7,7 @@ export interface FacadeDescriptor<T extends object> {
    */
   facade: AbstractType<T>;
   /**
-   * Feature name or names that should be used to resolve facade
+   * Feature name that should be used to resolve facade
    */
   feature: string;
   /**

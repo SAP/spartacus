@@ -20,6 +20,7 @@ export class FeatureModulesService {
   ) {}
 
   /**
+   * Check if feature is configured properly by providing module the shell app
    *
    * @param featureName
    */
@@ -43,7 +44,6 @@ export class FeatureModulesService {
           );
         }
 
-        // tslint:disable-next-line:no-non-null-assertion
         const featureConfig = this.getFeatureConfig(featureName);
 
         this.features.set(
@@ -51,8 +51,7 @@ export class FeatureModulesService {
           this.resolveDependencies(featureConfig.dependencies).pipe(
             switchMap((deps) =>
               this.lazyModules.resolveModuleInstance(
-                // tslint:disable-next-line:no-non-null-assertion
-                featureConfig.module!,
+                featureConfig.module,
                 featureName,
                 deps
               )
@@ -66,7 +65,12 @@ export class FeatureModulesService {
     });
   }
 
-  getFeatureConfig(
+  /**
+   * Resolve
+   * @param featureName
+   * @protected
+   */
+  protected getFeatureConfig(
     featureName: string
   ): FeatureModuleConfig | undefined {
     return this.cmsConfig.featureModules?.[
@@ -88,6 +92,12 @@ export class FeatureModulesService {
     return featureName;
   }
 
+  /**
+   * Resolve dependency modules for the feature
+   *
+   * @param dependencies
+   * @protected
+   */
   protected resolveDependencies(
     dependencies: any[] = []
   ): Observable<NgModuleRef<any>[] | undefined> {

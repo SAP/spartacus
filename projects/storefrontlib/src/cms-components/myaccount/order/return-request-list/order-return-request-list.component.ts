@@ -21,15 +21,15 @@ export class OrderReturnRequestListComponent implements OnDestroy {
   private PAGE_SIZE = 5;
   sortType: string;
 
-  returnRequests$: Observable<
-    ReturnRequestList
-  > = this.returnRequestService.getOrderReturnRequestList(this.PAGE_SIZE).pipe(
-    tap((requestList: ReturnRequestList) => {
-      if (requestList.pagination) {
-        this.sortType = requestList.pagination.sort;
-      }
-    })
-  );
+  returnRequests$: Observable<ReturnRequestList> = this.returnRequestService
+    .getOrderReturnRequestList(this.PAGE_SIZE)
+    .pipe(
+      tap((requestList: ReturnRequestList) => {
+        if (requestList.pagination) {
+          this.sortType = requestList.pagination.sort;
+        }
+      })
+    );
 
   /**
    * When "Order Return" feature is enabled, this component becomes one tab in

@@ -11,6 +11,10 @@ import {
 } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
 
+/**
+ * @deprecated since 3.2
+ * Use feature-library @spartacus/product/variants/components instead
+ */
 @Component({
   selector: 'cx-variant-style-selector',
   templateUrl: './variant-style-selector.component.html',

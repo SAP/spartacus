@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory, StateUtils } from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
+import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { USER_PROFILE_CORE_FEATURE } from '../feature-name';
 
@@ -29,7 +28,7 @@ export abstract class UserPasswordFacade {
   abstract update(
     oldPassword: string,
     newPassword: string
-  ): Observable<StateUtils.LoaderState<User>>;
+  ): Observable<unknown>;
 
   /**
    * Reset new password. Part of the forgot password flow.

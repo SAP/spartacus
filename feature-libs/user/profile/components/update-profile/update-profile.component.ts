@@ -14,7 +14,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class UpdateProfileComponent {
   titles$: Observable<Title[]> = this.userProfile.getTitles();
-  user$: Observable<User> = this.userProfile.get();
+  user$: Observable<User | undefined> = this.userProfile.get();
   isLoading$ = new BehaviorSubject(false);
 
   constructor(

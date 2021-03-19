@@ -21,8 +21,8 @@ export class UserEmailService implements UserEmailFacade {
     this.userProfileService
       .get()
       .pipe(
-        switchMap(({ uid }) =>
-          this.userProfileConnector.updateEmail(uid, payload.password, payload.newUid)
+        switchMap((user) =>
+          this.userProfileConnector.updateEmail(user!.uid!, payload.password, payload.newUid)
         )
       ),
     {

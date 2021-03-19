@@ -22,7 +22,7 @@ export class UserPasswordService implements UserPasswordFacade {
       switchMap((user) =>
         this.userAccountConnector
           // tslint:disable-next-line:no-non-null-assertion
-          .updatePassword(user.uid!, payload.oldPassword, payload.newPassword)
+          .updatePassword(user!.uid!, payload.oldPassword, payload.newPassword)
       )
     )
   );

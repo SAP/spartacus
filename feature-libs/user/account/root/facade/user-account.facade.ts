@@ -18,5 +18,5 @@ export function userAccountFacadeFactory() {
   useFactory: userAccountFacadeFactory,
 })
 export abstract class UserAccountFacade {
-  abstract get(): Observable<User>;
+  abstract get(): Observable<User | undefined>;
 }

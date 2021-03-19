@@ -154,8 +154,10 @@ export class CmsFeaturesService {
     moduleRef: NgModuleRef<any>,
     feature: string
   ): FeatureInstance {
-    // tslint:disable-next-line:no-non-null-assertion
-    const featureConfig = this.featureModulesConfig![feature];
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const featureConfig = this.featureModulesConfig![
+      feature
+    ] as FeatureModuleConfig;
 
     const featureInstance: FeatureInstance = {
       moduleRef,
@@ -169,7 +171,7 @@ export class CmsFeaturesService {
 
     // extract cms components configuration from feature config
     for (const componentType of featureConfig.cmsComponents ?? []) {
-      // tslint:disable-next-line:no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       featureInstance.componentsMappings![componentType] =
         resolvedConfiguration.cmsComponents?.[componentType] ?? {};
     }

@@ -5,9 +5,7 @@
   <a
     actions
     class="link edit"
-    [class.disabled]="
-      !model.active || !model.orgUnit.active || (isInEditMode$ | async)
-    "
+    [class.disabled]="!model.active || (isInEditMode$ | async)"
     [routerLink]="{ cxRoute: 'orgPurchaseLimitEdit', params: model } | cxUrl"
   >
     {{ 'organization.edit' | cxTranslate }}
@@ -16,7 +14,15 @@
   <cx-org-toggle-status
     actions
     i18nRoot="orgPurchaseLimit"
+    [disabled]="false"
   ></cx-org-toggle-status>
+
+  <cx-org-disable-info
+    info
+    i18nRoot="orgPurchaseLimit"
+    [displayInfoConfig]="{ disabledEnable: false }"
+  >
+  </cx-org-disable-info>
 
   <section main class="details" cxOrgItemExists>
     <div class="property">
@@ -27,7 +33,7 @@
     </div>
 
     <div class="property">
-      <label>{{ 'orgBudget.active' | cxTranslate }}</label>
+      <label>{{ 'orgPurchaseLimit.active' | cxTranslate }}</label>
       <span class="value" [class.is-active]="model.active">
         {{
           (model.active ? 'organization.enabled' : 'organization.disabled')

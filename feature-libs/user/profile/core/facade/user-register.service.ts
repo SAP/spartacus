@@ -8,19 +8,19 @@ import {
   UserRegisterFacade,
   UserSignUp,
 } from '@spartacus/user/profile/root';
-import { UserProfileConnector } from '../connectors';
+import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
-  protected registerCommand = this.command.create<{ user: UserSignUp }>(
+  protected registerCommand = this.command.create<{ user: UserSignUp }, User>(
     ({ user }) => this.userConnector.register(user)
   );
 
   protected registerGuestCommand = this.command.create<{
     guid: string;
     password: string;
-  }>((payload) =>
+  }, User>((payload) =>
     this.userConnector.registerGuest(payload.guid, payload.password).pipe(
       tap((user) => {
         // tslint:disable-next-line:no-non-null-assertion

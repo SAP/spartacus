@@ -28,7 +28,7 @@ export class UserAccountService implements UserAccountFacade {
   /**
    * Returns the current user.
    */
-  get(): Observable<User> {
+  get(): Observable<User | undefined> {
     return this.userQuery.get();
   }
 }

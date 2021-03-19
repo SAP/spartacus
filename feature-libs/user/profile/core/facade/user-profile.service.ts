@@ -22,7 +22,7 @@ export class UserProfileService implements UserProfileFacade {
       this.get().pipe(
         take(1),
         switchMap((user) =>
-          this.userProfileConnector.update(user.uid, payload.details).pipe(
+          this.userProfileConnector.update(user!.uid!, payload.details).pipe(
             tap(() => {
               this.eventService.dispatch(
                 { user: payload.details },
@@ -42,7 +42,7 @@ export class UserProfileService implements UserProfileFacade {
       take(1),
       switchMap((user) =>
         this.userProfileConnector
-          .remove(user.uid)
+          .remove(user!.uid!)
           .pipe(tap(() => this.authService.logout()))
       )
     )
@@ -66,7 +66,7 @@ export class UserProfileService implements UserProfileFacade {
     protected command: CommandService
   ) {}
 
-  get(): Observable<User> {
+  get(): Observable<User | undefined> {
     return this.userAccountService.get();
   }
 
@@ -75,7 +75,7 @@ export class UserProfileService implements UserProfileFacade {
    *
    * @param details User details to be updated.
    */
-  update(details: User): Observable<User> {
+  update(details: User): Observable<unknown> {
     return this.updateCommand.execute({ details });
   }
 

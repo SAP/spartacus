@@ -127,7 +127,7 @@ export class CartItemListComponent {
 
   getControl(item: OrderEntry): Observable<FormGroup> {
     return this.form.get(this.getControlName(item)).valueChanges.pipe(
-      // tslint:disable-next-line:deprecation
+      // eslint-disable-next-line import/no-deprecated
       startWith(null),
       map((value) => {
         if (value && this.selectiveCartService && this.options.isSaveForLater) {

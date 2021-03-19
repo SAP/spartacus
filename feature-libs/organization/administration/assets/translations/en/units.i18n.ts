@@ -20,11 +20,19 @@ export const orgUnit = {
   },
 
   messages: {
+    deactivateTitle: 'Disable this unit?',
     deactivate: 'Are you sure you want to disable this unit?',
+    deactivateBody:
+      "Disabling a unit has wide-ranging affects on your commerce organization. ALL the unit's child units, users, budgets, and cost centers will also disabled.",
     confirmEnabled: 'Unit {{item.name}} enabled successfully',
     confirmDisabled: 'Unit {{item.name}} disabled successfully',
     update: 'Unit {{ item.name }} updated successfully',
     create: 'Unit {{ item.name }} created successfully',
+  },
+  info: {
+    disabledEdit: 'Enable the unit to allow editing.',
+    disabledEnable: 'Parent must be enabled before this unit may be enabled.',
+    disabledDisable: 'Root unit can not be disabled.',
   },
 
   links: {
@@ -103,6 +111,9 @@ export const orgUnit = {
 export const orgUnitChildren = {
   title: 'Child units',
   subtitle: 'Unit: {{item.name}}',
+  info: {
+    disabledCreate: 'Child unit can not be created for disabled unit.',
+  },
 };
 
 export const orgUnitAssignedRoles = {
@@ -138,6 +149,9 @@ export const orgUnitAssignedUsers = {
 export const orgUnitUsers = {
   title: 'Assigned users',
   subtitle: 'Unit: {{item.name}}',
+  info: {
+    disabledCreate: 'User can not be created for disabled unit.',
+  },
 };
 
 export const orgUnitUserRoles = {
@@ -151,6 +165,9 @@ export const orgUnitUserRoles = {
 export const orgUnitCostCenters = {
   title: 'Assigned cost centers',
   subtitle: 'Unit: {{item.name}}',
+  info: {
+    disabledCreate: 'Cost center can not be created for disabled unit.',
+  },
 };
 
 export const orgUnitAddress = {
@@ -192,6 +209,9 @@ export const orgUnitAddress = {
       'Address {{ item.firstName }} {{ item.lastName }} updated successfully',
     delete:
       'Are you sure you want to delete address {{ item.firstName }} {{ item.lastName }}?',
+    deleteTitle: 'Delete this address?',
+    deleteBody:
+      'The address cannot be brought back. Existing orders are not affected.',
     deleted:
       'Address {{ item.firstName }} {{ item.lastName }} deleted successfully',
   },

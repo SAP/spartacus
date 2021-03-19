@@ -34,7 +34,10 @@ export const orgUserGroup = {
   messages: {
     update: 'User Group {{ item.name }} updated successfully',
     create: 'User Group {{ item.name }} created successfully',
+    deleteTitle: 'Delete this user group?',
     delete: 'Are you sure you want to delete user group {{ item.name }}?',
+    deleteBody:
+      'The users in this group are not affected when the user group is deleted.',
     deleted: 'User Group {{ item.name }} deleted successfully',
   },
 

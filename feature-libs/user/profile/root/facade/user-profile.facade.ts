@@ -18,14 +18,14 @@ export function UserProfileFacadeFactory() {
   useFactory: UserProfileFacadeFactory,
 })
 export abstract class UserProfileFacade {
-  abstract get(): Observable<User>;
+  abstract get(): Observable<User | undefined>;
 
   /**
    * Updates the user's details.
    *
    * @param details User details to be updated.
    */
-  abstract update(details: User): Observable<User>;
+  abstract update(details: User): Observable<unknown>;
 
   /**
    * Closes the user account.

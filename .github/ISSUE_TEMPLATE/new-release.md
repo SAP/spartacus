@@ -17,15 +17,9 @@ assignees: ''
 - [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
 
     ```bash
-    BACKEND_URL="https://spartacus-dev0.eastus.cloudapp.azure.com:9002"
+    BACKEND_URL="https://20.83.184.244:9002"
     BRANCH='release/x.y.z'
     SPARTACUS_VERSION='x.y.z'
-    ```
-
-    If backend version is older than 2005, add this as well to the above config:
-
-    ```bash
-    OCC_PREFIX="/rest/v2/"
     ```
 
     Finally, run the script:
@@ -52,8 +46,8 @@ assignees: ''
 - [ ] Get the spartacussampledata source code zips for both 1905 and 2005 CX versions (use `release/1905/next` and `release/2005/next` branches)
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.zip` -> `spartacussampledataaddon.1905.zip`
   - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.tar.gz` -> `spartacussampledataaddon.1905.tar.gz`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/2005-2.0.0.zip` -> `spartacussampledata.2005.zip`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/2005-2.0.0.tar.gz` -> `spartacussampledata.2005.tar.gz`
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.zip` -> `spartacussampledata.2005.zip`
+  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.tar.gz` -> `spartacussampledata.2005.tar.gz`
 
 ### For all operative systems
 
@@ -61,9 +55,9 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
 
 - [ ] Merge _next_ branches into _latest_ branches for each version (1905, 2005) (only if there are additions/changes present in _next_ that are not in _latest_):
   - [ ] `git clone https://github.tools.sap/cx-commerce/spartacussampledata` (if already present `cd spartacussampledata && git fetch origin`)
-  - [ ] `git checkout release/1905/latest && git diff release/1905/next` in case output is not empty create the PR and tag the final commit: `git tag 1905-x.y.z PR-COMMIT-HASH`
-  - [ ] `git checkout release/2005/latest && git diff release/2005/next` in case output is not empty create the PR and tag the final commit: `git tag 2005-x.y.z PR-COMMIT-HASH`
-  - [ ] If any of the two above tags was created: `git push origin [branch] --tags`
+  - [ ] tag the final commit on release/1905/next branch: `git tag 1905-x.y.z HEAD-COMMIT-HASH`
+  - [ ] tag the final commit on release/2005/next branch: `git tag 2005-x.y.z HEAD-COMMIT-HASH`
+  - [ ] push created tags: `git push origin --tags`
 
 ---
 
@@ -83,6 +77,8 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
     - [ ] `npm run release:organization:with-changelog` (needed since `3.0.0-next.1`)
     - [ ] `npm run release:storefinder:with-changelog` (needed since `3.0.0-rc.0`)
     - [ ] `npm run release:tracking:with-changelog` (needed since `3.2.0-next.0`)
+    - [ ] `npm run release:product:with-changelog` (needed since `3.2.0-next.1`)
+    - [ ] `npm run release:smartedit:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:product-configurator:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:cdc:with-changelog` (since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
