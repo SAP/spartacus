@@ -12,7 +12,6 @@ export function availableEntriesReducer(
   switch (action.type) {
     case BundleActions.GET_BUNDLE_ALLOWED_PRODUCTS_SUCCESS: {
       const availableEntriesEntities = action.payload;
-      console.log(state, action)
       return {
         ...state, availableEntriesEntities: {
           ...state.availableEntriesEntities,

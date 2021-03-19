@@ -14,7 +14,7 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService
-  ) {}
+  ) { }
 
   /**
    * Adds a product to a cart entry group.
@@ -38,7 +38,7 @@ export class OccCartEntryGroupAdapter implements CartEntryGroupAdapter {
     entry: OrderEntry
   ): Observable<CartModification> {
     const toAdd = JSON.stringify({
-      entry: entry,
+      product: entry,
     });
 
     const headers = new HttpHeaders({

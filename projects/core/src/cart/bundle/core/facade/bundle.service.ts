@@ -1,11 +1,13 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { BundleActions, StateWithBundle } from '../store';
+import { select, Store } from '@ngrx/store';
+import { BundleActions, BundleSelectors, StateWithBundle } from '../store';
 import { BundleStarter } from '../model/bundle.model';
 import { WindowRef } from '../../../../window/window-ref';
 import { GlobalMessageService } from '../../../../global-message/facade/global-message.service';
 import { RoutingService } from '../../../../routing/facade/routing.service';
 import { SearchConfig } from '../../../../product/model/search-config';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -21,27 +23,42 @@ export class BundleService {
 
   /**
    * Returns boolean observable for store's loading state
-  //  */
-  // getStoresLoading(): Observable<boolean> {
-  //   return this.store.pipe(select(BundleSelectors.getBundlesLoading));
-  // }
+   */
+  getAvailableEntriesLoading(): Observable<boolean> {
+    return this.store.pipe(select(BundleSelectors.getAvailableEntriesLoading));
+  }
 
-  // /**
-  //  * Returns boolean observable for store's success state
-  //  */
-  // getStoresLoaded(): Observable<boolean> {
-  //   return this.store.pipe(select(BundleSelectors.getBundlesSuccess));
-  // }
+  /**
+   * Returns boolean observable for store's success state
+   */
+  getAvailableEntriesLoaded(): Observable<boolean> {
+    return this.store.pipe(select(BundleSelectors.getAvailableEntriesSuccess));
+  }
 
   /**
    * Returns observable for store's entities
    */
-  // getBundleEntities(): Observable<BundleEntities> {
-  //   return this.store.pipe(
-  //     select(BundleSelectors.getBundlesEntities),
-  //     map((data) => data.bundlesEntities)
-  //   );
-  // }
+  getAvailableEntriesEntities(): Observable<any> {
+    return this.store.pipe(
+      select(BundleSelectors.getAvailableEntriesEntities),
+      map((data) => {
+        return data.availableEntriesEntities
+      })
+    );
+  }
+
+  /**
+ * Returns observable for store's entities
+ */
+  getAvailableEntriesEntity(cartId: string, entryGroupNumber: number): Observable<any> {
+    return this.store.pipe(
+      select(BundleSelectors.getAvailableEntriesEntities),
+      map((data) => {
+        console.log(data.availableEntriesEntities?.[cartId]?.[entryGroupNumber])
+        return data.availableEntriesEntities?.[cartId]?.[entryGroupNumber]
+      })
+    );
+  }
 
   /**
    * Start bundle
