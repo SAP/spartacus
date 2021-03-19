@@ -15,8 +15,7 @@
     "lib": ["es2020", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
-      "@spartacus/asm/core": ["dist/asm/core"]
+      "@spartacus/storefront": ["dist/storefrontlib"]
     }
   },
   "angularCompilerOptions": {
