@@ -28,6 +28,8 @@ export class SubListComponent extends ListComponent {
 
   @Input() key = this.service.key();
 
+  @Input() showHint: boolean;
+
   @Input() set routerKey(key: string) {
     this.subKey$ = this.organizationItemService.getRouterParam(key);
   }
@@ -43,5 +45,7 @@ export class SubListComponent extends ListComponent {
     })
   );
 
-  readonly dataStructure$: Observable<TableStructure> = this.service.getStructure();
+  readonly dataStructure$: Observable<
+    TableStructure
+  > = this.service.getStructure();
 }

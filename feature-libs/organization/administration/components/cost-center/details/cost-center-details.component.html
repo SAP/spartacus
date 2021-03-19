@@ -1,8 +1,4 @@
-<cx-org-card
-  *ngIf="model$ | async as model"
-  i18nRoot="orgCostCenter.details"
-  [showHint]="true"
->
+<cx-org-card *ngIf="model$ | async as model" i18nRoot="orgCostCenter.details">
   <a
     actions
     class="link edit"
