@@ -147,9 +147,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     });
 
     serviceUnderTest = TestBed.inject(
-      CpqConfiguratorOverviewNormalizer as Type<
-        CpqConfiguratorOverviewNormalizer
-      >
+      CpqConfiguratorOverviewNormalizer as Type<CpqConfiguratorOverviewNormalizer>
     );
   });
 

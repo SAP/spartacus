@@ -136,7 +136,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     value: Configurator.Value
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      preventAction: this.attribute.required,
+      hideRemoveButton: this.attribute.required,
       productBoundValue: value,
     };
   }

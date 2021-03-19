@@ -44,6 +44,7 @@
       "@spartacus/organization",
       "@spartacus/product",
       "@spartacus/storefinder",
+      "@spartacus/asm",
       "@spartacus/smartedit",
       "@spartacus/qualtrics",
       "@spartacus/cdc",

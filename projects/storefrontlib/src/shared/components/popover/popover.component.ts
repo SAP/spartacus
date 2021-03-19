@@ -7,7 +7,6 @@ import {
   ElementRef,
   HostBinding,
   HostListener,
-  Input,
   OnDestroy,
   OnInit,
   Renderer2,
@@ -31,39 +30,56 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   /**
    * String or template to be rendered inside popover wrapper component.
    */
-  @Input() content: string | TemplateRef<any>;
+  content: string | TemplateRef<any>;
 
   /**
    * Element which triggers displaying popover component.
    * This property is needed to calculate valid position for popover.
    */
-  @Input() triggerElement: ElementRef;
+  triggerElement: ElementRef;
 
   /**
    * Current initiated popover instance.
    */
-  @Input() popoverInstance: ComponentRef<PopoverComponent>;
+  popoverInstance: ComponentRef<PopoverComponent>;
 
   /**
    * Flag which informs positioning service if popover component
    * should be appended to body. Otherwise popover is displayed right after
    * trigger element in DOM.
    */
-  @Input() appendToBody?: boolean;
+  appendToBody?: boolean;
 
   /**
-   * The preferred placement of the popover. Default popover position is 'auto'.
+   * The preferred placement of the popover. Default popover position is 'top'.
    *
    * Allowed popover positions: 'auto', 'top', 'bottom', 'left', 'right',
    * 'top-left', 'top-right', 'bottom-left', 'bottom-right',
    * 'left-top', 'left-bottom', 'right-top', 'right-bottom'.
    */
-  @Input() position?: PopoverPosition;
+  position?: PopoverPosition;
+
+  /**
+   * Flag used to define if popover should look for the best placement
+   * in case if there is not enough space in viewport for preferred position.
+   *
+   * By default this property is set to `true`.
+   *
+   * Value of this flag is omitted if preferred position is set to `auto`.
+   */
+  autoPositioning?: boolean;
 
   /**
    * Custom class name passed to popover component.
+   *
+   * If this property is not set the default popover class is `cx-popover`.
    */
-  @Input() customClass? = 'cx-popover';
+  customClass?: string;
+
+  /**
+   * Flag used to show/hide close button in popover component.
+   */
+  displayCloseButton?: boolean;
 
   /**
    * Flag which indicates if passed content is a TemplateRef or string.
@@ -181,7 +197,10 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.popoverClass = this.positioningService.positionElements(
       this.triggerElement.nativeElement,
       this.popoverInstance.location.nativeElement,
-      this.position || 'auto',
+      this.positioningService.getPositioningClass(
+        this.position,
+        this.autoPositioning
+      ),
       this.appendToBody
     );
 
@@ -191,6 +210,11 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnInit(): void {
     this.isTemplate = this.content instanceof TemplateRef;
+
+    if (!this.customClass) this.customClass = 'cx-popover';
+    if (!this.position) this.position = 'top';
+    if (this.autoPositioning === undefined) this.autoPositioning = true;
+
     this.baseClass = `${this.customClass}`;
 
     this.resizeSub = this.winRef.resize$.subscribe(() => {
