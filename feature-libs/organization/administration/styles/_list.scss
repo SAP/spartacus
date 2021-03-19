@@ -75,19 +75,19 @@
 
 %organizationTitle {
   .title {
-    display: flex;
-    flex-direction: row;
-    button {
-      align-self: flex-start;
-      margin-inline-start: 0.5rem;
-      border: none;
-      cx-icon {
-        pointer-events: none;
-        color: var(--cx-color, var(--cx-color-info));
+    flex-direction: column;
+    h3 {
+      display: flex;
+      flex-direction: row;
+      button {
+        align-self: flex-start;
+        margin-inline-start: 0.5rem;
+        border: none;
+        cx-icon {
+          pointer-events: none;
+          color: var(--cx-color, var(--cx-color-info));
+        }
       }
-    }
-    .subtitle {
-      flex-direction: column;
     }
   }
 }

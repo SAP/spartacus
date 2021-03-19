@@ -2,30 +2,28 @@
   <div class="header">
     <div class="title-bar">
       <div class="title">
-        <div class="subtitle">
-          <h3>
-            {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
-          </h3>
-          <h4>
-            {{
-              subtitle ||
-                (i18nRoot + '.subtitle' | cxTranslate: { item: item$ | async })
-            }}
-            &nbsp;
-          </h4>
-        </div>
-        <button
-          *ngIf="showHint"
-          [cxPopover]="detailHint"
-          [cxPopoverOptions]="{
-            placement: 'auto',
-            class: 'hint-popover',
-            appendToBody: true,
-            displayCloseButton: false
-          }"
-        >
-          <cx-icon [type]="iconTypes.INFO"> </cx-icon>
-        </button>
+        <h3>
+          {{ i18nRoot + '.title' | cxTranslate: { item: item$ | async } }}
+          <button
+            *ngIf="showHint"
+            [cxPopover]="detailHint"
+            [cxPopoverOptions]="{
+              placement: 'auto',
+              class: 'hint-popover',
+              appendToBody: true,
+              displayCloseButton: false
+            }"
+          >
+            <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+          </button>
+        </h3>
+        <h4>
+          {{
+            subtitle ||
+              (i18nRoot + '.subtitle' | cxTranslate: { item: item$ | async })
+          }}
+          &nbsp;
+        </h4>
       </div>
       <div class="actions">
         <ng-content select="[actions]"></ng-content>

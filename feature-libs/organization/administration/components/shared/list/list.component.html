@@ -7,18 +7,18 @@
             {{
               viewType + '.header' | cxTranslate: { count: getListCount(data) }
             }}
+            <button
+              [cxPopover]="listHint"
+              [cxPopoverOptions]="{
+                placement: 'auto',
+                class: 'hint-popover',
+                appendToBody: true,
+                displayCloseButton: false
+              }"
+            >
+              <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+            </button>
           </h3>
-          <button
-            [cxPopover]="listHint"
-            [cxPopoverOptions]="{
-              placement: 'auto',
-              class: 'hint-popover',
-              appendToBody: true,
-              displayCloseButton: false
-            }"
-          >
-            <cx-icon [type]="iconTypes.INFO"> </cx-icon>
-          </button>
         </div>
 
         <div class="actions">
