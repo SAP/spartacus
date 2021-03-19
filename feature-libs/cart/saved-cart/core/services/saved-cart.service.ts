@@ -113,6 +113,14 @@ export class SavedCartService {
     );
   }
 
+  getSavedCartListProcessLoading(): Observable<boolean> {
+    return this.store.pipe(
+      select(
+        ProcessSelectors.getProcessLoadingFactory(SAVED_CART_LIST_PROCESS_ID)
+      )
+    );
+  }
+
   getSavedCartListProcess(): Observable<StateUtils.LoaderState<any>> {
     return this.store.pipe(
       select(

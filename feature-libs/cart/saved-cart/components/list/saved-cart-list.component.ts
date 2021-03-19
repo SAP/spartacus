@@ -17,6 +17,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   savedCarts$: Observable<Cart[]> = this.savedCartService.getList();
+  isLoading$: Observable<boolean>;
 
   constructor(
     protected routing: RoutingService,
@@ -25,6 +26,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();
     this.savedCartService.loadSavedCarts();
 
     this.subscription.add(
