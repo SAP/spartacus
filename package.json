@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng build storefrontapp --prod",
-    "build:asm": "ng build asm --prod",
+    "build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
     "build:cdc": "ng build cdc --prod",
     "build:cds": "ng build cds --prod",

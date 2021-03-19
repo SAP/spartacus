@@ -34,5 +34,6 @@
   },
   "dependencies": {
     "tslib": "^2.0.0"
-  }
+  },
+  "schematics": "./schematics/collection.json"
 }
