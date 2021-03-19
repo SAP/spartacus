@@ -27,7 +27,7 @@ interface FeatureInstance extends FeatureModuleConfig {
 export class CmsFeaturesService {
   // feature modules configuration
   private featureModulesConfig?: {
-    [featureName: string]: FeatureModuleConfig;
+    [featureName: string]: FeatureModuleConfig | string;
   };
 
   // maps componentType to feature
@@ -58,7 +58,11 @@ export class CmsFeaturesService {
         for (const [featureName, featureConfig] of Object.entries(
           this.featureModulesConfig
         )) {
-          if (featureConfig?.module && featureConfig?.cmsComponents?.length) {
+          if (
+            typeof featureConfig !== 'string' &&
+            featureConfig?.module &&
+            featureConfig?.cmsComponents?.length
+          ) {
             for (const component of featureConfig.cmsComponents) {
               this.componentFeatureMap.set(component, featureName);
             }
@@ -151,7 +155,9 @@ export class CmsFeaturesService {
     feature: string
   ): FeatureInstance {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const featureConfig = this.featureModulesConfig![feature];
+    const featureConfig = this.featureModulesConfig![
+      feature
+    ] as FeatureModuleConfig;
 
     const featureInstance: FeatureInstance = {
       moduleRef,
