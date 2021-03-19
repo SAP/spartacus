@@ -6,7 +6,7 @@ import { TruncateTextPopoverModule } from './truncate-text-popover.module';
 const mockContent =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-fdescribe('TruncateTextPopoverComponent', () => {
+describe('TruncateTextPopoverComponent', () => {
   let component: TruncateTextPopoverComponent;
   let fixture: ComponentFixture<TruncateTextPopoverComponent>;
 
