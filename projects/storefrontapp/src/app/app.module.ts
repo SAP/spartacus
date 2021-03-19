@@ -65,7 +65,7 @@ if (!environment.production) {
       },
 
       features: {
-        level: '3.1',
+        level: '2.1',
       },
     }),
 
