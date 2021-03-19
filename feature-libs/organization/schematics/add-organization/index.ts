@@ -18,7 +18,6 @@ import {
   B2C_STOREFRONT_MODULE,
   commitChanges,
   createImportChange,
-  DEFAULT_B2B_OCC_CONFIG,
   findMultiLevelNodesByTextAndKind,
   getAppModule,
   getSpartacusSchematicsVersion,
@@ -160,10 +159,6 @@ function addOrganizationPackageJsonDependencies(packageJson: any): Rule {
 function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
     name: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
-    defaultConfig: {
-      name: DEFAULT_B2B_OCC_CONFIG,
-      importPath: SPARTACUS_SETUP,
-    },
     featureModule: {
       name: ADMINISTRATION_MODULE,
       importPath: SPARTACUS_ADMINISTRATION,
@@ -187,10 +182,6 @@ function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
 function addOrderApprovalsFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
     name: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
-    defaultConfig: {
-      name: DEFAULT_B2B_OCC_CONFIG,
-      importPath: SPARTACUS_SETUP,
-    },
     featureModule: {
       name: ORDER_APPROVAL_MODULE,
       importPath: SPARTACUS_ORDER_APPROVAL,
