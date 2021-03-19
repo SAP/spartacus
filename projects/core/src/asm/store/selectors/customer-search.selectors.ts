@@ -4,6 +4,9 @@ import { CustomerSearchPage } from '../../models/asm.models';
 import { AsmState, StateWithAsm } from '../asm-state';
 import { getAsmState } from './feature.selector';
 
+/**
+ * @deprecated since 3.2, use asm lib instead
+ */
 export const getCustomerSearchResultsLoaderState: MemoizedSelector<
   StateWithAsm,
   StateUtils.LoaderState<CustomerSearchPage>
@@ -12,6 +15,9 @@ export const getCustomerSearchResultsLoaderState: MemoizedSelector<
   (state: AsmState) => state.customerSearchResult
 );
 
+/**
+ * @deprecated since 3.2, use asm lib instead
+ */
 export const getCustomerSearchResults: MemoizedSelector<
   StateWithAsm,
   CustomerSearchPage
@@ -19,6 +25,9 @@ export const getCustomerSearchResults: MemoizedSelector<
   StateUtils.loaderValueSelector(state)
 );
 
+/**
+ * @deprecated since 3.2, use asm lib instead
+ */
 export const getCustomerSearchResultsLoading: MemoizedSelector<
   StateWithAsm,
   boolean

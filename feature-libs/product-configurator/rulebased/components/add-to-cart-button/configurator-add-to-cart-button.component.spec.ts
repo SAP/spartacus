@@ -292,12 +292,12 @@ describe('ConfigAddToCartButtonComponent', () => {
       );
     });
 
-    it('should remove 2 configurations in case configuration has not yet been added and we are on configuration page', () => {
+    it('should remove one configuration (cart bound) in case configuration has not yet been added and we are on configuration page', () => {
       ensureProductBound();
       component.onAddToCart(mockProductConfiguration, mockRouterData);
       expect(
         configuratorCommonsService.removeConfiguration
-      ).toHaveBeenCalledTimes(2);
+      ).toHaveBeenCalledTimes(1);
     });
 
     it('should display addToCart message in case configuration has not been added yet', () => {
@@ -319,11 +319,11 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(routingService.go).toHaveBeenCalledWith('cart');
     });
 
-    it('should remove 2 configurations in case configuration has not yet been added and process was triggered from overview', () => {
+    it('should remove one (cart bound) configurations in case configuration has not yet been added and process was triggered from overview', () => {
       performAddToCartOnOverview();
       expect(
         configuratorCommonsService.removeConfiguration
-      ).toHaveBeenCalledTimes(2);
+      ).toHaveBeenCalledTimes(1);
     });
   });
 

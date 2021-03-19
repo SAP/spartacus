@@ -17,6 +17,8 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 /**
+ * @deprecated since 3.2, use asm lib instead
+ *
  * Version of AuthService that is working for both user na CS agent.
  * Overrides AuthService when ASM module is enabled.
  */
