@@ -19,9 +19,7 @@ import { SavedCartDetailService } from '../saved-cart-detail.service';
 export class SavedCartDetailItemsComponent {
   userId$ = this.userIdService.getUserId();
 
-  cartLoaded$: Observable<
-    boolean
-  > = this.savedCartDetailService
+  cartLoaded$: Observable<boolean> = this.savedCartDetailService
     .getSavedCartId()
     .pipe(switchMap((cartId) => this.savedCartService.isStable(cartId)));
 
