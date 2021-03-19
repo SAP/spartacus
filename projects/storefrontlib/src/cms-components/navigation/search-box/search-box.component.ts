@@ -283,8 +283,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Disables closing the search result list.
    */
-  disableClose(): void {
-    this.ignoreCloseEvent = true;
+  disableClose(disable = true): void {
+    this.ignoreCloseEvent = disable;
   }
 
   /**

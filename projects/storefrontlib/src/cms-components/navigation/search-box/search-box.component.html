@@ -40,6 +40,9 @@
   *ngIf="results$ | async as result"
   class="results"
   (click)="close($event, true)"
+  (mouseenter)="disableClose()"
+  (mouseleave)="disableClose(false)"
+  (blur)="disableClose(false)"
 >
   <div
     *ngIf="result.message"
