@@ -20,10 +20,10 @@
     </a>
     <div class="cx-details" [class.open]="showMore">
       <div class="cx-details-image">
-        <img
-          [alt]="getProductImageAlt(product)"
-          [src]="getProductImageURL(product)"
-        />
+        <cx-media
+          [container]="product?.images?.PRIMARY"
+          format="product"
+        ></cx-media>
       </div>
       <div class="cx-details-content">
         <div class="cx-detail-title">

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
+import { IconModule, MediaModule } from '@spartacus/storefront';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 @NgModule({
@@ -14,6 +14,7 @@ import { ConfiguratorProductTitleComponent } from './configurator-product-title.
     CommonModule,
     I18nModule,
     IconModule,
+    MediaModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
