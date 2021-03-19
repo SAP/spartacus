@@ -33,7 +33,9 @@ export class CdcLogoutGuard extends LogoutGuard {
    * Logout user from CDC
    */
   protected logoutFromCdc(): void {
-    this.winRef.nativeWindow?.['gigya']?.accounts?.logout();
+    (this.winRef.nativeWindow as { [key: string]: any })?.[
+      'gigya'
+    ]?.accounts?.logout();
   }
 
   /**

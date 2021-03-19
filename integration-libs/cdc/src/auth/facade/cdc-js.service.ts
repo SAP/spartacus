@@ -93,7 +93,9 @@ export class CdcJsService implements OnDestroy {
                 },
               });
               if (this.winRef?.nativeWindow !== undefined) {
-                this.winRef.nativeWindow['__gigyaConf'] = {
+                (this.winRef.nativeWindow as { [key: string]: any })[
+                  '__gigyaConf'
+                ] = {
                   include: 'id_token',
                 };
               }
@@ -128,8 +130,10 @@ export class CdcJsService implements OnDestroy {
    * @param baseSite
    */
   protected addCdcEventHandlers(baseSite: string): void {
-    this.winRef.nativeWindow?.['gigya']?.accounts?.addEventHandlers({
-      onLogin: (...params) => {
+    (this.winRef.nativeWindow as { [key: string]: any })?.[
+      'gigya'
+    ]?.accounts?.addEventHandlers({
+      onLogin: (...params: any[]) => {
         this.zone.run(() => this.onLoginEventHandler(baseSite, ...params));
       },
     });

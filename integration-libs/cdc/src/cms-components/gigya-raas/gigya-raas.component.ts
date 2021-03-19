@@ -66,7 +66,9 @@ export class GigyaRaasComponent implements OnInit {
    * @param lang - language
    */
   showScreenSet(data: GigyaRaasComponentData, lang: string) {
-    this.winRef.nativeWindow?.['gigya']?.accounts?.showScreenSet({
+    (this.winRef.nativeWindow as { [key: string]: any })?.[
+      'gigya'
+    ]?.accounts?.showScreenSet({
       screenSet: data.screenSet,
       startScreen: data.startScreen,
       lang,
@@ -76,7 +78,7 @@ export class GigyaRaasComponent implements OnInit {
       ...(this.isLoginScreenSet(data)
         ? { sessionExpiration: this.getSessionExpirationValue() }
         : {
-            onAfterSubmit: (...params) => {
+            onAfterSubmit: (...params: any[]) => {
               this.zone.run(() =>
                 this.cdcJSService.onProfileUpdateEventHandler(...params)
               );
