@@ -13,6 +13,7 @@ import { PromotionsModule } from '../../checkout/components/promotions/promotion
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
+import { ExportFromCartComponent } from './export-from-cart/export-from-cart.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
 
 @NgModule({
@@ -36,7 +37,13 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     CartItemComponent,
     OrderSummaryComponent,
     CartItemListComponent,
+    ExportFromCartComponent,
   ],
-  exports: [CartItemComponent, CartItemListComponent, OrderSummaryComponent],
+  exports: [
+    CartItemComponent,
+    CartItemListComponent,
+    OrderSummaryComponent,
+    ExportFromCartComponent,
+  ],
 })
 export class CartSharedModule {}
