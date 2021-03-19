@@ -26,7 +26,7 @@
           {{ content.textBold }}
         </div>
         <div *ngFor="let line of content.text">
-          <div *ngIf="!truncateText; truncate" class="cx-card-label">
+          <div *ngIf="!truncateText; else truncate" class="cx-card-label">
             {{ line }}
           </div>
 
