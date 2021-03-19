@@ -16,7 +16,6 @@ import {
   ConfiguratorAttributeQuantityComponentOptions,
   Quantity,
 } from '../quantity/configurator-attribute-quantity.component';
-('rxjs/operators');
 
 export interface ProductExtended extends Product {
   noLink?: boolean;
