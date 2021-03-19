@@ -29,8 +29,6 @@ const I18N_CHUNKS = 'translationChunk';
 const ASSETS_IMPORT_PATH = '@spartacus/xxx/assets';
 const SCSS_FILE_NAME = 'xxx.scss';
 const STYLE_IMPORT_PATH = FEATURE_MODULE_IMPORT_PATH;
-const DEFAULT_CONFIG = 'defaultXxxConfig';
-const DEFAULT_CONFIG_IMPORT_PATH = '@spartacus/default/config';
 
 const appModulePath = 'src/app/app.module.ts';
 const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
@@ -130,149 +128,80 @@ describe('Lib utils', () => {
         .toPromise();
     });
 
-    it('should add i18n', async () => {
-      const rule = addLibraryFeature(
-        appModulePath,
-        BASE_OPTIONS,
-        BASE_FEATURE_CONFIG
-      );
-      const result = await schematicRunner.callRule(rule, appTree).toPromise();
+    it('should create new feature module', () => {});
 
-      const appModule = result.read(appModulePath)?.toString(UTF_8);
-      expect(appModule).toContain(
+    it('should import new feature module in SpartacusFeaturesModule', () => {});
+
+    it('should add i18n config in feature module', async () => {
+      const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
+      const tree = await schematicRunner.callRule(rule, appTree).toPromise();
+
+      // TODO: Finish when config util will be created
+      const appModule = tree.read(appModulePath)?.toString(UTF_8);
+      expect(appModule).not.toContain(
         `import { ${I18N_RESOURCES} } from '${ASSETS_IMPORT_PATH}';`
       );
-      expect(appModule).toContain(
-        `import { ${I18N_CHUNKS} } from '${ASSETS_IMPORT_PATH}';`
-      );
-      expect(appModule).toContain(`resources: ${I18N_RESOURCES},`);
-      expect(appModule).toContain(`chunks: ${I18N_CHUNKS},`);
     });
     it('should NOT add i18n if the config is not present', async () => {
       const featureConfig: FeatureConfig = {
         ...BASE_FEATURE_CONFIG,
         i18n: undefined,
       };
-      const rule = addLibraryFeature(
-        appModulePath,
-        BASE_OPTIONS,
-        featureConfig
-      );
-      const result = await schematicRunner.callRule(rule, appTree).toPromise();
+      const rule = addLibraryFeature(BASE_OPTIONS, featureConfig);
+      const tree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-      const appModule = result.read(appModulePath)?.toString(UTF_8);
+      // TODO: Finish when config util will be created
+      const appModule = tree.read(appModulePath)?.toString(UTF_8);
       expect(appModule).not.toContain(`providers: [
         provideConfig({
           i18n: {`);
     });
-    describe('when no default config is present', () => {
-      it('should not add it', async () => {
-        const rule = addLibraryFeature(
-          appModulePath,
-          BASE_OPTIONS,
-          BASE_FEATURE_CONFIG
-        );
-        const result = await schematicRunner
-          .callRule(rule, appTree)
-          .toPromise();
-
-        const appModule = result.read(appModulePath)?.toString(UTF_8);
-        expect(appModule).not.toContain(DEFAULT_CONFIG_IMPORT_PATH);
-        expect(appModule).not.toContain(DEFAULT_CONFIG);
-      });
-    });
-    describe('when a default config is present', () => {
-      it('should add it', async () => {
-        const rule = addLibraryFeature(appModulePath, BASE_OPTIONS, {
-          ...BASE_FEATURE_CONFIG,
-          defaultConfig: {
-            name: DEFAULT_CONFIG,
-            importPath: DEFAULT_CONFIG_IMPORT_PATH,
-          },
-        });
-        const result = await schematicRunner
-          .callRule(rule, appTree)
-          .toPromise();
-
-        const appModule = result.read(appModulePath)?.toString(UTF_8);
-        expect(appModule).toContain(DEFAULT_CONFIG_IMPORT_PATH);
-        expect(appModule).toContain(DEFAULT_CONFIG);
-      });
-    });
     describe('when the lazy loading is configured', () => {
-      // TODO:#10744 - uncomment after refactoring is done in lib utils.
-      xit('should add it in the lazy loading way', async () => {
-        const rule = addLibraryFeature(
-          appModulePath,
-          BASE_OPTIONS,
-          BASE_FEATURE_CONFIG
-        );
-        const result = await schematicRunner
-          .callRule(rule, appTree)
-          .toPromise();
+      it('should add it in the lazy loading way', async () => {
+        const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
+        const tree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-        const appModule = result.read(appModulePath)?.toString(UTF_8);
-        expect(appModule).toContain(
-          `import { ${ROOT_MODULE_NAME} } from '${ROOT_FEATURE_MODULE_IMPORT_PATH}';`
-        );
-        expect(appModule).toContain(
-          `module: () => import('${FEATURE_MODULE_IMPORT_PATH}').then(`
-        );
+        const appModule = tree.read(appModulePath)?.toString(UTF_8);
+        // TODO: Finish when config util will be created
         expect(appModule).not.toContain(
-          `import { ${FEATURE_MODULE_NAME} } from '${FEATURE_MODULE_IMPORT_PATH}';`
+          `import { ${ROOT_MODULE_NAME} } from '${ROOT_FEATURE_MODULE_IMPORT_PATH}';`
         );
       });
     });
     describe('when the eager loading is configured', () => {
       it('should add it in the eager way', async () => {
         const rule = addLibraryFeature(
-          appModulePath,
           { ...BASE_OPTIONS, lazy: false },
           BASE_FEATURE_CONFIG
         );
-        const result = await schematicRunner
-          .callRule(rule, appTree)
-          .toPromise();
+        const tree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-        const appModule = result.read(appModulePath)?.toString(UTF_8);
+        const appModule = tree.read(appModulePath)?.toString(UTF_8);
+        // TODO: Finish when config util will be created
         expect(appModule).not.toContain(
           `module: () => import('${FEATURE_MODULE_IMPORT_PATH}').then(`
-        );
-        expect(appModule).toContain(
-          `import { ${FEATURE_MODULE_NAME} } from '${FEATURE_MODULE_IMPORT_PATH}';`
-        );
-        expect(appModule).toContain(
-          `import { ${ROOT_MODULE_NAME} } from '${ROOT_FEATURE_MODULE_IMPORT_PATH}';`
         );
       });
     });
     describe('when styling config is provided', () => {
       it('should add it ', async () => {
-        const rule = addLibraryFeature(
-          appModulePath,
-          BASE_OPTIONS,
-          BASE_FEATURE_CONFIG
-        );
-        const result = await schematicRunner
-          .callRule(rule, appTree)
-          .toPromise();
+        const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
+        const tree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-        expect(result.exists(scssFilePath)).toEqual(true);
-        const content = result.read(scssFilePath)?.toString(UTF_8);
+        expect(tree.exists(scssFilePath)).toEqual(true);
+        const content = tree.read(scssFilePath)?.toString(UTF_8);
         expect(content).toContain(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
       });
     });
     describe('when styling config is NOT provided', () => {
       it('should not add it ', async () => {
-        const rule = addLibraryFeature(appModulePath, BASE_OPTIONS, {
+        const rule = addLibraryFeature(BASE_OPTIONS, {
           ...BASE_FEATURE_CONFIG,
           styles: undefined,
         });
-        const result = await schematicRunner
-          .callRule(rule, appTree)
-          .toPromise();
+        const tree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-        expect(result.exists(scssFilePath)).toEqual(false);
+        expect(tree.exists(scssFilePath)).toEqual(false);
       });
     });
   });
