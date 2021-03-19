@@ -11,9 +11,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class UserRegisterEffects {
   @Effect()
-  registerUser$: Observable<
-    UserActions.UserRegisterOrRemoveAction
-  > = this.actions$.pipe(
+  registerUser$: Observable<UserActions.UserRegisterOrRemoveAction> = this.actions$.pipe(
     ofType(UserActions.REGISTER_USER),
     map((action: UserActions.RegisterUser) => action.payload),
     mergeMap((user: UserSignUp) =>
@@ -27,9 +25,7 @@ export class UserRegisterEffects {
   );
 
   @Effect()
-  registerGuest$: Observable<
-    UserActions.UserRegisterOrRemoveAction
-  > = this.actions$.pipe(
+  registerGuest$: Observable<UserActions.UserRegisterOrRemoveAction> = this.actions$.pipe(
     ofType(UserActions.REGISTER_GUEST),
     map((action: UserActions.RegisterGuest) => action.payload),
     mergeMap(({ guid, password }) =>
@@ -46,9 +42,7 @@ export class UserRegisterEffects {
   );
 
   @Effect()
-  removeUser$: Observable<
-    UserActions.UserRegisterOrRemoveAction
-  > = this.actions$.pipe(
+  removeUser$: Observable<UserActions.UserRegisterOrRemoveAction> = this.actions$.pipe(
     ofType(UserActions.REMOVE_USER),
     map((action: UserActions.RemoveUser) => action.payload),
     mergeMap((userId: string) => {

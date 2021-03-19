@@ -51,7 +51,7 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   appendToBody?: boolean;
 
   /**
-   * The preferred placement of the popover. Default popover position is 'auto'.
+   * The preferred placement of the popover. Default popover position is 'top'.
    *
    * Allowed popover positions: 'auto', 'top', 'bottom', 'left', 'right',
    * 'top-left', 'top-right', 'bottom-left', 'bottom-right',
@@ -60,9 +60,21 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
   position?: PopoverPosition;
 
   /**
-   * Custom class name passed to popover component.
+   * Flag used to define if popover should look for the best placement
+   * in case if there is not enough space in viewport for preferred position.
+   *
+   * By default this property is set to `true`.
+   *
+   * Value of this flag is omitted if preferred position is set to `auto`.
    */
-  customClass? = 'cx-popover';
+  autoPositioning?: boolean;
+
+  /**
+   * Custom class name passed to popover component.
+   *
+   * If this property is not set the default popover class is `cx-popover`.
+   */
+  customClass?: string;
 
   /**
    * Flag used to show/hide close button in popover component.
@@ -185,7 +197,10 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.popoverClass = this.positioningService.positionElements(
       this.triggerElement.nativeElement,
       this.popoverInstance.location.nativeElement,
-      this.position || 'auto',
+      this.positioningService.getPositioningClass(
+        this.position,
+        this.autoPositioning
+      ),
       this.appendToBody
     );
 
@@ -195,6 +210,11 @@ export class PopoverComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnInit(): void {
     this.isTemplate = this.content instanceof TemplateRef;
+
+    if (!this.customClass) this.customClass = 'cx-popover';
+    if (!this.position) this.position = 'top';
+    if (this.autoPositioning === undefined) this.autoPositioning = true;
+
     this.baseClass = `${this.customClass}`;
 
     this.resizeSub = this.winRef.resize$.subscribe(() => {
