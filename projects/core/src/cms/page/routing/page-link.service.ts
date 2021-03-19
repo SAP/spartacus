@@ -6,7 +6,7 @@ import {
 } from '../config/page-meta.config';
 
 /**
- * Service to add links to the page meta data, such canonical URLs or alternative links.
+ * Service to add links to the page meta data, such canonical URLs.
  */
 @Injectable({ providedIn: 'root' })
 export class PageLinkService {
