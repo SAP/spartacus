@@ -10,9 +10,7 @@ import { ClientAuthActions } from '../actions/index';
 @Injectable()
 export class ClientTokenEffect {
   @Effect()
-  loadClientToken$: Observable<
-    ClientAuthActions.ClientTokenAction
-  > = this.actions$.pipe(
+  loadClientToken$: Observable<ClientAuthActions.ClientTokenAction> = this.actions$.pipe(
     ofType(ClientAuthActions.LOAD_CLIENT_TOKEN),
     exhaustMap(() => {
       return this.clientAuthenticationTokenService

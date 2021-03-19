@@ -6,9 +6,9 @@
   >
     <form [formGroup]="form" class="cx-saved-cart-form-container">
       <!-- Modal Header -->
-      <div class="cx-saved-cart-form-header">
+      <div class="modal-header cx-saved-cart-form-header">
         <ng-container [ngSwitch]="layoutOption">
-          <h3 class="cx-saved-cart-form-title">
+          <div class="cx-saved-cart-form-title modal-title">
             <ng-container *ngSwitchCase="savedCartFormType.EDIT">
               {{ 'savedCartDialog.editSavedCart' | cxTranslate }}
             </ng-container>
@@ -18,11 +18,12 @@
             <ng-container *ngSwitchDefault>
               {{ 'savedCartDialog.saveForLater' | cxTranslate }}
             </ng-container>
-          </h3>
+          </div>
         </ng-container>
 
         <button
           (click)="close('Close Save Cart Dialog')"
+          [disabled]="isLoading$ | async"
           aria-label="Close"
           class="cx-saved-cart-form-close close"
           type="button"
@@ -94,6 +95,7 @@
           </div>
 
           <div class="cx-saved-cart-form-footer">
+            <!-- TODO disable button during loading state -->
             <button
               (click)="close('Close Save Cart Dialog')"
               aria-label="Close"
@@ -102,6 +104,7 @@
             >
               {{ 'savedCartDialog.cancel' | cxTranslate }}
             </button>
+            <!-- TODO disable button during loading state -->
             <button
               (click)="deleteCart(cart.code)"
               aria-label="Save"
@@ -169,16 +172,18 @@
           <div class="cx-saved-cart-form-footer">
             <button
               (click)="close('Close Save Cart Dialog')"
+              [disabled]="isLoading$ | async"
               aria-label="Close"
-              class="mr-2 btn btn-action"
+              class="btn btn-action"
               type="button"
             >
               {{ 'savedCartDialog.cancel' | cxTranslate }}
             </button>
             <button
               (click)="saveOrEditCart(cart?.code)"
+              [disabled]="form.invalid || (isLoading$ | async)"
               aria-label="Save"
-              class="ml-2 btn btn-primary"
+              class="btn btn-primary"
               type="button"
             >
               {{ 'savedCartDialog.save' | cxTranslate }}

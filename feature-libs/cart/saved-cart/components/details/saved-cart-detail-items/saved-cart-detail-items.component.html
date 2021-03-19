@@ -2,20 +2,21 @@
     I provided solutions and will fix once I get it
 -->
 <ng-container *ngIf="savedCart$ | async as cart">
-  <ng-container *ngIf="cart?.entries?.length; else emptyCartItems">
+  <ng-container *ngIf="cart?.entries?.length > 0; else emptyCartItems">
     <div *ngIf="cart?.totalItems" class="cart-details-wrapper">
       <cx-cart-item-list
         [items]="cart.entries"
         [cartIsLoading]="!(cartLoaded$ | async)"
-        [options]="{
-          isSaveForLater: false
+        [cart]="{
+          cartId: cart.code,
+          userId: (userId$ | async)
         }"
       ></cx-cart-item-list>
     </div>
   </ng-container>
-  <ng-template #emptyCartItems>
-    <div class="cart-details-wrapper">
-      <div>{{ 'savedCartDetails.emptyCartItems' | cxTranslate }}</div>
-    </div>
-  </ng-template>
 </ng-container>
+<ng-template #emptyCartItems>
+  <div class="cx-empty-cart-details">
+    <p>{{ 'savedCartDetails.emptyCartItems' | cxTranslate }}</p>
+  </div>
+</ng-template>

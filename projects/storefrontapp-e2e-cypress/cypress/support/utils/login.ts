@@ -54,11 +54,14 @@ export function setSessionData(data) {
     }
     state = { ...state, ...authData };
     win.localStorage.setItem(storageKey, JSON.stringify(state));
-    cy.log(
-      `storing session state with key '${storageKey}' and value: ${JSON.stringify(
-        state
-      )}`
-    );
+    Cypress.log({
+      displayName: 'LoginUtil',
+      message: [
+        `storing session state with key '${storageKey}' and value: ${JSON.stringify(
+          state
+        )}`,
+      ],
+    });
   });
   return data;
 }

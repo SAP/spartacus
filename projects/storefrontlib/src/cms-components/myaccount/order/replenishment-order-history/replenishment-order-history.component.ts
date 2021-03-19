@@ -30,9 +30,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
   sortType: string;
 
-  replenishmentOrders$: Observable<
-    ReplenishmentOrderList
-  > = this.userReplenishmentOrderService
+  replenishmentOrders$: Observable<ReplenishmentOrderList> = this.userReplenishmentOrderService
     .getReplenishmentOrderHistoryList(this.PAGE_SIZE)
     .pipe(
       tap((replenishmentOrders: ReplenishmentOrderList) => {
@@ -42,9 +40,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
       })
     );
 
-  isLoaded$: Observable<
-    boolean
-  > = this.userReplenishmentOrderService.getReplenishmentOrderHistoryListSuccess();
+  isLoaded$: Observable<boolean> = this.userReplenishmentOrderService.getReplenishmentOrderHistoryListSuccess();
 
   constructor(
     protected routing: RoutingService,

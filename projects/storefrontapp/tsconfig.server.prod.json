@@ -16,6 +16,15 @@
       "@spartacus/cart/saved-cart": ["../../dist/cart/saved-cart"],
       "@spartacus/cart/saved-cart/occ": ["../../dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["../../dist/cart/saved-cart/root"],
+      "@spartacus/cart/saved-cart/events": [
+        "../../dist/cart/saved-cart/events"
+      ],
+      "@spartacus/asm/assets": ["../../dist/asm/assets"],
+      "@spartacus/asm/components": ["../../dist/asm/components"],
+      "@spartacus/asm/core": ["../../dist/asm/core"],
+      "@spartacus/asm": ["../../dist/asm"],
+      "@spartacus/asm/occ": ["../../dist/asm/occ"],
+      "@spartacus/asm/root": ["../../dist/asm/root"],
       "@spartacus/organization/administration/assets": [
         "../../dist/organization/administration/assets"
       ],
@@ -95,6 +104,15 @@
       "@spartacus/storefinder/occ": ["../../dist/storefinder/occ"],
       "@spartacus/storefinder/root": ["../../dist/storefinder/root"],
       "@spartacus/tracking": ["../../dist/tracking"],
+      "@spartacus/tracking/personalization/core": [
+        "../../dist/tracking/personalization/core"
+      ],
+      "@spartacus/tracking/personalization": [
+        "../../dist/tracking/personalization"
+      ],
+      "@spartacus/tracking/personalization/root": [
+        "../../dist/tracking/personalization/root"
+      ],
       "@spartacus/tracking/tms/aep": ["../../dist/tracking/tms/aep"],
       "@spartacus/tracking/tms/core": ["../../dist/tracking/tms/core"],
       "@spartacus/tracking/tms/gtm": ["../../dist/tracking/tms/gtm"],
@@ -104,7 +122,16 @@
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/incubator": ["../../dist/incubator"],
-      "@spartacus/storefront": ["../../dist/storefrontlib"]
+      "@spartacus/storefront": ["../../dist/storefrontlib"],
+      "@spartacus/product/variants": ["../../dist/product/variants"],
+      "@spartacus/product/variants/assets": [
+        "../../dist/product/variants/assets"
+      ],
+      "@spartacus/product/variants/components": [
+        "../../dist/product/variants/components"
+      ],
+      "@spartacus/product/variants/occ": ["../../dist/product/variants/occ"],
+      "@spartacus/product/variants/root": ["../../dist/product/variants/root"]
     }
   }
 }

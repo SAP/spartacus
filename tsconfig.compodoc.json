@@ -34,6 +34,15 @@
       "@spartacus/cart/saved-cart/root": [
         "feature-libs/cart/saved-cart/root/public_api"
       ],
+      "@spartacus/cart/saved-cart/events": [
+        "feature-libs/cart/saved-cart/events/public_api"
+      ],
+      "@spartacus/asm/assets": ["feature-libs/asm/assets/public_api"],
+      "@spartacus/asm/components": ["feature-libs/asm/components/public_api"],
+      "@spartacus/asm/core": ["feature-libs/asm/core/public_api"],
+      "@spartacus/asm": ["feature-libs/asm/public_api"],
+      "@spartacus/asm/occ": ["feature-libs/asm/occ/public_api"],
+      "@spartacus/asm/root": ["feature-libs/asm/root/public_api"],
       "@spartacus/organization/administration/assets": [
         "feature-libs/organization/administration/assets/public_api"
       ],
@@ -101,9 +110,7 @@
       "@spartacus/product/bulk-pricing/root": [
         "feature-libs/product/bulk-pricing/root/public_api"
       ],
-      "@spartacus/product": [
-        "feature-libs/product/public_api"
-      ],
+      "@spartacus/product": ["feature-libs/product/public_api"],
       "@spartacus/qualtrics/components": [
         "feature-libs/qualtrics/components/public_api"
       ],
@@ -127,6 +134,15 @@
         "feature-libs/storefinder/root/public_api"
       ],
       "@spartacus/tracking": ["feature-libs/tracking/public_api"],
+      "@spartacus/tracking/personalization/core": [
+        "feature-libs/tracking/personalization/core/public_api"
+      ],
+      "@spartacus/tracking/personalization": [
+        "feature-libs/tracking/personalization/public_api"
+      ],
+      "@spartacus/tracking/personalization/root": [
+        "feature-libs/tracking/personalization/root/public_api"
+      ],
       "@spartacus/tracking/tms/aep": [
         "feature-libs/tracking/tms/aep/public_api"
       ],
@@ -143,7 +159,22 @@
       "@spartacus/core": ["projects/core/public_api"],
       "@spartacus/incubator": ["projects/incubator/public_api"],
       "@spartacus/schematics": ["projects/schematics/src/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"]
+      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
+      "@spartacus/product/variants": [
+        "feature-libs/product/variants/public_api"
+      ],
+      "@spartacus/product/variants/assets": [
+        "feature-libs/product/variants/assets/public_api"
+      ],
+      "@spartacus/product/variants/components": [
+        "feature-libs/product/variants/components/public_api"
+      ],
+      "@spartacus/product/variants/occ": [
+        "feature-libs/product/variants/occ/public_api"
+      ],
+      "@spartacus/product/variants/root": [
+        "feature-libs/product/variants/root/public_api"
+      ]
     }
   },
   "exclude": [

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -7,6 +7,7 @@ import {
   ConsignmentEntry,
   FeaturesConfigModule,
   I18nTestingModule,
+  MultiCartService,
   OrderEntry,
   PromotionLocation,
   SelectiveCartService,
@@ -17,6 +18,17 @@ import { CartItemListComponent } from './cart-item-list.component';
 
 class MockActiveCartService {
   updateEntry() {}
+}
+
+class MockMultiCartService implements Partial<MultiCartService> {
+  updateEntry(
+    _userId: string,
+    _cartId: string,
+    _entryNumber: number,
+    _quantity: number
+  ): void {}
+
+  removeEntry(_userId: string, _cartId: string, _entryNumber: number): void {}
 }
 
 const mockItems: OrderEntry[] = [
@@ -50,6 +62,9 @@ const mockConsignmentItems: ConsignmentEntry[] = [
   },
 ];
 
+const mockCartId = 'test-cart';
+const mockUserId = 'test-user';
+
 @Component({
   template: '',
   selector: 'cx-cart-item',
@@ -69,6 +84,7 @@ describe('CartItemListComponent', () => {
   let component: CartItemListComponent;
   let fixture: ComponentFixture<CartItemListComponent>;
   let activeCartService: ActiveCartService;
+  let multiCartService: MultiCartService;
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
@@ -89,6 +105,7 @@ describe('CartItemListComponent', () => {
         providers: [
           { provide: ActiveCartService, useClass: MockActiveCartService },
           { provide: SelectiveCartService, useValue: mockSelectiveCartService },
+          { provide: MultiCartService, useClass: MockMultiCartService },
         ],
       }).compileComponents();
     })
@@ -97,12 +114,15 @@ describe('CartItemListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemListComponent);
     activeCartService = TestBed.inject(ActiveCartService);
+    multiCartService = TestBed.inject(MultiCartService);
 
     component = fixture.componentInstance;
     component.items = mockItems;
     component.options = { isSaveForLater: false };
 
     spyOn(activeCartService, 'updateEntry').and.callThrough();
+    spyOn(multiCartService, 'updateEntry').and.callThrough();
+    spyOn(multiCartService, 'removeEntry').and.callThrough();
 
     fixture.detectChanges();
   });
@@ -243,5 +263,36 @@ describe('CartItemListComponent', () => {
     component.items = undefined;
     const itemCount = component.items.length;
     expect(itemCount).toEqual(0);
+  });
+
+  describe('when cart input is defined', () => {
+    beforeEach(() => {
+      component.cart = { userId: mockUserId, cartId: mockCartId };
+      fixture.detectChanges();
+    });
+
+    it('should remove entry of multiCartService when cart input exist', () => {
+      console.log('ok');
+      component.removeEntry(mockItems[0]);
+      expect(multiCartService.removeEntry).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId,
+        mockItems[0].entryNumber
+      );
+    });
+    it('should update entry of multiCartService when cart input exist', () => {
+      component
+        .getControl(mockItems[0])
+        .subscribe((control) => {
+          control.get('quantity').setValue(8);
+          expect(multiCartService.updateEntry).toHaveBeenCalledWith(
+            mockUserId,
+            mockCartId,
+            mockItems[0].entryNumber,
+            8
+          );
+        })
+        .unsubscribe();
+    });
   });
 });

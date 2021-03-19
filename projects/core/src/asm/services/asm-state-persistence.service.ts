@@ -9,6 +9,8 @@ import { AsmActions, AsmSelectors, StateWithAsm } from '../store';
 import { AsmAuthStorageService, TokenTarget } from './asm-auth-storage.service';
 
 /**
+ * @deprecated since 3.2, use asm lib instead
+ *
  * ASM state synced to browser storage.
  */
 export interface SyncedAsmState {
@@ -18,6 +20,8 @@ export interface SyncedAsmState {
 }
 
 /**
+ * @deprecated since 3.2, use asm lib instead
+ *
  * Responsible for storing ASM state in the browser storage.
  * Uses `StatePersistenceService` mechanism.
  */

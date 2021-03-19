@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { Cart, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -9,7 +10,6 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { SavedCartService } from '../../core/services/saved-cart.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class SavedCartDetailService {
   );
 
   protected savedCart$ = this.savedCartId$.pipe(
-    filter(Boolean),
+    filter((cartId) => Boolean(cartId)),
     tap((savedCartId: string) =>
       this.savedCartService.loadSavedCart(savedCartId)
     ),

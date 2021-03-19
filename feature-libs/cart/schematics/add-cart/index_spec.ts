@@ -237,16 +237,18 @@ describe('Spartacus Cart schematics: ng-add', () => {
       it('should import the i18n resource and chunk from assets', async () => {
         const appModule = appTree.readContent(appModulePath);
         expect(appModule).toContain(
-          `import { cartTranslations } from '@spartacus/cart/saved-cart/assets';`
+          `import { savedCartTranslations } from '@spartacus/cart/saved-cart/assets';`
         );
         expect(appModule).toContain(
-          `import { cartTranslationChunksConfig } from '@spartacus/cart/saved-cart/assets';`
+          `import { savedCartTranslationChunksConfig } from '@spartacus/cart/saved-cart/assets';`
         );
       });
       it('should provideConfig', async () => {
         const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(`resources: cartTranslations,`);
-        expect(appModule).toContain(`chunks: cartTranslationChunksConfig,`);
+        expect(appModule).toContain(`resources: savedCartTranslations,`);
+        expect(appModule).toContain(
+          `chunks: savedCartTranslationChunksConfig,`
+        );
       });
     });
   });
@@ -268,7 +270,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
     it('should just append the cart features without duplicating the featureModules config', () => {
       const appModule = appTree.readContent(appModulePath);
-      expect(appModule.match(/featureModules:/g).length).toEqual(1);
+      expect(appModule.match(/featureModules:/g)?.length).toEqual(1);
       expect(appModule).toContain(`cartSavedCart: {`);
     });
   });

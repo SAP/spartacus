@@ -54,21 +54,15 @@ cx-saved-cart-detail-overview {
 
           .cx-edit-cart {
             height: 100%;
-            margin: 1.5rem;
+            margin: 1rem;
+            border: none;
+            background-color: var(--cx-color-transparent);
           }
         }
 
         .cx-card-description {
           max-width: 100%;
           word-break: break-word;
-        }
-      }
-
-      .cx-action-link {
-        padding: 0 0.5rem;
-
-        &:first-child {
-          border-right: 1px solid var(--cx-color-text);
         }
       }
     }

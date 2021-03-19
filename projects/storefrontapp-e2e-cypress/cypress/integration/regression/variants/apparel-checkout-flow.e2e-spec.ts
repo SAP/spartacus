@@ -8,30 +8,31 @@ import {
   configureProductWithVariants,
   visitProductWithoutVariantPage,
 } from '../../../helpers/variants/apparel-checkout-flow';
+import { viewportContext } from '../../../helpers/viewport-context';
 import {
   cartWithTotalVariantProduct,
+  getApparelCheckoutUser,
   products,
-  variantUser,
 } from '../../../sample-data/apparel-checkout-flow';
 
 context('Apparel - checkout flow', () => {
-  before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
-    Cypress.env('BASE_SITE', APPAREL_BASESITE);
-  });
+  let variantUser;
+  viewportContext(['mobile', 'desktop'], () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      Cypress.env('BASE_SITE', APPAREL_BASESITE);
+      variantUser = getApparelCheckoutUser();
+    });
 
-  beforeEach(() => {
-    configureProductWithVariants();
-    cy.restoreLocalStorage();
-  });
+    beforeEach(() => {
+      configureProductWithVariants();
+    });
 
-  afterEach(() => {
-    cy.saveLocalStorage();
-  });
-
-  describe('when adding a single variant product to cart and completing checkout.', () => {
-    it('should do apparel checkout with a registered user', () => {
+    it('should perform checkout with a registered user', () => {
       checkout.visitHomePage();
+
+      checkout.clickHamburger();
+
       checkout.registerUser(false, variantUser);
       checkout.goToCheapProductDetailsPage(products[0]);
       addVariantOfSameProductToCart();
@@ -60,19 +61,6 @@ context('Apparel - checkout flow', () => {
         cartWithTotalVariantProduct,
         true
       );
-    });
-
-    it('should be able to check order in order history', () => {
-      // hack: visit other page to trigger store -> local storage sync
-      cy.selectUserMenuOption({
-        option: 'Personal Details',
-      });
-      cy.waitForOrderToBePlacedRequest(APPAREL_BASESITE, APPAREL_CURRENCY);
-      checkout.viewOrderHistoryWithCheapProduct(cartWithTotalVariantProduct);
-    });
-
-    after(() => {
-      checkout.signOut();
     });
   });
 });

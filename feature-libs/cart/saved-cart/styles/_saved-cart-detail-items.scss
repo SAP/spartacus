@@ -1,3 +1,13 @@
 cx-saved-cart-detail-items {
   @extend %cx-cart-details;
+
+  .cx-value {
+    button[type='button'] {
+      margin-bottom: 0;
+    }
+  }
+
+  .cx-empty-cart-details {
+    padding: 1rem;
+  }
 }
