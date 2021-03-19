@@ -75,9 +75,9 @@ function buildSchematics(options: { publish: boolean } = { publish: false }) {
   }
 }
 
-function buildTrackingSchematics() {
+function buildSchematicsAndPublish(buildCmd: string) {
   buildSchematics();
-  execSync('yarn build:tracking', {
+  execSync(buildCmd, {
     stdio: 'inherit',
   });
   publishLibs();
@@ -88,6 +88,7 @@ async function executeCommand(
     | 'publish'
     | 'build projects/schematics'
     | 'build tracking/schematics'
+    | 'build asm/schematics'
     | 'build all libs'
 ): Promise<void> {
   switch (command) {
@@ -98,7 +99,10 @@ async function executeCommand(
       buildSchematics({ publish: true });
       break;
     case 'build tracking/schematics':
-      buildTrackingSchematics();
+      buildSchematicsAndPublish('yarn build:tracking');
+      break;
+    case 'build asm/schematics':
+      buildSchematicsAndPublish('yarn build:asm');
       break;
     case 'build all libs':
       buildLibs();
@@ -123,6 +127,7 @@ async function program() {
         'publish',
         'build projects/schematics',
         'build tracking/schematics',
+        'build asm/schematics',
         'build all libs',
         'exit',
       ];
