@@ -24,15 +24,8 @@
 
 <ng-container *ngIf="entryGroups$ | async as entryGroups">
   <div *ngFor="let entryGroup of entryGroups">
-    <div *ngIf="entryGroup.allowedProducts as allowed">
-      <h1>Choose product to add:</h1>
-      <button
-        *ngFor="let product of allowed.products"
-        (click)="addProductToBundle(allowed.entryGroupNumber, product)"
-      >
-        Add {{ product.name }}
-      </button>
-    </div>
+    {{ entryGroup.entryGroupNumber }}
+
     <ng-container *ngIf="!entryGroup.allowedProducts">
       <h2>{{ entryGroup.label }}</h2>
       <button (click)="removeBundle(entryGroup.entryGroupNumber)">
@@ -47,6 +40,28 @@
               : 'Choose Product'
           }}
         </button>
+        <button
+          *ngIf="subGroup.entries[0].product.name"
+          (click)="removeBundle(subGroup.entryGroupNumber)"
+        >
+          Remove Sub Group {{ subGroup.entryGroupNumber }}
+        </button>
+
+        <div
+          *ngIf="
+            getAvailableProducts(subGroup.entryGroupNumber) | async as allowed
+          "
+        >
+          <h3>Choose product to add:</h3>
+
+          <button
+            *ngFor="let product of allowed?.data.products"
+            (click)="addProductToBundle(allowed.entryGroupNumber, product)"
+            class="d-block"
+          >
+            Add {{ product.name }}
+          </button>
+        </div>
       </div>
     </ng-container>
   </div>

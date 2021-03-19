@@ -10,6 +10,7 @@ import {
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
+import { BundleService } from 'projects/core/src/cart/bundle/core/facade';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
@@ -35,8 +36,9 @@ export class CartDetailsComponent implements OnInit {
     protected promotionService: PromotionService,
     protected selectiveCartService: SelectiveCartService,
     protected authService: AuthService,
-    protected routingService: RoutingService
-  ) {}
+    protected routingService: RoutingService,
+    protected bundleService: BundleService
+  ) { }
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
@@ -90,8 +92,11 @@ export class CartDetailsComponent implements OnInit {
     this.activeCartService.deleteEntryGroup(entryGroupNumber);
   }
 
-  addProductToBundle(entryGroupNumber, product: OrderEntry) {
-    console.log(entryGroupNumber, product);
+  addProductToBundle(entryGroupNumber: number, product: OrderEntry) {
     this.activeCartService.addToEntryGroup(entryGroupNumber, product);
+  }
+
+  getAvailableProducts(entryGroupNumber: number) {
+    return this.activeCartService.getAvailableEntries(entryGroupNumber)
   }
 }
