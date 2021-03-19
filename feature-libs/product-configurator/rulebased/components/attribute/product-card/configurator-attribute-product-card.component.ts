@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Product, ProductService } from '@spartacus/core';
+import { Product, ProductScope, ProductService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -57,7 +57,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
       ?.productSystemId;
 
     this.product$ = this.productService
-      .get(productSystemId ? productSystemId : '')
+      .get(productSystemId ? productSystemId : '', ProductScope.LIST)
       .pipe(
         map((respProduct) => {
           return respProduct
