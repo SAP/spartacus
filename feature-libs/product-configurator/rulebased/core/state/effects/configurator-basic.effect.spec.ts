@@ -137,9 +137,7 @@ describe('ConfiguratorEffect', () => {
     });
 
     configEffects = TestBed.inject(
-      fromEffects.ConfiguratorBasicEffects as Type<
-        fromEffects.ConfiguratorBasicEffects
-      >
+      fromEffects.ConfiguratorBasicEffects as Type<fromEffects.ConfiguratorBasicEffects>
     );
     store = TestBed.inject(Store as Type<Store<StateWithConfigurator>>);
   });

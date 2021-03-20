@@ -6,16 +6,27 @@ import { SubListTestingModule } from '../../shared/sub-list/sub-list.testing.mod
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListComponent } from './user-group-user-list.component';
 import { UserGroupUserListService } from './user-group-user-list.service';
-import { MessageService } from '@spartacus/organization/administration/components';
+import {
+  MessageService,
+  SubListComponent,
+} from '@spartacus/organization/administration/components';
 import {
   LoadStatus,
   OrganizationItemStatus,
   UserGroup,
 } from '@spartacus/organization/administration/core';
+import { Component } from '@angular/core';
 const mockKey = 'mock';
 
 class MockCurrentUserGroupService {
   key$ = of(mockKey);
+}
+
+@Component({ selector: 'cx-org-sub-list', template: '' })
+class MockSubListComponent {
+  messageService = {
+    add(_message) {},
+  };
 }
 
 class MockUserGroupUserListService {
@@ -28,7 +39,6 @@ describe('UserGroupUserListComponent', () => {
   let component: UserGroupUserListComponent;
   let fixture: ComponentFixture<UserGroupUserListComponent>;
   let userGroupUserListService: UserGroupUserListService;
-  let messageService: MessageService;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [SubListTestingModule, UrlTestingModule, I18nTestingModule],
@@ -47,9 +57,9 @@ describe('UserGroupUserListComponent', () => {
     }).compileComponents();
 
     userGroupUserListService = TestBed.inject(UserGroupUserListService);
-    messageService = TestBed.inject(MessageService);
     fixture = TestBed.createComponent(UserGroupUserListComponent);
     component = fixture.componentInstance;
+    component.subList = new MockSubListComponent() as SubListComponent;
   });
 
   it('should create', () => {
@@ -66,10 +76,10 @@ describe('UserGroupUserListComponent', () => {
   });
 
   it('should notify after unassign all members', () => {
-    spyOn(messageService, 'add').and.callThrough();
+    spyOn(component.subList.messageService, 'add').and.callThrough();
 
     component.unassignAll();
-    expect(messageService.add).toHaveBeenCalledWith({
+    expect(component.subList.messageService.add).toHaveBeenCalledWith({
       message: {
         key: `orgUserGroupUsers.unassignAllConfirmation`,
         params: {
