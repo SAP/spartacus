@@ -1,25 +1,37 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, defer, Observable } from 'rxjs';
-import { filter, map, shareReplay } from 'rxjs/operators';
+import { NavigationEnd, Router } from '@angular/router';
+import { combineLatest, defer, Observable, of } from 'rxjs';
+import { filter, map, shareReplay, startWith } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { CmsService } from '../facade/cms.service';
 import { BreadcrumbMeta, Page, PageRobotsMeta } from '../model/page.model';
+import { CanonicalUrlOptions } from './config/page-meta.config';
 import {
+  CanonicalPageResolver,
   PageBreadcrumbResolver,
   PageRobotsResolver,
   PageTitleResolver,
 } from './page.resolvers';
+import { PageLinkService } from './routing/page-link.service';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 
 @Injectable({
   providedIn: 'root',
 })
+
+// TODO(#10467) make router and pageLinkService standard (non optional arguments)
 export class BasePageMetaResolver
-  implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver {
+  implements
+    PageTitleResolver,
+    PageBreadcrumbResolver,
+    PageRobotsResolver,
+    CanonicalPageResolver {
   constructor(
     protected cmsService: CmsService,
     protected translation: TranslationService,
-    protected routingPageMetaResolver: RoutingPageMetaResolver
+    protected routingPageMetaResolver: RoutingPageMetaResolver,
+    protected router?: Router,
+    protected pageLinkService?: PageLinkService
   ) {}
 
   /**
@@ -29,9 +41,11 @@ export class BasePageMetaResolver
     this.cmsService.getCurrentPage()
   ).pipe(filter((p) => Boolean(p)));
 
-  protected title$: Observable<string> = this.page$.pipe(map((p) => p.title));
+  protected title$: Observable<string | undefined> = this.page$.pipe(
+    map((p) => p.title)
+  );
   protected robots$: Observable<PageRobotsMeta[]> = this.page$.pipe(
-    map((page) => page.robots)
+    map((page) => page.robots || [])
   );
 
   /**
@@ -48,21 +62,33 @@ export class BasePageMetaResolver
    */
   protected breadcrumb$: Observable<BreadcrumbMeta[]> = combineLatest([
     this.homeBreadcrumb$,
-    defer(() => this.routingPageMetaResolver.resolveBreadcrumbs()),
+    defer(() => this.routingPageMetaResolver?.resolveBreadcrumbs()),
   ]).pipe(
     map((breadcrumbs) => breadcrumbs.flat()),
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  resolveTitle(): Observable<string> {
+  resolveTitle(): Observable<string | undefined> {
     return this.title$;
   }
 
-  resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
+  resolveBreadcrumbs(): Observable<BreadcrumbMeta[] | undefined> {
     return this.breadcrumb$;
   }
 
   resolveRobots(): Observable<PageRobotsMeta[]> {
     return this.robots$;
+  }
+
+  resolveCanonicalUrl(options?: CanonicalUrlOptions): Observable<string> {
+    return this.router && this.pageLinkService
+      ? this.router.events.pipe(
+          filter((ev) => ev instanceof NavigationEnd),
+          startWith(null),
+          // TODO(#10467) the pageLinkService will no longer be optional
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          map(() => this.pageLinkService!.getCanonicalUrl(options) ?? '')
+        )
+      : of();
   }
 }

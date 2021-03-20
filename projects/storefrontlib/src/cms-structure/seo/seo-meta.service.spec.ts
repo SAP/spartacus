@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Meta, Title } from '@angular/platform-browser';
 import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { PageMetaLinkService } from './page-meta-link.service';
 import { SeoMetaService } from './seo-meta.service';
 
 class MockPageMetaService {
@@ -10,8 +11,13 @@ class MockPageMetaService {
       title: 'Test title',
       description: 'Test description',
       robots: [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW],
+      canonicalUrl: 'https://www.canonicalUrl.com',
     });
   }
+}
+
+class MockPageMetaLinkService implements Partial<PageMetaLinkService> {
+  setCanonicalLink(): void {}
 }
 
 describe('SeoTitleService', () => {
@@ -21,7 +27,8 @@ describe('SeoTitleService', () => {
   let ngTitleService: Title;
   let ngMetaService: Meta;
 
-  let incrementSpy;
+  let updateMetaTagSpy: jasmine.Spy;
+  let addCanonicalLinkSpy: jasmine.Spy;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,6 +37,7 @@ describe('SeoTitleService', () => {
         Title,
         Meta,
         { provide: PageMetaService, useClass: MockPageMetaService },
+        { provide: PageMetaLinkService, useClass: MockPageMetaLinkService },
       ],
     });
 
@@ -39,7 +47,11 @@ describe('SeoTitleService', () => {
     ngTitleService = TestBed.inject(Title);
     ngMetaService = TestBed.inject(Meta);
 
-    incrementSpy = spyOn(ngMetaService, 'updateTag');
+    updateMetaTagSpy = spyOn(ngMetaService, 'updateTag');
+    addCanonicalLinkSpy = spyOn(
+      TestBed.inject(PageMetaLinkService),
+      'setCanonicalLink'
+    );
   });
 
   it('should inject service', () => {
@@ -53,7 +65,7 @@ describe('SeoTitleService', () => {
 
   it('Should add description meta tag', () => {
     seoMetaService.init();
-    expect(incrementSpy).toHaveBeenCalledWith({
+    expect(updateMetaTagSpy).toHaveBeenCalledWith({
       name: 'description',
       content: 'Test description',
     });
@@ -62,7 +74,7 @@ describe('SeoTitleService', () => {
   describe('robots', () => {
     it('Should add `INDEX FOLLOW` in robots meta tag', () => {
       seoMetaService.init();
-      expect(incrementSpy).toHaveBeenCalledWith({
+      expect(updateMetaTagSpy).toHaveBeenCalledWith({
         name: 'robots',
         content: 'INDEX, FOLLOW',
       });
@@ -77,7 +89,7 @@ describe('SeoTitleService', () => {
         })
       );
       seoMetaService.init();
-      expect(incrementSpy).toHaveBeenCalledWith({
+      expect(updateMetaTagSpy).toHaveBeenCalledWith({
         name: 'robots',
         content: 'NOINDEX, FOLLOW',
       });
@@ -92,7 +104,7 @@ describe('SeoTitleService', () => {
         })
       );
       seoMetaService.init();
-      expect(incrementSpy).not.toHaveBeenCalledWith({
+      expect(updateMetaTagSpy).not.toHaveBeenCalledWith({
         name: 'robots',
         content: 'INDEX, FOLLOW',
       });
@@ -106,7 +118,7 @@ describe('SeoTitleService', () => {
         })
       );
       seoMetaService.init();
-      expect(incrementSpy).toHaveBeenCalledWith({
+      expect(updateMetaTagSpy).toHaveBeenCalledWith({
         name: 'robots',
         content: 'INDEX, FOLLOW',
       });
@@ -121,7 +133,7 @@ describe('SeoTitleService', () => {
         })
       );
       seoMetaService.init();
-      expect(incrementSpy).toHaveBeenCalledWith({
+      expect(updateMetaTagSpy).toHaveBeenCalledWith({
         name: 'robots',
         content: 'INDEX, FOLLOW',
       });
@@ -136,10 +148,19 @@ describe('SeoTitleService', () => {
         })
       );
       seoMetaService.init();
-      expect(incrementSpy).toHaveBeenCalledWith({
+      expect(updateMetaTagSpy).toHaveBeenCalledWith({
         name: 'robots',
         content: 'INDEX, FOLLOW',
       });
+    });
+  });
+
+  describe('canonical url', () => {
+    it('Should build the canonical url with the link builder', () => {
+      seoMetaService.init();
+      expect(addCanonicalLinkSpy).toHaveBeenCalledWith(
+        'https://www.canonicalUrl.com'
+      );
     });
   });
 });
