@@ -27,6 +27,8 @@ export class SeoMetaService implements OnDestroy {
     this.title = meta.title;
     this.description = meta.description;
     this.image = meta.image;
+    // TODO(#10467): since we only resolve robots on SSR, we should consider to drop the defaults
+    // with next major, as it's confusing to get the wrong defaults while navigating in CSR.
     this.robots = meta.robots || [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW];
   }
 

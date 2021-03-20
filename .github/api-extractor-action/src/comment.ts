@@ -118,7 +118,7 @@ function extractListOfNotAnalyzedEntryPoints(
     .filter((entryPoint) => {
       return (
         entryPoint.head.status === Status.Failed &&
-        entryPoint.base.status === Status.Failed
+        entryPoint.base.status !== Status.Success
       );
     })
     .map((entryPoints) => {
@@ -217,12 +217,24 @@ New error: \`${entry.head.errors[0]}\``;
     }
   } else if (entry.head.status === Status.Unknown) {
     return `### :boom: ${entry.name}\nEntry point removed. Are you sure it was intentional?`;
-  } else if (entry.base.status === Status.Unknown) {
+  } else if (
+    entry.base.status === Status.Unknown &&
+    entry.head.status === Status.Success
+  ) {
     const publicApi = extractSnippetFromFile(`${REPORT_DIR}/${entry.file}`);
     return `### :warning: ${entry.name}
 New entry point. Initial public api:
 \`\`\`ts
 ${publicApi}
+\`\`\``;
+  } else if (
+    entry.base.status === Status.Unknown &&
+    entry.head.status === Status.Failed
+  ) {
+    return `### :boom: ${entry.name}
+New entry point that can't be analyzed with api-extractor. Please check the errors:
+\`\`\`
+${entry.head.errors.join('\n')}
 \`\`\``;
   }
   return '';

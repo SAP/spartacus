@@ -3,10 +3,13 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
-import { OrgUnitService } from '@spartacus/organization/administration/core';
+import {
+  B2BUnitNode,
+  OrgUnitService,
+} from '@spartacus/organization/administration/core';
 import { FormErrorsComponent } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { FormTestingModule } from '../../shared/form/form.testing.module';
 import { UserGroupItemService } from '../services/user-group-item.service';
 import { UserGroupFormComponent } from './user-group-form.component';
@@ -19,10 +22,10 @@ const mockForm = new FormGroup({
   }),
 });
 
+const activeUnitList$: BehaviorSubject<B2BUnitNode[]> = new BehaviorSubject([]);
+
 class MockOrgUnitService {
-  getActiveUnitList() {
-    return of([]);
-  }
+  getActiveUnitList = () => activeUnitList$.asObservable();
   loadList() {}
 }
 
@@ -95,11 +98,30 @@ describe('UserGroupFormComponent', () => {
     expect(b2bUnitService.loadList).toHaveBeenCalled();
   });
 
+  describe('autoSelect uid', () => {
+    beforeEach(() => {
+      component.form = mockForm;
+      component.form.get('orgUnit.uid').setValue(null);
+    });
+
+    it('should auto-select unit if only one is available', () => {
+      activeUnitList$.next([{ id: 'test' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toEqual('test');
+    });
+
+    it('should not auto-select unit if more than one is available', () => {
+      activeUnitList$.next([{ id: 'test1' }, { id: 'test2' }]);
+      fixture.detectChanges();
+      expect(component.form.get('orgUnit.uid').value).toBeNull();
+    });
+  });
+
   describe('createUidWithName', () => {
     it('should set uid field value if empty based on provided name value', () => {
-      mockForm.get('name').patchValue('Unit Test Value');
-      mockForm.get('uid').patchValue(undefined);
       component.form = mockForm;
+      component.form.get('name').patchValue('Unit Test Value');
+      component.form.get('uid').patchValue(undefined);
       component.createUidWithName(
         component.form.get('name'),
         component.form.get('uid')
@@ -107,10 +129,11 @@ describe('UserGroupFormComponent', () => {
 
       expect(component.form.get('uid').value).toEqual('unit-test-value');
     });
+
     it('should prevent setting uid if value is provided for this field', () => {
-      mockForm.get('name').patchValue('Unit Test Value');
-      mockForm.get('uid').patchValue('test uid');
       component.form = mockForm;
+      component.form.get('name').patchValue('Unit Test Value');
+      component.form.get('uid').patchValue('test uid');
       component.createUidWithName(
         component.form.get('name'),
         component.form.get('uid')

@@ -2,7 +2,7 @@ export const DEFAULT_SCOPE = 'default';
 
 export interface OccEndpoint {
   default?: string;
-  [scope: string]: string;
+  [scope: string]: string | undefined;
 }
 
 export interface ProductOccEndpoint extends OccEndpoint {
@@ -144,42 +144,49 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   titles?: string | OccEndpoint;
   /**
    * Get user details
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   user?: string | OccEndpoint;
   /**
    * Register a new user.
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userRegister?: string | OccEndpoint;
   /**
    * Request an email to reset the password
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userForgotPassword?: string | OccEndpoint;
   /**
    * Reset the password once the email is recieved.
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userResetPassword?: string | OccEndpoint;
   /**
    * Update the user id with which the user authenticates.
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userUpdateLoginId?: string | OccEndpoint;
   /**
    * Update the user's password
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userUpdatePassword?: string | OccEndpoint;
   /**
    * Payment details root endpoint.
@@ -247,6 +254,74 @@ export interface OccEndpoints {
    * @member {string}
    */
   addressVerification?: string | OccEndpoint;
+  /**
+   * Endpoint for create configuration
+   *
+   * @member {string}
+   */
+  createVariantConfiguration?: string;
+  /**
+   * Endpoint for create configuration for the textfield configurator
+   *
+   * @member {string}
+   */
+  createTextfieldConfiguration?: string;
+  /**
+   * Endpoint for add textfield configuration to cart
+   *
+   * @member {string}
+   */
+  addTextfieldConfigurationToCart?: string;
+  /**
+   * Endpoint for reading textfield configuration attached to the cart entry
+   */
+  readTextfieldConfigurationForCartEntry?: string;
+  /**
+   * Endpoint for updating textfield configuration attached to the cart entry
+   */
+  updateTextfieldConfigurationForCartEntry?: string;
+  /**
+   * Endpoint to read configuration
+   *
+   * @member {string}
+   */
+  readVariantConfiguration?: string;
+  /**
+   * Endpoint to update configuration
+   *
+   * @member {string}
+   */
+  updateVariantConfiguration?: string;
+  /**
+   * Endpoint to add configuration to cart
+   *
+   * @member {string}
+   */
+  addVariantConfigurationToCart?: string;
+  /**
+   * Endpoint for reading configuration attached to the cart entry
+   */
+  readVariantConfigurationForCartEntry?: string;
+  /**
+   * Endpoint for updating configuration attached to the cart entry
+   */
+  updateVariantConfigurationForCartEntry?: string;
+  /**
+   * Endpoint for reading configuration overview attached to the order entry
+   */
+  readVariantConfigurationOverviewForOrderEntry?: string;
+  /**
+   * Endpoint to read configuration price
+   *
+   * @member {string}
+   */
+  readVariantConfigurationPriceSummary?: string;
+  /**
+   * Endpoint to get configuration Overview
+   *
+   * @member {string}
+   */
+  getVariantConfigurationOverview?: string;
   /**
    * Endpoint for consignment tracking
    *

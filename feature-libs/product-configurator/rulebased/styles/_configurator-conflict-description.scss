@@ -1,0 +1,20 @@
+%cx-configurator-conflict-description {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-inline-start: 5px;
+  padding-inline-end: 5px;
+  padding-block-start: 5px;
+  padding-block-end: 5px;
+  background-color: mix(#ffffff, theme-color('warning'), 78%);
+
+  cx-icon {
+    color: theme-color('warning');
+    align-self: center;
+    font-size: 30px;
+    padding-inline-start: 15px;
+    padding-inline-end: 15px;
+    padding-block-start: 5px;
+    padding-block-end: 15px;
+  }
+}

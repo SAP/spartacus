@@ -22,9 +22,7 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
   cart$: Observable<Cart>;
 
   activeStepIndex: number;
-  activeStepIndex$: Observable<
-    number
-  > = this.checkoutStepService.activeStepIndex$.pipe(
+  activeStepIndex$: Observable<number> = this.checkoutStepService.activeStepIndex$.pipe(
     tap((index) => (this.activeStepIndex = index))
   );
 

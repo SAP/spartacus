@@ -130,7 +130,21 @@ export class PageSlotComponent implements OnInit, OnDestroy {
       this.class = cls;
     }
 
-    this.addSmartEditSlotClass(slot);
+    if (slot) {
+      if (this.dynamicAttributeService.addAttributesToSlot) {
+        this.dynamicAttributeService.addAttributesToSlot(
+          this.elementRef.nativeElement,
+          this.renderer,
+          slot
+        );
+      } else {
+        this.dynamicAttributeService.addDynamicAttributes(
+          this.elementRef.nativeElement,
+          this.renderer,
+          { slotData: slot }
+        );
+      }
+    }
   }
 
   /**
@@ -176,16 +190,6 @@ export class PageSlotComponent implements OnInit, OnDestroy {
         (el, index) => el.uid !== current.components[index].uid
       )
     );
-  }
-
-  private addSmartEditSlotClass(slot: ContentSlotData): void {
-    if (slot) {
-      this.dynamicAttributeService.addDynamicAttributes(
-        this.elementRef.nativeElement,
-        this.renderer,
-        { slotData: slot }
-      );
-    }
   }
 
   ngOnDestroy() {

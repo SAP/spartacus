@@ -13,6 +13,9 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { FormErrorsModule } from '../../../shared/index';
 import { UpdateEmailComponent } from './update-email.component';
 
+/**
+ * @deprecated since 3.2, moved to @spartacus/user package.
+ */
 @NgModule({
   imports: [
     CommonModule,

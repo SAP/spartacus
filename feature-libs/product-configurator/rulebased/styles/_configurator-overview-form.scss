@@ -1,0 +1,45 @@
+%cx-configurator-overview-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  max-width: 1140px;
+  padding-inline-start: 20px;
+  padding-inline-end: 25px;
+  padding-block-start: 5px;
+  padding-block-end: 5px;
+
+  @include media-breakpoint-down(sm) {
+    padding-inline-start: 20px;
+    padding-inline-end: 20px;
+  }
+
+  .cx-group {
+    padding-inline-start: 0px;
+    padding-inline-end: 0px;
+    padding-block-start: 25px;
+    padding-block-end: 25px;
+
+    margin-inline-start: -20px;
+    margin-inline-end: -25px;
+
+    h2 {
+      padding-inline-start: 30px;
+      padding-inline-end: 30px;
+      padding-block-start: 15px;
+      padding-block-end: 15px;
+      border: solid 1px var(--cx-color-light);
+    }
+
+    .cx-attribute-value-pair {
+      padding-inline-start: 30px;
+      padding-inline-end: 30px;
+    }
+  }
+
+  .cx-no-attribute-value-pairs {
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+    padding-block-start: 25px;
+    padding-block-end: 25px;
+  }
+}

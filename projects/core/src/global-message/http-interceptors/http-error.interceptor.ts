@@ -8,8 +8,8 @@ import {
 import { Inject, Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { HttpErrorHandler } from './handlers/http-error.handler';
 import { resolveApplicable } from '../../util/applicable';
+import { HttpErrorHandler } from './handlers/http-error.handler';
 
 @Injectable({ providedIn: 'root' })
 export class HttpErrorInterceptor implements HttpInterceptor {

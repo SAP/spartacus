@@ -12,9 +12,16 @@
         grid-row-gap: 0px;
         grid-template-columns: 1fr 1fr;
         grid-template-rows: repeat(2, auto) 1fr;
+        @include forVersion(3.1) {
+          grid-template-rows: repeat(5, auto) 1fr;
+        }
+
         cx-product-images {
           grid-column: 1;
           grid-row: 1 / span 5;
+          @include forVersion(3.1) {
+            grid-row: 1 / span 6;
+          }
         }
 
         cx-product-intro {

@@ -8,6 +8,6 @@ import { Config } from '../../config/config-tokens';
 export abstract class SiteContextConfig {
   context?: {
     urlParameters?: string[];
-    [contextName: string]: string[];
+    [contextName: string]: string[] | undefined;
   };
 }

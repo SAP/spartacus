@@ -19,6 +19,7 @@ export interface DeliveryMode {
 }
 
 export interface OrderEntry {
+  orderCode?: string;
   basePrice?: Price;
   deliveryMode?: DeliveryMode;
   deliveryPointOfService?: PointOfService;

@@ -41,6 +41,10 @@ export function clickSearchIcon() {
   cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
 }
 
+export function searchForProduct(product: string) {
+  cy.get('cx-searchbox input').type(`${product}{enter}`);
+}
+
 export function assertFirstProduct() {
   cy.get(productNameSelector).first().invoke('text').should('match', /\w+/);
 }
@@ -81,12 +85,12 @@ export function verifyProductSearch(
     });
 }
 
-export function searchResult(isMobile = false) {
+export function searchResult() {
   cy.server();
   createCameraQuery(QUERY_ALIAS.CAMERA);
-  if (isMobile) {
+  cy.onMobile(() => {
     clickSearchIcon();
-  }
+  });
   enterProduct();
   cy.wait(`@${QUERY_ALIAS.CAMERA}`).then((xhr) => {
     const cameraResults = xhr.response.body.pagination.totalResults;
@@ -140,11 +144,11 @@ export function viewMode() {
   );
 }
 
-export function filterUsingFacetFiltering(mobile: string) {
+export function filterUsingFacetFiltering() {
   cy.server();
   createFacetFilterQuery(QUERY_ALIAS.FACET);
 
-  clickFacet('Stores', mobile);
+  clickFacet('Stores');
 
   cy.wait(`@${QUERY_ALIAS.FACET}`).then((xhr) => {
     const facetResults = xhr.response.body.pagination.totalResults;
@@ -155,7 +159,7 @@ export function filterUsingFacetFiltering(mobile: string) {
   });
 }
 
-export function clearActiveFacet(mobile?: string) {
+export function clearActiveFacet() {
   cy.get('cx-active-facets a:first').click();
   cy.get(resultsTitleSelector).should('contain', 'results for "camera"');
 }
@@ -211,10 +215,10 @@ export function checkFirstItem(productName: string): void {
     });
 }
 
-export function clickFacet(header: string, mobile: string) {
-  if (mobile) {
+export function clickFacet(header: string) {
+  cy.onMobile(() => {
     cy.get('cx-product-facet-navigation button').click();
-  }
+  });
   cy.get('cx-facet .heading')
     .contains(header)
     .then((el) => {
@@ -230,9 +234,9 @@ export function clickFacet(header: string, mobile: string) {
       // TODO Remove force once you can scroll facets on mobile
       cy.get('a.value').first().click({ force: true });
     });
-  if (mobile) {
+  cy.onMobile(() => {
     cy.get('cx-product-facet-navigation button.close').click();
-  }
+  });
 }
 
 export function clearSelectedFacet() {

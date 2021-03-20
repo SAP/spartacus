@@ -86,7 +86,7 @@ export enum DeferLoadingStrategy {
 export interface CMSComponentConfig
   extends StandardCmsComponentConfig,
     JspIncludeCmsComponentConfig {
-  [componentType: string]: CmsComponentMapping;
+  [componentType: string]: CmsComponentMapping | undefined;
 }
 
 export interface FeatureModuleConfig {
@@ -95,9 +95,9 @@ export interface FeatureModuleConfig {
    */
   module?: () => Promise<any>;
   /**
-   * Lazy resolved dependency modules
+   * Lazy resolved dependency modules or features referenced by name
    */
-  dependencies?: (() => Promise<any>)[];
+  dependencies?: ((() => Promise<any>) | string)[];
   /**
    * Cms components covered by this feature
    */
@@ -109,6 +109,6 @@ export interface FeatureModuleConfig {
   useExisting: Config,
 })
 export abstract class CmsConfig extends OccConfig {
-  featureModules?: { [featureName: string]: FeatureModuleConfig };
+  featureModules?: { [featureName: string]: FeatureModuleConfig | string };
   cmsComponents?: CMSComponentConfig;
 }

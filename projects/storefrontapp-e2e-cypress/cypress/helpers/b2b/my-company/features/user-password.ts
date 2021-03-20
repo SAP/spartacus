@@ -1,8 +1,8 @@
 import { fillLoginForm, LoginUser } from '../../../auth-forms';
 import { waitForPage } from '../../../checkout-flow';
 import { INPUT_TYPE, MyCompanyConfig } from '../models';
-import { completeForm, FormType } from '../my-company-form';
 import { loginAsMyCompanyAdmin } from '../my-company.utils';
+import { completeForm, FormType } from './utils/form';
 
 export function userPasswordTest(config: MyCompanyConfig): void {
   const TEST_PASSWORD = 'tE5tP@$5';
@@ -23,10 +23,6 @@ export function userPasswordTest(config: MyCompanyConfig): void {
   };
 
   describe(`User Password`, () => {
-    beforeEach(() => {
-      cy.server();
-    });
-
     it('should set user password', () => {
       if (codeRow.useCookie) {
         cy.getCookie(codeRow.useCookie).then((cookie) => {
@@ -70,9 +66,7 @@ export function userPasswordTest(config: MyCompanyConfig): void {
 
   function setUserPasswordAsAdmin(code: string, newPassword: string) {
     loginAsMyCompanyAdmin();
-    cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
     cy.visit(`${config.baseUrl}/${code}`);
-    cy.wait('@getEntity');
 
     cy.get('cx-org-user-details section.details a.link')
       .contains('Change password')
@@ -94,11 +88,9 @@ export function userPasswordTest(config: MyCompanyConfig): void {
       FormType.CREATE
     );
 
-    cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
-    cy.route('PATCH', `**`).as('patch');
+    cy.intercept('PATCH', `**`).as('patch');
     cy.get('div.header button').contains('Save').click();
     cy.wait('@patch');
-    cy.wait('@getEntity');
 
     logOut();
   }

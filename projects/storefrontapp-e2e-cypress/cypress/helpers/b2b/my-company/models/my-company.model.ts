@@ -33,6 +33,12 @@ export interface TestListOptions {
 }
 
 export enum MY_COMPANY_FEATURE {
+  LIST = 'list',
+  NESTED_LIST = 'nestedList',
+  CREATE = 'create',
+  UPDATE = 'update',
+  DISABLE = 'disable',
+  ASSIGNMENTS = 'assignments',
   USER_PASSWORD = 'userPassword',
 }
 

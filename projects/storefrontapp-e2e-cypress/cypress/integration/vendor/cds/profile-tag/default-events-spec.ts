@@ -301,7 +301,7 @@ describe('Profile-tag events', () => {
         )
       ).to.equal(1);
     });
-    productSearch.clickFacet('Stores', '');
+    productSearch.clickFacet('Stores');
 
     cy.window().then((win2) => {
       expect(
