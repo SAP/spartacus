@@ -9,12 +9,9 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { ForgotPasswordComponent } from './forgot-password.component';
 import { FormErrorsModule } from '../../../shared/index';
+import { ForgotPasswordComponent } from './forgot-password.component';
 
-/**
- * @deprecated since 3.2, use @spartacus/user package instead.
- */
 @NgModule({
   imports: [
     CommonModule,

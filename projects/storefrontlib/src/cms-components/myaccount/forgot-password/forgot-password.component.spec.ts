@@ -1,25 +1,29 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  AuthConfigService,
+  I18nTestingModule,
+  OAuthFlow,
+  RoutingService,
+  UserService,
+} from '@spartacus/core';
 import { FormErrorsModule } from '../../../shared/index';
-import { ForgotPasswordComponent } from '@spartacus/storefront';
-import { ForgotPasswordService } from '@spartacus/storefront';
+import { ForgotPasswordComponent } from './forgot-password.component';
 
-class MockForgotPasswordService implements Partial<ForgotPasswordService> {
-  form: FormGroup = new FormGroup({
-    userEmail: new FormControl(),
-  });
+class MockUserService implements Partial<UserService> {
+  requestForgotPasswordEmail() {}
+}
+class MockRoutingService implements Partial<RoutingService> {
+  go() {}
+}
 
-  submit() {}
-  reset() {}
+class MockAuthConfigService implements Partial<AuthConfigService> {
+  getOAuthFlow() {
+    return OAuthFlow.ResourceOwnerPasswordFlow;
+  }
 }
 @Pipe({
   name: 'cxUrl',
@@ -33,7 +37,9 @@ describe('ForgotPasswordComponent', () => {
   let fixture: ComponentFixture<ForgotPasswordComponent>;
   let form: DebugElement;
   let userEmail: AbstractControl;
-  let service: MockForgotPasswordService;
+  let authConfigService: AuthConfigService;
+  let routingService: RoutingService;
+  let userService: UserService;
 
   beforeEach(
     waitForAsync(() => {
@@ -46,10 +52,9 @@ describe('ForgotPasswordComponent', () => {
         ],
         declarations: [ForgotPasswordComponent, MockUrlPipe],
         providers: [
-          {
-            provide: ForgotPasswordService,
-            useClass: MockForgotPasswordService,
-          },
+          { provide: UserService, useClass: MockUserService },
+          { provide: RoutingService, useClass: MockRoutingService },
+          { provide: AuthConfigService, useClass: MockAuthConfigService },
         ],
       }).compileComponents();
     })
@@ -57,19 +62,22 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);
-    service = TestBed.inject(ForgotPasswordService);
+    authConfigService = TestBed.inject(AuthConfigService);
+    routingService = TestBed.inject(RoutingService);
+    userService = TestBed.inject(UserService);
     component = fixture.componentInstance;
     form = fixture.debugElement.query(By.css('form'));
 
-    userEmail = component.form.controls['userEmail'];
+    component.ngOnInit();
+    userEmail = component.forgotPasswordForm.controls['userEmail'];
   });
 
   it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call onSubmit() method on submit', () => {
-    const request = spyOn(component, 'onSubmit');
+  it('should call requestForgotPasswordEmail() method on submit', () => {
+    const request = spyOn(component, 'requestForgotPasswordEmail');
     userEmail.setValue('test@test.com');
     fixture.detectChanges();
 
@@ -77,23 +85,40 @@ describe('ForgotPasswordComponent', () => {
     expect(request).toHaveBeenCalled();
   });
 
-  it('should call the service method on submit', () => {
-    spyOn(service, 'submit').and.callThrough();
+  describe('requestForgetPasswordEmail', () => {
+    it('should request email for forgot password and redirect to login page', () => {
+      spyOn(userService, 'requestForgotPasswordEmail').and.callThrough();
+      spyOn(routingService, 'go').and.callThrough();
 
-    component.form.setValue({
-      userEmail: 'test@test.com',
+      component.forgotPasswordForm.setValue({
+        userEmail: 'test@test.com',
+      });
+
+      component.requestForgotPasswordEmail();
+
+      expect(userService.requestForgotPasswordEmail).toHaveBeenCalledWith(
+        'test@test.com'
+      );
+      expect(routingService.go).toHaveBeenCalled();
     });
 
-    component.onSubmit();
+    it('should not redirect when flow different than ResourceOwnerPasswordFlow is used', () => {
+      spyOn(userService, 'requestForgotPasswordEmail').and.callThrough();
+      spyOn(routingService, 'go').and.callThrough();
+      spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
+        OAuthFlow.ImplicitFlow
+      );
 
-    expect(service.submit).toHaveBeenCalled();
-  });
+      component.forgotPasswordForm.setValue({
+        userEmail: 'test@test.com',
+      });
 
-  it('should reset form onDestory', () => {
-    spyOn(service, 'reset').and.callThrough();
+      component.requestForgotPasswordEmail();
 
-    component.ngOnDestroy();
-
-    expect(service.reset).toHaveBeenCalled();
+      expect(userService.requestForgotPasswordEmail).toHaveBeenCalledWith(
+        'test@test.com'
+      );
+      expect(routingService.go).not.toHaveBeenCalled();
+    });
   });
 });

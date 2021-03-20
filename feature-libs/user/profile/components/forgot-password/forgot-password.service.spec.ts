@@ -1,4 +1,4 @@
-import { waitForAsync, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -8,8 +8,8 @@ import {
   RoutingService,
   UserService,
 } from '@spartacus/core';
-import { FormErrorsModule } from '../../../shared/index';
-import { ForgotPasswordService } from '@spartacus/storefront';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { ForgotPasswordService } from './forgot-password.service';
 
 class MockUserService implements Partial<UserService> {
   requestForgotPasswordEmail() {}

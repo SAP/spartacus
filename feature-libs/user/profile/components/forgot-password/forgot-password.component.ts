@@ -1,59 +1,21 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  AuthConfigService,
-  GlobalMessageService,
-  GlobalMessageType,
-  OAuthFlow,
-  RoutingService,
-} from '@spartacus/core';
-import { CustomFormValidators } from '@spartacus/storefront';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { ForgotPasswordService } from './forgot-password.service';
 
 @Component({
   selector: 'cx-forgot-password',
   templateUrl: './forgot-password.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ForgotPasswordComponent implements OnInit {
-  forgotPasswordForm: FormGroup;
+export class ForgotPasswordComponent implements OnDestroy {
+  form: FormGroup = this.service.form;
 
-  constructor(
-    protected fb: FormBuilder,
-    protected userPassword: UserPasswordFacade,
-    protected routingService: RoutingService,
-    protected authConfigService: AuthConfigService,
-    protected globalMessage: GlobalMessageService
-  ) {}
-
-  ngOnInit() {
-    this.forgotPasswordForm = this.fb.group({
-      userEmail: [
-        '',
-        [Validators.required, CustomFormValidators.emailValidator],
-      ],
-    });
+  constructor(protected service: ForgotPasswordService) {}
+  ngOnDestroy() {
+    this.service.reset();
   }
 
-  requestForgotPasswordEmail() {
-    if (this.forgotPasswordForm.valid) {
-      this.userPassword
-        .requestForgotPasswordEmail(this.forgotPasswordForm.value.userEmail)
-        .pipe()
-        .subscribe(() => {
-          this.globalMessage.add(
-            { key: 'forgottenPassword.passwordResetEmailSent' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-        });
-
-      if (
-        this.authConfigService.getOAuthFlow() ===
-        OAuthFlow.ResourceOwnerPasswordFlow
-      ) {
-        this.routingService.go({ cxRoute: 'login' });
-      }
-    } else {
-      this.forgotPasswordForm.markAllAsTouched();
-    }
+  onSubmit(): void {
+    this.service.submit();
   }
 }

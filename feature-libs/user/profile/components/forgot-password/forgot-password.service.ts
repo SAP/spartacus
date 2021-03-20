@@ -6,7 +6,7 @@ import {
   RoutingService,
   UserService,
 } from '@spartacus/core';
-import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+import { CustomFormValidators } from '@spartacus/storefront';
 
 @Injectable({
   providedIn: 'root',
