@@ -234,7 +234,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   // Focus on previous item in results list
-  focusPreviousChild(event) {
+  focusPreviousChild(event: UIEvent) {
     event.preventDefault(); // Negate normal keyscroll
     const [results, focusedIndex] = [
       this.getResultElements(),
@@ -251,7 +251,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   // Focus on next item in results list
-  focusNextChild(event) {
+  focusNextChild(event: UIEvent) {
+    this.open();
     event.preventDefault(); // Negate normal keyscroll
     const [results, focusedIndex] = [
       this.getResultElements(),
@@ -283,8 +284,12 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   /**
    * Disables closing the search result list.
    */
-  disableClose(disable = true): void {
-    this.ignoreCloseEvent = disable;
+  disableClose(): void {
+    this.ignoreCloseEvent = true;
+  }
+
+  preventDefault(ev: UIEvent): void {
+    ev.preventDefault();
   }
 
   /**
