@@ -28,10 +28,12 @@ const mockSavedCarts: Cart[] = [
     name: 'test-cart-name',
     entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
     description: 'test-cart-description',
+    saveTime: new Date('1994-01-11T00:00Z'),
   },
   {
     name: 'test-cart-name2',
     entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+    saveTime: new Date('1994-01-11T00:00Z'),
   },
 ];
 
@@ -174,6 +176,10 @@ describe('SavedCartService', () => {
 
   describe('List of Saved Carts', () => {
     it('should dispatch a load for a list of saved carts ', () => {
+      multiCartService.getCarts = createSpy().and.returnValue(
+        of(mockSavedCarts)
+      );
+
       service.loadSavedCarts();
       expect(store.dispatch).toHaveBeenCalledWith(
         new SavedCartActions.LoadSavedCarts({
@@ -190,7 +196,7 @@ describe('SavedCartService', () => {
         .unsubscribe();
 
       expect(userIdService.takeUserId).toHaveBeenCalled();
-      expect(result).toEqual([]);
+      expect(result).toEqual(mockSavedCarts);
       expect(store.dispatch).toHaveBeenCalledWith(
         new SavedCartActions.LoadSavedCarts({
           userId: mockUserId,
@@ -208,9 +214,7 @@ describe('SavedCartService', () => {
         .unsubscribe();
 
       expect(userIdService.takeUserId).not.toHaveBeenCalledWith();
-      // TODO: verify why result is empty array
-      // expect(result).toEqual(mockSavedCarts);
-      expect(result).toEqual([]);
+      expect(result).toEqual(mockSavedCarts);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new SavedCartActions.LoadSavedCarts({
           userId: mockUserId,
