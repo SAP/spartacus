@@ -13,7 +13,7 @@ export class SavedCartFormLaunchDialogService {
     data?: any
   ): Observable<any> | undefined {
     const component = this.launchDialogService.launch(
-      LAUNCH_CALLER.ADD_TO_SAVED_CART,
+      LAUNCH_CALLER.SAVED_CART,
       vcr,
       data
     );
@@ -26,7 +26,7 @@ export class SavedCartFormLaunchDialogService {
         filter(([, close]) => close !== undefined),
         tap(([comp]) => {
           openElement?.nativeElement.focus();
-          this.launchDialogService.clear(LAUNCH_CALLER.ADD_TO_SAVED_CART);
+          this.launchDialogService.clear(LAUNCH_CALLER.SAVED_CART);
           comp.destroy();
         }),
         map(([comp]) => comp)

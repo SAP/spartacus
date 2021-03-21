@@ -8,7 +8,7 @@ import {
 } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { SavedCartActions } from '../store/actions';
+import { SavedCartActions } from '../store/actions/index';
 import { SavedCartEventBuilder } from './saved-cart-event.builder';
 import {
   DeleteSavedCartEvent,

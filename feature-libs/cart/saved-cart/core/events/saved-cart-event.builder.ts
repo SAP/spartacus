@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { SavedCartActions } from '../store/actions';
+import { SavedCartActions } from '../store/actions/index';
 import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,
