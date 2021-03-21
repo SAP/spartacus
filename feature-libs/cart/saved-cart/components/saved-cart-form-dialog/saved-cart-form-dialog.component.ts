@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  SavedCartEventsService,
   SavedCartFormType,
   SavedCartService,
 } from '@spartacus/cart/saved-cart/core';
@@ -23,6 +24,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
+import { mapTo, take } from 'rxjs/operators';
 
 export interface SavedCartFormDialogOptions {
   cart: Cart;
@@ -35,6 +37,7 @@ export interface SavedCartFormDialogOptions {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
   savedCartFormType = SavedCartFormType;
   form: FormGroup;
   iconTypes = ICON_TYPE;
@@ -53,7 +56,12 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
   isLoading$: Observable<boolean>;
 
-  private subscription = new Subscription();
+  get descriptionsCharacterLeft(): number {
+    return (
+      this.descriptionMaxLength -
+      (this.form.get('description')?.value?.length || 0)
+    );
+  }
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
@@ -67,6 +75,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
     protected savedCartService: SavedCartService,
+    protected savedCartEventsService: SavedCartEventsService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService
   ) {}
@@ -90,12 +99,14 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
         .getSaveCartProcessSuccess()
         .subscribe((success) => this.onSuccess(success, SavedCartFormType.EDIT))
     );
-  }
 
-  get descriptionsCharacterLeft(): number {
-    return (
-      this.descriptionMaxLength -
-      (this.form.get('description')?.value?.length || 0)
+    this.subscription.add(
+      this.savedCartEventsService
+        .getDeleteSavedCartSuccessEvent()
+        .pipe(take(1), mapTo(true))
+        .subscribe((success) =>
+          this.onSuccess(success, SavedCartFormType.DELETE)
+        )
     );
   }
 
@@ -109,17 +120,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   }
 
   deleteCart(cartId: string): void {
-    // TODO: replace logic and use the DeleteCartEvents when they're available.
-    // race condition (thinking of a fix)
-    this.routingService.go({ cxRoute: 'savedCarts' });
-    this.globalMessageService.add(
-      {
-        key: 'savedCartDialog.deleteCartSuccess',
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
     this.savedCartService.deleteSavedCart(cartId);
-    this.close('Succesfully deleted a saved cart');
   }
 
   close(reason: string): void {
@@ -130,11 +131,19 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     if (success) {
       switch (saveCartAction) {
         case SavedCartFormType.DELETE: {
-          // when events become available
+          this.routingService.go({ cxRoute: 'savedCarts' });
+          this.globalMessageService.add(
+            {
+              key: 'savedCartDialog.deleteCartSuccess',
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+          this.close('Succesfully deleted a saved cart');
+
           break;
         }
 
-        default: {
+        case SavedCartFormType.SAVE: {
           this.close('Succesfully saved cart');
           this.savedCartService.clearSaveCart();
           this.savedCartService.clearRestoreSavedCart();

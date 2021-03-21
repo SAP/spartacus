@@ -75,22 +75,22 @@ export class SavedCartDetailOverviewComponent implements OnDestroy {
     );
   }
 
-  getCartItems(totalItems: number): Observable<Card> {
+  getCartItems(totalUnitCount: number): Observable<Card> {
     return this.translation.translate('savedCartDetails.items').pipe(
-      filter(() => Boolean(totalItems)),
+      filter(() => Boolean(totalUnitCount)),
       map((textTitle) => ({
         title: textTitle,
-        text: [totalItems.toString()],
+        text: [totalUnitCount.toString()],
       }))
     );
   }
 
-  getCartQuantity(totalUnitItems: number): Observable<Card> {
+  getCartQuantity(totalItems: number): Observable<Card> {
     return this.translation.translate('savedCartDetails.quantity').pipe(
-      filter(() => Boolean(totalUnitItems)),
+      filter(() => Boolean(totalItems)),
       map((textTitle) => ({
         title: textTitle,
-        text: [totalUnitItems.toString()],
+        text: [totalItems.toString()],
       }))
     );
   }

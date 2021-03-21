@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  DeleteSavedCartSuccessEvent,
+  SavedCartEventsService,
   SavedCartFormType,
   SavedCartService,
 } from '@spartacus/cart/saved-cart/core';
@@ -20,6 +22,7 @@ import {
 } from './saved-cart-form-dialog.component';
 
 const mockDescriptionMaxLength = 250;
+const mockUserId = 'test-user';
 const mockCartId = '123456789';
 const mockCart: Cart = {
   code: '123456789',
@@ -31,17 +34,17 @@ const mockCart: Cart = {
 const mockSuccessDeleteCloseReason = 'Succesfully deleted a saved cart';
 const mockFilledDialogData: SavedCartFormDialogOptions = {
   cart: mockCart,
-  layoutOption: 'edit',
+  layoutOption: 'save',
 };
-const mockFilledDialogDataWithOutLayout: SavedCartFormDialogOptions = {
-  cart: mockCart,
-};
-const mockEmptyDialogData = {} as SavedCartFormDialogOptions;
-const mockDialogData$ = new BehaviorSubject<SavedCartFormDialogOptions>(
-  mockEmptyDialogData
-);
 
-const mockSaveCartProcessData$ = new BehaviorSubject<boolean>(true);
+const mockDialogData$ = new BehaviorSubject<SavedCartFormDialogOptions>(
+  mockFilledDialogData
+);
+const mockDeleteSavedCartEvent = {
+  userId: mockUserId,
+  cartId: mockCartId,
+  cartCode: mockCartId,
+};
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   get data$(): Observable<any> {
@@ -66,10 +69,16 @@ class MockSavedCartService implements Partial<SavedCartService> {
   clearSaveCart(): void {}
   clearRestoreSavedCart(): void {}
   getSaveCartProcessSuccess(): Observable<boolean> {
-    return mockSaveCartProcessData$.asObservable();
+    return of();
   }
   getSaveCartProcessLoading(): Observable<boolean> {
-    return of(false);
+    return of();
+  }
+}
+
+class MockSavedCartEventsService implements Partial<SavedCartEventsService> {
+  getDeleteSavedCartSuccessEvent(): Observable<DeleteSavedCartSuccessEvent> {
+    return of();
   }
 }
 
@@ -86,6 +95,7 @@ describe('SavedCartFormDialogComponent', () => {
   let fixture: ComponentFixture<SavedCartFormDialogComponent>;
   let globalMessageService: GlobalMessageService;
   let savedCartService: SavedCartService;
+  let savedCartEventsService: SavedCartEventsService;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
 
@@ -96,6 +106,10 @@ describe('SavedCartFormDialogComponent', () => {
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: SavedCartService, useClass: MockSavedCartService },
+        {
+          provide: SavedCartEventsService,
+          useClass: MockSavedCartEventsService,
+        },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
       ],
@@ -103,8 +117,11 @@ describe('SavedCartFormDialogComponent', () => {
 
     globalMessageService = TestBed.inject(GlobalMessageService);
     savedCartService = TestBed.inject(SavedCartService);
+    savedCartEventsService = TestBed.inject(SavedCartEventsService);
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+
+    mockDialogData$.next(mockFilledDialogData);
   });
 
   beforeEach(() => {
@@ -119,17 +136,6 @@ describe('SavedCartFormDialogComponent', () => {
 
   describe('should build the form', () => {
     it('with fetched cart values', () => {
-      mockDialogData$.next(mockFilledDialogData);
-      fixture.detectChanges();
-
-      expect(component.form?.get('name')?.value).toEqual(mockCart.name);
-      expect(component.form?.get('description')?.value).toEqual(
-        mockCart.description
-      );
-    });
-
-    it('with fetched cart values from restored cart', () => {
-      mockDialogData$.next(mockFilledDialogDataWithOutLayout);
       fixture.detectChanges();
 
       expect(component.form?.get('name')?.value).toEqual(mockCart.name);
@@ -139,7 +145,7 @@ describe('SavedCartFormDialogComponent', () => {
     });
 
     it('with empty values', () => {
-      mockDialogData$.next(mockEmptyDialogData);
+      mockDialogData$.next({ cart: {} });
       fixture.detectChanges();
 
       expect(component.form?.get('name')?.value).toEqual('');
@@ -147,55 +153,25 @@ describe('SavedCartFormDialogComponent', () => {
     });
   });
 
-  describe('should call service on save cart', () => {
-    beforeEach(() => {
-      spyOn(savedCartService, 'saveCart');
-    });
+  it('should trigger save or edit cart', () => {
+    spyOn(savedCartService, 'saveCart');
 
-    it('with filled values', () => {
-      mockDialogData$.next(mockFilledDialogData);
-      fixture.detectChanges();
-      component.saveOrEditCart(mockCartId);
+    component.saveOrEditCart(mockCartId);
 
-      expect(savedCartService.saveCart).toHaveBeenCalledWith({
-        cartId: mockCartId,
-        saveCartName: mockCart.name,
-        saveCartDescription: mockCart.description,
-        extraData: { edit: true },
-      });
-    });
-
-    it('with empty values', () => {
-      mockDialogData$.next(mockEmptyDialogData);
-      fixture.detectChanges();
-      component.saveOrEditCart(mockCartId);
-
-      expect(savedCartService.saveCart).toHaveBeenCalledWith({
-        cartId: mockCartId,
-        saveCartName: '',
-        saveCartDescription: '',
-        extraData: { edit: false },
-      });
+    expect(savedCartService.saveCart).toHaveBeenCalledWith({
+      cartId: mockCartId,
+      saveCartName: mockCart.name,
+      saveCartDescription: mockCart.description,
+      extraData: { edit: true },
     });
   });
 
-  it('should apply multiple actions on delete cart', () => {
-    spyOn(routingService, 'go');
-    spyOn(globalMessageService, 'add');
+  it('should trigger delete cart', () => {
     spyOn(savedCartService, 'deleteSavedCart');
-    spyOn(component, 'close');
 
     component.deleteCart(mockCartId);
 
-    expect(routingService.go).toHaveBeenCalledWith({
-      cxRoute: 'savedCarts',
-    });
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      { key: 'savedCartDialog.deleteCartSuccess' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
     expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(mockCartId);
-    expect(component.close).toHaveBeenCalledWith(mockSuccessDeleteCloseReason);
   });
 
   it('should close dialog on close method', () => {
@@ -240,50 +216,71 @@ describe('SavedCartFormDialogComponent', () => {
     });
   });
 
-  it('should trigger onSuccess when there was a successful saved cart', () => {
-    spyOn(component, 'onSuccess').and.stub();
-    spyOn(savedCartService, 'getSaveCartProcessSuccess').and.returnValue(
-      of(true)
-    );
+  describe('should trigger onSuccess from ngOnInit', () => {
+    beforeEach(() => {
+      spyOn(component, 'onSuccess').and.stub();
+    });
 
-    component.ngOnInit();
-    expect(component.onSuccess).toHaveBeenCalled();
+    it('should trigger onSuccess when there was a successful saved cart', () => {
+      spyOn(savedCartService, 'getSaveCartProcessSuccess').and.returnValue(
+        of(true)
+      );
+
+      component.ngOnInit();
+      expect(component.onSuccess).toHaveBeenCalled();
+    });
+
+    it('should trigger onSuccess when there was a successful delete saved cart event', () => {
+      spyOn(
+        savedCartEventsService,
+        'getDeleteSavedCartSuccessEvent'
+      ).and.returnValue(of(mockDeleteSavedCartEvent));
+      component.ngOnInit();
+      expect(component.onSuccess).toHaveBeenCalled();
+    });
   });
 
-  it('should trigger close modal, clear actions and add global message on save', () => {
-    spyOn(component, 'close');
-    spyOn(savedCartService, 'clearRestoreSavedCart');
-    spyOn(savedCartService, 'clearSaveCart');
-    spyOn(globalMessageService, 'add');
+  describe('should perform actions from onSuccess', () => {
+    beforeEach(() => {
+      spyOn(component, 'close');
+      spyOn(globalMessageService, 'add');
+    });
 
-    mockDialogData$.next(mockFilledDialogData);
-    fixture.detectChanges();
+    it('when successfully saving a cart', () => {
+      spyOn(savedCartService, 'clearRestoreSavedCart');
+      spyOn(savedCartService, 'clearSaveCart');
 
-    component.onSuccess(true, SavedCartFormType.EDIT);
+      component.onSuccess(true, SavedCartFormType.SAVE);
 
-    expect(component.close).toHaveBeenCalledWith('Succesfully saved cart');
-    expect(savedCartService.clearSaveCart).toHaveBeenCalled();
-    expect(savedCartService.clearRestoreSavedCart).toHaveBeenCalled();
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      {
-        key: 'savedCartDialog.editCartSuccess',
-        params: {
-          cartName: mockCart.name,
+      expect(component.close).toHaveBeenCalledWith('Succesfully saved cart');
+      expect(savedCartService.clearSaveCart).toHaveBeenCalled();
+      expect(savedCartService.clearRestoreSavedCart).toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'savedCartDialog.editCartSuccess',
+          params: {
+            cartName: mockCart.name,
+          },
         },
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
-  });
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
 
-  it('should NOT close modal, clear actions and add global message on save', () => {
-    spyOn(component, 'close');
-    spyOn(savedCartService, 'clearRestoreSavedCart');
-    spyOn(savedCartService, 'clearSaveCart');
+    it('when succesfully deleting a cart', () => {
+      spyOn(routingService, 'go');
 
-    component.onSuccess(false, SavedCartFormType.EDIT);
+      component.onSuccess(true, SavedCartFormType.DELETE);
 
-    expect(component.close).not.toHaveBeenCalled();
-    expect(savedCartService.clearRestoreSavedCart).not.toHaveBeenCalled();
-    expect(savedCartService.clearSaveCart).not.toHaveBeenCalled();
+      expect(component.close).toHaveBeenCalledWith(
+        'Succesfully deleted a saved cart'
+      );
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'savedCarts',
+      });
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        { key: 'savedCartDialog.deleteCartSuccess' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
   });
 });

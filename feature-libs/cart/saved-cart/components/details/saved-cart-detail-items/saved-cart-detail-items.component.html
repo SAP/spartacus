@@ -1,6 +1,3 @@
-<!-- TODO: Speaking to Marcin for best approach as the wrapper is tightly coupled to selective cart and active cart
-    I provided solutions and will fix once I get it
--->
 <ng-container *ngIf="savedCart$ | async as cart">
   <ng-container *ngIf="cart?.entries?.length > 0; else emptyCartItems">
     <div *ngIf="cart?.totalItems" class="cart-details-wrapper">

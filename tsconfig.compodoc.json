@@ -34,9 +34,6 @@
       "@spartacus/cart/saved-cart/root": [
         "feature-libs/cart/saved-cart/root/public_api"
       ],
-      "@spartacus/cart/saved-cart/events": [
-        "feature-libs/cart/saved-cart/events/public_api"
-      ],
       "@spartacus/asm/assets": ["feature-libs/asm/assets/public_api"],
       "@spartacus/asm/components": ["feature-libs/asm/components/public_api"],
       "@spartacus/asm/core": ["feature-libs/asm/core/public_api"],

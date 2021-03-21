@@ -145,13 +145,13 @@ describe('SavedCartDetailOverviewComponent', () => {
     expect(component.getDateSaved).toHaveBeenCalledWith(date);
   });
 
-  it('should trigger getCartItems(totalItems: number)', () => {
+  it('should trigger getCartItems(totalUnitCount: number)', () => {
     component
-      .getCartItems(mockSavedCart.totalItems as number)
+      .getCartItems(mockSavedCart.totalUnitCount as number)
       .subscribe((data) => {
         expect(data).toBeTruthy();
         expect(data.title).toEqual(mockTranslations);
-        expect(data.text).toEqual([mockSavedCart.totalItems?.toString()]);
+        expect(data.text).toEqual([mockSavedCart.totalUnitCount?.toString()]);
       })
       .unsubscribe();
 
@@ -160,18 +160,18 @@ describe('SavedCartDetailOverviewComponent', () => {
     );
   });
 
-  it('should trigger getCartQuantity(totalUnitItems: number)', () => {
+  it('should trigger getCartQuantity(totalItems: number)', () => {
     component
-      .getCartQuantity(mockSavedCart.totalUnitCount as number)
+      .getCartQuantity(mockSavedCart.totalItems as number)
       .subscribe((data) => {
         expect(data).toBeTruthy();
         expect(data.title).toEqual(mockTranslations);
-        expect(data.text).toEqual([mockSavedCart.totalUnitCount?.toString()]);
+        expect(data.text).toEqual([mockSavedCart.totalItems?.toString()]);
       })
       .unsubscribe();
 
     expect(component.getCartQuantity).toHaveBeenCalledWith(
-      mockSavedCart.totalUnitCount
+      mockSavedCart.totalItems
     );
   });
 

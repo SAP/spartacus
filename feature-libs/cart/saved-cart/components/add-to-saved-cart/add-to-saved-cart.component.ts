@@ -60,7 +60,7 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     const dialog = this.savedCartFormLaunchDialogService.openDialog(
       this.element,
       this.vcr,
-      { cart }
+      { cart, layoutOption: 'save' }
     );
 
     if (dialog) {

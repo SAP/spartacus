@@ -1,4 +1,5 @@
 export * from './connectors/index';
+export * from './events/index';
 export * from './model/index';
 export * from './saved-cart-core.module';
 export * from './services/index';

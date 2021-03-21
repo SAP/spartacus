@@ -15,7 +15,7 @@
             <ng-container *ngSwitchCase="savedCartFormType.DELETE">
               {{ 'savedCartDialog.deleteSavedCart' | cxTranslate }}
             </ng-container>
-            <ng-container *ngSwitchDefault>
+            <ng-container *ngSwitchCase="savedCartFormType.SAVE">
               {{ 'savedCartDialog.saveForLater' | cxTranslate }}
             </ng-container>
           </div>
@@ -119,7 +119,7 @@
 
         <!-- start SAVE and EDIT form -->
         <ng-template #saveAndEditCart>
-          <ng-container *ngIf="!layoutOption">
+          <ng-container *ngIf="layoutOption === savedCartFormType.DELETE">
             <p class="cx-saved-cart-form-subtitle">
               {{ 'savedCartDialog.itemsSavedForLater' | cxTranslate }}
             </p>

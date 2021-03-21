@@ -1,7 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import {
+  DeleteSavedCartSuccessEvent,
+  SavedCartEventsService,
+  SavedCartService,
+} from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
   GlobalMessageService,
@@ -32,6 +36,11 @@ const mockSavedCart: Cart = {
   totalItems: 5,
 };
 const mockEmptyEntriesCart: Cart = { ...mockSavedCart, entries: [] };
+const mockDeleteSavedCartEvent = {
+  userId: mockUserId,
+  cartId: mockCartId,
+  cartCode: mockCartId,
+};
 
 const cart$ = new BehaviorSubject<Cart>(mockSavedCart);
 
@@ -56,6 +65,12 @@ class MockSavedCartDetailService implements Partial<SavedCartDetailService> {
   }
   getSavedCartId(): Observable<string> {
     return of(mockCartId);
+  }
+}
+
+class MockSavedCartEventsService implements Partial<SavedCartEventsService> {
+  getDeleteSavedCartSuccessEvent(): Observable<DeleteSavedCartSuccessEvent> {
+    return of();
   }
 }
 
@@ -87,6 +102,7 @@ describe('SavedCartDetailItemsComponent', () => {
   let component: SavedCartDetailItemsComponent;
   let fixture: ComponentFixture<SavedCartDetailItemsComponent>;
   let savedCartService: SavedCartService;
+  let savedCartEventsService: SavedCartEventsService;
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
 
@@ -102,6 +118,10 @@ describe('SavedCartDetailItemsComponent', () => {
           {
             provide: SavedCartService,
             useClass: MockSavedCartService,
+          },
+          {
+            provide: SavedCartEventsService,
+            useClass: MockSavedCartEventsService,
           },
           {
             provide: SavedCartDetailService,
@@ -120,6 +140,7 @@ describe('SavedCartDetailItemsComponent', () => {
       component = fixture.componentInstance;
 
       savedCartService = TestBed.inject(SavedCartService);
+      savedCartEventsService = TestBed.inject(SavedCartEventsService);
       globalMessageService = TestBed.inject(GlobalMessageService);
       routingService = TestBed.inject(RoutingService);
 
@@ -137,12 +158,40 @@ describe('SavedCartDetailItemsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should trigger onSuccess when there was a successful deleted cart', () => {
+    spyOn(component, 'onSuccess').and.stub();
+    spyOn(
+      savedCartEventsService,
+      'getDeleteSavedCartSuccessEvent'
+    ).and.returnValue(of(mockDeleteSavedCartEvent));
+
+    component.ngOnInit();
+    expect(component.onSuccess).toHaveBeenCalled();
+  });
+
+  it('should trigger a redirection and a global message onSuccess', () => {
+    component.onSuccess(true);
+
+    expect(routingService.go).toHaveBeenCalledWith({
+      cxRoute: 'savedCarts',
+    });
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'savedCartDialog.deleteCartSuccess' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  });
+
+  it('should NOT trigger a redirection and a global message onSuccess', () => {
+    component.onSuccess(false);
+
+    expect(routingService.go).not.toHaveBeenCalled();
+    expect(globalMessageService.add).not.toHaveBeenCalled();
+  });
+
   it('should NOT delete saved cart when there are cart entries', () => {
     component.savedCart$
       .subscribe((savedCart) => {
         expect(savedCart).toEqual(mockSavedCart);
-        expect(routingService.go).not.toHaveBeenCalled();
-        expect(globalMessageService.add).not.toHaveBeenCalled();
         expect(savedCartService.deleteSavedCart).not.toHaveBeenCalled();
       })
       .unsubscribe();
@@ -154,13 +203,6 @@ describe('SavedCartDetailItemsComponent', () => {
     component.savedCart$
       .subscribe((savedCart) => {
         expect(savedCart).toEqual(mockEmptyEntriesCart);
-        expect(routingService.go).toHaveBeenCalledWith({
-          cxRoute: 'savedCarts',
-        });
-        expect(globalMessageService.add).toHaveBeenCalledWith(
-          { key: 'savedCartDialog.deleteCartSuccess' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
         expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(
           mockCartId
         );
