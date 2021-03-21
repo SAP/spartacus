@@ -19,7 +19,6 @@ import createSpy = jasmine.createSpy;
 
 const mockCartId = 'test-cart';
 const mockUserId = 'test-user';
-const mockActiveCartId = 'test-active-cart';
 
 const mockSavedCarts: Cart[] = [
   {
@@ -33,6 +32,16 @@ const mockSavedCarts: Cart[] = [
   },
 ];
 
+const mockActiveCart: Cart = {
+  name: 'test-active-cart',
+  code: 'test-active-cart-code',
+  entries: [
+    { entryNumber: 0, product: { name: 'test-product' } },
+    { entryNumber: 1, product: { name: 'test-product1' } },
+    { entryNumber: 2, product: { name: 'test-product1' } },
+  ],
+};
+
 class MockSavedCartConnector implements Partial<SavedCartConnector> {
   get = createSpy().and.returnValue(of(mockSavedCarts[0]));
   getList = createSpy().and.returnValue(of(mockSavedCarts));
@@ -40,9 +49,9 @@ class MockSavedCartConnector implements Partial<SavedCartConnector> {
   saveCart = createSpy().and.returnValue(of(mockSavedCarts[0]));
 }
 
-const activeCartId$ = new BehaviorSubject<string>(mockActiveCartId);
+const activeCart$ = new BehaviorSubject<Cart>(mockActiveCart);
 class MockActiveCartService implements Partial<ActiveCartService> {
-  getActiveCartId = () => activeCartId$.asObservable();
+  getActive = () => activeCart$.asObservable();
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -85,7 +94,7 @@ describe('SavedCart Effects', () => {
       ],
     });
 
-    activeCartId$.next(mockActiveCartId);
+    activeCart$.next(mockActiveCart);
     effects = TestBed.inject(fromEffects.SavedCartEffects);
     connector = TestBed.inject(SavedCartConnector);
     globalMessageService = TestBed.inject(GlobalMessageService);
@@ -146,7 +155,7 @@ describe('SavedCart Effects', () => {
 
       const completion1 = new SavedCartActions.EditSavedCart({
         userId: mockUserId,
-        cartId: mockActiveCartId,
+        cartId: mockActiveCart.code,
         saveCartName: '',
         saveCartDescription: '',
       });
@@ -179,15 +188,15 @@ describe('SavedCart Effects', () => {
           key: 'savedCartList.swapCartWithActiveCart',
           params: {
             cartName: mockCartId,
-            previousCartName: mockActiveCartId,
+            previousCartName: mockActiveCart.code,
           },
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });
 
-    it('should restore a saved cart and make it active', () => {
-      activeCartId$.next('');
+    it('should restore a saved cart and make it active without saving active cart when entries are empty', () => {
+      activeCart$.next({ ...mockActiveCart, entries: [] });
 
       const action = new SavedCartActions.RestoreSavedCart({
         userId: mockUserId,
@@ -222,7 +231,7 @@ describe('SavedCart Effects', () => {
           key: 'savedCartList.swapCartNoActiveCart',
           params: {
             cartName: mockCartId,
-            previousCartName: '',
+            previousCartName: mockActiveCart.code,
           },
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION

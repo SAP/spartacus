@@ -83,15 +83,15 @@ export class SavedCartEffects {
   > = this.actions$.pipe(
     ofType(SavedCartActions.RESTORE_SAVED_CART),
     map((action: SavedCartActions.RestoreSavedCart) => action.payload),
-    withLatestFrom(this.activeCartService.getActiveCartId()),
-    switchMap(([{ userId, cartId }, activeCartId]) => {
+    withLatestFrom(this.activeCartService.getActive()),
+    switchMap(([{ userId, cartId }, activeCart]) => {
       const actions: any[] = [];
 
-      if (Boolean(activeCartId)) {
+      if (activeCart?.entries?.length > 0) {
         actions.push(
           new SavedCartActions.EditSavedCart({
             userId,
-            cartId: activeCartId,
+            cartId: activeCart.code,
             saveCartName: '',
             saveCartDescription: '',
           })
@@ -102,12 +102,13 @@ export class SavedCartEffects {
         switchMap((savedCart: Cart) => {
           this.globalMessageService.add(
             {
-              key: Boolean(activeCartId)
-                ? 'savedCartList.swapCartWithActiveCart'
-                : 'savedCartList.swapCartNoActiveCart',
+              key:
+                activeCart?.entries?.length > 0
+                  ? 'savedCartList.swapCartWithActiveCart'
+                  : 'savedCartList.swapCartNoActiveCart',
               params: {
                 cartName: cartId,
-                previousCartName: activeCartId,
+                previousCartName: activeCart.code,
               },
             },
             GlobalMessageType.MSG_TYPE_CONFIRMATION

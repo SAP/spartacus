@@ -14,6 +14,7 @@ import {
   CartSharedModule,
   IconModule,
   MediaModule,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { SavedCartDetailActionComponent } from './saved-cart-detail-action/saved-cart-detail-action.component';
 import { SavedCartDetailItemsComponent } from './saved-cart-detail-items/saved-cart-detail-items.component';
@@ -30,6 +31,7 @@ import { SavedCartDetailOverviewComponent } from './saved-cart-detail-overview/s
     MediaModule,
     AddToCartModule,
     IconModule,
+    SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SavedCartDetailsOverviewComponent: {
