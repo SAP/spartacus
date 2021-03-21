@@ -14,6 +14,7 @@ import {
 } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
+  ClearCheckoutService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -77,7 +78,8 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected savedCartService: SavedCartService,
     protected savedCartEventsService: SavedCartEventsService,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected clearCheckoutService: ClearCheckoutService
   ) {}
 
   ngOnInit(): void {
@@ -97,26 +99,39 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.savedCartService
         .getSaveCartProcessSuccess()
-        .subscribe((success) => this.onSuccess(success, SavedCartFormType.EDIT))
+        .subscribe((success) => this.onSuccess(success))
     );
 
     this.subscription.add(
       this.savedCartEventsService
         .getDeleteSavedCartSuccessEvent()
         .pipe(take(1), mapTo(true))
-        .subscribe((success) =>
-          this.onSuccess(success, SavedCartFormType.DELETE)
-        )
+        .subscribe((success) => this.onSuccess(success))
     );
   }
 
   saveOrEditCart(cartId: string): void {
-    this.savedCartService.saveCart({
-      cartId,
-      saveCartName: this.form.get('name')?.value,
-      saveCartDescription: this.form.get('description')?.value,
-      extraData: !this.layoutOption ? { edit: false } : { edit: true },
-    });
+    switch (this.layoutOption) {
+      case SavedCartFormType.SAVE: {
+        this.savedCartService.saveCart({
+          cartId,
+          saveCartName: this.form.get('name')?.value,
+          saveCartDescription: this.form.get('description')?.value,
+        });
+
+        break;
+      }
+
+      case SavedCartFormType.EDIT: {
+        this.savedCartService.editSavedCart({
+          cartId,
+          saveCartName: this.form.get('name')?.value,
+          saveCartDescription: this.form.get('description')?.value,
+        });
+
+        break;
+      }
+    }
   }
 
   deleteCart(cartId: string): void {
@@ -127,9 +142,9 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.launchDialogService.closeDialog(reason);
   }
 
-  onSuccess(success: boolean, saveCartAction: string): void {
+  onSuccess(success: boolean): void {
     if (success) {
-      switch (saveCartAction) {
+      switch (this.layoutOption) {
         case SavedCartFormType.DELETE: {
           this.routingService.go({ cxRoute: 'savedCarts' });
           this.globalMessageService.add(
@@ -145,18 +160,33 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
         case SavedCartFormType.SAVE: {
           this.close('Succesfully saved cart');
+          this.clearCheckoutService.resetCheckoutProcesses();
           this.savedCartService.clearSaveCart();
-          this.savedCartService.clearRestoreSavedCart();
 
           this.globalMessageService.add(
             {
-              key: !this.layoutOption
-                ? 'savedCartCartPage.messages.cartSaved'
-                : 'savedCartDialog.editCartSuccess',
+              key: 'savedCartCartPage.messages.cartSaved',
               params: {
                 cartName: this.form.get('name')?.value || this.cart?.code,
               },
             },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+
+          break;
+        }
+
+        case SavedCartFormType.EDIT: {
+          this.close('Succesfully edited saved cart');
+          this.savedCartService.clearSaveCart();
+          this.globalMessageService.add(
+            {
+              key: 'savedCartDialog.editCartSuccess',
+              params: {
+                cartName: this.form.get('name')?.value || this.cart?.code,
+              },
+            },
+
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
 

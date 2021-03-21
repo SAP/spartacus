@@ -6,7 +6,6 @@ import {
   ActiveCartService,
   Cart,
   CartActions,
-  ClearCheckoutService,
   GlobalMessageService,
   GlobalMessageType,
   MultiCartService,
@@ -50,10 +49,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-class MockClearCheckoutService implements Partial<ClearCheckoutService> {
-  resetCheckoutProcesses = createSpy();
-}
-
 class MockMultiCartService implements Partial<MultiCartService> {
   createCart = createSpy().and.returnValue(of({ value: mockSavedCarts[1] }));
 }
@@ -63,7 +58,6 @@ describe('SavedCart Effects', () => {
   let effects: fromEffects.SavedCartEffects;
   let actions$: Observable<Action>;
   let globalMessageService: GlobalMessageService;
-  let clearCheckoutService: ClearCheckoutService;
   let multiCartService: MultiCartService;
 
   beforeEach(() => {
@@ -84,10 +78,6 @@ describe('SavedCart Effects', () => {
           useClass: MockGlobalMessageService,
         },
         {
-          provide: ClearCheckoutService,
-          useClass: MockClearCheckoutService,
-        },
-        {
           provide: MultiCartService,
           useClass: MockMultiCartService,
         },
@@ -99,7 +89,6 @@ describe('SavedCart Effects', () => {
     effects = TestBed.inject(fromEffects.SavedCartEffects);
     connector = TestBed.inject(SavedCartConnector);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    clearCheckoutService = TestBed.inject(ClearCheckoutService);
     multiCartService = TestBed.inject(MultiCartService);
   });
 
@@ -155,12 +144,11 @@ describe('SavedCart Effects', () => {
         cartId: mockCartId,
       });
 
-      const completion1 = new SavedCartActions.SaveCart({
+      const completion1 = new SavedCartActions.EditSavedCart({
         userId: mockUserId,
         cartId: mockActiveCartId,
         saveCartName: '',
         saveCartDescription: '',
-        extraData: { edit: true },
       });
       const completion2 = new CartActions.SetActiveCartId(mockCartId);
       const completion3 = new CartActions.LoadCartSuccess({
@@ -168,21 +156,17 @@ describe('SavedCart Effects', () => {
         cartId: mockCartId,
         cart: mockSavedCarts[0],
       });
-      const completion4 = new SavedCartActions.LoadSavedCarts({
-        userId: mockUserId,
-      });
-      const completion5 = new SavedCartActions.RestoreSavedCartSuccess({
+      const completion4 = new SavedCartActions.RestoreSavedCartSuccess({
         userId: mockUserId,
         cartId: mockCartId,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcdef)', {
+      const expected = cold('-(bcde)', {
         b: completion1,
         c: completion2,
         d: completion3,
         e: completion4,
-        f: completion5,
       });
 
       expect(effects.restoreSavedCart$).toBeObservable(expected);
@@ -190,7 +174,6 @@ describe('SavedCart Effects', () => {
         mockUserId,
         mockCartId
       );
-      expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
           key: 'savedCartList.swapCartWithActiveCart',
@@ -217,20 +200,16 @@ describe('SavedCart Effects', () => {
         cartId: mockCartId,
         cart: mockSavedCarts[0],
       });
-      const completion3 = new SavedCartActions.LoadSavedCarts({
-        userId: mockUserId,
-      });
-      const completion4 = new SavedCartActions.RestoreSavedCartSuccess({
+      const completion3 = new SavedCartActions.RestoreSavedCartSuccess({
         userId: mockUserId,
         cartId: mockCartId,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcde)', {
+      const expected = cold('-(bcd)', {
         b: completion1,
         c: completion2,
         d: completion3,
-        e: completion4,
       });
 
       expect(effects.restoreSavedCart$).toBeObservable(expected);
@@ -238,7 +217,6 @@ describe('SavedCart Effects', () => {
         mockUserId,
         mockCartId
       );
-      expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
           key: 'savedCartList.swapCartNoActiveCart',
@@ -253,13 +231,12 @@ describe('SavedCart Effects', () => {
   });
 
   describe('saveCart$', () => {
-    it('save a cart when edit is true', () => {
+    it('should save a cart', () => {
       const action = new SavedCartActions.SaveCart({
         userId: mockUserId,
         cartId: mockCartId,
         saveCartName: mockSavedCarts[0].name,
         saveCartDescription: mockSavedCarts[0].description,
-        extraData: { edit: true },
       });
 
       const completion1 = new CartActions.LoadCartSuccess({
@@ -287,47 +264,47 @@ describe('SavedCart Effects', () => {
         mockSavedCarts[0].name,
         mockSavedCarts[0].description
       );
-    });
-
-    it('save a cart when edit is false', () => {
-      const action = new SavedCartActions.SaveCart({
-        userId: mockUserId,
-        cartId: mockCartId,
-        saveCartName: mockSavedCarts[0].name,
-        saveCartDescription: mockSavedCarts[0].description,
-        extraData: { edit: false },
-      });
-
-      const completion1 = new CartActions.LoadCartSuccess({
-        userId: mockUserId,
-        cartId: mockCartId,
-        cart: mockSavedCarts[0],
-      });
-      const completion2 = new SavedCartActions.SaveCartSuccess({
-        userId: mockUserId,
-        cartId: mockCartId,
-        saveCartName: mockSavedCarts[0].name,
-        saveCartDescription: mockSavedCarts[0].description,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: completion1,
-        c: completion2,
-      });
-
-      expect(effects.saveCart$).toBeObservable(expected);
-      expect(connector.saveCart).toHaveBeenCalledWith(
-        mockUserId,
-        mockCartId,
-        mockSavedCarts[0].name,
-        mockSavedCarts[0].description
-      );
-      expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
       expect(multiCartService.createCart).toHaveBeenCalledWith({
         userId: mockUserId,
         extraData: { active: true },
       });
+    });
+  });
+
+  describe('editSavedCart$', () => {
+    it('should update a cart', () => {
+      const action = new SavedCartActions.EditSavedCart({
+        userId: mockUserId,
+        cartId: mockCartId,
+        saveCartName: mockSavedCarts[0].name,
+        saveCartDescription: mockSavedCarts[0].description,
+      });
+
+      const completion1 = new CartActions.LoadCartSuccess({
+        userId: mockUserId,
+        cartId: mockCartId,
+        cart: mockSavedCarts[0],
+      });
+      const completion2 = new SavedCartActions.EditSavedCartSuccess({
+        userId: mockUserId,
+        cartId: mockCartId,
+        saveCartName: mockSavedCarts[0].name,
+        saveCartDescription: mockSavedCarts[0].description,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bc)', {
+        b: completion1,
+        c: completion2,
+      });
+
+      expect(effects.editSavedCart$).toBeObservable(expected);
+      expect(connector.saveCart).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId,
+        mockSavedCarts[0].name,
+        mockSavedCarts[0].description
+      );
     });
   });
 });

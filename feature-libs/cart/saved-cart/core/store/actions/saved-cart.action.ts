@@ -25,6 +25,10 @@ export const SAVE_CART_SUCCESS = '[Saved Cart] Save Cart Success';
 export const SAVE_CART_FAIL = '[Saved Cart] Save Cart Fail';
 export const CLEAR_SAVE_CART = '[Saved Cart] Clear Save Cart';
 
+export const EDIT_SAVED_CART = '[Saved Cart] Edit Saved Cart';
+export const EDIT_SAVED_CART_SUCCESS = '[Saved Cart] Edit Saved Cart Success';
+export const EDIT_SAVED_CART_FAIL = '[Saved Cart] Edit Saved Cart Fail';
+
 export class LoadSavedCart extends StateUtils.EntityLoadAction {
   readonly type = LOAD_SAVED_CART;
   constructor(
@@ -135,9 +139,6 @@ export class SaveCart extends StateUtils.EntityLoadAction {
       cartId: string;
       saveCartName?: string;
       saveCartDescription?: string;
-      extraData?: {
-        edit: boolean;
-      };
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
@@ -180,6 +181,49 @@ export class ClearSaveCart extends StateUtils.EntityLoaderResetAction {
   }
 }
 
+export class EditSavedCart extends StateUtils.EntityLoadAction {
+  readonly type = EDIT_SAVED_CART;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+      saveCartDescription?: string;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
+  }
+}
+
+export class EditSavedCartSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = EDIT_SAVED_CART_SUCCESS;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+      saveCartDescription?: string;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID);
+  }
+}
+
+export class EditSavedCartFail extends StateUtils.EntityFailAction {
+  readonly type = EDIT_SAVED_CART_FAIL;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+      saveCartDescription?: string;
+      error: any;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_SAVE_CART_PROCESS_ID, payload.error);
+  }
+}
+
 export type SavedCartActions =
   | LoadSavedCart
   | LoadSavedCartSuccess
@@ -195,4 +239,7 @@ export type SavedCartActions =
   | SaveCart
   | SaveCartSuccess
   | SaveCartFail
-  | ClearSaveCart;
+  | ClearSaveCart
+  | EditSavedCart
+  | EditSavedCartSuccess
+  | EditSavedCartFail;

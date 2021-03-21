@@ -5,7 +5,6 @@ import {
   ActiveCartService,
   Cart,
   CartActions,
-  ClearCheckoutService,
   GlobalMessageService,
   GlobalMessageType,
   MultiCartService,
@@ -90,20 +89,17 @@ export class SavedCartEffects {
 
       if (Boolean(activeCartId)) {
         actions.push(
-          new SavedCartActions.SaveCart({
+          new SavedCartActions.EditSavedCart({
             userId,
             cartId: activeCartId,
             saveCartName: '',
             saveCartDescription: '',
-            extraData: { edit: true },
           })
         );
       }
 
       return this.savedCartConnector.restoreSavedCart(userId, cartId).pipe(
         switchMap((savedCart: Cart) => {
-          this.clearCheckoutService.resetCheckoutProcesses();
-
           this.globalMessageService.add(
             {
               key: Boolean(activeCartId)
@@ -125,7 +121,6 @@ export class SavedCartEffects {
               cartId,
               cart: savedCart,
             }),
-            new SavedCartActions.LoadSavedCarts({ userId }),
             new SavedCartActions.RestoreSavedCartSuccess({ userId, cartId }),
           ];
         }),
@@ -151,62 +146,86 @@ export class SavedCartEffects {
   > = this.actions$.pipe(
     ofType(SavedCartActions.SAVE_CART),
     map((action: SavedCartActions.SaveCart) => action.payload),
-    switchMap(
-      ({ userId, cartId, saveCartName, saveCartDescription, extraData }) => {
-        return this.savedCartConnector
-          .saveCart(userId, cartId, saveCartName, saveCartDescription)
-          .pipe(
-            switchMap((savedCart: Cart) => {
-              if (extraData?.edit) {
-                return [
-                  new CartActions.LoadCartSuccess({
-                    userId,
-                    cartId,
-                    cart: savedCart,
-                  }),
-                  new SavedCartActions.SaveCartSuccess({
-                    userId,
-                    cartId,
-                    saveCartName,
-                    saveCartDescription,
-                  }),
-                ];
-              } else {
-                this.clearCheckoutService.resetCheckoutProcesses();
-                this.multiCartService.createCart({
-                  userId,
-                  extraData: { active: true },
-                });
+    switchMap(({ userId, cartId, saveCartName, saveCartDescription }) => {
+      return this.savedCartConnector
+        .saveCart(userId, cartId, saveCartName, saveCartDescription)
+        .pipe(
+          switchMap((savedCart: Cart) => {
+            this.multiCartService.createCart({
+              userId,
+              extraData: { active: true },
+            });
 
-                return [
-                  new CartActions.LoadCartSuccess({
-                    userId,
-                    cartId,
-                    cart: savedCart,
-                  }),
-                  new SavedCartActions.SaveCartSuccess({
-                    userId,
-                    cartId,
-                    saveCartName,
-                    saveCartDescription,
-                  }),
-                ];
-              }
-            }),
-            catchError((error: HttpErrorResponse) =>
-              of(
-                new SavedCartActions.SaveCartFail({
-                  userId,
-                  cartId,
-                  saveCartName,
-                  saveCartDescription,
-                  error: normalizeHttpError(error),
-                })
-              )
+            return [
+              new CartActions.LoadCartSuccess({
+                userId,
+                cartId,
+                cart: savedCart,
+              }),
+              new SavedCartActions.SaveCartSuccess({
+                userId,
+                cartId,
+                saveCartName,
+                saveCartDescription,
+              }),
+            ];
+          }),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new SavedCartActions.SaveCartFail({
+                userId,
+                cartId,
+                saveCartName,
+                saveCartDescription,
+                error: normalizeHttpError(error),
+              })
             )
-          );
-      }
-    )
+          )
+        );
+    })
+  );
+
+  @Effect()
+  editSavedCart$: Observable<
+    | SavedCartActions.EditSavedCartFail
+    | SavedCartActions.EditSavedCartSuccess
+    | SavedCartActions.EditSavedCart
+    | CartActions.LoadCartSuccess
+  > = this.actions$.pipe(
+    ofType(SavedCartActions.EDIT_SAVED_CART),
+    map((action: SavedCartActions.EditSavedCart) => action.payload),
+    switchMap(({ userId, cartId, saveCartName, saveCartDescription }) => {
+      return this.savedCartConnector
+        .saveCart(userId, cartId, saveCartName, saveCartDescription)
+        .pipe(
+          switchMap((savedCart: Cart) => {
+            return [
+              new CartActions.LoadCartSuccess({
+                userId,
+                cartId,
+                cart: savedCart,
+              }),
+              new SavedCartActions.EditSavedCartSuccess({
+                userId,
+                cartId,
+                saveCartName,
+                saveCartDescription,
+              }),
+            ];
+          }),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new SavedCartActions.EditSavedCartFail({
+                userId,
+                cartId,
+                saveCartName,
+                saveCartDescription,
+                error: normalizeHttpError(error),
+              })
+            )
+          )
+        );
+    })
   );
 
   constructor(
@@ -214,7 +233,6 @@ export class SavedCartEffects {
     private savedCartConnector: SavedCartConnector,
     private activeCartService: ActiveCartService,
     private globalMessageService: GlobalMessageService,
-    private clearCheckoutService: ClearCheckoutService,
     private multiCartService: MultiCartService
   ) {}
 }

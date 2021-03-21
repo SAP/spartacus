@@ -327,6 +327,80 @@ describe('SavedCartService', () => {
     });
   });
 
+  describe('Edit a saved cart', () => {
+    it('should dispatch an edit saved cart ', () => {
+      service.editSavedCart({
+        cartId: mockCartId,
+        saveCartName: mockCartName,
+        saveCartDescription: mockCartDescription,
+      });
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new SavedCartActions.EditSavedCart({
+          userId: mockUserId,
+          cartId: mockCartId,
+          saveCartName: mockCartName,
+          saveCartDescription: mockCartDescription,
+        })
+      );
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(
+        new SavedCartActions.EditSavedCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
+
+      let result: boolean | undefined;
+
+      service
+        .getSaveCartProcessLoading()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(
+        new SavedCartActions.EditSavedCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
+
+      let result: boolean | undefined;
+
+      service
+        .getSaveCartProcessSuccess()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(
+        new SavedCartActions.EditSavedCartFail({
+          userId: mockUserId,
+          cartId: mockCartId,
+          error: mockError,
+        })
+      );
+
+      let result: boolean | undefined;
+
+      service
+        .getSaveCartProcessError()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+  });
+
   describe('Save cart', () => {
     it('should dispatch a save cart ', () => {
       service.saveCart({
@@ -340,7 +414,6 @@ describe('SavedCartService', () => {
           cartId: mockCartId,
           saveCartName: mockCartName,
           saveCartDescription: mockCartDescription,
-          extraData: undefined,
         })
       );
     });

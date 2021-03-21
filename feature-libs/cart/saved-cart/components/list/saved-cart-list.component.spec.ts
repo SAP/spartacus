@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
-import { Cart, I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  Cart,
+  ClearCheckoutService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
@@ -22,6 +27,10 @@ class MockSavedCartService implements Partial<SavedCartService> {
   }
 }
 
+class MockClearCheckoutService implements Partial<ClearCheckoutService> {
+  resetCheckoutProcesses(): void {}
+}
+
 class MockRoutingService implements Partial<RoutingService> {
   go(): void {}
 }
@@ -37,6 +46,7 @@ describe('SavedCartListComponent', () => {
       providers: [
         { provide: SavedCartService, useClass: MockSavedCartService },
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: ClearCheckoutService, useClass: MockClearCheckoutService },
       ],
     }).compileComponents();
 

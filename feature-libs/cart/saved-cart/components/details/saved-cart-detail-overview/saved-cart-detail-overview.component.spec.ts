@@ -156,7 +156,7 @@ describe('SavedCartDetailOverviewComponent', () => {
       .unsubscribe();
 
     expect(component.getCartItems).toHaveBeenCalledWith(
-      mockSavedCart.totalItems
+      mockSavedCart.totalUnitCount
     );
   });
 

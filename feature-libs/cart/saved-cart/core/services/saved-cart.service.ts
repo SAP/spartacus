@@ -204,12 +204,10 @@ export class SavedCartService {
     cartId,
     saveCartName,
     saveCartDescription,
-    extraData,
   }: {
     cartId: string;
     saveCartName?: string;
     saveCartDescription?: string;
-    extraData?: { edit: boolean };
   }): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
@@ -219,7 +217,6 @@ export class SavedCartService {
             cartId,
             saveCartName,
             saveCartDescription,
-            extraData,
           })
         );
       },
@@ -256,6 +253,30 @@ export class SavedCartService {
       select(
         ProcessSelectors.getProcessErrorFactory(SAVED_CART_SAVE_CART_PROCESS_ID)
       )
+    );
+  }
+
+  editSavedCart({
+    cartId,
+    saveCartName,
+    saveCartDescription,
+  }: {
+    cartId: string;
+    saveCartName?: string;
+    saveCartDescription?: string;
+  }): void {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        return this.store.dispatch(
+          new SavedCartActions.EditSavedCart({
+            userId,
+            cartId,
+            saveCartName,
+            saveCartDescription,
+          })
+        );
+      },
+      () => {}
     );
   }
 }

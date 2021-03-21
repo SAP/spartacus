@@ -277,4 +277,76 @@ describe('SavedCart Actions', () => {
       });
     });
   });
+
+  describe('EditSavedCart Actions', () => {
+    describe('EditSavedCart', () => {
+      it('should create the action', () => {
+        const action = new SavedCartActions.EditSavedCart({
+          userId: mockUserId,
+          cartId: mockCartId,
+        });
+
+        expect({ ...action }).toEqual({
+          type: SavedCartActions.EDIT_SAVED_CART,
+          payload: { userId: mockUserId, cartId: mockCartId },
+          meta: StateUtils.entityLoadMeta(
+            PROCESS_FEATURE,
+            SAVED_CART_SAVE_CART_PROCESS_ID
+          ),
+        });
+      });
+    });
+
+    describe('EditSavedCartSuccess', () => {
+      it('should create the action', () => {
+        const action = new SavedCartActions.EditSavedCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+          saveCartName: mockCartName,
+          saveCartDescription: mockCartDescription,
+        });
+
+        expect({ ...action }).toEqual({
+          type: SavedCartActions.EDIT_SAVED_CART_SUCCESS,
+          payload: {
+            userId: mockUserId,
+            cartId: mockCartId,
+            saveCartName: mockCartName,
+            saveCartDescription: mockCartDescription,
+          },
+          meta: StateUtils.entitySuccessMeta(
+            PROCESS_FEATURE,
+            SAVED_CART_SAVE_CART_PROCESS_ID
+          ),
+        });
+      });
+    });
+    describe('EditSavedCartFail', () => {
+      it('should create the action', () => {
+        const action = new SavedCartActions.EditSavedCartFail({
+          userId: mockUserId,
+          cartId: mockCartId,
+          saveCartName: mockCartName,
+          saveCartDescription: mockCartDescription,
+          error,
+        });
+
+        expect({ ...action }).toEqual({
+          type: SavedCartActions.EDIT_SAVED_CART_FAIL,
+          payload: {
+            userId: mockUserId,
+            cartId: mockCartId,
+            saveCartName: mockCartName,
+            saveCartDescription: mockCartDescription,
+            error,
+          },
+          meta: StateUtils.entityFailMeta(
+            PROCESS_FEATURE,
+            SAVED_CART_SAVE_CART_PROCESS_ID,
+            error
+          ),
+        });
+      });
+    });
+  });
 });

@@ -3,11 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   DeleteSavedCartSuccessEvent,
   SavedCartEventsService,
-  SavedCartFormType,
   SavedCartService,
 } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
+  ClearCheckoutService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -63,7 +63,11 @@ class MockSavedCartService implements Partial<SavedCartService> {
     cartId: string;
     saveCartName?: string;
     saveCartDescription?: string;
-    extraData?: { edit: boolean };
+  }): void {}
+  editSavedCart({}: {
+    cartId: string;
+    saveCartName?: string;
+    saveCartDescription?: string;
   }): void {}
   deleteSavedCart(_cartId: string): void {}
   clearSaveCart(): void {}
@@ -90,6 +94,10 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
+class MockClearCheckoutService implements Partial<ClearCheckoutService> {
+  resetCheckoutProcesses(): void {}
+}
+
 describe('SavedCartFormDialogComponent', () => {
   let component: SavedCartFormDialogComponent;
   let fixture: ComponentFixture<SavedCartFormDialogComponent>;
@@ -98,6 +106,7 @@ describe('SavedCartFormDialogComponent', () => {
   let savedCartEventsService: SavedCartEventsService;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
+  let clearCheckoutService: ClearCheckoutService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -112,6 +121,10 @@ describe('SavedCartFormDialogComponent', () => {
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+        {
+          provide: ClearCheckoutService,
+          useClass: MockClearCheckoutService,
+        },
       ],
     }).compileComponents();
 
@@ -120,6 +133,7 @@ describe('SavedCartFormDialogComponent', () => {
     savedCartEventsService = TestBed.inject(SavedCartEventsService);
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
+    clearCheckoutService = TestBed.inject(ClearCheckoutService);
 
     mockDialogData$.next(mockFilledDialogData);
   });
@@ -153,7 +167,7 @@ describe('SavedCartFormDialogComponent', () => {
     });
   });
 
-  it('should trigger save or edit cart', () => {
+  it('should trigger save cart', () => {
     spyOn(savedCartService, 'saveCart');
 
     component.saveOrEditCart(mockCartId);
@@ -162,7 +176,20 @@ describe('SavedCartFormDialogComponent', () => {
       cartId: mockCartId,
       saveCartName: mockCart.name,
       saveCartDescription: mockCart.description,
-      extraData: { edit: true },
+    });
+  });
+
+  it('should trigger edit saved cart', () => {
+    spyOn(savedCartService, 'editSavedCart');
+
+    mockDialogData$.next({ ...mockFilledDialogData, layoutOption: 'edit' });
+
+    component.saveOrEditCart(mockCartId);
+
+    expect(savedCartService.editSavedCart).toHaveBeenCalledWith({
+      cartId: mockCartId,
+      saveCartName: mockCart.name,
+      saveCartDescription: mockCart.description,
     });
   });
 
@@ -247,29 +274,33 @@ describe('SavedCartFormDialogComponent', () => {
     });
 
     it('when successfully saving a cart', () => {
-      spyOn(savedCartService, 'clearRestoreSavedCart');
       spyOn(savedCartService, 'clearSaveCart');
+      spyOn(clearCheckoutService, 'resetCheckoutProcesses').and.stub();
 
-      component.onSuccess(true, SavedCartFormType.SAVE);
+      mockDialogData$.next(mockFilledDialogData);
+
+      component.onSuccess(true);
 
       expect(component.close).toHaveBeenCalledWith('Succesfully saved cart');
       expect(savedCartService.clearSaveCart).toHaveBeenCalled();
-      expect(savedCartService.clearRestoreSavedCart).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
-          key: 'savedCartDialog.editCartSuccess',
+          key: 'savedCartCartPage.messages.cartSaved',
           params: {
             cartName: mockCart.name,
           },
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+      expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
     });
 
     it('when succesfully deleting a cart', () => {
       spyOn(routingService, 'go');
 
-      component.onSuccess(true, SavedCartFormType.DELETE);
+      mockDialogData$.next({ ...mockFilledDialogData, layoutOption: 'delete' });
+
+      component.onSuccess(true);
 
       expect(component.close).toHaveBeenCalledWith(
         'Succesfully deleted a saved cart'
@@ -279,6 +310,28 @@ describe('SavedCartFormDialogComponent', () => {
       });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         { key: 'savedCartDialog.deleteCartSuccess' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
+    it('when succesfully editting a cart', () => {
+      spyOn(savedCartService, 'clearSaveCart');
+
+      mockDialogData$.next({ ...mockFilledDialogData, layoutOption: 'edit' });
+
+      component.onSuccess(true);
+
+      expect(component.close).toHaveBeenCalledWith(
+        'Succesfully edited saved cart'
+      );
+      expect(savedCartService.clearSaveCart).toHaveBeenCalled();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'savedCartDialog.editCartSuccess',
+          params: {
+            cartName: mockCart.name,
+          },
+        },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });
