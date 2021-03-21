@@ -1,17 +1,11 @@
-import {
-  chain,
-  Rule,
-  SchematicContext,
-  Tree,
-} from '@angular-devkit/schematics';
+import { Rule } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusVariantsOptions,
-  readPackageJson,
-  validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import {
+  PRODUCT_SCSS_FILE_NAME,
+  SPARTACUS_PRODUCT,
   SPARTACUS_VARIANTS,
   SPARTACUS_VARIANTS_ASSETS,
   SPARTACUS_VARIANTS_ROOT,
@@ -22,20 +16,7 @@ import {
   VARIANTS_TRANSLATION_CHUNKS_CONFIG,
 } from './../constants';
 
-// TODO: Index file for product schematics
-export function addVariantsFeatures(options: SpartacusVariantsOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    const packageJson = readPackageJson(tree);
-    validateSpartacusInstallation(packageJson);
-
-    return chain([
-      addVariantsFeature(options),
-      installPackageJsonDependencies(),
-    ]);
-  };
-}
-
-function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
+export function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
   return addLibraryFeature(options, {
     name: VARIANTS_FEATURE_NAME,
     featureModule: {
@@ -50,6 +31,10 @@ function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
       resources: VARIANTS_TRANSLATIONS,
       chunks: VARIANTS_TRANSLATION_CHUNKS_CONFIG,
       importPath: SPARTACUS_VARIANTS_ASSETS,
+    },
+    styles: {
+      scssFileName: PRODUCT_SCSS_FILE_NAME,
+      importStyle: SPARTACUS_PRODUCT,
     },
   });
 }

@@ -17,6 +17,7 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const storeFinderModulePath =
   'src/app/spartacus/features/store-finder-feature.module.ts';
 
+// TODO: Improve tests after lib-util test update
 describe('Spartacus Storefinder schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 

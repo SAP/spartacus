@@ -13,9 +13,10 @@ import {
 import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const qualitricsModulePath =
+const qualtricsModulePath =
   'src/app/spartacus/features/qualtrics-feature.module.ts';
 
+// TODO: Improve tests after lib-util test update
 describe('Spartacus Qualtrics schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -129,7 +130,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const qualtricsModule = appTree.readContent(qualitricsModulePath);
+        const qualtricsModule = appTree.readContent(qualtricsModulePath);
         expect(qualtricsModule).toContain(
           `import { QualtricsRootModule } from "@spartacus/qualtrics/root";`
         );
@@ -139,7 +140,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       });
 
       it('should not contain lazy loading syntax', async () => {
-        const qualtricsModule = appTree.readContent(qualitricsModulePath);
+        const qualtricsModule = appTree.readContent(qualtricsModulePath);
         expect(qualtricsModule).not.toContain(
           `import('@spartacus/qualtrics').then(`
         );
@@ -154,7 +155,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       });
 
       it('should import QualtricsRootModule and contain the lazy loading syntax', async () => {
-        const qualtricsModule = appTree.readContent(qualitricsModulePath);
+        const qualtricsModule = appTree.readContent(qualtricsModulePath);
         expect(qualtricsModule).toContain(
           `import { QualtricsRootModule } from "@spartacus/qualtrics/root";`
         );
@@ -164,7 +165,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       });
 
       it('should not contain the QualtricsModule import', () => {
-        const qualtricsModule = appTree.readContent(qualitricsModulePath);
+        const qualtricsModule = appTree.readContent(qualtricsModulePath);
         expect(qualtricsModule).not.toContain(
           `import { QualtricsModule } from "@spartacus/qualtrics";`
         );

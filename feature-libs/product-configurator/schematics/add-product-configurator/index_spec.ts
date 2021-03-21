@@ -11,13 +11,11 @@ import {
   SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { CLI_PRODUCT_CONFIGURATOR_FEATURE } from './index';
+import { CLI_PRODUCT_CONFIGURATOR_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const productConfiguratorTextFieldFeatureModulePath =
-  'src/app/spartacus/features/product-configurator-textfield-feature.module.ts';
-const productConfiguratorRuleBasedFeatureModulePath =
-  'src/app/spartacus/features/product-configurator-rulebased-feature.module.ts';
+const productConfiguratorFeatureModulePath =
+  'src/app/spartacus/features/product-configurator-feature.module.ts';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus product configurator schematics: ng-add', () => {
@@ -134,7 +132,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       it('should import rulebased root module', async () => {
         const productConfiguratorModule = appTree.readContent(
-          productConfiguratorRuleBasedFeatureModulePath
+          productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
           `import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
@@ -143,7 +141,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       it('should import textfield root module', async () => {
         const productConfiguratorModule = appTree.readContent(
-          productConfiguratorTextFieldFeatureModulePath
+          productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
           `import { TextfieldConfiguratorRootModule } from "@spartacus/product-configurator/textfield/root";`
@@ -152,7 +150,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       it('should not contain lazy loading syntax', async () => {
         const productConfiguratorModule = appTree.readContent(
-          productConfiguratorRuleBasedFeatureModulePath
+          productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).not.toContain(
           `import('@spartacus/product-configurator/rulebased').then(`
@@ -169,7 +167,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       it('should import rulebased root module and contain the lazy loading syntax', async () => {
         const productConfiguratorModule = appTree.readContent(
-          productConfiguratorRuleBasedFeatureModulePath
+          productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
           `import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
@@ -181,7 +179,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       it('should import textfield root module and contain the lazy loading syntax', async () => {
         const productConfiguratorModule = appTree.readContent(
-          productConfiguratorTextFieldFeatureModulePath
+          productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
           `import { TextfieldConfiguratorRootModule } from "@spartacus/product-configurator/textfield/root";`
@@ -191,9 +189,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         );
       });
 
-      it('should not contain the rulebase module import', () => {
+      it('should not contain the rulebased module import', () => {
         const productConfiguratorModule = appTree.readContent(
-          productConfiguratorRuleBasedFeatureModulePath
+          productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).not.toContain(
           `import { RulebasedConfiguratorModule } from "@spartacus/product-configurator/rulebased";`
@@ -202,7 +200,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       it('should not contain the textfield module import', () => {
         const productConfiguratorModule = appTree.readContent(
-          productConfiguratorTextFieldFeatureModulePath
+          productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).not.toContain(
           `import { TextfieldConfiguratorModule } from "@spartacus/product-configurator/textfield";`
@@ -218,7 +216,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
       it('should import the i18n resource and chunk from assets', async () => {
         const productConfiguratorModule = appTree.readContent(
-          productConfiguratorTextFieldFeatureModulePath
+          productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
           `import { configuratorTranslationChunksConfig, configuratorTranslations } from "@spartacus/product-configurator/common/assets";`
@@ -226,7 +224,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       });
       it('should provideConfig', async () => {
         const productConfiguratorModule = appTree.readContent(
-          productConfiguratorTextFieldFeatureModulePath
+          productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
           `resources: configuratorTranslations,`

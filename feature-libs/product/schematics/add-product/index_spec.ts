@@ -19,7 +19,10 @@ import {
 } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const appModulePath = 'src/app/app.module.ts';
+const bulkPricingModulePath =
+  'src/app/spartacus/features/bulk-pricing-feature.module.ts';
+const variantsFeatureModulePath =
+  'src/app/spartacus/features/variants-feature.module.ts';
 
 describe('Spartacus Product schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -99,67 +102,13 @@ describe('Spartacus Product schematics: ng-add', () => {
     });
 
     it('should not install bulkPricing feature', () => {
-      const appModule = appTree.readContent(appModulePath);
-      expect(appModule).not.toContain(SPARTACUS_BULK_PRICING_ROOT);
+      const bulkPricingModule = appTree.readContent(bulkPricingModulePath);
+      expect(bulkPricingModule).not.toContain(SPARTACUS_BULK_PRICING_ROOT);
     });
 
     it('should not install variants feature', () => {
-      const appModule = appTree.readContent(appModulePath);
-      expect(appModule).not.toContain(SPARTACUS_VARIANTS_ROOT);
-    });
-  });
-
-  describe('when other Spartacus features are already installed', () => {
-    beforeEach(async () => {
-      appTree = await schematicRunner
-        .runExternalSchematicAsync(
-          '@spartacus/storefinder',
-          'ng-add',
-          { ...spartacusDefaultOptions, name: 'schematics-test' },
-          appTree
-        )
-        .toPromise();
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', defaultOptions, appTree)
-        .toPromise();
-    });
-
-    it('should just append the product features without duplicating the featureModules config', () => {
-      const appModule = appTree.readContent(appModulePath);
-      expect(appModule.match(/featureModules:/g)?.length).toEqual(1);
-      expect(appModule).toContain(`bulkPricing: {`);
-      expect(appModule).toContain(`variants: {`);
-    });
-  });
-
-  describe('styling', () => {
-    beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', defaultOptions, appTree)
-        .toPromise();
-    });
-
-    it('should add style import to /src/styles/spartacus/product.scss', async () => {
-      const content = appTree.readContent('/src/styles/spartacus/product.scss');
-      expect(content).toEqual(`@import "@spartacus/product";`);
-    });
-
-    it('should add update angular.json with spartacus/product.scss', async () => {
-      const content = appTree.readContent('/angular.json');
-      const angularJson = JSON.parse(content);
-      const buildStyles: string[] =
-        angularJson.projects['schematics-test'].architect.build.options.styles;
-      expect(buildStyles).toEqual([
-        'src/styles.scss',
-        'src/styles/spartacus/product.scss',
-      ]);
-
-      const testStyles: string[] =
-        angularJson.projects['schematics-test'].architect.test.options.styles;
-      expect(testStyles).toEqual([
-        'src/styles.scss',
-        'src/styles/spartacus/product.scss',
-      ]);
+      const variantsModule = appTree.readContent(variantsFeatureModulePath);
+      expect(variantsModule).not.toContain(SPARTACUS_VARIANTS_ROOT);
     });
   });
 });

@@ -14,9 +14,10 @@ import * as path from 'path';
 import { CLI_SMARTEDIT_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const smarteditModulePath =
+const smartEditModulePath =
   'src/app/spartacus/features/smart-edit-feature.module.ts';
 
+// TODO: Improve tests after lib-util test update
 describe('Spartacus SmartEdit schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -133,7 +134,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const smarteditModule = appTree.readContent(smarteditModulePath);
+        const smarteditModule = appTree.readContent(smartEditModulePath);
         expect(smarteditModule).toContain(
           `import { SmartEditRootModule } from "@spartacus/smartedit/root";`
         );
@@ -143,7 +144,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
 
       it('should not contain lazy loading syntax', async () => {
-        const smarteditModule = appTree.readContent(smarteditModulePath);
+        const smarteditModule = appTree.readContent(smartEditModulePath);
         expect(smarteditModule).not.toContain(
           `import('@spartacus/smartedit').then(`
         );
@@ -158,7 +159,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
 
       it('should import SmartEditRootModule and contain the lazy loading syntax', async () => {
-        const smarteditModule = appTree.readContent(smarteditModulePath);
+        const smarteditModule = appTree.readContent(smartEditModulePath);
         expect(smarteditModule).toContain(
           `import { SmartEditRootModule } from "@spartacus/smartedit/root";`
         );
@@ -168,7 +169,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
 
       it('should not contain the SmartEditModule import', () => {
-        const smarteditModule = appTree.readContent(smarteditModulePath);
+        const smarteditModule = appTree.readContent(smartEditModulePath);
         expect(smarteditModule).not.toContain(
           `import { SmartEditModule } from "@spartacus/smartedit";`
         );

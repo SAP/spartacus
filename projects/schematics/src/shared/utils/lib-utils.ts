@@ -1,4 +1,4 @@
-import { classify, dasherize } from '@angular-devkit/core/src/utils/strings';
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
   noop,
@@ -24,6 +24,7 @@ import {
   addModuleImport,
   addModuleProvider,
   ensureModuleExists,
+  Import,
 } from './new-module-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
@@ -45,6 +46,7 @@ export interface FeatureConfig {
   featureModule: Module;
   rootModule: Module;
   i18n?: I18NConfig;
+  customConfig?: { import: Import[]; content: string };
   styles?: StylingConfig;
   assets?: AssetsConfig;
 }
@@ -52,6 +54,7 @@ export interface FeatureConfig {
 export interface Module {
   name: string;
   importPath: string;
+  content?: string;
 }
 
 export interface I18NConfig {
@@ -91,8 +94,8 @@ export function addLibraryFeature<T extends LibraryOptions>(
     }
     return chain([
       handleFeature(options, config),
-      config.styles ? addLibraryStyles(config.styles) : noop(),
-      config.assets ? addLibraryAssets(config.assets) : noop(),
+      config.styles ? addLibraryStyles(config.styles, options) : noop(),
+      config.assets ? addLibraryAssets(config.assets, options) : noop(),
     ]);
   };
 }
@@ -189,9 +192,6 @@ function handleFeature<T extends LibraryOptions>(
     const tasks = [];
     for (const tsconfigPath of buildPaths) {
       tasks.push(
-        featureModuleAlreadyExists(tree, tsconfigPath, basePath, config.name)
-      );
-      tasks.push(
         ensureModuleExists({
           name: `${config.name}-feature`,
           path: 'app/spartacus/features',
@@ -202,68 +202,10 @@ function handleFeature<T extends LibraryOptions>(
       tasks.push(addRootModule(tsconfigPath, basePath, config));
       tasks.push(addFeatureModule(tsconfigPath, basePath, config, options));
       tasks.push(addFeatureTranslations(tsconfigPath, basePath, config));
+      tasks.push(addCustomConfig(tsconfigPath, basePath, config));
     }
     return chain(tasks);
   };
-}
-
-function featureModuleAlreadyExists(
-  tree: Tree,
-  tsconfigPath: string,
-  basePath: string,
-  name: string
-) {
-  const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-  appSourceFiles.forEach((sourceFile) => {
-    if (
-      sourceFile.getFilePath().includes(`${dasherize(name)}-feature.module.ts`)
-    ) {
-      if (getFeatureModule(sourceFile, name)) {
-        throw new SchematicsException(
-          `Module ${classify(
-            name
-          )}FeatureModule already exists. Assuming that the feature library is already installed.`
-        );
-      }
-    }
-  });
-  return noop();
-}
-
-function getFeatureModule(
-  sourceFile: SourceFile,
-  name: string
-): CallExpression | undefined {
-  let featureModule;
-
-  function visitor(node: Node) {
-    if (Node.isCallExpression(node)) {
-      const expression = node.getExpression();
-      if (
-        Node.isIdentifier(expression) &&
-        expression.getText() === 'NgModule' &&
-        isImportedFrom(expression, ANGULAR_CORE)
-      ) {
-        const classDeclaration = node.getFirstAncestorByKind(
-          tsMorph.SyntaxKind.ClassDeclaration
-        );
-        if (classDeclaration) {
-          const identifier = classDeclaration.getNameNode();
-          if (
-            identifier &&
-            identifier.getText() === `${classify(name)}FeatureModule`
-          ) {
-            featureModule = node;
-          }
-        }
-      }
-    }
-
-    node.forEachChild(visitor);
-  }
-
-  sourceFile.forEachChild(visitor);
-  return featureModule;
 }
 
 function addRootModule(
@@ -284,7 +226,7 @@ function addRootModule(
             moduleSpecifier: config.rootModule.importPath,
             namedImports: [config.rootModule.name],
           },
-          content: config.rootModule.name,
+          content: config.rootModule.content || config.rootModule.name,
         });
         saveAndFormat(sourceFile);
       }
@@ -293,6 +235,7 @@ function addRootModule(
   };
 }
 
+// TODO: Avoid duplication when running twice
 function addFeatureModule(
   tsconfigPath: string,
   basePath: string,
@@ -332,7 +275,7 @@ function addFeatureModule(
               moduleSpecifier: config.featureModule.importPath,
               namedImports: [config.featureModule.name],
             },
-            content: config.featureModule.name,
+            content: config.featureModule.content || config.featureModule.name,
           });
         }
         saveAndFormat(sourceFile);
@@ -342,6 +285,7 @@ function addFeatureModule(
   };
 }
 
+// TODO: Avoid duplication when running twice
 function addFeatureTranslations(
   tsconfigPath: string,
   basePath: string,
@@ -382,11 +326,48 @@ function addFeatureTranslations(
   };
 }
 
-function addLibraryAssets(assetsConfig: AssetsConfig): Rule {
+// TODO: Avoid duplication when running twice
+function addCustomConfig(
+  tsconfigPath: string,
+  basePath: string,
+  config: FeatureConfig
+) {
+  return (tree: Tree): Tree => {
+    const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+    appSourceFiles.forEach((sourceFile) => {
+      if (
+        sourceFile
+          .getFilePath()
+          .includes(`${dasherize(config.name)}-feature.module.ts`)
+      ) {
+        if (config.customConfig) {
+          addModuleProvider(sourceFile, {
+            import: [
+              {
+                moduleSpecifier: SPARTACUS_CORE,
+                namedImports: [PROVIDE_CONFIG_FUNCTION],
+              },
+              ...config.customConfig.import,
+            ],
+            content: `${PROVIDE_CONFIG_FUNCTION}(${config.customConfig.content})`,
+          });
+          saveAndFormat(sourceFile);
+        }
+      }
+    });
+    return tree;
+  };
+}
+
+function addLibraryAssets(
+  assetsConfig: AssetsConfig,
+  options: LibraryOptions
+): Rule {
   return (tree: Tree) => {
     const { path, workspace: angularJson } = getWorkspace(tree);
     const defaultProject = getDefaultProjectNameFromWorkspace(tree);
-    const architect = angularJson.projects[defaultProject].architect;
+    const project = options.project || defaultProject;
+    const architect = angularJson.projects[project].architect;
 
     // `build` architect section
     const architectBuild = architect?.build;
@@ -424,8 +405,8 @@ function addLibraryAssets(assetsConfig: AssetsConfig): Rule {
       ...angularJson,
       projects: {
         ...angularJson.projects,
-        [defaultProject]: {
-          ...angularJson.projects[defaultProject],
+        [project]: {
+          ...angularJson.projects[project],
           architect: {
             ...architect,
             build: {
@@ -444,11 +425,16 @@ function addLibraryAssets(assetsConfig: AssetsConfig): Rule {
   };
 }
 
-export function addLibraryStyles(stylingConfig: StylingConfig): Rule {
+export function addLibraryStyles(
+  stylingConfig: StylingConfig,
+  options: LibraryOptions
+): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const libraryScssPath = `${getSourceRoot(tree)}/styles/spartacus/${
-      stylingConfig.scssFileName
-    }`;
+    const defaultProject = getDefaultProjectNameFromWorkspace(tree);
+    const project = options.project || defaultProject;
+    const libraryScssPath = `${getSourceRoot(tree, {
+      project: project,
+    })}/styles/spartacus/${stylingConfig.scssFileName}`;
     if (tree.exists(libraryScssPath)) {
       context.logger.info(
         `Skipping the creation of '${libraryScssPath}', as it already exists.`
@@ -459,9 +445,8 @@ export function addLibraryStyles(stylingConfig: StylingConfig): Rule {
     tree.create(libraryScssPath, `@import "${stylingConfig.importStyle}";`);
 
     const { path, workspace: angularJson } = getWorkspace(tree);
-    const defaultProject = getDefaultProjectNameFromWorkspace(tree);
 
-    const architect = angularJson.projects[defaultProject].architect;
+    const architect = angularJson.projects[project].architect;
 
     // `build` architect section
     const architectBuild = architect?.build;
@@ -491,8 +476,8 @@ export function addLibraryStyles(stylingConfig: StylingConfig): Rule {
       ...angularJson,
       projects: {
         ...angularJson.projects,
-        [defaultProject]: {
-          ...angularJson.projects[defaultProject],
+        [project]: {
+          ...angularJson.projects[project],
           architect: {
             ...architect,
             build: {
