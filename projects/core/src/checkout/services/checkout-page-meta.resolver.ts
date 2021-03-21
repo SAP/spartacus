@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
@@ -27,24 +27,24 @@ export class CheckoutPageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
   protected cart$ = this.activeCartService.getActive();
 
-  /**
-   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
-   */
   // TODO(#10467): Remove deprecated constructors
-  constructor(
-    translation: TranslationService,
-    activeCartService: ActiveCartService
-  );
   constructor(
     translation: TranslationService,
     activeCartService: ActiveCartService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     basePageMetaResolver?: BasePageMetaResolver
   );
+  /**
+   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
+   */
+  constructor(
+    translation: TranslationService,
+    activeCartService: ActiveCartService
+  );
   constructor(
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
