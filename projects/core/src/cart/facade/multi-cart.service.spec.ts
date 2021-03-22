@@ -113,7 +113,7 @@ describe('MultiCartService', () => {
         result = carts;
       });
 
-      const isEmpty = result?.length == 0;
+      const isEmpty = result?.length === 0;
       expect(isEmpty).toBeTruthy();
 
       store.dispatch(new CartActions.LoadCartsSuccess(mockCarts));

@@ -277,7 +277,7 @@ describe('Multi Cart selectors', () => {
         .pipe(select(MultiCartSelectors.getCartsSelectorFactory))
         .subscribe((value) => (result = value));
 
-      const isEmpty = result == undefined || result.length == 0;
+      const isEmpty = result === undefined || result.length === 0;
       expect(isEmpty).toBeTruthy();
 
       loadCarts();
