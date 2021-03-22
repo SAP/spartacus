@@ -1,6 +1,6 @@
 ![JavaScript storefront (spartacus)](docs/assets/spartacus-blue.png)
 
-// Example change
+// Example change 
 # What is Spartacus?
 
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
