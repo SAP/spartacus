@@ -14,12 +14,17 @@ const mockPopoverPosition = 'top';
 const mockPopoverProperties = {
   content: 'Test content',
   customClass: 'test-class',
+  displayCloseButton: true,
   triggerElement: new ElementRef('a'),
 };
 
 class MockPositionService {
   positionElements(): PopoverPosition {
     return mockPopoverPosition;
+  }
+
+  getPositioningClass(): string {
+    return `${mockPopoverPosition} auto`;
   }
 }
 
@@ -44,6 +49,7 @@ describe('PopoverComponent', () => {
     component.content = mockPopoverProperties.content;
     component.customClass = mockPopoverProperties.customClass;
     component.triggerElement = mockPopoverProperties.triggerElement;
+    component.displayCloseButton = mockPopoverProperties.displayCloseButton;
 
     component.ngOnInit();
 
@@ -78,6 +84,12 @@ describe('PopoverComponent', () => {
 
   it('should contain close button', () => {
     expect(fixture.debugElement.query(By.css('button.close'))).toBeTruthy();
+  });
+
+  it('should not display close button', () => {
+    component.displayCloseButton = false;
+    fixture.detectChanges();
+    expect(fixture.debugElement.query(By.css('button.close'))).toBeFalsy();
   });
 
   it('should emit `insideClick` event', () => {

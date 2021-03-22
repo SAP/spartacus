@@ -1,7 +1,8 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
+import { Priority } from '@spartacus/core';
 import { GlobalMessageService } from '../../../facade';
 import { UnknownErrorHandler } from './unknown-error.handler';
-import { Priority } from '@spartacus/core';
 
 class MockGlobalMessageService {}
 describe('UnknownErrorHandler', () => {
@@ -25,7 +26,7 @@ describe('UnknownErrorHandler', () => {
   });
 
   it('should match -1 responseStatus ', () => {
-    expect(service.hasMatch({ status: -1 })).toBeTruthy();
+    expect(service.hasMatch({} as HttpErrorResponse)).toBeTruthy();
   });
 
   it('should have fallback priority ', () => {

@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PopoverModule } from './popover.module';
@@ -14,9 +14,13 @@ import { PopoverModule } from './popover.module';
     <button
       id="element"
       [cxPopover]="content"
-      [customClass]="'test-class'"
-      [placement]="'top'"
-      [appendToBody]="true"
+      [cxPopoverOptions]="{
+        class: 'test-class',
+        placement: 'top',
+        appendToBody: true,
+        displayCloseButton: true,
+        autoPositioning: false
+      }"
       (openPopover)="open()"
       (closePopover)="close()"
     >
@@ -72,29 +76,25 @@ describe('PopoverDirective', () => {
     expect(getPopoverComponent()).toBeFalsy();
   });
 
-  it(
-    'should close popover on close button click',
-    waitForAsync(async () => {
-      getPopoverOpener().nativeElement.click();
-      expect(getPopoverComponent()).toBeTruthy();
-      await fixture.whenStable();
+  it('should close popover on close button click', () => {
+    fixture.detectChanges();
 
-      getPopoverCloseButton().nativeElement.click();
-      expect(getPopoverComponent()).toBeFalsy();
-    })
-  );
+    getPopoverOpener().nativeElement.click();
+    expect(getPopoverComponent()).toBeTruthy();
 
-  it(
-    'should close popover on outside popover area click',
-    waitForAsync(async () => {
-      getPopoverOpener().nativeElement.click();
-      expect(getPopoverComponent()).toBeTruthy();
-      await fixture.whenStable();
+    getPopoverCloseButton().nativeElement.click();
+    expect(getPopoverComponent()).toBeFalsy();
+  });
 
-      document.body.click();
-      expect(getPopoverComponent()).toBeFalsy();
-    })
-  );
+  it('should close popover on outside popover area click', () => {
+    fixture.detectChanges();
+
+    getPopoverOpener().nativeElement.click();
+    expect(getPopoverComponent()).toBeTruthy();
+
+    document.body.click();
+    expect(getPopoverComponent()).toBeFalsy();
+  });
 
   it('should popover contain passed `customClass`', () => {
     fixture.detectChanges();

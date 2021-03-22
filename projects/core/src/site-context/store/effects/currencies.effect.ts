@@ -53,18 +53,18 @@ export class CurrenciesEffects {
   );
 
   @Effect()
-  activateCurrency$: Observable<
-    SiteContextActions.CurrencyChange
-  > = this.state.select(getActiveCurrency).pipe(
-    bufferCount(2, 1),
+  activateCurrency$: Observable<SiteContextActions.CurrencyChange> = this.state
+    .select(getActiveCurrency)
+    .pipe(
+      bufferCount(2, 1),
 
-    // avoid dispatching `change` action when we're just setting the initial value:
-    filter(([previous]) => !!previous),
-    map(
-      ([previous, current]) =>
-        new SiteContextActions.CurrencyChange({ previous, current })
-    )
-  );
+      // avoid dispatching `change` action when we're just setting the initial value:
+      filter(([previous]) => !!previous),
+      map(
+        ([previous, current]) =>
+          new SiteContextActions.CurrencyChange({ previous, current })
+      )
+    );
 
   constructor(
     private actions$: Actions,
