@@ -1,8 +1,8 @@
 import { Injectable, NgModuleRef } from '@angular/core';
+import { LazyModulesService } from './lazy-modules.service';
 import { defer, forkJoin, Observable, of, throwError } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
-import { CmsConfig } from '../cms/config/cms-config';
-import { LazyModulesService } from './lazy-modules.service';
+import { CmsConfig, FeatureModuleConfig } from '../cms/config/cms-config';
 
 @Injectable({
   providedIn: 'root',
@@ -20,11 +20,12 @@ export class FeatureModulesService {
   ) {}
 
   /**
+   * Check if feature is configured properly by providing module the shell app
    *
    * @param featureName
    */
   isConfigured(featureName: string): boolean {
-    return !!this.cmsConfig.featureModules?.[featureName]?.module;
+    return !!this.getFeatureConfig(featureName)?.module;
   }
 
   /**
@@ -33,6 +34,8 @@ export class FeatureModulesService {
    * It will first resolve all module dependencies if defined
    */
   resolveFeature(featureName: string): Observable<NgModuleRef<any>> {
+    featureName = this.resolveFeatureAlias(featureName);
+
     return defer(() => {
       if (!this.features.has(featureName)) {
         if (!this.isConfigured(featureName)) {
@@ -41,16 +44,14 @@ export class FeatureModulesService {
           );
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const featureConfig = this.cmsConfig.featureModules![featureName];
+        const featureConfig = this.getFeatureConfig(featureName);
 
         this.features.set(
           featureName,
           this.resolveDependencies(featureConfig.dependencies).pipe(
             switchMap((deps) =>
               this.lazyModules.resolveModuleInstance(
-                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                featureConfig.module!,
+                featureConfig.module,
                 featureName,
                 deps
               )
@@ -64,6 +65,39 @@ export class FeatureModulesService {
     });
   }
 
+  /**
+   * Resolve
+   * @param featureName
+   * @protected
+   */
+  protected getFeatureConfig(
+    featureName: string
+  ): FeatureModuleConfig | undefined {
+    return this.cmsConfig.featureModules?.[
+      this.resolveFeatureAlias(featureName)
+    ] as FeatureModuleConfig | undefined;
+  }
+
+  /**
+   * Will return target feature name, resolving optional feature to feature
+   * string mapping
+   *
+   * @param featureName
+   * @protected
+   */
+  protected resolveFeatureAlias(featureName: string): string {
+    while (typeof this.cmsConfig.featureModules?.[featureName] === 'string') {
+      featureName = this.cmsConfig.featureModules?.[featureName] as string;
+    }
+    return featureName;
+  }
+
+  /**
+   * Resolve dependency modules for the feature
+   *
+   * @param dependencies
+   * @protected
+   */
   protected resolveDependencies(
     dependencies: any[] = []
   ): Observable<NgModuleRef<any>[] | undefined> {

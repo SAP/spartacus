@@ -117,9 +117,16 @@ export class CartItemListComponent {
       // OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
       // So we update each array element to the new object only when it's any different to the previous one.
       if (this.featureConfigService?.isLevel('3.1')) {
-        for (let i = 0; i < items.length; i++) {
+        for (let i = 0; i < Math.max(items.length, this._items.length); i++) {
           if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
-            this._items[i] = items[i];
+            if (this._items[i] && this.form) {
+              this.form.removeControl(this.getControlName(this._items[i]));
+            }
+            if (!items[i]) {
+              this._items.splice(i, 1);
+            } else {
+              this._items[i] = items[i];
+            }
           }
         }
       } else {

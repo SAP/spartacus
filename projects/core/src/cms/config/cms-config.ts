@@ -109,6 +109,6 @@ export interface FeatureModuleConfig {
   useExisting: Config,
 })
 export abstract class CmsConfig extends OccConfig {
-  featureModules?: { [featureName: string]: FeatureModuleConfig };
+  featureModules?: { [featureName: string]: FeatureModuleConfig | string };
   cmsComponents?: CMSComponentConfig;
 }
