@@ -1,5 +1,4 @@
-export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'ProductConfigurator';
-export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
+import { SPARTACUS_PRODUCT_CONFIGURATOR } from '@spartacus/schematics';
 
 export const PRODUCT_CONFIGURATOR_SCSS_FILE_NAME = 'product-configurator.scss';
 export const PRODUCT_CONFIGURATOR_RULEBASED_MODULE =

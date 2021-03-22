@@ -26,7 +26,12 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Assisted Services Module", "Organization", "Product"],
+        "enum": [
+          "Assisted Services Module",
+          "Organization",
+          "Product",
+          "Product Configurator"
+        ],
         "type": "string"
       },
       "default": [],

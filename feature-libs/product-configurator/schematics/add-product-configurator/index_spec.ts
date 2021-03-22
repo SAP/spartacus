@@ -7,11 +7,11 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import {
+  CLI_PRODUCT_CONFIGURATOR_FEATURE,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { CLI_PRODUCT_CONFIGURATOR_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const productConfiguratorFeatureModulePath =
