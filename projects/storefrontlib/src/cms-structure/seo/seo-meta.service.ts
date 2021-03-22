@@ -27,7 +27,7 @@ export class SeoMetaService implements OnDestroy {
     this.subscription = this.pageMetaService
       .getMeta()
       .pipe(filter(isNotNull))
-      .subscribe((meta: PageMeta) => (this.meta = meta));
+      .subscribe((meta) => (this.meta = meta));
   }
 
   protected set meta(meta: PageMeta) {

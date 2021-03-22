@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { isNotUndefined } from 'projects/core/src/util';
+import { isNotUndefined } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OutletDirective } from './outlet.directive';

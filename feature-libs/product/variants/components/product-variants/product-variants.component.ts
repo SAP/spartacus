@@ -3,7 +3,7 @@ import {
   BaseOption,
   isNotNull,
   Product,
-  Required,
+  RequiredPick,
   VariantType,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
@@ -26,7 +26,7 @@ export class ProductVariantsComponent implements OnInit {
     this.product$ = this.currentProductService.getProduct().pipe(
       filter(isNotNull),
       filter(
-        (product): product is Required<Product, 'baseOptions'> =>
+        (product): product is RequiredPick<Product, 'baseOptions'> =>
           !!product.baseOptions
       ),
       distinctUntilChanged(),

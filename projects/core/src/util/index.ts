@@ -11,3 +11,4 @@ export * from './script-loader.service';
 export * from './ssr.tokens';
 export * from './time-utils';
 export * from './type-guards';
+export * from './type-utils';
