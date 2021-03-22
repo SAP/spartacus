@@ -8,7 +8,7 @@
       </h3>
     </div>
 
-    <ng-container *ngIf="savedCarts?.length; else noSavedCarts">
+    <ng-container *ngIf="savedCarts?.length > 0; else noSavedCarts">
       <table class="table cx-saved-cart-list-table">
         <thead class="cx-saved-cart-list-thead-mobile">
           <th scope="col">

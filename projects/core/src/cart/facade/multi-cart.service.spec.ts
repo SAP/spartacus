@@ -30,8 +30,28 @@ const testCart: Cart = {
   },
   user: { uid: 'test' },
 };
-const userId = 'currentUserId';
 
+const testCart2: Cart = {
+  code: 'xxx-x',
+  guid: 'xxx',
+  totalItems: 0,
+  entries: [
+    { entryNumber: 0, product: { code: '1234' } },
+    { entryNumber: 1, product: { code: '1234' } },
+  ],
+  totalPrice: {
+    currencyIso: 'USD',
+    value: 0,
+  },
+  totalPriceWithTax: {
+    currencyIso: 'USD',
+    value: 0,
+  },
+  user: { uid: 'test' },
+};
+const mockCarts: Cart[] = [testCart, testCart2];
+
+const userId = 'currentUserId';
 class MockUserIdService implements Partial<UserIdService> {
   invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
 }
@@ -82,6 +102,22 @@ describe('MultiCartService', () => {
       );
 
       expect(result).toEqual(testCart);
+    });
+  });
+
+  describe('getCarts', () => {
+    it('should return cart list of carts', () => {
+      let result: Cart[] | undefined;
+
+      service.getCarts().subscribe((carts) => {
+        result = carts;
+      });
+
+      const isEmpty = result?.length === 0;
+      expect(isEmpty).toBeTruthy();
+
+      store.dispatch(new CartActions.LoadCartsSuccess(mockCarts));
+      expect(result?.length).toEqual(2);
     });
   });
 
