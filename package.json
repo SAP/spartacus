@@ -32,6 +32,7 @@
     "e2e:run:ci:flaky": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:flaky",
     "e2e:run:ci:cds": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:cds",
     "e2e:run:ci:product-configuration": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:product-configuration",
+    "e2e:run:ci:cdc": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:run:ci:cdc",
     "generate:changelog": "ts-node ./scripts/changelog.ts",
     "generate:docs": "npx @compodoc/compodoc -p tsconfig.compodoc.json && ./scripts/zip-docs.sh",
     "generate:publish:docs": "yarn generate:docs && yarn publish:docs",
