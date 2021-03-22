@@ -22,6 +22,7 @@ import {
   PromotionLocation,
 } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
+import { OutletDirective } from 'projects/storefrontlib/src/cms-structure/outlet/outlet.directive';
 import { ModalDirective } from 'projects/storefrontlib/src/shared/components/modal/modal.directive';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
@@ -41,6 +42,12 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockModalDirective implements Partial<ModalDirective> {
   @Input() cxModal;
+}
+@Directive({
+  selector: '[cxOutlet]',
+})
+class MockOutletDirective implements Partial<OutletDirective> {
+  @Input() cxOutlet: string;
 }
 
 @Component({
@@ -130,6 +137,7 @@ describe('CartItemComponent', () => {
           MockUrlPipe,
           MockFeatureLevelDirective,
           MockModalDirective,
+          MockOutletDirective,
         ],
         providers: [
           {

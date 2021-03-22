@@ -4,6 +4,7 @@
     [placeholder]="'searchBox.placeholder' | cxTranslate"
     aria-label="search"
     (focus)="open()"
+    (click)="open()"
     (input)="search(searchInput.value)"
     (blur)="close($event)"
     (keydown.escape)="close($event)"
@@ -62,6 +63,7 @@
       (keydown.enter)="close($event, true)"
       (keydown.escape)="close($event, true)"
       (blur)="close($event)"
+      (mousedown)="preventDefault($event)"
       (click)="
         dispatchSuggestionEvent({
           freeText: searchInput.value,
@@ -89,6 +91,7 @@
       (keydown.enter)="close($event, true)"
       (keydown.escape)="close($event, true)"
       (blur)="close($event)"
+      (mousedown)="preventDefault($event)"
       (click)="
         dispatchProductEvent({
           freeText: searchInput.value,
