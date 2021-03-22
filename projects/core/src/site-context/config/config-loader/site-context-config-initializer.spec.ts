@@ -4,7 +4,7 @@ import { BaseSite } from '../../../model/misc.model';
 import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
 import { WindowRef } from '../../../window/window-ref';
 import { BaseSiteService } from '../../facade/base-site.service';
-import { SiteContextConfigLoaderService } from './site-context-config-loader.service';
+import { SiteContextConfigInitializer } from './site-context-config-initializer';
 
 class MockWindowRef implements Partial<WindowRef> {
   location = {
@@ -35,8 +35,8 @@ class MockBaseSiteService {
   }
 }
 
-describe(`SiteContextConfigLoaderService`, () => {
-  let service: SiteContextConfigLoaderService;
+describe(`SiteContextConfigInitializer`, () => {
+  let initializer: SiteContextConfigInitializer;
   let baseSiteService: BaseSiteService;
 
   beforeEach(() => {
@@ -53,7 +53,7 @@ describe(`SiteContextConfigLoaderService`, () => {
       ],
     });
 
-    service = TestBed.inject(SiteContextConfigLoaderService);
+    initializer = TestBed.inject(SiteContextConfigInitializer);
     baseSiteService = TestBed.inject(BaseSiteService);
   });
 
@@ -61,41 +61,43 @@ describe(`SiteContextConfigLoaderService`, () => {
     it(`should throw error when the base sites loaded are undefined`, async () => {
       spyOn(baseSiteService, 'getAll').and.returnValue(of(undefined));
       let message = false;
-      service.loadConfig().subscribe(
-        (_result) => {},
-        (error) => (message = error)
-      );
+      try {
+        await initializer.configFactory();
+      } catch (e) {
+        message = e.message;
+      }
       expect(message).toBeTruthy();
     });
 
     it(`should throw error when the base sites loaded is an empty array`, async () => {
       spyOn(baseSiteService, 'getAll').and.returnValue(of([]));
       let message = false;
-      service.loadConfig().subscribe(
-        (_result) => {},
-        (error) => (message = error)
-      );
+      try {
+        await initializer.configFactory();
+      } catch (e) {
+        message = e.message;
+      }
       expect(message).toBeTruthy();
     });
 
     it(`should throw error when no url pattern of any base site matches the current url`, async () => {
-      service['isCurrentBaseSite'] = () => false;
+      initializer['isCurrentBaseSite'] = () => false;
       spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
 
       let message = false;
-      service.loadConfig().subscribe(
-        (_result) => {},
-        (error) => (message = error)
-      );
+      try {
+        await initializer.configFactory();
+      } catch (e) {
+        message = e.message;
+      }
       expect(message).toBeTruthy();
     });
 
     it(`should return config based on loaded sites data and current BROWSER url`, async () => {
-      service['isCurrentBaseSite'] = () => true;
+      initializer['isCurrentBaseSite'] = () => true;
       spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
 
-      let result;
-      service.loadConfig().subscribe((data) => (result = data));
+      const result = await initializer.configFactory();
 
       expect(baseSiteService.getAll).toHaveBeenCalled();
       expect(result).toEqual({

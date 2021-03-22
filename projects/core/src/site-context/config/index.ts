@@ -1,2 +1,2 @@
-export * from './config-loader/site-context-config-loader.service';
+export * from './config-loader/site-context-config-initializer';
 export * from './site-context-config';
