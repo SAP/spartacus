@@ -4,6 +4,7 @@
       <button
         class="cx-btn btn btn-block btn-primary cx-add-to-cart-btn"
         (click)="onAddToCart(container.configuration, container.routerData)"
+        (keyup)="onAddToCart(container.configuration, container.routerData)"
       >
         {{
           getButtonResourceKey(container.routerData, container.configuration)

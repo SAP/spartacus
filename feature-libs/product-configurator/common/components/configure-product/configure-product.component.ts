@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product, RoutingService } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
@@ -31,7 +31,19 @@ export class ConfigureProductComponent {
   ownerTypeProduct: CommonConfigurator.OwnerType =
     CommonConfigurator.OwnerType.PRODUCT;
 
+  navigateToConfigurator(event: KeyboardEvent, product: Product): void {
+    if (event.code === 'Enter' || event.code === 'Space') {
+      this.routingService.go(
+        {
+          cxRoute: 'configure' + product.configuratorType,
+          params: { ownerType: this.ownerTypeProduct, entityKey: product.code },
+        },
+        {}
+      );
+    }
+  }
   constructor(
+    protected routingService: RoutingService,
     @Optional() protected productListItemContext: ProductListItemContext, // when on PLP
     @Optional() protected currentProductService: CurrentProductService // when on PDP
   ) {}
