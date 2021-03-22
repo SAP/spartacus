@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -102,7 +102,7 @@ describe('LoginComponent', () => {
   });
 
   it('should have user details when token exists', () => {
-    let user: User | undefined;
+    let user;
     component.user$.subscribe((result) => (user = result));
     expect(user).toEqual(mockUserDetails);
   });

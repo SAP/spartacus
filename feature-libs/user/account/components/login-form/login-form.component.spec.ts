@@ -91,7 +91,7 @@ describe('LoginFormComponent', () => {
       {
         newUid: email,
       },
-      ''
+      null
     );
 
     component.ngOnInit();
@@ -100,7 +100,7 @@ describe('LoginFormComponent', () => {
     expect(component.loginForm.controls['userId'].value).toBe(email);
 
     // reset the state
-    windowRef.nativeWindow?.history.replaceState(null, '');
+    windowRef.nativeWindow?.history.replaceState(null, null);
   });
 
   describe('login()', () => {
