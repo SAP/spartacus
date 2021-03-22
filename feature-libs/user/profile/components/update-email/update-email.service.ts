@@ -5,24 +5,21 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  UserService
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { first } from 'rxjs/operators';
-import { CustomFormValidators } from '../../../shared/utils';
+import { CustomFormValidators } from '@spartacus/storefront';
+import { UserEmailFacade } from '@spartacus/user/profile/root';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UpdateEmailService {
-  isUpdating$: Observable<
-    boolean
-  > = this.userService.getUpdateEmailResultLoading();
+  isUpdating$ = new BehaviorSubject(false);
 
   constructor(
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected userService: UserService,
+    protected userEmail: UserEmailFacade,
     protected authService: AuthService
   ) {}
 
@@ -41,7 +38,6 @@ export class UpdateEmailService {
   );
 
   reset(): void {
-    this.userService.resetUpdateEmailResultState();
     this.form.reset();
   }
 
@@ -50,21 +46,17 @@ export class UpdateEmailService {
       this.form.markAllAsTouched();
       return;
     }
-    const newEmail = this.form.get('confirmEmail').value;
-    this.userService.updateEmail(this.form.get('password').value, newEmail);
+    this.isUpdating$.next(true);
+
+    const newEmail = this.form.get('confirmEmail')?.value;
+    const password = this.form.get('password')?.value;
+
+    this.userEmail.update(password, newEmail).subscribe({
+      next: () => this.onSuccess(newEmail),
+      complete: () => this.isUpdating$.next(false),
+    });
+
     this.form.disable();
-
-    this.userService
-      .getUpdateEmailResultSuccess()
-      .pipe(first((success) => Boolean(success) && Boolean(newEmail)))
-      .subscribe(() => this.onSuccess(newEmail));
-
-    this.userService
-      .getUpdateEmailResultError()
-      .pipe(first((fail) => Boolean(fail)))
-      .subscribe(() => {
-        this.form.enable();
-      });
   }
 
   /**
@@ -86,7 +78,7 @@ export class UpdateEmailService {
     this.form.enable();
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout().then(() => {
-      this.routingService.go({ cxRoute: 'login' }, null, {
+      this.routingService.go({ cxRoute: 'login' }, undefined, {
         state: {
           newUid,
         },

@@ -17,6 +17,8 @@ export class ForgotPasswordComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    this.form.reset();
+    // Form has to be reset in order to have a clean form
+    // next time component is called
+    this.service.reset();
   }
 }

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CustomFormValidators } from '@spartacus/storefront';
+import { CustomFormValidators } from '../../../../shared/utils/validators/custom-form-validators';
 
 @Component({
   selector: 'cx-update-email-form',
@@ -31,10 +31,8 @@ export class UpdateEmailFormComponent {
 
   onSubmit(): void {
     if (this.updateEmailForm.valid) {
-      // tslint:disable-next-line:no-non-null-assertion
-      const newUid = this.updateEmailForm.get('confirmEmail')!.value;
-      // tslint:disable-next-line:no-non-null-assertion
-      const password = this.updateEmailForm.get('password')!.value;
+      const newUid = this.updateEmailForm.get('confirmEmail').value;
+      const password = this.updateEmailForm.get('password').value;
 
       this.saveEmail.emit({ newUid, password });
     } else {

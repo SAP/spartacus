@@ -1,23 +1,32 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  DebugElement,
-} from '@angular/core';
+import { Component, DebugElement, EventEmitter, Output } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
-import { Subject } from 'rxjs';
+import { NavigationExtras } from '@angular/router';
+import {
+  AuthService,
+  GlobalMessage,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+  UrlCommands,
+  User,
+  UserService,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { UpdateEmailComponent } from './update-email.component';
-import { UpdateEmailService } from './update-email.service';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { RouterTestingModule } from '@angular/router/testing';
-import { UrlTestingModule } from '../../../../../core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+
+@Component({
+  selector: 'cx-update-email-form',
+  template: '',
+})
+class MockUpdateEmailFormComponent {
+  @Output()
+  saveEmail = new EventEmitter<{
+    newUid: string;
+    password: string;
+  }>();
+}
 
 @Component({
   selector: 'cx-spinner',
@@ -25,51 +34,75 @@ import { UrlTestingModule } from '../../../../../core/src/routing/configurable-r
 })
 class MockCxSpinnerComponent {}
 
-const isUpdatingSubject = new Subject();
-class MockUpdateEmailService {
-  form: FormGroup = new FormGroup({
-    email: new FormControl(),
-    confirmEmail: new FormControl(),
-    password: new FormControl(),
-  });
-  isUpdating$ = isUpdatingSubject;
-  reset(): void {}
+class MockUserService {
+  get(): Observable<User> {
+    return of();
+  }
+  updateEmail(): void {}
+  resetUpdateEmailResultState(): void {}
+  getUpdateEmailResultLoading(): Observable<boolean> {
+    return of(true);
+  }
+  getUpdateEmailResultSuccess(): Observable<boolean> {
+    return of();
+  }
+}
 
-  save(): void {}
+class MockAuthService implements Partial<AuthService> {
+  coreLogout() {
+    return Promise.resolve();
+  }
+}
+
+class MockRoutingService {
+  go(
+    _commands: any[] | UrlCommands,
+    _query?: object,
+    _extras?: NavigationExtras
+  ): void {}
+}
+class MockGlobalMessageService {
+  add(_message: GlobalMessage): void {}
 }
 
 describe('UpdateEmailComponent', () => {
   let component: UpdateEmailComponent;
   let fixture: ComponentFixture<UpdateEmailComponent>;
   let el: DebugElement;
-  let newUid: AbstractControl;
-  let confirmNewUid: AbstractControl;
-  let password: AbstractControl;
 
-  let updateEmailService: UpdateEmailService;
+  let userService: UserService;
+  let authService: AuthService;
+  let routingService: RoutingService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [
-          ReactiveFormsModule,
-          I18nTestingModule,
-          FormErrorsModule,
-          RouterTestingModule,
-          UrlTestingModule,
+        imports: [ReactiveFormsModule],
+        declarations: [
+          UpdateEmailComponent,
+          MockUpdateEmailFormComponent,
+          MockCxSpinnerComponent,
         ],
-        declarations: [UpdateEmailComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: UpdateEmailService,
-            useClass: MockUpdateEmailService,
+            provide: UserService,
+            useClass: MockUserService,
+          },
+          {
+            provide: AuthService,
+            useClass: MockAuthService,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
           },
         ],
-      })
-      .overrideComponent(UpdateEmailComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
-      })
-      .compileComponents();
+      }).compileComponents();
     })
   );
 
@@ -77,81 +110,115 @@ describe('UpdateEmailComponent', () => {
     fixture = TestBed.createComponent(UpdateEmailComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    updateEmailService = TestBed.inject(UpdateEmailService);
+
+    userService = TestBed.inject(UserService);
+    authService = TestBed.inject(AuthService);
+    routingService = TestBed.inject(RoutingService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
 
     fixture.detectChanges();
-
-    newUid = component.form.controls.email;
-    confirmNewUid = component.form.controls.confirmEmail;
-    password = component.form.controls.password;
   });
-
-  function setFormValue() {
-    const id = 'tester@sap.com';
-    const pwd = 'Qwe123!';
-
-    newUid.setValue(id);
-    confirmNewUid.setValue(id);
-    password.setValue(pwd);
-  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should reset the loading state when the component is initialized', () => {
+    spyOn(userService, 'resetUpdateEmailResultState').and.stub();
+
+    component.ngOnInit();
+    expect(userService.resetUpdateEmailResultState).toHaveBeenCalled();
+  });
+
   it('should show the spinner when updating', () => {
-    isUpdatingSubject.next(true);
+    spyOn(userService, 'getUpdateEmailResultLoading').and.returnValue(of(true));
+    component.ngOnInit();
     fixture.detectChanges();
 
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
   });
 
-  it('should call updateEmail on submit', () => {
-    spyOn(updateEmailService, 'save').and.stub();
+  it('should navigate to home when cancelled', () => {
+    spyOn(routingService, 'go').and.stub();
 
-    setFormValue();
-
-    component.onSubmit();
-    expect(updateEmailService.save).toHaveBeenCalled();
+    component.onCancel();
+    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
   });
 
-  describe('Form Interactions', () => {
-    describe('Submit button', () => {
-      it('should be disabled while loading', () => {
-        // updateEmailService.isUpdating$ = of(true);
-        isUpdatingSubject.next(true);
-        fixture.detectChanges();
-        const submitBtn = el.query(By.css('button[type="submit"]'));
-        expect(submitBtn.nativeElement.disabled).toBeTruthy();
-      });
+  it('should call updateEmail on submit', () => {
+    spyOn(userService, 'updateEmail').and.stub();
 
-      it('should call onSubmit() when clicked', () => {
-        spyOn(component, 'onSubmit').and.stub();
-        isUpdatingSubject.next(false);
-        fixture.detectChanges();
-        const submitBtn = el.query(By.css('button[type="submit"]'));
-        submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
-        expect(component.onSubmit).toHaveBeenCalled();
+    const newUid = 'tester@sap.com';
+    const password = 'Qwe123!';
+
+    component.onSubmit({ newUid, password });
+    expect(userService.updateEmail).toHaveBeenCalledWith(password, newUid);
+  });
+
+  it('should call the internal onSuccess() method when the user was successfully updated', () => {
+    spyOn(component, 'onSuccess').and.stub();
+    spyOn(userService, 'getUpdateEmailResultSuccess').and.returnValue(of(true));
+
+    component.ngOnInit();
+
+    expect(component.onSuccess).toHaveBeenCalled();
+  });
+
+  describe('onSuccess', () => {
+    describe('when the user was successfully updated', () => {
+      it('should add a global message and navigate to a url ', async () => {
+        spyOn(userService, 'updateEmail').and.stub();
+        spyOn(authService, 'coreLogout').and.stub();
+
+        const newUid = 'new@sap.com';
+
+        component['newUid'] = newUid;
+
+        spyOn(globalMessageService, 'add').and.stub();
+        spyOn(routingService, 'go').and.stub();
+
+        await component.onSuccess(true);
+
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'updateEmailForm.emailUpdateSuccess',
+            params: { newUid: 'new@sap.com' },
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+
+        expect(authService.coreLogout).toHaveBeenCalled();
+
+        expect(routingService.go).toHaveBeenCalledWith(
+          { cxRoute: 'login' },
+          null,
+          {
+            state: {
+              newUid,
+            },
+          }
+        );
       });
     });
 
-    describe('Cancel Button', () => {
-      it('should be disabled while loading', () => {
-        // updateEmailService.isUpdating$ = of(true);
-        isUpdatingSubject.next(true);
-        fixture.detectChanges();
-        const cancelBtn = el.query(By.css('button[type="button"]'));
-        expect(cancelBtn.nativeElement.disabled).toBeTruthy();
-      });
+    describe('when the email was NOT successfully updated', () => {
+      it('should NOT add a global message and NOT navigate to a url ', () => {
+        spyOn(globalMessageService, 'add').and.stub();
+        spyOn(routingService, 'go').and.stub();
 
-      it('should go to home when clicked', () => {
-        isUpdatingSubject.next(false);
-        fixture.detectChanges();
-        const cancelBtn = el.query(By.css('button[type="button"]'));
-        expect(
-          cancelBtn.nativeElement.getAttribute('ng-reflect-router-link')
-        ).toContain('home');
+        component.onSuccess(false);
+        expect(routingService.go).not.toHaveBeenCalled();
+        expect(globalMessageService.add).not.toHaveBeenCalled();
       });
     });
+  });
+
+  it('should unsubscribe from any subscriptions when destroyed', () => {
+    const subscriptions = component['subscription'];
+    spyOn(subscriptions, 'unsubscribe').and.callThrough();
+
+    component.ngOnInit();
+    component.ngOnDestroy();
+    expect(subscriptions.unsubscribe).toHaveBeenCalled();
   });
 });

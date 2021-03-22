@@ -1,10 +1,10 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
 import { UpdateEmailFormComponent } from './update-email-form.component';
+import { FormErrorsModule } from '../../../../shared/index';
 
 describe('UpdateEmailFormComponent', () => {
   let component: UpdateEmailFormComponent;

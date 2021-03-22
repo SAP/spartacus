@@ -65,4 +65,11 @@ export class ForgotPasswordService {
       this.routingService.go({ cxRoute: 'login' });
     }
   }
+
+  /**
+   * Resets the form, _not_ the password.
+   */
+  reset(): void {
+    this.form.reset();
+  }
 }

@@ -1,67 +1,20 @@
-<cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
+<ng-container>
+  <div *ngIf="isLoading$ | async; else loaded">
+    <div class="cx-spinner">
+      <cx-spinner> </cx-spinner>
+    </div>
+  </div>
 
-<form (ngSubmit)="onSubmit()" [formGroup]="form">
-  <label>
-    <span class="label-content">{{
-      'updateEmailForm.newEmailAddress.label' | cxTranslate
-    }}</span>
-    <input
-      type="email"
-      name="email"
-      formControlName="email"
-      placeholder="{{
-        'updateEmailForm.newEmailAddress.placeholder' | cxTranslate
-      }}"
-      class="form-control"
-    />
-    <cx-form-errors [control]="form.get('email')"></cx-form-errors>
-  </label>
-
-  <label>
-    <span class="label-content">{{
-      'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate
-    }}</span>
-    <input
-      type="email"
-      name="confirmEmail"
-      formControlName="confirmEmail"
-      placeholder="{{
-        'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
-      }}"
-      class="form-control"
-    />
-    <cx-form-errors [control]="form.get('confirmEmail')"></cx-form-errors>
-  </label>
-
-  <label>
-    <span class="label-content">{{
-      'updateEmailForm.password.label' | cxTranslate
-    }}</span>
-    <input
-      type="password"
-      name="password"
-      formControlName="password"
-      placeholder="{{ 'updateEmailForm.password.placeholder' | cxTranslate }}"
-      class="form-control"
-      autocomplete="new-password"
-    />
-    <cx-form-errors [control]="form.get('password')"></cx-form-errors>
-  </label>
-
-  <button
-    [disabled]="isUpdating$ | async"
-    class="btn btn-block btn-secondary"
-    type="button"
-    [routerLink]="{ cxRoute: 'home' } | cxUrl"
-  >
-    {{ 'common.cancel' | cxTranslate }}
-  </button>
-
-  <button
-    class="btn btn-block btn-primary"
-    type="submit"
-    [disabled]="isUpdating$ | async"
-  >
-    {{ 'common.save' | cxTranslate }}
-  </button>
-</form>
+  <ng-template #loaded>
+    <div class="container">
+      <div class="row d-flex justify-content-center">
+        <cx-update-email-form
+          class="col-md-6"
+          (saveEmail)="onSubmit($event)"
+          (cancelEmail)="onCancel()"
+        >
+        </cx-update-email-form>
+      </div>
+    </div>
+  </ng-template>
+</ng-container>
