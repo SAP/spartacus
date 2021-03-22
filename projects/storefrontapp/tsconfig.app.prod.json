@@ -99,6 +99,7 @@
       "@spartacus/cdc": ["dist/cdc"],
       "@spartacus/cdc/components": ["dist/cdc/components"],
       "@spartacus/cdc/core": ["dist/cdc/core"],
+      "@spartacus/cdc/root": ["dist/cdc/root"],
       "@spartacus/cds": ["dist/cds"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
