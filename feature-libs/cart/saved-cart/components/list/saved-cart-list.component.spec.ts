@@ -12,23 +12,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
-class MockTranslationService {
-  translate(text: string) {
-    return text;
-  }
-}
-
-class MockRoutingService implements Partial<RoutingService> {
-  go(): void {}
-}
-
 const mockCart1: Cart = {
   code: '00001',
   name: 'test name',
@@ -71,6 +54,19 @@ class MockSavedCartService implements Partial<SavedCartService> {
 
 class MockClearCheckoutService implements Partial<ClearCheckoutService> {
   resetCheckoutProcesses(): void {}
+}
+
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform() {}
+}
+
+class MockTranslationService {
+  translate(text: string) {
+    return text;
+  }
 }
 
 class MockRoutingService implements Partial<RoutingService> {
