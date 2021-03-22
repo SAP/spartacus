@@ -54,7 +54,9 @@ cx-saved-cart-detail-overview {
 
           .cx-edit-cart {
             height: 100%;
-            margin: 1.5rem;
+            margin: 1rem;
+            border: none;
+            background-color: var(--cx-color-transparent);
           }
         }
 

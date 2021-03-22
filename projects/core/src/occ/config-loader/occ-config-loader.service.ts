@@ -22,9 +22,9 @@ import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
 
-export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
-  string
->('cx-external-config');
+export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<string>(
+  'cx-external-config'
+);
 
 @Injectable({ providedIn: 'root' })
 export class OccConfigLoaderService {

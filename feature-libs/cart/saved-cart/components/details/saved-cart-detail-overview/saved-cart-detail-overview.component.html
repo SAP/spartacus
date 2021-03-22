@@ -11,6 +11,7 @@
         <div class="cx-card-description">
           <cx-card
             [content]="getCartDescription(cart?.description) | async"
+            [truncateText]="true"
           ></cx-card>
         </div>
       </div>

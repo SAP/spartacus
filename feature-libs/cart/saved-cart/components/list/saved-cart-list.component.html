@@ -1,5 +1,5 @@
 <ng-container *ngIf="savedCarts$ | async as savedCarts">
-  <div class="container">
+  <ng-container *ngIf="!(isLoading$ | async); else loading">
     <div class="cx-saved-cart-list-header">
       <h3>
         {{
@@ -17,9 +17,6 @@
           <th scope="col">{{ 'savedCartList.cartId' | cxTranslate }}</th>
           <th scope="col">{{ 'savedCartList.dateSaved' | cxTranslate }}</th>
           <th scope="col">
-            {{ 'savedCartList.cartDescription' | cxTranslate }}
-          </th>
-          <th scope="col">
             {{ 'savedCartList.quantity' | cxTranslate }}
           </th>
           <th scope="col">{{ 'savedCartList.total' | cxTranslate }}</th>
@@ -33,7 +30,7 @@
             (click)="goToSavedCartDetails(savedCart)"
           >
             <td class="cx-saved-cart-list-cart-name">
-              <div class="d-md-none cx-saved-cart-list-label">
+              <div class="cx-table-label-mobile cx-saved-cart-list-label">
                 {{ 'savedCartList.cartName' | cxTranslate }}
               </div>
               <a
@@ -49,7 +46,7 @@
               >
             </td>
             <td class="cx-saved-cart-list-cart-id">
-              <div class="d-md-none cx-saved-cart-list-label">
+              <div class="cx-table-label-mobile cx-saved-cart-list-label">
                 {{ 'savedCartList.cartId' | cxTranslate }}
               </div>
               <a
@@ -64,7 +61,7 @@
               >
             </td>
             <td class="cx-saved-cart-list-date-saved">
-              <div class="d-md-none cx-saved-cart-list-label">
+              <div class="cx-table-label-mobile cx-saved-cart-list-label">
                 {{ 'savedCartList.dateSaved' | cxTranslate }}
               </div>
               <a
@@ -78,25 +75,8 @@
                 >{{ savedCart?.saveTime | cxDate: 'longDate' }}</a
               >
             </td>
-            <td class="cx-saved-cart-list-cart-description">
-              <div class="d-md-none cx-saved-cart-list-label">
-                {{ 'savedCartList.cartDescription' | cxTranslate }}
-              </div>
-              <a
-                [routerLink]="
-                  {
-                    cxRoute: 'savedCartsDetails',
-                    params: { savedCartId: savedCart?.code }
-                  } | cxUrl
-                "
-                class="cx-saved-cart-list-value"
-              >
-                {{ savedCart?.description }}
-              </a>
-            </td>
-
             <td class="cx-saved-cart-list-quantity">
-              <div class="d-md-none cx-saved-cart-list-label">
+              <div class="cx-table-label-mobile cx-saved-cart-list-label">
                 {{ 'savedCartList.quantity' | cxTranslate }}
               </div>
               <a
@@ -112,7 +92,7 @@
               >
             </td>
             <td class="cx-saved-cart-list-total">
-              <div class="d-md-none cx-saved-cart-list-label">
+              <div class="cx-table-label-mobile cx-saved-cart-list-label">
                 {{ 'savedCartList.total' | cxTranslate }}
               </div>
               <a
@@ -128,7 +108,7 @@
               >
             </td>
             <td class="cx-saved-cart-list-make-cart-active">
-              <div class="d-md-none cx-saved-cart-list-label"></div>
+              <div class="cx-table-label-mobile cx-saved-cart-list-label"></div>
               <button
                 class="link cx-action-link cx-saved-cart-make-active"
                 (click)="restoreSavedCart($event, savedCart?.code)"
@@ -149,5 +129,11 @@
         </div>
       </div>
     </ng-template>
-  </div>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="cx-spinner">
+      <cx-spinner></cx-spinner>
+    </div>
+  </ng-template>
 </ng-container>

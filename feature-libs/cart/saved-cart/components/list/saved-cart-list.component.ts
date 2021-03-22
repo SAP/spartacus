@@ -17,6 +17,7 @@ import { map } from 'rxjs/operators';
 export class SavedCartListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
+  isLoading$: Observable<boolean>;
   savedCarts$: Observable<Cart[]> = this.savedCartService.getList().pipe(
     map((lists) =>
       lists.sort((a: Cart, b: Cart) => {
@@ -37,6 +38,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.isLoading$ = this.savedCartService.getSavedCartListProcessLoading();
     this.savedCartService.loadSavedCarts();
 
     this.subscription.add(

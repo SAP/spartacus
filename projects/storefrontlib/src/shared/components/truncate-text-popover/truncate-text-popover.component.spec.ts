@@ -1,26 +1,26 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { TruncateTextWithPopoverComponent } from './truncate-text-with-popover.component';
-import { TruncateTextWithPopoverModule } from './truncate-text-with-popover.module';
+import { TruncateTextPopoverComponent } from './truncate-text-popover.component';
+import { TruncateTextPopoverModule } from './truncate-text-popover.module';
 
 const mockContent =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
 
-describe('TruncateTextWithPopoverComponent', () => {
-  let component: TruncateTextWithPopoverComponent;
-  let fixture: ComponentFixture<TruncateTextWithPopoverComponent>;
+describe('TruncateTextPopoverComponent', () => {
+  let component: TruncateTextPopoverComponent;
+  let fixture: ComponentFixture<TruncateTextPopoverComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, TruncateTextWithPopoverModule],
-        declarations: [TruncateTextWithPopoverComponent],
+        imports: [I18nTestingModule, TruncateTextPopoverModule],
+        declarations: [TruncateTextPopoverComponent],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TruncateTextWithPopoverComponent);
+    fixture = TestBed.createComponent(TruncateTextPopoverComponent);
     component = fixture.componentInstance;
     component.content = mockContent;
     fixture.detectChanges();
