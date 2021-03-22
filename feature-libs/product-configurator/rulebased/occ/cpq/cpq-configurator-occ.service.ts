@@ -81,4 +81,23 @@ export class CpqConfiguratorOccService {
       })
     );
   }
+
+  getConfigIdForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<string> {
+    const url = this.occEndpointsService.getUrl(
+      'readCpqConfigurationForOrderEntry',
+      {
+        userId: parameters.userId,
+        orderId: parameters.orderId,
+        orderEntryNumber: parameters.orderEntryNumber,
+      }
+    );
+
+    return this.http.get<{ configId: string }>(url).pipe(
+      map((response) => {
+        return response.configId;
+      })
+    );
+  }
 }

@@ -63,6 +63,13 @@ const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryPar
   owner: owner,
 };
 
+const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
+  userId: userId,
+  orderId: documentId,
+  orderEntryNumber: '3',
+  owner: owner,
+};
+
 const asSpy = (f: any) => <jasmine.Spy>f;
 
 describe('CpqConfiguratorRestAdapter', () => {
@@ -81,6 +88,7 @@ describe('CpqConfiguratorRestAdapter', () => {
     mockedOccService = jasmine.createSpyObj('mockedOccService', [
       'addToCart',
       'getConfigIdForCartEntry',
+      'getConfigIdForOrderEntry',
       'updateCartEntry',
     ]);
 
@@ -105,6 +113,9 @@ describe('CpqConfiguratorRestAdapter', () => {
       return of(cartResponse);
     });
     asSpy(mockedOccService.getConfigIdForCartEntry).and.callFake(() => {
+      return of(productConfiguration.configId);
+    });
+    asSpy(mockedOccService.getConfigIdForOrderEntry).and.callFake(() => {
       return of(productConfiguration.configId);
     });
     asSpy(mockedOccService.updateCartEntry).and.callFake(() => {
@@ -224,7 +235,7 @@ describe('CpqConfiguratorRestAdapter', () => {
     });
   });
 
-  it('should delegate readConfigurationForCartEntry to both OCC and Rest service', () => {
+  it('should delegate readConfigurationForCartEntry to both OCC and rest service', () => {
     adapterUnderTest
       .readConfigurationForCartEntry(readConfigCartParams)
       .subscribe((response) => {
@@ -232,6 +243,21 @@ describe('CpqConfiguratorRestAdapter', () => {
         expect(response.owner).toBe(readConfigCartParams.owner);
         expect(mockedOccService.getConfigIdForCartEntry).toHaveBeenCalledWith(
           readConfigCartParams
+        );
+        expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
+          configId
+        );
+      });
+  });
+
+  it('should delegate readConfigurationForOrderEntry to both OCC and rest service', () => {
+    adapterUnderTest
+      .readConfigurationForOrderEntry(readConfigOrderEntryParams)
+      .subscribe((response) => {
+        expect(response).toBe(productConfiguration);
+        expect(response.owner).toBe(readConfigOrderEntryParams.owner);
+        expect(mockedOccService.getConfigIdForOrderEntry).toHaveBeenCalledWith(
+          readConfigOrderEntryParams
         );
         expect(mockedRestService.readConfiguration).toHaveBeenCalledWith(
           configId
