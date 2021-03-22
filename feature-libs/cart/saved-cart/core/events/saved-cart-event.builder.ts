@@ -1,7 +1,6 @@
 import { Injectable, Type } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
-import { SavedCartActions } from '@spartacus/cart/saved-cart/core';
 import {
   ActionToEventMapping,
   CartActions,
@@ -12,6 +11,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { SavedCartActions } from '../store/actions/index';
 import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,

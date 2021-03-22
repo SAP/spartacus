@@ -28,10 +28,12 @@ const mockSavedCarts: Cart[] = [
     name: 'test-cart-name',
     entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
     description: 'test-cart-description',
+    saveTime: new Date('1994-01-11T00:00Z'),
   },
   {
     name: 'test-cart-name2',
     entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+    saveTime: new Date('1994-01-11T00:00Z'),
   },
 ];
 
@@ -174,6 +176,10 @@ describe('SavedCartService', () => {
 
   describe('List of Saved Carts', () => {
     it('should dispatch a load for a list of saved carts ', () => {
+      multiCartService.getCarts = createSpy().and.returnValue(
+        of(mockSavedCarts)
+      );
+
       service.loadSavedCarts();
       expect(store.dispatch).toHaveBeenCalledWith(
         new SavedCartActions.LoadSavedCarts({
@@ -190,7 +196,7 @@ describe('SavedCartService', () => {
         .unsubscribe();
 
       expect(userIdService.takeUserId).toHaveBeenCalled();
-      expect(result).toEqual([]);
+      expect(result).toEqual(mockSavedCarts);
       expect(store.dispatch).toHaveBeenCalledWith(
         new SavedCartActions.LoadSavedCarts({
           userId: mockUserId,
@@ -208,9 +214,7 @@ describe('SavedCartService', () => {
         .unsubscribe();
 
       expect(userIdService.takeUserId).not.toHaveBeenCalledWith();
-      // TODO: verify why result is empty array
-      // expect(result).toEqual(mockSavedCarts);
-      expect(result).toEqual([]);
+      expect(result).toEqual(mockSavedCarts);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new SavedCartActions.LoadSavedCarts({
           userId: mockUserId,
@@ -327,6 +331,80 @@ describe('SavedCartService', () => {
     });
   });
 
+  describe('Edit a saved cart', () => {
+    it('should dispatch an edit saved cart ', () => {
+      service.editSavedCart({
+        cartId: mockCartId,
+        saveCartName: mockCartName,
+        saveCartDescription: mockCartDescription,
+      });
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new SavedCartActions.EditSavedCart({
+          userId: mockUserId,
+          cartId: mockCartId,
+          saveCartName: mockCartName,
+          saveCartDescription: mockCartDescription,
+        })
+      );
+    });
+
+    it('should return the loading flag', () => {
+      store.dispatch(
+        new SavedCartActions.EditSavedCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
+
+      let result: boolean | undefined;
+
+      service
+        .getSaveCartProcessLoading()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should return the success flag', () => {
+      store.dispatch(
+        new SavedCartActions.EditSavedCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
+
+      let result: boolean | undefined;
+
+      service
+        .getSaveCartProcessSuccess()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return the error flag', () => {
+      store.dispatch(
+        new SavedCartActions.EditSavedCartFail({
+          userId: mockUserId,
+          cartId: mockCartId,
+          error: mockError,
+        })
+      );
+
+      let result: boolean | undefined;
+
+      service
+        .getSaveCartProcessError()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+  });
+
   describe('Save cart', () => {
     it('should dispatch a save cart ', () => {
       service.saveCart({
@@ -340,7 +418,6 @@ describe('SavedCartService', () => {
           cartId: mockCartId,
           saveCartName: mockCartName,
           saveCartDescription: mockCartDescription,
-          extraData: undefined,
         })
       );
     });

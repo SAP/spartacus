@@ -57,7 +57,7 @@ describe('SavedCartFormLaunchDialogService', () => {
       service.openDialog(undefined, component.vcr, { test: 123 });
 
       expect(launchDialogService.launch).toHaveBeenCalledWith(
-        LAUNCH_CALLER.ADD_TO_SAVED_CART,
+        LAUNCH_CALLER.SAVED_CART,
         component.vcr,
         {
           test: 123,
@@ -72,7 +72,7 @@ describe('SavedCartFormLaunchDialogService', () => {
       comp?.subscribe();
 
       expect(launchDialogService.clear).toHaveBeenCalledWith(
-        LAUNCH_CALLER.ADD_TO_SAVED_CART
+        LAUNCH_CALLER.SAVED_CART
       );
     });
 

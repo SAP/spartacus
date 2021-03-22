@@ -4,29 +4,13 @@ import { By } from '@angular/platform-browser';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
+  ClearCheckoutService,
   I18nTestingModule,
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SavedCartListComponent } from './saved-cart-list.component';
-
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
-
-class MockTranslationService {
-  translate(text: string) {
-    return text;
-  }
-}
-
-class MockRoutingService implements Partial<RoutingService> {
-  go(): void {}
-}
 
 const mockCart1: Cart = {
   code: '00001',
@@ -68,6 +52,27 @@ class MockSavedCartService implements Partial<SavedCartService> {
   }
 }
 
+class MockClearCheckoutService implements Partial<ClearCheckoutService> {
+  resetCheckoutProcesses(): void {}
+}
+
+@Pipe({
+  name: 'cxUrl',
+})
+class MockUrlPipe implements PipeTransform {
+  transform() {}
+}
+
+class MockTranslationService {
+  translate(text: string) {
+    return text;
+  }
+}
+
+class MockRoutingService implements Partial<RoutingService> {
+  go(): void {}
+}
+
 describe('SavedCartListComponent', () => {
   let component: SavedCartListComponent;
   let fixture: ComponentFixture<SavedCartListComponent>;
@@ -80,6 +85,7 @@ describe('SavedCartListComponent', () => {
       declarations: [SavedCartListComponent, MockUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
+        { provide: ClearCheckoutService, useClass: MockClearCheckoutService },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: SavedCartService, useClass: MockSavedCartService },
       ],

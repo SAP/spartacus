@@ -5,7 +5,6 @@ import {
   ActiveCartService,
   Cart,
   CartActions,
-  ClearCheckoutService,
   GlobalMessageService,
   GlobalMessageType,
   MultiCartService,
@@ -84,34 +83,32 @@ export class SavedCartEffects {
   > = this.actions$.pipe(
     ofType(SavedCartActions.RESTORE_SAVED_CART),
     map((action: SavedCartActions.RestoreSavedCart) => action.payload),
-    withLatestFrom(this.activeCartService.getActiveCartId()),
-    switchMap(([{ userId, cartId }, activeCartId]) => {
+    withLatestFrom(this.activeCartService.getActive()),
+    switchMap(([{ userId, cartId }, activeCart]) => {
       const actions: any[] = [];
 
-      if (Boolean(activeCartId)) {
+      if (activeCart?.entries?.length > 0) {
         actions.push(
-          new SavedCartActions.SaveCart({
+          new SavedCartActions.EditSavedCart({
             userId,
-            cartId: activeCartId,
+            cartId: activeCart.code,
             saveCartName: '',
             saveCartDescription: '',
-            extraData: { edit: true },
           })
         );
       }
 
       return this.savedCartConnector.restoreSavedCart(userId, cartId).pipe(
         switchMap((savedCart: Cart) => {
-          this.clearCheckoutService.resetCheckoutProcesses();
-
           this.globalMessageService.add(
             {
-              key: Boolean(activeCartId)
-                ? 'savedCartList.swapCartWithActiveCart'
-                : 'savedCartList.swapCartNoActiveCart',
+              key:
+                activeCart?.entries?.length > 0
+                  ? 'savedCartList.swapCartWithActiveCart'
+                  : 'savedCartList.swapCartNoActiveCart',
               params: {
                 cartName: cartId,
-                previousCartName: activeCartId,
+                previousCartName: activeCart.code,
               },
             },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -125,7 +122,6 @@ export class SavedCartEffects {
               cartId,
               cart: savedCart,
             }),
-            new SavedCartActions.LoadSavedCarts({ userId }),
             new SavedCartActions.RestoreSavedCartSuccess({ userId, cartId }),
           ];
         }),
@@ -151,62 +147,86 @@ export class SavedCartEffects {
   > = this.actions$.pipe(
     ofType(SavedCartActions.SAVE_CART),
     map((action: SavedCartActions.SaveCart) => action.payload),
-    switchMap(
-      ({ userId, cartId, saveCartName, saveCartDescription, extraData }) => {
-        return this.savedCartConnector
-          .saveCart(userId, cartId, saveCartName, saveCartDescription)
-          .pipe(
-            switchMap((savedCart: Cart) => {
-              if (extraData?.edit) {
-                return [
-                  new CartActions.LoadCartSuccess({
-                    userId,
-                    cartId,
-                    cart: savedCart,
-                  }),
-                  new SavedCartActions.SaveCartSuccess({
-                    userId,
-                    cartId,
-                    saveCartName,
-                    saveCartDescription,
-                  }),
-                ];
-              } else {
-                this.clearCheckoutService.resetCheckoutProcesses();
-                this.multiCartService.createCart({
-                  userId,
-                  extraData: { active: true },
-                });
+    switchMap(({ userId, cartId, saveCartName, saveCartDescription }) => {
+      return this.savedCartConnector
+        .saveCart(userId, cartId, saveCartName, saveCartDescription)
+        .pipe(
+          switchMap((savedCart: Cart) => {
+            this.multiCartService.createCart({
+              userId,
+              extraData: { active: true },
+            });
 
-                return [
-                  new CartActions.LoadCartSuccess({
-                    userId,
-                    cartId,
-                    cart: savedCart,
-                  }),
-                  new SavedCartActions.SaveCartSuccess({
-                    userId,
-                    cartId,
-                    saveCartName,
-                    saveCartDescription,
-                  }),
-                ];
-              }
-            }),
-            catchError((error: HttpErrorResponse) =>
-              of(
-                new SavedCartActions.SaveCartFail({
-                  userId,
-                  cartId,
-                  saveCartName,
-                  saveCartDescription,
-                  error: normalizeHttpError(error),
-                })
-              )
+            return [
+              new CartActions.LoadCartSuccess({
+                userId,
+                cartId,
+                cart: savedCart,
+              }),
+              new SavedCartActions.SaveCartSuccess({
+                userId,
+                cartId,
+                saveCartName,
+                saveCartDescription,
+              }),
+            ];
+          }),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new SavedCartActions.SaveCartFail({
+                userId,
+                cartId,
+                saveCartName,
+                saveCartDescription,
+                error: normalizeHttpError(error),
+              })
             )
-          );
-      }
-    )
+          )
+        );
+    })
+  );
+
+  @Effect()
+  editSavedCart$: Observable<
+    | SavedCartActions.EditSavedCartFail
+    | SavedCartActions.EditSavedCartSuccess
+    | SavedCartActions.EditSavedCart
+    | CartActions.LoadCartSuccess
+  > = this.actions$.pipe(
+    ofType(SavedCartActions.EDIT_SAVED_CART),
+    map((action: SavedCartActions.EditSavedCart) => action.payload),
+    switchMap(({ userId, cartId, saveCartName, saveCartDescription }) => {
+      return this.savedCartConnector
+        .saveCart(userId, cartId, saveCartName, saveCartDescription)
+        .pipe(
+          switchMap((savedCart: Cart) => {
+            return [
+              new CartActions.LoadCartSuccess({
+                userId,
+                cartId,
+                cart: savedCart,
+              }),
+              new SavedCartActions.EditSavedCartSuccess({
+                userId,
+                cartId,
+                saveCartName,
+                saveCartDescription,
+              }),
+            ];
+          }),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new SavedCartActions.EditSavedCartFail({
+                userId,
+                cartId,
+                saveCartName,
+                saveCartDescription,
+                error: normalizeHttpError(error),
+              })
+            )
+          )
+        );
+    })
   );
 
   constructor(
@@ -214,7 +234,6 @@ export class SavedCartEffects {
     private savedCartConnector: SavedCartConnector,
     private activeCartService: ActiveCartService,
     private globalMessageService: GlobalMessageService,
-    private clearCheckoutService: ClearCheckoutService,
     private multiCartService: MultiCartService
   ) {}
 }

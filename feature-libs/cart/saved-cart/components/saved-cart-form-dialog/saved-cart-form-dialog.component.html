@@ -15,7 +15,7 @@
             <ng-container *ngSwitchCase="savedCartFormType.DELETE">
               {{ 'savedCartDialog.deleteSavedCart' | cxTranslate }}
             </ng-container>
-            <ng-container *ngSwitchDefault>
+            <ng-container *ngSwitchCase="savedCartFormType.SAVE">
               {{ 'savedCartDialog.saveForLater' | cxTranslate }}
             </ng-container>
           </div>
@@ -95,7 +95,6 @@
           </div>
 
           <div class="cx-saved-cart-form-footer">
-            <!-- TODO disable button during loading state -->
             <button
               (click)="close('Close Save Cart Dialog')"
               aria-label="Close"
@@ -104,10 +103,11 @@
             >
               {{ 'savedCartDialog.cancel' | cxTranslate }}
             </button>
-            <!-- TODO disable button during loading state -->
+
             <button
               (click)="deleteCart(cart.code)"
-              aria-label="Save"
+              [disabled]="isDisableDeleteButton$ | async"
+              aria-label="delete"
               class="ml-2 btn btn-primary"
               type="button"
             >
@@ -119,7 +119,7 @@
 
         <!-- start SAVE and EDIT form -->
         <ng-template #saveAndEditCart>
-          <ng-container *ngIf="!layoutOption">
+          <ng-container *ngIf="layoutOption === savedCartFormType.SAVE">
             <p class="cx-saved-cart-form-subtitle">
               {{ 'savedCartDialog.itemsSavedForLater' | cxTranslate }}
             </p>

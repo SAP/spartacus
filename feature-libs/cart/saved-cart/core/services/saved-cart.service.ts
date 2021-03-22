@@ -11,7 +11,7 @@ import {
   UserIdService,
   UserService,
 } from '@spartacus/core';
-import { combineLatest, Observable, queueScheduler } from 'rxjs';
+import { combineLatest, EMPTY, Observable, queueScheduler } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -19,6 +19,7 @@ import {
   observeOn,
   pluck,
   shareReplay,
+  startWith,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -28,6 +29,7 @@ import {
   SAVED_CART_RESTORE_CART_PROCESS_ID,
   SAVED_CART_SAVE_CART_PROCESS_ID,
 } from '../store/saved-cart-state';
+import { SavedCartEventsService } from './saved-cart-events.service';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +39,8 @@ export class SavedCartService {
     protected store: Store<StateWithMultiCart | StateWithProcess<void>>,
     protected userIdService: UserIdService,
     protected userService: UserService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartService,
+    protected savedCartEventsService: SavedCartEventsService
   ) {}
 
   loadSavedCart(cartId: string): void {
@@ -51,16 +54,26 @@ export class SavedCartService {
     );
   }
 
-  get(cartId: string): Observable<Cart> {
+  get(cartId: string): Observable<Cart | undefined> {
     return this.getSavedCart(cartId).pipe(
       observeOn(queueScheduler),
-      tap((state) => {
+      withLatestFrom(
+        this.savedCartEventsService
+          .getDeleteSavedCartEvent()
+          .pipe(startWith({}))
+      ),
+      filter(([state, _event]) => Boolean(state)),
+      tap(([state, event]) => {
+        if (Object.keys(event).length > 0) {
+          return EMPTY;
+        }
+
         if (!(state.loading || state.success || state.error)) {
           this.loadSavedCart(cartId);
         }
       }),
-      filter((state) => state.success || state.error),
-      map((state) => state.value)
+      filter(([state]) => state.success || state.error),
+      map(([state]) => state.value)
     );
   }
 
@@ -191,12 +204,10 @@ export class SavedCartService {
     cartId,
     saveCartName,
     saveCartDescription,
-    extraData,
   }: {
     cartId: string;
     saveCartName?: string;
     saveCartDescription?: string;
-    extraData?: { edit: boolean };
   }): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
@@ -206,7 +217,6 @@ export class SavedCartService {
             cartId,
             saveCartName,
             saveCartDescription,
-            extraData,
           })
         );
       },
@@ -243,6 +253,30 @@ export class SavedCartService {
       select(
         ProcessSelectors.getProcessErrorFactory(SAVED_CART_SAVE_CART_PROCESS_ID)
       )
+    );
+  }
+
+  editSavedCart({
+    cartId,
+    saveCartName,
+    saveCartDescription,
+  }: {
+    cartId: string;
+    saveCartName?: string;
+    saveCartDescription?: string;
+  }): void {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
+        return this.store.dispatch(
+          new SavedCartActions.EditSavedCart({
+            userId,
+            cartId,
+            saveCartName,
+            saveCartDescription,
+          })
+        );
+      },
+      () => {}
     );
   }
 }

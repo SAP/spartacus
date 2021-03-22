@@ -1,5 +1,13 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
+import {
+  SavedCartEventsService,
+  SavedCartService,
+} from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
   GlobalMessageService,
@@ -7,8 +15,8 @@ import {
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { mapTo, switchMap, take, tap } from 'rxjs/operators';
 import { SavedCartDetailService } from '../saved-cart-detail.service';
 
 @Component({
@@ -16,7 +24,10 @@ import { SavedCartDetailService } from '../saved-cart-detail.service';
   templateUrl: './saved-cart-detail-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SavedCartDetailItemsComponent {
+export class SavedCartDetailItemsComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
+  cartId: string | undefined;
+
   userId$ = this.userIdService.getUserId();
 
   cartLoaded$: Observable<boolean> = this.savedCartDetailService
@@ -27,15 +38,10 @@ export class SavedCartDetailItemsComponent {
     Cart | undefined
   > = this.savedCartDetailService.getCartDetails().pipe(
     tap((cart) => {
+      this.cartId = cart.code;
+
       if (cart?.entries?.length <= 0) {
-        this.routingService.go({ cxRoute: 'savedCarts' });
-        this.globalMessageService.add(
-          {
-            key: 'savedCartDialog.deleteCartSuccess',
-          },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-        this.savedCartService.deleteSavedCart(cart.code);
+        this.savedCartService.deleteSavedCart(this.cartId);
       }
     })
   );
@@ -43,8 +49,34 @@ export class SavedCartDetailItemsComponent {
   constructor(
     protected savedCartDetailService: SavedCartDetailService,
     protected savedCartService: SavedCartService,
+    protected savedCartEventsService: SavedCartEventsService,
     protected userIdService: UserIdService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService
   ) {}
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.savedCartEventsService
+        .getDeleteSavedCartSuccessEvent()
+        .pipe(take(1), mapTo(true))
+        .subscribe((success) => this.onSuccess(success))
+    );
+  }
+
+  onSuccess(success: boolean): void {
+    if (success) {
+      this.routingService.go({ cxRoute: 'savedCarts' });
+      this.globalMessageService.add(
+        {
+          key: 'savedCartDialog.deleteCartSuccess',
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
+  }
 }

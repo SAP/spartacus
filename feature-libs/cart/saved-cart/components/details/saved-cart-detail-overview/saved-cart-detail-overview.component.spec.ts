@@ -11,7 +11,6 @@ const mockSavedCart: Cart = {
   name: 'test-cart-name',
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
   description: 'test-cart-description',
-  // TODO: don't forget to bring this up to blamed team
   saveTime: new Date('1994-01-11T00:00Z'),
   totalItems: 8,
   totalUnitCount: 3,
@@ -130,7 +129,6 @@ describe('SavedCartDetailOverviewComponent', () => {
   });
 
   it('should trigger getDateSaved(saveTime: string)', () => {
-    // TODO: related to line 14
     const date = component['getDate'](mockSavedCart.saveTime as Date);
 
     component
@@ -160,7 +158,7 @@ describe('SavedCartDetailOverviewComponent', () => {
     );
   });
 
-  it('should trigger getCartQuantity(totalUnitItems: number)', () => {
+  it('should trigger getCartQuantity(totalItems: number)', () => {
     component
       .getCartQuantity(mockSavedCart.totalUnitCount as number)
       .subscribe((data) => {

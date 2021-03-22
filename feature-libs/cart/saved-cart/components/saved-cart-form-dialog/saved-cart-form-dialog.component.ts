@@ -8,11 +8,13 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  SavedCartEventsService,
   SavedCartFormType,
   SavedCartService,
 } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
+  ClearCheckoutService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -22,7 +24,8 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
+import { mapTo, take } from 'rxjs/operators';
 
 export interface SavedCartFormDialogOptions {
   cart: Cart;
@@ -35,6 +38,7 @@ export interface SavedCartFormDialogOptions {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
   savedCartFormType = SavedCartFormType;
   form: FormGroup;
   iconTypes = ICON_TYPE;
@@ -52,8 +56,14 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   };
 
   isLoading$: Observable<boolean>;
+  isDisableDeleteButton$: Observable<boolean>;
 
-  private subscription = new Subscription();
+  get descriptionsCharacterLeft(): number {
+    return (
+      this.descriptionMaxLength -
+      (this.form.get('description')?.value?.length || 0)
+    );
+  }
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
@@ -67,12 +77,23 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
     protected savedCartService: SavedCartService,
+    protected savedCartEventsService: SavedCartEventsService,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected clearCheckoutService: ClearCheckoutService
   ) {}
 
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSaveCartProcessLoading();
+
+    this.isDisableDeleteButton$ = merge(
+      this.savedCartEventsService
+        .getDeleteSavedCartEvent()
+        .pipe(take(1), mapTo(true)),
+      this.savedCartEventsService
+        .getDeleteSavedCartFailEvent()
+        .pipe(take(1), mapTo(false))
+    );
 
     this.subscription.add(
       this.launchDialogService.data$.subscribe(
@@ -88,66 +109,94 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.savedCartService
         .getSaveCartProcessSuccess()
-        .subscribe((success) => this.onSuccess(success, SavedCartFormType.EDIT))
+        .subscribe((success) => this.onSuccess(success))
     );
-  }
 
-  get descriptionsCharacterLeft(): number {
-    return (
-      this.descriptionMaxLength -
-      (this.form.get('description')?.value?.length || 0)
+    this.subscription.add(
+      this.savedCartEventsService
+        .getDeleteSavedCartSuccessEvent()
+        .pipe(take(1), mapTo(true))
+        .subscribe((success) => this.onSuccess(success))
     );
   }
 
   saveOrEditCart(cartId: string): void {
-    this.savedCartService.saveCart({
-      cartId,
-      saveCartName: this.form.get('name')?.value,
-      saveCartDescription: this.form.get('description')?.value,
-      extraData: !this.layoutOption ? { edit: false } : { edit: true },
-    });
+    switch (this.layoutOption) {
+      case SavedCartFormType.SAVE: {
+        this.savedCartService.saveCart({
+          cartId,
+          saveCartName: this.form.get('name')?.value,
+          saveCartDescription: this.form.get('description')?.value,
+        });
+
+        break;
+      }
+
+      case SavedCartFormType.EDIT: {
+        this.savedCartService.editSavedCart({
+          cartId,
+          saveCartName: this.form.get('name')?.value,
+          saveCartDescription: this.form.get('description')?.value,
+        });
+
+        break;
+      }
+    }
   }
 
   deleteCart(cartId: string): void {
-    // TODO: replace logic and use the DeleteCartEvents when they're available.
-    // race condition (thinking of a fix)
-    this.routingService.go({ cxRoute: 'savedCarts' });
-    this.globalMessageService.add(
-      {
-        key: 'savedCartDialog.deleteCartSuccess',
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
     this.savedCartService.deleteSavedCart(cartId);
-    this.close('Succesfully deleted a saved cart');
   }
 
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
 
-  onSuccess(success: boolean, saveCartAction: string): void {
+  onSuccess(success: boolean): void {
     if (success) {
-      switch (saveCartAction) {
+      switch (this.layoutOption) {
         case SavedCartFormType.DELETE: {
-          // when events become available
+          this.routingService.go({ cxRoute: 'savedCarts' });
+          this.globalMessageService.add(
+            {
+              key: 'savedCartDialog.deleteCartSuccess',
+            },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+          this.close('Succesfully deleted a saved cart');
+
           break;
         }
 
-        default: {
+        case SavedCartFormType.SAVE: {
           this.close('Succesfully saved cart');
+          this.clearCheckoutService.resetCheckoutProcesses();
           this.savedCartService.clearSaveCart();
-          this.savedCartService.clearRestoreSavedCart();
 
           this.globalMessageService.add(
             {
-              key: !this.layoutOption
-                ? 'savedCartCartPage.messages.cartSaved'
-                : 'savedCartDialog.editCartSuccess',
+              key: 'savedCartCartPage.messages.cartSaved',
               params: {
                 cartName: this.form.get('name')?.value || this.cart?.code,
               },
             },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+
+          break;
+        }
+
+        case SavedCartFormType.EDIT: {
+          this.close('Succesfully edited saved cart');
+          this.savedCartService.clearSaveCart();
+          this.globalMessageService.add(
+            {
+              key: 'savedCartDialog.editCartSuccess',
+              params: {
+                cartName: this.form.get('name')?.value || this.cart?.code,
+              },
+            },
+
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
 

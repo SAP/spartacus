@@ -94,6 +94,7 @@ describe('AddToSavedCartComponent', () => {
       component['vcr'],
       {
         cart: mockCart,
+        layoutOption: 'save',
       }
     );
   });
@@ -122,6 +123,7 @@ describe('AddToSavedCartComponent', () => {
           savedCartFormLaunchDialogService.openDialog
         ).toHaveBeenCalledWith(component.element, component['vcr'], {
           cart: mockCart,
+          layoutOption: 'save',
         });
       });
     });
