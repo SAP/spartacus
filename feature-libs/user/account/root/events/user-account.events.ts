@@ -1,5 +1,5 @@
-import { User } from '@spartacus/user/account/root';
 import { CxEvent } from '@spartacus/core';
+import { User } from '../model/user.model';
 
 export abstract class UserAccountEvent extends CxEvent {
   user: User;
