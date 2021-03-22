@@ -8,6 +8,7 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
+import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
 import {
   NodeDependency,
   NodeDependencyType,
@@ -15,11 +16,13 @@ import {
 import {
   ANGULAR_HTTP,
   ANGULAR_OAUTH2_OIDC,
+  CLI_ASM_FEATURE,
   DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
   DEFAULT_NGRX_VERSION,
   NGRX_EFFECTS,
   NGRX_ROUTER_STORE,
   NGRX_STORE,
+  SPARTACUS_ASM,
   SPARTACUS_ASSETS,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
@@ -34,7 +37,10 @@ import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
+  createNodePackageInstallationTask,
   installPackageJsonDependencies,
+  LibraryOptions,
+  shouldAddFeature,
 } from '../shared/utils/lib-utils';
 import {
   addModuleImport,
@@ -44,6 +50,7 @@ import {
   getAngularVersion,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
+  readPackageJson,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -53,7 +60,10 @@ import {
 } from '../shared/utils/workspace-utils';
 import { addSpartacusConfiguration } from './configuration';
 import { setupRouterModule } from './router';
-import { Schema as SpartacusOptions } from './schema';
+import {
+  InstallSpartacusLibraryOptions,
+  Schema as SpartacusOptions,
+} from './schema';
 import { setupSpartacusModule } from './spartacus';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
@@ -265,7 +275,7 @@ function prepareDependencies(
   return dependencies;
 }
 
-export function updateAppModule(project: string): Rule {
+function updateAppModule(project: string): Rule {
   return (tree: Tree): Tree => {
     const { buildPaths } = getProjectTsConfigPaths(tree, project);
 
@@ -343,7 +353,71 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       installStyles(options),
       updateMainComponent(project, options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
+
+      addSpartacusFeatures(options),
+
       installPackageJsonDependencies(),
     ])(tree, context);
+  };
+}
+
+function addSpartacusFeatures(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    return chain([
+      shouldAddFeature(options.features, CLI_ASM_FEATURE)
+        ? installExternalSchematic({
+            schematicsOptions: options,
+            collectionName: SPARTACUS_ASM,
+            features: [],
+          })
+        : noop(),
+    ])(tree, context);
+  };
+}
+
+function installExternalSchematic(options: {
+  schematicsOptions: SpartacusOptions;
+  collectionName: string;
+  features: string[];
+}): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const packageJson = readPackageJson(tree);
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    const dependencies: NodeDependency[] = [
+      {
+        type: NodeDependencyType.Default,
+        version: spartacusVersion,
+        name: options.collectionName,
+      },
+    ];
+    return chain([
+      addPackageJsonDependencies(dependencies, packageJson),
+      invokeAfterSchematicTask(createLibraryOptions(options)),
+    ])(tree, context);
+  };
+}
+
+function invokeAfterSchematicTask(options: LibraryOptions): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const id = createNodePackageInstallationTask(context);
+    context.addTask(new RunSchematicTask('add-spartacus-library', options), [
+      id,
+    ]);
+    return tree;
+  };
+}
+
+function createLibraryOptions(options: {
+  schematicsOptions: SpartacusOptions;
+  features: string[];
+  collectionName: string;
+  schematicName?: string;
+}): InstallSpartacusLibraryOptions {
+  return {
+    project: options.schematicsOptions.project,
+    lazy: options.schematicsOptions.lazy,
+    features: options.features,
+    collectionName: options.collectionName,
+    schematicName: options.schematicName ?? 'add',
   };
 }

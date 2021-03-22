@@ -3,6 +3,7 @@ import {
   noop,
   Rule,
   SchematicContext,
+  TaskId,
   Tree,
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
@@ -481,10 +482,16 @@ export function addLibraryStyles(stylingConfig: StylingConfig): Rule {
   };
 }
 
+export function createNodePackageInstallationTask(
+  context: SchematicContext
+): TaskId {
+  context.logger.log('info', `🔍 Installing packages...`);
+  return context.addTask(new NodePackageInstallTask());
+}
+
 export function installPackageJsonDependencies(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    context.addTask(new NodePackageInstallTask());
-    context.logger.log('info', `🔍 Installing packages...`);
+    createNodePackageInstallationTask(context);
     return tree;
   };
 }

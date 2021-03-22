@@ -22,6 +22,21 @@
         "items": ["b2c", "b2b"]
       }
     },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["Assisted Services Module"],
+        "type": "string"
+      },
+      "default": ["Assisted Services Module"],
+      "x-prompt": "Which features would you like to setup?"
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the Spartacus features.",
+      "default": true
+    },
     "baseUrl": {
       "type": "string",
       "description": "The url of the OCC backend",
