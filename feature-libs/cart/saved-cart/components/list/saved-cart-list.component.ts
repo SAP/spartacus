@@ -7,6 +7,7 @@ import {
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { Cart, RoutingService, TranslationService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-saved-cart-list',
@@ -16,9 +17,20 @@ import { Observable, Subscription } from 'rxjs';
 export class SavedCartListComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
-  savedCarts$: Observable<Cart[]> = this.savedCartService.getList();
   isLoading$: Observable<boolean>;
-
+  savedCarts$: Observable<Cart[]> = this.savedCartService.getList().pipe(
+    map((lists) =>
+      lists.sort((a: Cart, b: Cart) => {
+        let date1: number = a.saveTime
+          ? new Date(a.saveTime).getTime()
+          : new Date().getTime();
+        let date2: number = b.saveTime
+          ? new Date(b.saveTime).getTime()
+          : new Date().getTime();
+        return date2 - date1;
+      })
+    )
+  );
   constructor(
     protected routing: RoutingService,
     protected translation: TranslationService,
