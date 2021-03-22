@@ -47,6 +47,12 @@ export type uiType =
  */
 export type cardType = 'radioGroup' | 'dropdown' | 'checkBoxList';
 
+export function defineAliases(backendUrl: string) {
+  cy.intercept('POST', backendUrl).as('createConfig');
+  cy.intercept('PATCH', backendUrl).as('updateConfig');
+  cy.intercept('GET', backendUrl).as('readConfig');
+}
+
 /**
  * Navigates to the product configuration page.
  *
@@ -103,7 +109,6 @@ export function goToCPQConfigurationPage(
 export function goToPDPage(shopName: string, productId: string): void {
   const location = `${shopName}/en/USD/product/${productId}/${productId}`;
   cy.visit(location).then(() => {
-    //checkLoadingMsgNotDisplayed();
     cy.location('pathname').should('contain', location);
     cy.get('.ProductDetailsPageTemplate').should('be.visible');
   });
@@ -178,8 +183,10 @@ export function clickOnEditConfigurationLink(cartItemIndex: number): void {
 export function clickOnRemoveLink(cartItemIndex: number): void {
   cy.get('cx-cart-item-list .cx-item-list-row')
     .eq(cartItemIndex)
+    .not('disabled')
     .find('.cx-remove-btn')
     .within(() => {
+      cy.log('One cart item will be removed under index: ' + cartItemIndex);
       cy.get('button:contains("Remove")').click();
     });
 }
@@ -262,7 +269,6 @@ export function clickOnPreviousBtn(previousGroup: string): void {
  * Verifies whether the configuration page is displayed.
  */
 export function checkConfigPageDisplayed(): void {
-  //checkLoadingMsgNotDisplayed();
   checkSuccessMessageNotDisplayed();
   checkTabBarDisplayed();
   checkGroupTitleDisplayed();
@@ -578,6 +584,8 @@ export function selectAttribute(
   }
 
   checkUpdatingMessageNotDisplayed();
+  cy.wait('@updateConfig');
+  cy.wait('@readConfig');
 }
 
 /**
@@ -603,6 +611,8 @@ export function setQuantity(
     '{selectall}' + quantity
   );
   checkUpdatingMessageNotDisplayed();
+  cy.wait('@updateConfig');
+  cy.wait('@readConfig');
 }
 
 /**
@@ -780,7 +790,7 @@ function checkConflictHeaderGroupNotDisplayed(): void {
  *
  * @param {number} numberOfConflicts - Expected number of conflicts
  */
-function verifyNumberOfConflicts(numberOfConflicts: number): void {
+function checkNumberOfConflicts(numberOfConflicts: number): void {
   cy.get('cx-configurator-group-menu .conflictNumberIndicator').contains(
     '(' + numberOfConflicts.toString() + ')'
   );
@@ -806,7 +816,7 @@ export function selectConflictingValue(
   this.selectAttribute(attributeName, uiType, valueName);
   this.checkConflictDetectedMsgDisplayed(attributeName);
   checkConflictHeaderGroupDisplayed();
-  verifyNumberOfConflicts(numberOfConflicts);
+  checkNumberOfConflicts(numberOfConflicts);
 }
 
 /**
@@ -860,7 +870,7 @@ export function checkNotificationBanner(
  * @param {number} cartItemIndex - Index of cart item
  * @param {number} numberOfIssues - Expected number of conflicts
  */
-export function verifyNotificationBannerInCart(
+export function checkNotificationBannerInCart(
   cartItemIndex: number,
   numberOfIssues?: number
 ): void {
@@ -892,6 +902,7 @@ export function clickOnResolveIssuesLinkInCart(cartItemIndex: number): void {
           cy.location('pathname').should('contain', ' /cartEntry/entityKey/');
         });
     });
+  cy.wait('@readConfig');
 }
 
 /**
@@ -1051,6 +1062,8 @@ export function clickOnGroup(groupIndex: number): void {
       clickOnGroupByGroupIndex(0);
     }
   });
+
+  cy.wait('@readConfig');
 }
 
 /**
@@ -1079,7 +1092,7 @@ export function clickAddToCartBtn(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', 'cartEntry/entityKey/');
-      checkUpdatingMessageNotDisplayed();
+      //checkUpdatingMessageNotDisplayed();
     });
 }
 
@@ -1313,6 +1326,7 @@ export function login(email: string, password: string, name: string): void {
   // Verify whether the user logged in successfully,
   // namely the logged in user should be greeted
   cy.get('.cx-login-greet').should('contain', name);
+  cy.get('cx-login').should('not.contain', 'Sign In');
 }
 
 /**

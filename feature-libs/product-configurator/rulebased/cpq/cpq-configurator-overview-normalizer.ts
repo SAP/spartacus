@@ -69,7 +69,9 @@ export class CpqConfiguratorOverviewNormalizer
         ...ovValue,
         type: attributeOverviewType,
       });
-      ovAttr[index].attribute = attr.name;
+      ovAttr[index].attribute = this.cpqUtilitiesService.retrieveAttributeLabel(
+        attr
+      );
     });
     return ovAttr;
   }

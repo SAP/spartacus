@@ -248,4 +248,17 @@ export class CpqConfiguratorUtilitiesService {
   hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
     return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
   }
+
+  /**
+   * Retrieve attribute label
+   * @param attribute CPQ Attribute
+   * @returns attribute label
+   */
+  retrieveAttributeLabel(attribute: Cpq.Attribute): string {
+    return attribute.label
+      ? attribute.label
+      : attribute.name
+      ? attribute.name
+      : '';
+  }
 }

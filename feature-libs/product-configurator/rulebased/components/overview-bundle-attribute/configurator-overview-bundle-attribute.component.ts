@@ -1,5 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ImageGroup, Product, ProductService } from '@spartacus/core';
+import {
+  ImageGroup,
+  Product,
+  ProductScope,
+  ProductService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
@@ -24,7 +29,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
     const noCommerceProduct: ProductExtended = { images: {}, noLink: true };
     if (this.attributeOverview?.productCode) {
       this.product$ = this.productService
-        .get(this.attributeOverview?.productCode)
+        .get(this.attributeOverview?.productCode, ProductScope.LIST)
         .pipe(
           map((respProduct) => {
             return respProduct ? respProduct : noCommerceProduct;
