@@ -21,8 +21,7 @@ describe('BaseSiteNormalizer', () => {
 
   const convertedBaseSite: BaseSite = {
     uid: 'test1',
-    urlPatterns: [new RegExp('testUrl1')],
-    stores: [store],
+    urlPatterns: ['testUrl1'],
     baseStore: store,
   };
 

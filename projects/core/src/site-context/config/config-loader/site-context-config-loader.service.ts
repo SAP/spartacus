@@ -1,16 +1,9 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import {
-  Inject,
-  Injectable,
-  isDevMode,
-  Optional,
-  PLATFORM_ID,
-} from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { BaseSite } from '../../../model/misc.model';
 import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
-import { SERVER_REQUEST_URL } from '../../../util/ssr.tokens';
+import { WindowRef } from '../../../window/window-ref';
 import { BaseSiteService } from '../../facade/base-site.service';
 import {
   BASE_SITE_CONTEXT_ID,
@@ -25,23 +18,11 @@ export class SiteContextConfigLoaderService {
   constructor(
     protected baseSiteService: BaseSiteService,
     protected javaRegExpConverter: JavaRegExpConverter,
-    @Inject(PLATFORM_ID) protected platform?: any,
-    @Inject(DOCUMENT) protected document?: any,
-    @Optional()
-    @Inject(SERVER_REQUEST_URL)
-    protected serverRequestUrl?: string
+    protected winRef: WindowRef
   ) {}
 
   private get currentUrl(): string {
-    if (isPlatformBrowser(this.platform)) {
-      return this.document.location.href;
-    }
-    if (!this.serverRequestUrl && isDevMode()) {
-      console.error(
-        `Please provide token 'SERVER_REQUEST_URL' with the requested URL for SSR`
-      );
-    }
-    return this.serverRequestUrl as string;
+    return this.winRef.location.href as string;
   }
 
   /**

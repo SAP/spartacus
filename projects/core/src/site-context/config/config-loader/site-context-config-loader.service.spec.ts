@@ -1,132 +1,111 @@
-import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { SERVER_REQUEST_URL } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { BaseSite } from '../../../model/misc.model';
+import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
+import { WindowRef } from '../../../window/window-ref';
 import { BaseSiteService } from '../../facade/base-site.service';
 import { SiteContextConfigLoaderService } from './site-context-config-loader.service';
+
+class MockWindowRef implements Partial<WindowRef> {
+  location = {
+    href: 'testUrl',
+  };
+}
+
+const mockBaseStore = {
+  languages: [{ isocode: 'de' }, { isocode: 'en' }],
+  defaultLanguage: { isocode: 'en' },
+  currencies: [{ isocode: 'EUR' }, { isocode: 'USD' }],
+  defaultCurrency: { isocode: 'EUR' },
+};
+
+const mockBaseSites = [
+  {
+    uid: 'test',
+    urlPatterns: [''],
+    baseStore: mockBaseStore,
+    urlEncodingAttributes: ['language', 'currency'],
+    theme: 'test-theme',
+  },
+];
+
+class MockBaseSiteService {
+  getAll(): Observable<BaseSite> {
+    return of({});
+  }
+}
 
 describe(`SiteContextConfigLoaderService`, () => {
   let service: SiteContextConfigLoaderService;
   let baseSiteService: BaseSiteService;
 
-  let mockBaseSites: BaseSite[];
-  const mockServerRequestUrl = 'test-server-request-url';
-
-  function beforeEachWith({ platform }: { platform: string }) {
-    const mockBaseStore = {
-      languages: [{ isocode: 'de' }, { isocode: 'en' }],
-      defaultLanguage: { isocode: 'en' },
-      currencies: [{ isocode: 'EUR' }, { isocode: 'USD' }],
-      defaultCurrency: { isocode: 'EUR' },
-    };
-
-    mockBaseSites = [
-      {
-        uid: 'test',
-        urlPatterns: ['testUrl'],
-        baseStore: mockBaseStore,
-        urlEncodingAttributes: ['language', 'currency'],
-        theme: 'test-theme',
-      },
-    ];
-
-    class MockBaseSiteService {
-      getAll(): Observable<BaseSite> {
-        return of({});
-      }
-    }
-
+  beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: BaseSiteService, useClass: MockBaseSiteService },
-        { provide: SERVER_REQUEST_URL, useValue: mockServerRequestUrl },
-        { provide: PLATFORM_ID, useValue: platform },
+        { provide: WindowRef, useClass: MockWindowRef },
+        {
+          provide: JavaRegExpConverter,
+          useValue: {
+            toJsRegExp: jasmine.createSpy().and.callFake((x) => new RegExp(x)),
+          },
+        },
       ],
     });
 
     service = TestBed.inject(SiteContextConfigLoaderService);
     baseSiteService = TestBed.inject(BaseSiteService);
-  }
+  });
 
   describe(`loadConfig - should return config based on the base site data`, () => {
-    describe(`on BOWSER platform`, async () => {
-      beforeEach(() => beforeEachWith({ platform: 'browser' }));
-
-      it(`should throw error when the base sites loaded are undefined`, async () => {
-        spyOn(baseSiteService, 'getAll').and.returnValue(of(undefined));
-        let message = false;
-        try {
-          await service.loadConfig();
-        } catch (e) {
-          message = e.message;
-        }
-        expect(message).toBeTruthy();
-      });
-
-      it(`should throw error when no url pattern of any base site matches the current url`, async () => {
-        spyOn(baseSiteService, 'getAll').and.returnValue(of([]));
-        let message = false;
-        try {
-          await service.loadConfig();
-        } catch (e) {
-          message = e.message;
-        }
-        expect(message).toBeTruthy();
-      });
-
-      it(`should throw error when no url pattern of any base site matches the current url`, async () => {
-        spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
-        let message = false;
-        try {
-          await service.loadConfig();
-        } catch (e) {
-          message = e.message;
-        }
-        expect(message).toBeTruthy();
-      });
-
-      it(`should return config based on loaded sites data and current BROWSER url`, async () => {
-        service['isCurrentBaseSite'] = () => true;
-        spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
-
-        const result = await service.loadConfig();
-
-        expect(baseSiteService.getAll).toHaveBeenCalled();
-        expect(result).toEqual({
-          context: {
-            baseSite: ['test'],
-            theme: ['test-theme'],
-            language: ['en', 'de'],
-            currency: ['EUR', 'USD'],
-            urlParameters: ['language', 'currency'],
-          },
-        });
-      });
+    it(`should throw error when the base sites loaded are undefined`, async () => {
+      spyOn(baseSiteService, 'getAll').and.returnValue(of(undefined));
+      let message = false;
+      service.loadConfig().subscribe(
+        (_result) => {},
+        (error) => (message = error)
+      );
+      expect(message).toBeTruthy();
     });
 
-    describe(`on SERVER platform`, () => {
-      beforeEach(() => {
-        beforeEachWith({ platform: 'server' });
+    it(`should throw error when the base sites loaded is an empty array`, async () => {
+      spyOn(baseSiteService, 'getAll').and.returnValue(of([]));
+      let message = false;
+      service.loadConfig().subscribe(
+        (_result) => {},
+        (error) => (message = error)
+      );
+      expect(message).toBeTruthy();
+    });
 
-        service['isCurrentBaseSite'] = () => true;
-        spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
-      });
+    it(`should throw error when no url pattern of any base site matches the current url`, async () => {
+      service['isCurrentBaseSite'] = () => false;
+      spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
 
-      it(`should return config based on loaded sites data and current SERVER url`, async () => {
-        const result = await service.loadConfig();
+      let message = false;
+      service.loadConfig().subscribe(
+        (_result) => {},
+        (error) => (message = error)
+      );
+      expect(message).toBeTruthy();
+    });
 
-        expect(baseSiteService.getAll).toHaveBeenCalled();
+    it(`should return config based on loaded sites data and current BROWSER url`, async () => {
+      service['isCurrentBaseSite'] = () => true;
+      spyOn(baseSiteService, 'getAll').and.returnValue(of(mockBaseSites));
 
-        expect(result).toEqual({
-          context: {
-            baseSite: ['test'],
-            theme: ['test-theme'],
-            language: ['en', 'de'],
-            currency: ['EUR', 'USD'],
-            urlParameters: ['language', 'currency'],
-          },
-        });
+      let result;
+      service.loadConfig().subscribe((data) => (result = data));
+
+      expect(baseSiteService.getAll).toHaveBeenCalled();
+      expect(result).toEqual({
+        context: {
+          baseSite: ['test'],
+          theme: ['test-theme'],
+          language: ['en', 'de'],
+          currency: ['EUR', 'USD'],
+          urlParameters: ['language', 'currency'],
+        },
       });
     });
   });
