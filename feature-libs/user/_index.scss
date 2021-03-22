@@ -14,3 +14,19 @@ $selectors: cx-login, cx-register, cx-forgot-password !default;
     }
   }
 }
+
+// The $page-template-exclude-list can be used to prevent template CSS
+// being generated.
+$page-template-exclude-list: () !default;
+
+// whitelisted page template selectors are processed
+// unless (some) they are excluded using `$page-template-exclude-list`
+$page-template-include-list: LoginPageTemplate !default;
+
+@each $selector in $page-template-include-list {
+  cx-page-layout.#{$selector} {
+    @if (index($page-template-exclude-list, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}

@@ -15,6 +15,7 @@ import { ForgotPasswordComponent } from './forgot-password.component';
 /**
  * @deprecated since 3.2, moved to @spartacus/user package.
  */
+// TODO (#11607) remove Module
 @NgModule({
   imports: [
     CommonModule,
