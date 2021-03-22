@@ -87,7 +87,7 @@ describe('LoginFormComponent', () => {
 
   it('should init the form - prefilled', () => {
     const email = 'test@email.com';
-    windowRef.nativeWindow?.history.pushState(
+    windowRef.nativeWindow.history.pushState(
       {
         newUid: email,
       },
@@ -100,7 +100,7 @@ describe('LoginFormComponent', () => {
     expect(component.loginForm.controls['userId'].value).toBe(email);
 
     // reset the state
-    windowRef.nativeWindow?.history.replaceState(null, null);
+    windowRef.nativeWindow.history.replaceState(null, null);
   });
 
   describe('login()', () => {
