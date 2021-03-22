@@ -1,4 +1,4 @@
-export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
+import { SPARTACUS_ORGANIZATION } from '@spartacus/schematics';
 
 export const SCSS_FILE_NAME = 'organization.scss';
 

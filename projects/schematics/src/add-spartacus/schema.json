@@ -26,10 +26,10 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Assisted Services Module"],
+        "enum": ["Assisted Services Module", "Organization"],
         "type": "string"
       },
-      "default": ["Assisted Services Module"],
+      "default": [],
       "x-prompt": "Which features would you like to setup?"
     },
     "lazy": {

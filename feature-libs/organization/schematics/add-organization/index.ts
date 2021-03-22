@@ -28,6 +28,7 @@ import {
   readPackageJson,
   removeImport,
   shouldAddFeature,
+  SPARTACUS_ORGANIZATION,
   SPARTACUS_SETUP,
   SPARTACUS_STOREFRONTLIB,
   validateSpartacusInstallation,
@@ -53,7 +54,6 @@ import {
   SPARTACUS_ORDER_APPROVAL,
   SPARTACUS_ORDER_APPROVAL_ASSETS,
   SPARTACUS_ORDER_APPROVAL_ROOT,
-  SPARTACUS_ORGANIZATION,
 } from '../constants';
 
 export function addSpartacusOrganization(

@@ -30,10 +30,9 @@ export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE =
-  '@spartacus/organization/administration/core';
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS =
-  '@spartacus/organization/administration/components';
+export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `${SPARTACUS_ORGANIZATION}/administration/core`;
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `${SPARTACUS_ORGANIZATION}/administration/components`;
 export const SPARTACUS_ASM = '@spartacus/asm';
 
 export const NGRX_STORE = '@ngrx/store';
@@ -668,6 +667,7 @@ export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_QUALTRICS_ROOT = `${SPARTACUS_QUALTRICS}/root`;
 
 export const CLI_ASM_FEATURE = 'Assisted Services Module';
+export const CLI_ORGANIZATION_FEATURE = 'Organization';
 /***** APIs end *****/
 
 /***** Storefinder start *****/

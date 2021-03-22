@@ -89,6 +89,7 @@ async function executeCommand(
     | 'build projects/schematics'
     | 'build tracking/schematics'
     | 'build asm/schematics'
+    | 'build organization/schematics'
     | 'build all libs'
 ): Promise<void> {
   switch (command) {
@@ -103,6 +104,9 @@ async function executeCommand(
       break;
     case 'build asm/schematics':
       buildSchematicsAndPublish('yarn build:asm');
+      break;
+    case 'build organization/schematics':
+      buildSchematicsAndPublish('yarn build:organization');
       break;
     case 'build all libs':
       buildLibs();
@@ -128,6 +132,7 @@ async function program() {
         'build projects/schematics',
         'build tracking/schematics',
         'build asm/schematics',
+        'build organization/schematics',
         'build all libs',
         'exit',
       ];

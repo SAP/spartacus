@@ -17,6 +17,7 @@ import {
   ANGULAR_HTTP,
   ANGULAR_OAUTH2_OIDC,
   CLI_ASM_FEATURE,
+  CLI_ORGANIZATION_FEATURE,
   DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
   DEFAULT_NGRX_VERSION,
   NGRX_EFFECTS,
@@ -28,6 +29,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_MODULE,
+  SPARTACUS_ORGANIZATION,
   SPARTACUS_ROUTING_MODULE,
   SPARTACUS_SETUP,
   SPARTACUS_STOREFRONTLIB,
@@ -368,7 +370,12 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
         ? installExternalSchematic({
             schematicsOptions: options,
             collectionName: SPARTACUS_ASM,
-            features: [],
+          })
+        : noop(),
+      shouldAddFeature(options.features, CLI_ORGANIZATION_FEATURE)
+        ? installExternalSchematic({
+            schematicsOptions: options,
+            collectionName: SPARTACUS_ORGANIZATION,
           })
         : noop(),
     ])(tree, context);
@@ -378,7 +385,6 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
 function installExternalSchematic(options: {
   schematicsOptions: SpartacusOptions;
   collectionName: string;
-  features: string[];
 }): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
@@ -409,14 +415,13 @@ function invokeAfterSchematicTask(options: LibraryOptions): Rule {
 
 function createLibraryOptions(options: {
   schematicsOptions: SpartacusOptions;
-  features: string[];
   collectionName: string;
   schematicName?: string;
 }): InstallSpartacusLibraryOptions {
   return {
     project: options.schematicsOptions.project,
     lazy: options.schematicsOptions.lazy,
-    features: options.features,
+    features: [],
     collectionName: options.collectionName,
     schematicName: options.schematicName ?? 'add',
   };
