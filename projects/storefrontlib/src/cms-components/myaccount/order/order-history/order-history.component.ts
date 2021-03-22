@@ -27,25 +27,21 @@ export class OrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
   sortType: string;
 
-  orders$: Observable<
-    OrderHistoryList
-  > = this.userOrderService.getOrderHistoryList(this.PAGE_SIZE).pipe(
-    tap((orders: OrderHistoryList) => {
-      if (orders.pagination) {
-        this.sortType = orders.pagination.sort;
-      }
-    })
-  );
+  orders$: Observable<OrderHistoryList> = this.userOrderService
+    .getOrderHistoryList(this.PAGE_SIZE)
+    .pipe(
+      tap((orders: OrderHistoryList) => {
+        if (orders.pagination) {
+          this.sortType = orders.pagination.sort;
+        }
+      })
+    );
 
-  hasReplenishmentOrder$: Observable<
-    boolean
-  > = this.userReplenishmentOrderService
+  hasReplenishmentOrder$: Observable<boolean> = this.userReplenishmentOrderService
     .getReplenishmentOrderDetails()
     .pipe(map((order) => order && Object.keys(order).length !== 0));
 
-  isLoaded$: Observable<
-    boolean
-  > = this.userOrderService.getOrderHistoryListLoaded();
+  isLoaded$: Observable<boolean> = this.userOrderService.getOrderHistoryListLoaded();
 
   /**
    * When "Order Return" feature is enabled, this component becomes one tab in

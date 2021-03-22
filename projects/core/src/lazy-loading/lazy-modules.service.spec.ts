@@ -107,9 +107,9 @@ describe('LazyModulesService', () => {
         injector: mockInjector,
       } as NgModuleRef<any>;
 
-      const result$: Observable<NgModuleRef<
-        any
-      >> = service.runModuleInitializersForModule(mockModuleRef);
+      const result$: Observable<
+        NgModuleRef<any>
+      > = service.runModuleInitializersForModule(mockModuleRef);
 
       expect(initFuncion).toHaveBeenCalled();
       result$.subscribe((result) => {

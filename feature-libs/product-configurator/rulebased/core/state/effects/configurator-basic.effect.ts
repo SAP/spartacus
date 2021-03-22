@@ -245,9 +245,7 @@ export class ConfiguratorBasicEffects {
   );
 
   @Effect()
-  updateConfigurationFail$: Observable<
-    ConfiguratorActions.UpdateConfigurationFinalizeFail
-  > = this.actions$.pipe(
+  updateConfigurationFail$: Observable<ConfiguratorActions.UpdateConfigurationFinalizeFail> = this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
     map(
       (action: ConfiguratorActions.UpdateConfigurationFail) => action.payload
@@ -272,9 +270,7 @@ export class ConfiguratorBasicEffects {
   );
 
   @Effect()
-  handleErrorOnUpdate$: Observable<
-    ConfiguratorActions.ReadConfiguration
-  > = this.actions$.pipe(
+  handleErrorOnUpdate$: Observable<ConfiguratorActions.ReadConfiguration> = this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_FAIL),
     map(
       (action: ConfiguratorActions.UpdateConfigurationFinalizeFail) =>

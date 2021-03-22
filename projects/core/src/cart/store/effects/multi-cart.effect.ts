@@ -16,9 +16,7 @@ export class MultiCartEffects {
 
   // TODO(#7241): Remove when we drop ADD_VOUCHER process and we sort out checkout and cart dependencies
   @Effect()
-  processesIncrement$: Observable<
-    CartActions.CartProcessesIncrement
-  > = this.actions$.pipe(
+  processesIncrement$: Observable<CartActions.CartProcessesIncrement> = this.actions$.pipe(
     ofType(CartActions.CART_ADD_VOUCHER),
     map((action: CartActions.CartAddVoucher) => action.payload),
     map((payload) => new CartActions.CartProcessesIncrement(payload.cartId))
