@@ -31,7 +31,8 @@
           "Organization",
           "Product",
           "Product Configurator",
-          "Qualtrics"
+          "Qualtrics",
+          "SmartEdit"
         ],
         "type": "string"
       },

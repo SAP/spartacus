@@ -9,13 +9,13 @@ import {
   installPackageJsonDependencies,
   LibraryOptions as SpartacusSmartEditOptions,
   readPackageJson,
+  SPARTACUS_SMARTEDIT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import {
   SMARTEDIT_FEATURE_NAME,
   SMARTEDIT_MODULE,
   SMARTEDIT_ROOT_MODULE,
-  SPARTACUS_SMARTEDIT,
   SPARTACUS_SMARTEDIT_ASSETS,
   SPARTACUS_SMARTEDIT_ROOT,
 } from '../constants';

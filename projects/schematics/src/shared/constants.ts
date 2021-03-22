@@ -37,6 +37,7 @@ export const SPARTACUS_ASM = '@spartacus/asm';
 export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
+export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -673,6 +674,7 @@ export const CLI_ORGANIZATION_FEATURE = 'Organization';
 export const CLI_PRODUCT_FEATURE = 'Product';
 export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'Product Configurator';
 export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
+export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
 /***** APIs end *****/
 
 /***** Storefinder start *****/
