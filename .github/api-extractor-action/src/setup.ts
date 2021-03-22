@@ -47,7 +47,7 @@ export async function prepareRepositoryForApiExtractor(
 
   // Build the libraries
   // TODO: We can parallel these builds, when schematics builds won't trigger yarn install
-  const BUILD_COMMAND = 'build:libs';
+  const BUILD_COMMAND = 'build:libs:no-parallel';
   await exec.exec('yarn');
   await exec.exec('yarn', [BUILD_COMMAND]);
   // If we didn't restored builded libs, we need to also build base branch
