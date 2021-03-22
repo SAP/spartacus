@@ -1,20 +1,34 @@
-import * as addressBook from '../helpers/address-book';
-import { newAddress } from '../helpers/address-book';
-import * as checkout from '../helpers/checkout-flow';
-import * as consent from '../helpers/consent-management';
-import * as loginHelper from '../helpers/login';
-import * as profile from '../helpers/update-profile';
-import { login } from './auth-forms';
-import { fillShippingAddress } from './checkout-forms';
-import { getErrorAlert } from './global-message';
+import * as addressBook from '../../helpers/address-book';
+import { login } from '../../helpers/auth-forms';
+import * as checkout from '../../helpers/checkout-flow';
+import { fillShippingAddress } from '../../helpers/checkout-forms';
+import * as consent from '../../helpers/consent-management';
+import { getErrorAlert } from '../../helpers/global-message';
+import * as loginHelper from '../../helpers/login';
+import * as profile from '../../helpers/update-profile';
+import { viewportContext } from '../../helpers/viewport-context';
+import { getSampleUser } from '../../sample-data/checkout-flow';
 
 let customer: any;
 
-export function asmTests(isMobile: boolean) {
-  describe('ASM Test Suite', () => {
+context('ASM e2e Test', () => {
+  viewportContext(['mobile', 'desktop'], () => {
+    let isMobile: boolean;
+
     before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.window().then((win) => win.localStorage.clear());
+      cy.clearLocalStorageMemory();
       checkout.visitHomePage();
-      customer = checkout.registerUser();
+      cy.onMobile(() => {
+        isMobile = true;
+        checkout.clickHamburger();
+      });
+      cy.onDesktop(() => {
+        isMobile = false;
+      });
+      customer = getSampleUser();
+      checkout.registerUser(false, customer);
     });
 
     beforeEach(() => {
@@ -32,7 +46,7 @@ export function asmTests(isMobile: boolean) {
       });
     });
 
-    describe('Customer Support Agent - Start', () => {
+    describe('Customer Support Agent - Start Emulation', () => {
       it('agent should see the asm UI when ?asm=true is passed to the url', () => {
         checkout.visitHomePage('asm=true');
         cy.get('cx-asm-main-ui').should('exist');
@@ -49,29 +63,14 @@ export function asmTests(isMobile: boolean) {
     });
 
     describe('Customer Emulation - Checkout', () => {
-      it('agent should add a product to cart and begin checkout.', () => {
-        checkout.clickCheapProductDetailsFromHomePage();
+      it('agent should checkout on behalf of customer.', () => {
+        checkout.goToCheapProductDetailsPage();
         checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
-      });
-
-      it('agent should fill in address form', () => {
-        checkout.fillAddressFormWithCheapProduct();
-      });
-
-      it('agent should choose delivery', () => {
+        checkout.fillAddressFormWithCheapProduct(customer);
         checkout.verifyDeliveryMethod();
-      });
-
-      it('agent should fill in payment form', () => {
-        checkout.fillPaymentFormWithCheapProduct();
-      });
-
-      it('agent should review and place order', () => {
-        checkout.placeOrderWithCheapProduct();
-      });
-
-      it('agent should see summary page', () => {
-        checkout.verifyOrderConfirmationPageWithCheapProduct();
+        checkout.fillPaymentFormWithCheapProduct(customer);
+        checkout.placeOrderWithCheapProduct(customer);
+        checkout.verifyOrderConfirmationPageWithCheapProduct(customer);
       });
     });
 
@@ -99,7 +98,7 @@ export function asmTests(isMobile: boolean) {
       });
 
       it('agent should create new address', () => {
-        fillShippingAddress(newAddress);
+        fillShippingAddress(addressBook.newAddress);
         cy.get('cx-card').should('have.length', 1);
         addressBook.verifyNewAddress();
       });
@@ -157,9 +156,6 @@ export function asmTests(isMobile: boolean) {
         loginCustomerInStorefront();
         assertCustomerIsSignedIn(isMobile);
       });
-      it('customer should see the order placed by the agent.', () => {
-        checkout.viewOrderHistoryWithCheapProduct();
-      });
 
       it('customer should see personal details updated by the agent.', () => {
         cy.selectUserMenuOption({
@@ -202,7 +198,7 @@ export function asmTests(isMobile: boolean) {
     });
 
     describe('When a regular customer session and an asm agent session are both active', () => {
-      it('asm ui should only display a message that the session in progress is a regular session.', () => {
+      it('Customer should not be able to login when there is an active CS agent session.', () => {
         const loginPage = checkout.waitForPage('/login', 'getLoginPage');
         cy.visit('/login?asm=true');
         cy.wait(`@${loginPage}`).its('status').should('eq', 200);
@@ -222,7 +218,7 @@ export function asmTests(isMobile: boolean) {
       it.skip('agent logout when user was logged and emulated should restore the session', () => {});
     });
   });
-}
+});
 
 function listenForAuthenticationRequest(): string {
   const aliasName = 'csAgentAuthentication';
