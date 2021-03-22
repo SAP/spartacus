@@ -101,6 +101,8 @@ describe('Lib utils', () => {
     const spartacusDefaultOptions: SpartacusOptions = {
       project: 'schematics-test',
       configuration: 'b2c',
+      lazy: true,
+      features: [],
     };
 
     beforeEach(async () => {

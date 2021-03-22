@@ -43,6 +43,8 @@ describe('add-spartacus', () => {
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
     configuration: 'b2c',
+    lazy: true,
+    features: [],
   };
 
   const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
