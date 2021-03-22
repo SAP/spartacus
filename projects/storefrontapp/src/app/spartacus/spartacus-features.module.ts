@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
-  AsmOccModule,
   AuthModule,
   CartModule,
   CartOccModule,
@@ -14,12 +13,10 @@ import {
   UserModule,
   UserOccModule,
 } from '@spartacus/core';
-
 import {
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
-  AsmModule,
   BannerCarouselModule,
   BannerModule,
   BreadcrumbModule,
@@ -76,14 +73,14 @@ import {
   UserComponentModule,
   WishListModule,
 } from '@spartacus/storefront';
-
-import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { environment } from '../../environments/environment';
+import { AdministrationFeatureModule } from './features/administration-feature.module';
+import { AsmFeatureModule } from './features/asm-feature.module';
+import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
-import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking-feature.module';
@@ -192,11 +189,6 @@ if (environment.cds) {
     ReplenishmentOrderDetailsModule,
     ReplenishmentOrderConfirmationModule,
 
-    // Asm Core
-    AsmOccModule,
-    // Asm UI
-    AsmModule,
-
     // Page Events
     NavigationEventModule,
     HomePageEventModule,
@@ -211,6 +203,7 @@ if (environment.cds) {
 
     /************************* External features *************************/
 
+    AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
     SmartEditFeatureModule,

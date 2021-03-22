@@ -28,9 +28,8 @@ export class TabParagraphContainerComponent
   implements AfterViewInit, OnInit, OnDestroy {
   activeTabNum = 0;
 
-  @ViewChildren(ComponentWrapperDirective) children!: QueryList<
-    ComponentWrapperDirective
-  >;
+  @ViewChildren(ComponentWrapperDirective)
+  children!: QueryList<ComponentWrapperDirective>;
 
   tabTitleParams: Observable<any>[] = [];
 

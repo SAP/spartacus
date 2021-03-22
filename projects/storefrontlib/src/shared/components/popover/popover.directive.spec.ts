@@ -18,7 +18,8 @@ import { PopoverModule } from './popover.module';
         class: 'test-class',
         placement: 'top',
         appendToBody: true,
-        displayCloseButton: true
+        displayCloseButton: true,
+        autoPositioning: false
       }"
       (openPopover)="open()"
       (closePopover)="close()"

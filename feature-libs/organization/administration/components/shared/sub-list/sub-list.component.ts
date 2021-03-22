@@ -3,12 +3,14 @@ import {
   Component,
   HostBinding,
   Input,
+  ViewChild,
 } from '@angular/core';
 import { EntitiesModel } from '@spartacus/core';
 import { TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { ListComponent } from '../list/list.component';
+import { MessageService } from '../message/services/message.service';
 
 @Component({
   selector: 'cx-org-sub-list',
@@ -18,6 +20,9 @@ import { ListComponent } from '../list/list.component';
 })
 export class SubListComponent extends ListComponent {
   hostClass = '';
+
+  @ViewChild(MessageService, { read: MessageService })
+  messageService: MessageService;
 
   @Input() previous: boolean | string = true;
 
@@ -38,7 +43,5 @@ export class SubListComponent extends ListComponent {
     })
   );
 
-  readonly dataStructure$: Observable<
-    TableStructure
-  > = this.service.getStructure();
+  readonly dataStructure$: Observable<TableStructure> = this.service.getStructure();
 }
