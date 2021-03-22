@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CdcModule } from '@spartacus/cdc';
+import { CdcComponentsModule } from '@spartacus/cdc/components';
 
 @NgModule({
   imports: [
+    CdcComponentsModule,
     CdcModule.forRoot({
       cdc: [
         {

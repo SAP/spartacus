@@ -5,7 +5,6 @@ import { CdcConfig } from '../root/config/cdc-config';
 import { CdcAuthModule } from './auth/cdc-auth.module';
 import { CdcJsService } from './auth/facade/cdc-js.service';
 import { CdcLogoutGuard } from './auth/guards/cdc-logout.guard';
-import { GigyaRaasModule } from './cms-components/gigya-raas/gigya-raas.module';
 
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
@@ -19,7 +18,7 @@ export function cdcJsFactory(
 }
 
 @NgModule({
-  imports: [GigyaRaasModule, CdcAuthModule],
+  imports: [CdcAuthModule],
   providers: [{ provide: LogoutGuard, useExisting: CdcLogoutGuard }],
 })
 export class CdcModule {
