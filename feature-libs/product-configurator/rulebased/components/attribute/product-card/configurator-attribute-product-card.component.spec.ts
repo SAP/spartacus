@@ -81,6 +81,16 @@ function setProductBoundValueAttributes(
   return {};
 }
 
+function takeOneDisableQtyObs(
+  component: ConfiguratorAttributeProductCardComponent
+): Observable<boolean> {
+  return (
+    component
+      .extractQuantityParameters()
+      .disableQuantityActions?.pipe(take(1)) ?? EMPTY
+  );
+}
+
 describe('ConfiguratorAttributeProductCardComponent', () => {
   let component: ConfiguratorAttributeProductCardComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeProductCardComponent>;
@@ -494,23 +504,15 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       expect(qtyParams.disableQuantityActions).toBeDefined();
     });
 
-    function takeOneDisableQtyObs() {
-      return (
-        component
-          .extractQuantityParameters()
-          .disableQuantityActions?.pipe(take(1)) ?? EMPTY
-      );
-    }
-
     it('should disable stepper when loading', () => {
       component.loading$.next(true);
-      takeOneDisableQtyObs().subscribe((disable) => {
+      takeOneDisableQtyObs(component).subscribe((disable) => {
         expect(disable).toBe(true);
       });
     });
     it('should enable stepper when loading is finished', () => {
       component.loading$.next(false);
-      takeOneDisableQtyObs().subscribe((disable) => {
+      takeOneDisableQtyObs(component).subscribe((disable) => {
         expect(disable).toBe(false);
       });
     });
@@ -520,7 +522,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
         true
       );
-      takeOneDisableQtyObs().subscribe((disable) => {
+      takeOneDisableQtyObs(component).subscribe((disable) => {
         expect(disable).toBe(true);
       });
     });
@@ -530,7 +532,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
         false
       );
-      takeOneDisableQtyObs().subscribe((disable) => {
+      takeOneDisableQtyObs(component).subscribe((disable) => {
         expect(disable).toBe(false);
       });
     });
