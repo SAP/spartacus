@@ -228,7 +228,7 @@ describe('Multi Cart reducer', () => {
         const payload = [testCart];
         const action = new CartActions.LoadCartsSuccess(payload);
         const state = fromMultiCart.cartEntitiesReducer(initialState, action);
-        expect(state).toEqual(testCart);
+        expect(state).toEqual((payload as unknown) as Cart);
       });
     });
 
