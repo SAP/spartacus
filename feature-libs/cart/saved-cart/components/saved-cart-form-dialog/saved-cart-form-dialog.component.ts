@@ -24,7 +24,7 @@ import {
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { Observable, Subscription } from 'rxjs';
+import { merge, Observable, Subscription } from 'rxjs';
 import { mapTo, take } from 'rxjs/operators';
 
 export interface SavedCartFormDialogOptions {
@@ -56,6 +56,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   };
 
   isLoading$: Observable<boolean>;
+  isDisableDeleteButton$: Observable<boolean>;
 
   get descriptionsCharacterLeft(): number {
     return (
@@ -84,6 +85,15 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isLoading$ = this.savedCartService.getSaveCartProcessLoading();
+
+    this.isDisableDeleteButton$ = merge(
+      this.savedCartEventsService
+        .getDeleteSavedCartEvent()
+        .pipe(take(1), mapTo(true)),
+      this.savedCartEventsService
+        .getDeleteSavedCartFailEvent()
+        .pipe(take(1), mapTo(false))
+    );
 
     this.subscription.add(
       this.launchDialogService.data$.subscribe(

@@ -95,7 +95,6 @@
           </div>
 
           <div class="cx-saved-cart-form-footer">
-            <!-- TODO disable button during loading state -->
             <button
               (click)="close('Close Save Cart Dialog')"
               aria-label="Close"
@@ -104,10 +103,11 @@
             >
               {{ 'savedCartDialog.cancel' | cxTranslate }}
             </button>
-            <!-- TODO disable button during loading state -->
+
             <button
               (click)="deleteCart(cart.code)"
-              aria-label="Save"
+              [disabled]="isDisableDeleteButton$ | async"
+              aria-label="delete"
               class="ml-2 btn btn-primary"
               type="button"
             >

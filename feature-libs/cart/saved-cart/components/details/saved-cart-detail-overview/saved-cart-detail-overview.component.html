@@ -21,13 +21,11 @@
       </div>
       <div class="cx-summary-card">
         <cx-card [content]="getDateSaved(cart?.saveTime) | async"></cx-card>
-        <cx-card
-          [content]="getCartItems(cart?.totalUnitCount) | async"
-        ></cx-card>
+        <cx-card [content]="getCartItems(cart?.totalItems) | async"></cx-card>
       </div>
       <div class="cx-summary-card">
         <cx-card
-          [content]="getCartQuantity(cart?.totalItems) | async"
+          [content]="getCartQuantity(cart?.totalUnitCount) | async"
         ></cx-card>
         <cx-card
           [content]="

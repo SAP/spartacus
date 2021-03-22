@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
+  DeleteSavedCartEvent,
+  DeleteSavedCartFailEvent,
   DeleteSavedCartSuccessEvent,
   SavedCartEventsService,
   SavedCartService,
@@ -81,7 +83,14 @@ class MockSavedCartService implements Partial<SavedCartService> {
 }
 
 class MockSavedCartEventsService implements Partial<SavedCartEventsService> {
+  getDeleteSavedCartEvent(): Observable<DeleteSavedCartEvent> {
+    return of();
+  }
+
   getDeleteSavedCartSuccessEvent(): Observable<DeleteSavedCartSuccessEvent> {
+    return of();
+  }
+  getDeleteSavedCartFailEvent(): Observable<DeleteSavedCartFailEvent> {
     return of();
   }
 }
@@ -334,6 +343,41 @@ describe('SavedCartFormDialogComponent', () => {
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+    });
+  });
+
+  describe('disabling and enabling delete button using events', () => {
+    it('should return true when the trigger event fired', () => {
+      spyOn(savedCartEventsService, 'getDeleteSavedCartEvent').and.returnValue(
+        of(mockDeleteSavedCartEvent)
+      );
+
+      component.ngOnInit();
+
+      let result: boolean | undefined;
+
+      component.isDisableDeleteButton$
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
+    it('should return false when the fail event fired', () => {
+      spyOn(
+        savedCartEventsService,
+        'getDeleteSavedCartFailEvent'
+      ).and.returnValue(of(mockDeleteSavedCartEvent));
+
+      component.ngOnInit();
+
+      let result: boolean | undefined;
+
+      component.isDisableDeleteButton$
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
     });
   });
 });
