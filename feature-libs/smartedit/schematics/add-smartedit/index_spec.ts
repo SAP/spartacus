@@ -7,11 +7,11 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import {
+  CLI_SMARTEDIT_FEATURE,
   LibraryOptions as SpartacusSmartEditOptions,
   SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { CLI_SMARTEDIT_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const smartEditModulePath =
@@ -47,6 +47,8 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
+    lazy: true,
+    features: [],
   };
 
   beforeEach(async () => {

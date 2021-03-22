@@ -3,11 +3,11 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
+  CLI_ASM_FEATURE,
   LibraryOptions as SpartacusAsmOptions,
   SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { CLI_ASM_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const asmFeatureModulePath = 'src/app/spartacus/features/asm-feature.module.ts';
@@ -42,6 +42,8 @@ describe('Spartacus Asm schematics: ng-add', () => {
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
+    lazy: true,
+    features: [],
   };
 
   beforeEach(async () => {
