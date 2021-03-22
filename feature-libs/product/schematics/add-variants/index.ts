@@ -2,10 +2,10 @@ import { Rule } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
   LibraryOptions as SpartacusVariantsOptions,
+  SPARTACUS_PRODUCT,
 } from '@spartacus/schematics';
 import {
   PRODUCT_SCSS_FILE_NAME,
-  SPARTACUS_PRODUCT,
   SPARTACUS_VARIANTS,
   SPARTACUS_VARIANTS_ASSETS,
   SPARTACUS_VARIANTS_ROOT,

@@ -87,9 +87,10 @@ async function executeCommand(
   command:
     | 'publish'
     | 'build projects/schematics'
-    | 'build tracking/schematics'
     | 'build asm/schematics'
     | 'build organization/schematics'
+    | 'build product/schematics'
+    | 'build tracking/schematics'
     | 'build all libs'
 ): Promise<void> {
   switch (command) {
@@ -99,14 +100,17 @@ async function executeCommand(
     case 'build projects/schematics':
       buildSchematics({ publish: true });
       break;
-    case 'build tracking/schematics':
-      buildSchematicsAndPublish('yarn build:tracking');
-      break;
     case 'build asm/schematics':
       buildSchematicsAndPublish('yarn build:asm');
       break;
     case 'build organization/schematics':
       buildSchematicsAndPublish('yarn build:organization');
+      break;
+    case 'build product/schematics':
+      buildSchematicsAndPublish('yarn build:product');
+      break;
+    case 'build tracking/schematics':
+      buildSchematicsAndPublish('yarn build:tracking');
       break;
     case 'build all libs':
       buildLibs();
@@ -130,9 +134,10 @@ async function program() {
       const choices = <const>[
         'publish',
         'build projects/schematics',
-        'build tracking/schematics',
         'build asm/schematics',
         'build organization/schematics',
+        'build product/schematics',
+        'build tracking/schematics',
         'build all libs',
         'exit',
       ];

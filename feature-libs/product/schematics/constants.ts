@@ -1,4 +1,5 @@
-export const SPARTACUS_PRODUCT = '@spartacus/product';
+import { SPARTACUS_PRODUCT } from '@spartacus/schematics';
+
 export const PRODUCT_SCSS_FILE_NAME = 'product.scss';
 
 export const BULK_PRICING_MODULE = 'BulkPricingModule';

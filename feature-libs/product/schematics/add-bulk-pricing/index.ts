@@ -2,6 +2,7 @@ import { Rule } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
   LibraryOptions as SpartacusBulkPricingOptions,
+  SPARTACUS_PRODUCT,
 } from '@spartacus/schematics';
 import {
   BULK_PRICING_FEATURE_NAME,
@@ -13,7 +14,6 @@ import {
   SPARTACUS_BULK_PRICING,
   SPARTACUS_BULK_PRICING_ASSETS,
   SPARTACUS_BULK_PRICING_ROOT,
-  SPARTACUS_PRODUCT,
 } from '../constants';
 
 export function addBulkPricingFeature(
