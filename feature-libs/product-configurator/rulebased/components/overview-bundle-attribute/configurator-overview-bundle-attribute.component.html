@@ -7,14 +7,9 @@
       ></cx-media>
     </div>
     <div class="cx-value-info">
-      <div *ngIf="product?.noLink; else withLink">
+      <div>
         {{ attributeOverview.value }}
       </div>
-      <ng-template #withLink>
-        <a class="cx-link" href="#" *ngIf="attributeOverview?.value">{{
-          attributeOverview.value
-        }}</a>
-      </ng-template>
       <span class="cx-code" *ngIf="attributeOverview?.productCode">
         {{ 'configurator.attribute.id' | cxTranslate }}:
         {{ attributeOverview.productCode }}</span
