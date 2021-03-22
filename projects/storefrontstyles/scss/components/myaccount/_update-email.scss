@@ -5,6 +5,7 @@
 
   @include media-breakpoint-up(md) {
     width: 50%;
+    --cx-max-width: 50%;
   }
 
   position: relative;
