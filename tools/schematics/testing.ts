@@ -93,6 +93,7 @@ async function executeCommand(
     | 'build product-configurator/schematics'
     | 'build qualtrics/schematics'
     | 'build smartedit/schematics'
+    | 'build storefinder/schematics'
     | 'build tracking/schematics'
     | 'build all libs'
 ): Promise<void> {
@@ -120,6 +121,9 @@ async function executeCommand(
       break;
     case 'build smartedit/schematics':
       buildSchematicsAndPublish('yarn build:smartedit');
+      break;
+    case 'build storefinder/schematics':
+      buildSchematicsAndPublish('yarn build:storefinder');
       break;
     case 'build tracking/schematics':
       buildSchematicsAndPublish('yarn build:tracking');
@@ -152,6 +156,7 @@ async function program() {
         'build product-configurator/schematics',
         'build qualtrics/schematics',
         'build smartedit/schematics',
+        'build storefinder/schematics',
         'build tracking/schematics',
         'build all libs',
         'exit',

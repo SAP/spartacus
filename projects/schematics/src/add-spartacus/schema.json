@@ -32,7 +32,9 @@
           "Product",
           "Product Configurator",
           "Qualtrics",
-          "SmartEdit"
+          "SmartEdit",
+          "Store Finder",
+          "Tracking"
         ],
         "type": "string"
       },

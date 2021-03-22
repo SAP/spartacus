@@ -38,6 +38,7 @@ export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
+export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -657,7 +658,6 @@ export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 export const STOREFINDER_FEATURE_NAME = 'storeFinder';
 export const STOREFINDER_ROOT_MODULE = 'StoreFinderRootModule';
-export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_STOREFINDER_ROOT = `${SPARTACUS_STOREFINDER}/root`;
 export const SPARTACUS_STOREFINDER_ASSETS = `${SPARTACUS_STOREFINDER}/assets`;
 export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
@@ -675,11 +675,11 @@ export const CLI_PRODUCT_FEATURE = 'Product';
 export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'Product Configurator';
 export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
 export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
+export const CLI_STOREFINDER_FEATURE = 'Store Finder';
 /***** APIs end *****/
 
 /***** Storefinder start *****/
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
-export const CLI_STOREFINDER_FEATURE = 'Storefinder';
 export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
