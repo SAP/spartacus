@@ -22,6 +22,10 @@ class MockPositionService {
   positionElements(): PopoverPosition {
     return mockPopoverPosition;
   }
+
+  getPositioningClass(): string {
+    return `${mockPopoverPosition} auto`;
+  }
 }
 
 describe('PopoverComponent', () => {

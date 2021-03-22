@@ -49,7 +49,7 @@ const defaultConfigScenarios = [
     expectedValue: [],
   },
   {
-    key: "display disabledDisable message when it's a root unit",
+    key: "not display disabledDisable message when it's a root unit",
     currentValue: {
       uid: 'test',
       name: 'test',
@@ -57,7 +57,7 @@ const defaultConfigScenarios = [
       active: true,
     },
     displayMessageConfig: {},
-    expectedValue: ['orgUnit.info.disabledDisable'],
+    expectedValue: [],
   },
 ];
 

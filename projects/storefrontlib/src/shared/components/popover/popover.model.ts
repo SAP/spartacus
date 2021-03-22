@@ -29,7 +29,7 @@ export enum PopoverEvent {
 
 export interface PopoverOptions {
   /**
-   * The preferred placement of the popover. Default popover position is 'auto'.
+   * The preferred placement of the popover. Default popover position is 'top'.
    *
    *  Allowed popover positions: 'auto', 'top', 'bottom', 'left', 'right',
    * 'top-left', 'top-right', 'bottom-left', 'bottom-right',
@@ -38,12 +38,24 @@ export interface PopoverOptions {
   placement?: PopoverPosition;
 
   /**
+   * Flag used to define if popover should look for the best placement
+   * in case if there is not enough space in viewport for preferred position.
+   *
+   * By default this property is set to `true`.
+   *
+   * Value of this flag is omitted if preferred position is set to `auto`.
+   */
+  autoPositioning?: boolean;
+
+  /**
    * Flag used to prevent firing popover open function.
    */
   disable?: boolean;
 
   /**
-   * Custom class name for popover component wrapper.
+   * Custom class name passed to popover component.
+   *
+   * If this property is not set the default popover class is `cx-popover`.
    */
   class?: string;
 
