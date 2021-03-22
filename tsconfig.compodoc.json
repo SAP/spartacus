@@ -137,6 +137,7 @@
       "@spartacus/cdc/components": [
         "integration-libs/cdc/components/public_api"
       ],
+      "@spartacus/cdc/core": ["integration-libs/cdc/core/public_api"],
       "@spartacus/cds": ["integration-libs/cds/public_api"],
       "@spartacus/assets": ["projects/assets/src/public_api"],
       "@spartacus/core": ["projects/core/public_api"],

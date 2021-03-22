@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { GigyaRaasComponentData } from '@spartacus/cdc/core';
 import {
   BaseSiteService,
   CmsComponent,
@@ -8,9 +9,8 @@ import {
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CdcJsService } from '../../src/auth/facade/cdc-js.service';
 import { CdcConfig } from '../../root/config';
-import { GigyaRaasComponentData } from '../../src/cms-components/cms.model';
+import { CdcJsService } from '../../src/auth/facade/cdc-js.service';
 import { GigyaRaasComponent } from './gigya-raas.component';
 
 declare var window: Window;

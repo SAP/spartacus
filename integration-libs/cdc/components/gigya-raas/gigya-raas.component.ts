@@ -5,13 +5,13 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import { GigyaRaasComponentData } from '@spartacus/cdc/core';
 import { BaseSiteService, LanguageService, WindowRef } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
-import { CdcJsService } from '../../src/auth/facade/cdc-js.service';
 import { CdcConfig } from '../../root/config';
-import { GigyaRaasComponentData } from '../../src/cms-components/cms.model';
+import { CdcJsService } from '../../src/auth/facade/cdc-js.service';
 
 @Component({
   selector: 'cx-gigya-raas',
