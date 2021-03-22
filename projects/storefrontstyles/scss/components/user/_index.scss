@@ -1,3 +1,11 @@
 @import './login/index';
 
-$user-components-whitelist: cx-login, cx-register !default;
+$user-components-whitelist: () !default;
+
+// TODO (#11607) remove outdated css
+@include forVersion(3, 3.1) {
+  $user-components-whitelist: join(
+    $user-components-whitelist,
+    (cx-login, cx-register)
+  ) !global;
+}
