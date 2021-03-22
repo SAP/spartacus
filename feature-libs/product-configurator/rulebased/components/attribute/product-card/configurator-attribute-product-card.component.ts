@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
@@ -31,6 +31,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   productBoundValue?: Configurator.Value;
   singleDropdown?: boolean;
   withQuantity?: boolean;
+  loading$?: Observable<boolean>;
 }
 
 @Component({
@@ -161,10 +162,18 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
       quantity: quantityFromOptions ? quantityFromOptions : 0,
     };
 
+    const mergedLoading = this.productCardOptions?.loading$
+      ? combineLatest([this.loading$, this.productCardOptions?.loading$]).pipe(
+          map((values) => {
+            return values[0] || values[1];
+          })
+        )
+      : this.loading$;
+
     return {
       allowZero: !this.productCardOptions?.hideRemoveButton,
       initialQuantity: initialQuantity,
-      disableQuantityActions: this.loading$,
+      disableQuantityActions: mergedLoading,
     };
   }
 
