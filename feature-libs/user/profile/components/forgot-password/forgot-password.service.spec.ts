@@ -3,12 +3,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthConfigService,
+  GlobalMessage,
+  GlobalMessageService,
   I18nTestingModule,
   OAuthFlow,
   RoutingService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { UserPasswordService } from '@spartacus/user/profile/core';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { ForgotPasswordService } from './forgot-password.service';
@@ -26,6 +27,9 @@ class MockAuthConfigService implements Partial<AuthConfigService> {
   getOAuthFlow() {
     return OAuthFlow.ResourceOwnerPasswordFlow;
   }
+}
+class MockGlobalMessageService {
+  add(_message: GlobalMessage): void {}
 }
 
 describe('ForgotPasswordService', () => {
@@ -45,9 +49,10 @@ describe('ForgotPasswordService', () => {
         ],
         declarations: [],
         providers: [
-          { provide: UserPasswordService, useClass: MockUserPasswordService },
+          { provide: UserPasswordFacade, useClass: MockUserPasswordService },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: AuthConfigService, useClass: MockAuthConfigService },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       }).compileComponents();
     })
@@ -62,6 +67,14 @@ describe('ForgotPasswordService', () => {
 
   it('should create service', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('reset', () => {
+    it('should reset the form', () => {
+      spyOn(service.form, 'reset').and.stub();
+      service.reset();
+      expect(service.form.reset).toHaveBeenCalled();
+    });
   });
 
   describe('requestForgetPasswordEmail', () => {

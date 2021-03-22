@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { NavigationExtras } from '@angular/router';
 import {
@@ -9,24 +9,27 @@ import {
   I18nTestingModule,
   RoutingService,
   UrlCommands,
-  UserService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { UpdateEmailService } from './update-email.service';
 
-class MockUserService {
-  updateEmail(): void {}
-  resetUpdateEmailResultState(): void {}
-  getUpdateEmailResultLoading(): Observable<boolean> {
-    return of(true);
+class MockUserService implements Partial<UserEmailFacade> {
+  update(_password: string, _newUid: string): Observable<unknown> {
+    return of({});
   }
-  getUpdateEmailResultSuccess(): Observable<boolean> {
-    return of();
-  }
-  getUpdateEmailResultError(): Observable<boolean> {
-    return of();
-  }
+  // updateEmail(): void {}
+  // resetUpdateEmailResultState(): void {}
+  // getUpdateEmailResultLoading(): Observable<boolean> {
+  //   return of(true);
+  // }
+  // getUpdateEmailResultSuccess(): Observable<boolean> {
+  //   return of();
+  // }
+  // getUpdateEmailResultError(): Observable<boolean> {
+  //   return of();
+  // }
 }
 
 class MockAuthService {
@@ -46,9 +49,9 @@ class MockGlobalMessageService {
   add(_message: GlobalMessage): void {}
 }
 
-fdescribe('UpdateEmailService', () => {
+describe('UpdateEmailService', () => {
   let service: UpdateEmailService;
-  let userService: UserService;
+  let userService: UserEmailFacade;
   let authService: AuthService;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
@@ -56,20 +59,11 @@ fdescribe('UpdateEmailService', () => {
   let confirmNewUid: AbstractControl;
   let password: AbstractControl;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [],
       providers: [
         UpdateEmailService,
-        {
-          provide: UserService,
-          useClass: MockUserService,
-        },
-        {
-          provide: AuthService,
-          useClass: MockAuthService,
-        },
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -78,16 +72,24 @@ fdescribe('UpdateEmailService', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        {
+          provide: UserEmailFacade,
+          useClass: MockUserService,
+        },
+        {
+          provide: AuthService,
+          useClass: MockAuthService,
+        },
       ],
     }).compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     service = TestBed.inject(UpdateEmailService);
 
-    userService = TestBed.inject(UserService);
-    authService = TestBed.inject(AuthService);
     routingService = TestBed.inject(RoutingService);
+    authService = TestBed.inject(AuthService);
+    userService = TestBed.inject(UserEmailFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
     newUid = service.form.controls.email;
@@ -99,66 +101,72 @@ fdescribe('UpdateEmailService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('UserService Calls', () => {
-    it('should call resetUpdateEmailResultState', () => {
-      spyOn(userService, 'resetUpdateEmailResultState').and.stub();
+  it('reset()', () => {
+    spyOn(service.form, 'reset').and.callThrough();
+    service.reset();
 
-      service.reset();
-      expect(userService.resetUpdateEmailResultState).toHaveBeenCalled();
+    expect(service.form.reset).toHaveBeenCalled();
+  });
+
+  describe('save', () => {
+    beforeEach(() => {
+      spyOn(userService, 'update').and.callThrough();
+      spyOn(globalMessageService, 'add').and.stub();
+      spyOn(authService, 'coreLogout').and.callThrough();
+      spyOn(routingService, 'go').and.stub();
+      newUid.setValue('tester@sap.com');
+      confirmNewUid.setValue('tester@sap.com');
+      password.setValue('Qwe123!');
     });
 
-    it('should call getUpdateEmailResultLoading', () => {
-      spyOn(userService, 'getUpdateEmailResultLoading').and.returnValue(
-        of(true)
+    it('should not save invalid email', () => {
+      confirmNewUid.setValue('diff@sap.com');
+      service.save();
+      expect(userService.update).not.toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+      expect(authService.coreLogout).not.toHaveBeenCalled();
+      expect(routingService.go).not.toHaveBeenCalled();
+    });
+
+    it('should save valid email', () => {
+      service.save();
+      expect(userService.update).toHaveBeenCalledWith(
+        'Qwe123!',
+        'tester@sap.com'
       );
-
-      service.isUpdating$.subscribe((isUpdating) => {
-        expect(isUpdating).toBeTruthy();
-      });
     });
-  });
 
-  it('onFormSubmit should userService.updateEmail', () => {
-    spyOn(userService, 'updateEmail').and.stub();
-    newUid.setValue('tester@sap.com');
-    confirmNewUid.setValue('tester@sap.com');
-    password.setValue('Qwe123!');
-
-    service.save();
-    expect(userService.updateEmail).toHaveBeenCalledWith(
-      'Qwe123!',
-      'tester@sap.com'
-    );
-  });
-
-  it('onSuccess show message, logout and reroute', (done: DoneFn) => {
-    spyOn(authService, 'coreLogout').and.callThrough();
-    spyOn(routingService, 'go').and.stub();
-    spyOn(globalMessageService, 'add').and.stub();
-
-    service['onSuccess']('new@sap.com');
-
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      {
-        key: 'updateEmailForm.emailUpdateSuccess',
-        params: { newUid: 'new@sap.com' },
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
-
-    expect(authService.coreLogout).toHaveBeenCalled();
-    authService.coreLogout().then(() => {
-      expect(routingService.go).toHaveBeenCalledWith(
-        { cxRoute: 'login' },
-        null,
+    it('should show message', () => {
+      service.save();
+      expect(globalMessageService.add).toHaveBeenCalledWith(
         {
-          state: {
-            newUid: 'new@sap.com',
-          },
-        }
+          key: 'updateEmailForm.emailUpdateSuccess',
+          params: { newUid: 'tester@sap.com' },
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
+    });
 
-      done();
+    it('should show message', () => {
+      service.save();
+      expect(authService.coreLogout).toHaveBeenCalled();
+    });
+
+    it('should reroute to the login page', (done: DoneFn) => {
+      service.save();
+      authService.coreLogout().then(() => {
+        expect(routingService.go).toHaveBeenCalledWith(
+          { cxRoute: 'login' },
+          undefined,
+          {
+            state: {
+              newUid: 'tester@sap.com',
+            },
+          }
+        );
+
+        done();
+      });
     });
   });
 });
