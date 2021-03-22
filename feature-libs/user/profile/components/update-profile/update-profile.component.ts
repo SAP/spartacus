@@ -36,10 +36,12 @@ export class UpdateProfileComponent {
   }
 
   onSubmit({ userUpdates }: { userUpdates: User }): void {
+    debugger;
     this.isLoading$.next(true);
 
     this.userProfile.update(userUpdates).subscribe({
       next: () => this.onSuccess(),
+      error: () => {},
       complete: () => this.isLoading$.next(false),
     });
   }

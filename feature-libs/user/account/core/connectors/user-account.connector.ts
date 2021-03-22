@@ -3,7 +3,9 @@ import { Observable } from 'rxjs';
 import { User } from '@spartacus/user/account/root';
 import { UserAccountAdapter } from './user-account.adapter';
 
-@Injectable()
+@Injectable({
+  providedIn: 'any',
+})
 export class UserAccountConnector {
   constructor(protected adapter: UserAccountAdapter) {}
 

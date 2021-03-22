@@ -15,9 +15,7 @@ import {
   USER_PROFILE_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
 } from '@spartacus/user/profile/core';
-import {
-  UserSignUp,
-} from '@spartacus/user/profile/root';
+import { UserSignUp } from '@spartacus/user/profile/root';
 import { OccUserProfileAdapter } from './occ-user-profile.adapter';
 
 export const mockOccModuleConfig: OccConfig = {

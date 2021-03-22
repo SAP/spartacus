@@ -65,6 +65,7 @@ export class CloseAccountModalComponent implements OnInit {
 
   closeAccount() {
     this.isLoading$.next(true);
+
     this.userProfile.close().subscribe({
       next: () => {
         this.onSuccess();

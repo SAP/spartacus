@@ -5,19 +5,22 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   AuthConfigService,
+  GlobalMessageService,
   I18nTestingModule,
   OAuthFlow,
   RoutingService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { UserPasswordService } from '@spartacus/user/profile/core';
 import { ForgotPasswordComponent } from './forgot-password.component';
+import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
-class MockUserPasswordService implements Partial<UserPasswordService> {
-  requestForgotPasswordEmail() {}
+class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
+  requestForgotPasswordEmail = createSpy().and.returnValue(of(undefined));
 }
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
+  go = createSpy();
 }
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
@@ -32,6 +35,10 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
+}
+
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
   let fixture: ComponentFixture<ForgotPasswordComponent>;
@@ -39,7 +46,7 @@ describe('ForgotPasswordComponent', () => {
   let userEmail: AbstractControl;
   let authConfigService: AuthConfigService;
   let routingService: RoutingService;
-  let userPasswordService: UserPasswordService;
+  let userPasswordFacade: UserPasswordFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -52,9 +59,13 @@ describe('ForgotPasswordComponent', () => {
         ],
         declarations: [ForgotPasswordComponent, MockUrlPipe],
         providers: [
-          { provide: UserPasswordService, useClass: MockUserPasswordService },
+          { provide: UserPasswordFacade, useClass: MockUserPasswordFacade },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: AuthConfigService, useClass: MockAuthConfigService },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
         ],
       }).compileComponents();
     })
@@ -64,7 +75,7 @@ describe('ForgotPasswordComponent', () => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);
     authConfigService = TestBed.inject(AuthConfigService);
     routingService = TestBed.inject(RoutingService);
-    userPasswordService = TestBed.inject(UserPasswordService);
+    userPasswordFacade = TestBed.inject(UserPasswordFacade);
     component = fixture.componentInstance;
     form = fixture.debugElement.query(By.css('form'));
 
@@ -87,12 +98,6 @@ describe('ForgotPasswordComponent', () => {
 
   describe('requestForgetPasswordEmail', () => {
     it('should request email for forgot password and redirect to login page', () => {
-      spyOn(
-        userPasswordService,
-        'requestForgotPasswordEmail'
-      ).and.callThrough();
-      spyOn(routingService, 'go').and.callThrough();
-
       component.forgotPasswordForm.setValue({
         userEmail: 'test@test.com',
       });
@@ -100,17 +105,12 @@ describe('ForgotPasswordComponent', () => {
       component.requestForgotPasswordEmail();
 
       expect(
-        userPasswordService.requestForgotPasswordEmail
+        userPasswordFacade.requestForgotPasswordEmail
       ).toHaveBeenCalledWith('test@test.com');
       expect(routingService.go).toHaveBeenCalled();
     });
 
     it('should not redirect when flow different than ResourceOwnerPasswordFlow is used', () => {
-      spyOn(
-        userPasswordService,
-        'requestForgotPasswordEmail'
-      ).and.callThrough();
-      spyOn(routingService, 'go').and.callThrough();
       spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
         OAuthFlow.ImplicitFlow
       );
@@ -122,7 +122,7 @@ describe('ForgotPasswordComponent', () => {
       component.requestForgotPasswordEmail();
 
       expect(
-        userPasswordService.requestForgotPasswordEmail
+        userPasswordFacade.requestForgotPasswordEmail
       ).toHaveBeenCalledWith('test@test.com');
       expect(routingService.go).not.toHaveBeenCalled();
     });

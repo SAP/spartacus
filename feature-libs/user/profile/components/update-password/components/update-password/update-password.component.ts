@@ -39,8 +39,10 @@ export class UpdatePasswordComponent {
     oldPassword: string;
     newPassword: string;
   }): void {
+    this.isLoading$.next(true);
     this.userPassword.update(oldPassword, newPassword).subscribe({
       next: () => this.onSuccess(),
+      error: () => {},
       complete: () => this.isLoading$.next(false),
     });
   }

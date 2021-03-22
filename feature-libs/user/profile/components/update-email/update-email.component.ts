@@ -29,9 +29,11 @@ export class UpdateEmailComponent {
 
   onSubmit({ newUid, password }: { newUid: string; password: string }): void {
     this.newUid = newUid;
+    this.isLoading$.next(true);
 
     this.userEmail.update(password, newUid).subscribe({
       next: () => this.onSuccess(),
+      error: () => {},
       complete: () => this.isLoading$.next(false),
     });
   }

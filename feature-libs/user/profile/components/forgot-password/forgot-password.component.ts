@@ -39,12 +39,15 @@ export class ForgotPasswordComponent implements OnInit {
       this.userPassword
         .requestForgotPasswordEmail(this.forgotPasswordForm.value.userEmail)
         .pipe()
-        .subscribe(() => {
-          this.globalMessage.add(
-            { key: 'forgottenPassword.passwordResetEmailSent' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-        });
+        .subscribe(
+          () => {
+            this.globalMessage.add(
+              { key: 'forgottenPassword.passwordResetEmailSent' },
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            );
+          },
+          () => {}
+        );
 
       if (
         this.authConfigService.getOAuthFlow() ===

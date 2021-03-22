@@ -3,17 +3,19 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { UserPasswordService } from '@spartacus/user/profile/core';
 import { of } from 'rxjs';
 import { ResetPasswordFormComponent } from './reset-password-form.component';
+import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import createSpy = jasmine.createSpy;
 
-class MockUserPasswordService {
-  reset() {}
-  isPasswordReset() {
-    return of();
-  }
+class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
+  reset = createSpy().and.returnValue(of(undefined));
 }
 
 const router = {
@@ -26,14 +28,17 @@ class MockRoutingService {
   getRouterState() {
     return of(router);
   }
-  go() {}
+  go = createSpy();
+}
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
 }
 
 describe('ResetPasswordFormComponent', () => {
   let component: ResetPasswordFormComponent;
   let fixture: ComponentFixture<ResetPasswordFormComponent>;
 
-  let userPasswordService: UserPasswordService;
+  let userPasswordFacade: UserPasswordFacade;
   let routingService: RoutingService;
 
   let form: DebugElement;
@@ -53,8 +58,12 @@ describe('ResetPasswordFormComponent', () => {
         ],
         declarations: [ResetPasswordFormComponent],
         providers: [
-          { provide: UserPasswordService, useClass: MockUserPasswordService },
+          { provide: UserPasswordFacade, useClass: MockUserPasswordFacade },
           { provide: RoutingService, useClass: MockRoutingService },
+          {
+            provide: GlobalMessageService,
+            useClass: MockGlobalMessageService,
+          },
         ],
       }).compileComponents();
     })
@@ -68,7 +77,7 @@ describe('ResetPasswordFormComponent', () => {
     password = component.resetPasswordForm.controls['password'];
     rePassword = component.resetPasswordForm.controls['repassword'];
 
-    userPasswordService = TestBed.inject(UserPasswordService);
+    userPasswordFacade = TestBed.inject(UserPasswordFacade);
     routingService = TestBed.inject(RoutingService);
   });
 
@@ -96,23 +105,22 @@ describe('ResetPasswordFormComponent', () => {
   });
 
   it('should resetPassword on submit when form is valid', () => {
-    spyOn(userPasswordService, 'reset');
-
     password.setValue(validPassword);
     rePassword.setValue(validPassword);
     fixture.detectChanges();
     form.triggerEventHandler('submit', null);
 
-    expect(userPasswordService.reset).toHaveBeenCalledWith(
+    expect(userPasswordFacade.reset).toHaveBeenCalledWith(
       'test token',
       validPassword
     );
   });
 
   it('should go to login page when password reset successfully', () => {
-    spyOn(routingService, 'go').and.stub();
-    spyOn(userPasswordService, 'isPasswordReset').and.returnValue(of(true));
     component.ngOnInit();
+    password.setValue(validPassword);
+    rePassword.setValue(validPassword);
+    component.resetPassword();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
   });
 });

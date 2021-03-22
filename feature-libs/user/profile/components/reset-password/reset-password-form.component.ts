@@ -5,7 +5,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  HttpErrorModel
+  HttpErrorModel,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
