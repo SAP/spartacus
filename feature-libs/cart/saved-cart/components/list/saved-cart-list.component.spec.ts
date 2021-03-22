@@ -64,7 +64,7 @@ class MockSavedCartService implements Partial<SavedCartService> {
     return of();
   }
   getSavedCartListProcessLoading(): Observable<boolean> {
-    return of(true);
+    return of(false);
   }
 }
 
