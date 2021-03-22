@@ -186,7 +186,7 @@ export function clickOnRemoveLink(cartItemIndex: number): void {
     .not('disabled')
     .find('.cx-remove-btn')
     .within(() => {
-      cy.log('One cart item will bbe removed under index: ' + cartItemIndex);
+      cy.log('One cart item will be removed under index: ' + cartItemIndex);
       cy.get('button:contains("Remove")').click();
     });
 }

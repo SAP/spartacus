@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Product, ProductService } from '@spartacus/core';
+import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
@@ -29,7 +29,9 @@ export class ConfiguratorProductTitleComponent {
             return configuration.overview.productCode;
         }
       }),
-      switchMap((productCode) => this.productService.get(productCode))
+      switchMap((productCode) =>
+        this.productService.get(productCode, ProductScope.LIST)
+      )
     );
   showMore = false;
   iconTypes = ICON_TYPE;
