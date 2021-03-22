@@ -9,8 +9,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { FormErrorsModule } from '../../../shared/index';
 import { ForgotPasswordComponent } from './forgot-password.component';
+import { FormErrorsModule } from '../../../shared/index';
 
 @NgModule({
   imports: [
