@@ -4,9 +4,9 @@ import * as productSearch from '../../helpers/product-search';
 import * as cart from '../../helpers/cart';
 
 const POWERTOOLS = 'powertools-spa';
-const EMAIL = 'cpq13@sap.com';
+const EMAIL = 'cpq03@sap.com';
 const PASSWORD = 'welcome';
-const CPQ_USER = 'cpq13';
+const CPQ_USER = 'cpq03';
 
 // UI types
 const RADGRP = 'radioGroup';
