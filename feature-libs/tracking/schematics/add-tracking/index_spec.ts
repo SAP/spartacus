@@ -14,8 +14,10 @@ import * as path from 'path';
 import { CLI_PERSONALIZATION_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const appModulePath = 'src/app/app.module.ts';
+const personalizationModulePath =
+  'src/app/spartacus/features/personalization-feature.module.ts';
 
+// TODO: Improve tests after lib-util test update
 describe('Spartacus Personalization schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -94,28 +96,23 @@ describe('Spartacus Personalization schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should add personalization deps', async () => {
-        const packageJson = appTree.readContent('/package.json');
-        const packageObj = JSON.parse(packageJson);
-        const depPackageList = Object.keys(packageObj.dependencies);
-        expect(
-          depPackageList.includes('@spartacus/tracking/personalization')
-        ).toBe(true);
-      });
-
       it('should import appropriate modules', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(
-          `import { PersonalizationRootModule } from '@spartacus/tracking/personalization/root';`
+        const personalizationModule = appTree.readContent(
+          personalizationModulePath
         );
-        expect(appModule).toContain(
-          `import { PersonalizationModule } from '@spartacus/tracking/personalization';`
+        expect(personalizationModule).toContain(
+          `import { PersonalizationRootModule } from "@spartacus/tracking/personalization/root";`
+        );
+        expect(personalizationModule).toContain(
+          `import { PersonalizationModule } from "@spartacus/tracking/personalization";`
         );
       });
 
       it('should not contain lazy loading syntax', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).not.toContain(
+        const personalizationModule = appTree.readContent(
+          personalizationModulePath
+        );
+        expect(personalizationModule).not.toContain(
           `import('@spartacus/tracking/personalization').then(`
         );
       });
@@ -129,19 +126,23 @@ describe('Spartacus Personalization schematics: ng-add', () => {
       });
 
       it('should import PersonalizationRootModule and contain the lazy loading syntax', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(
-          `import { PersonalizationRootModule } from '@spartacus/tracking/personalization/root';`
+        const personalizationModule = appTree.readContent(
+          personalizationModulePath
         );
-        expect(appModule).toContain(
+        expect(personalizationModule).toContain(
+          `import { PersonalizationRootModule } from "@spartacus/tracking/personalization/root";`
+        );
+        expect(personalizationModule).toContain(
           `import('@spartacus/tracking/personalization').then(`
         );
       });
 
       it('should not contain the PersonalizationModule import', () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).not.toContain(
-          `import { PersonalizationModule } from '@spartacus/tracking/personalization';`
+        const personalizationModule = appTree.readContent(
+          personalizationModulePath
+        );
+        expect(personalizationModule).not.toContain(
+          `import { PersonalizationModule } from "@spartacus/tracking/personalization";`
         );
       });
     });
@@ -163,9 +164,13 @@ describe('Spartacus Personalization schematics: ng-add', () => {
     });
 
     it('should just append personalization feature without duplicating the featureModules config', () => {
-      const appModule = appTree.readContent(appModulePath);
-      expect(appModule.match(/featureModules:/g)?.length).toEqual(1);
-      expect(appModule).toContain(`personalization: {`);
+      const personalizationModule = appTree.readContent(
+        personalizationModulePath
+      );
+      expect(personalizationModule.match(/featureModules:/g)?.length).toEqual(
+        1
+      );
+      expect(personalizationModule).toContain(`personalization: {`);
     });
   });
 });

@@ -5,26 +5,19 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  getAppModule,
-  getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFINDER_ASSETS,
   SPARTACUS_STOREFINDER_ROOT,
-  STORE_FINDER_SCSS_FILE_NAME,
   STOREFINDER_FEATURE_NAME,
   STOREFINDER_MODULE,
   STOREFINDER_ROOT_MODULE,
-  STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
   STOREFINDER_TRANSLATIONS,
+  STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
+  STORE_FINDER_SCSS_FILE_NAME,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 
@@ -35,21 +28,15 @@ export function addStorefinderFeatures(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options.project);
-
     return chain([
-      addStorefinderFeature(appModulePath, options),
-      addStorefinderPackageJsonDependencies(packageJson),
+      addStorefinderFeature(options),
       installPackageJsonDependencies(),
     ]);
   };
 }
 
-function addStorefinderFeature(
-  appModulePath: string,
-  options: SpartacusStorefinderOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
+function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
+  return addLibraryFeature(options, {
     name: STOREFINDER_FEATURE_NAME,
     featureModule: {
       name: STOREFINDER_MODULE,
@@ -69,16 +56,4 @@ function addStorefinderFeature(
       importStyle: SPARTACUS_STOREFINDER,
     },
   });
-}
-
-function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_STOREFINDER,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }

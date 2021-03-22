@@ -6,7 +6,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  getAppModule,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
@@ -28,20 +27,12 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options.project);
-
-    return chain([
-      addAsmFeature(appModulePath, options),
-      installPackageJsonDependencies(),
-    ]);
+    return chain([addAsmFeature(options), installPackageJsonDependencies()]);
   };
 }
 
-function addAsmFeature(
-  appModulePath: string,
-  options: SpartacusAsmOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
+function addAsmFeature(options: SpartacusAsmOptions): Rule {
+  return addLibraryFeature(options, {
     name: ASM_FEATURE_NAME,
     featureModule: {
       name: ASM_MODULE,
