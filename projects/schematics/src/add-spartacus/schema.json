@@ -30,7 +30,8 @@
           "Assisted Services Module",
           "Organization",
           "Product",
-          "Product Configurator"
+          "Product Configurator",
+          "Qualtrics"
         ],
         "type": "string"
       },

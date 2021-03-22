@@ -91,6 +91,7 @@ async function executeCommand(
     | 'build organization/schematics'
     | 'build product/schematics'
     | 'build product-configurator/schematics'
+    | 'build qualtrics/schematics'
     | 'build tracking/schematics'
     | 'build all libs'
 ): Promise<void> {
@@ -112,6 +113,9 @@ async function executeCommand(
       break;
     case 'build product-configurator/schematics':
       buildSchematicsAndPublish('yarn build:product-configurator');
+      break;
+    case 'build qualtrics/schematics':
+      buildSchematicsAndPublish('yarn build:qualtrics');
       break;
     case 'build tracking/schematics':
       buildSchematicsAndPublish('yarn build:tracking');
@@ -142,6 +146,7 @@ async function program() {
         'build organization/schematics',
         'build product/schematics',
         'build product-configurator/schematics',
+        'build qualtrics/schematics',
         'build tracking/schematics',
         'build all libs',
         'exit',

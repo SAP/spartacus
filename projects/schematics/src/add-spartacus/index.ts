@@ -20,6 +20,7 @@ import {
   CLI_ORGANIZATION_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
   CLI_PRODUCT_FEATURE,
+  CLI_QUALTRICS_FEATURE,
   DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
   DEFAULT_NGRX_VERSION,
   NGRX_EFFECTS,
@@ -34,6 +35,7 @@ import {
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PRODUCT,
   SPARTACUS_PRODUCT_CONFIGURATOR,
+  SPARTACUS_QUALTRICS,
   SPARTACUS_ROUTING_MODULE,
   SPARTACUS_SETUP,
   SPARTACUS_STOREFRONTLIB,
@@ -392,6 +394,12 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
         ? installExternalSchematic({
             schematicsOptions: options,
             collectionName: SPARTACUS_PRODUCT_CONFIGURATOR,
+          })
+        : noop(),
+      shouldAddFeature(options.features, CLI_QUALTRICS_FEATURE)
+        ? installExternalSchematic({
+            schematicsOptions: options,
+            collectionName: SPARTACUS_QUALTRICS,
           })
         : noop(),
     ])(tree, context);
