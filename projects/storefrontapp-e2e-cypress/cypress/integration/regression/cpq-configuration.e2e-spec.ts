@@ -4,9 +4,9 @@ import * as productSearch from '../../helpers/product-search';
 import * as cart from '../../helpers/cart';
 
 const POWERTOOLS = 'powertools-spa';
-const EMAIL = 'cpq03@sap.com';
+const EMAIL = 'cpq13@sap.com';
 const PASSWORD = 'welcome';
-const CPQ_USER = 'cpq03';
+const CPQ_USER = 'cpq13';
 
 // UI types
 const RADGRP = 'radioGroup';
@@ -561,7 +561,8 @@ context('CPQ Configuration', () => {
       );
 
       configuration.navigateToOverviewPage();
-      configurationOverview.checkNotificationBannerOnOP(8);
+      configurationOverview.waitForNotificationBanner(8);
+      configurationOverview.verifyNotificationBannerOnOP(8);
     });
 
     it('check correct number of issues displayed in cart', () => {
@@ -605,7 +606,7 @@ context('CPQ Configuration', () => {
 
       configuration.clickAddToCartBtn();
       configurationOverview.waitForNotificationBanner(8);
-      configurationOverview.checkNotificationBannerOnOP(8);
+      configurationOverview.verifyNotificationBannerOnOP(8);
 
       configurationOverview.clickContinueToCartBtnOnOP();
       configuration.checkNotificationBannerInCart(0, 8);
