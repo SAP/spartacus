@@ -23,6 +23,7 @@ import {
   CLI_QUALTRICS_FEATURE,
   CLI_SMARTEDIT_FEATURE,
   CLI_STOREFINDER_FEATURE,
+  CLI_TRACKING_FEATURE,
   DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
   DEFAULT_NGRX_VERSION,
   NGRX_EFFECTS,
@@ -44,6 +45,7 @@ import {
   SPARTACUS_STOREFINDER,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
+  SPARTACUS_TRACKING,
 } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
@@ -416,6 +418,12 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
         ? installExternalSchematic({
             schematicsOptions: options,
             collectionName: SPARTACUS_STOREFINDER,
+          })
+        : noop(),
+      shouldAddFeature(options.features, CLI_TRACKING_FEATURE)
+        ? installExternalSchematic({
+            schematicsOptions: options,
+            collectionName: SPARTACUS_TRACKING,
           })
         : noop(),
     ])(tree, context);
