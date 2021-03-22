@@ -1,57 +1,54 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import { OCC_USER_ID_CURRENT, ProcessModule } from '@spartacus/core';
-import { User } from '@spartacus/user/account/core';
+import { AuthService, OCC_USER_ID_CURRENT, User } from '@spartacus/core';
+
 import { Observable, of } from 'rxjs';
-import { Title, UserSignUp } from '../model/user-profile.model';
-import { UserProfileActions } from '../store/actions';
-import * as fromStoreReducers from '../store/reducers/index';
-import {
-  StateWithUserProfile,
-  USER_PROFILE_FEATURE,
-} from '../store/user-profile.state';
-import { UserPasswordService } from './user-password.service';
 import { UserProfileService } from './user-profile.service';
 import { UserRegisterService } from './user-register.service';
+import { UserSignUp } from '@spartacus/user/profile/root';
+import { UserProfileConnector } from '@spartacus/user/profile/core';
+import createSpy = jasmine.createSpy;
 
 class MockUserProfileService implements Partial<UserProfileService> {
   get(): Observable<User> {
     return of({ uid: OCC_USER_ID_CURRENT });
   }
-  getTitles(): Observable<Title[]> {
-    return of([]);
-  }
+  getTitles = createSpy().and.returnValue(of([]));
+}
+
+class MockUserProfileConnector implements Partial<UserProfileConnector> {
+  register = createSpy().and.callFake((user) => of(user));
+  registerGuest = createSpy().and.callFake((uid, _password) => of({ uid }));
+}
+
+class MockAuthService implements Partial<AuthService> {
+  loginWithCredentials = createSpy().and.returnValue(Promise.resolve());
 }
 
 describe('UserRegisterService', () => {
   let service: UserRegisterService;
-  let store: Store<StateWithUserProfile>;
+  let connector: UserProfileConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        ProcessModule,
-        StoreModule.forFeature(
-          USER_PROFILE_FEATURE,
-          fromStoreReducers.getReducers()
-        ),
-      ],
       providers: [
-        UserRegisterService,
+        { provide: AuthService, useClass: MockAuthService },
+        {
+          provide: UserProfileConnector,
+          useClass: MockUserProfileConnector,
+        },
         { provide: UserProfileService, useClass: MockUserProfileService },
+        UserRegisterService,
       ],
     });
 
-    store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
     service = TestBed.inject(UserRegisterService);
+    connector = TestBed.inject(UserProfileConnector);
   });
 
   it('should inject UserRegisterService', inject(
     [UserRegisterService],
-    (userPasswordService: UserPasswordService) => {
-      expect(userPasswordService).toBeTruthy();
+    (userRegisterService: UserRegisterService) => {
+      expect(userRegisterService).toBeTruthy();
     }
   ));
 
@@ -64,24 +61,22 @@ describe('UserRegisterService', () => {
       password: 'password',
     };
     service.register(userRegisterFormData);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new UserProfileActions.RegisterUser(userRegisterFormData)
-    );
+    expect(connector.register).toHaveBeenCalledWith({
+      titleCode: 'Mr.',
+      firstName: 'firstName',
+      lastName: 'lastName',
+      uid: 'uid',
+      password: 'password',
+    });
   });
 
   it('should be able to register guest', () => {
     service.registerGuest('guid', 'password');
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new UserProfileActions.RegisterGuest({
-        guid: 'guid',
-        password: 'password',
-      })
-    );
+    expect(connector.registerGuest).toHaveBeenCalledWith('guid', 'password');
   });
 
   it('should get titles from profileService', () => {
     const userProfileService = TestBed.inject(UserProfileService);
-    spyOn(userProfileService, 'getTitles').and.callThrough();
     service.getTitles().subscribe().unsubscribe();
     expect(userProfileService.getTitles).toHaveBeenCalled();
   });

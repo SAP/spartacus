@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { User, UserAccountFacade } from '@spartacus/user/account/root';
+import {
+  User,
+  UserAccountChangedEvent,
+  UserAccountFacade,
+} from '@spartacus/user/account/root';
 import { LogoutEvent, QueryService, UserIdService } from '@spartacus/core';
 import { switchMap } from 'rxjs/operators';
-import { UserAccountChangedEvent } from '@spartacus/user/account/root';
 import { UserAccountConnector } from '../connectors/user-account.connector';
 
 @Injectable()
