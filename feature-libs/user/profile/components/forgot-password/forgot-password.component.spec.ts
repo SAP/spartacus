@@ -9,11 +9,9 @@ import {
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import {
-  ForgotPasswordComponent,
-  ForgotPasswordService,
-  FormErrorsModule,
-} from '@spartacus/storefront';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { ForgotPasswordComponent } from './forgot-password.component';
+import { ForgotPasswordService } from './forgot-password.service';
 
 class MockForgotPasswordService implements Partial<ForgotPasswordService> {
   form: FormGroup = new FormGroup({
@@ -30,7 +28,7 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-describe('ForgotPasswordComponent', () => {
+fdescribe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
   let fixture: ComponentFixture<ForgotPasswordComponent>;
   let form: DebugElement;
@@ -91,7 +89,7 @@ describe('ForgotPasswordComponent', () => {
     expect(service.submit).toHaveBeenCalled();
   });
 
-  it('should reset form onDestory', () => {
+  it('should reset form onDestroy', () => {
     spyOn(service, 'reset').and.callThrough();
 
     component.ngOnDestroy();

@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { User } from '../../root/model/user.model';
 import { UserAccountAdapter } from './user-account.adapter';
 import { UserAccountConnector } from './user-account.connector';
 import createSpy = jasmine.createSpy;
@@ -39,7 +40,7 @@ describe('UserConnector', () => {
   });
 
   it('get should call adapter', () => {
-    let result;
+    let result: User;
     service.get('user-id').subscribe((res) => (result = res));
     expect(result).toEqual('load-user-id');
     expect(adapter.load).toHaveBeenCalledWith('user-id');

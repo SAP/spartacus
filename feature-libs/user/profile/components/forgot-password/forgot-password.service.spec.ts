@@ -6,13 +6,17 @@ import {
   I18nTestingModule,
   OAuthFlow,
   RoutingService,
-  UserService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
+import { UserPasswordService } from '@spartacus/user/profile/core';
+import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { Observable, of } from 'rxjs';
 import { ForgotPasswordService } from './forgot-password.service';
 
-class MockUserService implements Partial<UserService> {
-  requestForgotPasswordEmail() {}
+class MockUserPasswordService implements Partial<UserPasswordFacade> {
+  requestForgotPasswordEmail(_email: string): Observable<unknown> {
+    return of();
+  }
 }
 class MockRoutingService implements Partial<RoutingService> {
   go() {}
@@ -28,7 +32,7 @@ describe('ForgotPasswordService', () => {
   let service: ForgotPasswordService;
   let authConfigService: AuthConfigService;
   let routingService: RoutingService;
-  let userService: UserService;
+  let userPasswordFacade: UserPasswordFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -41,7 +45,7 @@ describe('ForgotPasswordService', () => {
         ],
         declarations: [],
         providers: [
-          { provide: UserService, useClass: MockUserService },
+          { provide: UserPasswordService, useClass: MockUserPasswordService },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: AuthConfigService, useClass: MockAuthConfigService },
         ],
@@ -53,7 +57,7 @@ describe('ForgotPasswordService', () => {
     service = TestBed.inject(ForgotPasswordService);
     authConfigService = TestBed.inject(AuthConfigService);
     routingService = TestBed.inject(RoutingService);
-    userService = TestBed.inject(UserService);
+    userPasswordFacade = TestBed.inject(UserPasswordFacade);
   });
 
   it('should create service', () => {
@@ -62,7 +66,7 @@ describe('ForgotPasswordService', () => {
 
   describe('requestForgetPasswordEmail', () => {
     it('should request email for forgot password and redirect to login page', () => {
-      spyOn(userService, 'requestForgotPasswordEmail').and.callThrough();
+      spyOn(userPasswordFacade, 'requestForgotPasswordEmail').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
 
       service.form.setValue({
@@ -71,14 +75,14 @@ describe('ForgotPasswordService', () => {
 
       service.submit();
 
-      expect(userService.requestForgotPasswordEmail).toHaveBeenCalledWith(
-        'test@test.com'
-      );
+      expect(
+        userPasswordFacade.requestForgotPasswordEmail
+      ).toHaveBeenCalledWith('test@test.com');
       expect(routingService.go).toHaveBeenCalled();
     });
 
     it('should not redirect when flow different than ResourceOwnerPasswordFlow is used', () => {
-      spyOn(userService, 'requestForgotPasswordEmail').and.callThrough();
+      spyOn(userPasswordFacade, 'requestForgotPasswordEmail').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
       spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
         OAuthFlow.ImplicitFlow
@@ -90,9 +94,9 @@ describe('ForgotPasswordService', () => {
 
       service.submit();
 
-      expect(userService.requestForgotPasswordEmail).toHaveBeenCalledWith(
-        'test@test.com'
-      );
+      expect(
+        userPasswordFacade.requestForgotPasswordEmail
+      ).toHaveBeenCalledWith('test@test.com');
       expect(routingService.go).not.toHaveBeenCalled();
     });
   });

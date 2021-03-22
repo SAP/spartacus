@@ -1,4 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { NavigationExtras } from '@angular/router';
 import {
   AuthService,
@@ -10,10 +11,9 @@ import {
   UrlCommands,
   UserService,
 } from '@spartacus/core';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { UpdateEmailService } from './update-email.service';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { FormErrorsModule } from '@spartacus/storefront';
 
 class MockUserService {
   updateEmail(): void {}
@@ -46,7 +46,7 @@ class MockGlobalMessageService {
   add(_message: GlobalMessage): void {}
 }
 
-describe('UpdateEmailService', () => {
+fdescribe('UpdateEmailService', () => {
   let service: UpdateEmailService;
   let userService: UserService;
   let authService: AuthService;

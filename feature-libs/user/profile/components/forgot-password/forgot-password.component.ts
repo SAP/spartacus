@@ -11,11 +11,12 @@ export class ForgotPasswordComponent implements OnDestroy {
   form: FormGroup = this.service.form;
 
   constructor(protected service: ForgotPasswordService) {}
-  ngOnDestroy() {
-    this.service.reset();
-  }
 
   onSubmit(): void {
     this.service.submit();
+  }
+
+  ngOnDestroy() {
+    this.form.reset();
   }
 }
