@@ -28,7 +28,7 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-fdescribe('ForgotPasswordComponent', () => {
+describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
   let fixture: ComponentFixture<ForgotPasswordComponent>;
   let form: DebugElement;

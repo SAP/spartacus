@@ -4,12 +4,12 @@ import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import {
   Title,
-  UserProfileFacade,
   UserRegisterFacade,
   UserSignUp,
 } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { tap } from 'rxjs/operators';
+import { UserProfileService } from './user-profile.service';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
@@ -33,7 +33,7 @@ export class UserRegisterService implements UserRegisterFacade {
   );
 
   constructor(
-    protected userProfile: UserProfileFacade,
+    protected userProfile: UserProfileService,
     private userConnector: UserProfileConnector,
     private authService: AuthService,
     protected command: CommandService

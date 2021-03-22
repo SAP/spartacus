@@ -6,7 +6,6 @@ import { UserProfileConnector } from './user-profile.connector';
 import createSpy = jasmine.createSpy;
 
 class MockUserAdapter implements UserProfileAdapter {
-  load = createSpy('load').and.callFake((userId) => of(`load-${userId}`));
   update = createSpy('update').and.returnValue(of({}));
   register = createSpy('register').and.callFake((userId) => of(userId));
   registerGuest = createSpy('registerGuest').and.callFake((userId) =>

@@ -5,11 +5,11 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   RoutingService,
-  UserService,
 } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { CloseAccountModalComponent } from './close-account-modal.component';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -20,26 +20,13 @@ class MockModalService implements Partial<ModalService> {
   dismissActiveModal(): void {}
 }
 
-class MockUserService implements Partial<UserService> {
-  remove(): void {}
-  getRemoveUserResultSuccess(): Observable<boolean> {
-    return of();
-  }
-
-  getRemoveUserResultError(): Observable<boolean> {
-    return of();
-  }
-
-  getRemoveUserResultLoading(): Observable<boolean> {
-    return of(false);
-  }
-
-  resetRemoveUserProcessState(): void {}
+class MockUserProfileFacade implements Partial<UserProfileFacade> {
+  close = createSpy().and.returnValue(of(undefined));
 }
 
 class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
-    return of();
+    return of(true);
   }
 }
 
@@ -64,9 +51,9 @@ class MockCxSpinnerComponent {}
 describe('CloseAccountModalComponent', () => {
   let component: CloseAccountModalComponent;
   let fixture: ComponentFixture<CloseAccountModalComponent>;
-  let userService: UserService;
+  let userFacade: UserProfileFacade;
   let routingService: RoutingService;
-  let globalMessageService: any;
+  let globalMessageService: GlobalMessageService;
   let mockModalService: MockModalService;
 
   beforeEach(
@@ -80,8 +67,8 @@ describe('CloseAccountModalComponent', () => {
         ],
         providers: [
           {
-            provide: UserService,
-            useClass: MockUserService,
+            provide: UserProfileFacade,
+            useClass: MockUserProfileFacade,
           },
           {
             provide: GlobalMessageService,
@@ -108,7 +95,7 @@ describe('CloseAccountModalComponent', () => {
     fixture = TestBed.createComponent(CloseAccountModalComponent);
     component = fixture.componentInstance;
 
-    userService = TestBed.inject(UserService);
+    userFacade = TestBed.inject(UserProfileFacade);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     mockModalService = TestBed.inject(ModalService);
@@ -121,34 +108,32 @@ describe('CloseAccountModalComponent', () => {
   });
 
   it('should close account', () => {
-    spyOn(userService, 'remove');
-
     component.closeAccount();
-
-    expect(userService.remove).toHaveBeenCalled();
+    expect(userFacade.close).toHaveBeenCalled();
   });
 
   it('should navigate away and dismiss modal when account is closed', () => {
-    spyOn(userService, 'getRemoveUserResultSuccess').and.returnValue(of(true));
     spyOn(component, 'onSuccess').and.callThrough();
     spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
 
     component.ngOnInit();
+    component.closeAccount();
 
-    expect(component.onSuccess).toHaveBeenCalledWith(true);
+    expect(component.onSuccess).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
     expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
   });
 
   it('should dismiss modal when account failed to close', () => {
-    spyOn(userService, 'getRemoveUserResultError').and.returnValue(of(true));
     spyOn(component, 'onError').and.callThrough();
     spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
+    (userFacade.close as any).and.returnValue(throwError(undefined));
 
     component.ngOnInit();
+    component.closeAccount();
 
-    expect(component.onError).toHaveBeenCalledWith(true);
+    expect(component.onError).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
     expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
   });

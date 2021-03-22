@@ -1,20 +1,11 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { Store, StoreModule } from '@ngrx/store';
-import {
-  OCC_USER_ID_CURRENT,
-  ProcessModule,
-  StateUtils,
-} from '@spartacus/core';
-import { User } from '@spartacus/user/account/core';
+import { OCC_USER_ID_CURRENT } from '@spartacus/core';
+import { User } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
-import { UserProfileActions } from '../store/actions/index';
-import * as fromStoreReducers from '../store/reducers/index';
-import {
-  StateWithUserProfile,
-  USER_PROFILE_FEATURE,
-} from '../store/user-profile.state';
 import { UserEmailService } from './user-email.service';
 import { UserProfileService } from './user-profile.service';
+import { UserProfileConnector } from '@spartacus/user/profile/core';
+import createSpy = jasmine.createSpy;
 
 class MockUserProfileService implements Partial<UserProfileService> {
   get(): Observable<User> {
@@ -22,29 +13,28 @@ class MockUserProfileService implements Partial<UserProfileService> {
   }
 }
 
+class MockUserProfileConnector implements Partial<UserProfileConnector> {
+  updateEmail = createSpy().and.callFake(
+    (_userId, _currentPassword, _newUserId) => of(undefined)
+  );
+}
+
 describe('UserEmailService', () => {
   let userEmailService: UserEmailService;
-  let store: Store<StateWithUserProfile>;
+  let connector: UserProfileConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        ProcessModule,
-        StoreModule.forFeature(
-          USER_PROFILE_FEATURE,
-          fromStoreReducers.getReducers()
-        ),
-      ],
+      imports: [],
       providers: [
         UserEmailService,
+        { provide: UserProfileConnector, useClass: MockUserProfileConnector },
         { provide: UserProfileService, useClass: MockUserProfileService },
       ],
     });
 
-    store = TestBed.inject(Store);
-    spyOn(store, 'dispatch').and.callThrough();
     userEmailService = TestBed.inject(UserEmailService);
+    connector = TestBed.inject(UserProfileConnector);
   });
 
   it('should inject UserEmailService', inject(
@@ -58,26 +48,13 @@ describe('UserEmailService', () => {
     const password = 'Qwe123!';
     const newUid = 'tester@sap.com';
 
-    it('should dispatch UpdateEmail action', () => {
+    it('should call connector to update email', () => {
       userEmailService.update(password, newUid);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UserProfileActions.UpdateEmailAction({
-          uid: OCC_USER_ID_CURRENT,
-          password,
-          newUid,
-        })
+      expect(connector.updateEmail).toHaveBeenCalledWith(
+        OCC_USER_ID_CURRENT,
+        password,
+        newUid
       );
-    });
-
-    it('should return loading process state', () => {
-      let result: StateUtils.LoaderState<User>;
-      userEmailService
-        .update(password, newUid)
-        .subscribe((state) => {
-          result = state;
-        })
-        .unsubscribe();
-      expect(result.loading).toBeTruthy();
     });
   });
 });

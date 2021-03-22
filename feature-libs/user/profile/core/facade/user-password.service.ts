@@ -15,7 +15,7 @@ export class UserPasswordService implements UserPasswordFacade {
     this.userProfileService.get().pipe(
       take(1),
       switchMap((user) =>
-        this.userAccountConnector
+        this.userProfileConnector
           // tslint:disable-next-line:no-non-null-assertion
           .updatePassword(user!.uid!, payload.oldPassword, payload.newPassword)
       )
@@ -26,7 +26,7 @@ export class UserPasswordService implements UserPasswordFacade {
     token: string;
     password: string;
   }>((payload) =>
-    this.userAccountConnector.resetPassword(payload.token, payload.password)
+    this.userProfileConnector.resetPassword(payload.token, payload.password)
   );
 
   protected requestForgotPasswordEmailCommand = this.command.create<{
@@ -37,7 +37,6 @@ export class UserPasswordService implements UserPasswordFacade {
 
   constructor(
     protected userProfileService: UserProfileService,
-    protected userAccountConnector: UserProfileConnector,
     protected userProfileConnector: UserProfileConnector,
     protected command: CommandService
   ) {}

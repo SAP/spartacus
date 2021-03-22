@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
 import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { UserAccountChangedEvent } from '@spartacus/user/account/events';
+import { UserAccountChangedEvent } from '@spartacus/user/account/root';
 
 @Injectable()
 export class UserProfileService implements UserProfileFacade {

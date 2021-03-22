@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,10 +8,10 @@ import {
   I18nTestingModule,
   RoutingService,
   User,
-  UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoginComponent } from './login.component';
+import { UserAccountFacade } from '@spartacus/user/account/root';
 import createSpy = jasmine.createSpy;
 
 const mockUserDetails: User = {
@@ -31,7 +31,7 @@ class MockAuthService {
 class MockRoutingService {
   go = createSpy('go');
 }
-class MockUserService {
+class MockUserAccountFacade {
   get(): Observable<User> {
     return of(mockUserDetails);
   }
@@ -59,7 +59,6 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
 
   let authService: AuthService;
-  let userService: UserService;
 
   beforeEach(
     waitForAsync(() => {
@@ -80,13 +79,12 @@ describe('LoginComponent', () => {
             },
           },
           { provide: RoutingService, useClass: MockRoutingService },
-          { provide: UserService, useClass: MockUserService },
+          { provide: UserAccountFacade, useClass: MockUserAccountFacade },
           { provide: AuthService, useClass: MockAuthService },
         ],
       }).compileComponents();
 
       authService = TestBed.inject(AuthService);
-      userService = TestBed.inject(UserService);
     })
   );
 
@@ -118,7 +116,6 @@ describe('LoginComponent', () => {
 
   describe('UI tests', () => {
     it('should contain the dynamic slot: HeaderLinks', () => {
-      spyOn(userService, 'get').and.returnValue(of(mockUserDetails));
       component.ngOnInit();
       fixture.detectChanges();
 

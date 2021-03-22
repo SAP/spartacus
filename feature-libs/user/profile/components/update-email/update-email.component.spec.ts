@@ -3,7 +3,7 @@ import {
   Component,
   DebugElement,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AbstractControl,
   FormControl,
@@ -11,13 +11,13 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Subject } from 'rxjs';
 import { UpdateEmailComponent } from './update-email.component';
 import { UpdateEmailService } from './update-email.service';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { RouterTestingModule } from '@angular/router/testing';
-import { UrlTestingModule } from '../../../../../core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 
 @Component({
   selector: 'cx-spinner',
@@ -66,10 +66,10 @@ describe('UpdateEmailComponent', () => {
           },
         ],
       })
-      .overrideComponent(UpdateEmailComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
-      })
-      .compileComponents();
+        .overrideComponent(UpdateEmailComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
     })
   );
 

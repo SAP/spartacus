@@ -6,19 +6,6 @@ import createSpy = jasmine.createSpy;
 
 class MockUserAdapter implements UserAccountAdapter {
   load = createSpy('load').and.callFake((userId) => of(`load-${userId}`));
-  update = createSpy('update').and.returnValue(of({}));
-  register = createSpy('register').and.callFake((userId) => of(userId));
-  registerGuest = createSpy('registerGuest').and.callFake((userId) =>
-    of(userId)
-  );
-  remove = createSpy('remove').and.returnValue(of({}));
-  requestForgotPasswordEmail = createSpy(
-    'requestForgotPasswordEmail'
-  ).and.returnValue(of({}));
-  resetPassword = createSpy('resetPassword').and.returnValue(of({}));
-  updateEmail = createSpy('updateEmail').and.returnValue(of({}));
-  updatePassword = createSpy('updatePassword').and.returnValue(of({}));
-  loadTitles = createSpy('loadTitles').and.returnValue(of([]));
 }
 
 describe('UserConnector', () => {

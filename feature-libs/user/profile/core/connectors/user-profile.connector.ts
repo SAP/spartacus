@@ -4,7 +4,9 @@ import { Observable } from 'rxjs';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { UserProfileAdapter } from './user-profile.adapter';
 
-@Injectable()
+@Injectable({
+  providedIn: 'any',
+})
 export class UserProfileConnector {
   constructor(protected userProfileAdapter: UserProfileAdapter) {}
 
