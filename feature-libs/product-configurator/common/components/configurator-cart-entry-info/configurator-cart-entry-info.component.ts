@@ -48,8 +48,11 @@ export class ConfiguratorCartEntryInfoComponent {
    * @returns {boolean} - 'True' if the expected configurator type, otherwise 'fasle'
    */
   isAttributeBasedConfigurator(item: OrderEntry): boolean {
-    return this.commonConfigUtilsService.isAttributeBasedConfigurator(
-      item?.configurationInfos[0]?.configuratorType
-    );
+    const configurationInfos = item.configurationInfos;
+    return configurationInfos
+      ? this.commonConfigUtilsService.isAttributeBasedConfigurator(
+          configurationInfos[0]?.configuratorType
+        )
+      : false;
   }
 }
