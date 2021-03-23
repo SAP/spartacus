@@ -14,6 +14,7 @@ import {
 } from '@spartacus/schematics';
 import {
   ASM_FEATURE_NAME,
+  ASM_FOLDER_NAME,
   ASM_MODULE,
   ASM_ROOT_MODULE,
   ASM_TRANSLATIONS,
@@ -33,6 +34,7 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
 
 function addAsmFeature(options: SpartacusAsmOptions): Rule {
   return addLibraryFeature(options, {
+    folderName: ASM_FOLDER_NAME,
     name: ASM_FEATURE_NAME,
     featureModule: {
       name: ASM_MODULE,

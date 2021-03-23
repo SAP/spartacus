@@ -30,6 +30,7 @@ import {
   TMS_BASE_MODULE,
   TMS_CONFIG,
   TMS_GTM_MODULE,
+  TRACKING_FOLDER_NAME,
 } from '../constants';
 
 export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
@@ -57,6 +58,7 @@ function addGtm(options: SpartacusTrackingOptions): Rule {
   return addLibraryFeature(
     { ...options, lazy: false }, // To add feature module in imports (not lazy)
     {
+      folderName: TRACKING_FOLDER_NAME,
       name: CLI_TMS_FEATURE,
       rootModule: {
         importPath: SPARTACUS_TMS_CORE,
@@ -91,6 +93,7 @@ function addAep(options: SpartacusTrackingOptions): Rule {
   return addLibraryFeature(
     { ...options, lazy: false }, // To add feature module in imports (not lazy)
     {
+      folderName: TRACKING_FOLDER_NAME,
       name: CLI_TMS_FEATURE,
       rootModule: {
         importPath: SPARTACUS_TMS_CORE,
@@ -123,6 +126,7 @@ function addAep(options: SpartacusTrackingOptions): Rule {
 
 function addPersonalizationFeature(options: SpartacusTrackingOptions): Rule {
   return addLibraryFeature(options, {
+    folderName: TRACKING_FOLDER_NAME,
     name: PERSONALIZATION_FEATURE_NAME,
     featureModule: {
       name: PERSONALIZATION_MODULE,

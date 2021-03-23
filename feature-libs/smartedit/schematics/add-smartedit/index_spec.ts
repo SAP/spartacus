@@ -15,7 +15,7 @@ import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const smartEditModulePath =
-  'src/app/spartacus/features/smart-edit-feature.module.ts';
+  'src/app/spartacus/features/smartedit/smart-edit-feature.module.ts';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus SmartEdit schematics: ng-add', () => {

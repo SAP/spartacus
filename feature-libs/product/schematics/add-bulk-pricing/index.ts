@@ -10,6 +10,7 @@ import {
   BULK_PRICING_ROOT_MODULE,
   BULK_PRICING_TRANSLATIONS,
   BULK_PRICING_TRANSLATION_CHUNKS_CONFIG,
+  PRODUCT_FOLDER_NAME,
   PRODUCT_SCSS_FILE_NAME,
   SPARTACUS_BULK_PRICING,
   SPARTACUS_BULK_PRICING_ASSETS,
@@ -20,6 +21,7 @@ export function addBulkPricingFeature(
   options: SpartacusBulkPricingOptions
 ): Rule {
   return addLibraryFeature(options, {
+    folderName: PRODUCT_FOLDER_NAME,
     name: BULK_PRICING_FEATURE_NAME,
     featureModule: {
       name: BULK_PRICING_MODULE,

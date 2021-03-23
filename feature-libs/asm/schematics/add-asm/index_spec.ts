@@ -10,7 +10,8 @@ import {
 import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const asmFeatureModulePath = 'src/app/spartacus/features/asm-feature.module.ts';
+const asmFeatureModulePath =
+  'src/app/spartacus/features/asm/asm-feature.module.ts';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus Asm schematics: ng-add', () => {

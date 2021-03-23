@@ -15,7 +15,7 @@ import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const productConfiguratorFeatureModulePath =
-  'src/app/spartacus/features/product-configurator-feature.module.ts';
+  'src/app/spartacus/features/product-configurator/product-configurator-feature.module.ts';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus product configurator schematics: ng-add', () => {

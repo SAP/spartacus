@@ -14,7 +14,7 @@ import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const qualtricsModulePath =
-  'src/app/spartacus/features/qualtrics-feature.module.ts';
+  'src/app/spartacus/features/qualtrics/qualtrics-feature.module.ts';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus Qualtrics schematics: ng-add', () => {

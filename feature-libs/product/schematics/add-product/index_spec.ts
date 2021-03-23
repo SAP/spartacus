@@ -20,9 +20,9 @@ import {
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const bulkPricingModulePath =
-  'src/app/spartacus/features/bulk-pricing-feature.module.ts';
+  'src/app/spartacus/features/product/bulk-pricing-feature.module.ts';
 const variantsFeatureModulePath =
-  'src/app/spartacus/features/variants-feature.module.ts';
+  'src/app/spartacus/features/product/variants-feature.module.ts';
 
 describe('Spartacus Product schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);

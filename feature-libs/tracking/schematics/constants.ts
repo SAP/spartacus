@@ -1,5 +1,7 @@
 import { SPARTACUS_TRACKING } from '@spartacus/schematics';
 
+export const TRACKING_FOLDER_NAME = 'tracking';
+
 export const PERSONALIZATION_MODULE = 'PersonalizationModule';
 export const PERSONALIZATION_FEATURE_NAME = 'personalization';
 export const PERSONALIZATION_ROOT_MODULE = 'PersonalizationRootModule';

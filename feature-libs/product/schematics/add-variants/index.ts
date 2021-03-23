@@ -5,6 +5,7 @@ import {
   SPARTACUS_PRODUCT,
 } from '@spartacus/schematics';
 import {
+  PRODUCT_FOLDER_NAME,
   PRODUCT_SCSS_FILE_NAME,
   SPARTACUS_VARIANTS,
   SPARTACUS_VARIANTS_ASSETS,
@@ -14,10 +15,11 @@ import {
   VARIANTS_ROOT_MODULE,
   VARIANTS_TRANSLATIONS,
   VARIANTS_TRANSLATION_CHUNKS_CONFIG,
-} from './../constants';
+} from '../constants';
 
 export function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
   return addLibraryFeature(options, {
+    folderName: PRODUCT_FOLDER_NAME,
     name: VARIANTS_FEATURE_NAME,
     featureModule: {
       name: VARIANTS_MODULE,

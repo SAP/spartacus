@@ -9,14 +9,17 @@ import {
   installPackageJsonDependencies,
   LibraryOptions as SpartacusQualtricsOptions,
   QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
-  QUALTRICS_FEATURE_NAME,
-  QUALTRICS_MODULE,
-  QUALTRICS_ROOT_MODULE,
   readPackageJson,
   SPARTACUS_QUALTRICS,
-  SPARTACUS_QUALTRICS_ROOT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import {
+  QUALTRICS_FEATURE_NAME,
+  QUALTRICS_FOLDER_NAME,
+  QUALTRICS_MODULE,
+  QUALTRICS_ROOT_MODULE,
+  SPARTACUS_QUALTRICS_ROOT,
+} from '../constants';
 
 export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
@@ -32,6 +35,7 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
 
 function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {
   return addLibraryFeature(options, {
+    folderName: QUALTRICS_FOLDER_NAME,
     name: QUALTRICS_FEATURE_NAME,
     featureModule: {
       name: QUALTRICS_MODULE,

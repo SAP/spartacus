@@ -10,16 +10,19 @@ import {
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
   SPARTACUS_STOREFINDER,
-  SPARTACUS_STOREFINDER_ASSETS,
-  SPARTACUS_STOREFINDER_ROOT,
-  STOREFINDER_FEATURE_NAME,
   STOREFINDER_MODULE,
-  STOREFINDER_ROOT_MODULE,
-  STOREFINDER_TRANSLATIONS,
-  STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
   STORE_FINDER_SCSS_FILE_NAME,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import {
+  SPARTACUS_STOREFINDER_ASSETS,
+  SPARTACUS_STOREFINDER_ROOT,
+  STOREFINDER_FEATURE_NAME,
+  STOREFINDER_FOLDER_NAME,
+  STOREFINDER_ROOT_MODULE,
+  STOREFINDER_TRANSLATIONS,
+  STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
+} from '../constants';
 
 export function addStorefinderFeatures(
   options: SpartacusStorefinderOptions
@@ -37,6 +40,7 @@ export function addStorefinderFeatures(
 
 function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
   return addLibraryFeature(options, {
+    folderName: STOREFINDER_FOLDER_NAME,
     name: STOREFINDER_FEATURE_NAME,
     featureModule: {
       name: STOREFINDER_MODULE,

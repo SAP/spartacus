@@ -15,7 +15,7 @@ import { CLI_VARIANTS_FEATURE } from './../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const variantsFeatureModulePath =
-  'src/app/spartacus/features/variants-feature.module.ts';
+  'src/app/spartacus/features/product/variants-feature.module.ts';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus Variants schematics: ng-add', () => {

@@ -15,7 +15,7 @@ import { CLI_PERSONALIZATION_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const personalizationModulePath =
-  'src/app/spartacus/features/personalization-feature.module.ts';
+  'src/app/spartacus/features/tracking/personalization-feature.module.ts';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus Personalization schematics: ng-add', () => {

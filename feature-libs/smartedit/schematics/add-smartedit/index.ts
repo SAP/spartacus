@@ -14,6 +14,7 @@ import {
 } from '@spartacus/schematics';
 import {
   SMARTEDIT_FEATURE_NAME,
+  SMARTEDIT_FOLDER_NAME,
   SMARTEDIT_MODULE,
   SMARTEDIT_ROOT_MODULE,
   SPARTACUS_SMARTEDIT_ASSETS,
@@ -34,6 +35,7 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
 
 function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
   return addLibraryFeature(options, {
+    folderName: SMARTEDIT_FOLDER_NAME,
     name: SMARTEDIT_FEATURE_NAME,
     featureModule: {
       name: SMARTEDIT_MODULE,

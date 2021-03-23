@@ -43,14 +43,43 @@ export interface LibraryOptions {
 }
 
 export interface FeatureConfig {
+  /**
+   * In this folder we will generate the feature module. E.g. app/spartacus/features/__organization__
+   */
+  folderName: string;
+  /**
+   * The feature name corresponds to the configuration feature name which is used if the `lazyModuleName` is not provided.
+   * Also used as a name of the generated feature module file.
+   */
   name: string;
+  /**
+   * The configuration name of the lazy loaded feature.
+   */
   lazyModuleName?: string;
+  /**
+   * The feature module configuration.
+   */
   featureModule: Module;
+  /**
+   * The root module configuration.
+   */
   rootModule: Module;
+  /**
+   * Translation chunk configuration
+   */
   i18n?: I18NConfig;
-  customConfig?: { import: Import[]; content: string };
+  /**
+   * Styling configuration
+   */
   styles?: StylingConfig;
+  /**
+   * Assets configuration
+   */
   assets?: AssetsConfig;
+  /**
+   * An optional custom configuration to provide to the generated module.
+   */
+  customConfig?: { import: Import[]; content: string };
 }
 
 export interface Module {
@@ -196,7 +225,7 @@ function handleFeature<T extends LibraryOptions>(
       tasks.push(
         ensureModuleExists({
           name: `${config.name}-feature`,
-          path: 'app/spartacus/features',
+          path: `app/spartacus/features/${config.folderName}`,
           module: SPARTACUS_FEATURES_MODULE,
           project: options.project,
         })

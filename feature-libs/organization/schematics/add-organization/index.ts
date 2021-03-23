@@ -24,6 +24,7 @@ import {
   ORDER_APPROVAL_TRANSLATIONS,
   ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+  ORGANIZATION_FOLDER_NAME,
   ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
   ORGANIZATION_TRANSLATIONS,
   ORGANIZATION_TRANSLATION_CHUNKS_CONFIG,
@@ -63,6 +64,7 @@ export function addSpartacusOrganization(
 
 function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
+    folderName: ORGANIZATION_FOLDER_NAME,
     name: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
     featureModule: {
       name: ADMINISTRATION_MODULE,
@@ -86,6 +88,7 @@ function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
 
 function addOrderApprovalsFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
+    folderName: ORGANIZATION_FOLDER_NAME,
     name: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
     featureModule: {
       name: ORDER_APPROVAL_MODULE,

@@ -18,9 +18,9 @@ import {
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const administrationFeatureModulePath =
-  'src/app/spartacus/features/organization-administration-feature.module.ts';
+  'src/app/spartacus/features/organization/organization-administration-feature.module.ts';
 const orderApprovalFeatureModulePath =
-  'src/app/spartacus/features/organization-order-approval-feature.module.ts';
+  'src/app/spartacus/features/organization/organization-order-approval-feature.module.ts';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus Organization schematics: ng-add', () => {

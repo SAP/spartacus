@@ -14,6 +14,7 @@ import {
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import {
+  PRODUCT_CONFIGURATOR_FOLDER_NAME,
   PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME,
   PRODUCT_CONFIGURATOR_RULEBASED_MODULE,
   PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE,
@@ -49,6 +50,7 @@ function addProductConfiguratorRulebasedFeature(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
   return addLibraryFeature(options, {
+    folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
     name: CLI_PRODUCT_CONFIGURATOR_FEATURE,
     lazyModuleName: PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME,
     featureModule: {
@@ -75,6 +77,7 @@ function addProductConfiguratorTextfieldFeature(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
   return addLibraryFeature(options, {
+    folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
     name: CLI_PRODUCT_CONFIGURATOR_FEATURE,
     lazyModuleName: PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
     featureModule: {
