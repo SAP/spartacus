@@ -6,13 +6,11 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { GigyaRaasComponentData } from '@spartacus/cdc/core';
+import { CdcConfig, CdcJsService } from '@spartacus/cdc/root';
 import { BaseSiteService, LanguageService, WindowRef } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
-import { CdcConfig } from '../../root/config';
-import { CdcJsService } from '../../src/auth/facade/cdc-js.service';
-
 @Component({
   selector: 'cx-gigya-raas',
   templateUrl: './gigya-raas.component.html',
