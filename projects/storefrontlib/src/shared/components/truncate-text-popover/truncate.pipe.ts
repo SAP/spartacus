@@ -7,9 +7,12 @@ const defaultLimit = 20;
 })
 export class TruncatePipe implements PipeTransform {
   /**
-   * example usage {{ exampleString | truncate: [1, false] }}
+   * example usage {{ exampleString | cxTruncate: [1, ''] }}
    */
-  transform(value: string, args?: any[]): string {
+  transform(
+    value: string,
+    args?: [number | undefined, (string | undefined)?]
+  ): string {
     if (!args) {
       return value;
     }
@@ -18,16 +21,11 @@ export class TruncatePipe implements PipeTransform {
 
     const limit =
       args.length > 0 && args[0] && Number.isInteger(+args[0])
-        ? parseInt(args[0], 10)
+        ? args[0]
         : defaultLimit;
 
-    if (
-      args.length > 1 &&
-      args[1] !== null &&
-      args[1] !== undefined &&
-      !!args[1] === false
-    ) {
-      trail = '';
+    if (args.length > 1 && args[1] !== undefined) {
+      trail = args[1];
     }
 
     return value.length > limit ? value.substring(0, limit) + trail : value;

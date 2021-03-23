@@ -1,6 +1,8 @@
 <ng-container>
   <ng-container>
-    {{ content | cxTruncate: [charactersLimit, true] }}
+    <span class="truncated-text">
+      {{ content | cxTruncate: [charactersLimit] }}
+    </span>
   </ng-container>
 
   <ng-template #fullText>
@@ -8,7 +10,7 @@
   </ng-template>
 
   <button
-    *ngIf="isLengthExceed"
+    *ngIf="isTruncated"
     [cxPopover]="fullText"
     [cxPopoverOptions]="{
       placement: 'auto',
