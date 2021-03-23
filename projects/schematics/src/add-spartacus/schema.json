@@ -39,7 +39,7 @@
         "type": "string"
       },
       "default": [],
-      "x-prompt": "Which features would you like to setup?"
+      "x-prompt": "Which Spartacus features would you like to setup?"
     },
     "lazy": {
       "type": "boolean",

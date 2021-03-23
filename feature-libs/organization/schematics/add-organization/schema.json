@@ -24,7 +24,7 @@
         "type": "string"
       },
       "default": ["Administration", "Order-approval"],
-      "x-prompt": "Which features would you like to setup?"
+      "x-prompt": "Which Organization features would you like to setup?"
     }
   },
   "required": []
