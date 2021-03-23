@@ -45,6 +45,7 @@ describe('Spartacus Product schematics: ng-add', () => {
   };
 
   const defaultOptions: SpartacusProductOptions = {
+    configuration: 'b2c',
     project: 'schematics-test',
     lazy: true,
     features: [CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE],

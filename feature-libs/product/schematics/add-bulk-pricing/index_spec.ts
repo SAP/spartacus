@@ -39,6 +39,7 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
   };
 
   const defaultOptions: SpartacusBulkPricingOptions = {
+    configuration: 'b2c',
     project: 'schematics-test',
     lazy: true,
     features: [CLI_BULK_PRICING_FEATURE],

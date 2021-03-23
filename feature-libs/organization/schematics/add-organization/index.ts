@@ -39,9 +39,15 @@ import {
 export function addSpartacusOrganization(
   options: SpartacusOrganizationOptions
 ): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
+
+    if (options.configuration === 'b2c') {
+      context.logger.warn(
+        `Please note that the Organization features require a 'b2b' configuration, while you selected the 'b2c' configuration.`
+      );
+    }
 
     return chain([
       shouldAddFeature(options.features, CLI_ADMINISTRATION_FEATURE)

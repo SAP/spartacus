@@ -36,6 +36,7 @@ import {
 } from './workspace-utils';
 
 export interface LibraryOptions {
+  configuration: 'b2c' | 'b2b';
   lazy: boolean;
   features: string[];
   project: string;

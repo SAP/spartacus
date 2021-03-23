@@ -55,6 +55,7 @@ const BASE_FEATURE_CONFIG: FeatureConfig = {
 };
 
 const BASE_OPTIONS: LibraryOptions = {
+  configuration: 'b2b',
   project: 'schematics-test',
   features: [CLI_FEATURE_NAME],
   lazy: true,

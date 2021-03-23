@@ -44,6 +44,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
   };
 
   const defaultOptions: SpartacusOrganizationOptions = {
+    configuration: 'b2c',
     project: 'schematics-test',
     lazy: true,
     features: [CLI_ADMINISTRATION_FEATURE, CLI_ORDER_APPROVAL_FEATURE],

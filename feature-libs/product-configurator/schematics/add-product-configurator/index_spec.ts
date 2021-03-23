@@ -39,6 +39,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
   };
 
   const defaultOptions: SpartacusProductConfiguratorOptions = {
+    configuration: 'b2c',
     project: 'schematics-test',
     lazy: true,
     features: [CLI_PRODUCT_CONFIGURATOR_FEATURE],

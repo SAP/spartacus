@@ -469,6 +469,7 @@ function createLibraryOptions(options: {
   return {
     project: options.schematicsOptions.project,
     lazy: options.schematicsOptions.lazy,
+    configuration: options.schematicsOptions.configuration,
     features: [],
     collectionName: options.collectionName,
     schematicName: options.schematicName ?? 'add',
