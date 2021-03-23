@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CdcModule } from '@spartacus/cdc';
 import { CdcComponentsModule } from '@spartacus/cdc/components';
 import { CdcCoreModule } from '@spartacus/cdc/core';
 import { CdcRootModule } from '@spartacus/cdc/root';
@@ -8,8 +7,7 @@ import { CdcRootModule } from '@spartacus/cdc/root';
   imports: [
     CdcComponentsModule,
     CdcCoreModule,
-    CdcRootModule,
-    CdcModule.forRoot({
+    CdcRootModule.forRoot({
       cdc: [
         {
           baseSite: 'electronics-cdc',

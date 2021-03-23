@@ -10,8 +10,8 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CdcConfig } from '../../../root/config';
-import { CdcAuthService } from './cdc-auth.service';
+import { CdcAuthService } from '../../core/auth/facade/cdc-auth.service';
+import { CdcConfig } from '../config';
 import { CdcJsService } from './cdc-js.service';
 
 const sampleCdcConfig: CdcConfig = {
