@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { SplitViewService } from '@spartacus/storefront';
+import { PopoverModule, SplitViewService } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { ViewComponent } from 'projects/storefrontlib/src/shared/components/split-view/view/view.component';
 import { of } from 'rxjs';
@@ -33,6 +33,7 @@ describe('CardComponent', () => {
         I18nTestingModule,
         RouterTestingModule,
         MessageTestingModule,
+        PopoverModule,
       ],
       declarations: [CardComponent, ViewComponent],
       providers: [
@@ -49,6 +50,7 @@ describe('CardComponent', () => {
     fixture = TestBed.createComponent(CardComponent);
     component = fixture.componentInstance;
     component.i18nRoot = 'organization.budget';
+    component.showHint = true;
     // no change detection here because angular will not detect changes
     // when inputs changed directly.
     // See https://github.com/angular/angular/issues/12313
@@ -115,6 +117,31 @@ describe('CardComponent', () => {
       spyOn(component.view, 'toggle');
       component.closeView(ev as MouseEvent);
       expect(component.view.toggle).toHaveBeenCalledWith(true);
+    });
+  });
+
+  describe('hint', () => {
+    beforeEach(() => {
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+    it('should not show hint by default', () => {
+      const el = fixture.debugElement.query(
+        By.css('cx-popover > .popover-body > p')
+      );
+      expect(el).toBeFalsy();
+    });
+
+    it('should display hint after click info button', () => {
+      const infoButton = fixture.debugElement.query(
+        By.css('button[ng-reflect-cx-popover]')
+      ).nativeElement;
+      infoButton.click();
+      const el = fixture.debugElement.query(
+        By.css('cx-popover > .popover-body > p')
+      );
+      expect(el).toBeTruthy();
+      expect(el.nativeElement.innerText).toBe('organization.budget.hint');
     });
   });
 });
