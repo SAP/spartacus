@@ -14,7 +14,7 @@ class MockLanguageService {
   }
 }
 
-describe('CpqConfiguratorUtilitiesService', () => {
+describe('CpqConfiguratorUtilsService', () => {
   let cpqConfiguratorUtilsService: CpqConfiguratorUtilsService;
 
   beforeEach(() => {
@@ -187,15 +187,6 @@ describe('CpqConfiguratorUtilitiesService', () => {
       cpqAttr
     );
     expect(quantity).toBeNull();
-  });
-
-  it('should format price retriving locale from language service', () => {
-    const price: Configurator.PriceDetails = {
-      currencyIso: CURRENCY,
-      value: 123.45,
-    };
-    cpqConfiguratorUtilsService['formatPrice'](price);
-    expect(price.formattedValue).toBe('$123.45');
   });
 
   it('should format price', () => {
