@@ -1,8 +1,8 @@
-import { OrderEntry } from 'projects/core/src/model/order.model';
+import { OrderEntry } from '../../../model/order.model';
 import {
   EntityProcessesDecrementAction,
   EntityProcessesIncrementAction,
-} from 'projects/core/src/state/utils/entity-processes-loader/entity-processes-loader.action';
+} from '../../../state/utils/entity-processes-loader/entity-processes-loader.action';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 
 export const ADD_TO_ENTRY_GROUP = '[Cart] Add To Entry Group';

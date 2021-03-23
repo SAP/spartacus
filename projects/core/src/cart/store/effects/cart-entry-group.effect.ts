@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { withdrawOn } from 'projects/core/src/util';
+import { withdrawOn } from '../../../util';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { CartModification } from '../../../model/cart.model';
@@ -98,5 +98,5 @@ export class CartEntryGroupEffects {
   constructor(
     private actions$: Actions,
     private cartEntryGroupConnector: CartEntryGroupConnector
-  ) {}
+  ) { }
 }

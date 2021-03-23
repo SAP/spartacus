@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CartModification } from 'projects/core/src/model/cart.model';
-import { OccEndpointsService } from 'projects/core/src/occ/services/occ-endpoints.service';
-import { SearchConfig } from 'projects/core/src/product/model/search-config';
-import { ConverterService } from 'projects/core/src/util/converter.service';
+import { CartModification } from '../../../../model/cart.model';
+import { OccEndpointsService } from '../../../../occ/services/occ-endpoints.service';
+import { SearchConfig } from '../../../../product/model/search-config';
+import { ConverterService } from '../../../../util/converter.service';
 import { Observable } from 'rxjs';
 import { CART_MODIFICATION_NORMALIZER } from '../../../connectors/entry-group';
 import { BundleAdapter } from '../../core/connectors/bundle.adapter';
@@ -15,7 +15,7 @@ export class OccBundleAdapter implements BundleAdapter {
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService
-  ) {}
+  ) { }
 
   /**
    * Starts a bundle once the productCode, its quantity, and a bundle templateId is provided. A successful result returns a CartModification response.

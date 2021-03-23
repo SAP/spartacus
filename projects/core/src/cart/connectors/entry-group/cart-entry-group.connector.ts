@@ -1,14 +1,14 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { CartModification } from '../../../model/cart.model';
-import { OrderEntry } from 'projects/core/src/model/order.model';
+import { OrderEntry } from '../../../model/order.model';
 import { CartEntryGroupAdapter } from './cart-entry-group.adapter';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartEntryGroupConnector {
-  constructor(protected adapter: CartEntryGroupAdapter) {}
+  constructor(protected adapter: CartEntryGroupAdapter) { }
 
   /**
    * Adds a product to a cart entry group.

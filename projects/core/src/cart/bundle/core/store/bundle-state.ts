@@ -1,4 +1,4 @@
-import { StateUtils } from "projects/core/src/state/utils";
+import { StateUtils } from "../../../../state/utils";
 
 export const BUNDLE_FEATURE = 'bundle';
 export const BUNDLE_DATA = '[Bundle] Bundle Data';

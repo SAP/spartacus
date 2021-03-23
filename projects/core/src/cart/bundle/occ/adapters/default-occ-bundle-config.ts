@@ -1,4 +1,4 @@
-import { OccConfig } from 'projects/core/src/occ/config/occ-config';
+import { OccConfig } from '../../../../occ/config/occ-config';
 
 export const defaultOccBundleConfig: OccConfig = {
   backend: {

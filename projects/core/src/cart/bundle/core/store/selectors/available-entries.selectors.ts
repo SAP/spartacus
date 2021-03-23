@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { StateUtils } from 'projects/core/src/state/utils';
+import { StateUtils } from '../../../../../state/utils';
 import { AvailableEntriesState, BundlesState, StateWithBundle } from '../bundle-state';
 import { getBundleState } from './feature.selector';
 
