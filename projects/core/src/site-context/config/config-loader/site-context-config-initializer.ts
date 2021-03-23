@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ConfigInitializer } from 'projects/core/src/config';
 import { Observable, of } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
+import { ConfigInitializer } from '../../../config/config-initializer/config-initializer';
 import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { BaseSite } from '../../../model/misc.model';
 import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
