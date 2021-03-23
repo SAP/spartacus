@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CdcComponentsModule } from '@spartacus/cdc/components';
-import { CdcCoreModule } from '@spartacus/cdc/core';
 import { CdcRootModule } from '@spartacus/cdc/root';
+import { provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [
-    CdcComponentsModule,
-    CdcCoreModule,
     CdcRootModule.forRoot({
       cdc: [
         {
@@ -20,6 +17,15 @@ import { CdcRootModule } from '@spartacus/cdc/root';
           sessionExpiration: 3600,
         },
       ],
+    }),
+  ],
+  providers: [
+    provideConfig({
+      featureModules: {
+        asm: {
+          module: () => import('@spartacus/cdc').then((m) => m.CdcModule),
+        },
+      },
     }),
   ],
 })

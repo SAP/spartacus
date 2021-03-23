@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-
+import { CdcComponentsModule } from '@spartacus/cdc/components';
+import { CdcCoreModule } from '@spartacus/cdc/core';
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ]
+  imports: [CdcCoreModule, CdcComponentsModule],
 })
-export class CdcModule { }
+export class CdcModule {}
