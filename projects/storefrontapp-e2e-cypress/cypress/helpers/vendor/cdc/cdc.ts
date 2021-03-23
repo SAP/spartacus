@@ -24,10 +24,6 @@ export function fillAndSubmitRegistrationForm() {
   });
 }
 
-export function verifyRegistrationSuccess() {
-  cy.get('[class="cx-login-greet"]').should('contain', user.fullName);
-}
-
 export function login() {
   cy.get('[id="gigya-login-form"]').within(() => {
     cy.get('[placeholder="Email *"]').type(user.email);
@@ -36,7 +32,7 @@ export function login() {
   });
 }
 
-export function verifyLoginSuccess() {
+export function verifyLoginOrRegistrationSuccess() {
   cy.get('[class="cx-login-greet"]').should('contain', user.fullName);
 }
 
