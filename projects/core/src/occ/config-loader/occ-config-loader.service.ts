@@ -31,7 +31,7 @@ export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
 >('cx-external-config');
 
 /**
- * @deprecated since 3.2 - use `SiteContextConfigLoaderService` instead
+ * @deprecated since 3.2 - use `SiteContextConfigInitializer` instead
  */
 // TODO(#11515): drop it in 4.0
 @Injectable({ providedIn: 'root' })

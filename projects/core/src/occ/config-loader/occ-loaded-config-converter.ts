@@ -13,7 +13,7 @@ import { Occ } from '../occ-models/occ.models';
 import { OccLoadedConfig } from './occ-loaded-config';
 
 /**
- * @deprecated since 3.2 - use `SiteContextConfigLoaderService` instead
+ * @deprecated since 3.2 - use `SiteContextConfigInitializer` instead
  */
 // TODO(#11515): drop it in 4.0
 @Injectable({ providedIn: 'root' })

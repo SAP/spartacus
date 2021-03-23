@@ -16,6 +16,7 @@ export class I18nConfigInitializer implements ConfigInitializer {
   ) {}
 
   /**
+   * Resolves the `fallbackLang` based on the default langauge from config `context.language` .
    * If `fallbackLang` was already configured statically, the empty object is emitted.
    */
   protected resolveConfig(): Observable<I18nConfig> {
