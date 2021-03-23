@@ -1,4 +1,5 @@
 import * as orderApprovalSampleData from '../../../sample-data/b2b-order-approval';
+import * as savedCartSampleData from '../../../sample-data/b2b-saved-cart';
 import { TabbingOrderConfig, TabbingOrderTypes } from '../tabbing-order.model';
 
 const paymentTypeRadio = {
@@ -296,5 +297,90 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Day(s)', type: TabbingOrderTypes.SELECT },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     ...acceptAndSubmitOrder,
+  ],
+  cart: [
+    {
+      value: 'Saved Carts',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Save Cart For Later',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: savedCartSampleData.products[0].name,
+      type: TabbingOrderTypes.LINK,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+    {
+      value: 'Proceed to Checkout',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'couponCode',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'Apply',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  savedCartModal: [
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.TEXT_AREA,
+    },
+    {
+      value: 'Cancel',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Save',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  savedCartListing: [
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+
+    {
+      value: '$35.00',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Make Cart Active',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  savedCartDetails: [
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'Cordless screwdriver 2436',
+      type: TabbingOrderTypes.LINK,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Delete Saved Cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Make cart active', type: TabbingOrderTypes.BUTTON },
   ],
 };
