@@ -440,4 +440,37 @@ describe('CpqConfiguratorUtilitiesService', () => {
       cpqConfiguratorUtilitiesService.preparePriceSummary(cpqConfiguration)
     ).toEqual(expectedPriceSummary);
   });
+
+  it('should retrieve attribute label', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      label: 'label',
+      name: 'name',
+    };
+    expect(
+      cpqConfiguratorUtilitiesService.retrieveAttributeLabel(attribute)
+    ).toBe('label');
+  });
+
+  it('should retrieve attribute name if no label available', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      name: 'name',
+    };
+    expect(
+      cpqConfiguratorUtilitiesService.retrieveAttributeLabel(attribute)
+    ).toBe('name');
+  });
+
+  it('should retrieve empty string if neither attribute label nor attribute name are available', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+    };
+    expect(
+      cpqConfiguratorUtilitiesService.retrieveAttributeLabel(attribute)
+    ).toBe('');
+  });
 });

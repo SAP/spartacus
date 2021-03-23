@@ -561,7 +561,8 @@ context('CPQ Configuration', () => {
       );
 
       configuration.navigateToOverviewPage();
-      configurationOverview.checkNotificationBannerOnOP(8);
+      configurationOverview.waitForNotificationBanner(8);
+      configurationOverview.verifyNotificationBannerOnOP(8);
     });
 
     it('check correct number of issues displayed in cart', () => {
@@ -605,7 +606,7 @@ context('CPQ Configuration', () => {
 
       configuration.clickAddToCartBtn();
       configurationOverview.waitForNotificationBanner(8);
-      configurationOverview.checkNotificationBannerOnOP(8);
+      configurationOverview.verifyNotificationBannerOnOP(8);
 
       configurationOverview.clickContinueToCartBtnOnOP();
       configuration.checkNotificationBannerInCart(0, 8);
