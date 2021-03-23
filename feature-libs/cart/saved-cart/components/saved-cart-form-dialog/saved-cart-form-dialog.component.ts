@@ -229,5 +229,6 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.close('close dialog');
   }
 }
