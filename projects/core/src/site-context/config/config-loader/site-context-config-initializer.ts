@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ConfigInitializer } from 'projects/core/src/config';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
+import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { BaseSite } from '../../../model/misc.model';
 import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
 import { WindowRef } from '../../../window/window-ref';
@@ -22,7 +23,10 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   constructor(
     protected baseSiteService: BaseSiteService,
     protected javaRegExpConverter: JavaRegExpConverter,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected config: SiteContextConfig,
+    // TODO(#11515): remove it in 4.0
+    protected featureConfigService?: FeatureConfigService
   ) {}
 
   private get currentUrl(): string {
@@ -35,6 +39,16 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
    * Completes after emitting the value.
    */
   protected resolveConfig(): Observable<SiteContextConfig> {
+    // TODO(#11515): remove it in 4.0
+    if (!this.featureConfigService?.isLevel('3.2')) {
+      return of({});
+    }
+
+    // Load config for `context` from backend only when there is no static config for `context.baseSite`
+    if (this.config?.context?.[BASE_SITE_CONTEXT_ID]) {
+      return of({});
+    }
+
     return this.baseSiteService.getAll().pipe(
       map((baseSites) =>
         baseSites?.find((site) => this.isCurrentBaseSite(site))
