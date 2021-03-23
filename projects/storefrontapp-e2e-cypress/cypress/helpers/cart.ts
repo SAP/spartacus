@@ -2,6 +2,7 @@ import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
 import { clickHamburger, waitForPage } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
+import { waitForHomePage } from './homepage';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
 
@@ -128,11 +129,14 @@ export function checkBasicCart() {
 
   closeAddedToCartDialog();
   checkMiniCartCount(1);
+
   cy.get('cx-mini-cart > a').click({ force: true });
 
   cy.wait('@cart_page');
 
   checkProductInCart(products[0]);
+
+  cy.log(`Adding second product to cart via search page`);
 
   cy.onMobile(() => {
     cy.get('.search').click();
@@ -152,7 +156,11 @@ export function checkBasicCart() {
 
   cy.wait('@cart_page');
 
-  checkProductInCart(products[4]);
+  checkProductInCart(products[4]).within(() => {
+    incrementQuantity();
+  });
+
+  checkMiniCartCount(3);
 
   removeCartItem(products[0]);
 
@@ -204,6 +212,13 @@ export function registerCreateCartRoute() {
   ).as('create_cart');
 }
 
+export function registerDeleteCartItemRoute() {
+  cy.intercept(
+    'DELETE',
+    `${getOccUrlPrefix()}/users/*/carts/*/entries/*?lang=en&curr=USD`
+  ).as('delete_cart_item');
+}
+
 export function registerSaveCartRoute() {
   cy.intercept(
     'PATCH',
@@ -250,9 +265,13 @@ export function removeAllItemsFromCart() {
 }
 
 export function removeCartItem(product) {
+  registerDeleteCartItemRoute();
+
   getCartItem(product.name).within(() => {
     cy.findByText('Remove').click();
   });
+
+  cy.wait('@delete_cart_item');
 }
 
 export function loginRegisteredUser() {
@@ -268,13 +287,7 @@ export function addProductWhenLoggedIn(mobile: boolean) {
 
   clickAddToCart();
 
-  /**
-   * This waits is added here to delay Add to cart click until wishlist is created.
-   * Wishlist is created on first render of wishlist components.
-   * Without that there might be a race condition that active cart will use the same cart as wishlist.
-   */
   cy.wait('@create_cart');
-  // cy.wait('@save_cart');
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 }
@@ -365,6 +378,8 @@ export function logOutAndEmptyCart() {
     option: 'Sign Out',
   });
   cy.wait(`@${logoutPage}`);
+
+  waitForHomePage();
 
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');

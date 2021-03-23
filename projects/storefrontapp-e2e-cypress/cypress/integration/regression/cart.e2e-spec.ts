@@ -16,13 +16,13 @@ describe('Cart', () => {
     context('visiting homepage', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
+        cart.loginRegisteredUser();
         visitHomePage();
       });
 
       it('should merge carts when user is authenticated', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();
-        cart.loginRegisteredUser();
 
         cart.addProductWhenLoggedIn(false);
 
@@ -293,7 +293,7 @@ describe('Cart', () => {
         cart.validateEmptyCart();
       });
 
-      it('should have separate cart on each base site', () => {
+      it('should have different cart on different base sites', () => {
         cy.visit(`/product/${cart.products[0].code}`);
         cart.clickAddToCart();
         cart.checkAddedToCartDialog();
