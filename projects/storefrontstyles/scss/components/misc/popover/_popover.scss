@@ -2,6 +2,7 @@
   --cx-popover-font-size: 0.875rem;
   --cx-popover-background: var(--cx-color-inverse);
   --cx-popover-min-width: 140px;
+  --cx-popover-max-width: 280px;
   --cx-popover-border-width: 1px;
   --cx-popover-border-color: var(--cx-color-light);
   --cx-popover-border-radius: 5px;
@@ -19,6 +20,7 @@
   z-index: var(--cx-popover-z-index);
   display: block;
   min-width: var(--cx-popover-min-width);
+  max-width: var(--cx-popover-max-width);
   font-size: var(--cx-popover-font-size);
   word-wrap: break-word;
   background-color: var(--cx-popover-background);
@@ -155,13 +157,13 @@
 
   &.top-left > .arrow,
   &.bottom-left > .arrow {
-    left: 2em;
+    left: 0.5em;
   }
 
   &.top-right > .arrow,
   &.bottom-right > .arrow {
     left: auto;
-    right: 2em;
+    right: 0.5em;
   }
 
   &.left > .arrow,
