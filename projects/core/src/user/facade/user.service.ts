@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -22,7 +22,7 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
   USER_FEATURE,
 } from '../store/user-state';
-import { FeatureModulesService } from '../../lazy-loading/feature-modules.service';
+import { UserAccountFacadeTransitionalToken } from '../user-account-facade-transitional.token';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -30,7 +30,7 @@ export class UserService {
     store: Store<StateWithUser | StateWithProcess<void>>,
     userIdService: UserIdService,
     // tslint:disable-next-line:unified-signatures
-    featureModules: FeatureModulesService
+    userAccountFacade?: UserAccountFacadeTransitionalToken
   );
   /**
    * @deprecated since 3.2
@@ -46,18 +46,16 @@ export class UserService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected userIdService: UserIdService,
-    protected featureModules?: FeatureModulesService
-  ) {
-    // If we are using new, lazy loaded user account library, we want to initialize it
-    if (this.featureModules.isConfigured('userAccount')) {
-      this.featureModules.resolveFeature('userAccount').subscribe();
-    }
-  }
+    @Optional() protected userAccountFacade?: UserAccountFacadeTransitionalToken
+  ) {}
 
   /**
    * Returns a user.
    */
   get(): Observable<User> {
+    if (this.userAccountFacade) {
+      return this.userAccountFacade.get();
+    }
     return this.store.pipe(
       // workaround for using lazy loaded user/account library
       filter((state) => state[USER_FEATURE]),

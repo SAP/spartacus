@@ -10,7 +10,8 @@ import {
   ExternalRoutesModule,
   ProductModule,
   ProductOccModule,
-  UserOccModule,
+  UserOccTransitionalModule,
+  UserTransitionalModule,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -118,7 +119,8 @@ if (environment.cds) {
     BreadcrumbModule,
 
     // User Core
-    UserOccModule,
+    UserTransitionalModule,
+    UserOccTransitionalModule,
     // User UI
     AddressBookModule,
     PaymentMethodsModule,

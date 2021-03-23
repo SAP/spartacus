@@ -15,6 +15,7 @@ import {
   ProductModule,
   provideConfigFromMetaTags,
   StateModule,
+  UserModule,
 } from '@spartacus/core';
 import { OutletModule } from '../cms-structure/outlet/outlet.module';
 import { RoutingModule } from '../cms-structure/routing/routing.module';
@@ -43,7 +44,7 @@ import { ViewConfigModule } from '../shared/config/view-config.module';
     ProcessModule.forRoot(),
     CartModule.forRoot(),
     CheckoutModule.forRoot(),
-    // UserModule.forRoot(),
+    UserModule.forRoot(),
     ProductModule.forRoot(),
     ViewConfigModule.forRoot(),
     FeaturesConfigModule.forRoot(),
