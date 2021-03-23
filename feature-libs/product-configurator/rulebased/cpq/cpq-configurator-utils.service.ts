@@ -13,10 +13,11 @@ export class CpqConfiguratorUtilsService {
   constructor(protected languageService: LanguageService) {}
 
   /**
-   * Prepares quantity to be shown inthe overview page
-   * @param value CPQ Value
-   * @param attribute CPQ Attribute
-   * @returns Quantity
+   * Prepares quantity to be shown in the overview page
+   *
+   * @param {Cpq.Value} value - CPQ Value
+   * @param {Cpq.Attribute} attribute - CPQ Attribute
+   * @returns {number} - Quantity
    */
   prepareQuantity(value: Cpq.Value, attribute: Cpq.Attribute): number {
     if (!value.selected) {
@@ -41,9 +42,10 @@ export class CpqConfiguratorUtilsService {
 
   /**
    * Prepares value price
-   * @param value CPQ Value
-   * @param currency Currency code ISO
-   * @returns PriceDetails
+   *
+   * @param { Cpq.Value} value - CPQ Value
+   * @param {string} currency - Currency code ISO
+   * @returns {Configurator.PriceDetails}
    */
   prepareValuePrice(
     value: Cpq.Value,
@@ -62,9 +64,10 @@ export class CpqConfiguratorUtilsService {
 
   /**
    * Calculates total value price
-   * @param quantity Quantity
-   * @param valuePrice PriceDetails of the single value price
-   * @returns PriceDetails for total value price
+   *
+   * @param {number} quantity - Quantity
+   * @param {Configurator.PriceDetails} valuePrice - PriceDetails of the single value price
+   * @returns {Configurator.PriceDetails } - total value price
    */
   calculateValuePriceTotal(
     quantity: number,
@@ -84,8 +87,10 @@ export class CpqConfiguratorUtilsService {
 
   /**
    * Calculates total attribute price
-   * @param attribute Configurator Attribute
-   * @returns PriceDetails for total attribute price
+   *
+   * @param {Configurator.Attribute} attribute - Configurator Attribute
+   * @param {string} currency - Currency
+   * @returns {Configurator.PriceDetails} - total attribute price
    */
   calculateAttributePriceTotal(
     attribute: Configurator.Attribute,
@@ -104,21 +109,22 @@ export class CpqConfiguratorUtilsService {
 
   /**
    * Prepares formatted price for given PriceDetails object and Locale
-   * @param price Price details
-   * @param desiredLocale Original locale
+   *
+   * @param {Configurator.PriceDetails} price - Price details
+   * @param {string} availableLocale - Original locale
    */
   protected formatPriceForLocale(
     price: Configurator.PriceDetails,
-    desiredLocale: string
+    availableLocale: string
   ): void {
     const currencySymbol: string = getCurrencySymbol(
       price.currencyIso,
       'narrow',
-      desiredLocale
+      availableLocale
     );
     price.formattedValue = formatCurrency(
       price.value,
-      desiredLocale,
+      availableLocale,
       currencySymbol,
       price.currencyIso
     );
@@ -126,8 +132,9 @@ export class CpqConfiguratorUtilsService {
 
   /**
    * Converts the CPQ Attribute data type into the Configurator Attribute data type
-   * @param cpqAttribute CPQ Attribute
-   * @returns Data type of the configurator attribute
+   *
+   * @param {Cpq.Attribute} cpqAttribute - CPQ Attribute
+   * @returns {Configurator.DataType} Data type of the configurator attribute
    */
   convertDataType(cpqAttribute: Cpq.Attribute): Configurator.DataType {
     let dataType: Configurator.DataType;
@@ -171,6 +178,12 @@ export class CpqConfiguratorUtilsService {
     return dataType;
   }
 
+  /**
+   * Prepares price summary
+   *
+   * @param {cpqConfiguration: Cpq.Configuration} cpqConfiguration - CPQ configuration
+   * @returns {Configurator.PriceSummary} - price summary
+   */
   preparePriceSummary(
     cpqConfiguration: Cpq.Configuration
   ): Configurator.PriceSummary {
@@ -217,8 +230,9 @@ export class CpqConfiguratorUtilsService {
 
   /**
    * Verifies whether at least one value of a CPQ Attribute has an assigned product
-   * @param attributeValues CPQ Attribute values
-   * @returns true, if at least one value of a CPQ Attribute has an assigned product
+   *
+   * @param {Cpq.Value[]} attributeValues - CPQ Attribute values
+   * @returns {boolean} - true, if at least one value of a CPQ Attribute has an assigned product
    */
   hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
     return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
@@ -226,8 +240,9 @@ export class CpqConfiguratorUtilsService {
 
   /**
    * Retrieve attribute label
-   * @param attribute CPQ Attribute
-   * @returns attribute label
+   *
+   * @param {attribute: Cpq.Attribute} attribute - CPQ Attribute
+   * @returns {string} - attribute label
    */
   retrieveAttributeLabel(attribute: Cpq.Attribute): string {
     return attribute.label
@@ -239,8 +254,10 @@ export class CpqConfiguratorUtilsService {
 
   /**
    * Retrieves the current language.
+   *
+   * @return {string} - current language
    */
-  protected getLanguage() {
+  protected getLanguage(): string {
     const lang = this.getActiveLanguage();
     try {
       getLocaleId(lang);
@@ -253,6 +270,8 @@ export class CpqConfiguratorUtilsService {
 
   /**
    * Retrieves the active language.
+   *
+   * @return {string} - active language
    */
   protected getActiveLanguage(): string {
     let result;
@@ -269,7 +288,7 @@ export class CpqConfiguratorUtilsService {
    *
    * @param {string} lang - Active language
    */
-  protected reportMissingLocaleData(lang: string) {
+  protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
       console.warn(
         `CpqConfiguratorUtilsService: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
