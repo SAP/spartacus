@@ -37,15 +37,13 @@ export class UpdateEmailService {
     }
   );
 
-  reset(): void {
-    this.form.reset();
-  }
-
   save(): void {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;
     }
+
+    this.form.disable();
     this.isUpdating$.next(true);
 
     const newEmail = this.form.get('confirmEmail')?.value;
@@ -55,8 +53,6 @@ export class UpdateEmailService {
       next: () => this.onSuccess(newEmail),
       complete: () => this.isUpdating$.next(false),
     });
-
-    this.form.disable();
   }
 
   /**
@@ -74,8 +70,7 @@ export class UpdateEmailService {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-    this.form.reset();
-    this.form.enable();
+    this.reset();
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout().then(() => {
       this.routingService.go({ cxRoute: 'login' }, undefined, {
@@ -84,5 +79,10 @@ export class UpdateEmailService {
         },
       });
     });
+  }
+
+  reset(): void {
+    this.form.reset();
+    this.form.enable();
   }
 }

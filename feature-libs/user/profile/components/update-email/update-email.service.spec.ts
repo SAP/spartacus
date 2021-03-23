@@ -15,21 +15,10 @@ import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
 import { UpdateEmailService } from './update-email.service';
 
-class MockUserService implements Partial<UserEmailFacade> {
+class MockUserEmailService implements Partial<UserEmailFacade> {
   update(_password: string, _newUid: string): Observable<unknown> {
     return of({});
   }
-  // updateEmail(): void {}
-  // resetUpdateEmailResultState(): void {}
-  // getUpdateEmailResultLoading(): Observable<boolean> {
-  //   return of(true);
-  // }
-  // getUpdateEmailResultSuccess(): Observable<boolean> {
-  //   return of();
-  // }
-  // getUpdateEmailResultError(): Observable<boolean> {
-  //   return of();
-  // }
 }
 
 class MockAuthService {
@@ -74,7 +63,7 @@ describe('UpdateEmailService', () => {
         },
         {
           provide: UserEmailFacade,
-          useClass: MockUserService,
+          useClass: MockUserEmailService,
         },
         {
           provide: AuthService,
@@ -147,7 +136,7 @@ describe('UpdateEmailService', () => {
       );
     });
 
-    it('should show message', () => {
+    it('should logout', () => {
       service.save();
       expect(authService.coreLogout).toHaveBeenCalled();
     });

@@ -48,14 +48,13 @@
     <cx-form-errors [control]="form.get('password')"></cx-form-errors>
   </label>
 
-  <button
-    [disabled]="isUpdating$ | async"
+  <a
     class="btn btn-block btn-secondary"
-    type="button"
+    [class.disabled]="isUpdating$ | async"
     [routerLink]="{ cxRoute: 'home' } | cxUrl"
   >
     {{ 'common.cancel' | cxTranslate }}
-  </button>
+  </a>
 
   <button
     class="btn btn-block btn-primary"

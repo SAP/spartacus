@@ -135,22 +135,13 @@ describe('UpdateEmailComponent', () => {
       });
     });
 
-    describe('Cancel Button', () => {
+    describe('Cancel link', () => {
       it('should be disabled while loading', () => {
-        // updateEmailService.isUpdating$ = of(true);
         isUpdatingSubject.next(true);
         fixture.detectChanges();
-        const cancelBtn = el.query(By.css('button[type="button"]'));
-        expect(cancelBtn.nativeElement.disabled).toBeTruthy();
-      });
-
-      it('should go to home when clicked', () => {
-        isUpdatingSubject.next(false);
-        fixture.detectChanges();
-        const cancelBtn = el.query(By.css('button[type="button"]'));
-        expect(
-          cancelBtn.nativeElement.getAttribute('ng-reflect-router-link')
-        ).toContain('home');
+        const cancelLink: HTMLAnchorElement = el.query(By.css('a.btn'))
+          .nativeElement;
+        expect(cancelLink.classList).toContain('disabled');
       });
     });
   });
