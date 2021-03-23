@@ -38,7 +38,7 @@ export function isCartNotFoundError(error: ErrorModel): boolean {
 /**
  * Compute wishlist cart name for customer.
  */
-export function getWishlistName(customerId: string): string {
+export function getWishlistName(customerId: string | undefined): string {
   return `wishlist${customerId}`;
 }
 

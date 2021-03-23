@@ -62,7 +62,7 @@ export class SavedCartService {
           .getDeleteSavedCartEvent()
           .pipe(startWith({}))
       ),
-      filter(([state, _event]) => Boolean(state)),
+      filter(([state, _event]) => !!state),
       tap(([state, event]) => {
         if (Object.keys(event).length > 0) {
           return EMPTY;

@@ -23,7 +23,7 @@ export class SavedCartConnector {
 
   saveCart(
     userId: string,
-    cartId: string,
+    cartId: string | undefined,
     saveCartName?: string,
     saveCartDescription?: string
   ): Observable<Cart> {
