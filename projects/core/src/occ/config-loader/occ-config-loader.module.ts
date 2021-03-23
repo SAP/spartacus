@@ -11,7 +11,7 @@ import { OccConfigLoaderService } from './occ-config-loader.service';
 /**
  * Initializes the Spartacus config asynchronously basing on the external config
  *
- * @deprecated since 3.2 - use `initSiteContextConfig()` from `SiteContextModule` instead.
+ * @deprecated since 3.2 - use `SiteContextConfigInitializer` instead
  * Not a public API though.
  */
 // TODO(#11515): drop it 4.0
