@@ -14,7 +14,7 @@ class MockPageMetaService {
   }
 }
 
-describe('BreadcrumbComponent', () => {
+describe('PageHeaderComponent', () => {
   let component: PageHeaderComponent;
   let fixture: ComponentFixture<PageHeaderComponent>;
 
