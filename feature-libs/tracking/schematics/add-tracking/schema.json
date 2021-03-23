@@ -23,15 +23,11 @@
         "enum": [
           "Personalization",
           "Tag Management System - Google Tag Manager",
-          "Tag Management System - Adobe Experience Launch Platform"
+          "Tag Management System - Adobe Experience Platform Launch"
         ],
         "type": "string"
       },
-      "default": [
-        "Personalization",
-        "Tag Management System - Google Tag Manager",
-        "Tag Management System - Adobe Experience Launch Platform"
-      ],
+      "default": ["Personalization"],
       "x-prompt": "Which features would you like to setup?"
     }
   },
