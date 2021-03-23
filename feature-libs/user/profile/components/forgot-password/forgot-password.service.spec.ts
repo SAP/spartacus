@@ -7,7 +7,7 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   OAuthFlow,
-  RoutingService,
+  RoutingService
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
@@ -16,7 +16,7 @@ import { ForgotPasswordService } from './forgot-password.service';
 
 class MockUserPasswordService implements Partial<UserPasswordFacade> {
   requestForgotPasswordEmail(_email: string): Observable<unknown> {
-    return of();
+    return of({});
   }
 }
 class MockRoutingService implements Partial<RoutingService> {

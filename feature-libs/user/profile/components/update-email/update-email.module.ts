@@ -12,9 +12,6 @@ import {
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UpdateEmailComponent } from './update-email.component';
 
-/**
- * @deprecated since 3.2, moved to @spartacus/user package.
- */
 @NgModule({
   imports: [
     CommonModule,

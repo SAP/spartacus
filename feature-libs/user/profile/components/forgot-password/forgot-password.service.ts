@@ -47,9 +47,8 @@ export class ForgotPasswordService {
           { key: 'forgottenPassword.passwordResetEmailSent' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
+        this.redirect();
       });
-
-    this.redirect();
   }
 
   /**
