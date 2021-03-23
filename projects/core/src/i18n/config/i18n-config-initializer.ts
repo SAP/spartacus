@@ -26,7 +26,7 @@ export class I18nConfigInitializer implements ConfigInitializer {
       map((config) => ({
         i18n: {
           // the first language in the array is the default one
-          fallbackLang: config?.context?.langauge?.[0],
+          fallbackLang: config?.context?.language?.[0],
         },
       })),
       take(1)
