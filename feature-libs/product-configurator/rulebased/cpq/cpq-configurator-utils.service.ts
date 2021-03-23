@@ -261,4 +261,33 @@ export class CpqConfiguratorUtilsService {
       ? attribute.name
       : '';
   }
+
+  protected getLang() {
+    const lang = this.getActiveLang();
+    try {
+      getLocaleId(lang);
+      return lang;
+    } catch {
+      this.reportMissingLocaleData(lang);
+      return 'en';
+    }
+  }
+
+  protected getActiveLang(): string {
+    let result;
+    this.languageService
+      .getActive()
+      .subscribe((lang) => (result = lang))
+      .unsubscribe();
+
+    return result;
+  }
+
+  protected reportMissingLocaleData(lang: string) {
+    if (isDevMode()) {
+      console.warn(
+        `CpqConfiguratorUtilitiesService: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
+      );
+    }
+  }
 }
