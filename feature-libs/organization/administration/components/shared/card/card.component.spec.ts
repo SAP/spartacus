@@ -122,7 +122,6 @@ describe('CardComponent', () => {
 
   describe('hint', () => {
     beforeEach(() => {
-      component = fixture.componentInstance;
       fixture.detectChanges();
     });
     it('should not show hint by default', () => {
