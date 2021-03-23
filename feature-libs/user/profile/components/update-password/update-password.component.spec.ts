@@ -101,8 +101,13 @@ describe('UpdatePasswordComponent', () => {
   it('should show the spinner when updating', () => {
     isUpdatingSubject.next(true);
     fixture.detectChanges();
-
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+  });
+
+  it('should not show the spinner when idle', () => {
+    isUpdatingSubject.next(false);
+    fixture.detectChanges();
+    expect(el.query(By.css('cx-spinner'))).toBeFalsy();
   });
 
   it('should call updateEmail on submit', () => {
@@ -116,8 +121,7 @@ describe('UpdatePasswordComponent', () => {
 
   describe('Form Interactions', () => {
     describe('Submit button', () => {
-      it('should be disabled while loading', () => {
-        // updateEmailService.isUpdating$ = of(true);
+      it('should be disabled while updating', () => {
         isUpdatingSubject.next(true);
         fixture.detectChanges();
         const submitBtn = el.query(By.css('button[type="submit"]'));

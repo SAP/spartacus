@@ -1,14 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
+  UrlModule,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { UpdateProfileFormComponent } from './components/update-profile-form.component';
 import { UpdateProfileComponent } from './update-profile.component';
 
 @NgModule({
@@ -19,6 +20,8 @@ import { UpdateProfileComponent } from './update-profile.component';
     SpinnerModule,
     I18nModule,
     FormErrorsModule,
+    RouterModule,
+    UrlModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -30,6 +33,6 @@ import { UpdateProfileComponent } from './update-profile.component';
       },
     }),
   ],
-  declarations: [UpdateProfileComponent, UpdateProfileFormComponent],
+  declarations: [UpdateProfileComponent],
 })
 export class UpdateProfileModule {}

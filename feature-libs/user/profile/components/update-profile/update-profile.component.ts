@@ -1,48 +1,45 @@
-import { Component } from '@angular/core';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { User } from '@spartacus/user/account/root';
-import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Title } from '@spartacus/user/profile/root';
+import { Observable, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { UpdateProfileService } from './update-profile.service';
 
 @Component({
   selector: 'cx-update-profile',
   templateUrl: './update-profile.component.html',
 })
-export class UpdateProfileComponent {
-  titles$: Observable<Title[]> = this.userProfile.getTitles();
-  user$: Observable<User | undefined> = this.userProfile.get();
-  isLoading$ = new BehaviorSubject(false);
+export class UpdateProfileComponent implements OnInit, OnDestroy {
+  constructor(protected service: UpdateProfileService) {}
 
-  constructor(
-    private routingService: RoutingService,
-    private userProfile: UserProfileFacade,
-    private globalMessageService: GlobalMessageService
-  ) {}
+  form: FormGroup = this.service.form;
+  isUpdating$ = this.service.isUpdating$;
 
-  onSuccess(): void {
-    this.globalMessageService.add(
-      { key: 'updateProfileForm.profileUpdateSuccess' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
-    this.routingService.go({ cxRoute: 'home' });
+  titles$: Observable<Title[]> = this.service.titles$;
+  user$: Observable<User | undefined> = this.service.user$;
+
+  private subscription: Subscription;
+
+  ngOnInit() {
+    this.form.disable();
+    this.subscription = this.user$
+      .pipe(filter((user) => Boolean(user)))
+      .subscribe((user) => {
+        this.form.patchValue(user as User);
+        this.form.enable();
+      });
   }
 
-  onCancel(): void {
-    this.routingService.go({ cxRoute: 'home' });
+  onSubmit(): void {
+    this.service.save();
   }
 
-  onSubmit({ userUpdates }: { userUpdates: User }): void {
-    debugger;
-    this.isLoading$.next(true);
+  ngOnDestroy() {
+    // Form has to be reset in order to have a clean form
+    // next time component is called
+    this.service.reset();
 
-    this.userProfile.update(userUpdates).subscribe({
-      next: () => this.onSuccess(),
-      error: () => {},
-      complete: () => this.isLoading$.next(false),
-    });
+    this.subscription?.unsubscribe();
   }
 }

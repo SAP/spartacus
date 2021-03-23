@@ -1,57 +1,35 @@
-import {
-  Component,
-  DebugElement,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-  Title,
-  User,
-} from '@spartacus/core';
-import { of, Subject, throwError } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule, User } from '@spartacus/core';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { BehaviorSubject, of } from 'rxjs';
 import { UpdateProfileComponent } from './update-profile.component';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
-import createSpy = jasmine.createSpy;
-import Spy = jasmine.Spy;
+import { UpdateProfileService } from './update-profile.service';
 
-@Component({
-  selector: 'cx-update-profile-form',
-  template: ` <div>update form</div> `,
-})
-class MockUpdateProfileFormComponent {
-  @Input()
-  user: User;
-
-  @Input()
-  titles: Title[];
-
-  @Output()
-  submited = new EventEmitter<{ uid: string; userUpdates: User }>();
-}
 @Component({
   selector: 'cx-spinner',
   template: ` <div>spinner</div> `,
 })
 class MockCxSpinnerComponent {}
 
-class MockUserProfileFacade implements Partial<UserProfileFacade> {
-  get = createSpy('UserProfileFacade.get').and.returnValue(of());
-  getTitles = createSpy('UserProfileFacade.getTitles').and.returnValue(of());
-  update = createSpy('UserProfileFacade.update').and.returnValue(of(null));
-  close = createSpy('UserProfileFacade.close').and.returnValue(of());
-}
-class RoutingServiceMock {
-  go = createSpy();
-}
-
-class GlobalMessageServiceMock {
-  add = createSpy();
+const isUpdatingSubject = new BehaviorSubject(false);
+class MockUpdateProfileService implements Partial<UpdateProfileService> {
+  user$ = of({});
+  titles$ = of([]);
+  form: FormGroup = new FormGroup({
+    customerId: new FormControl(),
+    titleCode: new FormControl(),
+    firstName: new FormControl(),
+    lastName: new FormControl(),
+  });
+  isUpdating$ = isUpdatingSubject;
+  save(): void {}
+  reset(): void {}
 }
 
 describe('UpdateProfileComponent', () => {
@@ -59,30 +37,24 @@ describe('UpdateProfileComponent', () => {
   let fixture: ComponentFixture<UpdateProfileComponent>;
   let el: DebugElement;
 
-  let userProfileFacade: UserProfileFacade;
-  let routingService: RoutingService;
-  let globalMessageService: GlobalMessageService;
+  let service: UpdateProfileService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          UpdateProfileComponent,
-          MockUpdateProfileFormComponent,
-          MockCxSpinnerComponent,
+        imports: [
+          CommonModule,
+          ReactiveFormsModule,
+          I18nTestingModule,
+          FormErrorsModule,
+          RouterTestingModule,
+          UrlTestingModule,
         ],
+        declarations: [UpdateProfileComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: UserProfileFacade,
-            useClass: MockUserProfileFacade,
-          },
-          {
-            provide: RoutingService,
-            useClass: RoutingServiceMock,
-          },
-          {
-            provide: GlobalMessageService,
-            useClass: GlobalMessageServiceMock,
+            provide: UpdateProfileService,
+            useClass: MockUpdateProfileService,
           },
         ],
       }).compileComponents();
@@ -94,65 +66,73 @@ describe('UpdateProfileComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    userProfileFacade = TestBed.inject(UserProfileFacade);
-    routingService = TestBed.inject(RoutingService);
-    globalMessageService = TestBed.inject(GlobalMessageService);
+    service = TestBed.inject(UpdateProfileService);
 
     fixture.detectChanges();
   });
+
+  function setFormValue() {
+    component.form.setValue({
+      customerId: 'foo@bar.com',
+      firstName: 'First',
+      lastName: 'last',
+      titleCode: 'Mr',
+    } as User);
+  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show spinner when loading = true', () => {
-    const updating = new Subject();
-    (userProfileFacade.update as Spy).and.returnValue(updating);
-    component.onSubmit({ userUpdates: { uid: 'what' } });
+  it('should show the spinner when updating', () => {
+    isUpdatingSubject.next(true);
     fixture.detectChanges();
+
     expect(el.query(By.css('cx-spinner'))).toBeTruthy();
-    updating.complete();
   });
 
-  it('should not show spinner when loading = false', () => {
-    component.onSubmit({ userUpdates: { uid: 'what' } });
+  it('should not show the spinner when idle', () => {
+    isUpdatingSubject.next(false);
     fixture.detectChanges();
+
     expect(el.query(By.css('cx-spinner'))).toBeFalsy();
   });
 
-  it('should navigate to home when cancelled', () => {
-    component.onCancel();
-    expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+  it('should call updateEmail on submit', () => {
+    spyOn(service, 'save').and.stub();
+
+    setFormValue();
+
+    component.onSubmit();
+    expect(service.save).toHaveBeenCalled();
   });
 
-  it('should call updatePersonalDetails on submit', () => {
-    const userUpdates: User = {
-      firstName: 'X',
-    };
-    component.onSubmit({ userUpdates });
-    expect(userProfileFacade.update).toHaveBeenCalledWith(userUpdates);
-  });
+  describe('Form Interactions', () => {
+    describe('Submit button', () => {
+      it('should be disabled while updating', () => {
+        isUpdatingSubject.next(true);
+        fixture.detectChanges();
+        const submitBtn = el.query(By.css('button[type="submit"]'));
+        expect(submitBtn.nativeElement.disabled).toBeTruthy();
+      });
 
-  describe('onSuccess', () => {
-    describe('when the user was successfully updated', () => {
-      it('should add a global message and navigate to a url ', () => {
-        component.onSubmit({ userUpdates: {} });
-        expect(globalMessageService.add).toHaveBeenCalledWith(
-          { key: 'updateProfileForm.profileUpdateSuccess' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+      it('should call onSubmit() when clicked', () => {
+        spyOn(component, 'onSubmit').and.stub();
+        isUpdatingSubject.next(false);
+        fixture.detectChanges();
+        const submitBtn = el.query(By.css('button[type="submit"]'));
+        submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
+        expect(component.onSubmit).toHaveBeenCalled();
       });
     });
 
-    describe('when the user was NOT successfully updated', () => {
-      it('should NOT add a global message and NOT navigate to a url ', () => {
-        (userProfileFacade.update as Spy).and.returnValue(
-          throwError(undefined)
-        );
-        component.onSubmit({ userUpdates: {} });
-        expect(routingService.go).not.toHaveBeenCalled();
-        expect(globalMessageService.add).not.toHaveBeenCalled();
+    describe('Cancel Link', () => {
+      it('should be disabled while loading', () => {
+        isUpdatingSubject.next(true);
+        fixture.detectChanges();
+        const cancelLink: HTMLAnchorElement = el.query(By.css('a.btn'))
+          .nativeElement;
+        expect(cancelLink.classList).toContain('disabled');
       });
     });
   });
