@@ -16,7 +16,7 @@ function startVerdaccio(): ChildProcess {
   return res;
 }
 
-function beforeExit() {
+function beforeExit(): void {
   console.log('Setting npm back to npmjs.org');
   execSync(`npm config set @spartacus:registry https://registry.npmjs.org/`);
   if (verdaccioProcess) {
@@ -27,7 +27,7 @@ function beforeExit() {
   }
 }
 
-function publishLibs() {
+function publishLibs(): void {
   if (!currentVersion) {
     currentVersion = semver.parse(
       JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
@@ -64,23 +64,46 @@ function publishLibs() {
   });
 }
 
-function buildLibs() {
+function buildLibs(): void {
   execSync('yarn build:libs', { stdio: 'inherit' });
 }
 
-function buildSchematics(options: { publish: boolean } = { publish: false }) {
+function buildSchematics(
+  options: { publish: boolean } = { publish: false }
+): void {
   execSync('yarn build:schematics', { stdio: 'inherit' });
   if (options.publish) {
     publishLibs();
   }
 }
 
-function buildSchematicsAndPublish(buildCmd: string) {
+function buildSchematicsAndPublish(buildCmd: string): void {
   buildSchematics();
   execSync(buildCmd, {
     stdio: 'inherit',
   });
   publishLibs();
+}
+
+function testAllSchematics(): void {
+  execSync('yarn --cwd projects/schematics run test', {
+    stdio: 'inherit',
+  });
+
+  [
+    'asm',
+    'organization',
+    'product',
+    'product-configurator',
+    'qualtrics',
+    'smartedit',
+    'storefinder',
+    'tracking',
+  ].forEach((lib) =>
+    execSync(`yarn --cwd feature-libs/${lib}/schematics run test:schematics`, {
+      stdio: 'inherit',
+    })
+  );
 }
 
 async function executeCommand(
@@ -96,6 +119,7 @@ async function executeCommand(
     | 'build storefinder/schematics'
     | 'build tracking/schematics'
     | 'build all libs'
+    | 'test all schematics'
 ): Promise<void> {
   switch (command) {
     case 'publish':
@@ -131,6 +155,9 @@ async function executeCommand(
     case 'build all libs':
       buildLibs();
       break;
+    case 'test all schematics':
+      testAllSchematics();
+      break;
     default:
       const cmd: never = command;
       throw new Error(`Command ${cmd} not covered!`);
@@ -139,7 +166,7 @@ async function executeCommand(
 
 let verdaccioProcess: ChildProcess | undefined;
 
-async function program() {
+async function program(): Promise<void> {
   verdaccioProcess = startVerdaccio();
   try {
     // Give time for verdaccio to boot up
@@ -159,6 +186,7 @@ async function program() {
         'build storefinder/schematics',
         'build tracking/schematics',
         'build all libs',
+        'test all schematics',
         'exit',
       ];
       const response: { command: typeof choices[number] } = await prompt({
