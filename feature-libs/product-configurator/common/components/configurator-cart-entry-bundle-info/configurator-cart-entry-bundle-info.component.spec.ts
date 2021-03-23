@@ -11,7 +11,14 @@ import {
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
 } from '@spartacus/product-configurator/common';
-import { Type } from '@angular/core';
+import { Pipe, PipeTransform, Type } from '@angular/core';
+
+@Pipe({
+  name: 'cxNumeric',
+})
+class MockNumericPipe implements PipeTransform {
+  transform(): any {}
+}
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
@@ -55,7 +62,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ConfiguratorCartEntryBundleInfoComponent],
+      declarations: [ConfiguratorCartEntryBundleInfoComponent, MockNumericPipe],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {

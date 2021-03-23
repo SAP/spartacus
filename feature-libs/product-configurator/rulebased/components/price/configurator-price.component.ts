@@ -17,15 +17,6 @@ export class ConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 
   /**
-   * Retrieves the quantity.
-   *
-   * @return {string} - quantity
-   */
-  get quantity(): string {
-    return this.formula?.quantity?.toString();
-  }
-
-  /**
    * Retrieves price.
    *
    * @return {string} - value price formula
@@ -50,10 +41,11 @@ export class ConfiguratorPriceComponent {
   /**
    * Retrieves formula for quantity with price.
    *
-   * @return {string} - quantity with value price formula
+   * @param {string} formattedQuantity- formatted quantity
+   * @return {string} - price formula
    */
-  get quantityWihPrice(): string {
-    return this.quantity + 'x(' + this.formula?.price?.formattedValue + ')';
+  quantityWihPrice(formattedQuantity: string): string {
+    return formattedQuantity + 'x(' + this.formula?.price?.formattedValue + ')';
   }
 
   /**
