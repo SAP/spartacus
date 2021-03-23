@@ -25,7 +25,7 @@
           *ngFor="let lineItem of retrieveLineItems(orderEntry)"
         >
           <div class="cx-item-name">
-            <a href="#">{{ lineItem?.name }}</a>
+            {{ lineItem?.name }}
           </div>
           <div class="cx-item-price">
             {{ lineItem?.formattedPrice }}
