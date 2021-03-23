@@ -9,6 +9,7 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
+import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   NodeDependency,
   NodeDependencyType,
@@ -74,10 +75,7 @@ import {
 } from '../shared/utils/workspace-utils';
 import { addSpartacusConfiguration } from './configuration';
 import { setupRouterModule } from './router';
-import {
-  InstallSpartacusLibraryOptions,
-  Schema as SpartacusOptions,
-} from './schema';
+import { Schema as SpartacusOptions } from './schema';
 import { setupSpartacusModule } from './spartacus';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
@@ -446,12 +444,14 @@ function installExternalSchematic(options: {
     ];
     return chain([
       addPackageJsonDependencies(dependencies, packageJson),
-      invokeAfterSchematicTask(createLibraryOptions(options)),
+      invokeAfterSchematicTask(createSchematicTaskOptions(options)),
     ])(tree, context);
   };
 }
 
-function invokeAfterSchematicTask(options: LibraryOptions): Rule {
+function invokeAfterSchematicTask(
+  options: RunSchematicTaskOptions<LibraryOptions>
+): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const id = createNodePackageInstallationTask(context);
     context.addTask(new RunSchematicTask('add-spartacus-library', options), [
@@ -461,17 +461,19 @@ function invokeAfterSchematicTask(options: LibraryOptions): Rule {
   };
 }
 
-function createLibraryOptions(options: {
+function createSchematicTaskOptions(options: {
   schematicsOptions: SpartacusOptions;
   collectionName: string;
   schematicName?: string;
-}): InstallSpartacusLibraryOptions {
+}): RunSchematicTaskOptions<LibraryOptions> {
   return {
-    project: options.schematicsOptions.project,
-    lazy: options.schematicsOptions.lazy,
-    configuration: options.schematicsOptions.configuration,
-    features: [],
-    collectionName: options.collectionName,
-    schematicName: options.schematicName ?? 'add',
+    collection: options.collectionName,
+    name: options.schematicName ?? 'add',
+    options: {
+      project: options.schematicsOptions.project,
+      lazy: options.schematicsOptions.lazy,
+      configuration: options.schematicsOptions.configuration,
+      features: [],
+    },
   };
 }

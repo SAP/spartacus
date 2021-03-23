@@ -11,11 +11,6 @@ export interface Schema extends LibraryOptions {
   overwriteAppComponent?: boolean;
 }
 
-export interface InstallSpartacusLibraryOptions extends LibraryOptions {
-  collectionName: string;
-  schematicName: string;
-}
-
 /**
  * Creates a new generic component definition in the given or default project.
  */

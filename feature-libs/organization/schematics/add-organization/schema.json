@@ -25,6 +25,11 @@
       },
       "default": ["Administration", "Order-approval"],
       "x-prompt": "Which Organization features would you like to setup?"
+    },
+    "configuration": {
+      "description": "The Spartacus configuration",
+      "type": "string",
+      "default": "b2b"
     }
   },
   "required": []

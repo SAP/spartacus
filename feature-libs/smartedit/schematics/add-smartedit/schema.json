@@ -15,6 +15,11 @@
       "type": "boolean",
       "description": "Lazy load the smartedit features.",
       "default": true
+    },
+    "configuration": {
+      "description": "The Spartacus configuration",
+      "type": "string",
+      "default": "b2c"
     }
   },
   "required": []
