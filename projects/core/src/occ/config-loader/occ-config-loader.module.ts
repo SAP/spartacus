@@ -38,7 +38,7 @@ export function initConfig(
 /**
  * Re-provides the external config chunk given before Angular bootstrap
  *
- * @deprecated since 3.2, use `SiteContextConfigLoaderModule` instead
+ * @deprecated since 3.2, use `SiteContextConfigInitializer` instead
  */
 // TODO(#11515): drop it 4.0
 @NgModule()
