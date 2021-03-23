@@ -4,6 +4,12 @@
     "paths": {
       "@spartacus/setup": ["dist/setup"],
       "@spartacus/setup/ssr": ["dist/setup/ssr"],
+      "@spartacus/asm/assets": ["dist/asm/assets"],
+      "@spartacus/asm/components": ["dist/asm/components"],
+      "@spartacus/asm/core": ["dist/asm/core"],
+      "@spartacus/asm": ["dist/asm"],
+      "@spartacus/asm/occ": ["dist/asm/occ"],
+      "@spartacus/asm/root": ["dist/asm/root"],
       "@spartacus/organization/administration/assets": [
         "dist/organization/administration/assets"
       ],
@@ -95,7 +101,14 @@
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/incubator": ["dist/incubator"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/product/variants": ["dist/product/variants"],
+      "@spartacus/product/variants/assets": ["dist/product/variants/assets"],
+      "@spartacus/product/variants/components": [
+        "dist/product/variants/components"
+      ],
+      "@spartacus/product/variants/occ": ["dist/product/variants/occ"],
+      "@spartacus/product/variants/root": ["dist/product/variants/root"]
     }
   }
 }

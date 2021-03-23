@@ -22,9 +22,9 @@ export function getReducers(): ActionReducerMap<StoresState> {
   };
 }
 
-export const reducerToken: InjectionToken<ActionReducerMap<
-  StoresState
->> = new InjectionToken<ActionReducerMap<StoresState>>('StoreFinderReducers');
+export const reducerToken: InjectionToken<
+  ActionReducerMap<StoresState>
+> = new InjectionToken<ActionReducerMap<StoresState>>('StoreFinderReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
