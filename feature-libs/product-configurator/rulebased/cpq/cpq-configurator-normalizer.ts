@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { Configurator } from './../core/model/configurator.model';
-import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
 import { Cpq } from './cpq.models';
 
 @Injectable()
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration> {
   constructor(
-    protected cpqUtilitiesService: CpqConfiguratorUtilitiesService,
+    protected cpqUtilitiesService: CpqConfiguratorUtilsService,
     protected translation: TranslationService
   ) {}
 

@@ -10,7 +10,7 @@ import { take } from 'rxjs/operators';
  * Utilities for CPQ configuration
  */
 @Injectable({ providedIn: 'root' })
-export class CpqConfiguratorUtilitiesService {
+export class CpqConfiguratorUtilsService {
   constructor(protected languageService: LanguageService) {}
 
   /**
