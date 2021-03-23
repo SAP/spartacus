@@ -1,13 +1,3 @@
-// provide non-breaking versioning in the style layer
-@import 'versioning';
-
-//Functions and mixins
-@import 'functions';
-@import 'mixins';
-//Bring in the theme
-@import 'theme';
-@import 'theme/theme-2';
-
 //Fonts must be added separate from the theme
 @import 'fonts';
 
