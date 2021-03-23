@@ -29,4 +29,5 @@ export enum TabbingOrderTypes {
   H3 = 'h3',
   CX_PRODUCT_VIEW = 'cxProductView',
   INDEX_OF_ELEMENT = 'indexOfElement',
+  TEXT_AREA = 'textarea',
 }
