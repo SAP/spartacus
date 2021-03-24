@@ -10,22 +10,22 @@ import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
 import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
-import { SavedCartDetailService } from '../saved-cart-detail.service';
+import { SavedCartDetailsService } from '../saved-cart-details.service';
 
 @Component({
-  selector: 'cx-saved-cart-detail-overview',
-  templateUrl: './saved-cart-detail-overview.component.html',
+  selector: 'cx-saved-cart-details-overview',
+  templateUrl: './saved-cart-details-overview.component.html',
 })
-export class SavedCartDetailOverviewComponent implements OnDestroy {
+export class SavedCartDetailsOverviewComponent implements OnDestroy {
   private subscription = new Subscription();
 
   @ViewChild('element') element: ElementRef;
 
   iconTypes = ICON_TYPE;
-  savedCart$: Observable<Cart> = this.savedCartDetailService.getCartDetails();
+  savedCart$: Observable<Cart> = this.savedCartDetailsService.getCartDetails();
 
   constructor(
-    protected savedCartDetailService: SavedCartDetailService,
+    protected savedCartDetailsService: SavedCartDetailsService,
     protected translation: TranslationService,
     protected savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
     protected vcr: ViewContainerRef

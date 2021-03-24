@@ -252,31 +252,31 @@ describe('SavedCartFormDialogComponent', () => {
     });
   });
 
-  describe('should trigger onSuccess from ngOnInit', () => {
+  describe('should trigger onComplete from ngOnInit', () => {
     beforeEach(() => {
-      spyOn(component, 'onSuccess').and.stub();
+      spyOn(component, 'onComplete').and.stub();
     });
 
-    it('should trigger onSuccess when there was a successful saved cart', () => {
+    it('should trigger onComplete when there was a successful saved cart', () => {
       spyOn(savedCartService, 'getSaveCartProcessSuccess').and.returnValue(
         of(true)
       );
 
       component.ngOnInit();
-      expect(component.onSuccess).toHaveBeenCalled();
+      expect(component.onComplete).toHaveBeenCalled();
     });
 
-    it('should trigger onSuccess when there was a successful delete saved cart event', () => {
+    it('should trigger onComplete when there was a successful delete saved cart event', () => {
       spyOn(
         savedCartEventsService,
         'getDeleteSavedCartSuccessEvent'
       ).and.returnValue(of(mockDeleteSavedCartEvent));
       component.ngOnInit();
-      expect(component.onSuccess).toHaveBeenCalled();
+      expect(component.onComplete).toHaveBeenCalled();
     });
   });
 
-  describe('should perform actions from onSuccess', () => {
+  describe('should perform actions from onComplete', () => {
     beforeEach(() => {
       spyOn(component, 'close');
       spyOn(globalMessageService, 'add');
@@ -288,7 +288,7 @@ describe('SavedCartFormDialogComponent', () => {
 
       mockDialogData$.next(mockFilledDialogData);
 
-      component.onSuccess(true);
+      component.onComplete(true);
 
       expect(component.close).toHaveBeenCalledWith('Succesfully saved cart');
       expect(savedCartService.clearSaveCart).toHaveBeenCalled();
@@ -309,7 +309,7 @@ describe('SavedCartFormDialogComponent', () => {
 
       mockDialogData$.next({ ...mockFilledDialogData, layoutOption: 'delete' });
 
-      component.onSuccess(true);
+      component.onComplete(true);
 
       expect(component.close).toHaveBeenCalledWith(
         'Succesfully deleted a saved cart'
@@ -328,7 +328,7 @@ describe('SavedCartFormDialogComponent', () => {
 
       mockDialogData$.next({ ...mockFilledDialogData, layoutOption: 'edit' });
 
-      component.onSuccess(true);
+      component.onComplete(true);
 
       expect(component.close).toHaveBeenCalledWith(
         'Succesfully edited saved cart'
