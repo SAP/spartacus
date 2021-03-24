@@ -12,7 +12,7 @@ import {
   PromotionLocation,
 } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
-import { ReplaySubject, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
@@ -156,25 +156,38 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
     it('should disable product configuration when context is SaveForLater', () => {
       mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
       fixture.detectChanges();
-      component.shouldShowButton$.subscribe((savedCart) => {
-        expect(savedCart).toBeFalsy();
-      });
+
+      let result: boolean | undefined;
+
+      component.shouldShowButton$
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
     });
 
     it('should disable product configuration when context is SavedCart', () => {
       mockCartItemContext.location$.next(PromotionLocation.SavedCart);
       fixture.detectChanges();
-      component.shouldShowButton$.subscribe((savedCart) => {
-        expect(savedCart).toBeFalsy();
-      });
+      let result: boolean | undefined;
+
+      component.shouldShowButton$
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
     });
 
     it('should display configure button if context is NOT related to saved carts ', () => {
       mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
       fixture.detectChanges();
-      component.shouldShowButton$.subscribe((savedCart) => {
-        expect(savedCart).toBeTruthy();
-      });
+      let result: boolean | undefined;
+
+      component.shouldShowButton$
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
     });
 
     describe('hasStatus', () => {
