@@ -12,6 +12,7 @@ import {
   Cart,
   GlobalMessageService,
   GlobalMessageType,
+  PromotionLocation,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -26,6 +27,8 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
+
+  CartLocation = PromotionLocation;
 
   userId$ = this.userIdService.getUserId();
 
