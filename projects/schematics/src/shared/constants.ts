@@ -680,5 +680,6 @@ export const CSS_V3_DOCS_URL =
 export const SPARTACUS_ROUTING_MODULE = 'app-routing';
 export const SPARTACUS_MODULE = 'spartacus';
 export const SPARTACUS_FEATURES_MODULE = 'spartacus-features';
+export const SPARTACUS_FEATURES_NG_MODULE = 'SpartacusFeaturesModule';
 export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 /******* CLI end *******/
