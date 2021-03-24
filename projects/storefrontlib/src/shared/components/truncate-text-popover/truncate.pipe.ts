@@ -9,7 +9,7 @@ export class TruncatePipe implements PipeTransform {
   /**
    * example usage {{ exampleString | cxTruncate: [1, ''] }}
    */
-  transform(value: string, args?: [number, (string | undefined)?]): string {
+  transform(value: string, args?: [number, string?]): string {
     if (!args) {
       return value;
     }
