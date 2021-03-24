@@ -4,20 +4,20 @@ import { Configurator } from '../core/model/configurator.model';
 import { Cpq } from './cpq.models';
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
 import { LanguageService } from '@spartacus/core';
-import { take } from 'rxjs/operators';
 
 /**
  * Utilities for CPQ configuration
  */
 @Injectable({ providedIn: 'root' })
-export class CpqConfiguratorUtilitiesService {
+export class CpqConfiguratorUtilsService {
   constructor(protected languageService: LanguageService) {}
 
   /**
-   * Prepares quantity to be shown inthe overview page
-   * @param value CPQ Value
-   * @param attribute CPQ Attribute
-   * @returns Quantity
+   * Prepares quantity to be shown in the overview page
+   *
+   * @param {Cpq.Value} value - CPQ Value
+   * @param {Cpq.Attribute} attribute - CPQ Attribute
+   * @returns {number} - Quantity
    */
   prepareQuantity(value: Cpq.Value, attribute: Cpq.Attribute): number {
     if (!value.selected) {
@@ -42,9 +42,10 @@ export class CpqConfiguratorUtilitiesService {
 
   /**
    * Prepares value price
-   * @param value CPQ Value
-   * @param currency Currency code ISO
-   * @returns PriceDetails
+   *
+   * @param { Cpq.Value} value - CPQ Value
+   * @param {string} currency - Currency code ISO
+   * @returns {Configurator.PriceDetails}
    */
   prepareValuePrice(
     value: Cpq.Value,
@@ -56,16 +57,17 @@ export class CpqConfiguratorUtilitiesService {
         currencyIso: currency,
         value: parseFloat(value.price),
       };
-      this.formatPrice(price);
+      this.formatPriceForLocale(price, this.getLanguage());
     }
     return price;
   }
 
   /**
    * Calculates total value price
-   * @param quantity Quantity
-   * @param valuePrice PriceDetails of the single value price
-   * @returns PriceDetails for total value price
+   *
+   * @param {number} quantity - Quantity
+   * @param {Configurator.PriceDetails} valuePrice - PriceDetails of the single value price
+   * @returns {Configurator.PriceDetails } - total value price
    */
   calculateValuePriceTotal(
     quantity: number,
@@ -78,15 +80,17 @@ export class CpqConfiguratorUtilitiesService {
         currencyIso: valuePrice.currencyIso,
         value: calculationQuantity * valuePrice.value,
       };
-      this.formatPrice(valuePriceTotal);
+      this.formatPriceForLocale(valuePriceTotal, this.getLanguage());
     }
     return valuePriceTotal;
   }
 
   /**
    * Calculates total attribute price
-   * @param attribute Configurator Attribute
-   * @returns PriceDetails for total attribute price
+   *
+   * @param {Configurator.Attribute} attribute - Configurator Attribute
+   * @param {string} currency - Currency
+   * @returns {Configurator.PriceDetails} - total attribute price
    */
   calculateAttributePriceTotal(
     attribute: Configurator.Attribute,
@@ -99,43 +103,20 @@ export class CpqConfiguratorUtilitiesService {
       currencyIso: currency,
       value: priceTotal,
     };
-    this.formatPrice(attributePriceTotal);
+    this.formatPriceForLocale(attributePriceTotal, this.getLanguage());
     return attributePriceTotal;
   }
 
   /**
-   * Prepares formatted price for given PriceDetails object
-   * @param price Price details
-   */
-  protected formatPrice(price: Configurator.PriceDetails): void {
-    this.languageService
-      .getActive()
-      .pipe(take(1))
-      .subscribe((locale) => {
-        this.formatPriceForLocale(price, locale);
-      });
-  }
-
-  /**
    * Prepares formatted price for given PriceDetails object and Locale
-   * @param price Price details
-   * @param desiredLocale Original locale
+   *
+   * @param {Configurator.PriceDetails} price - Price details
+   * @param {string} availableLocale - Original locale
    */
   protected formatPriceForLocale(
     price: Configurator.PriceDetails,
-    desiredLocale: string
+    availableLocale: string
   ): void {
-    let availableLocale: string;
-    try {
-      availableLocale = getLocaleId(desiredLocale);
-    } catch {
-      if (isDevMode()) {
-        console.warn(
-          `CpqConfiguratorUtilitiesService: No locale data registered for '${desiredLocale}' (see https://angular.io/api/common/registerLocaleData).`
-        );
-      }
-      availableLocale = 'en';
-    }
     const currencySymbol: string = getCurrencySymbol(
       price.currencyIso,
       'narrow',
@@ -151,8 +132,9 @@ export class CpqConfiguratorUtilitiesService {
 
   /**
    * Converts the CPQ Attribute data type into the Configurator Attribute data type
-   * @param cpqAttribute CPQ Attribute
-   * @returns Data type of the configurator attribute
+   *
+   * @param {Cpq.Attribute} cpqAttribute - CPQ Attribute
+   * @returns {Configurator.DataType} Data type of the configurator attribute
    */
   convertDataType(cpqAttribute: Cpq.Attribute): Configurator.DataType {
     let dataType: Configurator.DataType;
@@ -196,6 +178,12 @@ export class CpqConfiguratorUtilitiesService {
     return dataType;
   }
 
+  /**
+   * Prepares price summary
+   *
+   * @param {cpqConfiguration: Cpq.Configuration} cpqConfiguration - CPQ configuration
+   * @returns {Configurator.PriceSummary} - price summary
+   */
   preparePriceSummary(
     cpqConfiguration: Cpq.Configuration
   ): Configurator.PriceSummary {
@@ -215,7 +203,7 @@ export class CpqConfiguratorUtilitiesService {
           currencyIso: currency,
           value: parseFloat(totalPriceAsString),
         };
-        this.formatPrice(totalPrice);
+        this.formatPriceForLocale(totalPrice, this.getLanguage());
         priceSummary.currentTotal = totalPrice;
       }
       if (cpqConfiguration?.responder?.baseProductPrice) {
@@ -225,7 +213,7 @@ export class CpqConfiguratorUtilitiesService {
           currencyIso: currency,
           value: parseFloat(basePriceAsString),
         };
-        this.formatPrice(basePrice);
+        this.formatPriceForLocale(basePrice, this.getLanguage());
         priceSummary.basePrice = basePrice;
       }
       if (priceSummary.currentTotal?.value && priceSummary.basePrice?.value) {
@@ -233,7 +221,7 @@ export class CpqConfiguratorUtilitiesService {
           currencyIso: currency,
           value: priceSummary.currentTotal.value - priceSummary.basePrice.value,
         };
-        this.formatPrice(selectedOptionsPrice);
+        this.formatPriceForLocale(selectedOptionsPrice, this.getLanguage());
         priceSummary.selectedOptions = selectedOptionsPrice;
       }
     }
@@ -242,8 +230,9 @@ export class CpqConfiguratorUtilitiesService {
 
   /**
    * Verifies whether at least one value of a CPQ Attribute has an assigned product
-   * @param attributeValues CPQ Attribute values
-   * @returns true, if at least one value of a CPQ Attribute has an assigned product
+   *
+   * @param {Cpq.Value[]} attributeValues - CPQ Attribute values
+   * @returns {boolean} - true, if at least one value of a CPQ Attribute has an assigned product
    */
   hasAnyProducts(attributeValues: Cpq.Value[]): boolean {
     return attributeValues.some((value: Cpq.Value) => value?.productSystemId);
@@ -251,8 +240,9 @@ export class CpqConfiguratorUtilitiesService {
 
   /**
    * Retrieve attribute label
-   * @param attribute CPQ Attribute
-   * @returns attribute label
+   *
+   * @param {attribute: Cpq.Attribute} attribute - CPQ Attribute
+   * @returns {string} - attribute label
    */
   retrieveAttributeLabel(attribute: Cpq.Attribute): string {
     return attribute.label
@@ -260,5 +250,49 @@ export class CpqConfiguratorUtilitiesService {
       : attribute.name
       ? attribute.name
       : '';
+  }
+
+  /**
+   * Retrieves the current language.
+   *
+   * @return {string} - current language
+   */
+  protected getLanguage(): string {
+    const lang = this.getActiveLanguage();
+    try {
+      getLocaleId(lang);
+      return lang;
+    } catch {
+      this.reportMissingLocaleData(lang);
+      return 'en';
+    }
+  }
+
+  /**
+   * Retrieves the active language.
+   *
+   * @return {string} - active language
+   */
+  protected getActiveLanguage(): string {
+    let result;
+    this.languageService
+      .getActive()
+      .subscribe((lang) => (result = lang))
+      .unsubscribe();
+
+    return result;
+  }
+
+  /**
+   * Prepares the message for the missing local data.
+   *
+   * @param {string} lang - Active language
+   */
+  protected reportMissingLocaleData(lang: string): void {
+    if (isDevMode()) {
+      console.warn(
+        `CpqConfiguratorUtilsService: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
+      );
+    }
   }
 }
