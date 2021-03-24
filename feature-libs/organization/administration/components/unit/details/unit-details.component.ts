@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
-import { FocusConfig, ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { ItemService } from '../../shared/item.service';
@@ -27,8 +27,4 @@ export class UnitDetailsComponent {
 
   constructor(protected itemService: ItemService<B2BUnit>) {}
   iconTypes = ICON_TYPE;
-
-  getFocusConfig(code: string): FocusConfig {
-    return code ? { autofocus: true } : {};
-  }
 }

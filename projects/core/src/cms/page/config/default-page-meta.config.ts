@@ -28,6 +28,18 @@ export const defaultPageMetaConfig: PageMetaConfig = {
         property: 'robots',
         method: 'resolveRobots',
       },
+      // enable with next major to avoid a current breaking change in 3.x version
+      // {
+      //   property: 'canonicalUrl',
+      //   method: 'resolveCanonicalUrl',
+      //   disabledInCsr: true,
+      // },
     ],
+    canonicalUrl: {
+      forceHttps: true,
+      forceWww: false,
+      removeQueryParams: true,
+      forceTrailingSlash: true,
+    },
   },
 };
