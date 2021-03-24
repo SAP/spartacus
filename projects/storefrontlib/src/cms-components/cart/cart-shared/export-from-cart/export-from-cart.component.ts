@@ -13,9 +13,43 @@ export class ExportFromCartComponent {
     this.downloadFile(this.entries);
   }
 
+  convertToCSV(objArray) {
+    let array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+    let str = '';
+
+    for (let i = 0; i < array.length; i++) {
+      let line = '';
+      for (let index in array[i]) {
+        if (line != '') line += ',';
+
+        line += array[i][index];
+      }
+
+      str += line + '\r\n';
+    }
+
+    return str;
+  }
+
   downloadFile(data, filename = 'data') {
-    let csvData = data;
-    console.log(csvData);
+    let parsedData = [];
+    parsedData.push({
+      sku: 'Sku',
+      quantity: 'Quantity',
+      name: 'Name',
+      price: 'Price',
+    });
+    data.forEach((element: OrderEntry) => {
+      parsedData.push({
+        sku: element?.product?.code,
+        quantity: element?.quantity,
+        name: element?.product?.name,
+        price: element?.totalPrice?.formattedValue,
+      });
+    });
+
+    let csvData = this.convertToCSV(parsedData);
+    console.log(data);
     let blob = new Blob(['\ufeff' + csvData], {
       type: 'text/csv;charset=utf-8;',
     });
