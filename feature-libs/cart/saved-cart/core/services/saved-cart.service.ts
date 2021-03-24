@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
   Cart,
+  EventService,
   getWishlistName,
   MultiCartService,
   ProcessSelectors,
@@ -23,13 +24,13 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { DeleteSavedCartEvent } from '../events/saved-cart.events';
 import { SavedCartActions } from '../store/actions/index';
 import {
   SAVED_CART_LIST_PROCESS_ID,
   SAVED_CART_RESTORE_CART_PROCESS_ID,
   SAVED_CART_SAVE_CART_PROCESS_ID,
-} from '../store/saved-cart-state';
-import { SavedCartEventsService } from './saved-cart-events.service';
+} from '../store/saved-cart-constants';
 
 @Injectable({
   providedIn: 'root',
@@ -40,8 +41,12 @@ export class SavedCartService {
     protected userIdService: UserIdService,
     protected userService: UserService,
     protected multiCartService: MultiCartService,
-    protected savedCartEventsService: SavedCartEventsService
+    protected eventService: EventService
   ) {}
+
+  /**
+   * Loads a single saved cart
+   */
 
   loadSavedCart(cartId: string): void {
     this.userIdService.takeUserId(true).subscribe(
@@ -54,13 +59,18 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Gets a single saved cart
+   * it won't emit if the delete saved cart event gets triggered to avoid race condition between actions
+   *
+   * @param cartId
+   * @returns observable with cart
+   */
   get(cartId: string): Observable<Cart | undefined> {
     return this.getSavedCart(cartId).pipe(
       observeOn(queueScheduler),
       withLatestFrom(
-        this.savedCartEventsService
-          .getDeleteSavedCartEvent()
-          .pipe(startWith({}))
+        this.eventService.get(DeleteSavedCartEvent).pipe(startWith({}))
       ),
       filter(([state, _event]) => Boolean(state)),
       tap(([state, event]) => {
@@ -77,16 +87,31 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Gets the selected cart state
+   *
+   * @param cartId
+   * @returns observable of selected cart with loader state
+   */
+
   getSavedCart(
     cartId: string
   ): Observable<StateUtils.ProcessesLoaderState<Cart>> {
     return this.multiCartService.getCartEntity(cartId);
   }
 
+  /**
+   * Returns true when there are no operations on that in progress and it is not currently loading
+   *
+   * @param cartId
+   */
   isStable(cartId: string): Observable<boolean> {
     return this.multiCartService.isStable(cartId);
   }
 
+  /**
+   * Loads a list of saved carts
+   */
   loadSavedCarts(): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
@@ -98,6 +123,11 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Gets a list of saved carts
+   *
+   * @returns observable with list of saved carts
+   */
   getList(): Observable<Cart[]> {
     return this.getSavedCartList().pipe(
       withLatestFrom(this.getSavedCartListProcess()),
@@ -111,6 +141,12 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Gets a list of saved carts from all carts in the state
+   * by filtering through the carts that are not wishlist and not saved cart
+   *
+   * @returns observable with list of saved carts
+   */
   getSavedCartList(): Observable<Cart[]> {
     return combineLatest([
       this.multiCartService.getCarts(),
@@ -126,6 +162,11 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Gets the loading flag of getting a list of saved carts
+   *
+   * @returns observable with boolean of the loading state
+   */
   getSavedCartListProcessLoading(): Observable<boolean> {
     return this.store.pipe(
       select(
@@ -134,6 +175,11 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Gets the loading state of getting a list of saved carts
+   *
+   * @returns observable with boolean of the loader state
+   */
   getSavedCartListProcess(): Observable<StateUtils.LoaderState<any>> {
     return this.store.pipe(
       select(
@@ -142,10 +188,18 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Clears the process state of performing a saved cart
+   */
   clearSavedCarts(): void {
     this.store.dispatch(new SavedCartActions.ClearSavedCarts());
   }
 
+  /**
+   * Triggers a restore saved cart
+   *
+   * @param cartId
+   */
   restoreSavedCart(cartId: string): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
@@ -157,10 +211,11 @@ export class SavedCartService {
     );
   }
 
-  clearRestoreSavedCart(): void {
-    this.store.dispatch(new SavedCartActions.ClearRestoreSavedCart());
-  }
-
+  /**
+   * Gets the loading state of restoring saved cart
+   *
+   * @returns observable with boolean of the loading state
+   */
   getRestoreSavedCartProcessLoading(): Observable<boolean> {
     return this.store.pipe(
       select(
@@ -171,6 +226,11 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Gets the success state of restoring saved cart
+   *
+   * @returns observable with boolean of the success state
+   */
   getRestoreSavedCartProcessSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(
@@ -181,6 +241,11 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Gets the error state of restoring saved cart
+   *
+   * @returns observable with boolean of the error state
+   */
   getRestoreSavedCartProcessError(): Observable<boolean> {
     return this.store.pipe(
       select(
@@ -191,6 +256,17 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Clears the process state of performing a restore saved cart
+   */
+  clearRestoreSavedCart(): void {
+    this.store.dispatch(new SavedCartActions.ClearRestoreSavedCart());
+  }
+
+  /**
+   * Triggers delete saved cart
+   * @param cartId
+   */
   deleteSavedCart(cartId: string): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
@@ -200,6 +276,10 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Triggers a saved cart
+   *
+   */
   saveCart({
     cartId,
     saveCartName,
@@ -224,10 +304,11 @@ export class SavedCartService {
     );
   }
 
-  clearSaveCart(): void {
-    this.store.dispatch(new SavedCartActions.ClearSaveCart());
-  }
-
+  /**
+   * Gets the loading state of saving a cart
+   *
+   * @returns observable with boolean of the loading state
+   */
   getSaveCartProcessLoading(): Observable<boolean> {
     return this.store.pipe(
       select(
@@ -238,6 +319,11 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Gets the success state of saving a cart
+   *
+   * @returns observable with boolean of the success state
+   */
   getSaveCartProcessSuccess(): Observable<boolean> {
     return this.store.pipe(
       select(
@@ -248,6 +334,11 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Gets the error state of saving a cart
+   *
+   * @returns observable with boolean of the error state
+   */
   getSaveCartProcessError(): Observable<boolean> {
     return this.store.pipe(
       select(
@@ -256,6 +347,17 @@ export class SavedCartService {
     );
   }
 
+  /**
+   * Clears the process state of performing a save cart
+   */
+  clearSaveCart(): void {
+    this.store.dispatch(new SavedCartActions.ClearSaveCart());
+  }
+
+  /**
+   * Triggers an edit saved cart
+   *
+   */
   editSavedCart({
     cartId,
     saveCartName,

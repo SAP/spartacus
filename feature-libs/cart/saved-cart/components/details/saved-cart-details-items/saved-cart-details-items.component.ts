@@ -5,11 +5,12 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  SavedCartEventsService,
+  DeleteSavedCartSuccessEvent,
   SavedCartService,
 } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -46,7 +47,7 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,
     protected savedCartService: SavedCartService,
-    protected savedCartEventsService: SavedCartEventsService,
+    protected eventSercvice: EventService,
     protected userIdService: UserIdService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService
@@ -54,8 +55,8 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscription.add(
-      this.savedCartEventsService
-        .getDeleteSavedCartSuccessEvent()
+      this.eventSercvice
+        .get(DeleteSavedCartSuccessEvent)
         .pipe(take(1), mapTo(true))
         .subscribe((success) => this.onDeleteComplete(success))
     );

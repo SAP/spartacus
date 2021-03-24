@@ -3,10 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { SaveCartResult } from '@spartacus/cart/saved-cart/core';
 import {
-  Cart,
-  CartList,
   CART_NORMALIZER,
   ConverterService,
   OccEndpointsService,
@@ -18,14 +15,14 @@ const mockCartId = 'test-cart';
 const mockUserId = 'test-user';
 const mockCartName = 'test-cart-name';
 const mockCartDescription = 'test-cart-description';
-const mockSavedCartResult: SaveCartResult = {
+const mockSavedCartResult = {
   savedCartData: {
     name: mockCartName,
     entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
     description: mockCartDescription,
   },
 };
-const mockSavedCartList: CartList = {
+const mockSavedCartList = {
   carts: [
     {
       ...mockSavedCartResult.savedCartData,
@@ -84,9 +81,7 @@ describe('OccSavedCartAdapter', () => {
     it('should load a list of saved carts', () => {
       adapter
         .loadList(mockUserId)
-        .subscribe((data) =>
-          expect(data).toEqual(mockSavedCartList.carts as Cart[])
-        );
+        .subscribe((data) => expect(data).toEqual(mockSavedCartList.carts));
 
       const mockReq = httpMock.expectOne(
         (req) => req.method === 'GET' && req.url === `/savedCarts`

@@ -111,7 +111,7 @@ describe('SavedCartService', () => {
       );
     });
 
-    it('should be able to trigger loadSavedCart(userId) when state is in store', () => {
+    it('should not trigger loadSavedCart(userId) when state is in store', () => {
       multiCartService.getCartEntity = createSpy().and.returnValue(
         of({
           value: mockSavedCarts[0],
@@ -204,8 +204,10 @@ describe('SavedCartService', () => {
       );
     });
 
-    it('should be able to trigger loadSavedCarts when state is in store', () => {
-      store.dispatch(new SavedCartActions.LoadSavedCartsSuccess());
+    it('should not to trigger loadSavedCarts when state is in store', () => {
+      store.dispatch(
+        new SavedCartActions.LoadSavedCartsSuccess({ userId: mockUserId })
+      );
 
       let result: Cart[] | undefined;
       service
@@ -223,7 +225,9 @@ describe('SavedCartService', () => {
     });
 
     it('should return the loader state', () => {
-      store.dispatch(new SavedCartActions.LoadSavedCartsSuccess());
+      store.dispatch(
+        new SavedCartActions.LoadSavedCartsSuccess({ userId: mockUserId })
+      );
 
       let result: StateUtils.LoaderState<any> | undefined;
 
@@ -236,7 +240,7 @@ describe('SavedCartService', () => {
         loading: false,
         success: true,
         error: false,
-        value: undefined,
+        value: { userId: mockUserId },
       });
     });
 
@@ -327,7 +331,10 @@ describe('SavedCartService', () => {
   describe('Delete a saved cart', () => {
     it('should dispatch a delete of a single saved cart ', () => {
       service.deleteSavedCart(mockCartId);
-      expect(multiCartService.deleteCart).toHaveBeenCalled();
+      expect(multiCartService.deleteCart).toHaveBeenCalledWith(
+        mockCartId,
+        mockUserId
+      );
     });
   });
 

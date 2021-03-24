@@ -8,13 +8,16 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  SavedCartEventsService,
+  DeleteSavedCartEvent,
+  DeleteSavedCartFailEvent,
+  DeleteSavedCartSuccessEvent,
   SavedCartFormType,
   SavedCartService,
 } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
   ClearCheckoutService,
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -77,7 +80,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
     protected savedCartService: SavedCartService,
-    protected savedCartEventsService: SavedCartEventsService,
+    protected eventService: EventService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected clearCheckoutService: ClearCheckoutService
@@ -87,11 +90,9 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.isLoading$ = this.savedCartService.getSaveCartProcessLoading();
 
     this.isDisableDeleteButton$ = merge(
-      this.savedCartEventsService
-        .getDeleteSavedCartEvent()
-        .pipe(take(1), mapTo(true)),
-      this.savedCartEventsService
-        .getDeleteSavedCartFailEvent()
+      this.eventService.get(DeleteSavedCartEvent).pipe(take(1), mapTo(true)),
+      this.eventService
+        .get(DeleteSavedCartFailEvent)
         .pipe(take(1), mapTo(false))
     );
 
@@ -113,8 +114,8 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.savedCartEventsService
-        .getDeleteSavedCartSuccessEvent()
+      this.eventService
+        .get(DeleteSavedCartSuccessEvent)
         .pipe(take(1), mapTo(true))
         .subscribe((success) => this.onComplete(success))
     );

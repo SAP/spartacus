@@ -3,13 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,
-  DeleteSavedCartSuccessEvent,
-  SavedCartEventsService,
   SavedCartService,
 } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
   ClearCheckoutService,
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -82,15 +81,8 @@ class MockSavedCartService implements Partial<SavedCartService> {
   }
 }
 
-class MockSavedCartEventsService implements Partial<SavedCartEventsService> {
-  getDeleteSavedCartEvent(): Observable<DeleteSavedCartEvent> {
-    return of();
-  }
-
-  getDeleteSavedCartSuccessEvent(): Observable<DeleteSavedCartSuccessEvent> {
-    return of();
-  }
-  getDeleteSavedCartFailEvent(): Observable<DeleteSavedCartFailEvent> {
+class MockEventService implements Partial<EventService> {
+  get(_event: any): Observable<any> {
     return of();
   }
 }
@@ -112,7 +104,7 @@ describe('SavedCartFormDialogComponent', () => {
   let fixture: ComponentFixture<SavedCartFormDialogComponent>;
   let globalMessageService: GlobalMessageService;
   let savedCartService: SavedCartService;
-  let savedCartEventsService: SavedCartEventsService;
+  let eventService: EventService;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
   let clearCheckoutService: ClearCheckoutService;
@@ -125,8 +117,8 @@ describe('SavedCartFormDialogComponent', () => {
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: SavedCartService, useClass: MockSavedCartService },
         {
-          provide: SavedCartEventsService,
-          useClass: MockSavedCartEventsService,
+          provide: EventService,
+          useClass: MockEventService,
         },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -139,7 +131,7 @@ describe('SavedCartFormDialogComponent', () => {
 
     globalMessageService = TestBed.inject(GlobalMessageService);
     savedCartService = TestBed.inject(SavedCartService);
-    savedCartEventsService = TestBed.inject(SavedCartEventsService);
+    eventService = TestBed.inject(EventService);
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     clearCheckoutService = TestBed.inject(ClearCheckoutService);
@@ -267,10 +259,7 @@ describe('SavedCartFormDialogComponent', () => {
     });
 
     it('should trigger onComplete when there was a successful delete saved cart event', () => {
-      spyOn(
-        savedCartEventsService,
-        'getDeleteSavedCartSuccessEvent'
-      ).and.returnValue(of(mockDeleteSavedCartEvent));
+      spyOn(eventService, 'get').and.returnValue(of(mockDeleteSavedCartEvent));
       component.ngOnInit();
       expect(component.onComplete).toHaveBeenCalled();
     });
@@ -348,9 +337,7 @@ describe('SavedCartFormDialogComponent', () => {
 
   describe('disabling and enabling delete button using events', () => {
     it('should return true when the trigger event fired', () => {
-      spyOn(savedCartEventsService, 'getDeleteSavedCartEvent').and.returnValue(
-        of(mockDeleteSavedCartEvent)
-      );
+      spyOn(eventService, 'get').and.callFake(() => of(DeleteSavedCartEvent));
 
       component.ngOnInit();
 
@@ -364,10 +351,9 @@ describe('SavedCartFormDialogComponent', () => {
     });
 
     it('should return false when the fail event fired', () => {
-      spyOn(
-        savedCartEventsService,
-        'getDeleteSavedCartFailEvent'
-      ).and.returnValue(of(mockDeleteSavedCartEvent));
+      spyOn(eventService, 'get').and.callFake(() =>
+        of(DeleteSavedCartFailEvent)
+      );
 
       component.ngOnInit();
 
