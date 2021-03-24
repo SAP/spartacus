@@ -22,7 +22,10 @@ import {
   UPDATE_USER_DETAILS_PROCESS_ID,
   USER_FEATURE,
 } from '../store/user-state';
-import { UserAccountFacadeTransitionalToken } from '../user-account-facade-transitional.token';
+import {
+  UserAccountFacadeTransitionalToken,
+  UserProfileFacadeTransitionalToken,
+} from '../user-transitional-tokens';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -30,7 +33,8 @@ export class UserService {
     store: Store<StateWithUser | StateWithProcess<void>>,
     userIdService: UserIdService,
     // tslint:disable-next-line:unified-signatures
-    userAccountFacade?: UserAccountFacadeTransitionalToken
+    userAccountFacade?: UserAccountFacadeTransitionalToken,
+    userProfileFacade?: UserProfileFacadeTransitionalToken
   );
   /**
    * @deprecated since 3.2
@@ -46,11 +50,15 @@ export class UserService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected userIdService: UserIdService,
-    @Optional() protected userAccountFacade?: UserAccountFacadeTransitionalToken
+    @Optional()
+    protected userAccountFacade?: UserAccountFacadeTransitionalToken,
+    @Optional() protected userProfileFacade?: UserProfileFacadeTransitionalToken
   ) {}
 
   /**
    * Returns a user.
+   *
+   * @deprecated since 3.2, use `UserAccountService.get()` from `@spartacus/user` package.
    */
   get(): Observable<User> {
     if (this.userAccountFacade) {
@@ -210,9 +218,12 @@ export class UserService {
   /**
    * Returns titles.
    *
-   * @deprecated since 3.2, use `UserRegisterService.getTitles()` from `@spartacus/user` package.
+   * @deprecated since 3.2, use `UserProfileService.getTitles()` from `@spartacus/user` package.
    */
   getTitles(): Observable<Title[]> {
+    if (this.userProfileFacade) {
+      return this.userProfileFacade.getTitles();
+    }
     return this.store.pipe(
       // workaround for using lazy loaded user/account library
       filter((state) => state[USER_FEATURE]),
