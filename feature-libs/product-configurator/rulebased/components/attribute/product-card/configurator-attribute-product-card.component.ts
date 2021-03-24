@@ -32,7 +32,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   singleDropdown?: boolean;
   withQuantity?: boolean;
   loading$?: Observable<boolean>;
-  attributeId?: number;
+  attributeId: number;
 }
 
 @Component({
