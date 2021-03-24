@@ -53,7 +53,17 @@ describe('CpqConfigurationOccService', () => {
     cartId: documentId,
     cartEntryNumber: '3',
     owner: {
-      type: CommonConfigurator.OwnerType.PRODUCT,
+      type: CommonConfigurator.OwnerType.CART_ENTRY,
+      id: productCode,
+    },
+  };
+
+  const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
+    userId: userId,
+    orderId: documentId,
+    orderEntryNumber: '3',
+    owner: {
+      type: CommonConfigurator.OwnerType.ORDER_ENTRY,
       id: productCode,
     },
   };
@@ -151,6 +161,30 @@ describe('CpqConfigurationOccService', () => {
         userId: userId,
         cartId: documentId,
         cartEntryNumber: '3',
+      }
+    );
+  });
+
+  it('should call readCpqConfigurationForOrderEntry endpoint', () => {
+    serviceUnderTest
+      .getConfigIdForOrderEntry(readConfigOrderEntryParams)
+      .subscribe((response) => {
+        expect(response).toBe(configId);
+      });
+
+    const mockReq = httpMock.expectOne((req) => {
+      return (
+        req.method === 'GET' && req.url === 'readCpqConfigurationForOrderEntry'
+      );
+    });
+    mockReq.flush({ configId: configId });
+
+    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      'readCpqConfigurationForOrderEntry',
+      {
+        userId: userId,
+        orderId: documentId,
+        orderEntryNumber: '3',
       }
     );
   });
