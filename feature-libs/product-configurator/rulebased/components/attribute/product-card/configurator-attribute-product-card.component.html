@@ -20,9 +20,7 @@
           </p>
           <ng-template #withLink>
             <a
-              [cxFocus]="{
-                key: productCardOptions?.productBoundValue?.productSystemId
-              }"
+              [cxFocus]="focusConfig"
               [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
               class="cx-link"
               cxModal="dismiss"
@@ -80,9 +78,7 @@
                 productCardOptions?.hideRemoveButton ||
                 (loading$ | async)
               "
-              [cxFocus]="{
-                key: productCardOptions?.productBoundValue?.productSystemId
-              }"
+              [cxFocus]="focusConfig"
             >
               {{ 'configurator.button.remove' | cxTranslate }}
             </button>
@@ -93,9 +89,7 @@
                 [disabled]="
                   productCardOptions?.disableAllButtons || (loading$ | async)
                 "
-                [cxFocus]="{
-                  key: productCardOptions?.productBoundValue?.productSystemId
-                }"
+                [cxFocus]="focusConfig"
               >
                 {{ 'configurator.button.add' | cxTranslate }}
               </button>
@@ -112,9 +106,7 @@
                 !productCardOptions?.productBoundValue?.selected;
                 else deselect
               "
-              [cxFocus]="{
-                key: productCardOptions?.productBoundValue?.productSystemId
-              }"
+              [cxFocus]="focusConfig"
             >
               {{ 'configurator.button.select' | cxTranslate }}
             </button>
@@ -133,9 +125,7 @@
                   [disabled]="
                     productCardOptions?.hideRemoveButton || (loading$ | async)
                   "
-                  [cxFocus]="{
-                    key: productCardOptions?.productBoundValue?.productSystemId
-                  }"
+                  [cxFocus]="focusConfig"
                 >
                   {{ 'configurator.button.deselect' | cxTranslate }}
                 </button>

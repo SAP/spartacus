@@ -32,6 +32,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   singleDropdown?: boolean;
   withQuantity?: boolean;
   loading$?: Observable<boolean>;
+  attributeId?: number;
 }
 
 @Component({
@@ -77,6 +78,16 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
       this.productCardOptions?.productBoundValue?.selected &&
       this.productCardOptions?.multiSelect
     );
+  }
+
+  get focusConfig() {
+    return {
+      key:
+        this.productCardOptions.attributeId +
+        '--' +
+        this.productCardOptions.productBoundValue?.valueCode +
+        '--focus',
+    };
   }
 
   onHandleSelect(): void {
