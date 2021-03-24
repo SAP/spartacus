@@ -4,6 +4,7 @@
       <cx-cart-item-list
         [items]="cart.entries"
         [cartIsLoading]="!(cartLoaded$ | async)"
+        [promotionLocation]="CartLocation.SavedCart"
         [cart]="{
           cartId: cart.code,
           userId: (userId$ | async)

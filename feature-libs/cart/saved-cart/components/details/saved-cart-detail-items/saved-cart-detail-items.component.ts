@@ -12,6 +12,7 @@ import {
   Cart,
   GlobalMessageService,
   GlobalMessageType,
+  PromotionLocation,
   RoutingService,
   UserIdService,
 } from '@spartacus/core';
@@ -28,9 +29,13 @@ export class SavedCartDetailItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
   cartId: string | undefined;
 
+  CartLocation = PromotionLocation;
+
   userId$ = this.userIdService.getUserId();
 
-  cartLoaded$: Observable<boolean> = this.savedCartDetailService
+  cartLoaded$: Observable<
+    boolean
+  > = this.savedCartDetailService
     .getSavedCartId()
     .pipe(switchMap((cartId) => this.savedCartService.isStable(cartId)));
 
