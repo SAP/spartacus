@@ -27,8 +27,6 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
-  userId$ = this.userIdService.getUserId();
-
   cartLoaded$: Observable<boolean> = this.savedCartDetailsService
     .getSavedCartId()
     .pipe(switchMap((cartId) => this.savedCartService.isStable(cartId)));
@@ -47,7 +45,6 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
     protected savedCartDetailsService: SavedCartDetailsService,
     protected savedCartService: SavedCartService,
     protected savedCartEventsService: SavedCartEventsService,
-    protected userIdService: UserIdService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService
   ) {}

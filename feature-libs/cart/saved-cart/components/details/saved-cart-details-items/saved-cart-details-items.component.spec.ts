@@ -15,7 +15,6 @@ import {
   Product,
   RoutingService,
   Translatable,
-  UserIdService,
 } from '@spartacus/core';
 import { CartItemComponentOptions } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -81,12 +80,6 @@ class MockSavedCartService implements Partial<SavedCartService> {
   deleteSavedCart(_cartId: string): void {}
 }
 
-class MockUserIdService implements Partial<UserIdService> {
-  getUserId(): Observable<string> {
-    return of(mockUserId);
-  }
-}
-
 class MockRoutingService implements Partial<RoutingService> {
   go(): void {}
 }
@@ -126,10 +119,6 @@ describe('SavedCartDetailsItemsComponent', () => {
           {
             provide: SavedCartDetailsService,
             useClass: MockSavedCartDetailsService,
-          },
-          {
-            provide: UserIdService,
-            useClass: MockUserIdService,
           },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },

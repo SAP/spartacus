@@ -4,10 +4,7 @@
       <cx-cart-item-list
         [items]="cart.entries"
         [cartIsLoading]="!(cartLoaded$ | async)"
-        [cart]="{
-          cartId: cart.code,
-          userId: (userId$ | async)
-        }"
+        [cartId]="cart.code"
       ></cx-cart-item-list>
     </div>
   </ng-container>
