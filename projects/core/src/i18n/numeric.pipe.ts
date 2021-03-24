@@ -14,7 +14,7 @@ export class CxNumericPipe extends DecimalPipe implements PipeTransform {
     return super.transform(value, digitsInfo, this.getLang());
   }
 
-  protected getLang() {
+  protected getLang(): string {
     const lang = this.getActiveLang();
     try {
       getLocaleId(lang);
@@ -34,7 +34,7 @@ export class CxNumericPipe extends DecimalPipe implements PipeTransform {
     return result;
   }
 
-  protected reportMissingLocaleData(lang: string) {
+  protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
       console.warn(
         `cxNumeric pipe: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
