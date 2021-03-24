@@ -3,7 +3,7 @@ import { OccEndpoint } from '@spartacus/core';
 declare module '@spartacus/core' {
   interface OccEndpoints {
     /**
-     * Endpoint to save a cart
+     * Endpoint to load saved carts
      *
      * * @member {string}
      */

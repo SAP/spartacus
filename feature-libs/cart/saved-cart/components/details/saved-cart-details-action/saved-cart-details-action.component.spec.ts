@@ -11,8 +11,8 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
-import { SavedCartDetailService } from '../saved-cart-detail.service';
-import { SavedCartDetailActionComponent } from './saved-cart-detail-action.component';
+import { SavedCartDetailsService } from '../saved-cart-details.service';
+import { SavedCartDetailsActionComponent } from './saved-cart-details-action.component';
 
 const mockCartId = 'test-cart';
 const mockSavedCart: Cart = {
@@ -21,7 +21,7 @@ const mockSavedCart: Cart = {
   description: 'test-cart-description',
 };
 
-class MockSavedCartDetailService implements Partial<SavedCartDetailService> {
+class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
   getCartDetails(): Observable<Cart> {
     return of();
   }
@@ -64,9 +64,9 @@ class MockClearCheckoutService implements Partial<ClearCheckoutService> {
   resetCheckoutProcesses(): void {}
 }
 
-describe('SavedCartDetailActionComponent', () => {
-  let component: SavedCartDetailActionComponent;
-  let fixture: ComponentFixture<SavedCartDetailActionComponent>;
+describe('SavedCartDetailsActionComponent', () => {
+  let component: SavedCartDetailsActionComponent;
+  let fixture: ComponentFixture<SavedCartDetailsActionComponent>;
   let savedCartService: SavedCartService;
   let routingService: RoutingService;
   let savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService;
@@ -74,11 +74,11 @@ describe('SavedCartDetailActionComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [SavedCartDetailActionComponent],
+      declarations: [SavedCartDetailsActionComponent],
       providers: [
         {
-          provide: SavedCartDetailService,
-          useClass: MockSavedCartDetailService,
+          provide: SavedCartDetailsService,
+          useClass: MockSavedCartDetailsService,
         },
         {
           provide: SavedCartService,
@@ -103,7 +103,7 @@ describe('SavedCartDetailActionComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SavedCartDetailActionComponent);
+    fixture = TestBed.createComponent(SavedCartDetailsActionComponent);
     component = fixture.componentInstance;
 
     savedCartService = TestBed.inject(SavedCartService);
@@ -132,19 +132,19 @@ describe('SavedCartDetailActionComponent', () => {
     expect(savedCartService.restoreSavedCart).toHaveBeenCalledWith(mockCartId);
   });
 
-  it('should trigger onSuccess when there was a successful restored cart', () => {
-    spyOn(component, 'onSuccess').and.stub();
+  it('should trigger onRestoreComplete when there was a successful restored cart', () => {
+    spyOn(component, 'onRestoreComplete').and.stub();
     spyOn(
       savedCartService,
       'getRestoreSavedCartProcessSuccess'
     ).and.returnValue(of(true));
 
     component.ngOnInit();
-    expect(component.onSuccess).toHaveBeenCalled();
+    expect(component.onRestoreComplete).toHaveBeenCalled();
   });
 
-  it('should trigger a redirection and a reset process onSuccess', () => {
-    component.onSuccess(true);
+  it('should trigger a redirection and a reset process onRestoreComplete', () => {
+    component.onRestoreComplete(true);
 
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'savedCarts' });
     expect(savedCartService.clearRestoreSavedCart).toHaveBeenCalled();
@@ -152,8 +152,8 @@ describe('SavedCartDetailActionComponent', () => {
     expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
   });
 
-  it('should NOT trigger a redirection and a reset process onSuccess', () => {
-    component.onSuccess(false);
+  it('should NOT trigger a redirection and a reset process onRestoreComplete', () => {
+    component.onRestoreComplete(false);
 
     expect(routingService.go).not.toHaveBeenCalledWith({
       cxRoute: 'savedCarts',

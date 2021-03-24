@@ -14,12 +14,6 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'savedCarts' },
-      },
-      {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
         data: { cxRoute: 'savedCartsDetails' },
       },
     ]),

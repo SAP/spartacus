@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Cart, I18nTestingModule, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
-import { SavedCartDetailService } from '../saved-cart-detail.service';
-import { SavedCartDetailOverviewComponent } from './saved-cart-detail-overview.component';
+import { SavedCartDetailsService } from '../saved-cart-details.service';
+import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview.component';
 
 const mockTranslations = 'saved-cart-translations';
 const mockSavedCart: Cart = {
@@ -19,7 +19,7 @@ const mockSavedCart: Cart = {
   },
 };
 
-class MockSavedCartDetailService implements Partial<SavedCartDetailService> {
+class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
   getCartDetails(): Observable<Cart> {
     return of(mockSavedCart);
   }
@@ -41,20 +41,20 @@ class MockTranslationService {
   }
 }
 
-describe('SavedCartDetailOverviewComponent', () => {
-  let component: SavedCartDetailOverviewComponent;
-  let fixture: ComponentFixture<SavedCartDetailOverviewComponent>;
+describe('SavedCartDetailsOverviewComponent', () => {
+  let component: SavedCartDetailsOverviewComponent;
+  let fixture: ComponentFixture<SavedCartDetailsOverviewComponent>;
 
   let savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [SavedCartDetailOverviewComponent],
+      declarations: [SavedCartDetailsOverviewComponent],
       providers: [
         {
-          provide: SavedCartDetailService,
-          useClass: MockSavedCartDetailService,
+          provide: SavedCartDetailsService,
+          useClass: MockSavedCartDetailsService,
         },
         {
           provide: SavedCartFormLaunchDialogService,
@@ -64,7 +64,7 @@ describe('SavedCartDetailOverviewComponent', () => {
       ],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SavedCartDetailOverviewComponent);
+    fixture = TestBed.createComponent(SavedCartDetailsOverviewComponent);
     component = fixture.componentInstance;
 
     savedCartFormLaunchDialogService = TestBed.inject(
