@@ -12,7 +12,9 @@
       "
       class="btn btn-primary btn-block"
       cxAutoFocus
-      (keyup)="navigateToConfigurator($event, product)">{{ 'configurator.header.toconfig' | cxTranslate }}</a
+      (keydown)="preventScrollingOnSpace($event)"
+      (keyup)="navigateToConfigurator($event, product)"
+      >{{ 'configurator.header.toconfig' | cxTranslate }}</a
     >
   </ng-container>
 </ng-container>

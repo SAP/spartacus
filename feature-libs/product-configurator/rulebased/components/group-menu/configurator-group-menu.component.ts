@@ -97,6 +97,12 @@ export class ConfiguratorGroupMenuComponent {
    * @param {KeyboardEvent} event - Keyboard event
    * @param {Configurator.Group} group - Entered group
    */
+  preventScrollingOnSpace(event: KeyboardEvent): void {
+    if (event.code === 'Space') {
+      event.preventDefault();
+    }
+  }
+
   clickOnEnter(event: KeyboardEvent, group: Configurator.Group): void {
     if (event.code === 'Enter' || event.code === 'Space') {
       this.click(group);
@@ -129,6 +135,7 @@ export class ConfiguratorGroupMenuComponent {
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
+
   navigateUpOnEnter(event: KeyboardEvent): void {
     if (event.code === 'Enter' || event.code === 'Space') {
       this.navigateUp();

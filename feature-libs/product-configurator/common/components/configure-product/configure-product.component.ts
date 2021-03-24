@@ -31,6 +31,11 @@ export class ConfigureProductComponent {
   ownerTypeProduct: CommonConfigurator.OwnerType =
     CommonConfigurator.OwnerType.PRODUCT;
 
+  preventScrollingOnSpace(event: KeyboardEvent): void {
+    if (event.code === 'Space') {
+      event.preventDefault();
+    }
+  }
   navigateToConfigurator(event: KeyboardEvent, product: Product): void {
     if (event.code === 'Enter' || event.code === 'Space') {
       this.routingService.go(
