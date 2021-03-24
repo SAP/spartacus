@@ -104,7 +104,6 @@
       "@spartacus/tracking/tms/gtm": ["../../dist/tracking/tms/gtm"],
       "@spartacus/tracking/tms": ["../../dist/tracking/tms"],
       "@spartacus/cdc": ["../../dist/cdc"],
-      "@spartacus/cdc/components": ["../../dist/cdc/components"],
       "@spartacus/cdc/core": ["../../dist/cdc/core"],
       "@spartacus/cdc/root": ["../../dist/cdc/root"],
       "@spartacus/cds": ["../../dist/cds"],
