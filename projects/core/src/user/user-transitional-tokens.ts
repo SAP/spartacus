@@ -1,6 +1,5 @@
 import { Observable } from 'rxjs';
-import { User } from '../model/misc.model';
-import { Title } from '@spartacus/user/profile/root';
+import { Title, User } from '../model/misc.model';
 
 export abstract class UserAccountFacadeTransitionalToken {
   abstract get(): Observable<User | undefined>;

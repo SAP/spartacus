@@ -31,9 +31,9 @@ export class UpdateEmailFormComponent {
 
   onSubmit(): void {
     if (this.updateEmailForm.valid) {
-      // tslint:disable-next-line:no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const newUid = this.updateEmailForm.get('confirmEmail')!.value;
-      // tslint:disable-next-line:no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const password = this.updateEmailForm.get('password')!.value;
 
       this.saveEmail.emit({ newUid, password });

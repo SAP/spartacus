@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { UserSignUp } from '@spartacus/core';
+import { UserSignUp } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
 import { UserProfileAdapter } from './user-profile.adapter';
 import { UserProfileConnector } from './user-profile.connector';

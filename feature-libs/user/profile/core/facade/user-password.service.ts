@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CommandService } from '@spartacus/core';
+import { CommandService, UserIdService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
-import { UserProfileService } from './user-profile.service';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 
@@ -12,12 +11,14 @@ export class UserPasswordService implements UserPasswordFacade {
     oldPassword: string;
     newPassword: string;
   }>((payload) =>
-    this.userProfileService.get().pipe(
+    this.userIdService.takeUserId(true).pipe(
       take(1),
-      switchMap((user) =>
-        this.userProfileConnector
-          // tslint:disable-next-line:no-non-null-assertion
-          .updatePassword(user!.uid!, payload.oldPassword, payload.newPassword)
+      switchMap((uid) =>
+        this.userProfileConnector.updatePassword(
+          uid,
+          payload.oldPassword,
+          payload.newPassword
+        )
       )
     )
   );
@@ -36,8 +37,8 @@ export class UserPasswordService implements UserPasswordFacade {
   );
 
   constructor(
-    protected userProfileService: UserProfileService,
     protected userProfileConnector: UserProfileConnector,
+    protected userIdService: UserIdService,
     protected command: CommandService
   ) {}
 

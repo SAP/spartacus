@@ -120,7 +120,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      // tslint:disable-next-line:no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       this.registerForm.get('newsletter')!.valueChanges.subscribe(() => {
         this.toggleAnonymousConsent();
       })
@@ -198,7 +198,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       ?.registerConsent;
 
     if (registerConsent) {
-      // tslint:disable-next-line:no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       if (Boolean(this.registerForm.get('newsletter')!.value)) {
         this.anonymousConsentsService.giveConsent(registerConsent);
       } else {

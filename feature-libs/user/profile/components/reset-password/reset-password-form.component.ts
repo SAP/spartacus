@@ -52,7 +52,7 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
 
   resetPassword() {
     if (this.resetPasswordForm.valid) {
-      // tslint:disable-next-line:no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const password = this.resetPasswordForm.get('password')!.value;
       this.userPassword.reset(this.token, password).subscribe({
         next: () => {

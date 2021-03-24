@@ -1,7 +1,11 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { AuthService } from '@spartacus/core';
+import {
+  AuthService,
+  OCC_USER_ID_CURRENT,
+  UserIdService,
+} from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { UserPasswordService } from './user-password.service';
 import { UserProfileService } from './user-profile.service';
@@ -29,6 +33,12 @@ class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = createSpy().and.returnValue(Promise.resolve());
 }
 
+class MockUserIdService implements Partial<UserIdService> {
+  takeUserId(): Observable<string> {
+    return of(OCC_USER_ID_CURRENT);
+  }
+}
+
 describe('UserProfileService', () => {
   let service: UserProfileService;
   let connector: UserProfileConnector;
@@ -43,6 +53,7 @@ describe('UserProfileService', () => {
           useClass: MockUserProfileConnector,
         },
         { provide: UserAccountFacade, useClass: MockUserAccountFacade },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
@@ -69,7 +80,10 @@ describe('UserProfileService', () => {
       uid: 'xxx',
     };
     service.update(userDetails);
-    expect(connector.update).toHaveBeenCalledWith(testUser.uid, userDetails);
+    expect(connector.update).toHaveBeenCalledWith(
+      OCC_USER_ID_CURRENT,
+      userDetails
+    );
   });
 
   it('should be able to get titles data', () => {
