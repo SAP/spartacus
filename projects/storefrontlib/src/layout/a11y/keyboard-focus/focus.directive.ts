@@ -1,11 +1,4 @@
-import {
-  Directive,
-  ElementRef,
-  Input,
-  Renderer2,
-  SimpleChanges,
-  OnChanges,
-} from '@angular/core';
+import { Directive, ElementRef, Input, Renderer2 } from '@angular/core';
 import { FocusConfig } from './keyboard-focus.model';
 import { LockFocusDirective } from './lock/lock-focus.directive';
 import { KeyboardFocusService } from './services/keyboard-focus.service';
@@ -13,9 +6,9 @@ import { KeyboardFocusService } from './services/keyboard-focus.service';
 @Directive({
   selector: '[cxFocus]',
 })
-export class FocusDirective extends LockFocusDirective implements OnChanges {
+export class FocusDirective extends LockFocusDirective {
   protected defaultConfig: FocusConfig = {};
-  // eslint-disable-next-line @angular-eslint/no-input-rename
+
   @Input('cxFocus') protected config: FocusConfig = {};
 
   constructor(
@@ -24,12 +17,5 @@ export class FocusDirective extends LockFocusDirective implements OnChanges {
     protected renderer: Renderer2
   ) {
     super(elementRef, service, renderer);
-  }
-
-  // responsible for refresh focus based on the configured refresh property name
-  ngOnChanges(changes: SimpleChanges): void {
-    if (this.shouldAutofocus && !!changes.config.currentValue?.refreshFocus) {
-      super.handleFocus();
-    }
   }
 }

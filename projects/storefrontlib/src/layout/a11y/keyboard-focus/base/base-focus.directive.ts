@@ -3,7 +3,9 @@ import {
   ElementRef,
   HostBinding,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
 } from '@angular/core';
 import { BaseFocusConfig } from '../keyboard-focus.model';
 import { BaseFocusService } from './base-focus.service';
@@ -19,7 +21,7 @@ import { BaseFocusService } from './base-focus.service';
  * - Lock Focus
  */
 @Directive()
-export abstract class BaseFocusDirective implements OnInit {
+export abstract class BaseFocusDirective implements OnInit, OnChanges {
   /**
    * Optional configuration for the focus directive drives the behaviour of the keyboard
    * focus directive.
@@ -44,6 +46,9 @@ export abstract class BaseFocusDirective implements OnInit {
     this.requiredTabindex = -1;
   }
 
+  // empty, but sub classes might have an implementation
+  ngOnChanges(_changes: SimpleChanges): void {}
+
   /**
    * Override the (input) config if it undefined or an empty string, with the
    * `defaultConfig`. The `defaultConfig` might be specified for each directive
@@ -65,7 +70,7 @@ export abstract class BaseFocusDirective implements OnInit {
   }
 
   /**
-   * Force a tabindex on the host element if it is _requried_ to make the element
+   * Force a tabindex on the host element if it is _required_ to make the element
    * focusable. If the element is focusable by nature or by a given tabindex, the
    * `tabindex` is not applied.
    *
@@ -90,7 +95,9 @@ export abstract class BaseFocusDirective implements OnInit {
       ) === -1 &&
       !(
         this.host.tagName === 'A' &&
-        (this.host.hasAttribute('href') || this.host.hasAttribute('routerlink'))
+        (this.host.hasAttribute('href') ||
+          this.host.hasAttribute('routerlink') ||
+          this.host.getAttribute('ng-reflect-router-link'))
       )
     );
   }
