@@ -88,14 +88,16 @@ export class SavedCartEffects {
       const actions: any[] = [];
 
       if ((activeCart?.entries ?? []).length > 0) {
-        actions.push(
-          new SavedCartActions.EditSavedCart({
-            userId,
-            cartId: activeCart.code,
-            saveCartName: '',
-            saveCartDescription: '',
-          })
-        );
+        if (activeCart.code) {
+          actions.push(
+            new SavedCartActions.EditSavedCart({
+              userId,
+              cartId: activeCart.code,
+              saveCartName: '',
+              saveCartDescription: '',
+            })
+          );
+        }
       }
 
       return this.savedCartConnector.restoreSavedCart(userId, cartId).pipe(

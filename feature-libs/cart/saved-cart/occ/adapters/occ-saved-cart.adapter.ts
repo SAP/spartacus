@@ -9,7 +9,7 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
 @Injectable()
 export class OccSavedCartAdapter implements SavedCartAdapter {
@@ -29,7 +29,8 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     return this.http
       .get<Occ.CartList>(this.getSavedCartListEndpoint(userId))
       .pipe(
-        pluck('carts'), map(carts => carts ?? []),
+        pluck('carts'),
+        map((carts) => carts ?? []),
         this.converter.pipeableMany(CART_NORMALIZER)
       );
   }

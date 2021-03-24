@@ -23,7 +23,7 @@ export abstract class SavedCartAdapter {
    */
   abstract saveCart(
     userId: string,
-    cartId: string | undefined,
+    cartId: string,
     saveCartName?: string,
     saveCartDescription?: string
   ): Observable<Cart>;
