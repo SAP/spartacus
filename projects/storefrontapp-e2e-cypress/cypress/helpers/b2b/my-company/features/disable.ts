@@ -27,21 +27,15 @@ export function disableTest(config: MyCompanyConfig) {
 
       cy.get('cx-org-card div.header button').contains('Disable').click();
       cy.get('cx-org-confirmation')
-        .should(
-          'contain.text',
-          `Are you sure you want to disable this ${config.name.toLowerCase()}?`
-        )
+        .should('contain.text', `Disable this ${config.name.toLowerCase()}?`)
         .contains(CONFIRMATION_LABELS.CANCEL)
         .click();
       cy.get('cx-org-confirmation').should('not.exist');
 
       cy.get('div.header button').contains('Disable').click();
       cy.get('cx-org-confirmation')
-        .should(
-          'contain.text',
-          `Are you sure you want to disable this ${config.name.toLowerCase()}?`
-        )
-        .contains(CONFIRMATION_LABELS.CONFIRM)
+        .should('contain.text', `Disable this ${config.name.toLowerCase()}?`)
+        .contains(CONFIRMATION_LABELS.DISABLE)
         .click();
       cy.wait('@saveEntity');
       cy.wait('@loadEntity');
