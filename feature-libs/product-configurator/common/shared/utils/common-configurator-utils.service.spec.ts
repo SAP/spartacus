@@ -195,10 +195,6 @@ describe('CommonConfiguratorUtilsService', () => {
   });
 
   describe('isAttributeBasedConfigurator', () => {
-    it('should return false, because the configurator type is null', () => {
-      expect(classUnderTest.isAttributeBasedConfigurator(null)).toBe(false);
-    });
-
     it('should return false, because the configurator type is undefined', () => {
       expect(classUnderTest.isAttributeBasedConfigurator(undefined)).toBe(
         false
@@ -225,10 +221,6 @@ describe('CommonConfiguratorUtilsService', () => {
   });
 
   describe('isBundleBasedConfigurator', () => {
-    it('should return false, because the configurator type is null', () => {
-      expect(classUnderTest.isBundleBasedConfigurator(null)).toBe(false);
-    });
-
     it('should return false, because the configurator type is undefined', () => {
       expect(classUnderTest.isBundleBasedConfigurator(undefined)).toBe(false);
     });
