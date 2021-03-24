@@ -1,0 +1,44 @@
+<ng-container *ngIf="configuration$ | async as configuration">
+  <ng-container *ngIf="configuration?.warningMessages?.length > 0">
+    <div class="cx-warning-messages">
+      <a
+        role="link"
+        (click)="toggleWarnings()"
+        tabindex="0"
+        *ngIf="configuration?.warningMessages?.length > 1"
+        class="cx-warning-toggle"
+      >
+        Toggle
+      </a>
+      <div
+        class="cx-warning-message"
+        [class.open]="
+          showWarnings || configuration?.warningMessages?.length === 1
+        "
+        *ngFor="let warningMessage of configuration.warningMessages"
+      >
+        {{ warningMessage }}
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="configuration?.errorMessages?.length > 0">
+    <div class="cx-error-messages">
+      <a
+        role="link"
+        (click)="toggleErrors()"
+        tabindex="0"
+        *ngIf="configuration?.errorMessages?.length > 1"
+        class="cx-warning-toggle"
+      >
+        Toggle
+      </a>
+      <div
+        class="cx-error-message"
+        [class.open]="showErrors || configuration?.errorMessages?.length === 1"
+        *ngFor="let errorMessage of configuration.errorMessages"
+      >
+        {{ errorMessage }}
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

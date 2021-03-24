@@ -1,0 +1,10 @@
+%cx-configuration-conflict-and-error-messages {
+  .cx-warning-message,
+  .cx-error-message {
+    display: none;
+  }
+  .cx-warning-message.open,
+  .cx-error-message.open {
+    display: flex;
+  }
+}
