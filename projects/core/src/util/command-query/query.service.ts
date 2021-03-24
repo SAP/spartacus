@@ -13,7 +13,6 @@ import {
   distinctUntilChanged,
   filter,
   pluck,
-  retry,
   share,
   switchMapTo,
   takeUntil,
@@ -48,7 +47,6 @@ export class QueryService implements OnDestroy {
     options?: {
       reloadOn?: QueryNotifier[];
       resetOn?: QueryNotifier[];
-
     }
   ): Query<T> {
     const state$ = new BehaviorSubject<QueryState<T>>({
@@ -78,7 +76,6 @@ export class QueryService implements OnDestroy {
         state$.next({ loading: false, error, data: undefined });
         return EMPTY;
       }),
-      retry(),
       share()
     );
 
