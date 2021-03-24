@@ -28,7 +28,10 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
   loadList(userId: string): Observable<Cart[]> {
     return this.http
       .get<Occ.CartList>(this.getSavedCartListEndpoint(userId))
-      .pipe(pluck('carts'), this.converter.pipeableMany(CART_NORMALIZER));
+      .pipe(
+        pluck('carts') as any,
+        this.converter.pipeableMany(CART_NORMALIZER)
+      );
   }
 
   restoreSavedCart(userId: string, cartId: string): Observable<Cart> {
