@@ -175,5 +175,20 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         expect(component.hasStatus(entry)).toBe(false);
       });
     });
+
+    describe('isAttributeBasedConfigurator', () => {
+      it('should return true if for CCP based configurator (CPQCONFIGURATOR)', () => {
+        const entry: OrderEntry = {
+          configurationInfos: [
+            { status: 'ERROR', configuratorType: 'CPQCONFIGURATOR' },
+          ],
+        };
+        expect(component.isAttributeBasedConfigurator(entry)).toBe(true);
+      });
+      it('should return false if no configurationInfos are provided', () => {
+        const entry: OrderEntry = {};
+        expect(component.isAttributeBasedConfigurator(entry)).toBe(false);
+      });
+    });
   });
 });

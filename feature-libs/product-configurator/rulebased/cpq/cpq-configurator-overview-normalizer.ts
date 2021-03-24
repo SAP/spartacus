@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
-import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
 import { Cpq } from './cpq.models';
 
 const NO_OPTION_SELECTED = 0;
@@ -11,7 +11,7 @@ const NO_OPTION_SELECTED = 0;
 export class CpqConfiguratorOverviewNormalizer
   implements Converter<Cpq.Configuration, Configurator.Overview> {
   constructor(
-    protected cpqUtilitiesService: CpqConfiguratorUtilitiesService,
+    protected cpqUtilitiesService: CpqConfiguratorUtilsService,
     protected translation: TranslationService
   ) {}
 

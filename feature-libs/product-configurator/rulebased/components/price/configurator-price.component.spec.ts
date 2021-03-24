@@ -1,6 +1,14 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
+import { Pipe, PipeTransform } from '@angular/core';
+
+@Pipe({
+  name: 'cxNumeric',
+})
+class MockNumericPipe implements PipeTransform {
+  transform(): any {}
+}
 
 const createTestData = (
   quantity: number,
@@ -32,7 +40,7 @@ describe('ConfiguratorPriceComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ConfiguratorPriceComponent],
+        declarations: [ConfiguratorPriceComponent, MockNumericPipe],
       }).compileComponents();
     })
   );
@@ -62,8 +70,6 @@ describe('ConfiguratorPriceComponent', () => {
         htmlElem,
         '.cx-quantity-price'
       );
-
-      expect(component.quantity).toEqual('5');
     });
     it('should be defined: value price greater than zero', () => {
       component.formula = {
@@ -171,7 +177,9 @@ describe('ConfiguratorPriceComponent', () => {
         '.cx-price-total'
       );
 
-      expect(component.quantityWihPrice).toEqual('2x($10)');
+      expect(
+        component.quantityWithPrice(component.formula.quantity.toString())
+      ).toEqual('2x($10)');
       expect(component.priceTotal).toEqual('+ $20');
     });
   });

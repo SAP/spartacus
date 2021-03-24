@@ -74,9 +74,9 @@ export class CpqConfiguratorRestAdapter
     return this.cpqOccService.getConfigIdForCartEntry(parameters).pipe(
       switchMap((configId) => {
         return this.cpqRestService.readConfiguration(configId).pipe(
-          map((configResonse) => {
-            configResonse.owner = parameters.owner;
-            return configResonse;
+          map((configResponse) => {
+            configResponse.owner = parameters.owner;
+            return configResponse;
           })
         );
       })
@@ -89,8 +89,19 @@ export class CpqConfiguratorRestAdapter
     return this.cpqOccService.updateCartEntry(parameters);
   }
 
-  readConfigurationForOrderEntry(): Observable<Configurator.Configuration> {
-    return undefined;
+  readConfigurationForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<Configurator.Configuration> {
+    return this.cpqOccService.getConfigIdForOrderEntry(parameters).pipe(
+      switchMap((configId) => {
+        return this.cpqRestService.readConfiguration(configId).pipe(
+          map((configResponse) => {
+            configResponse.owner = parameters.owner;
+            return configResponse;
+          })
+        );
+      })
+    );
   }
 
   readPriceSummary(
