@@ -6,10 +6,7 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
-      "@spartacus/asm/root": "asm/root",
-      "rxjs": "rxjs",
-      "@ngrx/store": "store",
-      "@ngrx/effects": "effects"
+      "rxjs": "rxjs"
     }
   }
 }

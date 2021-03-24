@@ -18,7 +18,7 @@ import {
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../config/cdc-config';
-import { CdcAuthService } from '../../core/auth/facade/cdc-auth.service';
+import { CdcAuthService } from './cdc-auth.service';
 
 @Injectable({
   providedIn: 'root',

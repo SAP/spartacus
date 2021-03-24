@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { CdcAuthActions, CdcAuthService } from '@spartacus/cdc/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -7,9 +8,7 @@ import {
 } from '@spartacus/core';
 import { EMPTY, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
-import { CdcAuthService } from '../../facade';
 import { CdcUserAuthenticationTokenService } from '../../services/user-authentication/cdc-user-authentication-token.service';
-import { CdcAuthActions } from '../actions';
 
 @Injectable()
 export class CdcUserTokenEffects {

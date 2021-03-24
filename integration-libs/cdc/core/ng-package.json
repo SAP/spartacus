@@ -4,7 +4,10 @@
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
       "@spartacus/core": "core",
-      "@spartacus/storefront": "storefront"
+      "@spartacus/storefront": "storefront",
+      "@spartacus/asm/root": "asm/root",
+      "@ngrx/store": "store",
+      "@ngrx/effects": "effects"
     }
   }
 }

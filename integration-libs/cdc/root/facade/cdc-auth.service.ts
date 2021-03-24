@@ -13,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, of } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { CdcAuthActions } from '../store/actions';
+import { CdcAuthActions } from '../store/actions/index';
 
 /**
  * Service to support custom CDC OAuth flow.
