@@ -3,6 +3,7 @@
   "baseUrl": "http://localhost:4200",
   "requestTimeout": 15000,
   "projectId": "k3nmep",
+  "numTestsKeptInMemory": 1,
   "chromeWebSecurity": false,
   "video": true,
   "retries": {
