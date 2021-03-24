@@ -9,12 +9,16 @@ import {
   InsertChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
+import { Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import ts from 'typescript';
 import {
   ANGULAR_CORE,
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
+  SPARTACUS_CORE,
 } from '../constants';
+import { isImportedFrom } from './import-utils';
+import { getModule } from './new-module-utils';
 
 /**
  * Finds the Storefront config in the given app.module.ts
@@ -295,4 +299,50 @@ function convert(newValues: string | string[]): string {
     configValue = newValues;
   }
   return configValue;
+}
+
+export function getConfigs(sourceFile: SourceFile): any[] {
+  const configs = [];
+  const module = getModule(sourceFile);
+  if (!module) {
+    return [];
+  }
+  const literal = module.getFirstAncestorByKind(
+    tsMorph.SyntaxKind.ObjectLiteralExpression
+  );
+  if (literal) {
+    const properties = literal.getChildrenOfKind(
+      tsMorph.SyntaxKind.PropertyAssignment
+    );
+    if (properties) {
+      properties.forEach((property) => {
+        if (
+          property.getNameNode().getText() === 'providers' &&
+          property.getInitializerIfKind(
+            tsMorph.SyntaxKind.ArrayLiteralExpression
+          )
+        ) {
+          const initializer = property.getInitializerIfKind(
+            tsMorph.SyntaxKind.ArrayLiteralExpression
+          );
+          if (initializer) {
+            const elements = initializer.getElements();
+            elements.forEach((element) => {
+              if (Node.isCallExpression(element)) {
+                const expression = element.getExpression();
+                if (
+                  Node.isIdentifier(expression) &&
+                  expression.getText() === 'provideConfig' &&
+                  isImportedFrom(expression, SPARTACUS_CORE)
+                ) {
+                  // TODO: We can add value to configs
+                  configs.push(element.getArguments()?.[0]);
+                }
+              }
+            });
+          }
+        }
+      });
+    }
+  }
 }
