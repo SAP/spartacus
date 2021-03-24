@@ -109,14 +109,14 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.savedCartService
         .getSaveCartProcessSuccess()
-        .subscribe((success) => this.onSuccess(success))
+        .subscribe((success) => this.onComplete(success))
     );
 
     this.subscription.add(
       this.savedCartEventsService
         .getDeleteSavedCartSuccessEvent()
         .pipe(take(1), mapTo(true))
-        .subscribe((success) => this.onSuccess(success))
+        .subscribe((success) => this.onComplete(success))
     );
   }
 
@@ -152,7 +152,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.launchDialogService.closeDialog(reason);
   }
 
-  onSuccess(success: boolean): void {
+  onComplete(success: boolean): void {
     if (success) {
       switch (this.layoutOption) {
         case SavedCartFormType.DELETE: {
@@ -229,5 +229,6 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.close('close dialog');
   }
 }

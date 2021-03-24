@@ -129,16 +129,18 @@ describe('SavedCartListComponent', () => {
     expect(savedCartService.loadSavedCarts).toHaveBeenCalledWith();
   });
 
-  it('should trigger OnSuccess after OnInit', () => {
-    const OnSuccessReturn = true;
+  it('should trigger onRestoreComplete after OnInit', () => {
+    const onRestoreCompleteReturn = true;
     spyOn(
       savedCartService,
       'getRestoreSavedCartProcessSuccess'
-    ).and.returnValue(of(OnSuccessReturn));
-    spyOn(component, 'onSuccess').and.callThrough();
+    ).and.returnValue(of(onRestoreCompleteReturn));
+    spyOn(component, 'onRestoreComplete').and.callThrough();
     component.savedCarts$ = savedCartService.getList();
     fixture.detectChanges();
-    expect(component.onSuccess).toHaveBeenCalledWith(OnSuccessReturn);
+    expect(component.onRestoreComplete).toHaveBeenCalledWith(
+      onRestoreCompleteReturn
+    );
   });
 
   it('should trigger goToSavedCartDetails with proper route', () => {
@@ -163,10 +165,10 @@ describe('SavedCartListComponent', () => {
     );
   });
 
-  it('should clear cart when OnSuccess called', () => {
+  it('should clear cart when onRestoreComplete called', () => {
     spyOn(savedCartService, 'clearRestoreSavedCart').and.callThrough();
     spyOn(savedCartService, 'clearSaveCart').and.callThrough();
-    component.onSuccess(true);
+    component.onRestoreComplete(true);
     expect(savedCartService.clearRestoreSavedCart).toHaveBeenCalledWith();
     expect(savedCartService.clearSaveCart).toHaveBeenCalledWith();
   });

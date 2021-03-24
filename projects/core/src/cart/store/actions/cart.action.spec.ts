@@ -125,10 +125,9 @@ describe('Cart Actions', () => {
         expect({ ...action }).toEqual({
           type: CartActions.LOAD_CARTS_SUCCESS,
           payload: [savedCart],
-          meta: StateUtils.entitySuccessMeta(
-            MULTI_CART_DATA,
-            payload.map((cart) => cart?.code)
-          ),
+          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, [
+            payload[0].code as string,
+          ]),
         });
       });
     });

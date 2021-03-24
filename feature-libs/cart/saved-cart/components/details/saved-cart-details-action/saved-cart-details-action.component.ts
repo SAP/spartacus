@@ -16,20 +16,20 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
-import { SavedCartDetailService } from '../saved-cart-detail.service';
+import { SavedCartDetailsService } from '../saved-cart-details.service';
 
 @Component({
-  selector: 'cx-saved-cart-detail-action',
-  templateUrl: './saved-cart-detail-action.component.html',
+  selector: 'cx-saved-cart-details-action',
+  templateUrl: './saved-cart-details-action.component.html',
 })
-export class SavedCartDetailActionComponent implements OnInit, OnDestroy {
+export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   @ViewChild('element') element: ElementRef;
-  savedCart$: Observable<Cart> = this.savedCartDetailService.getCartDetails();
+  savedCart$: Observable<Cart> = this.savedCartDetailsService.getCartDetails();
 
   constructor(
-    protected savedCartDetailService: SavedCartDetailService,
+    protected savedCartDetailsService: SavedCartDetailsService,
     protected savedCartService: SavedCartService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
@@ -42,7 +42,7 @@ export class SavedCartDetailActionComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.savedCartService
         .getRestoreSavedCartProcessSuccess()
-        .subscribe((success) => this.onSuccess(success))
+        .subscribe((success) => this.onRestoreComplete(success))
     );
   }
 
@@ -50,7 +50,7 @@ export class SavedCartDetailActionComponent implements OnInit, OnDestroy {
     this.savedCartService.restoreSavedCart(cartId);
   }
 
-  onSuccess(success: boolean): void {
+  onRestoreComplete(success: boolean): void {
     if (success) {
       this.routingService.go({ cxRoute: 'savedCarts' });
       this.savedCartService.clearRestoreSavedCart();

@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import { Cart, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { SavedCartDetailService } from './saved-cart-detail.service';
+import { SavedCartDetailsService } from './saved-cart-details.service';
 
 const mockCartId = 'test-cart';
 const mockSavedCart: Cart = {
@@ -31,8 +31,8 @@ class MockSavedCartService implements Partial<SavedCartService> {
   }
 }
 
-describe('SavedCartDetailService', () => {
-  let service: SavedCartDetailService;
+describe('SavedCartDetailsService', () => {
+  let service: SavedCartDetailsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,7 +42,7 @@ describe('SavedCartDetailService', () => {
       ],
     });
 
-    service = TestBed.inject(SavedCartDetailService);
+    service = TestBed.inject(SavedCartDetailsService);
   });
 
   it('should be created', () => {

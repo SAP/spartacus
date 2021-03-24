@@ -14,7 +14,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class SavedCartDetailService {
+export class SavedCartDetailsService {
   protected savedCartId$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.savedCartId),
     distinctUntilChanged()
