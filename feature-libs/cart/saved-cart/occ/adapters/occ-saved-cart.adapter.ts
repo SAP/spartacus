@@ -29,7 +29,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     return this.http
       .get<Occ.CartList>(this.getSavedCartListEndpoint(userId))
       .pipe(
-        pluck('carts') as any,
+        pluck('carts'), map(carts => carts ?? []),
         this.converter.pipeableMany(CART_NORMALIZER)
       );
   }
