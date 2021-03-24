@@ -7,7 +7,8 @@ import { I18nTestingModule, Product, ProductService } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
 import {
@@ -78,6 +79,16 @@ function setProductBoundValueAttributes(
     return productBoundValue;
   }
   return {};
+}
+
+function takeOneDisableQtyObs(
+  component: ConfiguratorAttributeProductCardComponent
+): Observable<boolean> {
+  return (
+    component
+      .extractQuantityParameters()
+      .disableQuantityActions?.pipe(take(1)) ?? EMPTY
+  );
 }
 
 describe('ConfiguratorAttributeProductCardComponent', () => {
@@ -482,6 +493,48 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       fixture.detectChanges();
 
       expect(component.hasPriceDisplay()).toBe(false);
+    });
+
+    it('should extract quantity parameters', () => {
+      component.productCardOptions.hideRemoveButton = false;
+      setProductBoundValueAttributes(component, true, 5);
+      const qtyParams = component.extractQuantityParameters();
+      expect(qtyParams.allowZero).toBe(true);
+      expect(qtyParams.initialQuantity?.quantity).toBe(5);
+      expect(qtyParams.disableQuantityActions).toBeDefined();
+    });
+
+    it('should disable stepper when loading', () => {
+      component.loading$.next(true);
+      takeOneDisableQtyObs(component).subscribe((disable) => {
+        expect(disable).toBe(true);
+      });
+    });
+    it('should enable stepper when loading is finished', () => {
+      component.loading$.next(false);
+      takeOneDisableQtyObs(component).subscribe((disable) => {
+        expect(disable).toBe(false);
+      });
+    });
+
+    it('should disable stepper when loading state is indicated by parent', () => {
+      component.loading$.next(false);
+      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
+        true
+      );
+      takeOneDisableQtyObs(component).subscribe((disable) => {
+        expect(disable).toBe(true);
+      });
+    });
+
+    it('should disable stepper when loading is finsihed including parent', () => {
+      component.loading$.next(false);
+      component.productCardOptions.loading$ = new BehaviorSubject<boolean>(
+        false
+      );
+      takeOneDisableQtyObs(component).subscribe((disable) => {
+        expect(disable).toBe(false);
+      });
     });
 
     it('should display content of cx-configurator-price ', () => {

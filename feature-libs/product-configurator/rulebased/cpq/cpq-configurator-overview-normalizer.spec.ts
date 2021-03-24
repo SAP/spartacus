@@ -4,7 +4,7 @@ import { LanguageService, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorOverviewNormalizer } from './cpq-configurator-overview-normalizer';
-import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
 import { Cpq } from './cpq.models';
 
 const ATTR_NAME = 'name of attribute';
@@ -134,7 +134,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     TestBed.configureTestingModule({
       providers: [
         CpqConfiguratorOverviewNormalizer,
-        CpqConfiguratorUtilitiesService,
+        CpqConfiguratorUtilsService,
         {
           provide: LanguageService,
           useClass: MockLanguageService,
