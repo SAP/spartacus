@@ -9,9 +9,10 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
+  PromotionLocation,
 } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
-import { ReplaySubject } from 'rxjs';
+import { ReplaySubject, BehaviorSubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
@@ -19,8 +20,10 @@ class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<FormControl>(1);
+  location$ = new BehaviorSubject<PromotionLocation>(
+    PromotionLocation.SaveForLater
+  );
 }
-
 describe('ConfiguratorCartEntryInfoComponent', () => {
   let component: ConfiguratorCartEntryInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
@@ -148,6 +151,30 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         "expected configuration info identified by selector '.cx-configuration-info' to be present, but it is not! innerHtml: " +
           htmlElem.innerHTML
       );
+    });
+
+    it('should disable product configuration when context is SaveForLater', () => {
+      mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
+      fixture.detectChanges();
+      component.shouldShowButton$.subscribe((savedCart) => {
+        expect(savedCart).toBeFalsy();
+      });
+    });
+
+    it('should disable product configuration when context is SavedCart', () => {
+      mockCartItemContext.location$.next(PromotionLocation.SavedCart);
+      fixture.detectChanges();
+      component.shouldShowButton$.subscribe((savedCart) => {
+        expect(savedCart).toBeFalsy();
+      });
+    });
+
+    it('should display configure button if context is NOT related to saved carts ', () => {
+      mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+      fixture.detectChanges();
+      component.shouldShowButton$.subscribe((savedCart) => {
+        expect(savedCart).toBeTruthy();
+      });
     });
 
     describe('hasStatus', () => {
