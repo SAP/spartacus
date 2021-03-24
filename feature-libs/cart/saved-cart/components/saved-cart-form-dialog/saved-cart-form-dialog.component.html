@@ -105,6 +105,7 @@
             </button>
 
             <button
+              *ngIf="cart.code"
               (click)="deleteCart(cart.code)"
               [disabled]="isDisableDeleteButton$ | async"
               aria-label="delete"

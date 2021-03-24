@@ -38,7 +38,7 @@ export class SavedCartDetailsService {
     return this.savedCartId$;
   }
 
-  getCartDetails(): Observable<Cart> {
+  getCartDetails(): Observable<Cart | undefined> {
     return this.savedCart$;
   }
 }

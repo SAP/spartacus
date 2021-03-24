@@ -37,7 +37,7 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
     Cart | undefined
   > = this.savedCartDetailsService.getCartDetails().pipe(
     tap((cart) => {
-      if (cart?.entries?.length <= 0) {
+      if ((cart?.entries ?? []).length <= 0 && !!cart?.code) {
         this.savedCartService.deleteSavedCart(cart.code);
       }
     })

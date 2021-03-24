@@ -11,12 +11,7 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
   imports: [
     RouterModule.forChild([
       {
-        path: null,
-        canActivate: [AuthGuard, CmsPageGuard],
-        component: PageLayoutComponent,
-        data: { cxRoute: 'savedCarts' },
-      },
-      {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,

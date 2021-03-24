@@ -22,7 +22,9 @@ export class SavedCartDetailsOverviewComponent implements OnDestroy {
   @ViewChild('element') element: ElementRef;
 
   iconTypes = ICON_TYPE;
-  savedCart$: Observable<Cart> = this.savedCartDetailsService.getCartDetails();
+  savedCart$: Observable<
+    Cart | undefined
+  > = this.savedCartDetailsService.getCartDetails();
 
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,

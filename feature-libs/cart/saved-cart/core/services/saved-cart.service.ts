@@ -72,7 +72,7 @@ export class SavedCartService {
           this.loadSavedCart(cartId);
         }
       }),
-      filter(([state]) => state.success || state.error),
+      filter(([state]) => state.success || !!state.error),
       map(([state]) => state.value)
     );
   }
@@ -120,14 +120,16 @@ export class SavedCartService {
       map(([carts, user]) =>
         carts.filter(
           (cart) =>
-            cart?.name !== getWishlistName(user?.customerId) && cart?.saveTime
+            (user?.customerId !== undefined
+              ? cart?.name !== getWishlistName(user?.customerId)
+              : true) && cart?.saveTime
         )
       )
     );
   }
 
   getSavedCartListProcessLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessLoadingFactory(SAVED_CART_LIST_PROCESS_ID)
       )
@@ -135,7 +137,7 @@ export class SavedCartService {
   }
 
   getSavedCartListProcess(): Observable<StateUtils.LoaderState<any>> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessStateFactory(SAVED_CART_LIST_PROCESS_ID)
       )
@@ -162,7 +164,7 @@ export class SavedCartService {
   }
 
   getRestoreSavedCartProcessLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessLoadingFactory(
           SAVED_CART_RESTORE_CART_PROCESS_ID
@@ -172,7 +174,7 @@ export class SavedCartService {
   }
 
   getRestoreSavedCartProcessSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessSuccessFactory(
           SAVED_CART_RESTORE_CART_PROCESS_ID
@@ -182,7 +184,7 @@ export class SavedCartService {
   }
 
   getRestoreSavedCartProcessError(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessErrorFactory(
           SAVED_CART_RESTORE_CART_PROCESS_ID
@@ -229,7 +231,7 @@ export class SavedCartService {
   }
 
   getSaveCartProcessLoading(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessLoadingFactory(
           SAVED_CART_SAVE_CART_PROCESS_ID
@@ -239,7 +241,7 @@ export class SavedCartService {
   }
 
   getSaveCartProcessSuccess(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessSuccessFactory(
           SAVED_CART_SAVE_CART_PROCESS_ID
@@ -249,7 +251,7 @@ export class SavedCartService {
   }
 
   getSaveCartProcessError(): Observable<boolean> {
-    return this.store.pipe(
+    return (<Store<StateWithProcess<void>>>this.store).pipe(
       select(
         ProcessSelectors.getProcessErrorFactory(SAVED_CART_SAVE_CART_PROCESS_ID)
       )
