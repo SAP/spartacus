@@ -54,10 +54,6 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
       '@spartacus/schematics',
       '../../projects/schematics/src/collection.json'
     );
-    schematicRunner.registerCollection(
-      '@spartacus/product',
-      '../../feature-libs/product/schematics/collection.json'
-    );
 
     appTree = await schematicRunner
       .runExternalSchematicAsync(

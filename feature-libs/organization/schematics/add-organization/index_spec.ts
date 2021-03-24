@@ -59,10 +59,6 @@ describe('Spartacus Organization schematics: ng-add', () => {
       '@spartacus/schematics',
       '../../projects/schematics/src/collection.json'
     );
-    schematicRunner.registerCollection(
-      '@spartacus/storefinder',
-      '../../feature-libs/storefinder/schematics/collection.json'
-    );
 
     appTree = await schematicRunner
       .runExternalSchematicAsync(

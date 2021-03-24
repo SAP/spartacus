@@ -2,6 +2,7 @@ import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import {
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
+  SPARTACUS_FEATURES_NG_MODULE,
   SPARTACUS_STOREFRONTLIB,
 } from '../shared/constants';
 import { addModuleImport } from '../shared/utils/new-module-utils';
@@ -15,7 +16,7 @@ export function setupSpartacusFeaturesModule(project: string): Rule {
 
     if (!buildPaths.length) {
       throw new SchematicsException(
-        'Could not find any tsconfig file. Cannot configure SpartacusFeaturesModule.'
+        `Could not find any tsconfig file. Cannot configure ${SPARTACUS_FEATURES_NG_MODULE}.`
       );
     }
 
@@ -127,7 +128,7 @@ function configureSpartacusModules(
         content: `
         // Auth Core
         AuthModule.forRoot(),
-    
+
         // Basic Cms Components
         HamburgerMenuModule,
         SiteContextSelectorModule,
@@ -140,7 +141,7 @@ function configureSpartacusModules(
         NavigationModule,
         FooterNavigationModule,
         BreadcrumbModule,
-    
+
         // User Core
         UserModule.forRoot(),
         UserOccModule,
@@ -159,17 +160,17 @@ function configureSpartacusModules(
         StockNotificationModule,
         ConsentManagementModule,
         MyCouponsModule,
-    
+
         // Anonymous Consents Core
         AnonymousConsentsModule.forRoot(),
         // Anonymous Consents UI
         AnonymousConsentsDialogModule,
         AnonymousConsentManagementBannerModule,
-    
+
         // Product Core
         ProductModule.forRoot(),
         ProductOccModule,
-    
+
         // Product UI
         ProductDetailsPageModule,
         ProductListingPageModule,
@@ -183,14 +184,14 @@ function configureSpartacusModules(
         ProductSummaryModule,
         ProductVariantsModule,
         ProductIntroModule,
-    
+
         // Cart Core
         CartModule.forRoot(),
         CartOccModule,
         // Cart UI
         CartComponentModule,
         WishListModule,
-    
+
         // Checkout Core
         CheckoutModule.forRoot(),
         CheckoutOccModule,
@@ -198,7 +199,7 @@ function configureSpartacusModules(
         // Checkout UI
         CheckoutComponentModule,
         OrderConfirmationModule,
-    
+
         // Order
         OrderHistoryModule,
         OrderDetailsModule,
@@ -209,12 +210,12 @@ function configureSpartacusModules(
         ReplenishmentOrderHistoryModule,
         ReplenishmentOrderDetailsModule,
         ReplenishmentOrderConfirmationModule,
-    
+
         // Asm Core
         AsmOccModule,
         // Asm UI
         AsmModule,
-    
+
         // Page Events
         NavigationEventModule,
         HomePageEventModule,

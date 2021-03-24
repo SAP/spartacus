@@ -18,6 +18,7 @@ import {
   PROVIDE_CONFIG_FUNCTION,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
+  SPARTACUS_FEATURES_NG_MODULE,
 } from '../constants';
 import { isImportedFrom } from './import-utils';
 import {
@@ -87,9 +88,9 @@ export function addLibraryFeature<T extends LibraryOptions>(
       tree,
       options.project
     );
-    if (spartacusFeatureModuleExists) {
+    if (!spartacusFeatureModuleExists) {
       throw new SchematicsException(
-        'Your application structure is not supported. Migrate manually to new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/ and add the library once again.'
+        'Please migrate manually to new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/ and add the library once again. Old app structure is no longer supported.'
       );
     }
     return chain([
@@ -105,7 +106,7 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
 
   if (!buildPaths.length) {
     throw new SchematicsException(
-      "Could not find any tsconfig file. Can't find SpartacusFeaturesModule."
+      `Could not find any tsconfig file. Can't find ${SPARTACUS_FEATURES_NG_MODULE}.`
     );
   }
 
@@ -114,6 +115,7 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
   for (const tsconfigPath of buildPaths) {
     if (spartacusFeatureModuleExists(tree, tsconfigPath, basePath)) {
       result = true;
+      break;
     }
   }
   return result;
@@ -126,7 +128,7 @@ function spartacusFeatureModuleExists(
 ): boolean {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
-  appSourceFiles.forEach((sourceFile) => {
+  for (const sourceFile of appSourceFiles) {
     if (
       sourceFile
         .getFilePath()
@@ -136,7 +138,7 @@ function spartacusFeatureModuleExists(
         return true;
       }
     }
-  });
+  }
   return false;
 }
 
@@ -160,7 +162,7 @@ function getSpartacusFeaturesModule(
           const identifier = classDeclaration.getNameNode();
           if (
             identifier &&
-            identifier.getText() === 'SpartacusFeaturesModule'
+            identifier.getText() === SPARTACUS_FEATURES_NG_MODULE
           ) {
             spartacusFeaturesModule = node;
           }
@@ -182,14 +184,8 @@ function handleFeature<T extends LibraryOptions>(
   return (tree: Tree, _context: SchematicContext) => {
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
-    if (!buildPaths.length) {
-      throw new SchematicsException(
-        "Could not find any tsconfig file. Can't find SpartacusFeaturesModule."
-      );
-    }
-
     const basePath = process.cwd();
-    const tasks = [];
+    const tasks: Rule[] = [];
     for (const tsconfigPath of buildPaths) {
       tasks.push(
         ensureModuleExists({
@@ -215,7 +211,7 @@ function addRootModule(
 ) {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    appSourceFiles.forEach((sourceFile) => {
+    for (const sourceFile of appSourceFiles) {
       if (
         sourceFile
           .getFilePath()
@@ -229,8 +225,9 @@ function addRootModule(
           content: config.rootModule.content || config.rootModule.name,
         });
         saveAndFormat(sourceFile);
+        break;
       }
-    });
+    }
     return tree;
   };
 }
@@ -244,12 +241,9 @@ function addFeatureModule(
 ) {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    appSourceFiles.forEach((sourceFile) => {
-      if (
-        sourceFile
-          .getFilePath()
-          .includes(`${dasherize(config.name)}-feature.module.ts`)
-      ) {
+    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    for (const sourceFile of appSourceFiles) {
+      if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (options.lazy) {
           addModuleProvider(sourceFile, {
             import: [
@@ -279,8 +273,9 @@ function addFeatureModule(
           });
         }
         saveAndFormat(sourceFile);
+        break;
       }
-    });
+    }
     return tree;
   };
 }
@@ -293,12 +288,9 @@ function addFeatureTranslations(
 ) {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    appSourceFiles.forEach((sourceFile) => {
-      if (
-        sourceFile
-          .getFilePath()
-          .includes(`${dasherize(config.name)}-feature.module.ts`)
-      ) {
+    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    for (const sourceFile of appSourceFiles) {
+      if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.i18n) {
           addModuleProvider(sourceFile, {
             import: [
@@ -320,8 +312,9 @@ function addFeatureTranslations(
           });
           saveAndFormat(sourceFile);
         }
+        break;
       }
-    });
+    }
     return tree;
   };
 }
@@ -334,12 +327,9 @@ function addCustomConfig(
 ) {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    appSourceFiles.forEach((sourceFile) => {
-      if (
-        sourceFile
-          .getFilePath()
-          .includes(`${dasherize(config.name)}-feature.module.ts`)
-      ) {
+    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    for (const sourceFile of appSourceFiles) {
+      if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.customConfig) {
           addModuleProvider(sourceFile, {
             import: [
@@ -353,8 +343,9 @@ function addCustomConfig(
           });
           saveAndFormat(sourceFile);
         }
+        break;
       }
-    });
+    }
     return tree;
   };
 }

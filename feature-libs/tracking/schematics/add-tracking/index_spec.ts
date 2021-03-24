@@ -54,10 +54,6 @@ describe('Spartacus Personalization schematics: ng-add', () => {
       '@spartacus/schematics',
       '../../projects/schematics/src/collection.json'
     );
-    schematicRunner.registerCollection(
-      '@spartacus/organization',
-      '../../feature-libs/organization/schematics/collection.json'
-    );
 
     appTree = await schematicRunner
       .runExternalSchematicAsync(
@@ -145,32 +141,6 @@ describe('Spartacus Personalization schematics: ng-add', () => {
           `import { PersonalizationModule } from "@spartacus/tracking/personalization";`
         );
       });
-    });
-  });
-
-  describe('when other Spartacus features are already installed', () => {
-    beforeEach(async () => {
-      appTree = await schematicRunner
-        .runExternalSchematicAsync(
-          '@spartacus/organization',
-          'ng-add',
-          { ...spartacusDefaultOptions, name: 'schematics-test' },
-          appTree
-        )
-        .toPromise();
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', defaultOptions, appTree)
-        .toPromise();
-    });
-
-    it('should just append personalization feature without duplicating the featureModules config', () => {
-      const personalizationModule = appTree.readContent(
-        personalizationModulePath
-      );
-      expect(personalizationModule.match(/featureModules:/g)?.length).toEqual(
-        1
-      );
-      expect(personalizationModule).toContain(`personalization: {`);
     });
   });
 });
