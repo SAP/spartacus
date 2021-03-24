@@ -8,6 +8,7 @@ import {
   OrderEntry,
   PromotionLocation,
   SelectiveCartService,
+  UserIdService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -28,7 +29,9 @@ export class CartItemListComponent {
     optionalBtn: null,
   };
 
-  @Input() cart: { userId: string; cartId: string };
+  @Input() cartId: string;
+
+  userId$ = this.userIdService.getUserId();
 
   private _items: OrderEntry[] = [];
   form: FormGroup = this.featureConfigService?.isLevel('3.1')
@@ -63,7 +66,8 @@ export class CartItemListComponent {
   // TODO(#11037): Remove deprecated constructors
   constructor(
     activeCartService: ActiveCartService,
-    selectiveCartService: SelectiveCartService
+    selectiveCartService: SelectiveCartService,
+    userIdService: UserIdService
   );
 
   /**
@@ -74,6 +78,7 @@ export class CartItemListComponent {
   constructor(
     activeCartService: ActiveCartService,
     selectiveCartService: SelectiveCartService,
+    userIdService: UserIdService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     featureConfigService: FeatureConfigService
   );
@@ -81,6 +86,7 @@ export class CartItemListComponent {
   constructor(
     activeCartService: ActiveCartService,
     selectiveCartService: SelectiveCartService,
+    userIdService: UserIdService,
     featureConfigService: FeatureConfigService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     multiCartService: MultiCartService
@@ -89,6 +95,7 @@ export class CartItemListComponent {
   constructor(
     protected activeCartService: ActiveCartService,
     protected selectiveCartService: SelectiveCartService,
+    protected userIdService: UserIdService,
     public featureConfigService?: FeatureConfigService,
     protected multiCartService?: MultiCartService
   ) {}
@@ -157,22 +164,18 @@ export class CartItemListComponent {
     return item.entryNumber.toString();
   }
 
-  removeEntry(item: OrderEntry): void {
+  removeEntry(item: OrderEntry, userId: string): void {
     if (this.selectiveCartService && this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
-    } else if (this.cart?.cartId && this.cart?.userId) {
-      this.multiCartService?.removeEntry(
-        this.cart.userId,
-        this.cart.cartId,
-        item.entryNumber
-      );
+    } else if (this.cartId && userId) {
+      this.multiCartService?.removeEntry(userId, this.cartId, item.entryNumber);
     } else {
       this.activeCartService.removeEntry(item);
     }
     delete this.form.controls[this.getControlName(item)];
   }
 
-  getControl(item: OrderEntry): Observable<FormGroup> {
+  getControl(item: OrderEntry, userId: string): Observable<FormGroup> {
     return this.form.get(this.getControlName(item)).valueChanges.pipe(
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
@@ -182,10 +185,10 @@ export class CartItemListComponent {
             value.entryNumber,
             value.quantity
           );
-        } else if (value && this.cart?.cartId && this.cart?.userId) {
+        } else if (value && this.cartId && userId) {
           this.multiCartService?.updateEntry(
-            this.cart.userId,
-            this.cart.cartId,
+            userId,
+            this.cartId,
             value.entryNumber,
             value.quantity
           );

@@ -11,13 +11,21 @@ import {
   OrderEntry,
   PromotionLocation,
   SelectiveCartService,
+  UserIdService,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
 
 class MockActiveCartService {
   updateEntry() {}
+}
+
+class MockUserIdService implements Partial<UserIdService> {
+  getUserId(): Observable<string> {
+    return of(mockUserId);
+  }
 }
 
 class MockMultiCartService implements Partial<MultiCartService> {
@@ -106,6 +114,7 @@ describe('CartItemListComponent', () => {
           { provide: ActiveCartService, useClass: MockActiveCartService },
           { provide: SelectiveCartService, useValue: mockSelectiveCartService },
           { provide: MultiCartService, useClass: MockMultiCartService },
+          { provide: UserIdService, useClass: MockUserIdService },
         ],
       }).compileComponents();
     })
@@ -139,7 +148,7 @@ describe('CartItemListComponent', () => {
 
   it('should return form control with quantity ', () => {
     const item = mockItems[0];
-    component.getControl(item).subscribe((control) => {
+    component.getControl(item, mockUserId).subscribe((control) => {
       expect(control.get('quantity').value).toEqual(1);
     });
   });
@@ -148,7 +157,7 @@ describe('CartItemListComponent', () => {
     const item = mockItems[0];
     let result: FormGroup;
     component
-      .getControl(item)
+      .getControl(item, mockUserId)
       .subscribe((control) => {
         result = control;
       })
@@ -165,7 +174,7 @@ describe('CartItemListComponent', () => {
 
     let result: FormGroup;
     component
-      .getControl(item)
+      .getControl(item, mockUserId)
       .subscribe((control) => {
         result = control;
       })
@@ -180,7 +189,7 @@ describe('CartItemListComponent', () => {
     const item = mockItems[0];
     let result: FormGroup;
     component
-      .getControl(item)
+      .getControl(item, mockUserId)
       .subscribe((control) => {
         result = control;
       })
@@ -192,7 +201,7 @@ describe('CartItemListComponent', () => {
   it('should call cartService with an updated entry', () => {
     const item = mockItems[0];
     component
-      .getControl(item)
+      .getControl(item, mockUserId)
       .subscribe((control) => {
         control.get('quantity').setValue(2);
         expect(activeCartService.updateEntry).toHaveBeenCalledWith(
@@ -206,7 +215,7 @@ describe('CartItemListComponent', () => {
   it('should call cartService.updateEntry during a remove with quantity 0', () => {
     const item = mockItems[0];
     component
-      .getControl(item)
+      .getControl(item, mockUserId)
       .subscribe((control) => {
         control.get('quantity').setValue(0);
         expect(activeCartService.updateEntry).toHaveBeenCalledWith(
@@ -254,7 +263,7 @@ describe('CartItemListComponent', () => {
     fixture.detectChanges();
     const item = mockItems[0];
     expect(component.form.controls[item.entryNumber]).toBeDefined();
-    component.removeEntry(item);
+    component.removeEntry(item, mockUserId);
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(item);
     expect(component.form.controls[item.entryNumber]).toBeUndefined();
   });
@@ -267,13 +276,13 @@ describe('CartItemListComponent', () => {
 
   describe('when cart input is defined', () => {
     beforeEach(() => {
-      component.cart = { userId: mockUserId, cartId: mockCartId };
+      component.cartId = mockCartId;
       fixture.detectChanges();
     });
 
     it('should remove entry of multiCartService when cart input exist', () => {
       console.log('ok');
-      component.removeEntry(mockItems[0]);
+      component.removeEntry(mockItems[0], mockUserId);
       expect(multiCartService.removeEntry).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
@@ -282,7 +291,7 @@ describe('CartItemListComponent', () => {
     });
     it('should update entry of multiCartService when cart input exist', () => {
       component
-        .getControl(mockItems[0])
+        .getControl(mockItems[0], mockUserId)
         .subscribe((control) => {
           control.get('quantity').setValue(8);
           expect(multiCartService.updateEntry).toHaveBeenCalledWith(
