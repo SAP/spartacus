@@ -1,12 +1,12 @@
 import { Component, Optional } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { OrderEntry } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
-import { OrderEntry } from '@spartacus/core';
-import { FormControl } from '@angular/forms';
-import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
-import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
-import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { map } from 'rxjs/operators';
+import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { LineItem } from './configurator-cart-entry-bundle-info.model';
+import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
 
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
@@ -61,8 +61,11 @@ export class ConfiguratorCartEntryBundleInfoComponent {
    * @returns {boolean} - 'True' if the expected configurator type, otherwise 'false'
    */
   isBundleBasedConfigurator(entry: OrderEntry): boolean {
-    return this.commonConfigUtilsService.isBundleBasedConfigurator(
-      entry?.configurationInfos[0]?.configuratorType
-    );
+    const configInfos = entry.configurationInfos;
+    return configInfos
+      ? this.commonConfigUtilsService.isBundleBasedConfigurator(
+          configInfos[0]?.configuratorType
+        )
+      : false;
   }
 }

@@ -44,7 +44,7 @@ export class ConfiguratorPriceComponent {
    * @param {string} formattedQuantity- formatted quantity
    * @return {string} - price formula
    */
-  quantityWihPrice(formattedQuantity: string): string {
+  quantityWithPrice(formattedQuantity: string): string {
     return formattedQuantity + 'x(' + this.formula?.price?.formattedValue + ')';
   }
 

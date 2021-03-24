@@ -1,17 +1,17 @@
+import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 import { ControlContainer, FormControl } from '@angular/forms';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
-import { ReplaySubject } from 'rxjs';
-import { take, toArray } from 'rxjs/operators';
 import {
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
 } from '@spartacus/product-configurator/common';
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { CartItemContext } from '@spartacus/storefront';
+import { ReplaySubject } from 'rxjs';
+import { take, toArray } from 'rxjs/operators';
+import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
 @Pipe({
   name: 'cxNumeric',
@@ -235,6 +235,14 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       entry.configurationInfos[0].configuratorType = 'CLOUDCPQCONFIGURATOR';
       fixture.detectChanges();
       expect(component.isBundleBasedConfigurator(entry)).toBe(true);
+    });
+
+    it('should return false in case no configuration infos are available', () => {
+      const entryWoConfigInfo: OrderEntry = {};
+      fixture.detectChanges();
+      expect(component.isBundleBasedConfigurator(entryWoConfigInfo)).toBe(
+        false
+      );
     });
   });
 

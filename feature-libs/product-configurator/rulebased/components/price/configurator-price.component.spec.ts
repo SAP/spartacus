@@ -178,7 +178,7 @@ describe('ConfiguratorPriceComponent', () => {
       );
 
       expect(
-        component.quantityWihPrice(component.formula.quantity.toString())
+        component.quantityWithPrice(component.formula.quantity.toString())
       ).toEqual('2x($10)');
       expect(component.priceTotal).toEqual('+ $20');
     });
