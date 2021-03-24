@@ -15,7 +15,6 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
 
   form: FormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;
-
   titles$: Observable<Title[]> = this.service.titles$;
   user$: Observable<User | undefined> = this.service.user$;
 
@@ -36,9 +35,7 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Form has to be reset in order to have a clean form
-    // next time component is called
-    this.service.reset();
+    this.service.resetForm();
 
     this.subscription?.unsubscribe();
   }

@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
-  AuthService,
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
@@ -9,19 +8,23 @@ import {
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UpdatePasswordService {
-  isUpdating$ = new BehaviorSubject(false);
-
   constructor(
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected userPasswordService: UserPasswordFacade,
-    protected authService: AuthService
+    protected userPasswordService: UserPasswordFacade
   ) {}
+
+  protected busy = new BehaviorSubject(false);
+
+  isUpdating$ = this.busy.pipe(
+    tap((state) => (state === true ? this.form.disable() : this.form.enable()))
+  );
 
   form: FormGroup = new FormGroup(
     {
@@ -47,7 +50,7 @@ export class UpdatePasswordService {
     }
 
     this.form.disable();
-    this.isUpdating$.next(true);
+    this.busy.next(true);
 
     const oldPassword = this.form.get('oldPassword')?.value;
     const newPassword = this.form.get('newPassword')?.value;
@@ -55,7 +58,7 @@ export class UpdatePasswordService {
     this.userPasswordService.update(oldPassword, newPassword).subscribe({
       next: () => this.onSuccess(),
       error: () => {},
-      complete: () => this.isUpdating$.next(false),
+      complete: () => this.resetForm(),
     });
   }
 
@@ -65,11 +68,10 @@ export class UpdatePasswordService {
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     this.routingService.go({ cxRoute: 'home' });
-    this.reset();
   }
 
-  reset(): void {
+  resetForm(): void {
+    this.busy.next(false);
     this.form.reset();
-    this.form.enable();
   }
 }

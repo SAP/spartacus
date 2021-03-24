@@ -1,41 +1,28 @@
 import { TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import { NavigationExtras } from '@angular/router';
 import {
   AuthService,
-  GlobalMessage,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
   RoutingService,
-  UrlCommands,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { UpdateEmailService } from './update-email.service';
-
+import createSpy = jasmine.createSpy;
 class MockUserEmailService implements Partial<UserEmailFacade> {
-  update(_password: string, _newUid: string): Observable<unknown> {
-    return of({});
-  }
+  update = createSpy().and.returnValue(of({}));
 }
-
 class MockAuthService {
-  coreLogout() {
-    return Promise.resolve();
-  }
+  coreLogout = createSpy().and.returnValue(Promise.resolve());
 }
-
 class MockRoutingService {
-  go(
-    _commands: any[] | UrlCommands,
-    _query?: object,
-    _extras?: NavigationExtras
-  ): void {}
+  go = createSpy().and.stub();
 }
 class MockGlobalMessageService {
-  add(_message: GlobalMessage): void {}
+  add = createSpy().and.stub();
 }
 
 describe('UpdateEmailService', () => {
@@ -90,19 +77,15 @@ describe('UpdateEmailService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('reset()', () => {
+  it('reset form', () => {
     spyOn(service.form, 'reset').and.callThrough();
-    service.reset();
+    service.resetForm();
 
     expect(service.form.reset).toHaveBeenCalled();
   });
 
   describe('save', () => {
     beforeEach(() => {
-      spyOn(userService, 'update').and.callThrough();
-      spyOn(globalMessageService, 'add').and.stub();
-      spyOn(authService, 'coreLogout').and.callThrough();
-      spyOn(routingService, 'go').and.stub();
       newUid.setValue('tester@sap.com');
       confirmNewUid.setValue('tester@sap.com');
       password.setValue('Qwe123!');

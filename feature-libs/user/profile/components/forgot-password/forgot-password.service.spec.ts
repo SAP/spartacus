@@ -7,7 +7,7 @@ import {
   GlobalMessageService,
   I18nTestingModule,
   OAuthFlow,
-  RoutingService
+  RoutingService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
@@ -72,7 +72,7 @@ describe('ForgotPasswordService', () => {
   describe('reset', () => {
     it('should reset the form', () => {
       spyOn(service.form, 'reset').and.stub();
-      service.reset();
+      service.resetForm();
       expect(service.form.reset).toHaveBeenCalled();
     });
   });
@@ -86,7 +86,7 @@ describe('ForgotPasswordService', () => {
         userEmail: 'test@test.com',
       });
 
-      service.submit();
+      service.requestEmail();
 
       expect(
         userPasswordFacade.requestForgotPasswordEmail
@@ -105,7 +105,7 @@ describe('ForgotPasswordService', () => {
         userEmail: 'test@test.com',
       });
 
-      service.submit();
+      service.requestEmail();
 
       expect(
         userPasswordFacade.requestForgotPasswordEmail

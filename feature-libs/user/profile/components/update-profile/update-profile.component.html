@@ -58,17 +58,12 @@
 
   <a
     class="btn btn-block btn-secondary"
-    [class.disabled]="isUpdating$ | async"
     [routerLink]="{ cxRoute: 'home' } | cxUrl"
   >
     {{ 'common.cancel' | cxTranslate }}
   </a>
 
-  <button
-    class="btn btn-block btn-primary"
-    type="submit"
-    [disabled]="isUpdating$ | async"
-  >
+  <button class="btn btn-block btn-primary" [disabled]="form.disabled">
     {{ 'common.save' | cxTranslate }}
   </button>
 </form>

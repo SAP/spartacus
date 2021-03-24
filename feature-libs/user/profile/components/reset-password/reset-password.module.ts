@@ -8,8 +8,8 @@ import {
   NotAuthGuard,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
-import { ResetPasswordFormComponent } from './reset-password-form.component';
+import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { ResetPasswordComponent } from './reset-password.component';
 
 @NgModule({
   imports: [
@@ -19,17 +19,18 @@ import { ResetPasswordFormComponent } from './reset-password-form.component';
     RouterModule,
     I18nModule,
     FormErrorsModule,
+    SpinnerModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         ResetPasswordComponent: {
-          component: ResetPasswordFormComponent,
+          component: ResetPasswordComponent,
           guards: [NotAuthGuard],
         },
       },
     }),
   ],
-  declarations: [ResetPasswordFormComponent],
+  declarations: [ResetPasswordComponent],
 })
 export class ResetPasswordModule {}

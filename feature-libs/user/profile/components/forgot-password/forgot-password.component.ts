@@ -8,17 +8,16 @@ import { ForgotPasswordService } from './forgot-password.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgotPasswordComponent implements OnDestroy {
-  form: FormGroup = this.service.form;
-
   constructor(protected service: ForgotPasswordService) {}
 
+  form: FormGroup = this.service.form;
+  isUpdating$ = this.service.isUpdating$;
+
   onSubmit(): void {
-    this.service.submit();
+    this.service.requestEmail();
   }
 
   ngOnDestroy() {
-    // Form has to be reset in order to have a clean form
-    // next time component is called
-    this.service.reset();
+    this.service.resetForm();
   }
 }

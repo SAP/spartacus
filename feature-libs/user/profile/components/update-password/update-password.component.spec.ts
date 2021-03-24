@@ -4,12 +4,7 @@ import {
   DebugElement,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -18,6 +13,7 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { BehaviorSubject } from 'rxjs';
 import { UpdatePasswordComponent } from './update-password.component';
 import { UpdatePasswordService } from './update-password.service';
+import createSpy = jasmine.createSpy;
 
 @Component({
   selector: 'cx-spinner',
@@ -25,27 +21,24 @@ import { UpdatePasswordService } from './update-password.service';
 })
 class MockCxSpinnerComponent {}
 
-const isUpdatingSubject = new BehaviorSubject(false);
+const isBusySubject = new BehaviorSubject(false);
 class MockUpdatePasswordService implements Partial<UpdatePasswordService> {
   form: FormGroup = new FormGroup({
     oldPassword: new FormControl(),
     newPassword: new FormControl(),
     newPasswordConfirm: new FormControl(),
   });
-  isUpdating$ = isUpdatingSubject;
-  update(): void {}
-  reset(): void {}
+  isUpdating$ = isBusySubject;
+  update = createSpy().and.stub();
+  resetForm = createSpy().and.stub();
 }
 
 describe('UpdatePasswordComponent', () => {
   let component: UpdatePasswordComponent;
   let fixture: ComponentFixture<UpdatePasswordComponent>;
   let el: DebugElement;
-  let oldPassword: AbstractControl;
-  let newPassword: AbstractControl;
-  let newPasswordConfirm: AbstractControl;
 
-  let updateEmailService: UpdatePasswordService;
+  let service: UpdatePasswordService;
 
   beforeEach(
     waitForAsync(() => {
@@ -76,76 +69,64 @@ describe('UpdatePasswordComponent', () => {
     fixture = TestBed.createComponent(UpdatePasswordComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    updateEmailService = TestBed.inject(UpdatePasswordService);
+    service = TestBed.inject(UpdatePasswordService);
 
     fixture.detectChanges();
-
-    oldPassword = component.form.controls.oldPassword;
-    newPassword = component.form.controls.newPassword;
-    newPasswordConfirm = component.form.controls.newPasswordConfirm;
   });
-
-  function setFormValue() {
-    const oldP = 'tester@sap.com';
-    const newP = 'Qwe123!';
-
-    oldPassword.setValue(oldP);
-    newPassword.setValue(newP);
-    newPasswordConfirm.setValue(newP);
-  }
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show the spinner when updating', () => {
-    isUpdatingSubject.next(true);
-    fixture.detectChanges();
-    expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+  describe('busy', () => {
+    it('should disable the submit button when form is disabled', () => {
+      component.form.disable();
+      fixture.detectChanges();
+      const submitBtn: HTMLButtonElement = el.query(By.css('button'))
+        .nativeElement;
+      expect(submitBtn.disabled).toBeTruthy();
+    });
+
+    it('should show the spinner', () => {
+      isBusySubject.next(true);
+      fixture.detectChanges();
+      expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+    });
   });
 
-  it('should not show the spinner when idle', () => {
-    isUpdatingSubject.next(false);
-    fixture.detectChanges();
-    expect(el.query(By.css('cx-spinner'))).toBeFalsy();
-  });
+  describe('idle', () => {
+    it('should enable the submit button', () => {
+      component.form.enable();
+      fixture.detectChanges();
+      const submitBtn = el.query(By.css('button'));
+      expect(submitBtn.nativeElement.disabled).toBeFalsy();
+    });
 
-  it('should call updateEmail on submit', () => {
-    spyOn(updateEmailService, 'update').and.stub();
-
-    setFormValue();
-
-    component.onSubmit();
-    expect(updateEmailService.update).toHaveBeenCalled();
+    it('should not show the spinner', () => {
+      isBusySubject.next(false);
+      fixture.detectChanges();
+      expect(el.query(By.css('cx-spinner'))).toBeNull();
+    });
   });
 
   describe('Form Interactions', () => {
-    describe('Submit button', () => {
-      it('should be disabled while updating', () => {
-        isUpdatingSubject.next(true);
-        fixture.detectChanges();
-        const submitBtn = el.query(By.css('button[type="submit"]'));
-        expect(submitBtn.nativeElement.disabled).toBeTruthy();
-      });
-
-      it('should call onSubmit() when clicked', () => {
-        spyOn(component, 'onSubmit').and.stub();
-        isUpdatingSubject.next(false);
-        fixture.detectChanges();
-        const submitBtn = el.query(By.css('button[type="submit"]'));
-        submitBtn.nativeElement.dispatchEvent(new MouseEvent('click'));
-        expect(component.onSubmit).toHaveBeenCalled();
-      });
+    it('should call onSubmit() method on submit', () => {
+      const request = spyOn(component, 'onSubmit');
+      const form = el.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(request).toHaveBeenCalled();
     });
 
-    describe('Cancel Link', () => {
-      it('should be disabled while loading', () => {
-        isUpdatingSubject.next(true);
-        fixture.detectChanges();
-        const cancelLink: HTMLAnchorElement = el.query(By.css('a.btn'))
-          .nativeElement;
-        expect(cancelLink.classList).toContain('disabled');
-      });
+    it('should call the service method on submit', () => {
+      component.onSubmit();
+      expect(service.update).toHaveBeenCalled();
+    });
+  });
+
+  describe('destroy component', () => {
+    it('should reset the form', () => {
+      component.ngOnDestroy();
+      expect(service.resetForm).toHaveBeenCalled();
     });
   });
 });

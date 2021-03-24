@@ -7,21 +7,26 @@ import {
 } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UpdateProfileService {
-  isUpdating$ = new BehaviorSubject(false);
-
-  titles$ = this.userProfile.getTitles();
-  user$ = this.userProfile.get();
-
   constructor(
     protected userProfile: UserProfileFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService
   ) {}
+
+  protected busy = new BehaviorSubject(false);
+
+  isUpdating$ = this.busy.pipe(
+    tap((state) => (state === true ? this.form.disable() : this.form.enable()))
+  );
+
+  titles$ = this.userProfile.getTitles();
+  user$ = this.userProfile.get();
 
   form: FormGroup = new FormGroup({
     customerId: new FormControl(''),
@@ -37,14 +42,14 @@ export class UpdateProfileService {
     }
 
     this.form.disable();
-    this.isUpdating$.next(true);
+    this.busy.next(true);
 
     const userUpdates = this.form.value;
 
     this.userProfile.update(userUpdates).subscribe({
       next: () => this.onSuccess(),
       error: () => {},
-      complete: () => this.isUpdating$.next(false),
+      complete: () => this.resetForm(),
     });
   }
 
@@ -55,11 +60,10 @@ export class UpdateProfileService {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-    this.reset();
   }
 
-  reset(): void {
+  resetForm(): void {
+    this.busy.next(false);
     this.form.reset();
-    this.form.enable();
   }
 }

@@ -20,6 +20,6 @@ export class UpdatePasswordComponent implements OnDestroy {
   ngOnDestroy() {
     // Form has to be reset in order to have a clean form
     // next time component is called
-    this.service.reset();
+    this.service.resetForm();
   }
 }

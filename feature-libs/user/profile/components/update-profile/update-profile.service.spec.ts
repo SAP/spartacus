@@ -1,13 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NavigationExtras } from '@angular/router';
 import {
-  GlobalMessage,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
   RoutingService,
-  UrlCommands,
   User,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
@@ -29,16 +26,11 @@ class MockUserProfileFacade implements Partial<UserProfileFacade> {
   update = createSpy('UserProfileFacade.update').and.returnValue(of({}));
   close = createSpy('UserProfileFacade.close').and.returnValue(of());
 }
-
 class MockRoutingService {
-  go(
-    _commands: any[] | UrlCommands,
-    _query?: object,
-    _extras?: NavigationExtras
-  ): void {}
+  go = createSpy().and.stub();
 }
 class MockGlobalMessageService {
-  add(_message: GlobalMessage): void {}
+  add = createSpy().and.stub();
 }
 
 describe('UpdateProfileService', () => {
@@ -82,16 +74,11 @@ describe('UpdateProfileService', () => {
 
   it('reset()', () => {
     spyOn(service.form, 'reset').and.callThrough();
-    service.reset();
+    service.resetForm();
     expect(service.form.reset).toHaveBeenCalled();
   });
 
   describe('save()', () => {
-    beforeEach(() => {
-      spyOn(globalMessageService, 'add').and.stub();
-      spyOn(routingService, 'go').and.stub();
-    });
-
     function fillForm(user: User = mockUser) {
       service.form.patchValue(user);
     }

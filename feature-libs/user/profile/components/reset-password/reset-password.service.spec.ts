@@ -9,34 +9,40 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
-import { UpdatePasswordService } from './update-password.service';
+import { ResetPasswordService } from './reset-password.service';
 import createSpy = jasmine.createSpy;
 
-class MockUserPasswordService implements Partial<UserPasswordFacade> {
-  update = createSpy().and.returnValue(of({}));
+const resetToken = '123#Token';
+
+class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
+  reset = createSpy().and.returnValue(of({}));
 }
 
 class MockRoutingService {
   go = createSpy().and.stub();
+  getRouterState = createSpy().and.returnValue(of(resetToken));
 }
 class MockGlobalMessageService {
   add = createSpy().and.stub();
 }
 
-describe('UpdatePasswordService', () => {
-  let service: UpdatePasswordService;
+describe('ResetPasswordService', () => {
+  let service: ResetPasswordService;
   let userService: UserPasswordFacade;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
-  let oldPassword: AbstractControl;
-  let newPassword: AbstractControl;
-  let newPasswordConfirm: AbstractControl;
+  let passwordConfirm: AbstractControl;
+  let password: AbstractControl;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       providers: [
-        UpdatePasswordService,
+        ResetPasswordService,
+        {
+          provide: UserPasswordFacade,
+          useClass: MockUserPasswordFacade,
+        },
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -45,70 +51,61 @@ describe('UpdatePasswordService', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        {
-          provide: UserPasswordFacade,
-          useClass: MockUserPasswordService,
-        },
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    service = TestBed.inject(UpdatePasswordService);
-    routingService = TestBed.inject(RoutingService);
+    service = TestBed.inject(ResetPasswordService);
+
     userService = TestBed.inject(UserPasswordFacade);
+    routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    oldPassword = service.form.controls.oldPassword;
-    newPassword = service.form.controls.newPassword;
-    newPasswordConfirm = service.form.controls.newPasswordConfirm;
+    password = service.form.controls.password;
+    passwordConfirm = service.form.controls.passwordConfirm;
   });
 
   it('should create', () => {
     expect(service).toBeTruthy();
   });
 
-  it('reset()', () => {
+  it('reset form', () => {
     spyOn(service.form, 'reset').and.callThrough();
     service.resetForm();
-
     expect(service.form.reset).toHaveBeenCalled();
   });
 
-  describe('save', () => {
+  describe('reset', () => {
     beforeEach(() => {
-      oldPassword.setValue('Old123!');
-      newPassword.setValue('New123!');
-      newPasswordConfirm.setValue('New123!');
+      password.setValue('Qwe123!');
+      passwordConfirm.setValue('Qwe123!');
     });
 
-    it('should not save invalid email', () => {
-      newPassword.setValue('diff@sap.com');
-      service.update();
-      expect(userService.update).not.toHaveBeenCalled();
+    it('should not reset invalid form', () => {
+      passwordConfirm.setValue('Diff123!');
+      service.reset(resetToken);
+      expect(userService.reset).not.toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
       expect(routingService.go).not.toHaveBeenCalled();
     });
 
-    it('should update password', () => {
-      service.update();
-      expect(userService.update).toHaveBeenCalledWith('Old123!', 'New123!');
+    it('should reset password', () => {
+      service.reset(resetToken);
+      expect(userService.reset).toHaveBeenCalledWith(resetToken, 'Qwe123!');
     });
 
     it('should show message', () => {
-      service.update();
+      service.reset(resetToken);
       expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'updatePasswordForm.passwordUpdateSuccess',
-        },
+        { key: 'forgottenPassword.passwordResetSuccess' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });
 
     it('should reroute to the login page', () => {
-      service.update();
-
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+      service.reset(resetToken);
+      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     });
   });
 });

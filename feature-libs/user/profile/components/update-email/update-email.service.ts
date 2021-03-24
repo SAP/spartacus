@@ -9,19 +9,24 @@ import {
 import { CustomFormValidators } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UpdateEmailService {
-  isUpdating$ = new BehaviorSubject(false);
-
   constructor(
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected userEmail: UserEmailFacade,
     protected authService: AuthService
   ) {}
+
+  protected busy = new BehaviorSubject(false);
+
+  isUpdating$ = this.busy.pipe(
+    tap((state) => (state === true ? this.form.disable() : this.form.enable()))
+  );
 
   form: FormGroup = new FormGroup(
     {
@@ -44,14 +49,15 @@ export class UpdateEmailService {
     }
 
     this.form.disable();
-    this.isUpdating$.next(true);
+    this.busy.next(true);
 
     const newEmail = this.form.get('confirmEmail')?.value;
     const password = this.form.get('password')?.value;
 
     this.userEmail.update(password, newEmail).subscribe({
       next: () => this.onSuccess(newEmail),
-      complete: () => this.isUpdating$.next(false),
+      error: () => {},
+      complete: () => this.resetForm(),
     });
   }
 
@@ -70,7 +76,6 @@ export class UpdateEmailService {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-    this.reset();
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout().then(() => {
       this.routingService.go({ cxRoute: 'login' }, undefined, {
@@ -81,8 +86,16 @@ export class UpdateEmailService {
     });
   }
 
-  reset(): void {
-    this.form.reset();
-    this.form.enable();
+  /**
+   * Enables the form, clears the isUpdating$ state and clears
+   * the form values.
+   *
+   * @param resetValues defaults to `true`
+   */
+  resetForm(resetValues = true) {
+    this.busy.next(false);
+    if (resetValues) {
+      this.form.reset();
+    }
   }
 }

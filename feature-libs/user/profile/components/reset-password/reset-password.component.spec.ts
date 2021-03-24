@@ -1,4 +1,4 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -6,31 +6,29 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
-import { ForgotPasswordComponent } from './forgot-password.component';
-import { ForgotPasswordService } from './forgot-password.service';
+import { ResetPasswordComponent } from './reset-password.component';
+import { ResetPasswordService } from './reset-password.service';
 import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
-class MockForgotPasswordService implements Partial<ForgotPasswordService> {
+const tokenSubject: BehaviorSubject<any> = new BehaviorSubject('123');
+
+class MockResetPasswordService implements Partial<ResetPasswordService> {
+  resetToken$ = tokenSubject;
   form: FormGroup = new FormGroup({
-    userEmail: new FormControl(),
+    password: new FormControl(),
+    passwordConfirm: new FormControl(),
   });
   isUpdating$ = isBusySubject;
-  requestEmail = createSpy().and.stub();
+  reset = createSpy().and.stub();
   resetForm = createSpy().and.stub();
 }
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
 
-describe('ForgotPasswordComponent', () => {
-  let component: ForgotPasswordComponent;
-  let fixture: ComponentFixture<ForgotPasswordComponent>;
+describe('ResetPasswordComponent', () => {
+  let component: ResetPasswordComponent;
+  let fixture: ComponentFixture<ResetPasswordComponent>;
   let el: DebugElement;
-  let service: ForgotPasswordService;
+  let service: ResetPasswordService;
 
   beforeEach(
     waitForAsync(() => {
@@ -42,26 +40,25 @@ describe('ForgotPasswordComponent', () => {
           FormErrorsModule,
           SpinnerModule,
         ],
-        declarations: [ForgotPasswordComponent, MockUrlPipe],
+        declarations: [ResetPasswordComponent],
         providers: [
-          {
-            provide: ForgotPasswordService,
-            useClass: MockForgotPasswordService,
-          },
+          { provide: ResetPasswordService, useClass: MockResetPasswordService },
         ],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ForgotPasswordComponent);
-    service = TestBed.inject(ForgotPasswordService);
+    fixture = TestBed.createComponent(ResetPasswordComponent);
+    service = TestBed.inject(ResetPasswordService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
+
+    tokenSubject.next('123');
     fixture.detectChanges();
   });
 
-  it('should create component', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
 
@@ -97,6 +94,13 @@ describe('ForgotPasswordComponent', () => {
   });
 
   describe('Form Interactions', () => {
+    it('should not have reset form when token is missing', () => {
+      tokenSubject.next(undefined);
+      fixture.detectChanges();
+      const form = el.query(By.css('form'));
+      expect(form).toBeNull();
+    });
+
     it('should call onSubmit() method on submit', () => {
       const request = spyOn(component, 'onSubmit');
       const form = el.query(By.css('form'));
@@ -105,8 +109,8 @@ describe('ForgotPasswordComponent', () => {
     });
 
     it('should call the service method on submit', () => {
-      component.onSubmit();
-      expect(service.requestEmail).toHaveBeenCalled();
+      component.onSubmit('123');
+      expect(service.reset).toHaveBeenCalledWith('123');
     });
   });
 
