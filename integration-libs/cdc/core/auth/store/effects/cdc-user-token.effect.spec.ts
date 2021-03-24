@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { CdcAuthActions, CdcAuthService } from '@spartacus/cdc/root';
 import { AuthToken, GlobalMessageService } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { CdcAuthService } from '../../facade/cdc-auth.service';
 import { CdcUserAuthenticationTokenService } from '../../services/user-authentication/cdc-user-authentication-token.service';
+import { CdcAuthActions } from '../actions';
 import { CdcUserTokenEffects } from './cdc-user-token.effect';
 
 const testToken: AuthToken = {
