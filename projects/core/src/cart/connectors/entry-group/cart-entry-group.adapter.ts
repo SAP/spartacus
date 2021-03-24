@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { CartModification } from '../../../model/cart.model';
-import { OrderEntry } from 'projects/core/src/model/order.model';
+import { OrderEntry } from '../../../model/order.model';
 
 export abstract class CartEntryGroupAdapter {
   /**

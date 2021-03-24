@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from 'projects/core/src/config/config-providers';
+import { provideDefaultConfig } from '../../../config/config-providers';
 import { defaultBundleLayoutConfig } from './config/default-bundle-layout-config';
 
 @NgModule({
@@ -15,4 +15,4 @@ import { defaultBundleLayoutConfig } from './config/default-bundle-layout-config
     }),
   ],
 })
-export class BundleRootModule {}
+export class BundleRootModule { }

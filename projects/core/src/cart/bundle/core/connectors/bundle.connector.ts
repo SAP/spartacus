@@ -3,13 +3,13 @@ import { Injectable } from '@angular/core';
 import { SearchConfig } from '../../../../product/model/search-config';
 import { BundleStarter } from '../model/bundle.model';
 import { BundleAdapter } from './bundle.adapter';
-import { CartModification } from 'projects/core/src/model/cart.model';
+import { CartModification } from '../../../../model/cart.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BundleConnector {
-  constructor(protected adapter: BundleAdapter) {}
+  constructor(protected adapter: BundleAdapter) { }
 
   /**
    * Starts a bundle once the productCode, its quantity, and a bundle templateId is provided. A successful result returns a CartModification response.

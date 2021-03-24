@@ -1,7 +1,7 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { InjectionToken, Provider } from '@angular/core';
 import { BundlesState, BUNDLE_DATA } from '../bundle-state';
-import { StateUtils } from 'projects/core/src/state/utils';
+import { StateUtils } from '../../../../../state/utils';
 import { availableEntriesReducer } from './available-entries.reducer';
 
 export function getReducers(): ActionReducerMap<BundlesState> {
