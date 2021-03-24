@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
@@ -10,7 +16,7 @@ import {
   SelectiveCartService,
   UserIdService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 
@@ -19,7 +25,10 @@ import { CartItemComponentOptions } from '../cart-item/cart-item.component';
   templateUrl: './cart-item-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartItemListComponent {
+export class CartItemListComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
+  private userId: string;
+
   @Input() readonly: boolean = false;
 
   @Input() hasHeader: boolean = true;
@@ -30,8 +39,6 @@ export class CartItemListComponent {
   };
 
   @Input() cartId: string;
-
-  userId$ = this.userIdService.getUserId();
 
   private _items: OrderEntry[] = [];
   form: FormGroup = this.featureConfigService?.isLevel('3.1')
@@ -66,8 +73,7 @@ export class CartItemListComponent {
   // TODO(#11037): Remove deprecated constructors
   constructor(
     activeCartService: ActiveCartService,
-    selectiveCartService: SelectiveCartService,
-    userIdService: UserIdService
+    selectiveCartService: SelectiveCartService
   );
 
   /**
@@ -95,10 +101,18 @@ export class CartItemListComponent {
   constructor(
     protected activeCartService: ActiveCartService,
     protected selectiveCartService: SelectiveCartService,
-    protected userIdService: UserIdService,
+    protected userIdService?: UserIdService,
     public featureConfigService?: FeatureConfigService,
     protected multiCartService?: MultiCartService
   ) {}
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.userIdService
+        ?.getUserId()
+        .subscribe((userId) => (this.userId = userId))
+    );
+  }
 
   /**
    * The items we're getting form the input do not have a consistent model.
@@ -164,18 +178,22 @@ export class CartItemListComponent {
     return item.entryNumber.toString();
   }
 
-  removeEntry(item: OrderEntry, userId: string): void {
+  removeEntry(item: OrderEntry): void {
     if (this.selectiveCartService && this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
-    } else if (this.cartId && userId) {
-      this.multiCartService?.removeEntry(userId, this.cartId, item.entryNumber);
+    } else if (this.cartId && this.userId) {
+      this.multiCartService?.removeEntry(
+        this.userId,
+        this.cartId,
+        item.entryNumber
+      );
     } else {
       this.activeCartService.removeEntry(item);
     }
     delete this.form.controls[this.getControlName(item)];
   }
 
-  getControl(item: OrderEntry, userId: string): Observable<FormGroup> {
+  getControl(item: OrderEntry): Observable<FormGroup> {
     return this.form.get(this.getControlName(item)).valueChanges.pipe(
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
@@ -185,9 +203,9 @@ export class CartItemListComponent {
             value.entryNumber,
             value.quantity
           );
-        } else if (value && this.cartId && userId) {
+        } else if (value && this.cartId && this.userId) {
           this.multiCartService?.updateEntry(
-            userId,
+            this.userId,
             this.cartId,
             value.entryNumber,
             value.quantity
@@ -198,5 +216,9 @@ export class CartItemListComponent {
       }),
       map(() => <FormGroup>this.form.get(this.getControlName(item)))
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

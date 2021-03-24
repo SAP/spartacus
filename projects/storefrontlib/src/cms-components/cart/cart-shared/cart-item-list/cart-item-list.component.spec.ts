@@ -148,7 +148,7 @@ describe('CartItemListComponent', () => {
 
   it('should return form control with quantity ', () => {
     const item = mockItems[0];
-    component.getControl(item, mockUserId).subscribe((control) => {
+    component.getControl(item).subscribe((control) => {
       expect(control.get('quantity').value).toEqual(1);
     });
   });
@@ -157,7 +157,7 @@ describe('CartItemListComponent', () => {
     const item = mockItems[0];
     let result: FormGroup;
     component
-      .getControl(item, mockUserId)
+      .getControl(item)
       .subscribe((control) => {
         result = control;
       })
@@ -174,7 +174,7 @@ describe('CartItemListComponent', () => {
 
     let result: FormGroup;
     component
-      .getControl(item, mockUserId)
+      .getControl(item)
       .subscribe((control) => {
         result = control;
       })
@@ -189,7 +189,7 @@ describe('CartItemListComponent', () => {
     const item = mockItems[0];
     let result: FormGroup;
     component
-      .getControl(item, mockUserId)
+      .getControl(item)
       .subscribe((control) => {
         result = control;
       })
@@ -201,7 +201,7 @@ describe('CartItemListComponent', () => {
   it('should call cartService with an updated entry', () => {
     const item = mockItems[0];
     component
-      .getControl(item, mockUserId)
+      .getControl(item)
       .subscribe((control) => {
         control.get('quantity').setValue(2);
         expect(activeCartService.updateEntry).toHaveBeenCalledWith(
@@ -215,7 +215,7 @@ describe('CartItemListComponent', () => {
   it('should call cartService.updateEntry during a remove with quantity 0', () => {
     const item = mockItems[0];
     component
-      .getControl(item, mockUserId)
+      .getControl(item)
       .subscribe((control) => {
         control.get('quantity').setValue(0);
         expect(activeCartService.updateEntry).toHaveBeenCalledWith(
@@ -263,7 +263,7 @@ describe('CartItemListComponent', () => {
     fixture.detectChanges();
     const item = mockItems[0];
     expect(component.form.controls[item.entryNumber]).toBeDefined();
-    component.removeEntry(item, mockUserId);
+    component.removeEntry(item);
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(item);
     expect(component.form.controls[item.entryNumber]).toBeUndefined();
   });
@@ -282,7 +282,7 @@ describe('CartItemListComponent', () => {
 
     it('should remove entry of multiCartService when cart input exist', () => {
       console.log('ok');
-      component.removeEntry(mockItems[0], mockUserId);
+      component.removeEntry(mockItems[0]);
       expect(multiCartService.removeEntry).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
@@ -291,7 +291,7 @@ describe('CartItemListComponent', () => {
     });
     it('should update entry of multiCartService when cart input exist', () => {
       component
-        .getControl(mockItems[0], mockUserId)
+        .getControl(mockItems[0])
         .subscribe((control) => {
           control.get('quantity').setValue(8);
           expect(multiCartService.updateEntry).toHaveBeenCalledWith(

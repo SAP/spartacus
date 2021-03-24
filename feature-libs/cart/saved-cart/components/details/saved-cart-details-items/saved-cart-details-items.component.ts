@@ -13,7 +13,6 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   RoutingService,
-  UserIdService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { mapTo, switchMap, take, tap } from 'rxjs/operators';
