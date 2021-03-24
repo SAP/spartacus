@@ -36,7 +36,6 @@ export class UpdateProfileComponent {
   }
 
   onSubmit({ userUpdates }: { userUpdates: User }): void {
-    debugger;
     this.isLoading$.next(true);
 
     this.userProfile.update(userUpdates).subscribe({
