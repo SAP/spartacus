@@ -4,7 +4,6 @@ import {
   EMPTY,
   isObservable,
   merge,
-  NEVER,
   Observable,
   Subscription,
   using,
@@ -77,7 +76,7 @@ export class QueryService implements OnDestroy {
       }),
       catchError((error) => {
         state$.next({ loading: false, error, data: undefined });
-        return NEVER;
+        return EMPTY;
       }),
       retry(),
       share()
