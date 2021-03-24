@@ -7,7 +7,6 @@
     "node": ">=12 <16"
   },
   "scripts": {
-    "testcy": "yarn e2e:run --spec cypress/integration/b2b/regression/saved-cart/*",
     "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng build storefrontapp --prod",
     "build:asm": "ng build asm --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
