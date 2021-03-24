@@ -109,13 +109,12 @@ export function clickAddToCart() {
   cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
 }
 
-export function checkBasicCart() {
-  const cartUrl = `${getBaseUrlPrefix()}/cart`;
-  cy.visit(cartUrl);
-
-  validateEmptyCart();
-
-  const pdpUrl = `${getBaseUrlPrefix()}/product/${products[0].code}`;
+/**
+ * Adds product from PDP directly
+ * @param productCode
+ */
+export function addProductFromPdp(productCode: string = products[0].code) {
+  const pdpUrl = `${getBaseUrlPrefix()}/product/${productCode}`;
 
   registerCartRefreshRoute();
   registerCartPageRoute();
@@ -128,6 +127,7 @@ export function checkBasicCart() {
   cy.wait('@refresh_cart');
 
   closeAddedToCartDialog();
+
   checkMiniCartCount(1);
 
   cy.get('cx-mini-cart > a').click({ force: true });
@@ -135,6 +135,15 @@ export function checkBasicCart() {
   cy.wait('@cart_page');
 
   checkProductInCart(products[0]);
+}
+
+export function checkBasicCart() {
+  const cartUrl = `${getBaseUrlPrefix()}/cart`;
+  cy.visit(cartUrl);
+
+  validateEmptyCart();
+
+  addProductFromPdp(products[0].code);
 
   cy.log(`Adding second product to cart via search page`);
 

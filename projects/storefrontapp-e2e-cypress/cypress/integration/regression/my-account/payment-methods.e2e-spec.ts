@@ -1,3 +1,4 @@
+import { addProductFromPdp, loginRegisteredUser } from '../../../helpers/cart';
 import { visitHomePage } from '../../../helpers/checkout-flow';
 import * as login from '../../../helpers/login';
 import {
@@ -7,21 +8,16 @@ import {
   visitPaymentDetailsPage,
 } from '../../../helpers/payment-methods';
 import { viewportContext } from '../../../helpers/viewport-context';
-import {
-  addProductToCartViaAutoComplete,
-  addProductToCartViaSearchPage,
-  loginRegisteredUser,
-} from '../../../helpers/cart';
 
 describe('Payment Methods', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       visitHomePage();
     });
 
     describe('Anonymous user', () => {
-      it('should redirect anonymous user to login page', () => {
+      it('should redirect user to login page', () => {
         cy.visit('/my-account/payment-details');
         cy.location('pathname').should('contain', '/login');
       });
@@ -36,12 +32,9 @@ describe('Payment Methods', () => {
         cy.restoreLocalStorage();
       });
 
-      it('should visit payment details page', () => {
+      it('should render empty payment details page', () => {
         loginRegisteredUser();
         visitPaymentDetailsPage();
-      });
-
-      it('should render page with no payment methods', () => {
         cy.get('cx-payment-methods').within(() => {
           cy.get('.cx-payment .cx-header').should('contain', 'Payment methods');
           cy.get('.cx-payment .cx-body').should(
@@ -51,30 +44,16 @@ describe('Payment Methods', () => {
         });
       });
 
-      it('should add product to cart via search', () => {
-        addProductToCartViaAutoComplete(false);
-      });
-
-      it('should create a payment detail using POST request', () => {
-        addPaymentMethod(testPaymentDetail[0]);
-      });
-
       it('should render page with only one payment methods', () => {
-        visitHomePage();
+        addProductFromPdp();
+        addPaymentMethod(testPaymentDetail[0]);
         visitPaymentDetailsPage();
         verifyPaymentCard(1);
       });
 
-      it('should add a second product via search', () => {
-        addProductToCartViaSearchPage(false);
-      });
-
-      it('should add a second payment detail using POST request', () => {
+      it('should render page with two payment methods', () => {
+        addProductFromPdp();
         addPaymentMethod(testPaymentDetail[1]);
-      });
-
-      it('should render page with only two payment methods', () => {
-        visitHomePage();
         visitPaymentDetailsPage();
         verifyPaymentCard(2);
       });
