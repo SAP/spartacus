@@ -50,7 +50,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.savedCartService
         .getRestoreSavedCartProcessSuccess()
-        .subscribe((success) => this.onSuccess(success))
+        .subscribe((success) => this.onRestoreComplete(success))
     );
   }
 
@@ -66,7 +66,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  onSuccess(success: boolean): void {
+  onRestoreComplete(success: boolean): void {
     if (success) {
       this.savedCartService.clearRestoreSavedCart();
       this.savedCartService.clearSaveCart();

@@ -17,37 +17,34 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { mapTo, switchMap, take, tap } from 'rxjs/operators';
-import { SavedCartDetailService } from '../saved-cart-detail.service';
+import { SavedCartDetailsService } from '../saved-cart-details.service';
 
 @Component({
-  selector: 'cx-saved-cart-detail-items',
-  templateUrl: './saved-cart-detail-items.component.html',
+  selector: 'cx-saved-cart-details-items',
+  templateUrl: './saved-cart-details-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SavedCartDetailItemsComponent implements OnInit, OnDestroy {
+export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
-  cartId: string | undefined;
 
   userId$ = this.userIdService.getUserId();
 
-  cartLoaded$: Observable<boolean> = this.savedCartDetailService
+  cartLoaded$: Observable<boolean> = this.savedCartDetailsService
     .getSavedCartId()
     .pipe(switchMap((cartId) => this.savedCartService.isStable(cartId)));
 
   savedCart$: Observable<
     Cart | undefined
-  > = this.savedCartDetailService.getCartDetails().pipe(
+  > = this.savedCartDetailsService.getCartDetails().pipe(
     tap((cart) => {
-      this.cartId = cart.code;
-
       if (cart?.entries?.length <= 0) {
-        this.savedCartService.deleteSavedCart(this.cartId);
+        this.savedCartService.deleteSavedCart(cart.code);
       }
     })
   );
 
   constructor(
-    protected savedCartDetailService: SavedCartDetailService,
+    protected savedCartDetailsService: SavedCartDetailsService,
     protected savedCartService: SavedCartService,
     protected savedCartEventsService: SavedCartEventsService,
     protected userIdService: UserIdService,
@@ -60,11 +57,11 @@ export class SavedCartDetailItemsComponent implements OnInit, OnDestroy {
       this.savedCartEventsService
         .getDeleteSavedCartSuccessEvent()
         .pipe(take(1), mapTo(true))
-        .subscribe((success) => this.onSuccess(success))
+        .subscribe((success) => this.onDeleteComplete(success))
     );
   }
 
-  onSuccess(success: boolean): void {
+  onDeleteComplete(success: boolean): void {
     if (success) {
       this.routingService.go({ cxRoute: 'savedCarts' });
       this.globalMessageService.add(

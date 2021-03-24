@@ -16,9 +16,9 @@ import {
   MediaModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { SavedCartDetailActionComponent } from './saved-cart-detail-action/saved-cart-detail-action.component';
-import { SavedCartDetailItemsComponent } from './saved-cart-detail-items/saved-cart-detail-items.component';
-import { SavedCartDetailOverviewComponent } from './saved-cart-detail-overview/saved-cart-detail-overview.component';
+import { SavedCartDetailsActionComponent } from './saved-cart-details-action/saved-cart-details-action.component';
+import { SavedCartDetailsItemsComponent } from './saved-cart-details-items/saved-cart-details-items.component';
+import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview/saved-cart-details-overview.component';
 
 @NgModule({
   imports: [
@@ -35,29 +35,29 @@ import { SavedCartDetailOverviewComponent } from './saved-cart-detail-overview/s
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SavedCartDetailsOverviewComponent: {
-          component: SavedCartDetailOverviewComponent,
+          component: SavedCartDetailsOverviewComponent,
           guards: [AuthGuard],
         },
         SavedCartDetailsItemsComponent: {
-          component: SavedCartDetailItemsComponent,
+          component: SavedCartDetailsItemsComponent,
           guards: [AuthGuard],
         },
         SavedCartDetailsActionComponent: {
-          component: SavedCartDetailActionComponent,
+          component: SavedCartDetailsActionComponent,
           guards: [AuthGuard],
         },
       },
     }),
   ],
   declarations: [
-    SavedCartDetailOverviewComponent,
-    SavedCartDetailActionComponent,
-    SavedCartDetailItemsComponent,
+    SavedCartDetailsOverviewComponent,
+    SavedCartDetailsActionComponent,
+    SavedCartDetailsItemsComponent,
   ],
   exports: [
-    SavedCartDetailOverviewComponent,
-    SavedCartDetailActionComponent,
-    SavedCartDetailItemsComponent,
+    SavedCartDetailsOverviewComponent,
+    SavedCartDetailsActionComponent,
+    SavedCartDetailsItemsComponent,
   ],
 })
 export class SavedCartDetailsModule {}

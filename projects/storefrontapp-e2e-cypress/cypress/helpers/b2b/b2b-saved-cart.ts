@@ -390,7 +390,7 @@ export function updateSavedCartAndDelete(
         verifyCartDetails(cart);
 
         // asserts the name and description is the current one
-        cy.get('cx-saved-cart-detail-overview .cx-card-title')
+        cy.get('cx-saved-cart-details-overview .cx-card-title')
           .parent()
           .find('.cx-card-label')
           .should('contain', savedCartForm.name);
@@ -405,7 +405,7 @@ export function updateSavedCartAndDelete(
         });
 
         // open modal to update name and description
-        cy.get('cx-saved-cart-detail-overview .cx-edit-cart').click();
+        cy.get('cx-saved-cart-details-overview .cx-edit-cart').click();
 
         const updatedSavedCartAlias = interceptSaveCartEndpoint(cart.code);
 
@@ -423,12 +423,12 @@ export function updateSavedCartAndDelete(
           .should('eq', 200);
 
         // asserts the name and description was updated to the new one
-        cy.get('cx-saved-cart-detail-overview .cx-card-title')
+        cy.get('cx-saved-cart-details-overview .cx-card-title')
           .parent()
           .find('.cx-card-label')
           .should('contain', sampleData.savedActiveCartForm[4].name);
 
-        cy.get('cx-saved-cart-detail-overview .cx-card-title')
+        cy.get('cx-saved-cart-details-overview .cx-card-title')
           .parent()
           .find('cx-truncate-text-popover')
           .should('contain', sampleData.savedActiveCartForm[4].description);
@@ -442,10 +442,10 @@ export function updateSavedCartAndDelete(
 
         if (deleteEntry) {
           cy.get(
-            'cx-saved-cart-detail-items cx-cart-item .cx-action-link'
+            'cx-saved-cart-details-items cx-cart-item .cx-action-link'
           ).click();
         } else {
-          cy.get('cx-saved-cart-detail-action .btn-action').click();
+          cy.get('cx-saved-cart-details-action .btn-action').click();
 
           cy.get('cx-saved-cart-form-dialog').within(() => {
             cy.get('.cx-saved-cart-value').should(
@@ -495,7 +495,7 @@ export function updateSavedCartAndRestore(
         verifyCartDetails(cart);
 
         // asserts the name and description is the current one
-        cy.get('cx-saved-cart-detail-overview .cx-card-title')
+        cy.get('cx-saved-cart-details-overview .cx-card-title')
           .parent()
           .find('.cx-card-label')
           .should('contain', savedCartForm.name);
@@ -510,7 +510,7 @@ export function updateSavedCartAndRestore(
         });
 
         // open modal to update name and description
-        cy.get('cx-saved-cart-detail-overview .cx-edit-cart').click();
+        cy.get('cx-saved-cart-details-overview .cx-edit-cart').click();
 
         const updatedSavedCartAlias = interceptSaveCartEndpoint(cart.code);
 
@@ -528,12 +528,12 @@ export function updateSavedCartAndRestore(
           .should('eq', 200);
 
         // asserts the name and description was updated to the new one
-        cy.get('cx-saved-cart-detail-overview .cx-card-title')
+        cy.get('cx-saved-cart-details-overview .cx-card-title')
           .parent()
           .find('.cx-card-label')
           .should('contain', sampleData.savedActiveCartForm[4].name);
 
-        cy.get('cx-saved-cart-detail-overview .cx-card-title')
+        cy.get('cx-saved-cart-details-overview .cx-card-title')
           .parent()
           .find('cx-truncate-text-popover')
           .should('contain', sampleData.savedActiveCartForm[4].description);
@@ -546,7 +546,7 @@ export function updateSavedCartAndRestore(
         );
         const getAllSavedCartAlias = interceptGetAllSavedCartEndpoint();
 
-        cy.get('cx-saved-cart-detail-action .btn-primary').click();
+        cy.get('cx-saved-cart-details-action .btn-primary').click();
 
         cy.wait(`@${restoreSavedCartAlias}`)
           .its('response.statusCode')

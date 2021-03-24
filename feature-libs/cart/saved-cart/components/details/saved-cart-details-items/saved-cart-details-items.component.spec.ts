@@ -19,8 +19,8 @@ import {
 } from '@spartacus/core';
 import { CartItemComponentOptions } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { SavedCartDetailService } from '../saved-cart-detail.service';
-import { SavedCartDetailItemsComponent } from './saved-cart-detail-items.component';
+import { SavedCartDetailsService } from '../saved-cart-details.service';
+import { SavedCartDetailsItemsComponent } from './saved-cart-details-items.component';
 
 const mockUserId = 'test-user';
 const mockCartId = 'test-cart';
@@ -59,7 +59,7 @@ class MockCartItemListComponent {
   @Input() cart: { cartId: string; userId: string };
 }
 
-class MockSavedCartDetailService implements Partial<SavedCartDetailService> {
+class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
   getCartDetails(): Observable<Cart> {
     return cart$.asObservable();
   }
@@ -98,9 +98,9 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-describe('SavedCartDetailItemsComponent', () => {
-  let component: SavedCartDetailItemsComponent;
-  let fixture: ComponentFixture<SavedCartDetailItemsComponent>;
+describe('SavedCartDetailsItemsComponent', () => {
+  let component: SavedCartDetailsItemsComponent;
+  let fixture: ComponentFixture<SavedCartDetailsItemsComponent>;
   let savedCartService: SavedCartService;
   let savedCartEventsService: SavedCartEventsService;
   let globalMessageService: GlobalMessageService;
@@ -111,7 +111,7 @@ describe('SavedCartDetailItemsComponent', () => {
       TestBed.configureTestingModule({
         imports: [StoreModule.forRoot({}), I18nTestingModule],
         declarations: [
-          SavedCartDetailItemsComponent,
+          SavedCartDetailsItemsComponent,
           MockCartItemListComponent,
         ],
         providers: [
@@ -124,8 +124,8 @@ describe('SavedCartDetailItemsComponent', () => {
             useClass: MockSavedCartEventsService,
           },
           {
-            provide: SavedCartDetailService,
-            useClass: MockSavedCartDetailService,
+            provide: SavedCartDetailsService,
+            useClass: MockSavedCartDetailsService,
           },
           {
             provide: UserIdService,
@@ -136,7 +136,7 @@ describe('SavedCartDetailItemsComponent', () => {
         ],
       }).compileComponents();
 
-      fixture = TestBed.createComponent(SavedCartDetailItemsComponent);
+      fixture = TestBed.createComponent(SavedCartDetailsItemsComponent);
       component = fixture.componentInstance;
 
       savedCartService = TestBed.inject(SavedCartService);
@@ -158,19 +158,19 @@ describe('SavedCartDetailItemsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should trigger onSuccess when there was a successful deleted cart', () => {
-    spyOn(component, 'onSuccess').and.stub();
+  it('should trigger onDeleteComplete when there was a successful deleted cart', () => {
+    spyOn(component, 'onDeleteComplete').and.stub();
     spyOn(
       savedCartEventsService,
       'getDeleteSavedCartSuccessEvent'
     ).and.returnValue(of(mockDeleteSavedCartEvent));
 
     component.ngOnInit();
-    expect(component.onSuccess).toHaveBeenCalled();
+    expect(component.onDeleteComplete).toHaveBeenCalled();
   });
 
-  it('should trigger a redirection and a global message onSuccess', () => {
-    component.onSuccess(true);
+  it('should trigger a redirection and a global message onDeleteComplete', () => {
+    component.onDeleteComplete(true);
 
     expect(routingService.go).toHaveBeenCalledWith({
       cxRoute: 'savedCarts',
@@ -181,8 +181,8 @@ describe('SavedCartDetailItemsComponent', () => {
     );
   });
 
-  it('should NOT trigger a redirection and a global message onSuccess', () => {
-    component.onSuccess(false);
+  it('should NOT trigger a redirection and a global message onDeleteComplete', () => {
+    component.onDeleteComplete(false);
 
     expect(routingService.go).not.toHaveBeenCalled();
     expect(globalMessageService.add).not.toHaveBeenCalled();
