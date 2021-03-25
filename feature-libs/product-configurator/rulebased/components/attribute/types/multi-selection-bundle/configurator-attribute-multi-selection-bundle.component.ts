@@ -262,6 +262,8 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       productBoundValue: value,
       multiSelect: true,
       withQuantity: this.withQuantity,
+      loading$: this.loading$,
+      attributeId: this.attribute.attrCode,
     };
   }
 

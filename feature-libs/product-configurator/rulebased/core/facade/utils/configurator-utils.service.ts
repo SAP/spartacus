@@ -54,7 +54,8 @@ export class ConfiguratorUtilsService {
     return (
       configId !== undefined &&
       configId.length !== 0 &&
-      configuration?.flatGroups !== undefined
+      (configuration?.flatGroups !== undefined ||
+        configuration?.overview !== undefined)
     );
   }
 

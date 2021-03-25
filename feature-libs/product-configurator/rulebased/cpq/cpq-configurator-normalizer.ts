@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { Configurator } from './../core/model/configurator.model';
-import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
 import { Cpq } from './cpq.models';
 
 @Injectable()
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration> {
   constructor(
-    protected cpqUtilitiesService: CpqConfiguratorUtilitiesService,
+    protected cpqUtilitiesService: CpqConfiguratorUtilsService,
     protected translation: TranslationService
   ) {}
 
@@ -19,14 +19,12 @@ export class CpqConfiguratorNormalizer
   ): Configurator.Configuration {
     const resultTarget: Configurator.Configuration = {
       ...target,
-      complete:
-        !source.incompleteMessages?.length &&
-        !source.incompleteAttributes?.length,
+      complete: !source.incompleteAttributes?.length,
       consistent:
         !source.invalidMessages?.length &&
         !source.failedValidations?.length &&
-        !source.errorMessages?.length &&
-        !source.conflictMessages?.length,
+        !source.incompleteMessages?.length &&
+        !source.errorMessages?.length,
       totalNumberOfIssues: this.generateTotaltotalNumberOfIssues(source),
       productCode: source.productSystemId,
       priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
@@ -71,14 +69,13 @@ export class CpqConfiguratorNormalizer
   generateWarningMessages(source: Cpq.Configuration): string[] {
     let warnMsgs: string[] = [];
     warnMsgs = warnMsgs.concat(source.failedValidations ?? []);
+    warnMsgs = warnMsgs.concat(source.incompleteMessages ?? []);
     return warnMsgs;
   }
 
   generateErrorMessages(source: Cpq.Configuration): string[] {
     let errorMsgs: string[] = [];
     errorMsgs = errorMsgs.concat(source.errorMessages ?? []);
-    errorMsgs = errorMsgs.concat(source.incompleteMessages ?? []);
-    errorMsgs = errorMsgs.concat(source.conflictMessages ?? []);
     errorMsgs = errorMsgs.concat(source.invalidMessages ?? []);
     return errorMsgs;
   }
@@ -154,9 +151,7 @@ export class CpqConfiguratorNormalizer
       attrCode: sourceAttribute.stdAttrCode,
       name: sourceAttribute.pA_ID.toString(),
       description: sourceAttribute.description,
-      label: sourceAttribute.label
-        ? sourceAttribute.label
-        : sourceAttribute.name,
+      label: this.cpqUtilitiesService.retrieveAttributeLabel(sourceAttribute),
       required: sourceAttribute.required,
       isLineItem: sourceAttribute.isLineItem,
       uiType: this.convertAttributeType(sourceAttribute),

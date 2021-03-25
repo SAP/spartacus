@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
 import { Cpq } from './cpq.models';
 import { Configurator } from '../core/model/configurator.model';
 import { LanguageService } from '@spartacus/core';
@@ -14,29 +14,29 @@ class MockLanguageService {
   }
 }
 
-describe('CpqConfiguratorUtilitiesService', () => {
-  let cpqConfiguratorUtilitiesService: CpqConfiguratorUtilitiesService;
+describe('CpqConfiguratorUtilsService', () => {
+  let cpqConfiguratorUtilsService: CpqConfiguratorUtilsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CpqConfiguratorUtilitiesService,
+        CpqConfiguratorUtilsService,
         { provide: LanguageService, useClass: MockLanguageService },
       ],
     });
 
-    cpqConfiguratorUtilitiesService = TestBed.inject(
-      CpqConfiguratorUtilitiesService as Type<CpqConfiguratorUtilitiesService>
+    cpqConfiguratorUtilsService = TestBed.inject(
+      CpqConfiguratorUtilsService as Type<CpqConfiguratorUtilsService>
     );
   });
 
   it('should be created', () => {
-    expect(CpqConfiguratorUtilitiesService).toBeTruthy();
+    expect(CpqConfiguratorUtilsService).toBeTruthy();
   });
 
   it('should prepare price', () => {
     const valueSelected: Cpq.Value = { paV_ID: 1, price: '123.45' };
-    const valuePrice = cpqConfiguratorUtilitiesService.prepareValuePrice(
+    const valuePrice = cpqConfiguratorUtilsService.prepareValuePrice(
       valueSelected,
       CURRENCY
     );
@@ -47,7 +47,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
 
   it('should prepare price when no price exists', () => {
     const valueSelected: Cpq.Value = { paV_ID: 1 };
-    const valuePrice = cpqConfiguratorUtilitiesService.prepareValuePrice(
+    const valuePrice = cpqConfiguratorUtilsService.prepareValuePrice(
       valueSelected,
       CURRENCY
     );
@@ -60,7 +60,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       currencyIso: CURRENCY,
       value: 123.45,
     };
-    const valuePriceTotal = cpqConfiguratorUtilitiesService.calculateValuePriceTotal(
+    const valuePriceTotal = cpqConfiguratorUtilsService.calculateValuePriceTotal(
       quantity,
       valuePrice
     );
@@ -75,7 +75,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       currencyIso: CURRENCY,
       value: 123.45,
     };
-    const valuePriceTotal = cpqConfiguratorUtilitiesService.calculateValuePriceTotal(
+    const valuePriceTotal = cpqConfiguratorUtilsService.calculateValuePriceTotal(
       quantity,
       valuePrice
     );
@@ -87,7 +87,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
   it('should calculate value price total when no value price', () => {
     const quantity = 3;
     const valuePrice: Configurator.PriceDetails = null;
-    const valuePriceTotal = cpqConfiguratorUtilitiesService.calculateValuePriceTotal(
+    const valuePriceTotal = cpqConfiguratorUtilsService.calculateValuePriceTotal(
       quantity,
       valuePrice
     );
@@ -102,7 +102,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
       values: [{ paV_ID: 1, selected: true, quantity: '1' }],
     };
-    const quantity = cpqConfiguratorUtilitiesService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
@@ -117,7 +117,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       dataType: Cpq.DataType.QTY_VALUE_LEVEL,
       values: [{ paV_ID: 1, selected: true, quantity: '3' }],
     };
-    const quantity = cpqConfiguratorUtilitiesService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
@@ -134,7 +134,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       isLineItem: true,
       values: [{ paV_ID: 1, selected: true, quantity: '3' }],
     };
-    const quantity = cpqConfiguratorUtilitiesService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
@@ -151,7 +151,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       isLineItem: false,
       values: [{ paV_ID: 1, selected: true, quantity: '3' }],
     };
-    const quantity = cpqConfiguratorUtilitiesService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
@@ -167,7 +167,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       displayAs: Cpq.DisplayAs.RADIO_BUTTON,
       values: [{ paV_ID: 1, selected: true, quantity: '3' }],
     };
-    const quantity = cpqConfiguratorUtilitiesService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
@@ -182,20 +182,11 @@ describe('CpqConfiguratorUtilitiesService', () => {
       dataType: Cpq.DataType.N_A,
       values: [{ paV_ID: 1, selected: true, quantity: '1' }],
     };
-    const quantity = cpqConfiguratorUtilitiesService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
     expect(quantity).toBeNull();
-  });
-
-  it('should format price retriving locale from language service', () => {
-    const price: Configurator.PriceDetails = {
-      currencyIso: CURRENCY,
-      value: 123.45,
-    };
-    cpqConfiguratorUtilitiesService['formatPrice'](price);
-    expect(price.formattedValue).toBe('$123.45');
   });
 
   it('should format price', () => {
@@ -204,7 +195,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       currencyIso: 'USD',
     };
     const locale = 'en-US';
-    cpqConfiguratorUtilitiesService['formatPriceForLocale'](price, locale);
+    cpqConfiguratorUtilsService['formatPriceForLocale'](price, locale);
     expect(price.formattedValue).toBe('$1,123.45');
   });
 
@@ -214,7 +205,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       currencyIso: 'USD',
     };
     const locale = 'en-US';
-    cpqConfiguratorUtilitiesService['formatPriceForLocale'](price, locale);
+    cpqConfiguratorUtilsService['formatPriceForLocale'](price, locale);
     expect(price.formattedValue).toBe('$123.00');
   });
 
@@ -224,7 +215,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       currencyIso: 'USD',
     };
     const locale = 'en-US';
-    cpqConfiguratorUtilitiesService['formatPriceForLocale'](price, locale);
+    cpqConfiguratorUtilsService['formatPriceForLocale'](price, locale);
     expect(price.formattedValue).toBe('$123.46');
   });
 
@@ -234,7 +225,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       currencyIso: 'USD',
     };
     const locale = 'en-US';
-    cpqConfiguratorUtilitiesService['formatPriceForLocale'](price, locale);
+    cpqConfiguratorUtilsService['formatPriceForLocale'](price, locale);
     expect(price.formattedValue).toBe('-$123.45');
   });
 
@@ -260,7 +251,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       ],
     };
 
-    const attributePriceTotal = cpqConfiguratorUtilitiesService.calculateAttributePriceTotal(
+    const attributePriceTotal = cpqConfiguratorUtilsService.calculateAttributePriceTotal(
       attribute,
       CURRENCY
     );
@@ -275,7 +266,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       stdAttrCode: 2,
       dataType: Cpq.DataType.INPUT_STRING,
     };
-    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+    expect(cpqConfiguratorUtilsService.convertDataType(attribute)).toBe(
       Configurator.DataType.INPUT_STRING
     );
   });
@@ -286,7 +277,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       stdAttrCode: 2,
       dataType: Cpq.DataType.INPUT_NUMBER,
     };
-    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+    expect(cpqConfiguratorUtilsService.convertDataType(attribute)).toBe(
       Configurator.DataType.INPUT_NUMBER
     );
   });
@@ -297,7 +288,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       stdAttrCode: 2,
       dataType: Cpq.DataType.N_A,
     };
-    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+    expect(cpqConfiguratorUtilsService.convertDataType(attribute)).toBe(
       Configurator.DataType.USER_SELECTION_NO_QTY
     );
   });
@@ -308,7 +299,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       stdAttrCode: 2,
       dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
     };
-    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+    expect(cpqConfiguratorUtilsService.convertDataType(attribute)).toBe(
       Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
     );
   });
@@ -321,7 +312,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       displayAs: Cpq.DisplayAs.CHECK_BOX,
       isLineItem: true,
     };
-    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+    expect(cpqConfiguratorUtilsService.convertDataType(attribute)).toBe(
       Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
     );
   });
@@ -334,7 +325,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       displayAs: Cpq.DisplayAs.CHECK_BOX,
       isLineItem: false,
     };
-    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+    expect(cpqConfiguratorUtilsService.convertDataType(attribute)).toBe(
       Configurator.DataType.USER_SELECTION_NO_QTY
     );
   });
@@ -346,7 +337,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       dataType: Cpq.DataType.QTY_VALUE_LEVEL,
       displayAs: Cpq.DisplayAs.RADIO_BUTTON,
     };
-    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+    expect(cpqConfiguratorUtilsService.convertDataType(attribute)).toBe(
       Configurator.DataType.USER_SELECTION_NO_QTY
     );
   });
@@ -357,7 +348,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       stdAttrCode: 2,
       dataType: null,
     };
-    expect(cpqConfiguratorUtilitiesService.convertDataType(attribute)).toBe(
+    expect(cpqConfiguratorUtilsService.convertDataType(attribute)).toBe(
       Configurator.DataType.NOT_IMPLEMENTED
     );
   });
@@ -387,7 +378,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       },
     };
     expect(
-      cpqConfiguratorUtilitiesService.preparePriceSummary(cpqConfiguration)
+      cpqConfiguratorUtilsService.preparePriceSummary(cpqConfiguration)
     ).toEqual(expectedPriceSummary);
   });
 
@@ -406,7 +397,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       },
     };
     expect(
-      cpqConfiguratorUtilitiesService.preparePriceSummary(cpqConfiguration)
+      cpqConfiguratorUtilsService.preparePriceSummary(cpqConfiguration)
     ).toEqual(expectedPriceSummary);
   });
 
@@ -425,7 +416,7 @@ describe('CpqConfiguratorUtilitiesService', () => {
       },
     };
     expect(
-      cpqConfiguratorUtilitiesService.preparePriceSummary(cpqConfiguration)
+      cpqConfiguratorUtilsService.preparePriceSummary(cpqConfiguration)
     ).toEqual(expectedPriceSummary);
   });
 
@@ -437,7 +428,40 @@ describe('CpqConfiguratorUtilitiesService', () => {
     };
     const expectedPriceSummary: Configurator.PriceSummary = {};
     expect(
-      cpqConfiguratorUtilitiesService.preparePriceSummary(cpqConfiguration)
+      cpqConfiguratorUtilsService.preparePriceSummary(cpqConfiguration)
     ).toEqual(expectedPriceSummary);
+  });
+
+  it('should retrieve attribute label', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      label: 'label',
+      name: 'name',
+    };
+    expect(cpqConfiguratorUtilsService.retrieveAttributeLabel(attribute)).toBe(
+      'label'
+    );
+  });
+
+  it('should retrieve attribute name if no label available', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+      name: 'name',
+    };
+    expect(cpqConfiguratorUtilsService.retrieveAttributeLabel(attribute)).toBe(
+      'name'
+    );
+  });
+
+  it('should retrieve empty string if neither attribute label nor attribute name are available', () => {
+    const attribute: Cpq.Attribute = {
+      pA_ID: 1,
+      stdAttrCode: 2,
+    };
+    expect(cpqConfiguratorUtilsService.retrieveAttributeLabel(attribute)).toBe(
+      ''
+    );
   });
 });

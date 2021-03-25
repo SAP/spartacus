@@ -138,6 +138,8 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     return {
       hideRemoveButton: this.attribute.required,
       productBoundValue: value,
+      loading$: this.loading$,
+      attributeId: this.attribute.attrCode,
     };
   }
 
