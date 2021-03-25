@@ -5,7 +5,6 @@
   [showHint]="true"
 >
   <a
-    *ngIf="model.active"
     actions
     class="link edit"
     [class.disabled]="!model.active || (isInEditMode$ | async)"
