@@ -19,6 +19,8 @@ export enum PromotionLocation {
   ActiveCart = 'CART',
   Checkout = 'CHECKOUT',
   Order = 'ORDER',
+  SaveForLater = 'SAVE_FOR_LATER',
+  SavedCart = 'SAVED_CART',
 }
 
 export enum B2BPaymentTypeEnum {

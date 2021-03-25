@@ -68,7 +68,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   /**
    * @deprecated since version 3.1
-   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, multiCartService: MultiCartService); instead
+   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, userIdService: UserIdService, multiCartService: MultiCartService); instead
    */
   // TODO(#11037): Remove deprecated constructors
   constructor(
@@ -78,13 +78,12 @@ export class CartItemListComponent implements OnInit, OnDestroy {
 
   /**
    * @deprecated since version 3.2
-   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, multiCartService: MultiCartService); instead
+   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, userIdService: UserIdService, multiCartService: MultiCartService); instead
    */
   // TODO(#11037): Remove deprecated constructors
   constructor(
     activeCartService: ActiveCartService,
     selectiveCartService: SelectiveCartService,
-    userIdService: UserIdService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     featureConfigService: FeatureConfigService
   );
@@ -92,8 +91,8 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   constructor(
     activeCartService: ActiveCartService,
     selectiveCartService: SelectiveCartService,
-    userIdService: UserIdService,
     featureConfigService: FeatureConfigService,
+    userIdService: UserIdService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     multiCartService: MultiCartService
   );
@@ -101,8 +100,8 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   constructor(
     protected activeCartService: ActiveCartService,
     protected selectiveCartService: SelectiveCartService,
-    protected userIdService?: UserIdService,
     public featureConfigService?: FeatureConfigService,
+    protected userIdService?: UserIdService,
     protected multiCartService?: MultiCartService
   ) {}
 

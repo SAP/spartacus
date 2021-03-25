@@ -12,6 +12,7 @@ import {
   Cart,
   GlobalMessageService,
   GlobalMessageType,
+  PromotionLocation,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -25,6 +26,8 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
+
+  CartLocation = PromotionLocation;
 
   cartLoaded$: Observable<boolean> = this.savedCartDetailsService
     .getSavedCartId()
