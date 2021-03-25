@@ -52,6 +52,8 @@ describe(`SiteContextConfigInitializer`, () => {
   let initializer: SiteContextConfigInitializer;
   let baseSiteService: BaseSiteService;
   let config: SiteContextConfig;
+  let windowRef: WindowRef;
+  let javaRegExpConverter: JavaRegExpConverter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -74,6 +76,8 @@ describe(`SiteContextConfigInitializer`, () => {
     initializer = TestBed.inject(SiteContextConfigInitializer);
     baseSiteService = TestBed.inject(BaseSiteService);
     config = TestBed.inject(SiteContextConfig);
+    windowRef = TestBed.inject(WindowRef);
+    javaRegExpConverter = TestBed.inject(JavaRegExpConverter);
   });
 
   describe(`resolveConfig - context was already configured statically`, () => {
@@ -138,6 +142,36 @@ describe(`SiteContextConfigInitializer`, () => {
           urlParameters: ['language', 'currency'],
         },
       });
+    });
+
+    it(`should return config based on the first base site that matches one of its url patterns with the current url`, async () => {
+      windowRef.location.href = 'testUrl2';
+      const baseSites = [
+        {
+          ...mockBaseSites[0],
+          uid: 'test1',
+          urlPatterns: ['^testUrl1$', '^testUrl11$'],
+        },
+        {
+          ...mockBaseSites[0],
+          uid: 'test2',
+          urlPatterns: ['^testUrl2$', '^testUrl22$'],
+        },
+        {
+          ...mockBaseSites[0],
+          uid: 'test3',
+          urlPatterns: ['^testUrl2$'],
+        },
+      ];
+      spyOn(baseSiteService, 'getAll').and.returnValue(of(baseSites));
+
+      const result = await initializer.configFactory();
+
+      expect(javaRegExpConverter.toJsRegExp).toHaveBeenCalledTimes(3);
+      expect(javaRegExpConverter.toJsRegExp).not.toHaveBeenCalledWith(
+        '^testUrl22$'
+      );
+      expect(result?.context?.baseSite).toEqual(['test2']);
     });
   });
 });
