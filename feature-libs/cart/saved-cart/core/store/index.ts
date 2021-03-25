@@ -1,3 +1,3 @@
 export * from './actions/index';
 export * from './effects/index';
-export * from './saved-cart-state';
+export * from './saved-cart-constants';

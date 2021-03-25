@@ -5,15 +5,16 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  SavedCartEventsService,
+  DeleteSavedCartSuccessEvent,
   SavedCartService,
 } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
+  PromotionLocation,
   RoutingService,
-  UserIdService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { mapTo, switchMap, take, tap } from 'rxjs/operators';
@@ -27,7 +28,7 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
-  userId$ = this.userIdService.getUserId();
+  CartLocation = PromotionLocation;
 
   cartLoaded$: Observable<boolean> = this.savedCartDetailsService
     .getSavedCartId()
@@ -46,16 +47,15 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,
     protected savedCartService: SavedCartService,
-    protected savedCartEventsService: SavedCartEventsService,
-    protected userIdService: UserIdService,
+    protected eventSercvice: EventService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
-      this.savedCartEventsService
-        .getDeleteSavedCartSuccessEvent()
+      this.eventSercvice
+        .get(DeleteSavedCartSuccessEvent)
         .pipe(take(1), mapTo(true))
         .subscribe((success) => this.onDeleteComplete(success))
     );

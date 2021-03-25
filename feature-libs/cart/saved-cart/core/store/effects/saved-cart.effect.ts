@@ -7,7 +7,6 @@ import {
   CartActions,
   GlobalMessageService,
   GlobalMessageType,
-  MultiCartService,
   normalizeHttpError,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -34,12 +33,13 @@ export class SavedCartEffects {
               cartId,
               cart: savedCart,
             }),
-            new SavedCartActions.LoadSavedCartSuccess({ cartId }),
+            new SavedCartActions.LoadSavedCartSuccess({ userId, cartId }),
           ];
         }),
         catchError((error: HttpErrorResponse) =>
           of(
             new SavedCartActions.LoadSavedCartFail({
+              userId,
               cartId,
               error: normalizeHttpError(error),
             })
@@ -62,11 +62,16 @@ export class SavedCartEffects {
         switchMap((savedCarts: Cart[]) => {
           return [
             new CartActions.LoadCartsSuccess(savedCarts),
-            new SavedCartActions.LoadSavedCartsSuccess(),
+            new SavedCartActions.LoadSavedCartsSuccess({ userId }),
           ];
         }),
         catchError((error: HttpErrorResponse) =>
-          of(new SavedCartActions.LoadSavedCartsFail(normalizeHttpError(error)))
+          of(
+            new SavedCartActions.LoadSavedCartsFail({
+              userId,
+              error: normalizeHttpError(error),
+            })
+          )
         )
       )
     )
@@ -89,6 +94,10 @@ export class SavedCartEffects {
 
       if ((activeCart?.entries ?? []).length > 0) {
         if (activeCart.code) {
+          /**
+           * Instead of calling the SaveCartAction, we are calling the edit saved cart
+           * because we do not want to clear the state when we swap carts between active and saved cart
+           */
           actions.push(
             new SavedCartActions.EditSavedCart({
               userId,
@@ -146,6 +155,7 @@ export class SavedCartEffects {
     | SavedCartActions.SaveCartSuccess
     | SavedCartActions.SaveCart
     | CartActions.LoadCartSuccess
+    | CartActions.ClearCartState
   > = this.actions$.pipe(
     ofType(SavedCartActions.SAVE_CART),
     map((action: SavedCartActions.SaveCart) => action.payload),
@@ -154,12 +164,8 @@ export class SavedCartEffects {
         .saveCart(userId, cartId, saveCartName, saveCartDescription)
         .pipe(
           switchMap((savedCart: Cart) => {
-            this.multiCartService.createCart({
-              userId,
-              extraData: { active: true },
-            });
-
             return [
+              new CartActions.ClearCartState(),
               new CartActions.LoadCartSuccess({
                 userId,
                 cartId,
@@ -235,7 +241,6 @@ export class SavedCartEffects {
     private actions$: Actions,
     private savedCartConnector: SavedCartConnector,
     private activeCartService: ActiveCartService,
-    private globalMessageService: GlobalMessageService,
-    private multiCartService: MultiCartService
+    private globalMessageService: GlobalMessageService
   ) {}
 }

@@ -224,7 +224,7 @@ export function saveActiveCart() {
         .getSuccessAlert()
         .should(
           'contain',
-          `Your cart items have been succesfully saved for later in the "${sampleData.savedActiveCartForm[0].name}" cart`
+          `Your cart items have been successfully saved for later in the "${sampleData.savedActiveCartForm[0].name}" cart`
         );
 
       cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');

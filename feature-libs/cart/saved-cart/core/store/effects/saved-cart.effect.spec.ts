@@ -8,7 +8,6 @@ import {
   CartActions,
   GlobalMessageService,
   GlobalMessageType,
-  MultiCartService,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -58,16 +57,11 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-class MockMultiCartService implements Partial<MultiCartService> {
-  createCart = createSpy().and.returnValue(of({ value: mockSavedCarts[1] }));
-}
-
 describe('SavedCart Effects', () => {
   let connector: SavedCartConnector;
   let effects: fromEffects.SavedCartEffects;
   let actions$: Observable<Action>;
   let globalMessageService: GlobalMessageService;
-  let multiCartService: MultiCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -86,10 +80,6 @@ describe('SavedCart Effects', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
-        {
-          provide: MultiCartService,
-          useClass: MockMultiCartService,
-        },
         provideMockActions(() => actions$),
       ],
     });
@@ -98,7 +88,6 @@ describe('SavedCart Effects', () => {
     effects = TestBed.inject(fromEffects.SavedCartEffects);
     connector = TestBed.inject(SavedCartConnector);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    multiCartService = TestBed.inject(MultiCartService);
   });
 
   describe('loadSavedCart$', () => {
@@ -113,6 +102,7 @@ describe('SavedCart Effects', () => {
         cart: mockSavedCarts[0],
       });
       const completion2 = new SavedCartActions.LoadSavedCartSuccess({
+        userId: mockUserId,
         cartId: mockCartId,
       });
 
@@ -133,7 +123,9 @@ describe('SavedCart Effects', () => {
         userId: mockUserId,
       });
       const completion1 = new CartActions.LoadCartsSuccess(mockSavedCarts);
-      const completion2 = new SavedCartActions.LoadSavedCartsSuccess();
+      const completion2 = new SavedCartActions.LoadSavedCartsSuccess({
+        userId: mockUserId,
+      });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -248,12 +240,13 @@ describe('SavedCart Effects', () => {
         saveCartDescription: mockSavedCarts[0].description,
       });
 
-      const completion1 = new CartActions.LoadCartSuccess({
+      const completion1 = new CartActions.ClearCartState();
+      const completion2 = new CartActions.LoadCartSuccess({
         userId: mockUserId,
         cartId: mockCartId,
         cart: mockSavedCarts[0],
       });
-      const completion2 = new SavedCartActions.SaveCartSuccess({
+      const completion3 = new SavedCartActions.SaveCartSuccess({
         userId: mockUserId,
         cartId: mockCartId,
         saveCartName: mockSavedCarts[0].name,
@@ -261,9 +254,10 @@ describe('SavedCart Effects', () => {
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
+      const expected = cold('-(bcd)', {
         b: completion1,
         c: completion2,
+        d: completion3,
       });
 
       expect(effects.saveCart$).toBeObservable(expected);
@@ -273,10 +267,6 @@ describe('SavedCart Effects', () => {
         mockSavedCarts[0].name,
         mockSavedCarts[0].description
       );
-      expect(multiCartService.createCart).toHaveBeenCalledWith({
-        userId: mockUserId,
-        extraData: { active: true },
-      });
     });
   });
 

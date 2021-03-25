@@ -19,6 +19,8 @@ export enum PromotionLocation {
   ActiveCart = 'CART',
   Checkout = 'CHECKOUT',
   Order = 'ORDER',
+  SaveForLater = 'SAVE_FOR_LATER',
+  SavedCart = 'SAVED_CART',
 }
 
 export enum B2BPaymentTypeEnum {
@@ -80,10 +82,6 @@ export interface PaymentDetails {
 
 export interface SaveCartResult {
   savedCartData?: Cart;
-}
-
-export interface CartList {
-  carts?: Cart[];
 }
 
 export interface Cart {
