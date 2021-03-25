@@ -164,13 +164,13 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
             },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
-          this.close('Succesfully deleted a saved cart');
+          this.close('Successfully deleted a saved cart');
 
           break;
         }
 
         case SavedCartFormType.SAVE: {
-          this.close('Succesfully saved cart');
+          this.close('Successfully saved cart');
           this.clearCheckoutService.resetCheckoutProcesses();
           this.savedCartService.clearSaveCart();
 
@@ -188,7 +188,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
         }
 
         case SavedCartFormType.EDIT: {
-          this.close('Succesfully edited saved cart');
+          this.close('Successfully edited saved cart');
           this.savedCartService.clearSaveCart();
           this.globalMessageService.add(
             {

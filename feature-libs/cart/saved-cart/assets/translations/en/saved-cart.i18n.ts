@@ -32,7 +32,7 @@ export const savedCartList = {
 export const savedCartCartPage = {
   messages: {
     cartSaved:
-      'Your cart items have been succesfully saved for later in the "{{cartName}}" cart',
+      'Your cart items have been successfully saved for later in the "{{cartName}}" cart',
   },
 };
 

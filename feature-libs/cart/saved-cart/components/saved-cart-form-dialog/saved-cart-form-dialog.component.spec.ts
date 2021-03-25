@@ -32,7 +32,7 @@ const mockCart: Cart = {
   saveTime: new Date(),
 };
 
-const mockSuccessDeleteCloseReason = 'Succesfully deleted a saved cart';
+const mockSuccessDeleteCloseReason = 'Successfully deleted a saved cart';
 const mockFilledDialogData: SavedCartFormDialogOptions = {
   cart: mockCart,
   layoutOption: 'save',
@@ -279,7 +279,7 @@ describe('SavedCartFormDialogComponent', () => {
 
       component.onComplete(true);
 
-      expect(component.close).toHaveBeenCalledWith('Succesfully saved cart');
+      expect(component.close).toHaveBeenCalledWith('Successfully saved cart');
       expect(savedCartService.clearSaveCart).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
@@ -293,7 +293,7 @@ describe('SavedCartFormDialogComponent', () => {
       expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
     });
 
-    it('when succesfully deleting a cart', () => {
+    it('when successfully deleting a cart', () => {
       spyOn(routingService, 'go');
 
       mockDialogData$.next({ ...mockFilledDialogData, layoutOption: 'delete' });
@@ -301,7 +301,7 @@ describe('SavedCartFormDialogComponent', () => {
       component.onComplete(true);
 
       expect(component.close).toHaveBeenCalledWith(
-        'Succesfully deleted a saved cart'
+        'Successfully deleted a saved cart'
       );
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'savedCarts',
@@ -312,7 +312,7 @@ describe('SavedCartFormDialogComponent', () => {
       );
     });
 
-    it('when succesfully editting a cart', () => {
+    it('when successfully editing a cart', () => {
       spyOn(savedCartService, 'clearSaveCart');
 
       mockDialogData$.next({ ...mockFilledDialogData, layoutOption: 'edit' });
@@ -320,7 +320,7 @@ describe('SavedCartFormDialogComponent', () => {
       component.onComplete(true);
 
       expect(component.close).toHaveBeenCalledWith(
-        'Succesfully edited saved cart'
+        'Successfully edited saved cart'
       );
       expect(savedCartService.clearSaveCart).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(
@@ -337,7 +337,13 @@ describe('SavedCartFormDialogComponent', () => {
 
   describe('disabling and enabling delete button using events', () => {
     it('should return true when the trigger event fired', () => {
-      spyOn(eventService, 'get').and.callFake(() => of(DeleteSavedCartEvent));
+      spyOn(eventService, 'get').and.callFake((type) => {
+        if ((type as any).type === 'DeleteSavedCartEvent') {
+          return of(new DeleteSavedCartEvent() as any);
+        } else {
+          return of();
+        }
+      });
 
       component.ngOnInit();
 
@@ -351,9 +357,13 @@ describe('SavedCartFormDialogComponent', () => {
     });
 
     it('should return false when the fail event fired', () => {
-      spyOn(eventService, 'get').and.callFake(() =>
-        of(DeleteSavedCartFailEvent)
-      );
+      spyOn(eventService, 'get').and.callFake((type) => {
+        if ((type as any).type === 'DeleteSavedCartEvent') {
+          return of(new DeleteSavedCartEvent() as any);
+        } else {
+          return of(new DeleteSavedCartFailEvent() as any);
+        }
+      });
 
       component.ngOnInit();
 
