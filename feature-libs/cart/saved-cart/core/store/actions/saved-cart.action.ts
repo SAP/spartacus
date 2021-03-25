@@ -228,7 +228,7 @@ export class EditSavedCartFail extends StateUtils.EntityFailAction {
   constructor(
     public payload: {
       userId: string;
-      cartId: string | undefined;
+      cartId: string;
       saveCartName?: string;
       saveCartDescription?: string;
       error: any;
