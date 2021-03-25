@@ -17,13 +17,9 @@ import { ConfiguratorStorefrontUtilsService } from '../service/configurator-stor
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorGroupMenuComponent {
-  routerData$: Observable<
-    ConfiguratorRouter.Data
-  > = this.configRouterExtractorService.extractRouterData();
+  routerData$: Observable<ConfiguratorRouter.Data> = this.configRouterExtractorService.extractRouterData();
 
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.routerData$.pipe(
+  configuration$: Observable<Configurator.Configuration> = this.routerData$.pipe(
     switchMap((routerData) =>
       this.configCommonsService
         .getConfiguration(routerData.owner)
@@ -52,9 +48,7 @@ export class ConfiguratorGroupMenuComponent {
     )
   );
 
-  displayedParentGroup$: Observable<
-    Configurator.Group
-  > = this.configuration$.pipe(
+  displayedParentGroup$: Observable<Configurator.Group> = this.configuration$.pipe(
     switchMap((configuration) =>
       this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
     ),
@@ -78,7 +72,6 @@ export class ConfiguratorGroupMenuComponent {
   );
 
   iconTypes = ICON_TYPE;
-
   ERROR = ' ERROR';
   COMPLETE = ' COMPLETE';
   WARNING = ' WARNING';
@@ -131,11 +124,10 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Fired on key board events, checks for 'enter' or 'sapce' and delegates to navigateUp.
+   * Fired on key board events, checks for 'enter' or 'space' and delegates to navigateUp.
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
-
   navigateUpOnEnter(event: KeyboardEvent): void {
     if (event.code === 'Enter' || event.code === 'Space') {
       this.navigateUp();
