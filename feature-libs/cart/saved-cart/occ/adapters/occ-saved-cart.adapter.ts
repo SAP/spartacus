@@ -64,7 +64,7 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
     userId: string,
     cartId: string,
     saveCartName: string,
-    saveCartDescription: string | undefined
+    saveCartDescription: string
   ): string {
     return this.occEndpoints.getUrl('saveCart', {
       userId,
