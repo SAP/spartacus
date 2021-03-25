@@ -20,25 +20,21 @@
   "dependencies": {
     "tslib": "^2.0.0"
   },
-  "devDependencies": {
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.11.1",
-    "@types/shelljs": "^0.8.7",
-    "jest": "^26.6.2",
-    "rimraf": "^3.0.2",
-    "shelljs": "^0.8.3",
-    "ts-jest": "^26.4.3",
-    "typescript": "~4.0.2"
-  },
   "peerDependencies": {
+    "@angular-devkit/schematics": "^10.1.0",
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
-    "@angular/forms": "^10.0.0",
+    "@angular/forms": "^10.1.0",
     "@angular/router": "^10.1.0",
-    "@spartacus/core": "3.1.0-next.0",
-    "@spartacus/storefront": "3.1.0-next.0",
-    "@spartacus/styles": "3.1.0-next.0",
-    "chalk": "^4.1.0",
+    "@ng-select/ng-select": "^5.0.9",
+    "@ngrx/effects": "^10.0.0",
+    "@ngrx/store": "^10.0.0",
+    "@schematics/angular": "^10.1.0",
+    "@spartacus/core": "3.2.0-next.2",
+    "@spartacus/schematics": "3.2.0-next.2",
+    "@spartacus/storefront": "3.2.0-next.2",
+    "@spartacus/styles": "3.2.0-next.2",
+    "bootstrap": "^4.0",
     "rxjs": "^6.6.0",
     "typescript": "~4.0.2"
   },

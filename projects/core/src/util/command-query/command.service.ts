@@ -1,10 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { EMPTY, Observable, Subject, Subscription, zip } from 'rxjs';
+import { Observable, ReplaySubject, Subject, Subscription, zip } from 'rxjs';
 import {
-  catchError,
   concatMap,
   finalize,
-  map,
   mergeMap,
   retry,
   switchMap,
@@ -33,11 +31,11 @@ export class CommandService implements OnDestroy {
   constructor() {}
 
   create<P = undefined, R = unknown>(
-    loading: (command: P) => Observable<any>,
+    commandFactory: (command: P) => Observable<any>,
     options?: { strategy?: CommandStrategy }
   ): Command<P, R> {
     const commands$ = new Subject<P>();
-    const results$ = new Subject<Subject<R>>();
+    const results$ = new Subject<ReplaySubject<R>>();
 
     let process$: Observable<any>;
 
@@ -46,7 +44,7 @@ export class CommandService implements OnDestroy {
       case CommandStrategy.ErrorPrevious:
         process$ = zip(commands$, results$).pipe(
           switchMap(([cmd, notifier$]) =>
-            loading(cmd).pipe(
+            commandFactory(cmd).pipe(
               tap(notifier$),
               finalize(() =>
                 options.strategy === CommandStrategy.CancelPrevious
@@ -61,7 +59,7 @@ export class CommandService implements OnDestroy {
 
       case CommandStrategy.Parallel:
         process$ = zip(commands$, results$).pipe(
-          mergeMap(([cmd, notifier$]) => loading(cmd).pipe(tap(notifier$))),
+          mergeMap(([cmd, notifier$]) => commandFactory(cmd).pipe(tap(notifier$))),
           retry()
         );
         break;
@@ -69,7 +67,9 @@ export class CommandService implements OnDestroy {
       case CommandStrategy.Queue:
       default:
         process$ = zip(commands$, results$).pipe(
-          concatMap(([cmd, notifier$]) => loading(cmd).pipe(tap(notifier$))),
+          concatMap(([cmd, notifier$]) =>
+            commandFactory(cmd).pipe(tap(notifier$))
+          ),
           retry()
         );
         break;
@@ -79,7 +79,7 @@ export class CommandService implements OnDestroy {
 
     const command: Command<P, R> = new (class extends Command {
       execute = (parameters: P) => {
-        const result = new Subject<R>();
+        const result = new ReplaySubject<R>();
         results$.next(result);
         commands$.next(parameters);
         return result;
@@ -87,41 +87,6 @@ export class CommandService implements OnDestroy {
     })();
 
     return command;
-  }
-
-  createFlow<P = undefined, R = unknown>(
-    loading: (
-      trigger: Observable<{ payload: P; notifier: Subject<R> }>
-    ) => Observable<any>
-  ): Command<P, R> {
-    const commands$ = new Subject<P>();
-    const notifiers$ = new Subject<Subject<R>>();
-
-    const process$ = loading(
-      zip(commands$, notifiers$).pipe(
-        map(([payload, notifier]) => ({ payload, notifier }))
-      )
-    );
-
-    this.subscriptions.add(
-      process$
-        .pipe(
-          catchError(() => {
-            return EMPTY;
-          }),
-          retry()
-        )
-        .subscribe()
-    );
-
-    return {
-      execute: (parameters: P) => {
-        const result = new Subject<R>();
-        notifiers$.next(result);
-        commands$.next(parameters);
-        return result;
-      },
-    };
   }
 
   ngOnDestroy(): void {

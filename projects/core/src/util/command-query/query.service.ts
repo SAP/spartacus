@@ -4,7 +4,6 @@ import {
   EMPTY,
   isObservable,
   merge,
-  NEVER,
   Observable,
   Subscription,
   using,
@@ -14,7 +13,6 @@ import {
   distinctUntilChanged,
   filter,
   pluck,
-  retry,
   share,
   switchMapTo,
   takeUntil,
@@ -45,11 +43,10 @@ export class QueryService implements OnDestroy {
   constructor(protected eventService: EventService) {}
 
   create<T>(
-    loadFunc: () => Observable<T>,
+    loaderFactory: () => Observable<T>,
     options?: {
       reloadOn?: QueryNotifier[];
       resetOn?: QueryNotifier[];
-      transferState?: string | (() => string);
     }
   ): Query<T> {
     const state$ = new BehaviorSubject<QueryState<T>>({
@@ -71,15 +68,14 @@ export class QueryService implements OnDestroy {
 
     const load$ = loadTrigger$.pipe(
       tap(() => state$.next({ ...state$.value, loading: true })),
-      switchMapTo(loadFunc().pipe(takeUntil(resetTrigger$))),
+      switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
       tap((data) => {
         state$.next({ loading: false, error: false, data });
       }),
       catchError((error) => {
         state$.next({ loading: false, error, data: undefined });
-        return NEVER;
+        return EMPTY;
       }),
-      retry(),
       share()
     );
 
@@ -120,61 +116,10 @@ export class QueryService implements OnDestroy {
       if (isObservable(trigger)) {
         return trigger;
       }
-      if (trigger.prototype instanceof CxEvent) {
-        return this.eventService.get(trigger);
-      }
+      return this.eventService.get(trigger);
     });
     return merge(...observables);
   }
-
-  // protected defaultMapper = (...params) =>
-  //   params
-  //     .map((x) =>
-  //       typeof x === 'object'
-  //         ? Object.entries(x).sort(([a], [b]) => (a > b ? 1 : -1))
-  //         : x
-  //     )
-  //     .join('-');
-  //
-  // createMulti<T, P extends any[]>(
-  //   loadFunc: (...params: P) => Observable<T>,
-  //   options?: {
-  //     reloadOn?: QueryNotifier[];
-  //     resetOn?: QueryNotifier[];
-  //     transferState?: string | (() => string);
-  //     keyMapper?: (...params: P) => string;
-  //   }
-  // ): Query<T, P> {
-  //   const keyMapper = options?.keyMapper ?? this.defaultMapper;
-  //
-  //   const allPars = new Map<any, Query<T>>();
-  //
-  //   const initForParams = (key: string, ...params: P) => {
-  //     if (!allPars.has(key)) {
-  //       allPars.set(
-  //         key,
-  //         this.create<T>(() => loadFunc(...params), options)
-  //       );
-  //     }
-  //   };
-  //
-  //   const getState = (...params: P) => {
-  //     const key = keyMapper(...params);
-  //     initForParams(key, ...params);
-  //     return allPars.get(key).getState();
-  //   };
-  //
-  //   const get = (...params: P) => {
-  //     const key = keyMapper(...params);
-  //     initForParams(key, ...params);
-  //     return allPars.get(key).get();
-  //   };
-  //
-  //   return {
-  //     get,
-  //     getState,
-  //   };
-  // }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();

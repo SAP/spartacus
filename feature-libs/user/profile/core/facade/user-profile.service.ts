@@ -8,21 +8,23 @@ import {
   QueryService,
   UserIdService,
 } from '@spartacus/core';
-import { User, UserAccountFacade } from '@spartacus/user/account/root';
+import {
+  User,
+  UserAccountChangedEvent,
+  UserAccountFacade,
+} from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
-import { map, switchMap, take, tap } from 'rxjs/operators';
-import { UserAccountChangedEvent } from '@spartacus/user/account/root';
+import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class UserProfileService implements UserProfileFacade {
   protected updateCommand = this.command.create<{ details: User }>(
     (payload) =>
-      this.get().pipe(
-        take(1),
-        switchMap((user) =>
-          this.userProfileConnector.update(user!.uid!, payload.details).pipe(
+      this.userIdService.takeUserId(true).pipe(
+        switchMap((uid) =>
+          this.userProfileConnector.update(uid, payload.details).pipe(
             tap(() => {
               this.eventService.dispatch(
                 { user: payload.details },
@@ -38,21 +40,21 @@ export class UserProfileService implements UserProfileFacade {
   );
 
   protected closeCommand = this.command.create(() =>
-    this.get().pipe(
-      take(1),
-      switchMap((user) =>
-        this.userProfileConnector
-          .remove(user!.uid!)
-          .pipe(tap(() => this.authService.logout()))
+    this.userIdService
+      .takeUserId(true)
+      .pipe(
+        switchMap((uid) =>
+          this.userProfileConnector
+            .remove(uid)
+            .pipe(tap(() => this.authService.logout()))
+        )
       )
-    )
   );
 
   protected titleQuery = this.query.create(
     () => this.userProfileConnector.getTitles(),
     {
       reloadOn: [LanguageSetEvent],
-      transferState: 'userTitles',
     }
   );
 

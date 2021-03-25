@@ -5,7 +5,12 @@ import {
   UserAccountChangedEvent,
   UserAccountFacade,
 } from '@spartacus/user/account/root';
-import { LogoutEvent, QueryService, UserIdService } from '@spartacus/core';
+import {
+  LoginEvent,
+  LogoutEvent,
+  QueryService,
+  UserIdService,
+} from '@spartacus/core';
 import { switchMap } from 'rxjs/operators';
 import { UserAccountConnector } from '../connectors/user-account.connector';
 
@@ -18,7 +23,7 @@ export class UserAccountService implements UserAccountFacade {
         .pipe(switchMap((userId) => this.userAccountConnector.get(userId))),
     {
       reloadOn: [UserAccountChangedEvent],
-      resetOn: [LogoutEvent],
+      resetOn: [LoginEvent, LogoutEvent],
     }
   );
 

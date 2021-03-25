@@ -5,4 +5,4 @@ export * from './store/selectors/index';
 export * from './store/user-state';
 export * from './user.module';
 export * from './user-transitional.module';
-export * from './user-account-facade-transitional.token';
+export * from './user-transitional-tokens';

@@ -116,6 +116,21 @@
       "@spartacus/product": [
         "feature-libs/product/public_api"
       ],
+      "@spartacus/product/variants/assets": [
+        "feature-libs/product/variants/assets/public_api"
+      ],
+      "@spartacus/product/variants/components": [
+        "feature-libs/product/variants/components/public_api"
+      ],
+      "@spartacus/product/variants": [
+        "feature-libs/product/variants/public_api"
+      ],
+      "@spartacus/product/variants/occ": [
+        "feature-libs/product/variants/occ/public_api"
+      ],
+      "@spartacus/product/variants/root": [
+        "feature-libs/product/variants/root/public_api"
+      ],
       "@spartacus/qualtrics/components": [
         "feature-libs/qualtrics/components/public_api"
       ],
@@ -185,9 +200,6 @@
       "@spartacus/user/account/core": [
         "feature-libs/user/account/core/public_api"
       ],
-      "@spartacus/user/account/events": [
-        "feature-libs/user/account/events/public_api"
-      ],
       "@spartacus/user/account": [
         "feature-libs/user/account/public_api"
       ],
@@ -238,21 +250,6 @@
       ],
       "@spartacus/storefront": [
         "projects/storefrontlib/src/public_api"
-      ],
-      "@spartacus/product/variants": [
-        "feature-libs/product/variants/public_api"
-      ],
-      "@spartacus/product/variants/assets": [
-        "feature-libs/product/variants/assets/public_api"
-      ],
-      "@spartacus/product/variants/components": [
-        "feature-libs/product/variants/components/public_api"
-      ],
-      "@spartacus/product/variants/occ": [
-        "feature-libs/product/variants/occ/public_api"
-      ],
-      "@spartacus/product/variants/root": [
-        "feature-libs/product/variants/root/public_api"
       ]
     }
   },

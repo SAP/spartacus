@@ -1,15 +1,13 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { OCC_USER_ID_CURRENT } from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
+import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { UserEmailService } from './user-email.service';
-import { UserProfileService } from './user-profile.service';
 import { UserProfileConnector } from '@spartacus/user/profile/core';
 import createSpy = jasmine.createSpy;
 
-class MockUserProfileService implements Partial<UserProfileService> {
-  get(): Observable<User> {
-    return of({ uid: OCC_USER_ID_CURRENT });
+class MockUserIdService implements Partial<UserIdService> {
+  takeUserId(): Observable<string> {
+    return of(OCC_USER_ID_CURRENT);
   }
 }
 
@@ -29,7 +27,7 @@ describe('UserEmailService', () => {
       providers: [
         UserEmailService,
         { provide: UserProfileConnector, useClass: MockUserProfileConnector },
-        { provide: UserProfileService, useClass: MockUserProfileService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 

@@ -38,6 +38,7 @@
       "@spartacus/core",
       "@spartacus/storefront",
       "@spartacus/styles",
+      "@spartacus/user",
       "@spartacus/cds",
       "@spartacus/assets",
       "@spartacus/incubator",

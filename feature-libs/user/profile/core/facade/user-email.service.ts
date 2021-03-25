@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
-import { CommandService, CommandStrategy } from '@spartacus/core';
+import {
+  CommandService,
+  CommandStrategy,
+  UserIdService,
+} from '@spartacus/core';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
-import { UserProfileService } from './user-profile.service';
 
 @Injectable()
 export class UserEmailService implements UserEmailFacade {
   constructor(
-    protected userProfileService: UserProfileService,
+    protected userIdService: UserIdService,
     protected userProfileConnector: UserProfileConnector,
     protected command: CommandService
   ) {}
@@ -18,17 +21,18 @@ export class UserEmailService implements UserEmailFacade {
     password: string;
     newUid: string;
   }>(
-    (payload) =>
-      this.userProfileService.get().pipe(
-        filter((user) => Boolean(user)),
-        switchMap((user) =>
-          this.userProfileConnector.updateEmail(
-            user!.uid!,
-            payload.password,
-            payload.newUid
+    (payload: { password: string; newUid: string }) =>
+      this.userIdService
+        .takeUserId(true)
+        .pipe(
+          switchMap((uid) =>
+            this.userProfileConnector.updateEmail(
+              uid,
+              payload.password,
+              payload.newUid
+            )
           )
-        )
-      ),
+        ),
     {
       strategy: CommandStrategy.Queue,
     }

@@ -74,6 +74,7 @@ export default async function run(
     '@spartacus/assets': 'projects/assets',
     '@spartacus/schematics': 'projects/schematics',
     '@spartacus/incubator': 'projects/incubator',
+    '@spartacus/user': 'projects/user',
     '@spartacus/cds': 'integration-libs/cds',
     '@spartacus/organization': 'feature-libs/organization',
     '@spartacus/product': 'feature-libs/product',
@@ -291,6 +292,10 @@ if (typeof config.to === 'undefined') {
     case 'incubator':
     case '@spartacus/incubator':
       config.library = '@spartacus/incubator';
+      break;
+    case 'user':
+    case '@spartacus/user':
+      config.library = '@spartacus/user';
       break;
     case 'cds':
     case '@spartacus/cds':

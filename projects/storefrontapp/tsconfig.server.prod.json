@@ -75,6 +75,15 @@
         "../../dist/product/bulk-pricing/root"
       ],
       "@spartacus/product": ["../../dist/product"],
+      "@spartacus/product/variants/assets": [
+        "../../dist/product/variants/assets"
+      ],
+      "@spartacus/product/variants/components": [
+        "../../dist/product/variants/components"
+      ],
+      "@spartacus/product/variants": ["../../dist/product/variants"],
+      "@spartacus/product/variants/occ": ["../../dist/product/variants/occ"],
+      "@spartacus/product/variants/root": ["../../dist/product/variants/root"],
       "@spartacus/qualtrics/components": ["../../dist/qualtrics/components"],
       "@spartacus/qualtrics": ["../../dist/qualtrics"],
       "@spartacus/qualtrics/root": ["../../dist/qualtrics/root"],
@@ -108,7 +117,6 @@
         "../../dist/user/account/components"
       ],
       "@spartacus/user/account/core": ["../../dist/user/account/core"],
-      "@spartacus/user/account/events": ["../../dist/user/account/events"],
       "@spartacus/user/account": ["../../dist/user/account"],
       "@spartacus/user/account/occ": ["../../dist/user/account/occ"],
       "@spartacus/user/account/root": ["../../dist/user/account/root"],
@@ -126,16 +134,7 @@
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/incubator": ["../../dist/incubator"],
-      "@spartacus/storefront": ["../../dist/storefrontlib"],
-      "@spartacus/product/variants": ["../../dist/product/variants"],
-      "@spartacus/product/variants/assets": [
-        "../../dist/product/variants/assets"
-      ],
-      "@spartacus/product/variants/components": [
-        "../../dist/product/variants/components"
-      ],
-      "@spartacus/product/variants/occ": ["../../dist/product/variants/occ"],
-      "@spartacus/product/variants/root": ["../../dist/product/variants/root"]
+      "@spartacus/storefront": ["../../dist/storefrontlib"]
     }
   }
 }

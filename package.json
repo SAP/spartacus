@@ -57,6 +57,7 @@
     "ngcc:lock:remove": "rm -rf ./node_modules/.cli-ngcc/*.lock",
     "release:core:with-changelog": "cd projects/core && release-it && cd ../..",
     "release:assets:with-changelog": "cd projects/assets && release-it && cd ../..",
+    "release:user:with-changelog": "cd feature-libs/user && release-it && cd ../..",
     "release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
     "release:styles:with-changelog": "cd projects/storefrontstyles && release-it && cd ../..",
     "release:storefront:with-changelog": "cd projects/storefrontlib && release-it && cd ../..",

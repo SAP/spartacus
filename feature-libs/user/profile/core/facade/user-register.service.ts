@@ -26,7 +26,7 @@ export class UserRegisterService implements UserRegisterFacade {
   >((payload) =>
     this.userConnector.registerGuest(payload.guid, payload.password).pipe(
       tap((user) => {
-        // tslint:disable-next-line:no-non-null-assertion
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.authService.loginWithCredentials(user.uid!, payload.password);
       })
     )
@@ -34,8 +34,8 @@ export class UserRegisterService implements UserRegisterFacade {
 
   constructor(
     protected userProfile: UserProfileService,
-    private userConnector: UserProfileConnector,
-    private authService: AuthService,
+    protected userConnector: UserProfileConnector,
+    protected authService: AuthService,
     protected command: CommandService
   ) {}
 
