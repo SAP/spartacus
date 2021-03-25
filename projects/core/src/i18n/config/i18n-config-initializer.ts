@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ConfigInitializer } from '../../config/config-initializer/config-initializer';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
-import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { I18nConfig } from './i18n-config';
 
 @Injectable({ providedIn: 'root' })
@@ -11,26 +10,12 @@ export class I18nConfigInitializer implements ConfigInitializer {
   readonly scopes = ['i18n.fallbackLang'];
   readonly configFactory = () => this.resolveConfig().toPromise();
 
-  constructor(
-    protected configInit: ConfigInitializerService,
-    protected config: I18nConfig,
-    // TODO(#11515): remove it in 4.0
-    protected featureConfigService?: FeatureConfigService
-  ) {}
+  constructor(protected configInit: ConfigInitializerService) {}
 
   /**
    * Resolves the `fallbackLang` based on the default language from config `context.language` .
-   * If `fallbackLang` was already configured statically, the empty object is emitted.
    */
   protected resolveConfig(): Observable<I18nConfig> {
-    // TODO(#11515): remove it in 4.0
-    if (!this.featureConfigService?.isLevel('3.2')) {
-      return of({});
-    }
-
-    if (this.config?.i18n?.fallbackLang !== undefined) {
-      return of({});
-    }
     return this.configInit.getStable('context.language').pipe(
       map((config) => ({
         i18n: {

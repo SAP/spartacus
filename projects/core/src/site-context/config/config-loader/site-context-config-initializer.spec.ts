@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { FeatureConfigService } from '../../../features-config/services/feature-config.service';
 import { BaseSite } from '../../../model/misc.model';
 import { JavaRegExpConverter } from '../../../util/java-reg-exp-converter/java-reg-exp-converter';
 import { WindowRef } from '../../../window/window-ref';
 import { BaseSiteService } from '../../facade/base-site.service';
-import { SiteContextConfig } from '../site-context-config';
 import { SiteContextConfigInitializer } from './site-context-config-initializer';
 
 class MockWindowRef implements Partial<WindowRef> {
@@ -37,21 +35,9 @@ class MockBaseSiteService {
   }
 }
 
-// TODO(#11515): remove it in 4.0
-class MockFeatureConfigService {
-  isLevel() {
-    return true;
-  }
-}
-
-class MockSiteContextConfig {
-  context = {};
-}
-
 describe(`SiteContextConfigInitializer`, () => {
   let initializer: SiteContextConfigInitializer;
   let baseSiteService: BaseSiteService;
-  let config: SiteContextConfig;
   let windowRef: WindowRef;
   let javaRegExpConverter: JavaRegExpConverter;
 
@@ -66,28 +52,13 @@ describe(`SiteContextConfigInitializer`, () => {
             toJsRegExp: jasmine.createSpy().and.callFake((x) => new RegExp(x)),
           },
         },
-        { provide: SiteContextConfig, useClass: MockSiteContextConfig },
-
-        // TODO(#11515): remove it in 4.0
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
     initializer = TestBed.inject(SiteContextConfigInitializer);
     baseSiteService = TestBed.inject(BaseSiteService);
-    config = TestBed.inject(SiteContextConfig);
     windowRef = TestBed.inject(WindowRef);
     javaRegExpConverter = TestBed.inject(JavaRegExpConverter);
-  });
-
-  describe(`resolveConfig - context was already configured statically`, () => {
-    it(`should return empty object`, async () => {
-      config.context = {
-        baseSite: ['electronics'],
-      };
-      const result = await initializer.configFactory();
-      expect(result).toEqual({});
-    });
   });
 
   describe(`resolveConfig - context was not already configured statically`, () => {
