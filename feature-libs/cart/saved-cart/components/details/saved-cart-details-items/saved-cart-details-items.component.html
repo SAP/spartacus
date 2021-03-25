@@ -2,13 +2,10 @@
   <ng-container *ngIf="cart?.entries?.length > 0; else emptyCartItems">
     <div class="cart-details-wrapper">
       <cx-cart-item-list
-        [items]="cart.entries"
+        [cartId]="cart.code"
         [cartIsLoading]="!(cartLoaded$ | async)"
+        [items]="cart.entries"
         [promotionLocation]="CartLocation.SavedCart"
-        [cart]="{
-          cartId: cart.code,
-          userId: (userId$ | async)
-        }"
       ></cx-cart-item-list>
     </div>
   </ng-container>
