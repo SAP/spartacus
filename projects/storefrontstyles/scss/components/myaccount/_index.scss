@@ -13,12 +13,12 @@
 @import './my-coupons-card';
 @import './my-coupons-dialog';
 @import './my-interests';
-@import './update-email';
 
 $myaccount-components-whitelist: cx-address-book, cx-order-summary,
   cx-order-history, cx-order-confirmation-items, cx-order-confirmation-totals,
   cx-order-confirmation-thank-you-message, cx-promotions, cx-order-detail-items,
   cx-order-detail-shipping, cx-order-detail-totals, cx-order-detail-totals,
+  cx-close-account, cx-close-account-modal,
   cx-anonymous-consent-management-banner, cx-anonymous-consent-dialog,
   cx-anonymous-consent-open-dialog, cx-consent-management-form,
   cx-consent-management, cx-tracking-events, cx-order-return-request-list,
@@ -32,12 +32,6 @@ $myaccount-components-whitelist: cx-address-book, cx-order-summary,
 @include forVersion(3, 3.1) {
   $myaccount-components-whitelist: join(
     $myaccount-components-whitelist,
-    (
-      cx-close-account,
-      cx-close-account-modal,
-      cx-forgot-password,
-      cx-update-email,
-      cx-update-password-form
-    )
+    (cx-forgot-password, cx-update-password-form)
   ) !global;
 }

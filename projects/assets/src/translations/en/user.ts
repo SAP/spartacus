@@ -101,8 +101,4 @@ export const user = {
     emailIsRequired: 'Invalid email format',
     emailsMustMatch: 'Email does not match',
   },
-  resetPassword: {
-    reset: 'Reset Password',
-    noToken: 'You cannot reset your password (no token found)',
-  },
 };
