@@ -1,7 +1,14 @@
 <ng-container *ngIf="product$ | async as product">
   <div class="cx-general-product-info">
     <div class="cx-title">
-      {{ product.name }}
+      <!-- TODO: update feature level to equals 3.1 without exclamation mark '!' -->
+      <ng-container *cxFeatureLevel="!3.1">
+        {{ product.name }}
+      </ng-container>
+      <!-- TODO: update feature level to current release version -->
+      <ng-container *cxFeatureLevel="3.1">
+        <span *ngIf="product.name"> {{ product.name }} </span>
+      </ng-container>
     </div>
     <a role="link" (click)="triggerDetails()" tabindex="0">
       <ng-container *ngIf="!showMore">
@@ -20,21 +27,51 @@
     </a>
     <div class="cx-details" [class.open]="showMore">
       <div class="cx-details-image">
-        <cx-media
-          [container]="product?.images?.PRIMARY"
-          format="product"
-        ></cx-media>
+        <!-- TODO: update feature level to equals 3.1 without exclamation mark '!' -->
+        <ng-container *cxFeatureLevel="!3.1">
+          <img
+            [alt]="getProductImageAlt(product)"
+            [src]="getProductImageURL(product)"
+          />
+        </ng-container>
+        <!-- TODO: update feature level to current release version -->
+        <ng-container *cxFeatureLevel="3.1">
+          <cx-media
+            [container]="product?.images?.PRIMARY"
+            format="product"
+          ></cx-media>
+        </ng-container>
       </div>
       <div class="cx-details-content">
         <div class="cx-detail-title">
-          {{ product.name }}
+          <!-- TODO: update feature level to equals 3.1 without exclamation mark '!' -->
+          <ng-container *cxFeatureLevel="!3.1">
+            {{ product.name }}
+          </ng-container>
+          <!-- TODO: update feature level to current release version -->
+          <ng-container *cxFeatureLevel="3.1">
+            <span *ngIf="product.name"> {{ product.name }} </span>
+          </ng-container>
         </div>
         <div class="cx-code">
-          {{ product.code }}
+          <!-- TODO: update feature level to equals 3.1 without exclamation mark '!' -->
+          <ng-container *cxFeatureLevel="!3.1">
+            {{ product.code }}
+          </ng-container>
+          <!-- TODO: update feature level to current release version -->
+          <ng-container *cxFeatureLevel="3.1">
+            <span *ngIf="product.code"> {{ product.code }} </span>
+          </ng-container>
         </div>
-
         <div class="cx-description">
-          {{ product.description }}
+          <!-- TODO: update feature level to equals 3.1 without exclamation mark '!' -->
+          <ng-container *cxFeatureLevel="!3.1">
+            {{ product.description }}
+          </ng-container>
+          <!-- TODO: update feature level to current release version -->
+          <ng-container *cxFeatureLevel="3.1">
+            <span *ngIf="product.description"> {{ product.description }} </span>
+          </ng-container>
         </div>
       </div>
     </div>

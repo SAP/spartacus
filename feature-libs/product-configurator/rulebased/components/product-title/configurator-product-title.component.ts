@@ -47,4 +47,18 @@ export class ConfiguratorProductTitleComponent {
   triggerDetails(): void {
     this.showMore = !this.showMore;
   }
+
+  /**
+   * @deprecated since 3.1
+   */
+  getProductImageURL(product: Product): string {
+    return product.images?.PRIMARY?.['thumbnail']?.url;
+  }
+
+  /**
+   * @deprecated since 3.1
+   */
+  getProductImageAlt(product: Product): string {
+    return product.images?.PRIMARY?.['thumbnail']?.altText;
+  }
 }
