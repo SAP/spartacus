@@ -84,6 +84,21 @@
         "../../feature-libs/product/bulk-pricing/root/public_api"
       ],
       "@spartacus/product": ["../../feature-libs/product/public_api"],
+      "@spartacus/product/variants/assets": [
+        "../../feature-libs/product/variants/assets/public_api"
+      ],
+      "@spartacus/product/variants/components": [
+        "../../feature-libs/product/variants/components/public_api"
+      ],
+      "@spartacus/product/variants": [
+        "../../feature-libs/product/variants/public_api"
+      ],
+      "@spartacus/product/variants/occ": [
+        "../../feature-libs/product/variants/occ/public_api"
+      ],
+      "@spartacus/product/variants/root": [
+        "../../feature-libs/product/variants/root/public_api"
+      ],
       "@spartacus/qualtrics/components": [
         "../../feature-libs/qualtrics/components/public_api"
       ],
@@ -134,27 +149,15 @@
         "../../feature-libs/tracking/tms/gtm/public_api"
       ],
       "@spartacus/tracking/tms": ["../../feature-libs/tracking/tms/public_api"],
+      "@spartacus/cdc/components": [
+        "../../integration-libs/cdc/components/public_api"
+      ],
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/incubator": ["../../projects/incubator/public_api"],
-      "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"],
-      "@spartacus/product/variants/assets": [
-        "../../feature-libs/product/variants/assets/public_api"
-      ],
-      "@spartacus/product/variants": [
-        "../../feature-libs/product/variants/public_api"
-      ],
-      "@spartacus/product/variants/components": [
-        "../../feature-libs/product/variants/components/public_api"
-      ],
-      "@spartacus/product/variants/occ": [
-        "../../feature-libs/product/variants/occ/public_api"
-      ],
-      "@spartacus/product/variants/root": [
-        "../../feature-libs/product/variants/root/public_api"
-      ]
+      "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"]
     }
   },
   "angularCompilerOptions": {

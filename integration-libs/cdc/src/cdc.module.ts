@@ -4,7 +4,6 @@ import { LogoutGuard } from '@spartacus/storefront';
 import { CdcAuthModule } from './auth/cdc-auth.module';
 import { CdcJsService } from './auth/facade/cdc-js.service';
 import { CdcLogoutGuard } from './auth/guards/cdc-logout.guard';
-import { GigyaRaasModule } from './cms-components/gigya-raas/gigya-raas.module';
 import { CdcConfig } from './config/cdc-config';
 
 export function cdcJsFactory(
@@ -19,7 +18,7 @@ export function cdcJsFactory(
 }
 
 @NgModule({
-  imports: [GigyaRaasModule, CdcAuthModule],
+  imports: [CdcAuthModule],
   providers: [{ provide: LogoutGuard, useExisting: CdcLogoutGuard }],
 })
 export class CdcModule {
