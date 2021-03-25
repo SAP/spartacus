@@ -281,7 +281,6 @@ describe('CartItemListComponent', () => {
     });
 
     it('should remove entry of multiCartService when cart input exist', () => {
-      console.log('ok');
       component.removeEntry(mockItems[0]);
       expect(multiCartService.removeEntry).toHaveBeenCalledWith(
         mockUserId,
