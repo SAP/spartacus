@@ -24,5 +24,13 @@ $myaccount-components-whitelist: cx-address-book, cx-order-summary,
   cx-return-order-confirmation, cx-cancel-order-confirmation, cx-my-interests,
   cx-amend-order-items, cx-order-details-actions, cx-consignment-tracking,
   cx-return-request-overview, cx-return-request-totals, cx-return-request-items,
-  cx-my-coupons, cx-coupon-card, cx-coupon-dialog, cx-update-password-form,
+  cx-my-coupons, cx-coupon-card, cx-coupon-dialog,
   cx-replenishment-order-history !default;
+
+// TODO (#11607) remove outdated css
+@include forVersion(3, 3.1) {
+  $myaccount-components-whitelist: join(
+    $myaccount-components-whitelist,
+    (cx-update-password-form)
+  ) !global;
+}
