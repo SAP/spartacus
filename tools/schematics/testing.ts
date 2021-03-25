@@ -5,7 +5,7 @@ import glob from 'glob';
 import path from 'path';
 import semver from 'semver';
 
-let currentVersion;
+let currentVersion: semver.SemVer | null;
 
 function startVerdaccio(): ChildProcess {
   console.log('Starting verdaccio');
@@ -16,7 +16,7 @@ function startVerdaccio(): ChildProcess {
   return res;
 }
 
-function beforeExit() {
+function beforeExit(): void {
   console.log('Setting npm back to npmjs.org');
   execSync(`npm config set @spartacus:registry https://registry.npmjs.org/`);
   if (verdaccioProcess) {
@@ -27,7 +27,7 @@ function beforeExit() {
   }
 }
 
-function publishLibs() {
+function publishLibs(): void {
   if (!currentVersion) {
     currentVersion = semver.parse(
       JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
@@ -35,7 +35,8 @@ function publishLibs() {
   }
 
   // Bump version to publish
-  semver.inc(currentVersion, 'patch');
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  semver.inc(currentVersion!, 'patch');
   // Packages released from it's source directory
   const files = [
     'projects/storefrontstyles/package.json',
@@ -46,39 +47,116 @@ function publishLibs() {
   [...files, ...distFiles].forEach((packagePath) => {
     // Update version in package
     const content = JSON.parse(fs.readFileSync(packagePath, 'utf-8'));
-    content.version = currentVersion.version;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    content.version = currentVersion!.version;
     fs.writeFileSync(packagePath, JSON.stringify(content, undefined, 2));
 
     // Publish package
     const dir = path.dirname(packagePath);
     console.log(`\nPublishing ${content.name}`);
     execSync(
-      `yarn publish --cwd ${dir} --new-version ${currentVersion.version} --registry=http://localhost:4873/ --no-git-tag-version`,
+      `yarn publish --cwd ${dir} --new-version ${
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        currentVersion!.version
+      } --registry=http://localhost:4873/ --no-git-tag-version`,
       { stdio: 'inherit' }
     );
   });
 }
 
-function buildLibs() {
+function buildLibs(): void {
   execSync('yarn build:libs', { stdio: 'inherit' });
 }
 
-function buildSchematics() {
+function buildSchematics(
+  options: { publish: boolean } = { publish: false }
+): void {
   execSync('yarn build:schematics', { stdio: 'inherit' });
+  if (options.publish) {
+    publishLibs();
+  }
+}
+
+function buildSchematicsAndPublish(buildCmd: string): void {
+  buildSchematics();
+  execSync(buildCmd, {
+    stdio: 'inherit',
+  });
+  publishLibs();
+}
+
+function testAllSchematics(): void {
+  execSync('yarn --cwd projects/schematics run test', {
+    stdio: 'inherit',
+  });
+
+  [
+    'asm',
+    'organization',
+    'product',
+    'product-configurator',
+    'qualtrics',
+    'smartedit',
+    'storefinder',
+    'tracking',
+  ].forEach((lib) =>
+    execSync(`yarn --cwd feature-libs/${lib}/schematics run test:schematics`, {
+      stdio: 'inherit',
+    })
+  );
 }
 
 async function executeCommand(
-  command: 'publish' | 'build projects/schematics' | 'build all libs'
+  command:
+    | 'publish'
+    | 'build projects/schematics'
+    | 'build asm/schematics'
+    | 'build organization/schematics'
+    | 'build product/schematics'
+    | 'build product-configurator/schematics'
+    | 'build qualtrics/schematics'
+    | 'build smartedit/schematics'
+    | 'build storefinder/schematics'
+    | 'build tracking/schematics'
+    | 'build all libs'
+    | 'test all schematics'
 ): Promise<void> {
   switch (command) {
     case 'publish':
       publishLibs();
       break;
     case 'build projects/schematics':
-      buildSchematics();
+      buildSchematics({ publish: true });
+      break;
+    case 'build asm/schematics':
+      buildSchematicsAndPublish('yarn build:asm');
+      break;
+    case 'build organization/schematics':
+      buildSchematicsAndPublish('yarn build:organization');
+      break;
+    case 'build product/schematics':
+      buildSchematicsAndPublish('yarn build:product');
+      break;
+    case 'build product-configurator/schematics':
+      buildSchematicsAndPublish('yarn build:product-configurator');
+      break;
+    case 'build qualtrics/schematics':
+      buildSchematicsAndPublish('yarn build:qualtrics');
+      break;
+    case 'build smartedit/schematics':
+      buildSchematicsAndPublish('yarn build:smartedit');
+      break;
+    case 'build storefinder/schematics':
+      buildSchematicsAndPublish('yarn build:storefinder');
+      break;
+    case 'build tracking/schematics':
+      buildSchematicsAndPublish('yarn build:tracking');
       break;
     case 'build all libs':
       buildLibs();
+      break;
+    case 'test all schematics':
+      testAllSchematics();
       break;
     default:
       const cmd: never = command;
@@ -88,7 +166,7 @@ async function executeCommand(
 
 let verdaccioProcess: ChildProcess | undefined;
 
-async function program() {
+async function program(): Promise<void> {
   verdaccioProcess = startVerdaccio();
   try {
     // Give time for verdaccio to boot up
@@ -99,7 +177,16 @@ async function program() {
       const choices = <const>[
         'publish',
         'build projects/schematics',
+        'build asm/schematics',
+        'build organization/schematics',
+        'build product/schematics',
+        'build product-configurator/schematics',
+        'build qualtrics/schematics',
+        'build smartedit/schematics',
+        'build storefinder/schematics',
+        'build tracking/schematics',
         'build all libs',
+        'test all schematics',
         'exit',
       ];
       const response: { command: typeof choices[number] } = await prompt({
