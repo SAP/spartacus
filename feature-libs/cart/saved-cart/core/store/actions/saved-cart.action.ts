@@ -214,7 +214,7 @@ export class EditSavedCartSuccess extends StateUtils.EntitySuccessAction {
   constructor(
     public payload: {
       userId: string;
-      cartId: string | undefined;
+      cartId: string;
       saveCartName?: string;
       saveCartDescription?: string;
     }
