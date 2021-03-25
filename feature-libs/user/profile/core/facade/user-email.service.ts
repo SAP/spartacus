@@ -4,9 +4,9 @@ import {
   CommandStrategy,
   UserIdService,
 } from '@spartacus/core';
-import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 
 @Injectable()
@@ -21,7 +21,7 @@ export class UserEmailService implements UserEmailFacade {
     password: string;
     newUid: string;
   }>(
-    (payload: { password: string; newUid: string }) =>
+    (payload) =>
       this.userIdService
         .takeUserId(true)
         .pipe(

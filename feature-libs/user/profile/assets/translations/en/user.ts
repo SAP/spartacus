@@ -17,10 +17,6 @@ export const user = {
     pleaseInputPassword: 'Please input password',
     emailUpdateSuccess: 'Success. Please sign in with {{ newUid }}',
   },
-  resetPassword: {
-    reset: 'Reset Password',
-    noToken: 'You cannot reset your password (no token found)',
-  },
   register: {
     confirmPassword: {
       action: 'Confirm password',
@@ -32,6 +28,7 @@ export const user = {
     signIn: 'I already have an account. Sign In',
     register: 'Register',
     confirmNewPassword: 'Confirm New Password',
+    resetPassword: 'Reset Password',
     createAccount: 'Create an account',
     title: 'Title',
     firstName: {

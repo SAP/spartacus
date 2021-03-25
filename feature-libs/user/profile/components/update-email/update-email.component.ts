@@ -1,23 +1,57 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { UpdateEmailService } from './update-email.service';
+import { Component } from '@angular/core';
+import {
+  AuthService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
+} from '@spartacus/core';
+import { BehaviorSubject } from 'rxjs';
+import { UserEmailFacade } from '@spartacus/user/profile/root';
 
 @Component({
   selector: 'cx-update-email',
   templateUrl: './update-email.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpdateEmailComponent implements OnDestroy {
-  constructor(protected service: UpdateEmailService) {}
+export class UpdateEmailComponent {
+  constructor(
+    private routingService: RoutingService,
+    private globalMessageService: GlobalMessageService,
+    private userEmail: UserEmailFacade,
+    private authService: AuthService
+  ) {}
 
-  form: FormGroup = this.service.form;
-  isUpdating$ = this.service.isUpdating$;
+  private newUid: string;
+  isLoading$ = new BehaviorSubject(false);
 
-  onSubmit(): void {
-    this.service.save();
+  onCancel(): void {
+    this.routingService.go({ cxRoute: 'home' });
   }
 
-  ngOnDestroy() {
-    this.service.resetForm();
+  onSubmit({ newUid, password }: { newUid: string; password: string }): void {
+    this.newUid = newUid;
+    this.isLoading$.next(true);
+
+    this.userEmail.update(password, newUid).subscribe({
+      next: () => this.onSuccess(),
+      error: () => {},
+      complete: () => this.isLoading$.next(false),
+    });
+  }
+
+  async onSuccess(): Promise<void> {
+    this.globalMessageService.add(
+      {
+        key: 'updateEmailForm.emailUpdateSuccess',
+        params: { newUid: this.newUid },
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+    // TODO(#9638): Use logout route when it will support passing redirect url
+    await this.authService.coreLogout();
+    this.routingService.go({ cxRoute: 'login' }, undefined, {
+      state: {
+        newUid: this.newUid,
+      },
+    });
   }
 }

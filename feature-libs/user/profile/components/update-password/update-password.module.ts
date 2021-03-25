@@ -1,16 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
-  UrlModule,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { UpdatePasswordComponent } from './update-password.component';
+import { UpdatePasswordFormComponent } from './components/update-password-form/update-password-form.component';
+import { UpdatePasswordComponent } from './components/update-password/update-password.component';
 
 @NgModule({
   imports: [
@@ -20,8 +19,6 @@ import { UpdatePasswordComponent } from './update-password.component';
     SpinnerModule,
     I18nModule,
     FormErrorsModule,
-    UrlModule,
-    RouterModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -33,6 +30,8 @@ import { UpdatePasswordComponent } from './update-password.component';
       },
     }),
   ],
-  declarations: [UpdatePasswordComponent],
+  declarations: [UpdatePasswordComponent, UpdatePasswordFormComponent],
+  exports: [UpdatePasswordComponent, UpdatePasswordFormComponent],
+  entryComponents: [UpdatePasswordComponent],
 })
 export class UpdatePasswordModule {}

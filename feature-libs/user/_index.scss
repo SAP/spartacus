@@ -4,30 +4,12 @@
 @import './profile/styles/index';
 
 $skipComponentStyles: () !default;
-$selectors: cx-login, cx-register, cx-update-profile, cx-forgot-password,
-  cx-reset-password, cx-update-password, cx-update-email, cx-close-account,
-  cx-close-account-modal !default;
+$selectors: cx-login, cx-register !default;
 
 @each $selector in $selectors {
   #{$selector} {
     // skip selectors if they're added to the $skipComponentStyles list
     @if (index($skipComponentStyles, $selector) == null) {
-      @extend %#{$selector} !optional;
-    }
-  }
-}
-
-// The $page-template-exclude-list can be used to prevent template CSS
-// being generated.
-$page-template-exclude-list: () !default;
-
-// whitelisted page template selectors are processed
-// unless (some) they are excluded using `$page-template-exclude-list`
-$page-template-include-list: LoginPageTemplate !default;
-
-@each $selector in $page-template-include-list {
-  cx-page-layout.#{$selector} {
-    @if (index($page-template-exclude-list, $selector) == null) {
       @extend %#{$selector} !optional;
     }
   }

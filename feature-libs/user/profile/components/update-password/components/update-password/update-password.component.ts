@@ -4,28 +4,25 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
-import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'cx-update-profile',
-  templateUrl: './update-profile.component.html',
+  selector: 'cx-update-password',
+  templateUrl: './update-password.component.html',
 })
-export class UpdateProfileComponent {
-  titles$: Observable<Title[]> = this.userProfile.getTitles();
-  user$: Observable<User | undefined> = this.userProfile.get();
+export class UpdatePasswordComponent {
   isLoading$ = new BehaviorSubject(false);
 
   constructor(
     private routingService: RoutingService,
-    private userProfile: UserProfileFacade,
+    private userPassword: UserPasswordFacade,
     private globalMessageService: GlobalMessageService
   ) {}
 
   onSuccess(): void {
     this.globalMessageService.add(
-      { key: 'updateProfileForm.profileUpdateSuccess' },
+      { key: 'updatePasswordForm.passwordUpdateSuccess' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     this.routingService.go({ cxRoute: 'home' });
@@ -35,10 +32,15 @@ export class UpdateProfileComponent {
     this.routingService.go({ cxRoute: 'home' });
   }
 
-  onSubmit({ userUpdates }: { userUpdates: User }): void {
+  onSubmit({
+    oldPassword,
+    newPassword,
+  }: {
+    oldPassword: string;
+    newPassword: string;
+  }): void {
     this.isLoading$.next(true);
-
-    this.userProfile.update(userUpdates).subscribe({
+    this.userPassword.update(oldPassword, newPassword).subscribe({
       next: () => this.onSuccess(),
       error: () => {},
       complete: () => this.isLoading$.next(false),
