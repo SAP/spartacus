@@ -26,5 +26,4 @@ export class UnitDetailsComponent {
   isInEditMode$ = this.itemService.isInEditMode$;
 
   constructor(protected itemService: ItemService<B2BUnit>) {}
-  iconTypes = ICON_TYPE;
 }
