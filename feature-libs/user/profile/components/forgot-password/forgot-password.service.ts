@@ -12,9 +12,7 @@ import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ForgotPasswordService {
   constructor(
     protected userPasswordService: UserPasswordFacade,
