@@ -174,7 +174,7 @@ context('ASM e2e Test', () => {
         addressBook.verifyNewAddress();
       });
 
-      it.skip('customer should see the payment details created by the agent', () => {
+      it('customer should see the payment details created by the agent', () => {
         cy.selectUserMenuOption({
           option: 'Payment Details',
           isMobile,
