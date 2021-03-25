@@ -3,7 +3,14 @@
     <ng-container *ngFor="let group of configuration.overview.groups">
       <div class="cx-group">
         <h2>
-          <span>{{ group.groupDescription }}</span>
+          <!-- TODO: update feature level to equals 3.1 without exclamation mark '!' -->
+          <ng-container *cxFeatureLevel="!3.1">
+            {{ group.groupDescription }}
+          </ng-container>
+          <!-- TODO: update feature level to current release version -->
+          <ng-container *cxFeatureLevel="3.1">
+            <span>{{ group.groupDescription }}</span>
+          </ng-container>
         </h2>
         <div
           *ngFor="let attributeOverview of group.attributes; let i = index"

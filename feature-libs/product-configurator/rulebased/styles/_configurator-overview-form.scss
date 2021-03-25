@@ -66,8 +66,8 @@
 
       border: solid 1px var(--cx-color-light);
 
-      span {
-        @include forVersion(3.1) {
+      @include forVersion(3.1) {
+        span {
           @include cx-configurator-truncate-content();
         }
       }
