@@ -7,4 +7,12 @@
   .cx-error-message.open {
     display: flex;
   }
+  .alert-danger {
+    background-color: #fad9d9;
+    border: var(--cx-border, none);
+  }
+  .alert-warning {
+    background-color: #fff1c8;
+    border: var(--cx-border, none);
+  }
 }

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { IconModule } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configuration-conflict-and-error-messages',
@@ -12,9 +13,8 @@ import { Configurator } from '../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorConflictAndErrorMessages {
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.configRouterExtractorService
+  iconTypes = IconModule;
+  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>
