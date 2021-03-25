@@ -30,7 +30,6 @@ export class I18nConfigInitializer implements ConfigInitializer {
           fallbackLang: config?.context?.language?.[0],
         },
       })),
-      take(1)
     );
   }
 }
