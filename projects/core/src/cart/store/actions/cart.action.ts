@@ -115,7 +115,7 @@ export class AddEmailToCartSuccess extends EntityProcessesDecrementAction {
 
 interface LoadCartPayload {
   userId: string;
-  cartId: string | undefined;
+  cartId: string;
   extraData?: {
     active?: boolean;
   };
