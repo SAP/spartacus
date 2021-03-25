@@ -7,7 +7,7 @@
     "node": ">=12 <16"
   },
   "scripts": {
-    "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng build storefrontapp --prod",
+    "build": "env-cmd --no-override -e dev,b2b,$SPA_ENV ng build storefrontapp --prod",
     "build:asm": "ng build asm --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
     "build:cdc": "ng build cdc --prod",

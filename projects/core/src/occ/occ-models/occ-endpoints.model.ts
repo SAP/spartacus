@@ -336,6 +336,10 @@ export interface OccEndpoints {
    */
   readCpqConfigurationForCartEntry?: string;
   /**
+   * Endpoint for reading a CPQ configuration attached to a given order entry
+   */
+  readCpqConfigurationForOrderEntry?: string;
+  /**
    * Endpoint for consignment tracking
    *
    * @member {string}
