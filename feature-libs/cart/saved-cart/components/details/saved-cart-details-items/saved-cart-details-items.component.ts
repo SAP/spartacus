@@ -5,11 +5,12 @@ import {
   OnInit,
 } from '@angular/core';
 import {
-  SavedCartEventsService,
+  DeleteSavedCartSuccessEvent,
   SavedCartService,
 } from '@spartacus/cart/saved-cart/core';
 import {
   Cart,
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
   PromotionLocation,
@@ -37,7 +38,7 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
     Cart | undefined
   > = this.savedCartDetailsService.getCartDetails().pipe(
     tap((cart) => {
-      if (cart?.entries?.length <= 0) {
+      if (cart.entries.length <= 0) {
         this.savedCartService.deleteSavedCart(cart.code);
       }
     })
@@ -46,15 +47,15 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,
     protected savedCartService: SavedCartService,
-    protected savedCartEventsService: SavedCartEventsService,
+    protected eventSercvice: EventService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService
   ) {}
 
   ngOnInit(): void {
     this.subscription.add(
-      this.savedCartEventsService
-        .getDeleteSavedCartSuccessEvent()
+      this.eventSercvice
+        .get(DeleteSavedCartSuccessEvent)
         .pipe(take(1), mapTo(true))
         .subscribe((success) => this.onDeleteComplete(success))
     );

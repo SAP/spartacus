@@ -3,7 +3,7 @@ import {
   SAVED_CART_LIST_PROCESS_ID,
   SAVED_CART_RESTORE_CART_PROCESS_ID,
   SAVED_CART_SAVE_CART_PROCESS_ID,
-} from '../saved-cart-state';
+} from '../saved-cart-constants';
 import { SavedCartActions } from './index';
 
 const mockUserId = 'test-user';
@@ -32,12 +32,13 @@ describe('SavedCart Actions', () => {
     describe('LoadSavedCartSuccess', () => {
       it('should create the action', () => {
         const action = new SavedCartActions.LoadSavedCartSuccess({
+          userId: mockUserId,
           cartId: mockCartId,
         });
 
         expect({ ...action }).toEqual({
           type: SavedCartActions.LOAD_SAVED_CART_SUCCESS,
-          payload: { cartId: mockCartId },
+          payload: { userId: mockUserId, cartId: mockCartId },
           meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, mockCartId),
         });
       });
@@ -45,13 +46,14 @@ describe('SavedCart Actions', () => {
     describe('LoadSavedCartFail', () => {
       it('should create the action', () => {
         const action = new SavedCartActions.LoadSavedCartFail({
+          userId: mockUserId,
           cartId: mockCartId,
           error,
         });
 
         expect({ ...action }).toEqual({
           type: SavedCartActions.LOAD_SAVED_CART_FAIL,
-          payload: { cartId: mockCartId, error },
+          payload: { userId: mockUserId, cartId: mockCartId, error },
           meta: StateUtils.entityFailMeta(MULTI_CART_DATA, mockCartId, error),
         });
       });
@@ -77,11 +79,13 @@ describe('SavedCart Actions', () => {
     });
     describe('LoadSavedCartsSuccess', () => {
       it('should create the action', () => {
-        const action = new SavedCartActions.LoadSavedCartsSuccess();
+        const action = new SavedCartActions.LoadSavedCartsSuccess({
+          userId: mockUserId,
+        });
 
         expect({ ...action }).toEqual({
           type: SavedCartActions.LOAD_SAVED_CARTS_SUCCESS,
-          payload: undefined,
+          payload: { userId: mockUserId },
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
             SAVED_CART_LIST_PROCESS_ID
@@ -92,16 +96,17 @@ describe('SavedCart Actions', () => {
     describe('LoadSavedCartsFail', () => {
       it('should create the action', () => {
         const action = new SavedCartActions.LoadSavedCartsFail({
+          userId: mockUserId,
           error,
         });
 
         expect({ ...action }).toEqual({
           type: SavedCartActions.LOAD_SAVED_CARTS_FAIL,
-          payload: { error },
+          payload: { userId: mockUserId, error },
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             SAVED_CART_LIST_PROCESS_ID,
-            { error }
+            error
           ),
         });
       });

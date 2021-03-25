@@ -3,7 +3,7 @@ import {
   SAVED_CART_LIST_PROCESS_ID,
   SAVED_CART_RESTORE_CART_PROCESS_ID,
   SAVED_CART_SAVE_CART_PROCESS_ID,
-} from '../saved-cart-state';
+} from '../saved-cart-constants';
 
 export const LOAD_SAVED_CART = '[Saved Cart] Load Saved Cart';
 export const LOAD_SAVED_CART_SUCCESS = '[Saved Cart] Load Saved Cart Success';
@@ -43,14 +43,19 @@ export class LoadSavedCart extends StateUtils.EntityLoadAction {
 
 export class LoadSavedCartSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_SAVED_CART_SUCCESS;
-  constructor(public payload: { cartId: string }) {
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+    }
+  ) {
     super(MULTI_CART_DATA, payload.cartId);
   }
 }
 
 export class LoadSavedCartFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_SAVED_CART_FAIL;
-  constructor(public payload: { cartId: string; error: any }) {
+  constructor(public payload: { userId: string; cartId: string; error: any }) {
     super(MULTI_CART_DATA, payload.cartId, payload?.error);
   }
 }
@@ -68,15 +73,24 @@ export class LoadSavedCarts extends StateUtils.EntityLoadAction {
 
 export class LoadSavedCartsSuccess extends StateUtils.EntitySuccessAction {
   readonly type = LOAD_SAVED_CARTS_SUCCESS;
-  constructor() {
+  constructor(
+    public payload: {
+      userId: string;
+    }
+  ) {
     super(PROCESS_FEATURE, SAVED_CART_LIST_PROCESS_ID);
   }
 }
 
 export class LoadSavedCartsFail extends StateUtils.EntityFailAction {
   readonly type = LOAD_SAVED_CARTS_FAIL;
-  constructor(public payload: any) {
-    super(PROCESS_FEATURE, SAVED_CART_LIST_PROCESS_ID, payload);
+  constructor(
+    public payload: {
+      userId: string;
+      error: any;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_LIST_PROCESS_ID, payload.error);
   }
 }
 

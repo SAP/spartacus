@@ -84,10 +84,6 @@ export interface SaveCartResult {
   savedCartData?: Cart;
 }
 
-export interface CartList {
-  carts?: Cart[];
-}
-
 export interface Cart {
   appliedOrderPromotions?: PromotionResult[];
   appliedProductPromotions?: PromotionResult[];
