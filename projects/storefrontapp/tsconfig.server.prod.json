@@ -104,9 +104,9 @@
       "@spartacus/incubator": ["../../dist/incubator"],
       "@spartacus/storefront": ["../../dist/storefrontlib"]
     },
-    "@spartacus/core/cart/bundle/core": ["../../dist/bundle/core"],
-    "@spartacus/core/cart/bundle": ["../../dist/bundle"],
-    "@spartacus/core/cart/bundle/occ": ["../../dist/bundle/occ"],
-    "@spartacus/core/cart/bundle/root": ["../../dist/bundle/root"]
+    "@spartacus/cart/bundle/core": ["../../dist/cart/bundle/core"],
+    "@spartacus/cart/bundle": ["../../dist/cart/bundle"],
+    "@spartacus/cart/bundle/occ": ["../../dist/cart/bundle/occ"],
+    "@spartacus/cart/bundle/root": ["../../dist/cart/bundle/root"]
   }
 }

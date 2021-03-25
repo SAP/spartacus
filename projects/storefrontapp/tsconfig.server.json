@@ -132,15 +132,15 @@
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/incubator": ["../../projects/incubator/public_api"],
       "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"],
-      "@spartacus/core/cart/bundle/core": [
-        "../../feature-libs/bundle/core/public_api"
+      "@spartacus/cart/bundle/core": [
+        "../../feature-libs/cart/bundle/core/public_api"
       ],
-      "@spartacus/core/cart/bundle": ["../../feature-libs/bundle/public_api"],
-      "@spartacus/core/cart/bundle/occ": [
-        "../../feature-libs/bundle/occ/public_api"
+      "@spartacus/cart/bundle": ["../../feature-libs/cart/bundle/public_api"],
+      "@spartacus/cart/bundle/occ": [
+        "../../feature-libs/cart/bundle/occ/public_api"
       ],
-      "@spartacus/core/cart/bundle/root": [
-        "../../feature-libs/bundle/root/public_api"
+      "@spartacus/cart/bundle/root": [
+        "../../feature-libs/cart/bundle/root/public_api"
       ]
     }
   },
