@@ -11,13 +11,21 @@ import {
   OrderEntry,
   PromotionLocation,
   SelectiveCartService,
+  UserIdService,
 } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../../checkout';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 import { CartItemListComponent } from './cart-item-list.component';
 
 class MockActiveCartService {
   updateEntry() {}
+}
+
+class MockUserIdService implements Partial<UserIdService> {
+  getUserId(): Observable<string> {
+    return of(mockUserId);
+  }
 }
 
 class MockMultiCartService implements Partial<MultiCartService> {
@@ -106,6 +114,7 @@ describe('CartItemListComponent', () => {
           { provide: ActiveCartService, useClass: MockActiveCartService },
           { provide: SelectiveCartService, useValue: mockSelectiveCartService },
           { provide: MultiCartService, useClass: MockMultiCartService },
+          { provide: UserIdService, useClass: MockUserIdService },
         ],
       }).compileComponents();
     })
@@ -267,7 +276,7 @@ describe('CartItemListComponent', () => {
 
   describe('when cart input is defined', () => {
     beforeEach(() => {
-      component.cart = { userId: mockUserId, cartId: mockCartId };
+      component.cartId = mockCartId;
       fixture.detectChanges();
     });
 

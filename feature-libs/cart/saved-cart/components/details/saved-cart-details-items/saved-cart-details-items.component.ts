@@ -13,8 +13,8 @@ import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
+  PromotionLocation,
   RoutingService,
-  UserIdService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { mapTo, switchMap, take, tap } from 'rxjs/operators';
@@ -28,7 +28,7 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
-  userId$ = this.userIdService.getUserId();
+  CartLocation = PromotionLocation;
 
   cartLoaded$: Observable<boolean> = this.savedCartDetailsService
     .getSavedCartId()
@@ -38,7 +38,7 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
     Cart | undefined
   > = this.savedCartDetailsService.getCartDetails().pipe(
     tap((cart) => {
-      if (cart?.entries?.length <= 0) {
+      if (cart.entries.length <= 0) {
         this.savedCartService.deleteSavedCart(cart.code);
       }
     })
@@ -48,7 +48,6 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
     protected savedCartDetailsService: SavedCartDetailsService,
     protected savedCartService: SavedCartService,
     protected eventSercvice: EventService,
-    protected userIdService: UserIdService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService
   ) {}
