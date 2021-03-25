@@ -55,7 +55,6 @@ export class UserProfileService implements UserProfileFacade {
     () => this.userProfileConnector.getTitles(),
     {
       reloadOn: [LanguageSetEvent],
-      transferState: 'userTitles',
     }
   );
 
