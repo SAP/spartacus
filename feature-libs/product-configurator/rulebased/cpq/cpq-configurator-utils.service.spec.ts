@@ -1,10 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { LanguageService } from '@spartacus/core';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
 import { Cpq } from './cpq.models';
-import { Configurator } from '../core/model/configurator.model';
-import { LanguageService } from '@spartacus/core';
 
 const CURRENCY = 'USD';
 

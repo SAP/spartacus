@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  Configurator,
+  CpqConfiguratorOccService,
+  RulebasedConfiguratorAdapter,
+} from '@spartacus/product-configurator/rulebased';
 import { Observable, of, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
-import { Configurator } from '../core/model/configurator.model';
-import { CpqConfiguratorOccService } from '../occ/cpq/cpq-configurator-occ.service';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
 @Injectable()

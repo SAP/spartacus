@@ -1,9 +1,12 @@
+import {
+  formatCurrency,
+  getCurrencySymbol,
+  getLocaleId,
+} from '@angular/common';
 import { Injectable, isDevMode } from '@angular/core';
-import { getLocaleId } from '@angular/common';
-import { Configurator } from '../core/model/configurator.model';
-import { Cpq } from './cpq.models';
-import { formatCurrency, getCurrencySymbol } from '@angular/common';
 import { LanguageService } from '@spartacus/core';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { Cpq } from './cpq.models';
 
 /**
  * Utilities for CPQ configuration

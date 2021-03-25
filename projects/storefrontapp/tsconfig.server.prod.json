@@ -49,8 +49,8 @@
       "@spartacus/product-configurator/rulebased": [
         "../../dist/product-configurator/rulebased"
       ],
-      "@spartacus/product-configurator/rulebased/root": [
-        "../../dist/product-configurator/rulebased/root"
+      "@spartacus/product-configurator/rulebased/cpq": [
+        "../../dist/product-configurator/rulebased/cpq"
       ],
       "@spartacus/product-configurator/textfield": [
         "../../dist/product-configurator/textfield"

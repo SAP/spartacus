@@ -1,6 +1,6 @@
 import { InjectionToken } from '@angular/core';
 import { Converter } from '@spartacus/core';
-import { Configurator } from '../core/model/configurator.model';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Cpq } from './cpq.models';
 
 export const CPQ_CONFIGURATOR_NORMALIZER = new InjectionToken<

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
-import { Configurator } from './../core/model/configurator.model';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Cpq } from './cpq.models';
 
 const VALUE_SEPARATOR = ',';

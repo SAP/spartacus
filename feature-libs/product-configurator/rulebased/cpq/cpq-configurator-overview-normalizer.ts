@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { take } from 'rxjs/operators';
-import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
 import { Cpq } from './cpq.models';
 

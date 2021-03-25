@@ -3,9 +3,11 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  Configurator,
+  CpqConfiguratorOccService,
+} from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
-import { Configurator } from '../core/model/configurator.model';
-import { CpqConfiguratorOccService } from '../occ/cpq/cpq-configurator-occ.service';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 
