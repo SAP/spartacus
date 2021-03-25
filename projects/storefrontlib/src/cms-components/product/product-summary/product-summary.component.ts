@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  ActiveCartService,
   Product,
   SelectiveCartService,
 } from '@spartacus/core';
-import { BundleStarter } from '@spartacus/core/cart/bundle/core';
+import { BundleStarter, CartBundleService } from '@spartacus/cart/bundle/core';
 import { Observable } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductDetailOutlets } from '../product-outlets.model';
@@ -22,11 +21,11 @@ export class ProductSummaryComponent {
   constructor(
     protected currentProductService: CurrentProductService,
     protected selectiveCartService: SelectiveCartService,
-    protected activeCartService: ActiveCartService
-  ) {}
+    protected cartBundleService: CartBundleService
+  ) { }
 
   startBundle(product: Product, template: any) {
-    this.activeCartService.startBundle(<BundleStarter>{
+    this.cartBundleService.startBundle(<BundleStarter>{
       productCode: product.code,
       quantity: 1,
       templateId: template.id,

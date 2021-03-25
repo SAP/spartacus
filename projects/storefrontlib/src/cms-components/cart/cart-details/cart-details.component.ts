@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { CartBundleService } from '@spartacus/cart/bundle/core';
 import {
   ActiveCartService,
   AuthService,
@@ -10,7 +11,6 @@ import {
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
-import { BundleService } from 'projects/core/src/cart/bundle/core/facade';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
@@ -37,7 +37,7 @@ export class CartDetailsComponent implements OnInit {
     protected selectiveCartService: SelectiveCartService,
     protected authService: AuthService,
     protected routingService: RoutingService,
-    protected bundleService: BundleService
+    protected cartBundleService: CartBundleService
   ) { }
 
   ngOnInit() {
@@ -85,7 +85,7 @@ export class CartDetailsComponent implements OnInit {
   }
 
   getBundleAllowedProducts(entryGroupNumber: number) {
-    this.activeCartService.getBundleAllowedProducts(entryGroupNumber);
+    this.cartBundleService.getBundleAllowedProducts(entryGroupNumber);
   }
 
   removeBundle(entryGroupNumber: number) {
@@ -97,6 +97,6 @@ export class CartDetailsComponent implements OnInit {
   }
 
   getAvailableProducts(entryGroupNumber: number) {
-    return this.activeCartService.getAvailableEntries(entryGroupNumber)
+    return this.cartBundleService.getAvailableEntries(entryGroupNumber)
   }
 }
