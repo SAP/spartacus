@@ -112,7 +112,7 @@ export class ConfiguratorGroupMenuComponent {
         this.hamburgerMenuService.toggle(true);
 
         this.configUtils.scrollToConfigurationElement(
-          '.VariantConfigurationTemplate'
+          '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
         );
       } else {
         this.configuratorGroupsService.setMenuParentGroup(
