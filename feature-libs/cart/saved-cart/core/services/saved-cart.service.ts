@@ -47,7 +47,6 @@ export class SavedCartService {
   /**
    * Loads a single saved cart
    */
-
   loadSavedCart(cartId: string): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => {
