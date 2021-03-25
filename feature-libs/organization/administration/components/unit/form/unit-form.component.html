@@ -1,4 +1,4 @@
-<cx-org-form [i18nRoot]="i18nRoot" [cxFocus]="{ autofocus: 'input' }">
+<cx-org-form [i18nRoot]="i18nRoot">
   <ng-container *ngIf="form$ | async as form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{

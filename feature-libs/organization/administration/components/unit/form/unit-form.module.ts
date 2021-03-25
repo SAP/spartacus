@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { FormErrorsModule, KeyboardFocusModule } from '@spartacus/storefront';
+import { FormErrorsModule } from '@spartacus/storefront';
 import { FormModule } from '../../shared/form/form.module';
 import { ItemActiveModule } from '../../shared/item-active.module';
 import { UnitFormComponent } from './unit-form.component';
@@ -20,7 +20,6 @@ import { UnitFormComponent } from './unit-form.component';
     ReactiveFormsModule,
     FormErrorsModule,
     ItemActiveModule,
-    KeyboardFocusModule,
   ],
   declarations: [UnitFormComponent],
   exports: [UnitFormComponent],
