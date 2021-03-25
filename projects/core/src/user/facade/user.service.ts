@@ -32,8 +32,8 @@ export class UserService {
   constructor(
     store: Store<StateWithUser | StateWithProcess<void>>,
     userIdService: UserIdService,
-    // tslint:disable-next-line:unified-signatures
     userAccountFacade?: UserAccountFacadeTransitionalToken,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     userProfileFacade?: UserProfileFacadeTransitionalToken
   );
   /**

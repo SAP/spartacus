@@ -25,7 +25,7 @@ export type QueryNotifier = Observable<any> | Type<CxEvent>;
 
 export interface QueryState<T> {
   loading: boolean;
-  error: boolean | Error;
+  error: false | Error;
   data: T | undefined;
 }
 
