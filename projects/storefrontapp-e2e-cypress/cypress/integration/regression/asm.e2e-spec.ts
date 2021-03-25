@@ -62,7 +62,7 @@ context('ASM e2e Test', () => {
       });
     });
 
-    describe('Customer Emulation - Checkout', () => {
+    describe.skip('Customer Emulation - Checkout', () => {
       it('agent should checkout on behalf of customer.', () => {
         checkout.goToCheapProductDetailsPage();
         checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
@@ -74,7 +74,7 @@ context('ASM e2e Test', () => {
       });
     });
 
-    describe('Customer Emulation - My Account', () => {
+    describe.skip('Customer Emulation - My Account', () => {
       it('agent should update personal details.', () => {
         cy.selectUserMenuOption({
           option: 'Personal Details',
@@ -150,7 +150,7 @@ context('ASM e2e Test', () => {
       });
     });
 
-    describe('Customer Self Verification', () => {
+    describe.skip('Customer Self Verification', () => {
       it('customer should sign in.', () => {
         cy.visit('/login');
         loginCustomerInStorefront();
@@ -174,7 +174,7 @@ context('ASM e2e Test', () => {
         addressBook.verifyNewAddress();
       });
 
-      it('customer should see the payment details created by the agent', () => {
+      it.skip('customer should see the payment details created by the agent', () => {
         cy.selectUserMenuOption({
           option: 'Payment Details',
           isMobile,
