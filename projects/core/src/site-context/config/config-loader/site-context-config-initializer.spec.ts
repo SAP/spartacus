@@ -64,8 +64,10 @@ describe(`SiteContextConfigInitializer`, () => {
             toJsRegExp: jasmine.createSpy().and.callFake((x) => new RegExp(x)),
           },
         },
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
         { provide: SiteContextConfig, useClass: MockSiteContextConfig },
+
+        // TODO(#11515): remove it in 4.0
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 

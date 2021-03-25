@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
+import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { I18nConfig } from './i18n-config';
 import { I18nConfigInitializer } from './i18n-config-initializer';
 
@@ -8,6 +9,12 @@ class MockConfigInitializerService
   implements Partial<ConfigInitializerService> {
   getStable() {
     return of({ context: { language: ['testLang'] } });
+  }
+}
+
+class MockFeatureConfigService implements Partial<FeatureConfigService> {
+  isLevel() {
+    return true;
   }
 }
 
@@ -23,6 +30,9 @@ describe(`I18nConfigInitializer`, () => {
           useClass: MockConfigInitializerService,
         },
         { provide: I18nConfig, useValue: {} },
+
+        // TODO(#11515): remove it in 4.0
+        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
