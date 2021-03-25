@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ConfigInitializer } from '../../config/config-initializer/config-initializer';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { I18nConfig } from './i18n-config';
@@ -29,7 +29,7 @@ export class I18nConfigInitializer implements ConfigInitializer {
           // the first language in the array is the default one
           fallbackLang: config?.context?.language?.[0],
         },
-      })),
+      }))
     );
   }
 }
