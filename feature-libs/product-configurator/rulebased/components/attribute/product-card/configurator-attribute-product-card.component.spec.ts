@@ -181,6 +181,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       productBoundValue: value,
       singleDropdown: false,
       withQuantity: true,
+      attributeId: 123,
     };
 
     spyOn(component, 'onHandleDeselect').and.callThrough();
@@ -192,6 +193,15 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('create a focus config with key', () => {
+    expect(component.focusConfig.key).toContain(
+      component.productCardOptions.attributeId.toString()
+    );
+    const valueCode =
+      component.productCardOptions.productBoundValue?.valueCode ?? 'noCode';
+    expect(component.focusConfig.key).toContain(valueCode);
   });
 
   it('should indicate loading state when fetching product data', () => {
