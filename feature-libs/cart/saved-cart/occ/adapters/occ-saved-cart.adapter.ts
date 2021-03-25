@@ -44,8 +44,8 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
   saveCart(
     userId: string,
     cartId: string,
-    saveCartName?: string,
-    saveCartDescription?: string
+    saveCartName: string,
+    saveCartDescription: string
   ): Observable<Cart> {
     return this.http
       .patch<Occ.Cart>(
