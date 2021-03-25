@@ -93,7 +93,6 @@ export class SavedCartService {
    * @param cartId
    * @returns observable of selected cart with loader state
    */
-
   getSavedCart(
     cartId: string
   ): Observable<StateUtils.ProcessesLoaderState<Cart>> {
