@@ -43,7 +43,7 @@ export class QueryService implements OnDestroy {
   constructor(protected eventService: EventService) {}
 
   create<T>(
-    loadFunc: () => Observable<T>,
+    loaderFactory: () => Observable<T>,
     options?: {
       reloadOn?: QueryNotifier[];
       resetOn?: QueryNotifier[];
@@ -68,7 +68,7 @@ export class QueryService implements OnDestroy {
 
     const load$ = loadTrigger$.pipe(
       tap(() => state$.next({ ...state$.value, loading: true })),
-      switchMapTo(loadFunc().pipe(takeUntil(resetTrigger$))),
+      switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
       tap((data) => {
         state$.next({ loading: false, error: false, data });
       }),
@@ -116,9 +116,7 @@ export class QueryService implements OnDestroy {
       if (isObservable(trigger)) {
         return trigger;
       }
-      if (trigger.prototype instanceof CxEvent) {
-        return this.eventService.get(trigger);
-      }
+      return this.eventService.get(trigger);
     });
     return merge(...observables);
   }

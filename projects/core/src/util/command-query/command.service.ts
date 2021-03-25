@@ -31,7 +31,7 @@ export class CommandService implements OnDestroy {
   constructor() {}
 
   create<P = undefined, R = unknown>(
-    commandFunc: (command: P) => Observable<any>,
+    commandFactory: (command: P) => Observable<any>,
     options?: { strategy?: CommandStrategy }
   ): Command<P, R> {
     const commands$ = new Subject<P>();
@@ -44,7 +44,7 @@ export class CommandService implements OnDestroy {
       case CommandStrategy.ErrorPrevious:
         process$ = zip(commands$, results$).pipe(
           switchMap(([cmd, notifier$]) =>
-            commandFunc(cmd).pipe(
+            commandFactory(cmd).pipe(
               tap(notifier$),
               finalize(() =>
                 options.strategy === CommandStrategy.CancelPrevious
@@ -59,7 +59,7 @@ export class CommandService implements OnDestroy {
 
       case CommandStrategy.Parallel:
         process$ = zip(commands$, results$).pipe(
-          mergeMap(([cmd, notifier$]) => commandFunc(cmd).pipe(tap(notifier$))),
+          mergeMap(([cmd, notifier$]) => commandFactory(cmd).pipe(tap(notifier$))),
           retry()
         );
         break;
@@ -68,7 +68,7 @@ export class CommandService implements OnDestroy {
       default:
         process$ = zip(commands$, results$).pipe(
           concatMap(([cmd, notifier$]) =>
-            commandFunc(cmd).pipe(tap(notifier$))
+            commandFactory(cmd).pipe(tap(notifier$))
           ),
           retry()
         );
