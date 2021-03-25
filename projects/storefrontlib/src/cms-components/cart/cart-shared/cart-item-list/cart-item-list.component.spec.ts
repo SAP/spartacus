@@ -274,7 +274,7 @@ describe('CartItemListComponent', () => {
     expect(itemCount).toEqual(0);
   });
 
-  describe('when cart input is defined', () => {
+  describe('when cartId input is defined', () => {
     beforeEach(() => {
       component.cartId = mockCartId;
       fixture.detectChanges();
