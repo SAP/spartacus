@@ -26,7 +26,9 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
   @ViewChild('element') element: ElementRef;
-  savedCart$: Observable<Cart> = this.savedCartDetailsService.getCartDetails();
+  savedCart$: Observable<
+    Cart | undefined
+  > = this.savedCartDetailsService.getCartDetails();
 
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,

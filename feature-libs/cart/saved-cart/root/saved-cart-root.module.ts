@@ -11,6 +11,7 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
   imports: [
     RouterModule.forChild([
       {
+        // @ts-ignore
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
