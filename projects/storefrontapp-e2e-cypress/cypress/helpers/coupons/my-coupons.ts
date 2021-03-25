@@ -2,7 +2,7 @@ import { standardUser } from '../../sample-data/shared-users';
 import { waitForPage } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
 
-export const testUser = 'test-user-with-coupons@ydev.hybris.com';
+export const testUser = 'test-user-with-coupons@sap.cx.com';
 export const testPassword = 'Password123.';
 export const claimCouponUrl = '/my-account/coupon/claim/';
 export const myCouponsUrl = '/my-account/coupons';
