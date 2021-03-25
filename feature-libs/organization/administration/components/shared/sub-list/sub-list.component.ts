@@ -23,6 +23,8 @@ export class SubListComponent extends ListComponent {
 
   @Input() key = this.service.key();
 
+  @Input() showHint? = false;
+
   @Input() set routerKey(key: string) {
     this.subKey$ = this.organizationItemService.getRouterParam(key);
   }

@@ -49,16 +49,7 @@ export class OrganizationPageMetaResolver
    */
   protected readonly ORGANIZATION_SEMANTIC_ROUTE = 'organization';
 
-  /**
-   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
-   */
   // TODO(#10467): Remove deprecated constructors
-  constructor(
-    contentPageMetaResolver: ContentPageMetaResolver,
-    translation: TranslationService,
-    semanticPath: SemanticPathService,
-    routingService: RoutingService
-  );
   constructor(
     contentPageMetaResolver: ContentPageMetaResolver,
     translation: TranslationService,
@@ -66,6 +57,15 @@ export class OrganizationPageMetaResolver
     routingService: RoutingService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     basePageMetaResolver?: BasePageMetaResolver
+  );
+  /**
+   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
+   */
+  constructor(
+    contentPageMetaResolver: ContentPageMetaResolver,
+    translation: TranslationService,
+    semanticPath: SemanticPathService,
+    routingService: RoutingService
   );
   constructor(
     protected contentPageMetaResolver: ContentPageMetaResolver,
