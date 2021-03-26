@@ -13,9 +13,20 @@ import { CartItemContext } from './cart-item-context.model';
 @Injectable()
 export class CartItemContextSource implements CartItemContext {
   readonly compact$ = new ReplaySubject<boolean>(1);
+
   readonly readonly$ = new ReplaySubject<boolean>(1);
+
   readonly item$ = new ReplaySubject<OrderEntry>(1);
+
   readonly quantityControl$ = new ReplaySubject<FormControl>(1);
+
+  /**
+   * @deprecated since 3.2 - use `location$` instead
+   */
+  // TODO: drop it in 4.0
   readonly promotionLocation$ = new ReplaySubject<PromotionLocation>(1);
+
+  readonly location$ = new ReplaySubject<PromotionLocation>(1);
+
   readonly options$ = new ReplaySubject<CartItemComponentOptions>(1);
 }
