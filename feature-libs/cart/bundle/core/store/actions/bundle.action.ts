@@ -1,7 +1,16 @@
-import { Breadcrumb, Facet, MULTI_CART_DATA, OrderEntry, Product, SearchConfig, SearchState, SpellingSuggestion, StateUtils } from '@spartacus/core';
+import {
+  Breadcrumb,
+  Facet,
+  OrderEntry,
+  Product,
+  SearchConfig,
+  SearchState,
+  SpellingSuggestion,
+  StateUtils,
+} from '@spartacus/core';
 import { Pagination, Sort } from 'projects/core/src/model/unused.model';
 import { BundleStarter } from '../../model/bundle.model';
-
+import { BUNDLE_DATA } from '../bundle-state';
 
 export const START_BUNDLE = '[Bundle] Start Bundle';
 export const START_BUNDLE_SUCCESS = '[Bundle] Start Bundle Success';
@@ -22,7 +31,7 @@ export class StartBundle extends StateUtils.LoaderLoadAction {
       bundleStarter: BundleStarter;
     }
   ) {
-    super(MULTI_CART_DATA,);
+    super(BUNDLE_DATA);
   }
 }
 
@@ -40,7 +49,7 @@ export class StartBundleSuccess extends StateUtils.LoaderSuccessAction {
       statusMessage: string;
     }
   ) {
-    super(MULTI_CART_DATA,);
+    super(BUNDLE_DATA);
   }
 }
 
@@ -54,7 +63,7 @@ export class StartBundleFail extends StateUtils.LoaderFailAction {
       error: any;
     }
   ) {
-    super(MULTI_CART_DATA, payload.cartId);
+    super(BUNDLE_DATA, payload);
   }
 }
 
@@ -68,7 +77,7 @@ export class GetBundleAllowedProducts extends StateUtils.LoaderLoadAction {
       searchConfig: SearchConfig | undefined;
     }
   ) {
-    super(MULTI_CART_DATA);
+    super(BUNDLE_DATA);
   }
 }
 
@@ -93,7 +102,7 @@ export class GetBundleAllowedProductsSuccess extends StateUtils.LoaderSuccessAct
       statusMessage: string;
     }
   ) {
-    super(MULTI_CART_DATA,);
+    super(BUNDLE_DATA);
   }
 }
 
@@ -104,11 +113,11 @@ export class GetBundleAllowedProductsFail extends StateUtils.LoaderFailAction {
       cartId: string;
       userId: string;
       entryGroupNumber: number;
-      searchConfig: SearchConfig;
+      searchConfig?: SearchConfig;
       error: any;
     }
   ) {
-    super(MULTI_CART_DATA, payload.cartId);
+    super(BUNDLE_DATA, payload);
   }
 }
 

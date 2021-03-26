@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CartModification, CART_MODIFICATION_NORMALIZER, ConverterService, OccEndpointsService, SearchConfig } from '@spartacus/core';
+import { CART_MODIFICATION_NORMALIZER, ConverterService, OccEndpointsService, SearchConfig } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { BundleAdapter } from '../../core/connectors/bundle.adapter';
 import { BundleStarter } from '../../core/model/bundle.model';
@@ -29,7 +29,7 @@ export class OccBundleAdapter implements BundleAdapter {
     userId: string,
     cartId: string,
     bundleStarter: BundleStarter
-  ): Observable<CartModification> {
+  ): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -40,7 +40,7 @@ export class OccBundleAdapter implements BundleAdapter {
     });
 
     return this.http
-      .post<CartModification>(url, <HttpParams>bundleStarter, { headers })
+      .post<any>(url, <HttpParams>bundleStarter, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
@@ -64,7 +64,7 @@ export class OccBundleAdapter implements BundleAdapter {
     cartId: string,
     entryGroupId: number,
     searchConfig?: SearchConfig
-  ): Observable<CartModification> {
+  ): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -76,7 +76,7 @@ export class OccBundleAdapter implements BundleAdapter {
     });
 
     return this.http
-      .get<CartModification>(url, {
+      .get<any>(url, {
         headers,
         params: <HttpParams>searchConfig,
       })

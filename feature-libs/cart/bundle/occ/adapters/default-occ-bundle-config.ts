@@ -1,12 +1,12 @@
-import { OccConfig } from "@spartacus/core";
+import { OccConfig } from '@spartacus/core';
 
 export const defaultOccBundleConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        bundleStart: 'users/${userId}/carts/${cartId}/bundles?fields=DEFAULT',
+        bundleStart: 'users/${userId}/carts/${cartId}/bundles?fields=BASIC',
         bundleAllowedProductsSearch:
-          'users/${userId}/carts/${cartId}/entrygroups/${entryGroupId}/allowedProductsSearch',
+          'users/${userId}/carts/${cartId}/entrygroups/${entryGroupId}/allowedProductsSearch?fields=products',
       },
     },
     loadingScopes: {

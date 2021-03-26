@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { BundleConnector } from '../../connectors/bundle.connector';
 import { from, Observable } from 'rxjs';
-import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { BundleActions } from '../actions';
-import { CartActions, CartModification, SiteContextActions, withdrawOn } from '@spartacus/core';
+import { CartActions, SiteContextActions, withdrawOn } from '@spartacus/core';
 
 @Injectable()
 export class BundleEffects {
@@ -23,15 +23,14 @@ export class BundleEffects {
   > = this.actions$.pipe(
     ofType(BundleActions.START_BUNDLE),
     map((action: BundleActions.StartBundle) => action.payload),
-    concatMap((payload) => {
-      return this.bundleConnector
+    mergeMap((payload) =>
+      this.bundleConnector
         .bundleStart(payload.userId, payload.cartId, payload.bundleStarter)
         .pipe(
           map(
-            (cartModification: CartModification) =>
+            (data) =>
               new BundleActions.StartBundleSuccess({
-                ...payload,
-                ...(cartModification as Required<CartModification>),
+                ...data,
               })
           ),
           catchError((error) =>
@@ -46,8 +45,8 @@ export class BundleEffects {
               }),
             ])
           )
-        );
-    }),
+        )
+    ),
     withdrawOn(this.contextChange$)
   );
 
@@ -97,5 +96,5 @@ export class BundleEffects {
   constructor(
     private actions$: Actions,
     private bundleConnector: BundleConnector
-  ) { }
+  ) {}
 }
