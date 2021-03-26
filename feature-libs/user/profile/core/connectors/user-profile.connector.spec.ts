@@ -27,7 +27,10 @@ describe('UserConnector', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: UserProfileAdapter, useClass: MockUserAdapter }],
+      providers: [
+        UserProfileConnector,
+        { provide: UserProfileAdapter, useClass: MockUserAdapter },
+      ],
     });
 
     service = TestBed.inject(UserProfileConnector);
