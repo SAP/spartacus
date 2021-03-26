@@ -35,8 +35,6 @@ export class UpdateProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.service.resetForm();
-
     this.subscription?.unsubscribe();
   }
 }

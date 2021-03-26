@@ -5,12 +5,16 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
+  GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
+  RoutingService,
   UrlModule,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { UpdateProfileComponent } from './update-profile.component';
+import { UpdateProfileService } from './update-profile.service';
 
 @NgModule({
   imports: [
@@ -29,6 +33,13 @@ import { UpdateProfileComponent } from './update-profile.component';
         UpdateProfileComponent: {
           component: UpdateProfileComponent,
           guards: [AuthGuard],
+          providers: [
+            {
+              provide: UpdateProfileService,
+              useClass: UpdateProfileService,
+              deps: [UserProfileFacade, RoutingService, GlobalMessageService],
+            },
+          ],
         },
       },
     }),

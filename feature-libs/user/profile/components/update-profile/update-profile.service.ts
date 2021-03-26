@@ -1,21 +1,14 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class UpdateProfileService {
   constructor(
     protected userProfile: UserProfileFacade,
-    protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService
   ) {}
 
@@ -62,7 +55,7 @@ export class UpdateProfileService {
     );
   }
 
-  resetForm(): void {
+  protected resetForm(): void {
     this.busy.next(false);
     this.form.reset();
   }
