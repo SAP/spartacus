@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CdcConfig } from '@spartacus/cdc/root';
+import { CdcConfig } from '../../config/cdc-config';
 import {
   AuthService,
   BaseSiteService,

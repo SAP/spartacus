@@ -4,7 +4,7 @@ import {
   Injectable,
   NgZone,
   OnDestroy,
-  PLATFORM_ID,
+  PLATFORM_ID
 } from '@angular/core';
 import {
   AuthService,
@@ -13,11 +13,11 @@ import {
   ScriptLoader,
   User,
   UserService,
-  WindowRef,
+  WindowRef
 } from '@spartacus/core';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CdcConfig } from '@spartacus/cdc/root';
+import { CdcConfig } from '../../config/cdc-config';
 import { CdcAuthService } from './cdc-auth.service';
 
 @Injectable({
