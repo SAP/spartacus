@@ -13,9 +13,7 @@ import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ResetPasswordService {
   constructor(
     protected userPasswordService: UserPasswordFacade,
@@ -87,11 +85,6 @@ export class ResetPasswordService {
         }
       });
     }
-  }
-
-  resetForm() {
-    this.busy.next(false);
-    this.form.reset();
   }
 
   /**

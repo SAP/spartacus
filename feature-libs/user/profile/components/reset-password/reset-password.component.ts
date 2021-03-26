@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ResetPasswordService } from './reset-password.service';
@@ -8,7 +8,7 @@ import { ResetPasswordService } from './reset-password.service';
   templateUrl: './reset-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ResetPasswordComponent implements OnDestroy {
+export class ResetPasswordComponent {
   form: FormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;
 
@@ -18,9 +18,5 @@ export class ResetPasswordComponent implements OnDestroy {
 
   onSubmit(token: string) {
     this.service.reset(token);
-  }
-
-  ngOnDestroy() {
-    this.service.resetForm();
   }
 }
