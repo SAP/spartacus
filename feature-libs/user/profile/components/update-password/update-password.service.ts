@@ -10,14 +10,12 @@ import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class UpdatePasswordService {
   constructor(
+    protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected userPasswordService: UserPasswordFacade
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   protected busy = new BehaviorSubject(false);
@@ -68,10 +66,5 @@ export class UpdatePasswordService {
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
     this.routingService.go({ cxRoute: 'home' });
-  }
-
-  resetForm(): void {
-    this.busy.next(false);
-    this.form.reset();
   }
 }

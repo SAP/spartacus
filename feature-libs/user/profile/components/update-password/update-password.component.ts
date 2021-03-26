@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { UpdatePasswordService } from './update-password.service';
 
@@ -7,7 +7,7 @@ import { UpdatePasswordService } from './update-password.service';
   templateUrl: './update-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UpdatePasswordComponent implements OnDestroy {
+export class UpdatePasswordComponent {
   constructor(protected service: UpdatePasswordService) {}
 
   form: FormGroup = this.service.form;
@@ -15,11 +15,5 @@ export class UpdatePasswordComponent implements OnDestroy {
 
   onSubmit(): void {
     this.service.update();
-  }
-
-  ngOnDestroy() {
-    // Form has to be reset in order to have a clean form
-    // next time component is called
-    this.service.resetForm();
   }
 }

@@ -5,12 +5,16 @@ import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
+  GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
+  RoutingService,
   UrlModule,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { UpdatePasswordComponent } from './update-password.component';
+import { UpdatePasswordService } from './update-password.service';
 
 @NgModule({
   imports: [
@@ -29,6 +33,13 @@ import { UpdatePasswordComponent } from './update-password.component';
         UpdatePasswordComponent: {
           component: UpdatePasswordComponent,
           guards: [AuthGuard],
+          providers: [
+            {
+              provide: UpdatePasswordService,
+              useClass: UpdatePasswordService,
+              deps: [UserPasswordFacade, RoutingService, GlobalMessageService],
+            },
+          ],
         },
       },
     }),
