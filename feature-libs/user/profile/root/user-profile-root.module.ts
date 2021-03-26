@@ -8,7 +8,8 @@ import {
   USER_PROFILE_CORE_FEATURE,
   USER_PROFILE_FEATURE,
 } from './feature-name';
-import { UserProfileFacade, UserRegisterFacade } from './facade';
+import { UserProfileFacade } from './facade/user-profile.facade';
+import { UserRegisterFacade } from './facade/user-register.facade';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultUserProfileComponentsConfig() {
