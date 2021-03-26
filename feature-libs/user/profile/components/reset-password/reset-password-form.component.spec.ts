@@ -5,13 +5,14 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   GlobalMessageService,
+  GlobalMessageType,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
-import { of } from 'rxjs';
-import { ResetPasswordFormComponent } from './reset-password-form.component';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { of, throwError } from 'rxjs';
+import { ResetPasswordFormComponent } from './reset-password-form.component';
 import createSpy = jasmine.createSpy;
 
 class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
@@ -40,6 +41,7 @@ describe('ResetPasswordFormComponent', () => {
 
   let userPasswordFacade: UserPasswordFacade;
   let routingService: RoutingService;
+  let globalMessageService: GlobalMessageService;
 
   let form: DebugElement;
   let password: AbstractControl;
@@ -79,6 +81,7 @@ describe('ResetPasswordFormComponent', () => {
 
     userPasswordFacade = TestBed.inject(UserPasswordFacade);
     routingService = TestBed.inject(RoutingService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should be created', () => {
@@ -122,5 +125,34 @@ describe('ResetPasswordFormComponent', () => {
     rePassword.setValue(validPassword);
     component.resetPassword();
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+  });
+
+  it('should show error message when password reset fails', () => {
+    (<jasmine.Spy>userPasswordFacade.reset).and.returnValue(
+      throwError({
+        details: [{ message: 'Could not reset' }],
+      })
+    );
+
+    component.ngOnInit();
+    password.setValue(validPassword);
+    rePassword.setValue(validPassword);
+    component.resetPassword();
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { raw: 'Could not reset' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should not show error message when password reset fails without error details', () => {
+    (<jasmine.Spy>userPasswordFacade.reset).and.returnValue(
+      throwError(new Error('Unknown error'))
+    );
+
+    component.ngOnInit();
+    password.setValue(validPassword);
+    rePassword.setValue(validPassword);
+    component.resetPassword();
+    expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 });
