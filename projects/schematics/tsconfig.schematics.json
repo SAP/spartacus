@@ -25,7 +25,6 @@
   "exclude": [
     "src/*/files/**/*",
     "src/**/*_spec.ts",
-    "src/migrations/test/**/*",
-    "src/migrations/test/migrations-test.json"
+    "src/migrations/test/**/*"
   ]
 }
