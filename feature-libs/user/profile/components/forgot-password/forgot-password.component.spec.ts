@@ -109,11 +109,4 @@ describe('ForgotPasswordComponent', () => {
       expect(service.requestEmail).toHaveBeenCalled();
     });
   });
-
-  describe('destroy component', () => {
-    it('should reset the form', () => {
-      component.ngOnDestroy();
-      expect(service.resetForm).toHaveBeenCalled();
-    });
-  });
 });

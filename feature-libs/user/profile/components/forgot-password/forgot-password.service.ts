@@ -82,7 +82,7 @@ export class ForgotPasswordService {
   /**
    * Resets the form, _not_ the password.
    */
-  resetForm(): void {
+  protected resetForm(): void {
     this.busy.next(false);
     this.form.reset();
   }
