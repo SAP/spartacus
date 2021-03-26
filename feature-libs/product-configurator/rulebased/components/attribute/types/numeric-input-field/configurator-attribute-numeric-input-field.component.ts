@@ -38,9 +38,20 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
   sub: any;
 
+  /**
+   * In case no config is injected, or when the debounce time is not configured at all,
+   * this value will be used as fallback.
+   */
+  private readonly FALLBACK_DEBOUNCE_TIME = 500;
+
+  /**
+   * @param {ConfiguratorAttributeNumericInputFieldService} configAttributeNumericInputFieldService Serive for numeric formatting and validation.
+   * @param {ConfiguratorUISettings} config Optional configuration for debounce time,
+   * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
+   */
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    protected config: ConfiguratorUISettings
+    protected config?: ConfiguratorUISettings
   ) {
     super();
   }
@@ -82,7 +93,10 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     this.sub = this.attributeInputForm.valueChanges
       .pipe(
         debounce(() =>
-          timer(this.config.rulebasedConfigurator.inputDebounceTime)
+          timer(
+            this.config?.rulebasedConfigurator.inputDebounceTime ??
+              this.FALLBACK_DEBOUNCE_TIME
+          )
         )
       )
       .subscribe(() => this.onChange());
