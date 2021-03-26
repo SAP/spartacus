@@ -70,42 +70,45 @@ describe('ResetPasswordService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('reset form', () => {
-    spyOn(service.form, 'reset').and.callThrough();
-    service.resetForm();
-    expect(service.form.reset).toHaveBeenCalled();
-  });
-
   describe('reset', () => {
-    beforeEach(() => {
-      password.setValue('Qwe123!');
-      passwordConfirm.setValue('Qwe123!');
-    });
+    describe('success', () => {
+      beforeEach(() => {
+        password.setValue('Qwe123!');
+        passwordConfirm.setValue('Qwe123!');
+      });
 
-    it('should not reset invalid form', () => {
-      passwordConfirm.setValue('Diff123!');
-      service.reset(resetToken);
-      expect(userService.reset).not.toHaveBeenCalled();
-      expect(globalMessageService.add).not.toHaveBeenCalled();
-      expect(routingService.go).not.toHaveBeenCalled();
-    });
+      it('should reset password', () => {
+        service.reset(resetToken);
+        expect(userService.reset).toHaveBeenCalledWith(resetToken, 'Qwe123!');
+      });
 
-    it('should reset password', () => {
-      service.reset(resetToken);
-      expect(userService.reset).toHaveBeenCalledWith(resetToken, 'Qwe123!');
-    });
+      it('should show message', () => {
+        service.reset(resetToken);
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'forgottenPassword.passwordResetSuccess' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
 
-    it('should show message', () => {
-      service.reset(resetToken);
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        { key: 'forgottenPassword.passwordResetSuccess' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    });
+      it('should reroute to the login page', () => {
+        service.reset(resetToken);
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+      });
 
-    it('should reroute to the login page', () => {
-      service.reset(resetToken);
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
+      it('should reset form', () => {
+        spyOn(service.form, 'reset').and.callThrough();
+        service.reset(resetToken);
+        expect(service.form.reset).toHaveBeenCalled();
+      });
+    });
+    describe('error', () => {
+      it('should not reset invalid form', () => {
+        passwordConfirm.setValue('Diff123!');
+        service.reset(resetToken);
+        expect(userService.reset).not.toHaveBeenCalled();
+        expect(globalMessageService.add).not.toHaveBeenCalled();
+        expect(routingService.go).not.toHaveBeenCalled();
+      });
     });
   });
 });

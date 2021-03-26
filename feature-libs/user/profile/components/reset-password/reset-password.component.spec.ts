@@ -113,11 +113,4 @@ describe('ResetPasswordComponent', () => {
       expect(service.reset).toHaveBeenCalledWith('123');
     });
   });
-
-  describe('destroy component', () => {
-    it('should reset the form', () => {
-      component.ngOnDestroy();
-      expect(service.resetForm).toHaveBeenCalled();
-    });
-  });
 });
