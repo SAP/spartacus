@@ -14,9 +14,7 @@ import { CdcAuthActions } from '../actions/index';
 @Injectable()
 export class CdcUserTokenEffects {
   @Effect()
-  loadCdcUserToken$: Observable<
-    CdcAuthActions.CdcUserTokenAction
-  > = this.actions$.pipe(
+  loadCdcUserToken$: Observable<CdcAuthActions.CdcUserTokenAction> = this.actions$.pipe(
     ofType(CdcAuthActions.LOAD_CDC_USER_TOKEN),
     map((action: CdcAuthActions.LoadCdcUserToken) => action.payload),
     mergeMap((payload) =>

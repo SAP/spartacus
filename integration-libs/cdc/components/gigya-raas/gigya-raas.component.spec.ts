@@ -8,9 +8,8 @@ import {
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CdcJsService } from '../../auth/facade/cdc-js.service';
-import { CdcConfig } from '../../config';
-import { GigyaRaasComponentData } from '../cms.model';
+import { CdcConfig, CdcJsService } from '@spartacus/cdc';
+import { GigyaRaasComponentData } from '../../core/models/cms.model';
 import { GigyaRaasComponent } from './gigya-raas.component';
 
 declare var window: Window;

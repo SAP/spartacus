@@ -9,7 +9,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   OCC_USER_ID_CURRENT,
-  UserIdService
+  UserIdService,
 } from '@spartacus/core';
 import { combineLatest, of } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';

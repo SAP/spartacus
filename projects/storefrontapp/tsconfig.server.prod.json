@@ -113,6 +113,7 @@
       "@spartacus/tracking/tms/gtm": ["../../dist/tracking/tms/gtm"],
       "@spartacus/tracking/tms": ["../../dist/tracking/tms"],
       "@spartacus/cdc/components": ["../../dist/cdc/components"],
+      "@spartacus/cdc/core": ["../../dist/cdc/core"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/assets": ["../../dist/assets"],

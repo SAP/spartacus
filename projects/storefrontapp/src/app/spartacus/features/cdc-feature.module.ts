@@ -24,7 +24,9 @@ import { provideConfig } from '@spartacus/core';
       featureModules: {
         cdc: {
           module: () =>
-            import('@spartacus/cdc/components').then((m) => m.CdcComponentsModule),
+            import('@spartacus/cdc/components').then(
+              (m) => m.CdcComponentsModule
+            ),
         },
       },
     }),

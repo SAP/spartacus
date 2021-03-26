@@ -10,9 +10,7 @@ import { BaseSiteService, LanguageService, WindowRef } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
-// import { CdcJsService } from '../../auth/facade/cdc-js.service';
-// import { CdcConfig } from '../../config';
-import { GigyaRaasComponentData } from '../cms.model';
+import { GigyaRaasComponentData } from '../../core/models/cms.model';
 
 @Component({
   selector: 'cx-gigya-raas',
