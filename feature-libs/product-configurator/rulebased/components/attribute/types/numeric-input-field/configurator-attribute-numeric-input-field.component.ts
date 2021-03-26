@@ -49,6 +49,19 @@ export class ConfiguratorAttributeNumericInputFieldComponent
    * @param {ConfiguratorUISettings} config Optional configuration for debounce time,
    * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
    */
+  // TODO(#11681): make config a required dependency
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(
+    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
+    config?: ConfiguratorUISettings
+  );
+  /**
+   * @deprecated  since 3.3
+   */
+  constructor(
+    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService
+  );
+
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
     protected config?: ConfiguratorUISettings
