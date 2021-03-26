@@ -4,6 +4,15 @@
     "paths": {
       "@spartacus/setup": ["dist/setup"],
       "@spartacus/setup/ssr": ["dist/setup/ssr"],
+      "@spartacus/cart": ["dist/cart"],
+      "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
+      "@spartacus/cart/saved-cart/components": [
+        "dist/cart/saved-cart/components"
+      ],
+      "@spartacus/cart/saved-cart/core": ["dist/cart/saved-cart/core"],
+      "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
+      "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
+      "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
       "@spartacus/asm/assets": ["dist/asm/assets"],
       "@spartacus/asm/components": ["dist/asm/components"],
       "@spartacus/asm/core": ["dist/asm/core"],

@@ -49,6 +49,7 @@
       "@spartacus/qualtrics",
       "@spartacus/cdc",
       "@spartacus/tracking",
+      "@spartacus/cart",
       "@spartacus/setup"
     ]
   },
