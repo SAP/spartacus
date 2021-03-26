@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CdcConfig, CdcJsService } from '@spartacus/cdc';
+import { CdcJsService } from '@spartacus/cdc';
 import { GigyaRaasComponentData } from '@spartacus/cdc/core';
+import { CdcConfig } from '@spartacus/cdc/root';
 import {
   BaseSiteService,
   CmsComponent,

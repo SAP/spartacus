@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { CdcConfig } from '@spartacus/cdc/root';
 import {
   AuthService,
   BaseSiteService,
@@ -10,7 +11,6 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CdcConfig } from '../../config';
 import { CdcAuthService } from './cdc-auth.service';
 import { CdcJsService } from './cdc-js.service';
 

@@ -1,10 +1,10 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { CdcConfig } from '@spartacus/cdc/root';
 import { ConfigInitializerService, provideConfig } from '@spartacus/core';
 import { LogoutGuard } from '@spartacus/storefront';
 import { CdcAuthModule } from './auth/cdc-auth.module';
 import { CdcJsService } from './auth/facade/cdc-js.service';
 import { CdcLogoutGuard } from './auth/guards/cdc-logout.guard';
-import { CdcConfig } from './config/cdc-config';
 
 export function cdcJsFactory(
   cdcJsService: CdcJsService,
