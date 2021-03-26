@@ -1,9 +1,8 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomFormValidators } from '../../../../shared/utils/validators/custom-form-validators';
-
 /**
- * @deprecated since 3.2, use @spartacus/user package instead.
+ * @deprecated since 3.2, replaced with the `UpdateEmailComponent` in the  @spartacus/user package.
  */
 @Component({
   selector: 'cx-update-email-form',
