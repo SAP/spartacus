@@ -43,9 +43,9 @@ export class LanguagesEffects {
   @Effect()
   persist$: Observable<void> = this.actions$.pipe(
     ofType(SiteContextActions.SET_ACTIVE_LANGUAGE),
-    tap((action: SiteContextActions.SetActiveLanguage) => {
+    tap((_action: SiteContextActions.SetActiveLanguage) => {
       if (this.winRef.sessionStorage) {
-        this.winRef.sessionStorage.setItem('language', action.payload);
+        // this.winRef.sessionStorage.setItem('language', action.payload);
       }
     }),
     switchMapTo(NEVER)

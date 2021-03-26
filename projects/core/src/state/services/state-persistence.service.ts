@@ -1,19 +1,34 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { map, tap, withLatestFrom } from 'rxjs/operators';
 import { StorageSyncType } from '../../state/config/state-config';
 import {
   getStorage,
   persistToStorage,
   readFromStorage,
+  removeFromStorage,
 } from '../../state/reducers/storage-sync.reducer';
+import { ConsentService } from '../../user/facade/consent.service';
 import { WindowRef } from '../../window/window-ref';
+import { StaticPersistenceService } from './static-persistence.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class StatePersistenceService {
-  constructor(protected winRef: WindowRef) {}
+export class StatePersistenceService extends StaticPersistenceService {
+  /**
+   * @deprecated since 3.3, Use constructor with WindowRef and ConsentService
+   */
+  // TODO (): Handle deprecation
+  constructor(winRef: WindowRef);
+  // tslint:disable-next-line: unified-signatures
+  constructor(winRef: WindowRef, consentService?: ConsentService);
+  constructor(
+    protected winRef: WindowRef,
+    protected consentService?: ConsentService
+  ) {
+    super(winRef);
+  }
 
   /**
    * Helper to synchronize state to more persistent storage (localStorage, sessionStorage).
@@ -32,6 +47,8 @@ export class StatePersistenceService {
    * @param context$ Context for state
    * @param storageType Storage type to be used to persist state
    * @param onRead Function to be executed on each storage read after context change
+   * @param ignoreConsent Should the consent be ignore (default false)
+   * @param consentTemplate The template id of the consent blocking the persistence, `ignoreConsent` should be false to use this
    *
    * @returns Subscriptions for reading/writing in storage on context/state change
    */
@@ -41,12 +58,16 @@ export class StatePersistenceService {
     context$ = of(''),
     storageType = StorageSyncType.LOCAL_STORAGE,
     onRead = () => {},
+    ignoreConsent = false,
+    consentTemplate = 'STORE_USER_INFORMATION',
   }: {
     key: string;
     state$: Observable<T>;
     context$?: Observable<string | Array<string>>;
     storageType?: StorageSyncType;
     onRead?: (stateFromStorage: T) => void;
+    ignoreConsent?: boolean;
+    consentTemplate?: string;
   }): Subscription {
     const storage = getStorage(storageType, this.winRef);
 
@@ -68,16 +89,56 @@ export class StatePersistenceService {
     );
 
     subscriptions.add(
-      state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
-        persistToStorage(
-          this.generateKeyWithContext(context, key),
-          state,
-          storage
-        );
-      })
+      combineLatest([
+        this.canPersistToStorage(consentTemplate, ignoreConsent),
+        state$,
+      ])
+        .pipe(withLatestFrom(context$))
+        .subscribe(
+          ([[consentGiven, state], context]: [
+            [boolean, T],
+            string | string[]
+          ]) => {
+            if (consentGiven) {
+              persistToStorage(
+                this.generateKeyWithContext(context, key),
+                state,
+                storage
+              );
+            } else {
+              removeFromStorage(
+                this.generateKeyWithContext(context, key),
+                storage
+              );
+            }
+          }
+        )
     );
 
     return subscriptions;
+  }
+
+  /**
+   * Returns true if the specified consent is given and if it should be taken into account
+   *
+   * @param consentTemplate - id of the consent template
+   * @param ignoreConsent - should the consent be taken into account
+   */
+  protected canPersistToStorage(
+    consentTemplate: string,
+    ignoreConsent: boolean
+  ): Observable<boolean> {
+    // TODO (): Remove null check for consentService
+    return iif(
+      () =>
+        Boolean(consentTemplate) ||
+        ignoreConsent ||
+        !Boolean(this.consentService),
+      (this.consentService as ConsentService).checkConsentGivenByTemplateId(
+        consentTemplate
+      ),
+      of(true)
+    );
   }
 
   /**
@@ -90,27 +151,28 @@ export class StatePersistenceService {
    *
    * @returns State from the storage
    */
-  readStateFromStorage<T>({
-    key,
-    context = '',
-    storageType = StorageSyncType.LOCAL_STORAGE,
-  }: {
-    key: string;
-    context?: string | Array<string>;
-    storageType?: StorageSyncType;
-  }): T {
-    const storage = getStorage(storageType, this.winRef);
+  // readStateFromStorage<T>({
+  //   key,
+  //   context = '',
+  //   storageType = StorageSyncType.LOCAL_STORAGE,
+  // }: {
+  //   key: string;
+  //   context?: string | Array<string>;
+  //   storageType?: StorageSyncType;
+  // }): T {
+  //   const storage = getStorage(storageType, this.winRef);
 
-    return readFromStorage(
-      storage,
-      this.generateKeyWithContext(context, key)
-    ) as T;
-  }
+  //   return readFromStorage(
+  //     storage,
+  //     this.generateKeyWithContext(context, key)
+  //   ) as T;
+  // }
 
-  protected generateKeyWithContext(
-    context: string | Array<string>,
-    key: string
-  ): string {
-    return `spartacus⚿${[].concat(context).join('⚿')}⚿${key}`;
-  }
+  // TODO (): Remove and use global function instead
+  // protected generateKeyWithContext(
+  //   context: string | Array<string>,
+  //   key: string
+  // ): string {
+  //   return generateKeyWithContext(context, key);
+  // }
 }

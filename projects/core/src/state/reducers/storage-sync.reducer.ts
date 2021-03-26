@@ -153,3 +153,9 @@ export function readFromStorage(storage: Storage, key: string): any {
 export function isSsr(storage: Storage): boolean {
   return !Boolean(storage);
 }
+
+export function removeFromStorage(key: string, storage: Storage): void {
+  if (Boolean(storage)) {
+    storage.removeItem(key);
+  }
+}

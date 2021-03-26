@@ -1,7 +1,7 @@
 import { InjectionToken, Optional, PLATFORM_ID, Provider } from '@angular/core';
 import { TransferState } from '@angular/platform-browser';
 import { META_REDUCERS } from '@ngrx/store';
-import { AuthStatePersistenceService } from '../../auth/user-auth/services/auth-state-persistence.service';
+import { BaseAuthStatePersistenceService } from '../../auth/user-auth/services/base-auth-state-persistence.service';
 import { Config } from '../../config/config-tokens';
 import { WindowRef } from '../../window/window-ref';
 import { getStorageSyncReducer } from './storage-sync.reducer';
@@ -26,7 +26,7 @@ export const stateMetaReducers: Provider[] = [
       PLATFORM_ID,
       [new Optional(), TransferState],
       [new Optional(), Config],
-      [new Optional(), AuthStatePersistenceService],
+      [new Optional(), BaseAuthStatePersistenceService],
     ],
   },
   {

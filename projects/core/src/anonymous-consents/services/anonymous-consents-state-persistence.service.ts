@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { StatePersistenceService } from '../../state/index';
+import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { AnonymousConsentsService } from '../facade/index';
 import { LoadAnonymousConsentTemplatesSuccess } from '../store/actions/anonymous-consents-group';
 import {
@@ -44,6 +44,7 @@ export class AnonymousConsentsStatePersistenceService implements OnDestroy {
         key: this.key,
         state$: this.getAuthState(),
         onRead: (state) => this.onRead(state),
+        ignoreConsent: true,
       })
     );
   }

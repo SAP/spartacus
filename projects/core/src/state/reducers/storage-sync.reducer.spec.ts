@@ -5,6 +5,7 @@ import {
   DEFAULT_SESSION_STORAGE_KEY,
 } from '../config/default-state-config';
 import { StateConfig, StorageSyncType } from '../config/state-config';
+import { filterKeysByType } from '../utils/get-state-slice';
 import {
   exists,
   getStorage,
@@ -13,8 +14,8 @@ import {
   persistToStorage,
   readFromStorage,
   rehydrate,
+  removeFromStorage,
 } from './storage-sync.reducer';
-import { filterKeysByType } from '../utils/get-state-slice';
 
 const sessionStorageMock = {
   getItem(_key: string): string | null {
@@ -385,6 +386,19 @@ describe('storage-sync-reducer', () => {
     });
     it('should return false if the provided storage exists', () => {
       expect(isSsr(localStorageMock)).toEqual(false);
+    });
+  });
+
+  describe('removeFromStorage', () => {
+    it('should not call removeItem if the provided storage does NOT exist', () => {
+      spyOn(sessionStorageMock, 'removeItem').and.stub();
+      removeFromStorage('key', undefined as any);
+      expect(sessionStorageMock.removeItem).not.toHaveBeenCalled();
+    });
+    it('should call removeItem for the provided storage', () => {
+      spyOn(sessionStorageMock, 'removeItem').and.stub();
+      removeFromStorage('key', sessionStorageMock);
+      expect(sessionStorageMock.removeItem).toHaveBeenCalledWith('key');
     });
   });
 });
