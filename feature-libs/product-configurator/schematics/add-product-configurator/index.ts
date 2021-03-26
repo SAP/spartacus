@@ -7,7 +7,6 @@ import {
 import {
   addLibraryFeature,
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
   SPARTACUS_PRODUCT_CONFIGURATOR,
@@ -41,7 +40,6 @@ export function addProductConfiguratorFeatures(
     return chain([
       addProductConfiguratorRulebasedFeature(options),
       addProductConfiguratorTextfieldFeature(options),
-      installPackageJsonDependencies(),
     ]);
   };
 }

@@ -6,7 +6,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
   SPARTACUS_STOREFINDER,
@@ -31,10 +30,7 @@ export function addStorefinderFeatures(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addStorefinderFeature(options),
-      installPackageJsonDependencies(),
-    ]);
+    return chain([addStorefinderFeature(options)]);
   };
 }
 

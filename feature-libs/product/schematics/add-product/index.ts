@@ -6,7 +6,6 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
   shouldAddFeature,
@@ -29,7 +28,6 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
       shouldAddFeature(options.features, CLI_VARIANTS_FEATURE)
         ? addVariantsFeature(options)
         : noop(),
-      installPackageJsonDependencies(),
     ]);
   };
 }

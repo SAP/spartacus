@@ -7,7 +7,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
   shouldAddFeature,
@@ -48,8 +47,6 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
       shouldAddFeature(options.features, CLI_PERSONALIZATION_FEATURE)
         ? addPersonalizationFeature(options)
         : noop(),
-
-      installPackageJsonDependencies(),
     ]);
   };
 }

@@ -6,7 +6,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusSmartEditOptions,
   readPackageJson,
   SPARTACUS_SMARTEDIT,
@@ -26,10 +25,7 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addSmartEditFeature(options),
-      installPackageJsonDependencies(),
-    ]);
+    return chain([addSmartEditFeature(options)]);
   };
 }
 

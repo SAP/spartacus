@@ -6,7 +6,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusQualtricsOptions,
   QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
   readPackageJson,
@@ -26,10 +25,7 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addQualtricsFeature(options),
-      installPackageJsonDependencies(),
-    ]);
+    return chain([addQualtricsFeature(options)]);
   };
 }
 
