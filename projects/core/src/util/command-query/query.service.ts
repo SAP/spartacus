@@ -2,9 +2,11 @@ import { Injectable, OnDestroy, Type } from '@angular/core';
 import {
   BehaviorSubject,
   EMPTY,
+  iif,
   isObservable,
   merge,
   Observable,
+  of,
   Subscription,
   using,
 } from 'rxjs';
@@ -55,6 +57,10 @@ export class QueryService implements OnDestroy {
       loading: false,
     });
 
+    // if query will be unsubscribed when data is loaded, we will end up with loading flag set to true
+    // we want to retry this load on next subscription
+    const retryInterruptedLoad$ = iif(() => state$.value.loading, of(undefined));
+
     const loadTrigger$ = this.getTriggersStream([
       state$.pipe(
         filter(
@@ -62,6 +68,7 @@ export class QueryService implements OnDestroy {
         )
       ),
       ...(options?.reloadOn ?? []),
+      retryInterruptedLoad$,
     ]);
 
     const resetTrigger$ = this.getTriggersStream(options?.resetOn ?? []);
