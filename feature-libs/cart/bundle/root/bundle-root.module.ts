@@ -9,7 +9,7 @@ import { defaultBundleLayoutConfig } from './config/default-bundle-layout-config
     provideDefaultConfig({
       featureModules: {
         bundle: {
-          // cmsComponents: ['StoreFinderComponent'],
+          cmsComponents: [],
         },
       },
     }),

@@ -2,13 +2,13 @@ import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { BundleStarter } from '../model/bundle.model';
 import { BundleAdapter } from './bundle.adapter';
-import { CartModification, SearchConfig } from '@spartacus/core';
+import { SearchConfig } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BundleConnector {
-  constructor(protected adapter: BundleAdapter) { }
+  constructor(protected adapter: BundleAdapter) {}
 
   /**
    * Starts a bundle once the productCode, its quantity, and a bundle templateId is provided. A successful result returns a CartModification response.
@@ -26,7 +26,7 @@ export class BundleConnector {
     userId: string,
     cartId: string,
     bundleStarter: BundleStarter
-  ): Observable<CartModification> {
+  ): Observable<any> {
     return this.adapter.bundleStart(userId, cartId, bundleStarter);
   }
 
@@ -50,7 +50,7 @@ export class BundleConnector {
     cartId: string,
     entryGroupNumber: number,
     searchConfig?: SearchConfig
-  ): Observable<CartModification> {
+  ): Observable<any> {
     return this.adapter.bundleAllowedProductsSearch(
       userId,
       cartId,
