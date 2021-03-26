@@ -10,13 +10,33 @@ export class ImportExportService {
   private maxSize = 1;
   private allowedExtensions = ['text/csv'];
 
-  importFile(selectedFile: FileList): Promise<any> {
+  importFile(
+    selectedFile: FileList,
+    checkValidityEnabled?: Boolean,
+    validityConfig?: {
+      maxSize?: Number;
+      allowedExtensions?: string[];
+      checkEmptyFile?: Boolean;
+    }
+  ): Promise<any> {
     const file: File = selectedFile.item(0) as File;
-    const checkValidity = this.checkValidity(file);
     return new Promise((resolve, reject) => {
-      if (checkValidity.isFileValid) {
-        const reader: FileReader = new FileReader();
-        reader.readAsText(file);
+      const reader: FileReader = new FileReader();
+      reader.readAsText(file);
+      if (checkValidityEnabled) {
+        const checkValidity = this.checkValidity(file, validityConfig);
+        if (checkValidity.isFileValid) {
+          reader.onload = () => {
+            resolve(reader.result as string);
+          };
+          reader.onerror = () => {
+            reader.abort();
+            reject(new DOMException('Could not parse the file'));
+          };
+        } else {
+          reject(checkValidity.invalidFileInfo);
+        }
+      } else {
         reader.onload = () => {
           resolve(reader.result as string);
         };
@@ -24,30 +44,42 @@ export class ImportExportService {
           reader.abort();
           reject(new DOMException('Could not parse the file'));
         };
-      } else {
-        reject(checkValidity.invalidFileInfo);
       }
     });
   }
 
   private checkValidity(
-    file: File
+    file: File,
+    validityConfig?: {
+      maxSize?: Number;
+      allowedExtensions?: string[];
+      checkEmptyFile?: Boolean;
+    }
   ): { isFileValid: Boolean; invalidFileInfo: {} } {
     let isFileValid: Boolean = true;
-    let invalidFileInfo = {
-      fileTooLarge: false,
-      invalidExtension: false,
-      fileEmpty: false,
-    };
-    if (file.size / 1000000 > this.maxSize) {
+    let invalidFileInfo: {
+      fileTooLarge?: Boolean;
+      invalidExtension?: Boolean;
+      fileEmpty?: Boolean;
+    } = {};
+    if (!validityConfig) {
+      validityConfig = {
+        maxSize: this.maxSize,
+        allowedExtensions: this.allowedExtensions,
+      };
+    }
+    if (
+      validityConfig?.maxSize &&
+      file.size / 1000000 > validityConfig?.maxSize
+    ) {
       isFileValid = false;
       invalidFileInfo.fileTooLarge = true;
     }
-    if (!this.allowedExtensions.includes(file.type)) {
+    if (!validityConfig?.allowedExtensions?.includes(file.type)) {
       isFileValid = false;
       invalidFileInfo.invalidExtension = true;
     }
-    if (file.size === 0) {
+    if (validityConfig?.checkEmptyFile && file.size === 0) {
       isFileValid = false;
       invalidFileInfo.fileEmpty = true;
     }
