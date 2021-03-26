@@ -111,3 +111,12 @@ export const getWishListId: MemoizedSelector<
   getMultiCartState,
   (state: MultiCartState) => state.wishList
 );
+
+export const getCartsSelectorFactory: MemoizedSelector<
+  StateWithMultiCart,
+  Cart[]
+> = createSelector(
+  getMultiCartEntities,
+  (state: EntityProcessesLoaderState<Cart>) =>
+    Object.keys(state.entities).map((key) => entityValueSelector(state, key))
+);
