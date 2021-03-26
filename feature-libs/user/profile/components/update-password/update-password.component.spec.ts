@@ -122,11 +122,4 @@ describe('UpdatePasswordComponent', () => {
       expect(service.update).toHaveBeenCalled();
     });
   });
-
-  describe('destroy component', () => {
-    it('should reset the form', () => {
-      component.ngOnDestroy();
-      expect(service.resetForm).toHaveBeenCalled();
-    });
-  });
 });

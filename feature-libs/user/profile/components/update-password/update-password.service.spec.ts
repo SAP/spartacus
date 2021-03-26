@@ -68,47 +68,50 @@ describe('UpdatePasswordService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('reset()', () => {
-    spyOn(service.form, 'reset').and.callThrough();
-    service.resetForm();
-
-    expect(service.form.reset).toHaveBeenCalled();
-  });
-
   describe('save', () => {
-    beforeEach(() => {
-      oldPassword.setValue('Old123!');
-      newPassword.setValue('New123!');
-      newPasswordConfirm.setValue('New123!');
+    describe('success', () => {
+      beforeEach(() => {
+        oldPassword.setValue('Old123!');
+        newPassword.setValue('New123!');
+        newPasswordConfirm.setValue('New123!');
+      });
+
+      it('should update password', () => {
+        service.update();
+        expect(userService.update).toHaveBeenCalledWith('Old123!', 'New123!');
+      });
+
+      it('should show message', () => {
+        service.update();
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'updatePasswordForm.passwordUpdateSuccess',
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
+
+      it('should reroute to the login page', () => {
+        service.update();
+
+        expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+      });
+
+      it('reset()', () => {
+        spyOn(service.form, 'reset').and.callThrough();
+        service.update();
+        expect(service.form.reset).toHaveBeenCalled();
+      });
     });
 
-    it('should not save invalid email', () => {
-      newPassword.setValue('diff@sap.com');
-      service.update();
-      expect(userService.update).not.toHaveBeenCalled();
-      expect(globalMessageService.add).not.toHaveBeenCalled();
-      expect(routingService.go).not.toHaveBeenCalled();
-    });
-
-    it('should update password', () => {
-      service.update();
-      expect(userService.update).toHaveBeenCalledWith('Old123!', 'New123!');
-    });
-
-    it('should show message', () => {
-      service.update();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'updatePasswordForm.passwordUpdateSuccess',
-        },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    });
-
-    it('should reroute to the login page', () => {
-      service.update();
-
-      expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
+    describe('error', () => {
+      it('should not save invalid email', () => {
+        newPassword.setValue('diff@sap.com');
+        service.update();
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(globalMessageService.add).not.toHaveBeenCalled();
+        expect(routingService.go).not.toHaveBeenCalled();
+      });
     });
   });
 });
