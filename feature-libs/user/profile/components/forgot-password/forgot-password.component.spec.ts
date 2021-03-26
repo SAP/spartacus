@@ -1,32 +1,23 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  AuthConfigService,
-  GlobalMessageService,
-  I18nTestingModule,
-  OAuthFlow,
-  RoutingService,
-} from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import { I18nTestingModule } from '@spartacus/core';
+import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
 import { ForgotPasswordComponent } from './forgot-password.component';
-import { UserPasswordFacade } from '@spartacus/user/profile/root';
-import { of } from 'rxjs';
+import { ForgotPasswordService } from './forgot-password.service';
 import createSpy = jasmine.createSpy;
 
-class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
-  requestForgotPasswordEmail = createSpy().and.returnValue(of(undefined));
-}
-class MockRoutingService implements Partial<RoutingService> {
-  go = createSpy();
-}
-
-class MockAuthConfigService implements Partial<AuthConfigService> {
-  getOAuthFlow() {
-    return OAuthFlow.ResourceOwnerPasswordFlow;
-  }
+const isBusySubject = new BehaviorSubject(false);
+class MockForgotPasswordService implements Partial<ForgotPasswordService> {
+  form: FormGroup = new FormGroup({
+    userEmail: new FormControl(),
+  });
+  isUpdating$ = isBusySubject;
+  requestEmail = createSpy().and.stub();
+  resetForm = createSpy().and.stub();
 }
 @Pipe({
   name: 'cxUrl',
@@ -35,18 +26,11 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
-}
-
 describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
   let fixture: ComponentFixture<ForgotPasswordComponent>;
-  let form: DebugElement;
-  let userEmail: AbstractControl;
-  let authConfigService: AuthConfigService;
-  let routingService: RoutingService;
-  let userPasswordFacade: UserPasswordFacade;
+  let el: DebugElement;
+  let service: ForgotPasswordService;
 
   beforeEach(
     waitForAsync(() => {
@@ -56,15 +40,13 @@ describe('ForgotPasswordComponent', () => {
           RouterTestingModule,
           I18nTestingModule,
           FormErrorsModule,
+          SpinnerModule,
         ],
         declarations: [ForgotPasswordComponent, MockUrlPipe],
         providers: [
-          { provide: UserPasswordFacade, useClass: MockUserPasswordFacade },
-          { provide: RoutingService, useClass: MockRoutingService },
-          { provide: AuthConfigService, useClass: MockAuthConfigService },
           {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
+            provide: ForgotPasswordService,
+            useClass: MockForgotPasswordService,
           },
         ],
       }).compileComponents();
@@ -73,58 +55,65 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);
-    authConfigService = TestBed.inject(AuthConfigService);
-    routingService = TestBed.inject(RoutingService);
-    userPasswordFacade = TestBed.inject(UserPasswordFacade);
+    service = TestBed.inject(ForgotPasswordService);
     component = fixture.componentInstance;
-    form = fixture.debugElement.query(By.css('form'));
-
-    component.ngOnInit();
-    userEmail = component.forgotPasswordForm.controls['userEmail'];
+    el = fixture.debugElement;
+    fixture.detectChanges();
   });
 
   it('should create component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call requestForgotPasswordEmail() method on submit', () => {
-    const request = spyOn(component, 'requestForgotPasswordEmail');
-    userEmail.setValue('test@test.com');
-    fixture.detectChanges();
-
-    form.triggerEventHandler('submit', null);
-    expect(request).toHaveBeenCalled();
-  });
-
-  describe('requestForgetPasswordEmail', () => {
-    it('should request email for forgot password and redirect to login page', () => {
-      component.forgotPasswordForm.setValue({
-        userEmail: 'test@test.com',
-      });
-
-      component.requestForgotPasswordEmail();
-
-      expect(
-        userPasswordFacade.requestForgotPasswordEmail
-      ).toHaveBeenCalledWith('test@test.com');
-      expect(routingService.go).toHaveBeenCalled();
+  describe('busy', () => {
+    it('should disable the submit button when form is disabled', () => {
+      component.form.disable();
+      fixture.detectChanges();
+      const submitBtn: HTMLButtonElement = el.query(By.css('button'))
+        .nativeElement;
+      expect(submitBtn.disabled).toBeTruthy();
     });
 
-    it('should not redirect when flow different than ResourceOwnerPasswordFlow is used', () => {
-      spyOn(authConfigService, 'getOAuthFlow').and.returnValue(
-        OAuthFlow.ImplicitFlow
-      );
+    it('should show the spinner', () => {
+      isBusySubject.next(true);
+      fixture.detectChanges();
+      expect(el.query(By.css('cx-spinner'))).toBeTruthy();
+    });
+  });
 
-      component.forgotPasswordForm.setValue({
-        userEmail: 'test@test.com',
-      });
+  describe('idle', () => {
+    it('should enable the submit button', () => {
+      component.form.enable();
+      fixture.detectChanges();
+      const submitBtn = el.query(By.css('button'));
+      expect(submitBtn.nativeElement.disabled).toBeFalsy();
+    });
 
-      component.requestForgotPasswordEmail();
+    it('should not show the spinner', () => {
+      isBusySubject.next(false);
+      fixture.detectChanges();
+      expect(el.query(By.css('cx-spinner'))).toBeNull();
+    });
+  });
 
-      expect(
-        userPasswordFacade.requestForgotPasswordEmail
-      ).toHaveBeenCalledWith('test@test.com');
-      expect(routingService.go).not.toHaveBeenCalled();
+  describe('Form Interactions', () => {
+    it('should call onSubmit() method on submit', () => {
+      const request = spyOn(component, 'onSubmit');
+      const form = el.query(By.css('form'));
+      form.triggerEventHandler('submit', null);
+      expect(request).toHaveBeenCalled();
+    });
+
+    it('should call the service method on submit', () => {
+      component.onSubmit();
+      expect(service.requestEmail).toHaveBeenCalled();
+    });
+  });
+
+  describe('destroy component', () => {
+    it('should reset the form', () => {
+      component.ngOnDestroy();
+      expect(service.resetForm).toHaveBeenCalled();
     });
   });
 });
