@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { BundleModule } from '@spartacus/cart/bundle';
 import {
   AnonymousConsentsModule,
   AuthModule,
@@ -77,6 +78,7 @@ import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
+import { BundleFeatureModule } from './features/bundle-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
@@ -166,6 +168,7 @@ if (environment.cds) {
     // Cart Core
     CartModule.forRoot(),
     CartOccModule,
+
     // Cart UI
     CartComponentModule,
     WishListModule,
@@ -209,6 +212,8 @@ if (environment.cds) {
     SmartEditFeatureModule,
     TrackingFeatureModule,
     VariantsFeatureModule,
+    BundleModule,
+    // BundleFeatureModule,
     ...featureModules,
   ],
 })
