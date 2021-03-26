@@ -2,7 +2,6 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
 import { ADD_TO_CART_COMPONENT_MIGRATION } from './data/add-to-cart.component.migration';
-import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATIONS } from './data/added-to-cart-dialog.component.migration';
 import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
 import { ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATIONS } from './data/address-book.component.service.migration';
 import { AMEND_ORDER_ACTIONS_COMPONENT_MIGRATION } from './data/amend-order-actions.component.migration';
@@ -119,7 +118,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   OCC_CART_ENTRY_ADAPTER_MIGRATION,
   OCC_CART_ADAPTER_MIGRATION,
   OCC_USER_ORDER_ADAPTER_MIGRATION,
-  ...ADDED_TO_CART_DIALOG_COMPONENT_MIGRATIONS,
   ...CART_DETAILS_COMPONENT_MIGRATIONS,
   ...REVIEW_SUBMIT_COMPONENT_MIGRATIONS,
   ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
