@@ -27,12 +27,12 @@ import { SemanticPathService } from '../../routing/configurable-routes/url-trans
 export class CouponSearchPageResolver
   extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  protected total$: Observable<
-    number
-  > = this.productSearchService.getResults().pipe(
-    filter((data) => !!data?.pagination),
-    map((results) => results.pagination.totalResults)
-  );
+  protected total$: Observable<number> = this.productSearchService
+    .getResults()
+    .pipe(
+      filter((data) => !!data?.pagination),
+      map((results) => results.pagination.totalResults)
+    );
 
   constructor(
     protected productSearchService: ProductSearchService,

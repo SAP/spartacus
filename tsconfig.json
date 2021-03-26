@@ -21,7 +21,12 @@
     "paths": {
       "@spartacus/setup": ["core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["core-libs/setup/ssr/public_api"],
-
+      "@spartacus/asm/assets": ["feature-libs/asm/assets/public_api"],
+      "@spartacus/asm/components": ["feature-libs/asm/components/public_api"],
+      "@spartacus/asm/core": ["feature-libs/asm/core/public_api"],
+      "@spartacus/asm": ["feature-libs/asm/public_api"],
+      "@spartacus/asm/occ": ["feature-libs/asm/occ/public_api"],
+      "@spartacus/asm/root": ["feature-libs/asm/root/public_api"],
       "@spartacus/organization/administration/assets": [
         "feature-libs/organization/administration/assets/public_api"
       ],
@@ -139,17 +144,28 @@
       "@spartacus/incubator": ["projects/incubator/public_api"],
       "@spartacus/schematics": ["projects/schematics/src/public_api"],
       "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
-      "@spartacus/core/cart/bundle/core": [
-        "projects/core/src/cart/bundle/core/public_api"
+      "@spartacus/cart/bundle/core": [
+        "feature-libs/cart/bundle/core/public_api"
       ],
-      "@spartacus/core/cart/bundle": [
-        "projects/core/src/cart/bundle/public_api"
+      "@spartacus/cart/bundle": ["feature-libs/cart/bundle/public_api"],
+      "@spartacus/cart/bundle/occ": ["feature-libs/cart/bundle/occ/public_api"],
+      "@spartacus/cart/bundle/root": [
+        "feature-libs/cart/bundle/root/public_api"
       ],
-      "@spartacus/core/cart/bundle/occ": [
-        "projects/core/src/cart/bundle/occ/public_api"
+      "@spartacus/product/variants": [
+        "feature-libs/product/variants/public_api"
       ],
-      "@spartacus/core/cart/bundle/root": [
-        "projects/core/src/cart/bundle/root/public_api"
+      "@spartacus/product/variants/assets": [
+        "feature-libs/product/variants/assets/public_api"
+      ],
+      "@spartacus/product/variants/components": [
+        "feature-libs/product/variants/components/public_api"
+      ],
+      "@spartacus/product/variants/occ": [
+        "feature-libs/product/variants/occ/public_api"
+      ],
+      "@spartacus/product/variants/root": [
+        "feature-libs/product/variants/root/public_api"
       ]
     }
   },

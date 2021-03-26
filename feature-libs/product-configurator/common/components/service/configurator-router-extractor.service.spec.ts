@@ -43,9 +43,7 @@ describe('ConfigRouterExtractorService', () => {
   );
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(
-      ConfiguratorRouterExtractorService as Type<
-        ConfiguratorRouterExtractorService
-      >
+      ConfiguratorRouterExtractorService as Type<ConfiguratorRouterExtractorService>
     );
 
     mockRouterState = {

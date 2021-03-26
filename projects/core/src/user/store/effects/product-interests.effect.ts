@@ -17,9 +17,7 @@ export class ProductInterestsEffect {
   ) {}
 
   @Effect()
-  loadProductInteres$: Observable<
-    UserActions.ProductInterestsAction
-  > = this.actions$.pipe(
+  loadProductInteres$: Observable<UserActions.ProductInterestsAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_PRODUCT_INTERESTS),
     map((action: UserActions.LoadProductInterests) => action.payload),
     switchMap((payload) => {

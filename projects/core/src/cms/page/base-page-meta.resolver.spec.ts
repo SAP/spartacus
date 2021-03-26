@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { Router, RouterEvent } from '@angular/router';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { BasePageMetaResolver, CmsService, Page } from '..';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { PageMetaService } from '../facade';
 import { BreadcrumbMeta, PageRobotsMeta } from '../model/page.model';
+import { PageLinkService } from './routing/page-link.service';
 import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 
 const mockContentPage: Page = {
@@ -21,7 +23,7 @@ class MockCmsService implements Partial<CmsService> {
 }
 
 class MockTranslationService implements Partial<TranslationService> {
-  translate(key) {
+  translate(key: string) {
     return of(key);
   }
 }
@@ -32,9 +34,20 @@ class MockRoutingPageMetaResolver implements Partial<RoutingPageMetaResolver> {
   }
 }
 
+class MockPageLinkService {
+  getCanonicalUrl() {}
+}
+
 describe('BasePageMetaResolver', () => {
   let service: BasePageMetaResolver;
   let routingPageMetaResolver: RoutingPageMetaResolver;
+  let routerEventRelaySubject: ReplaySubject<RouterEvent>;
+  let routerMock: Router;
+  routerEventRelaySubject = new ReplaySubject<RouterEvent>(1);
+  routerMock = {
+    events: routerEventRelaySubject.asObservable(),
+  } as Router;
+  let pageLinkService: PageLinkService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,11 +63,20 @@ describe('BasePageMetaResolver', () => {
           provide: RoutingPageMetaResolver,
           useClass: MockRoutingPageMetaResolver,
         },
+        {
+          provide: Router,
+          useValue: routerMock,
+        },
+        {
+          provide: PageLinkService,
+          useClass: MockPageLinkService,
+        },
       ],
     });
 
     service = TestBed.inject(BasePageMetaResolver);
     routingPageMetaResolver = TestBed.inject(RoutingPageMetaResolver);
+    pageLinkService = TestBed.inject(PageLinkService);
   });
 
   it('should inject service', () => {
@@ -62,7 +84,7 @@ describe('BasePageMetaResolver', () => {
   });
 
   it(`should resolve 'Page title' for resolveTitle()`, () => {
-    let result: string;
+    let result: string | undefined;
 
     service
       .resolveTitle()
@@ -75,20 +97,20 @@ describe('BasePageMetaResolver', () => {
   });
 
   it('should resolve the home breadcrumb for resolveBreadcrumbs()', () => {
-    let result: BreadcrumbMeta[];
+    let result: BreadcrumbMeta[] | undefined;
     service
       .resolveBreadcrumbs()
       .subscribe((meta) => {
         result = meta;
       })
       .unsubscribe();
-    expect(result.length).toEqual(1);
-    expect(result[0].label).toEqual('common.home');
-    expect(result[0].link).toEqual('/');
+    expect(result?.length).toEqual(1);
+    expect(result?.[0]?.label).toEqual('common.home');
+    expect(result?.[0]?.link).toEqual('/');
   });
 
   it('should breadcrumbs for Angular child routes', () => {
-    let result: BreadcrumbMeta[];
+    let result: BreadcrumbMeta[] | undefined;
 
     spyOn(routingPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
       of([{ label: 'child route breadcrumb', link: '/child' }])
@@ -99,16 +121,16 @@ describe('BasePageMetaResolver', () => {
         result = meta;
       })
       .unsubscribe();
-    expect(result.length).toEqual(2);
-    expect(result[0]).toEqual({ label: 'common.home', link: '/' });
-    expect(result[1]).toEqual({
+    expect(result?.length).toEqual(2);
+    expect(result?.[0]).toEqual({ label: 'common.home', link: '/' });
+    expect(result?.[1]).toEqual({
       label: 'child route breadcrumb',
       link: '/child',
     });
   });
 
   it(`should resolve robots for page data`, () => {
-    let result: PageRobotsMeta[];
+    let result: PageRobotsMeta[] | undefined;
     service
       .resolveRobots()
       .subscribe((meta) => {
@@ -118,5 +140,11 @@ describe('BasePageMetaResolver', () => {
 
     expect(result).toContain(PageRobotsMeta.FOLLOW);
     expect(result).toContain(PageRobotsMeta.INDEX);
+  });
+
+  it(`should resolve canonical url`, () => {
+    spyOn(pageLinkService, 'getCanonicalUrl');
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+    expect(pageLinkService.getCanonicalUrl).toHaveBeenCalled();
   });
 });
