@@ -74,7 +74,7 @@ export enum DIALOG_TYPE {
 /**
  * List of available callers
  */
-export enum LAUNCH_CALLER {
+export const enum LAUNCH_CALLER {
   ASM = 'ASM',
   SKIP_LINKS = 'SKIP_LINKS',
   ANONYMOUS_CONSENT = 'ANONYMOUS_CONSENT',
