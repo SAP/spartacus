@@ -8,6 +8,25 @@
     "paths": {
       "@spartacus/setup": ["../../core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["../../core-libs/setup/ssr/public_api"],
+      "@spartacus/cart": ["../../feature-libs/cart/public_api"],
+      "@spartacus/cart/saved-cart/assets": [
+        "../../feature-libs/cart/saved-cart/assets/public_api"
+      ],
+      "@spartacus/cart/saved-cart/components": [
+        "../../feature-libs/cart/saved-cart/components/public_api"
+      ],
+      "@spartacus/cart/saved-cart/core": [
+        "../../feature-libs/cart/saved-cart/core/public_api"
+      ],
+      "@spartacus/cart/saved-cart": [
+        "../../feature-libs/cart/saved-cart/public_api"
+      ],
+      "@spartacus/cart/saved-cart/occ": [
+        "../../feature-libs/cart/saved-cart/occ/public_api"
+      ],
+      "@spartacus/cart/saved-cart/root": [
+        "../../feature-libs/cart/saved-cart/root/public_api"
+      ],
       "@spartacus/asm/assets": ["../../feature-libs/asm/assets/public_api"],
       "@spartacus/asm/components": [
         "../../feature-libs/asm/components/public_api"
