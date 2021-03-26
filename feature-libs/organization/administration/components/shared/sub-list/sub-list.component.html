@@ -1,4 +1,9 @@
-<cx-org-card [previous]="previous" [i18nRoot]="viewType" [showHint]="showHint">
+<cx-org-card
+  [previous]="previous"
+  [i18nRoot]="viewType"
+  [showHint]="showHint"
+  [cxFocus]="{ autofocus: true }"
+>
   <ng-content select="[actions]" ngProjectAs="[actions]"></ng-content>
   <ng-content select="[main]" ngProjectAs="[main]"></ng-content>
   <ng-content select="[info]" ngProjectAs="[info]"></ng-content>
