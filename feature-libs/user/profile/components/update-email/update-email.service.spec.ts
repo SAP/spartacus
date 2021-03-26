@@ -77,67 +77,69 @@ describe('UpdateEmailService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('reset form', () => {
-    spyOn(service.form, 'reset').and.callThrough();
-    service.resetForm();
-
-    expect(service.form.reset).toHaveBeenCalled();
-  });
-
   describe('save', () => {
-    beforeEach(() => {
-      newUid.setValue('tester@sap.com');
-      confirmNewUid.setValue('tester@sap.com');
-      password.setValue('Qwe123!');
-    });
+    describe('success', () => {
+      beforeEach(() => {
+        newUid.setValue('tester@sap.com');
+        confirmNewUid.setValue('tester@sap.com');
+        password.setValue('Qwe123!');
+      });
 
-    it('should not save invalid email', () => {
-      confirmNewUid.setValue('diff@sap.com');
-      service.save();
-      expect(userService.update).not.toHaveBeenCalled();
-      expect(globalMessageService.add).not.toHaveBeenCalled();
-      expect(authService.coreLogout).not.toHaveBeenCalled();
-      expect(routingService.go).not.toHaveBeenCalled();
-    });
-
-    it('should save valid email', () => {
-      service.save();
-      expect(userService.update).toHaveBeenCalledWith(
-        'Qwe123!',
-        'tester@sap.com'
-      );
-    });
-
-    it('should show message', () => {
-      service.save();
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'updateEmailForm.emailUpdateSuccess',
-          params: { newUid: 'tester@sap.com' },
-        },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    });
-
-    it('should logout', () => {
-      service.save();
-      expect(authService.coreLogout).toHaveBeenCalled();
-    });
-
-    it('should reroute to the login page', (done: DoneFn) => {
-      service.save();
-      authService.coreLogout().then(() => {
-        expect(routingService.go).toHaveBeenCalledWith(
-          { cxRoute: 'login' },
-          undefined,
-          {
-            state: {
-              newUid: 'tester@sap.com',
-            },
-          }
+      it('should save valid email', () => {
+        service.save();
+        expect(userService.update).toHaveBeenCalledWith(
+          'Qwe123!',
+          'tester@sap.com'
         );
+      });
 
-        done();
+      it('should show message', () => {
+        service.save();
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          {
+            key: 'updateEmailForm.emailUpdateSuccess',
+            params: { newUid: 'tester@sap.com' },
+          },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
+
+      it('should logout', () => {
+        service.save();
+        expect(authService.coreLogout).toHaveBeenCalled();
+      });
+
+      it('should reroute to the login page', (done: DoneFn) => {
+        service.save();
+        authService.coreLogout().then(() => {
+          expect(routingService.go).toHaveBeenCalledWith(
+            { cxRoute: 'login' },
+            undefined,
+            {
+              state: {
+                newUid: 'tester@sap.com',
+              },
+            }
+          );
+          done();
+        });
+      });
+
+      it('reset form', () => {
+        spyOn(service.form, 'reset').and.callThrough();
+        service.save();
+        expect(service.form.reset).toHaveBeenCalled();
+      });
+    });
+
+    describe('error', () => {
+      it('should not save invalid email', () => {
+        confirmNewUid.setValue('diff@sap.com');
+        service.save();
+        expect(userService.update).not.toHaveBeenCalled();
+        expect(globalMessageService.add).not.toHaveBeenCalled();
+        expect(authService.coreLogout).not.toHaveBeenCalled();
+        expect(routingService.go).not.toHaveBeenCalled();
       });
     });
   });

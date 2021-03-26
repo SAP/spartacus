@@ -11,14 +11,12 @@ import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class UpdateEmailService {
   constructor(
+    protected userEmail: UserEmailFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected userEmail: UserEmailFacade,
     protected authService: AuthService
   ) {}
 
@@ -86,16 +84,8 @@ export class UpdateEmailService {
     });
   }
 
-  /**
-   * Enables the form, clears the isUpdating$ state and clears
-   * the form values.
-   *
-   * @param resetValues defaults to `true`
-   */
-  resetForm(resetValues = true) {
+  protected resetForm() {
     this.busy.next(false);
-    if (resetValues) {
-      this.form.reset();
-    }
+    this.form.reset();
   }
 }
