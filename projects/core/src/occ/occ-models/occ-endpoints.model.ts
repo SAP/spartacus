@@ -359,12 +359,6 @@ export interface OccEndpoints {
    */
   couponNotification?: string | OccEndpoint;
   /**
-   * Explicitly saves a cart
-   *
-   * @member {string}
-   */
-  saveCart?: string | OccEndpoint;
-  /**
    * Endpoint for notification preference
    *
    * @member {string}
@@ -716,5 +710,11 @@ export interface OccEndpoints {
    * @member {string}
    */
   orderApprovalDecision?: string | OccEndpoint;
+  /**
+   * Explicitly saves a cart
+   *
+   * @member {string}
+   */
+  saveCart?: string | OccEndpoint;
   // DEPRECATION END
 }
