@@ -37,9 +37,26 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
+  // TODO(#11681): make config a required dependency
+  /**
+   * default constructor
+   * @param {ConfiguratorAttributeQuantityService} quantityService
+   */
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configUtilsService: ConfiguratorStorefrontUtilsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    quantityService: ConfiguratorAttributeQuantityService
+  );
+
+  /**
+   * @deprecated since 3.3
+   */
+  constructor(configUtilsService: ConfiguratorStorefrontUtilsService);
+
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
-    protected quantityService: ConfiguratorAttributeQuantityService
+    protected quantityService?: ConfiguratorAttributeQuantityService
   ) {
     super();
   }
@@ -71,20 +88,22 @@ export class ConfiguratorAttributeCheckBoxListComponent
       Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
     );
   }
-
   get withQuantity() {
-    return this.quantityService.withQuantity(
-      this.attribute.dataType,
-      this.attribute.uiType
+    return (
+      this.quantityService?.withQuantity(
+        this.attribute.dataType,
+        this.attribute.uiType
+      ) ?? false
     );
   }
 
   get disableQuantityActions() {
     return (
-      this.attribute.dataType ===
+      !this.quantityService ||
+      (this.attribute.dataType ===
         Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL &&
-      (!this.attribute.values.find((value) => value.selected) ||
-        this.attribute.quantity === 0)
+        (!this.attribute.values.find((value) => value.selected) ||
+          this.attribute.quantity === 0))
     );
   }
 
