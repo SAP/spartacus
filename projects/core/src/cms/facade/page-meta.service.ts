@@ -20,13 +20,13 @@ import { CmsService } from './cms.service';
   providedIn: 'root',
 })
 export class PageMetaService {
-  private resolvers$: Observable<
-    PageMetaResolver[]
-  > = this.unifiedInjector
-    .getMulti(PageMetaResolver)
-    .pipe(shareReplay({ bufferSize: 1, refCount: true })) as Observable<
-    PageMetaResolver[]
-  >;
+  private resolvers$: Observable<PageMetaResolver[]> = this.unifiedInjector
+    ? (this.unifiedInjector
+        .getMulti(PageMetaResolver)
+        .pipe(shareReplay({ bufferSize: 1, refCount: true })) as Observable<
+        PageMetaResolver[]
+      >)
+    : of();
 
   // TODO(#10467): Drop optional constructor arguments.
   constructor(
@@ -54,7 +54,7 @@ export class PageMetaService {
   protected meta$: Observable<PageMeta | null> = defer(() =>
     this.cms.getCurrentPage()
   ).pipe(
-    filter(Boolean),
+    filter((page) => Boolean(page)),
     switchMap((page: Page) => this.getMetaResolver(page)),
     switchMap((metaResolver: PageMetaResolver) =>
       metaResolver ? this.resolve(metaResolver) : of(null)
@@ -82,9 +82,7 @@ export class PageMetaService {
       .filter((key) => metaResolver[resolverMethods[key]])
       .map((key) => {
         return metaResolver[resolverMethods[key]]().pipe(
-          map((data) => ({
-            [key]: data,
-          }))
+          map((data) => ({ [key]: data }))
         );
       });
 
@@ -115,7 +113,7 @@ export class PageMetaService {
         .filter((resolver) => {
           return (
             // always resolve in SSR
-            !isPlatformBrowser(this.platformId) ||
+            !isPlatformBrowser(this.platformId ?? '') ||
             // resolve in CSR when it's not disabled
             !resolver.disabledInCsr ||
             // resolve in CSR when resolver is enabled in devMode
@@ -137,7 +135,9 @@ export class PageMetaService {
    *
    * Resolvers match by default on `PageType` and `page.template`.
    */
-  protected getMetaResolver(page: Page): Observable<PageMetaResolver> {
+  protected getMetaResolver(
+    page: Page
+  ): Observable<PageMetaResolver | undefined> {
     return this.resolvers$.pipe(
       map((resolvers) => resolveApplicable(resolvers, [page], [page]))
     );
