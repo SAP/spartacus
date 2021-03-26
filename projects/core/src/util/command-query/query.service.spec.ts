@@ -49,6 +49,5 @@ describe('QueryService', () => {
       expect(data).toBeDefined();
       expect(loadingStreamAccessed).toBeTrue();
     });
-
   });
 });

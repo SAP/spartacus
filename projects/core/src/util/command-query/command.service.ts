@@ -59,7 +59,9 @@ export class CommandService implements OnDestroy {
 
       case CommandStrategy.Parallel:
         process$ = zip(commands$, results$).pipe(
-          mergeMap(([cmd, notifier$]) => commandFactory(cmd).pipe(tap(notifier$))),
+          mergeMap(([cmd, notifier$]) =>
+            commandFactory(cmd).pipe(tap(notifier$))
+          ),
           retry()
         );
         break;
