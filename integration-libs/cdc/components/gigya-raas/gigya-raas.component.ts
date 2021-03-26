@@ -3,14 +3,14 @@ import {
   Component,
   NgZone,
   OnInit,
-  ViewEncapsulation,
+  ViewEncapsulation
 } from '@angular/core';
 import { CdcConfig, CdcJsService } from '@spartacus/cdc';
+import { GigyaRaasComponentData } from '@spartacus/cdc/core';
 import { BaseSiteService, LanguageService, WindowRef } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
-import { GigyaRaasComponentData } from '../../core/models/cms.model';
 
 @Component({
   selector: 'cx-gigya-raas',
