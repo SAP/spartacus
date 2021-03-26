@@ -2,16 +2,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
 import { ADD_TO_CART_COMPONENT_MIGRATION } from './data/add-to-cart.component.migration';
-import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
 import { ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATIONS } from './data/address-book.component.service.migration';
-import { AMEND_ORDER_ACTIONS_COMPONENT_MIGRATION } from './data/amend-order-actions.component.migration';
-import { ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION } from './data/anonymous-consent-management-banner.component.migration';
-import { ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION } from './data/anonymous-consent-open-dialog.component.migration';
-import { CART_COUPON_COMPONENT_MIGRATIONS } from './data/cart-coupon.component.migration';
-import { CART_DETAILS_COMPONENT_MIGRATIONS } from './data/cart-details.component.migration';
-import { CART_ITEM_LIST_COMPONENT_MIGRATIONS } from './data/cart-item-list.component.migration';
-import { CART_ITEM_COMPONENT_MIGRATIONS } from './data/cart-item.component.migration';
-import { CART_NOT_EMPTY_GUARD_MIGRATION } from './data/cart-not-empty.guard.migration';
 import { CART_PAGE_LAYOUT_HANDLER_MIGRATIONS } from './data/cart-page-layout-handler.migration';
 import { CART_TOTALS_COMPONENT_MIGRATION } from './data/cart-totals.component.migration';
 import { CART_VOUCHER_SERVICE_MIGRATION } from './data/cart-voucher.service.migration';
@@ -102,7 +93,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_PAGE_META_RESOLVER_MIGRATION,
 
   ADD_TO_CART_COMPONENT_MIGRATION,
-  CART_NOT_EMPTY_GUARD_MIGRATION,
   CART_TOTALS_COMPONENT_MIGRATION,
   MINI_CART_COMPONENT_MIGRATION,
   ...ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATIONS,
@@ -118,14 +108,10 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   OCC_CART_ENTRY_ADAPTER_MIGRATION,
   OCC_CART_ADAPTER_MIGRATION,
   OCC_USER_ORDER_ADAPTER_MIGRATION,
-  ...CART_DETAILS_COMPONENT_MIGRATIONS,
   ...REVIEW_SUBMIT_COMPONENT_MIGRATIONS,
   ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
   ORDER_CONFIRMATION_ITEMS_COMPONENT_MIGRATION,
   CART_VOUCHER_SERVICE_MIGRATION,
-  ...CART_COUPON_COMPONENT_MIGRATIONS,
-  ...CART_ITEM_LIST_COMPONENT_MIGRATIONS,
-  ...CART_ITEM_COMPONENT_MIGRATIONS,
   ...LOGOUT_GUARD_MIGRATION,
   LOGIN_FORM_COMPONENT_MIGRATION,
   ...REGISTER_COMPONENT_MIGRATIONS,
@@ -148,9 +134,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   USER_NOTIFICATION_PREFERENCE_SERVICE_MIGRATION,
   PRODUCT_REVIEWS_COMPONENT_MIGRATION,
   SEARCH_BOX_COMPONENT_MIGRATION,
-  ADDRESS_BOOK_COMPONENT_MIGRATION,
   PAYMENT_FORM_COMPONENT_MIGRATION,
-  AMEND_ORDER_ACTIONS_COMPONENT_MIGRATION,
   COMPONENT_WRAPPER_DIRECTIVE_MIGRATION,
   DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
   STORE_FINDER_SEARCH_RESULT_COMPONENT_MIGRATION,
@@ -159,8 +143,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   SELECTIVE_CART_SERVICE_MIGRATION,
   QUALTRICS_LOADER_MIGRATION,
   QUALTRICS_COMPONENT_MIGRATION,
-  ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION,
-  ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION,
   PRODUCT_FACET_NAVIGATION_COMPONENT_MIGRATION,
   STORE_FINDER_GRID_COMPONENT_MIGRATION,
 ];
