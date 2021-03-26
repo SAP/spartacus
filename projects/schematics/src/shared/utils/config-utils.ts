@@ -301,13 +301,13 @@ function convert(newValues: string | string[]): string {
   return configValue;
 }
 
-export function getConfigs(sourceFile: SourceFile): any[] {
-  const configs = [];
+export function getConfigs(sourceFile: SourceFile): Node[] {
+  const configs: Node[] = [];
   const module = getModule(sourceFile);
   if (!module) {
     return [];
   }
-  const literal = module.getFirstAncestorByKind(
+  const literal = module.getFirstDescendantByKind(
     tsMorph.SyntaxKind.ObjectLiteralExpression
   );
   if (literal) {
@@ -335,8 +335,21 @@ export function getConfigs(sourceFile: SourceFile): any[] {
                   expression.getText() === 'provideConfig' &&
                   isImportedFrom(expression, SPARTACUS_CORE)
                 ) {
-                  // TODO: We can add value to configs
-                  configs.push(element.getArguments()?.[0]);
+                  if (element.getArguments()?.[0]) {
+                    const config = element.getArguments()[0];
+                    // "type assertion" and "as expression" is useless for us, so we can skip it and add it's children
+                    if (Node.isTypeAssertion(config)) {
+                      try {
+                        configs.push(element.getFirstChildOrThrow());
+                      } catch {}
+                    } else if (Node.isAsExpression(config)) {
+                      try {
+                        configs.push(element.getFirstChildOrThrow());
+                      } catch {}
+                    } else {
+                      configs.push(element.getArguments()[0]);
+                    }
+                  }
                 }
               }
             });
@@ -345,4 +358,28 @@ export function getConfigs(sourceFile: SourceFile): any[] {
       });
     }
   }
+  return configs;
+}
+
+export function checkConfigPresence(configs: Node[], key: string): Node[] {
+  const values: Node[] = [];
+  const properties = key.split('.');
+  for (const config of configs) {
+    let obj = config;
+    for (let i = 0; i < properties.length; i++) {
+      const property = properties[i];
+      if (Node.isObjectLiteralExpression(obj)) {
+        const sub = obj.getProperty(property);
+        if (sub) {
+          obj = sub;
+          if (i === properties.length - 1) {
+            values.push(sub);
+          }
+        } else {
+          break;
+        }
+      }
+    }
+  }
+  return values;
 }

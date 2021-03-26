@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storefront config utils getConfigs should return all configs from provideConfigs calls 1`] = `"provideConfig"`;
+
+exports[`Storefront config utils getConfigs should return all configs from provideConfigs calls 2`] = `
+"{
+      featureModules: {
+        personalization: {
+          module: () =>
+            import('@spartacus/tracking/personalization').then(
+              (m) => m.PersonalizationModule
+            ),
+        },
+      },
+    }"
+`;
