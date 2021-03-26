@@ -24,6 +24,7 @@ import {
   CartPageEventModule,
   CategoryNavigationModule,
   CheckoutComponentModule,
+  CheckoutLoginModule,
   CmsParagraphModule,
   ConsentManagementModule,
   FooterNavigationModule,
@@ -166,6 +167,7 @@ if (environment.cds) {
     CheckoutOccModule,
     CostCenterOccModule,
     // Checkout UI
+    CheckoutLoginModule,
     CheckoutComponentModule,
     OrderConfirmationModule,
 

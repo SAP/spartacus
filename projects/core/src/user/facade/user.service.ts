@@ -25,6 +25,7 @@ import {
 import {
   UserAccountFacadeTransitionalToken,
   UserProfileFacadeTransitionalToken,
+  UserRegisterFacadeTransitionalToken,
 } from '../user-transitional-tokens';
 
 @Injectable({ providedIn: 'root' })
@@ -33,8 +34,10 @@ export class UserService {
     store: Store<StateWithUser | StateWithProcess<void>>,
     userIdService: UserIdService,
     userAccountFacade?: UserAccountFacadeTransitionalToken,
+
+    userProfileFacade?: UserProfileFacadeTransitionalToken,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    userProfileFacade?: UserProfileFacadeTransitionalToken
+    userRegisterFacade?: UserRegisterFacadeTransitionalToken
   );
   /**
    * @deprecated since 3.2
@@ -52,7 +55,10 @@ export class UserService {
     protected userIdService: UserIdService,
     @Optional()
     protected userAccountFacade?: UserAccountFacadeTransitionalToken,
-    @Optional() protected userProfileFacade?: UserProfileFacadeTransitionalToken
+    @Optional()
+    protected userProfileFacade?: UserProfileFacadeTransitionalToken,
+    @Optional()
+    protected userRegisterFacade?: UserRegisterFacadeTransitionalToken
   ) {}
 
   /**
@@ -107,7 +113,11 @@ export class UserService {
    * @param password
    */
   registerGuest(guid: string, password: string): void {
-    this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
+    if (this.userRegisterFacade) {
+      this.userRegisterFacade.registerGuest(guid, password);
+    } else {
+      this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
+    }
   }
 
   /**
