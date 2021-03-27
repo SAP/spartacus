@@ -4,6 +4,7 @@ export * from './create-from';
 export * from './external-js-file-loader/index';
 export * from './glob.service';
 export * from './http-params-uri.encoder';
+export * from './java-reg-exp-converter/index';
 export * from './normalize-http-error';
 export * from './regex-pattern';
 export * from './rxjs/index';
