@@ -10,7 +10,7 @@ context('B2B - Saved Cart', () => {
       cy.clearLocalStorageMemory();
     });
 
-    describe.skip('Accessibility - keyboarding', () => {
+    describe('Accessibility - keyboarding', () => {
       describe('Cart page', () => {
         it('should conform to tabbing order', () => {
           savedCart.verifyCartPageTabbingOrder();
@@ -53,7 +53,7 @@ context('B2B - Saved Cart', () => {
       });
     });
 
-    describe.skip('Restricted pages to anonymous user', () => {
+    describe('Restricted pages to anonymous user', () => {
       afterEach(() => {
         cy.location('pathname').should('contain', '/login');
       });
@@ -67,7 +67,7 @@ context('B2B - Saved Cart', () => {
       });
     });
 
-    describe.skip('Cart page', () => {
+    describe('Cart page', () => {
       describe('Anonymous user', () => {
         beforeEach(() => {
           savedCart.addProductToCart(sampleData.products[0], 2);
@@ -104,7 +104,7 @@ context('B2B - Saved Cart', () => {
       });
     });
 
-    describe.skip('Saved Cart Listing Page', () => {
+    describe('Saved Cart Listing Page', () => {
       beforeEach(() => {
         savedCart.loginB2bUser();
       });
@@ -130,7 +130,7 @@ context('B2B - Saved Cart', () => {
       });
     });
 
-    describe.skip('Saved Cart Details Page', () => {
+    describe('Saved Cart Details Page', () => {
       beforeEach(() => {
         savedCart.loginB2bUser();
       });
