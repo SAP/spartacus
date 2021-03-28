@@ -6,6 +6,7 @@ import { UserProfileService } from './user-profile.service';
 import { UserRegisterService } from './user-register.service';
 import { UserSignUp } from '@spartacus/user/profile/root';
 import { UserProfileConnector } from '@spartacus/user/profile/core';
+import { Store } from '@ngrx/store';
 import createSpy = jasmine.createSpy;
 
 class MockUserProfileService implements Partial<UserProfileService> {
@@ -32,6 +33,7 @@ describe('UserRegisterService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthService, useClass: MockAuthService },
+        { provide: Store, useValue: { dispatch: () => {} } },
         {
           provide: UserProfileConnector,
           useClass: MockUserProfileConnector,
