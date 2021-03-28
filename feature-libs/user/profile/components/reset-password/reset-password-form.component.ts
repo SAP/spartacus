@@ -36,9 +36,9 @@ export class ResetPasswordFormComponent implements OnInit, OnDestroy {
   );
 
   constructor(
-    private fb: FormBuilder,
-    private routingService: RoutingService,
-    private userPassword: UserPasswordFacade,
+    protected fb: FormBuilder,
+    protected routingService: RoutingService,
+    protected userPassword: UserPasswordFacade,
     protected globalMessage: GlobalMessageService
   ) {}
 

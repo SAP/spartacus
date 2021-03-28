@@ -24,11 +24,11 @@ export class CloseAccountModalComponent implements OnInit {
 
   constructor(
     protected modalService: ModalService,
-    private authService: AuthService,
-    private globalMessageService: GlobalMessageService,
-    private routingService: RoutingService,
-    private translationService: TranslationService,
-    private userProfile: UserProfileFacade
+    protected authService: AuthService,
+    protected globalMessageService: GlobalMessageService,
+    protected routingService: RoutingService,
+    protected translationService: TranslationService,
+    protected userProfile: UserProfileFacade
   ) {}
 
   ngOnInit() {

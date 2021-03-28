@@ -15,9 +15,9 @@ export class UpdatePasswordComponent {
   isLoading$ = new BehaviorSubject(false);
 
   constructor(
-    private routingService: RoutingService,
-    private userPassword: UserPasswordFacade,
-    private globalMessageService: GlobalMessageService
+    protected routingService: RoutingService,
+    protected userPassword: UserPasswordFacade,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   onSuccess(): void {

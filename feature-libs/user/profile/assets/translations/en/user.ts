@@ -58,24 +58,6 @@ export const user = {
     titleRequired: 'Title is required.',
     postRegisterMessage: 'Please log in with provided credentials.',
   },
-
-  loginForm: {
-    forgotPassword: 'Forgot password?',
-    signIn: 'Sign In',
-    register: 'Register',
-    dontHaveAccount: 'Don’t have an account?',
-    guestCheckout: 'Guest Checkout',
-    emailAddress: {
-      label: 'Email address',
-      placeholder: 'Enter email',
-    },
-    password: {
-      label: 'Password',
-      placeholder: 'Password',
-    },
-    wrongEmailFormat: 'This is not a valid email format.',
-  },
-
   forgottenPassword: {
     resetPassword: 'Reset password',
     enterEmailAddressAssociatedWithYourAccount:

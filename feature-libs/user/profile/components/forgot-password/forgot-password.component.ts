@@ -38,7 +38,6 @@ export class ForgotPasswordComponent implements OnInit {
     if (this.forgotPasswordForm.valid) {
       this.userPassword
         .requestForgotPasswordEmail(this.forgotPasswordForm.value.userEmail)
-        .pipe()
         .subscribe(
           () => {
             this.globalMessage.add(

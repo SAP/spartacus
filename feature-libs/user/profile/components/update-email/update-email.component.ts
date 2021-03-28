@@ -14,10 +14,10 @@ import { UserEmailFacade } from '@spartacus/user/profile/root';
 })
 export class UpdateEmailComponent {
   constructor(
-    private routingService: RoutingService,
-    private globalMessageService: GlobalMessageService,
-    private userEmail: UserEmailFacade,
-    private authService: AuthService
+    protected routingService: RoutingService,
+    protected globalMessageService: GlobalMessageService,
+    protected userEmail: UserEmailFacade,
+    protected authService: AuthService
   ) {}
 
   private newUid: string;

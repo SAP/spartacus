@@ -140,7 +140,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.userRegister
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
-        next: () => this.onRegisterUserSuccess(true),
+        next: () => this.onRegisterUserSuccess(),
         complete: () => this.isLoading$.next(false),
       });
   }
@@ -178,19 +178,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private onRegisterUserSuccess(success: boolean): void {
-    if (success) {
-      if (
-        this.authConfigService.getOAuthFlow() ===
-        OAuthFlow.ResourceOwnerPasswordFlow
-      ) {
-        this.router.go('login');
-      }
-      this.globalMessageService.add(
-        { key: 'register.postRegisterMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
+  private onRegisterUserSuccess(): void {
+    if (
+      this.authConfigService.getOAuthFlow() ===
+      OAuthFlow.ResourceOwnerPasswordFlow
+    ) {
+      this.router.go('login');
     }
+    this.globalMessageService.add(
+      { key: 'register.postRegisterMessage' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   toggleAnonymousConsent(): void {

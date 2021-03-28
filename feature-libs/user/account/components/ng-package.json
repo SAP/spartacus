@@ -5,8 +5,7 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
-      "@spartacus/user/core": "user",
-      "@ng-select/ng-select": "ng-select"
+      "@spartacus/user/core": "user"
     }
   }
 }

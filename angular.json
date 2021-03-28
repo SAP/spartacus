@@ -817,7 +817,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "feature-libs/user/tsconfig.lib.json",
             "project": "feature-libs/user/ng-package.json"
