@@ -47,7 +47,6 @@ export class UpdateEmailComponentService {
       return;
     }
 
-    this.form.disable();
     this.busy.next(true);
 
     const newEmail = this.form.get('confirmEmail')?.value;
