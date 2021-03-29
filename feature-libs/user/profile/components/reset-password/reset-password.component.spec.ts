@@ -6,21 +6,22 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
+import { ResetPasswordComponentService } from './reset-password-component.service';
 import { ResetPasswordComponent } from './reset-password.component';
-import { ResetPasswordService } from './reset-password.service';
 import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
 const tokenSubject: BehaviorSubject<any> = new BehaviorSubject('123');
 
-class MockResetPasswordService implements Partial<ResetPasswordService> {
+class MockResetPasswordService
+  implements Partial<ResetPasswordComponentService> {
   resetToken$ = tokenSubject;
   form: FormGroup = new FormGroup({
     password: new FormControl(),
     passwordConfirm: new FormControl(),
   });
   isUpdating$ = isBusySubject;
-  reset = createSpy().and.stub();
+  resetPassword = createSpy().and.stub();
   resetForm = createSpy().and.stub();
 }
 
@@ -28,7 +29,7 @@ describe('ResetPasswordComponent', () => {
   let component: ResetPasswordComponent;
   let fixture: ComponentFixture<ResetPasswordComponent>;
   let el: DebugElement;
-  let service: ResetPasswordService;
+  let service: ResetPasswordComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -42,7 +43,10 @@ describe('ResetPasswordComponent', () => {
         ],
         declarations: [ResetPasswordComponent],
         providers: [
-          { provide: ResetPasswordService, useClass: MockResetPasswordService },
+          {
+            provide: ResetPasswordComponentService,
+            useClass: MockResetPasswordService,
+          },
         ],
       }).compileComponents();
     })
@@ -50,7 +54,7 @@ describe('ResetPasswordComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResetPasswordComponent);
-    service = TestBed.inject(ResetPasswordService);
+    service = TestBed.inject(ResetPasswordComponentService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
@@ -110,7 +114,7 @@ describe('ResetPasswordComponent', () => {
 
     it('should call the service method on submit', () => {
       component.onSubmit('123');
-      expect(service.reset).toHaveBeenCalledWith('123');
+      expect(service.resetPassword).toHaveBeenCalledWith('123');
     });
   });
 });

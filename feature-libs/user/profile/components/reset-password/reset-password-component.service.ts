@@ -14,7 +14,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Injectable()
-export class ResetPasswordService {
+export class ResetPasswordComponentService {
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
@@ -49,7 +49,7 @@ export class ResetPasswordService {
     }
   );
 
-  reset(token: string): void {
+  resetPassword(token: string): void {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;
@@ -62,7 +62,7 @@ export class ResetPasswordService {
     this.userPasswordService.reset(token, password).subscribe({
       next: () => this.onSuccess(),
       error: (error: HttpErrorModel) => this.onError(error),
-      complete: () => this.resetForm(),
+      complete: () => {},
     });
   }
 
@@ -71,10 +71,12 @@ export class ResetPasswordService {
       { key: 'forgottenPassword.passwordResetSuccess' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
+    this.resetForm();
     this.redirect();
   }
 
   protected onError(error: HttpErrorModel): void {
+    this.busy.next(false);
     if (error.details) {
       error.details.forEach((err: ErrorModel) => {
         if (err.message) {

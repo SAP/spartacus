@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { ResetPasswordService } from './reset-password.service';
+import { ResetPasswordComponentService } from './reset-password-component.service';
 
 @Component({
   selector: 'cx-reset-password',
@@ -14,9 +14,9 @@ export class ResetPasswordComponent {
 
   token$: Observable<string> = this.service.resetToken$;
 
-  constructor(protected service: ResetPasswordService) {}
+  constructor(protected service: ResetPasswordComponentService) {}
 
   onSubmit(token: string) {
-    this.service.reset(token);
+    this.service.resetPassword(token);
   }
 }

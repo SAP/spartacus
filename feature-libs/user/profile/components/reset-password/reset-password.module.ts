@@ -12,8 +12,8 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { ResetPasswordComponentService } from './reset-password-component.service';
 import { ResetPasswordComponent } from './reset-password.component';
-import { ResetPasswordService } from './reset-password.service';
 
 @NgModule({
   imports: [
@@ -33,8 +33,8 @@ import { ResetPasswordService } from './reset-password.service';
           guards: [NotAuthGuard],
           providers: [
             {
-              provide: ResetPasswordService,
-              useClass: ResetPasswordService,
+              provide: ResetPasswordComponentService,
+              useClass: ResetPasswordComponentService,
               deps: [UserPasswordFacade, RoutingService, GlobalMessageService],
             },
           ],

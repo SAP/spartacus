@@ -9,7 +9,7 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
-import { ResetPasswordService } from './reset-password.service';
+import { ResetPasswordComponentService } from './reset-password-component.service';
 import createSpy = jasmine.createSpy;
 
 const resetToken = '123#Token';
@@ -26,8 +26,8 @@ class MockGlobalMessageService {
   add = createSpy().and.stub();
 }
 
-describe('ResetPasswordService', () => {
-  let service: ResetPasswordService;
+describe('ResetPasswordComponentService', () => {
+  let resetPasswordComponentService: ResetPasswordComponentService;
   let userService: UserPasswordFacade;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
@@ -38,7 +38,7 @@ describe('ResetPasswordService', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       providers: [
-        ResetPasswordService,
+        ResetPasswordComponentService,
         {
           provide: UserPasswordFacade,
           useClass: MockUserPasswordFacade,
@@ -56,18 +56,21 @@ describe('ResetPasswordService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.inject(ResetPasswordService);
+    resetPasswordComponentService = TestBed.inject(
+      ResetPasswordComponentService
+    );
 
     userService = TestBed.inject(UserPasswordFacade);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    password = service.form.controls.password;
-    passwordConfirm = service.form.controls.passwordConfirm;
+    password = resetPasswordComponentService.form.controls.password;
+    passwordConfirm =
+      resetPasswordComponentService.form.controls.passwordConfirm;
   });
 
   it('should create', () => {
-    expect(service).toBeTruthy();
+    expect(resetPasswordComponentService).toBeTruthy();
   });
 
   describe('reset', () => {
@@ -78,12 +81,12 @@ describe('ResetPasswordService', () => {
       });
 
       it('should reset password', () => {
-        service.reset(resetToken);
+        resetPasswordComponentService.resetPassword(resetToken);
         expect(userService.reset).toHaveBeenCalledWith(resetToken, 'Qwe123!');
       });
 
       it('should show message', () => {
-        service.reset(resetToken);
+        resetPasswordComponentService.resetPassword(resetToken);
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'forgottenPassword.passwordResetSuccess' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -91,20 +94,20 @@ describe('ResetPasswordService', () => {
       });
 
       it('should reroute to the login page', () => {
-        service.reset(resetToken);
+        resetPasswordComponentService.resetPassword(resetToken);
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       });
 
       it('should reset form', () => {
-        spyOn(service.form, 'reset').and.callThrough();
-        service.reset(resetToken);
-        expect(service.form.reset).toHaveBeenCalled();
+        spyOn(resetPasswordComponentService.form, 'reset').and.callThrough();
+        resetPasswordComponentService.resetPassword(resetToken);
+        expect(resetPasswordComponentService.form.reset).toHaveBeenCalled();
       });
     });
     describe('error', () => {
       it('should not reset invalid form', () => {
         passwordConfirm.setValue('Diff123!');
-        service.reset(resetToken);
+        resetPasswordComponentService.resetPassword(resetToken);
         expect(userService.reset).not.toHaveBeenCalled();
         expect(globalMessageService.add).not.toHaveBeenCalled();
         expect(routingService.go).not.toHaveBeenCalled();
