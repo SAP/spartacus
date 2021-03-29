@@ -10,10 +10,23 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   templateUrl: './configurator-cart-entry-info.component.html',
 })
 export class ConfiguratorCartEntryInfoComponent {
+  // TODO(#11681): make CommonConfiguratorUtilsService a required dependency
   constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
+    cartItemContext?: CartItemContext,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    CommonConfiguratorUtilsService?: CommonConfiguratorUtilsService
+  );
+
+  /**
+   * @deprecated  since 3.3
+   */
+  constructor(cartItemContext?: CartItemContext);
+
+  constructor(
     // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
-    @Optional() protected cartItemContext?: CartItemContext
+    @Optional() protected cartItemContext?: CartItemContext,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    protected commonConfigUtilsService?: CommonConfiguratorUtilsService
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
