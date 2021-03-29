@@ -41,7 +41,6 @@ export class UpdateProfileComponentService {
       return;
     }
 
-    this.form.disable();
     this.busy.next(true);
 
     this.userProfile.update(this.form.value).subscribe({
