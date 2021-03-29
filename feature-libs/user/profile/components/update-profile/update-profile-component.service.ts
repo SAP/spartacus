@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  HttpErrorModel,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -51,7 +47,7 @@ export class UpdateProfileComponentService {
 
     this.userProfile.update(this.form.value).subscribe({
       next: () => this.onSuccess(),
-      error: (error: HttpErrorModel) => this.onError(error),
+      error: (error: Error) => this.onError(error),
     });
   }
 
@@ -67,7 +63,7 @@ export class UpdateProfileComponentService {
     this.form.reset();
   }
 
-  protected onError(_error: HttpErrorModel): void {
+  protected onError(_error: Error): void {
     this.busy.next(false);
   }
 }
