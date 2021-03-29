@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import {
   AnonymousConsent,
   AnonymousConsentsConfig,
@@ -10,10 +15,14 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   OAuthFlow,
-  RoutingService
+  RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
-import { Title, UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
+import {
+  Title,
+  UserRegisterFacade,
+  UserSignUp,
+} from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
