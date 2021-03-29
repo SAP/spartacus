@@ -4,7 +4,8 @@
 @import './profile/styles/index';
 
 $skipComponentStyles: () !default;
-$selectors: cx-login, cx-register, cx-forgot-password, cx-reset-password !default;
+$selectors: cx-login, cx-register, cx-update-password, cx-forgot-password,
+  cx-reset-password !default;
 
 @each $selector in $selectors {
   #{$selector} {
