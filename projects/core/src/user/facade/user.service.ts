@@ -9,7 +9,7 @@ import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
   getProcessLoadingFactory,
-  getProcessSuccessFactory,
+  getProcessSuccessFactory
 } from '../../process/store/selectors/process.selectors';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -20,39 +20,20 @@ import {
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_PASSWORD_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
-  USER_FEATURE,
+  USER_FEATURE
 } from '../store/user-state';
 import {
   UserAccountFacadeTransitionalToken,
   UserProfileFacadeTransitionalToken,
-  UserRegisterFacadeTransitionalToken,
+  UserRegisterFacadeTransitionalToken
 } from '../user-transitional-tokens';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(
-    store: Store<StateWithUser | StateWithProcess<void>>,
-    userIdService: UserIdService,
-    userAccountFacade?: UserAccountFacadeTransitionalToken,
-
-    userProfileFacade?: UserProfileFacadeTransitionalToken,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    userRegisterFacade?: UserRegisterFacadeTransitionalToken
-  );
-  /**
-   * @deprecated since 3.2
-   *
-   * @param store
-   * @param userIdService
-   */
-  constructor(
-    store: Store<StateWithUser | StateWithProcess<void>>,
-    userIdService: UserIdService
-  );
-
-  constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected userIdService: UserIdService,
+    // TODO: Remove transitional tokens in 4.0 with #11607
     @Optional()
     protected userAccountFacade?: UserAccountFacadeTransitionalToken,
     @Optional()
