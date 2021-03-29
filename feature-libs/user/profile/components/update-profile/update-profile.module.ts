@@ -13,8 +13,8 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
-import { UpdateProfileService } from './update-profile.service';
 
 @NgModule({
   imports: [
@@ -35,8 +35,8 @@ import { UpdateProfileService } from './update-profile.service';
           guards: [AuthGuard],
           providers: [
             {
-              provide: UpdateProfileService,
-              useClass: UpdateProfileService,
+              provide: UpdateProfileComponentService,
+              useClass: UpdateProfileComponentService,
               deps: [UserProfileFacade, RoutingService, GlobalMessageService],
             },
           ],

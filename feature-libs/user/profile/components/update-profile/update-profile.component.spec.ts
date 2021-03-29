@@ -8,8 +8,8 @@ import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, of } from 'rxjs';
+import { UpdateProfileComponentService } from './update-profile-component.service';
 import { UpdateProfileComponent } from './update-profile.component';
-import { UpdateProfileService } from './update-profile.service';
 import createSpy = jasmine.createSpy;
 @Component({
   selector: 'cx-spinner',
@@ -19,7 +19,8 @@ class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
 
-class MockUpdateProfileService implements Partial<UpdateProfileService> {
+class MockUpdateProfileService
+  implements Partial<UpdateProfileComponentService> {
   user$ = of({});
   titles$ = of([]);
   form: FormGroup = new FormGroup({
@@ -29,8 +30,7 @@ class MockUpdateProfileService implements Partial<UpdateProfileService> {
     lastName: new FormControl(),
   });
   isUpdating$ = isBusySubject;
-  save = createSpy().and.stub();
-  resetForm = createSpy().and.stub();
+  updateProfile = createSpy().and.stub();
 }
 
 describe('UpdateProfileComponent', () => {
@@ -38,7 +38,7 @@ describe('UpdateProfileComponent', () => {
   let fixture: ComponentFixture<UpdateProfileComponent>;
   let el: DebugElement;
 
-  let service: UpdateProfileService;
+  let service: UpdateProfileComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -54,7 +54,7 @@ describe('UpdateProfileComponent', () => {
         declarations: [UpdateProfileComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: UpdateProfileService,
+            provide: UpdateProfileComponentService,
             useClass: MockUpdateProfileService,
           },
         ],
@@ -67,7 +67,7 @@ describe('UpdateProfileComponent', () => {
     component = fixture.componentInstance;
     el = fixture.debugElement;
 
-    service = TestBed.inject(UpdateProfileService);
+    service = TestBed.inject(UpdateProfileComponentService);
 
     fixture.detectChanges();
   });
@@ -117,7 +117,7 @@ describe('UpdateProfileComponent', () => {
 
     it('should call the service method on submit', () => {
       component.onSubmit();
-      expect(service.save).toHaveBeenCalled();
+      expect(service.updateProfile).toHaveBeenCalled();
     });
   });
 });

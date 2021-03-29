@@ -9,7 +9,7 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
-import { UpdateProfileService } from './update-profile.service';
+import { UpdateProfileComponentService } from './update-profile-component.service';
 import createSpy = jasmine.createSpy;
 
 const mockUser = {
@@ -29,8 +29,8 @@ class MockGlobalMessageService {
   add = createSpy().and.stub();
 }
 
-describe('UpdateProfileService', () => {
-  let service: UpdateProfileService;
+describe('UpdateProfileComponentService', () => {
+  let service: UpdateProfileComponentService;
   let userService: UserProfileFacade;
   let globalMessageService: GlobalMessageService;
 
@@ -38,7 +38,7 @@ describe('UpdateProfileService', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       providers: [
-        UpdateProfileService,
+        UpdateProfileComponentService,
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
@@ -52,7 +52,7 @@ describe('UpdateProfileService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.inject(UpdateProfileService);
+    service = TestBed.inject(UpdateProfileComponentService);
     userService = TestBed.inject(UserProfileFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
@@ -68,12 +68,12 @@ describe('UpdateProfileService', () => {
       });
 
       it('should update password', () => {
-        service.save();
+        service.updateProfile();
         expect(userService.update).toHaveBeenCalledWith(mockUser);
       });
 
       it('should show message', () => {
-        service.save();
+        service.updateProfile();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
             key: 'updateProfileForm.profileUpdateSuccess',
@@ -84,7 +84,7 @@ describe('UpdateProfileService', () => {
 
       it('reset()', () => {
         spyOn(service.form, 'reset').and.callThrough();
-        service.save();
+        service.updateProfile();
         expect(service.form.reset).toHaveBeenCalled();
       });
     });
@@ -92,7 +92,7 @@ describe('UpdateProfileService', () => {
   describe('error', () => {
     it('should not save invalid form', () => {
       service.form.patchValue({ customerId: '123' } as User);
-      service.save();
+      service.updateProfile();
       expect(userService.update).not.toHaveBeenCalled();
       expect(globalMessageService.add).not.toHaveBeenCalled();
     });

@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  HttpErrorModel,
+} from '@spartacus/core';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class UpdateProfileService {
+export class UpdateProfileComponentService {
   constructor(
     protected userProfile: UserProfileFacade,
     protected globalMessageService: GlobalMessageService
@@ -28,7 +32,10 @@ export class UpdateProfileService {
     lastName: new FormControl('', Validators.required),
   });
 
-  save(): void {
+  /**
+   * Updates the user's details and handles the UI.
+   */
+  updateProfile(): void {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;
@@ -37,12 +44,9 @@ export class UpdateProfileService {
     this.form.disable();
     this.busy.next(true);
 
-    const userUpdates = this.form.value;
-
-    this.userProfile.update(userUpdates).subscribe({
+    this.userProfile.update(this.form.value).subscribe({
       next: () => this.onSuccess(),
-      error: () => {},
-      complete: () => this.resetForm(),
+      error: (error: HttpErrorModel) => this.onError(error),
     });
   }
 
@@ -53,10 +57,12 @@ export class UpdateProfileService {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-  }
 
-  protected resetForm(): void {
     this.busy.next(false);
     this.form.reset();
+  }
+
+  protected onError(_error: HttpErrorModel): void {
+    this.busy.next(false);
   }
 }
