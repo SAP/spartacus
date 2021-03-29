@@ -67,7 +67,7 @@ export class ResetPasswordComponentService {
 
     this.userPasswordService.reset(token, password).subscribe({
       next: () => this.onSuccess(),
-      error: (error: HttpErrorModel) => this.onError(error),
+      error: (error: Error) => this.onError(error),
     });
   }
 
@@ -81,18 +81,16 @@ export class ResetPasswordComponentService {
     this.redirect();
   }
 
-  protected onError(error: HttpErrorModel): void {
+  protected onError(error: Error): void {
     this.busy.next(false);
-    if (error.details) {
-      error.details.forEach((err: ErrorModel) => {
-        if (err.message) {
-          this.globalMessage.add(
-            { raw: err.message },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        }
-      });
-    }
+    ((error as HttpErrorModel)?.details ?? []).forEach((err: ErrorModel) => {
+      if (err.message) {
+        this.globalMessage.add(
+          { raw: err.message },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      }
+    });
   }
 
   /**

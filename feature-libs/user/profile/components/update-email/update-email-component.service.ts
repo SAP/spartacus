@@ -4,7 +4,6 @@ import {
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
-  HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
@@ -54,7 +53,7 @@ export class UpdateEmailComponentService {
 
     this.userEmail.update(password, newEmail).subscribe({
       next: () => this.onSuccess(newEmail),
-      error: (error: HttpErrorModel) => this.onError(error),
+      error: (error: Error) => this.onError(error),
     });
   }
 
@@ -81,7 +80,7 @@ export class UpdateEmailComponentService {
     });
   }
 
-  protected onError(_error: HttpErrorModel): void {
+  protected onError(_error: Error): void {
     this.busy.next(false);
   }
 }

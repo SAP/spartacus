@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
@@ -58,7 +57,7 @@ export class UpdatePasswordComponentService {
 
     this.userPasswordService.update(oldPassword, newPassword).subscribe({
       next: () => this.onSuccess(),
-      error: (error: HttpErrorModel) => this.onError(error),
+      error: (error: Error) => this.onError(error),
     });
   }
 
@@ -72,7 +71,7 @@ export class UpdatePasswordComponentService {
     this.routingService.go({ cxRoute: 'home' });
   }
 
-  protected onError(_error: HttpErrorModel): void {
+  protected onError(_error: Error): void {
     this.busy.next(false);
   }
 }

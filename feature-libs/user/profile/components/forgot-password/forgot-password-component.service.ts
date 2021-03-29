@@ -4,7 +4,6 @@ import {
   AuthConfigService,
   GlobalMessageService,
   GlobalMessageType,
-  HttpErrorModel,
   OAuthFlow,
   RoutingService,
 } from '@spartacus/core';
@@ -53,7 +52,7 @@ export class ForgotPasswordComponentService {
       .requestForgotPasswordEmail(this.form.value.userEmail)
       .subscribe({
         next: () => this.onSuccess(),
-        error: (error: HttpErrorModel) => this.onError(error),
+        error: (error: Error) => this.onError(error),
       });
   }
 
@@ -67,7 +66,7 @@ export class ForgotPasswordComponentService {
     this.redirect();
   }
 
-  protected onError(_error: HttpErrorModel): void {
+  protected onError(_error: Error): void {
     this.busy.next(false);
   }
 
