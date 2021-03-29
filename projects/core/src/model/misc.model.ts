@@ -116,7 +116,9 @@ export interface BaseSite {
   urlEncodingAttributes?: string[];
   baseStore?: BaseStore;
 }
-
+/**
+ * @deprecated moved to user lib
+ */
 export interface UserSignUp {
   firstName?: string;
   lastName?: string;
