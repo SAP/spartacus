@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { Config, I18nModule, provideDefaultConfig } from '@spartacus/core';
-import { ItemCounterModule } from '@spartacus/storefront';
+import { ItemCounterModule, KeyboardFocusModule } from '@spartacus/storefront';
 import {
   ConfiguratorUISettings,
   DefaultConfiguratorUISettings,
@@ -12,7 +12,7 @@ import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute
   declarations: [ConfiguratorAttributeQuantityComponent],
   entryComponents: [ConfiguratorAttributeQuantityComponent],
   exports: [ConfiguratorAttributeQuantityComponent],
-  imports: [CommonModule, I18nModule, ItemCounterModule],
+  imports: [CommonModule, I18nModule, ItemCounterModule, KeyboardFocusModule],
   providers: [
     provideDefaultConfig(DefaultConfiguratorUISettings),
     { provide: ConfiguratorUISettings, useExisting: Config },

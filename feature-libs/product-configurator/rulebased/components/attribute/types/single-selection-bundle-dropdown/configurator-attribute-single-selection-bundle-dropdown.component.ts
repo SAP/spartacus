@@ -141,6 +141,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       singleDropdown: true,
       withQuantity: false,
       loading$: this.loading$,
+      attributeId: this.attribute.attrCode,
     };
   }
 
