@@ -341,7 +341,6 @@ describe('CartItemListComponent', () => {
     expect(component.form.controls[removedObjectEntryName]).toBeDefined();
     component.items = newItems;
     fixture.detectChanges();
-    console.log(component.form);
     expect(component.form.controls[removedObjectEntryName]).toBeUndefined();
   });
 
