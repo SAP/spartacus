@@ -91,11 +91,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,
-    UpdateEmailModule,
-    UpdatePasswordModule,
-    UpdateProfileModule,
     ConsentManagementModule,
-    CloseAccountModule,
     CartComponentModule,
     TabParagraphContainerModule,
     OrderConfirmationModule,
@@ -104,10 +100,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     ProductVariantsModule,
     ProductIntroModule,
     CheckoutComponentModule,
-    ForgotPasswordModule,
-    ResetPasswordModule,
     BannerCarouselModule,
-    UserComponentModule,
     MyCouponsModule,
     WishListModule,
     NotificationPreferenceModule,
@@ -116,6 +109,17 @@ import { WishListModule } from './wish-list/wish-list.module';
     ReplenishmentOrderHistoryModule,
     ReplenishmentOrderConfirmationModule,
     ReplenishmentOrderDetailsModule,
+
+    // moved to user lib
+
+    UserComponentModule, // almost empty
+
+    CloseAccountModule,
+    UpdateEmailModule,
+    UpdatePasswordModule,
+    UpdateProfileModule,
+    ForgotPasswordModule,
+    ResetPasswordModule,
   ],
 })
 export class CmsLibModule {}

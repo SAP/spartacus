@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';
 import { provideConfig } from '@spartacus/core';
 import {
   orderApprovalTranslationChunksConfig,
   orderApprovalTranslations,
 } from '@spartacus/organization/order-approval/assets';
+import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';
 
 @NgModule({
   imports: [OrderApprovalRootModule],
@@ -21,7 +21,6 @@ import {
       i18n: {
         resources: orderApprovalTranslations,
         chunks: orderApprovalTranslationChunksConfig,
-        fallbackLang: 'en',
       },
     }),
   ],
