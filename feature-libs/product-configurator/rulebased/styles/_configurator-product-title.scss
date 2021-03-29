@@ -116,24 +116,12 @@
             font-weight: bold;
           }
 
-          @include forVersion(3.1) {
-            .cx-detail-title {
-              span {
-                @include cx-configurator-truncate-content();
-              }
-            }
-          }
-
           .cx-code {
             color: var(--cx-color-secondary);
-
-            @include forVersion(3.1) {
-              span {
-                @include cx-configurator-truncate-content();
-              }
-            }
           }
 
+          .cx-detail-title,
+          .cx-code,
           .cx-description {
             @include forVersion(3.1) {
               span {
