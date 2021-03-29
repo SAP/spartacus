@@ -39,7 +39,7 @@ export class FacadeFactoryService {
   ): Observable<T> {
     if (!this.featureModules.isConfigured(feature)) {
       return throwError(
-        new Error(`Feature ${[].concat(feature)[0]} is not configured properly`)
+        new Error(`Feature ${feature} is not configured properly`)
       );
     }
 
