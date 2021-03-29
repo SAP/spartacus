@@ -29,7 +29,7 @@ export class JavaRegExpConverter {
    * - https://stackoverflow.com/questions/8754444/convert-javascript-regular-expression-to-java-syntax
    * - https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines#Language_features
    */
-  toJsRegExp(javaSyntax: string): RegExp {
+  toJsRegExp(javaSyntax: string): RegExp | null {
     const parts = javaSyntax.match(this.EXTRACT_JAVA_REGEXP_MODIFIERS);
     if (!parts) {
       return null;
