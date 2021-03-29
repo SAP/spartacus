@@ -6,6 +6,8 @@
   "retries": {
     "runMode": 2
   },
+  "viewportWidth": 1000,
+  "viewportHeight": 1500,
   "videoUploadOnPasses": false,
   "env": {
     "CLIENT_ID": "mobile_android",
