@@ -18,9 +18,9 @@ export class UpdateProfileComponent {
   isLoading$ = new BehaviorSubject(false);
 
   constructor(
-    private routingService: RoutingService,
-    private userProfile: UserProfileFacade,
-    private globalMessageService: GlobalMessageService
+    protected routingService: RoutingService,
+    protected userProfile: UserProfileFacade,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   onSuccess(): void {

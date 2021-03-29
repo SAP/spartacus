@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, concatMap, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
 import { User } from '../../../model/misc.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConnector } from '../../connectors/user/user.connector';
@@ -13,7 +13,6 @@ export class UserDetailsEffects {
   loadUserDetails$: Observable<UserActions.UserDetailsAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_DETAILS),
     map((action: UserActions.LoadUserDetails) => action.payload),
-    tap(() => console.log('old load user effect')),
     mergeMap((userId) => {
       return this.userConnector.get(userId).pipe(
         map((user: User) => {
