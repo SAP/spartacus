@@ -34,7 +34,6 @@ export class ConfigureProductComponent {
    * Prevents page down behaviour when users press space key to select buttons
    *
    * @param {KeyboardEvent} event - Keyboard event
-   * @param {Configurator.Group} group - Entered group
    */
   preventScrollingOnSpace(event: KeyboardEvent): void {
     if (event.code === 'Space') {
@@ -45,7 +44,7 @@ export class ConfigureProductComponent {
    * Fired on keyboard events, checks for 'enter' or 'space' and naviagtes users to the configurator
    *
    * @param {KeyboardEvent} event - Keyboard event
-   * @param {Configurator.Group} group - Entered group
+   * @param {Product} product - Entered group
    */
   navigateToConfigurator(event: KeyboardEvent, product: Product): void {
     if (event.code === 'Enter' || event.code === 'Space') {
