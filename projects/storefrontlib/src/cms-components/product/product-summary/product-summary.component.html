@@ -15,12 +15,6 @@
     <p [innerHTML]="product?.summary" class="summary"></p>
   </ng-template>
 
-  <div *ngFor="let template of product.bundleTemplates">
-    <button (click)="startBundle(product, template)">
-      Start {{ template?.rootBundleTemplateName }} Bundle
-    </button>
-  </div>
-
   <!-- @TODO: Temp. Comment out share link while not in use by CMS -->
   <!-- <ng-container *cxOutlet="outlets.SHARE">
         <div>
@@ -29,4 +23,10 @@
           </a>
         </div>
       </ng-container> -->
+
+  <div *ngFor="let template of bundleTemplates$ | async">
+    <button (click)="startBundle(product, template)">
+      Start {{ template?.rootBundleTemplateName }} Bundle
+    </button>
+  </div>
 </ng-container>
