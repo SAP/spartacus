@@ -8,7 +8,6 @@ import {
   GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
-  RoutingService,
   UrlModule,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
@@ -37,7 +36,7 @@ import { UpdateProfileComponent } from './update-profile.component';
             {
               provide: UpdateProfileComponentService,
               useClass: UpdateProfileComponentService,
-              deps: [UserProfileFacade, RoutingService, GlobalMessageService],
+              deps: [UserProfileFacade, GlobalMessageService],
             },
           ],
         },

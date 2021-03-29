@@ -5,9 +5,10 @@ import {
   GlobalMessageType,
   HttpErrorModel,
 } from '@spartacus/core';
+import { User } from '@spartacus/user/account/root';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class UpdateProfileComponentService {
@@ -16,14 +17,19 @@ export class UpdateProfileComponentService {
     protected globalMessageService: GlobalMessageService
   ) {}
 
+  protected user$ = this.userProfile
+    .get()
+    .pipe(filter((user): user is User => Boolean(user)));
+
   protected busy = new BehaviorSubject(false);
 
-  isUpdating$ = this.busy.pipe(
+  isUpdating$: Observable<boolean> = this.user$.pipe(
+    tap((user) => this.form.patchValue(user)),
+    switchMap((_user: User) => this.busy),
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
   titles$ = this.userProfile.getTitles();
-  user$ = this.userProfile.get();
 
   form: FormGroup = new FormGroup({
     customerId: new FormControl(''),
