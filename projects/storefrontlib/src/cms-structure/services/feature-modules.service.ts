@@ -118,7 +118,7 @@ export class FeatureModulesService implements OnDestroy {
    *
    * It will first resolve all module dependencies if defined
    */
-  private resolveFeature(featureName: string): Observable<FeatureInstance> {
+  resolveFeature(featureName: string): Observable<FeatureInstance> {
     return defer(() => {
       if (!this.features.has(featureName)) {
         const featureConfig = this.featureModulesConfig[featureName];
