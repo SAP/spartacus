@@ -160,7 +160,6 @@ export interface Product {
   averageRating?: number;
   baseOptions?: BaseOption[];
   baseProduct?: string;
-  bundleTemplates?: BundleTemplate[];
   categories?: Category[];
   classifications?: Classification[];
   code?: string;
@@ -195,10 +194,4 @@ export enum VariantQualifier {
   THUMBNAIL = 'thumbnail',
   PRODUCT = 'product',
   ROLLUP_PROPERTY = 'rollupProperty',
-}
-
-export interface BundleTemplate {
-  id?: string;
-  name?: string;
-  rootBundleTemplateName?: string;
 }
