@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { UpdatePasswordService } from './update-password.service';
+import { UpdatePasswordComponentService } from './update-password-component.service';
 
 @Component({
   selector: 'cx-update-password',
@@ -8,12 +8,12 @@ import { UpdatePasswordService } from './update-password.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdatePasswordComponent {
-  constructor(protected service: UpdatePasswordService) {}
+  constructor(protected service: UpdatePasswordComponentService) {}
 
   form: FormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;
 
   onSubmit(): void {
-    this.service.update();
+    this.service.updatePassword();
   }
 }

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
@@ -11,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class UpdatePasswordService {
+export class UpdatePasswordComponentService {
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
@@ -41,13 +42,15 @@ export class UpdatePasswordService {
     }
   );
 
-  update(): void {
+  /**
+   * Updates the password for the user.
+   */
+  updatePassword(): void {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
       return;
     }
 
-    this.form.disable();
     this.busy.next(true);
 
     const oldPassword = this.form.get('oldPassword')?.value;
@@ -55,8 +58,7 @@ export class UpdatePasswordService {
 
     this.userPasswordService.update(oldPassword, newPassword).subscribe({
       next: () => this.onSuccess(),
-      error: () => {},
-      complete: () => this.resetForm(),
+      error: (error: HttpErrorModel) => this.onError(error),
     });
   }
 
@@ -65,11 +67,12 @@ export class UpdatePasswordService {
       { key: 'updatePasswordForm.passwordUpdateSuccess' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
+    this.busy.next(false);
+    this.form.reset();
     this.routingService.go({ cxRoute: 'home' });
   }
 
-  protected resetForm(): void {
+  protected onError(_error: HttpErrorModel): void {
     this.busy.next(false);
-    this.form.reset();
   }
 }

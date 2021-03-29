@@ -9,7 +9,7 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
-import { UpdatePasswordService } from './update-password.service';
+import { UpdatePasswordComponentService } from './update-password-component.service';
 import createSpy = jasmine.createSpy;
 
 class MockUserPasswordService implements Partial<UserPasswordFacade> {
@@ -23,8 +23,8 @@ class MockGlobalMessageService {
   add = createSpy().and.stub();
 }
 
-describe('UpdatePasswordService', () => {
-  let service: UpdatePasswordService;
+describe('UpdatePasswordComponentService', () => {
+  let service: UpdatePasswordComponentService;
   let userService: UserPasswordFacade;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
@@ -36,7 +36,7 @@ describe('UpdatePasswordService', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       providers: [
-        UpdatePasswordService,
+        UpdatePasswordComponentService,
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -54,7 +54,7 @@ describe('UpdatePasswordService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.inject(UpdatePasswordService);
+    service = TestBed.inject(UpdatePasswordComponentService);
     routingService = TestBed.inject(RoutingService);
     userService = TestBed.inject(UserPasswordFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
@@ -77,12 +77,12 @@ describe('UpdatePasswordService', () => {
       });
 
       it('should update password', () => {
-        service.update();
+        service.updatePassword();
         expect(userService.update).toHaveBeenCalledWith('Old123!', 'New123!');
       });
 
       it('should show message', () => {
-        service.update();
+        service.updatePassword();
         expect(globalMessageService.add).toHaveBeenCalledWith(
           {
             key: 'updatePasswordForm.passwordUpdateSuccess',
@@ -92,14 +92,14 @@ describe('UpdatePasswordService', () => {
       });
 
       it('should reroute to the login page', () => {
-        service.update();
+        service.updatePassword();
 
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'home' });
       });
 
       it('reset()', () => {
         spyOn(service.form, 'reset').and.callThrough();
-        service.update();
+        service.updatePassword();
         expect(service.form.reset).toHaveBeenCalled();
       });
     });
@@ -107,7 +107,7 @@ describe('UpdatePasswordService', () => {
     describe('error', () => {
       it('should not save invalid email', () => {
         newPassword.setValue('diff@sap.com');
-        service.update();
+        service.updatePassword();
         expect(userService.update).not.toHaveBeenCalled();
         expect(globalMessageService.add).not.toHaveBeenCalled();
         expect(routingService.go).not.toHaveBeenCalled();

@@ -13,8 +13,8 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
-import { UpdatePasswordService } from './update-password.service';
 
 @NgModule({
   imports: [
@@ -35,8 +35,8 @@ import { UpdatePasswordService } from './update-password.service';
           guards: [AuthGuard],
           providers: [
             {
-              provide: UpdatePasswordService,
-              useClass: UpdatePasswordService,
+              provide: UpdatePasswordComponentService,
+              useClass: UpdatePasswordComponentService,
               deps: [UserPasswordFacade, RoutingService, GlobalMessageService],
             },
           ],

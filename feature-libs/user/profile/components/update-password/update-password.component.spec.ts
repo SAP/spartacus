@@ -11,8 +11,8 @@ import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
+import { UpdatePasswordComponentService } from './update-password-component.service';
 import { UpdatePasswordComponent } from './update-password.component';
-import { UpdatePasswordService } from './update-password.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -22,14 +22,15 @@ import createSpy = jasmine.createSpy;
 class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
-class MockUpdatePasswordService implements Partial<UpdatePasswordService> {
+class MockUpdatePasswordService
+  implements Partial<UpdatePasswordComponentService> {
   form: FormGroup = new FormGroup({
     oldPassword: new FormControl(),
     newPassword: new FormControl(),
     newPasswordConfirm: new FormControl(),
   });
   isUpdating$ = isBusySubject;
-  update = createSpy().and.stub();
+  updatePassword = createSpy().and.stub();
   resetForm = createSpy().and.stub();
 }
 
@@ -38,7 +39,7 @@ describe('UpdatePasswordComponent', () => {
   let fixture: ComponentFixture<UpdatePasswordComponent>;
   let el: DebugElement;
 
-  let service: UpdatePasswordService;
+  let service: UpdatePasswordComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -53,7 +54,7 @@ describe('UpdatePasswordComponent', () => {
         declarations: [UpdatePasswordComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: UpdatePasswordService,
+            provide: UpdatePasswordComponentService,
             useClass: MockUpdatePasswordService,
           },
         ],
@@ -69,7 +70,7 @@ describe('UpdatePasswordComponent', () => {
     fixture = TestBed.createComponent(UpdatePasswordComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    service = TestBed.inject(UpdatePasswordService);
+    service = TestBed.inject(UpdatePasswordComponentService);
 
     fixture.detectChanges();
   });
@@ -119,7 +120,7 @@ describe('UpdatePasswordComponent', () => {
 
     it('should call the service method on submit', () => {
       component.onSubmit();
-      expect(service.update).toHaveBeenCalled();
+      expect(service.updatePassword).toHaveBeenCalled();
     });
   });
 });
