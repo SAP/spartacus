@@ -1,68 +1,81 @@
-import { DebugElement, Pipe, PipeTransform } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
+import { FormErrorsModule } from '@spartacus/storefront';
+import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
-import { ForgotPasswordComponentService } from './forgot-password-component.service';
-import { ForgotPasswordComponent } from './forgot-password.component';
+import { UpdatePasswordComponentService } from './update-password-component.service';
+import { UpdatePasswordComponent } from './update-password.component';
 import createSpy = jasmine.createSpy;
 
+@Component({
+  selector: 'cx-spinner',
+  template: '',
+})
+class MockCxSpinnerComponent {}
+
 const isBusySubject = new BehaviorSubject(false);
-class MockForgotPasswordService
-  implements Partial<ForgotPasswordComponentService> {
+class MockUpdatePasswordService
+  implements Partial<UpdatePasswordComponentService> {
   form: FormGroup = new FormGroup({
-    userEmail: new FormControl(),
+    oldPassword: new FormControl(),
+    newPassword: new FormControl(),
+    newPasswordConfirm: new FormControl(),
   });
   isUpdating$ = isBusySubject;
-  requestEmail = createSpy().and.stub();
+  updatePassword = createSpy().and.stub();
   resetForm = createSpy().and.stub();
 }
-@Pipe({
-  name: 'cxUrl',
-})
-class MockUrlPipe implements PipeTransform {
-  transform() {}
-}
 
-describe('ForgotPasswordComponent', () => {
-  let component: ForgotPasswordComponent;
-  let fixture: ComponentFixture<ForgotPasswordComponent>;
+describe('UpdatePasswordComponent', () => {
+  let component: UpdatePasswordComponent;
+  let fixture: ComponentFixture<UpdatePasswordComponent>;
   let el: DebugElement;
-  let service: ForgotPasswordComponentService;
+
+  let service: UpdatePasswordComponentService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [
           ReactiveFormsModule,
-          RouterTestingModule,
           I18nTestingModule,
           FormErrorsModule,
-          SpinnerModule,
+          RouterTestingModule,
+          UrlTestingModule,
         ],
-        declarations: [ForgotPasswordComponent, MockUrlPipe],
+        declarations: [UpdatePasswordComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: ForgotPasswordComponentService,
-            useClass: MockForgotPasswordService,
+            provide: UpdatePasswordComponentService,
+            useClass: MockUpdatePasswordService,
           },
         ],
-      }).compileComponents();
+      })
+        .overrideComponent(UpdatePasswordComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ForgotPasswordComponent);
-    service = TestBed.inject(ForgotPasswordComponentService);
+    fixture = TestBed.createComponent(UpdatePasswordComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
+    service = TestBed.inject(UpdatePasswordComponentService);
+
     fixture.detectChanges();
   });
 
-  it('should create component', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -107,7 +120,7 @@ describe('ForgotPasswordComponent', () => {
 
     it('should call the service method on submit', () => {
       component.onSubmit();
-      expect(service.requestEmail).toHaveBeenCalled();
+      expect(service.updatePassword).toHaveBeenCalled();
     });
   });
 });

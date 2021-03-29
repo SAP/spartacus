@@ -1,15 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
   CmsConfig,
+  GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
+  RoutingService,
+  UrlModule,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { UpdatePasswordFormComponent } from './components/update-password-form/update-password-form.component';
-import { UpdatePasswordComponent } from './components/update-password/update-password.component';
+import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { UpdatePasswordComponentService } from './update-password-component.service';
+import { UpdatePasswordComponent } from './update-password.component';
 
 @NgModule({
   imports: [
@@ -19,6 +24,8 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
     SpinnerModule,
     I18nModule,
     FormErrorsModule,
+    UrlModule,
+    RouterModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -26,12 +33,17 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
         UpdatePasswordComponent: {
           component: UpdatePasswordComponent,
           guards: [AuthGuard],
+          providers: [
+            {
+              provide: UpdatePasswordComponentService,
+              useClass: UpdatePasswordComponentService,
+              deps: [UserPasswordFacade, RoutingService, GlobalMessageService],
+            },
+          ],
         },
       },
     }),
   ],
-  declarations: [UpdatePasswordComponent, UpdatePasswordFormComponent],
-  exports: [UpdatePasswordComponent, UpdatePasswordFormComponent],
-  entryComponents: [UpdatePasswordComponent],
+  declarations: [UpdatePasswordComponent],
 })
 export class UpdatePasswordModule {}
