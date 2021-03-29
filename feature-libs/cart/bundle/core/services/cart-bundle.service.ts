@@ -1,22 +1,39 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartService, UserIdService } from '@spartacus/core';
 import {
-  take,
-} from 'rxjs/operators';
+  ActiveCartService,
+  Product,
+  ProductService,
+  UserIdService,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { BundleService } from '../facade/bundle.service';
+import { BundleProductScope } from '../model';
+import { BundleTemplate } from '../model/bundle-template.model';
 import { BundleStarter } from '../model/bundle.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CartBundleService {
+  protected readonly PRODUCT_SCOPE = BundleProductScope.TEMPLATES;
+
   constructor(
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
-    protected bundleService: BundleService
-  ) {
-  }
+    protected bundleService: BundleService,
+    protected productService: ProductService
+  ) {}
 
+  getBundleTemplates(
+    productCode: string
+  ): Observable<BundleTemplate[] | undefined> {
+    return this.productService.get(productCode, this.PRODUCT_SCOPE).pipe(
+      switchMap((productBundleScope: Product) => {
+        return of(productBundleScope?.bundleTemplates ?? []);
+      })
+    );
+  }
 
   /**
    * Start bundle
@@ -26,15 +43,14 @@ export class CartBundleService {
    * @param templateId
    */
   startBundle(starter: BundleStarter) {
-    this.activeCartService.getActiveCartId().pipe(take(1)).subscribe((cartId) => {
-      this.userIdService.takeUserId().subscribe((userId) => {
-        this.bundleService.startBundle(
-          cartId,
-          userId,
-          starter
-        );
+    this.activeCartService
+      .getActiveCartId()
+      .pipe(take(1))
+      .subscribe((cartId) => {
+        this.userIdService.takeUserId().subscribe((userId) => {
+          this.bundleService.startBundle(cartId, userId, starter);
+        });
       });
-    });
   }
 
   /**
@@ -43,15 +59,18 @@ export class CartBundleService {
    * @param entryGroupNumber
    */
   getBundleAllowedProducts(entryGroupNumber: number) {
-    this.activeCartService.getActiveCartId().pipe(take(1)).subscribe((cartId) => {
-      this.userIdService.takeUserId().subscribe((userId) => {
-        this.bundleService?.getBundleAllowedProducts(
-          cartId,
-          userId,
-          entryGroupNumber
-        );
+    this.activeCartService
+      .getActiveCartId()
+      .pipe(take(1))
+      .subscribe((cartId) => {
+        this.userIdService.takeUserId().subscribe((userId) => {
+          this.bundleService?.getBundleAllowedProducts(
+            cartId,
+            userId,
+            entryGroupNumber
+          );
+        });
       });
-    });
   }
 
   /**
@@ -60,11 +79,14 @@ export class CartBundleService {
    * @param entryGroupNumber
    */
   getAvailableEntries(entryGroupNumber: number) {
-    let cartId
+    let cartId;
 
-    this.activeCartService.getActiveCartId().pipe(take(1)).subscribe((activeCartId) => {
-      cartId = activeCartId
-    });
+    this.activeCartService
+      .getActiveCartId()
+      .pipe(take(1))
+      .subscribe((activeCartId) => {
+        cartId = activeCartId;
+      });
 
     return this.bundleService.getAvailableEntriesEntity(
       cartId,
