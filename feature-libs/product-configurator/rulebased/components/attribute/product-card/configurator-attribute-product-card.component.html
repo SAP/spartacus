@@ -15,20 +15,9 @@
 
       <div class="cx-product-card-info">
         <div class="cx-product-card-name">
-          <p *ngIf="product?.noLink; else withLink">
+          <p>
             {{ product.name }}
           </p>
-          <ng-template #withLink>
-            <a
-              [cxFocus]="focusConfig"
-              [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
-              class="cx-link"
-              cxModal="dismiss"
-              target="_blank"
-            >
-              {{ product.name }}</a
-            >
-          </ng-template>
         </div>
         <div class="cx-product-card-code" *ngIf="product.code">
           {{ 'configurator.attribute.id' | cxTranslate }}:
