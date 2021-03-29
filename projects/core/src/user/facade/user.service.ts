@@ -9,7 +9,7 @@ import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
   getProcessLoadingFactory,
-  getProcessSuccessFactory
+  getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -20,12 +20,12 @@ import {
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_PASSWORD_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
-  USER_FEATURE
+  USER_FEATURE,
 } from '../store/user-state';
 import {
   UserAccountFacadeTransitionalToken,
   UserProfileFacadeTransitionalToken,
-  UserRegisterFacadeTransitionalToken
+  UserRegisterFacadeTransitionalToken,
 } from '../user-transitional-tokens';
 
 @Injectable({ providedIn: 'root' })
