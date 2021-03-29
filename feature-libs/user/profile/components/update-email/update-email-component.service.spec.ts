@@ -10,7 +10,7 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
-import { UpdateEmailService } from './update-email.service';
+import { UpdateEmailComponentService } from './update-email-component.service';
 import createSpy = jasmine.createSpy;
 class MockUserEmailService implements Partial<UserEmailFacade> {
   update = createSpy().and.returnValue(of({}));
@@ -25,8 +25,8 @@ class MockGlobalMessageService {
   add = createSpy().and.stub();
 }
 
-describe('UpdateEmailService', () => {
-  let service: UpdateEmailService;
+describe('UpdateEmailComponentService', () => {
+  let service: UpdateEmailComponentService;
   let userService: UserEmailFacade;
   let authService: AuthService;
   let routingService: RoutingService;
@@ -39,7 +39,7 @@ describe('UpdateEmailService', () => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
       providers: [
-        UpdateEmailService,
+        UpdateEmailComponentService,
         {
           provide: RoutingService,
           useClass: MockRoutingService,
@@ -61,7 +61,7 @@ describe('UpdateEmailService', () => {
   });
 
   beforeEach(() => {
-    service = TestBed.inject(UpdateEmailService);
+    service = TestBed.inject(UpdateEmailComponentService);
 
     routingService = TestBed.inject(RoutingService);
     authService = TestBed.inject(AuthService);

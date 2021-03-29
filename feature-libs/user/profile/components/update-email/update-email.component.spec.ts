@@ -11,8 +11,8 @@ import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject } from 'rxjs';
+import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
-import { UpdateEmailService } from './update-email.service';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -22,7 +22,7 @@ import createSpy = jasmine.createSpy;
 class MockCxSpinnerComponent {}
 
 const isBusySubject = new BehaviorSubject(false);
-class MockUpdateEmailService implements Partial<UpdateEmailService> {
+class MockUpdateEmailService implements Partial<UpdateEmailComponentService> {
   form: FormGroup = new FormGroup({
     email: new FormControl(),
     confirmEmail: new FormControl(),
@@ -38,7 +38,7 @@ describe('UpdateEmailComponent', () => {
   let fixture: ComponentFixture<UpdateEmailComponent>;
   let el: DebugElement;
 
-  let service: UpdateEmailService;
+  let service: UpdateEmailComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -53,7 +53,7 @@ describe('UpdateEmailComponent', () => {
         declarations: [UpdateEmailComponent, MockCxSpinnerComponent],
         providers: [
           {
-            provide: UpdateEmailService,
+            provide: UpdateEmailComponentService,
             useClass: MockUpdateEmailService,
           },
         ],
@@ -69,7 +69,7 @@ describe('UpdateEmailComponent', () => {
     fixture = TestBed.createComponent(UpdateEmailComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    service = TestBed.inject(UpdateEmailService);
+    service = TestBed.inject(UpdateEmailComponentService);
 
     fixture.detectChanges();
   });

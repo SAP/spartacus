@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { UpdateEmailService } from './update-email.service';
+import { UpdateEmailComponentService } from './update-email-component.service';
 
 @Component({
   selector: 'cx-update-email',
@@ -8,7 +8,7 @@ import { UpdateEmailService } from './update-email.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateEmailComponent {
-  constructor(protected service: UpdateEmailService) {}
+  constructor(protected service: UpdateEmailComponentService) {}
 
   form: FormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;

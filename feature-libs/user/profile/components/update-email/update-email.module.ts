@@ -14,8 +14,8 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UserEmailFacade } from '@spartacus/user/profile/root';
+import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
-import { UpdateEmailService } from './update-email.service';
 
 @NgModule({
   imports: [
@@ -36,8 +36,8 @@ import { UpdateEmailService } from './update-email.service';
           guards: [AuthGuard],
           providers: [
             {
-              provide: UpdateEmailService,
-              useClass: UpdateEmailService,
+              provide: UpdateEmailComponentService,
+              useClass: UpdateEmailComponentService,
               deps: [
                 UserEmailFacade,
                 RoutingService,
