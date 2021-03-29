@@ -2,8 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
   BaseSiteService,
-  ExternalJsFileLoader,
   LanguageService,
+  ScriptLoader,
   User,
   UserService,
   WindowRef,
@@ -41,12 +41,13 @@ interface Window {
   gigya?: any;
 }
 
-class ExternalJsFileLoaderMock {
-  public load(
-    _src: string,
-    _params?: Object,
-    _callback?: EventListener
-  ): void {}
+class ScriptLoaderMock {
+  public embedScript(_embedOptions: {
+    _src: string;
+    _params?: Object;
+    _attributes?: Object;
+    _callback?: EventListener;
+  }): void {}
 }
 
 class MockCdcAuthService implements Partial<CdcAuthService> {
@@ -85,7 +86,7 @@ describe('CdcJsService', () => {
   let service: CdcJsService;
   let baseSiteService: BaseSiteService;
   let languageService: LanguageService;
-  let externalJsFileLoader: ExternalJsFileLoader;
+  let scriptLoader: ScriptLoader;
   let cdcAuth: CdcAuthService;
   let userService: UserService;
   let winRef: WindowRef;
@@ -97,9 +98,8 @@ describe('CdcJsService', () => {
         { provide: CdcConfig, useValue: sampleCdcConfig },
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: LanguageService, useClass: LanguageServiceStub },
-        { provide: ExternalJsFileLoader, useClass: ExternalJsFileLoaderMock },
+        { provide: ScriptLoader, useClass: ScriptLoaderMock },
         { provide: CdcAuthService, useClass: MockCdcAuthService },
-        { provide: ExternalJsFileLoader, useClass: ExternalJsFileLoaderMock },
         { provide: UserService, useClass: MockUserService },
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: Subscription, useValue: MockSubscription },
@@ -110,7 +110,7 @@ describe('CdcJsService', () => {
     service = TestBed.inject(CdcJsService);
     baseSiteService = TestBed.inject(BaseSiteService);
     languageService = TestBed.inject(LanguageService);
-    externalJsFileLoader = TestBed.inject(ExternalJsFileLoader);
+    scriptLoader = TestBed.inject(ScriptLoader);
     cdcAuth = TestBed.inject(CdcAuthService);
     userService = TestBed.inject(UserService);
     authService = TestBed.inject(AuthService);
@@ -133,9 +133,11 @@ describe('CdcJsService', () => {
 
   describe('didLoad', () => {
     it('should return CDC script loading state', () => {
-      spyOn(externalJsFileLoader, 'load').and.callFake((_a, _b, loadCb) => {
-        loadCb({} as Event);
-      });
+      spyOn(scriptLoader, 'embedScript').and.callFake(
+        (embedOptions: { src; params; attributes; loadCb }) => {
+          embedOptions.loadCb({} as Event);
+        }
+      );
 
       service
         .didLoad()
@@ -153,9 +155,9 @@ describe('CdcJsService', () => {
 
   describe('didScriptFailToLoad', () => {
     it('should return CDC script loading error state', () => {
-      spyOn(externalJsFileLoader, 'load').and.callFake(
-        (_a, _b, _c, errorCb) => {
-          errorCb({} as Event);
+      spyOn(scriptLoader, 'embedScript').and.callFake(
+        (embedOptions: { src; params; attributes; callback; errorCb }) => {
+          embedOptions.errorCb({} as Event);
         }
       );
 
@@ -178,18 +180,19 @@ describe('CdcJsService', () => {
       const site = 'electronics-spa';
       const language = 'en';
 
-      spyOn(externalJsFileLoader, 'load');
+      spyOn(scriptLoader, 'embedScript');
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
       spyOn(languageService, 'getActive').and.returnValue(of(language));
 
       service.loadCdcJavascript();
 
-      expect(externalJsFileLoader.load).toHaveBeenCalledWith(
-        'sample-url&lang=en',
-        undefined,
-        jasmine.any(Function),
-        jasmine.any(Function)
-      );
+      expect(scriptLoader.embedScript).toHaveBeenCalledWith({
+        src: 'sample-url&lang=en',
+        params: undefined,
+        attributes: { type: 'text/javascript' },
+        callback: jasmine.any(Function) as any,
+        errorCallback: jasmine.any(Function) as any,
+      });
       expect(winRef.nativeWindow['__gigyaConf']).toEqual({
         include: 'id_token',
       });
@@ -199,13 +202,13 @@ describe('CdcJsService', () => {
       const site = 'electronics';
       const language = 'en';
 
-      spyOn(externalJsFileLoader, 'load');
+      spyOn(scriptLoader, 'embedScript');
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));
       spyOn(languageService, 'getActive').and.returnValue(of(language));
 
       service.initialize();
 
-      expect(externalJsFileLoader.load).not.toHaveBeenCalled();
+      expect(scriptLoader.embedScript).not.toHaveBeenCalled();
     });
   });
 
@@ -214,7 +217,7 @@ describe('CdcJsService', () => {
       const site = 'electronics-spa';
       const language = 'en';
 
-      spyOn(externalJsFileLoader, 'load').and.callFake(() => {
+      spyOn(scriptLoader, 'embedScript').and.callFake(() => {
         service['registerEventListeners']('electronics-spa');
       });
       spyOn(baseSiteService, 'getActive').and.returnValue(of(site));

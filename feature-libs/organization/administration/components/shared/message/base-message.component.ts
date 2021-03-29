@@ -11,12 +11,13 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { MessageData } from './message.model';
 
 @Directive()
-// tslint:disable-next-line: directive-class-suffix
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class BaseMessageComponent implements OnInit {
   @HostBinding('class') type: string;
   @HostBinding('class.terminated') terminated = false;
 
   message: Translatable;
+  messageTitle?: Translatable;
 
   /**
    * Icon used to display next to the message.
@@ -30,6 +31,7 @@ export abstract class BaseMessageComponent implements OnInit {
 
   ngOnInit() {
     this.message = this.messageData.message ?? {};
+    this.messageTitle = this.messageData.messageTitle;
     this.type = this.resolveType();
     this.messageIcon = this.messageData.messageIcon;
 

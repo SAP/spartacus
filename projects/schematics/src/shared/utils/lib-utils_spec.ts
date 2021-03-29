@@ -133,7 +133,7 @@ describe('Lib utils', () => {
       );
       const result = await schematicRunner.callRule(rule, appTree).toPromise();
 
-      const appModule = result.read(appModulePath).toString(UTF_8);
+      const appModule = result.read(appModulePath)?.toString(UTF_8);
       expect(appModule).toContain(
         `import { ${I18N_RESOURCES} } from '${ASSETS_IMPORT_PATH}';`
       );
@@ -142,6 +142,23 @@ describe('Lib utils', () => {
       );
       expect(appModule).toContain(`resources: ${I18N_RESOURCES},`);
       expect(appModule).toContain(`chunks: ${I18N_CHUNKS},`);
+    });
+    it('should NOT add i18n if the config is not present', async () => {
+      const featureConfig: FeatureConfig = {
+        ...BASE_FEATURE_CONFIG,
+        i18n: undefined,
+      };
+      const rule = addLibraryFeature(
+        appModulePath,
+        BASE_OPTIONS,
+        featureConfig
+      );
+      const result = await schematicRunner.callRule(rule, appTree).toPromise();
+
+      const appModule = result.read(appModulePath)?.toString(UTF_8);
+      expect(appModule).not.toContain(`providers: [
+        provideConfig({
+          i18n: {`);
     });
     describe('when no default config is present', () => {
       it('should not add it', async () => {
@@ -154,7 +171,7 @@ describe('Lib utils', () => {
           .callRule(rule, appTree)
           .toPromise();
 
-        const appModule = result.read(appModulePath).toString(UTF_8);
+        const appModule = result.read(appModulePath)?.toString(UTF_8);
         expect(appModule).not.toContain(DEFAULT_CONFIG_IMPORT_PATH);
         expect(appModule).not.toContain(DEFAULT_CONFIG);
       });
@@ -172,7 +189,7 @@ describe('Lib utils', () => {
           .callRule(rule, appTree)
           .toPromise();
 
-        const appModule = result.read(appModulePath).toString(UTF_8);
+        const appModule = result.read(appModulePath)?.toString(UTF_8);
         expect(appModule).toContain(DEFAULT_CONFIG_IMPORT_PATH);
         expect(appModule).toContain(DEFAULT_CONFIG);
       });
@@ -188,7 +205,7 @@ describe('Lib utils', () => {
           .callRule(rule, appTree)
           .toPromise();
 
-        const appModule = result.read(appModulePath).toString(UTF_8);
+        const appModule = result.read(appModulePath)?.toString(UTF_8);
         expect(appModule).toContain(
           `import { ${ROOT_MODULE_NAME} } from '${ROOT_FEATURE_MODULE_IMPORT_PATH}';`
         );
@@ -211,7 +228,7 @@ describe('Lib utils', () => {
           .callRule(rule, appTree)
           .toPromise();
 
-        const appModule = result.read(appModulePath).toString(UTF_8);
+        const appModule = result.read(appModulePath)?.toString(UTF_8);
         expect(appModule).not.toContain(
           `module: () => import('${FEATURE_MODULE_IMPORT_PATH}').then(`
         );
@@ -235,7 +252,7 @@ describe('Lib utils', () => {
           .toPromise();
 
         expect(result.exists(scssFilePath)).toEqual(true);
-        const content = result.read(scssFilePath).toString(UTF_8);
+        const content = result.read(scssFilePath)?.toString(UTF_8);
         expect(content).toContain(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
       });
     });

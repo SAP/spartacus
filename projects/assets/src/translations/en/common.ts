@@ -12,6 +12,7 @@ export const common = {
     home: 'Home',
     noData: 'No data.',
     confirm: 'Confirm',
+    more: 'more',
   },
   pageMetaResolver: {
     category: {
@@ -60,6 +61,8 @@ export const common = {
     badGateway: 'A server error occurred. Please try again later.',
     badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
+    badRequestGuestDuplicateEmail:
+      '{{ errorMessage }} email already exist. Please checkout with a different email to register using a guest account.',
     conflict: 'Already exists.',
     forbidden:
       'You are not authorized to perform this action. Please contact your administrator if you think this is a mistake.',
@@ -117,6 +120,7 @@ export const common = {
     total: '{{total}}',
     count: '{{count}}',
   },
+  // deprecated since 3.2, moved to @spartacus/user/account/assets
   miniLogin: {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',

@@ -9,7 +9,9 @@ import { Table, TableStructure } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemService } from '../item.service';
+import { OrganizationTableType } from '../organization.model';
 import { ListService } from './list.service';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-org-list',
@@ -25,11 +27,13 @@ export class ListComponent<T = any, P = PaginationModel> {
   ) {}
 
   @HostBinding('class')
-  viewType = this.service.viewType;
+  viewType: OrganizationTableType = this.service.viewType;
 
   domainType = this.service.domainType;
 
   sortCode: string;
+
+  iconTypes = ICON_TYPE;
 
   /**
    * The current key represents the current selected item from the dataset.

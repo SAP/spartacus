@@ -10,6 +10,7 @@
         required
         placeholder="{{ 'orgUnit.name' | cxTranslate }}"
         formControlName="name"
+        (blur)="createUidWithName(form.get('name'), form.get('uid'))"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
     </label>

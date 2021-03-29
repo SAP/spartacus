@@ -16,9 +16,7 @@ export class CheckoutProgressMobileBottomComponent {
   constructor(protected checkoutStepService: CheckoutStepService) {}
 
   activeStepIndex: number;
-  activeStepIndex$: Observable<
-    number
-  > = this.checkoutStepService.activeStepIndex$.pipe(
+  activeStepIndex$: Observable<number> = this.checkoutStepService.activeStepIndex$.pipe(
     tap((index) => (this.activeStepIndex = index))
   );
 

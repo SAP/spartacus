@@ -20,9 +20,13 @@
 
 <div class="cx-item-list-row" *ngFor="let item of items; let i = index">
   <div
-    class="cx-item-list-items"
     *ngIf="getControl(item) | async as control"
-    [class.is-changed]="control.get('quantity').dirty"
+    class="cx-item-list-items"
+    [class.is-changed]="
+      featureConfigService?.isLevel('3.1')
+        ? control.get('quantity').disabled
+        : control.get('quantity').dirty
+    "
   >
     <cx-cart-item
       [item]="item"

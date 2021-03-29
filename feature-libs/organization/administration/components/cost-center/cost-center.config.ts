@@ -23,6 +23,7 @@ import { CostCenterFormComponent } from './form/cost-center-form.component';
 import { CostCenterItemService } from './services/cost-center-item.service';
 import { CostCenterListService } from './services/cost-center-list.service';
 import { CostCenterRoutePageMetaResolver } from './services/cost-center-route-page-meta.resolver';
+import { BudgetDetailsCellComponent } from '../budget/details-cell/budget-details-cell.component';
 
 const listPath = `organization/cost-centers/:${ROUTE_PARAMS.costCenterCode}`;
 const paramsMapping: ParamsMapping = {
@@ -32,6 +33,9 @@ const paramsMapping: ParamsMapping = {
 export const costCenterRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
+      orgCostCenter: {
+        paths: ['/organization/cost-centers'],
+      },
       orgCostCenterCreate: {
         paths: ['organization/cost-centers/create'],
       },
@@ -152,7 +156,7 @@ export const costCenterTableConfig: TableConfig = {
       options: {
         cells: {
           name: {
-            linkable: false,
+            dataComponent: BudgetDetailsCellComponent,
           },
           actions: {
             dataComponent: AssignCellComponent,
@@ -169,7 +173,7 @@ export const costCenterTableConfig: TableConfig = {
       options: {
         cells: {
           name: {
-            linkable: false,
+            dataComponent: BudgetDetailsCellComponent,
           },
           actions: {
             dataComponent: AssignCellComponent,

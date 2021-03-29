@@ -19,7 +19,7 @@
     {
       "name": "basesites",
       "urls": [
-        "*/basesites?fields=baseSites\\(uid,defaultLanguage\\(isocode\\),urlEncodingAttributes,urlPatterns,stores\\(currencies\\(isocode\\),defaultCurrency\\(isocode\\),languages\\(isocode\\),defaultLanguage\\(isocode\\)\\)\\)*"
+        "*/basesites?fields=baseSites\\(uid,defaultLanguage\\(isocode\\),urlEncodingAttributes,urlPatterns,stores\\(currencies\\(isocode\\),defaultCurrency\\(isocode\\),languages\\(isocode\\),defaultLanguage\\(isocode\\)\\),theme,defaultPreviewCatalogId,defaultPreviewCategoryCode,defaultPreviewProductCode\\)*"
       ],
       "cacheConfig": {
         "maxSize": 1,

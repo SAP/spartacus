@@ -20,12 +20,6 @@
       "factory": "./add-pwa/index#addPWA",
       "aliases": ["pwa"]
     },
-    "run-angular-pwa-schematics": {
-      "description": "Run @angular/pwa schematics",
-      "factory": "./add-pwa/index#runAngularPWASchematics",
-      "private": true,
-      "hidden": true
-    },
     "add-ssr": {
       "description": "Add server-side rendering.",
       "factory": "./add-ssr/index#addSSR",

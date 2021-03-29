@@ -2,7 +2,7 @@ export const DEFAULT_SCOPE = 'default';
 
 export interface OccEndpoint {
   default?: string;
-  [scope: string]: string;
+  [scope: string]: string | undefined;
 }
 
 export interface ProductOccEndpoint extends OccEndpoint {
@@ -116,24 +116,6 @@ export interface OccEndpoints {
    */
   addEmail?: string | OccEndpoint;
   /**
-   * Get a store location
-   *
-   * @member {string} [page]
-   */
-  store?: string | OccEndpoint;
-  /**
-   * Get a list of store locations
-   *
-   * @member {string} [page]
-   */
-  stores?: string | OccEndpoint;
-  /**
-   * Gets a store location count per country and regions
-   *
-   * @member {string} [page]
-   */
-  storescounts?: string | OccEndpoint;
-  /**
    * Get a list of available languages
    *
    * @member {string}
@@ -162,42 +144,49 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   titles?: string | OccEndpoint;
   /**
    * Get user details
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   user?: string | OccEndpoint;
   /**
    * Register a new user.
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userRegister?: string | OccEndpoint;
   /**
    * Request an email to reset the password
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userForgotPassword?: string | OccEndpoint;
   /**
    * Reset the password once the email is recieved.
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userResetPassword?: string | OccEndpoint;
   /**
    * Update the user id with which the user authenticates.
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userUpdateLoginId?: string | OccEndpoint;
   /**
    * Update the user's password
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userUpdatePassword?: string | OccEndpoint;
   /**
    * Payment details root endpoint.
@@ -266,6 +255,74 @@ export interface OccEndpoints {
    */
   addressVerification?: string | OccEndpoint;
   /**
+   * Endpoint for create configuration
+   *
+   * @member {string}
+   */
+  createVariantConfiguration?: string;
+  /**
+   * Endpoint for create configuration for the textfield configurator
+   *
+   * @member {string}
+   */
+  createTextfieldConfiguration?: string;
+  /**
+   * Endpoint for add textfield configuration to cart
+   *
+   * @member {string}
+   */
+  addTextfieldConfigurationToCart?: string;
+  /**
+   * Endpoint for reading textfield configuration attached to the cart entry
+   */
+  readTextfieldConfigurationForCartEntry?: string;
+  /**
+   * Endpoint for updating textfield configuration attached to the cart entry
+   */
+  updateTextfieldConfigurationForCartEntry?: string;
+  /**
+   * Endpoint to read configuration
+   *
+   * @member {string}
+   */
+  readVariantConfiguration?: string;
+  /**
+   * Endpoint to update configuration
+   *
+   * @member {string}
+   */
+  updateVariantConfiguration?: string;
+  /**
+   * Endpoint to add configuration to cart
+   *
+   * @member {string}
+   */
+  addVariantConfigurationToCart?: string;
+  /**
+   * Endpoint for reading configuration attached to the cart entry
+   */
+  readVariantConfigurationForCartEntry?: string;
+  /**
+   * Endpoint for updating configuration attached to the cart entry
+   */
+  updateVariantConfigurationForCartEntry?: string;
+  /**
+   * Endpoint for reading configuration overview attached to the order entry
+   */
+  readVariantConfigurationOverviewForOrderEntry?: string;
+  /**
+   * Endpoint to read configuration price
+   *
+   * @member {string}
+   */
+  readVariantConfigurationPriceSummary?: string;
+  /**
+   * Endpoint to get configuration Overview
+   *
+   * @member {string}
+   */
+  getVariantConfigurationOverview?: string;
+  /**
    * Endpoint for consignment tracking
    *
    * @member {string}
@@ -301,12 +358,6 @@ export interface OccEndpoints {
    * @member {string}
    */
   couponNotification?: string | OccEndpoint;
-  /**
-   * Explicitly saves a cart
-   *
-   * @member {string}
-   */
-  saveCart?: string | OccEndpoint;
   /**
    * Endpoint for notification preference
    *
@@ -353,6 +404,75 @@ export interface OccEndpoints {
    * Endpoint for place order
    */
   placeOrder?: string | OccEndpoint;
+  /**
+   * Endpoint to schedule a replenishment order
+   *
+   * * @member {string}
+   */
+  scheduleReplenishmentOrder?: string | OccEndpoint;
+  /**
+   * * Endpoint for the list of one user's replenishment orders
+   *
+   * * @member {string}
+   */
+  replenishmentOrderHistory?: string | OccEndpoint;
+  /* Endpoint to get a replenishment order details
+   *
+   * * @member {string}
+   */
+  replenishmentOrderDetails?: string | OccEndpoint;
+  /**
+   * Endpoint to get a replenishment order history for a replenishment
+   *
+   * * @member {string}
+   */
+  replenishmentOrderDetailsHistory?: string | OccEndpoint;
+  /**
+   * Endpoint to get a replenishment order history for a replenishment
+   *
+   * * @member {string}
+   */
+  cancelReplenishmentOrder?: string | OccEndpoint;
+  /**
+   * Endpoint for getting all base sites
+   *
+   * @member {string}
+   */
+  baseSites?: string | OccEndpoint;
+  /**
+   * Endpoint for getting all base sites for the site context configuration
+   *
+   * @deprecated since 3.2
+   *
+   * @member {string}
+   */
+  // TODO(#11515): in 4.0, replace the value of `baseSites` with `baseSitesForConfig` and remove `baseSitesForConfig`.
+  baseSitesForConfig?: string | OccEndpoint;
+  /** Endpoint to returns active cost centers
+   *
+   * @member {string}
+   */
+  getActiveCostCenters?: string | OccEndpoint;
+
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
+  /**
+   * Get a store location
+   *
+   * @member {string} [page]
+   */
+  store?: string | OccEndpoint;
+  /**
+   * Get a list of store locations
+   *
+   * @member {string} [page]
+   */
+  stores?: string | OccEndpoint;
+  /**
+   * Gets a store location count per country and regions
+   *
+   * @member {string} [page]
+   */
+  storescounts?: string | OccEndpoint;
   /**
    * Endpoint for userGroupOrderApprovalPermission
    *
@@ -492,35 +612,6 @@ export interface OccEndpoints {
    */
   costCenters?: string | OccEndpoint;
   /**
-   * Endpoint to schedule a replenishment order
-   *
-   * * @member {string}
-   */
-  scheduleReplenishmentOrder?: string | OccEndpoint;
-  /**
-   * * Endpoint for the list of one user's replenishment orders
-   *
-   * * @member {string}
-   */
-  replenishmentOrderHistory?: string | OccEndpoint;
-  /* Endpoint to get a replenishment order details
-   *
-   * * @member {string}
-   */
-  replenishmentOrderDetails?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order history for a replenishment
-   *
-   * * @member {string}
-   */
-  replenishmentOrderDetailsHistory?: string | OccEndpoint;
-  /**
-   * Endpoint to get a replenishment order history for a replenishment
-   *
-   * * @member {string}
-   */
-  cancelReplenishmentOrder?: string | OccEndpoint;
-  /**
    * Endpoint for all costCenters
    *
    * @member {string}
@@ -629,14 +720,10 @@ export interface OccEndpoints {
    */
   orderApprovalDecision?: string | OccEndpoint;
   /**
-   * Endpoint for getting all base sites
+   * Explicitly saves a cart
    *
    * @member {string}
    */
-  baseSites?: string | OccEndpoint;
-  /** Endpoint to returns active cost centers
-   *
-   * @member {string}
-   */
-  getActiveCostCenters?: string | OccEndpoint;
+  saveCart?: string | OccEndpoint;
+  // DEPRECATION END
 }

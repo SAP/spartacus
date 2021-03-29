@@ -60,6 +60,9 @@ import { ProductVariantsModule } from './product/product-variants/product-varian
 import { UserComponentModule } from './user/user.module';
 import { WishListModule } from './wish-list/wish-list.module';
 
+/**
+ * @deprecated since 3.1, use individual imports instead
+ */
 @NgModule({
   imports: [
     AnonymousConsentManagementBannerModule,
@@ -88,11 +91,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,
-    UpdateEmailModule,
-    UpdatePasswordModule,
-    UpdateProfileModule,
     ConsentManagementModule,
-    CloseAccountModule,
     CartComponentModule,
     TabParagraphContainerModule,
     OrderConfirmationModule,
@@ -101,10 +100,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     ProductVariantsModule,
     ProductIntroModule,
     CheckoutComponentModule,
-    ForgotPasswordModule,
-    ResetPasswordModule,
     BannerCarouselModule,
-    UserComponentModule,
     MyCouponsModule,
     WishListModule,
     NotificationPreferenceModule,
@@ -113,6 +109,17 @@ import { WishListModule } from './wish-list/wish-list.module';
     ReplenishmentOrderHistoryModule,
     ReplenishmentOrderConfirmationModule,
     ReplenishmentOrderDetailsModule,
+
+    // moved to user lib
+
+    UserComponentModule, // almost empty
+
+    CloseAccountModule,
+    UpdateEmailModule,
+    UpdatePasswordModule,
+    UpdateProfileModule,
+    ForgotPasswordModule,
+    ResetPasswordModule,
   ],
 })
 export class CmsLibModule {}

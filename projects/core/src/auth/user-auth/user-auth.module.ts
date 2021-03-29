@@ -6,6 +6,7 @@ import { provideDefaultConfig } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
 import { baseUrlConfigValidator } from './config/base-url-config-validator';
 import { defaultAuthConfig } from './config/default-auth-config';
+import { UserAuthEventModule } from './events/user-auth-event.module';
 import { AuthService } from './facade/auth.service';
 import { interceptors } from './http-interceptors/index';
 import { AuthStatePersistenceService } from './services/auth-state-persistence.service';
@@ -39,7 +40,7 @@ export function authStatePersistenceFactory(
  * provides authorization services and storage for tokens.
  */
 @NgModule({
-  imports: [CommonModule, OAuthModule.forRoot()],
+  imports: [CommonModule, OAuthModule.forRoot(), UserAuthEventModule],
 })
 export class UserAuthModule {
   static forRoot(): ModuleWithProviders<UserAuthModule> {

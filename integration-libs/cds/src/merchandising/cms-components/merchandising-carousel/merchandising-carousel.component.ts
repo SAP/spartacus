@@ -26,9 +26,7 @@ export class MerchandisingCarouselComponent {
   protected lastEventModelId: string;
 
   constructor(
-    protected componentData: CmsComponentData<
-      CmsMerchandisingCarouselComponent
-    >,
+    protected componentData: CmsComponentData<CmsMerchandisingCarouselComponent>,
     protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
     protected routingService: RoutingService,
     protected intersectionService: IntersectionService,
@@ -37,9 +35,7 @@ export class MerchandisingCarouselComponent {
     this.lastEventModelId = '';
   }
 
-  private fetchProducts$: Observable<
-    MerchandisingCarouselModel
-  > = this.componentData.data$.pipe(
+  private fetchProducts$: Observable<MerchandisingCarouselModel> = this.componentData.data$.pipe(
     filter((data) => Boolean(data)),
     distinctUntilKeyChanged('strategy'),
     switchMap((data) =>

@@ -72,6 +72,9 @@ const mockUrlContainer = {
   absolute: {
     url: 'http://absolute.jpg',
   },
+  doubleSlash: {
+    url: '//absolute.jpg',
+  },
   relative: {
     url: 'relative.jpg',
   },
@@ -234,6 +237,12 @@ describe('MediaService', () => {
       it('should avoid baseUrl if absolute image is provided', () => {
         expect(mediaService.getMedia(mockUrlContainer, 'absolute').src).toBe(
           'http://absolute.jpg'
+        );
+      });
+
+      it('should threat image url start with double slash as absolute URL', () => {
+        expect(mediaService.getMedia(mockUrlContainer, 'doubleSlash').src).toBe(
+          '//absolute.jpg'
         );
       });
 
