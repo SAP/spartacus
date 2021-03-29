@@ -13,7 +13,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 
 @Injectable({
