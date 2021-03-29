@@ -49,22 +49,6 @@ export function verifyEmailChannel(email: String) {
     cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
 }
-//stock notification
-export function verifyStockNotificationAsGuest() {
-  navigateToPDP(normalProductCode);
-  cy.get('.stock-notification-notes > p > a').click();
-  cy.location('pathname').should('contain', '/login');
-}
-
-export function navigateToPDP(productCode: string) {
-  cy.visit(`/${Cypress.env('BASE_SITE')}/en/USD/product/${productCode}`);
-}
-
-export function verifyStockNotificationWithoutChannel() {
-  navigateToPDP(normalProductCode);
-  cy.get('.stock-notification-notes > p > a').click();
-  cy.location('pathname').should('contain', '/notification-preference');
-}
 
 export function verifyCustomerInterest(productCode: string) {
   cy.get('.cx-product-interests-product-item').within(() => {
@@ -92,19 +76,8 @@ export function clickNotifyMeBtn(productCode: string) {
     .click();
 }
 
-export function verifyStockNotification() {
-  enableNotificationChannel();
-  clickNotifyMeBtn(normalProductCode);
-  verifyNavigateToNotificationPreferenceInDialog();
-  unsubscribeStockNotification(normalProductCode);
-  verifyUnsubscribe();
-  clickNotifyMeBtn(normalProductCode);
-  verifyNavigateToMyInterestsInDialog();
-}
-
-export function verifyUnsubscribe() {
-  cy.get('.alert');
-  cy.get('cx-stock-notification > .btn').should('contain', 'NOTIFY ME');
+export function navigateToPDP(productCode: string) {
+  cy.visit(`/${Cypress.env('BASE_SITE')}/en/USD/product/${productCode}`);
 }
 
 export function verifyNavigateToNotificationPreferenceInDialog() {
