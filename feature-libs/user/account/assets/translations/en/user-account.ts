@@ -15,4 +15,8 @@ export const userAccount = {
     },
     wrongEmailFormat: 'This is not a valid email format.',
   },
+  miniLogin: {
+    userGreeting: 'Hi, {{name}}',
+    signInRegister: 'Sign In / Register',
+  },
 };
