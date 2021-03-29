@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ForgotPasswordService } from './forgot-password.service';
+import { ForgotPasswordComponentService } from './forgot-password-component.service';
 
 @Component({
   selector: 'cx-forgot-password',
@@ -8,7 +8,7 @@ import { ForgotPasswordService } from './forgot-password.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgotPasswordComponent {
-  constructor(protected service: ForgotPasswordService) {}
+  constructor(protected service: ForgotPasswordComponentService) {}
 
   form: FormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;
