@@ -1,6 +1,7 @@
 export * from './translation-resources';
 export * from './translatable';
 export * from './date.pipe';
+export * from './numeric.pipe';
 export * from './translate.pipe';
 export * from './translation.service';
 export * from './translation-chunk.service';

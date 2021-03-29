@@ -360,7 +360,7 @@ context('CPQ Configuration', () => {
       configuration.deSelectProductCard(RADGRP, ATTR_CAM_BAG, VAL_CAM_BAG_LP);
 
       configuration.clickOnNextBtn(GRP_CAM_IAW);
-      configuration.selectAttribute(ATTR_CAM_PROF, CHKBOX, VAL_CAM_PROF_Y);
+      configuration.selectAttribute(ATTR_CAM_PROF, RADGRP, VAL_CAM_PROF_Y);
       //wait for this option to disappear
       configuration.checkAttrValueNotDisplayed(
         ATTR_CAM_INS,
@@ -561,7 +561,8 @@ context('CPQ Configuration', () => {
       );
 
       configuration.navigateToOverviewPage();
-      configurationOverview.checkNotificationBannerOnOP(8);
+      configurationOverview.waitForNotificationBanner(8);
+      configurationOverview.verifyNotificationBannerOnOP(8);
     });
 
     it('check correct number of issues displayed in cart', () => {
@@ -605,7 +606,7 @@ context('CPQ Configuration', () => {
 
       configuration.clickAddToCartBtn();
       configurationOverview.waitForNotificationBanner(8);
-      configurationOverview.checkNotificationBannerOnOP(8);
+      configurationOverview.verifyNotificationBannerOnOP(8);
 
       configurationOverview.clickContinueToCartBtnOnOP();
       configuration.checkNotificationBannerInCart(0, 8);

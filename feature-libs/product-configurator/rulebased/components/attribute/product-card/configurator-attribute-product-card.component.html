@@ -67,6 +67,7 @@
                 productCardOptions?.hideRemoveButton ||
                 (loading$ | async)
               "
+              [cxFocus]="focusConfig"
             >
               {{ 'configurator.button.remove' | cxTranslate }}
             </button>
@@ -77,6 +78,7 @@
                 [disabled]="
                   productCardOptions?.disableAllButtons || (loading$ | async)
                 "
+                [cxFocus]="focusConfig"
               >
                 {{ 'configurator.button.add' | cxTranslate }}
               </button>
@@ -93,6 +95,7 @@
                 !productCardOptions?.productBoundValue?.selected;
                 else deselect
               "
+              [cxFocus]="focusConfig"
             >
               {{ 'configurator.button.select' | cxTranslate }}
             </button>
@@ -111,6 +114,7 @@
                   [disabled]="
                     productCardOptions?.hideRemoveButton || (loading$ | async)
                   "
+                  [cxFocus]="focusConfig"
                 >
                   {{ 'configurator.button.deselect' | cxTranslate }}
                 </button>

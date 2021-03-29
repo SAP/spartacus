@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -12,6 +12,13 @@ import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
+
+@Pipe({
+  name: 'cxNumeric',
+})
+class MockNumericPipe implements PipeTransform {
+  transform(): any {}
+}
 
 const mockAttributeOverviewInput: Configurator.AttributeOverview = {
   attribute: 'testAttribute',
@@ -63,6 +70,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
         declarations: [
           ConfiguratorOverviewBundleAttributeComponent,
           MockConfiguratorPriceComponent,
+          MockNumericPipe,
         ],
         providers: [{ provide: ProductService, useClass: MockProductService }],
       }).compileComponents();

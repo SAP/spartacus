@@ -161,4 +161,22 @@ describe('ConfigAttributeRadioButtonComponent', () => {
 
     expect(component.onDeselect).toHaveBeenCalled();
   });
+
+  it('should allow quantity', () => {
+    expect(component.withQuantity).toBe(true);
+  });
+
+  it('should not allow quantity when service is missing ', () => {
+    component['quantityService'] = undefined;
+    expect(component.withQuantity).toBe(false);
+  });
+
+  it('should allow quantity actions', () => {
+    expect(component.disableQuantityActions).toBe(false);
+  });
+
+  it('should not allow quantity actions when service is missing ', () => {
+    component['quantityService'] = undefined;
+    expect(component.disableQuantityActions).toBe(true);
+  });
 });

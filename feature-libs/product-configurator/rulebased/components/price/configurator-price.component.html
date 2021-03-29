@@ -4,7 +4,7 @@
   </ng-container>
   <ng-container *ngIf="displayQuantityAndPrice()">
     <div class="cx-quantity-price">
-      {{ quantityWihPrice }}
+      {{ quantityWithPrice(formula.quantity | cxNumeric) }}
     </div>
     <div class="cx-price-total">{{ priceTotal }}</div>
   </ng-container>

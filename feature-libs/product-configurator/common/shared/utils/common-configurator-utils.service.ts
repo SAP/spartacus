@@ -110,7 +110,7 @@ export class CommonConfiguratorUtilsService {
    * @param {string} configuratorType - Configurator type
    * @returns {boolean} - 'True' if the expected configurator type, otherwise 'false'
    */
-  isAttributeBasedConfigurator(configuratorType: string): boolean {
+  isAttributeBasedConfigurator(configuratorType: string | undefined): boolean {
     if (configuratorType) {
       return (
         configuratorType === 'CPQCONFIGURATOR' ||
@@ -126,7 +126,7 @@ export class CommonConfiguratorUtilsService {
    * @param {string} configuratorType - Configurator type
    * @returns {boolean} - 'True' if the expected configurator type, otherwise 'fasle'
    */
-  isBundleBasedConfigurator(configuratorType: string): boolean {
+  isBundleBasedConfigurator(configuratorType: string | undefined): boolean {
     if (configuratorType) {
       return configuratorType === 'CLOUDCPQCONFIGURATOR';
     }

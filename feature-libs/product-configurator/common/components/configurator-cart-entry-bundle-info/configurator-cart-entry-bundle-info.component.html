@@ -31,7 +31,7 @@
             {{ lineItem?.formattedPrice }}
           </div>
           <div class="cx-item-quantity"></div>
-          {{ lineItem?.formattedQuantity }}
+          {{ lineItem?.formattedQuantity | cxNumeric }}
         </div>
       </div>
     </ng-container>

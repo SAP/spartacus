@@ -140,6 +140,8 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       productBoundValue: this.selectionValue,
       singleDropdown: true,
       withQuantity: false,
+      loading$: this.loading$,
+      attributeId: this.attribute.attrCode,
     };
   }
 

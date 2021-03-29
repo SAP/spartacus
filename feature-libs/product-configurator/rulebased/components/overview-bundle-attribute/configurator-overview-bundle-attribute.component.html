@@ -18,7 +18,9 @@
         <span class="cx-identifier"
           >{{ 'configurator.attribute.quantity' | cxTranslate }}:</span
         >
-        <span class="cx-item">{{ attributeOverview.quantity }}</span>
+        <span class="cx-item">{{
+          attributeOverview.quantity | cxNumeric
+        }}</span>
       </div>
       <div *ngIf="displayPrice()" class="cx-price">
         <span class="cx-identifier"

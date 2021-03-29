@@ -4,7 +4,7 @@ import { LanguageService, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { Configurator } from './../core/model/configurator.model';
 import { CpqConfiguratorNormalizer } from './cpq-configurator-normalizer';
-import { CpqConfiguratorUtilitiesService } from './cpq-configurator-utilities.service';
+import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
 import { Cpq } from './cpq.models';
 
 const cpqProductSystemId = 'PRODUCT_SYSTEM_ID';
@@ -148,6 +148,15 @@ const cpqConfigurationIncompleteInconsistent: Cpq.Configuration = {
   numberOfConflicts: 1,
 };
 
+const cpqConfigurationCompleteInconsistent: Cpq.Configuration = {
+  ...cpqConfiguration,
+  incompleteMessages: [INCOMPLETE_MSG],
+  incompleteAttributes: [],
+  invalidMessages: [INVALID_MSG],
+  failedValidations: [VALIDATION_MSG],
+  errorMessages: [ERROR_MSG],
+};
+
 const cpqConfigurationIncompleteConsistent: Cpq.Configuration = {
   ...cpqConfiguration,
   incompleteAttributes: [TEST_ATTR_NAME],
@@ -179,7 +188,7 @@ describe('CpqConfiguratorNormalizer', () => {
     TestBed.configureTestingModule({
       providers: [
         CpqConfiguratorNormalizer,
-        CpqConfiguratorUtilitiesService,
+        CpqConfiguratorUtilsService,
         {
           provide: LanguageService,
           useClass: MockLanguageService,
@@ -226,6 +235,16 @@ describe('CpqConfiguratorNormalizer', () => {
     expect(result.complete).toBe(false);
     expect(result.consistent).toBe(false);
     expect(result.totalNumberOfIssues).toBe(6);
+  });
+
+  it('should convert a complete inconsistent configuration', () => {
+    const result = cpqConfiguratorNormalizer.convert(
+      cpqConfigurationCompleteInconsistent
+    );
+    expect(result.productCode).toBe(cpqProductSystemId);
+    expect(result.complete).toBe(true);
+    expect(result.consistent).toBe(false);
+    expect(result.totalNumberOfIssues).toBe(4);
   });
 
   it('should convert values', () => {
@@ -955,20 +974,19 @@ describe('CpqConfiguratorNormalizer', () => {
     const mappedConfiguration = cpqConfiguratorNormalizer.convert(
       cpqConfigurationIncompleteInconsistent
     );
-    expect(mappedConfiguration.errorMessages.length).toBe(4);
+    expect(mappedConfiguration.errorMessages.length).toBe(2);
 
-    checkMessagePresent(mappedConfiguration.errorMessages, INCOMPLETE_MSG);
     checkMessagePresent(mappedConfiguration.errorMessages, ERROR_MSG);
     checkMessagePresent(mappedConfiguration.errorMessages, INVALID_MSG);
-    checkMessagePresent(mappedConfiguration.errorMessages, CONFLICT_MSG);
   });
 
   it('should map warning message from failed validations', () => {
     const mappedConfiguration = cpqConfiguratorNormalizer.convert(
       cpqConfigurationIncompleteInconsistent
     );
-    expect(mappedConfiguration.warningMessages.length).toBe(1);
+    expect(mappedConfiguration.warningMessages.length).toBe(2);
     checkMessagePresent(mappedConfiguration.warningMessages, VALIDATION_MSG);
+    checkMessagePresent(mappedConfiguration.warningMessages, INCOMPLETE_MSG);
   });
 
   function checkMessagePresent(messages: string[], expectedMsg: string) {
