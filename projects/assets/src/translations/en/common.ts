@@ -12,6 +12,7 @@ export const common = {
     home: 'Home',
     noData: 'No data.',
     confirm: 'Confirm',
+    more: 'more',
   },
   pageMetaResolver: {
     category: {
@@ -119,6 +120,7 @@ export const common = {
     total: '{{total}}',
     count: '{{count}}',
   },
+  // deprecated since 3.2, moved to @spartacus/user/account/assets
   miniLogin: {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',

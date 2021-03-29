@@ -144,42 +144,49 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   titles?: string | OccEndpoint;
   /**
    * Get user details
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   user?: string | OccEndpoint;
   /**
    * Register a new user.
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userRegister?: string | OccEndpoint;
   /**
    * Request an email to reset the password
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userForgotPassword?: string | OccEndpoint;
   /**
    * Reset the password once the email is recieved.
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userResetPassword?: string | OccEndpoint;
   /**
    * Update the user id with which the user authenticates.
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userUpdateLoginId?: string | OccEndpoint;
   /**
    * Update the user's password
    *
    * @member {string}
    */
+  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userUpdatePassword?: string | OccEndpoint;
   /**
    * Payment details root endpoint.
@@ -352,12 +359,6 @@ export interface OccEndpoints {
    */
   couponNotification?: string | OccEndpoint;
   /**
-   * Explicitly saves a cart
-   *
-   * @member {string}
-   */
-  saveCart?: string | OccEndpoint;
-  /**
    * Endpoint for notification preference
    *
    * @member {string}
@@ -438,6 +439,15 @@ export interface OccEndpoints {
    * @member {string}
    */
   baseSites?: string | OccEndpoint;
+  /**
+   * Endpoint for getting all base sites for the site context configuration
+   *
+   * @deprecated since 3.2
+   *
+   * @member {string}
+   */
+  // TODO(#11515): in 4.0, replace the value of `baseSites` with `baseSitesForConfig` and remove `baseSitesForConfig`.
+  baseSitesForConfig?: string | OccEndpoint;
   /** Endpoint to returns active cost centers
    *
    * @member {string}
@@ -709,5 +719,11 @@ export interface OccEndpoints {
    * @member {string}
    */
   orderApprovalDecision?: string | OccEndpoint;
+  /**
+   * Explicitly saves a cart
+   *
+   * @member {string}
+   */
+  saveCart?: string | OccEndpoint;
   // DEPRECATION END
 }

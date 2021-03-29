@@ -7,6 +7,10 @@ import {
   UserService,
 } from '@spartacus/core';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
+
+/**
+ * @deprecated since 3.2, use @spartacus/user package instead.
+ */
 @Component({
   selector: 'cx-forgot-password',
   templateUrl: './forgot-password.component.html',
