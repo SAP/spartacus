@@ -34,7 +34,26 @@ export class ConfiguratorAttributeInputFieldComponent
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(protected config: ConfiguratorUISettings) {
+  /**
+   * In case no config is injected, or when the debounce time is not configured at all,
+   * this value will be used as fallback.
+   */
+  private readonly FALLBACK_DEBOUNCE_TIME = 500;
+
+  // TODO(#11681): make config a required dependency
+  /**
+   * @param {ConfiguratorUISettings} config Optional configuration for debounce time,
+   * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
+   */
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(config: ConfiguratorUISettings);
+
+  /**
+   * @deprecated  since 3.3
+   */
+  constructor();
+
+  constructor(protected config?: ConfiguratorUISettings) {
     super();
   }
 
@@ -51,7 +70,10 @@ export class ConfiguratorAttributeInputFieldComponent
     this.sub = this.attributeInputForm.valueChanges
       .pipe(
         debounce(() =>
-          timer(this.config.rulebasedConfigurator.inputDebounceTime)
+          timer(
+            this.config?.rulebasedConfigurator.inputDebounceTime ??
+              this.FALLBACK_DEBOUNCE_TIME
+          )
         )
       )
       .subscribe(() => this.onChange());
