@@ -49,6 +49,12 @@ export class ResetPasswordComponentService {
     }
   );
 
+  /**
+   * Resets the password by the given token.
+   *
+   * The token has been provided during the request password flow.
+   * The token is not validated on the client.
+   */
   resetPassword(token: string): void {
     if (!this.form.valid) {
       this.form.markAllAsTouched();
@@ -62,7 +68,6 @@ export class ResetPasswordComponentService {
     this.userPasswordService.reset(token, password).subscribe({
       next: () => this.onSuccess(),
       error: (error: HttpErrorModel) => this.onError(error),
-      complete: () => {},
     });
   }
 
@@ -71,7 +76,8 @@ export class ResetPasswordComponentService {
       { key: 'forgottenPassword.passwordResetSuccess' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-    this.resetForm();
+    this.busy.next(false);
+    this.form.reset();
     this.redirect();
   }
 
@@ -94,10 +100,5 @@ export class ResetPasswordComponentService {
    */
   protected redirect() {
     this.routingService.go({ cxRoute: 'login' });
-  }
-
-  protected resetForm() {
-    this.busy.next(false);
-    this.form.reset();
   }
 }

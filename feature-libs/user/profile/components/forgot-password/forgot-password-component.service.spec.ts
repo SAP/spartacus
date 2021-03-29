@@ -11,7 +11,7 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
 import { of } from 'rxjs';
-import { ForgotPasswordService } from './forgot-password.service';
+import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import createSpy = jasmine.createSpy;
 
 class MockUserPasswordService implements Partial<UserPasswordFacade> {
@@ -30,8 +30,8 @@ class MockGlobalMessageService {
   add = createSpy().and.stub();
 }
 
-describe('ForgotPasswordService', () => {
-  let service: ForgotPasswordService;
+describe('ForgotPasswordComponentService', () => {
+  let service: ForgotPasswordComponentService;
   let authConfigService: AuthConfigService;
   let routingService: RoutingService;
   let userPasswordFacade: UserPasswordFacade;
@@ -47,7 +47,7 @@ describe('ForgotPasswordService', () => {
         ],
         declarations: [],
         providers: [
-          ForgotPasswordService,
+          ForgotPasswordComponentService,
           { provide: UserPasswordFacade, useClass: MockUserPasswordService },
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: AuthConfigService, useClass: MockAuthConfigService },
@@ -58,7 +58,7 @@ describe('ForgotPasswordService', () => {
   );
 
   beforeEach(() => {
-    service = TestBed.inject(ForgotPasswordService);
+    service = TestBed.inject(ForgotPasswordComponentService);
     authConfigService = TestBed.inject(AuthConfigService);
     routingService = TestBed.inject(RoutingService);
     userPasswordFacade = TestBed.inject(UserPasswordFacade);

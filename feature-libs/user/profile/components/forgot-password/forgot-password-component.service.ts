@@ -4,6 +4,7 @@ import {
   AuthConfigService,
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   OAuthFlow,
   RoutingService,
 } from '@spartacus/core';
@@ -13,7 +14,7 @@ import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class ForgotPasswordService {
+export class ForgotPasswordComponentService {
   constructor(
     protected userPasswordService: UserPasswordFacade,
     protected routingService: RoutingService,
@@ -52,8 +53,7 @@ export class ForgotPasswordService {
       .requestForgotPasswordEmail(this.form.value.userEmail)
       .subscribe({
         next: () => this.onSuccess(),
-        error: () => {},
-        complete: () => this.resetForm(),
+        error: (error: HttpErrorModel) => this.onError(error),
       });
   }
 
@@ -62,7 +62,13 @@ export class ForgotPasswordService {
       { key: 'forgottenPassword.passwordResetEmailSent' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
+    this.busy.next(false);
+    this.form.reset();
     this.redirect();
+  }
+
+  protected onError(_error: HttpErrorModel): void {
+    this.busy.next(false);
   }
 
   /**
@@ -77,13 +83,5 @@ export class ForgotPasswordService {
     ) {
       this.routingService.go({ cxRoute: 'login' });
     }
-  }
-
-  /**
-   * Resets the form, _not_ the password.
-   */
-  protected resetForm(): void {
-    this.busy.next(false);
-    this.form.reset();
   }
 }

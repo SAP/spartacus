@@ -14,8 +14,8 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
+import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import { ForgotPasswordComponent } from './forgot-password.component';
-import { ForgotPasswordService } from './forgot-password.service';
 
 @NgModule({
   imports: [
@@ -35,8 +35,8 @@ import { ForgotPasswordService } from './forgot-password.service';
           guards: [NotAuthGuard],
           providers: [
             {
-              provide: ForgotPasswordService,
-              useClass: ForgotPasswordService,
+              provide: ForgotPasswordComponentService,
+              useClass: ForgotPasswordComponentService,
               deps: [
                 UserPasswordFacade,
                 RoutingService,

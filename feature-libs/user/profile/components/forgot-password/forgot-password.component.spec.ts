@@ -6,12 +6,13 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
+import { ForgotPasswordComponentService } from './forgot-password-component.service';
 import { ForgotPasswordComponent } from './forgot-password.component';
-import { ForgotPasswordService } from './forgot-password.service';
 import createSpy = jasmine.createSpy;
 
 const isBusySubject = new BehaviorSubject(false);
-class MockForgotPasswordService implements Partial<ForgotPasswordService> {
+class MockForgotPasswordService
+  implements Partial<ForgotPasswordComponentService> {
   form: FormGroup = new FormGroup({
     userEmail: new FormControl(),
   });
@@ -30,7 +31,7 @@ describe('ForgotPasswordComponent', () => {
   let component: ForgotPasswordComponent;
   let fixture: ComponentFixture<ForgotPasswordComponent>;
   let el: DebugElement;
-  let service: ForgotPasswordService;
+  let service: ForgotPasswordComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -45,7 +46,7 @@ describe('ForgotPasswordComponent', () => {
         declarations: [ForgotPasswordComponent, MockUrlPipe],
         providers: [
           {
-            provide: ForgotPasswordService,
+            provide: ForgotPasswordComponentService,
             useClass: MockForgotPasswordService,
           },
         ],
@@ -55,7 +56,7 @@ describe('ForgotPasswordComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ForgotPasswordComponent);
-    service = TestBed.inject(ForgotPasswordService);
+    service = TestBed.inject(ForgotPasswordComponentService);
     component = fixture.componentInstance;
     el = fixture.debugElement;
     fixture.detectChanges();
