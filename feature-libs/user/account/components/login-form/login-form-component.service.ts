@@ -7,8 +7,8 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
-import { BehaviorSubject, from, of } from 'rxjs';
-import { switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, from } from 'rxjs';
+import { tap, withLatestFrom } from 'rxjs/operators';
 
 @Injectable()
 export class LoginFormComponentService {
@@ -20,19 +20,14 @@ export class LoginFormComponentService {
 
   protected busy = new BehaviorSubject(false);
 
-  protected uid$ = of(this.winRef.nativeWindow?.history?.state?.['newUid']);
-
-  isUpdating$ = this.uid$.pipe(
-    switchMap((userId) =>
-      this.busy.pipe(
-        tap((state) => {
-          if (userId) {
-            this.form.patchValue({ userId });
-          }
-          state === true ? this.form.disable() : this.form.enable();
-        })
-      )
-    )
+  isUpdating$ = this.busy.pipe(
+    tap((state) => {
+      const userId = this.winRef.nativeWindow?.history?.state?.['newUid'];
+      if (userId) {
+        this.form.patchValue({ userId });
+      }
+      state === true ? this.form.disable() : this.form.enable();
+    })
   );
 
   form: FormGroup = new FormGroup({
