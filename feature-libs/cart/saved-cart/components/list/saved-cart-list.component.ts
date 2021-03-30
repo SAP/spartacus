@@ -11,8 +11,10 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
+import { ImportExportService } from 'projects/storefrontlib/src/shared/services/import-export/import-export.service';
 import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ImportToCartService } from '../../core/services/import-to-cart.service';
 
 @Component({
   selector: 'cx-saved-cart-list',
@@ -40,7 +42,9 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     protected routing: RoutingService,
     protected translation: TranslationService,
     protected savedCartService: SavedCartService,
-    protected clearCheckoutService: ClearCheckoutService
+    protected clearCheckoutService: ClearCheckoutService,
+    protected importExportService: ImportExportService,
+    protected importToCartService: ImportToCartService
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +56,19 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
         .getRestoreSavedCartProcessSuccess()
         .subscribe((success) => this.onRestoreComplete(success))
     );
+  }
+
+  importProducts(file: FileList): void {
+    this.importExportService
+      .importFile(file, true, {
+        maxSize: 1,
+        allowedExtensions: ['text/csv'],
+        checkEmptyFile: true,
+      })
+      .then((extractedData) =>
+        this.importToCartService.addProductsToCart(extractedData)
+      )
+      .catch(console.log);
   }
 
   goToSavedCartDetails(cart: Cart): void {
