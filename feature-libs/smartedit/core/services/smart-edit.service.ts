@@ -1,6 +1,5 @@
 import { Injectable, NgZone, Renderer2, RendererFactory2 } from '@angular/core';
 import {
-  BaseSite,
   BaseSiteService,
   CmsService,
   Page,
@@ -55,7 +54,10 @@ export class SmartEditService {
   public processCmsPage(): void {
     this.baseSiteService
       .get()
-      .pipe(filter<BaseSite>(Boolean), take(1))
+      .pipe(
+        filter((site: any) => Boolean(site)),
+        take(1)
+      )
       .subscribe((site) => {
         this.defaultPreviewCategoryCode = site.defaultPreviewCategoryCode;
         this.defaultPreviewProductCode = site.defaultPreviewProductCode;

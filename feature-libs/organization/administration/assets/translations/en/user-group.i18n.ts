@@ -11,6 +11,9 @@ export const orgUserGroup = {
   byUnitName: 'Sort by unit',
   byGroupID: 'Sort by group',
 
+  hint:
+    'User groups allow you to combine users together in one group, for the purposes of assigning purchase limits for many users at once.',
+
   details: {
     title: 'User group Details',
     subtitle: 'User group: {{ item.name }}',

@@ -1,4 +1,4 @@
-import { ListModel, EntitiesModel } from '../../model/index';
+import { EntitiesModel, ListModel } from '../../model/index';
 import { SearchConfig } from '../../product/model/search-config';
 import { EntityListState } from './entity-list-state';
 import { EntityLoaderState } from './entity-loader/entity-loader-state';
