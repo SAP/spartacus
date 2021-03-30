@@ -306,7 +306,16 @@ function cmd_help {
     echo " start"
     echo " stop"
     echo " e2e"
+    echo " create_gh_ticket"
     echo " help"
+}
+
+function create_gh_ticket {
+    ISSUE_TEMPLATE="../../.github/ISSUE_TEMPLATE/new-release.md"
+    sed -i "s/x.y.z/${SPARTACUS_VERSION}/" ${ISSUE_TEMPLATE}
+    sed -i '1,9d' ${ISSUE_TEMPLATE}
+    gh issue create -t "chore: Release ${SPARTACUS_VERSION}" -a @me -l release-activities -p "Developer experience improvements (Blamed)" --body-file ${ISSUE_TEMPLATE}
+    git restore ${ISSUE_TEMPLATE}
 }
 
 if [ -z "${1}" ]; then
@@ -368,6 +377,8 @@ for current_command in $(echo "${commands}" | tr "+" "\n"); do
             cmd_help;;
         'e2e' )
             run_e2e_tests;;
+        'create_gh_ticket' )
+            create_gh_ticket;;
         * )
             echo "Error: unknown command ${current_command}"
             cmd_help
