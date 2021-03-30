@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { AdministrationRootModule } from '@spartacus/organization/administration/root';
 import { provideConfig } from '@spartacus/core';
 import {
   organizationTranslationChunksConfig,
   organizationTranslations,
 } from '@spartacus/organization/administration/assets';
+import { AdministrationRootModule } from '@spartacus/organization/administration/root';
 
 @NgModule({
   declarations: [],
@@ -22,7 +22,6 @@ import {
       i18n: {
         resources: organizationTranslations,
         chunks: organizationTranslationChunksConfig,
-        fallbackLang: 'en',
       },
     }),
   ],
