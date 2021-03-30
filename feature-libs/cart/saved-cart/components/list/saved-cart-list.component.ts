@@ -12,8 +12,8 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { ImportExportService } from 'projects/storefrontlib/src/shared/services/import-export/import-export.service';
-import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subscription, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { ImportToCartService } from '../../core/services/import-to-cart.service';
 
 @Component({
@@ -65,10 +65,10 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
         allowedExtensions: ['text/csv'],
         checkEmptyFile: true,
       })
-      .then((extractedData) =>
-        this.importToCartService.addProductsToCart(extractedData)
-      )
-      .catch(console.log);
+      .pipe(catchError((error) => throwError(error)))
+      .subscribe((extractedData) => {
+        this.importToCartService.addProductsToCart(extractedData);
+      });
   }
 
   goToSavedCartDetails(cart: Cart): void {
