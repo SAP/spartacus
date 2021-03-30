@@ -16,7 +16,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import ts from 'typescript';
-import { COMPONENT_DEPRECATION_DATA } from '../../migrations/2_0/component-deprecations/component-deprecations';
+import { COMPONENT_DEPRECATION_DATA } from '../../migrations/test/component-deprecations/component-deprecations';
 import {
   ANGULAR_CORE,
   ANONYMOUS_CONSENTS,
