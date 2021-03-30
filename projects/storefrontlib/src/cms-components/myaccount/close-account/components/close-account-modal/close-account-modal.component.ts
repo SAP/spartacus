@@ -17,6 +17,9 @@ import { first } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { ModalService } from '../../../../../shared/components/modal/modal.service';
 
+/**
+ * @deprecated since 3.2, moved to @spartacus/user package.
+ */
 @Component({
   selector: 'cx-close-account-modal',
   templateUrl: './close-account-modal.component.html',
