@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { IconModule } from '@spartacus/storefront';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 
 @Component({
   selector: 'cx-configuration-conflict-and-error-messages',
@@ -13,7 +13,9 @@ import { IconModule } from '@spartacus/storefront';
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
   iconTypes = IconModule;
-  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
+  configuration$: Observable<
+    Configurator.Configuration
+  > = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>
