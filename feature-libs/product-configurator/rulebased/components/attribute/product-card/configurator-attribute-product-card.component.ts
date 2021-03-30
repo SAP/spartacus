@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
+import { PersistFocusService } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/persist/persist-focus.service';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -27,6 +28,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   /** If set to `true`, the remove/deselect button won't be available. Usefull for required attributes,
    *  where a deselect/remove of last value shall not be possible.  */
   hideRemoveButton?: boolean;
+  fallbackFocusId?: string;
   multiSelect?: boolean;
   productBoundValue?: Configurator.Value;
   singleDropdown?: boolean;
@@ -51,7 +53,10 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
   @Output() handleSelect = new EventEmitter<string>();
 
-  constructor(protected productService: ProductService) {}
+  constructor(
+    protected productService: ProductService,
+    protected focusService: PersistFocusService
+  ) {}
 
   ngOnInit() {
     this.loading$.next(true);
@@ -81,17 +86,27 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   }
 
   get focusConfig() {
-    return {
+    const focusConfig = {
       key:
         this.productCardOptions.attributeId +
         '--' +
         this.productCardOptions.productBoundValue?.valueCode +
         '--focus',
     };
+    return focusConfig;
   }
 
   onHandleSelect(): void {
     this.loading$.next(true);
+    if (
+      this.productCardOptions.hideRemoveButton &&
+      this.productCardOptions.fallbackFocusId
+    ) {
+      console.log(
+        'focus id fallback: ' + this.productCardOptions.fallbackFocusId
+      );
+      this.focusService.set(this.productCardOptions.fallbackFocusId);
+    }
     this.handleSelect.emit(
       this.productCardOptions?.productBoundValue?.valueCode
     );

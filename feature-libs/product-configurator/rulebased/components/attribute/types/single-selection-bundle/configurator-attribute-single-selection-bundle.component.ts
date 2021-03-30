@@ -137,10 +137,31 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       hideRemoveButton: this.attribute.required,
+      fallbackFocusId: this.getFcousIdOfNearestValue(value),
       productBoundValue: value,
       loading$: this.loading$,
       attributeId: this.attribute.attrCode,
     };
+  }
+
+  protected getFcousIdOfNearestValue(currentValue: Configurator.Value): string {
+    if (!this.attribute.values) {
+      return 'n/a';
+    }
+    let prevIdx = this.attribute.values.findIndex(
+      (value) => value.valueCode === currentValue.valueCode
+    );
+    prevIdx--;
+    if (prevIdx < 0) {
+      prevIdx = this.attribute.values.length > 0 ? 1 : 0;
+    }
+
+    return (
+      this.attribute.attrCode +
+      '--' +
+      this.attribute.values[prevIdx].valueCode +
+      '--focus'
+    );
   }
 
   /**
