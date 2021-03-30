@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AuthService, CommandService, UserActions } from '@spartacus/core';
+import {
+  AuthService,
+  Command,
+  CommandService,
+  UserActions,
+} from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import {
@@ -14,25 +19,27 @@ import { Store } from '@ngrx/store';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
-  protected registerCommand = this.command.create<{ user: UserSignUp }, User>(
-    ({ user }) =>
-      this.userConnector.register(user).pipe(
-        tap(() => {
-          // this is a compatibility mechanism only, to make anonymous consents
-          // management work properly in transitional period (when we move logic
-          // to separate libraries)
-          this.store.dispatch(new UserActions.RegisterUserSuccess());
-        })
-      )
+  protected registerCommand: Command<
+    { user: UserSignUp },
+    User
+  > = this.command.create(({ user }) =>
+    this.userConnector.register(user).pipe(
+      tap(() => {
+        // this is a compatibility mechanism only, to make anonymous consents
+        // management work properly in transitional period (when we move logic
+        // to separate libraries)
+        this.store.dispatch(new UserActions.RegisterUserSuccess());
+      })
+    )
   );
 
-  protected registerGuestCommand = this.command.create<
+  protected registerGuestCommand: Command<
     {
       guid: string;
       password: string;
     },
     User
-  >((payload) =>
+  > = this.command.create((payload) =>
     this.userConnector.registerGuest(payload.guid, payload.password).pipe(
       tap((user) => {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
