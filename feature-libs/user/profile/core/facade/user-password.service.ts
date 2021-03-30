@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CommandService, UserIdService } from '@spartacus/core';
+import { Command, CommandService, UserIdService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
@@ -7,10 +7,10 @@ import { UserProfileConnector } from '../connectors/user-profile.connector';
 
 @Injectable()
 export class UserPasswordService implements UserPasswordFacade {
-  protected updateCommand = this.command.create<{
+  protected updateCommand: Command<{
     oldPassword: string;
     newPassword: string;
-  }>((payload) =>
+  }> = this.command.create((payload) =>
     this.userIdService.takeUserId(true).pipe(
       take(1),
       switchMap((uid) =>
@@ -23,16 +23,16 @@ export class UserPasswordService implements UserPasswordFacade {
     )
   );
 
-  protected resetCommand = this.command.create<{
+  protected resetCommand: Command<{
     token: string;
     password: string;
-  }>((payload) =>
+  }> = this.command.create((payload) =>
     this.userProfileConnector.resetPassword(payload.token, payload.password)
   );
 
-  protected requestForgotPasswordEmailCommand = this.command.create<{
+  protected requestForgotPasswordEmailCommand: Command<{
     email: string;
-  }>((payload) =>
+  }> = this.command.create((payload) =>
     this.userProfileConnector.requestForgotPasswordEmail(payload.email)
   );
 
