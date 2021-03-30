@@ -19,7 +19,6 @@ export const defaultPageMetaConfig: PageMetaConfig = {
       {
         property: 'description',
         method: 'resolveDescription',
-        disabledInCsr: true,
       },
       {
         property: 'image',
