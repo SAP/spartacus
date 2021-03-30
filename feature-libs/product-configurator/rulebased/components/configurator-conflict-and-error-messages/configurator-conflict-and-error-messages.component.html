@@ -1,10 +1,10 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="configuration?.warningMessages?.length > 0">
-    <div class="alert alert-warning">
-      <span class="alert-icon">
-        <cx-icon type="WARNING"></cx-icon>
-      </span>
+    <div class="alert-message alert-message-invalid-warning">
       <div class="cx-warning-messages">
+        <span class="alert-icon">
+          <cx-icon type="WARNING"></cx-icon>
+        </span>
         <a
           role="link"
           (click)="toggleWarnings()"
@@ -12,8 +12,17 @@
           *ngIf="configuration?.warningMessages?.length > 1"
           class="cx-warning-toggle"
         >
-          Toggle
+          Review these errors
+
+          <ng-container *ngIf="!showWarnings">
+            <cx-icon type="CARET_DOWN"></cx-icon>
+          </ng-container>
+
+          <ng-container *ngIf="showWarnings">
+            <cx-icon type="CARET_UP"></cx-icon>
+          </ng-container>
         </a>
+
         <div
           class="cx-warning-message"
           [class.open]="
@@ -27,11 +36,11 @@
     </div>
   </ng-container>
   <ng-container *ngIf="configuration?.errorMessages?.length > 0">
-    <div class="alert alert-danger">
-      <span class="alert-icon">
-        <cx-icon type="ERROR"></cx-icon>
-      </span>
+    <div class="alert-message alert-message-error">
       <div class="cx-error-messages">
+        <span class="alert-icon">
+          <cx-icon type="ERROR"></cx-icon>
+        </span>
         <a
           role="link"
           (click)="toggleErrors()"
@@ -39,8 +48,16 @@
           *ngIf="configuration?.errorMessages?.length > 1"
           class="cx-warning-toggle"
         >
-          Toggle
+          There are multiple errors
+          <ng-container *ngIf="!showErrors">
+            <cx-icon type="CARET_DOWN"></cx-icon>
+          </ng-container>
+
+          <ng-container *ngIf="showErrors">
+            <cx-icon type="CARET_UP"></cx-icon>
+          </ng-container>
         </a>
+
         <div
           class="cx-error-message"
           [class.open]="

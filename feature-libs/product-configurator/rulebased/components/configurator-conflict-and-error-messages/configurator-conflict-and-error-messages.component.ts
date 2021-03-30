@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
 import { ConfiguratorRouterExtractorService } from '../../../common/components/service/configurator-router-extractor.service';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -12,7 +11,7 @@ import { IconModule } from '@spartacus/storefront';
   templateUrl: './configurator-conflict-and-error-messages.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorConflictAndErrorMessages {
+export class ConfiguratorConflictAndErrorMessagesComponent {
   iconTypes = IconModule;
   configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
     .extractRouterData()
@@ -33,6 +32,10 @@ export class ConfiguratorConflictAndErrorMessages {
   toggleErrors(): void {
     this.showErrors = !this.showErrors;
   }
+
+  /* clear(type: GlobalMessageType, index: number): void {
+    this.globalMessageService.remove(type, index);
+  }*/
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,

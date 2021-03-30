@@ -8,7 +8,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import { ConfiguratorConflictAndErrorMessages } from './configurator-conflict-and-error-messages.component';
+import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-conflict-and-error-messages.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule, IconModule],
@@ -16,14 +16,14 @@ import { ConfiguratorConflictAndErrorMessages } from './configurator-conflict-an
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CpqConfiguratorConflictAndErrorMessages: {
-          component: ConfiguratorConflictAndErrorMessages,
+          component: ConfiguratorConflictAndErrorMessagesComponent,
         },
       },
     }),
   ],
 
-  declarations: [ConfiguratorConflictAndErrorMessages],
-  entryComponents: [ConfiguratorConflictAndErrorMessages],
-  exports: [ConfiguratorConflictAndErrorMessages],
+  declarations: [ConfiguratorConflictAndErrorMessagesComponent],
+  entryComponents: [ConfiguratorConflictAndErrorMessagesComponent],
+  exports: [ConfiguratorConflictAndErrorMessagesComponent],
 })
 export class ConfiguratorConflictAndErrorMessagesModule {}
