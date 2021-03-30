@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GlobalMessageService } from '@spartacus/core';
+import { Observable, Observer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -7,8 +8,8 @@ import { GlobalMessageService } from '@spartacus/core';
 export class ImportExportService {
   constructor(protected globalMessageService: GlobalMessageService) {}
   // size unit is MB
-  private maxSize = 1;
-  private allowedExtensions = ['text/csv'];
+  protected maxSize = 1;
+  protected allowedExtensions = ['text/csv'];
 
   importFile(
     selectedFile: FileList,
@@ -18,25 +19,26 @@ export class ImportExportService {
       allowedExtensions?: string[];
       checkEmptyFile?: Boolean;
     }
-  ): Promise<any> {
+  ): Observable<unknown> {
     const file: File = selectedFile.item(0) as File;
-    return new Promise((resolve, reject) => {
+    return new Observable((observer: Observer<unknown>) => {
+      const fileReader: FileReader = new FileReader();
       const checkValidity = this.checkValidity(file, validityConfig);
       if (
         !checkValidityEnabled ||
         (checkValidityEnabled && checkValidity.isFileValid)
       ) {
-        const reader: FileReader = new FileReader();
-        reader.readAsText(file);
-        reader.onload = () => {
-          resolve(reader.result as string);
+        fileReader.readAsText(file);
+        fileReader.onload = () => {
+          observer.next(fileReader.result as string);
+          observer.complete();
         };
-        reader.onerror = () => {
-          reader.abort();
-          reject(new DOMException('Could not parse the file'));
+        fileReader.onerror = () => {
+          fileReader.abort();
+          observer.error(new DOMException('Could not parse the file'));
         };
       } else {
-        reject(checkValidity.invalidFileInfo);
+        observer.error(checkValidity.invalidFileInfo);
       }
     });
   }
