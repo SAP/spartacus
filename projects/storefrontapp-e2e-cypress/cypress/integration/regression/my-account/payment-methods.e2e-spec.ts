@@ -10,7 +10,7 @@ import {
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Payment Methods', () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       visitHomePage();
