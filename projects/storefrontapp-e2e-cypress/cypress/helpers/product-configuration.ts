@@ -11,7 +11,6 @@ import { navigation } from './navigation';
 import Chainable = Cypress.Chainable;
 import * as globalMessage from './global-message';
 import * as cart from './cart';
-import { registerCartPageRoute, registerCartRefreshRoute } from './cart';
 
 const shippingAddressData: AddressData = user;
 const billingAddress: AddressData = user;
@@ -140,7 +139,6 @@ export function goToCart(shopName: string): Chainable<Window> {
     cy.get('h1').contains('Your Shopping Cart').should('be.visible');
     cy.get('.CartPageTemplate').should('be.visible');
     cy.wait('@cart_page');
-    cy.wait('@refresh_cart');
     //cy.get('cx-cart-details').should('be.visible');
   });
 }
@@ -1403,16 +1401,12 @@ export function getNumberOfCartItems(): number {
 }
 
 export function removeItemsFromCart() {
-  //getNumberOfItems();
-  //this.goToCart(shopName);
   let cartItems = 0;
   cy.get('cx-mini-cart .count').then((items) => {
+    //cy.wait('@refresh_cart');
     cartItems = parseInt(items.text());
     cy.log('number of cart items: ' + cartItems);
-    // cy.log('items: ' + items.text());
-    // cy.log('numberOfCartItems: ' + numberOfCartItems);
-    // cy.log(typeof numberOfCartItems);
-    //cy.wrap(numberOfCartItems).as('numberOfCartItems');
+    // cy.log(typeof cartItems);
     if (cartItems > 0) {
       cy.log('type of: ' + typeof items);
       cart.registerCartRefreshRoute();

@@ -103,8 +103,9 @@ context('CPQ Configuration', () => {
   });
 
   afterEach(() => {
-    configuration.goToCart(POWERTOOLS);
-    configuration.removeItemsFromCart();
+    configuration.goToCart(POWERTOOLS).then(() => {
+      configuration.removeItemsFromCart();
+    });
   });
 
   describe('Navigate to Product Configuration Page', () => {
