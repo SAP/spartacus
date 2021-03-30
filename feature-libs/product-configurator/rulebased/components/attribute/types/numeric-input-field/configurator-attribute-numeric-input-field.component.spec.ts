@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Directive,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -30,15 +24,7 @@ class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-@Directive({
-  selector: '[cxFocus]',
-})
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: string;
-}
-
-const DEBOUNCE_TIME =
-  DefaultConfiguratorUISettings.rulebasedConfigurator.inputDebounceTime;
+let DEBOUNCE_TIME: number;
 
 function checkForValidationMessage(
   component: ConfiguratorAttributeNumericInputFieldComponent,
@@ -73,7 +59,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         declarations: [
           ConfiguratorAttributeNumericInputFieldComponent,
           MockTranslateUrlPipe,
-          MockFocusDirective,
         ],
         imports: [ReactiveFormsModule],
         providers: [
@@ -111,6 +96,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     fixture.detectChanges();
     htmlElem = fixture.nativeElement;
     spyOn(component.inputChange, 'emit');
+    DEBOUNCE_TIME =
+      DefaultConfiguratorUISettings.rulebasedConfigurator.inputDebounceTime ??
+      component['FALLBACK_DEBOUNCE_TIME'];
   });
 
   function checkForValidity(
@@ -196,6 +184,16 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   it('should delay emit inputValue for debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
+    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    tick(DEBOUNCE_TIME);
+    expect(component.inputChange.emit).toHaveBeenCalled();
+  }));
+
+  it('should delay emit inputValue for debounce period with fallback config', fakeAsync(() => {
+    component['config'] = undefined;
+    component.attributeInputForm.setValue('123');
+    fixture.detectChanges();
+    tick(1); //in case undefined is passed as debounce time it will fire almost immediately
     expect(component.inputChange.emit).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
     expect(component.inputChange.emit).toHaveBeenCalled();

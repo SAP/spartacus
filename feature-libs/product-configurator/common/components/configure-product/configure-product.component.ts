@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { Product, RoutingService } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
@@ -30,8 +30,35 @@ export class ConfigureProductComponent {
 
   ownerTypeProduct: CommonConfigurator.OwnerType =
     CommonConfigurator.OwnerType.PRODUCT;
-
+  /**
+   * Prevents page down behaviour when users press space key to select buttons
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  preventScrollingOnSpace(event: KeyboardEvent): void {
+    if (event.code === 'Space') {
+      event.preventDefault();
+    }
+  }
+  /**
+   * Fired on keyboard events, checks for 'enter' or 'space' and naviagtes users to the configurator
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   * @param {Product} product - Entered group
+   */
+  navigateToConfigurator(event: KeyboardEvent, product: Product): void {
+    if (event.code === 'Enter' || event.code === 'Space') {
+      this.routingService.go(
+        {
+          cxRoute: 'configure' + product.configuratorType,
+          params: { ownerType: this.ownerTypeProduct, entityKey: product.code },
+        },
+        {}
+      );
+    }
+  }
   constructor(
+    protected routingService: RoutingService,
     @Optional() protected productListItemContext: ProductListItemContext, // when on PLP
     @Optional() protected currentProductService: CurrentProductService // when on PDP
   ) {}

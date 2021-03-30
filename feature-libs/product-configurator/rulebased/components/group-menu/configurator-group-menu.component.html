@@ -29,6 +29,7 @@
               role="link"
               tabindex="0"
               (click)="click(group)"
+              (keydown)="preventScrollingOnSpace($event)"
               (keyup)="clickOnEnter($event, group)"
               [cxFocus]="{ key: group.id }"
             >
