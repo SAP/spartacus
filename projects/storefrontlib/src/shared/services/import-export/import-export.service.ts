@@ -85,4 +85,26 @@ export class ImportExportService {
     }
     return { isFileValid, invalidFileInfo };
   }
+
+  /**
+   * Converts array of objects into CSV data structure.
+   *
+   * @param objectsArray Array of objects which should be converted to CSV.
+   */
+  dataToCsv(objectsArray: object[]): string {
+    let array =
+      typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
+    let str = '';
+
+    for (let i = 0; i < array.length; i++) {
+      let line = '';
+      for (var index in array[i]) {
+        if (line != '') line += ',';
+        line += array[i][index];
+      }
+      str += line + '\r\n';
+    }
+
+    return str;
+  }
 }

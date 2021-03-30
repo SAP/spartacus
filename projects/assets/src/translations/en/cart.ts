@@ -49,4 +49,7 @@ export const cart = {
     stock: 'Stock',
     forceInStock: 'In Stock',
   },
+  exportFromCart: {
+    exportToCsv: 'Export to CSV',
+  },
 };
