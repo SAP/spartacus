@@ -21,22 +21,13 @@ export class ImportExportService {
   ): Promise<any> {
     const file: File = selectedFile.item(0) as File;
     return new Promise((resolve, reject) => {
-      const reader: FileReader = new FileReader();
-      reader.readAsText(file);
-      if (checkValidityEnabled) {
-        const checkValidity = this.checkValidity(file, validityConfig);
-        if (checkValidity.isFileValid) {
-          reader.onload = () => {
-            resolve(reader.result as string);
-          };
-          reader.onerror = () => {
-            reader.abort();
-            reject(new DOMException('Could not parse the file'));
-          };
-        } else {
-          reject(checkValidity.invalidFileInfo);
-        }
-      } else {
+      const checkValidity = this.checkValidity(file, validityConfig);
+      if (
+        !checkValidityEnabled ||
+        (checkValidityEnabled && checkValidity.isFileValid)
+      ) {
+        const reader: FileReader = new FileReader();
+        reader.readAsText(file);
         reader.onload = () => {
           resolve(reader.result as string);
         };
@@ -44,11 +35,13 @@ export class ImportExportService {
           reader.abort();
           reject(new DOMException('Could not parse the file'));
         };
+      } else {
+        reject(checkValidity.invalidFileInfo);
       }
     });
   }
 
-  private checkValidity(
+  protected checkValidity(
     file: File,
     validityConfig?: {
       maxSize?: Number;
