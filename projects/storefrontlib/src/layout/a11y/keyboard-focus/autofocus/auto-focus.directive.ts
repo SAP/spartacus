@@ -1,4 +1,11 @@
-import { AfterViewInit, Directive, ElementRef, OnDestroy } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  OnChanges,
+  OnDestroy,
+  SimpleChanges,
+} from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
@@ -24,11 +31,13 @@ import { AutoFocusService } from './auto-focus.service';
  *
  * `<div [cxAutoFocus]="{autofocus: ':host'}">[...]</div>`
  *
+ * When your element is added dynamically (ie. by using an *ngIf or after a DOM change), the
+ * focus can be refreshed by using the refreshFocus configuration.
  */
 @Directive() // selector: '[cxAutoFocus]'
 export class AutoFocusDirective
   extends EscapeFocusDirective
-  implements AfterViewInit, OnDestroy {
+  implements AfterViewInit, OnDestroy, OnChanges {
   /** The AutoFocusDirective will be using autofocus by default  */
   protected defaultConfig: AutoFocusConfig = { autofocus: true };
 
@@ -70,6 +79,18 @@ export class AutoFocusDirective
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // responsible for refresh focus based on the configured refresh property name
+    if (!!(changes.config.currentValue as AutoFocusConfig)?.refreshFocus) {
+      // ensure the autofocus when it's to provided initially
+      if (!this.config.autofocus) {
+        this.config.autofocus = true;
+      }
+      this.handleFocus();
+    }
+    super.ngOnChanges(changes);
   }
 
   /**

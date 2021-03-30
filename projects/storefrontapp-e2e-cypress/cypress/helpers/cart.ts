@@ -1,17 +1,18 @@
 import { standardUser } from '../sample-data/shared-users';
 import { login, register } from './auth-forms';
-import { waitForPage } from './checkout-flow';
+import { clickHamburger, waitForPage } from './checkout-flow';
 import { PRODUCT_LISTING } from './data-configuration';
+import { waitForHomePage } from './homepage';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
 
 interface TestProduct {
   code: string;
-  type?: string;
   name?: string;
   price?: number;
 }
 
+//TODO check against product response and remove this afterwards
 const formatPrice = (price: number, currency: string = 'USD') => {
   if (currency === 'USD') {
     return new Intl.NumberFormat('en-US', {
@@ -31,19 +32,16 @@ const formatPrice = (price: number, currency: string = 'USD') => {
 export const products: TestProduct[] = [
   {
     code: '1934793',
-    type: 'camera',
     name: 'PowerShot A480',
     price: 99.85,
   },
   {
     code: '300938',
-    type: 'camera',
     name: 'Photosmart E317 Digital Camera',
     price: 114.12,
   },
   {
     code: '3470545',
-    type: 'camera',
     name: 'EASYSHARE M381',
     price: 370.72,
   },
@@ -52,7 +50,6 @@ export const products: TestProduct[] = [
   },
   {
     code: '932577',
-    type: 'camera',
     name: 'Digital Camera Tripod',
     price: 24.47,
   },
@@ -108,6 +105,83 @@ function checkMiniCartCount(expectedCount) {
   });
 }
 
+export function clickAddToCart() {
+  cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
+}
+
+/**
+ * Adds product from PDP directly
+ * @param productCode
+ */
+export function addProductFromPdp(productCode: string = products[0].code) {
+  const pdpUrl = `${getBaseUrlPrefix()}/product/${productCode}`;
+
+  registerCartRefreshRoute();
+  registerCartPageRoute();
+
+  // Add product from PDP directly
+  cy.visit(pdpUrl);
+
+  clickAddToCart();
+
+  cy.wait('@refresh_cart');
+
+  closeAddedToCartDialog();
+
+  checkMiniCartCount(1);
+
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait('@cart_page');
+
+  checkProductInCart(products[0]);
+}
+
+export function checkBasicCart() {
+  const cartUrl = `${getBaseUrlPrefix()}/cart`;
+  cy.visit(cartUrl);
+
+  validateEmptyCart();
+
+  addProductFromPdp(products[0].code);
+
+  cy.log(`Adding second product to cart via search page`);
+
+  cy.onMobile(() => {
+    cy.get('.search').click();
+  });
+
+  cy.get('cx-searchbox input').clear().type(`cameras{enter}`);
+
+  cy.get(
+    ':nth-child(2) > :nth-child(1) > :nth-child(2) > .row > .col-md-4 > cx-add-to-cart > .ng-untouched > .btn'
+  ).click();
+
+  cy.wait('@refresh_cart');
+
+  closeAddedToCartDialog();
+  checkMiniCartCount(2);
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait('@cart_page');
+
+  checkProductInCart(products[4]).within(() => {
+    incrementQuantity();
+  });
+
+  checkMiniCartCount(3);
+
+  removeCartItem(products[0]);
+
+  cy.wait('@refresh_cart');
+
+  removeCartItem(products[4]);
+
+  cy.wait('@refresh_cart');
+
+  validateEmptyCart();
+}
+
 export function validateEmptyCart() {
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
   cy.get('.EmptyCartMiddleContent').should(
@@ -116,48 +190,53 @@ export function validateEmptyCart() {
   );
 }
 
-export function addToCart() {
-  cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
+function getOccUrlPrefix() {
+  return `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}`;
+}
+
+function getBaseUrlPrefix() {
+  return `/${Cypress.env('BASE_SITE')}/${Cypress.env(
+    'BASE_LANG'
+  )}/${Cypress.env('BASE_CURRENCY')}`;
 }
 
 export function registerCartPageRoute() {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
+    `${getOccUrlPrefix()}/cms/pages?pageType=ContentPage&pageLabelOrId=%2Fcart&lang=en&curr=USD`
   ).as('cart_page');
 }
 
 export function registerCartRefreshRoute() {
   cy.intercept(
     'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts/*?fields=*&lang=en&curr=USD`
+    `${getOccUrlPrefix()}/users/*/carts/*?fields=*&lang=en&curr=USD`
   ).as('refresh_cart');
 }
 
 export function registerCreateCartRoute() {
   cy.intercept(
     'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts?fields=*&lang=en&curr=USD`
+    `${getOccUrlPrefix()}/users/*/carts?fields=*&lang=en&curr=USD`
   ).as('create_cart');
+}
+
+export function registerDeleteCartItemRoute() {
+  cy.intercept(
+    'DELETE',
+    `${getOccUrlPrefix()}/users/*/carts/*/entries/*?lang=en&curr=USD`
+  ).as('delete_cart_item');
 }
 
 export function registerSaveCartRoute() {
   cy.intercept(
     'PATCH',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts/*/save?lang=en&curr=USD`
+    `${getOccUrlPrefix()}/users/*/carts/*/save?lang=en&curr=USD`
   ).as('save_cart');
 }
 
 export function closeAddedToCartDialog() {
-  cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
+  cy.get('span > .cx-icon.fa-times').click({ force: true });
 }
 
 export function checkProductInCart(product, qty = 1, currency = 'USD') {
@@ -182,52 +261,12 @@ export function checkAddedToCartDialog(itemsNumber = 1) {
   );
 }
 
-export function addProductToCartViaAutoComplete(mobile: boolean) {
-  registerCartRefreshRoute();
-  registerCartPageRoute();
-  const product = products[0];
-  goToFirstProductFromSearch(product.code, mobile);
-  addToCart();
-
-  cy.wait('@refresh_cart');
-
-  closeAddedToCartDialog();
-  checkMiniCartCount(1);
-  cy.get('cx-mini-cart > a').click({ force: true });
-
-  cy.wait('@cart_page');
-
-  checkProductInCart(product);
-}
-
-export function addProductToCartViaSearchPage(mobile: boolean) {
-  registerCartRefreshRoute();
-  registerCartPageRoute();
-
-  const product = products[4];
-
-  goToFirstProductFromSearch(product.code, mobile);
-
-  addToCart();
-
-  cy.wait('@refresh_cart');
-
-  closeAddedToCartDialog();
-
-  checkMiniCartCount(2).click({ force: true });
-  cy.get('cx-mini-cart > a').click({ force: true });
-
-  cy.wait('@cart_page');
-
-  checkProductInCart(product);
-}
-
 export function removeAllItemsFromCart() {
   registerCartRefreshRoute();
 
   removeCartItem(products[0]);
 
-  cy.wait('@refresh_cart').its('status').should('eq', 200);
+  cy.wait('@refresh_cart');
 
   removeCartItem(products[4]);
 
@@ -235,18 +274,17 @@ export function removeAllItemsFromCart() {
 }
 
 export function removeCartItem(product) {
+  registerDeleteCartItemRoute();
+
   getCartItem(product.name).within(() => {
     cy.findByText('Remove').click();
   });
+
+  cy.wait('@delete_cart_item');
 }
 
 export function loginRegisteredUser() {
   standardUser.registrationData.email = generateMail(randomString(), true);
-  // Hack to make it more stable
-  // cy.requireLoggedIn works thanks to rehydration.
-  // Unfortunately it is not always stable. Sometimes app could override localStorage data.
-  // Issue for proper fix: #4671
-  cy.wait(2000);
   cy.requireLoggedIn(standardUser);
   cy.reload();
 }
@@ -255,14 +293,10 @@ export function addProductWhenLoggedIn(mobile: boolean) {
   const product = products[1];
 
   goToFirstProductFromSearch(product.code, mobile);
-  /**
-   * This waits is added here to delay Add to cart click until wishlist is created.
-   * Wishlist is created on first render of wishlist components.
-   * Without that there might be a race condition that active cart will use the same cart as wishlist.
-   */
+
+  clickAddToCart();
+
   cy.wait('@create_cart');
-  cy.wait('@save_cart');
-  addToCart();
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 }
@@ -273,6 +307,8 @@ export function logOutAndNavigateToEmptyCart() {
     option: 'Sign Out',
   });
   cy.wait(`@${logoutPage}`);
+
+  clickHamburger();
 
   cy.get('cx-login [role="link"]').should('contain', 'Sign In');
 
@@ -286,6 +322,7 @@ export function logOutAndNavigateToEmptyCart() {
 export function addProductAsAnonymous() {
   const product = products[2];
 
+  cy.server();
   createProductQuery(
     QUERY_ALIAS.PRODUCE_CODE,
     product.code,
@@ -301,7 +338,7 @@ export function addProductAsAnonymous() {
   cy.get('cx-product-list')
     .contains('cx-product-list-item', product.name)
     .within(() => {
-      addToCart();
+      clickAddToCart();
     });
 
   checkAddedToCartDialog();
@@ -317,6 +354,9 @@ export function verifyMergedCartWhenLoggedIn() {
   const product1 = products[2];
 
   const loginPage = waitForPage('/login', 'getLoginPage');
+
+  clickHamburger();
+
   cy.get('cx-login [role="link"]').click();
   cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
@@ -327,7 +367,13 @@ export function verifyMergedCartWhenLoggedIn() {
 
   cy.get('cx-breadcrumb h1').should('contain', '1 result');
 
-  checkMiniCartCount(2).click({ force: true });
+  const cartPage = waitForPage('/cart', 'getCartPage');
+
+  checkMiniCartCount(2);
+
+  cy.get('cx-mini-cart > a').click({ force: true });
+
+  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
 
   cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
@@ -342,9 +388,11 @@ export function logOutAndEmptyCart() {
   });
   cy.wait(`@${logoutPage}`);
 
+  waitForHomePage();
+
   const cartPage = waitForPage('/cart', 'getCartPage');
   cy.visit('/cart');
-  cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+  cy.wait(`@${cartPage}`);
 
   validateEmptyCart();
 }
@@ -357,7 +405,7 @@ export function manipulateCartQuantity() {
 
   cy.visit(`/product/${product.code}`);
 
-  addToCart();
+  clickAddToCart();
 
   cy.wait('@refresh_cart');
 

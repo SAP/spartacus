@@ -1,4 +1,9 @@
-<cx-org-card *ngIf="model$ | async as model" i18nRoot="orgUnit.details">
+<cx-org-card
+  *ngIf="model$ | async as model"
+  i18nRoot="orgUnit.details"
+  [cxFocus]="{ refreshFocus: model }"
+  [showHint]="true"
+>
   <a
     actions
     class="link edit"
@@ -14,7 +19,12 @@
     i18nRoot="orgUnit"
   ></cx-org-toggle-status>
 
-  <cx-org-disable-info info i18nRoot="orgUnit"> </cx-org-disable-info>
+  <cx-org-disable-info
+    info
+    i18nRoot="orgUnit"
+    [displayInfoConfig]="{ disabledDisable: true }"
+  >
+  </cx-org-disable-info>
 
   <section main class="details" cxOrgItemExists>
     <div class="property">
