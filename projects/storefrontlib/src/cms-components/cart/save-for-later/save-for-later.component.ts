@@ -5,6 +5,7 @@ import {
   CmsParagraphComponent,
   CmsService,
   OrderEntry,
+  PromotionLocation,
   SelectiveCartService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
@@ -21,6 +22,7 @@ export class SaveForLaterComponent implements OnInit {
   cartLoaded$: Observable<boolean>;
   data$: Observable<CmsParagraphComponent>;
   isCartEmpty$: Observable<boolean>;
+  CartLocation = PromotionLocation;
 
   constructor(
     protected cmsService: CmsService,

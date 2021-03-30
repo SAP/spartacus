@@ -73,9 +73,7 @@ export class AnonymousConsentsEffects {
   );
 
   @Effect()
-  loadAnonymousConsentTemplates$: Observable<
-    AnonymousConsentsActions.AnonymousConsentsActions
-  > = this.actions$.pipe(
+  loadAnonymousConsentTemplates$: Observable<AnonymousConsentsActions.AnonymousConsentsActions> = this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
     withLatestFrom(this.anonymousConsentService.getTemplates()),
     concatMap(([_, currentConsentTemplates]) =>

@@ -12,9 +12,7 @@ import { Configurator } from '../../core/model/configurator.model';
   templateUrl: './configurator-group-title.component.html',
 })
 export class ConfiguratorGroupTitleComponent {
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.configRouterExtractorService
+  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>
@@ -22,9 +20,7 @@ export class ConfiguratorGroupTitleComponent {
       )
     );
 
-  displayedGroup$: Observable<
-    Configurator.Group
-  > = this.configRouterExtractorService
+  displayedGroup$: Observable<Configurator.Group> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>

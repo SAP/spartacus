@@ -22,9 +22,7 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
 
   private subscription = new Subscription();
 
-  replenishmentOrder$: Observable<
-    ReplenishmentOrder
-  > = this.userReplenishmentOrderService.getReplenishmentOrderDetails();
+  replenishmentOrder$: Observable<ReplenishmentOrder> = this.userReplenishmentOrderService.getReplenishmentOrderDetails();
 
   constructor(
     protected userReplenishmentOrderService: UserReplenishmentOrderService,
