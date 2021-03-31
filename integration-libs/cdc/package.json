@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cdc",
-  "version": "0.301.1",
+  "version": "0.301.2",
   "description": "Customer Data Cloud Integration library for Spartacus",
   "keywords": [
     "spartacus",
