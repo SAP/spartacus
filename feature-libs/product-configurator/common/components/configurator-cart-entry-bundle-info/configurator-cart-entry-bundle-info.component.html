@@ -28,10 +28,23 @@
             {{ lineItem?.name }}
           </div>
           <div class="cx-item-price">
-            {{ lineItem?.formattedPrice }}
+            <span
+              class="cx-identifier"
+              *ngIf="lineItem?.formattedPrice && isMobile() | async"
+              >{{ 'configurator.overviewForm.itemPrice' | cxTranslate }}</span
+            >
+            <span class="cx-item">{{ lineItem?.formattedPrice }}</span>
           </div>
-          <div class="cx-item-quantity"></div>
-          {{ lineItem?.formattedQuantity | cxNumeric }}
+          <div class="cx-item-quantity">
+            <span
+              class="cx-identifier"
+              *ngIf="lineItem?.formattedQuantity && isMobile() | async"
+              >{{ 'configurator.attribute.quantity' | cxTranslate }}</span
+            >
+            <span class="cx-item">{{
+              lineItem?.formattedQuantity | cxNumeric
+            }}</span>
+          </div>
         </div>
       </div>
     </ng-container>

@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, Product } from '@spartacus/core';
+import { I18nTestingModule, Product, RoutingService } from '@spartacus/core';
 import {
   CurrentProductService,
   ProductListItemContext,
@@ -46,8 +46,13 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
+class MockRoutingService implements Partial<RoutingService> {
+  go() {}
+}
+
 let component: ConfigureProductComponent;
 let currentProductService: CurrentProductService;
+let routingService: RoutingService;
 let fixture: ComponentFixture<ConfigureProductComponent>;
 let htmlElem: HTMLElement;
 
@@ -64,6 +69,7 @@ function setupWithCurrentProductService(
           provide: CurrentProductService,
           useClass: MockCurrentProductServiceReturnsNull,
         },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
   } else if (useCurrentProductServiceOnly) {
@@ -75,6 +81,7 @@ function setupWithCurrentProductService(
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
   } else {
@@ -90,6 +97,7 @@ function setupWithCurrentProductService(
           provide: CurrentProductService,
           useClass: MockCurrentProductService,
         },
+        { provide: RoutingService, useClass: MockRoutingService },
       ],
     }).compileComponents();
   }
@@ -99,6 +107,10 @@ function setupWithCurrentProductService(
   );
 
   spyOn(currentProductService, 'getProduct').and.callThrough();
+
+  routingService = TestBed.inject(RoutingService);
+  spyOn(routingService, 'go').and.callThrough();
+
   fixture = TestBed.createComponent(ConfigureProductComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;

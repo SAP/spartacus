@@ -443,7 +443,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
   });
 
-  it('should navigate up on hitting enter', () => {
+  it('should navigate up on hitting an enter key', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
@@ -458,7 +458,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
   });
 
-  it('should not navigate up on hitting a key other than enter', () => {
+  it('should navigate up on hitting a space key', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
@@ -469,9 +469,9 @@ describe('ConfigurationGroupMenuComponent', () => {
       code: 'Space',
     });
     component.navigateUpOnEnter(event);
-    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalledTimes(0);
+    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalledTimes(1);
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalledTimes(
-      0
+      1
     );
   });
 
