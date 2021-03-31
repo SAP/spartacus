@@ -11,6 +11,9 @@ export const orgUserGroup = {
   byUnitName: 'Sort by unit',
   byGroupID: 'Sort by group',
 
+  hint:
+    'User groups allow you to combine users together in one group, for the purposes of assigning purchase limits for many users at once.',
+
   details: {
     title: 'User group Details',
     subtitle: 'User group: {{ item.name }}',
@@ -34,7 +37,10 @@ export const orgUserGroup = {
   messages: {
     update: 'User Group {{ item.name }} updated successfully',
     create: 'User Group {{ item.name }} created successfully',
+    deleteTitle: 'Delete this user group?',
     delete: 'Are you sure you want to delete user group {{ item.name }}?',
+    deleteBody:
+      'The users in this group are not affected when the user group is deleted.',
     deleted: 'User Group {{ item.name }} deleted successfully',
   },
 

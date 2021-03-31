@@ -46,7 +46,7 @@ export class BaseSiteService implements SiteContext<BaseSite> {
   /**
    * Get base site data based on site uid
    */
-  get(siteUid?: string): Observable<BaseSite> {
+  get(siteUid?: string): Observable<BaseSite | undefined> {
     if (siteUid) {
       return this.getAll().pipe(
         map((sites) => sites.find((site) => site.uid === siteUid))

@@ -1,5 +1,5 @@
-/* tslint:disable:deprecation */
-// for now there is no better way than to use document.createElement here, therefore we need to disable tslint deprecation rule here
+/* eslint-disable import/no-deprecated */
+// for now there is no better way than to use document.createElement here, therefore we need to disable eslint deprecation rule here
 import { DOCUMENT } from '@angular/common';
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';

@@ -59,4 +59,21 @@
       }
     }
   }
+  cx-org-disable-info > section {
+    padding: 25px 30px;
+
+    ul {
+      margin: 0;
+      > li:only-child {
+        list-style: none;
+        margin-inline-start: -1.5em;
+      }
+    }
+
+    > .cx-icon {
+      align-self: flex-start;
+      margin-top: 4px;
+      color: var(--cx-color, var(--cx-color-info));
+    }
+  }
 }

@@ -161,6 +161,13 @@ describe('ToggleStatusComponent', () => {
           key: 'testRoot.messages.deactivate',
           params: { item: mockItem },
         },
+        messageTitle: {
+          key: 'testRoot.messages.deactivateTitle',
+          params: { item: mockItem },
+        },
+        confirm: {
+          key: 'organization.confirmation.disable',
+        },
         component: ConfirmationMessageComponent,
       });
       expect(organizationItemService.update).not.toHaveBeenCalled();

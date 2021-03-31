@@ -80,7 +80,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
     searchBoxComponentService: SearchBoxComponentService,
     componentData: CmsComponentData<CmsSearchBoxComponent>,
     winRef: WindowRef,
-    // tslint:disable-next-line: unified-signatures
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     routingService: RoutingService
   );
 
@@ -234,7 +234,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   // Focus on previous item in results list
-  focusPreviousChild(event) {
+  focusPreviousChild(event: UIEvent) {
     event.preventDefault(); // Negate normal keyscroll
     const [results, focusedIndex] = [
       this.getResultElements(),
@@ -251,7 +251,8 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   }
 
   // Focus on next item in results list
-  focusNextChild(event) {
+  focusNextChild(event: UIEvent) {
+    this.open();
     event.preventDefault(); // Negate normal keyscroll
     const [results, focusedIndex] = [
       this.getResultElements(),
@@ -285,6 +286,10 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
    */
   disableClose(): void {
     this.ignoreCloseEvent = true;
+  }
+
+  preventDefault(ev: UIEvent): void {
+    ev.preventDefault();
   }
 
   /**

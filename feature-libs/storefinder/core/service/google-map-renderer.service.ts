@@ -15,7 +15,7 @@ export class GoogleMapRendererService {
     config: StoreFinderConfig,
     externalJsFileLoader: ExternalJsFileLoader,
     storeDataService: StoreDataService,
-    // tslint:disable-next-line:unified-signatures
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     scriptLoader?: ScriptLoader
   );
   /**

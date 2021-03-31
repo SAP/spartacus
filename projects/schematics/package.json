@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "3.1.0-next.0",
+  "version": "3.2.0-next.2",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -38,16 +38,19 @@
       "@spartacus/core",
       "@spartacus/storefront",
       "@spartacus/styles",
+      "@spartacus/user",
       "@spartacus/cds",
       "@spartacus/assets",
       "@spartacus/incubator",
       "@spartacus/organization",
       "@spartacus/product",
       "@spartacus/storefinder",
+      "@spartacus/asm",
       "@spartacus/smartedit",
       "@spartacus/qualtrics",
       "@spartacus/cdc",
       "@spartacus/tracking",
+      "@spartacus/cart",
       "@spartacus/setup"
     ]
   },

@@ -11,6 +11,9 @@ import { AsmAuthService } from './services/asm-auth.service';
 import { AsmStatePersistenceService } from './services/asm-state-persistence.service';
 import { AsmStoreModule } from './store/asm-store.module';
 
+/**
+ * @deprecated since 3.2, use asm lib instead
+ */
 export function asmStatePersistenceFactory(
   asmStatePersistenceService: AsmStatePersistenceService
 ) {
@@ -18,6 +21,9 @@ export function asmStatePersistenceFactory(
   return result;
 }
 
+/**
+ * @deprecated since 3.2, use asm lib instead
+ */
 @NgModule({
   imports: [CommonModule, AsmStoreModule],
 })

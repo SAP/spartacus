@@ -10,7 +10,7 @@
     "publishPath": "./../../dist/product-configurator"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build product-configurator --prod"
+    "after:version:bump": "cd ../.. && yarn build:product-configurator"
   },
   "github": {
     "release": true,
