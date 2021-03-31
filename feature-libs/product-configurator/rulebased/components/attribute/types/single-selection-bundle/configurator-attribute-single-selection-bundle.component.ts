@@ -153,7 +153,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     );
     prevIdx--;
     if (prevIdx < 0) {
-      prevIdx = this.attribute.values.length > 0 ? 1 : 0;
+      prevIdx = this.attribute.values.length > 1 ? 1 : 0;
     }
     return this.createFocusId(
       this.attribute.attrCode?.toString(),

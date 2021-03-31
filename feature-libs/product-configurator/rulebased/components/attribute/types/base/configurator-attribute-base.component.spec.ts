@@ -120,7 +120,7 @@ describe('ConfigUIKeyGeneratorService', () => {
 
   it('should generate focus id for attribute value', () => {
     expect(classUnderTest.createFocusId('attrCode', 'valueCode')).toBe(
-      'attrCode--valueCode--focusId'
+      'attrCode--valueCode--focus'
     );
   });
 });
