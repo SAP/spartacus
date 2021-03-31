@@ -1,28 +1,36 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="configuration?.warningMessages?.length > 0">
     <div class="alert-message alert-message-invalid-warning">
-      <div class="cx-warning-messages">
-        <span class="alert-icon">
-          <cx-icon type="WARNING"></cx-icon>
-        </span>
-        <a
-          role="link"
-          (click)="toggleWarnings()"
-          tabindex="0"
-          *ngIf="configuration?.warningMessages?.length > 1"
-          class="cx-warning-toggle"
-        >
-          Review these errors
+      <span class="alert-icon">
+        <cx-icon type="WARNING"></cx-icon>
+      </span>
+      <span
+        class="cx-warning-text"
+        *ngIf="configuration?.warningMessages?.length > 1"
+      >
+        There are multiple warnings.</span
+      >
+      <a
+        role="link"
+        (click)="toggleWarnings()"
+        tabindex="0"
+        *ngIf="configuration?.warningMessages?.length > 1"
+        class="cx-warning-toggle"
+      >
+        Review these warnings
 
-          <ng-container *ngIf="!showWarnings">
-            <cx-icon type="CARET_DOWN"></cx-icon>
-          </ng-container>
+        <ng-container *ngIf="!showWarnings">
+          <cx-icon type="CARET_DOWN"></cx-icon>
+        </ng-container>
 
-          <ng-container *ngIf="showWarnings">
-            <cx-icon type="CARET_UP"></cx-icon>
-          </ng-container>
-        </a>
-
+        <ng-container *ngIf="showWarnings">
+          <cx-icon type="CARET_UP"></cx-icon>
+        </ng-container>
+      </a>
+      <div
+        class="cx-warning-messages"
+        [class.inline]="configuration?.warningMessages?.length === 1"
+      >
         <div
           class="cx-warning-message"
           [class.open]="
@@ -37,27 +45,35 @@
   </ng-container>
   <ng-container *ngIf="configuration?.errorMessages?.length > 0">
     <div class="alert-message alert-message-error">
-      <div class="cx-error-messages">
-        <span class="alert-icon">
-          <cx-icon type="ERROR"></cx-icon>
-        </span>
-        <a
-          role="link"
-          (click)="toggleErrors()"
-          tabindex="0"
-          *ngIf="configuration?.errorMessages?.length > 1"
-          class="cx-warning-toggle"
-        >
-          There are multiple errors
-          <ng-container *ngIf="!showErrors">
-            <cx-icon type="CARET_DOWN"></cx-icon>
-          </ng-container>
+      <span class="alert-icon">
+        <cx-icon type="ERROR"></cx-icon>
+      </span>
+      <span
+        class="cx-error-text"
+        *ngIf="configuration?.errorMessages?.length > 1"
+      >
+        There are multiple errors.</span
+      >
+      <a
+        role="link"
+        (click)="toggleErrors()"
+        tabindex="0"
+        *ngIf="configuration?.errorMessages?.length > 1"
+        class="cx-error-toggle"
+      >
+        Review these errors
+        <ng-container *ngIf="!showErrors">
+          <cx-icon type="CARET_DOWN"></cx-icon>
+        </ng-container>
 
-          <ng-container *ngIf="showErrors">
-            <cx-icon type="CARET_UP"></cx-icon>
-          </ng-container>
-        </a>
-
+        <ng-container *ngIf="showErrors">
+          <cx-icon type="CARET_UP"></cx-icon>
+        </ng-container>
+      </a>
+      <div
+        class="cx-error-messages"
+        [class.inline]="configuration?.errorMessages?.length === 1"
+      >
         <div
           class="cx-error-message"
           [class.open]="

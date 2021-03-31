@@ -13,9 +13,7 @@ import { ConfiguratorRouterExtractorService } from '@spartacus/product-configura
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
   iconTypes = IconModule;
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.configRouterExtractorService
+  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>
@@ -23,13 +21,13 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
       )
     );
 
-  showWarnings = true;
+  showWarnings = false;
 
   toggleWarnings(): void {
     this.showWarnings = !this.showWarnings;
   }
 
-  showErrors = true;
+  showErrors = false;
 
   toggleErrors(): void {
     this.showErrors = !this.showErrors;
