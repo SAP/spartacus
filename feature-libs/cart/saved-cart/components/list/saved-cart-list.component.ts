@@ -62,7 +62,6 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     this.importExportService
       .importFile(file, true, {
         maxSize: 1,
-        allowedExtensions: ['text/csv'],
         checkEmptyFile: true,
       })
       .pipe(catchError((error) => throwError(error)))

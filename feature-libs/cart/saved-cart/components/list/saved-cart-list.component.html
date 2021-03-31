@@ -6,7 +6,11 @@
           'savedCartList.savedCarts' | cxTranslate: { count: savedCarts.length }
         }}
       </h3>
-      <input type="file" (change)="importProducts($event.target.files)" />
+      <input
+        type="file"
+        (change)="importProducts($event.target.files)"
+        accept=".csv"
+      />
     </div>
 
     <ng-container *ngIf="savedCarts?.length > 0; else noSavedCarts">

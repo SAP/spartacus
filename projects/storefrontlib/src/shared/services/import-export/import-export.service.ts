@@ -2,6 +2,19 @@ import { Injectable } from '@angular/core';
 import { GlobalMessageService } from '@spartacus/core';
 import { Observable, Observer } from 'rxjs';
 
+// TODO: move to other file
+export type FileValidityConfig = {
+  maxSize?: Number;
+  allowedExtensions?: string[];
+  checkEmptyFile?: Boolean;
+};
+
+export type InvalidFileInfo = {
+  fileTooLarge?: Boolean;
+  invalidExtension?: Boolean;
+  fileEmpty?: Boolean;
+};
+
 @Injectable({
   providedIn: 'root',
 })
@@ -9,16 +22,16 @@ export class ImportExportService {
   constructor(protected globalMessageService: GlobalMessageService) {}
   // size unit is MB
   protected maxSize = 1;
-  protected allowedExtensions = ['text/csv'];
+  protected allowedExtensions = [
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'application/vnd.ms-excel',
+    'text/csv',
+  ];
 
   importFile(
     selectedFile: FileList,
     checkValidityEnabled?: Boolean,
-    validityConfig?: {
-      maxSize?: Number;
-      allowedExtensions?: string[];
-      checkEmptyFile?: Boolean;
-    }
+    validityConfig?: FileValidityConfig
   ): Observable<unknown> {
     const file: File = selectedFile.item(0) as File;
     return new Observable((observer: Observer<unknown>) => {
@@ -43,26 +56,21 @@ export class ImportExportService {
     });
   }
 
+  protected setValidityConfig(validityConfig): FileValidityConfig {
+    return {
+      maxSize: validityConfig?.maxSize ?? this.maxSize,
+      allowedExtensions:
+        validityConfig?.allowedExtensions ?? this.allowedExtensions,
+    };
+  }
+
   protected checkValidity(
     file: File,
-    validityConfig?: {
-      maxSize?: Number;
-      allowedExtensions?: string[];
-      checkEmptyFile?: Boolean;
-    }
-  ): { isFileValid: Boolean; invalidFileInfo: {} } {
+    validityConfig?: FileValidityConfig
+  ): { isFileValid: Boolean; invalidFileInfo: InvalidFileInfo } {
     let isFileValid: Boolean = true;
-    let invalidFileInfo: {
-      fileTooLarge?: Boolean;
-      invalidExtension?: Boolean;
-      fileEmpty?: Boolean;
-    } = {};
-    if (!validityConfig) {
-      validityConfig = {
-        maxSize: this.maxSize,
-        allowedExtensions: this.allowedExtensions,
-      };
-    }
+    let invalidFileInfo: InvalidFileInfo = {};
+    validityConfig = this.setValidityConfig(validityConfig);
     if (
       validityConfig?.maxSize &&
       file.size / 1000000 > validityConfig?.maxSize
