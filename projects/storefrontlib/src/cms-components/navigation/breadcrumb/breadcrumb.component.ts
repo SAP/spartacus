@@ -7,14 +7,14 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
-import { PageHeaderComponent } from '../page-header/page-header.component';
+import { PageTitleComponent } from '../page-header/page-title.component';
 
 @Component({
   selector: 'cx-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BreadcrumbComponent extends PageHeaderComponent implements OnInit {
+export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   crumbs$: Observable<any[]>;
 
   constructor(

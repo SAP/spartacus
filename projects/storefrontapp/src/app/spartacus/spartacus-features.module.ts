@@ -19,7 +19,7 @@ import {
   AnonymousConsentsDialogModule,
   BannerCarouselModule,
   BannerModule,
-  PageHeaderModule,
+  PageTitleModule,
   BreadcrumbModule,
   CartComponentModule,
   CartPageEventModule,
@@ -119,7 +119,7 @@ if (environment.cds) {
     CategoryNavigationModule,
     NavigationModule,
     FooterNavigationModule,
-    PageHeaderModule,
+    PageTitleModule,
     BreadcrumbModule,
 
     // User Core

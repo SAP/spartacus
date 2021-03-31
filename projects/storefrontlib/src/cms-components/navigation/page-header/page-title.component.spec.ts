@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, PageMeta, PageMetaService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { PageHeaderComponent } from './page-header.component';
+import { PageHeaderComponent } from './page-title.component';
 
 class MockPageMetaService {
   getMeta(): Observable<PageMeta> {

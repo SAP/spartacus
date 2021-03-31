@@ -6,21 +6,21 @@ import {
   CmsPageTitleModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { PageHeaderComponent } from './page-header.component';
+import { PageTitleComponent } from './page-title.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, CmsPageTitleModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        PageHeaderComponent: {
-          component: PageHeaderComponent,
+        PageTitleComponent: {
+          component: PageTitleComponent,
         },
       },
     }),
   ],
-  declarations: [PageHeaderComponent],
-  exports: [PageHeaderComponent],
-  entryComponents: [PageHeaderComponent],
+  declarations: [PageTitleComponent],
+  exports: [PageTitleComponent],
+  entryComponents: [PageTitleComponent],
 })
-export class PageHeaderModule {}
+export class PageTitleModule {}

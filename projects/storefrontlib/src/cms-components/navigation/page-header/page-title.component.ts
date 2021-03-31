@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
-  CmsPageHeaderComponent,
+  CmsPageTitleComponent,
   PageMeta,
   PageMetaService,
 } from '@spartacus/core';
@@ -10,14 +10,14 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 
 @Component({
   selector: 'cx-page-header',
-  templateUrl: './page-header.component.html',
+  templateUrl: './page-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PageHeaderComponent implements OnInit {
+export class PageTitleComponent implements OnInit {
   title$: Observable<string>;
 
   constructor(
-    public component: CmsComponentData<CmsPageHeaderComponent>,
+    public component: CmsComponentData<CmsPageTitleComponent>,
     protected pageMetaService: PageMetaService
   ) {}
 
