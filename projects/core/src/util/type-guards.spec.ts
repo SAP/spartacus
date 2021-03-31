@@ -1,4 +1,4 @@
-import { isNonNullable, isNotUndefined } from './type-guards';
+import { isNotNullable, isNotUndefined } from './type-guards';
 
 describe('Type guards', () => {
   describe('isNotUndefined', () => {
@@ -27,29 +27,29 @@ describe('Type guards', () => {
     });
   });
 
-  describe('isNonNullable', () => {
+  describe('isNotNullable', () => {
     it('should return false for "undefined" value', () => {
-      expect(isNonNullable(undefined)).toBeFalse();
+      expect(isNotNullable(undefined)).toBeFalse();
     });
 
     it('should return false for "null" value', () => {
-      expect(isNonNullable(null)).toBeFalse();
+      expect(isNotNullable(null)).toBeFalse();
     });
 
     it('should return true for falsy string', () => {
-      expect(isNonNullable('')).toBeTrue();
+      expect(isNotNullable('')).toBeTrue();
     });
 
     it('should return true for falsy number', () => {
-      expect(isNonNullable(0)).toBeTrue();
+      expect(isNotNullable(0)).toBeTrue();
     });
 
     it('should return true for objects', () => {
-      expect(isNonNullable({ property: 'value' })).toBeTrue();
+      expect(isNotNullable({ property: 'value' })).toBeTrue();
     });
 
     it('should return true for false value', () => {
-      expect(isNonNullable(false)).toBeTrue();
+      expect(isNotNullable(false)).toBeTrue();
     });
   });
 });

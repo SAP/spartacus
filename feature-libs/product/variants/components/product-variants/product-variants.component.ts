@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   BaseOption,
-  isNonNullable,
+  isNotNullable,
   Product,
   RequiredPick,
   VariantType,
@@ -24,7 +24,7 @@ export class ProductVariantsComponent implements OnInit {
 
   ngOnInit(): void {
     this.product$ = this.currentProductService.getProduct().pipe(
-      filter(isNonNullable),
+      filter(isNotNullable),
       filter(
         (product): product is RequiredPick<Product, 'baseOptions'> =>
           !!product.baseOptions

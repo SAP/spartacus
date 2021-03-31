@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { isNonNullable } from '@spartacus/core';
+import { isNotNullable } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { OutletDirective } from './outlet.directive';
@@ -37,7 +37,7 @@ export class OutletRendererService {
   getOutletRef(outlet: string): Observable<OutletDirective> {
     return this.outletRefs.asObservable().pipe(
       map((val) => val.get(outlet)),
-      filter(isNonNullable)
+      filter(isNotNullable)
     );
   }
 }

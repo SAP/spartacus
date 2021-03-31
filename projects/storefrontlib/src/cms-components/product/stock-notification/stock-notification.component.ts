@@ -7,7 +7,7 @@ import {
 import {
   GlobalMessageService,
   GlobalMessageType,
-  isNonNullable,
+  isNotNullable,
   NotificationPreference,
   NotificationType,
   OCC_USER_ID_ANONYMOUS,
@@ -52,7 +52,7 @@ export class StockNotificationComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.outOfStock$ = combineLatest([
-      this.currentProductService.getProduct().pipe(filter(isNonNullable)),
+      this.currentProductService.getProduct().pipe(filter(isNotNullable)),
       this.userIdService.getUserId(),
     ]).pipe(
       tap(([product, userId]) => {

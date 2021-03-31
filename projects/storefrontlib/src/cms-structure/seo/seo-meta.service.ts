@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
 import {
-  isNonNullable,
+  isNotNullable,
   PageMeta,
   PageMetaService,
   PageRobotsMeta,
@@ -26,7 +26,7 @@ export class SeoMetaService implements OnDestroy {
   init() {
     this.subscription = this.pageMetaService
       .getMeta()
-      .pipe(filter(isNonNullable))
+      .pipe(filter(isNotNullable))
       .subscribe((meta) => (this.meta = meta));
   }
 
