@@ -51,10 +51,6 @@ export class ImportExportService {
   }
 
   protected setValidityConfig(validityConfig: FileValidity): FileValidity {
-    console.log(this.fileValidityConfig.fileValidity, {
-      ...this.fileValidityConfig.fileValidity,
-      ...validityConfig,
-    });
     return { ...this.fileValidityConfig.fileValidity, ...validityConfig };
   }
 
