@@ -40,12 +40,18 @@ export class SeoMetaService implements OnDestroy {
   }
 
   protected set description(value: string | undefined) {
-    this.addTag({ name: 'description', content: value || '' });
+    if (value) {
+      this.addTag({ name: 'description', content: value || '' });
+    } else {
+      this.ngMeta.removeTag('name="description"');
+    }
   }
 
   protected set image(imageUrl: string | undefined) {
     if (imageUrl) {
       this.addTag({ name: 'og:image', content: imageUrl });
+    } else {
+      this.ngMeta.removeTag('name="og:image"');
     }
   }
 
