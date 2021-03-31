@@ -1,4 +1,4 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import {
   ConfigInitializer,
   CONFIG_INITIALIZER,
@@ -12,6 +12,7 @@ import { SiteContextConfigInitializer } from './config/config-loader/site-contex
 import { defaultSiteContextConfigFactory } from './config/default-site-context-config';
 import { SiteContextConfig } from './config/site-context-config';
 import { SiteContextEventModule } from './events/site-context-event.module';
+import { SiteContextPersistenceService } from './facade/site-context-persistence.service';
 import { BASE_SITE_CONTEXT_ID } from './providers/context-ids';
 import { contextServiceMapProvider } from './providers/context-service-map';
 import { contextServiceProviders } from './providers/context-service-providers';
@@ -38,6 +39,12 @@ export function initSiteContextConfig(
   }
   return null;
 }
+export function siteContextStatePersistenceFactory(
+  siteContextPersistenceService: SiteContextPersistenceService
+) {
+  const result = () => siteContextPersistenceService.initSync();
+  return result;
+}
 
 @NgModule({
   imports: [StateModule, SiteContextStoreModule, SiteContextEventModule],
@@ -60,6 +67,12 @@ export class SiteContextModule {
             SiteContextConfig,
             FeatureConfigService,
           ],
+          multi: true,
+        },
+        {
+          provide: APP_INITIALIZER,
+          useFactory: siteContextStatePersistenceFactory,
+          deps: [SiteContextPersistenceService],
           multi: true,
         },
       ],

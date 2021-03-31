@@ -120,7 +120,7 @@ export class WithdrawUserConsentFail extends StateUtils.EntityFailAction {
 
 export class WithdrawUserConsentSuccess extends StateUtils.EntitySuccessAction {
   readonly type = WITHDRAW_USER_CONSENT_SUCCESS;
-  constructor() {
+  constructor(public consentCode: string) {
     super(PROCESS_FEATURE, WITHDRAW_CONSENT_PROCESS_ID);
   }
 }

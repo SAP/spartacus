@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { merge, Observable } from 'rxjs';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { AnonymousConsentsService } from '../../anonymous-consents/index';
-import { AnonymousConsent, Consent } from '../../model/index';
+import { AnonymousConsent, Consent, ConsentTemplate } from '../../model/index';
 import { UserConsentService } from './user-consent.service';
 
 /**
@@ -114,5 +114,30 @@ export class ConsentService {
     }
 
     return (consent as Consent).code !== undefined;
+  }
+
+  getGivenConsents(
+    loadIfMissing = false
+  ): Observable<Consent[] | AnonymousConsent[]> {
+    return merge(
+      this.userConsentService.getConsents(loadIfMissing).pipe(
+        map((templates) =>
+          templates.reduce((result: Consent[], template: ConsentTemplate) => {
+            if (template.currentConsent) result.push(template.currentConsent);
+            return result;
+          }, [])
+        ),
+        map((consents) =>
+          consents.filter((consent) => this.isConsentGiven(consent))
+        )
+      ),
+      this.anonymousConsentsService
+        .getConsents()
+        .pipe(
+          map((anonymousConsents) =>
+            anonymousConsents.filter((consent) => this.isConsentGiven(consent))
+          )
+        )
+    );
   }
 }
