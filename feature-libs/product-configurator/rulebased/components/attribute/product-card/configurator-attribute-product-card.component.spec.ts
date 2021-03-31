@@ -626,4 +626,8 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
   });
+
+  it('should set previous focus on handleSelect', () => {
+    component.onHandleSelect();
+  });
 });
