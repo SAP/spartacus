@@ -1,57 +1,19 @@
-import { Component } from '@angular/core';
-import {
-  AuthService,
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
-import { UserEmailFacade } from '@spartacus/user/profile/root';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { UpdateEmailComponentService } from './update-email-component.service';
 
 @Component({
   selector: 'cx-update-email',
   templateUrl: './update-email.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateEmailComponent {
-  constructor(
-    private routingService: RoutingService,
-    private globalMessageService: GlobalMessageService,
-    private userEmail: UserEmailFacade,
-    private authService: AuthService
-  ) {}
+  constructor(protected service: UpdateEmailComponentService) {}
 
-  private newUid: string;
-  isLoading$ = new BehaviorSubject(false);
+  form: FormGroup = this.service.form;
+  isUpdating$ = this.service.isUpdating$;
 
-  onCancel(): void {
-    this.routingService.go({ cxRoute: 'home' });
-  }
-
-  onSubmit({ newUid, password }: { newUid: string; password: string }): void {
-    this.newUid = newUid;
-    this.isLoading$.next(true);
-
-    this.userEmail.update(password, newUid).subscribe({
-      next: () => this.onSuccess(),
-      error: () => {},
-      complete: () => this.isLoading$.next(false),
-    });
-  }
-
-  async onSuccess(): Promise<void> {
-    this.globalMessageService.add(
-      {
-        key: 'updateEmailForm.emailUpdateSuccess',
-        params: { newUid: this.newUid },
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
-    // TODO(#9638): Use logout route when it will support passing redirect url
-    await this.authService.coreLogout();
-    this.routingService.go({ cxRoute: 'login' }, undefined, {
-      state: {
-        newUid: this.newUid,
-      },
-    });
+  onSubmit(): void {
+    this.service.save();
   }
 }

@@ -5,7 +5,7 @@
 
 $skipComponentStyles: () !default;
 $selectors: cx-login, cx-login-form, cx-register, cx-update-profile,
-  cx-update-password, cx-forgot-password, cx-reset-password !default;
+  cx-update-email, cx-update-password, cx-forgot-password, cx-reset-password !default;
 
 @each $selector in $selectors {
   #{$selector} {

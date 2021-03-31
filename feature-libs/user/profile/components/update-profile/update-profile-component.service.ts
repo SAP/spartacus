@@ -17,11 +17,11 @@ export class UpdateProfileComponentService {
     .get()
     .pipe(filter((user): user is User => Boolean(user)));
 
-  protected busy = new BehaviorSubject(false);
+  protected busy$ = new BehaviorSubject(false);
 
   isUpdating$: Observable<boolean> = this.user$.pipe(
     tap((user) => this.form.patchValue(user)),
-    switchMap((_user: User) => this.busy),
+    switchMap((_user: User) => this.busy$),
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
@@ -43,7 +43,7 @@ export class UpdateProfileComponentService {
       return;
     }
 
-    this.busy.next(true);
+    this.busy$.next(true);
 
     this.userProfile.update(this.form.value).subscribe({
       next: () => this.onSuccess(),
@@ -59,11 +59,11 @@ export class UpdateProfileComponentService {
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
 
-    this.busy.next(false);
+    this.busy$.next(false);
     this.form.reset();
   }
 
   protected onError(_error: Error): void {
-    this.busy.next(false);
+    this.busy$.next(false);
   }
 }

@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
   GlobalMessageService,
   GlobalMessageType,
-  HttpErrorModel,
   RoutingService,
 } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
@@ -19,9 +18,9 @@ export class UpdatePasswordComponentService {
     protected globalMessageService: GlobalMessageService
   ) {}
 
-  protected busy = new BehaviorSubject(false);
+  protected busy$ = new BehaviorSubject(false);
 
-  isUpdating$ = this.busy.pipe(
+  isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
@@ -51,14 +50,14 @@ export class UpdatePasswordComponentService {
       return;
     }
 
-    this.busy.next(true);
+    this.busy$.next(true);
 
     const oldPassword = this.form.get('oldPassword')?.value;
     const newPassword = this.form.get('newPassword')?.value;
 
     this.userPasswordService.update(oldPassword, newPassword).subscribe({
       next: () => this.onSuccess(),
-      error: (error: HttpErrorModel) => this.onError(error),
+      error: (error: Error) => this.onError(error),
     });
   }
 
@@ -67,12 +66,12 @@ export class UpdatePasswordComponentService {
       { key: 'updatePasswordForm.passwordUpdateSuccess' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-    this.busy.next(false);
+    this.busy$.next(false);
     this.form.reset();
     this.routingService.go({ cxRoute: 'home' });
   }
 
-  protected onError(_error: HttpErrorModel): void {
-    this.busy.next(false);
+  protected onError(_error: Error): void {
+    this.busy$.next(false);
   }
 }

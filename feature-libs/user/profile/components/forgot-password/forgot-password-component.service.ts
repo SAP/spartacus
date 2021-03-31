@@ -4,7 +4,6 @@ import {
   AuthConfigService,
   GlobalMessageService,
   GlobalMessageType,
-  HttpErrorModel,
   OAuthFlow,
   RoutingService,
 } from '@spartacus/core';
@@ -22,9 +21,9 @@ export class ForgotPasswordComponentService {
     protected globalMessage: GlobalMessageService
   ) {}
 
-  protected busy = new BehaviorSubject(false);
+  protected busy$ = new BehaviorSubject(false);
 
-  isUpdating$ = this.busy.pipe(
+  isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
@@ -47,13 +46,13 @@ export class ForgotPasswordComponentService {
       return;
     }
 
-    this.busy.next(true);
+    this.busy$.next(true);
 
     this.userPasswordService
       .requestForgotPasswordEmail(this.form.value.userEmail)
       .subscribe({
         next: () => this.onSuccess(),
-        error: (error: HttpErrorModel) => this.onError(error),
+        error: (error: Error) => this.onError(error),
       });
   }
 
@@ -62,13 +61,13 @@ export class ForgotPasswordComponentService {
       { key: 'forgottenPassword.passwordResetEmailSent' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-    this.busy.next(false);
+    this.busy$.next(false);
     this.form.reset();
     this.redirect();
   }
 
-  protected onError(_error: HttpErrorModel): void {
-    this.busy.next(false);
+  protected onError(_error: Error): void {
+    this.busy$.next(false);
   }
 
   /**

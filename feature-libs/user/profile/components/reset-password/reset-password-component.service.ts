@@ -21,9 +21,9 @@ export class ResetPasswordComponentService {
     protected globalMessage: GlobalMessageService
   ) {}
 
-  protected busy = new BehaviorSubject(false);
+  protected busy$ = new BehaviorSubject(false);
 
-  isUpdating$ = this.busy.pipe(
+  isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
@@ -61,13 +61,13 @@ export class ResetPasswordComponentService {
       return;
     }
 
-    this.busy.next(true);
+    this.busy$.next(true);
 
     const password = (this.form.get('password') as FormControl).value;
 
     this.userPasswordService.reset(token, password).subscribe({
       next: () => this.onSuccess(),
-      error: (error: HttpErrorModel) => this.onError(error),
+      error: (error: Error) => this.onError(error),
     });
   }
 
@@ -76,23 +76,21 @@ export class ResetPasswordComponentService {
       { key: 'forgottenPassword.passwordResetSuccess' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-    this.busy.next(false);
+    this.busy$.next(false);
     this.form.reset();
     this.redirect();
   }
 
-  protected onError(error: HttpErrorModel): void {
-    this.busy.next(false);
-    if (error.details) {
-      error.details.forEach((err: ErrorModel) => {
-        if (err.message) {
-          this.globalMessage.add(
-            { raw: err.message },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-        }
-      });
-    }
+  protected onError(error: Error): void {
+    this.busy$.next(false);
+    ((error as HttpErrorModel)?.details ?? []).forEach((err: ErrorModel) => {
+      if (err.message) {
+        this.globalMessage.add(
+          { raw: err.message },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      }
+    });
   }
 
   /**
