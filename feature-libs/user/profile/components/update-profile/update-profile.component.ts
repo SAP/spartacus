@@ -1,47 +1,22 @@
-import { Component } from '@angular/core';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
-} from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
-import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Title } from '@spartacus/user/profile/root';
+import { Observable } from 'rxjs';
+import { UpdateProfileComponentService } from './update-profile-component.service';
 
 @Component({
   selector: 'cx-update-profile',
   templateUrl: './update-profile.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UpdateProfileComponent {
-  titles$: Observable<Title[]> = this.userProfile.getTitles();
-  user$: Observable<User | undefined> = this.userProfile.get();
-  isLoading$ = new BehaviorSubject(false);
+  constructor(protected service: UpdateProfileComponentService) {}
 
-  constructor(
-    private routingService: RoutingService,
-    private userProfile: UserProfileFacade,
-    private globalMessageService: GlobalMessageService
-  ) {}
+  form: FormGroup = this.service.form;
+  isUpdating$ = this.service.isUpdating$;
+  titles$: Observable<Title[]> = this.service.titles$;
 
-  onSuccess(): void {
-    this.globalMessageService.add(
-      { key: 'updateProfileForm.profileUpdateSuccess' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
-    this.routingService.go({ cxRoute: 'home' });
-  }
-
-  onCancel(): void {
-    this.routingService.go({ cxRoute: 'home' });
-  }
-
-  onSubmit({ userUpdates }: { userUpdates: User }): void {
-    this.isLoading$.next(true);
-
-    this.userProfile.update(userUpdates).subscribe({
-      next: () => this.onSuccess(),
-      error: () => {},
-      complete: () => this.isLoading$.next(false),
-    });
+  onSubmit(): void {
+    this.service.updateProfile();
   }
 }
