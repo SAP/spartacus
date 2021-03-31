@@ -18,13 +18,7 @@ export class PersistFocusService extends BaseFocusService {
   // We must bring this to a singleton map.
   protected focus = new Map<string, string>();
 
-  constructor() {
-    super();
-    console.log('CREATING FOCUS SERVICE');
-  }
-
   get(group?: string): string {
-    console.log('restoring focus:' + this.focus.get(group || GLOBAL_GROUP));
     return this.focus.get(group || GLOBAL_GROUP);
   }
 
@@ -35,7 +29,6 @@ export class PersistFocusService extends BaseFocusService {
   set(key: string, group?: string) {
     if (key) {
       this.focus.set(group || GLOBAL_GROUP, key);
-      console.log('persisting focus:' + key);
     }
   }
 

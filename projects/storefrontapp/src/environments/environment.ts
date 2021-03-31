@@ -15,7 +15,6 @@ import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
   production: false,
-
   occBaseUrl:
     buildProcess.env.CX_BASE_URL ??
     'https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com',
