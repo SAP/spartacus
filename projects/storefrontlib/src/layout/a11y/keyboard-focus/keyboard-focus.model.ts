@@ -58,6 +58,17 @@ export interface AutoFocusConfig extends EscapeFocusConfig {
    * Defaults to `true`.
    */
   autofocus?: boolean | string;
+
+  /**
+   * whenever the focus should be applied based on a specific trigger, you can user
+   * the refreshFocus property. This property can be dynamically applied so that the refresh
+   * only happens on specific occasions.
+   *
+   * The refreshFocus token doesn't have a specific format, it acts as a meaning less token that
+   * will effect the ngOnChange lifecycle hook of the auto focus logic. Any truthy value will
+   * autofocus the element dynamically.
+   */
+  refreshFocus?: unknown;
 }
 
 export interface TabFocusConfig extends AutoFocusConfig {
