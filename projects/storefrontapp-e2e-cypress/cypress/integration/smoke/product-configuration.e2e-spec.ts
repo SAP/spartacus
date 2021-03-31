@@ -1,8 +1,9 @@
-import * as configuration from '../../helpers/product-configuration';
 import * as login from '../../helpers/login';
+import * as configuration from '../../helpers/product-configuration';
 import * as productSearch from '../../helpers/product-search';
 
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
+const electronicsShop = 'electronics-spa';
 
 context('Product Configuration', () => {
   beforeEach(() => {
@@ -18,7 +19,7 @@ context('Product Configuration', () => {
       configuration.clickOnProceedToCheckoutBtnOnPD();
       configuration.checkout();
       configuration.navigateToOrderDetails();
-      configuration.selectOrderByOrderNumberAlias();
+      configuration.selectOrderByOrderNumberAlias(electronicsShop);
       login.signOutUser();
     });
   });

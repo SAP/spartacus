@@ -7,9 +7,9 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import * as globalMessage from './global-message';
 import { navigation } from './navigation';
 import Chainable = Cypress.Chainable;
-import * as globalMessage from './global-message';
 
 const shippingAddressData: AddressData = user;
 const billingAddress: AddressData = user;
@@ -1144,6 +1144,19 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
 }
 
 /**
+ * Clicks on 'Proceed to Checkout' in the cart
+ */
+export function clickOnProceedToCheckoutBtnInCart(): void {
+  cy.findByText(/proceed to checkout/i)
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/checkout/payment-type');
+      cy.get('.cx-payment-type-container').should('contain', 'Payment method');
+      cy.get('cx-payment-type').should('be.visible');
+    });
+}
+
+/**
  * Navigates to the order details page.
  */
 export function navigateToOrderDetails(): void {
@@ -1160,11 +1173,13 @@ export function navigateToOrderDetails(): void {
 /**
  * Navigates to the oder history page.
  *
+ * @param {string} shopName - shop name
+ *
  * @return {Chainable<Window>} - New order history window
  */
-export function goToOrderHistory(): Chainable<Window> {
+export function goToOrderHistory(shopName: string): Chainable<Window> {
   cy.log('Navigate to order history');
-  return cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
+  return cy.visit(`/${shopName}/en/USD/my-account/orders`).then(() => {
     cy.get('cx-order-history h3').should('contain', 'Order history');
   });
 }
@@ -1193,14 +1208,17 @@ function searchForOrder(orderNumber: string): void {
 
 /**
  * Selects the order by the oder number alias.
+ *
+ * @param {string} shopName - shop name
+ *
  */
-export function selectOrderByOrderNumberAlias(): void {
+export function selectOrderByOrderNumberAlias(shopName: string): void {
   cy.get('@orderNumber').then((orderNumber) => {
     cy.log('Searched order number: ' + orderNumber);
     // To refresh the order history content, navigate to the home page and back to the order history
     cy.log('Navigate to home page');
     navigation.visitHomePage({});
-    this.goToOrderHistory();
+    this.goToOrderHistory(shopName);
 
     // Verify whether the searched order exists
     searchForOrder(orderNumber.toString());
@@ -1209,7 +1227,7 @@ export function selectOrderByOrderNumberAlias(): void {
       cy.log("Order with number '" + orderNumber + "' is" + found + 'found');
       if (!isFound) {
         cy.waitForOrderToBePlacedRequest(
-          'electronics-spa',
+          shopName,
           'USD',
           orderNumber.toString()
         );
@@ -1224,7 +1242,7 @@ export function selectOrderByOrderNumberAlias(): void {
             // To refresh the order history content, navigate to the home page and back to the order history
             cy.log('Navigate to home page');
             navigation.visitHomePage({});
-            this.goToOrderHistory();
+            this.goToOrderHistory(shopName);
           }
         });
       }
@@ -1290,6 +1308,61 @@ export function checkout(): void {
 
   cy.log('Fulfill payment details form');
   fillPaymentDetails(paymentDetailsData, billingAddress);
+
+  cy.log("Check 'Terms & Conditions'");
+  cy.get('input[formcontrolname="termsAndConditions"]')
+    .check()
+    .then(() => {
+      cy.get('cx-place-order form').should('have.class', 'ng-valid');
+    });
+
+  cy.log('Place order');
+  cy.get('cx-place-order button.btn-primary')
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/order-confirmation');
+      cy.get('cx-breadcrumb').should('contain', 'Order Confirmation');
+    });
+
+  cy.log('Define order number alias');
+  defineOrderNumberAlias();
+}
+
+/**
+ * Conducts the B2B checkout.
+ */
+export function checkoutB2B(): void {
+  cy.log('Complete B2B checkout process');
+  cy.log('Select Account Payment Method');
+  cy.get(`#paymentType-ACCOUNT`).click({ force: true });
+  cy.log("Navigate to the next step 'Shipping Address' tab");
+  cy.get('button.btn-primary')
+    .contains('Continue')
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/checkout/shipping-address');
+      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+      cy.get('cx-shipping-address').should('be.visible');
+    });
+  cy.log("Navigate to the next step 'Delivery mode' tab");
+  cy.get('button.btn-primary')
+    .contains('Continue')
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/checkout/delivery-mode');
+      cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+      cy.get('cx-delivery-mode').should('be.visible');
+    });
+
+  cy.log("Navigate to the next step 'Review Order' tab");
+  cy.get('button.btn-primary')
+    .contains('Continue')
+    .click()
+    .then(() => {
+      cy.location('pathname').should('contain', '/checkout/review-order');
+      cy.get('.cx-review').should('contain', 'Review');
+      cy.get('cx-review-submit').should('be.visible');
+    });
 
   cy.log("Check 'Terms & Conditions'");
   cy.get('input[formcontrolname="termsAndConditions"]')
