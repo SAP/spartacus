@@ -9,4 +9,3 @@ export const interceptors: Provider[] = [
     multi: true,
   },
 ];
-export * from './anonymous-consents-interceptor';
