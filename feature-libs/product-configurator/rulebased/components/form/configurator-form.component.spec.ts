@@ -408,8 +408,8 @@ describe('ConfigurationFormComponent', () => {
     });
     routerStateObservable = of(mockRouterState);
     createComponent().updateConfiguration({
-      changedAttribute: configRead.groups[0].attributes[0],
       ownerKey: owner.key,
+      changedAttribute: configRead.groups[0].attributes[0],
     });
 
     expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
