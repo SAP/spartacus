@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import {
   CmsProductCarouselComponent,
   Product,
@@ -17,9 +17,10 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
 export class ProductCarouselComponent {
   protected readonly PRODUCT_SCOPE = ProductScope.LIST;
 
-  protected readonly componentData$: Observable<
-    CmsProductCarouselComponent
-  > = this.componentData.data$.pipe(filter((data) => Boolean(data)));
+  protected readonly componentData$: Observable<CmsProductCarouselComponent> = this
+    .componentData
+    ? this.componentData.data$.pipe(filter((data) => Boolean(data)))
+    : of();
 
   protected products: Map<string, Observable<Product>> = new Map();
   protected loadState: Map<string, boolean> = new Map();
@@ -44,9 +45,40 @@ export class ProductCarouselComponent {
     map((data) => data.productCodes?.trim().split(' ') ?? []),
     // TODO: consider making the default dynamic
     startWith(['', '', '', ''])
+    // map(() => [
+    //   '300938',
+    //   // '358639',
+    //   // '553637',
+    //   // '816802',
+    //   // '1934793',
+    //   // '1382080',
+    //   // '1981415',
+    //   // '816780',
+    //   // '1934406',
+    //   // '592506',
+    //   // '1986316',
+    //   // '1986316',
+    //   // '1986316',
+    //   // '1986316',
+    //   // '1986316',
+    //   // '1986316',
+    //   // '1986316',
+    //   // '1986316',
+    //   // '1986316',
+    //   // '1986316',
+    //   // '1986316',
+    //   // '300938',
+    //   // '358639',
+    //   // '553637',
+    //   // '816802',
+    //   // '1934793',
+    //   // '1382080',
+    //   // '1981415',
+    // ])
   );
 
   constructor(
+    @Optional()
     protected componentData: CmsComponentData<CmsProductCarouselComponent>,
     protected productService: ProductService
   ) {}

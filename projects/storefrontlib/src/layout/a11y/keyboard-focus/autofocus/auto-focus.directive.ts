@@ -65,13 +65,13 @@ export class AutoFocusDirective
     }
 
     if (this.config.focusOnScroll) {
-      // TODO: cleanup
       this.subscription.add(
         fromEvent(this.host, 'scroll')
           .pipe(debounceTime(300))
-          .subscribe(() => {
-            this.service.clear(this.config.group);
-            this.firstFocusable.focus();
+          .subscribe((_event) => {
+            // console.log('e', event);
+            // this.service.clear(this.config.group);
+            // this.firstFocusable.focus();
           })
       );
     }
@@ -83,7 +83,7 @@ export class AutoFocusDirective
 
   ngOnChanges(changes: SimpleChanges): void {
     // responsible for refresh focus based on the configured refresh property name
-    if (!!(changes.config.currentValue as AutoFocusConfig)?.refreshFocus) {
+    if (!!(changes.config?.currentValue as AutoFocusConfig)?.refreshFocus) {
       // ensure the autofocus when it's to provided initially
       if (!this.config.autofocus) {
         this.config.autofocus = true;
