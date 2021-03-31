@@ -32,7 +32,7 @@ export class BreadcrumbComponent implements OnInit {
   private setTitle(): void {
     this.title$ = this.pageMetaService.getMeta().pipe(
       filter(isNonNullable),
-      map((meta) => meta.heading ?? meta.title ?? '')
+      map((meta) => (meta.heading || meta.title) ?? '')
     );
   }
 
