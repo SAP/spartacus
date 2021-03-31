@@ -1,6 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
-import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
+import {
+  isNotNullable,
+  PageMeta,
+  PageMetaService,
+  PageRobotsMeta,
+} from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { PageMetaLinkService } from './page-meta-link.service';
@@ -21,8 +26,8 @@ export class SeoMetaService implements OnDestroy {
   init() {
     this.subscription = this.pageMetaService
       .getMeta()
-      .pipe(filter((meta): meta is PageMeta => Boolean(meta)))
-      .subscribe((meta: PageMeta) => (this.meta = meta));
+      .pipe(filter(isNotNullable))
+      .subscribe((meta) => (this.meta = meta));
   }
 
   protected set meta(meta: PageMeta) {
