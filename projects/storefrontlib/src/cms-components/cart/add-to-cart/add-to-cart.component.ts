@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartService, isNotNull, Product } from '@spartacus/core';
+import { ActiveCartService, isNonNullable, Product } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
@@ -63,7 +63,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     } else {
       this.subscription = this.currentProductService
         .getProduct()
-        .pipe(filter(isNotNull))
+        .pipe(filter(isNonNullable))
         .subscribe((product) => {
           this.productCode = product.code;
           this.setStockInfo(product);

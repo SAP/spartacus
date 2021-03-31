@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   CmsBreadcrumbsComponent,
-  isNotNull,
+  isNonNullable,
   PageMetaService,
   TranslationService,
 } from '@spartacus/core';
@@ -31,7 +31,7 @@ export class BreadcrumbComponent implements OnInit {
 
   private setTitle(): void {
     this.title$ = this.pageMetaService.getMeta().pipe(
-      filter(isNotNull),
+      filter(isNonNullable),
       map((meta) => meta.heading ?? meta.title ?? '')
     );
   }

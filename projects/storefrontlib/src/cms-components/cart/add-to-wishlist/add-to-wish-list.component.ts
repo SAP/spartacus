@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AuthService,
-  isNotNull,
+  isNonNullable,
   OrderEntry,
   Product,
   WishListService,
@@ -18,7 +18,7 @@ import { CurrentProductService } from '../../product/current-product.service';
 })
 export class AddToWishListComponent {
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
-    filter(isNotNull),
+    filter(isNonNullable),
     tap((product) => this.setStockInfo(product))
   );
 
