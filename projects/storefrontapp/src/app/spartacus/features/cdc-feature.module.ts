@@ -3,8 +3,9 @@ import { CdcRootModule } from '@spartacus/cdc/root';
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [
-    CdcRootModule.forRoot({
+  imports: [CdcRootModule],
+  providers: [
+    provideConfig({
       cdc: [
         {
           baseSite: 'electronics-cdc',
@@ -18,15 +19,10 @@ import { provideConfig } from '@spartacus/core';
         },
       ],
     }),
-  ],
-  providers: [
     provideConfig({
       featureModules: {
         cdc: {
-          module: () =>
-            import('@spartacus/cdc').then(
-              (m) => m.CdcModule
-            ),
+          module: () => import('@spartacus/cdc').then((m) => m.CdcModule),
         },
       },
     }),
