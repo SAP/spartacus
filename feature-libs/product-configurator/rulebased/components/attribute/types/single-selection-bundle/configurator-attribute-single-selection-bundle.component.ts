@@ -144,7 +144,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     };
   }
 
-  protected getFcousIdOfNearestValue(currentValue: Configurator.Value): string {
+  getFcousIdOfNearestValue(currentValue: Configurator.Value): string {
     if (!this.attribute.values) {
       return 'n/a';
     }
