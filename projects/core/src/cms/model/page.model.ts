@@ -4,6 +4,7 @@ import { ContentSlotData } from './content-slot-data.model';
 export interface Page {
   pageId?: string;
   name?: string;
+  description?: string;
   type?: string;
   title?: string;
   template?: string;
