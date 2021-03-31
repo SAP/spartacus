@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
-import { PersistFocusService } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/persist/persist-focus.service';
+import { KeyboardFocusService } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -58,7 +58,7 @@ export class ConfiguratorAttributeProductCardComponent
 
   constructor(
     protected productService: ProductService,
-    protected focusService: PersistFocusService
+    protected keyBoardFocus: KeyboardFocusService
   ) {
     super();
   }
@@ -109,7 +109,7 @@ export class ConfiguratorAttributeProductCardComponent
       console.log(
         'focus id fallback: ' + this.productCardOptions.fallbackFocusId
       );
-      this.focusService.set(this.productCardOptions.fallbackFocusId);
+      this.keyBoardFocus.set(this.productCardOptions.fallbackFocusId);
     }
     this.handleSelect.emit(this.productCardOptions.productBoundValue.valueCode);
   }
