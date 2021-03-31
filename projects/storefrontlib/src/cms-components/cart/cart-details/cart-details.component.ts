@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { CartBundleService } from '@spartacus/cart/bundle/core';
 import {
   ActiveCartService,
   AuthService,
   Cart,
+  EntryGroup,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
@@ -21,6 +23,7 @@ import { PromotionService } from '../../../shared/services/promotion/promotion.s
 export class CartDetailsComponent implements OnInit {
   cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
+  entryGroups$: Observable<EntryGroup[]>;
   cartLoaded$: Observable<boolean>;
   loggedIn = false;
   orderPromotions$: Observable<PromotionResult[]>;
@@ -33,8 +36,9 @@ export class CartDetailsComponent implements OnInit {
     protected promotionService: PromotionService,
     protected selectiveCartService: SelectiveCartService,
     protected authService: AuthService,
-    protected routingService: RoutingService
-  ) {}
+    protected routingService: RoutingService,
+    protected cartBundleService: CartBundleService
+  ) { }
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
@@ -43,6 +47,10 @@ export class CartDetailsComponent implements OnInit {
     this.entries$ = this.activeCartService
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
+
+    this.entryGroups$ = this.activeCartService
+      .getEntryGroups()
+      .pipe(filter((groups) => groups.length > 0));
 
     this.selectiveCartEnabled = this.selectiveCartService.isEnabled();
 
@@ -74,5 +82,21 @@ export class CartDetailsComponent implements OnInit {
     } else {
       this.routingService.go({ cxRoute: 'login' });
     }
+  }
+
+  getBundleAllowedProducts(entryGroupNumber: number) {
+    this.cartBundleService.getBundleAllowedProducts(entryGroupNumber);
+  }
+
+  removeBundle(entryGroupNumber: number) {
+    this.activeCartService.deleteEntryGroup(entryGroupNumber);
+  }
+
+  addProductToBundle(entryGroupNumber: number, product: OrderEntry) {
+    this.activeCartService.addToEntryGroup(entryGroupNumber, product);
+  }
+
+  getAvailableProducts(entryGroupNumber: number) {
+    return this.cartBundleService.getAvailableEntries(entryGroupNumber)
   }
 }
