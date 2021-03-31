@@ -458,7 +458,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
   });
 
-  it('should not navigate up on hitting a key other than enter', () => {
+  it('should not navigate up on hitting a key other than enter and space', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
@@ -466,7 +466,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     );
     initialize();
     const event = new KeyboardEvent('keypress', {
-      code: 'Space',
+      code: 'ShiftRight',
     });
     component.navigateUpOnEnter(event);
     expect(configuratorGroupsService.getParentGroup).toHaveBeenCalledTimes(0);

@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { StoreModule } from '@ngrx/store';
 import { I18nTestingModule, Product } from '@spartacus/core';
 import {
   CurrentProductService,
@@ -18,6 +19,7 @@ const mockProduct: Product = {
   configurable: true,
   configuratorType: configuratorType,
 };
+
 const mockProductNotConfigurable: Product = {
   configurable: false,
 };
@@ -57,7 +59,11 @@ function setupWithCurrentProductService(
 ) {
   if (useCurrentProductServiceOnly && currenProductServiceReturnsNull) {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [
+        I18nTestingModule,
+        RouterTestingModule,
+        StoreModule.forRoot({}),
+      ],
       declarations: [ConfigureProductComponent, MockUrlPipe],
       providers: [
         {
@@ -68,7 +74,11 @@ function setupWithCurrentProductService(
     }).compileComponents();
   } else if (useCurrentProductServiceOnly) {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [
+        I18nTestingModule,
+        RouterTestingModule,
+        StoreModule.forRoot({}),
+      ],
       declarations: [ConfigureProductComponent, MockUrlPipe],
       providers: [
         {
@@ -79,7 +89,11 @@ function setupWithCurrentProductService(
     }).compileComponents();
   } else {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
+      imports: [
+        I18nTestingModule,
+        RouterTestingModule,
+        StoreModule.forRoot({}),
+      ],
       declarations: [ConfigureProductComponent, MockUrlPipe],
       providers: [
         {
