@@ -52,13 +52,7 @@
         overflow-wrap: break-word;
 
         .cx-identifier {
-          @include media-breakpoint-only(xs) {
-            width: 45%;
-          }
-
-          @include media-breakpoint-only(sm) {
-            width: 15%;
-          }
+          min-width: 5rem;
         }
 
         .cx-item {
