@@ -18,9 +18,9 @@ export class UpdatePasswordComponentService {
     protected globalMessageService: GlobalMessageService
   ) {}
 
-  protected busy = new BehaviorSubject(false);
+  protected busy$ = new BehaviorSubject(false);
 
-  isUpdating$ = this.busy.pipe(
+  isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
@@ -50,7 +50,7 @@ export class UpdatePasswordComponentService {
       return;
     }
 
-    this.busy.next(true);
+    this.busy$.next(true);
 
     const oldPassword = this.form.get('oldPassword')?.value;
     const newPassword = this.form.get('newPassword')?.value;
@@ -66,12 +66,12 @@ export class UpdatePasswordComponentService {
       { key: 'updatePasswordForm.passwordUpdateSuccess' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-    this.busy.next(false);
+    this.busy$.next(false);
     this.form.reset();
     this.routingService.go({ cxRoute: 'home' });
   }
 
   protected onError(_error: Error): void {
-    this.busy.next(false);
+    this.busy$.next(false);
   }
 }

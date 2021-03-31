@@ -21,9 +21,9 @@ export class ForgotPasswordComponentService {
     protected globalMessage: GlobalMessageService
   ) {}
 
-  protected busy = new BehaviorSubject(false);
+  protected busy$ = new BehaviorSubject(false);
 
-  isUpdating$ = this.busy.pipe(
+  isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
@@ -46,7 +46,7 @@ export class ForgotPasswordComponentService {
       return;
     }
 
-    this.busy.next(true);
+    this.busy$.next(true);
 
     this.userPasswordService
       .requestForgotPasswordEmail(this.form.value.userEmail)
@@ -61,13 +61,13 @@ export class ForgotPasswordComponentService {
       { key: 'forgottenPassword.passwordResetEmailSent' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-    this.busy.next(false);
+    this.busy$.next(false);
     this.form.reset();
     this.redirect();
   }
 
   protected onError(_error: Error): void {
-    this.busy.next(false);
+    this.busy$.next(false);
   }
 
   /**

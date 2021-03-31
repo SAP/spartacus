@@ -18,9 +18,9 @@ export class LoginFormComponentService {
     protected winRef: WindowRef
   ) {}
 
-  protected busy = new BehaviorSubject(false);
+  protected busy$ = new BehaviorSubject(false);
 
-  isUpdating$ = this.busy.pipe(
+  isUpdating$ = this.busy$.pipe(
     tap((state) => {
       const userId = this.winRef.nativeWindow?.history?.state?.['newUid'];
       if (userId) {
@@ -44,7 +44,7 @@ export class LoginFormComponentService {
       return;
     }
 
-    this.busy.next(true);
+    this.busy$.next(true);
 
     from(
       this.auth.loginWithCredentials(
@@ -69,6 +69,6 @@ export class LoginFormComponentService {
       this.form.reset();
     }
 
-    this.busy.next(false);
+    this.busy$.next(false);
   }
 }

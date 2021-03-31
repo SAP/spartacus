@@ -20,9 +20,9 @@ export class UpdateEmailComponentService {
     protected authService: AuthService
   ) {}
 
-  protected busy = new BehaviorSubject(false);
+  protected busy$ = new BehaviorSubject(false);
 
-  isUpdating$ = this.busy.pipe(
+  isUpdating$ = this.busy$.pipe(
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
@@ -46,7 +46,7 @@ export class UpdateEmailComponentService {
       return;
     }
 
-    this.busy.next(true);
+    this.busy$.next(true);
 
     const newEmail = this.form.get('confirmEmail')?.value;
     const password = this.form.get('password')?.value;
@@ -68,7 +68,7 @@ export class UpdateEmailComponentService {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-    this.busy.next(false);
+    this.busy$.next(false);
     this.form.reset();
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout().then(() => {
@@ -81,6 +81,6 @@ export class UpdateEmailComponentService {
   }
 
   protected onError(_error: Error): void {
-    this.busy.next(false);
+    this.busy$.next(false);
   }
 }
