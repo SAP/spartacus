@@ -7,3 +7,4 @@ yarn.lock
 jest.ts
 jest.schematics.config.js
 tsconfig.schematics.json
+src/migrations/test/**/*

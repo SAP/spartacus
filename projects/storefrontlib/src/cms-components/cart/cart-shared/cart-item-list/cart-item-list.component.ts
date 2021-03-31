@@ -1,14 +1,22 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
   ConsignmentEntry,
   FeatureConfigService,
+  MultiCartService,
   OrderEntry,
   PromotionLocation,
   SelectiveCartService,
+  UserIdService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 
@@ -17,15 +25,20 @@ import { CartItemComponentOptions } from '../cart-item/cart-item.component';
   templateUrl: './cart-item-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartItemListComponent {
-  @Input() readonly = false;
+export class CartItemListComponent implements OnInit, OnDestroy {
+  private subscription = new Subscription();
+  private userId: string;
 
-  @Input() hasHeader = true;
+  @Input() readonly: boolean = false;
+
+  @Input() hasHeader: boolean = true;
 
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
     optionalBtn: null,
   };
+
+  @Input() cartId: string;
 
   private _items: OrderEntry[] = [];
   form: FormGroup = this.featureConfigService?.isLevel('3.1')
@@ -45,7 +58,7 @@ export class CartItemListComponent {
 
   @Input('cartIsLoading') set setLoading(value: boolean) {
     if (!this.readonly) {
-      // Whenver the cart is loading, we disable the complete form
+      // Whenever the cart is loading, we disable the complete form
       // to avoid any user interaction with the cart.
       value
         ? this.form.disable({ emitEvent: false })
@@ -53,11 +66,52 @@ export class CartItemListComponent {
     }
   }
 
+  /**
+   * @deprecated since version 3.1
+   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, userIdService: UserIdService, multiCartService: MultiCartService); instead
+   */
+  // TODO(#11037): Remove deprecated constructors
+  constructor(
+    activeCartService: ActiveCartService,
+    selectiveCartService: SelectiveCartService
+  );
+
+  /**
+   * @deprecated since version 3.2
+   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, userIdService: UserIdService, multiCartService: MultiCartService); instead
+   */
+  // TODO(#11037): Remove deprecated constructors
+  constructor(
+    activeCartService: ActiveCartService,
+    selectiveCartService: SelectiveCartService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfigService: FeatureConfigService
+  );
+
+  constructor(
+    activeCartService: ActiveCartService,
+    selectiveCartService: SelectiveCartService,
+    featureConfigService: FeatureConfigService,
+    userIdService: UserIdService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    multiCartService: MultiCartService
+  );
+
   constructor(
     protected activeCartService: ActiveCartService,
     protected selectiveCartService: SelectiveCartService,
-    public featureConfigService?: FeatureConfigService
+    public featureConfigService?: FeatureConfigService,
+    protected userIdService?: UserIdService,
+    protected multiCartService?: MultiCartService
   ) {}
+
+  ngOnInit(): void {
+    this.subscription.add(
+      this.userIdService
+        ?.getUserId()
+        .subscribe((userId) => (this.userId = userId))
+    );
+  }
 
   /**
    * The items we're getting form the input do not have a consistent model.
@@ -83,9 +137,16 @@ export class CartItemListComponent {
       // OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
       // So we update each array element to the new object only when it's any different to the previous one.
       if (this.featureConfigService?.isLevel('3.1')) {
-        for (let i = 0; i < items.length; i++) {
+        for (let i = 0; i < Math.max(items.length, this._items.length); i++) {
           if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
-            this._items[i] = items[i];
+            if (this._items[i] && this.form) {
+              this.form.removeControl(this.getControlName(this._items[i]));
+            }
+            if (!items[i]) {
+              this._items.splice(i, 1);
+            } else {
+              this._items[i] = items[i];
+            }
           }
         }
       } else {
@@ -105,10 +166,14 @@ export class CartItemListComponent {
         entryNumber: new FormControl(item.entryNumber),
         quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
       });
-      if (!item.updateable || this.readonly) {
-        group.disable();
-      }
+
       this.form.addControl(controlName, group);
+
+      // If we disable form group before adding, disabled status will reset
+      // Which forces us to disable control after including to form object
+      if (!item.updateable || this.readonly) {
+        this.form.controls[controlName].disable();
+      }
     });
   }
 
@@ -119,6 +184,12 @@ export class CartItemListComponent {
   removeEntry(item: OrderEntry): void {
     if (this.selectiveCartService && this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
+    } else if (this.cartId && this.userId) {
+      this.multiCartService?.removeEntry(
+        this.userId,
+        this.cartId,
+        item.entryNumber
+      );
     } else {
       this.activeCartService.removeEntry(item);
     }
@@ -135,11 +206,22 @@ export class CartItemListComponent {
             value.entryNumber,
             value.quantity
           );
+        } else if (value && this.cartId && this.userId) {
+          this.multiCartService?.updateEntry(
+            this.userId,
+            this.cartId,
+            value.entryNumber,
+            value.quantity
+          );
         } else if (value) {
           this.activeCartService.updateEntry(value.entryNumber, value.quantity);
         }
       }),
       map(() => <FormGroup>this.form.get(this.getControlName(item)))
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }

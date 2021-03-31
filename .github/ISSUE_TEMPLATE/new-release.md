@@ -69,6 +69,7 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
   - For each package select/type version when prompted:
     - [ ] `npm run release:core:with-changelog`
     - [ ] `npm run release:storefront:with-changelog`
+    - [ ] `npm run release:user:with-changelog`
     - [ ] `npm run release:cds:with-changelog`
     - [ ] `npm run release:assets:with-changelog`
     - [ ] `npm run release:styles:with-changelog`

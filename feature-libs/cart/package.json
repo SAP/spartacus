@@ -1,0 +1,46 @@
+{
+  "name": "@spartacus/cart",
+  "version": "3.2.0-next.2",
+  "description": "",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "cart",
+    "shopping",
+    "shop",
+    "saved cart"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/cart",
+  "license": "Apache-2.0",
+  "scripts": {
+    "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^10.1.0",
+    "@angular/common": "^10.1.0",
+    "@angular/core": "^10.1.0",
+    "@angular/forms": "^10.1.0",
+    "@angular/router": "^10.1.0",
+    "@ngrx/effects": "^10.0.0",
+    "@ngrx/store": "^10.0.0",
+    "@schematics/angular": "^10.1.0",
+    "@spartacus/core": "3.2.0-next.2",
+    "@spartacus/schematics": "3.2.0-next.2",
+    "@spartacus/storefront": "3.2.0-next.2",
+    "@spartacus/styles": "3.2.0-next.2",
+    "bootstrap": "^4.0",
+    "rxjs": "^6.6.0",
+    "typescript": "~4.0.2"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json"
+}
