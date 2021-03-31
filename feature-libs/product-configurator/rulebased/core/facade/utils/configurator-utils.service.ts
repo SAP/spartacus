@@ -62,8 +62,11 @@ export class ConfiguratorUtilsService {
   createConfigurationExtract(
     changedAttribute: Configurator.Attribute,
     configuration: Configurator.Configuration,
-    updateType: Configurator.UpdateType
+    updateType?: Configurator.UpdateType
   ): Configurator.Configuration {
+    if (!updateType) {
+      updateType = Configurator.UpdateType.ATTRIBUTE;
+    }
     const newConfiguration: Configurator.Configuration = {
       configId: configuration.configId,
       groups: [],
