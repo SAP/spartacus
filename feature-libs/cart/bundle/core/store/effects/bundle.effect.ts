@@ -29,7 +29,7 @@ export class BundleEffects {
         .pipe(
           map(
             (data) =>
-              new BundleActions.StartBundleSuccess({
+              new BundleActions.StartBundleSuccess(<any>{
                 ...data,
               })
           ),
@@ -69,8 +69,6 @@ export class BundleEffects {
         .pipe(
           map(
             (data) =>
-              // (cartModification: CartModification) =>
-              // TODO: Type should not be cast to "any"
               new BundleActions.GetBundleAllowedProductsSuccess(<any>{
                 ...payload,
                 data,
