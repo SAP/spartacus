@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { GlobalMessageService } from '@spartacus/core';
 import { Observable, Observer } from 'rxjs';
+import {
+  FileValidity,
+  FileValidityConfig,
+} from '../../config/file-validity-config';
 
 // TODO: move to other file
-export type FileValidityConfig = {
-  maxSize?: Number;
-  allowedExtensions?: string[];
-  checkEmptyFile?: Boolean;
-};
-
 export type InvalidFileInfo = {
   fileTooLarge?: Boolean;
   invalidExtension?: Boolean;
@@ -19,19 +17,15 @@ export type InvalidFileInfo = {
   providedIn: 'root',
 })
 export class ImportExportService {
-  constructor(protected globalMessageService: GlobalMessageService) {}
-  // size unit is MB
-  protected maxSize = 1;
-  protected allowedExtensions = [
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    'application/vnd.ms-excel',
-    'text/csv',
-  ];
+  constructor(
+    protected globalMessageService: GlobalMessageService,
+    protected fileValidityConfig: FileValidityConfig
+  ) {}
 
   importFile(
     selectedFile: FileList,
     checkValidityEnabled?: Boolean,
-    validityConfig?: FileValidityConfig
+    validityConfig?: FileValidity
   ): Observable<unknown> {
     const file: File = selectedFile.item(0) as File;
     return new Observable((observer: Observer<unknown>) => {
@@ -56,17 +50,17 @@ export class ImportExportService {
     });
   }
 
-  protected setValidityConfig(validityConfig): FileValidityConfig {
-    return {
-      maxSize: validityConfig?.maxSize ?? this.maxSize,
-      allowedExtensions:
-        validityConfig?.allowedExtensions ?? this.allowedExtensions,
-    };
+  protected setValidityConfig(validityConfig: FileValidity): FileValidity {
+    console.log(this.fileValidityConfig.fileValidity, {
+      ...this.fileValidityConfig.fileValidity,
+      ...validityConfig,
+    });
+    return { ...this.fileValidityConfig.fileValidity, ...validityConfig };
   }
 
   protected checkValidity(
     file: File,
-    validityConfig?: FileValidityConfig
+    validityConfig?: FileValidity
   ): { isFileValid: Boolean; invalidFileInfo: InvalidFileInfo } {
     let isFileValid: Boolean = true;
     let invalidFileInfo: InvalidFileInfo = {};
