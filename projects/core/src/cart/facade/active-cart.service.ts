@@ -22,8 +22,8 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
+import { Cart, EntryGroup } from '../../model/cart.model';
 import { UserIdService } from '../../auth/index';
-import { Cart } from '../../model/cart.model';
 import { User } from '../../model/misc.model';
 import { OrderEntry } from '../../model/order.model';
 import {
@@ -71,7 +71,7 @@ export class ActiveCartService implements OnDestroy {
   constructor(
     protected store: Store<StateWithMultiCart>,
     protected multiCartService: MultiCartService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
   ) {
     this.initActiveCart();
   }
@@ -175,6 +175,16 @@ export class ActiveCartService implements OnDestroy {
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartId$.pipe(
       switchMap((cartId) => this.multiCartService.getEntries(cartId)),
+      distinctUntilChanged()
+    );
+  }
+
+  /**
+   * Returns cart entries
+   */
+  getEntryGroups(): Observable<EntryGroup[]> {
+    return this.activeCartId$.pipe(
+      switchMap((cartId) => this.multiCartService.getEntryGroups(cartId)),
       distinctUntilChanged()
     );
   }
@@ -522,4 +532,41 @@ export class ActiveCartService implements OnDestroy {
       previousUserId !== userId // *just* logged in / switched to ASM emulation
     );
   }
+
+  /**
+   * Remove bundle
+   *
+   * @param entryGroupNumber
+   */
+  deleteEntryGroup(entryGroupNumber: number) {
+    this.requireLoadedCart().subscribe((cartState) => {
+      this.userIdService.takeUserId().subscribe((userId) => {
+        this.multiCartService.deleteEntryGroup(
+          getCartIdByUserId(cartState.value, userId),
+          userId,
+          entryGroupNumber
+        );
+      });
+    });
+  }
+
+  /**
+   * Add Product to bundle
+   *
+   * @param entryGroupNumber
+   * @param entry
+   */
+  addToEntryGroup(entryGroupNumber: number, entry: OrderEntry) {
+    this.requireLoadedCart().subscribe((cartState) => {
+      this.userIdService.takeUserId().subscribe((userId) => {
+        this.multiCartService.addToEntryGroup(
+          getCartIdByUserId(cartState.value, userId),
+          userId,
+          entryGroupNumber,
+          entry
+        );
+      });
+    });
+  }
+
 }

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { Cart, EntryGroup } from '../../model/cart.model';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
@@ -98,6 +98,10 @@ export class SelectiveCartService {
     return this.multiCartService.getEntries(this.cartId);
   }
 
+  getEntryGroups(): Observable<EntryGroup[]> {
+    return this.multiCartService.getEntryGroups(this.cartId);
+  }
+
   getLoaded(): Observable<boolean> {
     return this.cartSelector$.pipe(
       map((cart) => (cart.success || cart.error) && !cart.loading)
@@ -175,7 +179,7 @@ export class SelectiveCartService {
     return this.cartConfigService.isSelectiveCartEnabled();
   }
 
-  private isEmpty(cart: Cart): boolean {
+  private isEmpty(cart: Cart | undefined): boolean {
     return (
       !cart || (typeof cart === 'object' && Object.keys(cart).length === 0)
     );

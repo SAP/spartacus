@@ -111,6 +111,10 @@
       "@spartacus/core": ["dist/core"],
       "@spartacus/incubator": ["dist/incubator"],
       "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/cart/bundle/core": ["dist/cart/bundle/core"],
+      "@spartacus/cart/bundle": ["dist/cart/bundle"],
+      "@spartacus/cart/bundle/occ": ["dist/cart/bundle/occ"],
+      "@spartacus/cart/bundle/root": ["dist/cart/bundle/root"],
       "@spartacus/product/variants": ["dist/product/variants"],
       "@spartacus/product/variants/assets": ["dist/product/variants/assets"],
       "@spartacus/product/variants/components": [

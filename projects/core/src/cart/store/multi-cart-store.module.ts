@@ -5,6 +5,7 @@ import { StoreModule } from '@ngrx/store';
 import { StateModule } from '../../state/state.module';
 import { CartEntryEffects } from './effects/cart-entry.effect';
 import { CartVoucherEffects } from './effects/cart-voucher.effect';
+import { CartEntryGroupEffects } from './effects/cart-entry-group.effect';
 import { CartEffects } from './effects/cart.effect';
 import { MultiCartEffects } from './effects/multi-cart.effect';
 import { WishListEffects } from './effects/wish-list.effect';
@@ -17,6 +18,7 @@ import {
 
 const effects: any[] = [
   CartEffects,
+  CartEntryGroupEffects,
   CartEntryEffects,
   CartVoucherEffects,
   WishListEffects,

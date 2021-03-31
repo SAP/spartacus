@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, Observable, timer } from 'rxjs';
+import { Cart, EntryGroup } from '../../model/cart.model';
 import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/index';
-import { Cart } from '../../model/cart.model';
 import { OrderEntry } from '../../model/order.model';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { CartActions } from '../store/actions/index';
@@ -168,6 +168,16 @@ export class MultiCartService {
   }
 
   /**
+   * Get cart entryGroups as an observable
+   * @param cartId
+   */
+  getEntryGroups(cartId: string): Observable<EntryGroup[]> {
+    return this.store.pipe(
+      select(MultiCartSelectors.getCartEntryGroupsSelectorFactory(cartId))
+    );
+  }
+
+  /**
    * Get last entry for specific product code from cart.
    * Needed to cover processes where multiple entries can share the same product code
    * (e.g. promotions or configurable products)
@@ -178,12 +188,12 @@ export class MultiCartService {
   getLastEntry(
     cartId: string,
     productCode: string
-  ): Observable<OrderEntry | null> {
+  ): Observable<OrderEntry | null | undefined> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartEntriesSelectorFactory(cartId)),
       map((entries) => {
         const filteredEntries = entries.filter(
-          (entry) => entry.product.code === productCode
+          (entry) => entry.product?.code === productCode
         );
         return filteredEntries
           ? filteredEntries[filteredEntries.length - 1]
@@ -327,6 +337,48 @@ export class MultiCartService {
       new CartActions.DeleteCart({
         userId,
         cartId,
+      })
+    );
+  }
+
+  /**
+   * Remove bundle
+   *
+   * @param cartId
+   * @param userId
+   * @param entryGroupNumber
+   */
+  deleteEntryGroup(cartId: string, userId: string, entryGroupNumber: number) {
+    this.store.dispatch(
+      new CartActions.DeleteEntryGroup({
+        cartId,
+        userId,
+        entryGroupNumber,
+      })
+    );
+  }
+
+  /**
+   * Add product to bundle
+   *
+   * @param cartId
+   * @param userId
+   * @param entryGroupNumber
+   * @param product
+   * @param quantity
+   */
+  addToEntryGroup(
+    cartId: string,
+    userId: string,
+    entryGroupNumber: number,
+    entry: OrderEntry
+  ) {
+    this.store.dispatch(
+      new CartActions.AddToEntryGroup({
+        cartId,
+        userId,
+        entryGroupNumber,
+        entry,
       })
     );
   }
