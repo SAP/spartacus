@@ -28,6 +28,17 @@
         font-weight: bold;
         align-self: center;
         min-block-size: 1rem;
+
+        @include forVersion(3.1) {
+          @include media-breakpoint-down(sm) {
+            width: 80%;
+          }
+
+          span {
+            @include cx-configurator-truncate-content();
+            text-align: center;
+          }
+        }
       }
 
       a {
@@ -77,12 +88,26 @@
           // A larger value than the details need, this will be used to animate the closing/opening.
           // If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
           max-block-size: 400px;
+
+          @include forVersion(3.1) {
+            @include media-breakpoint-down(sm) {
+              padding-inline-start: 16px;
+            }
+
+            @include media-breakpoint-only(md) {
+              padding-inline-start: 32px;
+            }
+          }
         }
 
         .cx-details-image {
           margin-block-start: 15px;
           margin-block-end: 0px;
           max-inline-size: 100px;
+
+          @include forVersion(3.1) {
+            @include cx-configurator-image();
+          }
         }
 
         .cx-details-content {
@@ -93,6 +118,10 @@
           margin-block-start: 15px;
           margin-block-end: 0px;
 
+          @include media-breakpoint-down(sm) {
+            width: 70%;
+          }
+
           .cx-detail-title,
           .cx-price {
             font-weight: bold;
@@ -100,6 +129,16 @@
 
           .cx-code {
             color: var(--cx-color-secondary);
+          }
+
+          .cx-detail-title,
+          .cx-code,
+          .cx-description {
+            @include forVersion(3.1) {
+              span {
+                @include cx-configurator-truncate-content();
+              }
+            }
           }
         }
       }

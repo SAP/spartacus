@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  FeaturesConfig,
+  FeaturesConfigModule,
   I18nTestingModule,
   Product,
   ProductService,
@@ -135,7 +137,12 @@ describe('ConfigProductTitleComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
+        imports: [
+          I18nTestingModule,
+          ReactiveFormsModule,
+          NgSelectModule,
+          FeaturesConfigModule,
+        ],
         declarations: [ConfiguratorProductTitleComponent, MockCxIconComponent],
         providers: [
           {
@@ -155,6 +162,12 @@ describe('ConfigProductTitleComponent', () => {
             useClass: MockProductService,
           },
           { provide: IconLoaderService, useClass: MockIconFontLoaderService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '3.1' },
+            },
+          },
         ],
       });
     })
