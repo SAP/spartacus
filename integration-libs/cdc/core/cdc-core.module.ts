@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
+import { CdcAuthModule } from './auth/cdc-auth.module';
+import { facadeProviders } from './auth/facade/facade-providers';
 
 @NgModule({
-  declarations: [],
-  imports: [],
+  imports: [CdcAuthModule],
+  providers: [...facadeProviders],
 })
 export class CdcCoreModule {}

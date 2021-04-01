@@ -14,7 +14,7 @@ import {
 import { combineLatest, of } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { CdcAuthActions } from '../store/actions/index';
-import { CdcAuthFacade } from '../../facade/cdc-auth.facade';
+import { CdcAuthFacade } from '@spartacus/cdc/root';
 
 /**
  * Service to support custom CDC OAuth flow.
