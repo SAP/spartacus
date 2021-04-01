@@ -1,7 +1,7 @@
+import * as cart from '../../helpers/cart';
 import * as configuration from '../../helpers/product-configuration';
 import * as configurationOverview from '../../helpers/product-configuration-overview';
 import * as productSearch from '../../helpers/product-search';
-import * as cart from '../../helpers/cart';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'cpq03@sap.com';
@@ -428,8 +428,8 @@ context('CPQ Configuration', () => {
     });
   });
 
-  describe('Add to the cart then read and update the cart configuration', () => {
-    it('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it', () => {
+  describe('Configuration Process', () => {
+    it('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it, checkout and order', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
@@ -460,6 +460,12 @@ context('CPQ Configuration', () => {
         ATTR_CAM_BODY,
         VAL_CAM_BODY_EOS80D
       );
+      configuration.selectAttribute(ATTR_CAM_LEN, CHKBOX_PROD, VAL_CAM_LEN_SI);
+      configuration.checkValueSelected(
+        CHKBOX_PROD,
+        ATTR_CAM_LEN,
+        VAL_CAM_LEN_SI
+      );
       configuration.clickAddToCartBtn();
 
       configurationOverview.checkConfigOverviewPageDisplayed();
@@ -474,8 +480,15 @@ context('CPQ Configuration', () => {
       configurationOverview.clickContinueToCartBtnOnOP();
 
       cart.verifyCartNotEmpty();
-      configuration.clickOnRemoveLink(0);
-      configuration.checkCartEmpty();
+      configuration.clickOnProceedToCheckoutBtnInCart();
+      configuration.checkoutB2B();
+      configuration.selectOrderByOrderNumberAlias(POWERTOOLS);
+      configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
+      configurationOverview.checkAttrDisplayed(
+        'Camera Body',
+        'Canon EOS 80D',
+        0
+      );
     });
   });
 });
