@@ -31,28 +31,9 @@ import {
 @Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(
-    store: Store<StateWithUser | StateWithProcess<void>>,
-    userIdService: UserIdService,
-    userAccountFacade?: UserAccountFacadeTransitionalToken,
-
-    userProfileFacade?: UserProfileFacadeTransitionalToken,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    userRegisterFacade?: UserRegisterFacadeTransitionalToken
-  );
-  /**
-   * @deprecated since 3.2
-   *
-   * @param store
-   * @param userIdService
-   */
-  constructor(
-    store: Store<StateWithUser | StateWithProcess<void>>,
-    userIdService: UserIdService
-  );
-
-  constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected userIdService: UserIdService,
+    // TODO: Remove transitional tokens in 4.0 with #11607
     @Optional()
     protected userAccountFacade?: UserAccountFacadeTransitionalToken,
     @Optional()

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  Command,
   CommandService,
   CommandStrategy,
   UserIdService,
@@ -17,10 +18,10 @@ export class UserEmailService implements UserEmailFacade {
     protected command: CommandService
   ) {}
 
-  protected updateCommand = this.command.create<{
+  protected updateCommand: Command<{
     password: string;
     newUid: string;
-  }>(
+  }> = this.command.create(
     (payload) =>
       this.userIdService
         .takeUserId(true)
