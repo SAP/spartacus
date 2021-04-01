@@ -9,7 +9,7 @@ import { CloseAccountModalComponent } from '../close-account-modal/close-account
 })
 export class CloseAccountComponent {
   modal: any;
-  constructor(private modalService: ModalService) {}
+  constructor(protected modalService: ModalService) {}
 
   openModal(): void {
     this.modal = this.modalService.open(CloseAccountModalComponent, {

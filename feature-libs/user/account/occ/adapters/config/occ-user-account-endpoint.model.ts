@@ -4,8 +4,6 @@ declare module '@spartacus/core' {
   interface OccEndpoints {
     /**
      * Get user account details
-     *
-     * @member {string}
      */
     user?: string | OccEndpoint;
   }

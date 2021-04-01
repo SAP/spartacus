@@ -1,8 +1,8 @@
 import { Observable } from 'rxjs';
 import { Title, User, UserSignUp } from '../../../model/misc.model';
 /**
- * @deprecated since 3.2, use `OccUserDetailAdapter` from the `@spartacus/user/detail`
- * package or `OccUserProfileAdapter` from  the `@spartacus/user/detail` package.
+ * @deprecated since 3.2, use `OccUserAccountAdapter` and `UserProfileAdapter`
+ * from the `@spartacus/user` package
  */
 export abstract class UserAdapter {
   abstract load(userId: string): Observable<User>;

@@ -18,8 +18,8 @@ import {
   USE_CLIENT_TOKEN,
 } from '../../utils/interceptor-util';
 /**
- * @deprecated since 3.2, use `OccUserDetailAdapter` from the `@spartacus/user/detail`
- * package or `OccUserProfileAdapter` from  the `@spartacus/user/detail` package.
+ * @deprecated since 3.2, use `OccUserAccountAdapter` and `OccUserProfileAdapter`
+ * from the `@spartacus/user` package
  */
 @Injectable()
 export class OccUserAdapter implements UserAdapter {

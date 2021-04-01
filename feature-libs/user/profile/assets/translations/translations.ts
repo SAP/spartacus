@@ -6,5 +6,5 @@ export const userProfileTranslations: TranslationResources = {
 };
 
 export const userTranslationChunksConfig: TranslationChunksConfig = {
-  user: ['updateEmailForm', 'register', 'loginForm', 'forgottenPassword'],
+  user: ['updateEmailForm', 'register', 'forgottenPassword'],
 };

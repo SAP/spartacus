@@ -59,7 +59,9 @@ export class CommandService implements OnDestroy {
 
       case CommandStrategy.Parallel:
         process$ = zip(commands$, results$).pipe(
-          mergeMap(([cmd, notifier$]) => commandFactory(cmd).pipe(tap(notifier$))),
+          mergeMap(([cmd, notifier$]) =>
+            commandFactory(cmd).pipe(tap(notifier$))
+          ),
           retry()
         );
         break;
@@ -79,10 +81,10 @@ export class CommandService implements OnDestroy {
 
     const command: Command<P, R> = new (class extends Command {
       execute = (parameters: P) => {
-        const result = new ReplaySubject<R>();
-        results$.next(result);
+        const result$ = new ReplaySubject<R>();
+        results$.next(result$);
         commands$.next(parameters);
-        return result;
+        return result$;
       };
     })();
 

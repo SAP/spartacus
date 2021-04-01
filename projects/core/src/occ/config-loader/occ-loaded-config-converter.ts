@@ -8,16 +8,23 @@ import {
   LANGUAGE_CONTEXT_ID,
   THEME_CONTEXT_ID,
 } from '../../site-context/providers/context-ids';
+import { JavaRegExpConverter } from '../../util/java-reg-exp-converter/java-reg-exp-converter';
 import { Occ } from '../occ-models/occ.models';
-import { JavaRegExpConverter } from './java-reg-exp-converter';
 import { OccLoadedConfig } from './occ-loaded-config';
 
+/**
+ * @deprecated since 3.2 - use `SiteContextConfigInitializer` instead
+ */
+// TODO(#11515): drop it in 4.0
 @Injectable({ providedIn: 'root' })
 export class OccLoadedConfigConverter {
   constructor(private javaRegExpConverter: JavaRegExpConverter) {}
 
-  fromOccBaseSites(baseSites: BaseSite[], currentUrl: string): OccLoadedConfig {
-    const baseSite = baseSites.find((site) =>
+  fromOccBaseSites(
+    baseSites: BaseSite[] | undefined,
+    currentUrl: string
+  ): OccLoadedConfig {
+    const baseSite = baseSites?.find((site: any) =>
       this.isCurrentBaseSite(site, currentUrl)
     );
     if (!baseSite) {

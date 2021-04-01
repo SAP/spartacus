@@ -114,6 +114,7 @@ export interface BaseSite {
   stores?: BaseStore[];
   urlPatterns?: string[];
   urlEncodingAttributes?: string[];
+  baseStore?: BaseStore;
 }
 /**
  * @deprecated moved to user lib

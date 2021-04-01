@@ -59,6 +59,10 @@
                 "bundleName": "qualtrics"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-cart.scss",
+                "bundleName": "cart"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-user.scss",
                 "bundleName": "user"
               }
@@ -769,6 +773,43 @@
         }
       }
     },
+    "cart": {
+      "projectType": "library",
+      "root": "feature-libs/cart",
+      "sourceRoot": "feature-libs/cart",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "feature-libs/cart/tsconfig.lib.json",
+            "project": "feature-libs/cart/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/cart/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/cart/test.ts",
+            "tsConfig": "feature-libs/cart/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/cart/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/cart/**/*.ts",
+              "feature-libs/cart/**/*.html"
+            ]
+          }
+        }
+      }
+    },
     "user": {
       "projectType": "library",
       "root": "feature-libs/user",
@@ -776,7 +817,7 @@
       "prefix": "cx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "./tools/build-lib:augmented-types",
           "options": {
             "tsConfig": "feature-libs/user/tsconfig.lib.json",
             "project": "feature-libs/user/ng-package.json"

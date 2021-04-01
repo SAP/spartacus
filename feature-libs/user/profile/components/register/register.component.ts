@@ -16,10 +16,13 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
-  Title,
 } from '@spartacus/core';
 import { CustomFormValidators, sortTitles } from '@spartacus/storefront';
-import { UserRegisterFacade, UserSignUp } from '@spartacus/user/profile/root';
+import {
+  Title,
+  UserRegisterFacade,
+  UserSignUp,
+} from '@spartacus/user/profile/root';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
@@ -140,7 +143,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.userRegister
       .register(this.collectDataFromRegisterForm(this.registerForm.value))
       .subscribe({
-        next: () => this.onRegisterUserSuccess(true),
+        next: () => this.onRegisterUserSuccess(),
         complete: () => this.isLoading$.next(false),
       });
   }
@@ -178,19 +181,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private onRegisterUserSuccess(success: boolean): void {
-    if (success) {
-      if (
-        this.authConfigService.getOAuthFlow() ===
-        OAuthFlow.ResourceOwnerPasswordFlow
-      ) {
-        this.router.go('login');
-      }
-      this.globalMessageService.add(
-        { key: 'register.postRegisterMessage' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
+  private onRegisterUserSuccess(): void {
+    if (
+      this.authConfigService.getOAuthFlow() ===
+      OAuthFlow.ResourceOwnerPasswordFlow
+    ) {
+      this.router.go('login');
     }
+    this.globalMessageService.add(
+      { key: 'register.postRegisterMessage' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   toggleAnonymousConsent(): void {

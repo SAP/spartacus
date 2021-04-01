@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthService, CommandService } from '@spartacus/core';
+import { AuthService, CommandService, UserActions } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
 import { Observable } from 'rxjs';
 import {
@@ -10,11 +10,20 @@ import {
 import { UserProfileConnector } from '../connectors/user-profile.connector';
 import { tap } from 'rxjs/operators';
 import { UserProfileService } from './user-profile.service';
+import { Store } from '@ngrx/store';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
   protected registerCommand = this.command.create<{ user: UserSignUp }, User>(
-    ({ user }) => this.userConnector.register(user)
+    ({ user }) =>
+      this.userConnector.register(user).pipe(
+        tap(() => {
+          // this is a compatibility mechanism only, to make anonymous consents
+          // management work properly in transitional period (when we move logic
+          // to separate libraries)
+          this.store.dispatch(new UserActions.RegisterUserSuccess());
+        })
+      )
   );
 
   protected registerGuestCommand = this.command.create<
@@ -36,7 +45,8 @@ export class UserRegisterService implements UserRegisterFacade {
     protected userProfile: UserProfileService,
     protected userConnector: UserProfileConnector,
     protected authService: AuthService,
-    protected command: CommandService
+    protected command: CommandService,
+    protected store: Store
   ) {}
 
   /**

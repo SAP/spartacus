@@ -359,12 +359,6 @@ export interface OccEndpoints {
    */
   couponNotification?: string | OccEndpoint;
   /**
-   * Explicitly saves a cart
-   *
-   * @member {string}
-   */
-  saveCart?: string | OccEndpoint;
-  /**
    * Endpoint for notification preference
    *
    * @member {string}
@@ -445,6 +439,15 @@ export interface OccEndpoints {
    * @member {string}
    */
   baseSites?: string | OccEndpoint;
+  /**
+   * Endpoint for getting all base sites for the site context configuration
+   *
+   * @deprecated since 3.2
+   *
+   * @member {string}
+   */
+  // TODO(#11515): in 4.0, replace the value of `baseSites` with `baseSitesForConfig` and remove `baseSitesForConfig`.
+  baseSitesForConfig?: string | OccEndpoint;
   /** Endpoint to returns active cost centers
    *
    * @member {string}
@@ -716,5 +719,11 @@ export interface OccEndpoints {
    * @member {string}
    */
   orderApprovalDecision?: string | OccEndpoint;
+  /**
+   * Explicitly saves a cart
+   *
+   * @member {string}
+   */
+  saveCart?: string | OccEndpoint;
   // DEPRECATION END
 }

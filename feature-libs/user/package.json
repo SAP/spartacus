@@ -25,6 +25,7 @@
     "@angular/core": "^10.1.0",
     "@angular/forms": "^10.1.0",
     "@angular/router": "^10.1.0",
+    "@ngrx/store": "^10.0.0",
     "@spartacus/core": "3.2.0-next.2",
     "@spartacus/storefront": "3.2.0-next.2",
     "@spartacus/styles": "3.2.0-next.2",
@@ -32,6 +33,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "schematics": "./schematics/collection.json"
+  }
 }

@@ -7,7 +7,7 @@ import { StateModule } from '../../state/state.module';
 import { metaReducers, reducerToken } from './reducers/index';
 import { USER_FEATURE } from './user-state';
 import { effectsTransitional } from './effects/transitional';
-import { reducerTransitionalProvider } from './reducers/transitoinal';
+import { reducerTransitionalProvider } from './reducers/transitional';
 
 @NgModule({
   imports: [

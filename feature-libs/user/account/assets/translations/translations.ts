@@ -6,5 +6,5 @@ export const userTranslations: TranslationResources = {
 };
 
 export const userTranslationChunksConfig: TranslationChunksConfig = {
-  userAccount: ['loginForm'],
+  userAccount: ['loginForm', 'miniLogin'],
 };
