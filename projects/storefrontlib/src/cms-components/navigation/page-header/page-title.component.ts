@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   CmsPageTitleComponent,
-  PageMeta,
+  isNotNullable,
   PageMetaService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -27,8 +27,8 @@ export class PageTitleComponent implements OnInit {
 
   private setTitle(): void {
     this.title$ = this.pageMetaService.getMeta().pipe(
-      filter(Boolean),
-      map((meta: PageMeta) => meta.heading || meta.title)
+      filter(isNotNullable),
+      map((meta) => meta.heading || meta.title)
     );
   }
 }

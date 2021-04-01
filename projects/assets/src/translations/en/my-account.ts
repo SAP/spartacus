@@ -124,6 +124,8 @@ export const myAccount = {
     accountClosedSuccessfully: 'Account closed with success',
     accountClosedFailure: 'Failed to close account',
   },
+
+  // @deprecated the updateEmailForm labels are moved to the user lib and will be dropped with the next major release
   updateEmailForm: {
     newEmailAddress: {
       label: 'New email address',
@@ -142,6 +144,7 @@ export const myAccount = {
     pleaseInputPassword: 'Please input password',
     emailUpdateSuccess: 'Success. Please sign in with {{ newUid }}',
   },
+
   updatePasswordForm: {
     oldPassword: {
       label: 'Old Password',
