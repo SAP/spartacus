@@ -1,73 +1,66 @@
 import { Injectable } from '@angular/core';
 import { GlobalMessageService } from '@spartacus/core';
+import { Observable, Observer } from 'rxjs';
+import {
+  FileValidity,
+  FileValidityConfig,
+} from '../../config/file-validity-config';
+
+// TODO: move to other file
+export type InvalidFileInfo = {
+  fileTooLarge?: Boolean;
+  invalidExtension?: Boolean;
+  fileEmpty?: Boolean;
+};
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImportExportService {
-  constructor(protected globalMessageService: GlobalMessageService) {}
-  // size unit is MB
-  private maxSize = 1;
-  private allowedExtensions = ['text/csv'];
+  constructor(
+    protected globalMessageService: GlobalMessageService,
+    protected fileValidityConfig: FileValidityConfig
+  ) {}
 
   importFile(
     selectedFile: FileList,
     checkValidityEnabled?: Boolean,
-    validityConfig?: {
-      maxSize?: Number;
-      allowedExtensions?: string[];
-      checkEmptyFile?: Boolean;
-    }
-  ): Promise<any> {
+    validityConfig?: FileValidity
+  ): Observable<unknown> {
     const file: File = selectedFile.item(0) as File;
-    return new Promise((resolve, reject) => {
-      const reader: FileReader = new FileReader();
-      reader.readAsText(file);
-      if (checkValidityEnabled) {
-        const checkValidity = this.checkValidity(file, validityConfig);
-        if (checkValidity.isFileValid) {
-          reader.onload = () => {
-            resolve(reader.result as string);
-          };
-          reader.onerror = () => {
-            reader.abort();
-            reject(new DOMException('Could not parse the file'));
-          };
-        } else {
-          reject(checkValidity.invalidFileInfo);
-        }
+    return new Observable((observer: Observer<unknown>) => {
+      const fileReader: FileReader = new FileReader();
+      const checkValidity = this.checkValidity(file, validityConfig);
+      if (
+        !checkValidityEnabled ||
+        (checkValidityEnabled && checkValidity.isFileValid)
+      ) {
+        fileReader.readAsText(file);
+        fileReader.onload = () => {
+          observer.next(fileReader.result as string);
+          observer.complete();
+        };
+        fileReader.onerror = () => {
+          fileReader.abort();
+          observer.error(new DOMException('Could not parse the file'));
+        };
       } else {
-        reader.onload = () => {
-          resolve(reader.result as string);
-        };
-        reader.onerror = () => {
-          reader.abort();
-          reject(new DOMException('Could not parse the file'));
-        };
+        observer.error(checkValidity.invalidFileInfo);
       }
     });
   }
 
-  private checkValidity(
+  protected setValidityConfig(validityConfig: FileValidity): FileValidity {
+    return { ...this.fileValidityConfig.fileValidity, ...validityConfig };
+  }
+
+  protected checkValidity(
     file: File,
-    validityConfig?: {
-      maxSize?: Number;
-      allowedExtensions?: string[];
-      checkEmptyFile?: Boolean;
-    }
-  ): { isFileValid: Boolean; invalidFileInfo: {} } {
+    validityConfig?: FileValidity
+  ): { isFileValid: Boolean; invalidFileInfo: InvalidFileInfo } {
     let isFileValid: Boolean = true;
-    let invalidFileInfo: {
-      fileTooLarge?: Boolean;
-      invalidExtension?: Boolean;
-      fileEmpty?: Boolean;
-    } = {};
-    if (!validityConfig) {
-      validityConfig = {
-        maxSize: this.maxSize,
-        allowedExtensions: this.allowedExtensions,
-      };
-    }
+    let invalidFileInfo: InvalidFileInfo = {};
+    validityConfig = this.setValidityConfig(validityConfig);
     if (
       validityConfig?.maxSize &&
       file.size / 1000000 > validityConfig?.maxSize
