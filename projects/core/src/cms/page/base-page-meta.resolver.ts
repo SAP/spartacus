@@ -9,6 +9,7 @@ import { CanonicalUrlOptions } from './config/page-meta.config';
 import {
   CanonicalPageResolver,
   PageBreadcrumbResolver,
+  PageDescriptionResolver,
   PageRobotsResolver,
   PageTitleResolver,
 } from './page.resolvers';
@@ -23,6 +24,7 @@ import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 export class BasePageMetaResolver
   implements
     PageTitleResolver,
+    PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageRobotsResolver,
     CanonicalPageResolver {
@@ -44,6 +46,11 @@ export class BasePageMetaResolver
   protected title$: Observable<string | undefined> = this.page$.pipe(
     map((p) => p.title)
   );
+
+  protected description$: Observable<string | undefined> = this.page$.pipe(
+    map((p) => p.description)
+  );
+
   protected robots$: Observable<PageRobotsMeta[]> = this.page$.pipe(
     map((page) => page.robots || [])
   );
@@ -70,6 +77,10 @@ export class BasePageMetaResolver
 
   resolveTitle(): Observable<string | undefined> {
     return this.title$;
+  }
+
+  resolveDescription(): Observable<string | undefined> {
+    return this.description$;
   }
 
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[] | undefined> {
