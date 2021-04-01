@@ -4,7 +4,7 @@ import {
   Injectable,
   NgZone,
   OnDestroy,
-  PLATFORM_ID
+  PLATFORM_ID,
 } from '@angular/core';
 import {
   AuthService,
@@ -13,12 +13,12 @@ import {
   ScriptLoader,
   User,
   UserService,
-  WindowRef
+  WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../../config/cdc-config';
-import { CdcAuthService } from './cdc-auth.service';
+import { CdcAuthFacade } from './cdc-auth.facade';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +34,7 @@ export class CdcJsService implements OnDestroy {
     protected languageService: LanguageService,
     protected scriptLoader: ScriptLoader,
     protected winRef: WindowRef,
-    protected cdcAuth: CdcAuthService,
+    protected cdcAuth: CdcAuthFacade,
     protected auth: AuthService,
     protected zone: NgZone,
     protected userService: UserService,
@@ -147,6 +147,7 @@ export class CdcJsService implements OnDestroy {
    */
   onLoginEventHandler(baseSite: string, response?: any) {
     if (response) {
+      console.log(`calling this.cdcAuth.loginWithCustomCdcFlow`);
       this.cdcAuth.loginWithCustomCdcFlow(
         response.UID,
         response.UIDSignature,

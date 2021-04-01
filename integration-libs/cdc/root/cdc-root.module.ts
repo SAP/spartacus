@@ -6,6 +6,7 @@ import {
 import { LogoutGuard } from '@spartacus/storefront';
 import { CdcAuthModule } from './auth/cdc-auth.module';
 import { CdcJsService } from './auth/facade/cdc-js.service';
+import { facadeProviders } from './auth/facade/facade-providers';
 import { CdcLogoutGuard } from './auth/guards/cdc-logout.guard';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
 
@@ -36,6 +37,7 @@ export function defaultCdcComponentsConfig() {
 @NgModule({
   imports: [CdcAuthModule],
   providers: [
+    ...facadeProviders,
     provideDefaultConfigFactory(defaultCdcComponentsConfig),
     { provide: LogoutGuard, useExisting: CdcLogoutGuard },
     {

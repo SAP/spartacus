@@ -14,14 +14,13 @@ import {
 import { combineLatest, of } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
 import { CdcAuthActions } from '../store/actions/index';
+import { CdcAuthFacade } from './cdc-auth.facade';
 
 /**
  * Service to support custom CDC OAuth flow.
  */
-@Injectable({
-  providedIn: 'root',
-})
-export class CdcAuthService {
+@Injectable()
+export class CdcAuthService implements CdcAuthFacade {
   constructor(
     protected store: Store,
     protected authStorageService: AuthStorageService,
