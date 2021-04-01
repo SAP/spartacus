@@ -32,6 +32,10 @@ function cmd_clean {
 }
 
 function prepare_install {
+    cmd_clean
+
+    printh "Installing installation script prerequisites"
+
     VERDACCIO_PID=`lsof -nP -i4TCP:4873 | grep LISTEN | tr -s ' ' | cut -d ' ' -f 2`
     if [[ -n ${VERDACCIO_PID} ]]; then
         echo "It seems Verdaccio is already running with PID: ${VERDACCIO_PID}. Killing it."
@@ -40,9 +44,7 @@ function prepare_install {
 
     npm config set @spartacus:registry https://registry.npmjs.org/
 
-    cmd_clean
-
-    printh "Installing packages for Spartacus pre-installation"
+    printh "Installing installation script npm required packages"
 
     npm i -g verdaccio
     npm i -g serve
@@ -147,7 +149,7 @@ function create_apps {
 }
 
 function install_from_sources {
-    printh "Installing with local @spartacus/*@${SPARTACUS_VERSION}"
+    printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
 
     prepare_install
 
