@@ -1,6 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Storefront config utils getConfigs should return all configs from provideConfigs calls 1`] = `"provideConfig"`;
+exports[`Storefront config utils getConfigs should return all configs from provideConfigs calls 1`] = `
+"{
+      tagManager: {
+        gtm: {
+          events: [NavigationEvent, CartAddEntrySuccessEvent],
+        },
+        aep: {
+          events: [NavigationEvent, CartRemoveEntrySuccessEvent],
+        },
+      },
+    }"
+`;
 
 exports[`Storefront config utils getConfigs should return all configs from provideConfigs calls 2`] = `
 "{

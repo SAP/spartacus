@@ -338,16 +338,13 @@ export function getConfigs(sourceFile: SourceFile): Node[] {
                   if (element.getArguments()?.[0]) {
                     const config = element.getArguments()[0];
                     // "type assertion" and "as expression" is useless for us, so we can skip it and add it's children
-                    if (Node.isTypeAssertion(config)) {
-                      try {
-                        configs.push(element.getFirstChildOrThrow());
-                      } catch {}
-                    } else if (Node.isAsExpression(config)) {
-                      try {
-                        configs.push(element.getFirstChildOrThrow());
-                      } catch {}
+                    if (
+                      Node.isTypeAssertion(config) ||
+                      Node.isAsExpression(config)
+                    ) {
+                      configs.push(config.getExpression());
                     } else {
-                      configs.push(element.getArguments()[0]);
+                      configs.push(config);
                     }
                   }
                 }
