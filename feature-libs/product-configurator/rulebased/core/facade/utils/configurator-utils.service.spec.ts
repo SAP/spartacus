@@ -309,5 +309,19 @@ describe('ConfiguratorGroupUtilsService', () => {
         );
       }).toThrow();
     });
+
+    it('should create a new configuration in case if no updateType parameter in the call', () => {
+      const changedAttribute: Configurator.Attribute = {
+        name: ATTRIBUTE_1_CHECKBOX,
+        groupId: GROUP_ID_1,
+      };
+      const configurationForSendingChanges = classUnderTest.createConfigurationExtract(
+        changedAttribute,
+        productConfiguration
+      );
+      expect(configurationForSendingChanges.updateType).toBe(
+        Configurator.UpdateType.ATTRIBUTE
+      );
+    });
   });
 });
