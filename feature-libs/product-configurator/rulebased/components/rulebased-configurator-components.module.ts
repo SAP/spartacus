@@ -11,6 +11,7 @@ import { ConfiguratorPriceSummaryModule } from './price-summary/configurator-pri
 import { ConfiguratorProductTitleModule } from './product-title/configurator-product-title.module';
 import { ConfiguratorTabBarModule } from './tab-bar/configurator-tab-bar.module';
 import { ConfiguratorUpdateMessageModule } from './update-message/configurator-update-message.module';
+import { ConfiguratorConflictAndErrorMessagesModule } from './configurator-conflict-and-error-messages/configurator-conflict-and-error-messages.module';
 
 @NgModule({
   imports: [
@@ -26,6 +27,7 @@ import { ConfiguratorUpdateMessageModule } from './update-message/configurator-u
     ConfiguratorOverviewAttributeModule,
     ConfiguratorOverviewFormModule,
     ConfiguratorOverviewNotificationBannerModule,
+    ConfiguratorConflictAndErrorMessagesModule,
   ],
 })
 export class RulebasedConfiguratorComponentsModule {}
