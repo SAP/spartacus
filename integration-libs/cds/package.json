@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cds",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "Context Driven Service library for Spartacus",
   "keywords": [
     "spartacus",
@@ -22,8 +22,8 @@
     "@angular/core": "^10.1.0",
     "@angular/router": "^10.1.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.1.1",
-    "@spartacus/storefront": "3.1.1",
+    "@spartacus/core": "3.1.2",
+    "@spartacus/storefront": "3.1.2",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
