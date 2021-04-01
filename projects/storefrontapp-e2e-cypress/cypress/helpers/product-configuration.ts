@@ -10,6 +10,7 @@ import {
 import { navigation } from './navigation';
 import Chainable = Cypress.Chainable;
 import * as globalMessage from './global-message';
+import * as cart from './cart';
 
 const shippingAddressData: AddressData = user;
 const billingAddress: AddressData = user;
@@ -47,10 +48,19 @@ export type uiType =
  */
 export type cardType = 'radioGroup' | 'dropdown' | 'checkBoxList';
 
-export function defineAliases(backendUrl: string) {
+export function registerConfigRoutes(backendUrl: string) {
   cy.intercept('POST', backendUrl).as('createConfig');
   cy.intercept('PATCH', backendUrl).as('updateConfig');
   cy.intercept('GET', backendUrl).as('readConfig');
+}
+
+export function registerProductSearchRoute(product: string) {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/suggestions?term=${product}*`
+  ).as('productSearch');
 }
 
 /**
@@ -118,13 +128,18 @@ export function goToPDPage(shopName: string, productId: string): void {
  * Navigates to the cart page.
  *
  * @param {string} shopName - shop name
+ * @return {Chainable<Window>} - New order history window
  */
-export function goToCart(shopName: string) {
+export function goToCart(shopName: string): Chainable<Window> {
+  cart.registerCartRefreshRoute();
+  cart.registerCartPageRoute();
   const location = `/${shopName}/en/USD/cart`;
-  cy.visit(`/${shopName}/en/USD/cart`).then(() => {
+  return cy.visit(`/${shopName}/en/USD/cart`).then(() => {
     cy.location('pathname').should('contain', location);
     cy.get('h1').contains('Your Shopping Cart').should('be.visible');
-    cy.get('cx-cart-details').should('be.visible');
+    cy.get('.CartPageTemplate').should('be.visible');
+    cy.wait('@cart_page');
+    //cy.get('cx-cart-details').should('be.visible');
   });
 }
 
@@ -1381,5 +1396,28 @@ export function getNumberOfCartItems(): number {
   cy.get('.cx-item-list-row').within((itemRows) => {
     numberOfCartItems = itemRows.length;
   });
+  cy.log('number of cart items: ' + numberOfCartItems);
   return numberOfCartItems;
+}
+
+export function removeItemsFromCart() {
+  let cartItems = 0;
+  cy.get('cx-mini-cart .count').then((items) => {
+    //cy.wait('@refresh_cart');
+    cartItems = parseInt(items.text());
+    cy.log('number of cart items: ' + cartItems);
+    // cy.log(typeof cartItems);
+    if (cartItems > 0) {
+      cy.log('type of: ' + typeof items);
+      cart.registerCartRefreshRoute();
+      //cart.removeAllItemsFromCart();
+
+      for (let index = cartItems - 1; ; index--) {
+        cy.log('Too many cart items. Remove cart items and then continue...');
+        this.clickOnRemoveLink(index);
+        cy.wait('@refresh_cart').its('status').should('eq', 200);
+      }
+      cart.validateEmptyCart();
+    }
+  });
 }
