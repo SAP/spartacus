@@ -17,8 +17,8 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CdcConfig } from '../../config/cdc-config';
-import { CdcAuthFacade } from './cdc-auth.facade';
+import { CdcConfig } from '../config/cdc-config';
+import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
 @Injectable({
   providedIn: 'root',

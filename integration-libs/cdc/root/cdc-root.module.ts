@@ -5,10 +5,10 @@ import {
 } from '@spartacus/core';
 import { LogoutGuard } from '@spartacus/storefront';
 import { CdcAuthModule } from './auth/cdc-auth.module';
-import { CdcJsService } from './auth/facade/cdc-js.service';
 import { facadeProviders } from './auth/facade/facade-providers';
-import { CdcLogoutGuard } from './auth/guards/cdc-logout.guard';
 import { CDC_CORE_FEATURE, CDC_FEATURE } from './feature-name';
+import { CdcLogoutGuard } from './guards/cdc-logout.guard';
+import { CdcJsService } from './service/cdc-js.service';
 
 export function cdcJsFactory(
   cdcJsService: CdcJsService,

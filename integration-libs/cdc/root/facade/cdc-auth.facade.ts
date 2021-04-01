@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthToken, facadeFactory } from '@spartacus/core';
-import { CDC_CORE_FEATURE } from '../../feature-name';
+import { CDC_CORE_FEATURE } from '../feature-name';
 
 export function cdcAuthFacadeFactory() {
   return facadeFactory({
