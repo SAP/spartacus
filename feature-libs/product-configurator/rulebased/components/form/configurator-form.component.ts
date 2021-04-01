@@ -115,8 +115,8 @@ export class ConfiguratorFormComponent implements OnInit, OnDestroy {
 
   updateConfiguration(event: ConfigFormUpdateEvent): void {
     this.configuratorCommonsService.updateConfiguration(
-      event.changedAttribute,
       event.ownerKey,
+      event.changedAttribute,
       event.updateType
     );
   }

@@ -112,10 +112,13 @@ export class ConfiguratorCommonsService {
    * @param changedAttribute - Changes attribute
    */
   updateConfiguration(
-    changedAttribute: Configurator.Attribute,
     ownerKey: string,
-    updateType: Configurator.UpdateType
+    changedAttribute: Configurator.Attribute,
+    updateType?: Configurator.UpdateType
   ): void {
+    if (!updateType) {
+      updateType = Configurator.UpdateType.ATTRIBUTE;
+    }
     // in case cart updates pending: Do nothing, because an addToCart might
     // be in progress. Can happen if on slow networks addToCart was hit and
     // afterwards an attribute was changed before the OV navigation has
