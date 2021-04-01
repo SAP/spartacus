@@ -3,7 +3,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, PageMeta, PageMetaService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { PageHeaderComponent } from './page-title.component';
+import { PageTitleComponent } from './page-title.component';
+import { By } from '@angular/platform-browser';
+import { DebugElement } from '@angular/core';
 
 class MockPageMetaService {
   getMeta(): Observable<PageMeta> {
@@ -14,15 +16,16 @@ class MockPageMetaService {
   }
 }
 
-describe('PageHeaderComponent', () => {
-  let component: PageHeaderComponent;
-  let fixture: ComponentFixture<PageHeaderComponent>;
+describe('PageTitleComponent', () => {
+  let component: PageTitleComponent;
+  let fixture: ComponentFixture<PageTitleComponent>;
+  let el: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule, I18nTestingModule],
-        declarations: [PageHeaderComponent],
+        declarations: [PageTitleComponent],
         providers: [
           { provide: PageMetaService, useClass: MockPageMetaService },
           {
@@ -37,12 +40,23 @@ describe('PageHeaderComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageHeaderComponent);
+    fixture = TestBed.createComponent(PageTitleComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('title$', () => {
+    it('should set title in ngOnInit', () => {
+      component.ngOnInit();
+      fixture.detectChanges();
+      expect(
+        el.query(By.css('.cx-visually-hidden > h1')).nativeElement.innerText
+      ).toEqual('Test title');
+    });
   });
 });
