@@ -12,7 +12,6 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   selector: 'cx-page-title',
   templateUrl: './page-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'cx-visually-hidden' },
 })
 export class PageTitleComponent implements OnInit {
   title$: Observable<string>;

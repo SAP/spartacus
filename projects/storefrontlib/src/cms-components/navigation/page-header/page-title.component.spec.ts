@@ -55,7 +55,7 @@ describe('PageTitleComponent', () => {
       component.ngOnInit();
       fixture.detectChanges();
       expect(
-        el.query(By.css('.cx-visually-hidden > h1')).nativeElement.innerText
+        el.query(By.css('h1.cx-visually-hidden')).nativeElement.innerText
       ).toEqual('Test title');
     });
   });
