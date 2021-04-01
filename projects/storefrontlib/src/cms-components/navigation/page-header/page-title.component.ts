@@ -9,9 +9,10 @@ import { filter, map } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
-  selector: 'cx-page-header',
+  selector: 'cx-page-title',
   templateUrl: './page-title.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'cx-visually-hidden' },
 })
 export class PageTitleComponent implements OnInit {
   title$: Observable<string>;
