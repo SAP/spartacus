@@ -67,6 +67,10 @@ cx-saved-cart-form-dialog {
           &:last-child {
             margin-inline-start: 0.5rem;
           }
+
+          &:focus {
+            @include visible-focus();
+          }
         }
       }
     }
