@@ -33,10 +33,6 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
     this.showErrors = !this.showErrors;
   }
 
-  /* clear(type: GlobalMessageType, index: number): void {
-    this.globalMessageService.remove(type, index);
-  }*/
-
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService
