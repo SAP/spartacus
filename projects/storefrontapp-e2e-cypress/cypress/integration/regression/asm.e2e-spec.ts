@@ -62,19 +62,7 @@ context('ASM e2e Test', () => {
       });
     });
 
-    describe.skip('Customer Emulation - Checkout', () => {
-      it('agent should checkout on behalf of customer.', () => {
-        checkout.goToCheapProductDetailsPage();
-        checkout.addCheapProductToCartAndBeginCheckoutForSignedInCustomer();
-        checkout.fillAddressFormWithCheapProduct(customer);
-        checkout.verifyDeliveryMethod();
-        checkout.fillPaymentFormWithCheapProduct(customer);
-        checkout.placeOrderWithCheapProduct(customer);
-        checkout.verifyOrderConfirmationPageWithCheapProduct(customer);
-      });
-    });
-
-    describe.skip('Customer Emulation - My Account', () => {
+    describe('Customer Emulation - My Account', () => {
       it('agent should update personal details.', () => {
         cy.selectUserMenuOption({
           option: 'Personal Details',
@@ -87,30 +75,15 @@ context('ASM e2e Test', () => {
         customer.titleCode = profile.newTitle;
       });
 
-      it('agent should delete address', () => {
+      it('agent should create new address', () => {
         cy.selectUserMenuOption({
           option: 'Address Book',
           isMobile,
         });
-        cy.get('cx-card').should('have.length', 1);
-        deleteFirstAddress();
         cy.get('cx-card').should('have.length', 0);
-      });
-
-      it('agent should create new address', () => {
         fillShippingAddress(addressBook.newAddress);
         cy.get('cx-card').should('have.length', 1);
         addressBook.verifyNewAddress();
-      });
-
-      it('agent should see the payment details created during checkout', () => {
-        cy.selectUserMenuOption({
-          option: 'Payment Details',
-          isMobile,
-        });
-        cy.get('.cx-payment .cx-body').then(() => {
-          cy.get('cx-card').should('have.length', 1);
-        });
       });
 
       it('agent should add a consent', () => {
@@ -150,7 +123,7 @@ context('ASM e2e Test', () => {
       });
     });
 
-    describe.skip('Customer Self Verification', () => {
+    describe('Customer Self Verification', () => {
       it('customer should sign in.', () => {
         cy.visit('/login');
         loginCustomerInStorefront();
@@ -172,16 +145,6 @@ context('ASM e2e Test', () => {
         });
         cy.get('cx-card').should('have.length', 1);
         addressBook.verifyNewAddress();
-      });
-
-      it('customer should see the payment details created by the agent', () => {
-        cy.selectUserMenuOption({
-          option: 'Payment Details',
-          isMobile,
-        });
-        cy.get('.cx-payment .cx-body').then(() => {
-          cy.get('cx-card').should('have.length', 1);
-        });
       });
 
       it('customer should see the consent given by agent', () => {
