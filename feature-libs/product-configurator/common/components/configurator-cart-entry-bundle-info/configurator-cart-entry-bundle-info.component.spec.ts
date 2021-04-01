@@ -8,8 +8,8 @@ import {
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
 } from '@spartacus/product-configurator/common';
-import { CartItemContext } from '@spartacus/storefront';
-import { ReplaySubject } from 'rxjs';
+import { BreakpointService, CartItemContext } from '@spartacus/storefront';
+import { of, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
@@ -17,7 +17,9 @@ import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-en
   name: 'cxNumeric',
 })
 class MockNumericPipe implements PipeTransform {
-  transform(): any {}
+  transform(value: string): string {
+    return value;
+  }
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -29,19 +31,19 @@ class MockCartItemContext implements Partial<CartItemContext> {
 const configurationInfos: ConfigurationInfo[] = [
   {
     configurationLabel: 'Canon ABC',
-    configurationValue: '1 x $1,000.00',
+    configurationValue: '5 x $1,000.00',
     configuratorType: 'CLOUDCPQCONFIGURATOR',
     status: 'SUCCESS',
   },
   {
     configurationLabel: 'Canon DEF',
-    configurationValue: '10 x $1,000.00',
+    configurationValue: '10',
     configuratorType: 'CLOUDCPQCONFIGURATOR',
     status: 'SUCCESS',
   },
   {
     configurationLabel: 'Canon HJZ',
-    configurationValue: '5 x $1,000.00',
+    configurationValue: '$1,000.00',
     configuratorType: 'CLOUDCPQCONFIGURATOR',
     status: 'SUCCESS',
   },
@@ -58,6 +60,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   let mockCartItemContext: MockCartItemContext;
   let commonConfigUtilsService: CommonConfiguratorUtilsService;
   let configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService;
+  let breakpointService: BreakpointService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -92,6 +95,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       configCartEntryBundleInfoService,
       'retrieveLineItems'
     ).and.callThrough();
+
+    breakpointService = TestBed.inject(
+      BreakpointService as Type<BreakpointService>
+    );
+    //spyOn(breakpointService, 'isUp').and.returnValue(of(true));
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
     component = fixture.componentInstance;
@@ -246,6 +254,28 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
   });
 
+  describe('isDesktop', () => {
+    it('should return `false` because we deal with mobile widget', () => {
+      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      let result: boolean;
+      component
+        .isDesktop()
+        .subscribe((br) => (result = br))
+        .unsubscribe();
+      expect(result).toBe(false);
+    });
+
+    it('should return `true` because we deal with desktop widget', () => {
+      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      let result: boolean;
+      component
+        .isDesktop()
+        .subscribe((br) => (result = br))
+        .unsubscribe();
+      expect(result).toBe(true);
+    });
+  });
+
   describe('check component structure', () => {
     describe('without any line item information', () => {
       beforeEach(() => {
@@ -361,6 +391,265 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           expect,
           htmlElem,
           'cx-configure-cart-entry'
+        );
+      });
+    });
+
+    describe('cart entry bundle info with price and quantity', () => {
+      beforeEach(() => {
+        mockCartItemContext.item$.next({
+          statusSummaryList: null,
+          configurationInfos: [
+            {
+              configurationLabel: 'Canon ABC',
+              configurationValue: '5 x $1,000.00',
+              configuratorType: 'CLOUDCPQCONFIGURATOR',
+              status: 'SUCCESS',
+            },
+          ],
+          product: {
+            configurable: true,
+          },
+        });
+        mockCartItemContext.readonly$.next(false);
+        mockCartItemContext.quantityControl$.next(new FormControl());
+        component.hideItems = false;
+        fixture.detectChanges();
+      });
+
+      it('should display in desktop mode', () => {
+        spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos.open'
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-info',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-price span.cx-item',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-price span.cx-item',
+          '$1,000.00'
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-item',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-item',
+          '5'
+        );
+      });
+
+      it('should display in mobile mode', () => {
+        spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos.open'
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-info',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-identifier',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-identifier',
+          'configurator.attribute.quantity'
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-item',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-item',
+          '5'
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-price span.cx-identifier',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-price span.cx-identifier',
+          'configurator.overviewForm.itemPrice'
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-price span.cx-item',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-price span.cx-item',
+          '$1,000.00'
+        );
+      });
+    });
+
+    describe('cart entry bundle info with only quantity', () => {
+      beforeEach(() => {
+        mockCartItemContext.item$.next({
+          statusSummaryList: null,
+          configurationInfos: [
+            {
+              configurationLabel: 'Canon ABC',
+              configurationValue: '10',
+              configuratorType: 'CLOUDCPQCONFIGURATOR',
+              status: 'SUCCESS',
+            },
+          ],
+          product: {
+            configurable: true,
+          },
+        });
+        mockCartItemContext.readonly$.next(false);
+        mockCartItemContext.quantityControl$.next(new FormControl());
+        component.hideItems = false;
+        fixture.detectChanges();
+      });
+
+      it('should display in desktop mode', () => {
+        spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos.open'
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-info',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-price span.cx-item',
+          0
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-item',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-item',
+          '10'
+        );
+      });
+
+      it('should display in mobile mode', () => {
+        spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+        CommonConfiguratorTestUtilsService.expectElementPresent(
+          expect,
+          htmlElem,
+          '.cx-item-infos.open'
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-info',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-price span.cx-identifier',
+          0
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-price span.cx-item',
+          0
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-identifier',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-identifier',
+          'configurator.attribute.quantity'
+        );
+
+        CommonConfiguratorTestUtilsService.expectNumberOfElements(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-item',
+          1
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementToContainText(
+          expect,
+          htmlElem,
+          '.cx-item-quantity span.cx-item',
+          '10'
         );
       });
     });

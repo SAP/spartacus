@@ -32,7 +32,6 @@
 
       .cx-item-name {
         overflow-wrap: break-word;
-        color: var(--cx-color-primary);
 
         @include media-breakpoint-down(sm) {
           width: 100%;

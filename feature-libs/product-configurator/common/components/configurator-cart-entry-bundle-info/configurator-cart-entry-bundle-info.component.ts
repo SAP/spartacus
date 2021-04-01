@@ -75,12 +75,11 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   }
 
   /**
-   * Verifies whether the current screen size is smaller than breakpoint `BREAKPOINT.sm`.
+   * Verifies whether the current screen size equals or is larger than breakpoint `BREAKPOINT.md`.
    *
-   * @returns {Observable<boolean>} - If the given breakpoint is `BREAKPOINT.sm`, the method returns `true` when the
-   * window innerWidth is smaller than the configured size of `BREAKPOINT.sm`.
+   * @returns {Observable<boolean>} - If the given breakpoint equals or is larger than`BREAKPOINT.md` returns `true`, otherwise `false`.
    */
-  isMobile(): Observable<boolean> {
-    return this.breakpointService?.isDown(BREAKPOINT.sm);
+  isDesktop(): Observable<boolean> {
+    return this.breakpointService?.isUp(BREAKPOINT.md);
   }
 }
