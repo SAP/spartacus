@@ -113,6 +113,7 @@ function setupWithCurrentProductService(
   );
 
   spyOn(currentProductService, 'getProduct').and.callThrough();
+
   fixture = TestBed.createComponent(ConfigureProductComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;

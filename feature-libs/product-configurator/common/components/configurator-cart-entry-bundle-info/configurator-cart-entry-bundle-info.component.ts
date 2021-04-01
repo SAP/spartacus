@@ -1,7 +1,11 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
+import {
+  BREAKPOINT,
+  BreakpointService,
+  CartItemContext,
+} from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
@@ -16,6 +20,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
+    protected breakpointService?: BreakpointService,
     // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
@@ -67,5 +72,14 @@ export class ConfiguratorCartEntryBundleInfoComponent {
           configInfos[0]?.configuratorType
         )
       : false;
+  }
+
+  /**
+   * Verifies whether the current screen size equals or is larger than breakpoint `BREAKPOINT.md`.
+   *
+   * @returns {Observable<boolean>} - If the given breakpoint equals or is larger than`BREAKPOINT.md` returns `true`, otherwise `false`.
+   */
+  isDesktop(): Observable<boolean> {
+    return this.breakpointService?.isUp(BREAKPOINT.md);
   }
 }

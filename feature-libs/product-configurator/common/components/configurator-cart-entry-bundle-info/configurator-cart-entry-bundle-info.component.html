@@ -27,11 +27,38 @@
           <div class="cx-item-name">
             {{ lineItem?.name }}
           </div>
-          <div class="cx-item-price">
-            {{ lineItem?.formattedPrice }}
-          </div>
-          <div class="cx-item-quantity"></div>
-          {{ lineItem?.formattedQuantity | cxNumeric }}
+          <ng-container *ngIf="isDesktop() | async; else mobile">
+            <div class="cx-item-price">
+              <span class="cx-item" *ngIf="lineItem?.formattedPrice">{{
+                lineItem?.formattedPrice
+              }}</span>
+            </div>
+            <div class="cx-item-quantity">
+              <span class="cx-item" *ngIf="lineItem?.formattedQuantity">{{
+                lineItem?.formattedQuantity | cxNumeric
+              }}</span>
+            </div>
+          </ng-container>
+          <ng-template #mobile>
+            <div class="cx-item-quantity">
+              <ng-container *ngIf="lineItem?.formattedQuantity">
+                <span class="cx-identifier">{{
+                  'configurator.attribute.quantity' | cxTranslate
+                }}</span>
+                <span class="cx-item">{{
+                  lineItem?.formattedQuantity | cxNumeric
+                }}</span>
+              </ng-container>
+            </div>
+            <div class="cx-item-price">
+              <ng-container *ngIf="lineItem?.formattedPrice">
+                <span class="cx-identifier">{{
+                  'configurator.overviewForm.itemPrice' | cxTranslate
+                }}</span>
+                <span class="cx-item">{{ lineItem?.formattedPrice }}</span>
+              </ng-container>
+            </div>
+          </ng-template>
         </div>
       </div>
     </ng-container>
