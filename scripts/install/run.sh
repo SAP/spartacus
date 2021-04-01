@@ -64,17 +64,22 @@ function clone_repo {
 }
 
 function update_projects_versions {
+
     projects=$@
     if [[ "${SPARTACUS_VERSION}" == "next" ]] || [[ "${SPARTACUS_VERSION}" == "latest" ]]; then
         SPARTACUS_VERSION="999.999.999"
     fi
+
+    printh "Updating all library versions to ${SPARTACUS_VERSION}"
     for i in ${projects}
         do
-            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
+            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/' package.json);
         done
 }
 
 function install_from_npm {
+    printh "Installing Spartacus from npm libraries"
+
     prepare_install
 
     create_apps
