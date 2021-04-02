@@ -1,4 +1,5 @@
 export * from './applicable';
+export * from './command-query/index';
 export * from './converter.service';
 export * from './create-from';
 export * from './external-js-file-loader/index';
@@ -11,4 +12,5 @@ export * from './rxjs/index';
 export * from './script-loader.service';
 export * from './ssr.tokens';
 export * from './time-utils';
-export * from './command-query/index';
+export * from './type-guards';
+export * from './type-utils';

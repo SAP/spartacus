@@ -53,6 +53,10 @@ class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
   resolveTitle(): Observable<string> {
     return of();
   }
+
+  resolveDescription(): Observable<string> {
+    return of();
+  }
 }
 
 describe('ContentPageMetaResolver', () => {
@@ -103,6 +107,23 @@ describe('ContentPageMetaResolver', () => {
       .unsubscribe();
 
     expect(result).toEqual('Page title');
+  });
+
+  it(`should resolve 'Page description' for resolveDescription()`, () => {
+    let result: string | undefined;
+
+    spyOn(basePageMetaResolver, 'resolveDescription').and.returnValue(
+      of('Page description')
+    );
+
+    service
+      .resolveDescription()
+      .subscribe((meta) => {
+        result = meta;
+      })
+      .unsubscribe();
+
+    expect(result).toEqual('Page description');
   });
 
   it('should resolve the home breadcrumb for resolveBreadcrumbs()', () => {
