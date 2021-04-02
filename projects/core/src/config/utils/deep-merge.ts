@@ -11,14 +11,14 @@ export function deepMerge(target = {}, ...sources: any[]): any {
   if (isObject(source)) {
     for (const key in source) {
       if (source[key] instanceof Date) {
-        Object.assign(target, { [key]: source[key] });
+        target[key] = source[key];
       } else if (isObject(source[key])) {
         if (!target[key] || !isObject(target[key])) {
-          Object.assign(target, { [key]: {} });
+          target[key] = {};
         }
         deepMerge(target[key], source[key]);
       } else {
-        Object.assign(target, { [key]: source[key] });
+        target[key] = source[key];
       }
     }
   }
