@@ -523,6 +523,10 @@ export namespace Occ {
      */
     title?: string;
     /**
+     * @member {string} [description]
+     */
+    description?: string;
+    /**
      * @member {string} [typeCode]
      */
     typeCode?: string;
