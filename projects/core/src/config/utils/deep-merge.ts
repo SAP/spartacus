@@ -8,12 +8,12 @@ export function deepMerge(target = {}, ...sources: any[]): any {
   }
   const source = sources.shift() || {};
 
-  if (isObject(target) && isObject(source)) {
+  if (isObject(source)) {
     for (const key in source) {
       if (source[key] instanceof Date) {
         Object.assign(target, { [key]: source[key] });
       } else if (isObject(source[key])) {
-        if (!target[key]) {
+        if (!target[key] || !isObject(target[key])) {
           Object.assign(target, { [key]: {} });
         }
         deepMerge(target[key], source[key]);
