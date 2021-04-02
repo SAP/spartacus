@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
   AuthService,
+  Command,
   CommandService,
   CommandStrategy,
   EventService,
   LanguageSetEvent,
+  Query,
   QueryService,
   UserIdService,
 } from '@spartacus/core';
@@ -20,7 +22,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 
 @Injectable()
 export class UserProfileService implements UserProfileFacade {
-  protected updateCommand = this.command.create<{ details: User }>(
+  protected updateCommand: Command<{ details: User }> = this.command.create(
     (payload) =>
       this.userIdService.takeUserId(true).pipe(
         switchMap((uid) =>
@@ -39,7 +41,7 @@ export class UserProfileService implements UserProfileFacade {
     }
   );
 
-  protected closeCommand = this.command.create(() =>
+  protected closeCommand: Command = this.command.create(() =>
     this.userIdService
       .takeUserId(true)
       .pipe(
@@ -51,7 +53,7 @@ export class UserProfileService implements UserProfileFacade {
       )
   );
 
-  protected titleQuery = this.query.create(
+  protected titleQuery: Query<Title[]> = this.query.create(
     () => this.userProfileConnector.getTitles(),
     {
       reloadOn: [LanguageSetEvent],
