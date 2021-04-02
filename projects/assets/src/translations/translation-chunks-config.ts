@@ -24,7 +24,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'voucher',
     'wishList',
     'saveForLaterItems',
-    'exportFromCart',
   ],
   address: ['addressForm', 'addressBook', 'addressCard'],
   payment: ['paymentForm', 'paymentMethods', 'paymentCard', 'paymentTypes'],

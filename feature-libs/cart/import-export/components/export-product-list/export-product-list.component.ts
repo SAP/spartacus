@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { OrderEntry } from '@spartacus/core';
-import { ImportExportService } from '../../../../shared/services';
+import { ImportExportService } from '../../core/services/import-export.service';
 
 @Component({
-  selector: 'cx-export-from-cart',
-  templateUrl: './export-from-cart.component.html',
+  selector: 'cx-export-product-list',
+  templateUrl: './export-product-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExportFromCartComponent {
+export class ExportProductListComponent {
   constructor(protected importExportService: ImportExportService) {}
 
   @Input() entries: OrderEntry[];

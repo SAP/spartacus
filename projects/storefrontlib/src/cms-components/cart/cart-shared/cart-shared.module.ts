@@ -14,7 +14,6 @@ import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartItemListComponent } from './cart-item-list/cart-item-list.component';
 import { CartItemComponent } from './cart-item/cart-item.component';
 import { OrderSummaryComponent } from './order-summary/order-summary.component';
-import { ExportFromCartComponent } from './export-from-cart/export-from-cart.component';
 
 @NgModule({
   imports: [
@@ -37,13 +36,7 @@ import { ExportFromCartComponent } from './export-from-cart/export-from-cart.com
     CartItemComponent,
     OrderSummaryComponent,
     CartItemListComponent,
-    ExportFromCartComponent,
   ],
-  exports: [
-    CartItemComponent,
-    CartItemListComponent,
-    OrderSummaryComponent,
-    ExportFromCartComponent,
-  ],
+  exports: [CartItemComponent, CartItemListComponent, OrderSummaryComponent],
 })
 export class CartSharedModule {}

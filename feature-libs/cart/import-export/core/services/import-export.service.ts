@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GlobalMessageService } from '@spartacus/core';
+import { FileValidity, FileValidityConfig } from '@spartacus/storefront';
 import { Observable, Observer } from 'rxjs';
-import {
-  FileValidity,
-  FileValidityConfig,
-} from '../../config/file-validity-config';
 
 // TODO: move to other file
 export type InvalidFileInfo = {
@@ -50,7 +47,9 @@ export class ImportExportService {
     });
   }
 
-  protected setValidityConfig(validityConfig: FileValidity): FileValidity {
+  protected setValidityConfig(
+    validityConfig: FileValidity | undefined
+  ): FileValidity {
     return { ...this.fileValidityConfig.fileValidity, ...validityConfig };
   }
 
