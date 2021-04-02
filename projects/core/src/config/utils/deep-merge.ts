@@ -2,7 +2,10 @@ export function isObject(item: any): boolean {
   return item && typeof item === 'object' && !Array.isArray(item);
 }
 
-export function deepMerge(target = {}, ...sources: any[]): any {
+export function deepMerge(
+  target: Record<string, unknown> = {},
+  ...sources: any[]
+): any {
   if (!sources.length) {
     return target;
   }
@@ -16,7 +19,7 @@ export function deepMerge(target = {}, ...sources: any[]): any {
         if (!target[key] || !isObject(target[key])) {
           target[key] = {};
         }
-        deepMerge(target[key], source[key]);
+        deepMerge(target[key] as Record<string, unknown>, source[key]);
       } else {
         target[key] = source[key];
       }
