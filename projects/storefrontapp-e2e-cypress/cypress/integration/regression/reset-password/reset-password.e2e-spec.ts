@@ -12,7 +12,7 @@ context('Reset Password Page', () => {
     alerts.getAlert().should('not.exist');
 
     cy.get('cx-reset-password form button').click();
-    cy.url().should('match', /\/login\/pw\/change$/);
+    cy.url().should('match', /\/login\/pw\/change\?token\=123$/);
     alerts.getAlert().should('not.exist');
   });
 
@@ -21,10 +21,10 @@ context('Reset Password Page', () => {
     alerts.getErrorAlert().should('not.exist');
     cy.get('cx-reset-password form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
-      cy.get('[formcontrolname="repassword"]').type('N3wPassword!');
+      cy.get('[formcontrolname="passwordConfirm"]').type('N3wPassword!');
       cy.get('button').click();
     });
-    cy.url().should('match', /\/login\/pw\/change$/);
+    cy.url().should('match', /\/login\/pw\/change\?token\=123$/);
     alerts.getErrorAlert().should('exist');
   });
 
@@ -41,7 +41,7 @@ context('Reset Password Page', () => {
 
     cy.get('cx-reset-password form').within(() => {
       cy.get('[formcontrolname="password"]').type('N3wPassword!');
-      cy.get('[formcontrolname="repassword"]').type('N3wPassword!');
+      cy.get('[formcontrolname="passwordConfirm"]').type('N3wPassword!');
       cy.get('button').click();
     });
     cy.url().should('match', /\/login$/);
