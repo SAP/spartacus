@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
 import {
   CarouselButton,
   CarouselIndicator,
@@ -54,6 +55,7 @@ export class CarouselService {
   protected previousButton(visible: number[]): CarouselButton {
     return {
       disabled: visible[0] === 0,
+      icon: ICON_TYPE.CARET_LEFT,
     };
   }
 
@@ -63,6 +65,7 @@ export class CarouselService {
   protected nextButton(visible: number[], itemLength: number): CarouselButton {
     return {
       disabled: visible[visible.length - 1] >= itemLength - 1,
+      icon: ICON_TYPE.CARET_RIGHT,
     };
   }
 
@@ -75,7 +78,7 @@ export class CarouselService {
     slides: number[]
   ): CarouselIndicator[] {
     const scrollLeft = host.scrollLeft;
-    const tolerance = 10;
+    const tolerance = 25;
 
     return slides.map((position) => {
       const left = host.clientWidth * position;

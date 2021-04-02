@@ -89,6 +89,7 @@ export class PersistFocusDirective
    */
   ngAfterViewInit() {
     if (this.isPersisted) {
+      console.log('persistFocus:isPersisted', this.host);
       this.host.focus({ preventScroll: true });
     }
   }

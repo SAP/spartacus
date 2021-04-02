@@ -2,15 +2,31 @@ import {
   AfterViewInit,
   Directive,
   ElementRef,
+  HostListener,
   OnChanges,
-  OnDestroy,
-  SimpleChanges,
 } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
 import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusService } from './auto-focus.service';
+
+export function debounce(delay: number = 300): MethodDecorator {
+  return function (
+    _target: any,
+    _propertyKey: string | symbol,
+    descriptor: PropertyDescriptor
+  ) {
+    const timeoutKey = Symbol();
+
+    const original = descriptor.value;
+
+    descriptor.value = function (...args: any[]) {
+      clearTimeout(this[timeoutKey]);
+      this[timeoutKey] = setTimeout(() => original.apply(this, args), delay);
+    };
+
+    return descriptor;
+  };
+}
 
 /**
  * Directive that focus the first nested _focusable_ element based on state and configuration:
@@ -37,20 +53,53 @@ import { AutoFocusService } from './auto-focus.service';
 @Directive() // selector: '[cxAutoFocus]'
 export class AutoFocusDirective
   extends EscapeFocusDirective
-  implements AfterViewInit, OnDestroy, OnChanges {
+  implements AfterViewInit, OnChanges {
   /** The AutoFocusDirective will be using autofocus by default  */
   protected defaultConfig: AutoFocusConfig = { autofocus: true };
 
   // @Input('cxAutoFocus')
   protected config: AutoFocusConfig;
 
-  protected subscription = new Subscription();
+  // protected subscription = new Subscription();
+
+  protected isScrolling: any;
 
   constructor(
     protected elementRef: ElementRef,
     protected service: AutoFocusService
   ) {
     super(elementRef, service);
+  }
+  protected scrollOrigin: number = 0;
+  @HostListener('scroll', ['$event'])
+  @debounce(300)
+  onScroll(_ev: KeyboardEvent): void {
+    if (this.config.focusOnScroll) {
+      clearTimeout(this.isScrolling);
+
+      // Set a timeout to run after scrolling ends
+      this.isScrolling = setTimeout(() => {
+        const last = this.service
+          .findFocusable(this.host)
+          .indexOf(this.service.getPersisted(this.host, this.group));
+
+        const toEnd: boolean =
+          getComputedStyle(this.host)?.direction === 'rtl'
+            ? this.host.scrollLeft < this.scrollOrigin
+            : this.host.scrollLeft > this.scrollOrigin;
+        // only if we scroll towards end direction
+        if (toEnd && last > -1) {
+          // if we have an item selected that is still focusable, we should
+          // find the next one rather than the first.
+          this.service.findFocusable(this.host)[last + 1]?.focus();
+        } else {
+          // clear the persisted focus in the scroll area
+          this.service.clear(this.group);
+          this.service.findFirstFocusable(this.host).focus();
+        }
+        this.scrollOrigin = this.host.scrollLeft;
+      }, 250);
+    }
   }
 
   /**
@@ -60,25 +109,10 @@ export class AutoFocusDirective
     if (this.shouldAutofocus) {
       this.handleFocus();
     }
+
     if (!this.shouldAutofocus || this.hasPersistedFocus) {
       super.ngAfterViewInit();
     }
-
-    if (this.config.focusOnScroll) {
-      this.subscription.add(
-        fromEvent(this.host, 'scroll')
-          .pipe(debounceTime(300))
-          .subscribe((_event) => {
-            // console.log('e', event);
-            // this.service.clear(this.config.group);
-            // this.firstFocusable.focus();
-          })
-      );
-    }
-  }
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -128,7 +162,7 @@ export class AutoFocusDirective
    *
    * We keep this private to not pollute the API.
    */
-  private get firstFocusable(): HTMLElement {
+  get firstFocusable(): HTMLElement {
     return this.service.findFirstFocusable(this.host, this.config);
   }
 }

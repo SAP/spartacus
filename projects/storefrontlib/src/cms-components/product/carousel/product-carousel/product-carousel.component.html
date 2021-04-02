@@ -1,14 +1,7 @@
-<!-- *ngIf="(title$ | async) === 'Our Bestselling Products'" -->
 <cx-carousel
   [title]="title$ | async"
   [items]="items$ | async"
   [template]="carouselItem"
-  [focusConfig]="{
-    lock: false,
-    autofocus: 'a[tabindex=\'0\']',
-    group: focusGroup,
-    focusOnScroll: true
-  }"
 >
 </cx-carousel>
 
@@ -16,12 +9,12 @@
   #carouselItem
   let-item="item"
   let-prefetch="prefetch"
-  let-tab="tab"
+  let-tabindex="tabindex"
 >
   <a
     *ngIf="getProduct(item, prefetch) | async as product"
-    [tabindex]="tab"
-    [cxFocus]="{ key: item, group: focusGroup }"
+    [tabindex]="tabindex"
+    [cxFocus]="{ key: item }"
     [routerLink]="
       hasProduct(product)
         ? ({ cxRoute: 'product', params: product } | cxUrl)
@@ -33,6 +26,7 @@
     <h4>
       {{ product.name }}
     </h4>
+
     <div class="price">
       {{ product.price?.formattedValue }}
     </div>

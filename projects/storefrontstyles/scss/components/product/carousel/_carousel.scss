@@ -1,5 +1,8 @@
 %cx-carousel {
-  scroll-behavior: smooth;
+  cx-carousel-navigation {
+    display: contents;
+  }
+
   width: 100%;
   // display: block;
 
@@ -13,7 +16,7 @@
 
   position: relative;
 
-  padding: 0;
+  padding: 0 0 20px 0;
   margin: 0;
 
   > h3 {
@@ -30,25 +33,35 @@
     text-align: center;
   }
 
-  .carousel-panel {
+  cx-carousel-panel {
     // height: 30vh;
     flex: calc(100% - 100px);
 
     overflow-x: scroll;
-    scrollbar-width: none;
+
+    // prevents scrolling back to previous page when the element is at initial
+    // scroll. Doesn't work on all Safari.
     overscroll-behavior-x: contain;
+
+    // the scrolling behavior when navigating between carousel slides.
+    // not supported in safari.
     scroll-behavior: smooth;
+
     // when we apply the scroll-snap-type directly, we see that it is causing
     // an initial scroll to random position. We therefor add it when the user
     // interacts with the carousel.
-    &:hover,
-    &:focus-within {
-      scroll-snap-type: x mandatory;
-    }
+    // &:hover,
+    // &:focus-within {
+    scroll-snap-type: x mandatory;
+    // support iOS users
+    -webkit-overflow-scrolling: touch;
 
+    // hide scrollbar completely
     &::-webkit-scrollbar {
       display: none;
     }
+    // Important for FF as we'll otherwise see scroll bar
+    scrollbar-width: none;
 
     display: block;
 
@@ -57,11 +70,12 @@
     .slides {
       display: flex;
       width: auto;
-      height: 100%;
+      // height: 100%;
       position: relative;
       justify-content: flex-start;
 
-      box-sizing: border-box;
+      // box-sizing: border-box;
+      // min-width: 0;
 
       .slide {
         display: contents;
@@ -69,6 +83,11 @@
 
       .item {
         object-fit: cover;
+        min-width: 0;
+
+        display: block;
+        height: 100%;
+        min-height: 10px;
 
         flex-shrink: 0;
 
@@ -86,7 +105,13 @@
         // Specifies the width of the carousel item. This can vary per media query
         // or specific layout.
 
-        @include media-breakpoint-down(md) {
+        @include media-breakpoint-only(xs) {
+          flex-basis: 100%;
+          scroll-snap-align: start;
+          scroll-snap-stop: always;
+        }
+
+        @include media-breakpoint-only(sm) {
           flex-basis: 50%;
           &:nth-child(2n-1) {
             scroll-snap-align: start;
@@ -94,8 +119,8 @@
           }
         }
 
-        @include media-breakpoint-up(md) {
-          flex-basis: 33%;
+        @include media-breakpoint-only(md) {
+          flex-basis: 33.33%;
           &:nth-child(3n-2) {
             scroll-snap-align: start;
             scroll-snap-stop: always;
@@ -177,6 +202,50 @@
     }
   }
 
+  .previous,
+  .next {
+    flex: 50px;
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+
+    &:disabled {
+      opacity: 0.5;
+    }
+
+    &:not(:disabled):hover {
+      color: var(--cx-color-primary);
+    }
+  }
+
+  .indicators {
+    flex: 100%;
+    display: flex;
+    justify-content: center;
+
+    padding: var(--cx-spatial-md);
+
+    button {
+      border-radius: 50%;
+      border: none;
+      padding: var(--cx-spatial-base);
+      margin: var(--cx-spatial-base);
+
+      transition: 0.6s background-color;
+
+      background-color: var(--cx-color-secondary);
+
+      &:hover,
+      &.selected {
+        background-color: var(--cx-color-primary);
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
   button {
     // &:focus {
     //   outline: none;
@@ -192,101 +261,60 @@
       pointer-events: none;
     }
   }
-}
 
-// %cx-carousel {
-//   display: flex;
-//   flex: 100%;
-//   --cx-speed: 0.5;
-//   flex-direction: column;
+  // %cx-carousel {
+  //   display: flex;
+  //   flex: 100%;
+  //   --cx-speed: 0.5;
+  //   flex-direction: column;
 
-//   .carousel-panel {
-//     display: flex;
-//     justify-content: space-between;
+  //   .carousel-panel {
+  //     display: flex;
+  //     justify-content: space-between;
 
-//     // The size of carousel items depends on the number of items per slide.
-//     // We generate 10 sizes in case there are a lot of carousel items displayed
-//     // on a single slide.
-//     @for $i from 1 through 10 {
-//       &.size-#{$i} .item {
-//         flex: 0 0 calc((100 / #{$i}) * 1%);
-//       }
-//     }
+  //     // The size of carousel items depends on the number of items per slide.
+  //     // We generate 10 sizes in case there are a lot of carousel items displayed
+  //     // on a single slide.
+  //     @for $i from 1 through 10 {
+  //       &.size-#{$i} .item {
+  //         flex: 0 0 calc((100 / #{$i}) * 1%);
+  //       }
+  //     }
 
-//     .slides {
-//       flex: auto;
-//       position: relative;
+  //     .slides {
+  //       flex: auto;
+  //       position: relative;
 
-//       .slide {
-//         transition: 0.6s all;
-//         width: 100%;
-//         display: flex;
-//         flex-wrap: nowrap;
-//         justify-content: flex-start;
+  //       .slide {
+  //         transition: 0.6s all;
+  //         width: 100%;
+  //         display: flex;
+  //         flex-wrap: nowrap;
+  //         justify-content: flex-start;
 
-//         &:not(:last-child) {
-//           // we keep the last slide non-absolute, so the height
-//           //  of the parent size is based on contetn
-//           position: absolute;
-//         }
+  //         &:not(:last-child) {
+  //           // we keep the last slide non-absolute, so the height
+  //           //  of the parent size is based on contetn
+  //           position: absolute;
+  //         }
 
-//         .item {
-//           opacity: 0;
-//           z-index: -1;
-//           &.active {
-//             opacity: 1;
-//             z-index: 1;
-//           }
-//           transition: 0.4s all;
+  //         .item {
+  //           opacity: 0;
+  //           z-index: -1;
+  //           &.active {
+  //             opacity: 1;
+  //             z-index: 1;
+  //           }
+  //           transition: 0.4s all;
 
-//           // we add a transition delay so that items are nicely animated in a sequence
-//           @for $i from 1 through 4 {
-//             &:nth-child(#{$i}) {
-//               transition-delay: calc(var(--cx-speed, 1) * #{$i * 0.25s});
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-
-.indicators {
-  flex: 100%;
-  display: flex;
-  justify-content: center;
-
-  button {
-    border: none;
-    padding: 10px;
-    margin: 0;
-    transition: 0.6s background-color;
-    background-color: transparent;
-    &[disabled],
-    &.selected {
-      color: var(--cx-color-primary);
-    }
-    &:not(:disabled):not(.selected):hover {
-      color: var(--cx-color-secondary);
-    }
-  }
-
-  @include media-breakpoint-only(xs) {
-    display: none;
-  }
-}
-
-.previous,
-.next {
-  flex: 50px;
-  background-color: transparent;
-  border: none;
-  font-size: 2rem;
-
-  &:disabled {
-    opacity: 0.5;
-  }
-
-  &:not(:disabled):hover {
-    color: var(--cx-color-primary);
-  }
+  //           // we add a transition delay so that items are nicely animated in a sequence
+  //           @for $i from 1 through 4 {
+  //             &:nth-child(#{$i}) {
+  //               transition-delay: calc(var(--cx-speed, 1) * #{$i * 0.25s});
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
 }

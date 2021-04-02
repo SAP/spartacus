@@ -11,11 +11,12 @@
   ></cx-carousel>
 </ng-container>
 
-<ng-template #thumb let-item="item">
+<ng-template #thumb let-item="item" let-index="index" let-tabindex="tabindex">
   <cx-media
     [container]="item.container"
-    tabindex="0"
+    [tabindex]="tabindex"
     (focus)="openImage(item.container)"
+    [cxFocus]="{ group: 'test', key: index }"
     [class.is-active]="isActive(item.container) | async"
     format="product"
   >

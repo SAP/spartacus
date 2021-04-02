@@ -6,6 +6,8 @@ import { IconModule } from '../../../cms-components/misc/icon/index';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { IntersectionModule } from '../../../layout/loading/intersection.module';
 import { MediaModule } from '../media/media.module';
+import { CarouselNavigationComponent } from './carousel-navigation/carousel-navigation.component';
+import { CarouselPanelComponent } from './carousel-panel/carousel-panel.component';
 import { CarouselComponent } from './carousel.component';
 
 @NgModule({
@@ -18,7 +20,11 @@ import { CarouselComponent } from './carousel.component';
     KeyboardFocusModule,
     IntersectionModule,
   ],
-  declarations: [CarouselComponent],
+  declarations: [
+    CarouselComponent,
+    CarouselPanelComponent,
+    CarouselNavigationComponent,
+  ],
   exports: [CarouselComponent],
 })
 export class CarouselModule {}

@@ -4,6 +4,9 @@ import { debounceTime, switchMap } from 'rxjs/operators';
 import { IntersectionOptions } from './intersection.model';
 import { IntersectionService } from './intersection.service';
 
+/**
+ * TODO: docs
+ */
 @Directive({
   selector: '[cxIntersect]',
   exportAs: 'cxIntersect',
@@ -48,7 +51,7 @@ export class IntersectDirective {
     };
   }
 
-  protected get host(): HTMLElement {
+  get host(): HTMLElement {
     return this.elementRef
       ? this.elementRef.nativeElement
       : (this.elementRef.nativeElement as HTMLElement).parentElement;

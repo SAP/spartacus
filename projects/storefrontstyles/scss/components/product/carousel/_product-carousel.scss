@@ -1,5 +1,10 @@
 %cx-product-carousel {
-  display: flex;
+  // display: flex;
+  display: contents;
+  .slides {
+    height: 250px;
+  }
+
   .item {
     padding-bottom: 4px;
     overflow: hidden;
@@ -43,13 +48,15 @@
     margin: 0 50px;
 
     img {
-      max-height: max(200px, 20vh);
+      //   height: max(150px, 20vh);
+      max-height: 150px;
     }
 
     &.is-missing {
-      min-height: 150px;
+      // height: max(150px, 20vh); //150px;
       align-self: auto;
       width: auto;
+      background-position: center center;
     }
   }
 

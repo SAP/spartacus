@@ -11,7 +11,7 @@ export const enum MOVE_FOCUS {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface BaseFocusConfig {}
 
-export interface VisibleFocusConfig {
+export interface VisibleFocusConfig extends BaseFocusConfig {
   /**
    * When set to true, the `mouse-focus` class is added to the host element,
    * indicating that the element focus should not be made visible.
@@ -59,6 +59,7 @@ export interface AutoFocusConfig extends EscapeFocusConfig {
    */
   autofocus?: boolean | string;
 
+  // TODO: focus on scroll end?
   focusOnScroll?: boolean;
   /**
    * whenever the focus should be applied based on a specific trigger, you can user

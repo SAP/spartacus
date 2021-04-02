@@ -52,7 +52,7 @@
     }
 
     &.Section3 {
-      max-width: var(--cx-page-width-max);
+      max-width: min(var(--cx-page-width-max), 100%);
       margin: auto;
     }
 
