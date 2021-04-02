@@ -43,7 +43,7 @@ describe('My Account - Update Password', () => {
       });
 
       it('should be able to cancel and go back to home', () => {
-        cy.get('cx-update-password button').click();
+        cy.get('cx-update-password a').click();
         cy.title().should('eq', PAGE_TITLE_HOME);
         alerts.getAlert().should('not.exist');
       });
