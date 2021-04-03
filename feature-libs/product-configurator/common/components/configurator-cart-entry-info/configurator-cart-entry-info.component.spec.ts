@@ -189,6 +189,15 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         const entry: OrderEntry = {};
         expect(component.isAttributeBasedConfigurator(entry)).toBe(false);
       });
+      it('should return true if no configurationUtil is injected', () => {
+        component['commonConfigUtilsService'] = undefined;
+        const entry: OrderEntry = {
+          configurationInfos: [
+            { status: 'ERROR', configuratorType: 'CPQCONFIGURATOR' },
+          ],
+        };
+        expect(component.isAttributeBasedConfigurator(entry)).toBe(true);
+      });
     });
   });
 });
