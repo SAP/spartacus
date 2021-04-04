@@ -4,7 +4,6 @@ import { AnonymousConsentManagementBannerModule } from './anonymous-consent-mana
 import { AsmModule } from './asm/asm.module';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
-import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
 import {
   BannerModule,
   CmsParagraphModule,
@@ -46,15 +45,12 @@ import {
   ReplenishmentOrderConfirmationModule,
 } from './order-confirmation/index';
 import {
-  ProductCarouselModule,
   ProductFacetNavigationModule,
   ProductIntroModule,
   ProductListModule,
-  ProductReferencesModule,
   ProductTabsModule,
   StockNotificationModule,
 } from './product/index';
-import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
 import { ProductVariantsModule } from './product/product-variants/product-variants.module';
 import { UserComponentModule } from './user/user.module';
@@ -87,20 +83,20 @@ import { WishListModule } from './wish-list/wish-list.module';
     ProductListModule,
     ProductFacetNavigationModule,
     ProductTabsModule,
-    ProductCarouselModule,
-    ProductReferencesModule,
+    // ProductCarouselModule,
+    // ProductReferencesModule,
     OrderDetailsModule,
     PaymentMethodsModule,
     ConsentManagementModule,
     CartComponentModule,
     TabParagraphContainerModule,
     OrderConfirmationModule,
-    ProductImagesModule,
+    // ProductImagesModule,
     ProductSummaryModule,
     ProductVariantsModule,
     ProductIntroModule,
     CheckoutComponentModule,
-    BannerCarouselModule,
+    // BannerCarouselModule,
     MyCouponsModule,
     WishListModule,
     NotificationPreferenceModule,

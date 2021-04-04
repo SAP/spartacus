@@ -1,0 +1,24 @@
+<ng-container *ngIf="mainImage$ | async as main">
+  <cx-media [container]="main"> </cx-media>
+</ng-container>
+
+<ng-container *ngIf="thumbs$ | async as thumbs">
+  <cx-carousel
+    *ngIf="thumbs.length"
+    class="thumbs"
+    [items]="thumbs"
+    [template]="thumb"
+  ></cx-carousel>
+</ng-container>
+
+<ng-template #thumb let-item="item" let-index="index" let-tabindex="tabindex">
+  <cx-media
+    [container]="item.container"
+    [tabindex]="tabindex"
+    (focus)="openImage(item.container)"
+    [cxFocus]="{ group: 'test', key: index }"
+    [class.is-active]="isActive(item.container) | async"
+    format="product"
+  >
+  </cx-media>
+</ng-template>

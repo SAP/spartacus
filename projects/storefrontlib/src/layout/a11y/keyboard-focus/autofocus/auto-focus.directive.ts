@@ -4,6 +4,7 @@ import {
   ElementRef,
   HostListener,
   OnChanges,
+  SimpleChanges,
 } from '@angular/core';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
 import { AutoFocusConfig } from '../keyboard-focus.model';

@@ -6,14 +6,10 @@ import {
   ProductReference,
   ProductReferenceService,
 } from '@spartacus/core';
+import { CmsComponentData, CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
-import { CurrentProductService } from '../../current-product.service';
 
-/**
- * @deprecated moved to feature library in 3.3.
- */
 @Component({
   selector: 'cx-product-references',
   templateUrl: './product-references.component.html',

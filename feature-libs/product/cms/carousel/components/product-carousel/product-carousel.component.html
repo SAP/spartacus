@@ -1,0 +1,34 @@
+<cx-carousel
+  [title]="title$ | async"
+  [items]="items$ | async"
+  [template]="carouselItem"
+>
+</cx-carousel>
+
+<ng-template
+  #carouselItem
+  let-item="item"
+  let-prefetch="prefetch"
+  let-tabindex="tabindex"
+>
+  <a
+    *ngIf="getProduct(item, prefetch) | async as product"
+    [tabindex]="tabindex"
+    [cxFocus]="{ key: item }"
+    [routerLink]="
+      hasProduct(product)
+        ? ({ cxRoute: 'product', params: product } | cxUrl)
+        : []
+    "
+    [class.ghost]="!hasProduct(product)"
+  >
+    <cx-media [container]="product.images?.PRIMARY" format="product"></cx-media>
+    <h4>
+      {{ product.name }}
+    </h4>
+
+    <div class="price">
+      {{ product.price?.formattedValue }}
+    </div>
+  </a>
+</ng-template>
