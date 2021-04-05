@@ -176,7 +176,7 @@ async function program(): Promise<void> {
   try {
     // Give time for verdaccio to boot up
     console.log('Waiting for verdaccio to boot...');
-    execSync(`sleep 30`);
+    execSync(`sleep 15`);
 
     while (true) {
       const choices = <const>[
