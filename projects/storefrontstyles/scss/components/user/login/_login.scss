@@ -18,4 +18,13 @@
       @include type();
     }
   }
+  
+  .headerLinks{
+    float: left;
+  }
+  .login{
+    margin-left: 10px; 
+    float: right;
+  }
+
 }
