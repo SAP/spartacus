@@ -7,7 +7,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusUserOptions,
   readPackageJson,
   shouldAddFeature,
@@ -47,7 +46,6 @@ export function addUserFeatures(options: SpartacusUserOptions): Rule {
       shouldAddFeature(CLI_PROFILE_FEATURE, options.features)
         ? addProfileFeature(options)
         : noop(),
-      installPackageJsonDependencies(),
     ]);
   };
 }
