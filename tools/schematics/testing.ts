@@ -99,6 +99,7 @@ function testAllSchematics(): void {
     'smartedit',
     'storefinder',
     'tracking',
+    'user',
   ].forEach((lib) =>
     execSync(`yarn --cwd feature-libs/${lib}/schematics run test:schematics`, {
       stdio: 'inherit',
@@ -118,6 +119,7 @@ async function executeCommand(
     | 'build smartedit/schematics'
     | 'build storefinder/schematics'
     | 'build tracking/schematics'
+    | 'build user/schematics'
     | 'build all libs'
     | 'test all schematics'
 ): Promise<void> {
@@ -152,6 +154,9 @@ async function executeCommand(
     case 'build tracking/schematics':
       buildSchematicsAndPublish('yarn build:tracking');
       break;
+    case 'build user/schematics':
+      buildSchematicsAndPublish('yarn build:user');
+      break;
     case 'build all libs':
       buildLibs();
       break;
@@ -185,6 +190,7 @@ async function program(): Promise<void> {
         'build smartedit/schematics',
         'build storefinder/schematics',
         'build tracking/schematics',
+        'build user/schematics',
         'build all libs',
         'test all schematics',
         'exit',

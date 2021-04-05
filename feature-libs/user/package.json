@@ -12,10 +12,9 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/user",
   "license": "Apache-2.0",
   "scripts": {
-    "build:schematics": "yarn clean:schematics && tsc -p ./tsconfig.schematics.json",
-    "clean:schematics": "yarn prepare:schematics && rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
-    "prepare:schematics": "yarn install",
-    "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && jest --config ./jest.schematics.config.js"
+    "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
     "tslib": "^2.0.0"
@@ -33,5 +32,6 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "schematics": "./schematics/collection.json"
 }

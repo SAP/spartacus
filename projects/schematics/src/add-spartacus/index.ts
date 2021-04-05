@@ -25,6 +25,7 @@ import {
   CLI_SMARTEDIT_FEATURE,
   CLI_STOREFINDER_FEATURE,
   CLI_TRACKING_FEATURE,
+  CLI_USER_FEATURE,
   DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
   DEFAULT_NGRX_VERSION,
   NGRX_EFFECTS,
@@ -47,6 +48,7 @@ import {
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
   SPARTACUS_TRACKING,
+  SPARTACUS_USER,
 } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
@@ -405,6 +407,9 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
       : []),
     ...(shouldAddFeature(CLI_TRACKING_FEATURE, options.features)
       ? [SPARTACUS_TRACKING]
+      : []),
+    ...(shouldAddFeature(CLI_USER_FEATURE, options.features)
+      ? [SPARTACUS_USER]
       : []),
   ];
 }

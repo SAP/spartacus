@@ -40,6 +40,7 @@ export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
+export const SPARTACUS_USER = '@spartacus/user';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -666,6 +667,7 @@ export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
 export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
 export const CLI_STOREFINDER_FEATURE = 'Store Finder';
 export const CLI_TRACKING_FEATURE = 'Tracking';
+export const CLI_USER_FEATURE = 'User';
 /***** APIs end *****/
 
 /***** Storefinder start *****/
