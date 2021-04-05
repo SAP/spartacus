@@ -24,5 +24,5 @@ export const ORDER_APPROVAL_TRANSLATIONS = 'orderApprovalTranslations';
 export const ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG =
   'orderApprovalTranslationChunksConfig';
 
-export const CLI_ADMINISTRATION_FEATURE = 'Administration';
-export const CLI_ORDER_APPROVAL_FEATURE = 'Order-approval';
+export const CLI_ADMINISTRATION_FEATURE = 'Administration (b2b feature)';
+export const CLI_ORDER_APPROVAL_FEATURE = 'Order-approval (b2b feature)';

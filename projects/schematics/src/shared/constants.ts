@@ -659,7 +659,7 @@ export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 
 export const CLI_ASM_FEATURE = 'Assisted Services Module';
-export const CLI_ORGANIZATION_FEATURE = 'Organization';
+export const CLI_ORGANIZATION_FEATURE = 'Organization (b2b feature)';
 export const CLI_PRODUCT_FEATURE = 'Product';
 export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'Product Configurator';
 export const CLI_QUALTRICS_FEATURE = 'Qualtrics';

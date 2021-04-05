@@ -20,10 +20,16 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Administration", "Order-approval"],
+        "enum": [
+          "Administration (b2b feature)",
+          "Order-approval (b2b feature)"
+        ],
         "type": "string"
       },
-      "default": ["Administration", "Order-approval"],
+      "default": [
+        "Administration (b2b feature)",
+        "Order-approval (b2b feature)"
+      ],
       "x-prompt": "Which Organization features would you like to setup?"
     }
   },

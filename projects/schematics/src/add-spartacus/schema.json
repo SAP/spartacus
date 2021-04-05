@@ -28,7 +28,7 @@
       "items": {
         "enum": [
           "Assisted Services Module",
-          "Organization",
+          "Organization (b2b feature)",
           "Product",
           "Product Configurator",
           "Qualtrics",
