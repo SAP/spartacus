@@ -34,6 +34,7 @@ export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `${SPARTACUS_ORGANIZATION}/administration/core`;
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `${SPARTACUS_ORGANIZATION}/administration/components`;
 export const SPARTACUS_ASM = '@spartacus/asm';
+export const SPARTACUS_CART = '@spartacus/cart';
 export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
@@ -659,6 +660,7 @@ export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 
 export const CLI_ASM_FEATURE = 'Assisted Services Module';
+export const CLI_CART_FEATURE = 'Cart';
 export const CLI_ORGANIZATION_FEATURE = 'Organization (b2b feature)';
 export const CLI_PRODUCT_FEATURE = 'Product';
 export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'Product Configurator';

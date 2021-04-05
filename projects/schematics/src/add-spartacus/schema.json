@@ -28,6 +28,7 @@
       "items": {
         "enum": [
           "Assisted Services Module",
+          "Cart",
           "Organization (b2b feature)",
           "Product",
           "Product Configurator",

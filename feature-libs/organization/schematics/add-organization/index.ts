@@ -7,7 +7,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusOrganizationOptions,
   readPackageJson,
   shouldAddFeature,
@@ -51,7 +50,6 @@ export function addSpartacusOrganization(
       shouldAddFeature(CLI_ORDER_APPROVAL_FEATURE, options.features)
         ? addOrderApprovalsFeature(options)
         : noop(),
-      installPackageJsonDependencies(),
     ]);
   };
 }

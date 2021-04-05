@@ -20,11 +20,11 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Saved-cart"],
+        "enum": ["Saved Cart (b2b feature)"],
         "type": "string"
       },
-      "default": ["Saved-cart"],
-      "x-prompt": "Which features would you like to setup?"
+      "default": ["Saved Cart (b2b feature)"],
+      "x-prompt": "Which Cart features would you like to setup?"
     }
   },
   "required": []

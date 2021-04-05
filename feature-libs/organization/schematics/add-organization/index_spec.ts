@@ -119,7 +119,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
         expect(content).toEqual(`@import "@spartacus/organization";`);
       });
 
-      it('should add update angular.json with spartacus/organization.scss', async () => {
+      it('should update angular.json with spartacus/organization.scss', async () => {
         const content = appTree.readContent('/angular.json');
         const angularJson = JSON.parse(content);
         const buildStyles: string[] =
