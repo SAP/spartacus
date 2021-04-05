@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  isNotUndefined,
   Product,
   ProductScope,
   ProductService,
@@ -39,7 +40,7 @@ export class CurrentProductService {
             )
           : of(null);
       }),
-      filter((product) => product !== undefined)
+      filter(isNotUndefined)
     );
   }
 

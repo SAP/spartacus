@@ -30,17 +30,17 @@ import {
   PRODUCT_INTERESTS,
   REGIONS,
   RegionsState,
-  UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
   USER_COST_CENTERS,
-  USER_ORDERS,
   USER_ORDER_DETAILS,
+  USER_ORDERS,
   USER_PAYMENT_METHODS,
-  USER_REPLENISHMENT_ORDERS,
   USER_REPLENISHMENT_ORDER_DETAILS,
-  USER_RETURN_REQUESTS,
+  USER_REPLENISHMENT_ORDERS,
   USER_RETURN_REQUEST_DETAILS,
+  USER_RETURN_REQUESTS,
+  UserState,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';

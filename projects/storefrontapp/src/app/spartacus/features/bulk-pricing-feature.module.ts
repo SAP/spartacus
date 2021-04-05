@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
-import { BulkPricingRootModule } from '@spartacus/product/bulk-pricing/root';
 import { provideConfig } from '@spartacus/core';
 import {
   bulkPricingTranslationChunksConfig,
   bulkPricingTranslations,
 } from '@spartacus/product/bulk-pricing/assets';
+import { BulkPricingRootModule } from '@spartacus/product/bulk-pricing/root';
 
 @NgModule({
   imports: [BulkPricingRootModule],
@@ -21,7 +21,6 @@ import {
       i18n: {
         resources: bulkPricingTranslations,
         chunks: bulkPricingTranslationChunksConfig,
-        fallbackLang: 'en',
       },
     }),
   ],
