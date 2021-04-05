@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
 import { GlobalMessageService } from '@spartacus/core';
-import { FileValidity, FileValidityConfig } from '@spartacus/storefront';
 import { Observable, Observer } from 'rxjs';
-
-// TODO: move to other file
-export type InvalidFileInfo = {
-  fileTooLarge?: Boolean;
-  invalidExtension?: Boolean;
-  fileEmpty?: Boolean;
-};
+import { FileValidity, FileValidityConfig } from '../config';
+import { InvalidFileInfo } from '../model';
 
 @Injectable({
   providedIn: 'root',

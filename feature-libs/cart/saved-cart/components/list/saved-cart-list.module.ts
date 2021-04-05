@@ -8,11 +8,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import {
-  defaultFileValidityConfig,
-  ListNavigationModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
+import { defaultFileValidityConfig } from 'feature-libs/cart/import-export/core/config';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 @NgModule({
