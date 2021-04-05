@@ -1,0 +1,20 @@
+<div *ngIf="isLoading$ | async; else updateForm">
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</div>
+
+<ng-template #updateForm>
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <cx-update-profile-form
+        *ngIf="(user$ | async)?.uid"
+        class="col-md-6"
+        [user]="user$ | async"
+        [titles]="titles$ | async"
+        (cancelled)="onCancel()"
+        (submitted)="onSubmit($event)"
+      ></cx-update-profile-form>
+    </div>
+  </div>
+</ng-template>

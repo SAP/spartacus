@@ -40,6 +40,7 @@
       "@spartacus/core",
       "@spartacus/storefront",
       "@spartacus/styles",
+      "@spartacus/user",
       "@spartacus/cds",
       "@spartacus/assets",
       "@spartacus/incubator",
@@ -51,6 +52,7 @@
       "@spartacus/qualtrics",
       "@spartacus/cdc",
       "@spartacus/tracking",
+      "@spartacus/cart",
       "@spartacus/setup"
     ]
   },
