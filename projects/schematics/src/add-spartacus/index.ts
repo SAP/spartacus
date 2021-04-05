@@ -53,7 +53,6 @@ import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
   createNodePackageInstallationTask,
-  installPackageJsonDependencies,
   shouldAddFeature,
 } from '../shared/utils/lib-utils';
 import {
@@ -366,109 +365,81 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
 
       addSpartacusFeatures(options),
-
-      installPackageJsonDependencies(),
     ])(tree, context);
   };
 }
 
 function addSpartacusFeatures(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    return chain([
-      shouldAddFeature(CLI_ASM_FEATURE, options.features)
-        ? installExternalSchematic({
-            schematicsOptions: options,
-            collectionName: SPARTACUS_ASM,
-          })
-        : noop(),
-      shouldAddFeature(CLI_ORGANIZATION_FEATURE, options.features)
-        ? installExternalSchematic({
-            schematicsOptions: options,
-            collectionName: SPARTACUS_ORGANIZATION,
-          })
-        : noop(),
-      shouldAddFeature(CLI_PRODUCT_FEATURE, options.features)
-        ? installExternalSchematic({
-            schematicsOptions: options,
-            collectionName: SPARTACUS_PRODUCT,
-          })
-        : noop(),
-      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_FEATURE, options.features)
-        ? installExternalSchematic({
-            schematicsOptions: options,
-            collectionName: SPARTACUS_PRODUCT_CONFIGURATOR,
-          })
-        : noop(),
-      shouldAddFeature(CLI_QUALTRICS_FEATURE, options.features)
-        ? installExternalSchematic({
-            schematicsOptions: options,
-            collectionName: SPARTACUS_QUALTRICS,
-          })
-        : noop(),
-      shouldAddFeature(CLI_SMARTEDIT_FEATURE, options.features)
-        ? installExternalSchematic({
-            schematicsOptions: options,
-            collectionName: SPARTACUS_SMARTEDIT,
-          })
-        : noop(),
-      shouldAddFeature(CLI_STOREFINDER_FEATURE, options.features)
-        ? installExternalSchematic({
-            schematicsOptions: options,
-            collectionName: SPARTACUS_STOREFINDER,
-          })
-        : noop(),
-      shouldAddFeature(CLI_TRACKING_FEATURE, options.features)
-        ? installExternalSchematic({
-            schematicsOptions: options,
-            collectionName: SPARTACUS_TRACKING,
-          })
-        : noop(),
-    ])(tree, context);
+    const features = prepareSpartacusFeatures(options);
+    const rule = installSpartacusFeatures(features)(tree, context);
+
+    addSchematicsTasks(features, context);
+
+    return rule;
   };
 }
 
-function installExternalSchematic(options: {
-  schematicsOptions: SpartacusOptions;
-  collectionName: string;
-}): Rule {
+function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
+  return [
+    ...(shouldAddFeature(CLI_ASM_FEATURE, options.features)
+      ? [SPARTACUS_ASM]
+      : []),
+    ...(shouldAddFeature(CLI_ORGANIZATION_FEATURE, options.features)
+      ? [SPARTACUS_ORGANIZATION]
+      : []),
+    ...(shouldAddFeature(CLI_PRODUCT_FEATURE, options.features)
+      ? [SPARTACUS_PRODUCT]
+      : []),
+    ...(shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_FEATURE, options.features)
+      ? [SPARTACUS_PRODUCT_CONFIGURATOR]
+      : []),
+    ...(shouldAddFeature(CLI_QUALTRICS_FEATURE, options.features)
+      ? [SPARTACUS_QUALTRICS]
+      : []),
+    ...(shouldAddFeature(CLI_SMARTEDIT_FEATURE, options.features)
+      ? [SPARTACUS_SMARTEDIT]
+      : []),
+    ...(shouldAddFeature(CLI_STOREFINDER_FEATURE, options.features)
+      ? [SPARTACUS_STOREFINDER]
+      : []),
+    ...(shouldAddFeature(CLI_TRACKING_FEATURE, options.features)
+      ? [SPARTACUS_TRACKING]
+      : []),
+  ];
+}
+
+function installSpartacusFeatures(features: string[]): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-    const dependencies: NodeDependency[] = [
-      {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: options.collectionName,
-      },
-    ];
-    return chain([
-      addPackageJsonDependencies(dependencies, packageJson),
-      invokeAfterSchematicTask(createSchematicTaskOptions(options)),
-    ])(tree, context);
+    const dependencies: NodeDependency[] = features.map((collectionName) => ({
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: collectionName,
+    }));
+
+    return addPackageJsonDependencies(dependencies, packageJson)(tree, context);
   };
 }
 
-function invokeAfterSchematicTask(
-  options: RunSchematicTaskOptions<unknown>
-): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const id = createNodePackageInstallationTask(context);
-    context.addTask(new RunSchematicTask('add-spartacus-library', options), [
-      id,
-    ]);
-    return tree;
-  };
-}
+function addSchematicsTasks(
+  features: string[],
+  context: SchematicContext
+): void {
+  const installationTaskId = createNodePackageInstallationTask(context);
 
-function createSchematicTaskOptions(options: {
-  schematicsOptions: SpartacusOptions;
-  collectionName: string;
-  schematicName?: string;
-}): RunSchematicTaskOptions<unknown> {
-  return {
-    collection: options.collectionName,
-    name: options.schematicName ?? 'add',
-    // for now, we don't delegate any options to the lib's schematics
-    options: {},
-  };
+  features.forEach((collectionName) => {
+    const runSchematicTaskOptions: RunSchematicTaskOptions<unknown> = {
+      collection: collectionName,
+      name: 'add',
+      // we don't delegate any options to the lib's schematics, for now.
+      options: {},
+    };
+
+    context.addTask(
+      new RunSchematicTask('add-spartacus-library', runSchematicTaskOptions),
+      [installationTaskId]
+    );
+  });
 }
