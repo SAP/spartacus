@@ -20,11 +20,8 @@
   }
   
   .headerLinks{
-    float: left;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
   }
-  .login{
-    margin-left: 10px; 
-    float: right;
-  }
-
 }
