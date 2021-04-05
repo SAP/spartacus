@@ -92,6 +92,7 @@ function testAllSchematics(): void {
 
   [
     'asm',
+    'cart',
     'organization',
     'product',
     'product-configurator',
@@ -112,6 +113,7 @@ async function executeCommand(
     | 'publish'
     | 'build projects/schematics'
     | 'build asm/schematics'
+    | 'build cart/schematics'
     | 'build organization/schematics'
     | 'build product/schematics'
     | 'build product-configurator/schematics'
@@ -132,6 +134,9 @@ async function executeCommand(
       break;
     case 'build asm/schematics':
       buildSchematicsAndPublish('yarn build:asm');
+      break;
+    case 'build cart/schematics':
+      buildSchematicsAndPublish('yarn build:cart');
       break;
     case 'build organization/schematics':
       buildSchematicsAndPublish('yarn build:organization');
@@ -176,13 +181,14 @@ async function program(): Promise<void> {
   try {
     // Give time for verdaccio to boot up
     console.log('Waiting for verdaccio to boot...');
-    execSync(`sleep 30`);
+    execSync(`sleep 15`);
 
     while (true) {
       const choices = <const>[
         'publish',
         'build projects/schematics',
         'build asm/schematics',
+        'build cart/schematics',
         'build organization/schematics',
         'build product/schematics',
         'build product-configurator/schematics',

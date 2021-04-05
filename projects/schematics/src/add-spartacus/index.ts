@@ -18,6 +18,7 @@ import {
   ANGULAR_HTTP,
   ANGULAR_OAUTH2_OIDC,
   CLI_ASM_FEATURE,
+  CLI_CART_FEATURE,
   CLI_ORGANIZATION_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
   CLI_PRODUCT_FEATURE,
@@ -33,6 +34,7 @@ import {
   NGRX_STORE,
   SPARTACUS_ASM,
   SPARTACUS_ASSETS,
+  SPARTACUS_CART,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
@@ -386,6 +388,9 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
   return [
     ...(shouldAddFeature(CLI_ASM_FEATURE, options.features)
       ? [SPARTACUS_ASM]
+      : []),
+    ...(shouldAddFeature(CLI_CART_FEATURE, options.features)
+      ? [SPARTACUS_CART]
       : []),
     ...(shouldAddFeature(CLI_ORGANIZATION_FEATURE, options.features)
       ? [SPARTACUS_ORGANIZATION]

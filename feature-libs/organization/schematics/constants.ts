@@ -2,6 +2,7 @@ import { SPARTACUS_ORGANIZATION } from '@spartacus/schematics';
 
 export const ORGANIZATION_FOLDER_NAME = 'organization';
 export const SCSS_FILE_NAME = 'organization.scss';
+
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME =
   'organizationAdministration';
 export const ADMINISTRATION_ROOT_MODULE = 'AdministrationRootModule';
