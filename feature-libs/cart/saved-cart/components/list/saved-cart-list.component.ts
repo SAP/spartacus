@@ -11,7 +11,7 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { ImportExportService } from '@spartacus/cart/import-export/core';
+import { ImportExportService } from 'projects/storefrontlib/src/shared/services/import-export/import-export.service';
 import { Observable, Subscription, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ImportToCartService } from '../../core/services/import-to-cart.service';
