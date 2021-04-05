@@ -9,10 +9,13 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { SpinnerModule, FormErrorsModule } from '../../../shared/index';
+import { FormErrorsModule, SpinnerModule } from '../../../shared/index';
 import { LoginModule } from '../login/login.module';
 import { RegisterComponent } from './register.component';
 
+/**
+ * @deprecated since 3.2, use @spartacus/user package instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

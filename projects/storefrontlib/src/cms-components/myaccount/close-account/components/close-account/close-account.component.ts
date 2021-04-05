@@ -1,8 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-
-import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
 import { ModalService } from '../../../../../shared/components/modal/index';
+import { CloseAccountModalComponent } from '../close-account-modal/close-account-modal.component';
 
+/**
+ * @deprecated since 3.2, moved to @spartacus/user package.
+ */
 @Component({
   selector: 'cx-close-account',
   templateUrl: './close-account.component.html',
