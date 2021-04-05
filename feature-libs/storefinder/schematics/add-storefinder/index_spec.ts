@@ -39,7 +39,6 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
   };
 
   const defaultOptions: SpartacusStorefinderOptions = {
-    configuration: 'b2c',
     project: 'schematics-test',
     lazy: true,
     features: [CLI_STOREFINDER_FEATURE],

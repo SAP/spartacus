@@ -29,11 +29,6 @@
       },
       "default": ["Personalization"],
       "x-prompt": "Which Tracking features would you like to setup?"
-    },
-    "configuration": {
-      "description": "The Spartacus configuration to use in the application.",
-      "type": "string",
-      "default": "b2c"
     }
   },
   "required": []

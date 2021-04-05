@@ -39,7 +39,6 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
   };
 
   const defaultOptions: SpartacusSmartEditOptions = {
-    configuration: 'b2c',
     project: 'schematics-test',
     lazy: true,
     features: [CLI_SMARTEDIT_FEATURE],

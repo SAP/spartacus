@@ -39,7 +39,6 @@ describe('Spartacus Variants schematics: ng-add', () => {
   };
 
   const defaultOptions: SpartacusVariantsOptions = {
-    configuration: 'b2c',
     project: 'schematics-test',
     lazy: true,
     features: [CLI_VARIANTS_FEATURE],

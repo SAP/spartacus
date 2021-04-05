@@ -20,6 +20,7 @@ const collectionPath = path.join(__dirname, '../../collection.json');
 
 const CLI_FEATURE_NAME = 'xxx-cli';
 const FEATURE_NAME = 'xxx';
+const FEATURE_FOLDER_NAME = 'xxx';
 const FEATURE_MODULE_NAME = 'XxxModule';
 const FEATURE_MODULE_IMPORT_PATH = '@spartacus/xxx';
 const ROOT_MODULE_NAME = 'XxxModuleRoot';
@@ -35,6 +36,7 @@ const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
 
 const BASE_FEATURE_CONFIG: FeatureConfig = {
   name: FEATURE_NAME,
+  folderName: FEATURE_FOLDER_NAME,
   featureModule: {
     name: FEATURE_MODULE_NAME,
     importPath: FEATURE_MODULE_IMPORT_PATH,
@@ -55,7 +57,6 @@ const BASE_FEATURE_CONFIG: FeatureConfig = {
 };
 
 const BASE_OPTIONS: LibraryOptions = {
-  configuration: 'b2b',
   project: 'schematics-test',
   features: [CLI_FEATURE_NAME],
   lazy: true,
@@ -66,13 +67,13 @@ describe('Lib utils', () => {
     it('should return true if the feature is present in the given features array', () => {
       const feature1 = 'feature1';
       const features = [feature1];
-      expect(shouldAddFeature(features, feature1)).toBe(true);
+      expect(shouldAddFeature(feature1, features)).toBe(true);
     });
     it('should return false if the feature is NOT present in the given features array', () => {
       const random = 'random';
       const feature1 = 'feature1';
       const features = [feature1];
-      expect(shouldAddFeature(features, random)).toBe(false);
+      expect(shouldAddFeature(random, features)).toBe(false);
     });
   });
 

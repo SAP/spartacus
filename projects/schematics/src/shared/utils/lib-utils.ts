@@ -37,15 +37,14 @@ import {
 } from './workspace-utils';
 
 export interface LibraryOptions {
-  configuration: 'b2c' | 'b2b';
-  lazy: boolean;
-  features: string[];
   project: string;
+  lazy: boolean;
+  features?: string[];
 }
 
 export interface FeatureConfig {
   /**
-   * In this folder we will generate the feature module. E.g. app/spartacus/features/__organization__
+   * The folder in which we will generate the feature module. E.g. app/spartacus/features/__organization__ (__NOTE__: just the `organization` part should be provided.).
    */
   folderName: string;
   /**
@@ -106,7 +105,10 @@ export interface AssetsConfig {
   glob: string;
 }
 
-export function shouldAddFeature(features: string[], feature: string): boolean {
+export function shouldAddFeature(
+  feature: string,
+  features: string[] = []
+): boolean {
   return features.includes(feature);
 }
 
@@ -521,7 +523,6 @@ export function addLibraryStyles(
 export function createNodePackageInstallationTask(
   context: SchematicContext
 ): TaskId {
-  context.logger.log('info', `🔍 Installing packages...`);
   return context.addTask(new NodePackageInstallTask());
 }
 

@@ -1,6 +1,7 @@
 import { LibraryOptions } from '../shared/utils/lib-utils';
 
 export interface Schema extends LibraryOptions {
+  configuration: 'b2c' | 'b2b';
   baseUrl?: string;
   occPrefix?: string;
   baseSite?: string;

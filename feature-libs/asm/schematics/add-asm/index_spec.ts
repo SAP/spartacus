@@ -35,7 +35,6 @@ describe('Spartacus Asm schematics: ng-add', () => {
   };
 
   const defaultOptions: SpartacusAsmOptions = {
-    configuration: 'b2c',
     project: 'schematics-test',
     lazy: true,
     features: [CLI_ASM_FEATURE],

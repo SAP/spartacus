@@ -21,11 +21,11 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      shouldAddFeature(options.features, CLI_BULK_PRICING_FEATURE)
+      shouldAddFeature(CLI_BULK_PRICING_FEATURE, options.features)
         ? addBulkPricingFeature(options)
         : noop(),
 
-      shouldAddFeature(options.features, CLI_VARIANTS_FEATURE)
+      shouldAddFeature(CLI_VARIANTS_FEATURE, options.features)
         ? addVariantsFeature(options)
         : noop(),
     ]);

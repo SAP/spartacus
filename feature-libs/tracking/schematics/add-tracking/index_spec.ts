@@ -39,7 +39,6 @@ describe('Spartacus Personalization schematics: ng-add', () => {
   };
 
   const defaultOptions: SpartacusPersonalizationOptions = {
-    configuration: 'b2c',
     project: 'schematics-test',
     lazy: true,
     features: [CLI_PERSONALIZATION_FEATURE],

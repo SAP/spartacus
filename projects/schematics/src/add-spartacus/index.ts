@@ -54,7 +54,6 @@ import {
   addPackageJsonDependencies,
   createNodePackageInstallationTask,
   installPackageJsonDependencies,
-  LibraryOptions,
   shouldAddFeature,
 } from '../shared/utils/lib-utils';
 import {
@@ -376,49 +375,49 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 function addSpartacusFeatures(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     return chain([
-      shouldAddFeature(options.features, CLI_ASM_FEATURE)
+      shouldAddFeature(CLI_ASM_FEATURE, options.features)
         ? installExternalSchematic({
             schematicsOptions: options,
             collectionName: SPARTACUS_ASM,
           })
         : noop(),
-      shouldAddFeature(options.features, CLI_ORGANIZATION_FEATURE)
+      shouldAddFeature(CLI_ORGANIZATION_FEATURE, options.features)
         ? installExternalSchematic({
             schematicsOptions: options,
             collectionName: SPARTACUS_ORGANIZATION,
           })
         : noop(),
-      shouldAddFeature(options.features, CLI_PRODUCT_FEATURE)
+      shouldAddFeature(CLI_PRODUCT_FEATURE, options.features)
         ? installExternalSchematic({
             schematicsOptions: options,
             collectionName: SPARTACUS_PRODUCT,
           })
         : noop(),
-      shouldAddFeature(options.features, CLI_PRODUCT_CONFIGURATOR_FEATURE)
+      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_FEATURE, options.features)
         ? installExternalSchematic({
             schematicsOptions: options,
             collectionName: SPARTACUS_PRODUCT_CONFIGURATOR,
           })
         : noop(),
-      shouldAddFeature(options.features, CLI_QUALTRICS_FEATURE)
+      shouldAddFeature(CLI_QUALTRICS_FEATURE, options.features)
         ? installExternalSchematic({
             schematicsOptions: options,
             collectionName: SPARTACUS_QUALTRICS,
           })
         : noop(),
-      shouldAddFeature(options.features, CLI_SMARTEDIT_FEATURE)
+      shouldAddFeature(CLI_SMARTEDIT_FEATURE, options.features)
         ? installExternalSchematic({
             schematicsOptions: options,
             collectionName: SPARTACUS_SMARTEDIT,
           })
         : noop(),
-      shouldAddFeature(options.features, CLI_STOREFINDER_FEATURE)
+      shouldAddFeature(CLI_STOREFINDER_FEATURE, options.features)
         ? installExternalSchematic({
             schematicsOptions: options,
             collectionName: SPARTACUS_STOREFINDER,
           })
         : noop(),
-      shouldAddFeature(options.features, CLI_TRACKING_FEATURE)
+      shouldAddFeature(CLI_TRACKING_FEATURE, options.features)
         ? installExternalSchematic({
             schematicsOptions: options,
             collectionName: SPARTACUS_TRACKING,
@@ -450,7 +449,7 @@ function installExternalSchematic(options: {
 }
 
 function invokeAfterSchematicTask(
-  options: RunSchematicTaskOptions<LibraryOptions>
+  options: RunSchematicTaskOptions<unknown>
 ): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const id = createNodePackageInstallationTask(context);
@@ -465,15 +464,11 @@ function createSchematicTaskOptions(options: {
   schematicsOptions: SpartacusOptions;
   collectionName: string;
   schematicName?: string;
-}): RunSchematicTaskOptions<LibraryOptions> {
+}): RunSchematicTaskOptions<unknown> {
   return {
     collection: options.collectionName,
     name: options.schematicName ?? 'add',
-    options: {
-      project: options.schematicsOptions.project,
-      lazy: options.schematicsOptions.lazy,
-      configuration: options.schematicsOptions.configuration,
-      features: [],
-    },
+    // for now, we don't delegate any options to the lib's schematics
+    options: {},
   };
 }

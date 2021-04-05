@@ -38,7 +38,6 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
   };
 
   const defaultOptions: SpartacusQualtricsOptions = {
-    configuration: 'b2c',
     project: 'schematics-test',
     lazy: true,
     features: [],

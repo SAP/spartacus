@@ -38,13 +38,13 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      shouldAddFeature(options.features, CLI_TMS_GTM_FEATURE)
+      shouldAddFeature(CLI_TMS_GTM_FEATURE, options.features)
         ? addGtm(options)
         : noop(),
-      shouldAddFeature(options.features, CLI_TMS_AEP_FEATURE)
+      shouldAddFeature(CLI_TMS_AEP_FEATURE, options.features)
         ? addAep(options)
         : noop(),
-      shouldAddFeature(options.features, CLI_PERSONALIZATION_FEATURE)
+      shouldAddFeature(CLI_PERSONALIZATION_FEATURE, options.features)
         ? addPersonalizationFeature(options)
         : noop(),
     ]);

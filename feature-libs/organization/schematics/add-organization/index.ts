@@ -40,21 +40,15 @@ import {
 export function addSpartacusOrganization(
   options: SpartacusOrganizationOptions
 ): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    if (options.configuration === 'b2c') {
-      context.logger.warn(
-        `Please note that the Organization features require a 'b2b' configuration, while you selected the 'b2c' configuration.`
-      );
-    }
-
     return chain([
-      shouldAddFeature(options.features, CLI_ADMINISTRATION_FEATURE)
+      shouldAddFeature(CLI_ADMINISTRATION_FEATURE, options.features)
         ? addAdministrationFeature(options)
         : noop(),
-      shouldAddFeature(options.features, CLI_ORDER_APPROVAL_FEATURE)
+      shouldAddFeature(CLI_ORDER_APPROVAL_FEATURE, options.features)
         ? addOrderApprovalsFeature(options)
         : noop(),
       installPackageJsonDependencies(),
