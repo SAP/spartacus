@@ -214,7 +214,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
     return {
       allowZero: allowZero,
       initialQuantity: initQuantity,
-      disableQuantityActions: this.loading$.pipe(
+      disableQuantityActions$: this.loading$.pipe(
         map((loading) => {
           return loading || this.disableQuantityActions;
         })

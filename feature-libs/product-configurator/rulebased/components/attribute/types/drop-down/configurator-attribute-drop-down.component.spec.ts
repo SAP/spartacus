@@ -154,6 +154,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     expect(component.withQuantity).toBe(true);
   });
 
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
   it('should not allow quantity when service is missing ', () => {
     component['quantityService'] = undefined;
     expect(component.withQuantity).toBe(false);
@@ -163,6 +164,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     expect(component.disableQuantityActions).toBe(false);
   });
 
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
   it('should not allow quantity actions when service is missing ', () => {
     component['quantityService'] = undefined;
     expect(component.disableQuantityActions).toBe(true);

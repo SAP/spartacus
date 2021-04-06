@@ -184,7 +184,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
     return {
       allowZero: !this.productCardOptions?.hideRemoveButton,
       initialQuantity: initialQuantity,
-      disableQuantityActions: mergedLoading,
+      disableQuantityActions$: mergedLoading,
     };
   }
 
