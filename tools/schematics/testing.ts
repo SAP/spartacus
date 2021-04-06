@@ -36,6 +36,8 @@ const commands = [
 ] as const;
 type Command = typeof commands[number];
 
+const buildLibRegEx = new RegExp('build (.*?)/schematics');
+
 let currentVersion: semver.SemVer | null;
 
 function startVerdaccio(): ChildProcess {
@@ -137,34 +139,17 @@ async function executeCommand(command: Command): Promise<void> {
       buildSchematics({ publish: true });
       break;
     case 'build asm/schematics':
-      buildSchematicsAndPublish('yarn build:asm');
-      break;
     case 'build cart/schematics':
-      buildSchematicsAndPublish('yarn build:cart');
-      break;
     case 'build organization/schematics':
-      buildSchematicsAndPublish('yarn build:organization');
-      break;
     case 'build product/schematics':
-      buildSchematicsAndPublish('yarn build:product');
-      break;
     case 'build product-configurator/schematics':
-      buildSchematicsAndPublish('yarn build:product-configurator');
-      break;
     case 'build qualtrics/schematics':
-      buildSchematicsAndPublish('yarn build:qualtrics');
-      break;
     case 'build smartedit/schematics':
-      buildSchematicsAndPublish('yarn build:smartedit');
-      break;
     case 'build storefinder/schematics':
-      buildSchematicsAndPublish('yarn build:storefinder');
-      break;
     case 'build tracking/schematics':
-      buildSchematicsAndPublish('yarn build:tracking');
-      break;
     case 'build user/schematics':
-      buildSchematicsAndPublish('yarn build:user');
+      const lib = buildLibRegEx.exec(command)?.pop();
+      buildSchematicsAndPublish(`yarn build:${lib}`);
       break;
     case 'build all libs':
       buildLibs();
