@@ -1,0 +1,16 @@
+@import '~@spartacus/styles/scss/core';
+
+@import './account/styles/index';
+@import './profile/styles/index';
+
+$skipComponentStyles: () !default;
+$selectors: cx-login, cx-register !default;
+
+@each $selector in $selectors {
+  #{$selector} {
+    // skip selectors if they're added to the $skipComponentStyles list
+    @if (index($skipComponentStyles, $selector) == null) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}
