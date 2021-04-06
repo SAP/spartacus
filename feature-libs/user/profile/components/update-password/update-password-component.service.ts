@@ -73,5 +73,6 @@ export class UpdatePasswordComponentService {
 
   protected onError(_error: Error): void {
     this.busy$.next(false);
+    this.form.reset();
   }
 }
