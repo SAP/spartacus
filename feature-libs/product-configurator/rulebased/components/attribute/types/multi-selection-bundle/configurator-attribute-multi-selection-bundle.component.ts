@@ -20,10 +20,10 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity/configurato
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 interface SelectionValue {
-  name: string | undefined;
-  quantity: number | undefined;
-  selected: boolean | undefined;
-  valueCode: string | undefined;
+  name?: string;
+  quantity?: number;
+  selected?: boolean;
+  valueCode?: string;
 }
 
 @Component({
