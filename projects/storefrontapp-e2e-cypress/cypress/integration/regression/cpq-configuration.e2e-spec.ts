@@ -29,16 +29,6 @@ const VAL_COF_CUPS_500 = '8842';
 const ATTR_COF_MODE = '2933';
 /** Starbucks Mode*/
 const VAL_COF_MODE = '8845';
-/** CONF_COFFEEMACHINE_3000_DESIGN*/
-const GR_CONF_COF_3000_DES = 'CONF_COFFEEMACHINE_3000_DESIGN';
-/** CONF_COFFEEMACHINE_3000_BREW_UNIT*/
-const GR_CONF_COF_3000_BREW_UNIT = 'CONF_COFFEEMACHINE_3000_BREW_UNIT';
-/** CONF_COFFEEMACHINE_3000_MILK */
-const GR_COF_3000_MILK = 'CONF_COFFEEMACHINE_3000_MILK';
-/**Refridge unit */
-const ATTR_REFR_UNIT = '2943';
-/**Refridge unit */
-const VAL_SIZE_UNIT = '8873';
 
 /***************************** */
 /** Configurable Camera Bundle */
@@ -434,6 +424,40 @@ context('CPQ Configuration', () => {
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
 
+      type ovBundleInfo = {
+        name: string;
+        price?: string;
+        quantity?: string;
+      };
+      const ovBundleInfos: ovBundleInfo[] = [
+        {
+          name: 'SanDisk Extreme Pro 128GB SDXC',
+          price: '$100.00',
+          quantity: '1',
+        },
+        {
+          name: 'Canon RF 24-105mm f4L IS USM',
+          price: '$1,500.00',
+          quantity: '1',
+        },
+        {
+          name: 'LowePro Streetline SL 140',
+          price: '$110.00',
+          quantity: '1',
+        },
+      ];
+      configuration.checkAmountOfBundleItems(0, 3);
+
+      ovBundleInfos.forEach((line, bundleItemIndex) => {
+        configuration.checkBundleItemName(0, bundleItemIndex, line.name);
+        configuration.checkBundleItemPrice(0, bundleItemIndex, line.price);
+        configuration.checkBundleItemQuantity(
+          0,
+          bundleItemIndex,
+          line.quantity
+        );
+      });
+
       //We assume the last product in the cart is the one we added
       configuration.clickOnEditConfigurationLink(
         configuration.getNumberOfCartItems() - 1
@@ -480,6 +504,7 @@ context('CPQ Configuration', () => {
       configurationOverview.clickContinueToCartBtnOnOP();
 
       cart.verifyCartNotEmpty();
+
       configuration.clickOnProceedToCheckoutBtnInCart();
       configuration.checkoutB2B();
       configuration.selectOrderByOrderNumberAlias(POWERTOOLS);
