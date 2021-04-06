@@ -4,21 +4,6 @@
     "paths": {
       "@spartacus/setup": ["dist/setup"],
       "@spartacus/setup/ssr": ["dist/setup/ssr"],
-      "@spartacus/asm/assets": ["dist/asm/assets"],
-      "@spartacus/asm/components": ["dist/asm/components"],
-      "@spartacus/asm/core": ["dist/asm/core"],
-      "@spartacus/asm": ["dist/asm"],
-      "@spartacus/asm/occ": ["dist/asm/occ"],
-      "@spartacus/asm/root": ["dist/asm/root"],
-      "@spartacus/cart/import-export/assets": [
-        "dist/cart/import-export/assets"
-      ],
-      "@spartacus/cart/import-export/components": [
-        "dist/cart/import-export/components"
-      ],
-      "@spartacus/cart/import-export/core": ["dist/cart/import-export/core"],
-      "@spartacus/cart/import-export": ["dist/cart/import-export"],
-      "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
       "@spartacus/cart": ["dist/cart"],
       "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
       "@spartacus/cart/saved-cart/components": [
@@ -28,6 +13,12 @@
       "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
       "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
+      "@spartacus/asm/assets": ["dist/asm/assets"],
+      "@spartacus/asm/components": ["dist/asm/components"],
+      "@spartacus/asm/core": ["dist/asm/core"],
+      "@spartacus/asm": ["dist/asm"],
+      "@spartacus/asm/occ": ["dist/asm/occ"],
+      "@spartacus/asm/root": ["dist/asm/root"],
       "@spartacus/organization/administration/assets": [
         "dist/organization/administration/assets"
       ],
