@@ -3,7 +3,7 @@ import { Image } from '@spartacus/core';
 export interface Media {
   /**
    * Identify the “default” image URL which is used in case the srcset is not specificied.
-   * Browsers withotu srcset support will also fallback to this URl.
+   * Browsers without srcset support will also fallback to this URl.
    */
   src: string;
 
