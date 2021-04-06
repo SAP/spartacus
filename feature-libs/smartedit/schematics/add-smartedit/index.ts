@@ -5,24 +5,17 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  getAppModule,
-  getSpartacusSchematicsVersion,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusSmartEditOptions,
   readPackageJson,
+  SPARTACUS_SMARTEDIT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import {
   SMARTEDIT_FEATURE_NAME,
+  SMARTEDIT_FOLDER_NAME,
   SMARTEDIT_MODULE,
   SMARTEDIT_ROOT_MODULE,
-  SPARTACUS_SMARTEDIT,
   SPARTACUS_SMARTEDIT_ASSETS,
   SPARTACUS_SMARTEDIT_ROOT,
 } from '../constants';
@@ -32,21 +25,13 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options.project);
-
-    return chain([
-      addSmartEditFeature(appModulePath, options),
-      addSmartEditPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
-    ]);
+    return chain([addSmartEditFeature(options)]);
   };
 }
 
-function addSmartEditFeature(
-  appModulePath: string,
-  options: SpartacusSmartEditOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
+function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
+  return addLibraryFeature(options, {
+    folderName: SMARTEDIT_FOLDER_NAME,
     name: SMARTEDIT_FEATURE_NAME,
     featureModule: {
       name: SMARTEDIT_MODULE,
@@ -61,16 +46,4 @@ function addSmartEditFeature(
       glob: '**/*',
     },
   });
-}
-
-function addSmartEditPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_SMARTEDIT,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }

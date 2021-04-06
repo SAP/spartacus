@@ -16,7 +16,7 @@ function startVerdaccio(): ChildProcess {
   return res;
 }
 
-function beforeExit() {
+function beforeExit(): void {
   console.log('Setting npm back to npmjs.org');
   execSync(`npm config set @spartacus:registry https://registry.npmjs.org/`);
   if (verdaccioProcess) {
@@ -27,7 +27,7 @@ function beforeExit() {
   }
 }
 
-function publishLibs() {
+function publishLibs(): void {
   if (!currentVersion) {
     currentVersion = semver.parse(
       JSON.parse(fs.readFileSync('projects/core/package.json', 'utf-8')).version
@@ -64,31 +64,64 @@ function publishLibs() {
   });
 }
 
-function buildLibs() {
+function buildLibs(): void {
   execSync('yarn build:libs', { stdio: 'inherit' });
 }
 
-function buildSchematics(options: { publish: boolean } = { publish: false }) {
+function buildSchematics(
+  options: { publish: boolean } = { publish: false }
+): void {
   execSync('yarn build:schematics', { stdio: 'inherit' });
   if (options.publish) {
     publishLibs();
   }
 }
 
-function buildTrackingSchematics() {
+function buildSchematicsAndPublish(buildCmd: string): void {
   buildSchematics();
-  execSync('yarn build:tracking', {
+  execSync(buildCmd, {
     stdio: 'inherit',
   });
   publishLibs();
+}
+
+function testAllSchematics(): void {
+  execSync('yarn --cwd projects/schematics run test', {
+    stdio: 'inherit',
+  });
+
+  [
+    'asm',
+    'cart',
+    'organization',
+    'product',
+    'product-configurator',
+    'qualtrics',
+    'smartedit',
+    'storefinder',
+    'tracking',
+  ].forEach((lib) =>
+    execSync(`yarn --cwd feature-libs/${lib}/schematics run test:schematics`, {
+      stdio: 'inherit',
+    })
+  );
 }
 
 async function executeCommand(
   command:
     | 'publish'
     | 'build projects/schematics'
+    | 'build asm/schematics'
+    | 'build cart/schematics'
+    | 'build organization/schematics'
+    | 'build product/schematics'
+    | 'build product-configurator/schematics'
+    | 'build qualtrics/schematics'
+    | 'build smartedit/schematics'
+    | 'build storefinder/schematics'
     | 'build tracking/schematics'
     | 'build all libs'
+    | 'test all schematics'
 ): Promise<void> {
   switch (command) {
     case 'publish':
@@ -97,11 +130,38 @@ async function executeCommand(
     case 'build projects/schematics':
       buildSchematics({ publish: true });
       break;
+    case 'build asm/schematics':
+      buildSchematicsAndPublish('yarn build:asm');
+      break;
+    case 'build cart/schematics':
+      buildSchematicsAndPublish('yarn build:cart');
+      break;
+    case 'build organization/schematics':
+      buildSchematicsAndPublish('yarn build:organization');
+      break;
+    case 'build product/schematics':
+      buildSchematicsAndPublish('yarn build:product');
+      break;
+    case 'build product-configurator/schematics':
+      buildSchematicsAndPublish('yarn build:product-configurator');
+      break;
+    case 'build qualtrics/schematics':
+      buildSchematicsAndPublish('yarn build:qualtrics');
+      break;
+    case 'build smartedit/schematics':
+      buildSchematicsAndPublish('yarn build:smartedit');
+      break;
+    case 'build storefinder/schematics':
+      buildSchematicsAndPublish('yarn build:storefinder');
+      break;
     case 'build tracking/schematics':
-      buildTrackingSchematics();
+      buildSchematicsAndPublish('yarn build:tracking');
       break;
     case 'build all libs':
       buildLibs();
+      break;
+    case 'test all schematics':
+      testAllSchematics();
       break;
     default:
       const cmd: never = command;
@@ -111,19 +171,28 @@ async function executeCommand(
 
 let verdaccioProcess: ChildProcess | undefined;
 
-async function program() {
+async function program(): Promise<void> {
   verdaccioProcess = startVerdaccio();
   try {
     // Give time for verdaccio to boot up
     console.log('Waiting for verdaccio to boot...');
-    execSync(`sleep 30`);
+    execSync(`sleep 15`);
 
     while (true) {
       const choices = <const>[
         'publish',
         'build projects/schematics',
+        'build asm/schematics',
+        'build cart/schematics',
+        'build organization/schematics',
+        'build product/schematics',
+        'build product-configurator/schematics',
+        'build qualtrics/schematics',
+        'build smartedit/schematics',
+        'build storefinder/schematics',
         'build tracking/schematics',
         'build all libs',
+        'test all schematics',
         'exit',
       ];
       const response: { command: typeof choices[number] } = await prompt({
