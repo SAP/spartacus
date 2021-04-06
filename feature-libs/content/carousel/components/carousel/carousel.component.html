@@ -1,0 +1,30 @@
+<h3 *ngIf="items?.length > 0 && title">{{ title }}</h3>
+
+<cx-carousel-navigation *ngIf="items?.length > 0" [focusConfig]="focusConfig">
+  <!-- 
+    We render the carousel item in a div so that we have an element 
+    that we can use for building a skeleton of the carousel as well as 
+    use prefetching techniques to load the item before navigating.
+  -->
+  <div
+    *ngFor="let data of items; let i = index"
+    class="item"
+    (mouseenter)="prefetch()"
+    (touchstart)="prefetch()"
+    cxIntersect
+    #itemRef="cxIntersect"
+    (intersect)="onIntersect($event, i)"
+  >
+    <ng-container
+      *ngTemplateOutlet="
+        template;
+        context: {
+          index: i,
+          item: isObservable(data) ? (data | async) : data,
+          prefetch: (prefetchCount$ | async) > i || (itemRef.intersect | async),
+          tabindex: (itemRef.intersect | async) ? 0 : -1
+        }
+      "
+    ></ng-container>
+  </div>
+</cx-carousel-navigation>

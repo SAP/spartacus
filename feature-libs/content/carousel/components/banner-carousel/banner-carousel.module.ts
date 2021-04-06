@@ -1,9 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
-import { CarouselModule } from '../../../shared/components/carousel/carousel.module';
-import { MediaModule } from '../../../shared/components/index';
+import { MediaModule, PageComponentModule } from '@spartacus/storefront';
+import { CarouselModule } from '../carousel/carousel.module';
 import { BannerCarouselComponent } from './banner-carousel.component';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { BannerCarouselComponent } from './banner-carousel.component';
     } as CmsConfig),
   ],
   declarations: [BannerCarouselComponent],
-  entryComponents: [BannerCarouselComponent],
   exports: [BannerCarouselComponent],
 })
 export class BannerCarouselModule {}

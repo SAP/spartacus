@@ -72,6 +72,7 @@ import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { ContentFeatureModule } from './features/content-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { ProductFeatureModule } from './features/product-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
@@ -195,6 +196,7 @@ if (environment.cds) {
     JsonLdBuilderModule,
 
     /************************* External features *************************/
+    ContentFeatureModule,
     UserFeatureModule,
     ProductFeatureModule,
     AsmFeatureModule,

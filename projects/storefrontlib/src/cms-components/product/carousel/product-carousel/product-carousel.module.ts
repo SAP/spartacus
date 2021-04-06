@@ -1,12 +1,11 @@
+console.log('old ProductCarouselModule');
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, provideDefaultConfig, UrlModule } from '@spartacus/core';
+import { CarouselModule } from 'projects/storefrontlib/src/shared/components/carousel/carousel.module';
 import { KeyboardFocusModule } from '../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
-import {
-  CarouselModule,
-  MediaModule,
-} from '../../../../shared/components/index';
+import { MediaModule } from '../../../../shared/components/index';
 import { ProductCarouselComponent } from './product-carousel.component';
 
 @NgModule({
@@ -28,7 +27,7 @@ import { ProductCarouselComponent } from './product-carousel.component';
     }),
   ],
   declarations: [ProductCarouselComponent],
-  entryComponents: [ProductCarouselComponent],
-  exports: [ProductCarouselComponent],
+  // entryComponents: [ProductCarouselComponent],
+  // exports: [ProductCarouselComponent],
 })
 export class ProductCarouselModule {}

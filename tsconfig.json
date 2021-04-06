@@ -102,6 +102,13 @@
         "feature-libs/product/pdp/root/public_api"
       ],
 
+      "@spartacus/content/carousel": [
+        "feature-libs/content/carousel/public_api"
+      ],
+      "@spartacus/content/carousel/root": [
+        "feature-libs/content/carousel/root/public_api"
+      ],
+
       "@spartacus/product/cms/carousel": [
         "feature-libs/product/cms/public_api"
       ],
