@@ -63,7 +63,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
    * Verifies whether the configurator type is a bundle based one.
    *
    * @param {OrderEntry} entry - Order entry
-   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'false'
+   * @returns {boolean} - 'true' if the expected configurator type, otherwise 'false'
    */
   isBundleBasedConfigurator(entry: OrderEntry): boolean {
     const configInfos = entry.configurationInfos;
