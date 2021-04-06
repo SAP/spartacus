@@ -5,8 +5,11 @@ import {
   OrderEntry,
   UserIdService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
-import { OrderEntryStatus } from './../../core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+  OrderEntryStatus,
+} from '../../core/model/common-configurator.model';
 
 /**
  * Utilities for generic configuration
@@ -113,8 +116,8 @@ export class CommonConfiguratorUtilsService {
   isAttributeBasedConfigurator(configuratorType: string | undefined): boolean {
     if (configuratorType) {
       return (
-        configuratorType === 'CPQCONFIGURATOR' ||
-        configuratorType === 'TEXTFIELDCONFIGURATOR'
+        configuratorType === ConfiguratorType.VARIANT ||
+        configuratorType === ConfiguratorType.TEXTFIELD
       );
     }
     return false;
@@ -128,7 +131,7 @@ export class CommonConfiguratorUtilsService {
    */
   isBundleBasedConfigurator(configuratorType: string | undefined): boolean {
     if (configuratorType) {
-      return configuratorType === 'CLOUDCPQCONFIGURATOR';
+      return configuratorType === ConfiguratorType.CPQ;
     }
     return false;
   }
