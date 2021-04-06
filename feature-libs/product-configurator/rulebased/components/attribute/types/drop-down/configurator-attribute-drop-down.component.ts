@@ -35,7 +35,7 @@ export class ConfiguratorAttributeDropDownComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  // TODO(#11681): make config a required dependency
+  // TODO(#11681): make quantityService a required dependency
   /**
    * default constructor
    * @param {ConfiguratorAttributeQuantityService} quantityService
