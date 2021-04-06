@@ -6,13 +6,13 @@ import {
   Rule,
   SchematicContext,
   SchematicsException,
-  Tree,
+  Tree
 } from '@angular-devkit/schematics';
 import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
 import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   NodeDependency,
-  NodeDependencyType,
+  NodeDependencyType
 } from '@schematics/angular/utility/dependencies';
 import {
   ANGULAR_HTTP,
@@ -50,30 +50,30 @@ import {
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
   SPARTACUS_TRACKING,
-  SPARTACUS_USER,
+  SPARTACUS_USER
 } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
   createNodePackageInstallationTask,
-  shouldAddFeature,
+  shouldAddFeature
 } from '../shared/utils/lib-utils';
 import {
   addModuleImport,
-  ensureModuleExists,
+  ensureModuleExists
 } from '../shared/utils/new-module-utils';
 import {
   getAngularVersion,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
-  readPackageJson,
+  readPackageJson
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 import {
   getProjectFromWorkspace,
-  getProjectTargets,
+  getProjectTargets
 } from '../shared/utils/workspace-utils';
 import { addSpartacusConfiguration } from './configuration';
 import { setupRouterModule } from './router';

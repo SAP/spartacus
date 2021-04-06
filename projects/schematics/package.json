@@ -14,8 +14,7 @@
   "scripts": {
     "build": "yarn clean && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean": "../../node_modules/.bin/rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
-    "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js",
-    "test:watch": "yarn test --watch"
+    "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
     "@angular/pwa": "^0.1001.0",
