@@ -11,9 +11,8 @@
 @import './item-counter';
 @import './add-to-wishlist';
 @import './save-for-later';
-@import './export-from-cart';
 
 $cart-components-whitelist: cx-mini-cart, cx-add-to-cart, cx-item-counter,
   cx-added-to-cart-dialog, cx-cart-details, cx-cart-item, cx-cart-item-list,
   cx-cart-totals, cx-cart-coupon, cx-applied-coupons, cx-add-to-wishlist,
-  cx-save-for-later, cx-export-from-cart !default;
+  cx-save-for-later !default;
