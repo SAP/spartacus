@@ -83,7 +83,6 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    */
   displayPrice(): boolean {
     return (
-      this.attributeOverview?.valuePrice !== undefined &&
       this.attributeOverview?.valuePrice?.value !== undefined &&
       this.attributeOverview?.valuePrice?.value > 0
     );
