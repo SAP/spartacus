@@ -11,12 +11,12 @@ export const standardUser: AccountData = {
 };
 
 export const myCompanyAdminUser: AccountData = {
-  user: 'linda.wolf@rustic-hw.com',
+  user: 'powertools.admin@ydev.hybris.com',
   registrationData: {
-    firstName: 'Linda',
-    lastName: 'Wolf',
+    firstName: 'Powertools',
+    lastName: 'Admin Test User',
     titleCode: '',
-    password: 'pw4all',
-    email: 'linda.wolf@rustic-hw.com',
+    password: 'Password123.',
+    email: 'powertools.admin@ydev.hybris.com',
   },
 };
