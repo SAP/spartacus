@@ -95,6 +95,8 @@ export class ConfiguratorAttributeInputFieldComponent
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 }
