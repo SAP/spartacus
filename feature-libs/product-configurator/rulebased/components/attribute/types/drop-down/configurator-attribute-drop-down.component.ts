@@ -116,7 +116,6 @@ export class ConfiguratorAttributeDropDownComponent
   /**
    *  Extract corresponding quantity parameters
    *
-   * @param {boolean} disableQuantityActions - Disable quantity actions
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
