@@ -13,6 +13,7 @@ import {
   RemoveChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import ts from 'typescript';
 import { COMPONENT_DEPRECATION_DATA } from '../../migrations/test/component-deprecations/component-deprecations';
@@ -297,7 +298,7 @@ const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
 describe('File utils', () => {
   let appTree: UnitTestTree;
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };

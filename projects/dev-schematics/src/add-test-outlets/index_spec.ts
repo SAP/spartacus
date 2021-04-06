@@ -6,6 +6,7 @@ import {
   Schema as ApplicationOptions,
   Style,
 } from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import { TEST_CONFIG_MODULE, TEST_OUTLET_MODULE } from '@spartacus/schematics';
 import path from 'path';
 import { Schema as SpartacusOptions } from '../ng-add/schema';
@@ -17,7 +18,7 @@ describe('Spartacus Schematics: ng-add', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };

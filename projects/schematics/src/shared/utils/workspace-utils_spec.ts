@@ -10,6 +10,7 @@ import {
   ProjectType,
   WorkspaceProject,
 } from '@schematics/angular/utility/workspace-models';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import {
@@ -24,7 +25,7 @@ const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
 describe('Workspace utils', () => {
   let appTree: UnitTestTree;
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };

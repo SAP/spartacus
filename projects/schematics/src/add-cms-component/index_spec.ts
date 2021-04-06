@@ -7,6 +7,7 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { addSymbolToNgModuleMetadata } from '@schematics/angular/utility/ast-utils';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import {
@@ -81,7 +82,7 @@ describe('add-cms-component', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };

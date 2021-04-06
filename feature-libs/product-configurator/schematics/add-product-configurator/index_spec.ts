@@ -6,6 +6,7 @@ import {
   Schema as ApplicationOptions,
   Style,
 } from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
   LibraryOptions as SpartacusProductConfiguratorOptions,
@@ -23,7 +24,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
