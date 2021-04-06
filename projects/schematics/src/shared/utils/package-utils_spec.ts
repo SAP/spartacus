@@ -6,6 +6,7 @@ import {
   Schema as ApplicationOptions,
   Style,
 } from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { ANGULAR_CORE, UTF_8 } from '../constants';
 import {
@@ -21,7 +22,7 @@ const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
 describe('Package utils', () => {
   let appTree: UnitTestTree;
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
