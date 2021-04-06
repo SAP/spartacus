@@ -82,13 +82,13 @@ export class ConfiguratorAttributeCheckBoxListComponent
     }
   }
 
-  get withQuantityOnAttributeLevel() {
+  get withQuantityOnAttributeLevel(): boolean {
     return (
       this.attribute.dataType ===
       Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
     );
   }
-  get withQuantity() {
+  get withQuantity(): boolean {
     return (
       this.quantityService?.withQuantity(
         this.attribute.dataType,
@@ -97,7 +97,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
     );
   }
 
-  get disableQuantityActions() {
+  get disableQuantityActions(): boolean {
     return (
       !this.quantityService ||
       (this.attribute.dataType ===
@@ -107,7 +107,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
     );
   }
 
-  get allowZeroValueQuantity() {
+  get allowZeroValueQuantity(): boolean {
     const selectedValues = this.attribute.values.filter(
       (value) => value.selected
     );
