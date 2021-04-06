@@ -57,7 +57,7 @@ export class ConfiguratorAttributeQuantityComponent
     );
   }
 
-  subscribeToQuantityChange() {
+  protected subscribeToQuantityChange(): Subscription {
     return this.quantity.valueChanges
       .pipe(
         debounce(() =>
@@ -68,7 +68,7 @@ export class ConfiguratorAttributeQuantityComponent
       .subscribe(() => this.onChangeQuantity());
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.optionsChangeSub.unsubscribe();
     this.quantityChangeSub.unsubscribe();
   }

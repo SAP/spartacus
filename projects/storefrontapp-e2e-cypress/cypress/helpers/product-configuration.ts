@@ -486,6 +486,7 @@ export function selectProductCard(
   selectAttribute(attributeName, uiType, valueName);
   checkValueSelected(uiType, attributeName, valueName);
 }
+
 /**
  * converts the given card/bundle type to the corresponding ui type
  * @param cardType card type
@@ -1410,6 +1411,7 @@ export function login(email: string, password: string, name: string): void {
 export function waitForProductCardsLoad(expectedLength: number) {
   cy.get('.cx-product-card').should('have.length', expectedLength);
 }
+
 /**
  * Check for global error message to be shown
  */
@@ -1447,6 +1449,7 @@ export function closeWarningMessages() {
 
 /**
  * Get number of cart items
+ *
  * @returns number of cart items
  */
 export function getNumberOfCartItems(): number {
@@ -1455,4 +1458,118 @@ export function getNumberOfCartItems(): number {
     numberOfCartItems = itemRows.length;
   });
   return numberOfCartItems;
+}
+
+/**
+ * Search for a corresponding bundle item.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @returns {Chainable<JQuery<HTMLElement>>} - Corresponding bundle item
+ */
+function findBundleItem(cartItemIndex: number): Chainable<JQuery<HTMLElement>> {
+  return cy
+    .get('cx-cart-item-list .cx-item-list-row')
+    .eq(cartItemIndex)
+    .find('cx-configurator-cart-entry-bundle-info');
+}
+
+/**
+ * Verifies the name of bundle item.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} bundleItemIndex - Index of bundle item
+ * @param {string} name - Expected name of bundle item
+ */
+export function checkBundleItemName(
+  cartItemIndex: number,
+  bundleItemIndex: number,
+  name: string
+) {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.get('.cx-item-info')
+      .eq(bundleItemIndex)
+      .within(() => {
+        cy.get('.cx-item-name').should('contain', name);
+      });
+  });
+}
+
+/**
+ * Verifies the price of bundle item.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} bundleItemIndex - Index of bundle item
+ * @param {string} price - Expected price of bundle item
+ */
+export function checkBundleItemPrice(
+  cartItemIndex: number,
+  bundleItemIndex: number,
+  price: string
+) {
+  findBundleItem(cartItemIndex).within(() => {
+    if (price) {
+      cy.get('.cx-item-info')
+        .eq(bundleItemIndex)
+        .within(() => {
+          cy.get('.cx-item-price .cx-item').should('contain', price);
+        });
+    }
+  });
+}
+
+/**
+ * Verifies the quantity of bundle item.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} bundleInfoIndex - Index of bundle item
+ * @param {string} quantity - Expected quantity of bundle item
+ */
+export function checkBundleItemQuantity(
+  cartItemIndex: number,
+  bundleInfoIndex: number,
+  quantity: string
+) {
+  findBundleItem(cartItemIndex).within(() => {
+    if (quantity) {
+      cy.get('.cx-item-info')
+        .eq(bundleInfoIndex)
+        .within(() => {
+          cy.get('.cx-item-quantity .cx-item').should('contain', quantity);
+        });
+    }
+  });
+}
+
+/**
+ * Toggle bundle items via 'show' or 'hide' link
+ *
+ * @param {string} linkName - Name of the toggled link
+ */
+function toggleBundleItems(linkName: string) {
+  cy.get('.cx-toggle-hide-items')
+    .should('contain', linkName)
+    .click()
+    .then(() => {
+      let expectedLinkName = 'hide';
+      if (linkName !== 'show') {
+        expectedLinkName = linkName;
+      }
+      cy.get('.cx-toggle-hide-items').should('contain', expectedLinkName);
+    });
+}
+
+/**
+ * Verifies the amount of bundle items for a certain cart item.
+ *
+ * @param {number} cartItemIndex - Index of cart item
+ * @param {number} itemsAmount - Expected amount of bundle items
+ */
+export function checkAmountOfBundleItems(
+  cartItemIndex: number,
+  itemsAmount: number
+) {
+  findBundleItem(cartItemIndex).within(() => {
+    cy.get('.cx-number-items').should('contain', itemsAmount);
+    toggleBundleItems('show');
+  });
 }

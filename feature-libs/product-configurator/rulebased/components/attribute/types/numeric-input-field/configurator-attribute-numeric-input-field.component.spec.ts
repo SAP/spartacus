@@ -14,7 +14,6 @@ import {
   ConfiguratorUISettings,
   DefaultConfiguratorUISettings,
 } from '../../../config/configurator-ui-settings';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 
 @Pipe({
@@ -62,7 +61,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         ],
         imports: [ReactiveFormsModule],
         providers: [
-          ConfiguratorAttributeBaseComponent,
           { provide: LanguageService, useValue: mockLanguageService },
           {
             provide: ConfiguratorUISettings,
