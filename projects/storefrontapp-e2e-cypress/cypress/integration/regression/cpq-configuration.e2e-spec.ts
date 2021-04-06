@@ -4,9 +4,9 @@ import * as configurationOverview from '../../helpers/product-configuration-over
 import * as productSearch from '../../helpers/product-search';
 
 const POWERTOOLS = 'powertools-spa';
-const EMAIL = 'cpq08@sap.com';
+const EMAIL = 'cpq03@sap.com';
 const PASSWORD = 'welcome';
-const CPQ_USER = 'cpq08';
+const CPQ_USER = 'cpq03';
 
 // UI types
 const RADGRP = 'radioGroup';
