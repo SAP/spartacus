@@ -4,14 +4,14 @@ import { addModuleImport } from '../shared/utils/new-module-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
-/** Migration that ensures that we have correct RouterModule.forRoot set */
+/** Migration that ensures that we have correct Store modules set */
 export function setupStoreModules(project: string): Rule {
   return (tree: Tree): Tree => {
     const { buildPaths } = getProjectTsConfigPaths(tree, project);
 
     if (!buildPaths.length) {
       throw new SchematicsException(
-        'Could not find any tsconfig file. Cannot set RouterModule.'
+        'Could not find any tsconfig file. Cannot set Store modules.'
       );
     }
 
