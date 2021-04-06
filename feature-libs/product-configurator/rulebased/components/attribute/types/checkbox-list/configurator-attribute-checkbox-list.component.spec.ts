@@ -7,10 +7,15 @@ import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configura
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
+class MockQuantityService {
+  withQuantity(dataType: Configurator.DataType): boolean {
+    return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+  }
+}
 
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
@@ -23,11 +28,14 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         declarations: [ConfiguratorAttributeCheckBoxListComponent],
         imports: [ReactiveFormsModule, NgSelectModule],
         providers: [
-          ConfiguratorAttributeBaseComponent,
           ConfiguratorStorefrontUtilsService,
           {
             provide: ConfiguratorGroupsService,
             useClass: MockGroupService,
+          },
+          {
+            provide: ConfiguratorAttributeQuantityService,
+            useClass: MockQuantityService,
           },
         ],
       })
@@ -109,7 +117,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
     spyOn(component.selectionChange, 'emit').and.callThrough();
 
-    component.onHandleAttributeQuantity(quantity);
+    component['onHandleAttributeQuantity'](quantity);
 
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
       jasmine.objectContaining({
@@ -160,22 +168,16 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   });
 
   it('should call onHandleAttributeQuantity of event onChangeQuantity', () => {
-    spyOn(component, 'onHandleAttributeQuantity');
-
+    spyOn(component.selectionChange, 'emit').and.callThrough();
     const quantity = { quantity: 2 };
-
     component.onChangeQuantity(quantity);
-
-    expect(component.onHandleAttributeQuantity).toHaveBeenCalled();
+    expect(component.selectionChange.emit).toHaveBeenCalled();
   });
 
   it('should call onSelect of event onChangeQuantity', () => {
     spyOn(component, 'onSelect');
-
     const quantity = { quantity: 0 };
-
     component.onChangeQuantity(quantity);
-
     expect(component.onSelect).toHaveBeenCalled();
   });
 

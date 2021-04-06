@@ -37,9 +37,10 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  // TODO(#11681): make config a required dependency
+  // TODO(#11681): make quantityService a required dependency and remove deprected constructor
   /**
    * default constructor
+   * @param {ConfiguratorStorefrontUtilsService} configUtilsService
    * @param {ConfiguratorAttributeQuantityService} quantityService
    */
   constructor(
@@ -61,10 +62,8 @@ export class ConfiguratorAttributeCheckBoxListComponent
     super();
   }
 
-  ngOnInit() {
-    const selectedValues = this.attribute.values.filter(
-      (value) => value.selected
-    );
+  ngOnInit(): void {
+    const disabled = !this.allowZeroValueQuantity;
 
     for (const value of this.attribute.values) {
       let attributeCheckBoxForm;
@@ -72,8 +71,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
       if (value.selected === true) {
         attributeCheckBoxForm = new FormControl({
           value: true,
-          disabled:
-            this.attribute.required && selectedValues.length < 2 ? true : false,
+          disabled: disabled,
         });
       } else {
         attributeCheckBoxForm = new FormControl(false);
@@ -82,13 +80,13 @@ export class ConfiguratorAttributeCheckBoxListComponent
     }
   }
 
-  get withQuantityOnAttributeLevel() {
+  get withQuantityOnAttributeLevel(): boolean {
     return (
       this.attribute.dataType ===
       Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
     );
   }
-  get withQuantity() {
+  get withQuantity(): boolean {
     return (
       this.quantityService?.withQuantity(
         this.attribute.dataType,
@@ -97,7 +95,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
     );
   }
 
-  get disableQuantityActions() {
+  get disableQuantityActions(): boolean {
     return (
       !this.quantityService ||
       (this.attribute.dataType ===
@@ -107,12 +105,11 @@ export class ConfiguratorAttributeCheckBoxListComponent
     );
   }
 
-  get allowZeroValueQuantity() {
-    const selectedValues = this.attribute.values.filter(
-      (value) => value.selected
-    );
-
+  get allowZeroValueQuantity(): boolean {
     if (this.attribute.required) {
+      const selectedValues = this.attribute.values.filter(
+        (value) => value.selected
+      );
       return selectedValues.length > 1;
     }
 
@@ -137,7 +134,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
     this.selectionChange.emit(event);
   }
 
-  onHandleAttributeQuantity(quantity): void {
+  protected onHandleAttributeQuantity(quantity): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
