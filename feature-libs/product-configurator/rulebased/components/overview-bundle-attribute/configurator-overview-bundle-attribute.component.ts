@@ -71,7 +71,8 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    */
   displayQuantity(): boolean {
     return (
-      this.attributeOverview?.quantity && this.attributeOverview?.quantity > 0
+      this.attributeOverview?.quantity !== undefined &&
+      this.attributeOverview?.quantity > 0
     );
   }
 
@@ -82,7 +83,8 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    */
   displayPrice(): boolean {
     return (
-      this.attributeOverview?.valuePrice &&
+      this.attributeOverview?.valuePrice !== undefined &&
+      this.attributeOverview?.valuePrice?.value !== undefined &&
       this.attributeOverview?.valuePrice?.value > 0
     );
   }
