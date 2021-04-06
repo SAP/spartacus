@@ -16,7 +16,7 @@ import { CLI_BULK_PRICING_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const bulkPricingModulePath =
-  'src/app/spartacus/features/product/bulk-pricing-feature.module.ts';
+  'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus BulkPricing schematics: ng-add', () => {
