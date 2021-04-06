@@ -418,7 +418,7 @@ context('CPQ Configuration', () => {
     });
   });
 
-  describe.only('Configuration Process', () => {
+  describe('Configuration Process', () => {
     it('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it, checkout and order', () => {
       configuration.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.clickOnAddToCartBtnOnPD();
