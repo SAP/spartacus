@@ -5,6 +5,37 @@ import glob from 'glob';
 import path from 'path';
 import semver from 'semver';
 
+const featureLibsFolders: string[] = [
+  'asm',
+  'cart',
+  'organization',
+  'product',
+  'product-configurator',
+  'qualtrics',
+  'smartedit',
+  'storefinder',
+  'tracking',
+  'user',
+];
+const commands = [
+  'publish',
+  'build projects/schematics',
+  'build asm/schematics',
+  'build cart/schematics',
+  'build organization/schematics',
+  'build product/schematics',
+  'build product-configurator/schematics',
+  'build qualtrics/schematics',
+  'build smartedit/schematics',
+  'build storefinder/schematics',
+  'build tracking/schematics',
+  'build user/schematics',
+  'build all libs',
+  'test all schematics',
+  'exit',
+] as const;
+type Command = typeof commands[number];
+
 let currentVersion: semver.SemVer | null;
 
 function startVerdaccio(): ChildProcess {
@@ -90,41 +121,14 @@ function testAllSchematics(): void {
     stdio: 'inherit',
   });
 
-  [
-    'asm',
-    'cart',
-    'organization',
-    'product',
-    'product-configurator',
-    'qualtrics',
-    'smartedit',
-    'storefinder',
-    'tracking',
-    'user',
-  ].forEach((lib) =>
+  featureLibsFolders.forEach((lib) =>
     execSync(`yarn --cwd feature-libs/${lib}/schematics run test:schematics`, {
       stdio: 'inherit',
     })
   );
 }
 
-async function executeCommand(
-  command:
-    | 'publish'
-    | 'build projects/schematics'
-    | 'build asm/schematics'
-    | 'build cart/schematics'
-    | 'build organization/schematics'
-    | 'build product/schematics'
-    | 'build product-configurator/schematics'
-    | 'build qualtrics/schematics'
-    | 'build smartedit/schematics'
-    | 'build storefinder/schematics'
-    | 'build tracking/schematics'
-    | 'build user/schematics'
-    | 'build all libs'
-    | 'test all schematics'
-): Promise<void> {
+async function executeCommand(command: Command): Promise<void> {
   switch (command) {
     case 'publish':
       publishLibs();
@@ -168,9 +172,9 @@ async function executeCommand(
     case 'test all schematics':
       testAllSchematics();
       break;
-    default:
-      const cmd: never = command;
-      throw new Error(`Command ${cmd} not covered!`);
+    case 'exit':
+      beforeExit();
+      process.exit();
   }
 }
 
@@ -184,36 +188,14 @@ async function program(): Promise<void> {
     execSync(`sleep 15`);
 
     while (true) {
-      const choices = <const>[
-        'publish',
-        'build projects/schematics',
-        'build asm/schematics',
-        'build cart/schematics',
-        'build organization/schematics',
-        'build product/schematics',
-        'build product-configurator/schematics',
-        'build qualtrics/schematics',
-        'build smartedit/schematics',
-        'build storefinder/schematics',
-        'build tracking/schematics',
-        'build user/schematics',
-        'build all libs',
-        'test all schematics',
-        'exit',
-      ];
-      const response: { command: typeof choices[number] } = await prompt({
+      const response: { command: typeof commands[number] } = await prompt({
         name: 'command',
         type: 'select',
         message: 'What do you want to do next?',
-        choices: [...choices],
+        choices: [...commands],
       });
 
-      if (response.command === 'exit') {
-        beforeExit();
-        process.exit();
-      } else {
-        executeCommand(response.command);
-      }
+      executeCommand(response.command);
     }
   } catch (e) {
     console.log(e);
