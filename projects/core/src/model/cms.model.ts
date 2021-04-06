@@ -107,6 +107,7 @@ export interface CmsProductCarouselComponent extends CmsComponent {
   container?: string;
   popup?: string;
   scroll?: string;
+  uid?: string;
 }
 
 export interface CmsProductReferencesComponent extends CmsComponent {

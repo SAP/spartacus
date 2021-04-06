@@ -17,7 +17,6 @@ import {
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
-  BannerCarouselModule,
   BannerModule,
   BreadcrumbModule,
   CartComponentModule,
@@ -46,15 +45,13 @@ import {
   OrderReturnModule,
   PageEventModule,
   PaymentMethodsModule,
-  ProductCarouselModule,
+  // ProductCarouselModule,
   ProductDetailsPageModule,
   ProductFacetNavigationModule,
-  ProductImagesModule,
   ProductIntroModule,
   ProductListingPageModule,
   ProductListModule,
   ProductPageEventModule,
-  ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
   ProductVariantsModule,
@@ -75,7 +72,9 @@ import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { ContentFeatureModule } from './features/content-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
+import { ProductFeatureModule } from './features/product-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
@@ -115,7 +114,7 @@ if (environment.cds) {
     BannerModule,
     CmsParagraphModule,
     TabParagraphContainerModule,
-    BannerCarouselModule,
+    // BannerCarouselModule,
     CategoryNavigationModule,
     NavigationModule,
     FooterNavigationModule,
@@ -150,9 +149,9 @@ if (environment.cds) {
     SearchBoxModule,
     ProductFacetNavigationModule,
     ProductTabsModule,
-    ProductCarouselModule,
-    ProductReferencesModule,
-    ProductImagesModule,
+    // ProductCarouselModule,
+    // ProductReferencesModule,
+    // ProductImagesModule,
     ProductSummaryModule,
     ProductVariantsModule,
     ProductIntroModule,
@@ -197,7 +196,9 @@ if (environment.cds) {
     JsonLdBuilderModule,
 
     /************************* External features *************************/
+    ContentFeatureModule,
     UserFeatureModule,
+    ProductFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,

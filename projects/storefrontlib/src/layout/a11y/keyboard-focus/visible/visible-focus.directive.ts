@@ -16,6 +16,7 @@ import { VisibleFocusConfig } from '../keyboard-focus.model';
  */
 @Directive() // selector: '[cxVisibleFocus]'
 export class VisibleFocusDirective extends BaseFocusDirective {
+  protected isVisible = false;
   protected defaultConfig: VisibleFocusConfig = {
     disableMouseFocus: true,
   };
@@ -50,18 +51,26 @@ export class VisibleFocusDirective extends BaseFocusDirective {
    * are used by mouse users to fill a form or interact with the OS or browser.
    */
   protected isNavigating(event: KeyboardEvent): boolean {
-    // when the cmd or ctrl keys are used, the user doesn't navigate the storefront
-    if (event.metaKey) {
-      return false;
-    }
     // when the tab key is used, users are for navigating away from the current (form) element
     if (event.code === 'Tab') {
-      return true;
+      this.isVisible = true;
     }
-    // If the user fill in a form, we don't considering it part of storefront navigation.
-    if (['INPUT', 'TEXTAREA'].includes((event.target as HTMLElement).tagName)) {
-      return false;
+    // when the cmd/ctrl, shift or option keys are used
+    // the user doesn't navigate the storefront
+    else if (
+      !this.isVisible &&
+      (event.metaKey || event.shiftKey || event.altKey)
+    ) {
+      this.isVisible = false;
+    } else if (
+      ['INPUT', 'TEXTAREA'].includes((event.target as HTMLElement).tagName)
+    ) {
+      // If the user fill in a form, we don't considering it part of storefront navigation.
+      this.isVisible = false;
+    } else {
+      this.isVisible = true;
     }
-    return true;
+
+    return this.isVisible;
   }
 }

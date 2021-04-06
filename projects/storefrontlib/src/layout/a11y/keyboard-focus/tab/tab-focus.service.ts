@@ -13,7 +13,7 @@ export class TabFocusService extends AutoFocusService {
     host: HTMLElement,
     config: TabFocusConfig,
     increment: MOVE_FOCUS,
-    event: KeyboardEvent
+    event?: KeyboardEvent
   ): void {
     if (config?.tab) {
       const next =
@@ -21,10 +21,11 @@ export class TabFocusService extends AutoFocusService {
           ? this.findNextScrollable(host, config, increment)
           : this.findNext(host, config, increment);
 
+      console.log('next', next);
       next?.focus();
 
-      event.preventDefault();
-      event.stopPropagation();
+      event?.preventDefault();
+      event?.stopPropagation();
     }
   }
 

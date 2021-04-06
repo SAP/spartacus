@@ -1,0 +1,39 @@
+<button
+  *ngIf="(navigation$ | async)?.previous as previousButton"
+  class="previous"
+  (click)="handlePrevious()"
+  [disabled]="previousButton.disabled"
+  aria-label="Press to see previous slides"
+>
+  <cx-icon [type]="previousButton.icon"></cx-icon>
+</button>
+
+<cx-carousel-panel [cxFocus]="focusConfig" #focusRef="cxFocus">
+  <ng-content></ng-content>
+</cx-carousel-panel>
+
+<button
+  *ngIf="(navigation$ | async)?.next as nextButton"
+  class="next"
+  (mouseenter)="handlePrefetch()"
+  (touchstart)="handlePrefetch()"
+  (focus)="handlePrefetch()"
+  (click)="handleNext($event)"
+  [disabled]="nextButton.disabled"
+  aria-label="Press to see the next slides"
+>
+  <cx-icon [type]="nextButton.icon"></cx-icon>
+</button>
+
+<div *ngIf="(navigation$ | async)?.indicators as indicators" class="indicators">
+  <button
+    *ngFor="let indicator of indicators; let i = index"
+    (click)="handleIndicator(indicator.position)"
+    [class.selected]="indicator.selected"
+    [disabled]="indicator.selected"
+    tabindex="-1"
+    (mouseenter)="handlePrefetch(i)"
+    (touchstart)="handlePrefetch(i)"
+  ></button>
+  <!-- [cxFocus]="{ key: i + 1, group: focusConfig?.group }" -->
+</div>

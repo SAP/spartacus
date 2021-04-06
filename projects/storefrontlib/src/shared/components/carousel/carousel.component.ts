@@ -1,15 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   Input,
-  isDevMode,
-  OnInit,
   TemplateRef,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { FocusConfig } from '../../../layout/a11y/keyboard-focus/keyboard-focus.model';
+import { CarouselLoaderService } from './carousel-loader.service';
+import { CarouselNavigationService } from './carousel-navigation/carousel-navigation.service';
 import { CarouselService } from './carousel.service';
 
 /**
@@ -31,10 +29,17 @@ import { CarouselService } from './carousel.service';
   selector: 'cx-carousel',
   templateUrl: './carousel.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [CarouselNavigationService, CarouselLoaderService],
 })
-export class CarouselComponent implements OnInit {
+export class CarouselComponent<T = Observable<unknown>> {
+  constructor(
+    protected service: CarouselService,
+    protected navigationService: CarouselNavigationService,
+    protected carouselLoaderService: CarouselLoaderService
+  ) {}
+
   /**
-   * The title is rendered as the carousel heading.
+   * The (optional) title is rendered as the carousel heading.
    */
   @Input() title: string;
 
@@ -42,52 +47,68 @@ export class CarouselComponent implements OnInit {
    * The items$ represent the carousel items. The items$ are
    * observables so that the items can be loaded on demand.
    */
-  items: Observable<any>[];
+  items: T[];
+
   @Input('items')
-  set setItems(inputItems: Observable<any>[]) {
-    this.items = inputItems;
-    //Reset slider when changing products
-    this.activeSlide = 0;
+  set setItems(value: T[]) {
+    if (value) {
+      this.items = value;
+      this.navigationService.setItemCount(this.items.length);
+    }
   }
 
   /**
    * The template is rendered for each item, so that the actual
-   * view can be given by the compoent that uses the `CarouselComponent`.
+   * view can be given by the component that uses the `CarouselComponent`.
    */
   @Input() template: TemplateRef<any>;
 
   /**
-   * Specifies the minimum size of the carousel item, either in px or %.
-   * This value is used for the calculation of numbers per carousel, so that
-   * the number of carousel items is dynamic. The calculation uses the `itemWidth`
-   * and the host element `clientWidth`, so that the carousel is reusable in
-   * different layouts (for example in a 50% grid).
+   * Provides a configuration to add accessibility control to the carousel.
+   *
+   * The configuration is applied to the inner carousel-panel and is used to control
+   * the focus on the nested items.
+   *
+   * The default configuration applies focus on scroll for the inner scrollable carousel panel.
+   *
+   * ```ts
+   * { focusOnScroll: true }
+   * ```
    */
-  @Input() itemWidth = '300px';
+
+  @Input() focusConfig: FocusConfig = { focusOnScroll: true };
 
   /**
-   * Indicates whether the visual indicators are used.
+   * Maintains the prefetched carousel items.
    */
-  @Input() hideIndicators = false;
+  prefetchCount$ = this.carouselLoaderService.prefetchCount$;
 
-  @Input() indicatorIcon = ICON_TYPE.CIRCLE;
-  @Input() previousIcon = ICON_TYPE.CARET_LEFT;
-  @Input() nextIcon = ICON_TYPE.CARET_RIGHT;
+  /**
+   * Will calculate the prefetched carousel item(s) for the next slide.
+   *
+   * The calculated prefetchCount is passed to the item template. so that
+   * the template can decide whether to lazy load the items based on
+   * the prefetch flag, or load them regardless.
+   */
+  prefetch(factor = 1): void {
+    this.carouselLoaderService.prefetch(factor);
+  }
 
-  activeSlide: number;
-  size$: Observable<number>;
+  /**
+   * Maintains an subject with an array of visible item refs (index).
+   *
+   * The intersected elements are listed in the visible subject.
+   */
+  onIntersect(intersected: boolean, refIndex: number): void {
+    this.carouselLoaderService.setVisibility(refIndex, intersected);
+  }
 
-  constructor(protected el: ElementRef, protected service: CarouselService) {}
-
-  ngOnInit() {
-    if (!this.template && isDevMode()) {
-      console.error(
-        'No template reference provided to render the carousel items for the `cx-carousel`'
-      );
-      return;
-    }
-    this.size$ = this.service
-      .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
-      .pipe(tap(() => (this.activeSlide = 0)));
+  /**
+   * Indicates whether the given item is an observable.
+   *
+   * @deprecated this is used temporarily to distinguish streams from objects.
+   */
+  isObservable(item: T): boolean {
+    return item instanceof Observable;
   }
 }

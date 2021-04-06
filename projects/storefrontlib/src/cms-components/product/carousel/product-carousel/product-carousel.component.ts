@@ -1,12 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import {
-  CmsProductCarouselComponent as model,
+  CmsProductCarouselComponent,
   Product,
   ProductScope,
   ProductService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -17,14 +17,21 @@ import { CmsComponentData } from '../../../../cms-structure/page/model/cms-compo
 export class ProductCarouselComponent {
   protected readonly PRODUCT_SCOPE = ProductScope.LIST;
 
-  private componentData$: Observable<model> = this.componentData.data$.pipe(
-    filter(Boolean)
-  );
+  protected readonly componentData$: Observable<CmsProductCarouselComponent> = this
+    .componentData
+    ? this.componentData.data$.pipe(filter((data) => Boolean(data)))
+    : of();
+
+  protected products: Map<string, Observable<Product>> = new Map();
+  protected loadState: Map<string, boolean> = new Map();
+
+  /** A unique key for the focusable group  */
+  focusGroup: string | undefined;
 
   /**
    * returns an Observable string for the title.
    */
-  title$: Observable<string> = this.componentData$.pipe(
+  title$: Observable<string | undefined> = this.componentData$.pipe(
     map((data) => data.title)
   );
 
@@ -33,15 +40,59 @@ export class ProductCarouselComponent {
    * the component UI could consider to lazy load the UI components when they're
    * in the viewpoint.
    */
-  items$: Observable<Observable<Product>[]> = this.componentData$.pipe(
+  items$: Observable<string[]> = this.componentData$.pipe(
+    tap((data) => (this.focusGroup = data.uid)),
     map((data) => data.productCodes?.trim().split(' ') ?? []),
-    map((codes) =>
-      codes.map((code) => this.productService.get(code, this.PRODUCT_SCOPE))
-    )
+    // TODO: consider making the default dynamic
+    startWith(['', '', '', ''])
   );
 
   constructor(
-    protected componentData: CmsComponentData<model>,
+    @Optional()
+    protected componentData: CmsComponentData<CmsProductCarouselComponent>,
     protected productService: ProductService
   ) {}
+
+  getProduct(code: string, prefetch: boolean): Observable<Product> | undefined {
+    if (!this.loadState.get(code) && prefetch) {
+      // we must update the
+      this.products.set(
+        code,
+        this.productService.get(code, this.PRODUCT_SCOPE)
+      );
+    } else {
+      this.products.set(code, this.preload(code));
+    }
+
+    return this.products.get(code);
+  }
+
+  /**
+   * We prefer to preload the product, if available.
+   */
+  protected preload(code: string): Observable<Product> {
+    return this.productService.isSuccess(code, this.PRODUCT_SCOPE).pipe(
+      take(1),
+      switchMap((isLoaded) => {
+        if (isLoaded) {
+          // update load state
+          this.loadState.set(code, true);
+          return this.productService
+            .get(code, this.PRODUCT_SCOPE)
+            .pipe(startWith(this.getMock(code)));
+        } else {
+          return of(this.getMock(code));
+        }
+      })
+    );
+  }
+
+  protected getMock(code: string): Product {
+    return { code };
+  }
+
+  hasProduct(product: Product): boolean {
+    const { code, ...props } = product;
+    return Object.keys(props).length > 0;
+  }
 }

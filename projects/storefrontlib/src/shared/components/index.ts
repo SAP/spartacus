@@ -1,6 +1,6 @@
 export * from './anonymous-consents-dialog/index';
 export * from './card/index';
-export * from './carousel/index';
+// export * from './carousel/index';
 export * from './form/index';
 export * from './generic-link/index';
 export * from './item-counter/index';
