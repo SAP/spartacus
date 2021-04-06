@@ -87,7 +87,7 @@ function takeOneDisableQtyObs(
   return (
     component
       .extractQuantityParameters()
-      .disableQuantityActions?.pipe(take(1)) ?? EMPTY
+      .disableQuantityActions$?.pipe(take(1)) ?? EMPTY
   );
 }
 
@@ -511,7 +511,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const qtyParams = component.extractQuantityParameters();
       expect(qtyParams.allowZero).toBe(true);
       expect(qtyParams.initialQuantity?.quantity).toBe(5);
-      expect(qtyParams.disableQuantityActions).toBeDefined();
+      expect(qtyParams.disableQuantityActions$).toBeDefined();
     });
 
     it('should disable stepper when loading', () => {
