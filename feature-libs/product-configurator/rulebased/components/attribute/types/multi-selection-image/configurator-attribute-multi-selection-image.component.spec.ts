@@ -6,7 +6,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 
 class MockGroupService {}
@@ -32,7 +31,6 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
         ],
         imports: [ReactiveFormsModule, NgSelectModule],
         providers: [
-          ConfiguratorAttributeBaseComponent,
           ConfiguratorStorefrontUtilsService,
           {
             provide: ConfiguratorGroupsService,

@@ -10,7 +10,6 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 
 @Component({
@@ -75,7 +74,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           RouterTestingModule,
           UrlTestingModule,
         ],
-        providers: [ConfiguratorAttributeBaseComponent],
       })
         .overrideComponent(
           ConfiguratorAttributeSingleSelectionBundleDropdownComponent,

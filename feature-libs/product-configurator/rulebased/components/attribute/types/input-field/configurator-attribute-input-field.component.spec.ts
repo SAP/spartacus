@@ -14,7 +14,6 @@ import {
   ConfiguratorUISettings,
   DefaultConfiguratorUISettings,
 } from '../../../config/configurator-ui-settings';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
 describe('ConfigAttributeInputFieldComponent', () => {
@@ -32,7 +31,6 @@ describe('ConfigAttributeInputFieldComponent', () => {
         declarations: [ConfiguratorAttributeInputFieldComponent],
         imports: [ReactiveFormsModule],
         providers: [
-          ConfiguratorAttributeBaseComponent,
           {
             provide: ConfiguratorUISettings,
             useValue: DefaultConfiguratorUISettings,

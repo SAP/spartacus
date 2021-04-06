@@ -4,7 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
 function createValue(code: string, name: string, isSelected: boolean) {
@@ -37,7 +36,6 @@ describe('ConfigAttributeDropDownComponent', () => {
       TestBed.configureTestingModule({
         declarations: [ConfiguratorAttributeDropDownComponent],
         imports: [ReactiveFormsModule, NgSelectModule],
-        providers: [ConfiguratorAttributeBaseComponent],
       })
         .overrideComponent(ConfiguratorAttributeDropDownComponent, {
           set: {
