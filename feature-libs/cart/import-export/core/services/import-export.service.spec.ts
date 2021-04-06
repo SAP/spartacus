@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { GlobalMessageService } from '@spartacus/core';
-import { FileValidityConfig } from '../../config/file-validity-config';
+import { FileValidityConfig } from '../config';
 import { ImportExportService } from './import-export.service';
 import createSpy = jasmine.createSpy;
 
