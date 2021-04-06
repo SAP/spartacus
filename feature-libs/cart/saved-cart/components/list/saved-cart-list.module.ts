@@ -9,7 +9,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
-import { defaultFileValidityConfig } from 'feature-libs/cart/import-export/core/config';
+import { defaultFileValidityConfig } from '@spartacus/cart/import-export/core';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 @NgModule({
