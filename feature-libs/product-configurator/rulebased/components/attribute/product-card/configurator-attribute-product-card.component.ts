@@ -31,6 +31,11 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   productBoundValue?: Configurator.Value;
   singleDropdown?: boolean;
   withQuantity?: boolean;
+  /**
+   * Used to indicate loading state, for exmaple in case a request triggred by parent component to CPQ is currently in progress.
+   * Component will react on it and disable all controls that could cause a request.
+   * This prevents the user from triggering concurrent requests with potential conflicting content that might cause unexpected behaviour.
+   */
   loading$?: Observable<boolean>;
   attributeId: number;
 }
@@ -163,7 +168,6 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   /**
    *  Extract corresponding quantity parameters
    *
-   * @param {boolean} disableQuantityActions - Disable quantity actions
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
