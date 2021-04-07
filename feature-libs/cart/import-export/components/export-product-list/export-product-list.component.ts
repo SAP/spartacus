@@ -38,10 +38,10 @@ export class ExportProductListComponent {
 
   downloadCsv(csvData: any, filename = 'data') {
     let blob = new Blob(['\ufeff' + csvData], {
-        type: 'text/csv;charset=utf-8;',
-      }),
-      link = document.createElement('a'),
-      url = URL.createObjectURL(blob);
+      type: 'text/csv;charset=utf-8;',
+    });
+    let link = document.createElement('a');
+    let url = URL.createObjectURL(blob);
 
     link.setAttribute('href', url);
     link.setAttribute('download', filename + '.csv');
