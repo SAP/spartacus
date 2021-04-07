@@ -200,7 +200,7 @@ function prepareDependencies(
   const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
   const angularVersion = getAngularVersion(tree);
 
-  const dependencies = [
+  const dependencies: NodeDependency[] = [
     {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
