@@ -12,7 +12,7 @@ import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Subscription, timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorUISettings } from '../../../config/configurator-ui-settings';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
@@ -42,18 +42,18 @@ export class ConfiguratorAttributeInputFieldComponent
 
   // TODO(#11681): make config a required dependency
   /**
-   * @param {ConfiguratorUISettings} config Optional configuration for debounce time,
+   * @param {ConfiguratorUISettingsConfig} config Optional configuration for debounce time,
    * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
    */
   // eslint-disable-next-line @typescript-eslint/unified-signatures
-  constructor(config: ConfiguratorUISettings);
+  constructor(config: ConfiguratorUISettingsConfig);
 
   /**
    * @deprecated  since 3.3
    */
   constructor();
 
-  constructor(protected config?: ConfiguratorUISettings) {
+  constructor(protected config?: ConfiguratorUISettingsConfig) {
     super();
   }
 
@@ -71,7 +71,7 @@ export class ConfiguratorAttributeInputFieldComponent
       .pipe(
         debounce(() =>
           timer(
-            this.config?.rulebasedConfigurator.inputDebounceTime ??
+            this.config?.productConfigurator?.debounceTime?.input ??
               this.FALLBACK_DEBOUNCE_TIME
           )
         )

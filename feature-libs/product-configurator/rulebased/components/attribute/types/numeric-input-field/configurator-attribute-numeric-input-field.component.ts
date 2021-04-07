@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorUISettings } from '../../../config/configurator-ui-settings';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
@@ -47,14 +47,14 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   // TODO(#11681): make config a required dependency
   /**
    * @param {ConfiguratorAttributeNumericInputFieldService} configAttributeNumericInputFieldService Serive for numeric formatting and validation.
-   * @param {ConfiguratorUISettings} config Optional configuration for debounce time,
+   * @param {ConfiguratorUISettingsConfig} config Optional configuration for debounce time,
    * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
    */
   constructor(
     // eslint-disable-next-line @typescript-eslint/unified-signatures
     configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
     // eslint-disable-next-line @typescript-eslint/unified-signatures
-    config?: ConfiguratorUISettings
+    config?: ConfiguratorUISettingsConfig
   );
 
   /**
@@ -66,7 +66,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    protected config?: ConfiguratorUISettings
+    protected config?: ConfiguratorUISettingsConfig
   ) {
     super();
   }
@@ -109,7 +109,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       .pipe(
         debounce(() =>
           timer(
-            this.config?.rulebasedConfigurator.inputDebounceTime ??
+            this.config?.productConfigurator?.debounceTime?.input ??
               this.FALLBACK_DEBOUNCE_TIME
           )
         )

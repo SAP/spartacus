@@ -10,7 +10,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Observable, Subscription, timer } from 'rxjs';
 import { debounce, distinct, take } from 'rxjs/operators';
-import { ConfiguratorUISettings } from '../../config/configurator-ui-settings';
+import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 
 export interface Quantity {
   quantity: number;
@@ -35,7 +35,7 @@ export class ConfiguratorAttributeQuantityComponent
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
   @Output() changeQuantity = new EventEmitter<Quantity>();
 
-  constructor(protected config: ConfiguratorUISettings) {}
+  constructor(protected config: ConfiguratorUISettingsConfig) {}
 
   ngOnInit(): void {
     this.quantity.setValue(this.quantityOptions?.initialQuantity?.quantity);
@@ -61,7 +61,7 @@ export class ConfiguratorAttributeQuantityComponent
     return this.quantity.valueChanges
       .pipe(
         debounce(() =>
-          timer(this.config?.rulebasedConfigurator?.quantityDebounceTime)
+          timer(this.config?.productConfigurator?.debounceTime?.quantity)
         ),
         take(1)
       )
