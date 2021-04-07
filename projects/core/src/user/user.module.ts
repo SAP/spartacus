@@ -9,7 +9,7 @@ import { UserStoreModule } from './store/user-store.module';
 @NgModule({
   imports: [UserStoreModule, ConsentEventModule],
   providers: [
-    // TODO Cleanup
+    // TODO Cleanup and move to user root
     {
       provide: APP_INITIALIZER,
       useFactory: (
