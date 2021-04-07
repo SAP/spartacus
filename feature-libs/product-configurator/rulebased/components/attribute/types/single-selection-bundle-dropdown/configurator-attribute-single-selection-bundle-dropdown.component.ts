@@ -162,7 +162,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     return {
       allowZero: !this.attribute?.required,
       initialQuantity: initialQuantity,
-      disableQuantityActions: this.loading$.pipe(
+      disableQuantityActions$: this.loading$.pipe(
         map((isLoading) => {
           return isLoading || this.disableQuantityActions;
         })

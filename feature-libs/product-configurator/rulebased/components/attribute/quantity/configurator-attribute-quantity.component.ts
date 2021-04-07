@@ -19,7 +19,7 @@ export interface Quantity {
 export interface ConfiguratorAttributeQuantityComponentOptions {
   allowZero?: boolean;
   initialQuantity?: Quantity;
-  disableQuantityActions?: Observable<boolean>;
+  disableQuantityActions$?: Observable<boolean>;
 }
 
 @Component({
@@ -40,11 +40,11 @@ export class ConfiguratorAttributeQuantityComponent
   ngOnInit(): void {
     this.quantity.setValue(this.quantityOptions?.initialQuantity?.quantity);
     this.optionsChangeSub.add(
-      this.quantityOptions.disableQuantityActions
+      this.quantityOptions.disableQuantityActions$
         ?.pipe(distinct())
         .subscribe((disable) => {
           // stepper always emits an value when it gets enabled regardless, if the original value was changed.
-          // so we subscribe to quantity change when stepper gets enabled and unsubscribe when it gets disbaled
+          // so we subscribe to quantity change when stepper gets enabled and unsubscribe when it gets disabled
           // this way we will not get the unwanted emission on enabling the stepper.
           if (disable) {
             this.quantity.disable();
