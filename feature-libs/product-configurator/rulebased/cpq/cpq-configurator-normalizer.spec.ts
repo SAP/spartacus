@@ -256,7 +256,12 @@ describe('CpqConfiguratorNormalizer', () => {
       values: [cpqValue],
     };
     const values: Configurator.Value[] = [];
-    cpqConfiguratorNormalizer.convertValue(cpqValue, cpqAttr, CURRENCY, values);
+    cpqConfiguratorNormalizer['convertValue'](
+      cpqValue,
+      cpqAttr,
+      CURRENCY,
+      values
+    );
     expect(values.length).toBe(1);
     const value: Configurator.Value = values[0];
     expect(value.valueCode).toBe(cpqValuePavId.toString());
@@ -277,7 +282,12 @@ describe('CpqConfiguratorNormalizer', () => {
       values: [cpqValue],
     };
     const values: Configurator.Value[] = [];
-    cpqConfiguratorNormalizer.convertValue(cpqValue, cpqAttr, CURRENCY, values);
+    cpqConfiguratorNormalizer['convertValue'](
+      cpqValue,
+      cpqAttr,
+      CURRENCY,
+      values
+    );
     expect(values.length).toBe(1);
     const value: Configurator.Value = values[0];
     expect(value.valuePrice).toEqual({
@@ -303,7 +313,7 @@ describe('CpqConfiguratorNormalizer', () => {
       values: [cpqValueA, cpqValueB],
     };
     const values: Configurator.Value[] = [];
-    cpqConfiguratorNormalizer.convertValue(
+    cpqConfiguratorNormalizer['convertValue'](
       cpqValueA,
       cpqAttr,
       CURRENCY,
@@ -323,7 +333,7 @@ describe('CpqConfiguratorNormalizer', () => {
       values: [cpqValueA, cpqValueB],
     };
     const values: Configurator.Value[] = [];
-    cpqConfiguratorNormalizer.convertValue(
+    cpqConfiguratorNormalizer['convertValue'](
       cpqValueA,
       cpqAttr,
       CURRENCY,
@@ -347,7 +357,7 @@ describe('CpqConfiguratorNormalizer', () => {
       values: [cpqValueNoSysId1, cpqValueNoSysId2],
     };
 
-    cpqConfiguratorNormalizer.convertAttribute(
+    cpqConfiguratorNormalizer['convertAttribute'](
       cpqAttributeNoSysId,
       cpqGroupId,
       CURRENCY,
@@ -379,7 +389,7 @@ describe('CpqConfiguratorNormalizer', () => {
   it('should convert attributes with values - with many sysId', () => {
     const attributeList: Configurator.Attribute[] = [];
 
-    cpqConfiguratorNormalizer.convertAttribute(
+    cpqConfiguratorNormalizer['convertAttribute'](
       cpqAttribute,
       cpqGroupId,
       CURRENCY,
@@ -424,7 +434,7 @@ describe('CpqConfiguratorNormalizer', () => {
       values: [cpqValueNoSysId, cpqValue2],
     };
 
-    cpqConfiguratorNormalizer.convertAttribute(
+    cpqConfiguratorNormalizer['convertAttribute'](
       cpqAttributeOnlyOneSysId,
       cpqGroupId,
       CURRENCY,
@@ -456,7 +466,7 @@ describe('CpqConfiguratorNormalizer', () => {
   it('should convert attributes without values', () => {
     const attributeList: Configurator.Attribute[] = [];
 
-    cpqConfiguratorNormalizer.convertAttribute(
+    cpqConfiguratorNormalizer['convertAttribute'](
       cpqAttribute2,
       cpqGroupId,
       CURRENCY,
@@ -490,7 +500,7 @@ describe('CpqConfiguratorNormalizer', () => {
       label: undefined,
       name: 'AttributeName',
     };
-    cpqConfiguratorNormalizer.convertAttribute(
+    cpqConfiguratorNormalizer['convertAttribute'](
       cpqAttributeWithoutLabel,
       cpqGroupId,
       CURRENCY,
@@ -504,7 +514,7 @@ describe('CpqConfiguratorNormalizer', () => {
   it('should convert a group', () => {
     const groups: Configurator.Group[] = [];
     const flatGroups: Configurator.Group[] = [];
-    cpqConfiguratorNormalizer.convertGroup(
+    cpqConfiguratorNormalizer['convertGroup'](
       cpqTab,
       cpqAttributes,
       CURRENCY,
@@ -530,7 +540,7 @@ describe('CpqConfiguratorNormalizer', () => {
     const groups: Configurator.Group[] = [];
     const flatGroups: Configurator.Group[] = [];
     const incompleteAttributes: string[] = ['Attribute1', 'Attribute2'];
-    cpqConfiguratorNormalizer.convertGenericGroup(
+    cpqConfiguratorNormalizer['convertGenericGroup'](
       cpqAttributes,
       incompleteAttributes,
       CURRENCY,
@@ -561,7 +571,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: true,
         values: [{ paV_ID: 1, productSystemId: 'System_Id' }],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.RADIOBUTTON_PRODUCT
       );
     });
@@ -574,7 +584,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: true,
         values: [{ paV_ID: 1, productSystemId: 'System_Id' }],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.DROPDOWN_PRODUCT
       );
     });
@@ -587,7 +597,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: true,
         values: [{ paV_ID: 1, productSystemId: 'System_Id' }],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.CHECKBOXLIST_PRODUCT
       );
     });
@@ -602,7 +612,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: true,
         values: [{ paV_ID: 1 }],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.RADIOBUTTON
       );
     });
@@ -615,7 +625,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: true,
         values: [{ paV_ID: 1 }],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.DROPDOWN
       );
     });
@@ -628,7 +638,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: true,
         values: [{ paV_ID: 1 }],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.CHECKBOXLIST
       );
     });
@@ -642,7 +652,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: true,
         values: [],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.STRING
       );
     });
@@ -656,7 +666,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: true,
         values: [],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.NOT_IMPLEMENTED
       );
     });
@@ -669,7 +679,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: true,
         values: [],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.NOT_IMPLEMENTED
       );
     });
@@ -682,7 +692,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: true,
         values: [],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.NOT_IMPLEMENTED
       );
     });
@@ -695,7 +705,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: false,
         values: [{ paV_ID: 1 }],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.READ_ONLY
       );
     });
@@ -708,7 +718,7 @@ describe('CpqConfiguratorNormalizer', () => {
         isEnabled: false,
         values: [{ paV_ID: 1 }],
       };
-      expect(cpqConfiguratorNormalizer.convertAttributeType(cpqAttr)).toBe(
+      expect(cpqConfiguratorNormalizer['convertAttributeType'](cpqAttr)).toBe(
         Configurator.UiType.NOT_IMPLEMENTED
       );
     });
@@ -719,7 +729,7 @@ describe('CpqConfiguratorNormalizer', () => {
       name: 'ATTRIBUTE_NAME',
       values: [{ valueCode: 'VK1' }, { valueCode: 'VK2', selected: true }],
     };
-    cpqConfiguratorNormalizer.setSelectedSingleValue(configAttribute);
+    cpqConfiguratorNormalizer['setSelectedSingleValue'](configAttribute);
     expect(configAttribute.selectedSingleValue).toBe('VK2');
   });
 
@@ -731,7 +741,7 @@ describe('CpqConfiguratorNormalizer', () => {
         { valueCode: 'VK2', selected: true },
       ],
     };
-    cpqConfiguratorNormalizer.setSelectedSingleValue(configAttribute);
+    cpqConfiguratorNormalizer['setSelectedSingleValue'](configAttribute);
     expect(configAttribute.selectedSingleValue).toBeUndefined();
   });
 
@@ -767,12 +777,22 @@ describe('CpqConfiguratorNormalizer', () => {
       selectedSingleValue: '',
     };
 
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeRBWoValues);
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeRBWithValues);
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeDDWoValues);
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeDDWithValues);
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeSSIWoValues);
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+      attributeRBWoValues
+    );
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+      attributeRBWithValues
+    );
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+      attributeDDWoValues
+    );
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+      attributeDDWithValues
+    );
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+      attributeSSIWoValues
+    );
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
       attributeSSIWithValues
     );
 
@@ -806,16 +826,16 @@ describe('CpqConfiguratorNormalizer', () => {
       userInput: '',
     };
 
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
       attributeStringWithValues
     );
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
       attributeStringWoValues
     );
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
       attributeNumericWithValues
     );
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
       attributeNumericWoValues
     );
 
@@ -865,20 +885,24 @@ describe('CpqConfiguratorNormalizer', () => {
       values: valuesWithSelectedOne,
     };
 
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
       attributeCheckboxWOValue
     );
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
       attributeCheckboxWithValue
     );
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
       attributeCheckboxlistWOValue
     );
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
       attributeCheckboxlistWithValue
     );
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeMSIWOValue);
-    cpqConfiguratorNormalizer.compileAttributeIncomplete(attributeMSIWithValue);
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+      attributeMSIWOValue
+    );
+    cpqConfiguratorNormalizer['compileAttributeIncomplete'](
+      attributeMSIWithValue
+    );
 
     expect(attributeCheckboxWOValue.incomplete).toBe(true);
     expect(attributeCheckboxWithValue.incomplete).toBe(false);
@@ -964,7 +988,7 @@ describe('CpqConfiguratorNormalizer', () => {
   });
 
   it('should create no error message for incomplete attribute', () => {
-    const messageObs = cpqConfiguratorNormalizer.generateErrorMessages(
+    const messageObs = cpqConfiguratorNormalizer['generateErrorMessages'](
       cpqConfigurationIncompleteConsistent
     );
     expect(messageObs.length).toBe(0);
