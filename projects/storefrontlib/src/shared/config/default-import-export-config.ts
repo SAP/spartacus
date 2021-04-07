@@ -1,6 +1,6 @@
-import { FileValidityConfig } from './file-validity-config';
+import { ImportExportConfig } from './import-export-config.service';
 
-export const defaultFileValidityConfig: FileValidityConfig = {
+export const defaultImportExportConfig: ImportExportConfig = {
   fileValidity: {
     maxSize: 1,
     allowedExtensions: [
@@ -9,5 +9,8 @@ export const defaultFileValidityConfig: FileValidityConfig = {
       'text/csv',
     ],
     checkEmptyFile: true,
+  },
+  file: {
+    separator: '',
   },
 };

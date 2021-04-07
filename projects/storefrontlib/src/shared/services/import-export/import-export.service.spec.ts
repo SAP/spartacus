@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { GlobalMessageService } from '@spartacus/core';
-import { FileValidityConfig } from '../../config/file-validity-config';
+import { ImportExportConfig } from '../../config/import-export-config.service';
 import { ImportExportService } from './import-export.service';
 import createSpy = jasmine.createSpy;
 
@@ -9,7 +9,7 @@ class MockMessageService {
   remove = createSpy();
 }
 
-const mockFileValidityConfig: FileValidityConfig = {
+const mockFileValidityConfig: ImportExportConfig = {
   fileValidity: {},
 };
 
@@ -20,7 +20,7 @@ describe('ImportExportService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: GlobalMessageService, useClass: MockMessageService },
-        { provide: FileValidityConfig, useValue: mockFileValidityConfig },
+        { provide: ImportExportConfig, useValue: mockFileValidityConfig },
       ],
     });
     service = TestBed.inject(ImportExportService);

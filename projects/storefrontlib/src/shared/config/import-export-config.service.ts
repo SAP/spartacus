@@ -12,6 +12,7 @@ export type FileValidity = {
   providedIn: 'root',
   useExisting: Config,
 })
-export abstract class FileValidityConfig {
-  fileValidity: FileValidity;
+export abstract class ImportExportConfig {
+  fileValidity?: FileValidity;
+  file: { separator: string };
 }

@@ -3,8 +3,8 @@ import { GlobalMessageService } from '@spartacus/core';
 import { Observable, Observer } from 'rxjs';
 import {
   FileValidity,
-  FileValidityConfig,
-} from '../../config/file-validity-config';
+  ImportExportConfig,
+} from '../../config/import-export-config.service';
 
 // TODO: move to other file
 export type InvalidFileInfo = {
@@ -19,7 +19,7 @@ export type InvalidFileInfo = {
 export class ImportExportService {
   constructor(
     protected globalMessageService: GlobalMessageService,
-    protected fileValidityConfig: FileValidityConfig
+    protected importExportConfig: ImportExportConfig
   ) {}
 
   importFile(
@@ -51,7 +51,7 @@ export class ImportExportService {
   }
 
   protected setValidityConfig(validityConfig: FileValidity): FileValidity {
-    return { ...this.fileValidityConfig.fileValidity, ...validityConfig };
+    return { ...this.importExportConfig.fileValidity, ...validityConfig };
   }
 
   protected checkValidity(
@@ -85,14 +85,15 @@ export class ImportExportService {
    * @param objectsArray Array of objects which should be converted to CSV.
    */
   dataToCsv(objectsArray: object[]): string {
-    const separator = ',';
     const array =
       typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
 
     return array.reduce((str, row) => {
       const line = Object.keys(row).reduce(
         (currentLine, cell) =>
-          `${currentLine}${currentLine != '' ? separator : ''}\"${row[cell]}\"`,
+          `${currentLine}${
+            currentLine != '' ? this.importExportConfig.file.separator : ''
+          }\"${row[cell]}\"`,
         ''
       );
       return `${str}${line}\r\n`;
