@@ -52,6 +52,8 @@ function prepare_install {
     npm i -g concurrently
     npm i -g @angular/cli@${ANGULAR_CLI_VERSION}
 
+    ng config -g cli.packageManager yarn     
+
     mkdir -p ${INSTALLATION_DIR}
     ng analytics off
 }
