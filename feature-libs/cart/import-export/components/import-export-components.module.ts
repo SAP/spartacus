@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ExportProductListComponent } from './export-product-list';
+import { ExportProductListModule } from './export-product-list';
 
 @NgModule({
-  imports: [RouterModule, ExportProductListComponent],
+  imports: [RouterModule, ExportProductListModule],
 })
 export class ImportExportComponentsModule {}

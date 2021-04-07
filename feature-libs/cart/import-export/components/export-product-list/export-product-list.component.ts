@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { OrderEntry } from '@spartacus/core';
-import { ImportExportService } from '../../core/services/import-export.service';
+import { ImportExportService } from '@spartacus/cart/import-export/core';
 
 @Component({
   selector: 'cx-export-product-list',

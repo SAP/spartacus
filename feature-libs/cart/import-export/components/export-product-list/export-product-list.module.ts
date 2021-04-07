@@ -25,5 +25,6 @@ import { ExportProductListComponent } from './export-product-list.component';
   ],
   exports: [ExportProductListComponent],
   declarations: [ExportProductListComponent],
+  entryComponents: [ExportProductListComponent],
 })
 export class ExportProductListModule {}
