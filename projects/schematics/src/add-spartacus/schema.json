@@ -35,8 +35,7 @@
           "Qualtrics",
           "SmartEdit",
           "Store Finder",
-          "Tracking",
-          "User"
+          "Tracking"
         ],
         "type": "string"
       },
