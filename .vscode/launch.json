@@ -32,6 +32,16 @@
       "sourceMapPathOverrides": {
         "": "${webRoot}/"
       }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug schematics",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}/node_modules/@angular/cli/bin/ng",
+      "args": ["add", "@spartacus/schematics@latest"],
+      "console": "integratedTerminal",
+      "outFiles": ["${workspaceFolder}/**/*.js"]
     }
   ]
 }
