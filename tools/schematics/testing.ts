@@ -148,7 +148,8 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build storefinder/schematics':
     case 'build tracking/schematics':
     case 'build user/schematics':
-      const lib = buildLibRegEx.exec(command)?.pop();
+      const lib =
+        buildLibRegEx.exec(command)?.pop() ?? 'LIB-REGEX-DOES-NOT-MATCH';
       buildSchematicsAndPublish(`yarn build:${lib}`);
       break;
     case 'build all libs':
@@ -173,7 +174,7 @@ async function program(): Promise<void> {
     execSync(`sleep 15`);
 
     while (true) {
-      const response: { command: typeof commands[number] } = await prompt({
+      const response: { command: Command } = await prompt({
         name: 'command',
         type: 'select',
         message: 'What do you want to do next?',
