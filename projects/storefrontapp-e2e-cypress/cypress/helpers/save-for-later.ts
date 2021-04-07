@@ -99,7 +99,7 @@ export function removeItem(product, position: ItemList) {
 
 export function validateProduct(product, qty = 1, position: ItemList) {
   return getItem(product, position)
-    .wait(1000)
+    .wait(2000)
     .within(() => {
       cy.get('cx-item-counter input').should('have.value', `${qty}`);
       cy.get('.cx-total .cx-value').should('exist');
