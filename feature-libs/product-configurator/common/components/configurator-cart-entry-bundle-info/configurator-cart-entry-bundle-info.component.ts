@@ -34,29 +34,23 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
 
-  numberOfLineItems$: Observable<number> = this.orderEntry$.pipe(
+  hideItems = true;
+
+  lineItems$: Observable<LineItem[]> = this.orderEntry$.pipe(
     map((entry) =>
-      this.configCartEntryBundleInfoService.retrieveNumberOfLineItems(entry)
+      this.configCartEntryBundleInfoService.retrieveLineItems(entry)
     )
   );
 
-  hideItems = true;
+  numberOfLineItems$: Observable<number> = this.lineItems$.pipe(
+    map((items) => items.length)
+  );
 
   /**
    * Toggles the state of the items list.
    */
   toggleItems(): void {
     this.hideItems = !this.hideItems;
-  }
-
-  /**
-   * Retrieves the line items for an order entry.
-   *
-   * @param {OrderEntry} entry - Order entry
-   * @returns {LineItem[]} - Array of line items
-   */
-  retrieveLineItems(entry: OrderEntry): LineItem[] {
-    return this.configCartEntryBundleInfoService.retrieveLineItems(entry);
   }
 
   /**

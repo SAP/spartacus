@@ -89,10 +89,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     ).and.callThrough();
     spyOn(
       configCartEntryBundleInfoService,
-      'retrieveNumberOfLineItems'
-    ).and.callThrough();
-    spyOn(
-      configCartEntryBundleInfoService,
       'retrieveLineItems'
     ).and.callThrough();
 
@@ -215,19 +211,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       expect(component.hideItems).toBe(false);
       component.toggleItems();
       expect(component.hideItems).toBe(true);
-    });
-  });
-
-  describe('retrieveLineItems', () => {
-    it('should return empty list of line items', () => {
-      const emptyEntry: OrderEntry = {
-        configurationInfos: [],
-      };
-      expect(component.retrieveLineItems(emptyEntry)?.length).toBe(0);
-    });
-
-    it('should return a list of line items that contains one line item', () => {
-      expect(component.retrieveLineItems(entry)?.length).toBe(3);
     });
   });
 
