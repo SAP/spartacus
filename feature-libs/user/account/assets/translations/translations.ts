@@ -1,10 +1,10 @@
 import { TranslationChunksConfig, TranslationResources } from '@spartacus/core';
 import { en } from './en/index';
 
-export const userTranslations: TranslationResources = {
+export const userAccountTranslations: TranslationResources = {
   en,
 };
 
-export const userTranslationChunksConfig: TranslationChunksConfig = {
+export const userAccountTranslationChunksConfig: TranslationChunksConfig = {
   userAccount: ['loginForm', 'miniLogin'],
 };
