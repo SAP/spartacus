@@ -1,26 +1,40 @@
 // TODO: Add unit tests...
 
-// import { TestBed } from '@angular/core/testing';
-// import { FileValidityConfig } from '../config';
-// import { ImportExportService } from './import-export.service';
+import { TestBed } from '@angular/core/testing';
+import { FileValidityConfig, ImportExportConfig } from '../config';
+import { ImportExportService } from './import-export.service';
 
-// const mockFileValidityConfig: FileValidityConfig = {
-//   fileValidity: {},
-// };
+const mockImportExportConfig: ImportExportConfig = {
+  fileValidity: {},
+  file: { separator: ',' },
+};
 
-// describe('ImportExportService', () => {
-//   let service: ImportExportService;
+const data = {
+  products: {
+    arr: [],
+    expectedString: '',
+  },
+};
 
-//   beforeEach(() => {
-//     TestBed.configureTestingModule({
-//       providers: [
-//         { provide: FileValidityConfig, useValue: mockFileValidityConfig },
-//       ],
-//     });
-//     service = TestBed.inject(ImportExportService);
-//   });
+describe('ImportExportService', () => {
+  let service: ImportExportService;
 
-//   it('should be created', () => {
-//     expect(service).toBeTruthy();
-//   });
-// });
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        { provide: FileValidityConfig, useValue: mockImportExportConfig },
+      ],
+    });
+    service = TestBed.inject(ImportExportService);
+  });
+
+  it('should be created', () => {
+    expect(service).toBeTruthy();
+  });
+
+  describe('dataToCsv', () => {
+    it('should convert array to csv string', () => {
+      expect(service.dataToCsv()).toEqual();
+    });
+  });
+});
