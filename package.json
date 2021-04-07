@@ -8,8 +8,8 @@
   },
   "scripts": {
     "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng build storefrontapp --prod",
+    "build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --prod",
     "build:user": "ng build user --prod",
-    "build:asm": "ng build asm --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
     "build:cart": "yarn --cwd feature-libs/cart run build:schematics && ng build cart --prod",
     "build:cdc": "ng build cdc --prod",
@@ -24,7 +24,7 @@
     "build:setup": "ng build setup --prod",
     "build:storefinder": "yarn --cwd feature-libs/storefinder run build:schematics && ng build storefinder --prod",
     "build:smartedit": "yarn --cwd feature-libs/smartedit run build:schematics && ng build smartedit --prod",
-    "build:tracking": "ng build tracking --prod",
+    "build:tracking": "yarn --cwd feature-libs/tracking run build:schematics && ng build tracking --prod",
     "config:update": "ts-node ./tools/config/index.ts --fix",
     "config:check": "ts-node ./tools/config/index.ts",
     "e2e:open": "yarn --cwd ./projects/storefrontapp-e2e-cypress run cy:open",
@@ -195,6 +195,7 @@
     "stylelint-scss": "^3.18.0",
     "through2": "^3.0.1",
     "ts-jest": "^26.4.4",
+    "ts-morph": "^9.1.0",
     "ts-node": "~8.3.0",
     "typescript": "~4.0.2",
     "webpack-cli": "^3.3.12"

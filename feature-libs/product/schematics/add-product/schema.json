@@ -24,7 +24,7 @@
         "type": "string"
       },
       "default": ["Bulk-Pricing", "Variants"],
-      "x-prompt": "Which features would you like to setup?"
+      "x-prompt": "Which Product features would you like to setup?"
     }
   },
   "required": []

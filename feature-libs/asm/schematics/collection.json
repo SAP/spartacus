@@ -8,6 +8,11 @@
       "private": true,
       "hidden": true,
       "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-asm/index#addAsmFeatures",
+      "description": "Add and configure Spartacus' Asm features",
+      "schema": "./add-asm/schema.json"
     }
   }
 }
