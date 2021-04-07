@@ -2,34 +2,23 @@
   "name": "@spartacus/checkout",
   "version": "3.0.0",
   "description": "Checkout feature library for Spartacus",
-  "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
     "spartacus",
     "framework",
     "storefront",
     "checkout"
   ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/checkout",
+  "license": "Apache-2.0",
   "scripts": {
     "prepare:schematics": "yarn install",
     "clean:schematics": "yarn prepare:schematics && rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
     "build:schematics": "yarn clean:schematics && tsc -p ./tsconfig.schematics.json",
     "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && jest --config ./jest.schematics.config.js"
   },
-  "license": "Apache-2.0",
-  "publishConfig": {
-    "access": "public"
-  },
-  "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/checkout",
-  "schematics": "./schematics/collection.json",
-  "peerDependencies": {
-    "@angular/common": "^10.1.0",
-    "@angular/core": "^10.1.0",
-    "@angular-devkit/schematics": "^10.1.0",
-    "@angular/router": "^10.1.0",
-    "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.0",
-    "@spartacus/storefront": "3.0.0",
-    "@spartacus/schematics": "3.0.0"
+  "dependencies": {
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
@@ -39,7 +28,11 @@
     "ts-jest": "^26.4.3",
     "typescript": "~4.0.2"
   },
-  "dependencies": {
-    "tslib": "^2.0.0"
-  }
+  "peerDependencies": {
+    "@angular/core": "^10.1.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "schematics": "./schematics/collection.json"
 }
