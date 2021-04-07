@@ -3,9 +3,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import {
+  ImportToCartService,
+  ImportExportService,
+} from '@spartacus/cart/import-export/core';
+import {
   Cart,
   ClearCheckoutService,
   I18nTestingModule,
+  MultiCartService,
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
@@ -88,6 +93,9 @@ describe('SavedCartListComponent', () => {
         { provide: ClearCheckoutService, useClass: MockClearCheckoutService },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: SavedCartService, useClass: MockSavedCartService },
+        ImportExportService,
+        ImportToCartService,
+        MultiCartService,
       ],
     }).compileComponents();
   });
