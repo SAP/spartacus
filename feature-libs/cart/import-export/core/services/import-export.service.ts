@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { GlobalMessageService } from '@spartacus/core';
 import { Observable, Observer } from 'rxjs';
 import { FileValidity, FileValidityConfig } from '../config';
 import { InvalidFileInfo } from '../model';
@@ -8,10 +7,7 @@ import { InvalidFileInfo } from '../model';
   providedIn: 'root',
 })
 export class ImportExportService {
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected fileValidityConfig: FileValidityConfig
-  ) {}
+  constructor(protected fileValidityConfig: FileValidityConfig) {}
 
   importFile(
     selectedFile: FileList,
