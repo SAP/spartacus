@@ -159,7 +159,7 @@ function handleSchematicsConfigs(
   options: ProgramOptions
 ): void {
   const targetPaths = {
-    [SPARTACUS_SCHEMATICS]: ['../../projects/schematics/src/public_api'],
+    [SPARTACUS_SCHEMATICS]: ['../../projects/schematics/index'],
   };
   if (options.fix) {
     reportProgress('Updating tsconfig.schematics.json files');
@@ -256,15 +256,20 @@ function handleRootConfigs(
     reportProgress('Checking root tsconfig files');
   }
   let showAllGood = true;
-  const entryPoints = Object.values(libraries).reduce((acc, curr) => {
-    curr.entryPoints.forEach((entryPoint) => {
-      acc[entryPoint.entryPoint] = [
-        // We reference source files entry points in these configs. E.g. `projects/storefrontlib/src/public_api`
-        joinPaths(curr.directory, entryPoint.directory, entryPoint.entryFile),
-      ];
-    });
-    return acc;
-  }, {} as { [key: string]: [string] });
+  const entryPoints = Object.values(libraries).reduce(
+    (acc, curr) => {
+      curr.entryPoints.forEach((entryPoint) => {
+        acc[entryPoint.entryPoint] = [
+          // We reference source files entry points in these configs. E.g. `projects/storefrontlib/src/public_api`
+          joinPaths(curr.directory, entryPoint.directory, entryPoint.entryFile),
+        ];
+      });
+      return acc;
+    },
+    { [SPARTACUS_SCHEMATICS]: ['projects/schematics/index'] } as {
+      [key: string]: [string];
+    }
+  );
 
   const hadErrors = handleConfigUpdate(entryPoints, 'tsconfig.json', options);
   const hadErrorsCompodoc = handleConfigUpdate(

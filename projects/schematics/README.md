@@ -37,7 +37,7 @@ The best way to test an unpublished schematic is to publish it to a local npm re
 
 - Install verdaccio `npm i -g verdaccio` (only for the first time)
 - Create new angular project `ng new schematics-test --style=scss`
-- Run verdaccio script `ts-node ./tools/schematics/testing.ts`
+- Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally).
 
 ### Publishing to verdaccio
 

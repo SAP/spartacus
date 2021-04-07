@@ -13,7 +13,7 @@ import {
   NoopChange,
 } from '@schematics/angular/utility/change';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { ANGULAR_CORE } from '../constants';
 import {
   commitChanges,
