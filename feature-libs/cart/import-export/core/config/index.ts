@@ -1,2 +1,2 @@
-export * from './file-validity-config';
-export * from './default-file-validity-config';
+export * from './import-export-config.service';
+export * from './default-import-export-config';

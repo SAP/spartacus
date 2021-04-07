@@ -1,6 +1,8 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 
-@NgModule({})
+@NgModule({
+  providers: [provideDefaultConfig(defaultImportExportConfig)],
+})
 export class ImportExportCoreModule {
   static forRoot(): ModuleWithProviders<ImportExportCoreModule> {
     return {
