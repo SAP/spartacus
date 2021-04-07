@@ -166,10 +166,14 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         entryNumber: new FormControl(item.entryNumber),
         quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
       });
-      if (!item.updateable || this.readonly) {
-        group.disable();
-      }
+
       this.form.addControl(controlName, group);
+
+      // If we disable form group before adding, disabled status will reset
+      // Which forces us to disable control after including to form object
+      if (!item.updateable || this.readonly) {
+        this.form.controls[controlName].disable();
+      }
     });
   }
 
