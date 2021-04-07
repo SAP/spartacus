@@ -25,7 +25,7 @@ export class CpqConfiguratorNormalizer
         !source.failedValidations?.length &&
         !source.incompleteMessages?.length &&
         !source.errorMessages?.length,
-      totalNumberOfIssues: this.generateTotaltotalNumberOfIssues(source),
+      totalNumberOfIssues: this.generateTotalNumberOfIssues(source),
       productCode: source.productSystemId,
       priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
       groups: [],
@@ -56,7 +56,7 @@ export class CpqConfiguratorNormalizer
     return resultTarget;
   }
 
-  generateTotaltotalNumberOfIssues(source: Cpq.Configuration): number {
+  protected generateTotalNumberOfIssues(source: Cpq.Configuration): number {
     let numberOfIssues: number =
       (source.incompleteAttributes?.length ?? 0) +
       (source.incompleteMessages?.length ?? 0) +
@@ -66,21 +66,21 @@ export class CpqConfiguratorNormalizer
     return numberOfIssues;
   }
 
-  generateWarningMessages(source: Cpq.Configuration): string[] {
+  protected generateWarningMessages(source: Cpq.Configuration): string[] {
     let warnMsgs: string[] = [];
     warnMsgs = warnMsgs.concat(source.failedValidations ?? []);
     warnMsgs = warnMsgs.concat(source.incompleteMessages ?? []);
     return warnMsgs;
   }
 
-  generateErrorMessages(source: Cpq.Configuration): string[] {
+  protected generateErrorMessages(source: Cpq.Configuration): string[] {
     let errorMsgs: string[] = [];
     errorMsgs = errorMsgs.concat(source.errorMessages ?? []);
     errorMsgs = errorMsgs.concat(source.invalidMessages ?? []);
     return errorMsgs;
   }
 
-  convertGroup(
+  protected convertGroup(
     source: Cpq.Tab,
     sourceAttributes: Cpq.Attribute[],
     currency: string,
@@ -110,7 +110,7 @@ export class CpqConfiguratorNormalizer
     groupList.push(group);
   }
 
-  convertGenericGroup(
+  protected convertGenericGroup(
     sourceAttributes: Cpq.Attribute[],
     incompleteAttributes: string[],
     currency: string,
@@ -141,7 +141,7 @@ export class CpqConfiguratorNormalizer
     flatGroupList.push(group);
   }
 
-  convertAttribute(
+  protected convertAttribute(
     sourceAttribute: Cpq.Attribute,
     groupId: number,
     currency: string,
@@ -182,7 +182,7 @@ export class CpqConfiguratorNormalizer
     attributeList.push(attribute);
   }
 
-  setSelectedSingleValue(attribute: Configurator.Attribute) {
+  protected setSelectedSingleValue(attribute: Configurator.Attribute) {
     const selectedValues = attribute.values
       .map((entry) => entry)
       .filter((entry) => entry.selected);
@@ -191,7 +191,7 @@ export class CpqConfiguratorNormalizer
     }
   }
 
-  convertValue(
+  protected convertValue(
     sourceValue: Cpq.Value,
     sourceAttribute: Cpq.Attribute,
     currency: string,
@@ -225,7 +225,7 @@ export class CpqConfiguratorNormalizer
     values.push(value);
   }
 
-  convertAttributeTypeOld(
+  protected convertAttributeTypeOld(
     displayAs: Cpq.DisplayAs,
     displayAsProduct = false
   ): Configurator.UiType {
@@ -278,7 +278,9 @@ export class CpqConfiguratorNormalizer
     return uiType;
   }
 
-  convertAttributeType(sourceAttribute: Cpq.Attribute): Configurator.UiType {
+  protected convertAttributeType(
+    sourceAttribute: Cpq.Attribute
+  ): Configurator.UiType {
     const displayAs: Cpq.DisplayAs = sourceAttribute.displayAs;
 
     const displayAsProduct: boolean =
@@ -346,7 +348,7 @@ export class CpqConfiguratorNormalizer
     return uiType;
   }
 
-  compileAttributeIncomplete(attribute: Configurator.Attribute) {
+  protected compileAttributeIncomplete(attribute: Configurator.Attribute) {
     //Default value for incomplete is false
     attribute.incomplete = false;
 
