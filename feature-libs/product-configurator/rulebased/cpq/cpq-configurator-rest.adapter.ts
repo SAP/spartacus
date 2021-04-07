@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import { Observable, of, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../core/connectors/rulebased-configurator.adapter';
@@ -17,7 +20,7 @@ export class CpqConfiguratorRestAdapter
   ) {}
 
   getConfiguratorType(): string {
-    return 'CLOUDCPQCONFIGURATOR';
+    return ConfiguratorType.CPQ;
   }
 
   createConfiguration(
