@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-// import { QuickOrderComponentsModule } from '@spartacus/cart/quick-order/components';
+import { QuickOrderComponentsModule } from '@spartacus/cart/quick-order/components';
 import { QuickOrderCoreModule } from '@spartacus/cart/quick-order/core';
 import { QuickOrderOccModule } from '@spartacus/cart/quick-order/occ';
 
@@ -7,7 +7,7 @@ import { QuickOrderOccModule } from '@spartacus/cart/quick-order/occ';
   imports: [
     QuickOrderCoreModule.forRoot(),
     QuickOrderOccModule,
-    // QuickOrderComponentsModule,
+    QuickOrderComponentsModule,
   ],
 })
 export class QuickOrderModule {}
