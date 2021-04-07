@@ -88,15 +88,18 @@ export class ImportExportService {
     const array =
       typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
 
-    return array.reduce((str, row) => {
+    const arr = array.reduce((str, row) => {
       const line = Object.keys(row).reduce(
         (currentLine, cell) =>
           `${currentLine}${
             currentLine != '' ? this.importExportConfig.file.separator : ''
-          }\"${row[cell]}\"`,
+          }"${row[cell]}"`,
         ''
       );
       return `${str}${line}\r\n`;
     }, '');
+
+    console.log(arr);
+    return arr;
   }
 }
