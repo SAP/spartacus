@@ -9,7 +9,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
-  defaultFileValidityConfig,
+  defaultImportExportConfig,
   ListNavigationModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -25,7 +25,7 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     SpinnerModule,
   ],
   providers: [
-    provideDefaultConfig(defaultFileValidityConfig),
+    provideDefaultConfig(defaultImportExportConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountSavedCartHistoryComponent: {
