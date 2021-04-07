@@ -11,6 +11,6 @@ export const defaultImportExportConfig: ImportExportConfig = {
     checkEmptyFile: true,
   },
   file: {
-    separator: '',
+    separator: ',',
   },
 };
