@@ -15,6 +15,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
+      "@spartacus/schematics": ["projects/schematics/index"],
       "@spartacus/setup": ["core-libs/setup/public_api"],
       "@spartacus/setup/ssr": ["core-libs/setup/ssr/public_api"],
       "@spartacus/asm/assets": ["feature-libs/asm/assets/public_api"],
