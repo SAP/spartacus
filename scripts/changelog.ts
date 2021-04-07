@@ -74,6 +74,7 @@ export default async function run(
     '@spartacus/assets': 'projects/assets',
     '@spartacus/schematics': 'projects/schematics',
     '@spartacus/incubator': 'projects/incubator',
+    '@spartacus/user': 'feature-libs/user',
     '@spartacus/cds': 'integration-libs/cds',
     '@spartacus/organization': 'feature-libs/organization',
     '@spartacus/product': 'feature-libs/product',
@@ -86,6 +87,7 @@ export default async function run(
     '@spartacus/qualtrics': 'feature-libs/qualtrics',
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
+    '@spartacus/cart': 'feature-libs/cart',
   };
 
   const duplexUtil = through(function (
@@ -293,6 +295,10 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/incubator':
       config.library = '@spartacus/incubator';
       break;
+    case 'user':
+    case '@spartacus/user':
+      config.library = '@spartacus/user';
+      break;
     case 'cds':
     case '@spartacus/cds':
       config.library = '@spartacus/cds';
@@ -342,6 +348,10 @@ if (typeof config.to === 'undefined') {
     case 'setup':
     case '@spartacus/setup':
       config.library = '@spartacus/setup';
+      break;
+    case 'cart':
+    case '@spartacus/cart':
+      config.library = '@spartacus/cart';
       break;
     default:
       config.library = undefined;

@@ -47,3 +47,10 @@ html[dir='rtl'] cx-org-list {
     font-size: $font-size-base * 0.75;
   }
 }
+
+.hint-popover {
+  font-size: 0.75rem;
+  p {
+    margin: 0;
+  }
+}
