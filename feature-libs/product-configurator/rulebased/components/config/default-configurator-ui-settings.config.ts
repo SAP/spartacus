@@ -1,6 +1,6 @@
 import { ConfiguratorUISettingsConfig } from './configurator-ui-settings.config';
 
-export const DefaultConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig = {
+export const defaultConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig = {
   productConfigurator: {
     debounceTime: {
       quantity: 750,

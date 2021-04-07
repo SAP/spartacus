@@ -11,7 +11,7 @@ import { LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { DefaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
+import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 
 @Pipe({
@@ -62,7 +62,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           { provide: LanguageService, useValue: mockLanguageService },
           {
             provide: ConfiguratorUISettingsConfig,
-            useValue: DefaultConfiguratorUISettingsConfig,
+            useValue: defaultConfiguratorUISettingsConfig,
           },
         ],
       })
@@ -93,7 +93,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     htmlElem = fixture.nativeElement;
     spyOn(component.inputChange, 'emit');
     DEBOUNCE_TIME =
-      DefaultConfiguratorUISettingsConfig.productConfigurator?.debounceTime
+      defaultConfiguratorUISettingsConfig.productConfigurator?.debounceTime
         ?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
   });
 
