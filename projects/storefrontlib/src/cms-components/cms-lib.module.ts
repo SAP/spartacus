@@ -35,6 +35,7 @@ import {
   UpdateProfileModule,
 } from './myaccount/index';
 import {
+  PageTitleModule,
   BreadcrumbModule,
   CategoryNavigationModule,
   FooterNavigationModule,
@@ -74,6 +75,7 @@ import { WishListModule } from './wish-list/wish-list.module';
     CategoryNavigationModule,
     NavigationModule,
     FooterNavigationModule,
+    PageTitleModule,
     BreadcrumbModule,
     SearchBoxModule,
     SiteContextSelectorModule,

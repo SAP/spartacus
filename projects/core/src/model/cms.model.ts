@@ -126,10 +126,12 @@ export interface CmsMiniCartComponent extends CmsComponent {
   lightboxBannerComponent?: CmsBannerComponent;
 }
 
-// TODO: Upgrade model when Breadcrumbs will be finally used in project
-export interface CmsBreadcrumbsComponent extends CmsComponent {
+export interface CmsPageTitleComponent extends CmsComponent {
   container?: string;
 }
+
+// TODO: Upgrade model when Breadcrumbs will be finally used in project
+export interface CmsBreadcrumbsComponent extends CmsPageTitleComponent {}
 
 export interface CmsNavigationNode {
   uid?: string;
