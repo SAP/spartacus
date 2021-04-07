@@ -13,7 +13,7 @@ export class LinkComponent {
   @HostBinding('class') styleClasses: string;
 
   data$: Observable<CmsLinkComponent> = this.component.data$.pipe(
-    tap((data) => (this.styleClasses = data?.styleClasses ?? ''))
+    tap((data) => (this.styleClasses = data?.styleClasses))
   );
 
   constructor(protected component: CmsComponentData<CmsLinkComponent>) {}
