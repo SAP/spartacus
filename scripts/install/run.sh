@@ -75,7 +75,7 @@ function update_projects_versions {
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
     for i in ${projects}
         do
-            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/' package.json);
+            (cd "${CLONE_DIR}/${i}" && pwd && sed -i '' -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
         done
 }
 
