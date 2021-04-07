@@ -159,7 +159,7 @@ function handleSchematicsConfigs(
   options: ProgramOptions
 ): void {
   const targetPaths = {
-    [SPARTACUS_SCHEMATICS]: ['../../projects/schematics/src/public_api'],
+    [SPARTACUS_SCHEMATICS]: ['../../projects/schematics/index'],
   };
   if (options.fix) {
     reportProgress('Updating tsconfig.schematics.json files');
