@@ -10,7 +10,7 @@ import {
   getTsSourceFile,
   InsertDirection,
 } from '@spartacus/schematics';
-import * as ts from 'typescript';
+import ts from 'typescript';
 
 export function insertPropertyInStorefrontModuleCallExpression(
   host: Tree,
