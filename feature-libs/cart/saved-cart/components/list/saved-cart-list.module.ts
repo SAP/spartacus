@@ -8,11 +8,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import {
-  defaultFileValidityConfig,
-  ListNavigationModule,
-  SpinnerModule,
-} from '@spartacus/storefront';
+import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 @NgModule({
@@ -25,7 +21,6 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     SpinnerModule,
   ],
   providers: [
-    provideDefaultConfig(defaultFileValidityConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         AccountSavedCartHistoryComponent: {

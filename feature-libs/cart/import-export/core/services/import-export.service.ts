@@ -1,26 +1,13 @@
 import { Injectable } from '@angular/core';
-import { GlobalMessageService } from '@spartacus/core';
 import { Observable, Observer } from 'rxjs';
-import {
-  FileValidity,
-  FileValidityConfig,
-} from '../../config/file-validity-config';
-
-// TODO: move to other file
-export type InvalidFileInfo = {
-  fileTooLarge?: Boolean;
-  invalidExtension?: Boolean;
-  fileEmpty?: Boolean;
-};
+import { FileValidity, FileValidityConfig } from '../config';
+import { InvalidFileInfo } from '../model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImportExportService {
-  constructor(
-    protected globalMessageService: GlobalMessageService,
-    protected fileValidityConfig: FileValidityConfig
-  ) {}
+  constructor(protected fileValidityConfig: FileValidityConfig) {}
 
   importFile(
     selectedFile: FileList,
@@ -50,7 +37,9 @@ export class ImportExportService {
     });
   }
 
-  protected setValidityConfig(validityConfig: FileValidity): FileValidity {
+  protected setValidityConfig(
+    validityConfig: FileValidity | undefined
+  ): FileValidity {
     return { ...this.fileValidityConfig.fileValidity, ...validityConfig };
   }
 
@@ -92,8 +81,10 @@ export class ImportExportService {
     for (let i = 0; i < array.length; i++) {
       let line = '';
       for (var index in array[i]) {
-        if (line != '') line += ',';
-        line += array[i][index];
+        if (line !== '') {
+          line += ',';
+          line += array[i][index];
+        }
       }
       str += line + '\r\n';
     }

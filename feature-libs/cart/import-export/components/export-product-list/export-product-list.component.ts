@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { OrderEntry } from '@spartacus/core';
-import { ImportExportService } from '../../../../shared/services';
+import { ImportExportService } from '@spartacus/cart/import-export/core';
 
 @Component({
-  selector: 'cx-export-from-cart',
-  templateUrl: './export-from-cart.component.html',
+  selector: 'cx-export-product-list',
+  templateUrl: './export-product-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExportFromCartComponent {
+export class ExportProductListComponent {
   constructor(protected importExportService: ImportExportService) {}
 
   @Input() entries: OrderEntry[];
@@ -38,10 +38,10 @@ export class ExportFromCartComponent {
 
   downloadCsv(csvData: any, filename = 'data') {
     let blob = new Blob(['\ufeff' + csvData], {
-        type: 'text/csv;charset=utf-8;',
-      }),
-      link = document.createElement('a'),
-      url = URL.createObjectURL(blob);
+      type: 'text/csv;charset=utf-8;',
+    });
+    let link = document.createElement('a');
+    let url = URL.createObjectURL(blob);
 
     link.setAttribute('href', url);
     link.setAttribute('download', filename + '.csv');
