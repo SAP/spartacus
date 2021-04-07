@@ -435,19 +435,19 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
 
   describe('getFcousIdOfNearestValue', () => {
     it('should find second value when first is provided', () => {
-      expect(component.getFcousIdOfNearestValue(values[0])).toBe(
+      expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
         '1111--2222--focus'
       );
     });
 
     it('should find first value when second is provided', () => {
-      expect(component.getFcousIdOfNearestValue(values[1])).toBe(
+      expect(component['getFocusIdOfNearestValue'](values[1])).toBe(
         '1111--1111--focus'
       );
     });
     it('should find first value when there is only one value', () => {
       component.attribute.values = [values[0]];
-      expect(component.getFcousIdOfNearestValue(values[0])).toBe(
+      expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
         '1111--1111--focus'
       );
     });

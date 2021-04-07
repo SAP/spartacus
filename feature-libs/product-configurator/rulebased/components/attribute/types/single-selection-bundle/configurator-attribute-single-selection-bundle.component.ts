@@ -137,14 +137,14 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       hideRemoveButton: this.attribute.required,
-      fallbackFocusId: this.getFcousIdOfNearestValue(value),
+      fallbackFocusId: this.getFocusIdOfNearestValue(value),
       productBoundValue: value,
       loading$: this.loading$,
       attributeId: this.attribute.attrCode,
     };
   }
 
-  getFcousIdOfNearestValue(currentValue: Configurator.Value): string {
+  protected getFocusIdOfNearestValue(currentValue: Configurator.Value): string {
     if (!this.attribute.values) {
       return 'n/a';
     }

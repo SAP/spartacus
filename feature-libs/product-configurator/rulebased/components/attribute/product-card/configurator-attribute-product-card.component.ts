@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
-import { KeyboardFocusService } from '@spartacus/storefront';
+import { FocusConfig, KeyboardFocusService } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -82,15 +82,16 @@ export class ConfiguratorAttributeProductCardComponent
       );
   }
 
-  get showQuantity() {
+  get showQuantity(): boolean {
     return (
-      this.productCardOptions.withQuantity &&
-      this.productCardOptions.productBoundValue.selected &&
-      this.productCardOptions.multiSelect
+      (this.productCardOptions.withQuantity &&
+        this.productCardOptions.productBoundValue.selected &&
+        this.productCardOptions.multiSelect) ??
+      false
     );
   }
 
-  get focusConfig() {
+  get focusConfig(): FocusConfig {
     const focusConfig = {
       key: this.createFocusId(
         this.productCardOptions.attributeId.toString(),
@@ -106,9 +107,6 @@ export class ConfiguratorAttributeProductCardComponent
       this.productCardOptions.hideRemoveButton &&
       this.productCardOptions.fallbackFocusId
     ) {
-      console.log(
-        'focus id fallback: ' + this.productCardOptions.fallbackFocusId
-      );
       this.keyBoardFocus.set(this.productCardOptions.fallbackFocusId);
     }
     this.handleSelect.emit(this.productCardOptions.productBoundValue.valueCode);
