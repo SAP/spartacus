@@ -7,6 +7,7 @@ import {
   CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -344,7 +345,7 @@ describe('ConfigurationOverviewFormComponent with forceReload', () => {
   const theOwner = {
     id: '1',
     type: CommonConfigurator.OwnerType.CART_ENTRY,
-    configuratorType: 'cpqconfigurator',
+    configuratorType: ConfiguratorType.VARIANT,
   };
   beforeEach(
     waitForAsync(() => {

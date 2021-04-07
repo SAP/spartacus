@@ -9,6 +9,7 @@ import {
 import {
   CommonConfigurator,
   ConfiguratorRouter,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
@@ -19,7 +20,7 @@ import * as ConfigurationTestData from '../../shared/testing/configurator-test-d
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
 const CART_ENTRY_KEY = '1';
-const configuratorType = 'cpqconfigurator';
+const configuratorType = ConfiguratorType.VARIANT;
 
 const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
 

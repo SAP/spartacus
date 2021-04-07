@@ -14,6 +14,7 @@ import {
 import { CartItemContext } from '@spartacus/storefront';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
+import { ConfiguratorType } from './../../core/model/common-configurator.model';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -114,7 +115,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           {
             configurationLabel: 'Color',
             configurationValue: 'Blue',
-            configuratorType: 'CPQCONFIGURATOR',
+            configuratorType: ConfiguratorType.VARIANT,
             status: 'SUCCESS',
           },
         ],
@@ -137,7 +138,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           {
             configurationLabel: 'Pricing',
             configurationValue: 'could not be carried out',
-            configuratorType: 'CPQCONFIGURATOR',
+            configuratorType: ConfiguratorType.VARIANT,
             status: 'WARNING',
           },
         ],
@@ -194,7 +195,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       it('should be true if first entry of status summary is in error status and has a definition of the configurator type', () => {
         const entry: OrderEntry = {
           configurationInfos: [
-            { status: 'ERROR', configuratorType: 'CPQCONFIGURATOR' },
+            { status: 'ERROR', configuratorType: ConfiguratorType.VARIANT },
           ],
         };
         expect(component.hasStatus(entry)).toBe(true);
@@ -217,10 +218,10 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
     });
 
     describe('isAttributeBasedConfigurator', () => {
-      it('should return true if for CCP based configurator (CPQCONFIGURATOR)', () => {
+      it('should return true if for CCP based configurator', () => {
         const entry: OrderEntry = {
           configurationInfos: [
-            { status: 'ERROR', configuratorType: 'CPQCONFIGURATOR' },
+            { status: 'ERROR', configuratorType: ConfiguratorType.VARIANT },
           ],
         };
         expect(component.isAttributeBasedConfigurator(entry)).toBe(true);
