@@ -32,6 +32,10 @@ function cmd_clean {
 }
 
 function prepare_install {
+    cmd_clean
+
+    printh "Installing installation script prerequisites"
+
     VERDACCIO_PID=`lsof -nP -i4TCP:4873 | grep LISTEN | tr -s ' ' | cut -d ' ' -f 2`
     if [[ -n ${VERDACCIO_PID} ]]; then
         echo "It seems Verdaccio is already running with PID: ${VERDACCIO_PID}. Killing it."
@@ -40,15 +44,15 @@ function prepare_install {
 
     npm config set @spartacus:registry https://registry.npmjs.org/
 
-    cmd_clean
-
-    printh "Installing packages for Spartacus pre-installation"
+    printh "Installing installation script npm required packages"
 
     npm i -g verdaccio
     npm i -g serve
     npm i -g pm2
     npm i -g concurrently
     npm i -g @angular/cli@${ANGULAR_CLI_VERSION}
+
+    ng config -g cli.packageManager yarn     
 
     mkdir -p ${INSTALLATION_DIR}
     ng analytics off
@@ -64,17 +68,22 @@ function clone_repo {
 }
 
 function update_projects_versions {
+
     projects=$@
     if [[ "${SPARTACUS_VERSION}" == "next" ]] || [[ "${SPARTACUS_VERSION}" == "latest" ]]; then
         SPARTACUS_VERSION="999.999.999"
     fi
+
+    printh "Updating all library versions to ${SPARTACUS_VERSION}"
     for i in ${projects}
         do
-            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
+            (cd "${CLONE_DIR}/${i}" && pwd && sed -i '' -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
         done
 }
 
 function install_from_npm {
+    printh "Installing Spartacus from npm libraries"
+
     prepare_install
 
     create_apps
@@ -142,7 +151,7 @@ function create_apps {
 }
 
 function install_from_sources {
-    printh "Installing with local @spartacus/*@${SPARTACUS_VERSION}"
+    printh "Installing @spartacus/*@${SPARTACUS_VERSION} from sources"
 
     prepare_install
 
