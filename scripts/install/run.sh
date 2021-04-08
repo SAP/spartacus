@@ -93,6 +93,7 @@ function add_b2b {
 
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
+  ng add @spartacus/checkout@${SPARTACUS_VERSION} --interactive false
   ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
   ng add @spartacus/smartedit@${SPARTACUS_VERSION} --interactive false
   ng add @spartacus/asm@${SPARTACUS_VERSION} --interactive false
