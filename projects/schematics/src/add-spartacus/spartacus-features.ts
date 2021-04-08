@@ -128,6 +128,7 @@ function configureSpartacusModules(
         content: `
         // Auth Core
         AuthModule.forRoot(),
+
         // Basic Cms Components
         HamburgerMenuModule,
         SiteContextSelectorModule,
@@ -140,6 +141,7 @@ function configureSpartacusModules(
         NavigationModule,
         FooterNavigationModule,
         BreadcrumbModule,
+
         // User Core
         UserModule.forRoot(),
         UserOccModule,
@@ -158,6 +160,7 @@ function configureSpartacusModules(
         StockNotificationModule,
         ConsentManagementModule,
         MyCouponsModule,
+
         // Anonymous Consents Core
         AnonymousConsentsModule.forRoot(),
         // Anonymous Consents UI
@@ -181,12 +184,14 @@ function configureSpartacusModules(
         ProductSummaryModule,
         ProductVariantsModule,
         ProductIntroModule,
+
         // Cart Core
         CartModule.forRoot(),
         CartOccModule,
         // Cart UI
         CartComponentModule,
         WishListModule,
+
         // Checkout Core
         CheckoutModule.forRoot(),
         CheckoutOccModule,
@@ -194,6 +199,7 @@ function configureSpartacusModules(
         // Checkout UI
         CheckoutComponentModule,
         OrderConfirmationModule,
+
         // Order
         OrderHistoryModule,
         OrderDetailsModule,
@@ -204,10 +210,12 @@ function configureSpartacusModules(
         ReplenishmentOrderHistoryModule,
         ReplenishmentOrderDetailsModule,
         ReplenishmentOrderConfirmationModule,
+
         // Asm Core
         AsmOccModule,
         // Asm UI
         AsmModule,
+
         // Page Events
         NavigationEventModule,
         HomePageEventModule,
