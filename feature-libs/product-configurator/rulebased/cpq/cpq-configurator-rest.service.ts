@@ -126,29 +126,29 @@ export class CpqConfiguratorRestService {
   protected mergeTabResults(
     tabReqResultList: Cpq.Configuration[]
   ): Cpq.Configuration {
-    const ovConfig = {
+    const config = {
       // first tab will be the current tab. It might not contain all error messages (bug in CPQ). So we just use the last tab.
       // this whole logic will be obsolete, as soon as CPQ provides and API to fetch everything.
       ...tabReqResultList[tabReqResultList.length - 1],
     };
-    ovConfig.attributes = undefined;
-    ovConfig.tabs = [];
+    config.attributes = undefined;
+    config.tabs = [];
     tabReqResultList.forEach((tabReqResult) => {
-      let ovTab: Cpq.Tab;
+      let tab: Cpq.Tab;
       const currentTab = tabReqResult.tabs.find((tab) => tab.isSelected);
       if (tabReqResult.tabs && tabReqResult.tabs.length > 0) {
-        ovTab = {
+        tab = {
           ...currentTab,
         };
       } else {
-        ovTab = {
+        tab = {
           id: 0,
         };
       }
-      ovTab.attributes = tabReqResult.attributes;
-      ovConfig.tabs.push(ovTab);
+      tab.attributes = tabReqResult.attributes;
+      config.tabs.push(tab);
     });
-    return ovConfig;
+    return config;
   }
 
   /**
