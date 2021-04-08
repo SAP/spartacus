@@ -5,11 +5,11 @@ import { Configurator } from '../core/model/configurator.model';
 import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
 import { Cpq } from './cpq.models';
 
-const NO_OPTION_SELECTED = 0;
-
 @Injectable()
 export class CpqConfiguratorOverviewNormalizer
   implements Converter<Cpq.Configuration, Configurator.Overview> {
+  protected readonly NO_OPTION_SELECTED = 0;
+
   constructor(
     protected cpqUtilitiesService: CpqConfiguratorUtilsService,
     protected translation: TranslationService
@@ -85,7 +85,7 @@ export class CpqConfiguratorOverviewNormalizer
       case Cpq.DisplayAs.INPUT:
         if (attr?.dataType === Cpq.DataType.INPUT_STRING) {
           if (attr.userInput && attr.userInput.length > 0) {
-            ovValues.push(this.extractOvValueUserInput(attr, currency));
+            ovValues.push(this.extractValueUserInput(attr, currency));
           }
         } else {
           ovValues.push({ attribute: undefined, value: 'NOT_IMPLEMENTED' });
@@ -94,17 +94,17 @@ export class CpqConfiguratorOverviewNormalizer
       case Cpq.DisplayAs.RADIO_BUTTON:
       case Cpq.DisplayAs.DROPDOWN:
         const selectedValue = attr.values?.find(
-          (val) => val.selected && val.paV_ID !== NO_OPTION_SELECTED
+          (val) => val.selected && val.paV_ID !== this.NO_OPTION_SELECTED
         );
         if (selectedValue) {
-          ovValues.push(this.extractOvValue(selectedValue, attr, currency));
+          ovValues.push(this.extractValue(selectedValue, attr, currency));
         }
         break;
       case Cpq.DisplayAs.CHECK_BOX:
         attr.values
           ?.filter((val) => val.selected)
           ?.forEach((valueSelected) => {
-            ovValues.push(this.extractOvValue(valueSelected, attr, currency));
+            ovValues.push(this.extractValue(valueSelected, attr, currency));
           });
         break;
       default:
@@ -113,7 +113,7 @@ export class CpqConfiguratorOverviewNormalizer
     return ovValues;
   }
 
-  protected extractOvValue(
+  protected extractValue(
     valueSelected: Cpq.Value,
     attr: Cpq.Attribute,
     currency: string
@@ -135,7 +135,7 @@ export class CpqConfiguratorOverviewNormalizer
     return ovValue;
   }
 
-  protected extractOvValueUserInput(
+  protected extractValueUserInput(
     attr: Cpq.Attribute,
     currency: string
   ): Configurator.AttributeOverview {
