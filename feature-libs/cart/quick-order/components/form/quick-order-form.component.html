@@ -1,0 +1,11 @@
+<form [formGroup]="form" class="cx-quick-order-form-container">
+  <input
+    (keydown.enter)="search()"
+    class="form-control"
+    formControlName="product"
+    required
+    placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
+    type="text"
+  />
+  <cx-form-errors [control]="form.get('product')"></cx-form-errors>
+</form>
