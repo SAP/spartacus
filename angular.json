@@ -802,11 +802,10 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "feature-libs/checkout/tsconfig.lib.json",
-              "feature-libs/checkout/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": [
+              "feature-libs/checkout/**/*.ts",
+              "feature-libs/checkout/**/*.html"
+            ]
           }
         }
       }
