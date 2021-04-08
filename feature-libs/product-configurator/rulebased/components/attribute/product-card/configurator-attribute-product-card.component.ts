@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
+import { FocusConfig, KeyboardFocusService } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -16,6 +17,7 @@ import {
   ConfiguratorAttributeQuantityComponentOptions,
   Quantity,
 } from '../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
   /** If set to `true`, all action buttons will be disabled.  */
@@ -23,8 +25,9 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   /** If set to `true`, the remove/deselect button won't be available. Usefull for required attributes,
    *  where a deselect/remove of last value shall not be possible.  */
   hideRemoveButton?: boolean;
+  fallbackFocusId?: string;
   multiSelect?: boolean;
-  productBoundValue?: Configurator.Value;
+  productBoundValue: Configurator.Value;
   singleDropdown?: boolean;
   withQuantity?: boolean;
   /**
@@ -41,7 +44,9 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   templateUrl: './configurator-attribute-product-card.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeProductCardComponent implements OnInit {
+export class ConfiguratorAttributeProductCardComponent
+  extends ConfiguratorAttributeBaseComponent
+  implements OnInit {
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
 
@@ -52,12 +57,17 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
   @Output() handleQuantity = new EventEmitter<QuantityUpdateEvent>();
   @Output() handleSelect = new EventEmitter<string>();
 
-  constructor(protected productService: ProductService) {}
+  constructor(
+    protected productService: ProductService,
+    protected keyBoardFocus: KeyboardFocusService
+  ) {
+    super();
+  }
 
   ngOnInit() {
     this.loading$.next(true);
-    const productSystemId = this.productCardOptions?.productBoundValue
-      ?.productSystemId;
+    const productSystemId = this.productCardOptions.productBoundValue
+      .productSystemId;
 
     this.product$ = this.productService
       .get(productSystemId ? productSystemId : '', ProductScope.LIST)
@@ -66,42 +76,47 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
           return respProduct
             ? respProduct
             : this.transformToProductType(
-                this.productCardOptions?.productBoundValue
+                this.productCardOptions.productBoundValue
               );
         }),
         tap(() => this.loading$.next(false))
       );
   }
 
-  get showQuantity() {
+  get showQuantity(): boolean {
     return (
-      this.productCardOptions?.withQuantity &&
-      this.productCardOptions?.productBoundValue?.selected &&
-      this.productCardOptions?.multiSelect
+      (this.productCardOptions.withQuantity &&
+        this.productCardOptions.productBoundValue.selected &&
+        this.productCardOptions.multiSelect) ??
+      false
     );
   }
 
-  get focusConfig() {
-    return {
-      key:
-        this.productCardOptions.attributeId +
-        '--' +
-        this.productCardOptions.productBoundValue?.valueCode +
-        '--focus',
+  get focusConfig(): FocusConfig {
+    const focusConfig = {
+      key: this.createFocusId(
+        this.productCardOptions.attributeId.toString(),
+        this.productCardOptions.productBoundValue.valueCode
+      ),
     };
+    return focusConfig;
   }
 
   onHandleSelect(): void {
     this.loading$.next(true);
-    this.handleSelect.emit(
-      this.productCardOptions?.productBoundValue?.valueCode
-    );
+    if (
+      this.productCardOptions.hideRemoveButton &&
+      this.productCardOptions.fallbackFocusId
+    ) {
+      this.keyBoardFocus.set(this.productCardOptions.fallbackFocusId);
+    }
+    this.handleSelect.emit(this.productCardOptions.productBoundValue.valueCode);
   }
 
   onHandleDeselect(): void {
     this.loading$.next(true);
     this.handleDeselect.emit(
-      this.productCardOptions?.productBoundValue?.valueCode
+      this.productCardOptions.productBoundValue.valueCode
     );
   }
 
@@ -119,9 +134,9 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
    */
   isProductCardSelected(): boolean {
     const isProductCardSelected =
-      this.productCardOptions?.productBoundValue &&
-      this.productCardOptions?.productBoundValue?.selected &&
-      !this.productCardOptions?.singleDropdown;
+      this.productCardOptions.productBoundValue &&
+      this.productCardOptions.productBoundValue.selected &&
+      !this.productCardOptions.singleDropdown;
 
     return isProductCardSelected ? isProductCardSelected : false;
   }
@@ -134,9 +149,9 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
    */
   hasPriceDisplay(): boolean {
     const productPrice =
-      this.productCardOptions?.productBoundValue?.valuePrice ||
-      this.productCardOptions?.productBoundValue?.quantity ||
-      this.productCardOptions?.productBoundValue?.valuePriceTotal;
+      this.productCardOptions.productBoundValue.valuePrice ||
+      this.productCardOptions.productBoundValue.quantity ||
+      this.productCardOptions.productBoundValue.valuePriceTotal;
 
     return productPrice ? true : false;
   }
@@ -147,17 +162,17 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
    *  @return {ConfiguratorPriceComponentOptions} - New price formula
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
-    if (!this.productCardOptions?.multiSelect) {
+    if (!this.productCardOptions.multiSelect) {
       return {
-        price: this.productCardOptions?.productBoundValue?.valuePrice,
-        isLightedUp: this.productCardOptions?.productBoundValue?.selected,
+        price: this.productCardOptions.productBoundValue.valuePrice,
+        isLightedUp: this.productCardOptions.productBoundValue.selected,
       };
     }
     return {
-      quantity: this.productCardOptions?.productBoundValue?.quantity,
-      price: this.productCardOptions?.productBoundValue?.valuePrice,
-      priceTotal: this.productCardOptions?.productBoundValue?.valuePriceTotal,
-      isLightedUp: this.productCardOptions?.productBoundValue?.selected,
+      quantity: this.productCardOptions.productBoundValue.quantity,
+      price: this.productCardOptions.productBoundValue.valuePrice,
+      priceTotal: this.productCardOptions.productBoundValue.valuePriceTotal,
+      isLightedUp: this.productCardOptions.productBoundValue.selected,
     };
   }
 
@@ -167,14 +182,14 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    const quantityFromOptions = this.productCardOptions?.productBoundValue
-      ?.quantity;
+    const quantityFromOptions = this.productCardOptions.productBoundValue
+      .quantity;
     const initialQuantity: Quantity = {
       quantity: quantityFromOptions ? quantityFromOptions : 0,
     };
 
-    const mergedLoading = this.productCardOptions?.loading$
-      ? combineLatest([this.loading$, this.productCardOptions?.loading$]).pipe(
+    const mergedLoading = this.productCardOptions.loading$
+      ? combineLatest([this.loading$, this.productCardOptions.loading$]).pipe(
           map((values) => {
             return values[0] || values[1];
           })
@@ -182,7 +197,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
       : this.loading$;
 
     return {
-      allowZero: !this.productCardOptions?.hideRemoveButton,
+      allowZero: !this.productCardOptions.hideRemoveButton,
       initialQuantity: initialQuantity,
       disableQuantityActions$: mergedLoading,
     };
@@ -214,7 +229,7 @@ export class ConfiguratorAttributeProductCardComponent implements OnInit {
 
     this.handleQuantity.emit({
       quantity,
-      valueCode: this.productCardOptions?.productBoundValue?.valueCode,
+      valueCode: this.productCardOptions.productBoundValue.valueCode,
     });
   }
 }

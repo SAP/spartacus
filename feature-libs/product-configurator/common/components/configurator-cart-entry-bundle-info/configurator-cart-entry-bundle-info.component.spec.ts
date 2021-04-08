@@ -7,6 +7,7 @@ import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService, CartItemContext } from '@spartacus/storefront';
 import { of, ReplaySubject } from 'rxjs';
@@ -32,19 +33,19 @@ const configurationInfos: ConfigurationInfo[] = [
   {
     configurationLabel: 'Canon ABC',
     configurationValue: '5 x $1,000.00',
-    configuratorType: 'CLOUDCPQCONFIGURATOR',
+    configuratorType: ConfiguratorType.CPQ,
     status: 'SUCCESS',
   },
   {
     configurationLabel: 'Canon DEF',
     configurationValue: '10',
-    configuratorType: 'CLOUDCPQCONFIGURATOR',
+    configuratorType: ConfiguratorType.CPQ,
     status: 'SUCCESS',
   },
   {
     configurationLabel: 'Canon HJZ',
     configurationValue: '$1,000.00',
-    configuratorType: 'CLOUDCPQCONFIGURATOR',
+    configuratorType: ConfiguratorType.CPQ,
     status: 'SUCCESS',
   },
 ];
@@ -86,10 +87,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     spyOn(
       commonConfigUtilsService,
       'isBundleBasedConfigurator'
-    ).and.callThrough();
-    spyOn(
-      configCartEntryBundleInfoService,
-      'retrieveNumberOfLineItems'
     ).and.callThrough();
     spyOn(
       configCartEntryBundleInfoService,
@@ -170,7 +167,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           {
             configurationLabel: 'Color',
             configurationValue: 'Blue',
-            configuratorType: 'CLOUDCPQCONFIGURATOR',
+            configuratorType: ConfiguratorType.CPQ,
             status: 'SUCCESS',
           },
         ],
@@ -192,7 +189,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           {
             configurationLabel: 'Pricing',
             configurationValue: 'could not be carried out',
-            configuratorType: 'CLOUDCPQCONFIGURATOR',
+            configuratorType: ConfiguratorType.CPQ,
             status: 'WARNING',
           },
         ],
@@ -218,19 +215,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
   });
 
-  describe('retrieveLineItems', () => {
-    it('should return empty list of line items', () => {
-      const emptyEntry: OrderEntry = {
-        configurationInfos: [],
-      };
-      expect(component.retrieveLineItems(emptyEntry)?.length).toBe(0);
-    });
-
-    it('should return a list of line items that contains one line item', () => {
-      expect(component.retrieveLineItems(entry)?.length).toBe(3);
-    });
-  });
-
   describe('isBundleBasedConfigurator', () => {
     it('should return false because the configurator type is not bundle based one', () => {
       entry.configurationInfos[0].configuratorType =
@@ -240,7 +224,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     it('should return true because the configurator type is a bundle based one', () => {
-      entry.configurationInfos[0].configuratorType = 'CLOUDCPQCONFIGURATOR';
+      entry.configurationInfos[0].configuratorType = ConfiguratorType.CPQ;
       fixture.detectChanges();
       expect(component.isBundleBasedConfigurator(entry)).toBe(true);
     });
@@ -403,7 +387,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             {
               configurationLabel: 'Canon ABC',
               configurationValue: '5 x $1,000.00',
-              configuratorType: 'CLOUDCPQCONFIGURATOR',
+              configuratorType: ConfiguratorType.CPQ,
               status: 'SUCCESS',
             },
           ],
@@ -544,7 +528,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             {
               configurationLabel: 'Canon ABC',
               configurationValue: '10',
-              configuratorType: 'CLOUDCPQCONFIGURATOR',
+              configuratorType: ConfiguratorType.CPQ,
               status: 'SUCCESS',
             },
           ],

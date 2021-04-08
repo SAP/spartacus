@@ -3,11 +3,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   Input,
-  ViewChild,
 } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'cx-configurator-show-more',
@@ -15,14 +12,13 @@ import { BehaviorSubject } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorShowMoreComponent implements AfterViewInit {
-  showMore$ = new BehaviorSubject<boolean>(false);
-  showHiddenText$ = new BehaviorSubject<boolean>(false);
+  showMore = false;
+  showHiddenText = false;
   textToShow: string;
   textNormalized: string;
 
   @Input() text: string;
   @Input() textSize = 60;
-  @ViewChild('textContent') textContentElement: ElementRef;
 
   constructor(protected cdRef: ChangeDetectorRef) {}
 
@@ -30,16 +26,18 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
     this.textNormalized = this.normalize(this.text);
 
     if (this.textNormalized.length > this.textSize) {
-      this.showMore$.next(true);
+      this.showMore = true;
       this.textToShow = this.textNormalized.substring(0, this.textSize);
-      this.cdRef.detectChanges();
+    } else {
+      this.textToShow = this.textNormalized;
     }
+    this.cdRef.detectChanges();
   }
 
   toggleShowMore(): void {
-    this.showHiddenText$.next(!this.showHiddenText$.value);
+    this.showHiddenText = !this.showHiddenText;
 
-    this.showHiddenText$.value
+    this.showHiddenText
       ? (this.textToShow = this.textNormalized)
       : (this.textToShow = this.textNormalized.substring(0, this.textSize));
 

@@ -114,14 +114,6 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
     ).toEqual(expectedLineItem4);
   });
 
-  it('should retrieve number of line items', () => {
-    expect(
-      configuratorCartEntryBundleInfoService.retrieveNumberOfLineItems(
-        orderEntry
-      )
-    ).toBe(4);
-  });
-
   it('should retrieve line items', () => {
     const lineItems: LineItem[] = configuratorCartEntryBundleInfoService.retrieveLineItems(
       orderEntry

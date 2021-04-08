@@ -48,7 +48,7 @@ export class ConfigureProductComponent {
    */
   navigateToConfigurator(event: KeyboardEvent, product: Product): void {
     if (event.code === 'Enter' || event.code === 'Space') {
-      this.routingService.go(
+      this.routingService?.go(
         {
           cxRoute: 'configure' + product.configuratorType,
           params: { ownerType: this.ownerTypeProduct, entityKey: product.code },
@@ -57,9 +57,33 @@ export class ConfigureProductComponent {
       );
     }
   }
+
+  // TODO(#11681): make routingService a required dependency and remove deprecated constructor
+  /**
+   * Default constructor
+   *
+   * @param {ProductListItemContext} productListItemContext
+   * @param {CurrentProductService} currentProductService
+   * @param {RoutingService} routingService
+   */
   constructor(
-    protected routingService: RoutingService,
-    @Optional() protected productListItemContext: ProductListItemContext, // when on PLP
-    @Optional() protected currentProductService: CurrentProductService // when on PDP
+    productListItemContext: ProductListItemContext,
+    currentProductService: CurrentProductService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    routingService: RoutingService
+  );
+
+  /**
+   * @deprecated since 3.3
+   */
+  constructor(
+    productListItemContext: ProductListItemContext,
+    currentProductService: CurrentProductService
+  );
+
+  constructor(
+    @Optional() protected productListItemContext: ProductListItemContext,
+    @Optional() protected currentProductService: CurrentProductService,
+    @Optional() protected routingService?: RoutingService
   ) {}
 }

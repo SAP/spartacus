@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import {
@@ -15,6 +15,7 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(
@@ -34,29 +35,23 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
 
-  numberOfLineItems$: Observable<number> = this.orderEntry$.pipe(
+  hideItems = true;
+
+  lineItems$: Observable<LineItem[]> = this.orderEntry$.pipe(
     map((entry) =>
-      this.configCartEntryBundleInfoService.retrieveNumberOfLineItems(entry)
+      this.configCartEntryBundleInfoService.retrieveLineItems(entry)
     )
   );
 
-  hideItems = true;
+  numberOfLineItems$: Observable<number> = this.lineItems$.pipe(
+    map((items) => items.length)
+  );
 
   /**
    * Toggles the state of the items list.
    */
   toggleItems(): void {
     this.hideItems = !this.hideItems;
-  }
-
-  /**
-   * Retrieves the line items for an order entry.
-   *
-   * @param {OrderEntry} entry - Order entry
-   * @returns {LineItem[]} - Array of line items
-   */
-  retrieveLineItems(entry: OrderEntry): LineItem[] {
-    return this.configCartEntryBundleInfoService.retrieveLineItems(entry);
   }
 
   /**

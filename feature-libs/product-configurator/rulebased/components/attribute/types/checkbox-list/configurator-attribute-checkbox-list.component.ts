@@ -37,7 +37,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  // TODO(#11681): make quantityService a required dependency and remove deprected constructor
+  // TODO(#11681): make quantityService a required dependency and remove deprecated constructor
   /**
    * default constructor
    * @param {ConfiguratorStorefrontUtilsService} configUtilsService

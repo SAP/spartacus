@@ -5,7 +5,11 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product, ProductService } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
-import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
+import {
+  ItemCounterComponent,
+  KeyboardFocusService,
+  MediaModule,
+} from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -50,6 +54,8 @@ class MockProductService {
     return of(product);
   }
 }
+
+let focusService: KeyboardFocusService;
 
 @Component({
   selector: 'cx-configurator-price',
@@ -158,6 +164,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     fixture = TestBed.createComponent(
       ConfiguratorAttributeProductCardComponent
     );
+    focusService = TestBed.inject(KeyboardFocusService);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
@@ -620,6 +627,29 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'button.btn',
         'configurator.button.select'
       );
+    });
+  });
+  describe('onHandleSelect', () => {
+    it('should not focus on fallback element if remove button is not hidden', () => {
+      focusService.set('123');
+      component.productCardOptions.hideRemoveButton = false;
+      component.onHandleSelect();
+      expect(focusService.get()).toBe('123');
+    });
+
+    it('should not focus on fallback element if no fallback id is provided', () => {
+      focusService.set('123');
+      component.productCardOptions.hideRemoveButton = true;
+      component.onHandleSelect();
+      expect(focusService.get()).toBe('123');
+    });
+
+    it('should focus on fallback element if id is provided and remove button is hidden', () => {
+      focusService.set('123');
+      component.productCardOptions.hideRemoveButton = true;
+      component.productCardOptions.fallbackFocusId = 'fallbackId';
+      component.onHandleSelect();
+      expect(focusService.get()).toBe('fallbackId');
     });
   });
 });

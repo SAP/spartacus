@@ -7,8 +7,11 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
-import { OrderEntryStatus } from './../../core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+  OrderEntryStatus,
+} from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
 
 const productCode = 'CONF_LAPTOP';
@@ -207,15 +210,15 @@ describe('CommonConfiguratorUtilsService', () => {
       ).toBe(false);
     });
 
-    it('should return true, because it is CPQCONFIGURATOR configurator type', () => {
+    it('should return true for the variant configurator type', () => {
       expect(
-        classUnderTest.isAttributeBasedConfigurator('CPQCONFIGURATOR')
+        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.VARIANT)
       ).toBe(true);
     });
 
-    it('should return true, because it is TEXTFIELDCONFIGURATOR configurator type', () => {
+    it('should return true for the textfield configurator type', () => {
       expect(
-        classUnderTest.isAttributeBasedConfigurator('TEXTFIELDCONFIGURATOR')
+        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.TEXTFIELD)
       ).toBe(true);
     });
   });
@@ -231,9 +234,9 @@ describe('CommonConfiguratorUtilsService', () => {
       );
     });
 
-    it('should return true, because it is CLOUDCPQCONFIGURATOR configurator type', () => {
+    it('should return true for the CPQ configurator type', () => {
       expect(
-        classUnderTest.isBundleBasedConfigurator('CLOUDCPQCONFIGURATOR')
+        classUnderTest.isBundleBasedConfigurator(ConfiguratorType.CPQ)
       ).toBe(true);
     });
   });

@@ -175,7 +175,7 @@ describe('CpqConfiguratorRestService', () => {
   });
 
   it('should read all tabs individually for OV and merge results', () => {
-    serviceUnderTest['getConfigurationWithAllTabsAndAttribues'](
+    serviceUnderTest['getConfigurationWithAllTabsAndAttributes'](
       configId
     ).subscribe((mergedConfig) => {
       const expectedInput: Cpq.Configuration = {
@@ -205,7 +205,7 @@ describe('CpqConfiguratorRestService', () => {
   });
 
   it('should read all tabs individually for OV and merge results for only one group', () => {
-    serviceUnderTest['getConfigurationWithAllTabsAndAttribues'](
+    serviceUnderTest['getConfigurationWithAllTabsAndAttributes'](
       configId
     ).subscribe((mergedConfig) => {
       const expectedInput: Cpq.Configuration = {
@@ -228,7 +228,7 @@ describe('CpqConfiguratorRestService', () => {
     configResponseTab1.errorMessages = [];
     configResponseTab2.errorMessages = ['error'];
     configResponseTab3.errorMessages = ['error'];
-    serviceUnderTest['getConfigurationWithAllTabsAndAttribues'](
+    serviceUnderTest['getConfigurationWithAllTabsAndAttributes'](
       configId
     ).subscribe((mergedConfig) => {
       expect(mergedConfig.errorMessages.length).toEqual(1);
@@ -240,7 +240,7 @@ describe('CpqConfiguratorRestService', () => {
   });
 
   it('should merge results for configuration without group', () => {
-    serviceUnderTest['getConfigurationWithAllTabsAndAttribues'](
+    serviceUnderTest['getConfigurationWithAllTabsAndAttributes'](
       configId
     ).subscribe((mergedConfig) => {
       const expectedInput: Cpq.Configuration = {
