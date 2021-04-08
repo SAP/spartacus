@@ -12,7 +12,7 @@ import {
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { addBulkPricingFeature } from '../add-bulk-pricing';
-import { addVariantsFeature } from '../add-variants';
+import { addVariantsFeature } from '../add-product-variants';
 import { CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE } from '../constants';
 
 export function addSpartacusProduct(options: SpartacusProductOptions): Rule {

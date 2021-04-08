@@ -7,7 +7,7 @@ import {
   UrlCommands,
   VariantQualifier,
 } from '@spartacus/core';
-import { VariantColorSelectorComponent } from './variant-color-selector.component';
+import { ProductVariantColorSelectorComponent } from './product-variant-color-selector.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NavigationExtras } from '@angular/router';
 
@@ -40,15 +40,15 @@ class MockRoutingService {
   ): void {}
 }
 
-describe('VariantColorSelectorComponent', () => {
-  let component: VariantColorSelectorComponent;
-  let fixture: ComponentFixture<VariantColorSelectorComponent>;
+describe('ProductVariantColorSelectorComponent', () => {
+  let component: ProductVariantColorSelectorComponent;
+  let fixture: ComponentFixture<ProductVariantColorSelectorComponent>;
   let routingService: RoutingService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [VariantColorSelectorComponent],
+        declarations: [ProductVariantColorSelectorComponent],
         imports: [RouterTestingModule, I18nTestingModule],
         providers: [{ provide: RoutingService, useClass: MockRoutingService }],
       }).compileComponents();
@@ -58,7 +58,7 @@ describe('VariantColorSelectorComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VariantColorSelectorComponent);
+    fixture = TestBed.createComponent(ProductVariantColorSelectorComponent);
     component = fixture.componentInstance;
     component.variants = mockVariant;
     fixture.detectChanges();
