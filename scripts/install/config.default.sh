@@ -20,6 +20,7 @@ SPARTACUS_PROJECTS=(
         "feature-libs/asm"
         "feature-libs/organization"
         "feature-libs/storefinder"
+        "feature-libs/checkout"
         "feature-libs/smartedit"
         "feature-libs/product"
         "feature-libs/product-configurator"

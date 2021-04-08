@@ -80,6 +80,7 @@ export default async function run(
     '@spartacus/product': 'feature-libs/product',
     '@spartacus/product-configurator': 'feature-libs/product-configurator',
     '@spartacus/storefinder': 'feature-libs/storefinder',
+    '@spartacus/checkout': 'feature-libs/checkout',
     '@spartacus/asm': 'feature-libs/asm',
     '@spartacus/smartedit': 'feature-libs/smartedit',
     '@spartacus/tracking': 'feature-libs/tracking',
@@ -327,6 +328,10 @@ if (typeof config.to === 'undefined') {
     case 'storefinder':
     case '@spartacus/storefinder':
       config.library = '@spartacus/storefinder';
+      break;
+    case 'checkout':
+    case '@spartacus/checkout':
+      config.library = '@spartacus/checkout';
       break;
     case 'tracking':
     case '@spartacus/tracking':

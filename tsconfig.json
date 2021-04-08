@@ -203,6 +203,7 @@
       "@spartacus/user/profile/root": [
         "feature-libs/user/profile/root/public_api"
       ],
+      "@spartacus/checkout": ["feature-libs/checkout/public_api"],
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
       "@spartacus/cds": ["integration-libs/cds/public_api"],
       "@spartacus/assets": ["projects/assets/src/public_api"],

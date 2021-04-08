@@ -74,6 +74,7 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
     - [ ] `npm run release:assets:with-changelog`
     - [ ] `npm run release:styles:with-changelog`
     - [ ] `npm run release:schematics:with-changelog`
+    - [ ] `npm run release:checkout:with-changelog`
     - [ ] `npm run release:asm:with-changelog` (needed since `3.2.0-rc.0`)
     - [ ] `npm run release:cart:with-changelog` (needed since `3.2.0-rc.0`)
     - [ ] `npm run release:setup:with-changelog` (needed since `3.0.0-next.1`)

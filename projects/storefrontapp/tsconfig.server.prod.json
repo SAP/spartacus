@@ -5,6 +5,7 @@
     "paths": {
       "@spartacus/setup": ["../../dist/setup"],
       "@spartacus/setup/ssr": ["../../dist/setup/ssr"],
+      "@spartacus/checkout": ["../../dist/checkout"],
       "@spartacus/cart": ["../../dist/cart"],
       "@spartacus/cart/saved-cart/assets": [
         "../../dist/cart/saved-cart/assets"
