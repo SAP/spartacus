@@ -1,0 +1,5 @@
+@import './user-form';
+
+%cx-update-email {
+  @extend %cx-user-form !optional;
+}
