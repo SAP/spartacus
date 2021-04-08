@@ -10,6 +10,7 @@ function verifyStockNotificationAsGuest() {
 }
 
 function verifyStockNotificationWithoutChannel() {
+  cy.wait(1000);
   notification.navigateToPDP(normalProductCode);
   cy.get('.stock-notification-notes > p > a').click();
   cy.location('pathname').should('contain', '/notification-preference');
@@ -49,8 +50,8 @@ function verifyStockNotification() {
   verifyNavigateToNotificationPreferenceInDialog();
   unsubscribeStockNotification(normalProductCode);
   verifyUnsubscribe();
-  clickNotifyMeBtn(normalProductCode);
-  unsubscribeStockNotification(normalProductCode);
+  // clickNotifyMeBtn(normalProductCode);
+  // unsubscribeStockNotification(normalProductCode);
 }
 
 describe('Stock Notification for Guest', () => {
@@ -75,10 +76,13 @@ describe('Stock Notification for Customer', () => {
     });
 
     beforeEach(() => {
+      // notification.enableNotificationChannel();
+      // clickNotifyMeBtn(normalProductCode);
       cy.restoreLocalStorage();
     });
 
     afterEach(() => {
+      // unsubscribeStockNotification(normalProductCode);
       cy.saveLocalStorage();
     });
 
