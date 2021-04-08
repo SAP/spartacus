@@ -36,7 +36,9 @@
       "@spartacus/cart/quick-order/core": [
         "../../feature-libs/cart/quick-order/core/public_api"
       ],
-      "@spartacus/cart/quick-order": ["../../feature-libs/cart/quick-order/public_api"],
+      "@spartacus/cart/quick-order": [
+        "../../feature-libs/cart/quick-order/public_api"
+      ],
       "@spartacus/cart/quick-order/occ": [
         "../../feature-libs/cart/quick-order/occ/public_api"
       ],

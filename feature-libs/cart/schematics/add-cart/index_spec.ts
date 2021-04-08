@@ -102,11 +102,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not install quick-order', () => {
+    it('should not install saved-cart', () => {
       expect(appTree.exists(saveCartFeatureModulePath)).toBeFalsy();
     });
 
-    it('should not install quick-order', () => {
+    it('should not install saved-cart', () => {
       expect(appTree.exists(quickOrderFeatureModulePath)).toBeFalsy();
     });
   });

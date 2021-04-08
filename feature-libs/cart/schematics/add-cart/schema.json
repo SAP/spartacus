@@ -20,16 +20,10 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": [
-          "Saved Cart (b2b feature)",
-          "Quick Order (b2b feature)"
-        ],
+        "enum": ["Saved Cart (b2b feature)", "Quick Order (b2b feature)"],
         "type": "string"
       },
-      "default": [
-        "Saved Cart (b2b feature)",
-        "Quick Order (b2b feature)"
-      ],
+      "default": ["Saved Cart (b2b feature)", "Quick Order (b2b feature)"],
       "x-prompt": "Which Cart features would you like to setup?"
     }
   },
