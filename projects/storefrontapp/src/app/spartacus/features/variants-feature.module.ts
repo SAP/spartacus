@@ -11,7 +11,7 @@ import {
   providers: [
     provideConfig({
       featureModules: {
-        variants: {
+        productVariants: {
           module: () =>
             import('@spartacus/product/variants').then((m) => m.ProductVariantsModule),
         },
