@@ -149,7 +149,7 @@ describe('Navigation UI Component', () => {
 
     it('should render cx-icon element for a nav node with children in flyout mode', () => {
       fixture.detectChanges();
-      const icon: ElementRef = element.query(By.css('a > cx-icon'));
+      const icon: ElementRef = element.query(By.css('span > cx-icon'));
       const link: HTMLLinkElement = icon.nativeElement;
 
       expect(link).toBeDefined();
@@ -190,7 +190,7 @@ describe('Navigation UI Component', () => {
     it('should render a tag for nav nodes without a URL', () => {
       fixture.detectChanges();
 
-      const nav: ElementRef = element.query(By.css('nav > a'));
+      const nav: ElementRef = element.query(By.css('nav > span'));
       const el: HTMLElement = nav.nativeElement;
       expect(el.innerText).toEqual('Root 1');
     });
