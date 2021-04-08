@@ -23,7 +23,7 @@ button {
 //buttons - https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L348
 .btn {
   font-size: $font-size-base * 1.125;
-  text-transform: capitalize;
+  text-transform: var(--cx-button-text-transform);
   line-height: 1.34;
   padding: 11px 12px;
   height: 48px;

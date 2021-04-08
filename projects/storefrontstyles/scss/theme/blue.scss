@@ -7,6 +7,8 @@
   --cx-color-secondary: #a1aabf;
   --cx-buttons-border-radius: 27px;
   --cx-color-dark: #212738;
+  --cx-button-text-transform: uppercase;
+  --cx-spinner-primary-color: #2480c5;
 
   cx-site-context-selector {
     select {
@@ -96,6 +98,30 @@
     color: var(--cx-color-text);
   }
 
+  cx-cart-item {
+    .cx-actions {
+      button.link {
+        color: var(--cx-color-primary);
+        font-weight: var(--cx-font-weight-semi);
+        font-size: var(--cx-font-size, 1rem);
+      }
+    }
+
+    .cx-name .cx-link {
+      font-weight: var(--cx-font-weight-semi);
+      color: var(--cx-color-primary);
+    }
+
+    .cx-compact {
+      .cx-price {
+        .cx-value,
+        .cx-label {
+          font-size: var(--cx-font-size);
+        }
+      }
+    }
+  }
+
   cx-facet a.selected {
     color: var(--cx-color-primary);
   }
@@ -109,5 +135,13 @@
 
   cx-add-to-cart .quantity .info {
     color: var(--cx-color-text);
+    font-size: var(--cx-font-size);
+  }
+
+  cx-order-history {
+    .cx-order-history-code .cx-order-history-value {
+      color: var(--cx-color-primary);
+      font-weight: var(--cx-font-weight-semi);
+    }
   }
 }
