@@ -800,7 +800,7 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
             "tsConfig": [
               "feature-libs/checkout/tsconfig.lib.json",
