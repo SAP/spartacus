@@ -41,6 +41,7 @@ export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
+export const SPARTACUS_USER = '@spartacus/user';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -658,16 +659,6 @@ export const GET_META_RESOLVER = 'getMetaResolver';
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
-
-export const CLI_ASM_FEATURE = 'Assisted Services Module';
-export const CLI_CART_FEATURE = 'Cart';
-export const CLI_ORGANIZATION_FEATURE = 'Organization (b2b feature)';
-export const CLI_PRODUCT_FEATURE = 'Product';
-export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'Product Configurator';
-export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
-export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
-export const CLI_STOREFINDER_FEATURE = 'Store Finder';
-export const CLI_TRACKING_FEATURE = 'Tracking';
 /***** APIs end *****/
 
 /***** Storefinder start *****/
@@ -684,4 +675,14 @@ export const SPARTACUS_MODULE = 'spartacus';
 export const SPARTACUS_FEATURES_MODULE = 'spartacus-features';
 export const SPARTACUS_FEATURES_NG_MODULE = 'SpartacusFeaturesModule';
 export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
+
+export const CLI_ASM_FEATURE = 'Assisted Services Module';
+export const CLI_CART_FEATURE = 'Cart';
+export const CLI_ORGANIZATION_FEATURE = 'Organization (b2b feature)';
+export const CLI_PRODUCT_FEATURE = 'Product';
+export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'Product Configurator';
+export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
+export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
+export const CLI_STOREFINDER_FEATURE = 'Store Finder';
+export const CLI_TRACKING_FEATURE = 'Tracking';
 /******* CLI end *******/
