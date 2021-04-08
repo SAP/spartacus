@@ -1,4 +1,4 @@
-import { ImportExportConfig } from './import-export-config.service';
+import { ImportExportConfig } from './import-export-config';
 
 export const defaultImportExportConfig: ImportExportConfig = {
   fileValidity: {
