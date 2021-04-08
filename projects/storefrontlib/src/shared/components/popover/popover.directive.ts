@@ -162,6 +162,7 @@ export class PopoverDirective {
       componentInstance.appendToBody = this.cxPopoverOptions?.appendToBody;
       componentInstance.positionOnScroll = this.cxPopoverOptions?.positionOnScroll;
       componentInstance.displayCloseButton = this.cxPopoverOptions?.displayCloseButton;
+      componentInstance.autoPositioning = this.cxPopoverOptions?.autoPositioning;
 
       if (this.cxPopoverOptions?.appendToBody) {
         this.renderer.appendChild(
