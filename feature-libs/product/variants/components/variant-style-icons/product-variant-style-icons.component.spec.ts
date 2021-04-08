@@ -1,6 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OccConfig, VariantOption, VariantQualifier } from '@spartacus/core';
-import { VariantStyleIconsComponent } from './variant-style-icons.component';
+import { ProductVariantStyleIconsComponent } from './product-variant-style-icons.component';
 
 const mockOccBackendUrl = 'https://';
 const mockVariants: VariantOption[] = [
@@ -36,14 +36,14 @@ const mockVariants: VariantOption[] = [
   },
 ];
 
-describe('VariantStyleIconsComponent', () => {
-  let component: VariantStyleIconsComponent;
-  let fixture: ComponentFixture<VariantStyleIconsComponent>;
+describe('ProductVariantStyleIconsComponent', () => {
+  let component: ProductVariantStyleIconsComponent;
+  let fixture: ComponentFixture<ProductVariantStyleIconsComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [VariantStyleIconsComponent],
+        declarations: [ProductVariantStyleIconsComponent],
         providers: [
           {
             provide: OccConfig,
@@ -55,7 +55,7 @@ describe('VariantStyleIconsComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VariantStyleIconsComponent);
+    fixture = TestBed.createComponent(ProductVariantStyleIconsComponent);
     component = fixture.componentInstance;
 
     component.variants = mockVariants;
