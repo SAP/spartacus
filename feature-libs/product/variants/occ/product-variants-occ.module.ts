@@ -7,4 +7,4 @@ import { defaultOccProductVariantsConfig } from './config/default-occ-product-va
   imports: [CommonModule],
   providers: [provideDefaultConfig(defaultOccProductVariantsConfig)],
 })
-export class VariantsOccModule {}
+export class ProductVariantsOccModule {}

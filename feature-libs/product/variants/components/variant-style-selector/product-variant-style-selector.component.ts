@@ -12,11 +12,11 @@ import {
 import { filter, take } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-variant-style-selector',
-  templateUrl: './variant-style-selector.component.html',
+  selector: 'cx-product-variant-style-selector',
+  templateUrl: './product-variant-style-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantStyleSelectorComponent {
+export class ProductVariantStyleSelectorComponent {
   constructor(
     private config: OccConfig,
     private productService: ProductService,
