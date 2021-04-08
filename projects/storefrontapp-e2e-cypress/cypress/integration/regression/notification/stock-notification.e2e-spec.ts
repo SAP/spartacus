@@ -10,8 +10,8 @@ function verifyStockNotificationAsGuest() {
 }
 
 function verifyStockNotificationWithoutChannel() {
-  cy.wait(3000);
   notification.navigateToPDP(normalProductCode);
+  cy.wait(3000);
   cy.get('.stock-notification-notes > p > a').click();
   cy.location('pathname').should('contain', '/notification-preference');
 }
