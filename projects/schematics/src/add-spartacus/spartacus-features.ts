@@ -6,7 +6,7 @@ import {
   SPARTACUS_STOREFRONTLIB,
 } from '../shared/constants';
 import { addModuleImport } from '../shared/utils/new-module-utils';
-import { createProgram, saveAndFormat } from '../shared/utils/program';
+import { createProgram } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
 /** Migration which ensures the spartacus features are being correctly set up */
@@ -76,11 +76,9 @@ function configureSpartacusModules(
               'CategoryNavigationModule',
               'CheckoutComponentModule',
               'CheckoutLoginModule',
-              'CloseAccountModule',
               'CmsParagraphModule',
               'ConsentManagementModule',
               'FooterNavigationModule',
-              'ForgotPasswordModule',
               'HamburgerMenuModule',
               'HomePageEventModule',
               'LinkModule',
@@ -109,7 +107,6 @@ function configureSpartacusModules(
               'ReplenishmentOrderConfirmationModule',
               'ReplenishmentOrderDetailsModule',
               'ReplenishmentOrderHistoryModule',
-              'ResetPasswordModule',
               'ReturnRequestDetailModule',
               'ReturnRequestListModule',
               'SearchBoxModule',
@@ -209,7 +206,7 @@ function configureSpartacusModules(
         `,
       });
 
-      saveAndFormat(sourceFile);
+      sourceFile.saveSync();
 
       break;
     }
