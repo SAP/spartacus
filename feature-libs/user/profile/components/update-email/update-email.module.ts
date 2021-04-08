@@ -1,14 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
+  AuthService,
   CmsConfig,
+  GlobalMessageService,
   I18nModule,
   provideDefaultConfig,
+  RoutingService,
+  UrlModule,
 } from '@spartacus/core';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
-import { UpdateEmailFormComponent } from './update-email-form/update-email-form.component';
+import { UserEmailFacade } from '@spartacus/user/profile/root';
+import { UpdateEmailComponentService } from './update-email-component.service';
 import { UpdateEmailComponent } from './update-email.component';
 
 @NgModule({
@@ -17,6 +23,8 @@ import { UpdateEmailComponent } from './update-email.component';
     FormsModule,
     ReactiveFormsModule,
     SpinnerModule,
+    UrlModule,
+    RouterModule,
     I18nModule,
     FormErrorsModule,
   ],
@@ -26,10 +34,22 @@ import { UpdateEmailComponent } from './update-email.component';
         UpdateEmailComponent: {
           component: UpdateEmailComponent,
           guards: [AuthGuard],
+          providers: [
+            {
+              provide: UpdateEmailComponentService,
+              useClass: UpdateEmailComponentService,
+              deps: [
+                UserEmailFacade,
+                RoutingService,
+                GlobalMessageService,
+                AuthService,
+              ],
+            },
+          ],
         },
       },
     }),
   ],
-  declarations: [UpdateEmailFormComponent, UpdateEmailComponent],
+  declarations: [UpdateEmailComponent],
 })
 export class UpdateEmailModule {}
