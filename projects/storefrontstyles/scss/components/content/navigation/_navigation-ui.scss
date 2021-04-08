@@ -72,12 +72,12 @@
     }
   }
 
-  a {
+  span {
     margin: 0;
   }
 
   &.flyout {
-    a,
+    span,
     cx-generic-link {
       display: flex;
       align-items: center;
@@ -107,13 +107,13 @@
     @include media-breakpoint-down(md) {
       // make all first level hedings uppercase in mobile view
       > nav {
-        > a,
+        > span,
         > cx-generic-link {
           text-transform: uppercase;
           font-weight: 600;
         }
       }
-      a,
+      span,
       cx-generic-link {
         border-bottom: 1px solid var(--cx-color-light);
         display: flex;
@@ -122,7 +122,7 @@
         cursor: pointer;
       }
 
-      a,
+      span,
       cx-generic-link a {
         padding: 1rem;
       }
@@ -132,7 +132,7 @@
       > nav {
         cursor: pointer;
         // top level headings
-        > a {
+        > span {
           margin-top: 3px;
           padding-top: 20px;
           padding-inline-end: 15px;
@@ -140,7 +140,7 @@
           padding-inline-start: 0;
         }
         // first level headings will be bold in desktop
-        nav > a {
+        nav > span {
           @include type('5');
           cursor: default;
 
@@ -278,7 +278,7 @@
               display: initial;
             }
           }
-          > a {
+          > span {
             display: none;
           }
           > .wrapper {

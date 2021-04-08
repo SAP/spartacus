@@ -1,7 +1,7 @@
 %cx-category-navigation {
   // all ategory headings in desktop have uppercase text, as
   // well as the root category links
-  a,
+  span,
   cx-navigation-ui > li > cx-generic-link {
     text-transform: uppercase;
     font-weight: 600;
@@ -16,7 +16,7 @@
     @include media-breakpoint-down(md) {
       &.is-open {
         li.is-open {
-          > a {
+          > span {
             display: none;
           }
         }
