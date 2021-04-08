@@ -83,12 +83,7 @@ if (!environment.production) {
               (m) => m.RulebasedConfiguratorModule
             ),
         },
-        productConfiguratorRulebasedCpq: {
-          module: () =>
-            import('@spartacus/product-configurator/rulebased/cpq').then(
-              (m) => m.CpqConfiguratorRestModule
-            ),
-        },
+
         productConfiguratorTextfield: {
           module: () =>
             import('@spartacus/product-configurator/textfield').then(

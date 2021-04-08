@@ -4,17 +4,17 @@ import { provideDefaultConfig } from '@spartacus/core';
 const cmsComponents: string[] = [
   'ConfiguratorForm',
   'ConfiguratorOverview',
-  'ConfiguratorUpdateMessage',
   'ConfiguratorAddToCartButton',
   'ConfiguratorGroupTitle',
   'ConfiguratorOverviewBanner',
+  'ConfiguratorUpdateMessage',
   'ConfiguratorPrevNext',
   'ConfiguratorPriceSummary',
   'ConfiguratorTitle',
   'ConfiguratorTabBar',
 ];
 
-const cmsComponents2: string[] = ['ConfiguratorMenu'];
+//const cmsComponents2: string[] = ['ConfiguratorUpdateMessage'];
 
 /**
  * Contains feature module configuration
@@ -34,7 +34,7 @@ const cmsComponents2: string[] = ['ConfiguratorMenu'];
          */
         rulebased: { cmsComponents },
         productConfiguratorRulebased: { cmsComponents },
-        productConfiguratorRulebasedCpq: { cmsComponents2 },
+        //productConfiguratorRulebasedCpq: { cmsComponents2 },
       },
     }),
   ],
