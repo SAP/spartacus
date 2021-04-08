@@ -17,13 +17,17 @@ SPARTACUS_PROJECTS=(
         "projects/schematics"
         "integration-libs/cds"
         "core-libs/setup"
+        "feature-libs/asm"
         "feature-libs/organization"
         "feature-libs/storefinder"
         "feature-libs/checkout"
         "feature-libs/smartedit"
+        "feature-libs/product"
         "feature-libs/product-configurator"
         "feature-libs/qualtrics"
         "feature-libs/cart"
+        "feature-libs/user"
+        "feature-libs/tracking"
         )
 
 SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"
@@ -50,4 +54,4 @@ SSR_PWA_APP_NAME="ssr-pwa"
 
 ADD_B2B_LIBS=false
 
-ADD_PRODUCT_CONFIGURATOR=true
+ADD_PRODUCT_CONFIGURATOR=false

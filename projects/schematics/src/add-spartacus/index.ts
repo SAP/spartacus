@@ -49,6 +49,7 @@ import {
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
   SPARTACUS_TRACKING,
+  SPARTACUS_USER,
 } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
@@ -411,6 +412,7 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
     ...(shouldAddFeature(CLI_TRACKING_FEATURE, options.features)
       ? [SPARTACUS_TRACKING]
       : []),
+    SPARTACUS_USER,
   ];
 }
 
