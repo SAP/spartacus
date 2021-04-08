@@ -1,4 +1,4 @@
-export const user = {
+export const userProfile = {
   updateEmailForm: {
     newEmailAddress: {
       label: 'New email address???',
