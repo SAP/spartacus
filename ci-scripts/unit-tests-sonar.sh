@@ -157,7 +157,7 @@ fi
 
 echo "Running unit tests and code coverage for schematics library"
 exec 5>&1
-output=$(yarn --cwd projects/schematics run test --coverage=true | tee /dev/fd/5)
+output=$(yarn --cwd projects/schematics run test --runInBand --coverage=true | tee /dev/fd/5)
 
 if [[ $1 == '-h' ]]; then
     echo "Usage: $0 [sonar (to run sonar scan)]"

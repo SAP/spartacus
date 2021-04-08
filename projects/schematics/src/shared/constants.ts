@@ -30,16 +30,25 @@ export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
+export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `${SPARTACUS_ORGANIZATION}/administration/core`;
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `${SPARTACUS_ORGANIZATION}/administration/components`;
+export const SPARTACUS_ASM = '@spartacus/asm';
+export const SPARTACUS_CART = '@spartacus/cart';
+export const SPARTACUS_PRODUCT = '@spartacus/product';
+export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
+export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
+export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
+export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
+export const SPARTACUS_TRACKING = '@spartacus/tracking';
+export const SPARTACUS_USER = '@spartacus/user';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
+export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
 
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE =
-  '@spartacus/organization/administration/core';
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS =
-  '@spartacus/organization/administration/components';
 /***** Imports end *****/
 
 /***** Classes start *****/
@@ -69,6 +78,7 @@ export const COMPONENT_FACTORY_RESOLVER = 'ComponentFactoryResolver';
 
 export const HTTP_CLIENT = 'HttpClient';
 
+export const BASE_STOREFRONT_MODULE = 'BaseStorefrontModule';
 export const STOREFRONT_MODULE = 'StorefrontModule';
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const B2B_STOREFRONT_MODULE = 'B2bStorefrontModule';
@@ -646,31 +656,33 @@ export const SET_RATE_ON_EVENT = 'setRateOnEvent';
 export const SET_RATE = 'setRate';
 export const GET_META = 'getMeta';
 export const GET_META_RESOLVER = 'getMetaResolver';
+export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
-export const STOREFINDER_FEATURE_NAME = 'storeFinder';
-export const STOREFINDER_ROOT_MODULE = 'StoreFinderRootModule';
-export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
-export const SPARTACUS_STOREFINDER_ROOT = `${SPARTACUS_STOREFINDER}/root`;
-export const SPARTACUS_STOREFINDER_ASSETS = `${SPARTACUS_STOREFINDER}/assets`;
-export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
-export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
-  'storeFinderTranslationChunksConfig';
-
-export const QUALTRICS_MODULE = 'QualtricsModule';
-export const QUALTRICS_FEATURE_NAME = 'qualtrics';
-export const QUALTRICS_ROOT_MODULE = 'QualtricsRootModule';
-export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
-export const SPARTACUS_QUALTRICS_ROOT = `${SPARTACUS_QUALTRICS}/root`;
-
-export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 /***** APIs end *****/
 
 /***** Storefinder start *****/
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
-export const CLI_STOREFINDER_FEATURE = 'Storefinder';
 export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
 /***** Storefinder end *****/
+
+/******* CLI start *******/
+export const SPARTACUS_ROUTING_MODULE = 'app-routing';
+export const SPARTACUS_MODULE = 'spartacus';
+export const SPARTACUS_FEATURES_MODULE = 'spartacus-features';
+export const SPARTACUS_FEATURES_NG_MODULE = 'SpartacusFeaturesModule';
+export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
+
+export const CLI_ASM_FEATURE = 'Assisted Services Module';
+export const CLI_CART_FEATURE = 'Cart';
+export const CLI_ORGANIZATION_FEATURE = 'Organization (b2b feature)';
+export const CLI_PRODUCT_FEATURE = 'Product';
+export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'Product Configurator';
+export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
+export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
+export const CLI_STOREFINDER_FEATURE = 'Store Finder';
+export const CLI_TRACKING_FEATURE = 'Tracking';
+/******* CLI end *******/

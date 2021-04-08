@@ -37,7 +37,7 @@ describe('My Account - Update Email', () => {
       });
 
       it('should click cancel update email and go back to the homepage', () => {
-        cy.get('cx-update-email-form button[type="button"]').click();
+        cy.get('cx-update-email button').click();
         checkBanner();
 
         cy.location('pathname').should('contain', '/');
@@ -45,12 +45,12 @@ describe('My Account - Update Email', () => {
 
       it('should update his email address and login', () => {
         const newUid = generateMail(randomString(), true);
-        cy.get('cx-update-email-form').within(() => {
+        cy.get('cx-update-email').within(() => {
           cy.get('[formcontrolname="email"]').type(newUid);
           cy.get('[formcontrolname="confirmEmail"]').type(newUid);
           cy.get('[formcontrolname="password"]').type(password);
 
-          cy.get('button[type="submit"]').click();
+          cy.get('button').click();
         });
         cy.get('cx-login-form').should('exist');
 

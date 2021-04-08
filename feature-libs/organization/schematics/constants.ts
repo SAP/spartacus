@@ -1,5 +1,6 @@
-export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
+import { SPARTACUS_ORGANIZATION } from '@spartacus/schematics';
 
+export const ORGANIZATION_FOLDER_NAME = 'organization';
 export const SCSS_FILE_NAME = 'organization.scss';
 
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME =
@@ -24,5 +25,5 @@ export const ORDER_APPROVAL_TRANSLATIONS = 'orderApprovalTranslations';
 export const ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG =
   'orderApprovalTranslationChunksConfig';
 
-export const CLI_ADMINISTRATION_FEATURE = 'Administration';
-export const CLI_ORDER_APPROVAL_FEATURE = 'Order-approval';
+export const CLI_ADMINISTRATION_FEATURE = 'Administration (b2b feature)';
+export const CLI_ORDER_APPROVAL_FEATURE = 'Order-approval (b2b feature)';

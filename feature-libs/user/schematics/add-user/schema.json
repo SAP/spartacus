@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "UserSchematics",
+  "title": "User Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the user features.",
+      "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["Account", "Profile"],
+        "type": "string"
+      },
+      "default": ["Account", "Profile"],
+      "x-prompt": "Which User features would you like to setup?"
+    }
+  },
+  "required": []
+}

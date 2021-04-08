@@ -8,6 +8,7 @@ import {
 import {
   LoginEvent,
   LogoutEvent,
+  Query,
   QueryService,
   UserIdService,
 } from '@spartacus/core';
@@ -16,7 +17,7 @@ import { UserAccountConnector } from '../connectors/user-account.connector';
 
 @Injectable()
 export class UserAccountService implements UserAccountFacade {
-  protected userQuery = this.query.create(
+  protected userQuery: Query<User> = this.query.create(
     () =>
       this.userIdService
         .takeUserId(true)
