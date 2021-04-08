@@ -53,6 +53,17 @@ export interface CmsComponentChildRoutesConfig {
 
 export interface CmsComponentMapping<T = CmsComponent> {
   component?: any;
+  /**
+   * Configurable component providers for cms components.
+   *
+   * Component services are designed to be non-singleton services and are scoped
+   * to the component injection tree. The advantage of these services is that they can
+   * resolve services injected to the component injection tree. However, these services
+   * cannot be extended with the native Angular DI system.
+   *
+   * The configurable component providers mitigate this downside, by allowing you to provide
+   * component providers through services.
+   */
   providers?: StaticProvider[];
   childRoutes?: Route[] | CmsComponentChildRoutesConfig;
   disableSSR?: boolean;
