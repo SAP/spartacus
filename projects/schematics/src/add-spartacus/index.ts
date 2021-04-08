@@ -49,6 +49,7 @@ import {
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
   SPARTACUS_TRACKING,
+  SPARTACUS_USER,
 } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
@@ -229,7 +230,7 @@ function prepareDependencies(
     },
     {
       type: NodeDependencyType.Default,
-      version: '^4.0.0',
+      version: '^5.0.0',
       name: '@ng-select/ng-select',
     },
 
@@ -251,7 +252,7 @@ function prepareDependencies(
 
     {
       type: NodeDependencyType.Default,
-      version: '4.2.1',
+      version: '4.3.1',
       name: 'bootstrap',
     },
     { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
@@ -411,6 +412,7 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
     ...(shouldAddFeature(CLI_TRACKING_FEATURE, options.features)
       ? [SPARTACUS_TRACKING]
       : []),
+    SPARTACUS_USER,
   ];
 }
 
