@@ -49,7 +49,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     errorResponse: any,
     next: HttpHandler,
     request: HttpRequest<any>
-  ) {
+  ): Observable<HttpEvent<any>> {
     if (errorResponse instanceof HttpErrorResponse) {
       if (errorResponse.status === 403) {
         this.cpqAccessStorageService.renewCachedCpqAccessData();
