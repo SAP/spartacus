@@ -13,7 +13,9 @@ import {
       featureModules: {
         productVariants: {
           module: () =>
-            import('@spartacus/product/variants').then((m) => m.ProductVariantsModule),
+            import('@spartacus/product/variants').then(
+              (m) => m.ProductVariantsModule
+            ),
         },
       },
       i18n: {

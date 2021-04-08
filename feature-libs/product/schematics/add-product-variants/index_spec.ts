@@ -152,7 +152,9 @@ describe('Spartacus Variants schematics: ng-add', () => {
       });
       it('should provideConfig', async () => {
         const variantsModule = appTree.readContent(variantsFeatureModulePath);
-        expect(variantsModule).toContain(`resources: productVariantsTranslations,`);
+        expect(variantsModule).toContain(
+          `resources: productVariantsTranslations,`
+        );
         expect(variantsModule).toContain(
           `chunks: productVariantsTranslationChunksConfig,`
         );
