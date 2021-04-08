@@ -93,6 +93,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     return value;
   };
 
+  let values: Configurator.Value[];
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -124,7 +126,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   );
 
   beforeEach(() => {
-    const values: Configurator.Value[] = [
+    values = [
       createValue(
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
         [createImage('url', 'alt')],
@@ -427,6 +429,26 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       const quantityParameters = component.extractQuantityParameters();
       expect(quantityParameters.initialQuantity?.quantity).toBe(
         attributeQuantity
+      );
+    });
+  });
+
+  describe('getFcousIdOfNearestValue', () => {
+    it('should find second value when first is provided', () => {
+      expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
+        '1111--2222--focus'
+      );
+    });
+
+    it('should find first value when second is provided', () => {
+      expect(component['getFocusIdOfNearestValue'](values[1])).toBe(
+        '1111--1111--focus'
+      );
+    });
+    it('should find first value when there is only one value', () => {
+      component.attribute.values = [values[0]];
+      expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
+        '1111--1111--focus'
       );
     });
   });
