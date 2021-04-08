@@ -110,7 +110,6 @@ function configureSpartacusModules(
               'ProductReferencesModule',
               'ProductSummaryModule',
               'ProductTabsModule',
-              'ProductVariantsModule',
               'ReplenishmentOrderConfirmationModule',
               'ReplenishmentOrderDetailsModule',
               'ReplenishmentOrderHistoryModule',
@@ -181,7 +180,6 @@ function configureSpartacusModules(
         ProductReferencesModule,
         ProductImagesModule,
         ProductSummaryModule,
-        ProductVariantsModule,
         ProductIntroModule,
 
         // Cart Core
