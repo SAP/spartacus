@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ProductVariantsComponent } from './product-variants.component';
+import { ProductVariantsContainerComponent } from './product-variants-container.component';
 import { NavigationExtras } from '@angular/router';
 
 const mockProduct: Product = {
@@ -58,45 +58,45 @@ class MockCurrentProductService {
 }
 
 @Component({
-  selector: 'cx-variant-style-selector',
+  selector: 'cx-product-variant-style-selector',
   template: '',
 })
-class MockCxStyleSelectorComponent {
+class MockCxProductStyleSelectorComponent {
   @Input() product: Product;
   @Input() variants: BaseOption;
 }
 
 @Component({
-  selector: 'cx-variant-size-selector',
+  selector: 'cx-product-variant-size-selector',
   template: '',
 })
-class MockCxSizeSelectorComponent {
+class MockCxProductSizeSelectorComponent {
   @Input() product: Product;
   @Input() variants: BaseOption;
 }
 
 @Component({
-  selector: 'cx-variant-color-selector',
+  selector: 'cx-product-variant-color-selector',
   template: '',
 })
-class MockCxColorSelectorComponent {
+class MockCxProductColorSelectorComponent {
   @Input() product: Product;
   @Input() variants: BaseOption;
 }
 
-describe('ProductVariantSelectorComponent', () => {
-  let component: ProductVariantsComponent;
-  let fixture: ComponentFixture<ProductVariantsComponent>;
+describe('ProductVariantsContainerComponent', () => {
+  let component: ProductVariantsContainerComponent;
+  let fixture: ComponentFixture<ProductVariantsContainerComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [
-          ProductVariantsComponent,
+          ProductVariantsContainerComponent,
           MockUrlPipe,
-          MockCxStyleSelectorComponent,
-          MockCxSizeSelectorComponent,
-          MockCxColorSelectorComponent,
+          MockCxProductStyleSelectorComponent,
+          MockCxProductSizeSelectorComponent,
+          MockCxProductColorSelectorComponent,
         ],
         imports: [RouterTestingModule, I18nTestingModule],
         providers: [
@@ -114,7 +114,7 @@ describe('ProductVariantSelectorComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProductVariantsComponent);
+    fixture = TestBed.createComponent(ProductVariantsContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -16,9 +16,8 @@ import { CLI_VARIANTS_FEATURE } from './../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const variantsFeatureModulePath =
-  'src/app/spartacus/features/product/variants-feature.module.ts';
+  'src/app/spartacus/features/product/product-variants-feature.module.ts';
 
-// TODO: Improve tests after lib-util test update
 describe('Spartacus Variants schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -98,10 +97,10 @@ describe('Spartacus Variants schematics: ng-add', () => {
       it('should import appropriate modules', async () => {
         const variantsModule = appTree.readContent(variantsFeatureModulePath);
         expect(variantsModule).toContain(
-          `import { VariantsRootModule } from "@spartacus/product/variants/root";`
+          `import { ProductVariantsRootModule } from "@spartacus/product/variants/root";`
         );
         expect(variantsModule).toContain(
-          `import { VariantsModule } from "@spartacus/product/variants";`
+          `import { ProductVariantsModule } from "@spartacus/product/variants";`
         );
       });
 
@@ -120,20 +119,20 @@ describe('Spartacus Variants schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should import VariantsRootModule and contain the lazy loading syntax', async () => {
+      it('should import ProductVariantsRootModule and contain the lazy loading syntax', async () => {
         const variantsModule = appTree.readContent(variantsFeatureModulePath);
         expect(variantsModule).toContain(
-          `import { VariantsRootModule } from "@spartacus/product/variants/root";`
+          `import { ProductVariantsRootModule } from "@spartacus/product/variants/root";`
         );
         expect(variantsModule).toContain(
           `import('@spartacus/product/variants').then(`
         );
       });
 
-      it('should not contain the VariantsModule import', () => {
+      it('should not contain the ProductVariantsContainerModule import', () => {
         const variantsModule = appTree.readContent(variantsFeatureModulePath);
         expect(variantsModule).not.toContain(
-          `import { VariantsModule } from "@spartacus/product/variants";`
+          `import { ProductVariantsModule } from "@spartacus/product/variants";`
         );
       });
     });
@@ -148,14 +147,14 @@ describe('Spartacus Variants schematics: ng-add', () => {
       it('should import the i18n resource and chunk from assets', async () => {
         const variantsModule = appTree.readContent(variantsFeatureModulePath);
         expect(variantsModule).toContain(
-          `import { variantsTranslationChunksConfig, variantsTranslations } from "@spartacus/product/variants/assets";`
+          `import { productVariantsTranslationChunksConfig, productVariantsTranslations } from "@spartacus/product/variants/assets";`
         );
       });
       it('should provideConfig', async () => {
         const variantsModule = appTree.readContent(variantsFeatureModulePath);
-        expect(variantsModule).toContain(`resources: variantsTranslations,`);
+        expect(variantsModule).toContain(`resources: productVariantsTranslations,`);
         expect(variantsModule).toContain(
-          `chunks: variantsTranslationChunksConfig,`
+          `chunks: productVariantsTranslationChunksConfig,`
         );
       });
     });

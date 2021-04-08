@@ -5,11 +5,11 @@ import { provideDefaultConfig } from '@spartacus/core';
   providers: [
     provideDefaultConfig({
       featureModules: {
-        variants: {
+        productVariants: {
           cmsComponents: ['ProductVariantSelectorComponent'],
         },
       },
     }),
   ],
 })
-export class VariantsRootModule {}
+export class ProductVariantsRootModule {}
