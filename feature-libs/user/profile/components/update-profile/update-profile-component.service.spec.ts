@@ -20,7 +20,7 @@ const mockUser = {
 };
 
 class MockUserProfileFacade implements Partial<UserProfileFacade> {
-  get = createSpy('UserProfileFacade.get').and.returnValue(of());
+  get = createSpy('UserProfileFacade.get').and.returnValue(of({}));
   getTitles = createSpy('UserProfileFacade.getTitles').and.returnValue(of());
   update = createSpy('UserProfileFacade.update').and.returnValue(of({}));
   close = createSpy('UserProfileFacade.close').and.returnValue(of());
@@ -59,6 +59,24 @@ describe('UpdateProfileComponentService', () => {
 
   it('should create', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('isUpdating$', () => {
+    it('should return true', () => {
+      service['busy$'].next(true);
+      let result;
+      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
+      expect(result).toBeTrue();
+      expect(service.form.disabled).toBeTrue();
+    });
+
+    it('should return false', () => {
+      service['busy$'].next(false);
+      let result;
+      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
+      expect(result).toBeFalse;
+      expect(service.form.disabled).toBeFalse();
+    });
   });
 
   describe('save()', () => {

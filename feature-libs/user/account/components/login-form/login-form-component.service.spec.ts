@@ -12,6 +12,12 @@ import { of } from 'rxjs';
 import { LoginFormComponentService } from './login-form-component.service';
 import createSpy = jasmine.createSpy;
 
+class MockWinRef {
+  get nativeWindow(): Window {
+    return {} as Window;
+  }
+}
+
 class MockAuthService implements Partial<AuthService> {
   loginWithCredentials = createSpy().and.returnValue(of({}));
   isUserLoggedIn = createSpy().and.returnValue(of(true));
@@ -25,6 +31,7 @@ class MockGlobalMessageService {
 describe('LoginFormComponentService', () => {
   let service: LoginFormComponentService;
   let authService: AuthService;
+  let winRef: WindowRef;
 
   beforeEach(
     waitForAsync(() => {
@@ -38,7 +45,7 @@ describe('LoginFormComponentService', () => {
         declarations: [],
         providers: [
           LoginFormComponentService,
-          WindowRef,
+          { provide: WindowRef, useClass: MockWinRef },
           { provide: AuthService, useClass: MockAuthService },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
@@ -49,6 +56,7 @@ describe('LoginFormComponentService', () => {
   beforeEach(() => {
     service = TestBed.inject(LoginFormComponentService);
     authService = TestBed.inject(AuthService);
+    winRef = TestBed.inject(WindowRef);
   });
 
   it('should create service', () => {
@@ -58,6 +66,19 @@ describe('LoginFormComponentService', () => {
   describe('login', () => {
     const userId = 'test@email.com';
     const password = 'secret';
+
+    it('should not patch user id', () => {
+      service.isUpdating$.subscribe().unsubscribe();
+      expect(service.form.value.userId).toEqual('');
+    });
+
+    it('should patch user id', () => {
+      spyOnProperty(winRef, 'nativeWindow', 'get').and.returnValue({
+        history: { state: { newUid: 'test.user@shop.com' } },
+      });
+      service.isUpdating$.subscribe().unsubscribe();
+      expect(service.form.value.userId).toEqual('test.user@shop.com');
+    });
 
     describe('success', () => {
       beforeEach(() => {

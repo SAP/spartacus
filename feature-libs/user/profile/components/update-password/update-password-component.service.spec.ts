@@ -68,6 +68,24 @@ describe('UpdatePasswordComponentService', () => {
     expect(service).toBeTruthy();
   });
 
+  describe('isUpdating$', () => {
+    it('should return true', () => {
+      service['busy$'].next(true);
+      let result;
+      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
+      expect(result).toBeTrue();
+      expect(service.form.disabled).toBeTrue();
+    });
+
+    it('should return false', () => {
+      service['busy$'].next(false);
+      let result;
+      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
+      expect(result).toBeFalse;
+      expect(service.form.disabled).toBeFalse();
+    });
+  });
+
   describe('save', () => {
     describe('success', () => {
       beforeEach(() => {

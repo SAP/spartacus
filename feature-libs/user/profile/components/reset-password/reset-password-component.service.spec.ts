@@ -8,27 +8,38 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserPasswordFacade } from '@spartacus/user/profile/root';
-import { of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { ResetPasswordComponentService } from './reset-password-component.service';
 import createSpy = jasmine.createSpy;
 
 const resetToken = '123#Token';
+const routerState$: BehaviorSubject<any> = new BehaviorSubject({
+  state: {
+    queryParams: {
+      token: resetToken,
+    },
+  },
+});
 
 class MockUserPasswordFacade implements Partial<UserPasswordFacade> {
-  reset = createSpy().and.returnValue(of({}));
+  reset() {
+    return of({});
+  }
 }
 
 class MockRoutingService {
   go = createSpy().and.stub();
-  getRouterState = createSpy().and.returnValue(of(resetToken));
+  getRouterState() {
+    return routerState$;
+  }
 }
 class MockGlobalMessageService {
   add = createSpy().and.stub();
 }
 
 describe('ResetPasswordComponentService', () => {
-  let resetPasswordComponentService: ResetPasswordComponentService;
-  let userService: UserPasswordFacade;
+  let service: ResetPasswordComponentService;
+  let userPasswordService: UserPasswordFacade;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let passwordConfirm: AbstractControl;
@@ -56,21 +67,55 @@ describe('ResetPasswordComponentService', () => {
   });
 
   beforeEach(() => {
-    resetPasswordComponentService = TestBed.inject(
-      ResetPasswordComponentService
-    );
+    service = TestBed.inject(ResetPasswordComponentService);
 
-    userService = TestBed.inject(UserPasswordFacade);
+    userPasswordService = TestBed.inject(UserPasswordFacade);
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 
-    password = resetPasswordComponentService.form.controls.password;
-    passwordConfirm =
-      resetPasswordComponentService.form.controls.passwordConfirm;
+    password = service.form.controls.password;
+    passwordConfirm = service.form.controls.passwordConfirm;
   });
 
   it('should create', () => {
-    expect(resetPasswordComponentService).toBeTruthy();
+    expect(service).toBeTruthy();
+  });
+
+  describe('isUpdating$', () => {
+    it('should return true', () => {
+      service['busy$'].next(true);
+      let result;
+      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
+      expect(result).toBeTrue();
+      expect(service.form.disabled).toBeTrue();
+    });
+
+    it('should return false', () => {
+      service['busy$'].next(false);
+      let result;
+      service.isUpdating$.subscribe((value) => (result = value)).unsubscribe();
+      expect(result).toBeFalse;
+      expect(service.form.disabled).toBeFalse();
+    });
+  });
+
+  describe('resetToken$', () => {
+    it('should return token', () => {
+      let result;
+      service.resetToken$.subscribe((value) => (result = value)).unsubscribe();
+      expect(result).toEqual(resetToken);
+    });
+
+    it('should not return token', () => {
+      routerState$.next({
+        state: {
+          queryParams: {},
+        },
+      });
+      let result;
+      service.resetToken$.subscribe((value) => (result = value)).unsubscribe();
+      expect(result).toBeFalsy();
+    });
   });
 
   describe('reset', () => {
@@ -81,12 +126,16 @@ describe('ResetPasswordComponentService', () => {
       });
 
       it('should reset password', () => {
-        resetPasswordComponentService.resetPassword(resetToken);
-        expect(userService.reset).toHaveBeenCalledWith(resetToken, 'Qwe123!');
+        spyOn(userPasswordService, 'reset').and.callThrough();
+        service.resetPassword(resetToken);
+        expect(userPasswordService.reset).toHaveBeenCalledWith(
+          resetToken,
+          'Qwe123!'
+        );
       });
 
       it('should show message', () => {
-        resetPasswordComponentService.resetPassword(resetToken);
+        service.resetPassword(resetToken);
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'forgottenPassword.passwordResetSuccess' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -94,24 +143,58 @@ describe('ResetPasswordComponentService', () => {
       });
 
       it('should reroute to the login page', () => {
-        resetPasswordComponentService.resetPassword(resetToken);
+        service.resetPassword(resetToken);
         expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       });
 
       it('should reset form', () => {
-        spyOn(resetPasswordComponentService.form, 'reset').and.callThrough();
-        resetPasswordComponentService.resetPassword(resetToken);
-        expect(resetPasswordComponentService.form.reset).toHaveBeenCalled();
+        spyOn(service.form, 'reset').and.callThrough();
+        service.resetPassword(resetToken);
+        expect(service.form.reset).toHaveBeenCalled();
       });
     });
+
     describe('error', () => {
-      it('should not reset invalid form', () => {
-        passwordConfirm.setValue('Diff123!');
-        resetPasswordComponentService.resetPassword(resetToken);
-        expect(userService.reset).not.toHaveBeenCalled();
-        expect(globalMessageService.add).not.toHaveBeenCalled();
-        expect(routingService.go).not.toHaveBeenCalled();
+      describe('valid form', () => {
+        beforeEach(() => {
+          password.setValue('Qwe123!');
+          passwordConfirm.setValue('Qwe123!');
+        });
+
+        it('should show error message', () => {
+          spyOn(userPasswordService, 'reset').and.returnValue(
+            throwError({
+              details: [{ message: 'error message' }],
+            })
+          );
+          service.resetPassword(resetToken);
+          expect(globalMessageService.add).toHaveBeenCalledWith(
+            { raw: 'error message' },
+            GlobalMessageType.MSG_TYPE_ERROR
+          );
+        });
+
+        it('should not show error message', () => {
+          spyOn(userPasswordService, 'reset').and.returnValue(throwError(null));
+          service.resetPassword(resetToken);
+          expect(globalMessageService.add).not.toHaveBeenCalled();
+        });
+
+        it('should not show error message', () => {
+          spyOn(userPasswordService, 'reset').and.returnValue(throwError({}));
+          service.resetPassword(resetToken);
+          expect(globalMessageService.add).not.toHaveBeenCalled();
+        });
       });
+    });
+
+    it('should not reset invalid form', () => {
+      spyOn(userPasswordService, 'reset').and.returnValue(throwError({}));
+      passwordConfirm.setValue('Diff123!');
+      service.resetPassword(resetToken);
+      expect(userPasswordService.reset).not.toHaveBeenCalled();
+      expect(globalMessageService.add).not.toHaveBeenCalled();
+      expect(routingService.go).not.toHaveBeenCalled();
     });
   });
 });
