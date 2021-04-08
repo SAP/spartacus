@@ -104,7 +104,7 @@ context('Save for later', () => {
         validateProduct(products[0], 1, ItemList.SaveForLater);
       });
 
-      // turned off until sampledata with proper promotion will get set up
+      // turned off until sampledata with proper promotion will get set up (#11871)
       xit('should handle product with free gift in save for later', () => {
         addProductToCart(products[0]);
         addProductToCart(products[3]);
