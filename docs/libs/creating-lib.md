@@ -158,7 +158,6 @@ Make sure the versions match the current spartacus version.
 Make sure the `@angular` peer dependencies matches the versions specified in the _core_ lib.
 
 - `test.ts` 
-  - add `import '@angular/localize/init';`
   - in order to run the tests for _all_ the entry points, the `test.ts` file has to be moved one level up from `lib-name/src/test.ts` to `lib-name/test.ts`.
   
   This change requires an update in:
@@ -226,13 +225,13 @@ The following files should be modified:
 Add the following scripts:
 
 ```json
-"build:myaccount": "ng build my-account --prod",
-"release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../..",
+"build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --prod",
+"release:asm:with-changelog": "cd feature-libs/asm && release-it && cd ../..",
 ```
 
 And replace `asm` instances with the name of yours lib.
 
-Optionally, add the generated lib to the `build:libs` and `test:libs` scripts.
+Also, add the new lib to the `build:libs` and `test:libs` scripts.
 
 - `.github/ISSUE_TEMPLATE/new-release.md`
 

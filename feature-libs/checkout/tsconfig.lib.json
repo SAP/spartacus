@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
+    "forceConsistentCasingInFileNames": true,
     "target": "es2015",
     "module": "es2020",
     "moduleResolution": "node",
@@ -12,14 +13,19 @@
     "importHelpers": true,
     "types": [],
     "lib": ["dom", "esnext"],
-    "paths": {}
+    "paths": {
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"]
+    }
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableResourceInlining": true
+    "enableResourceInlining": true,
+    "strictTemplates": true,
+    "strictInputAccessModifiers": true
   },
   "exclude": ["test.ts", "**/*.spec.ts"]
 }
