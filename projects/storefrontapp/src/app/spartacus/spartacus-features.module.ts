@@ -44,7 +44,6 @@ import {
   OrderDetailsModule,
   OrderHistoryModule,
   OrderReturnModule,
-  PageEventModule,
   PaymentMethodsModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
@@ -188,7 +187,6 @@ if (environment.cds) {
     NavigationEventModule,
     HomePageEventModule,
     CartPageEventModule,
-    PageEventModule,
     ProductPageEventModule,
 
     /************************* Opt-in features *************************/
