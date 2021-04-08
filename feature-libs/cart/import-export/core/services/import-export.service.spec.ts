@@ -1,7 +1,7 @@
 // TODO: Add unit tests...
 
 import { TestBed } from '@angular/core/testing';
-import { ImportExportConfig } from '../config';
+import { ImportExportConfig } from '../config/import-export-config';
 import { ImportExportService } from './import-export.service';
 
 const mockImportExportConfig: ImportExportConfig = {

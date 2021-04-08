@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
-import { FileValidity, ImportExportConfig } from '../config';
+import {
+  FileValidity,
+  ImportExportConfig,
+} from '../config/import-export-config';
 import { InvalidFileInfo } from '../model';
 
 @Injectable({
