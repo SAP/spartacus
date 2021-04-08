@@ -17,9 +17,7 @@ export class LoginRegisterComponent implements OnInit {
   ngOnInit(): void {
     // TODO: consider using events or inputs to avoid depending on checkout library
     if (this.checkoutConfigService.isGuestCheckout()) {
-      this.loginAsGuest = this.activatedRoute?.snapshot?.queryParams?.[
-        'forced'
-      ];
+      this.loginAsGuest = this.activatedRoute.snapshot.queryParams['forced'];
     }
   }
 }
