@@ -1,4 +1,3 @@
-import { standardUser } from '../sample-data/shared-users';
 import { login } from './auth-forms';
 import { generateMail, randomString } from './user';
 
@@ -31,10 +30,10 @@ export function updateEmail(): String {
   cy.selectUserMenuOption({
     option: 'Email Address',
   });
-  cy.get('cx-update-email-form [formcontrolname="email"]').type(newUid);
-  cy.get('cx-update-email-form [formcontrolname="confirmEmail"]').type(newUid);
-  cy.get('cx-update-email-form [formcontrolname="password"]').type(password);
-  cy.get('cx-update-email-form button[type="submit"]').click();
+  cy.get('cx-update-email [formcontrolname="email"]').type(newUid);
+  cy.get('cx-update-email [formcontrolname="confirmEmail"]').type(newUid);
+  cy.get('cx-update-email [formcontrolname="password"]').type(password);
+  cy.get('cx-update-email button').click();
   login(newUid, password);
   return newUid;
 }
