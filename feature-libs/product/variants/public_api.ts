@@ -1,1 +1,1 @@
-export * from './variants.module';
+export * from './product-variants.module';

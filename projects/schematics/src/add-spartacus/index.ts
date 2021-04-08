@@ -230,7 +230,7 @@ function prepareDependencies(
     },
     {
       type: NodeDependencyType.Default,
-      version: '^4.0.0',
+      version: '^5.0.0',
       name: '@ng-select/ng-select',
     },
 
@@ -252,7 +252,7 @@ function prepareDependencies(
 
     {
       type: NodeDependencyType.Default,
-      version: '4.2.1',
+      version: '4.3.1',
       name: 'bootstrap',
     },
     { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
