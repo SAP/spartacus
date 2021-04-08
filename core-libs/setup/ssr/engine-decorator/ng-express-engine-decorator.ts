@@ -106,5 +106,18 @@ function getRequestUrl(req: Request): string {
 }
 
 function getRequestOrigin(req: Request): string {
-  return req.protocol + '://' + req.hostname;
+  // If express is resolving and trusting X-Forwarded-Host, we want to take it
+  // into an account to properly generate request origin.
+  if (req.get('X-Forwarded-Host')?.includes(req.hostname)) {
+    let port = ':' + req.get('X-Forwarded-Port');
+    if (
+      (port === ':80' && req.protocol === 'http') ||
+      (port === ':443' && req.protocol === 'https')
+    ) {
+      port = '';
+    }
+    return req.protocol + '://' + req.hostname + port;
+  } else {
+    return req.protocol + '://' + req.get('host');
+  }
 }
