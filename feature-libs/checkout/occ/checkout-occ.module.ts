@@ -3,4 +3,4 @@ import { NgModule } from '@angular/core';
 @NgModule({
   imports: [],
 })
-export class CheckoutModule {}
+export class CheckoutOccModule {}
