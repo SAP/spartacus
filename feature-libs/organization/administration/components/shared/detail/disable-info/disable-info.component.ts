@@ -51,7 +51,7 @@ export class DisableInfoComponent<T extends BaseItem> implements OnInit {
       disabledCreate: false,
       disabledEdit: true,
       disabledEnable: true,
-      disabledDisable: true,
+      disabledDisable: false,
     };
   }
 
