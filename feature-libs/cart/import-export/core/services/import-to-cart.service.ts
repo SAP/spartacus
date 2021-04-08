@@ -17,8 +17,7 @@ export class ImportToCartService implements OnDestroy {
     protected savedCartService: SavedCartService
   ) {}
 
-  addProductsToCart(data: string) {
-    const productsToAdd = this.processCsvData(data);
+  addProductsToCart(csvData: ProductsData) {
     this.userIdService.invokeWithUserId((userId) => {
       const createdCart = this.multiCartService.createCart({
         userId,
@@ -28,30 +27,16 @@ export class ImportToCartService implements OnDestroy {
         createdCart
           .pipe(filter((data) => data.value !== undefined))
           .subscribe((data) => {
-            let cartId: string;
-            cartId = data.value?.code as string;
-            this.multiCartService.addEntries(userId, cartId, productsToAdd);
+            const cartId: string = data.value?.code as string;
+            this.multiCartService.addEntries(userId, cartId, csvData);
             this.savedCartService.saveCart({
               cartId,
-              saveCartName: 'imported saved cart',
+              saveCartName: 'imported cart',
             });
             this.savedCartService.loadSavedCarts();
           })
       );
     });
-  }
-
-  private processCsvData(data: string): ProductsData {
-    let csvData = [];
-    const dataArray = data.split('\n');
-    for (let i = 0; i < dataArray.length; i++) {
-      let row = { productCode: '', quantity: 0 };
-      let rowData = dataArray[i].split(',');
-      row['productCode'] = rowData[0];
-      row['quantity'] = Number(rowData[1]);
-      csvData.push(row);
-    }
-    return csvData;
   }
 
   ngOnDestroy() {

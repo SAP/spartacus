@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { FileValidity, FileValidityConfig } from '../config';
-import { InvalidFileInfo } from '../model';
+import { InvalidFileInfo, ProductsData } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,15 @@ import { InvalidFileInfo } from '../model';
 export class ImportExportService {
   constructor(protected fileValidityConfig: FileValidityConfig) {}
 
-  importFile(
+  /**
+   * Extracts CSV file and process into a JSON data
+   *
+   * @param selectedFile CSV file to extract the data
+   * @param checkValidityEnabled optional flag to disable the validity check
+   * @param validityConfig optional object to pass any custom validity config
+   * @returns processed data from CSV or error data in CSV extraction
+   */
+  csvToData(
     selectedFile: FileList,
     checkValidityEnabled?: Boolean,
     validityConfig?: FileValidity
@@ -24,7 +32,7 @@ export class ImportExportService {
       ) {
         fileReader.readAsText(file);
         fileReader.onload = () => {
-          observer.next(fileReader.result as string);
+          observer.next(this.processCsvData(fileReader.result as string));
           observer.complete();
         };
         fileReader.onerror = () => {
@@ -37,18 +45,31 @@ export class ImportExportService {
     });
   }
 
+  /**
+   * Combines passed validity config with default
+   *
+   * @param validityConfig optional validity config if passed from parent component
+   * @returns default validity config overridden by passed validity configs
+   */
   protected setValidityConfig(
     validityConfig: FileValidity | undefined
   ): FileValidity {
     return { ...this.fileValidityConfig.fileValidity, ...validityConfig };
   }
 
+  /**
+   * Checks validity of the file
+   *
+   * @param file CSV file to check
+   * @param validityConfig optional object to pass any custom validity config
+   * @returns validity boolean and invalid file information object if any
+   */
   protected checkValidity(
     file: File,
     validityConfig?: FileValidity
   ): { isFileValid: Boolean; invalidFileInfo: InvalidFileInfo } {
     let isFileValid: Boolean = true;
-    let invalidFileInfo: InvalidFileInfo = {};
+    const invalidFileInfo: InvalidFileInfo = {};
     validityConfig = this.setValidityConfig(validityConfig);
     if (
       validityConfig?.maxSize &&
@@ -66,6 +87,27 @@ export class ImportExportService {
       invalidFileInfo.fileEmpty = true;
     }
     return { isFileValid, invalidFileInfo };
+  }
+
+  /**
+   * Processes the CSV data and coverts into JSON
+   *
+   * @param data raw extracted data from CSV
+   * @returns JSON object containing productCode and quantity of products
+   */
+  protected processCsvData(data: string): ProductsData {
+    const csvData: ProductsData = [];
+    const dataArray = data.replace(/"/g, '').split('\n');
+    dataArray.forEach((data) => {
+      const row = { productCode: '', quantity: 0 };
+      const rowData = data.split(',');
+      if (rowData[0] && rowData[0] !== 'Sku') {
+        row['productCode'] = rowData[0];
+        row['quantity'] = Number(rowData[1]);
+        csvData.push(row);
+      }
+    });
+    return csvData;
   }
 
   /**
