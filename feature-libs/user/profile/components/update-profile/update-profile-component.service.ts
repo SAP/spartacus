@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { Title, UserProfileFacade } from '@spartacus/user/profile/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
 
@@ -25,7 +25,7 @@ export class UpdateProfileComponentService {
     tap((state) => (state === true ? this.form.disable() : this.form.enable()))
   );
 
-  titles$ = this.userProfile.getTitles();
+  titles$: Observable<Title[]> = this.userProfile.getTitles();
 
   form: FormGroup = new FormGroup({
     customerId: new FormControl(''),
