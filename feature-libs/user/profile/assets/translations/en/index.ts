@@ -1,5 +1,5 @@
-import { user } from './user';
+import { userProfile } from './user-profile';
 
 export const en = {
-  user,
+  userProfile,
 };
