@@ -77,6 +77,12 @@ if (!environment.production) {
         resources: configuratorTranslations,
       },
       featureModules: {
+        // productConfiguratorRulebased: {
+        //   module: () =>
+        //     import('@spartacus/product-configurator/rulebased/cpq').then(
+        //       (m) => m.CpqConfiguratorRestModule
+        //     ),
+        // },
         productConfiguratorRulebased: {
           module: () =>
             import('@spartacus/product-configurator/rulebased').then(

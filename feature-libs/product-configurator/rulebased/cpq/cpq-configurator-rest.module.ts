@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RulebasedConfiguratorConnector } from '@spartacus/product-configurator/rulebased';
+import {
+  RulebasedConfiguratorConnector,
+  RulebasedConfiguratorModule,
+} from '@spartacus/product-configurator/rulebased';
 import { CpqConfiguratorNormalizer } from './cpq-configurator-normalizer';
 import { CpqConfiguratorOverviewNormalizer } from './cpq-configurator-overview-normalizer';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
@@ -14,7 +17,7 @@ import {
 } from './cpq-configurator.converters';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, RulebasedConfiguratorModule],
 
   providers: [
     {
