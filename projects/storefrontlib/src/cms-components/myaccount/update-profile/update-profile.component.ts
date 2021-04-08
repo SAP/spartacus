@@ -9,6 +9,9 @@ import {
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 
+/**
+ * @deprecated since 3.2, use @spartacus/user package instead.
+ */
 @Component({
   selector: 'cx-update-profile',
   templateUrl: './update-profile.component.html',

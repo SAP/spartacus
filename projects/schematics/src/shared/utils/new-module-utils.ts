@@ -1,3 +1,4 @@
+import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   externalSchematic,
   noop,
@@ -33,7 +34,7 @@ export function ensureModuleExists(options: {
     const modulePath = `${getSourceRoot(host, { project: options.project })}/${
       options.path
     }`;
-    const filePath = `${modulePath}/${options.name}.module.ts`;
+    const filePath = `${modulePath}/${dasherize(options.name)}.module.ts`;
     if (host.exists(filePath)) {
       const module = getTsSourceFile(host, filePath);
       const metadata = getDecoratorMetadata(
@@ -46,9 +47,8 @@ export function ensureModuleExists(options: {
         return noop();
       }
     }
-
     return externalSchematic(ANGULAR_SCHEMATICS, 'module', {
-      name: options.name,
+      name: dasherize(options.name),
       flat: true,
       commonModule: false,
       path: modulePath,
@@ -198,28 +198,6 @@ function addToModuleInternal(
 
   sourceFile.forEachChild(visitor);
   return createdNode;
-}
-
-export function getModule(sourceFile: SourceFile): CallExpression | undefined {
-  let moduleNode;
-
-  function visitor(node: Node) {
-    if (Node.isCallExpression(node)) {
-      const expression = node.getExpression();
-      if (
-        Node.isIdentifier(expression) &&
-        expression.getText() === 'NgModule' &&
-        isImportedFrom(expression, ANGULAR_CORE)
-      ) {
-        moduleNode = node;
-      }
-    }
-
-    node.forEachChild(visitor);
-  }
-
-  sourceFile.forEachChild(visitor);
-  return moduleNode;
 }
 
 function elementExists(

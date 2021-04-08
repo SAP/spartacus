@@ -19,10 +19,8 @@ import {
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import ts from 'typescript';
 import {
-  addLibraryFeature,
   addPackageJsonDependencies,
   ANGULAR_CORE,
-  CLI_STOREFINDER_FEATURE,
   commitChanges,
   getDefaultProjectNameFromWorkspace,
   getSpartacusSchematicsVersion,
@@ -31,16 +29,9 @@ import {
   readPackageJson,
   removeImport,
   SPARTACUS_STOREFINDER,
-  SPARTACUS_STOREFINDER_ASSETS,
-  SPARTACUS_STOREFINDER_ROOT,
   SPARTACUS_STOREFRONTLIB,
-  STOREFINDER_FEATURE_NAME,
   STOREFINDER_MODULE,
-  STOREFINDER_ROOT_MODULE,
-  STOREFINDER_TRANSLATIONS,
-  STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
   STOREFRONT_MODULE,
-  STORE_FINDER_SCSS_FILE_NAME,
 } from '../../../shared/index';
 import {
   getAngularJsonFile,
@@ -65,7 +56,9 @@ export function migrate(): Rule {
           removeOldSetup(appModulePath),
 
           addStorefinderPackageJsonDependencies(packageJson),
-          addStorefinderFeature(appModulePath),
+          // TODO: Re-enable once we have migration to new app structure
+          // newStructureMigration(),
+          // addStorefinderFeature(),
           installPackageJsonDependencies(),
         ])
       : noop();
@@ -142,29 +135,28 @@ function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
   return addPackageJsonDependencies(dependencies, packageJson);
 }
 
-function addStorefinderFeature(appModulePath: string): Rule {
-  return addLibraryFeature(
-    appModulePath,
-    { lazy: false, project: '', features: [CLI_STOREFINDER_FEATURE] },
-    {
-      name: STOREFINDER_FEATURE_NAME,
-      featureModule: {
-        name: STOREFINDER_MODULE,
-        importPath: SPARTACUS_STOREFINDER,
-      },
-      rootModule: {
-        name: STOREFINDER_ROOT_MODULE,
-        importPath: SPARTACUS_STOREFINDER_ROOT,
-      },
-      i18n: {
-        resources: STOREFINDER_TRANSLATIONS,
-        chunks: STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
-        importPath: SPARTACUS_STOREFINDER_ASSETS,
-      },
-      styles: {
-        scssFileName: STORE_FINDER_SCSS_FILE_NAME,
-        importStyle: SPARTACUS_STOREFINDER,
-      },
-    }
-  );
-}
+// function addStorefinderFeature(): Rule {
+//   return addLibraryFeature(
+//     { lazy: false, project: '', features: [CLI_STOREFINDER_FEATURE] },
+//     {
+//       name: STOREFINDER_FEATURE_NAME,
+//       featureModule: {
+//         name: STOREFINDER_MODULE,
+//         importPath: SPARTACUS_STOREFINDER,
+//       },
+//       rootModule: {
+//         name: STOREFINDER_ROOT_MODULE,
+//         importPath: SPARTACUS_STOREFINDER_ROOT,
+//       },
+//       i18n: {
+//         resources: STOREFINDER_TRANSLATIONS,
+//         chunks: STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
+//         importPath: SPARTACUS_STOREFINDER_ASSETS,
+//       },
+//       styles: {
+//         scssFileName: STORE_FINDER_SCSS_FILE_NAME,
+//         importStyle: SPARTACUS_STOREFINDER,
+//       },
+//     }
+//   );
+// }

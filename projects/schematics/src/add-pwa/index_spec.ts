@@ -6,6 +6,7 @@ import {
   Schema as ApplicationOptions,
   Style,
 } from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 
@@ -16,7 +17,7 @@ describe('Spartacus Schematics: add-pwa', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     newProjectRoot: 'projects',
     version: '0.5.0',
@@ -34,6 +35,8 @@ describe('Spartacus Schematics: add-pwa', () => {
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
+    lazy: true,
+    features: [],
   };
 
   beforeEach(async () => {

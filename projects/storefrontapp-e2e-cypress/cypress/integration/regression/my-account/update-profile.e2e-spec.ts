@@ -35,20 +35,18 @@ describe('My Account - Update Profile', () => {
       });
 
       it('should be able to cancel and go back to home', () => {
-        cy.get('cx-update-profile-form').within(() => {
-          cy.get('button[type="button"]').click();
-        });
+        cy.get('cx-update-profile button').click();
         checkBanner();
 
         cy.location('pathname').should('contain', '/');
       });
 
       it('should be able to update profile details', () => {
-        cy.get('cx-update-profile-form').within(() => {
+        cy.get('cx-update-profile').within(() => {
           cy.get('[formcontrolname="titleCode"]').select(newTitle);
           cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
           cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
-          cy.get('button[type="submit"]').click();
+          cy.get('button').click();
         });
 
         // check for the global message and home screen
@@ -66,7 +64,7 @@ describe('My Account - Update Profile', () => {
 
       it('should be able to see the new profile info', () => {
         // check where the user's details updated in the previous test
-        cy.get('cx-update-profile-form').within(() => {
+        cy.get('cx-update-profile').within(() => {
           cy.get('[formcontrolname="titleCode"]')
             .find(':selected')
             .should('have.value', newTitle);

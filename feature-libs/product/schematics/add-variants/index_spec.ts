@@ -6,6 +6,7 @@ import {
   Schema as ApplicationOptions,
   Style,
 } from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   LibraryOptions as SpartacusVariantsOptions,
   SpartacusOptions,
@@ -14,14 +15,16 @@ import * as path from 'path';
 import { CLI_VARIANTS_FEATURE } from './../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const appModulePath = 'src/app/app.module.ts';
+const variantsFeatureModulePath =
+  'src/app/spartacus/features/product/variants-feature.module.ts';
 
+// TODO: Improve tests after lib-util test update
 describe('Spartacus Variants schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
@@ -45,16 +48,14 @@ describe('Spartacus Variants schematics: ng-add', () => {
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
+    lazy: true,
+    features: [],
   };
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
       '@spartacus/schematics',
       '../../projects/schematics/src/collection.json'
-    );
-    schematicRunner.registerCollection(
-      '@spartacus/product',
-      '../../feature-libs/product/schematics/collection.json'
     );
 
     appTree = await schematicRunner
@@ -94,26 +95,19 @@ describe('Spartacus Variants schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should add variants deps', async () => {
-        const packageJson = appTree.readContent('/package.json');
-        const packageObj = JSON.parse(packageJson);
-        const depPackageList = Object.keys(packageObj.dependencies);
-        expect(depPackageList.includes('@spartacus/product')).toBe(true);
-      });
-
       it('should import appropriate modules', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(
-          `import { VariantsRootModule } from '@spartacus/product/variants/root';`
+        const variantsModule = appTree.readContent(variantsFeatureModulePath);
+        expect(variantsModule).toContain(
+          `import { VariantsRootModule } from "@spartacus/product/variants/root";`
         );
-        expect(appModule).toContain(
-          `import { VariantsModule } from '@spartacus/product/variants';`
+        expect(variantsModule).toContain(
+          `import { VariantsModule } from "@spartacus/product/variants";`
         );
       });
 
       it('should not contain lazy loading syntax', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).not.toContain(
+        const variantsModule = appTree.readContent(variantsFeatureModulePath);
+        expect(variantsModule).not.toContain(
           `import('@spartacus/product/variants').then(`
         );
       });
@@ -127,19 +121,19 @@ describe('Spartacus Variants schematics: ng-add', () => {
       });
 
       it('should import VariantsRootModule and contain the lazy loading syntax', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(
-          `import { VariantsRootModule } from '@spartacus/product/variants/root';`
+        const variantsModule = appTree.readContent(variantsFeatureModulePath);
+        expect(variantsModule).toContain(
+          `import { VariantsRootModule } from "@spartacus/product/variants/root";`
         );
-        expect(appModule).toContain(
+        expect(variantsModule).toContain(
           `import('@spartacus/product/variants').then(`
         );
       });
 
       it('should not contain the VariantsModule import', () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).not.toContain(
-          `import { VariantsModule } from '@spartacus/product/variants';`
+        const variantsModule = appTree.readContent(variantsFeatureModulePath);
+        expect(variantsModule).not.toContain(
+          `import { VariantsModule } from "@spartacus/product/variants";`
         );
       });
     });
@@ -152,41 +146,52 @@ describe('Spartacus Variants schematics: ng-add', () => {
       });
 
       it('should import the i18n resource and chunk from assets', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(
-          `import { variantsTranslations } from '@spartacus/product/variants/assets';`
-        );
-        expect(appModule).toContain(
-          `import { variantsTranslationChunksConfig } from '@spartacus/product/variants/assets';`
+        const variantsModule = appTree.readContent(variantsFeatureModulePath);
+        expect(variantsModule).toContain(
+          `import { variantsTranslationChunksConfig, variantsTranslations } from "@spartacus/product/variants/assets";`
         );
       });
       it('should provideConfig', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(`resources: variantsTranslations,`);
-        expect(appModule).toContain(`chunks: variantsTranslationChunksConfig,`);
+        const variantsModule = appTree.readContent(variantsFeatureModulePath);
+        expect(variantsModule).toContain(`resources: variantsTranslations,`);
+        expect(variantsModule).toContain(
+          `chunks: variantsTranslationChunksConfig,`
+        );
       });
     });
-  });
 
-  describe('when other Spartacus features are already installed', () => {
-    beforeEach(async () => {
-      appTree = await schematicRunner
-        .runExternalSchematicAsync(
-          '@spartacus/product',
-          'ng-add',
-          { ...spartacusDefaultOptions, name: 'schematics-test' },
-          appTree
-        )
-        .toPromise();
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', defaultOptions, appTree)
-        .toPromise();
-    });
+    describe('styling', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .toPromise();
+      });
 
-    it('should just append variants feature without duplicating the featureModules config', () => {
-      const appModule = appTree.readContent(appModulePath);
-      expect(appModule.match(/featureModules:/g)?.length).toEqual(1);
-      expect(appModule).toContain(`variants: {`);
+      it('should add style import to /src/styles/spartacus/product.scss', async () => {
+        const content = appTree.readContent(
+          '/src/styles/spartacus/product.scss'
+        );
+        expect(content).toEqual(`@import "@spartacus/product";`);
+      });
+
+      it('should add update angular.json with spartacus/product.scss', async () => {
+        const content = appTree.readContent('/angular.json');
+        const angularJson = JSON.parse(content);
+        const buildStyles: string[] =
+          angularJson.projects['schematics-test'].architect.build.options
+            .styles;
+        expect(buildStyles).toEqual([
+          'src/styles.scss',
+          'src/styles/spartacus/product.scss',
+        ]);
+
+        const testStyles: string[] =
+          angularJson.projects['schematics-test'].architect.test.options.styles;
+        expect(testStyles).toEqual([
+          'src/styles.scss',
+          'src/styles/spartacus/product.scss',
+        ]);
+      });
     });
   });
 });

@@ -6,6 +6,7 @@ import {
   Schema as ApplicationOptions,
   Style,
 } from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import {
   SPARTACUS_CONFIGURATION_MODULE,
@@ -22,7 +23,7 @@ describe('add-spartacus', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     newProjectRoot: 'projects',
     version: '0.5.0',
@@ -43,6 +44,8 @@ describe('add-spartacus', () => {
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
     configuration: 'b2c',
+    lazy: true,
+    features: [],
   };
 
   const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;

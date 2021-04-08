@@ -1,49 +1,27 @@
-import {
-  chain,
-  Rule,
-  SchematicContext,
-  Tree,
-} from '@angular-devkit/schematics';
+import { Rule } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  getAppModule,
-  installPackageJsonDependencies,
-  readPackageJson,
-  validateSpartacusInstallation,
   LibraryOptions as SpartacusBulkPricingOptions,
+  SPARTACUS_PRODUCT,
 } from '@spartacus/schematics';
-
 import {
   BULK_PRICING_FEATURE_NAME,
   BULK_PRICING_MODULE,
   BULK_PRICING_ROOT_MODULE,
-  SPARTACUS_BULK_PRICING,
-  SPARTACUS_BULK_PRICING_ROOT,
-  SPARTACUS_BULK_PRICING_ASSETS,
-  BULK_PRICING_TRANSLATION_CHUNKS_CONFIG,
   BULK_PRICING_TRANSLATIONS,
+  BULK_PRICING_TRANSLATION_CHUNKS_CONFIG,
+  PRODUCT_FOLDER_NAME,
+  PRODUCT_SCSS_FILE_NAME,
+  SPARTACUS_BULK_PRICING,
+  SPARTACUS_BULK_PRICING_ASSETS,
+  SPARTACUS_BULK_PRICING_ROOT,
 } from '../constants';
 
-export function addBulkPricingFeatures(
+export function addBulkPricingFeature(
   options: SpartacusBulkPricingOptions
 ): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    const packageJson = readPackageJson(tree);
-    validateSpartacusInstallation(packageJson);
-    const appModulePath = getAppModule(tree, options.project);
-
-    return chain([
-      addBulkPricingFeature(appModulePath, options),
-      installPackageJsonDependencies(),
-    ]);
-  };
-}
-
-function addBulkPricingFeature(
-  appModulePath: string,
-  options: SpartacusBulkPricingOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
+  return addLibraryFeature(options, {
+    folderName: PRODUCT_FOLDER_NAME,
     name: BULK_PRICING_FEATURE_NAME,
     featureModule: {
       name: BULK_PRICING_MODULE,
@@ -57,6 +35,10 @@ function addBulkPricingFeature(
       resources: BULK_PRICING_TRANSLATIONS,
       chunks: BULK_PRICING_TRANSLATION_CHUNKS_CONFIG,
       importPath: SPARTACUS_BULK_PRICING_ASSETS,
+    },
+    styles: {
+      scssFileName: PRODUCT_SCSS_FILE_NAME,
+      importStyle: SPARTACUS_PRODUCT,
     },
   });
 }

@@ -9,7 +9,6 @@ import {
   InsertChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
-import { Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import ts from 'typescript';
 import {
   ANGULAR_CORE,

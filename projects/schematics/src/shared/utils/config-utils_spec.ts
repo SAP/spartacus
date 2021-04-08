@@ -8,8 +8,8 @@ import {
   Schema as ApplicationOptions,
   Style,
 } from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
-import { InMemoryFileSystemHost, Project } from 'ts-morph';
 import ts from 'typescript';
 import {
   createNewConfig,
@@ -24,9 +24,9 @@ const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
 // TODO:#10744 - cleanup after implementing the new config utils.
-describe('Storefront config utils', () => {
+xdescribe('Storefront config utils', () => {
   let appTree: UnitTestTree;
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
