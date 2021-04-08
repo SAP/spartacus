@@ -32,7 +32,6 @@ export class ConsentStatePersistenceService {
   ) {
     // TODO: get rid of subscriptions
     eventService.get(UserConsentsLoadedEvent).subscribe((event) => {
-      console.log(event);
       for (const consent of event.consentTemplates) {
         if (
           consent.currentConsent &&
@@ -47,7 +46,6 @@ export class ConsentStatePersistenceService {
       }
     });
 
-    // TODO: validate use case when going from authenticated to anonymous
     eventService
       .get(AnonymousConsentsSetEvent)
       .pipe(
@@ -55,7 +53,6 @@ export class ConsentStatePersistenceService {
         filter(([, isUserLoggedIn]) => !isUserLoggedIn)
       )
       .subscribe(([event]) => {
-        console.log(event);
         for (const consent of event.consentTemplates) {
           if (consent.consentState === ANONYMOUS_CONSENT_STATUS.WITHDRAWN)
             this.clearStorageForWidthDrawnConsent(
@@ -66,11 +63,9 @@ export class ConsentStatePersistenceService {
       });
 
     eventService.get(ConsentGivenEvent).subscribe((event) => {
-      console.log('given', event);
       this.writeStorageForConsentGiven(event.consent);
     });
     eventService.get(ConsentWithdrawnEvent).subscribe((event) => {
-      console.log('withdrawn', event);
       this.clearStorageForWidthDrawnConsent(event.consent);
     });
   }
@@ -116,27 +111,19 @@ export class ConsentStatePersistenceService {
     onPersist: (sub: Subscription) => void;
     onRemove: () => void;
   }): void {
+    const persistenceData = {
+      key,
+      state$,
+      context$,
+      storageType,
+      onRead,
+      onPersist,
+      consentId,
+    };
     if (skipConsent) {
-      this.persist({
-        key,
-        state$,
-        context$,
-        storageType,
-        onRead,
-        onPersist,
-        consentId,
-      });
+      this.persist(persistenceData);
     } else {
-      this.addToMeta({
-        key,
-        state$,
-        context$,
-        storageType,
-        onRead,
-        onPersist,
-        consentId,
-        onRemove,
-      });
+      this.addToMeta({ ...persistenceData, onRemove });
     }
   }
 
@@ -168,7 +155,7 @@ export class ConsentStatePersistenceService {
           map((context) => {
             return readFromStorage(
               storage,
-              this.generateKeyWithContext(context, key, consentId)
+              this.generateKeyWithContextAndConsent(context, key, consentId)
             ) as T;
           }),
           tap((state) => onRead(state))
@@ -179,7 +166,7 @@ export class ConsentStatePersistenceService {
     subscriptions.add(
       state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
         persistToStorage(
-          this.generateKeyWithContext(context, key, consentId),
+          this.generateKeyWithContextAndConsent(context, key, consentId),
           state,
           storage
         );
@@ -190,6 +177,11 @@ export class ConsentStatePersistenceService {
     onPersist(subscriptions);
   }
 
+  /**
+   * Queues persistence requests
+   * * Queued state is persisted when the consent is given
+   * * Queued state is removed when the consent is removed
+   */
   protected addToMeta<T>({
     key,
     state$,
@@ -251,12 +243,16 @@ export class ConsentStatePersistenceService {
 
     return readFromStorage(
       storage,
-      this.generateKeyWithContext(context, key)
+      this.generateKeyWithContextAndConsent(context, key)
     ) as T;
   }
 
+  /**
+   * Removes the persistence for a given consent id
+   *
+   * @param consentId id of the consent
+   */
   protected clearStorageForWidthDrawnConsent(consentId: string): void {
-    console.log('removed', consentId);
     for (const key of Object.keys(localStorage)) {
       if (key.endsWith(`⚿consent=${consentId}`)) localStorage.removeItem(key);
     }
@@ -273,6 +269,11 @@ export class ConsentStatePersistenceService {
     }
   }
 
+  /**
+   * Stores state in storage from the queue for a given consent
+   *
+   * @param consentId id of the consent
+   */
   protected writeStorageForConsentGiven(consentId: string): void {
     if (Boolean(this.stateMeta.get(consentId))) {
       const stateForConsentId = this.stateMeta.get(consentId) as any[];
@@ -290,22 +291,7 @@ export class ConsentStatePersistenceService {
     }
   }
 
-  protected getConsentIdsFromStorage(): string[] {
-    const consentIds = [];
-    for (const key of Object.keys(localStorage)) {
-      if (key.includes('⚿consent=')) consentIds.push(key.split('⚿consent=')[1]);
-    }
-
-    for (const key of Object.keys(sessionStorage)) {
-      if (key.includes('⚿consent=')) consentIds.push(key.split('⚿consent=')[1]);
-    }
-
-    return consentIds.filter(
-      (value, index, self) => self.indexOf(value) === index
-    );
-  }
-
-  protected generateKeyWithContext(
+  protected generateKeyWithContextAndConsent(
     context: string | Array<string>,
     key: string,
     consentId?: string
