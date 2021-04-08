@@ -1,6 +1,10 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CustomFormValidators } from '../../../../../shared/utils/validators/custom-form-validators';
+
+/**
+ * @deprecated since 3.2, use @spartacus/user package instead.
+ */
 @Component({
   selector: 'cx-update-password-form',
   templateUrl: './update-password-form.component.html',

@@ -10,6 +10,7 @@ class MockPageMetaService {
     return of(<PageMeta>{
       title: 'Test title',
       description: 'Test description',
+      image: 'http://assets.com/image.jpg',
       robots: [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW],
       canonicalUrl: 'https://www.canonicalUrl.com',
     });
@@ -28,6 +29,7 @@ describe('SeoTitleService', () => {
   let ngMetaService: Meta;
 
   let updateMetaTagSpy: jasmine.Spy;
+  let removeMetaTagSpy: jasmine.Spy;
   let addCanonicalLinkSpy: jasmine.Spy;
 
   beforeEach(() => {
@@ -48,6 +50,7 @@ describe('SeoTitleService', () => {
     ngMetaService = TestBed.inject(Meta);
 
     updateMetaTagSpy = spyOn(ngMetaService, 'updateTag');
+    removeMetaTagSpy = spyOn(ngMetaService, 'removeTag');
     addCanonicalLinkSpy = spyOn(
       TestBed.inject(PageMetaLinkService),
       'setCanonicalLink'
@@ -63,11 +66,35 @@ describe('SeoTitleService', () => {
     expect(ngTitleService.getTitle()).toBe('Test title');
   });
 
-  it('Should add description meta tag', () => {
-    seoMetaService.init();
-    expect(updateMetaTagSpy).toHaveBeenCalledWith({
-      name: 'description',
-      content: 'Test description',
+  describe('description', () => {
+    it('Should add description meta tag', () => {
+      seoMetaService.init();
+      expect(updateMetaTagSpy).toHaveBeenCalledWith({
+        name: 'description',
+        content: 'Test description',
+      });
+    });
+
+    it('Should remove description meta tag', () => {
+      spyOn(pageMetaService, 'getMeta').and.returnValue(of({}));
+      seoMetaService.init();
+      expect(removeMetaTagSpy).toHaveBeenCalledWith('name="description"');
+    });
+  });
+
+  describe('image', () => {
+    it('Should add og:image meta tag', () => {
+      seoMetaService.init();
+      expect(updateMetaTagSpy).toHaveBeenCalledWith({
+        name: 'og:image',
+        content: 'http://assets.com/image.jpg',
+      });
+    });
+
+    it('Should remove og:image meta tag', () => {
+      spyOn(pageMetaService, 'getMeta').and.returnValue(of({}));
+      seoMetaService.init();
+      expect(removeMetaTagSpy).toHaveBeenCalledWith('name="og:image"');
     });
   });
 
