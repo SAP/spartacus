@@ -21,8 +21,11 @@ export class CpqConfiguratorRestService {
   ) {}
 
   /**
-   * Will create a new runtime configuration for the given product id
+   * Creates a new runtime configuration for the given product id
    * and read this default configuration from the CPQ system.
+   *
+   * @param {string} productSystemId - Product system ID
+   * @returns {Observable<Configurator.Configuration>} - Created configuration
    */
   createConfiguration(
     productSystemId: string
@@ -44,6 +47,13 @@ export class CpqConfiguratorRestService {
     );
   }
 
+  /**
+   * Retrieves a configuration from the CPQ system by its configuration ID and for a certain tab.
+   *
+   * @param {string} configId - Configuration ID
+   * @param {string} tabId - Tab ID
+   * @returns {Observable<Configurator.Configuration>} - Retrieved configuration
+   */
   readConfiguration(
     configId: string,
     tabId?: string
@@ -59,10 +69,16 @@ export class CpqConfiguratorRestService {
     );
   }
 
+  /**
+   * Retrieves an overview for a certain configuration by its configuration ID.
+   *
+   * @param {string} configId - Configuration ID
+   * @returns {Observable<Configurator.Overview>} - Retrieved overview
+   */
   readConfigurationOverview(
     configId: string
   ): Observable<Configurator.Overview> {
-    return this.getConfigurationWithAllTabsAndAttribues(configId).pipe(
+    return this.getConfigurationWithAllTabsAndAttributes(configId).pipe(
       this.converterService.pipeable(CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER),
       map((resultConfiguration) => {
         return {
@@ -74,11 +90,11 @@ export class CpqConfiguratorRestService {
   }
 
   /**
-   * This method is actually a workarround until CPQ provides and API to fetch
-   * all selected attributes / attribue values grouped by all tabs.
+   * This method is actually a workaround until CPQ provides and API to fetch
+   * all selected attributes / attribute values grouped by all tabs.
    * It will fire a request for each tab to collect all required data.
    */
-  protected getConfigurationWithAllTabsAndAttribues(
+  protected getConfigurationWithAllTabsAndAttributes(
     configId: string
   ): Observable<Cpq.Configuration> {
     return this.callConfigurationDisplay(configId).pipe(
@@ -136,8 +152,11 @@ export class CpqConfiguratorRestService {
   }
 
   /**
-   * Will update an attribute of the runtime configuration for the given configuration id and attribute code
+   * Updates an attribute of the runtime configuration for the given configuration id and attribute code
    * and read this default configuration from the CPQ system.
+   *
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @returns {Observable<Configurator.Configuration>} - Updated configuration
    */
   updateAttribute(
     configuration: Configurator.Configuration
@@ -165,8 +184,11 @@ export class CpqConfiguratorRestService {
   }
 
   /**
-   * Will update an attribute of the runtime configuration for the given configuration id and attribute code
+   * Updates a quantity for an attribute of the runtime configuration for the given configuration id and attribute code
    * and read this default configuration from the CPQ system.
+   *
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @returns {Observable<Configurator.Configuration>} - Updated configuration
    */
   updateValueQuantity(
     configuration: Configurator.Configuration
@@ -193,7 +215,7 @@ export class CpqConfiguratorRestService {
     );
   }
 
-  callUpdateValue(updateValue: Cpq.UpdateValue): Observable<any> {
+  protected callUpdateValue(updateValue: Cpq.UpdateValue): Observable<any> {
     return this.http.patch<Cpq.ConfigurationCreatedResponseData>(
       `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${updateValue.configurationId}/attributes/${updateValue.standardAttributeCode}/attributeValues/${updateValue.attributeValueId}`,
       {
