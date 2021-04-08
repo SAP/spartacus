@@ -13,9 +13,6 @@ import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessStorageService } from './cpq-access-storage.service';
 
-const HEADER_ATTR_CPQ_SESSION_ID = 'x-cpq-session-id';
-const HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
-
 export const CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT =
   'cpq-configurator-virtual-enpoint';
 
@@ -23,6 +20,9 @@ export const CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT =
   providedIn: 'root',
 })
 export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
+  protected readonly HEADER_ATTR_CPQ_SESSION_ID = 'x-cpq-session-id';
+  protected readonly HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
+
   constructor(protected cpqAccessStorageService: CpqAccessStorageService) {}
 
   intercept(
@@ -72,8 +72,10 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
       response instanceof HttpResponse ||
       response instanceof HttpErrorResponse
     ) {
-      if (response.headers.has(HEADER_ATTR_CPQ_SESSION_ID)) {
-        cpqData.cpqSessionId = response.headers.get(HEADER_ATTR_CPQ_SESSION_ID);
+      if (response.headers.has(this.HEADER_ATTR_CPQ_SESSION_ID)) {
+        cpqData.cpqSessionId = response.headers.get(
+          this.HEADER_ATTR_CPQ_SESSION_ID
+        );
       }
     }
   }
@@ -89,13 +91,13 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
       ),
       setHeaders: {
         Authorization: 'Bearer ' + cpqData.accessToken,
-        [HEADER_ATTR_CPQ_NO_COOKIES]: 'true',
+        [this.HEADER_ATTR_CPQ_NO_COOKIES]: 'true',
       },
     });
     if (cpqData.cpqSessionId) {
       newRequest = newRequest.clone({
         setHeaders: {
-          [HEADER_ATTR_CPQ_SESSION_ID]: cpqData.cpqSessionId,
+          [this.HEADER_ATTR_CPQ_SESSION_ID]: cpqData.cpqSessionId,
         },
       });
     }
