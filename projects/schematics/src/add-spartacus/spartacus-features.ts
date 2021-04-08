@@ -6,7 +6,7 @@ import {
   SPARTACUS_STOREFRONTLIB,
 } from '../shared/constants';
 import { addModuleImport } from '../shared/utils/new-module-utils';
-import { createProgram } from '../shared/utils/program';
+import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
 
 /** Migration which ensures the spartacus features are being correctly set up */
@@ -206,7 +206,7 @@ function configureSpartacusModules(
         `,
       });
 
-      sourceFile.saveSync();
+      saveAndFormat(sourceFile);
 
       break;
     }
