@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { HEADER_ATTR_CPQ_CONFIGURATOR } from '../root/interceptor/cpq-configurator-rest.interceptor';
+import { CpqConfiguratorEndpointConfig } from './cpq-configurator-endpoint.config';
 import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
+import { defaultCpqConfiguratorEndpointConfig } from './default-cpq-configurator-endpoint.config';
 
 describe('CpqConfiguratorEndpointService', () => {
   let classUnderTest: CpqConfiguratorEndpointService;
@@ -10,6 +12,14 @@ describe('CpqConfiguratorEndpointService', () => {
   const TAB_ID = '5';
 
   beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        {
+          provide: CpqConfiguratorEndpointConfig,
+          useValue: defaultCpqConfiguratorEndpointConfig,
+        },
+      ],
+    });
     classUnderTest = TestBed.inject(CpqConfiguratorEndpointService);
   });
 
@@ -24,32 +34,45 @@ describe('CpqConfiguratorEndpointService', () => {
   });
 
   it('should build configurations init url', () => {
-    expect(classUnderTest.buildConfigurationInitUrl()).toBe(
+    expect(classUnderTest.buildUrl('configurationInit')).toBe(
       '/api/configuration/v1/configurations'
     );
   });
 
   it('should build configurations display url', () => {
-    expect(classUnderTest.buildConfigurationDisplayUrl(CONFIG_ID)).toBe(
-      `/api/configuration/v1/configurations/${CONFIG_ID}/display`
-    );
+    expect(
+      classUnderTest.buildUrl('configurationDisplay', { configId: CONFIG_ID })
+    ).toBe(`/api/configuration/v1/configurations/${CONFIG_ID}/display`);
   });
 
   it('should build configurations display url with tab id', () => {
-    expect(classUnderTest.buildConfigurationDisplayUrl(CONFIG_ID, TAB_ID)).toBe(
+    expect(
+      classUnderTest.buildUrl('configurationDisplay', { configId: CONFIG_ID }, [
+        { name: 'tabId', value: TAB_ID },
+      ])
+    ).toBe(
       `/api/configuration/v1/configurations/${CONFIG_ID}/display?tabId=${TAB_ID}`
     );
   });
 
   it('should build configurations update attribute url', () => {
-    expect(classUnderTest.buildAttributeUpdateUrl(CONFIG_ID, ATTR_ID)).toBe(
+    expect(
+      classUnderTest.buildUrl('attributeUpdate', {
+        configId: CONFIG_ID,
+        attributeCode: ATTR_ID,
+      })
+    ).toBe(
       `/api/configuration/v1/configurations/${CONFIG_ID}/attributes/${ATTR_ID}`
     );
   });
 
   it('should build configurations update value url', () => {
     expect(
-      classUnderTest.buildValueUpdateUrl(CONFIG_ID, ATTR_ID, VALUE_ID)
+      classUnderTest.buildUrl('valueUpdate', {
+        configId: CONFIG_ID,
+        attributeCode: ATTR_ID,
+        valueCode: VALUE_ID,
+      })
     ).toBe(
       `/api/configuration/v1/configurations/${CONFIG_ID}/attributes/${ATTR_ID}/attributeValues/${VALUE_ID}`
     );

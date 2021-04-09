@@ -7,6 +7,7 @@ import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { Configurator } from '../core/model/configurator.model';
 import {} from '../root/interceptor/cpq-configurator-rest.interceptor';
+import { CpqConfiguratorEndpointConfig } from './cpq-configurator-endpoint.config';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 import {
@@ -16,6 +17,7 @@ import {
   CPQ_CONFIGURATOR_SERIALIZER,
 } from './cpq-configurator.converters';
 import { Cpq } from './cpq.models';
+import { defaultCpqConfiguratorEndpointConfig } from './default-cpq-configurator-endpoint.config';
 
 const productCode = 'CONF_LAPTOP';
 const tabId = '2';
@@ -116,6 +118,10 @@ describe('CpqConfiguratorRestService', () => {
       providers: [
         CpqConfiguratorRestAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        {
+          provide: CpqConfiguratorEndpointConfig,
+          useValue: defaultCpqConfiguratorEndpointConfig,
+        },
       ],
     });
 

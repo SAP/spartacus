@@ -218,11 +218,11 @@ export class CpqConfiguratorRestService {
 
   protected callUpdateValue(updateValue: Cpq.UpdateValue): Observable<any> {
     return this.http.patch<Cpq.ConfigurationCreatedResponseData>(
-      this.endpointService.buildValueUpdateUrl(
-        updateValue.configurationId,
-        updateValue.standardAttributeCode,
-        updateValue.attributeValueId
-      ),
+      this.endpointService.buildUrl('valueUpdate', {
+        configId: updateValue.configurationId,
+        attributeCode: updateValue.standardAttributeCode,
+        valueCode: updateValue.attributeValueId,
+      }),
       {
         Quantity: updateValue.quantity,
       },
@@ -234,7 +234,7 @@ export class CpqConfiguratorRestService {
     productSystemId: string
   ): Observable<Cpq.ConfigurationCreatedResponseData> {
     return this.http.post<Cpq.ConfigurationCreatedResponseData>(
-      this.endpointService.buildConfigurationInitUrl(),
+      this.endpointService.buildUrl('configurationInit'),
       {
         ProductSystemId: productSystemId,
       },
@@ -247,7 +247,11 @@ export class CpqConfiguratorRestService {
     tabId?: string
   ): Observable<Cpq.Configuration> {
     return this.http.get<Cpq.Configuration>(
-      this.endpointService.buildConfigurationDisplayUrl(configId, tabId),
+      this.endpointService.buildUrl(
+        'configurationDisplay',
+        { configId: configId },
+        tabId ? [{ name: 'tabId', value: tabId }] : undefined
+      ),
       this.endpointService.cpqHeaders
     );
   }
@@ -256,10 +260,10 @@ export class CpqConfiguratorRestService {
     updateAttribute: Cpq.UpdateAttribute
   ): Observable<any> {
     return this.http.patch<any>(
-      this.endpointService.buildAttributeUpdateUrl(
-        updateAttribute.configurationId,
-        updateAttribute.standardAttributeCode
-      ),
+      this.endpointService.buildUrl('attributeUpdate', {
+        configId: updateAttribute.configurationId,
+        attributeCode: updateAttribute.standardAttributeCode,
+      }),
       updateAttribute.changeAttributeValue,
       this.endpointService.cpqHeaders
     );
