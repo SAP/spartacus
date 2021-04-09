@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -21,11 +21,13 @@ import {
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
+import {
+  Card,
+  PromotionService,
+  PromotionsModule,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { PromotionsModule } from '../../..';
-import { Card } from '../../../../shared/components/card/card.component';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
-import { IconTestingModule } from '../../../misc/icon/testing/icon-testing.module';
+import { IconTestingModule } from '../../../../../projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { CheckoutStep, CheckoutStepType } from '../../model/index';
 import { CheckoutStepService } from '../../services/index';
 import { ReviewSubmitComponent } from './review-submit.component';

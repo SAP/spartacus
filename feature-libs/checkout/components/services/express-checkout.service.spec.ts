@@ -1,21 +1,18 @@
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-
 import {
   Address,
   CheckoutDeliveryService,
   CheckoutDetails,
   CheckoutPaymentService,
   DeliveryMode,
-  StateUtils,
   PaymentDetails,
+  StateUtils,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
-import {
-  CheckoutConfigService,
-  CheckoutDetailsService,
-} from '@spartacus/storefront';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { CheckoutConfigService } from './checkout-config.service';
+import { CheckoutDetailsService } from './checkout-details.service';
 import { ExpressCheckoutService } from './express-checkout.service';
 
 const mockDetails: CheckoutDetails = {

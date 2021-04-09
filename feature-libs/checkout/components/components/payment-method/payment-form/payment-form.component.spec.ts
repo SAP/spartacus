@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -16,10 +16,12 @@ import {
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
+import {
+  FormErrorsModule,
+  ICON_TYPE,
+  ModalService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ModalService } from '../../../../../shared/components/modal/index';
-import { FormErrorsModule } from '../../../../../shared/index';
-import { ICON_TYPE } from '../../../../misc/icon/index';
 import { PaymentFormComponent } from './payment-form.component';
 import createSpy = jasmine.createSpy;
 

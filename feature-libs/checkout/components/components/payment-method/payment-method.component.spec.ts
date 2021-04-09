@@ -1,5 +1,5 @@
 import { Component, Input, Type } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -14,9 +14,8 @@ import {
   PaymentDetails,
   UserPaymentService,
 } from '@spartacus/core';
+import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CardComponent } from '../../../../shared/components/card/card.component';
-import { ICON_TYPE } from '../../../misc/index';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PaymentMethodComponent } from './payment-method.component';
 import createSpy = jasmine.createSpy;

@@ -15,7 +15,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   LaunchDialogService,
   LAUNCH_CALLER,
-} from '../../../../layout/launch-dialog/index';
+} from '@spartacus/storefront';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 import { PlaceOrderComponent } from './place-order.component';
 

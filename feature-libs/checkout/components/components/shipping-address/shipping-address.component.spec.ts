@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -12,8 +12,8 @@ import {
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
+import { Card } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Card } from '../../../../shared/components/card/card.component';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { ShippingAddressComponent } from './shipping-address.component';
 import createSpy = jasmine.createSpy;

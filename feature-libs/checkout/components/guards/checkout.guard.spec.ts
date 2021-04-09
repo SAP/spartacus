@@ -5,13 +5,11 @@ import {
   RoutesConfig,
   RoutingConfigService,
 } from '@spartacus/core';
-import {
-  CheckoutConfigService,
-  CheckoutStepType,
-  CheckoutStepService,
-} from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
+import { defaultStorefrontRoutesConfig } from '../../../../projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { CheckoutStepType } from '../model/checkout-step.model';
+import { CheckoutConfigService } from '../services/checkout-config.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
 import { CheckoutGuard } from './checkout.guard';
 

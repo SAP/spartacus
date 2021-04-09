@@ -1,4 +1,4 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutService,
@@ -9,7 +9,7 @@ import {
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { IconTestingModule } from '../../../misc/icon/testing/icon-testing.module';
+import { IconTestingModule } from '../../../../../projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 import { ScheduleReplenishmentOrderComponent } from './schedule-replenishment-order.component';
 
