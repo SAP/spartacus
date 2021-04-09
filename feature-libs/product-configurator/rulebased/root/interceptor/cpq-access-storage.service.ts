@@ -101,23 +101,16 @@ export class CpqAccessStorageService {
   }
 
   protected fetchNextTokenIn(data: CpqAccessData) {
+    const authSettings = this.config.productConfigurator.cpq.authentication;
     // we schedule a request to update our cache some time before expiration
     let fetchNextIn: number =
       data.accessTokenExpirationTime -
       Date.now() -
-      this.config.productConfigurator.cpq.authentication.tokenExpirationBuffer;
-    if (
-      fetchNextIn <
-      this.config.productConfigurator.cpq.authentication.tokenMinValidity
-    ) {
-      fetchNextIn = this.config.productConfigurator.cpq.authentication
-        .tokenMinValidity;
-    } else if (
-      fetchNextIn >
-      this.config.productConfigurator.cpq.authentication.tokenMaxValidity
-    ) {
-      fetchNextIn = this.config.productConfigurator.cpq.authentication
-        .tokenMaxValidity;
+      authSettings.tokenExpirationBuffer;
+    if (fetchNextIn < authSettings.tokenMinValidity) {
+      fetchNextIn = authSettings.tokenMinValidity;
+    } else if (fetchNextIn > authSettings.tokenMaxValidity) {
+      fetchNextIn = authSettings.tokenMaxValidity;
     }
     return fetchNextIn;
   }
