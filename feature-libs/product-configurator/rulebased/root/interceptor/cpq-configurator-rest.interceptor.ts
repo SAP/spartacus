@@ -55,7 +55,9 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
         return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
           take(1),
           switchMap((newCpqData) => {
-            return next.handle(this.enrichHeaders(request, newCpqData));
+            return next
+              .handle(this.enrichHeaders(request, newCpqData))
+              .pipe(tap((response) => this.extractCpqSessionId(response)));
           })
         );
       }
