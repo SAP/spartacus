@@ -1,6 +1,5 @@
-import { ApplicationRef, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FeatureConfigService } from '@spartacus/core';
 import { ModalOptions } from './modal-options';
 import { ModalRef } from './modal-ref';
 
@@ -12,24 +11,10 @@ import { ModalRef } from './modal-ref';
 })
 export class ModalService {
   private modals: ModalRef[] = [];
-  constructor(
-    private ngbModalService: NgbModal,
-    // TODO: make this param required in 4.0
-    protected applicationRef?: ApplicationRef,
-    // TODO: drop this param in 4.0
-    protected featureConfigService?: FeatureConfigService
-  ) {}
-
-  protected readonly rootComponent = this.applicationRef?.components?.[0]
-    .location?.nativeElement;
+  constructor(private ngbModalService: NgbModal) {}
 
   open(content: any, options?: ModalOptions): ModalRef {
     let activeModal: ModalRef;
-
-    // TODO: make this logic default in 4.0
-    if (this.featureConfigService?.isLevel('3.3')) {
-      options = { container: this.rootComponent, ...options };
-    }
 
     activeModal = this.ngbModalService.open(content, options);
     this.modals.push(activeModal);
