@@ -2,6 +2,7 @@ import {
   HttpErrorResponse,
   HttpEvent,
   HttpHandler,
+  HttpHeaders,
   HttpInterceptor,
   HttpRequest,
   HttpResponse,
@@ -12,8 +13,7 @@ import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessStorageService } from './cpq-access-storage.service';
 
-export const CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT =
-  'cpq-configurator-virtual-enpoint';
+export const HEADER_ATTR_CPQ_CONFIGURATOR = 'x-cpq-configurator';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +21,7 @@ export const CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT =
 export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
   protected readonly HEADER_ATTR_CPQ_SESSION_ID = 'x-cpq-session-id';
   protected readonly HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
+  protected readonly HEADER_ATTR_CPQ_CONFIGURATOR = HEADER_ATTR_CPQ_CONFIGURATOR;
 
   constructor(protected cpqAccessStorageService: CpqAccessStorageService) {}
 
@@ -28,7 +29,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!request.url.startsWith(CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT)) {
+    if (!request.headers.has(this.HEADER_ATTR_CPQ_CONFIGURATOR)) {
       return next.handle(request);
     }
     return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
@@ -83,14 +84,11 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     cpqData: CpqAccessData
   ): HttpRequest<any> {
     let newRequest = request.clone({
-      url: request.url.replace(
-        CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT,
-        cpqData.endpoint
-      ),
-      setHeaders: {
+      url: cpqData.endpoint + request.url,
+      headers: new HttpHeaders({
         Authorization: 'Bearer ' + cpqData.accessToken,
         [this.HEADER_ATTR_CPQ_NO_COOKIES]: 'true',
-      },
+      }),
     });
     if (this.cpqAccessStorageService.cpqSessionId) {
       newRequest = newRequest.clone({
