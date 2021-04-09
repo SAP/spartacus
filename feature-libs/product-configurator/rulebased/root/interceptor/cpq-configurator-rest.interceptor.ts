@@ -21,7 +21,6 @@ export const CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT =
 export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
   protected readonly HEADER_ATTR_CPQ_SESSION_ID = 'x-cpq-session-id';
   protected readonly HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
-  cpqSessionId: string | null;
 
   constructor(protected cpqAccessStorageService: CpqAccessStorageService) {}
 
@@ -70,7 +69,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
       response instanceof HttpErrorResponse
     ) {
       if (response.headers.has(this.HEADER_ATTR_CPQ_SESSION_ID)) {
-        this.cpqSessionId = response.headers.get(
+        this.cpqAccessStorageService.cpqSessionId = response.headers.get(
           this.HEADER_ATTR_CPQ_SESSION_ID
         );
       }
@@ -91,10 +90,11 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
         [this.HEADER_ATTR_CPQ_NO_COOKIES]: 'true',
       },
     });
-    if (this.cpqSessionId) {
+    if (this.cpqAccessStorageService.cpqSessionId) {
       newRequest = newRequest.clone({
         setHeaders: {
-          [this.HEADER_ATTR_CPQ_SESSION_ID]: this.cpqSessionId,
+          [this.HEADER_ATTR_CPQ_SESSION_ID]: this.cpqAccessStorageService
+            .cpqSessionId,
         },
       });
     }

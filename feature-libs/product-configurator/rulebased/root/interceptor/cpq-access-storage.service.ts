@@ -50,6 +50,8 @@ export class CpqAccessStorageService {
   protected currentCpqAccessSubscription: Subscription;
   protected cpqAccessDataCache: BehaviorSubject<CpqAccessData>;
 
+  protected currentCpqSessionId: string | null = null;
+
   getCachedCpqAccessData(): Observable<CpqAccessData> {
     if (!this.cpqAccessObservable) {
       this.initCpqAccessObservable();
@@ -139,5 +141,12 @@ export class CpqAccessStorageService {
       tokenData.accessTokenExpirationTime -
         this.config.cpqConfigurator.tokenExpirationBuffer
     );
+  }
+
+  get cpqSessionId(): string | null {
+    return this.currentCpqSessionId;
+  }
+  set cpqSessionId(cpqSessionId: string | null) {
+    this.currentCpqSessionId = cpqSessionId;
   }
 }
