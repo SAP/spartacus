@@ -1,6 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
-import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
+import {
+  isNotNullable,
+  PageMeta,
+  PageMetaService,
+  PageRobotsMeta,
+} from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { PageMetaLinkService } from './page-meta-link.service';
@@ -21,8 +26,8 @@ export class SeoMetaService implements OnDestroy {
   init() {
     this.subscription = this.pageMetaService
       .getMeta()
-      .pipe(filter((meta): meta is PageMeta => Boolean(meta)))
-      .subscribe((meta: PageMeta) => (this.meta = meta));
+      .pipe(filter(isNotNullable))
+      .subscribe((meta) => (this.meta = meta));
   }
 
   protected set meta(meta: PageMeta) {
@@ -40,12 +45,18 @@ export class SeoMetaService implements OnDestroy {
   }
 
   protected set description(value: string | undefined) {
-    this.addTag({ name: 'description', content: value || '' });
+    if (value) {
+      this.addTag({ name: 'description', content: value || '' });
+    } else {
+      this.ngMeta.removeTag('name="description"');
+    }
   }
 
   protected set image(imageUrl: string | undefined) {
     if (imageUrl) {
       this.addTag({ name: 'og:image', content: imageUrl });
+    } else {
+      this.ngMeta.removeTag('name="og:image"');
     }
   }
 

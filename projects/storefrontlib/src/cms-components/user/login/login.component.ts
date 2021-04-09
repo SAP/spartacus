@@ -3,6 +3,9 @@ import { AuthService, User, UserService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
+/**
+ * @deprecated since 3.2, use @spartacus/user package instead.
+ */
 @Component({
   selector: 'cx-login',
   templateUrl: './login.component.html',

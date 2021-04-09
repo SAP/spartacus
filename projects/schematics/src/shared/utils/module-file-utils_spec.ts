@@ -2,8 +2,13 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { UTF_8 } from '../constants';
 import { getPathResultsForFile } from './file-utils';
 import {
@@ -40,16 +45,16 @@ export class Test {}
 
 describe('Module file utils', () => {
   let appTree: UnitTestTree;
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
     projectRoot: '',
   };
