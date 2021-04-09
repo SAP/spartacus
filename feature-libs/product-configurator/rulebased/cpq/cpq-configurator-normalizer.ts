@@ -27,7 +27,7 @@ export class CpqConfiguratorNormalizer
         !source.errorMessages?.length,
       totalNumberOfIssues: this.generateTotalNumberOfIssues(source),
       productCode: source.productSystemId,
-      priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
+      priceSummary: this.cpqUtilitiesService.convertPriceSummary(source),
       groups: [],
       flatGroups: [],
       errorMessages: this.generateErrorMessages(source),
@@ -151,7 +151,7 @@ export class CpqConfiguratorNormalizer
       attrCode: sourceAttribute.stdAttrCode,
       name: sourceAttribute.pA_ID.toString(),
       description: sourceAttribute.description,
-      label: this.cpqUtilitiesService.retrieveAttributeLabel(sourceAttribute),
+      label: this.cpqUtilitiesService.convertAttributeLabel(sourceAttribute),
       required: sourceAttribute.required,
       isLineItem: sourceAttribute.isLineItem,
       uiType: this.convertAttributeType(sourceAttribute),
@@ -207,11 +207,11 @@ export class CpqConfiguratorNormalizer
       description: sourceValue.description,
       productSystemId: sourceValue.productSystemId,
       selected: sourceValue.selected,
-      quantity: this.cpqUtilitiesService.prepareQuantity(
+      quantity: this.cpqUtilitiesService.convertQuantity(
         sourceValue,
         sourceAttribute
       ),
-      valuePrice: this.cpqUtilitiesService.prepareValuePrice(
+      valuePrice: this.cpqUtilitiesService.convertValuePrice(
         sourceValue,
         currency
       ),

@@ -34,9 +34,9 @@ describe('CpqConfiguratorUtilsService', () => {
     expect(CpqConfiguratorUtilsService).toBeTruthy();
   });
 
-  it('should prepare price', () => {
+  it('should convert price', () => {
     const valueSelected: Cpq.Value = { paV_ID: 1, price: '123.45' };
-    const valuePrice = cpqConfiguratorUtilsService.prepareValuePrice(
+    const valuePrice = cpqConfiguratorUtilsService.convertValuePrice(
       valueSelected,
       CURRENCY
     );
@@ -45,9 +45,9 @@ describe('CpqConfiguratorUtilsService', () => {
     expect(valuePrice.formattedValue).toBe('$123.45');
   });
 
-  it('should prepare price when no price exists', () => {
+  it('should convert price when no price exists', () => {
     const valueSelected: Cpq.Value = { paV_ID: 1 };
-    const valuePrice = cpqConfiguratorUtilsService.prepareValuePrice(
+    const valuePrice = cpqConfiguratorUtilsService.convertValuePrice(
       valueSelected,
       CURRENCY
     );
@@ -94,7 +94,7 @@ describe('CpqConfiguratorUtilsService', () => {
     expect(valuePriceTotal).toBeNull();
   });
 
-  it('should prepare quantity for attribute with quantity on attribute level', () => {
+  it('should convert quantity for attribute with quantity on attribute level', () => {
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
@@ -102,14 +102,14 @@ describe('CpqConfiguratorUtilsService', () => {
       dataType: Cpq.DataType.QTY_ATTRIBUTE_LEVEL,
       values: [{ paV_ID: 1, selected: true, quantity: '1' }],
     };
-    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.convertQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
     expect(quantity).toBe(2);
   });
 
-  it('should prepare quantity for attribute with quantity on value level', () => {
+  it('should convert quantity for attribute with quantity on value level', () => {
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
@@ -117,14 +117,14 @@ describe('CpqConfiguratorUtilsService', () => {
       dataType: Cpq.DataType.QTY_VALUE_LEVEL,
       values: [{ paV_ID: 1, selected: true, quantity: '3' }],
     };
-    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.convertQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
     expect(quantity).toBe(3);
   });
 
-  it('should prepare quantity for Checkbox Lineitem attribute with quantity on value level', () => {
+  it('should convert quantity for Checkbox Lineitem attribute with quantity on value level', () => {
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
@@ -134,14 +134,14 @@ describe('CpqConfiguratorUtilsService', () => {
       isLineItem: true,
       values: [{ paV_ID: 1, selected: true, quantity: '3' }],
     };
-    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.convertQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
     expect(quantity).toBe(3);
   });
 
-  it('should prepare quantity for Checkbox Non-Lineitem attribute with quantity on value level', () => {
+  it('should convert quantity for Checkbox Non-Lineitem attribute with quantity on value level', () => {
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
@@ -151,14 +151,14 @@ describe('CpqConfiguratorUtilsService', () => {
       isLineItem: false,
       values: [{ paV_ID: 1, selected: true, quantity: '3' }],
     };
-    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.convertQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
     expect(quantity).toBeNull();
   });
 
-  it('should prepare quantity for Radiobutton attribute with quantity on value level', () => {
+  it('should convert quantity for Radiobutton attribute with quantity on value level', () => {
     const cpqAttr: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
@@ -167,7 +167,7 @@ describe('CpqConfiguratorUtilsService', () => {
       displayAs: Cpq.DisplayAs.RADIO_BUTTON,
       values: [{ paV_ID: 1, selected: true, quantity: '3' }],
     };
-    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.convertQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
@@ -182,7 +182,7 @@ describe('CpqConfiguratorUtilsService', () => {
       dataType: Cpq.DataType.N_A,
       values: [{ paV_ID: 1, selected: true, quantity: '1' }],
     };
-    const quantity = cpqConfiguratorUtilsService.prepareQuantity(
+    const quantity = cpqConfiguratorUtilsService.convertQuantity(
       cpqAttr.values[0],
       cpqAttr
     );
@@ -353,7 +353,7 @@ describe('CpqConfiguratorUtilsService', () => {
     );
   });
 
-  it('should prepare price summary', () => {
+  it('should convert price summary', () => {
     const cpqConfiguration: Cpq.Configuration = {
       productSystemId: 'productSystemId',
       currencyISOCode: 'USD',
@@ -378,11 +378,11 @@ describe('CpqConfiguratorUtilsService', () => {
       },
     };
     expect(
-      cpqConfiguratorUtilsService.preparePriceSummary(cpqConfiguration)
+      cpqConfiguratorUtilsService.convertPriceSummary(cpqConfiguration)
     ).toEqual(expectedPriceSummary);
   });
 
-  it('should prepare price summary when no base price exists', () => {
+  it('should convert price summary when no base price exists', () => {
     const cpqConfiguration: Cpq.Configuration = {
       productSystemId: 'productSystemId',
       currencyISOCode: 'USD',
@@ -397,11 +397,11 @@ describe('CpqConfiguratorUtilsService', () => {
       },
     };
     expect(
-      cpqConfiguratorUtilsService.preparePriceSummary(cpqConfiguration)
+      cpqConfiguratorUtilsService.convertPriceSummary(cpqConfiguration)
     ).toEqual(expectedPriceSummary);
   });
 
-  it('should prepare price summary when no total price exists', () => {
+  it('should convert price summary when no total price exists', () => {
     const cpqConfiguration: Cpq.Configuration = {
       productSystemId: 'productSystemId',
       currencyISOCode: 'USD',
@@ -416,11 +416,11 @@ describe('CpqConfiguratorUtilsService', () => {
       },
     };
     expect(
-      cpqConfiguratorUtilsService.preparePriceSummary(cpqConfiguration)
+      cpqConfiguratorUtilsService.convertPriceSummary(cpqConfiguration)
     ).toEqual(expectedPriceSummary);
   });
 
-  it('should prepare price summary when no currency ISO code exists', () => {
+  it('should convert price summary when no currency ISO code exists', () => {
     const cpqConfiguration: Cpq.Configuration = {
       productSystemId: 'productSystemId',
       currencySign: '$',
@@ -428,18 +428,18 @@ describe('CpqConfiguratorUtilsService', () => {
     };
     const expectedPriceSummary: Configurator.PriceSummary = {};
     expect(
-      cpqConfiguratorUtilsService.preparePriceSummary(cpqConfiguration)
+      cpqConfiguratorUtilsService.convertPriceSummary(cpqConfiguration)
     ).toEqual(expectedPriceSummary);
   });
 
-  it('should retrieve attribute label', () => {
+  it('should convert attribute label', () => {
     const attribute: Cpq.Attribute = {
       pA_ID: 1,
       stdAttrCode: 2,
       label: 'label',
       name: 'name',
     };
-    expect(cpqConfiguratorUtilsService.retrieveAttributeLabel(attribute)).toBe(
+    expect(cpqConfiguratorUtilsService.convertAttributeLabel(attribute)).toBe(
       'label'
     );
   });
@@ -450,7 +450,7 @@ describe('CpqConfiguratorUtilsService', () => {
       stdAttrCode: 2,
       name: 'name',
     };
-    expect(cpqConfiguratorUtilsService.retrieveAttributeLabel(attribute)).toBe(
+    expect(cpqConfiguratorUtilsService.convertAttributeLabel(attribute)).toBe(
       'name'
     );
   });
@@ -460,7 +460,7 @@ describe('CpqConfiguratorUtilsService', () => {
       pA_ID: 1,
       stdAttrCode: 2,
     };
-    expect(cpqConfiguratorUtilsService.retrieveAttributeLabel(attribute)).toBe(
+    expect(cpqConfiguratorUtilsService.convertAttributeLabel(attribute)).toBe(
       ''
     );
   });

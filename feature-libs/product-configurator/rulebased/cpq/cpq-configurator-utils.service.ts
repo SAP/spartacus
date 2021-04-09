@@ -13,13 +13,13 @@ export class CpqConfiguratorUtilsService {
   constructor(protected languageService: LanguageService) {}
 
   /**
-   * Prepares quantity to be shown in the overview page
+   * Converts quantity to be shown in the overview page
    *
    * @param {Cpq.Value} value - CPQ Value
    * @param {Cpq.Attribute} attribute - CPQ Attribute
    * @returns {number} - Quantity
    */
-  prepareQuantity(value: Cpq.Value, attribute: Cpq.Attribute): number {
+  convertQuantity(value: Cpq.Value, attribute: Cpq.Attribute): number {
     if (!value.selected) {
       return null;
     }
@@ -41,13 +41,13 @@ export class CpqConfiguratorUtilsService {
   }
 
   /**
-   * Prepares value price
+   * Converts value price
    *
    * @param { Cpq.Value} value - CPQ Value
    * @param {string} currency - Currency code ISO
    * @returns {Configurator.PriceDetails}
    */
-  prepareValuePrice(
+  convertValuePrice(
     value: Cpq.Value,
     currency: string
   ): Configurator.PriceDetails {
@@ -108,7 +108,7 @@ export class CpqConfiguratorUtilsService {
   }
 
   /**
-   * Prepares formatted price for given PriceDetails object and Locale
+   * Formats price for given PriceDetails object and Locale
    *
    * @param {Configurator.PriceDetails} price - Price details
    * @param {string} availableLocale - Original locale
@@ -179,12 +179,12 @@ export class CpqConfiguratorUtilsService {
   }
 
   /**
-   * Prepares price summary
+   * Converts price summary
    *
    * @param {cpqConfiguration: Cpq.Configuration} cpqConfiguration - CPQ configuration
    * @returns {Configurator.PriceSummary} - price summary
    */
-  preparePriceSummary(
+  convertPriceSummary(
     cpqConfiguration: Cpq.Configuration
   ): Configurator.PriceSummary {
     const priceSummary: Configurator.PriceSummary = {};
@@ -239,12 +239,12 @@ export class CpqConfiguratorUtilsService {
   }
 
   /**
-   * Retrieve attribute label
+   * Convert attribute label
    *
    * @param {attribute: Cpq.Attribute} attribute - CPQ Attribute
    * @returns {string} - attribute label
    */
-  retrieveAttributeLabel(attribute: Cpq.Attribute): string {
+  convertAttributeLabel(attribute: Cpq.Attribute): string {
     return attribute.label
       ? attribute.label
       : attribute.name
@@ -253,7 +253,7 @@ export class CpqConfiguratorUtilsService {
   }
 
   /**
-   * Retrieves the current language.
+   * Gets the current language.
    *
    * @return {string} - current language
    */
@@ -269,7 +269,7 @@ export class CpqConfiguratorUtilsService {
   }
 
   /**
-   * Retrieves the active language.
+   * Gets the active language.
    *
    * @return {string} - active language
    */
@@ -284,7 +284,7 @@ export class CpqConfiguratorUtilsService {
   }
 
   /**
-   * Prepares the message for the missing local data.
+   * Logs the message for the missing local data.
    *
    * @param {string} lang - Active language
    */
