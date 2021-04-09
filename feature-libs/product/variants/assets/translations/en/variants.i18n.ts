@@ -1,4 +1,4 @@
-export const variants = {
+export const productVariants = {
   variants: {
     style: 'Style',
     selectedStyle: 'Selected style',
