@@ -16,7 +16,6 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
         path: null,
         component: PageLayoutComponent,
         data: {
-          pageLabel: '/configure-overview/cpq',
           cxRoute: 'configureOverviewCLOUDCPQCONFIGURATOR',
         },
         canActivate: [CmsPageGuard],
