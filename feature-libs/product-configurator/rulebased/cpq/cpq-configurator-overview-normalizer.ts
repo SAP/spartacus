@@ -22,7 +22,7 @@ export class CpqConfiguratorOverviewNormalizer
     const resultTarget: Configurator.Overview = {
       ...target,
       productCode: source.productSystemId,
-      priceSummary: this.cpqUtilitiesService.preparePriceSummary(source),
+      priceSummary: this.cpqUtilitiesService.convertPriceSummary(source),
       groups: source.tabs
         ?.flatMap((tab) => this.convertTab(tab, source.currencyISOCode))
         .filter((tab) => tab.attributes.length > 0),
@@ -69,7 +69,7 @@ export class CpqConfiguratorOverviewNormalizer
         ...ovValue,
         type: attributeOverviewType,
       });
-      ovAttr[index].attribute = this.cpqUtilitiesService.retrieveAttributeLabel(
+      ovAttr[index].attribute = this.cpqUtilitiesService.convertAttributeLabel(
         attr
       );
     });
@@ -122,8 +122,8 @@ export class CpqConfiguratorOverviewNormalizer
       attribute: undefined,
       value: valueSelected.valueDisplay,
       productCode: valueSelected.productSystemId,
-      quantity: this.cpqUtilitiesService.prepareQuantity(valueSelected, attr),
-      valuePrice: this.cpqUtilitiesService.prepareValuePrice(
+      quantity: this.cpqUtilitiesService.convertQuantity(valueSelected, attr),
+      valuePrice: this.cpqUtilitiesService.convertValuePrice(
         valueSelected,
         currency
       ),
@@ -144,7 +144,7 @@ export class CpqConfiguratorOverviewNormalizer
       attribute: undefined,
       value: attr.userInput,
       quantity: null,
-      valuePrice: this.cpqUtilitiesService.prepareValuePrice(value, currency),
+      valuePrice: this.cpqUtilitiesService.convertValuePrice(value, currency),
     };
     ovValue.valuePriceTotal = this.cpqUtilitiesService.calculateValuePriceTotal(
       ovValue.quantity,
