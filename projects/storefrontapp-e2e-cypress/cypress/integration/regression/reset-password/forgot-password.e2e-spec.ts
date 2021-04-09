@@ -10,7 +10,7 @@ context('Forgot Password Page', () => {
   it('should request password reset email on submit', () => {
     cy.get('cx-forgot-password form').within(() => {
       cy.get('[formcontrolname="userEmail"]').type(getRandomEmailAddress());
-      cy.get('button[type="submit"]').click();
+      cy.get('button').click();
     });
     // After requesting a reset password email, we should be taken back to the login page
     cy.url().should('match', /\/login/);
@@ -25,7 +25,7 @@ context('Forgot Password Page', () => {
 
   it('should not submit an invalid form', () => {
     cy.get('cx-forgot-password form').within(() => {
-      cy.get('button[type="submit"]').click();
+      cy.get('button').click();
     });
     // Submitting an invalid form should not move on to the next page.
     // Form validations are covered by unit tests.
