@@ -19,10 +19,6 @@ import {
 } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
-export interface ProductExtended extends Product {
-  noLink?: boolean;
-}
-
 export interface ConfiguratorAttributeProductCardComponentOptions {
   /** If set to `true`, all action buttons will be disabled.  */
   disableAllButtons?: boolean;
@@ -51,7 +47,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
 export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent
   implements OnInit {
-  product$: Observable<ProductExtended>;
+  product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
 
   @Input()
@@ -219,13 +215,12 @@ export class ConfiguratorAttributeProductCardComponent
 
   protected transformToProductType(
     value: Configurator.Value | undefined
-  ): ProductExtended {
+  ): Product {
     return {
       code: value?.productSystemId,
       description: value?.description,
       images: {},
       name: value?.valueDisplay,
-      noLink: true,
     };
   }
 

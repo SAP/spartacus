@@ -10,23 +10,19 @@ import { map } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 
-interface ProductExtended extends Product {
-  noLink?: boolean;
-}
-
 @Component({
   selector: 'cx-configurator-cpq-overview-attribute',
   templateUrl: './configurator-overview-bundle-attribute.component.html',
 })
 export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
-  product$: Observable<ProductExtended>;
+  product$: Observable<Product>;
 
   @Input() attributeOverview: Configurator.AttributeOverview;
 
   constructor(protected productService: ProductService) {}
 
   ngOnInit() {
-    const noCommerceProduct: ProductExtended = { images: {}, noLink: true };
+    const noCommerceProduct: Product = { images: {} };
     if (this.attributeOverview?.productCode) {
       this.product$ = this.productService
         .get(this.attributeOverview?.productCode, ProductScope.LIST)

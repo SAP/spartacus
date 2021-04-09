@@ -15,12 +15,9 @@ import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
-import {
-  ConfiguratorAttributeProductCardComponent,
-  ProductExtended,
-} from './configurator-attribute-product-card.component';
+import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
-const product: ProductExtended = {
+const product: Product = {
   name: 'Product Name',
   code: 'PRODUCT_CODE',
   images: {
@@ -44,13 +41,12 @@ const product: ProductExtended = {
   },
 };
 
-const productTransformed: ProductExtended = {
+const productTransformed: Product = {
   code: '1111-2222',
   description:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
   images: {},
   name: 'Lorem Ipsum Dolor',
-  noLink: true,
 };
 
 class MockProductService {
