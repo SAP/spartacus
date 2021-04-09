@@ -12,6 +12,17 @@ import { ModalRef } from './modal-ref';
 })
 export class ModalService {
   private modals: ModalRef[] = [];
+
+  constructor(
+    ngbModalService: NgbModal,
+    applicationRef?: ApplicationRef,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfigService?: FeatureConfigService
+  );
+  /**
+   * @deprecated since 3.3
+   */
+  constructor(ngbModalService: NgbModal);
   constructor(
     private ngbModalService: NgbModal,
     // TODO: make this param required in 4.0
