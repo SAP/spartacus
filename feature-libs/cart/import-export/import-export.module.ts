@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { ImportExportComponentsModule } from './components/import-export-components.module';
 import { ImportExportCoreModule } from './core/import-export-core.module';
+import { ExportProductListModule } from './components/export-product-list/export-product-list.module';
 
 @NgModule({
-  imports: [ImportExportCoreModule.forRoot(), ImportExportComponentsModule],
+  imports: [ImportExportCoreModule.forRoot(), ExportProductListModule],
 })
 export class ImportExportModule {}

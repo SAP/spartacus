@@ -15,7 +15,7 @@ import { ExportProductListComponent } from './export-product-list.component';
     RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ExportProductList: {
+        ExportProductListComponent: {
           component: ExportProductListComponent,
         },
       },
