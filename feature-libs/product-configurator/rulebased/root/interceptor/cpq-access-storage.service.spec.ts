@@ -56,7 +56,8 @@ class AuthServiceMock {
 }
 
 const TIME_UNTIL_TOKEN_EXPIRES =
-  defaultCpqConfiguratorAuthConfig.cpqConfigurator.tokenExpirationBuffer * 6; // one minute
+  defaultCpqConfiguratorAuthConfig.productConfigurator.cpq.authentication
+    .tokenExpirationBuffer * 6; // one minute
 
 describe('CpqAccessStorageService', () => {
   let serviceUnderTest: CpqAccessStorageService;

@@ -105,11 +105,19 @@ export class CpqAccessStorageService {
     let fetchNextIn: number =
       data.accessTokenExpirationTime -
       Date.now() -
-      this.config.cpqConfigurator.tokenExpirationBuffer;
-    if (fetchNextIn < this.config.cpqConfigurator.tokenMinValidity) {
-      fetchNextIn = this.config.cpqConfigurator.tokenMinValidity;
-    } else if (fetchNextIn > this.config.cpqConfigurator.tokenMaxValidity) {
-      fetchNextIn = this.config.cpqConfigurator.tokenMaxValidity;
+      this.config.productConfigurator.cpq.authentication.tokenExpirationBuffer;
+    if (
+      fetchNextIn <
+      this.config.productConfigurator.cpq.authentication.tokenMinValidity
+    ) {
+      fetchNextIn = this.config.productConfigurator.cpq.authentication
+        .tokenMinValidity;
+    } else if (
+      fetchNextIn >
+      this.config.productConfigurator.cpq.authentication.tokenMaxValidity
+    ) {
+      fetchNextIn = this.config.productConfigurator.cpq.authentication
+        .tokenMaxValidity;
     }
     return fetchNextIn;
   }
@@ -118,7 +126,7 @@ export class CpqAccessStorageService {
     return (
       Date.now() >
       tokenData.accessTokenExpirationTime -
-        this.config.cpqConfigurator.tokenExpirationBuffer
+        this.config.productConfigurator.cpq.authentication.tokenExpirationBuffer
     );
   }
 
