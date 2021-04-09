@@ -1,0 +1,27 @@
+<ng-container *ngIf="isAccountPayment$ | async">
+  <div class="row">
+    <div class="col-md-12 col-xl-10">
+      <ng-container *ngIf="costCenters$ | async as costCenters">
+        <div *ngIf="costCenters.length !== 0">
+          <label>
+            <span class="label-content required">{{
+              'checkoutPO.costCenter' | cxTranslate
+            }}</span>
+            <select (change)="setCostCenter($event.target.value)">
+              <option
+                *ngFor="let costCenter of costCenters"
+                value="{{ costCenter.code }}"
+                [selected]="costCenterId === costCenter.code"
+              >
+                {{ costCenter.name }}
+              </option>
+            </select>
+            <span class="label-content">{{
+              'checkoutPO.availableLabel' | cxTranslate
+            }}</span>
+          </label>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

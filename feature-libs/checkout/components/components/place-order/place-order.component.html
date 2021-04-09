@@ -1,0 +1,33 @@
+<form
+  (ngSubmit)="submitForm()"
+  class="cx-place-order-form form-check"
+  [formGroup]="checkoutSubmitForm"
+>
+  <div class="form-group">
+    <label>
+      <input
+        formControlName="termsAndConditions"
+        class="scaled-input form-check-input"
+        type="checkbox"
+      />
+      <span class="form-check-label">
+        {{ 'checkoutReview.confirmThatRead' | cxTranslate }}
+        <a
+          [routerLink]="{ cxRoute: 'termsAndConditions' } | cxUrl"
+          class="cx-tc-link"
+          target="_blank"
+        >
+          {{ 'checkoutReview.termsAndConditions' | cxTranslate }}
+        </a>
+      </span>
+    </label>
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-primary btn-block"
+    [disabled]="termsAndConditionInvalid || (daysOfWeekNotChecked$ | async)"
+  >
+    {{ 'checkoutReview.placeOrder' | cxTranslate }}
+  </button>
+</form>
