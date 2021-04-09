@@ -1,13 +1,13 @@
 {
   "name": "storefrontapp",
-  "version": "1.22.5",
+  "version": "3.0.0",
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "engines": {
     "node": ">=12 <16"
   },
   "scripts": {
-    "build": "env-cmd --no-override -e dev,b2c,$SPA_ENV ng build storefrontapp --prod",
+    "build": "env-cmd --no-override -e dev,b2b,$SPA_ENV ng build storefrontapp --prod",
     "build:asm": "yarn --cwd feature-libs/asm run build:schematics && ng build asm --prod",
     "build:user": "yarn --cwd feature-libs/user run build:schematics && ng build user --prod",
     "build:assets": "yarn --cwd ./projects/assets build",
