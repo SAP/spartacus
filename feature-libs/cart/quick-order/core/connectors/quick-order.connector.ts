@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry, Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { QuickOrderAdapter } from './quick-order.adapter';
 
@@ -15,5 +15,9 @@ export class QuickOrderConnector {
     entries: OrderEntry[]
   ): Observable<void> {
     return this.adapter.addToCart(userId, cartId, entries);
+  }
+
+  search(productCode: string): Observable<Product> {
+    return this.adapter.search(productCode);
   }
 }
