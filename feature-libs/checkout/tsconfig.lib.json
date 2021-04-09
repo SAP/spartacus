@@ -13,7 +13,9 @@
     "importHelpers": true,
     "types": [],
     "lib": ["dom", "esnext"],
-    "paths": {}
+    "paths": {
+      "@spartacus/core": ["dist/core"]
+    }
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
