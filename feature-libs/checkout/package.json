@@ -22,7 +22,12 @@
   "peerDependencies": {
     "@angular/common": "^10.2.4",
     "@angular/core": "^10.2.4",
-    "@spartacus/core": "3.2.0-next.2"
+    "@angular/forms": "^10.2.4",
+    "@angular/router": "^10.2.4",
+    "@ng-select/ng-select": "^5.0.9",
+    "@spartacus/core": "3.2.0-next.2",
+    "@spartacus/storefront": "3.2.0-next.2",
+    "rxjs": "^6.6.0"
   },
   "publishConfig": {
     "access": "public"

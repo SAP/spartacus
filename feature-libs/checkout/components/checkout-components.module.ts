@@ -36,4 +36,4 @@ import { ShippingAddressModule } from './components/shipping-address/shipping-ad
     CostCenterModule,
   ],
 })
-export class CheckoutComponentsModule { }
+export class CheckoutComponentsModule {}
