@@ -19,6 +19,9 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
     return target as Product;
   }
 
+  /**
+   * Sanitizes the name so that the name doesn't contain html elements.
+   */
   protected normalize(name: string): string {
     return name.replace(/<[^>]*>/g, '');
   }
@@ -26,13 +29,17 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
   /**
    * Provides a title slug for the pretty URL.
    *
-   * The name is created in lowercase, trimmed and all special characters that are candidates for url encoded
-   * are replaced by the slug char (dash by default).
+   * The name is sanitized from html, trimmed, converted to lowercase and special characters
+   * which are encoded are replaced by the slug char (dash by default).
    */
   protected normalizeSlug(name: string): string {
     // https://developers.google.com/maps/documentation/urls/url-encoding
     const reservedChars = ` !*'();:@&=+$,/?%#[]`;
     const re = new RegExp(`[${reservedChars.split('').join('\\')}]`, 'g');
-    return name.trim().toLowerCase().replace(re, '-').replace(/[-]+/g, '-');
+    return this.normalize(name)
+      .trim()
+      .toLowerCase()
+      .replace(re, '-')
+      .replace(/[-]+/g, '-');
   }
 }

@@ -28,6 +28,7 @@ describe('ProductNameNormalizer', () => {
     name: 'Product1',
     nameHtml: '<div>Product1</div>',
     code: 'testCode',
+    slug: 'product1',
   };
 
   beforeEach(() => {
