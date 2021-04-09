@@ -11,11 +11,11 @@ import {
 import { filter, take } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-variant-size-selector',
-  templateUrl: './variant-size-selector.component.html',
+  selector: 'cx-product-variant-size-selector',
+  templateUrl: './product-variant-size-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantSizeSelectorComponent {
+export class ProductVariantSizeSelectorComponent {
   constructor(
     private productService: ProductService,
     private routingService: RoutingService

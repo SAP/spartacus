@@ -8,7 +8,7 @@ import {
   ProductService,
   VariantQualifier,
 } from '@spartacus/core';
-import { VariantSizeSelectorComponent } from './variant-size-selector.component';
+import { ProductVariantSizeSelectorComponent } from './product-variant-size-selector.component';
 import { NavigationExtras } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
@@ -44,15 +44,15 @@ class MockProductService {
     return of(mockProduct);
   }
 }
-describe('VariantSizeSelectorComponent', () => {
-  let component: VariantSizeSelectorComponent;
-  let fixture: ComponentFixture<VariantSizeSelectorComponent>;
+describe('ProductVariantSizeSelectorComponent', () => {
+  let component: ProductVariantSizeSelectorComponent;
+  let fixture: ComponentFixture<ProductVariantSizeSelectorComponent>;
   let routingService: RoutingService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [VariantSizeSelectorComponent],
+        declarations: [ProductVariantSizeSelectorComponent],
         imports: [RouterTestingModule, I18nTestingModule],
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
@@ -67,7 +67,7 @@ describe('VariantSizeSelectorComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VariantSizeSelectorComponent);
+    fixture = TestBed.createComponent(ProductVariantSizeSelectorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

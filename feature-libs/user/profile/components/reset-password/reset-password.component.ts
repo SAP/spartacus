@@ -7,6 +7,7 @@ import { ResetPasswordComponentService } from './reset-password-component.servic
   selector: 'cx-reset-password',
   templateUrl: './reset-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'user-form' },
 })
 export class ResetPasswordComponent {
   form: FormGroup = this.service.form;
