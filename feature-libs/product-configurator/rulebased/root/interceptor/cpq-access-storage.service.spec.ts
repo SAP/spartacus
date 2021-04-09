@@ -131,7 +131,7 @@ describe('CpqAccessStorageService', () => {
       counter++;
     });
 
-    // fullfill first request
+    // full fill first request
     accessDataSubject.next(accessData);
 
     // third request
@@ -260,7 +260,7 @@ describe('CpqAccessStorageService', () => {
     discardPeriodicTasks();
   }));
 
-  it('should get new token after refesh', (done) => {
+  it('should get new token after refresh', (done) => {
     const obs = takeOneCpqAccessData();
     accessDataSubject.next(accessData);
     serviceUnderTest.renewCachedCpqAccessData();
@@ -272,7 +272,7 @@ describe('CpqAccessStorageService', () => {
     });
   });
 
-  it('should not emit old token after refesh anymore', fakeAsync(() => {
+  it('should not emit old token after refresh anymore', fakeAsync(() => {
     const obs = takeOneCpqAccessData();
     accessDataSubject.next(accessData);
     serviceUnderTest.renewCachedCpqAccessData();
