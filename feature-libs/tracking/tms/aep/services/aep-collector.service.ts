@@ -8,7 +8,7 @@ import {
 import { AepCollectorConfig } from '../config/default-aep.config';
 
 /**
- * Default Adobe Experience Platform collector.
+ * Default Adobe Experience Platform Launch collector.
  */
 @Injectable({ providedIn: 'root' })
 export class AepCollectorService implements TmsCollector {

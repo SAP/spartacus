@@ -1,11 +1,12 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
-  ReturnRequestList,
+  isNotUndefined,
   OrderReturnRequestService,
+  ReturnRequestList,
   TranslationService,
 } from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
-import { tap, map, filter, take } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-return-request-list',
@@ -36,8 +37,8 @@ export class OrderReturnRequestListComponent implements OnDestroy {
    * TabParagraphContainerComponent. This can be read from TabParagraphContainer.
    */
   tabTitleParam$: Observable<number> = this.returnRequests$.pipe(
-    map((returnRequests) => returnRequests.pagination.totalResults),
-    filter((totalResults) => totalResults !== undefined),
+    map((returnRequests) => returnRequests.pagination?.totalResults),
+    filter(isNotUndefined),
     take(1)
   );
 

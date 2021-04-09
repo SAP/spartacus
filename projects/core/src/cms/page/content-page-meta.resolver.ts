@@ -10,6 +10,7 @@ import { PageMetaResolver } from './page-meta.resolver';
 import {
   CanonicalPageResolver,
   PageBreadcrumbResolver,
+  PageDescriptionResolver,
   PageRobotsResolver,
   PageTitleResolver,
 } from './page.resolvers';
@@ -29,6 +30,7 @@ export class ContentPageMetaResolver
   extends PageMetaResolver
   implements
     PageTitleResolver,
+    PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageRobotsResolver,
     CanonicalPageResolver {
@@ -108,6 +110,12 @@ export class ContentPageMetaResolver
     return this.basePageMetaResolver
       ? this.basePageMetaResolver.resolveTitle()
       : this.title$;
+  }
+
+  resolveDescription(): Observable<string | undefined> {
+    return this.basePageMetaResolver
+      ? this.basePageMetaResolver.resolveDescription()
+      : of();
   }
 
   /**

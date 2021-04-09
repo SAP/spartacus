@@ -2,9 +2,12 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { Style } from '@angular/cli/lib/config/schema';
-import { Schema as ApplicationOptions } from '@schematics/angular/application/schema';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
 import { addSymbolToNgModuleMetadata } from '@schematics/angular/utility/ast-utils';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import {
@@ -79,7 +82,7 @@ describe('add-cms-component', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
@@ -98,6 +101,9 @@ describe('add-cms-component', () => {
     project: 'schematics-test',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
+    configuration: 'b2c',
+    lazy: true,
+    features: [],
   };
 
   const commonCmsOptions: CxCmsComponentSchema = {
