@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "ProductSchematics",
-  "title": "Product Schematics",
+  "id": "UserSchematics",
+  "title": "User Schematics",
   "type": "object",
   "properties": {
     "project": {
@@ -13,18 +13,18 @@
     },
     "lazy": {
       "type": "boolean",
-      "description": "Lazy load the Product feature.",
+      "description": "Lazy load the user features.",
       "default": true
     },
     "features": {
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Bulk-Pricing", "Product-Variants"],
+        "enum": ["Account", "Profile"],
         "type": "string"
       },
-      "default": ["Bulk-Pricing", "Product-Variants"],
-      "x-prompt": "Which Product features would you like to setup?"
+      "default": ["Account", "Profile"],
+      "x-prompt": "Which User features would you like to setup?"
     }
   },
   "required": []

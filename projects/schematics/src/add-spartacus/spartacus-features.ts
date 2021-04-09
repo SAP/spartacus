@@ -49,8 +49,6 @@ function configureSpartacusModules(
             namedImports: [
               'AuthModule',
               'AnonymousConsentsModule',
-              'AsmOccModule',
-              'AuthModule',
               'CartModule',
               'CartOccModule',
               'CheckoutModule',
@@ -58,17 +56,18 @@ function configureSpartacusModules(
               'CostCenterOccModule',
               'ProductModule',
               'ProductOccModule',
-              'UserModule',
-              'UserOccModule',
+              'UserTransitionalModule',
+              'UserOccTransitionalModule',
             ],
           },
           {
             moduleSpecifier: SPARTACUS_STOREFRONTLIB,
             namedImports: [
+              'LogoutModule',
+              'LoginRouteModule',
               'AddressBookModule',
               'AnonymousConsentManagementBannerModule',
               'AnonymousConsentsDialogModule',
-              'AsmModule',
               'BannerCarouselModule',
               'BannerModule',
               'BreadcrumbModule',
@@ -76,11 +75,10 @@ function configureSpartacusModules(
               'CartPageEventModule',
               'CategoryNavigationModule',
               'CheckoutComponentModule',
-              'CloseAccountModule',
+              'CheckoutLoginModule',
               'CmsParagraphModule',
               'ConsentManagementModule',
               'FooterNavigationModule',
-              'ForgotPasswordModule',
               'HamburgerMenuModule',
               'HomePageEventModule',
               'LinkModule',
@@ -106,21 +104,15 @@ function configureSpartacusModules(
               'ProductReferencesModule',
               'ProductSummaryModule',
               'ProductTabsModule',
-              'ProductVariantsModule',
               'ReplenishmentOrderConfirmationModule',
               'ReplenishmentOrderDetailsModule',
               'ReplenishmentOrderHistoryModule',
-              'ResetPasswordModule',
               'ReturnRequestDetailModule',
               'ReturnRequestListModule',
               'SearchBoxModule',
               'SiteContextSelectorModule',
               'StockNotificationModule',
               'TabParagraphContainerModule',
-              'UpdateEmailModule',
-              'UpdatePasswordModule',
-              'UpdateProfileModule',
-              'UserComponentModule',
               'WishListModule',
             ],
           },
@@ -128,6 +120,8 @@ function configureSpartacusModules(
         content: `
         // Auth Core
         AuthModule.forRoot(),
+        LogoutModule, // will become part of auth package
+        LoginRouteModule, // will become part of auth package
 
         // Basic Cms Components
         HamburgerMenuModule,
@@ -143,17 +137,10 @@ function configureSpartacusModules(
         BreadcrumbModule,
 
         // User Core
-        UserModule.forRoot(),
-        UserOccModule,
+        UserTransitionalModule,
+        UserOccTransitionalModule,
         // User UI
-        UserComponentModule,
         AddressBookModule,
-        UpdateEmailModule,
-        UpdatePasswordModule,
-        UpdateProfileModule,
-        CloseAccountModule,
-        ForgotPasswordModule,
-        ResetPasswordModule,
         PaymentMethodsModule,
         NotificationPreferenceModule,
         MyInterestsModule,
@@ -182,7 +169,6 @@ function configureSpartacusModules(
         ProductReferencesModule,
         ProductImagesModule,
         ProductSummaryModule,
-        ProductVariantsModule,
         ProductIntroModule,
 
         // Cart Core
@@ -197,6 +183,7 @@ function configureSpartacusModules(
         CheckoutOccModule,
         CostCenterOccModule,
         // Checkout UI
+        CheckoutLoginModule,
         CheckoutComponentModule,
         OrderConfirmationModule,
 
@@ -210,11 +197,6 @@ function configureSpartacusModules(
         ReplenishmentOrderHistoryModule,
         ReplenishmentOrderDetailsModule,
         ReplenishmentOrderConfirmationModule,
-
-        // Asm Core
-        AsmOccModule,
-        // Asm UI
-        AsmModule,
 
         // Page Events
         NavigationEventModule,

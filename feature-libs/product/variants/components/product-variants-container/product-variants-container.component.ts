@@ -11,11 +11,11 @@ import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-product-variants',
-  templateUrl: './product-variants.component.html',
+  selector: 'cx-product-variants-container',
+  templateUrl: './product-variants-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductVariantsComponent implements OnInit {
+export class ProductVariantsContainerComponent implements OnInit {
   constructor(private currentProductService: CurrentProductService) {}
 
   variants: { [key: string]: BaseOption } = {};

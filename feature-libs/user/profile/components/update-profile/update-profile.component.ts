@@ -8,6 +8,7 @@ import { UpdateProfileComponentService } from './update-profile-component.servic
   selector: 'cx-update-profile',
   templateUrl: './update-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'user-form' },
 })
 export class UpdateProfileComponent {
   constructor(protected service: UpdateProfileComponentService) {}
