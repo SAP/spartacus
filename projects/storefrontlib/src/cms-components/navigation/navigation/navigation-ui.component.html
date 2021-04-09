@@ -3,10 +3,10 @@
   class="back is-open"
   (click)="back()"
 >
-  <h5>
+  <span>
     <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
     {{ 'common.back' | cxTranslate }}
-  </h5>
+  </span>
 </div>
 
 <ng-container *ngFor="let child of node?.children">
