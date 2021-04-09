@@ -15,6 +15,7 @@ import { take } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
 import { CpqAccessStorageService } from './cpq-access-storage.service';
+import { CpqConfiguratorAuthConfig } from './cpq-configurator-auth.config';
 import { defaultCpqConfiguratorAuthConfig } from './default-cpq-configurator-auth.config';
 import createSpy = jasmine.createSpy;
 
@@ -69,6 +70,10 @@ describe('CpqAccessStorageService', () => {
           {
             provide: CpqAccessLoaderService,
             useClass: CpqAccessLoaderServiceMock,
+          },
+          {
+            provide: CpqConfiguratorAuthConfig,
+            useValue: defaultCpqConfiguratorAuthConfig,
           },
           {
             provide: AuthService,
