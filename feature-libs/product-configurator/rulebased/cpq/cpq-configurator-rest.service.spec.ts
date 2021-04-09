@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
@@ -120,17 +119,9 @@ describe('CpqConfiguratorRestService', () => {
       ],
     });
 
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-
-    converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
-    );
-
-    serviceUnderTest = TestBed.inject(
-      CpqConfiguratorRestService as Type<CpqConfiguratorRestService>
-    );
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    serviceUnderTest = TestBed.inject(CpqConfiguratorRestService);
 
     configResponseTab1.errorMessages = [];
     configResponseTab2.errorMessages = [];

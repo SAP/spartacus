@@ -4,7 +4,7 @@ import { ConverterService } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
-import { HEADER_ATTR_CPQ_CONFIGURATOR } from '../root/interceptor/cpq-configurator-rest.interceptor';
+import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
   CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
@@ -17,7 +17,8 @@ import { Cpq } from './cpq.models';
 export class CpqConfiguratorRestService {
   constructor(
     protected http: HttpClient,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
+    protected endpointService: CpqConfiguratorEndpointService
   ) {}
 
   /**
@@ -217,11 +218,15 @@ export class CpqConfiguratorRestService {
 
   protected callUpdateValue(updateValue: Cpq.UpdateValue): Observable<any> {
     return this.http.patch<Cpq.ConfigurationCreatedResponseData>(
-      `/api/configuration/v1/configurations/${updateValue.configurationId}/attributes/${updateValue.standardAttributeCode}/attributeValues/${updateValue.attributeValueId}`,
+      this.endpointService.buildValueUpdateUrl(
+        updateValue.configurationId,
+        updateValue.standardAttributeCode,
+        updateValue.attributeValueId
+      ),
       {
         Quantity: updateValue.quantity,
       },
-      { headers: { [HEADER_ATTR_CPQ_CONFIGURATOR]: 'x' } }
+      this.endpointService.cpqHeaders
     );
   }
 
@@ -229,11 +234,11 @@ export class CpqConfiguratorRestService {
     productSystemId: string
   ): Observable<Cpq.ConfigurationCreatedResponseData> {
     return this.http.post<Cpq.ConfigurationCreatedResponseData>(
-      `/api/configuration/v1/configurations`,
+      this.endpointService.buildConfigurationInitUrl(),
       {
         ProductSystemId: productSystemId,
       },
-      { headers: { [HEADER_ATTR_CPQ_CONFIGURATOR]: 'x' } }
+      this.endpointService.cpqHeaders
     );
   }
 
@@ -241,22 +246,22 @@ export class CpqConfiguratorRestService {
     configId: string,
     tabId?: string
   ): Observable<Cpq.Configuration> {
-    let url = `/api/configuration/v1/configurations/${configId}/display`;
-    if (tabId) {
-      url += `?tabId=${tabId}`;
-    }
-    return this.http.get<Cpq.Configuration>(url, {
-      headers: { [HEADER_ATTR_CPQ_CONFIGURATOR]: 'x' },
-    });
+    return this.http.get<Cpq.Configuration>(
+      this.endpointService.buildConfigurationDisplayUrl(configId, tabId),
+      this.endpointService.cpqHeaders
+    );
   }
 
   protected callUpdateAttribute(
     updateAttribute: Cpq.UpdateAttribute
   ): Observable<any> {
     return this.http.patch<any>(
-      `/api/configuration/v1/configurations/${updateAttribute.configurationId}/attributes/${updateAttribute.standardAttributeCode}`,
+      this.endpointService.buildAttributeUpdateUrl(
+        updateAttribute.configurationId,
+        updateAttribute.standardAttributeCode
+      ),
       updateAttribute.changeAttributeValue,
-      { headers: { [HEADER_ATTR_CPQ_CONFIGURATOR]: 'x' } }
+      this.endpointService.cpqHeaders
     );
   }
 }
