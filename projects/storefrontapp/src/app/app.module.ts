@@ -77,18 +77,25 @@ if (!environment.production) {
         resources: configuratorTranslations,
       },
       featureModules: {
-        // productConfiguratorRulebased: {
-        //   module: () =>
-        //     import('@spartacus/product-configurator/rulebased/cpq').then(
-        //       (m) => m.CpqConfiguratorRestModule
-        //     ),
-        // },
+        //in case CPQ is active
+        // CpqConfiguratorRestModule to be renamed as it contains
+        // rulebased and CPQ
+
         productConfiguratorRulebased: {
           module: () =>
-            import('@spartacus/product-configurator/rulebased').then(
-              (m) => m.RulebasedConfiguratorModule
+            import('@spartacus/product-configurator/rulebased/cpq').then(
+              (m) => m.CpqConfiguratorRestModule
             ),
         },
+
+        //this is the state w/o CPQ. Distinction achieved by schematics
+
+        // productConfiguratorRulebased: {
+        //   module: () =>
+        //     import('@spartacus/product-configurator/rulebased').then(
+        //       (m) => m.RulebasedConfiguratorModule
+        //     ),
+        // },
 
         productConfiguratorTextfield: {
           module: () =>
