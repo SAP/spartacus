@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/asm",
-  "version": "3.2.0-rc.0",
+  "version": "3.2.0-rc.1",
   "description": "ASM feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -26,9 +26,9 @@
     "@angular/forms": "^10.2.4",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.2.0-rc.0",
-    "@spartacus/schematics": "3.2.0-rc.0",
-    "@spartacus/storefront": "3.2.0-rc.0",
+    "@spartacus/core": "3.2.0-rc.1",
+    "@spartacus/schematics": "3.2.0-rc.1",
+    "@spartacus/storefront": "3.2.0-rc.1",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
