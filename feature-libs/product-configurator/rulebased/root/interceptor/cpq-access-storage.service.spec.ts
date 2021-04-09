@@ -14,11 +14,8 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
-import {
-  CpqAccessStorageService,
-  CpqConfiguratorTokenConfig,
-  DefaultCpqConfiguratorTokenConfig,
-} from './cpq-access-storage.service';
+import { CpqAccessStorageService } from './cpq-access-storage.service';
+import { defaultCpqConfiguratorAuthConfig } from './default-cpq-configurator-auth.config';
 import createSpy = jasmine.createSpy;
 
 const oneHour: number = 1000 * 60;
@@ -58,7 +55,7 @@ class AuthServiceMock {
 }
 
 const TIME_UNTIL_TOKEN_EXPIRES =
-  DefaultCpqConfiguratorTokenConfig.cpqConfigurator.tokenExpirationBuffer * 6; // one minute
+  defaultCpqConfiguratorAuthConfig.cpqConfigurator.tokenExpirationBuffer * 6; // one minute
 
 describe('CpqAccessStorageService', () => {
   let serviceUnderTest: CpqAccessStorageService;
@@ -72,10 +69,6 @@ describe('CpqAccessStorageService', () => {
           {
             provide: CpqAccessLoaderService,
             useClass: CpqAccessLoaderServiceMock,
-          },
-          {
-            provide: CpqConfiguratorTokenConfig,
-            useValue: DefaultCpqConfiguratorTokenConfig,
           },
           {
             provide: AuthService,
