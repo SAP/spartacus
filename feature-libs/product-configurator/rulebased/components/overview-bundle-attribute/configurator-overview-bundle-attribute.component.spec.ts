@@ -41,7 +41,7 @@ const mockProduct: Product = {
   },
 };
 
-const noCommerceProduct = { images: {}, noLink: true };
+const noCommerceProduct = { images: {} };
 
 const product$: BehaviorSubject<Product> = new BehaviorSubject(null);
 
