@@ -29,6 +29,7 @@ export const user = {
       'An email has been sent to you with information on how to reset your password.',
     passwordResetSuccess: 'Success! You can now login using your new password.',
   },
+  // deprecated
   loginForm: {
     forgotPassword: 'Forgot password?',
     signIn: 'Sign In',
@@ -45,6 +46,7 @@ export const user = {
     },
     wrongEmailFormat: 'This is not a valid email format.',
   },
+  // deprecated
   register: {
     confirmPassword: {
       action: 'Confirm password',
