@@ -15,19 +15,9 @@
 
       <div class="cx-product-card-info">
         <div class="cx-product-card-name">
-          <p *ngIf="product?.noLink; else withLink">
+          <p>
             {{ product.name }}
           </p>
-          <ng-template #withLink>
-            <a
-              [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
-              class="cx-link"
-              cxModal="dismiss"
-              target="_blank"
-            >
-              {{ product.name }}</a
-            >
-          </ng-template>
         </div>
         <div class="cx-product-card-code" *ngIf="product.code">
           {{ 'configurator.attribute.id' | cxTranslate }}:
@@ -77,6 +67,7 @@
                 productCardOptions?.hideRemoveButton ||
                 (loading$ | async)
               "
+              [cxFocus]="focusConfig"
             >
               {{ 'configurator.button.remove' | cxTranslate }}
             </button>
@@ -87,6 +78,7 @@
                 [disabled]="
                   productCardOptions?.disableAllButtons || (loading$ | async)
                 "
+                [cxFocus]="focusConfig"
               >
                 {{ 'configurator.button.add' | cxTranslate }}
               </button>
@@ -103,6 +95,7 @@
                 !productCardOptions?.productBoundValue?.selected;
                 else deselect
               "
+              [cxFocus]="focusConfig"
             >
               {{ 'configurator.button.select' | cxTranslate }}
             </button>
@@ -121,6 +114,7 @@
                   [disabled]="
                     productCardOptions?.hideRemoveButton || (loading$ | async)
                   "
+                  [cxFocus]="focusConfig"
                 >
                   {{ 'configurator.button.deselect' | cxTranslate }}
                 </button>

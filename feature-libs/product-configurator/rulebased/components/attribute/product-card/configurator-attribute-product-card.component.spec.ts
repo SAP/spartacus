@@ -5,18 +5,19 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product, ProductService } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
-import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
+import {
+  ItemCounterComponent,
+  KeyboardFocusService,
+  MediaModule,
+} from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
-import {
-  ConfiguratorAttributeProductCardComponent,
-  ProductExtended,
-} from './configurator-attribute-product-card.component';
+import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
-const product: ProductExtended = {
+const product: Product = {
   name: 'Product Name',
   code: 'PRODUCT_CODE',
   images: {
@@ -40,13 +41,12 @@ const product: ProductExtended = {
   },
 };
 
-const productTransformed: ProductExtended = {
+const productTransformed: Product = {
   code: '1111-2222',
   description:
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
   images: {},
   name: 'Lorem Ipsum Dolor',
-  noLink: true,
 };
 
 class MockProductService {
@@ -54,6 +54,8 @@ class MockProductService {
     return of(product);
   }
 }
+
+let focusService: KeyboardFocusService;
 
 @Component({
   selector: 'cx-configurator-price',
@@ -87,7 +89,7 @@ function takeOneDisableQtyObs(
   return (
     component
       .extractQuantityParameters()
-      .disableQuantityActions?.pipe(take(1)) ?? EMPTY
+      .disableQuantityActions$?.pipe(take(1)) ?? EMPTY
   );
 }
 
@@ -162,6 +164,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     fixture = TestBed.createComponent(
       ConfiguratorAttributeProductCardComponent
     );
+    focusService = TestBed.inject(KeyboardFocusService);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
@@ -181,6 +184,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       productBoundValue: value,
       singleDropdown: false,
       withQuantity: true,
+      attributeId: 123,
     };
 
     spyOn(component, 'onHandleDeselect').and.callThrough();
@@ -192,6 +196,15 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('create a focus config with key', () => {
+    expect(component.focusConfig.key).toContain(
+      component.productCardOptions.attributeId.toString()
+    );
+    const valueCode =
+      component.productCardOptions.productBoundValue?.valueCode ?? 'noCode';
+    expect(component.focusConfig.key).toContain(valueCode);
   });
 
   it('should indicate loading state when fetching product data', () => {
@@ -501,7 +514,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       const qtyParams = component.extractQuantityParameters();
       expect(qtyParams.allowZero).toBe(true);
       expect(qtyParams.initialQuantity?.quantity).toBe(5);
-      expect(qtyParams.disableQuantityActions).toBeDefined();
+      expect(qtyParams.disableQuantityActions$).toBeDefined();
     });
 
     it('should disable stepper when loading', () => {
@@ -614,6 +627,29 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'button.btn',
         'configurator.button.select'
       );
+    });
+  });
+  describe('onHandleSelect', () => {
+    it('should not focus on fallback element if remove button is not hidden', () => {
+      focusService.set('123');
+      component.productCardOptions.hideRemoveButton = false;
+      component.onHandleSelect();
+      expect(focusService.get()).toBe('123');
+    });
+
+    it('should not focus on fallback element if no fallback id is provided', () => {
+      focusService.set('123');
+      component.productCardOptions.hideRemoveButton = true;
+      component.onHandleSelect();
+      expect(focusService.get()).toBe('123');
+    });
+
+    it('should focus on fallback element if id is provided and remove button is hidden', () => {
+      focusService.set('123');
+      component.productCardOptions.hideRemoveButton = true;
+      component.productCardOptions.fallbackFocusId = 'fallbackId';
+      component.onHandleSelect();
+      expect(focusService.get()).toBe('fallbackId');
     });
   });
 });

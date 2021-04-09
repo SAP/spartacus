@@ -13,7 +13,7 @@ import { FormControl } from '@angular/forms';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorUISettings } from '../../../config/configurator-ui-settings';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
@@ -38,9 +38,35 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
   sub: any;
 
+  /**
+   * In case no config is injected, or when the debounce time is not configured at all,
+   * this value will be used as fallback.
+   */
+  private readonly FALLBACK_DEBOUNCE_TIME = 500;
+
+  // TODO(#11681): make config a required dependency
+  /**
+   * @param {ConfiguratorAttributeNumericInputFieldService} configAttributeNumericInputFieldService Serive for numeric formatting and validation.
+   * @param {ConfiguratorUISettingsConfig} config Optional configuration for debounce time,
+   * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
+   */
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    config?: ConfiguratorUISettingsConfig
+  );
+
+  /**
+   * @deprecated  since 3.3
+   */
+  constructor(
+    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService
+  );
+
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    protected config: ConfiguratorUISettings
+    protected config?: ConfiguratorUISettingsConfig
   ) {
     super();
   }
@@ -82,7 +108,10 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     this.sub = this.attributeInputForm.valueChanges
       .pipe(
         debounce(() =>
-          timer(this.config.rulebasedConfigurator.inputDebounceTime)
+          timer(
+            this.config?.productConfigurator?.debounceTime?.input ??
+              this.FALLBACK_DEBOUNCE_TIME
+          )
         )
       )
       .subscribe(() => this.onChange());

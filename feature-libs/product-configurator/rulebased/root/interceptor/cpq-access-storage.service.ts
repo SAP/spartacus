@@ -33,13 +33,13 @@ export const DefaultCpqConfiguratorTokenConfig: CpqConfiguratorTokenConfig = {
   },
 };
 
-const EXPIRED_TOKEN = {
-  accessToken: 'INVALID DUMMY',
-  accessTokenExpirationTime: 0,
-};
-
 @Injectable({ providedIn: 'root' })
 export class CpqAccessStorageService {
+  protected readonly EXPIRED_TOKEN = {
+    accessToken: 'INVALID DUMMY',
+    accessTokenExpirationTime: 0,
+  };
+
   constructor(
     protected cpqAccessLoaderService: CpqAccessLoaderService,
     protected authService: AuthService,
@@ -66,7 +66,7 @@ export class CpqAccessStorageService {
     // only force token refresh if initialized.
     if (this.cpqAccessObservable) {
       this.stopAutoFetchingCpqAccessData();
-      this.cpqAccessDataCache.next(EXPIRED_TOKEN); // invalidate cache
+      this.cpqAccessDataCache.next(this.EXPIRED_TOKEN); // invalidate cache
       this.authService
         .isUserLoggedIn()
         .pipe(take(1)) // get current login state
@@ -80,7 +80,7 @@ export class CpqAccessStorageService {
   }
 
   protected initCpqAccessObservable() {
-    this.cpqAccessDataCache = new BehaviorSubject(EXPIRED_TOKEN);
+    this.cpqAccessDataCache = new BehaviorSubject(this.EXPIRED_TOKEN);
     this.cpqAccessObservable = this.cpqAccessDataCache.pipe(
       // Never expose expired tokens - either cache was invalidated with expired token,
       // or the cached one expired before a new one was fetched.
@@ -97,7 +97,7 @@ export class CpqAccessStorageService {
         } else {
           // user logged of - cancel token fetching
           this.stopAutoFetchingCpqAccessData();
-          this.cpqAccessDataCache.next(EXPIRED_TOKEN); // invalidate cache
+          this.cpqAccessDataCache.next(this.EXPIRED_TOKEN); // invalidate cache
         }
       });
   }

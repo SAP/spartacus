@@ -6,7 +6,6 @@ import { ItemCounterComponent } from '@spartacus/storefront';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
 
 class MockGroupService {}
@@ -37,7 +36,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         ],
         imports: [I18nTestingModule, ReactiveFormsModule],
         providers: [
-          ConfiguratorAttributeBaseComponent,
           ConfiguratorStorefrontUtilsService,
           {
             provide: ConfiguratorGroupsService,
@@ -160,5 +158,25 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     component.onChangeQuantity(quantity);
 
     expect(component.onDeselect).toHaveBeenCalled();
+  });
+
+  it('should allow quantity', () => {
+    expect(component.withQuantity).toBe(true);
+  });
+
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
+  it('should not allow quantity when service is missing ', () => {
+    component['quantityService'] = undefined;
+    expect(component.withQuantity).toBe(false);
+  });
+
+  it('should allow quantity actions', () => {
+    expect(component.disableQuantityActions).toBe(false);
+  });
+
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
+  it('should not allow quantity actions when service is missing ', () => {
+    component['quantityService'] = undefined;
+    expect(component.disableQuantityActions).toBe(true);
   });
 });

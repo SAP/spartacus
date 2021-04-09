@@ -1,4 +1,4 @@
-import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
+import { JsonParseMode, parseJson } from '@angular-devkit/core';
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getWorkspace as getWorkspaceAngular } from '@schematics/angular/utility/config';
 import {
@@ -33,7 +33,7 @@ export function getSourceRoot(
 export function getWorkspace(
   host: Tree,
   files = DEFAULT_POSSIBLE_PROJECT_FILES
-): { path: string; workspace: experimental.workspace.WorkspaceSchema } {
+): { path: string; workspace: WorkspaceSchema } {
   const angularJson = getAngularJsonFile(host, files);
   const path = files.filter((filePath) => host.exists(filePath))[0];
 
@@ -46,7 +46,7 @@ export function getWorkspace(
 export function getAngularJsonFile(
   tree: Tree,
   possibleProjectFiles = DEFAULT_POSSIBLE_PROJECT_FILES
-): experimental.workspace.WorkspaceSchema {
+): WorkspaceSchema {
   const path = possibleProjectFiles.filter((filePath) =>
     tree.exists(filePath)
   )[0];
@@ -63,14 +63,16 @@ export function getAngularJsonFile(
   return (parseJson(
     angularJsonContent,
     JsonParseMode.Loose
-  ) as unknown) as experimental.workspace.WorkspaceSchema;
+  ) as unknown) as WorkspaceSchema;
 }
 
-export function getProjectFromWorkspace(
+export function getProjectFromWorkspace<
+  TProjectType extends ProjectType.Application
+>(
   tree: Tree,
   options: SpartacusOptions,
   files = DEFAULT_POSSIBLE_PROJECT_FILES
-): experimental.workspace.WorkspaceProject {
+): WorkspaceProject<TProjectType> {
   const { workspace } = getWorkspace(tree, files);
 
   if (!options.project) {
@@ -88,7 +90,7 @@ export function getProjectFromWorkspace(
     );
   }
 
-  return project;
+  return project as WorkspaceProject<ProjectType.Application>;
 }
 
 export function getDefaultProjectNameFromWorkspace(tree: Tree): string {

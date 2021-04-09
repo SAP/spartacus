@@ -137,8 +137,28 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       hideRemoveButton: this.attribute.required,
+      fallbackFocusId: this.getFocusIdOfNearestValue(value),
       productBoundValue: value,
+      loading$: this.loading$,
+      attributeId: this.attribute.attrCode,
     };
+  }
+
+  protected getFocusIdOfNearestValue(currentValue: Configurator.Value): string {
+    if (!this.attribute.values) {
+      return 'n/a';
+    }
+    let prevIdx = this.attribute.values.findIndex(
+      (value) => value.valueCode === currentValue.valueCode
+    );
+    prevIdx--;
+    if (prevIdx < 0) {
+      prevIdx = this.attribute.values.length > 1 ? 1 : 0;
+    }
+    return this.createFocusId(
+      this.attribute.attrCode?.toString(),
+      this.attribute.values[prevIdx].valueCode
+    );
   }
 
   /**
@@ -155,7 +175,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     return {
       allowZero: !this.attribute.required,
       initialQuantity: initialQuantity,
-      disableQuantityActions: this.loading$.pipe(
+      disableQuantityActions$: this.loading$.pipe(
         map((loading) => {
           return loading || this.disableQuantityActions;
         })

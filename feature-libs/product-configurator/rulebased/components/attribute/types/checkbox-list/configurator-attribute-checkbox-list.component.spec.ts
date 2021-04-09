@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,45 +7,14 @@ import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configura
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
-class MockConfiguratorAttributeQuantityService {
-  disableQuantityActions(value: any): boolean {
-    return !value || value === '0';
+class MockQuantityService {
+  withQuantity(dataType: Configurator.DataType): boolean {
+    return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
   }
-  withQuantity(
-    dataType: Configurator.DataType,
-    uiType: Configurator.UiType
-  ): boolean {
-    switch (uiType) {
-      case Configurator.UiType.DROPDOWN_PRODUCT:
-      case Configurator.UiType.DROPDOWN:
-      case Configurator.UiType.RADIOBUTTON_PRODUCT:
-      case Configurator.UiType.RADIOBUTTON:
-        return dataType ===
-          Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
-          ? true
-          : false;
-
-      case Configurator.UiType.CHECKBOXLIST:
-      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
-        return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL
-          ? true
-          : false;
-
-      default:
-        return false;
-    }
-  }
-}
-@Directive({
-  selector: '[cxFocus]',
-})
-export class MockFocusDirective {
-  @Input('cxFocus') protected config: any;
 }
 
 describe('ConfigAttributeCheckBoxListComponent', () => {
@@ -56,13 +25,9 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeCheckBoxListComponent,
-          MockFocusDirective,
-        ],
+        declarations: [ConfiguratorAttributeCheckBoxListComponent],
         imports: [ReactiveFormsModule, NgSelectModule],
         providers: [
-          ConfiguratorAttributeBaseComponent,
           ConfiguratorStorefrontUtilsService,
           {
             provide: ConfiguratorGroupsService,
@@ -70,7 +35,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
           },
           {
             provide: ConfiguratorAttributeQuantityService,
-            useClass: MockConfiguratorAttributeQuantityService,
+            useClass: MockQuantityService,
           },
         ],
       })
@@ -107,7 +72,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
     component.ownerKey = 'theOwnerKey';
     component.attribute = {
-      dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
+      dataType: Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL,
       name: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.CHECKBOXLIST,
@@ -147,20 +112,12 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     expect(valueToSelect.checked).toBeFalsy();
   });
 
-  it('should call withQuantity', () => {
-    expect(component.withQuantity).toBeFalsy();
-  });
-
-  it('should call disableQuantityActions', () => {
-    expect(component.disableQuantityActions).toBeFalse();
-  });
-
   it('should call emit of selectionChange onHandleAttributeQuantity', () => {
     const quantity = 2;
 
     spyOn(component.selectionChange, 'emit').and.callThrough();
 
-    component.onHandleAttributeQuantity(quantity);
+    component['onHandleAttributeQuantity'](quantity);
 
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
       jasmine.objectContaining({
@@ -211,27 +168,29 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   });
 
   it('should call onHandleAttributeQuantity of event onChangeQuantity', () => {
-    spyOn(component, 'onHandleAttributeQuantity');
-
+    spyOn(component.selectionChange, 'emit').and.callThrough();
     const quantity = { quantity: 2 };
-
     component.onChangeQuantity(quantity);
-
-    expect(component.onHandleAttributeQuantity).toHaveBeenCalled();
+    expect(component.selectionChange.emit).toHaveBeenCalled();
   });
 
   it('should call onSelect of event onChangeQuantity', () => {
     spyOn(component, 'onSelect');
-
     const quantity = { quantity: 0 };
-
     component.onChangeQuantity(quantity);
-
     expect(component.onSelect).toHaveBeenCalled();
   });
 
-  it('should call withQuantityOnAttributeLevel', () => {
-    expect(component.withQuantityOnAttributeLevel).toBeTruthy();
+  it('should allow quantity on attribute level when specified so', () => {
+    (component.attribute.dataType =
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL),
+      expect(component.withQuantityOnAttributeLevel).toBeTruthy();
+  });
+
+  it('should not allow quantity on attribute level when specified as value level', () => {
+    (component.attribute.dataType =
+      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL),
+      expect(component.withQuantityOnAttributeLevel).toBeFalsy();
   });
 
   it('should check allowZeroValueQuantity getter', () => {
@@ -288,5 +247,25 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       htmlElem,
       'cx-configurator-attribute-quantity'
     );
+  });
+
+  it('should allow quantity', () => {
+    expect(component.withQuantity).toBe(true);
+  });
+
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
+  it('should not allow quantity when service is missing ', () => {
+    component['quantityService'] = undefined;
+    expect(component.withQuantity).toBe(false);
+  });
+
+  it('should allow quantity actions', () => {
+    expect(component.disableQuantityActions).toBe(false);
+  });
+
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
+  it('should not allow quantity actions when service is missing ', () => {
+    component['quantityService'] = undefined;
+    expect(component.disableQuantityActions).toBe(true);
   });
 });

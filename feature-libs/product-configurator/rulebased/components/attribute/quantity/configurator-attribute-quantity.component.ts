@@ -10,7 +10,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Observable, Subscription, timer } from 'rxjs';
 import { debounce, distinct, take } from 'rxjs/operators';
-import { ConfiguratorUISettings } from '../../config/configurator-ui-settings';
+import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 
 export interface Quantity {
   quantity: number;
@@ -19,7 +19,7 @@ export interface Quantity {
 export interface ConfiguratorAttributeQuantityComponentOptions {
   allowZero?: boolean;
   initialQuantity?: Quantity;
-  disableQuantityActions?: Observable<boolean>;
+  disableQuantityActions$?: Observable<boolean>;
 }
 
 @Component({
@@ -35,16 +35,16 @@ export class ConfiguratorAttributeQuantityComponent
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
   @Output() changeQuantity = new EventEmitter<Quantity>();
 
-  constructor(protected config: ConfiguratorUISettings) {}
+  constructor(protected config: ConfiguratorUISettingsConfig) {}
 
   ngOnInit(): void {
     this.quantity.setValue(this.quantityOptions?.initialQuantity?.quantity);
     this.optionsChangeSub.add(
-      this.quantityOptions.disableQuantityActions
+      this.quantityOptions.disableQuantityActions$
         ?.pipe(distinct())
         .subscribe((disable) => {
           // stepper always emits an value when it gets enabled regardless, if the original value was changed.
-          // so we subscribe to quantity change when stepper gets enabled and unsubscribe when it gets disbaled
+          // so we subscribe to quantity change when stepper gets enabled and unsubscribe when it gets disabled
           // this way we will not get the unwanted emission on enabling the stepper.
           if (disable) {
             this.quantity.disable();
@@ -57,18 +57,18 @@ export class ConfiguratorAttributeQuantityComponent
     );
   }
 
-  subscribeToQuantityChange() {
+  protected subscribeToQuantityChange(): Subscription {
     return this.quantity.valueChanges
       .pipe(
         debounce(() =>
-          timer(this.config?.rulebasedConfigurator?.quantityDebounceTime)
+          timer(this.config?.productConfigurator?.debounceTime?.quantity)
         ),
         take(1)
       )
       .subscribe(() => this.onChangeQuantity());
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.optionsChangeSub.unsubscribe();
     this.quantityChangeSub.unsubscribe();
   }

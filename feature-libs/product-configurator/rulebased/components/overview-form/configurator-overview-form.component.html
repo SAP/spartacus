@@ -3,7 +3,16 @@
     <ng-container *ngFor="let group of configuration.overview.groups">
       <div class="cx-group">
         <h2>
-          {{ group.groupDescription }}
+          <!-- TODO: update feature level to the release we are publishing with, 
+          It is still 3.1 only because app.module.ts states that we are on 3.1.
+          Finally we must have 3.x, x>=2 here -->
+          <ng-container *cxFeatureLevel="'!3.1'">
+            {{ group.groupDescription }}
+          </ng-container>
+          <!-- TODO: update feature level to the release we are publishing with-->
+          <ng-container *cxFeatureLevel="'3.1'">
+            <span>{{ group.groupDescription }}</span>
+          </ng-container>
         </h2>
         <div
           *ngFor="let attributeOverview of group.attributes; let i = index"

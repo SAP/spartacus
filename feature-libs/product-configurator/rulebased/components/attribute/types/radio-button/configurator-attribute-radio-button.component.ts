@@ -34,7 +34,22 @@ export class ConfiguratorAttributeRadioButtonComponent
 
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+  // TODO(#11681): make quantityService a required dependency
+  /**
+   * default constructor
+   * @param {ConfiguratorAttributeQuantityService} quantityService
+   */
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(quantityService: ConfiguratorAttributeQuantityService);
+
+  /**
+   * @deprecated since 3.3
+   */
+  constructor();
+
+  constructor(
+    protected quantityService?: ConfiguratorAttributeQuantityService
+  ) {
     super();
   }
 
@@ -43,15 +58,19 @@ export class ConfiguratorAttributeRadioButtonComponent
   }
 
   get withQuantity() {
-    return this.quantityService.withQuantity(
-      this.attribute.dataType,
-      this.attribute.uiType
+    return (
+      this.quantityService?.withQuantity(
+        this.attribute.dataType,
+        this.attribute.uiType
+      ) ?? false
     );
   }
 
   get disableQuantityActions() {
-    return this.quantityService.disableQuantityActions(
-      this.attribute.selectedSingleValue
+    return (
+      this.quantityService?.disableQuantityActions(
+        this.attribute.selectedSingleValue
+      ) ?? true
     );
   }
 
@@ -124,7 +143,7 @@ export class ConfiguratorAttributeRadioButtonComponent
     return {
       allowZero: !this.attribute.required,
       initialQuantity: initialQuantity,
-      disableQuantityActions: this.loading$.pipe(
+      disableQuantityActions$: this.loading$.pipe(
         map((loading) => {
           return loading || this.disableQuantityActions;
         })

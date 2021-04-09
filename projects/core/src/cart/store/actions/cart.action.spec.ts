@@ -20,6 +20,10 @@ const cart: Cart = {
 
 const tempCartId = 'tempCartId';
 
+const savedCart: Cart = {
+  code: 'mock',
+};
+
 describe('Cart Actions', () => {
   describe('CreateCart Actions', () => {
     describe('CreateCart', () => {
@@ -108,6 +112,22 @@ describe('Cart Actions', () => {
             MULTI_CART_DATA,
             payload.cart.code
           ),
+        });
+      });
+    });
+  });
+
+  describe('LoadCarts Actions', () => {
+    describe('LoadCartsSuccess', () => {
+      it('should create the action', () => {
+        const payload = [savedCart];
+        const action = new CartActions.LoadCartsSuccess(payload);
+        expect({ ...action }).toEqual({
+          type: CartActions.LOAD_CARTS_SUCCESS,
+          payload: [savedCart],
+          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, [
+            payload[0].code as string,
+          ]),
         });
       });
     });

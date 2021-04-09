@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CartModification } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import {
   Configurator,
   CpqConfiguratorOccService,
@@ -19,7 +22,7 @@ export class CpqConfiguratorRestAdapter
   ) {}
 
   getConfiguratorType(): string {
-    return 'CLOUDCPQCONFIGURATOR';
+    return ConfiguratorType.CPQ;
   }
 
   createConfiguration(
@@ -29,9 +32,9 @@ export class CpqConfiguratorRestAdapter
       return throwError('No product code provided');
     }
     return this.cpqRestService.createConfiguration(owner.id).pipe(
-      map((configResonse) => {
-        configResonse.owner = owner;
-        return configResonse;
+      map((configResponse) => {
+        configResponse.owner = owner;
+        return configResponse;
       })
     );
   }
@@ -57,9 +60,9 @@ export class CpqConfiguratorRestAdapter
         ? this.cpqRestService.updateValueQuantity
         : this.cpqRestService.updateAttribute;
     return updateMethod.call(this.cpqRestService, configuration).pipe(
-      map((configResonse: Configurator.Configuration) => {
-        configResonse.owner = configuration.owner;
-        return configResonse;
+      map((configResponse: Configurator.Configuration) => {
+        configResponse.owner = configuration.owner;
+        return configResponse;
       })
     );
   }

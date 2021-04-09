@@ -11,9 +11,10 @@
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
     "API_URL": "https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com/",
+    "BASE_SITE": "powertools-spa",
+    "BASE_LANG": "en",
     "OCC_PREFIX": "/occ/v2",
     "OCC_PREFIX_USER_ENDPOINT": "users",
-    "OCC_PREFIX_ORDER_ENDPOINT": "orders",
-    "BASE_SITE": "powertools-spa"
+    "OCC_PREFIX_ORDER_ENDPOINT": "orders"
   }
 }

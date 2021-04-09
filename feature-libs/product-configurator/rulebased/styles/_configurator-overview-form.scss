@@ -65,6 +65,12 @@
       }
 
       border: solid 1px var(--cx-color-light);
+
+      @include forVersion(3.1) {
+        span {
+          @include cx-configurator-truncate-content();
+        }
+      }
     }
 
     .cx-attribute-value-pair {

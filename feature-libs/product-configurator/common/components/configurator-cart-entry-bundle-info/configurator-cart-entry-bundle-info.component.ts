@@ -1,7 +1,11 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
+import {
+  BREAKPOINT,
+  BreakpointService,
+  CartItemContext,
+} from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
@@ -16,6 +20,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
+    protected breakpointService?: BreakpointService,
     // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
@@ -29,13 +34,17 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
 
-  numberOfLineItems$: Observable<number> = this.orderEntry$.pipe(
+  hideItems = true;
+
+  lineItems$: Observable<LineItem[]> = this.orderEntry$.pipe(
     map((entry) =>
-      this.configCartEntryBundleInfoService.retrieveNumberOfLineItems(entry)
+      this.configCartEntryBundleInfoService.retrieveLineItems(entry)
     )
   );
 
-  hideItems = true;
+  numberOfLineItems$: Observable<number> = this.lineItems$.pipe(
+    map((items) => items.length)
+  );
 
   /**
    * Toggles the state of the items list.
@@ -45,20 +54,10 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   }
 
   /**
-   * Retrieves the line items for an order entry.
-   *
-   * @param {OrderEntry} entry - Order entry
-   * @returns {LineItem[]} - Array of line items
-   */
-  retrieveLineItems(entry: OrderEntry): LineItem[] {
-    return this.configCartEntryBundleInfoService.retrieveLineItems(entry);
-  }
-
-  /**
    * Verifies whether the configurator type is a bundle based one.
    *
    * @param {OrderEntry} entry - Order entry
-   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'false'
+   * @returns {boolean} - 'true' if the expected configurator type, otherwise 'false'
    */
   isBundleBasedConfigurator(entry: OrderEntry): boolean {
     const configInfos = entry.configurationInfos;
@@ -67,5 +66,14 @@ export class ConfiguratorCartEntryBundleInfoComponent {
           configInfos[0]?.configuratorType
         )
       : false;
+  }
+
+  /**
+   * Verifies whether the current screen size equals or is larger than breakpoint `BREAKPOINT.md`.
+   *
+   * @returns {Observable<boolean>} - If the given breakpoint equals or is larger than`BREAKPOINT.md` returns `true`, otherwise `false`.
+   */
+  isDesktop(): Observable<boolean> {
+    return this.breakpointService?.isUp(BREAKPOINT.md);
   }
 }

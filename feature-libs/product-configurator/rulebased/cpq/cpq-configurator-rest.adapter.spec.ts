@@ -2,7 +2,10 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import {
   Configurator,
   CpqConfiguratorOccService,
@@ -151,7 +154,7 @@ describe('CpqConfiguratorRestAdapter', () => {
 
   it('should return correct configurator type', () => {
     expect(adapterUnderTest.getConfiguratorType()).toEqual(
-      'CLOUDCPQCONFIGURATOR'
+      ConfiguratorType.CPQ
     );
   });
 

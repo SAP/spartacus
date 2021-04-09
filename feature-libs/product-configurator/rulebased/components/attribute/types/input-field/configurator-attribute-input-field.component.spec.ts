@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -10,44 +10,28 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../../core/model/configurator.model';
-import {
-  ConfiguratorUISettings,
-  DefaultConfiguratorUISettings,
-} from '../../../config/configurator-ui-settings';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
-
-@Directive({
-  selector: '[cxFocus]',
-})
-export class MockFocusDirective {
-  @Input('cxFocus') protected config;
-}
 
 describe('ConfigAttributeInputFieldComponent', () => {
   let component: ConfiguratorAttributeInputFieldComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeInputFieldComponent>;
+  let DEBOUNCE_TIME: number;
   const ownerKey = 'theOwnerKey';
   const name = 'theName';
   const groupId = 'theGroupId';
   const userInput = 'theUserInput';
 
-  const DEBOUNCE_TIME =
-    DefaultConfiguratorUISettings.rulebasedConfigurator.inputDebounceTime;
-
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorAttributeInputFieldComponent,
-          MockFocusDirective,
-        ],
+        declarations: [ConfiguratorAttributeInputFieldComponent],
         imports: [ReactiveFormsModule],
         providers: [
-          ConfiguratorAttributeBaseComponent,
           {
-            provide: ConfiguratorUISettings,
-            useValue: DefaultConfiguratorUISettings,
+            provide: ConfiguratorUISettingsConfig,
+            useValue: defaultConfiguratorUISettingsConfig,
           },
         ],
       })
@@ -75,6 +59,9 @@ describe('ConfigAttributeInputFieldComponent', () => {
     component.ownerKey = ownerKey;
     fixture.detectChanges();
     spyOn(component.inputChange, 'emit');
+    DEBOUNCE_TIME =
+      defaultConfiguratorUISettingsConfig.productConfigurator?.debounceTime
+        ?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
   });
 
   it('should create', () => {
@@ -129,6 +116,16 @@ describe('ConfigAttributeInputFieldComponent', () => {
   it('should delay emit inputValue for debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('testValue');
     fixture.detectChanges();
+    expect(component.inputChange.emit).not.toHaveBeenCalled();
+    tick(DEBOUNCE_TIME);
+    expect(component.inputChange.emit).toHaveBeenCalled();
+  }));
+
+  it('should delay emit inputValue for debounce fallback with fallback config', fakeAsync(() => {
+    component['config'] = undefined;
+    component.attributeInputForm.setValue('testValue');
+    fixture.detectChanges();
+    tick(1); //in case undefined is passed as debounce time it will fire almost immediately
     expect(component.inputChange.emit).not.toHaveBeenCalled();
     tick(DEBOUNCE_TIME);
     expect(component.inputChange.emit).toHaveBeenCalled();

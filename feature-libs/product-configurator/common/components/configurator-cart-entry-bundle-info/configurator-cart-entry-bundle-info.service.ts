@@ -9,23 +9,6 @@ import { ConfigurationInfo } from '../../core/model/common-configurator.model';
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorCartEntryBundleInfoService {
   /**
-   * Retrieves the number of CPQ line items for an order entry
-   *
-   * @param {OrderEntry} entry - Order entry
-   * @returns {number} - number of line items
-   */
-  retrieveNumberOfLineItems(entry: OrderEntry): number {
-    const numberOfLineItems: number = entry?.configurationInfos
-      ? entry.configurationInfos.filter(
-          (configurationInfo) =>
-            configurationInfo.configurationLabel ||
-            configurationInfo.configurationValue
-        ).length
-      : 0;
-    return numberOfLineItems;
-  }
-
-  /**
    * Retrieves the CPQ line items for an order entry
    *
    * @param {OrderEntry} entry - Order entry

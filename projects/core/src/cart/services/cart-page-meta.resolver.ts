@@ -28,14 +28,14 @@ import { PageType } from '../../model/cms.model';
 export class CartPageMetaResolver
   extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {
+  // TODO(#10467): Remove deprecated constructors
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(cms: CmsService, basePageMetaResolver?: BasePageMetaResolver);
   /**
    * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions and
    * drop the CmsService from the constructor as it will no longer be used.
    */
-  // TODO(#10467): Remove deprecated constructors
   constructor(cms: CmsService);
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  constructor(cms: CmsService, basePageMetaResolver?: BasePageMetaResolver);
   constructor(
     protected cms: CmsService,
     @Optional() protected basePageMetaResolver?: BasePageMetaResolver

@@ -12,6 +12,9 @@ import {
 import { FormErrorsModule } from '../../../shared/index';
 import { LoginFormComponent } from './login-form.component';
 
+/**
+ * @deprecated since 3.2, use @spartacus/user package instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

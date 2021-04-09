@@ -119,4 +119,14 @@ export class ConfiguratorAttributeBaseComponent {
     }
     return attributeUiKey;
   }
+
+  /**
+   * Creates a unique key for focus handling for the given attribute and value
+   * @param attributeId
+   * @param valueCode
+   * @returns focus key
+   */
+  createFocusId(attributeId: string, valueCode: string): string {
+    return `${attributeId}--${valueCode}--focus`;
+  }
 }

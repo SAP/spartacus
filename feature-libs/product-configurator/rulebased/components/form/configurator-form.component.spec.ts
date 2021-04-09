@@ -4,8 +4,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  GlobalMessageService,
-  GlobalMessageType,
   I18nTestingModule,
   LanguageService,
   RoutingService,
@@ -16,7 +14,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { EMPTY, Observable, of, Subject } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -70,16 +68,6 @@ const configRead2: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   owner: owner,
   groups: groups,
-};
-
-const configWithError: Configurator.Configuration = {
-  configId: 'a',
-  errorMessages: ['error1', 'error2'],
-};
-
-const configWithWarning: Configurator.Configuration = {
-  configId: 'a',
-  warningMessages: ['warning1', 'warning2', 'warning3'],
 };
 
 @Component({
@@ -178,11 +166,8 @@ describe('ConfigurationFormComponent', () => {
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let mockLanguageService;
-  let mockedMessageService: GlobalMessageService;
 
   beforeEach(async(() => {
-    mockedMessageService = jasmine.createSpyObj('messageService', ['add']);
-
     mockLanguageService = {
       getAll: () => of([]),
       getActive: jasmine.createSpy().and.returnValue(of('en')),
@@ -220,10 +205,7 @@ describe('ConfigurationFormComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
         },
-        {
-          provide: GlobalMessageService,
-          useValue: mockedMessageService,
-        },
+
         { provide: LanguageService, useValue: mockLanguageService },
       ],
     })
@@ -408,68 +390,10 @@ describe('ConfigurationFormComponent', () => {
     });
     routerStateObservable = of(mockRouterState);
     createComponent().updateConfiguration({
-      changedAttribute: configRead.groups[0].attributes[0],
       ownerKey: owner.key,
+      changedAttribute: configRead.groups[0].attributes[0],
     });
 
     expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
-  });
-
-  it('should publish error messages as error', () => {
-    createComponent().publishUiMessages(configWithError);
-    expect(mockedMessageService.add).toHaveBeenCalledTimes(2);
-    expect(mockedMessageService.add).toHaveBeenCalledWith(
-      'error1',
-      GlobalMessageType.MSG_TYPE_ERROR,
-      2000
-    );
-    expect(mockedMessageService.add).toHaveBeenCalledWith(
-      'error2',
-      GlobalMessageType.MSG_TYPE_ERROR,
-      2000
-    );
-  });
-
-  it('should publish warning messages as warning', () => {
-    createComponent().publishUiMessages(configWithWarning);
-    expect(mockedMessageService.add).toHaveBeenCalledTimes(3);
-    expect(mockedMessageService.add).toHaveBeenCalledWith(
-      'warning1',
-      GlobalMessageType.MSG_TYPE_WARNING,
-      2000
-    );
-    expect(mockedMessageService.add).toHaveBeenCalledWith(
-      'warning2',
-      GlobalMessageType.MSG_TYPE_WARNING,
-      2000
-    );
-    expect(mockedMessageService.add).toHaveBeenCalledWith(
-      'warning3',
-      GlobalMessageType.MSG_TYPE_WARNING,
-      2000
-    );
-  });
-
-  it('should publish messages after init', () => {
-    const component = createComponent();
-    const configSubject = new Subject<Configurator.Configuration>();
-    component.configuration$ = configSubject;
-    component.ngOnInit();
-    configSubject.next(configWithError);
-    expect(mockedMessageService.add).toHaveBeenCalledTimes(2);
-    configSubject.next(configRead);
-    expect(mockedMessageService.add).toHaveBeenCalledTimes(2);
-    configSubject.next(configWithWarning);
-    expect(mockedMessageService.add).toHaveBeenCalledTimes(5);
-  });
-
-  it('should not publish messages after destroy', () => {
-    const component = createComponent();
-    const configSubject = new Subject<Configurator.Configuration>();
-    component.configuration$ = configSubject;
-    component.ngOnInit();
-    component.ngOnDestroy();
-    configSubject.next(configWithError);
-    expect(mockedMessageService.add).not.toHaveBeenCalled();
   });
 });

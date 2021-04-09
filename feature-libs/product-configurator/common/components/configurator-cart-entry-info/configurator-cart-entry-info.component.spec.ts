@@ -9,18 +9,22 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
+  PromotionLocation,
 } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
+import { ConfiguratorType } from './../../core/model/common-configurator.model';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<FormControl>(1);
+  location$ = new BehaviorSubject<PromotionLocation>(
+    PromotionLocation.SaveForLater
+  );
 }
-
 describe('ConfiguratorCartEntryInfoComponent', () => {
   let component: ConfiguratorCartEntryInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
@@ -111,7 +115,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           {
             configurationLabel: 'Color',
             configurationValue: 'Blue',
-            configuratorType: 'CPQCONFIGURATOR',
+            configuratorType: ConfiguratorType.VARIANT,
             status: 'SUCCESS',
           },
         ],
@@ -134,7 +138,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           {
             configurationLabel: 'Pricing',
             configurationValue: 'could not be carried out',
-            configuratorType: 'CPQCONFIGURATOR',
+            configuratorType: ConfiguratorType.VARIANT,
             status: 'WARNING',
           },
         ],
@@ -150,11 +154,48 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       );
     });
 
+    it('should disable product configuration when context is SaveForLater', () => {
+      mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
+      fixture.detectChanges();
+
+      let result: boolean | undefined;
+
+      component.shouldShowButton$
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should disable product configuration when context is SavedCart', () => {
+      mockCartItemContext.location$.next(PromotionLocation.SavedCart);
+      fixture.detectChanges();
+      let result: boolean | undefined;
+
+      component.shouldShowButton$
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should display configure button if context is NOT related to saved carts ', () => {
+      mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+      fixture.detectChanges();
+      let result: boolean | undefined;
+
+      component.shouldShowButton$
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
+    });
+
     describe('hasStatus', () => {
       it('should be true if first entry of status summary is in error status and has a definition of the configurator type', () => {
         const entry: OrderEntry = {
           configurationInfos: [
-            { status: 'ERROR', configuratorType: 'CPQCONFIGURATOR' },
+            { status: 'ERROR', configuratorType: ConfiguratorType.VARIANT },
           ],
         };
         expect(component.hasStatus(entry)).toBe(true);
@@ -177,10 +218,10 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
     });
 
     describe('isAttributeBasedConfigurator', () => {
-      it('should return true if for CCP based configurator (CPQCONFIGURATOR)', () => {
+      it('should return true if for CCP based configurator', () => {
         const entry: OrderEntry = {
           configurationInfos: [
-            { status: 'ERROR', configuratorType: 'CPQCONFIGURATOR' },
+            { status: 'ERROR', configuratorType: ConfiguratorType.VARIANT },
           ],
         };
         expect(component.isAttributeBasedConfigurator(entry)).toBe(true);

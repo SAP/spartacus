@@ -72,7 +72,6 @@ export class ConfiguratorGroupMenuComponent {
   );
 
   iconTypes = ICON_TYPE;
-
   ERROR = ' ERROR';
   COMPLETE = ' COMPLETE';
   WARNING = ' WARNING';
@@ -84,15 +83,24 @@ export class ConfiguratorGroupMenuComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configUtils: ConfiguratorStorefrontUtilsService
   ) {}
-
   /**
-   * Fired on key board events, checks for 'enter' and delegates to click.
+   * Prevents page down behaviour when users press space key to select buttons
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  preventScrollingOnSpace(event: KeyboardEvent): void {
+    if (event.code === 'Space') {
+      event.preventDefault();
+    }
+  }
+  /**
+   * Fired on key board events, checks for 'enter' or 'space' and delegates to click.
    *
    * @param {KeyboardEvent} event - Keyboard event
    * @param {Configurator.Group} group - Entered group
    */
   clickOnEnter(event: KeyboardEvent, group: Configurator.Group): void {
-    if (event.code === 'Enter') {
+    if (event.code === 'Enter' || event.code === 'Space') {
       this.click(group);
     }
   }
@@ -107,7 +115,7 @@ export class ConfiguratorGroupMenuComponent {
         this.hamburgerMenuService.toggle(true);
 
         this.configUtils.scrollToConfigurationElement(
-          '.VariantConfigurationTemplate'
+          '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
         );
       } else {
         this.configuratorGroupsService.setMenuParentGroup(
@@ -119,12 +127,12 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
-   * Fired on key board events, checks for 'enter' and delegates to navigateUp.
+   * Fired on key board events, checks for 'enter' or 'space' and delegates to navigateUp.
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
   navigateUpOnEnter(event: KeyboardEvent): void {
-    if (event.code === 'Enter') {
+    if (event.code === 'Enter' || event.code === 'Space') {
       this.navigateUp();
     }
   }
