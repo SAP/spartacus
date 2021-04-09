@@ -9,7 +9,7 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
   constructor(protected config: OccConfig) {}
 
   convert(source: Occ.Product, target?: Product): Product {
-    target = target ?? { ...((source as any) as Partial<Product>) };
+    target = target ?? { ...((source as unknown) as Partial<Product>) };
 
     if (source.name) {
       target.name = this.normalize(source.name);
@@ -27,19 +27,33 @@ export class ProductNameNormalizer implements Converter<Occ.Product, Product> {
   }
 
   /**
+   * A pretty url should not have any encoded characters, which is why we replace
+   * the following character in the product title.
+   *
+   * See https://developers.google.com/maps/documentation/urls/url-encoding for more
+   * information on the characters.
+   */
+  protected reservedSlugCharacters = ` !*'();:@&=+$,/?%#[]`;
+  protected slugChar = '-';
+
+  // created the regex only once
+  private slugRegex = new RegExp(
+    `[${this.reservedSlugCharacters.split('').join('\\')}]`,
+    'g'
+  );
+  private sanitizeMultipleSlugChars = new RegExp(`${this.slugChar}+`, 'g');
+
+  /**
    * Provides a title slug for the pretty URL.
    *
    * The name is sanitized from html, trimmed, converted to lowercase and special characters
    * which are encoded are replaced by the slug char (dash by default).
    */
   protected normalizeSlug(name: string): string {
-    // https://developers.google.com/maps/documentation/urls/url-encoding
-    const reservedChars = ` !*'();:@&=+$,/?%#[]`;
-    const re = new RegExp(`[${reservedChars.split('').join('\\')}]`, 'g');
     return this.normalize(name)
       .trim()
       .toLowerCase()
-      .replace(re, '-')
-      .replace(/[-]+/g, '-');
+      .replace(this.slugRegex, this.slugChar)
+      .replace(this.sanitizeMultipleSlugChars, this.slugChar);
   }
 }

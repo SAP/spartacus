@@ -67,6 +67,13 @@ describe('ProductNameNormalizer', () => {
       });
     });
 
+    it(`should replace multiple occasions of the slug char (-)`, () => {
+      const result = service.convert({
+        name: ` a product with multiple --- symbols `,
+      });
+      expect(result.slug).toEqual('a-product-with-multiple-symbols');
+    });
+
     it('should not alter the original name', () => {
       const result = service.convert({ name: 'my product title' });
       expect(result.name).toEqual('my product title');
