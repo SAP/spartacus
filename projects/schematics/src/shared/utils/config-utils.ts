@@ -9,6 +9,7 @@ import {
   InsertChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
+import { Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import ts from 'typescript';
 import {
   ANGULAR_CORE,
@@ -355,27 +356,4 @@ export function getConfigs(sourceFile: SourceFile): Node[] {
     }
   }
   return configs;
-}
-
-export function checkConfigPresence(configs: Node[], key: string): Node[] {
-  const values: Node[] = [];
-  const properties = key.split('.');
-  for (const config of configs) {
-    let obj = config;
-    for (let i = 0; i < properties.length; i++) {
-      const property = properties[i];
-      if (Node.isObjectLiteralExpression(obj)) {
-        const sub = obj.getProperty(property);
-        if (sub) {
-          obj = sub;
-          if (i === properties.length - 1) {
-            values.push(sub);
-          }
-        } else {
-          break;
-        }
-      }
-    }
-  }
-  return values;
 }

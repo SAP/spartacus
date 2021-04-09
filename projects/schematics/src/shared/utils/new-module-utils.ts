@@ -212,3 +212,25 @@ function elementExists(
 
   return false;
 }
+
+export function getModule(sourceFile: SourceFile): CallExpression | undefined {
+  let moduleNode;
+
+  function visitor(node: Node) {
+    if (Node.isCallExpression(node)) {
+      const expression = node.getExpression();
+      if (
+        Node.isIdentifier(expression) &&
+        expression.getText() === 'NgModule' &&
+        isImportedFrom(expression, ANGULAR_CORE)
+      ) {
+        moduleNode = node;
+      }
+    }
+
+    node.forEachChild(visitor);
+  }
+
+  sourceFile.forEachChild(visitor);
+  return moduleNode;
+}

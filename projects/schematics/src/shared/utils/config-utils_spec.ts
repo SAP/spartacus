@@ -10,6 +10,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { InMemoryFileSystemHost, Project } from 'ts-morph';
 import ts from 'typescript';
 import {
   createNewConfig,
@@ -65,7 +66,7 @@ xdescribe('Storefront config utils', () => {
       .toPromise();
   });
 
-  describe.skip('getExistingStorefrontConfigNode', () => {
+  describe('getExistingStorefrontConfigNode', () => {
     it('should get the Storefront config from app.module.ts file', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
@@ -77,7 +78,7 @@ xdescribe('Storefront config utils', () => {
     });
   });
 
-  describe.skip('getConfig', () => {
+  describe('getConfig', () => {
     it('should return the specified config from Storefront CallExpression AST node object', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
@@ -101,7 +102,7 @@ xdescribe('Storefront config utils', () => {
     });
   });
 
-  describe.skip('mergeConfig', () => {
+  describe('mergeConfig', () => {
     it('should merge the provided config array', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
@@ -170,7 +171,7 @@ xdescribe('Storefront config utils', () => {
     });
   });
 
-  describe.skip('createNewConfig', () => {
+  describe('createNewConfig', () => {
     it('should nest the given new config in the given config object', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
