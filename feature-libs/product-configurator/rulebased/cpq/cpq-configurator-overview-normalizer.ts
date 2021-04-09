@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
-import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
+import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
 import { Cpq } from './cpq.models';
 
 @Injectable()
@@ -11,7 +11,7 @@ export class CpqConfiguratorOverviewNormalizer
   protected readonly NO_OPTION_SELECTED = 0;
 
   constructor(
-    protected cpqUtilitiesService: CpqConfiguratorUtilsService,
+    protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
     protected translation: TranslationService
   ) {}
 
@@ -22,7 +22,9 @@ export class CpqConfiguratorOverviewNormalizer
     const resultTarget: Configurator.Overview = {
       ...target,
       productCode: source.productSystemId,
-      priceSummary: this.cpqUtilitiesService.convertPriceSummary(source),
+      priceSummary: this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
+        source
+      ),
       groups: source.tabs
         ?.flatMap((tab) => this.convertTab(tab, source.currencyISOCode))
         .filter((tab) => tab.attributes.length > 0),
@@ -60,7 +62,8 @@ export class CpqConfiguratorOverviewNormalizer
     currency: string
   ): Configurator.AttributeOverview[] {
     const attributeOverviewType: Configurator.AttributeOverviewType =
-      attr?.values && this.cpqUtilitiesService.hasAnyProducts(attr?.values)
+      attr?.values &&
+      this.cpqConfiguratorNormalizerUtilsService.hasAnyProducts(attr?.values)
         ? Configurator.AttributeOverviewType.BUNDLE
         : Configurator.AttributeOverviewType.GENERAL;
     const ovAttr: Configurator.AttributeOverview[] = [];
@@ -69,7 +72,9 @@ export class CpqConfiguratorOverviewNormalizer
         ...ovValue,
         type: attributeOverviewType,
       });
-      ovAttr[index].attribute = this.cpqUtilitiesService.convertAttributeLabel(
+      ovAttr[
+        index
+      ].attribute = this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
         attr
       );
     });
@@ -122,13 +127,16 @@ export class CpqConfiguratorOverviewNormalizer
       attribute: undefined,
       value: valueSelected.valueDisplay,
       productCode: valueSelected.productSystemId,
-      quantity: this.cpqUtilitiesService.convertQuantity(valueSelected, attr),
-      valuePrice: this.cpqUtilitiesService.convertValuePrice(
+      quantity: this.cpqConfiguratorNormalizerUtilsService.convertQuantity(
+        valueSelected,
+        attr
+      ),
+      valuePrice: this.cpqConfiguratorNormalizerUtilsService.convertValuePrice(
         valueSelected,
         currency
       ),
     };
-    ovValue.valuePriceTotal = this.cpqUtilitiesService.calculateValuePriceTotal(
+    ovValue.valuePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
       ovValue.quantity,
       ovValue.valuePrice
     );
@@ -144,9 +152,12 @@ export class CpqConfiguratorOverviewNormalizer
       attribute: undefined,
       value: attr.userInput,
       quantity: null,
-      valuePrice: this.cpqUtilitiesService.convertValuePrice(value, currency),
+      valuePrice: this.cpqConfiguratorNormalizerUtilsService.convertValuePrice(
+        value,
+        currency
+      ),
     };
-    ovValue.valuePriceTotal = this.cpqUtilitiesService.calculateValuePriceTotal(
+    ovValue.valuePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
       ovValue.quantity,
       ovValue.valuePrice
     );

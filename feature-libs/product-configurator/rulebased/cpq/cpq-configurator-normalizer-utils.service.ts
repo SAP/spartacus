@@ -9,7 +9,7 @@ import { LanguageService } from '@spartacus/core';
  * Utilities for CPQ configuration
  */
 @Injectable({ providedIn: 'root' })
-export class CpqConfiguratorUtilsService {
+export class CpqConfiguratorNormalizerUtilsService {
   constructor(protected languageService: LanguageService) {}
 
   /**
@@ -291,7 +291,7 @@ export class CpqConfiguratorUtilsService {
   protected reportMissingLocaleData(lang: string): void {
     if (isDevMode()) {
       console.warn(
-        `CpqConfiguratorUtilsService: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
+        `CpqConfiguratorNormalizerUtilsService: No locale data registered for '${lang}' (see https://angular.io/api/common/registerLocaleData).`
       );
     }
   }
