@@ -8,11 +8,11 @@ import {
 } from '@spartacus/core';
 
 @Component({
-  selector: 'cx-variant-color-selector',
-  templateUrl: './variant-color-selector.component.html',
+  selector: 'cx-product-variant-color-selector',
+  templateUrl: './product-variant-color-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantColorSelectorComponent {
+export class ProductVariantColorSelectorComponent {
   constructor(private routingService: RoutingService) {}
 
   @Input()
