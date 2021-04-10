@@ -11,7 +11,7 @@ import { ImportExportService } from '@spartacus/cart/import-export/core';
 export class ExportProductListComponent {
   constructor(
     protected importExportService: ImportExportService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartService
   ) {}
 
   entries$ = this.activeCartService

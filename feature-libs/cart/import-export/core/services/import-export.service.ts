@@ -81,8 +81,10 @@ export class ImportExportService {
     for (let i = 0; i < array.length; i++) {
       let line = '';
       for (var index in array[i]) {
-        if (line !== '') {
-          line += ',';
+        if (array[i].hasOwnProperty(index)) {
+          if (line !== '') {
+            line += ',';
+          }
           line += array[i][index];
         }
       }
