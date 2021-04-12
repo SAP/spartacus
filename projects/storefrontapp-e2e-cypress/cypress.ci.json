@@ -1,6 +1,6 @@
 {
   "defaultCommandTimeout": 15000,
-  "baseUrl": "https://cx-qa16181492.eastus.cloudapp.azure.com/electronics-spa/en/USD",
+  "baseUrl": "https://localhost:4200",
   "requestTimeout": 15000,
   "projectId": "k3nmep",
   "numTestsKeptInMemory": 1,
@@ -11,13 +11,12 @@
   },
   "videoUploadOnPasses": false,
   "env": {
-    "API_URL": "https://20.83.184.244:9002",
+    "API_URL": "https://cx-qa16181492.eastus.cloudapp.azure.com:8443",
     "BASE_SITE": "electronics-spa",
     "BASE_LANG": "en",
     "BASE_CURRENCY": "USD",
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
-    "API_URL": "https://cx-qa16181492.eastus.cloudapp.azure.com:8443",
     "OCC_PREFIX": "/occ/v2",
     "OCC_PREFIX_USER_ENDPOINT": "users",
     "OCC_PREFIX_ORDER_ENDPOINT": "orders"

@@ -1,6 +1,6 @@
 {
   "defaultCommandTimeout": 10000,
-  "baseUrl": "https://cx-qa16181492.eastus.cloudapp.azure.com",
+  "baseUrl": "https://localhost:4200",
   "requestTimeout": 15000,
   "retries": {
     "runMode": 2
@@ -10,7 +10,6 @@
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
     "API_URL": "https://cx-qa16181492.eastus.cloudapp.azure.com:8443",
-    "API_URL": "https://40.76.109.9:9002",
     "BASE_SITE": "electronics-spa",
     "BASE_LANG": "en",
     "OCC_PREFIX": "/occ/v2",
