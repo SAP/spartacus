@@ -7,6 +7,8 @@ import { FileValidity } from '../model/import-export.model';
   useExisting: Config,
 })
 export abstract class ImportExportConfig {
-  fileValidity: FileValidity;
-  file: { separator: string };
+  importExport: {
+    fileValidity?: FileValidity;
+    file: { separator: string };
+  };
 }

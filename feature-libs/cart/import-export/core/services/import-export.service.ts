@@ -40,7 +40,10 @@ export class ImportExportService {
   protected setValidityConfig(
     validityConfig: FileValidity | undefined
   ): FileValidity {
-    return { ...this.importExportConfig.fileValidity, ...validityConfig };
+    return {
+      ...this.importExportConfig.importExport.fileValidity,
+      ...validityConfig,
+    };
   }
 
   protected checkValidity(
@@ -68,6 +71,9 @@ export class ImportExportService {
     return { isFileValid, invalidFileInfo };
   }
 
+  private get separator() {
+    return this.importExportConfig.importExport.file.separator;
+  }
   /**
    * Converts array of objects into CSV data structure.
    *
@@ -80,9 +86,9 @@ export class ImportExportService {
     return array.reduce((str: string, row: T) => {
       const line = Object.keys(row).reduce(
         (currentLine, cell) =>
-          `${currentLine}${
-            currentLine !== '' ? this.importExportConfig.file.separator : ''
-          }"${row[cell]}"`,
+          `${currentLine}${currentLine !== '' ? this.separator : ''}"${
+            row[cell]
+          }"`,
         ''
       );
       return `${str}${line}\r\n`;

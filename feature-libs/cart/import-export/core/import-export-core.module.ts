@@ -5,17 +5,19 @@ import { provideDefaultConfig } from '@spartacus/core';
   providers: [
     // TODO: Avoid using duplicated config #11931
     provideDefaultConfig({
-      fileValidity: {
-        maxSize: 1,
-        allowedExtensions: [
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-          'application/vnd.ms-excel',
-          'text/csv',
-        ],
-        checkEmptyFile: true,
-      },
-      file: {
-        separator: ',',
+      importExport: {
+        fileValidity: {
+          maxSize: 1,
+          allowedExtensions: [
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            'application/vnd.ms-excel',
+            'text/csv',
+          ],
+          checkEmptyFile: true,
+        },
+        file: {
+          separator: ',',
+        },
       },
     }),
   ],
