@@ -1,1 +1,7 @@
-Quick Order List Component
+<ng-container *ngIf="entries$ | async as entries">
+  <ng-container *ngIf="entries?.length > 0">
+    <div class="quick-order-list-wrapper">
+      <cx-cart-item-list [items]="entries"></cx-cart-item-list>
+    </div>
+  </ng-container>
+</ng-container>
