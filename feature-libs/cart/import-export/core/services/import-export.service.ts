@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
-import { FileValidity, FileValidityConfig } from '../config';
-import { InvalidFileInfo, ProductsData } from '../model';
+import { ImportExportConfig } from '../config/import-export-config';
+import { FileValidity, InvalidFileInfo } from '../model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ImportExportService {
-  constructor(protected fileValidityConfig: FileValidityConfig) {}
+  constructor(protected importExportConfig: ImportExportConfig) {}
 
   /**
    * Extracts CSV file and process into a JSON data
@@ -54,7 +54,10 @@ export class ImportExportService {
   protected setValidityConfig(
     validityConfig: FileValidity | undefined
   ): FileValidity {
-    return { ...this.fileValidityConfig.fileValidity, ...validityConfig };
+    return {
+      ...this.importExportConfig.importExport.fileValidity,
+      ...validityConfig,
+    };
   }
 
   /**
@@ -89,6 +92,9 @@ export class ImportExportService {
     return { isFileValid, invalidFileInfo };
   }
 
+  private get separator() {
+    return this.importExportConfig.importExport.file.separator;
+  }
   /**
    * Processes the CSV data and coverts into JSON
    *
@@ -115,22 +121,19 @@ export class ImportExportService {
    *
    * @param objectsArray Array of objects which should be converted to CSV.
    */
-  dataToCsv(objectsArray: object[]): string {
-    let array =
+  dataToCsv<T extends { [key: string]: unknown }>(objectsArray: T[]): string {
+    const array =
       typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
-    let str = '';
 
-    for (let i = 0; i < array.length; i++) {
-      let line = '';
-      for (var index in array[i]) {
-        if (line !== '') {
-          line += ',';
-          line += array[i][index];
-        }
-      }
-      str += line + '\r\n';
-    }
-
-    return str;
+    return array.reduce((str: string, row: T) => {
+      const line = Object.keys(row).reduce(
+        (currentLine, cell) =>
+          `${currentLine}${currentLine !== '' ? this.separator : ''}"${
+            row[cell]
+          }"`,
+        ''
+      );
+      return `${str}${line}\r\n`;
+    }, '');
   }
 }

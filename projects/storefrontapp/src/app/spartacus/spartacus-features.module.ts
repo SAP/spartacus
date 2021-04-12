@@ -56,7 +56,6 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
-  ProductVariantsModule,
   ReplenishmentOrderConfirmationModule,
   ReplenishmentOrderDetailsModule,
   ReplenishmentOrderHistoryModule,
@@ -74,6 +73,7 @@ import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
@@ -153,7 +153,6 @@ if (environment.cds) {
     ProductReferencesModule,
     ProductImagesModule,
     ProductSummaryModule,
-    ProductVariantsModule,
     ProductIntroModule,
 
     // Cart Core
@@ -161,6 +160,7 @@ if (environment.cds) {
     CartOccModule,
     // Cart UI
     CartComponentModule,
+    ImportExportFeatureModule,
     WishListModule,
 
     // Checkout Core

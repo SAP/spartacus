@@ -6,6 +6,7 @@ import { UpdatePasswordComponentService } from './update-password-component.serv
   selector: 'cx-update-password',
   templateUrl: './update-password.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: { class: 'user-form' },
 })
 export class UpdatePasswordComponent {
   constructor(protected service: UpdatePasswordComponentService) {}

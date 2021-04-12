@@ -12,7 +12,7 @@ import {
   VariantType,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { VariantStyleSelectorComponent } from './variant-style-selector.component';
+import { ProductVariantStyleSelectorComponent } from './product-variant-style-selector.component';
 
 const mockOccBackendUrl = 'https://base.com';
 const mockVariant: BaseOption = {
@@ -60,14 +60,14 @@ class MockProductService {
   }
 }
 
-describe('VariantStyleSelectorComponent', () => {
-  let component: VariantStyleSelectorComponent;
-  let fixture: ComponentFixture<VariantStyleSelectorComponent>;
+describe('ProductVariantStyleSelectorComponent', () => {
+  let component: ProductVariantStyleSelectorComponent;
+  let fixture: ComponentFixture<ProductVariantStyleSelectorComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [VariantStyleSelectorComponent, MockUrlPipe],
+        declarations: [ProductVariantStyleSelectorComponent, MockUrlPipe],
         imports: [RouterTestingModule, I18nTestingModule],
         providers: [
           {
@@ -85,7 +85,7 @@ describe('VariantStyleSelectorComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VariantStyleSelectorComponent);
+    fixture = TestBed.createComponent(ProductVariantStyleSelectorComponent);
     component = fixture.componentInstance;
     component.variants = mockVariant;
     fixture.detectChanges();

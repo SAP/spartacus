@@ -14,11 +14,11 @@ import {
 
 @Component({
   selector: 'cx-variant-style-icons',
-  templateUrl: './variant-style-icons.component.html',
-  styleUrls: ['./variant-style-icons.component.scss'],
+  templateUrl: './product-variant-style-icons.component.html',
+  styleUrls: ['./product-variant-style-icons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantStyleIconsComponent implements OnInit {
+export class ProductVariantStyleIconsComponent implements OnInit {
   constructor(private config: OccConfig) {}
 
   @Input()
