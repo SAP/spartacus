@@ -1,5 +1,5 @@
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from './configurator-attribute-single-selection-base.component';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '../../../../core/model/configurator.model';
 
 const attributeQuantity = 4;
 const selectedValue = 'a';

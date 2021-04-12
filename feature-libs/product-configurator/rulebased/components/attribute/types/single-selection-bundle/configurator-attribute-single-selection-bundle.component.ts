@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
@@ -11,20 +10,6 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeSingleSelectionBundleComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
-  /**
-   * Extract corresponding price formula parameters
-   *
-   * @return {ConfiguratorPriceComponentOptions} - New price formula
-   */
-  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
-    return {
-      quantity: this.attribute.quantity,
-      price: this.getSelectedValuePrice(),
-      priceTotal: this.attribute.attributePriceTotal,
-      isLightedUp: true,
-    };
-  }
-
   /**
    * Extract corresponding product card parameters
    *
@@ -58,9 +43,5 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       this.attribute.attrCode?.toString(),
       this.attribute.values[prevIdx].valueCode
     );
-  }
-
-  protected getSelectedValuePrice(): Configurator.PriceDetails | undefined {
-    return this.attribute.values?.find((value) => value?.selected)?.valuePrice;
   }
 }

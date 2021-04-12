@@ -1,14 +1,15 @@
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Configurator } from '../../../../core';
-import { ConfigFormUpdateEvent } from '../../../form';
+import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import {
   ConfiguratorAttributeQuantityComponentOptions,
-  ConfiguratorAttributeQuantityService,
   Quantity,
-} from '../../quantity';
+} from '../../quantity/configurator-attribute-quantity.component';
 import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 
 @Component({
   template: '',
@@ -140,5 +141,23 @@ export class ConfiguratorAttributeSingleSelectionBaseComponent extends Configura
         })
       ),
     };
+  }
+
+  /**
+   * Extract corresponding price formula parameters
+   *
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
+    return {
+      quantity: this.attribute.quantity,
+      price: this.getSelectedValuePrice(),
+      priceTotal: this.attribute.attributePriceTotal,
+      isLightedUp: true,
+    };
+  }
+
+  protected getSelectedValuePrice(): Configurator.PriceDetails | undefined {
+    return this.attribute.values?.find((value) => value?.selected)?.valuePrice;
   }
 }
