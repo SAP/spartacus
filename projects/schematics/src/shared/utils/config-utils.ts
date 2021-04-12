@@ -9,12 +9,16 @@ import {
   InsertChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
+import { Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import ts from 'typescript';
 import {
   ANGULAR_CORE,
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
+  SPARTACUS_CORE,
 } from '../constants';
+import { isImportedFrom } from './import-utils';
+import { getModule } from './new-module-utils';
 
 /**
  * Finds the Storefront config in the given app.module.ts
@@ -295,4 +299,61 @@ function convert(newValues: string | string[]): string {
     configValue = newValues;
   }
   return configValue;
+}
+
+export function getConfigs(sourceFile: SourceFile): Node[] {
+  const configs: Node[] = [];
+  const module = getModule(sourceFile);
+  if (!module) {
+    return [];
+  }
+  const literal = module.getFirstDescendantByKind(
+    tsMorph.SyntaxKind.ObjectLiteralExpression
+  );
+  if (literal) {
+    const properties = literal.getChildrenOfKind(
+      tsMorph.SyntaxKind.PropertyAssignment
+    );
+    if (properties) {
+      properties.forEach((property) => {
+        if (
+          property.getNameNode().getText() === 'providers' &&
+          property.getInitializerIfKind(
+            tsMorph.SyntaxKind.ArrayLiteralExpression
+          )
+        ) {
+          const initializer = property.getInitializerIfKind(
+            tsMorph.SyntaxKind.ArrayLiteralExpression
+          );
+          if (initializer) {
+            const elements = initializer.getElements();
+            elements.forEach((element) => {
+              if (Node.isCallExpression(element)) {
+                const expression = element.getExpression();
+                if (
+                  Node.isIdentifier(expression) &&
+                  expression.getText() === 'provideConfig' &&
+                  isImportedFrom(expression, SPARTACUS_CORE)
+                ) {
+                  if (element.getArguments()?.[0]) {
+                    const config = element.getArguments()[0];
+                    // "type assertion" and "as expression" is useless for us, so we can skip it and add it's children
+                    if (
+                      Node.isTypeAssertion(config) ||
+                      Node.isAsExpression(config)
+                    ) {
+                      configs.push(config.getExpression());
+                    } else {
+                      configs.push(config);
+                    }
+                  }
+                }
+              }
+            });
+          }
+        }
+      });
+    }
+  }
+  return configs;
 }

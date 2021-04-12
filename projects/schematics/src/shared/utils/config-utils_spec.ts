@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -8,10 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import { InMemoryFileSystemHost, Project } from 'ts-morph';
 import ts from 'typescript';
 import {
   createNewConfig,
   getConfig,
+  getConfigs,
   getExistingStorefrontConfigNode,
   mergeConfig,
 } from './config-utils';
@@ -193,6 +197,64 @@ xdescribe('Storefront config utils', () => {
       expect(appTree.readContent(appModulePath)).toContain('testObjectConfig:');
       expect(appTree.readContent(appModulePath)).toContain('value1');
       expect(appTree.readContent(appModulePath)).toContain('value2');
+    });
+  });
+
+  describe('getConfigs', () => {
+    it('should return all configs from provideConfigs calls', () => {
+      const content = `
+import { NgModule } from '@angular/core';
+import {
+  CartAddEntrySuccessEvent,
+  CartRemoveEntrySuccessEvent,
+  provideConfig,
+} from '@spartacus/core';
+import { NavigationEvent } from '@spartacus/storefront';
+import { PersonalizationRootModule } from '@spartacus/tracking/personalization/root';
+import { AepModule } from '@spartacus/tracking/tms/aep';
+import { BaseTmsModule, TmsConfig } from '@spartacus/tracking/tms/core';
+import { GtmModule } from '@spartacus/tracking/tms/gtm';
+
+@NgModule({
+  imports: [
+    BaseTmsModule.forRoot(),
+    GtmModule,
+    AepModule,
+    PersonalizationRootModule,
+  ],
+  providers: [
+    provideConfig(<TmsConfig>{
+      tagManager: {
+        gtm: {
+          events: [NavigationEvent, CartAddEntrySuccessEvent],
+        },
+        aep: {
+          events: [NavigationEvent, CartRemoveEntrySuccessEvent],
+        },
+      },
+    }),
+    provideConfig({
+      featureModules: {
+        personalization: {
+          module: () =>
+            import('@spartacus/tracking/personalization').then(
+              (m) => m.PersonalizationModule
+            ),
+        },
+      },
+    }),
+  ],
+})
+export class TrackingFeatureModule {}
+`;
+      const project = new Project({
+        fileSystem: new InMemoryFileSystemHost(),
+      });
+      const sourceFile = project.createSourceFile('test.ts', content);
+      const configs = getConfigs(sourceFile);
+      expect(configs.length).toEqual(2);
+      expect(configs[0].getText()).toMatchSnapshot();
+      expect(configs[1].getText()).toMatchSnapshot();
     });
   });
 });
