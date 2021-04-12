@@ -42,6 +42,13 @@ done
 set -- "${POSITIONAL[@]}"
 
 echo '-----'
+echo "Yarning"
+
+yarn install
+
+(cd projects/storefrontapp-e2e-cypress && yarn install)
+
+echo '-----'
 echo "Running Cypress end to end tests"
 
 yarn e2e:run:ci"${SUITE}"
