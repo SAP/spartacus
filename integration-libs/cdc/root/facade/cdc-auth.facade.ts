@@ -7,6 +7,7 @@ export function cdcAuthFacadeFactory() {
     facade: CdcAuthFacade,
     feature: CDC_CORE_FEATURE,
     methods: ['loginWithCustomCdcFlow', 'loginWithToken'],
+    async: true,
   });
 }
 
