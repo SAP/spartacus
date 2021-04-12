@@ -1,6 +1,6 @@
 {
   "defaultCommandTimeout": 15000,
-  "baseUrl": "http://localhost:4200",
+  "baseUrl": "https://cx-qa16181492.eastus.cloudapp.azure.com",
   "requestTimeout": 15000,
   "projectId": "k3nmep",
   "numTestsKeptInMemory": 1,
