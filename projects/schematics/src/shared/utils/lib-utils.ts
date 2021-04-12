@@ -218,9 +218,9 @@ function handleFeature<T extends LibraryOptions>(
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
     const basePath = process.cwd();
-    const tasks: Rule[] = [];
+    const rules: Rule[] = [];
     for (const tsconfigPath of buildPaths) {
-      tasks.push(
+      rules.push(
         ensureModuleExists({
           name: `${config.name}-feature`,
           path: `app/spartacus/features/${config.folderName}`,
@@ -228,12 +228,12 @@ function handleFeature<T extends LibraryOptions>(
           project: options.project,
         })
       );
-      tasks.push(addRootModule(tsconfigPath, basePath, config));
-      tasks.push(addFeatureModule(tsconfigPath, basePath, config, options));
-      tasks.push(addFeatureTranslations(tsconfigPath, basePath, config));
-      tasks.push(addCustomConfig(tsconfigPath, basePath, config));
+      rules.push(addRootModule(tsconfigPath, basePath, config));
+      rules.push(addFeatureModule(tsconfigPath, basePath, config, options));
+      rules.push(addFeatureTranslations(tsconfigPath, basePath, config));
+      rules.push(addCustomConfig(tsconfigPath, basePath, config));
     }
-    return chain(tasks);
+    return chain(rules);
   };
 }
 
