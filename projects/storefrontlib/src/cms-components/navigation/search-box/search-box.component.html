@@ -18,23 +18,25 @@
     value="{{ chosenWord }}"
   />
 
-  <cx-icon
-    [type]="iconTypes.RESET"
+  <button
     aria-label="reset"
     (mousedown)="clear(searchInput)"
     (keydown.enter)="clear(searchInput)"
     class="reset"
     tabindex="0"
-  ></cx-icon>
+  >
+    <cx-icon [type]="iconTypes.RESET"></cx-icon>
+  </button>
 
-  <cx-icon
-    [type]="iconTypes.SEARCH"
+  <button
     aria-label="search"
     class="search"
     (mousedown)="avoidReopen($event)"
     (keydown.enter)="avoidReopen($event)"
     tabindex="0"
-  ></cx-icon>
+  >
+    <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+  </button>
 </label>
 
 <div

@@ -92,7 +92,7 @@
       min-width: 300px;
       max-width: 550px;
       // hide search icon when the input is dirty
-      &.dirty cx-icon.search {
+      &.dirty button.search {
         display: none;
       }
     }
@@ -126,7 +126,7 @@
     }
 
     // hide reset icon when the input is empty
-    &:not(.dirty) cx-icon.reset {
+    &:not(.dirty) button.reset {
       display: none;
     }
 
