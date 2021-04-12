@@ -414,22 +414,20 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   describe('extractQuantityParameters', () => {
     it('should return 0 as initial if no selected value is specified  ', () => {
       const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity?.quantity).toBe(0);
+      expect(quantityParameters.initialQuantity).toBe(0);
     });
 
     it('should return 0 as initial if a selected value but no attribute quantity is specified', () => {
       component.attribute.selectedSingleValue = selectedValue;
       const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity?.quantity).toBe(0);
+      expect(quantityParameters.initialQuantity).toBe(0);
     });
 
     it('should return attribute quantity as initial if a selected value is specified', () => {
       component.attribute.selectedSingleValue = selectedValue;
       component.attribute.quantity = attributeQuantity;
       const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity?.quantity).toBe(
-        attributeQuantity
-      );
+      expect(quantityParameters.initialQuantity).toBe(attributeQuantity);
     });
   });
 
