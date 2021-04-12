@@ -776,7 +776,7 @@
     "checkout": {
       "projectType": "library",
       "root": "feature-libs/checkout",
-      "sourceRoot": "feature-libs/checkout/src",
+      "sourceRoot": "feature-libs/checkout",
       "prefix": "cx",
       "architect": {
         "build": {
