@@ -48,7 +48,7 @@
     @include media-breakpoint-down(md) {
       .back {
         display: initial;
-        h5 {
+        span {
           text-transform: capitalize;
           justify-content: flex-start;
           cx-icon {
