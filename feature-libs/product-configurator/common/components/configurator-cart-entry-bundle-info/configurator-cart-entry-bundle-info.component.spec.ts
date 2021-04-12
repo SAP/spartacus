@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { ChangeDetectorRef, Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, FormControl } from '@angular/forms';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
@@ -57,6 +57,7 @@ const entry: OrderEntry = {
 describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   let component: ConfiguratorCartEntryBundleInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
+  let changeDetectorRef: ChangeDetectorRef;
   let htmlElem: HTMLElement;
   let mockCartItemContext: MockCartItemContext;
   let commonConfigUtilsService: CommonConfiguratorUtilsService;
@@ -96,9 +97,9 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     breakpointService = TestBed.inject(
       BreakpointService as Type<BreakpointService>
     );
-    //spyOn(breakpointService, 'isUp').and.returnValue(of(true));
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
+    changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
@@ -359,7 +360,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
         expect(component.hideItems).toBe(true);
         component.toggleItems();
-        fixture.detectChanges();
+        changeDetectorRef.detectChanges();
         expect(component.hideItems).toBe(false);
 
         CommonConfiguratorTestUtilsService.expectElementToContainText(

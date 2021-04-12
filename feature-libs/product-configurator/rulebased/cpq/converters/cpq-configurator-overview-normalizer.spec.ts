@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
+import { Cpq } from '../cpq.models';
+import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
 import { CpqConfiguratorOverviewNormalizer } from './cpq-configurator-overview-normalizer';
-import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
-import { Cpq } from './cpq.models';
 
 const ATTR_NAME = 'name of attribute';
 const attr: Cpq.Attribute = {
@@ -134,7 +134,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     TestBed.configureTestingModule({
       providers: [
         CpqConfiguratorOverviewNormalizer,
-        CpqConfiguratorUtilsService,
+        CpqConfiguratorNormalizerUtilsService,
         {
           provide: LanguageService,
           useClass: MockLanguageService,

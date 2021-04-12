@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
+import { Cpq } from '../cpq.models';
 import { CpqConfiguratorNormalizer } from './cpq-configurator-normalizer';
-import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
-import { Cpq } from './cpq.models';
+import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
 
 const cpqProductSystemId = 'PRODUCT_SYSTEM_ID';
 
@@ -188,7 +188,7 @@ describe('CpqConfiguratorNormalizer', () => {
     TestBed.configureTestingModule({
       providers: [
         CpqConfiguratorNormalizer,
-        CpqConfiguratorUtilsService,
+        CpqConfiguratorNormalizerUtilsService,
         {
           provide: LanguageService,
           useClass: MockLanguageService,

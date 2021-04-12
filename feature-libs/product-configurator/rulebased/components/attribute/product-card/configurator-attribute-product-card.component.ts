@@ -70,7 +70,7 @@ export class ConfiguratorAttributeProductCardComponent
       .productSystemId;
 
     this.product$ = this.productService
-      .get(productSystemId ? productSystemId : '', ProductScope.LIST)
+      .get(productSystemId ? productSystemId : '', ProductScope.DETAILS)
       .pipe(
         map((respProduct) => {
           return respProduct

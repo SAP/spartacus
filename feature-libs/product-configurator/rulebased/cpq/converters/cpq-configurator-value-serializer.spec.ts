@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { Cpq } from '../cpq.models';
 import { CpqConfiguratorValueSerializer } from './cpq-configurator-value-serializer';
-import { Cpq } from './cpq.models';
 
 const configId = '1';
 const attrCode = 222;
