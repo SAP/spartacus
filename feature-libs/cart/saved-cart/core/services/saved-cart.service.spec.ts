@@ -71,7 +71,7 @@ class MockMultiCartService implements Partial<MultiCartService> {
   deleteCart = createSpy();
 }
 
-fdescribe('SavedCartService', () => {
+describe('SavedCartService', () => {
   let service: SavedCartService;
   let store: Store<StateWithMultiCart>;
   let userIdService: UserIdService;

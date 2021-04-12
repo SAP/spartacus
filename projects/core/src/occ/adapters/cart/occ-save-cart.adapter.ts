@@ -8,6 +8,7 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
+// TODO(#11938): 4.0: use OccSavedCartAdapter instead from saved-cart feature-lib of cart
 @Injectable()
 export class OccSaveCartAdapter implements SaveCartAdapter {
   constructor(
@@ -36,12 +37,26 @@ export class OccSaveCartAdapter implements SaveCartAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http
-      .patch<Occ.SaveCartResult>(
-        this.occEndpointsService.getUrl('saveCart', { userId, cartId }),
-        httpParams,
-        { headers }
-      )
-      .pipe(this.converterService.pipeable(SAVE_CART_NORMALIZER));
+    return !this.occEndpointsService
+      .getUrl('saveCart', { userId, cartId })
+      .includes('saveCartName')
+      ? this.http
+          .patch<Occ.SaveCartResult>(
+            this.occEndpointsService.getUrl('saveCart', { userId, cartId }),
+            httpParams,
+            { headers }
+          )
+          .pipe(this.converterService.pipeable(SAVE_CART_NORMALIZER))
+      : this.http
+          .patch<Occ.SaveCartResult>(
+            this.occEndpointsService.getUrl('saveCart', {
+              userId,
+              cartId,
+              saveCartName,
+              saveCartDescription,
+            }),
+            cartId
+          )
+          .pipe(this.converterService.pipeable(SAVE_CART_NORMALIZER));
   }
 }
