@@ -1,6 +1,6 @@
 {
   "defaultCommandTimeout": 15000,
-  "baseUrl": "https://cx-qa16181492.eastus.cloudapp.azure.com:444/powertools-spa/en/USD",
+  "baseUrl": "https://cx-qa16181492.eastus.cloudapp.azure.com:444",
   "requestTimeout": 15000,
   "projectId": "k3nmep",
   "video": true,
