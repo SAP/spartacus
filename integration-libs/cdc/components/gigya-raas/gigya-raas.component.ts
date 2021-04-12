@@ -3,7 +3,7 @@ import {
   Component,
   NgZone,
   OnInit,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { GigyaRaasComponentData } from '@spartacus/cdc/core';
 import { CdcConfig, CdcJsService } from '@spartacus/cdc/root';
