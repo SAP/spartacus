@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
-import {
-  FileValidity,
-  ImportExportConfig,
-} from '../config/import-export-config';
-import { InvalidFileInfo } from '../model';
+import { ImportExportConfig } from '../config/import-export-config';
+import { FileValidity, InvalidFileInfo } from '../model';
 
 @Injectable({
   providedIn: 'root',

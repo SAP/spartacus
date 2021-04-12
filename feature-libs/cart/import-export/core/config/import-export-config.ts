@@ -1,12 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
-
-export type FileValidity = {
-  // size unit is MB
-  maxSize?: Number;
-  allowedExtensions?: string[];
-  checkEmptyFile?: Boolean;
-};
+import { FileValidity } from '../model/import-export.model';
 
 @Injectable({
   providedIn: 'root',
