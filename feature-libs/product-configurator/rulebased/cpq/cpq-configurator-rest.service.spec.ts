@@ -14,7 +14,7 @@ import {
   CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
-} from './cpq-configurator.converters';
+} from './converters/cpq-configurator.converters';
 import { Cpq } from './cpq.models';
 import { defaultCpqConfiguratorEndpointConfig } from './default-cpq-configurator-endpoint.config';
 

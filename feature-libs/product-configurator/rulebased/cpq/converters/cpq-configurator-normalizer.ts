@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
-import { Configurator } from './../core/model/configurator.model';
-import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
-import { Cpq } from './cpq.models';
+import { Configurator } from '../../core/model/configurator.model';
+import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
+import { Cpq } from '../cpq.models';
 
 @Injectable()
 export class CpqConfiguratorNormalizer
   implements Converter<Cpq.Configuration, Configurator.Configuration> {
   constructor(
-    protected cpqUtilitiesService: CpqConfiguratorUtilsService,
+    protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
     protected translation: TranslationService
   ) {}
 
@@ -27,7 +27,9 @@ export class CpqConfiguratorNormalizer
         !source.errorMessages?.length,
       totalNumberOfIssues: this.generateTotalNumberOfIssues(source),
       productCode: source.productSystemId,
-      priceSummary: this.cpqUtilitiesService.convertPriceSummary(source),
+      priceSummary: this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
+        source
+      ),
       groups: [],
       flatGroups: [],
       errorMessages: this.generateErrorMessages(source),
@@ -151,11 +153,15 @@ export class CpqConfiguratorNormalizer
       attrCode: sourceAttribute.stdAttrCode,
       name: sourceAttribute.pA_ID.toString(),
       description: sourceAttribute.description,
-      label: this.cpqUtilitiesService.convertAttributeLabel(sourceAttribute),
+      label: this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
+        sourceAttribute
+      ),
       required: sourceAttribute.required,
       isLineItem: sourceAttribute.isLineItem,
       uiType: this.convertAttributeType(sourceAttribute),
-      dataType: this.cpqUtilitiesService.convertDataType(sourceAttribute),
+      dataType: this.cpqConfiguratorNormalizerUtilsService.convertDataType(
+        sourceAttribute
+      ),
       quantity: Number(sourceAttribute.quantity),
       groupId: groupId.toString(),
       userInput: sourceAttribute.userInput,
@@ -174,7 +180,7 @@ export class CpqConfiguratorNormalizer
       );
       this.setSelectedSingleValue(attribute);
     }
-    attribute.attributePriceTotal = this.cpqUtilitiesService.calculateAttributePriceTotal(
+    attribute.attributePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateAttributePriceTotal(
       attribute,
       currency
     );
@@ -207,17 +213,17 @@ export class CpqConfiguratorNormalizer
       description: sourceValue.description,
       productSystemId: sourceValue.productSystemId,
       selected: sourceValue.selected,
-      quantity: this.cpqUtilitiesService.convertQuantity(
+      quantity: this.cpqConfiguratorNormalizerUtilsService.convertQuantity(
         sourceValue,
         sourceAttribute
       ),
-      valuePrice: this.cpqUtilitiesService.convertValuePrice(
+      valuePrice: this.cpqConfiguratorNormalizerUtilsService.convertValuePrice(
         sourceValue,
         currency
       ),
       images: [],
     };
-    value.valuePriceTotal = this.cpqUtilitiesService.calculateValuePriceTotal(
+    value.valuePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
       value.quantity,
       value.valuePrice
     );
@@ -285,7 +291,9 @@ export class CpqConfiguratorNormalizer
 
     const displayAsProduct: boolean =
       sourceAttribute?.values &&
-      this.cpqUtilitiesService.hasAnyProducts(sourceAttribute?.values)
+      this.cpqConfiguratorNormalizerUtilsService.hasAnyProducts(
+        sourceAttribute?.values
+      )
         ? true
         : false;
     const isEnabled: boolean = sourceAttribute.isEnabled;

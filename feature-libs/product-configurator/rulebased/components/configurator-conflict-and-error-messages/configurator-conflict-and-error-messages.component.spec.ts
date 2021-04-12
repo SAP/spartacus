@@ -1,13 +1,15 @@
 import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -17,16 +19,18 @@ import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-co
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '12342';
-const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 
-const mockRouterState: any = {
-  state: {
-    params: {
-      entityKey: PRODUCT_CODE,
-      ownerType: CommonConfigurator.OwnerType.PRODUCT,
-    },
-    semanticRoute: CONFIGURATOR_ROUTE,
+const mockRouterData: any = {
+  pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+  isOwnerCartEntry: false,
+  owner: {
+    type: CommonConfigurator.OwnerType.PRODUCT,
+    id: PRODUCT_CODE,
+    configuratorType: ConfiguratorType.CPQ,
   },
+  displayOnly: false,
+  forceReload: false,
+  resolveIssues: false,
 };
 
 const configWOMessages: Configurator.Configuration = {
@@ -64,14 +68,10 @@ const configWithOnlyOneMessage: Configurator.Configuration = {
 
 let configuration: Configurator.Configuration;
 
-class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return of(mockRouterState);
+class MockConfiguratorRouterExtractorService {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
+    return of(mockRouterData);
   }
-}
-
-class MockRouter {
-  public events = of('');
 }
 
 class MockConfiguratorCommonsService {
@@ -108,12 +108,8 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
         ],
         providers: [
           {
-            provide: Router,
-            useClass: MockRouter,
-          },
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorService,
           },
           {
             provide: ConfiguratorCommonsService,

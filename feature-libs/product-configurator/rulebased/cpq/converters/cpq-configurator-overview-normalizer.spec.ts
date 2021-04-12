@@ -2,10 +2,10 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { Configurator } from '../core/model/configurator.model';
+import { Configurator } from '../../core/model/configurator.model';
 import { CpqConfiguratorOverviewNormalizer } from './cpq-configurator-overview-normalizer';
-import { CpqConfiguratorUtilsService } from './cpq-configurator-utils.service';
-import { Cpq } from './cpq.models';
+import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
+import { Cpq } from '../cpq.models';
 
 const ATTR_NAME = 'name of attribute';
 const attr: Cpq.Attribute = {
@@ -134,7 +134,7 @@ describe('CpqConfiguratorOverviewNormalizer', () => {
     TestBed.configureTestingModule({
       providers: [
         CpqConfiguratorOverviewNormalizer,
-        CpqConfiguratorUtilsService,
+        CpqConfiguratorNormalizerUtilsService,
         {
           provide: LanguageService,
           useClass: MockLanguageService,
