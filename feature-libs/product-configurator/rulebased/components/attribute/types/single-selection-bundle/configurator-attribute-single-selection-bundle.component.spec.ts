@@ -10,8 +10,6 @@ import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-s
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 
-const selectedValue = 'a';
-const attributeQuantity = 4;
 const createTestValue = (
   price: number | undefined,
   total: number | undefined,
@@ -207,57 +205,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     expect(getSelected(component, 3)).toEqual(false);
   });
 
-  it('should call emit of event onSelect', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-
-    component.onSelect('1111');
-
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          ...component.attribute,
-          selectedSingleValue: '1111',
-        }),
-        ownerKey: component.ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE,
-      })
-    );
-  });
-
-  it('should call emit of event onDeselect', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-
-    component.onDeselect();
-
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          ...component.attribute,
-          selectedSingleValue: '',
-        }),
-        ownerKey: component.ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE,
-      })
-    );
-  });
-
-  it('should call emit of event onHandleQuantity', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-
-    component.onHandleQuantity(2);
-
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          ...component.attribute,
-          quantity: 2,
-        }),
-        ownerKey: component.ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-      })
-    );
-  });
-
   it('should call onHandleQuantity of event onChangeQuantity', () => {
     spyOn(component, 'onHandleQuantity');
 
@@ -266,16 +213,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     component.onChangeQuantity(quantity);
 
     expect(component.onHandleQuantity).toHaveBeenCalled();
-  });
-
-  it('should call onDeselect of event onChangeQuantity', () => {
-    spyOn(component, 'onDeselect');
-
-    const quantity = { quantity: 0 };
-
-    component.onChangeQuantity(quantity);
-
-    expect(component.onDeselect).toHaveBeenCalled();
   });
 
   describe('selected value price calculation', () => {
@@ -411,29 +348,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     });
   });
 
-  describe('extractQuantityParameters', () => {
-    it('should return 0 as initial if no selected value is specified  ', () => {
-      const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity?.quantity).toBe(0);
-    });
-
-    it('should return 0 as initial if a selected value but no attribute quantity is specified', () => {
-      component.attribute.selectedSingleValue = selectedValue;
-      const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity?.quantity).toBe(0);
-    });
-
-    it('should return attribute quantity as initial if a selected value is specified', () => {
-      component.attribute.selectedSingleValue = selectedValue;
-      component.attribute.quantity = attributeQuantity;
-      const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity?.quantity).toBe(
-        attributeQuantity
-      );
-    });
-  });
-
-  describe('getFcousIdOfNearestValue', () => {
+  describe('getFocusIdOfNearestValue', () => {
     it('should find second value when first is provided', () => {
       expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
         '1111--2222--focus'
