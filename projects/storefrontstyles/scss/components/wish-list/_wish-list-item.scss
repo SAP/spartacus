@@ -19,6 +19,10 @@
       &:hover {
         color: var(--cx-color-primary);
       }
+
+      h2 {
+        @include type('5');
+      }
     }
   }
 

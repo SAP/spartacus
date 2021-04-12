@@ -11,6 +11,10 @@
     flex-grow: 2;
   }
 
+  .cx-card-title {
+    font-size: var(--cx-font-size, 1.125rem);
+  }
+
   .cx-card-paragraph {
     padding-inline-start: 0.7em;
 
