@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -11,11 +11,8 @@ import {
   RoutingService,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
-} from '@spartacus/storefront';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 import { PlaceOrderComponent } from './place-order.component';
 
