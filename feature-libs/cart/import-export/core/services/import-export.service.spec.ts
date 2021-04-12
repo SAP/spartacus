@@ -5,8 +5,9 @@ import { ImportExportConfig } from '../config/import-export-config';
 import { ImportExportService } from './import-export.service';
 
 const mockImportExportConfig: ImportExportConfig = {
-  fileValidity: {},
-  file: { separator: ',' },
+  importExport: {
+    file: { separator: ',' },
+  },
 };
 
 const products = {
