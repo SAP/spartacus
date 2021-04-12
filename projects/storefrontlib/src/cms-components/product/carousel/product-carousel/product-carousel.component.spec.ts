@@ -180,7 +180,7 @@ describe('ProductCarouselComponent', () => {
     it(
       'should render product name in template',
       waitForAsync(() => {
-        const el = fixture.debugElement.query(By.css('a:first-child h4'));
+        const el = fixture.debugElement.query(By.css('a:first-child h3'));
         expect(el.nativeElement).toBeTruthy();
         expect(el.nativeElement.innerText).toEqual('product 1');
       })

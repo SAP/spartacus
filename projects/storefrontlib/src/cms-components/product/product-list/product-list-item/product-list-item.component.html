@@ -17,8 +17,9 @@
     <a
       [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
       class="cx-product-name"
-      [innerHtml]="product.nameHtml"
-    ></a>
+    >
+      <h2 [innerHtml]="product.nameHtml"></h2>
+    </a>
     <cx-star-rating
       *ngIf="product.averageRating"
       [rating]="product?.averageRating"
