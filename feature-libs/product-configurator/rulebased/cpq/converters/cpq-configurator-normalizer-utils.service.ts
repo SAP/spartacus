@@ -1,7 +1,7 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { getLocaleId } from '@angular/common';
-import { Configurator } from '../core/model/configurator.model';
-import { Cpq } from './cpq.models';
+import { Configurator } from '../../core/model/configurator.model';
+import { Cpq } from '../cpq.models';
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
 import { LanguageService } from '@spartacus/core';
 

@@ -2,10 +2,10 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LanguageService, TranslationService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { Configurator } from './../core/model/configurator.model';
+import { Configurator } from '../../core/model/configurator.model';
 import { CpqConfiguratorNormalizer } from './cpq-configurator-normalizer';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
-import { Cpq } from './cpq.models';
+import { Cpq } from '../cpq.models';
 
 const cpqProductSystemId = 'PRODUCT_SYSTEM_ID';
 

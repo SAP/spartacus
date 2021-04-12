@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
 import { take } from 'rxjs/operators';
-import { Configurator } from '../core/model/configurator.model';
+import { Configurator } from '../../core/model/configurator.model';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
-import { Cpq } from './cpq.models';
+import { Cpq } from '../cpq.models';
 
 @Injectable()
 export class CpqConfiguratorOverviewNormalizer

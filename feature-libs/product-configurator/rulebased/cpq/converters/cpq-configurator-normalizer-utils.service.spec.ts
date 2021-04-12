@@ -2,8 +2,8 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normalizer-utils.service';
-import { Cpq } from './cpq.models';
-import { Configurator } from '../core/model/configurator.model';
+import { Cpq } from '../cpq.models';
+import { Configurator } from '../../core/model/configurator.model';
 import { LanguageService } from '@spartacus/core';
 
 const CURRENCY = 'USD';
