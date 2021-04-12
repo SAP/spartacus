@@ -123,8 +123,23 @@
       "@spartacus/tracking/tms/core": ["../../dist/tracking/tms/core"],
       "@spartacus/tracking/tms/gtm": ["../../dist/tracking/tms/gtm"],
       "@spartacus/tracking/tms": ["../../dist/tracking/tms"],
-      "@spartacus/cdc/components": ["../../dist/cdc/components"],
-      "@spartacus/cdc/core": ["../../dist/cdc/core"],
+      "@spartacus/user/account/assets": ["../../dist/user/account/assets"],
+      "@spartacus/user/account/components": [
+        "../../dist/user/account/components"
+      ],
+      "@spartacus/user/account/core": ["../../dist/user/account/core"],
+      "@spartacus/user/account": ["../../dist/user/account"],
+      "@spartacus/user/account/occ": ["../../dist/user/account/occ"],
+      "@spartacus/user/account/root": ["../../dist/user/account/root"],
+      "@spartacus/user": ["../../dist/user"],
+      "@spartacus/user/profile/assets": ["../../dist/user/profile/assets"],
+      "@spartacus/user/profile/components": [
+        "../../dist/user/profile/components"
+      ],
+      "@spartacus/user/profile/core": ["../../dist/user/profile/core"],
+      "@spartacus/user/profile": ["../../dist/user/profile"],
+      "@spartacus/user/profile/occ": ["../../dist/user/profile/occ"],
+      "@spartacus/user/profile/root": ["../../dist/user/profile/root"],
       "@spartacus/cdc": ["../../dist/cdc"],
       "@spartacus/cdc/root": ["../../dist/cdc/root"],
       "@spartacus/cds": ["../../dist/cds"],

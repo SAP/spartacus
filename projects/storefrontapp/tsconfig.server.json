@@ -168,10 +168,39 @@
         "../../feature-libs/tracking/tms/gtm/public_api"
       ],
       "@spartacus/tracking/tms": ["../../feature-libs/tracking/tms/public_api"],
-      "@spartacus/cdc/components": [
-        "../../integration-libs/cdc/components/public_api"
+      "@spartacus/user/account/assets": [
+        "../../feature-libs/user/account/assets/public_api"
       ],
-      "@spartacus/cdc/core": ["../../integration-libs/cdc/core/public_api"],
+      "@spartacus/user/account/components": [
+        "../../feature-libs/user/account/components/public_api"
+      ],
+      "@spartacus/user/account/core": [
+        "../../feature-libs/user/account/core/public_api"
+      ],
+      "@spartacus/user/account": ["../../feature-libs/user/account/public_api"],
+      "@spartacus/user/account/occ": [
+        "../../feature-libs/user/account/occ/public_api"
+      ],
+      "@spartacus/user/account/root": [
+        "../../feature-libs/user/account/root/public_api"
+      ],
+      "@spartacus/user": ["../../feature-libs/user/public_api"],
+      "@spartacus/user/profile/assets": [
+        "../../feature-libs/user/profile/assets/public_api"
+      ],
+      "@spartacus/user/profile/components": [
+        "../../feature-libs/user/profile/components/public_api"
+      ],
+      "@spartacus/user/profile/core": [
+        "../../feature-libs/user/profile/core/public_api"
+      ],
+      "@spartacus/user/profile": ["../../feature-libs/user/profile/public_api"],
+      "@spartacus/user/profile/occ": [
+        "../../feature-libs/user/profile/occ/public_api"
+      ],
+      "@spartacus/user/profile/root": [
+        "../../feature-libs/user/profile/root/public_api"
+      ],
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
       "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
