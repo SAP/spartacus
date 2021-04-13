@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { MARKER_ATTR_CPQ_CONFIGURATOR } from '../root/interceptor/cpq-configurator-rest.interceptor';
+import { MARKER_HEADER_CPQ_CONFIGURATOR } from '../root/interceptor/cpq-configurator-rest.interceptor';
 import { CpqConfiguratorEndpointConfig } from './cpq-configurator-endpoint.config';
 import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
 import { defaultCpqConfiguratorEndpointConfig } from './default-cpq-configurator-endpoint.config';
@@ -29,7 +29,9 @@ describe('CpqConfiguratorEndpointService', () => {
 
   it('should return CPQ Marker header attribute', () => {
     expect(
-      classUnderTest.CPQ_MARKER_HEADER.headers.has(MARKER_ATTR_CPQ_CONFIGURATOR)
+      classUnderTest.CPQ_MARKER_HEADER.headers.has(
+        MARKER_HEADER_CPQ_CONFIGURATOR
+      )
     ).toBe(true);
   });
 

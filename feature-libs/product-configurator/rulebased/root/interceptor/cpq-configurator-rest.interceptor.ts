@@ -18,7 +18,7 @@ import { CpqAccessStorageService } from './cpq-access-storage.service';
  * The presence of it enables this interceptor to actually intercept
  * this request and to decorate it with the authentication related attributes.
  */
-export const MARKER_ATTR_CPQ_CONFIGURATOR = 'x-cpq-configurator';
+export const MARKER_HEADER_CPQ_CONFIGURATOR = 'x-cpq-configurator';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +33,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!request.headers.has(MARKER_ATTR_CPQ_CONFIGURATOR)) {
+    if (!request.headers.has(MARKER_HEADER_CPQ_CONFIGURATOR)) {
       return next.handle(request);
     }
     return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(

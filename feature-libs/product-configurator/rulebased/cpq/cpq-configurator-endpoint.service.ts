@@ -1,7 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DynamicTemplate } from 'projects/core/src/config/utils/dynamic-template';
-import { MARKER_ATTR_CPQ_CONFIGURATOR } from '../root/interceptor/cpq-configurator-rest.interceptor';
+import { MARKER_HEADER_CPQ_CONFIGURATOR } from '../root/interceptor/cpq-configurator-rest.interceptor';
 import { CpqConfiguratorEndpointConfig } from './cpq-configurator-endpoint.config';
 
 @Injectable({ providedIn: 'root' })
@@ -13,7 +13,7 @@ export class CpqConfiguratorEndpointService {
    */
   readonly CPQ_MARKER_HEADER = {
     headers: new HttpHeaders({
-      [MARKER_ATTR_CPQ_CONFIGURATOR]: 'x',
+      [MARKER_HEADER_CPQ_CONFIGURATOR]: 'x',
     }),
   };
 
