@@ -45,7 +45,8 @@
     margin-bottom: 0;
     margin-inline-start: auto;
     padding: 2.375rem 0 1.75rem 0;
-    font-size: var(--cx-font-size, 1.375rem);
+    @include type('3');
+    font-weight: var(--cx-font-weight-normal);
   }
 
   .cx-checkout-body {

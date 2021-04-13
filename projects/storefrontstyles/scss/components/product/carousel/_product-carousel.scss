@@ -9,10 +9,9 @@
     color: var(--cx-color-text);
     outline: none;
     h3 {
-      font-size: 0.9rem;
+      @include type('8');
       height: auto;
       min-height: 30px;
-      font-weight: bold;
       margin-top: 5px;
     }
     &:hover,

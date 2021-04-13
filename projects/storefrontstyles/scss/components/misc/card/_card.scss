@@ -12,7 +12,8 @@
   }
 
   .cx-card-title {
-    font-size: var(--cx-font-size, 1.125rem);
+    @include type('4');
+    font-weight: var(--cx-font-weight-normal);
   }
 
   .cx-card-paragraph {
