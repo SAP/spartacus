@@ -24,18 +24,19 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { DeleteSavedCartEvent } from '../events/saved-cart.events';
 import { SavedCartActions } from '../store/actions/index';
 import {
   SAVED_CART_LIST_PROCESS_ID,
   SAVED_CART_RESTORE_CART_PROCESS_ID,
   SAVED_CART_SAVE_CART_PROCESS_ID,
 } from '../store/saved-cart-constants';
+import {
+  SavedCartFacade,
+  DeleteSavedCartEvent,
+} from '@spartacus/cart/saved-cart/root';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class SavedCartService {
+@Injectable()
+export class SavedCartService implements SavedCartFacade {
   constructor(
     protected store: Store<StateWithMultiCart | StateWithProcess<void>>,
     protected userIdService: UserIdService,
