@@ -4,13 +4,13 @@ import { ConverterService } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
-import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
   CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
 } from './converters/cpq-configurator.converters';
+import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
 import { Cpq } from './cpq.models';
 
 @Injectable({ providedIn: 'root' })
@@ -226,7 +226,7 @@ export class CpqConfiguratorRestService {
       {
         Quantity: updateValue.quantity,
       },
-      this.endpointService.cpqHeaders
+      this.endpointService.CPQ_MARKER_HEADER
     );
   }
 
@@ -238,7 +238,7 @@ export class CpqConfiguratorRestService {
       {
         ProductSystemId: productSystemId,
       },
-      this.endpointService.cpqHeaders
+      this.endpointService.CPQ_MARKER_HEADER
     );
   }
 
@@ -252,7 +252,7 @@ export class CpqConfiguratorRestService {
         { configId: configId },
         tabId ? [{ name: 'tabId', value: tabId }] : undefined
       ),
-      this.endpointService.cpqHeaders
+      this.endpointService.CPQ_MARKER_HEADER
     );
   }
 
@@ -265,7 +265,7 @@ export class CpqConfiguratorRestService {
         attributeCode: updateAttribute.standardAttributeCode,
       }),
       updateAttribute.changeAttributeValue,
-      this.endpointService.cpqHeaders
+      this.endpointService.CPQ_MARKER_HEADER
     );
   }
 }

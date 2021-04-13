@@ -13,7 +13,12 @@ import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessStorageService } from './cpq-access-storage.service';
 
-export const HEADER_ATTR_CPQ_CONFIGURATOR = 'x-cpq-configurator';
+/**
+ * This header attribute shall be used to mark any request made to the CPQ System.
+ * The presence of it enables this interceptor to actually intercept
+ * this request and to decorate it with the authentication related attributes.
+ */
+export const MARKER_ATTR_CPQ_CONFIGURATOR = 'x-cpq-configurator';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +26,6 @@ export const HEADER_ATTR_CPQ_CONFIGURATOR = 'x-cpq-configurator';
 export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
   protected readonly HEADER_ATTR_CPQ_SESSION_ID = 'x-cpq-session-id';
   protected readonly HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
-  protected readonly HEADER_ATTR_CPQ_CONFIGURATOR = HEADER_ATTR_CPQ_CONFIGURATOR;
 
   constructor(protected cpqAccessStorageService: CpqAccessStorageService) {}
 
@@ -29,7 +33,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!request.headers.has(this.HEADER_ATTR_CPQ_CONFIGURATOR)) {
+    if (!request.headers.has(MARKER_ATTR_CPQ_CONFIGURATOR)) {
       return next.handle(request);
     }
     return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(

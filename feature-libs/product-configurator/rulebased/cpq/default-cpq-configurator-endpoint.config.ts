@@ -4,14 +4,14 @@ export const defaultCpqConfiguratorEndpointConfig: CpqConfiguratorEndpointConfig
   backend: {
     cpq: {
       endpoints: {
-        configurationInit: '/configurations',
-        configurationDisplay: '/configurations/${configId}/display',
+        configurationInit: 'configurations',
+        configurationDisplay: 'configurations/${configId}/display',
         attributeUpdate:
-          '/configurations/${configId}/attributes/${attributeCode}',
+          'configurations/${configId}/attributes/${attributeCode}',
         valueUpdate:
-          '/configurations/${configId}/attributes/${attributeCode}/attributeValues/${valueCode}',
+          'configurations/${configId}/attributes/${attributeCode}/attributeValues/${valueCode}',
       },
-      prefix: '/api/configuration/v1',
+      prefix: '/api/configuration/v1/',
     },
   },
 };

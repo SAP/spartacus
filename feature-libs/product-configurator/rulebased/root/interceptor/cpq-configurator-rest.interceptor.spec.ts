@@ -14,7 +14,7 @@ import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessStorageService } from './cpq-access-storage.service';
 import {
   CpqConfiguratorRestInterceptor,
-  HEADER_ATTR_CPQ_CONFIGURATOR,
+  MARKER_ATTR_CPQ_CONFIGURATOR,
 } from './cpq-configurator-rest.interceptor';
 
 describe('CpqConfiguratorRestInterceptor', () => {
@@ -29,7 +29,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
   );
 
   const cpqRequest: HttpRequest<any> = new HttpRequest('GET', `/api/whatever`, {
-    headers: new HttpHeaders({ [HEADER_ATTR_CPQ_CONFIGURATOR]: 'x' }),
+    headers: new HttpHeaders({ [MARKER_ATTR_CPQ_CONFIGURATOR]: 'x' }),
   });
 
   const responseWithoutSessionId = new HttpResponse({
