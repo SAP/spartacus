@@ -31,6 +31,7 @@ export function savedCartFacadeFactory() {
       'restoreSavedCart',
       'saveCart',
     ],
+    async: true,
   });
 }
 
