@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { QuickOrderFormModule } from '../form/quick-order-form.module';
 import { QuickOrderComponent } from './quick-order-container.component';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, I18nModule, QuickOrderFormModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
