@@ -93,6 +93,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     return value;
   };
 
+  let values: Configurator.Value[];
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -124,7 +126,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   );
 
   beforeEach(() => {
-    const values: Configurator.Value[] = [
+    values = [
       createValue(
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
         [createImage('url', 'alt')],
@@ -258,21 +260,13 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
 
   it('should call onHandleQuantity of event onChangeQuantity', () => {
     spyOn(component, 'onHandleQuantity');
-
-    const quantity = { quantity: 2 };
-
-    component.onChangeQuantity(quantity);
-
+    component.onChangeQuantity(2);
     expect(component.onHandleQuantity).toHaveBeenCalled();
   });
 
   it('should call onDeselect of event onChangeQuantity', () => {
     spyOn(component, 'onDeselect');
-
-    const quantity = { quantity: 0 };
-
-    component.onChangeQuantity(quantity);
-
+    component.onChangeQuantity(0);
     expect(component.onDeselect).toHaveBeenCalled();
   });
 
@@ -412,21 +406,39 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   describe('extractQuantityParameters', () => {
     it('should return 0 as initial if no selected value is specified  ', () => {
       const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity?.quantity).toBe(0);
+      expect(quantityParameters.initialQuantity).toBe(0);
     });
 
     it('should return 0 as initial if a selected value but no attribute quantity is specified', () => {
       component.attribute.selectedSingleValue = selectedValue;
       const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity?.quantity).toBe(0);
+      expect(quantityParameters.initialQuantity).toBe(0);
     });
 
     it('should return attribute quantity as initial if a selected value is specified', () => {
       component.attribute.selectedSingleValue = selectedValue;
       component.attribute.quantity = attributeQuantity;
       const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity?.quantity).toBe(
-        attributeQuantity
+      expect(quantityParameters.initialQuantity).toBe(attributeQuantity);
+    });
+  });
+
+  describe('getFcousIdOfNearestValue', () => {
+    it('should find second value when first is provided', () => {
+      expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
+        '1111--2222--focus'
+      );
+    });
+
+    it('should find first value when second is provided', () => {
+      expect(component['getFocusIdOfNearestValue'](values[1])).toBe(
+        '1111--1111--focus'
+      );
+    });
+    it('should find first value when there is only one value', () => {
+      component.attribute.values = [values[0]];
+      expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
+        '1111--1111--focus'
       );
     });
   });

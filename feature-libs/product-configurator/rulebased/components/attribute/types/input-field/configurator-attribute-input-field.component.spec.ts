@@ -10,10 +10,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../../core/model/configurator.model';
-import {
-  ConfiguratorUISettings,
-  DefaultConfiguratorUISettings,
-} from '../../../config/configurator-ui-settings';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribute-input-field.component';
 
 describe('ConfigAttributeInputFieldComponent', () => {
@@ -32,8 +30,8 @@ describe('ConfigAttributeInputFieldComponent', () => {
         imports: [ReactiveFormsModule],
         providers: [
           {
-            provide: ConfiguratorUISettings,
-            useValue: DefaultConfiguratorUISettings,
+            provide: ConfiguratorUISettingsConfig,
+            useValue: defaultConfiguratorUISettingsConfig,
           },
         ],
       })
@@ -62,8 +60,8 @@ describe('ConfigAttributeInputFieldComponent', () => {
     fixture.detectChanges();
     spyOn(component.inputChange, 'emit');
     DEBOUNCE_TIME =
-      DefaultConfiguratorUISettings.rulebasedConfigurator.inputDebounceTime ??
-      component['FALLBACK_DEBOUNCE_TIME'];
+      defaultConfiguratorUISettingsConfig.productConfigurator?.debounceTime
+        ?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
   });
 
   it('should create', () => {

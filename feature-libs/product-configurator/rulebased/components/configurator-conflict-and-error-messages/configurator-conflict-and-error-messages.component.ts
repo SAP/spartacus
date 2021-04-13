@@ -3,8 +3,8 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { IconModule } from '@spartacus/storefront';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-configuration-conflict-and-error-messages',
@@ -12,7 +12,7 @@ import { ConfiguratorRouterExtractorService } from '@spartacus/product-configura
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorConflictAndErrorMessagesComponent {
-  iconTypes = IconModule;
+  iconTypes = ICON_TYPE;
   configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(

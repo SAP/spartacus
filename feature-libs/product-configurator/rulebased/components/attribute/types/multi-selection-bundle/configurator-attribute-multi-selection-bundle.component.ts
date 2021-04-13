@@ -12,18 +12,15 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
-import {
-  ConfiguratorAttributeQuantityComponentOptions,
-  Quantity,
-} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 interface SelectionValue {
-  name: string | undefined;
-  quantity: number | undefined;
-  selected: boolean | undefined;
-  valueCode: string | undefined;
+  name?: string;
+  quantity?: number;
+  selected?: boolean;
+  valueCode?: string;
 }
 
 @Component({
@@ -221,10 +218,10 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   onChangeAttributeQuantity(eventObject: any): void {
     this.loading$.next(true);
 
-    if (!eventObject.quantity) {
+    if (!eventObject) {
       this.onDeselectAll();
     } else {
-      this.onHandleAttributeQuantity(eventObject.quantity);
+      this.onHandleAttributeQuantity(eventObject);
     }
   }
 
@@ -273,14 +270,10 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    const initialQuantity: Quantity = {
-      quantity: this.attribute?.quantity ?? 0,
-    };
-
     return {
       allowZero: !this.attribute.required,
-      initialQuantity: initialQuantity,
-      disableQuantityActions: this.loading$.pipe(
+      initialQuantity: this.attribute?.quantity ?? 0,
+      disableQuantityActions$: this.loading$.pipe(
         map((loading) => {
           return loading || this.disableQuantityActions;
         })

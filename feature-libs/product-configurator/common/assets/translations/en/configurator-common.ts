@@ -15,6 +15,10 @@ export const configurator = {
       items_plural: '{{count}} items',
       show: 'show',
       hide: 'hide',
+      multipleWarnings: 'There are multiple warnings.',
+      reviewWarnings: 'Review these warnings',
+      multipleErrors: 'There are multiple errors.',
+      reviewErrors: 'Review these errors',
     },
     tabBar: {
       configuration: 'Configuration',

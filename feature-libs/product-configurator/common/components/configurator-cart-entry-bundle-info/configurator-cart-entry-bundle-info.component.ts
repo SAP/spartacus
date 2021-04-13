@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import {
@@ -15,6 +15,7 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(
@@ -34,13 +35,17 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   readonly readonly$: Observable<boolean> =
     this.cartItemContext?.readonly$ ?? EMPTY;
 
-  numberOfLineItems$: Observable<number> = this.orderEntry$.pipe(
+  hideItems = true;
+
+  lineItems$: Observable<LineItem[]> = this.orderEntry$.pipe(
     map((entry) =>
-      this.configCartEntryBundleInfoService.retrieveNumberOfLineItems(entry)
+      this.configCartEntryBundleInfoService.retrieveLineItems(entry)
     )
   );
 
-  hideItems = true;
+  numberOfLineItems$: Observable<number> = this.lineItems$.pipe(
+    map((items) => items.length)
+  );
 
   /**
    * Toggles the state of the items list.
@@ -50,20 +55,10 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   }
 
   /**
-   * Retrieves the line items for an order entry.
-   *
-   * @param {OrderEntry} entry - Order entry
-   * @returns {LineItem[]} - Array of line items
-   */
-  retrieveLineItems(entry: OrderEntry): LineItem[] {
-    return this.configCartEntryBundleInfoService.retrieveLineItems(entry);
-  }
-
-  /**
    * Verifies whether the configurator type is a bundle based one.
    *
    * @param {OrderEntry} entry - Order entry
-   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'false'
+   * @returns {boolean} - 'true' if the expected configurator type, otherwise 'false'
    */
   isBundleBasedConfigurator(entry: OrderEntry): boolean {
     const configInfos = entry.configurationInfos;

@@ -8,7 +8,7 @@
         class="cx-warning-text"
         *ngIf="configuration?.warningMessages?.length > 1"
       >
-        There are multiple warnings.</span
+        {{ 'configurator.header.multipleWarnings' | cxTranslate }}</span
       >
       <a
         role="link"
@@ -17,7 +17,7 @@
         *ngIf="configuration?.warningMessages?.length > 1"
         class="cx-warning-toggle"
       >
-        Review these warnings
+        {{ 'configurator.header.reviewWarnings' | cxTranslate }}
 
         <ng-container *ngIf="!showWarnings">
           <cx-icon type="CARET_DOWN"></cx-icon>
@@ -52,7 +52,7 @@
         class="cx-error-text"
         *ngIf="configuration?.errorMessages?.length > 1"
       >
-        There are multiple errors.</span
+        {{ 'configurator.header.multipleErrors' | cxTranslate }}</span
       >
       <a
         role="link"
@@ -61,7 +61,7 @@
         *ngIf="configuration?.errorMessages?.length > 1"
         class="cx-error-toggle"
       >
-        Review these errors
+        {{ 'configurator.header.reviewErrors' | cxTranslate }}
         <ng-container *ngIf="!showErrors">
           <cx-icon type="CARET_DOWN"></cx-icon>
         </ng-container>

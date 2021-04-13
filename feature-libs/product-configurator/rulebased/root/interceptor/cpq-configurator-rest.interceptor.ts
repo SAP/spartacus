@@ -9,12 +9,8 @@ import {
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, take, tap } from 'rxjs/operators';
-
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessStorageService } from './cpq-access-storage.service';
-
-const HEADER_ATTR_CPQ_SESSION_ID = 'x-cpq-session-id';
-const HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
 
 export const CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT =
   'cpq-configurator-virtual-enpoint';
@@ -23,6 +19,9 @@ export const CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT =
   providedIn: 'root',
 })
 export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
+  protected readonly HEADER_ATTR_CPQ_SESSION_ID = 'x-cpq-session-id';
+  protected readonly HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
+
   constructor(protected cpqAccessStorageService: CpqAccessStorageService) {}
 
   intercept(
@@ -39,7 +38,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
           catchError((errorResponse: any) => {
             return this.handleError(errorResponse, next, request);
           }),
-          tap((response) => this.extractCpqSessionId(response, cpqData))
+          tap((response) => this.extractCpqSessionId(response))
         );
       })
     );
@@ -49,14 +48,16 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     errorResponse: any,
     next: HttpHandler,
     request: HttpRequest<any>
-  ) {
+  ): Observable<HttpEvent<any>> {
     if (errorResponse instanceof HttpErrorResponse) {
       if (errorResponse.status === 403) {
         this.cpqAccessStorageService.renewCachedCpqAccessData();
         return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
           take(1),
           switchMap((newCpqData) => {
-            return next.handle(this.enrichHeaders(request, newCpqData));
+            return next
+              .handle(this.enrichHeaders(request, newCpqData))
+              .pipe(tap((response) => this.extractCpqSessionId(response)));
           })
         );
       }
@@ -64,16 +65,15 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     return throwError(errorResponse); //propagate error
   }
 
-  protected extractCpqSessionId(
-    response: HttpEvent<any>,
-    cpqData: CpqAccessData
-  ) {
+  protected extractCpqSessionId(response: HttpEvent<any>) {
     if (
       response instanceof HttpResponse ||
       response instanceof HttpErrorResponse
     ) {
-      if (response.headers.has(HEADER_ATTR_CPQ_SESSION_ID)) {
-        cpqData.cpqSessionId = response.headers.get(HEADER_ATTR_CPQ_SESSION_ID);
+      if (response.headers.has(this.HEADER_ATTR_CPQ_SESSION_ID)) {
+        this.cpqAccessStorageService.cpqSessionId = response.headers.get(
+          this.HEADER_ATTR_CPQ_SESSION_ID
+        );
       }
     }
   }
@@ -89,13 +89,14 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
       ),
       setHeaders: {
         Authorization: 'Bearer ' + cpqData.accessToken,
-        [HEADER_ATTR_CPQ_NO_COOKIES]: 'true',
+        [this.HEADER_ATTR_CPQ_NO_COOKIES]: 'true',
       },
     });
-    if (cpqData.cpqSessionId) {
+    if (this.cpqAccessStorageService.cpqSessionId) {
       newRequest = newRequest.clone({
         setHeaders: {
-          [HEADER_ATTR_CPQ_SESSION_ID]: cpqData.cpqSessionId,
+          [this.HEADER_ATTR_CPQ_SESSION_ID]: this.cpqAccessStorageService
+            .cpqSessionId,
         },
       });
     }

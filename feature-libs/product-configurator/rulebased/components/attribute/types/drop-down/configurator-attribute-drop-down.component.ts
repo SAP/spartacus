@@ -11,10 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import {
-  ConfiguratorAttributeQuantityComponentOptions,
-  Quantity,
-} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
@@ -89,7 +86,7 @@ export class ConfiguratorAttributeDropDownComponent
     this.selectionChange.emit(event);
   }
 
-  onHandleQuantity(quantity): void {
+  onHandleQuantity(quantity: number): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
@@ -104,33 +101,30 @@ export class ConfiguratorAttributeDropDownComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject): void {
-    if (!eventObject.quantity) {
+  onChangeQuantity(eventObject: any): void {
+    if (!eventObject) {
       this.attributeDropDownForm.setValue('');
       this.onSelect();
     } else {
-      this.onHandleQuantity(eventObject.quantity);
+      this.onHandleQuantity(eventObject);
     }
   }
 
   /**
    *  Extract corresponding quantity parameters
    *
-   * @param {boolean} disableQuantityActions - Disable quantity actions
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    const initialQuantity: Quantity = {
-      quantity:
-        this.attributeDropDownForm.value !== '0'
-          ? this.attribute.quantity ?? 0
-          : 0,
-    };
+    const initialQuantity =
+      this.attributeDropDownForm.value !== '0'
+        ? this.attribute.quantity ?? 0
+        : 0;
 
     return {
       allowZero: !this.attribute.required,
       initialQuantity: initialQuantity,
-      disableQuantityActions: this.loading$.pipe(
+      disableQuantityActions$: this.loading$.pipe(
         map((loading) => {
           return loading || this.disableQuantityActions;
         })

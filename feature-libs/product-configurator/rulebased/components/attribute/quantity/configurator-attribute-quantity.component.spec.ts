@@ -11,17 +11,16 @@ import { FormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ConfiguratorUISettings } from '../../config/configurator-ui-settings';
-import {
-  ConfiguratorAttributeQuantityComponent,
-  Quantity,
-} from './configurator-attribute-quantity.component';
+import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
+import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
 
 const fakeDebounceTime = 750;
 const changedQty = 9;
-const TestConfiguratorUISettings: ConfiguratorUISettings = {
-  rulebasedConfigurator: {
-    quantityDebounceTime: fakeDebounceTime,
+const TestConfiguratorUISettings: ConfiguratorUISettingsConfig = {
+  productConfigurator: {
+    debounceTime: {
+      quantity: fakeDebounceTime,
+    },
   },
 };
 
@@ -37,13 +36,11 @@ function initializeWithObs(disableObs: Observable<boolean>) {
 
   component = fixture.componentInstance;
   component.quantity = new FormControl(1);
-  const initialQuantity: Quantity = {
-    quantity: 1,
-  };
+
   component.quantityOptions = {
     allowZero: true,
-    initialQuantity: initialQuantity,
-    disableQuantityActions: disableObs,
+    initialQuantity: 1,
+    disableQuantityActions$: disableObs,
   };
   spyOn(component.changeQuantity, 'emit').and.callThrough();
   fixture.detectChanges();
@@ -60,7 +57,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
         imports: [I18nTestingModule],
         providers: [
           {
-            provide: ConfiguratorUISettings,
+            provide: ConfiguratorUISettingsConfig,
             useValue: TestConfiguratorUISettings,
           },
         ],

@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform, Type } from '@angular/core';
+import { ChangeDetectorRef, Pipe, PipeTransform, Type } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, FormControl } from '@angular/forms';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
@@ -7,6 +7,7 @@ import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService, CartItemContext } from '@spartacus/storefront';
 import { of, ReplaySubject } from 'rxjs';
@@ -32,19 +33,19 @@ const configurationInfos: ConfigurationInfo[] = [
   {
     configurationLabel: 'Canon ABC',
     configurationValue: '5 x $1,000.00',
-    configuratorType: 'CLOUDCPQCONFIGURATOR',
+    configuratorType: ConfiguratorType.CPQ,
     status: 'SUCCESS',
   },
   {
     configurationLabel: 'Canon DEF',
     configurationValue: '10',
-    configuratorType: 'CLOUDCPQCONFIGURATOR',
+    configuratorType: ConfiguratorType.CPQ,
     status: 'SUCCESS',
   },
   {
     configurationLabel: 'Canon HJZ',
     configurationValue: '$1,000.00',
-    configuratorType: 'CLOUDCPQCONFIGURATOR',
+    configuratorType: ConfiguratorType.CPQ,
     status: 'SUCCESS',
   },
 ];
@@ -56,6 +57,7 @@ const entry: OrderEntry = {
 describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   let component: ConfiguratorCartEntryBundleInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
+  let changeDetectorRef: ChangeDetectorRef;
   let htmlElem: HTMLElement;
   let mockCartItemContext: MockCartItemContext;
   let commonConfigUtilsService: CommonConfiguratorUtilsService;
@@ -89,19 +91,15 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     ).and.callThrough();
     spyOn(
       configCartEntryBundleInfoService,
-      'retrieveNumberOfLineItems'
-    ).and.callThrough();
-    spyOn(
-      configCartEntryBundleInfoService,
       'retrieveLineItems'
     ).and.callThrough();
 
     breakpointService = TestBed.inject(
       BreakpointService as Type<BreakpointService>
     );
-    //spyOn(breakpointService, 'isUp').and.returnValue(of(true));
 
     fixture = TestBed.createComponent(ConfiguratorCartEntryBundleInfoComponent);
+    changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
@@ -170,7 +168,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           {
             configurationLabel: 'Color',
             configurationValue: 'Blue',
-            configuratorType: 'CLOUDCPQCONFIGURATOR',
+            configuratorType: ConfiguratorType.CPQ,
             status: 'SUCCESS',
           },
         ],
@@ -192,7 +190,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           {
             configurationLabel: 'Pricing',
             configurationValue: 'could not be carried out',
-            configuratorType: 'CLOUDCPQCONFIGURATOR',
+            configuratorType: ConfiguratorType.CPQ,
             status: 'WARNING',
           },
         ],
@@ -218,19 +216,6 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
   });
 
-  describe('retrieveLineItems', () => {
-    it('should return empty list of line items', () => {
-      const emptyEntry: OrderEntry = {
-        configurationInfos: [],
-      };
-      expect(component.retrieveLineItems(emptyEntry)?.length).toBe(0);
-    });
-
-    it('should return a list of line items that contains one line item', () => {
-      expect(component.retrieveLineItems(entry)?.length).toBe(3);
-    });
-  });
-
   describe('isBundleBasedConfigurator', () => {
     it('should return false because the configurator type is not bundle based one', () => {
       entry.configurationInfos[0].configuratorType =
@@ -240,7 +225,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     it('should return true because the configurator type is a bundle based one', () => {
-      entry.configurationInfos[0].configuratorType = 'CLOUDCPQCONFIGURATOR';
+      entry.configurationInfos[0].configuratorType = ConfiguratorType.CPQ;
       fixture.detectChanges();
       expect(component.isBundleBasedConfigurator(entry)).toBe(true);
     });
@@ -375,7 +360,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
         expect(component.hideItems).toBe(true);
         component.toggleItems();
-        fixture.detectChanges();
+        changeDetectorRef.detectChanges();
         expect(component.hideItems).toBe(false);
 
         CommonConfiguratorTestUtilsService.expectElementToContainText(
@@ -403,7 +388,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             {
               configurationLabel: 'Canon ABC',
               configurationValue: '5 x $1,000.00',
-              configuratorType: 'CLOUDCPQCONFIGURATOR',
+              configuratorType: ConfiguratorType.CPQ,
               status: 'SUCCESS',
             },
           ],
@@ -544,7 +529,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
             {
               configurationLabel: 'Canon ABC',
               configurationValue: '10',
-              configuratorType: 'CLOUDCPQCONFIGURATOR',
+              configuratorType: ConfiguratorType.CPQ,
               status: 'SUCCESS',
             },
           ],

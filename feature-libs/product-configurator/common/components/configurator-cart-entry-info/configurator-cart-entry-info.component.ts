@@ -11,10 +11,28 @@ import { map } from 'rxjs/operators';
   templateUrl: './configurator-cart-entry-info.component.html',
 })
 export class ConfiguratorCartEntryInfoComponent {
+  // TODO(#11681): make commonConfigUtilsService a required dependency and remove deprecated constructor
+  /**
+   * Default constructor
+   *
+   * @param {CartItemContext} cartItemContext
+   * @param {CommonConfiguratorUtilsService} commonConfigUtilsService
+   */
   constructor(
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
+    cartItemContext: CartItemContext,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    commonConfigUtilsService: CommonConfiguratorUtilsService
+  );
+  /**
+   * @deprecated since 3.3
+   */
+  constructor(cartItemContext: CartItemContext);
+
+  constructor(
     // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
-    @Optional() protected cartItemContext?: CartItemContext
+    @Optional() protected cartItemContext?: CartItemContext,
+    @Optional()
+    protected commonConfigUtilsService?: CommonConfiguratorUtilsService
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
@@ -62,7 +80,7 @@ export class ConfiguratorCartEntryInfoComponent {
   isAttributeBasedConfigurator(item: OrderEntry): boolean {
     const configurationInfos = item.configurationInfos;
     return configurationInfos
-      ? this.commonConfigUtilsService.isAttributeBasedConfigurator(
+      ? this.commonConfigUtilsService?.isAttributeBasedConfigurator(
           configurationInfos[0]?.configuratorType
         )
       : false;

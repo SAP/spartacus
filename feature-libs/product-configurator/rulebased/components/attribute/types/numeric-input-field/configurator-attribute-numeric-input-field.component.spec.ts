@@ -10,10 +10,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { Configurator } from '../../../../core/model/configurator.model';
-import {
-  ConfiguratorUISettings,
-  DefaultConfiguratorUISettings,
-} from '../../../config/configurator-ui-settings';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
+import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 
 @Pipe({
@@ -63,8 +61,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         providers: [
           { provide: LanguageService, useValue: mockLanguageService },
           {
-            provide: ConfiguratorUISettings,
-            useValue: DefaultConfiguratorUISettings,
+            provide: ConfiguratorUISettingsConfig,
+            useValue: defaultConfiguratorUISettingsConfig,
           },
         ],
       })
@@ -95,8 +93,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     htmlElem = fixture.nativeElement;
     spyOn(component.inputChange, 'emit');
     DEBOUNCE_TIME =
-      DefaultConfiguratorUISettings.rulebasedConfigurator.inputDebounceTime ??
-      component['FALLBACK_DEBOUNCE_TIME'];
+      defaultConfiguratorUISettingsConfig.productConfigurator?.debounceTime
+        ?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
   });
 
   function checkForValidity(

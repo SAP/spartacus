@@ -8,15 +8,11 @@ export interface CpqAccessData {
    */
   accessToken?: string;
   /**
-   * Token expiration time in milli seconds
+   * Token expiration time in milliseconds
    */
   accessTokenExpirationTime?: number;
   /**
    * CPQ endpoint url
    */
   endpoint?: string;
-  /**
-   * CPQ endpoint url
-   */
-  cpqSessionId?: string;
 }

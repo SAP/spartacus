@@ -30,31 +30,21 @@ export class ConfiguratorPriceComponent {
   }
 
   /**
-   * Verifies whether quantity with price should be displayed.
-   *
-   * @return {boolean} - 'true' if quantity and price should be displayed, otherwise 'false'
-   */
-  displayQuantityAndPrice(): boolean {
-    return this.formula?.price?.value !== 0 && this.formula?.quantity >= 1;
-  }
-
-  /**
-   * Retrieves formula for quantity with price.
-   *
-   * @param {string} formattedQuantity- formatted quantity
-   * @return {string} - price formula
-   */
-  quantityWithPrice(formattedQuantity: string): string {
-    return formattedQuantity + 'x(' + this.formula?.price?.formattedValue + ')';
-  }
-
-  /**
    * Retrieves the total price.
    *
    * @return {string} - total price formula
    */
   get priceTotal(): string {
     return '+ ' + this.formula?.priceTotal?.formattedValue;
+  }
+
+  /**
+   * Verifies whether quantity with price should be displayed.
+   *
+   * @return {boolean} - 'true' if quantity and price should be displayed, otherwise 'false'
+   */
+  displayQuantityAndPrice(): boolean {
+    return this.formula?.price?.value !== 0 && this.formula?.quantity >= 1;
   }
 
   /**
@@ -67,6 +57,29 @@ export class ConfiguratorPriceComponent {
       (this.formula?.price?.value || this.formula?.priceTotal?.value) &&
       !this.displayQuantityAndPrice()
     );
+  }
+
+  /**
+   * Verifies whether the price formula should be displayed.
+   *
+   * @return {boolean} - 'true' if price formula should be displayed, otherwise 'false'
+   */
+  displayFormula(): boolean {
+    return (
+      (this.formula?.quantity && this.formula?.quantity !== 0) ||
+      (this.formula?.price && this.formula?.price?.value !== 0) ||
+      (this.formula?.priceTotal && this.formula?.priceTotal?.value !== 0)
+    );
+  }
+
+  /**
+   * Retrieves formula for quantity with price.
+   *
+   * @param {string} formattedQuantity- formatted quantity
+   * @return {string} - price formula
+   */
+  quantityWithPrice(formattedQuantity: string): string {
+    return formattedQuantity + 'x(' + this.formula?.price?.formattedValue + ')';
   }
 
   /**
@@ -90,18 +103,5 @@ export class ConfiguratorPriceComponent {
     }
 
     return styleClass;
-  }
-
-  /**
-   * Verifies whether the price formula should be displayed.
-   *
-   * @return {boolean} - 'true' if price formula should be displayed, otherwise 'false'
-   */
-  displayFormula(): boolean {
-    return (
-      (this.formula?.quantity && this.formula?.quantity !== 0) ||
-      (this.formula?.price && this.formula?.price?.value !== 0) ||
-      (this.formula?.priceTotal && this.formula?.priceTotal?.value !== 0)
-    );
   }
 }

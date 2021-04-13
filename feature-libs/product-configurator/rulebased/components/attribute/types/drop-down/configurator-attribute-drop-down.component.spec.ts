@@ -112,27 +112,18 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   it('should call onHandleQuantity of event onChangeQuantity', () => {
     spyOn(component, 'onHandleQuantity');
-
-    const quantity = { quantity: 2 };
-
-    component.onChangeQuantity(quantity);
-
+    component.onChangeQuantity(2);
     expect(component.onHandleQuantity).toHaveBeenCalled();
   });
 
   it('should call onSelect of event onChangeQuantity', () => {
     spyOn(component, 'onSelect');
-
-    const quantity = { quantity: 0 };
-
-    component.onChangeQuantity(quantity);
-
+    component.onChangeQuantity(0);
     expect(component.onSelect).toHaveBeenCalled();
   });
 
   it('should not display attribute quantity when dataType is no quantity', () => {
     component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
-
     fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -154,6 +145,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     expect(component.withQuantity).toBe(true);
   });
 
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
   it('should not allow quantity when service is missing ', () => {
     component['quantityService'] = undefined;
     expect(component.withQuantity).toBe(false);
@@ -163,6 +155,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     expect(component.disableQuantityActions).toBe(false);
   });
 
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
   it('should not allow quantity actions when service is missing ', () => {
     component['quantityService'] = undefined;
     expect(component.disableQuantityActions).toBe(true);

@@ -143,20 +143,13 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   it('should call onHandleQuantity of event onChangeQuantity', () => {
-    const quantity = { quantity: 2 };
-
-    component.onChangeQuantity(quantity);
-
+    component.onChangeQuantity(2);
     expect(component.onHandleQuantity).toHaveBeenCalled();
   });
 
   it('should call onDeselect of event onChangeQuantity', () => {
     spyOn(component, 'onDeselect');
-
-    const quantity = { quantity: 0 };
-
-    component.onChangeQuantity(quantity);
-
+    component.onChangeQuantity(0);
     expect(component.onDeselect).toHaveBeenCalled();
   });
 
@@ -164,6 +157,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     expect(component.withQuantity).toBe(true);
   });
 
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
   it('should not allow quantity when service is missing ', () => {
     component['quantityService'] = undefined;
     expect(component.withQuantity).toBe(false);
@@ -173,6 +167,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     expect(component.disableQuantityActions).toBe(false);
   });
 
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
   it('should not allow quantity actions when service is missing ', () => {
     component['quantityService'] = undefined;
     expect(component.disableQuantityActions).toBe(true);

@@ -10,16 +10,12 @@ import {
 import { FormControl } from '@angular/forms';
 import { Observable, Subscription, timer } from 'rxjs';
 import { debounce, distinct, take } from 'rxjs/operators';
-import { ConfiguratorUISettings } from '../../config/configurator-ui-settings';
-
-export interface Quantity {
-  quantity: number;
-}
+import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 
 export interface ConfiguratorAttributeQuantityComponentOptions {
   allowZero?: boolean;
-  initialQuantity?: Quantity;
-  disableQuantityActions?: Observable<boolean>;
+  initialQuantity?: number;
+  disableQuantityActions$?: Observable<boolean>;
 }
 
 @Component({
@@ -33,18 +29,18 @@ export class ConfiguratorAttributeQuantityComponent
   optionsChangeSub: Subscription = new Subscription();
   quantityChangeSub: Subscription = new Subscription();
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-  @Output() changeQuantity = new EventEmitter<Quantity>();
+  @Output() changeQuantity = new EventEmitter<number>();
 
-  constructor(protected config: ConfiguratorUISettings) {}
+  constructor(protected config: ConfiguratorUISettingsConfig) {}
 
   ngOnInit(): void {
-    this.quantity.setValue(this.quantityOptions?.initialQuantity?.quantity);
+    this.quantity.setValue(this.quantityOptions?.initialQuantity);
     this.optionsChangeSub.add(
-      this.quantityOptions.disableQuantityActions
+      this.quantityOptions.disableQuantityActions$
         ?.pipe(distinct())
         .subscribe((disable) => {
           // stepper always emits an value when it gets enabled regardless, if the original value was changed.
-          // so we subscribe to quantity change when stepper gets enabled and unsubscribe when it gets disbaled
+          // so we subscribe to quantity change when stepper gets enabled and unsubscribe when it gets disabled
           // this way we will not get the unwanted emission on enabling the stepper.
           if (disable) {
             this.quantity.disable();
@@ -61,7 +57,7 @@ export class ConfiguratorAttributeQuantityComponent
     return this.quantity.valueChanges
       .pipe(
         debounce(() =>
-          timer(this.config?.rulebasedConfigurator?.quantityDebounceTime)
+          timer(this.config?.productConfigurator?.debounceTime?.quantity)
         ),
         take(1)
       )
@@ -74,8 +70,6 @@ export class ConfiguratorAttributeQuantityComponent
   }
 
   onChangeQuantity(): void {
-    this.changeQuantity.emit({
-      quantity: this.quantity?.value,
-    });
+    this.changeQuantity.emit(this.quantity?.value);
   }
 }

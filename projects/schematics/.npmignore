@@ -8,3 +8,4 @@ jest.ts
 jest.schematics.config.js
 tsconfig.schematics.json
 src/migrations/test/**/*
+.eslintrc.json
