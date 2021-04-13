@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
-  selector: 'cx-quick-order-list',
-  templateUrl: './quick-order-list.component.html',
+  selector: 'cx-quick-order-container',
+  templateUrl: './quick-order-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickOrderListComponent {}
+export class QuickOrderComponent {}
