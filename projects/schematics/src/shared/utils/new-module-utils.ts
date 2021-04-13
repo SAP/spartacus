@@ -15,6 +15,7 @@ import {
 } from 'ts-morph';
 import ts from 'typescript';
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from '../constants';
+import { getConfigs, serializeConfig } from './config-utils';
 import { getTsSourceFile } from './file-utils';
 import { isImportedFrom } from './import-utils';
 import { getSourceRoot } from './workspace-utils';
@@ -161,32 +162,31 @@ function addToModuleInternal(
               const initializer = property.getInitializerIfKind(
                 tsMorph.SyntaxKind.ArrayLiteralExpression
               );
-              if (initializer) {
-                const imports = ([] as Import[]).concat(insertOptions.import);
-                // check if the 'imports', 'declarations' or 'exports' arrays already contain the specified content
-                if (
-                  propertyName !== 'providers' &&
-                  elementExists(initializer, insertOptions.content)
-                ) {
-                  // don't duplicate the module in the specified array
-                  return;
-                }
+              if (!initializer) {
+                return;
+              }
 
-                imports.forEach((specifiedImport) =>
-                  sourceFile.addImportDeclaration({
-                    moduleSpecifier: specifiedImport.moduleSpecifier,
-                    namedImports: specifiedImport.namedImports,
-                  })
+              if (
+                isDuplication(initializer, propertyName, insertOptions.content)
+              ) {
+                return;
+              }
+
+              const imports = ([] as Import[]).concat(insertOptions.import);
+              imports.forEach((specifiedImport) =>
+                sourceFile.addImportDeclaration({
+                  moduleSpecifier: specifiedImport.moduleSpecifier,
+                  namedImports: specifiedImport.namedImports,
+                })
+              );
+
+              if (insertOptions.order || insertOptions.order === 0) {
+                initializer.insertElement(
+                  insertOptions.order,
+                  insertOptions.content
                 );
-
-                if (insertOptions.order || insertOptions.order === 0) {
-                  initializer.insertElement(
-                    insertOptions.order,
-                    insertOptions.content
-                  );
-                } else {
-                  createdNode = initializer.addElement(insertOptions.content);
-                }
+              } else {
+                createdNode = initializer.addElement(insertOptions.content);
               }
             }
           }
@@ -200,12 +200,38 @@ function addToModuleInternal(
   return createdNode;
 }
 
+function isDuplication(
+  initializer: ArrayLiteralExpression,
+  propertyName: 'imports' | 'exports' | 'declarations' | 'providers',
+  content: string
+): boolean {
+  if (propertyName === 'providers') {
+    const serializedContent = serializeConfig(content);
+    const configs = getConfigs(initializer.getSourceFile());
+    for (const config of configs) {
+      const serializedConfig = serializeConfig(config.getText());
+      if (serializedContent === serializedConfig) {
+        return true;
+      }
+    }
+  }
+
+  if (elementExists(initializer, content)) {
+    return true;
+  }
+
+  return false;
+}
+
 function elementExists(
   initializer: ArrayLiteralExpression,
-  moduleToCheck: string
+  typeToken: string
 ): boolean {
+  typeToken = normalizeTypeToken(typeToken);
+
   for (const element of initializer.getElements()) {
-    if (element.getText() === moduleToCheck) {
+    const elementText = normalizeTypeToken(element.getText());
+    if (elementText === typeToken) {
       return true;
     }
   }
@@ -233,4 +259,18 @@ export function getModule(sourceFile: SourceFile): CallExpression | undefined {
 
   sourceFile.forEachChild(visitor);
   return moduleNode;
+}
+
+const COMMENT_REG_EXP = /\/\/.+/gm;
+function normalizeTypeToken(token: string): string {
+  let newToken = token;
+
+  newToken = newToken.replace(COMMENT_REG_EXP, '');
+  newToken = newToken.trim();
+  // strip down the trailing comma
+  if (newToken.charAt(newToken.length - 1) === ',') {
+    newToken = newToken.substring(0, newToken.length - 1);
+  }
+
+  return newToken;
 }

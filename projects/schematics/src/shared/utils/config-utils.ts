@@ -15,6 +15,7 @@ import {
   ANGULAR_CORE,
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
+  PROVIDE_CONFIG_FUNCTION,
   SPARTACUS_CORE,
 } from '../constants';
 import { isImportedFrom } from './import-utils';
@@ -356,4 +357,20 @@ export function getConfigs(sourceFile: SourceFile): Node[] {
     }
   }
   return configs;
+}
+
+const EMPTY_SPACE_REG_EXP = /\s+/gm;
+export function serializeConfig(config: string): string {
+  let newConfig = config;
+
+  newConfig = newConfig.trim();
+
+  if (config.includes(PROVIDE_CONFIG_FUNCTION)) {
+    newConfig = newConfig.replace(`${PROVIDE_CONFIG_FUNCTION}(`, '');
+    newConfig = newConfig.substring(0, newConfig.length - 1);
+  }
+
+  newConfig = newConfig.replace(EMPTY_SPACE_REG_EXP, '');
+
+  return newConfig;
 }
