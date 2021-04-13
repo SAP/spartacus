@@ -101,12 +101,12 @@ export class ConfiguratorAttributeDropDownComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject: { quantity: number }): void {
-    if (!eventObject.quantity) {
+  onChangeQuantity(eventObject: any): void {
+    if (!eventObject) {
       this.attributeDropDownForm.setValue('');
       this.onSelect();
     } else {
-      this.onHandleQuantity(eventObject.quantity);
+      this.onHandleQuantity(eventObject);
     }
   }
 

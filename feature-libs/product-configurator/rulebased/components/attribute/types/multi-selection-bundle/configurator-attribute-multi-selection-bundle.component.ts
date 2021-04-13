@@ -218,10 +218,10 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   onChangeAttributeQuantity(eventObject: any): void {
     this.loading$.next(true);
 
-    if (!eventObject.quantity) {
+    if (!eventObject) {
       this.onDeselectAll();
     } else {
-      this.onHandleAttributeQuantity(eventObject.quantity);
+      this.onHandleAttributeQuantity(eventObject);
     }
   }
 
