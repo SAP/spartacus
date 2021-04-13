@@ -5,46 +5,30 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  getAppModule,
-  getSpartacusSchematicsVersion,
-  installPackageJsonDependencies,
+  CLI_PRODUCT_CONFIGURATOR_FEATURE,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
-
-export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'ProductConfigurator';
-export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
-
-const PRODUCT_CONFIGURATOR_SCSS_FILE_NAME = 'product-configurator.scss';
-const PRODUCT_CONFIGURATOR_RULEBASED_MODULE = 'RulebasedConfiguratorModule';
-const PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE = 'TextfieldConfiguratorModule';
-const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME =
-  'productConfiguratorRulebased';
-const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME =
-  'productConfiguratorTextfield';
-
-const PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE =
-  'RulebasedConfiguratorRootModule';
-const PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE =
-  'TextfieldConfiguratorRootModule';
-const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED =
-  '@spartacus/product-configurator/rulebased';
-const SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD =
-  '@spartacus/product-configurator/textfield';
-
-const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT = `${SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED}/root`;
-const SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT = `${SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD}/root`;
-const SPARTACUS_PRODUCT_CONFIGURATOR_ASSETS = `${SPARTACUS_PRODUCT_CONFIGURATOR}/common/assets`;
-const PRODUCT_CONFIGURATOR_TRANSLATIONS = 'configuratorTranslations';
-const PRODUCT_CONFIGURATOR_TRANSLATION_CHUNKS_CONFIG =
-  'configuratorTranslationChunksConfig';
+import {
+  PRODUCT_CONFIGURATOR_FOLDER_NAME,
+  PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME,
+  PRODUCT_CONFIGURATOR_RULEBASED_MODULE,
+  PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE,
+  PRODUCT_CONFIGURATOR_SCSS_FILE_NAME,
+  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
+  PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE,
+  PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE,
+  PRODUCT_CONFIGURATOR_TRANSLATIONS,
+  PRODUCT_CONFIGURATOR_TRANSLATION_CHUNKS_CONFIG,
+  SPARTACUS_PRODUCT_CONFIGURATOR_ASSETS,
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT,
+  SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD,
+  SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT,
+} from '../constants';
 
 export function addProductConfiguratorFeatures(
   options: SpartacusProductConfiguratorOptions
@@ -53,23 +37,20 @@ export function addProductConfiguratorFeatures(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options.project);
-
     return chain([
-      addProductConfiguratorRulebasedFeature(appModulePath, options),
-      addProductConfiguratorTextfieldFeature(appModulePath, options),
-      addProductConfiguratorPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addProductConfiguratorRulebasedFeature(options),
+      addProductConfiguratorTextfieldFeature(options),
     ]);
   };
 }
 
 function addProductConfiguratorRulebasedFeature(
-  appModulePath: string,
   options: SpartacusProductConfiguratorOptions
 ): Rule {
-  return addLibraryFeature(appModulePath, options, {
-    name: PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME,
+  return addLibraryFeature(options, {
+    folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
+    name: CLI_PRODUCT_CONFIGURATOR_FEATURE,
+    lazyModuleName: PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME,
     featureModule: {
       name: PRODUCT_CONFIGURATOR_RULEBASED_MODULE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
@@ -91,11 +72,12 @@ function addProductConfiguratorRulebasedFeature(
 }
 
 function addProductConfiguratorTextfieldFeature(
-  appModulePath: string,
   options: SpartacusProductConfiguratorOptions
 ): Rule {
-  return addLibraryFeature(appModulePath, options, {
-    name: PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
+  return addLibraryFeature(options, {
+    folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
+    name: CLI_PRODUCT_CONFIGURATOR_FEATURE,
+    lazyModuleName: PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
     featureModule: {
       name: PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD,
@@ -114,16 +96,4 @@ function addProductConfiguratorTextfieldFeature(
       importStyle: SPARTACUS_PRODUCT_CONFIGURATOR,
     },
   });
-}
-
-function addProductConfiguratorPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_PRODUCT_CONFIGURATOR,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }

@@ -20,7 +20,7 @@ import {
   SaveCartEvent,
   SaveCartFailEvent,
   SaveCartSuccessEvent,
-} from './saved-cart.events';
+} from '@spartacus/cart/saved-cart/root';
 
 interface ActionWithPayload extends Action {
   payload: any;
