@@ -19,7 +19,6 @@ export class QuickOrderFormComponent implements OnInit {
 
   search(): void {
     // TODO
-    console.log('search');
   }
 
   clear(): void {
