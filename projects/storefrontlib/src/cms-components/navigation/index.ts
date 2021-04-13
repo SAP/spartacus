@@ -9,4 +9,6 @@ export * from './navigation/navigation-ui.component';
 export * from './navigation/navigation.component';
 export * from './navigation/navigation.module';
 export * from './navigation/navigation.service';
+export * from './page-header/page-title.component';
+export * from './page-header/page-title.module';
 export * from './search-box/index';

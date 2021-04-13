@@ -33,13 +33,14 @@ export function getProductListingUrlMatcherFactory(
  *
  * Note: Matchers will "match" a route, but do not contribute to the creation of the route, nor do they guard routes.
  */
-export const PRODUCT_LISTING_URL_MATCHER = new InjectionToken<
-  UrlMatcherFactory
->('PRODUCT_LISTING_URL_MATCHER', {
-  providedIn: 'root',
-  factory: () =>
-    getProductListingUrlMatcherFactory(
-      inject(UrlMatcherService),
-      inject(DEFAULT_URL_MATCHER)
-    ),
-});
+export const PRODUCT_LISTING_URL_MATCHER = new InjectionToken<UrlMatcherFactory>(
+  'PRODUCT_LISTING_URL_MATCHER',
+  {
+    providedIn: 'root',
+    factory: () =>
+      getProductListingUrlMatcherFactory(
+        inject(UrlMatcherService),
+        inject(DEFAULT_URL_MATCHER)
+      ),
+  }
+);

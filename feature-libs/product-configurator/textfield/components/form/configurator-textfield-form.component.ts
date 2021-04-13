@@ -13,22 +13,22 @@ import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.m
   templateUrl: './configurator-textfield-form.component.html',
 })
 export class ConfiguratorTextfieldFormComponent {
-  configuration$: Observable<
-    ConfiguratorTextfield.Configuration
-  > = this.configRouterExtractorService.extractRouterData().pipe(
-    switchMap((routerData) => {
-      switch (routerData.owner.type) {
-        case CommonConfigurator.OwnerType.PRODUCT:
-          return this.configuratorTextfieldService.createConfiguration(
-            routerData.owner
-          );
-        case CommonConfigurator.OwnerType.CART_ENTRY:
-          return this.configuratorTextfieldService.readConfigurationForCartEntry(
-            routerData.owner
-          );
-      }
-    })
-  );
+  configuration$: Observable<ConfiguratorTextfield.Configuration> = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      switchMap((routerData) => {
+        switch (routerData.owner.type) {
+          case CommonConfigurator.OwnerType.PRODUCT:
+            return this.configuratorTextfieldService.createConfiguration(
+              routerData.owner
+            );
+          case CommonConfigurator.OwnerType.CART_ENTRY:
+            return this.configuratorTextfieldService.readConfigurationForCartEntry(
+              routerData.owner
+            );
+        }
+      })
+    );
 
   constructor(
     protected configuratorTextfieldService: ConfiguratorTextfieldService,

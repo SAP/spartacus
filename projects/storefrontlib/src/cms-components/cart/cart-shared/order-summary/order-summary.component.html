@@ -26,7 +26,7 @@
       }}
     </div>
   </div>
-  <div class="cx-summary-row" *ngIf="cart.net">
+  <div class="cx-summary-row" *ngIf="cart.net; else cartWithoutNet">
     <div class="col-6 cx-summary-label">
       {{ 'orderCost.salesTax' | cxTranslate }}
     </div>
@@ -46,14 +46,16 @@
     {{ 'orderCost.discount' | cxTranslate }}
     {{ cart.totalDiscounts?.formattedValue }}
   </div>
-  <div class="cx-summary-row" *ngIf="!cart.net">
-    {{
-      cart.totalPriceWithTax.value !== cart.totalPrice.value
-        ? ('orderCost.grossTax' | cxTranslate)
-        : ('orderCost.grossIncludeTax' | cxTranslate)
-    }}
-    {{ cart.totalTax?.formattedValue }}.
-  </div>
+  <ng-template #cartWithoutNet>
+    <div class="cx-summary-row">
+      {{
+        cart.totalPriceWithTax?.value !== cart.totalPrice?.value
+          ? ('orderCost.grossTax' | cxTranslate)
+          : ('orderCost.grossIncludeTax' | cxTranslate)
+      }}
+      {{ cart.totalTax?.formattedValue }}.
+    </div>
+  </ng-template>
 </div>
 
 <!--

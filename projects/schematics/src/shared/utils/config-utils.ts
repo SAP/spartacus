@@ -9,7 +9,7 @@ import {
   InsertChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import {
   ANGULAR_CORE,
   B2B_STOREFRONT_MODULE,
