@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-quick-order-form',
@@ -8,6 +9,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class QuickOrderFormComponent implements OnInit {
   form: FormGroup;
+  iconTypes = ICON_TYPE;
 
   constructor() {}
 
@@ -17,6 +19,11 @@ export class QuickOrderFormComponent implements OnInit {
 
   search(): void {
     // TODO
+    console.log('search');
+  }
+
+  clear(): void {
+    this.form.reset();
   }
 
   protected build() {

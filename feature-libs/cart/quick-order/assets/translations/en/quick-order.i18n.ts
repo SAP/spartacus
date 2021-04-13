@@ -4,13 +4,14 @@ export const quickOrderForm = {
 
 export const quickOrderList = {};
 
-export const quickOrderActions = {
+export const quickOrderContainer = {
+  addProducts: 'Add Products/Skus',
   emptyList: 'Empty list',
   addToCart: 'Add to cart',
 };
 
 export const quickOrder = {
-  quickOrderActions,
+  quickOrderContainer,
   quickOrderForm,
   quickOrderList,
 };

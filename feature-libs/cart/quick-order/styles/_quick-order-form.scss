@@ -1,10 +1,21 @@
 cx-quick-order-form {
-  background-color: $background;
-  padding: 27px 22px;
-  width: 100%;
-
   .cx-quick-order-container {
     align-items: center;
     display: flex;
+  }
+
+  .cx-quick-order-form-input {
+    align-items: center;
+    display: flex;
+
+    .form-control {
+      padding-right: 36px;
+    }
+
+    .reset {
+      cursor: pointer;
+      position: absolute;
+      right: 26px;
+    }
   }
 }

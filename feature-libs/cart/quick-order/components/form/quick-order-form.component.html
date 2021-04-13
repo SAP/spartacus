@@ -1,11 +1,24 @@
-<form [formGroup]="form" class="cx-quick-order-form-container">
-  <input
-    (keydown.enter)="search()"
-    class="form-control"
-    formControlName="product"
-    required
-    placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
-    type="text"
-  />
-  <cx-form-errors [control]="form.get('product')"></cx-form-errors>
+<form [formGroup]="form" class="cx-quick-order-form-container row">
+  <div class="col-xs-12 col-md-5 col-lg-4 cx-quick-order-form-input">
+    <input
+      (keydown.enter)="search()"
+      aria-label="search"
+      class="form-control"
+      formControlName="product"
+      placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
+      type="text"
+    />
+
+    <cx-icon
+      *ngIf="form.get('product')?.value"
+      (keydown.enter)="clear()"
+      (mousedown)="clear()"
+      [type]="iconTypes.RESET"
+      aria-label="reset"
+      class="reset"
+      tabindex="0"
+    ></cx-icon>
+
+    <cx-form-errors [control]="form.get('product')"></cx-form-errors>
+  </div>
 </form>

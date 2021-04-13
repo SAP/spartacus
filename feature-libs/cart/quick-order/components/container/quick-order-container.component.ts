@@ -5,4 +5,12 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './quick-order-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class QuickOrderComponent {}
+export class QuickOrderComponent {
+  clear(): void {
+    // TODO
+  }
+
+  addToCart(): void {
+    // TODO
+  }
+}
