@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Order, RoutesConfig, RoutingConfigService } from '@spartacus/core';
+import { CheckoutConfig, defaultCheckoutConfig } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../projects/storefrontlib/src/cms-structure/routing/default-routing-config';
-import { CheckoutConfig } from '../config/checkout-config';
-import { defaultCheckoutConfig } from '../config/default-checkout-config';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { PaymentDetailsSetGuard } from './payment-details-set.guard';

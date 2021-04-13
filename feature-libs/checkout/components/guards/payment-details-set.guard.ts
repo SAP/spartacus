@@ -1,11 +1,11 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { RoutingConfigService } from '@spartacus/core';
+import { CheckoutStep, CheckoutStepType } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
-import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Injectable({
   providedIn: 'root',

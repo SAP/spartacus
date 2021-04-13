@@ -1,19 +1,18 @@
 import { Injectable, Optional } from '@angular/core';
-import { combineLatest, of, Observable } from 'rxjs';
-import { filter, map, switchMap, tap, debounceTime } from 'rxjs/operators';
-
 import {
   Address,
   CheckoutDeliveryService,
+  CheckoutPaymentService,
+  ClearCheckoutService,
+  DeliveryMode,
+  PaymentDetails,
+  StateUtils,
   UserAddressService,
   UserPaymentService,
-  PaymentDetails,
-  DeliveryMode,
-  CheckoutPaymentService,
-  StateUtils,
-  ClearCheckoutService,
 } from '@spartacus/core';
-import { CheckoutConfigService } from './checkout-config.service';
+import { CheckoutConfigService } from '@spartacus/storefront';
+import { combineLatest, Observable, of } from 'rxjs';
+import { debounceTime, filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutDetailsService } from './checkout-details.service';
 
 @Injectable({

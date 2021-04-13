@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { RoutingConfigService, RoutingService } from '@spartacus/core';
+import {
+  CheckoutConfig,
+  CheckoutStep,
+  CheckoutStepType,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
-import { CheckoutConfig } from '../config/checkout-config';
-import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 
 @Injectable({
   providedIn: 'root',

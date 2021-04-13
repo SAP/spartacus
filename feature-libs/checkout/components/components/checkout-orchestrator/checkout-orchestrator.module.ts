@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { CartNotEmptyGuard } from '@spartacus/storefront';
-import { defaultCheckoutConfig } from '../../config/default-checkout-config';
+import {
+  CartNotEmptyGuard,
+  defaultCheckoutConfig,
+} from '@spartacus/storefront';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutGuard } from '../../guards/checkout.guard';
 import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component';

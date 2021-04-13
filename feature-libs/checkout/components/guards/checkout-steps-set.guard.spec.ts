@@ -7,8 +7,8 @@ import {
   PaymentTypeService,
   RoutingConfigService,
 } from '@spartacus/core';
+import { CheckoutStep, CheckoutStepType } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CheckoutStep, CheckoutStepType } from '../model';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';

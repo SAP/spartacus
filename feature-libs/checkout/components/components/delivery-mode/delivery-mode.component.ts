@@ -7,6 +7,7 @@ import {
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutDeliveryService, DeliveryMode } from '@spartacus/core';
+import { CheckoutConfigService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -15,7 +16,6 @@ import {
   takeWhile,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({

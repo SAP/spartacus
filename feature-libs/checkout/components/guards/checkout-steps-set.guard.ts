@@ -11,9 +11,9 @@ import {
   PaymentTypeService,
   RoutingConfigService,
 } from '@spartacus/core';
+import { CheckoutStep, CheckoutStepType } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 

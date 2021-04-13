@@ -10,8 +10,8 @@ import {
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
+import { CheckoutConfigService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
 import { ExpressCheckoutService } from './express-checkout.service';
 

@@ -18,15 +18,17 @@ import {
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card, ICON_TYPE, PromotionService } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
 import {
+  Card,
   checkoutPaymentSteps,
   checkoutShippingSteps,
   CheckoutStep,
-} from '../../model/checkout-step.model';
-import { CheckoutStepType } from '../../model/index';
+  CheckoutStepType,
+  ICON_TYPE,
+  PromotionService,
+} from '@spartacus/storefront';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/index';
 
 @Component({

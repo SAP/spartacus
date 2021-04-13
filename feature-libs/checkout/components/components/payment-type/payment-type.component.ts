@@ -10,9 +10,9 @@ import {
   PaymentType,
   PaymentTypeService,
 } from '@spartacus/core';
+import { CheckoutStepType } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
-import { CheckoutStepType } from '../../model/checkout-step.model';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
