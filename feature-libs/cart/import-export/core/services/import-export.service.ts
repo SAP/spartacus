@@ -84,13 +84,16 @@ export class ImportExportService {
       typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
 
     return array.reduce((str: string, row: T) => {
-      const line = Object.keys(row).reduce(
-        (currentLine, cell) =>
-          `${currentLine}${currentLine !== '' ? this.separator : ''}"${
-            row[cell]
-          }"`,
-        ''
-      );
+      const line = Object.keys(row).reduce((currentLine, column) => {
+        const separator = currentLine !== '' ? this.separator : '';
+        const cell =
+          typeof row[column] === 'string' &&
+          (row[column] as string).includes(this.separator)
+            ? `"${row[column]}"`
+            : row[column];
+
+        return `${currentLine}${separator}${cell}`;
+      }, '');
       return `${str}${line}\r\n`;
     }, '');
   }
