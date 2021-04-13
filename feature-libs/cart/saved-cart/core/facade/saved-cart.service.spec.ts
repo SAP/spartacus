@@ -22,6 +22,10 @@ const mockCartName = 'test-cart-name';
 const mockCartDescription = 'test-cart-description';
 const mockError = 'test-error';
 
+const mockUser: User = {
+  customerId: 'test-customer',
+};
+
 const mockSavedCarts: Cart[] = [
   {
     code: mockCartId,
@@ -37,9 +41,20 @@ const mockSavedCarts: Cart[] = [
   },
 ];
 
-const mockUser: User = {
-  customerId: 'test-customer',
-};
+const mockSavedCartsWithWishListAndSelectiveCart: Cart[] = [
+  ...mockSavedCarts,
+  {
+    name: `wishlist${mockUser.customerId}`,
+    entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+    saveTime: new Date('1994-01-11T00:00Z'),
+  },
+  {
+    code: 'selectivecart-test-cart-name4',
+    name: 'test-cart-name4',
+    entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+    saveTime: new Date('1994-01-11T00:00Z'),
+  },
+];
 
 class MockUserIdService implements Partial<UserIdService> {
   takeUserId = createSpy().and.returnValue(of(mockUserId));
@@ -205,7 +220,31 @@ describe('SavedCartService', () => {
       );
     });
 
-    it('should not to trigger loadSavedCarts when state is in store', () => {
+    it('should NOT trigger loadSavedCarts when state is in store', () => {
+      store.dispatch(
+        new SavedCartActions.LoadSavedCartsSuccess({ userId: mockUserId })
+      );
+
+      let result: Cart[] | undefined;
+      service
+        .getList()
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(userIdService.takeUserId).not.toHaveBeenCalledWith();
+      expect(result).toEqual(mockSavedCarts);
+      expect(store.dispatch).not.toHaveBeenCalledWith(
+        new SavedCartActions.LoadSavedCarts({
+          userId: mockUserId,
+        })
+      );
+    });
+
+    it('should filter saved carts without wishlist and selective carts', () => {
+      multiCartService.getCarts = createSpy().and.returnValue(
+        of(mockSavedCartsWithWishListAndSelectiveCart)
+      );
+
       store.dispatch(
         new SavedCartActions.LoadSavedCartsSuccess({ userId: mockUserId })
       );
