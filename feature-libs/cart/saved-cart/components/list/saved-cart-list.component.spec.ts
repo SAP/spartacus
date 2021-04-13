@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   ClearCheckoutService,
@@ -34,7 +34,7 @@ const mockCart2: Cart = {
 };
 const mockCarts: Cart[] = [mockCart1, mockCart2];
 
-class MockSavedCartService implements Partial<SavedCartService> {
+class MockSavedCartFacade implements Partial<SavedCartFacade> {
   deleteSavedCart(_cartId: string): void {}
   clearRestoreSavedCart(): void {}
   loadSavedCarts(): void {}
@@ -76,7 +76,7 @@ class MockRoutingService implements Partial<RoutingService> {
 describe('SavedCartListComponent', () => {
   let component: SavedCartListComponent;
   let fixture: ComponentFixture<SavedCartListComponent>;
-  let savedCartService: SavedCartService | MockSavedCartService;
+  let savedCartFacade: SavedCartFacade | MockSavedCartFacade;
   let routingService: RoutingService | MockRoutingService;
 
   beforeEach(async () => {
@@ -87,13 +87,13 @@ describe('SavedCartListComponent', () => {
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: ClearCheckoutService, useClass: MockClearCheckoutService },
         { provide: TranslationService, useClass: MockTranslationService },
-        { provide: SavedCartService, useClass: MockSavedCartService },
+        { provide: SavedCartFacade, useClass: MockSavedCartFacade },
       ],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    savedCartService = TestBed.inject(SavedCartService);
+    savedCartFacade = TestBed.inject(SavedCartFacade);
     routingService = TestBed.inject(RoutingService);
     fixture = TestBed.createComponent(SavedCartListComponent);
     component = fixture.componentInstance;
@@ -104,7 +104,7 @@ describe('SavedCartListComponent', () => {
   });
 
   it('should render proper number of carts when user contains saved carts', () => {
-    component.savedCarts$ = savedCartService.getList();
+    component.savedCarts$ = savedCartFacade.getList();
     fixture.detectChanges();
     const el = fixture.debugElement;
     expect(el.query(By.css('.cx-saved-cart-list-table'))).not.toBeNull();
@@ -123,20 +123,19 @@ describe('SavedCartListComponent', () => {
   });
 
   it('should trigger loadSavedCarts OnInit', () => {
-    spyOn(savedCartService, 'loadSavedCarts').and.callThrough();
-    component.savedCarts$ = savedCartService.getList();
+    spyOn(savedCartFacade, 'loadSavedCarts').and.callThrough();
+    component.savedCarts$ = savedCartFacade.getList();
     fixture.detectChanges();
-    expect(savedCartService.loadSavedCarts).toHaveBeenCalledWith();
+    expect(savedCartFacade.loadSavedCarts).toHaveBeenCalledWith();
   });
 
   it('should trigger onRestoreComplete after OnInit', () => {
     const onRestoreCompleteReturn = true;
-    spyOn(
-      savedCartService,
-      'getRestoreSavedCartProcessSuccess'
-    ).and.returnValue(of(onRestoreCompleteReturn));
+    spyOn(savedCartFacade, 'getRestoreSavedCartProcessSuccess').and.returnValue(
+      of(onRestoreCompleteReturn)
+    );
     spyOn(component, 'onRestoreComplete').and.callThrough();
-    component.savedCarts$ = savedCartService.getList();
+    component.savedCarts$ = savedCartFacade.getList();
     fixture.detectChanges();
     expect(component.onRestoreComplete).toHaveBeenCalledWith(
       onRestoreCompleteReturn
@@ -158,18 +157,18 @@ describe('SavedCartListComponent', () => {
     const mockEvent: any = {};
     const cartId: string = '00001';
     mockEvent['stopPropagation'] = mockMethod;
-    spyOn(savedCartService, 'restoreSavedCart').and.callThrough();
+    spyOn(savedCartFacade, 'restoreSavedCart').and.callThrough();
     component.restoreSavedCart(mockEvent, cartId);
-    expect(savedCartService.restoreSavedCart).toHaveBeenCalledWith(
+    expect(savedCartFacade.restoreSavedCart).toHaveBeenCalledWith(
       mockCart1.code
     );
   });
 
   it('should clear cart when onRestoreComplete called', () => {
-    spyOn(savedCartService, 'clearRestoreSavedCart').and.callThrough();
-    spyOn(savedCartService, 'clearSaveCart').and.callThrough();
+    spyOn(savedCartFacade, 'clearRestoreSavedCart').and.callThrough();
+    spyOn(savedCartFacade, 'clearSaveCart').and.callThrough();
     component.onRestoreComplete(true);
-    expect(savedCartService.clearRestoreSavedCart).toHaveBeenCalledWith();
-    expect(savedCartService.clearSaveCart).toHaveBeenCalledWith();
+    expect(savedCartFacade.clearRestoreSavedCart).toHaveBeenCalledWith();
+    expect(savedCartFacade.clearSaveCart).toHaveBeenCalledWith();
   });
 });

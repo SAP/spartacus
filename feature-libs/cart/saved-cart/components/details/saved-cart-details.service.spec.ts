@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { Cart, RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from './saved-cart-details.service';
@@ -24,7 +24,7 @@ class MockRoutingService {
     return of(mockRouterState);
   }
 }
-class MockSavedCartService implements Partial<SavedCartService> {
+class MockSavedCartFacade implements Partial<SavedCartFacade> {
   loadSavedCart(_cartId: string): void {}
   get(_cartId: string): Observable<Cart> {
     return of(mockSavedCart);
@@ -38,7 +38,7 @@ describe('SavedCartDetailsService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: SavedCartService, useClass: MockSavedCartService },
+        { provide: SavedCartFacade, useClass: MockSavedCartFacade },
       ],
     });
 
