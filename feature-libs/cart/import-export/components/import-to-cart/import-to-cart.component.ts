@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ProductsData } from '../../core/model';
 import { ImportExportService, ImportToCartService } from '../../core/services';
 
 @Component({
@@ -19,6 +20,8 @@ export class ImportToCartComponent {
     this.importToCartService
       .csvToData(file)
       .pipe(take(1))
-      .subscribe((data) => this.importToCartService.loadProductsToCart(data));
+      .subscribe((data) =>
+        this.importToCartService.loadProductsToCart(data as ProductsData)
+      );
   }
 }

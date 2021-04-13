@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { ImportExportConfig } from '../config/import-export-config';
-import { ColumnData, FileValidity, InvalidFileInfo } from '../model';
+import {
+  ColumnData,
+  FileValidity,
+  InvalidFileInfo,
+  ProductsData,
+} from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +18,7 @@ export class ImportExportService {
    * Extracts CSV file and process into a JSON data
    *
    * @param selectedFile CSV file to extract the data
+   * @param columnData object which provides info of required columns
    * @param checkValidityEnabled optional flag to disable the validity check
    * @param validityConfig optional object to pass any custom validity config
    * @returns processed data from CSV or error data in CSV extraction
@@ -22,7 +28,7 @@ export class ImportExportService {
     columnData: ColumnData,
     checkValidityEnabled?: Boolean,
     validityConfig?: FileValidity
-  ): Observable<unknown> {
+  ): Observable<ProductsData | unknown> {
     const file: File = selectedFile.item(0) as File;
     return new Observable((observer: Observer<unknown>) => {
       const fileReader: FileReader = new FileReader();
@@ -99,18 +105,15 @@ export class ImportExportService {
     return this.importExportConfig.importExport.file.separator;
   }
   /**
-   * Processes the CSV data
+   * Processes the CSV data and convert into JSON
    *
    * @param data raw extracted data from CSV
    * @param columnData object which provides info of required columns
-   * @returns Processed data in form of array containing sku and quantity
+   * @returns Processed JSON containing productCode and quantity
    */
-  protected processCsvData(
-    data: string,
-    columnData: ColumnData
-  ): (string | number)[][] {
+  protected processCsvData(data: string, columnData: ColumnData): ProductsData {
     let headers: string[];
-    const dataArray = data
+    return data
       .split('\n')
       .map((row, index) => {
         const convertedRow = row
@@ -128,8 +131,11 @@ export class ImportExportService {
             );
         }
       })
-      .filter((value, index) => index !== 0 && value[0] !== '');
-    return dataArray;
+      .filter((value, index) => index !== 0 && value[0] !== '')
+      .map((product) => ({
+        productCode: product[0] as string,
+        quantity: product[1] as number,
+      }));
   }
 
   protected parseData(

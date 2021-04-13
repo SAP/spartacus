@@ -28,7 +28,7 @@ export class ImportToCartService implements OnDestroy {
     protected importExportService: ImportExportService
   ) {}
 
-  csvToData(file: FileList): Observable<unknown> {
+  csvToData(file: FileList): Observable<ProductsData | unknown> {
     return this.importExportService.csvToData(
       file,
       { sku: 'string', quantity: 'number' },
@@ -41,8 +41,7 @@ export class ImportToCartService implements OnDestroy {
     );
   }
 
-  loadProductsToCart(csvData: any): void {
-    const productsToLoad: ProductsData = this.dataToJson(csvData);
+  loadProductsToCart(productsToLoad: ProductsData): void {
     this.userIdService.invokeWithUserId((userId) => {
       const createdCart = this.multiCartService.createCart({
         userId,
@@ -62,17 +61,6 @@ export class ImportToCartService implements OnDestroy {
           })
       );
     });
-  }
-
-  private dataToJson(csvData: any): ProductsData {
-    const productsToLoad: ProductsData = [];
-    csvData.map((product: (string | number)[]) => {
-      const productData = { productCode: '', quantity: 0 };
-      productData.productCode = product[0] as string;
-      productData.quantity = product[1] as number;
-      productsToLoad.push(productData);
-    });
-    return productsToLoad;
   }
 
   ngOnDestroy() {
