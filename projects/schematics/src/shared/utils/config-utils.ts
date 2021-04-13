@@ -360,7 +360,7 @@ export function getConfigs(sourceFile: SourceFile): Node[] {
 }
 
 const EMPTY_SPACE_REG_EXP = /\s+/gm;
-export function serializeConfig(config: string): string {
+export function normalizeConfiguration(config: string): string {
   let newConfig = config;
 
   newConfig = newConfig.trim();

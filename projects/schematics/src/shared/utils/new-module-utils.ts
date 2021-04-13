@@ -15,7 +15,7 @@ import {
 } from 'ts-morph';
 import ts from 'typescript';
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from '../constants';
-import { getConfigs, serializeConfig } from './config-utils';
+import { getConfigs, normalizeConfiguration } from './config-utils';
 import { getTsSourceFile } from './file-utils';
 import { isImportedFrom } from './import-utils';
 import { getSourceRoot } from './workspace-utils';
@@ -206,11 +206,11 @@ function isDuplication(
   content: string
 ): boolean {
   if (propertyName === 'providers') {
-    const serializedContent = serializeConfig(content);
+    const normalizedContent = normalizeConfiguration(content);
     const configs = getConfigs(initializer.getSourceFile());
     for (const config of configs) {
-      const serializedConfig = serializeConfig(config.getText());
-      if (serializedContent === serializedConfig) {
+      const normalizedConfig = normalizeConfiguration(config.getText());
+      if (normalizedContent === normalizedConfig) {
         return true;
       }
     }
