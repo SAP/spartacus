@@ -11,10 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import {
-  ConfiguratorAttributeQuantityComponentOptions,
-  Quantity,
-} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
@@ -89,7 +86,7 @@ export class ConfiguratorAttributeDropDownComponent
     this.selectionChange.emit(event);
   }
 
-  onHandleQuantity(quantity): void {
+  onHandleQuantity(quantity: number): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
@@ -104,7 +101,7 @@ export class ConfiguratorAttributeDropDownComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject): void {
+  onChangeQuantity(eventObject: { quantity: number }): void {
     if (!eventObject.quantity) {
       this.attributeDropDownForm.setValue('');
       this.onSelect();
@@ -119,12 +116,10 @@ export class ConfiguratorAttributeDropDownComponent
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    const initialQuantity: Quantity = {
-      quantity:
-        this.attributeDropDownForm.value !== '0'
-          ? this.attribute.quantity ?? 0
-          : 0,
-    };
+    const initialQuantity =
+      this.attributeDropDownForm.value !== '0'
+        ? this.attribute.quantity ?? 0
+        : 0;
 
     return {
       allowZero: !this.attribute.required,

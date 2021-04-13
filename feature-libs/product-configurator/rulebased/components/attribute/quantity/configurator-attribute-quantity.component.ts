@@ -12,13 +12,9 @@ import { Observable, Subscription, timer } from 'rxjs';
 import { debounce, distinct, take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 
-export interface Quantity {
-  quantity: number;
-}
-
 export interface ConfiguratorAttributeQuantityComponentOptions {
   allowZero?: boolean;
-  initialQuantity?: Quantity;
+  initialQuantity?: number;
   disableQuantityActions$?: Observable<boolean>;
 }
 
@@ -33,12 +29,12 @@ export class ConfiguratorAttributeQuantityComponent
   optionsChangeSub: Subscription = new Subscription();
   quantityChangeSub: Subscription = new Subscription();
   @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
-  @Output() changeQuantity = new EventEmitter<Quantity>();
+  @Output() changeQuantity = new EventEmitter<number>();
 
   constructor(protected config: ConfiguratorUISettingsConfig) {}
 
   ngOnInit(): void {
-    this.quantity.setValue(this.quantityOptions?.initialQuantity?.quantity);
+    this.quantity.setValue(this.quantityOptions?.initialQuantity);
     this.optionsChangeSub.add(
       this.quantityOptions.disableQuantityActions$
         ?.pipe(distinct())
@@ -74,8 +70,6 @@ export class ConfiguratorAttributeQuantityComponent
   }
 
   onChangeQuantity(): void {
-    this.changeQuantity.emit({
-      quantity: this.quantity?.value,
-    });
+    this.changeQuantity.emit(this.quantity?.value);
   }
 }
