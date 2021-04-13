@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { ActiveCartService, OrderEntry } from '@spartacus/core';
-import { filter, take } from 'rxjs/operators';
 import { ImportExportService } from '@spartacus/cart/import-export/core';
+import { ExportEntriesService } from './export-entries.service';
 
 @Component({
   selector: 'cx-export-entries',
@@ -10,13 +11,12 @@ import { ImportExportService } from '@spartacus/cart/import-export/core';
 })
 export class ExportEntriesComponent {
   constructor(
+    protected exportEntriesService: ExportEntriesService,
     protected importExportService: ImportExportService,
     protected activeCartService: ActiveCartService
   ) {}
 
-  entries$ = this.activeCartService
-    .getEntries()
-    .pipe(filter((entries) => entries.length > 0));
+  entries$ = this.exportEntriesService.getEntries();
 
   exportToCsv() {
     this.entries$
