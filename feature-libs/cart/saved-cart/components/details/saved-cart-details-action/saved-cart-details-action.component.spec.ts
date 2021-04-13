@@ -1,6 +1,6 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   ClearCheckoutService,
@@ -27,7 +27,7 @@ class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
   }
 }
 
-class MockSavedCartService implements Partial<SavedCartService> {
+class MockSavedCartFacade implements Partial<SavedCartFacade> {
   restoreSavedCart(_cartId: string): void {}
   getRestoreSavedCartProcessSuccess(): Observable<boolean> {
     return of();
@@ -67,7 +67,7 @@ class MockClearCheckoutService implements Partial<ClearCheckoutService> {
 describe('SavedCartDetailsActionComponent', () => {
   let component: SavedCartDetailsActionComponent;
   let fixture: ComponentFixture<SavedCartDetailsActionComponent>;
-  let savedCartService: SavedCartService;
+  let savedCartFacade: SavedCartFacade;
   let routingService: RoutingService;
   let savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService;
   let clearCheckoutService: ClearCheckoutService;
@@ -81,8 +81,8 @@ describe('SavedCartDetailsActionComponent', () => {
           useClass: MockSavedCartDetailsService,
         },
         {
-          provide: SavedCartService,
-          useClass: MockSavedCartService,
+          provide: SavedCartFacade,
+          useClass: MockSavedCartFacade,
         },
         {
           provide: RoutingService,
@@ -106,16 +106,16 @@ describe('SavedCartDetailsActionComponent', () => {
     fixture = TestBed.createComponent(SavedCartDetailsActionComponent);
     component = fixture.componentInstance;
 
-    savedCartService = TestBed.inject(SavedCartService);
+    savedCartFacade = TestBed.inject(SavedCartFacade);
     routingService = TestBed.inject(RoutingService);
     savedCartFormLaunchDialogService = TestBed.inject(
       SavedCartFormLaunchDialogService
     );
     clearCheckoutService = TestBed.inject(ClearCheckoutService);
 
-    spyOn(savedCartService, 'restoreSavedCart').and.stub();
-    spyOn(savedCartService, 'clearRestoreSavedCart').and.stub();
-    spyOn(savedCartService, 'clearSaveCart').and.stub();
+    spyOn(savedCartFacade, 'restoreSavedCart').and.stub();
+    spyOn(savedCartFacade, 'clearRestoreSavedCart').and.stub();
+    spyOn(savedCartFacade, 'clearSaveCart').and.stub();
     spyOn(routingService, 'go').and.stub();
     spyOn(savedCartFormLaunchDialogService, 'openDialog').and.stub();
     spyOn(clearCheckoutService, 'resetCheckoutProcesses').and.stub();
@@ -129,15 +129,14 @@ describe('SavedCartDetailsActionComponent', () => {
 
   it('should trigger a restore saved cart', () => {
     component.restoreSavedCart(mockCartId);
-    expect(savedCartService.restoreSavedCart).toHaveBeenCalledWith(mockCartId);
+    expect(savedCartFacade.restoreSavedCart).toHaveBeenCalledWith(mockCartId);
   });
 
   it('should trigger onRestoreComplete when there was a successful restored cart', () => {
     spyOn(component, 'onRestoreComplete').and.stub();
-    spyOn(
-      savedCartService,
-      'getRestoreSavedCartProcessSuccess'
-    ).and.returnValue(of(true));
+    spyOn(savedCartFacade, 'getRestoreSavedCartProcessSuccess').and.returnValue(
+      of(true)
+    );
 
     component.ngOnInit();
     expect(component.onRestoreComplete).toHaveBeenCalled();
@@ -147,8 +146,8 @@ describe('SavedCartDetailsActionComponent', () => {
     component.onRestoreComplete(true);
 
     expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'savedCarts' });
-    expect(savedCartService.clearRestoreSavedCart).toHaveBeenCalled();
-    expect(savedCartService.clearSaveCart).toHaveBeenCalled();
+    expect(savedCartFacade.clearRestoreSavedCart).toHaveBeenCalled();
+    expect(savedCartFacade.clearSaveCart).toHaveBeenCalled();
     expect(clearCheckoutService.resetCheckoutProcesses).toHaveBeenCalled();
   });
 
@@ -158,8 +157,8 @@ describe('SavedCartDetailsActionComponent', () => {
     expect(routingService.go).not.toHaveBeenCalledWith({
       cxRoute: 'savedCarts',
     });
-    expect(savedCartService.clearRestoreSavedCart).not.toHaveBeenCalled();
-    expect(savedCartService.clearSaveCart).not.toHaveBeenCalled();
+    expect(savedCartFacade.clearRestoreSavedCart).not.toHaveBeenCalled();
+    expect(savedCartFacade.clearSaveCart).not.toHaveBeenCalled();
     expect(clearCheckoutService.resetCheckoutProcesses).not.toHaveBeenCalled();
   });
 
