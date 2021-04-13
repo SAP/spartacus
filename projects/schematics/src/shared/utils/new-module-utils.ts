@@ -214,16 +214,14 @@ function isDuplication(
         return true;
       }
     }
+
+    return false;
   }
 
-  if (elementExists(initializer, content)) {
-    return true;
-  }
-
-  return false;
+  return isTypeTokenDuplicate(initializer, content);
 }
 
-function elementExists(
+function isTypeTokenDuplicate(
   initializer: ArrayLiteralExpression,
   typeToken: string
 ): boolean {
