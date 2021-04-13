@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { QuickOrderComponent } from './quick-order-wrapper.component';
+import { QuickOrderComponent } from './quick-order-container.component';
 
 describe('QuickOrderComponent', () => {
   let component: QuickOrderComponent;

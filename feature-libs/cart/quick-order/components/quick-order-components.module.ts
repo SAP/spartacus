@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { QuickOrderWrapperModule } from './wrapper/quick-order-wrapper.module';
+import { QuickOrderContainerModule } from './container/quick-order-container.module';
 
 @NgModule({
-  imports: [RouterModule, QuickOrderWrapperModule],
+  imports: [RouterModule, QuickOrderContainerModule],
 })
 export class QuickOrderComponentsModule {}

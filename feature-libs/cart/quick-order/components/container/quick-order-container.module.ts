@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { QuickOrderComponent } from './quick-order-wrapper.component';
+import { QuickOrderComponent } from './quick-order-container.component';
 
 @NgModule({
   imports: [CommonModule],
@@ -18,4 +18,4 @@ import { QuickOrderComponent } from './quick-order-wrapper.component';
   exports: [QuickOrderComponent],
   entryComponents: [QuickOrderComponent],
 })
-export class QuickOrderWrapperModule {}
+export class QuickOrderContainerModule {}
