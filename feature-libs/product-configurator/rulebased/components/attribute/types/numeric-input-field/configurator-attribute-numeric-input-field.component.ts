@@ -2,51 +2,31 @@ import { getLocaleId } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   isDevMode,
-  OnDestroy,
-  OnInit,
-  Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
-import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
+import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
+import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 
 @Component({
   selector: 'cx-configurator-attribute-numeric-input-field',
   templateUrl: './configurator-attribute-numeric-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeNumericInputFieldComponent
-  extends ConfiguratorAttributeBaseComponent
-  implements OnInit, OnDestroy {
-  attributeInputForm: FormControl;
+export class ConfiguratorAttributeNumericInputFieldComponent extends ConfiguratorAttributeInputFieldComponent {
   numericFormatPattern: string;
   locale: string;
 
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
-  @Input() ownerKey: string;
   @Input() language: string;
-
-  @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
-  sub: any;
-
-  /**
-   * In case no config is injected, or when the debounce time is not configured at all,
-   * this value will be used as fallback.
-   */
-  private readonly FALLBACK_DEBOUNCE_TIME = 500;
 
   // TODO(#11681): make config a required dependency
   /**
-   * @param {ConfiguratorAttributeNumericInputFieldService} configAttributeNumericInputFieldService Serive for numeric formatting and validation.
+   * @param {ConfiguratorAttributeNumericInputFieldService} configAttributeNumericInputFieldService Service for numeric formatting and validation.
    * @param {ConfiguratorUISettingsConfig} config Optional configuration for debounce time,
    * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
    */
@@ -68,7 +48,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
     protected config?: ConfiguratorUISettingsConfig
   ) {
-    super();
+    super(config);
   }
 
   /**
@@ -117,19 +97,12 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       .subscribe(() => this.onChange());
   }
 
-  /**
-   * Hit when user input was changed
-   */
   onChange(): void {
     const event: ConfigFormUpdateEvent = this.createEventFromInput();
 
     if (!this.attributeInputForm.invalid) {
       this.inputChange.emit(event);
     }
-  }
-
-  ngOnDestroy() {
-    this.sub.unsubscribe();
   }
 
   protected createEventFromInput(): ConfigFormUpdateEvent {
@@ -140,6 +113,10 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         userInput: this.attributeInputForm.value,
       },
     };
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
   }
 
   protected getInstalledLocale(locale: string): string {

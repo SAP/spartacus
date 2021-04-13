@@ -38,7 +38,7 @@ export class ConfiguratorAttributeInputFieldComponent
    * In case no config is injected, or when the debounce time is not configured at all,
    * this value will be used as fallback.
    */
-  private readonly FALLBACK_DEBOUNCE_TIME = 500;
+  readonly FALLBACK_DEBOUNCE_TIME = 500;
 
   // TODO(#11681): make config a required dependency
   /**
