@@ -1,9 +1,16 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
-import { MultiCartService, UserIdService } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import {
+  MultiCartService,
+  ProductReviewService,
+  ProductService,
+  UserIdService,
+} from '@spartacus/core';
+import { CurrentProductService } from '@spartacus/storefront';
+import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ProductsData } from '../model';
+import { ImportExportService } from './import-export.service';
 
 @Injectable({
   providedIn: 'root',
@@ -14,10 +21,28 @@ export class ImportToCartService implements OnDestroy {
   constructor(
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartService,
-    protected savedCartService: SavedCartService
+    protected savedCartService: SavedCartService,
+    protected currentProductService: CurrentProductService,
+    protected productService: ProductService,
+    protected productReviewService: ProductReviewService,
+    protected importExportService: ImportExportService
   ) {}
 
-  addProductsToCart(csvData: ProductsData) {
+  csvToData(file: FileList): Observable<unknown> {
+    return this.importExportService.csvToData(
+      file,
+      { sku: 'string', quantity: 'number' },
+      true,
+      {
+        maxSize: 1,
+        allowedExtensions: ['text/csv'],
+        checkEmptyFile: true,
+      }
+    );
+  }
+
+  loadProductsToCart(csvData: any): void {
+    const productsToLoad: ProductsData = this.dataToJson(csvData);
     this.userIdService.invokeWithUserId((userId) => {
       const createdCart = this.multiCartService.createCart({
         userId,
@@ -28,7 +53,7 @@ export class ImportToCartService implements OnDestroy {
           .pipe(filter((data) => data.value !== undefined))
           .subscribe((data) => {
             const cartId: string = data.value?.code as string;
-            this.multiCartService.addEntries(userId, cartId, csvData);
+            this.multiCartService.addEntries(userId, cartId, productsToLoad);
             this.savedCartService.saveCart({
               cartId,
               saveCartName: 'imported cart',
@@ -37,6 +62,17 @@ export class ImportToCartService implements OnDestroy {
           })
       );
     });
+  }
+
+  private dataToJson(csvData: any): ProductsData {
+    const productsToLoad: ProductsData = [];
+    csvData.map((product: (string | number)[]) => {
+      const productData = { productCode: '', quantity: 0 };
+      productData.productCode = product[0] as string;
+      productData.quantity = product[1] as number;
+      productsToLoad.push(productData);
+    });
+    return productsToLoad;
   }
 
   ngOnDestroy() {

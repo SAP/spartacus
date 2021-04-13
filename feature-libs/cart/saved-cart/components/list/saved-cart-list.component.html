@@ -1,6 +1,7 @@
 <ng-container *ngIf="savedCarts$ | async as savedCarts">
   <ng-container *ngIf="!(isLoading$ | async); else loading">
     <div class="cx-saved-cart-list-header">
+      <cx-import-to-cart></cx-import-to-cart>
       <h3>
         {{
           'savedCartList.savedCarts' | cxTranslate: { count: savedCarts.length }

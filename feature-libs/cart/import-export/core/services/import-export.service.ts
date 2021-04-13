@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { ImportExportConfig } from '../config/import-export-config';
-import { FileValidity, InvalidFileInfo } from '../model';
+import { ColumnData, FileValidity, InvalidFileInfo } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +19,7 @@ export class ImportExportService {
    */
   csvToData(
     selectedFile: FileList,
+    columnData: ColumnData,
     checkValidityEnabled?: Boolean,
     validityConfig?: FileValidity
   ): Observable<unknown> {
@@ -32,7 +33,9 @@ export class ImportExportService {
       ) {
         fileReader.readAsText(file);
         fileReader.onload = () => {
-          observer.next(this.processCsvData(fileReader.result as string));
+          observer.next(
+            this.processCsvData(fileReader.result as string, columnData)
+          );
           observer.complete();
         };
         fileReader.onerror = () => {
@@ -96,24 +99,63 @@ export class ImportExportService {
     return this.importExportConfig.importExport.file.separator;
   }
   /**
-   * Processes the CSV data and coverts into JSON
+   * Processes the CSV data
    *
    * @param data raw extracted data from CSV
-   * @returns JSON object containing productCode and quantity of products
+   * @param columnData object which provides info of required columns
+   * @returns Processed data in form of array containing sku and quantity
    */
-  protected processCsvData(data: string): ProductsData {
-    const csvData: ProductsData = [];
-    const dataArray = data.replace(/"/g, '').split('\n');
-    dataArray.forEach((data) => {
-      const row = { productCode: '', quantity: 0 };
-      const rowData = data.split(',');
-      if (rowData[0] && rowData[0] !== 'Sku') {
-        row['productCode'] = rowData[0];
-        row['quantity'] = Number(rowData[1]);
-        csvData.push(row);
-      }
-    });
-    return csvData;
+  protected processCsvData(
+    data: string,
+    columnData: ColumnData
+  ): (string | number)[][] {
+    let headers: string[];
+    const dataArray = data
+      .split('\n')
+      .map((row, index) => {
+        const convertedRow = row
+          .split(this.separator)
+          .map((cell) => cell.replace(/"/g, ''));
+        if (index === 0) {
+          return (headers = convertedRow);
+        } else {
+          return convertedRow
+            .filter((_cell, index) =>
+              this.filterColumn(index, headers, Object.keys(columnData))
+            )
+            .map((cell, index) =>
+              this.parseData(cell, index, headers, columnData)
+            );
+        }
+      })
+      .filter((value, index) => index !== 0 && value[0] !== '');
+    return dataArray;
+  }
+
+  protected parseData(
+    cell: string,
+    index: number,
+    headers: string[],
+    columnData: ColumnData
+  ): number | string {
+    switch (columnData[headers[index]?.toLowerCase()]) {
+      case 'number':
+        return Number(cell);
+
+      case 'string':
+        return cell;
+
+      default:
+        return cell;
+    }
+  }
+
+  protected filterColumn(
+    index: number,
+    headers: string[],
+    columnData: string[]
+  ): boolean {
+    return columnData.includes(headers[index]?.toLowerCase());
   }
 
   /**

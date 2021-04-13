@@ -10,3 +10,5 @@ export type FileValidity = {
   allowedExtensions?: string[];
   checkEmptyFile?: Boolean;
 };
+
+export type ColumnData = { [key: string]: string | number };

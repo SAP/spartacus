@@ -9,6 +9,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
+import { ImportToCartModule } from 'feature-libs/cart/import-export/components/import-to-cart/import-to-cart.module';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 @NgModule({
@@ -19,6 +20,7 @@ import { SavedCartListComponent } from './saved-cart-list.component';
     ListNavigationModule,
     I18nModule,
     SpinnerModule,
+    ImportToCartModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

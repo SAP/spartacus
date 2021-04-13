@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-import { ProductsData } from '../../core/model';
+import { Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ImportExportService, ImportToCartService } from '../../core/services';
 
 @Component({
@@ -10,20 +9,16 @@ import { ImportExportService, ImportToCartService } from '../../core/services';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImportToCartComponent {
+  protected subscription = new Subscription();
   constructor(
     protected importExportService: ImportExportService,
     protected importToCartService: ImportToCartService
   ) {}
 
   importProducts(file: FileList): void {
-    this.importExportService
-      .csvToData(file, true, {
-        maxSize: 1,
-        checkEmptyFile: true,
-      })
-      .pipe(catchError((error) => throwError(error)))
-      .subscribe((csvData) => {
-        this.importToCartService.addProductsToCart(csvData as ProductsData);
-      });
+    this.importToCartService
+      .csvToData(file)
+      .pipe(take(1))
+      .subscribe((data) => this.importToCartService.loadProductsToCart(data));
   }
 }
