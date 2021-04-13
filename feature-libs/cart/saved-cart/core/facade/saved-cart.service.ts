@@ -4,6 +4,7 @@ import {
   Cart,
   EventService,
   getWishlistName,
+  isSelectiveCart,
   MultiCartService,
   ProcessSelectors,
   StateUtils,
@@ -157,7 +158,9 @@ export class SavedCartService implements SavedCartFacade {
           (cart) =>
             (user?.customerId !== undefined
               ? cart?.name !== getWishlistName(user?.customerId)
-              : true) && cart?.saveTime
+              : true) &&
+            !isSelectiveCart(cart?.code) &&
+            cart?.saveTime
         )
       )
     );
