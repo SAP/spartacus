@@ -6,7 +6,7 @@ import {
   flush,
   TestBed,
   tick,
-  waitForAsync,
+  waitForAsync
 } from '@angular/core/testing';
 import { AuthService } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
@@ -14,11 +14,9 @@ import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
-import {
-  CpqAccessStorageService,
-  CpqConfiguratorTokenConfig,
-  DefaultCpqConfiguratorTokenConfig,
-} from './cpq-access-storage.service';
+import { CpqAccessStorageService } from './cpq-access-storage.service';
+import { CpqConfiguratorAuthConfig } from './cpq-configurator-auth.config';
+import { defaultCpqConfiguratorAuthConfig } from './default-cpq-configurator-auth.config';
 import createSpy = jasmine.createSpy;
 
 const oneHour: number = 1000 * 60;
@@ -58,7 +56,8 @@ class AuthServiceMock {
 }
 
 const TIME_UNTIL_TOKEN_EXPIRES =
-  DefaultCpqConfiguratorTokenConfig.cpqConfigurator.tokenExpirationBuffer * 6; // one minute
+  defaultCpqConfiguratorAuthConfig.productConfigurator.cpq.authentication
+    .tokenExpirationBuffer * 6; // one minute
 
 describe('CpqAccessStorageService', () => {
   let serviceUnderTest: CpqAccessStorageService;
@@ -74,8 +73,8 @@ describe('CpqAccessStorageService', () => {
             useClass: CpqAccessLoaderServiceMock,
           },
           {
-            provide: CpqConfiguratorTokenConfig,
-            useValue: DefaultCpqConfiguratorTokenConfig,
+            provide: CpqConfiguratorAuthConfig,
+            useValue: defaultCpqConfiguratorAuthConfig,
           },
           {
             provide: AuthService,
@@ -133,7 +132,7 @@ describe('CpqAccessStorageService', () => {
       counter++;
     });
 
-    // fullfill first request
+    // fulfill first request
     accessDataSubject.next(accessData);
 
     // third request
@@ -262,7 +261,7 @@ describe('CpqAccessStorageService', () => {
     discardPeriodicTasks();
   }));
 
-  it('should get new token after refesh', (done) => {
+  it('should get new token after refresh', (done) => {
     const obs = takeOneCpqAccessData();
     accessDataSubject.next(accessData);
     serviceUnderTest.renewCachedCpqAccessData();
@@ -274,7 +273,7 @@ describe('CpqAccessStorageService', () => {
     });
   });
 
-  it('should not emit old token after refesh anymore', fakeAsync(() => {
+  it('should not emit old token after refresh anymore', fakeAsync(() => {
     const obs = takeOneCpqAccessData();
     accessDataSubject.next(accessData);
     serviceUnderTest.renewCachedCpqAccessData();

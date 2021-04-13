@@ -10,28 +10,7 @@ import {
 } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessLoaderService } from './cpq-access-loader.service';
-
-export abstract class CpqConfiguratorTokenConfig {
-  cpqConfigurator: {
-    /* We should stop using/sending a token shortly before expiration,
-     * to avoid that it is actually expired when evaluated in the target system.
-     * Time given in ms. */
-    tokenExpirationBuffer: number;
-    /* max time in ms to pass until a token is considered expired and refetched,
-     * even if token expiration time is longer */
-    tokenMaxValidity: number;
-    /* min time to pass until a token is refecthed, even if token expiration time is shorter */
-    tokenMinValidity: number;
-  };
-}
-
-export const DefaultCpqConfiguratorTokenConfig: CpqConfiguratorTokenConfig = {
-  cpqConfigurator: {
-    tokenExpirationBuffer: 10000, // ten seconds
-    tokenMaxValidity: 24 * 60 * 60 * 1000, //one day
-    tokenMinValidity: 5000, // five seconds
-  },
-};
+import { CpqConfiguratorAuthConfig } from './cpq-configurator-auth.config';
 
 @Injectable({ providedIn: 'root' })
 export class CpqAccessStorageService {
@@ -43,7 +22,7 @@ export class CpqAccessStorageService {
   constructor(
     protected cpqAccessLoaderService: CpqAccessLoaderService,
     protected authService: AuthService,
-    protected config: CpqConfiguratorTokenConfig
+    protected config: CpqConfiguratorAuthConfig
   ) {}
 
   protected cpqAccessObservable: Observable<CpqAccessData>;
@@ -122,15 +101,16 @@ export class CpqAccessStorageService {
   }
 
   protected fetchNextTokenIn(data: CpqAccessData) {
+    const authSettings = this.config.productConfigurator.cpq.authentication;
     // we schedule a request to update our cache some time before expiration
     let fetchNextIn: number =
       data.accessTokenExpirationTime -
       Date.now() -
-      this.config.cpqConfigurator.tokenExpirationBuffer;
-    if (fetchNextIn < this.config.cpqConfigurator.tokenMinValidity) {
-      fetchNextIn = this.config.cpqConfigurator.tokenMinValidity;
-    } else if (fetchNextIn > this.config.cpqConfigurator.tokenMaxValidity) {
-      fetchNextIn = this.config.cpqConfigurator.tokenMaxValidity;
+      authSettings.tokenExpirationBuffer;
+    if (fetchNextIn < authSettings.tokenMinValidity) {
+      fetchNextIn = authSettings.tokenMinValidity;
+    } else if (fetchNextIn > authSettings.tokenMaxValidity) {
+      fetchNextIn = authSettings.tokenMaxValidity;
     }
     return fetchNextIn;
   }
@@ -139,7 +119,7 @@ export class CpqAccessStorageService {
     return (
       Date.now() >
       tokenData.accessTokenExpirationTime -
-        this.config.cpqConfigurator.tokenExpirationBuffer
+        this.config.productConfigurator.cpq.authentication.tokenExpirationBuffer
     );
   }
 

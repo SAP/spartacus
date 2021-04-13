@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { provideDefaultConfig } from '@spartacus/core';
 import { RulebasedConfiguratorConnector } from '../core/connectors/rulebased-configurator.connector';
 import { CpqConfiguratorNormalizer } from './converters/cpq-configurator-normalizer';
 import { CpqConfiguratorOverviewNormalizer } from './converters/cpq-configurator-overview-normalizer';
-import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
 import { CpqConfiguratorSerializer } from './converters/cpq-configurator-serializer';
 import { CpqConfiguratorValueSerializer } from './converters/cpq-configurator-value-serializer';
 import {
@@ -12,6 +12,8 @@ import {
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
 } from './converters/cpq-configurator.converters';
+import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
+import { defaultCpqConfiguratorEndpointConfig } from './default-cpq-configurator-endpoint.config';
 
 @NgModule({
   imports: [CommonModule],
@@ -42,6 +44,7 @@ import {
       useClass: CpqConfiguratorOverviewNormalizer,
       multi: true,
     },
+    provideDefaultConfig(defaultCpqConfiguratorEndpointConfig),
   ],
 })
 export class CpqConfiguratorRestModule {}
