@@ -83,18 +83,18 @@ export class ImportExportService {
     const array =
       typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
 
-    return array.reduce((str: string, row: T) => {
+    return array.reduce((csvString: string, row: T) => {
       const line = Object.keys(row).reduce((currentLine, column) => {
-        const separator = currentLine !== '' ? this.separator : '';
+        currentLine += currentLine !== '' ? this.separator : '';
         const cell =
           typeof row[column] === 'string' &&
           (row[column] as string).includes(this.separator)
             ? `"${row[column]}"`
             : row[column];
 
-        return `${currentLine}${separator}${cell}`;
+        return `${currentLine}${cell}`;
       }, '');
-      return `${str}${line}\r\n`;
+      return `${csvString}${line}\r\n`;
     }, '');
   }
 }
