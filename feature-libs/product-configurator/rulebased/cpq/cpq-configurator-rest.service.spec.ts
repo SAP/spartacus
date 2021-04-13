@@ -78,9 +78,9 @@ const configResponseTab3: Cpq.Configuration = {
 };
 
 const configResponsesByTab = {
-  '1': configResponseTab1,
-  '2': configResponseTab2,
-  '3': configResponseTab3,
+  1: configResponseTab1,
+  2: configResponseTab2,
+  3: configResponseTab3,
 };
 
 const configUpdateResponse = {};
