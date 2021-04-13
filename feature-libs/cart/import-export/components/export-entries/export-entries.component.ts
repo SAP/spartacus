@@ -4,11 +4,11 @@ import { filter, take } from 'rxjs/operators';
 import { ImportExportService } from '@spartacus/cart/import-export/core';
 
 @Component({
-  selector: 'cx-export-product-list',
-  templateUrl: './export-product-list.component.html',
+  selector: 'cx-export-entries',
+  templateUrl: './export-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExportProductListComponent {
+export class ExportEntriesComponent {
   constructor(
     protected importExportService: ImportExportService,
     protected activeCartService: ActiveCartService

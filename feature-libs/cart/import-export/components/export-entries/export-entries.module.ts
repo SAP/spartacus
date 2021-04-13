@@ -7,7 +7,7 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import { ExportProductListComponent } from './export-product-list.component';
+import { ExportEntriesComponent } from './export-entries.component';
 
 @NgModule({
   imports: [
@@ -15,16 +15,16 @@ import { ExportProductListComponent } from './export-product-list.component';
     RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        ExportProductListComponent: {
-          component: ExportProductListComponent,
+        ExportOrderEntriesComponent: {
+          component: ExportEntriesComponent,
         },
       },
     }),
     I18nModule,
     UrlModule,
   ],
-  exports: [ExportProductListComponent],
-  declarations: [ExportProductListComponent],
-  entryComponents: [ExportProductListComponent],
+  exports: [ExportEntriesComponent],
+  declarations: [ExportEntriesComponent],
+  entryComponents: [ExportEntriesComponent],
 })
-export class ExportProductListModule {}
+export class ExportEntriesModule {}
