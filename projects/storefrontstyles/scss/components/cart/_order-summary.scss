@@ -6,8 +6,9 @@
   padding-inline-start: 15px;
   margin: 0;
 
-  h4 {
+  h3 {
     text-transform: uppercase;
+    @include type('4');
     font-weight: var(--cx-font-weight-semi);
   }
 

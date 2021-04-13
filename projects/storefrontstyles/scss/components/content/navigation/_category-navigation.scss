@@ -2,7 +2,7 @@
   // all ategory headings in desktop have uppercase text, as
   // well as the root category links
   span,
-  cx-navigation-ui > li > cx-generic-link {
+  cx-navigation-ui > nav > cx-generic-link {
     text-transform: uppercase;
     font-weight: 600;
   }
