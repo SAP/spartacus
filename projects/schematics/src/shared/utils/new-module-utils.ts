@@ -216,11 +216,7 @@ function isDuplication(
     }
   }
 
-  if (elementExists(initializer, content)) {
-    return true;
-  }
-
-  return false;
+  return elementExists(initializer, content);
 }
 
 function elementExists(
