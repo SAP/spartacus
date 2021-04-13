@@ -2,10 +2,7 @@ import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-bas
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import {
-  ConfiguratorAttributeQuantityComponentOptions,
-  Quantity,
-} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
@@ -129,12 +126,9 @@ export class ConfiguratorAttributeSingleSelectionBaseComponent extends Configura
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
     const quantity: number = this.attribute.quantity ?? 0;
-    const initialQuantity: Quantity = {
-      quantity: this.attribute.selectedSingleValue ? quantity : 0,
-    };
     return {
       allowZero: !this.attribute.required,
-      initialQuantity: initialQuantity,
+      initialQuantity: this.attribute.selectedSingleValue ? quantity : 0,
       disableQuantityActions$: this.loading$.pipe(
         map((loading) => {
           return loading || this.disableQuantityActions;

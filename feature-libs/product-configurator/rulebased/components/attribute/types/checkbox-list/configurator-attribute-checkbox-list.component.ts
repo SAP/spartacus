@@ -13,10 +13,7 @@ import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import {
-  ConfiguratorAttributeQuantityComponentOptions,
-  Quantity,
-} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
@@ -134,7 +131,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
     this.selectionChange.emit(event);
   }
 
-  protected onHandleAttributeQuantity(quantity): void {
+  protected onHandleAttributeQuantity(quantity: number): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
@@ -149,7 +146,11 @@ export class ConfiguratorAttributeCheckBoxListComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeValueQuantity(eventObject, valueCode, formIndex): void {
+  onChangeValueQuantity(
+    eventObject: { quantity: number },
+    valueCode: string,
+    formIndex: number
+  ): void {
     if (eventObject.quantity === 0) {
       this.attributeCheckBoxForms[formIndex].setValue(false);
       this.onSelect();
@@ -185,7 +186,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject): void {
+  onChangeQuantity(eventObject: { quantity: number }): void {
     if (!eventObject.quantity) {
       this.attributeCheckBoxForms.forEach((_, index) =>
         this.attributeCheckBoxForms[index].setValue(false)
@@ -207,13 +208,9 @@ export class ConfiguratorAttributeCheckBoxListComponent
     allowZero: boolean,
     initialQuantity: number
   ): ConfiguratorAttributeQuantityComponentOptions {
-    const initQuantity: Quantity = {
-      quantity: initialQuantity,
-    };
-
     return {
       allowZero: allowZero,
-      initialQuantity: initQuantity,
+      initialQuantity: initialQuantity,
       disableQuantityActions$: this.loading$.pipe(
         map((loading) => {
           return loading || this.disableQuantityActions;

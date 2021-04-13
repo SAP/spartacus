@@ -13,16 +13,13 @@ import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
-import {
-  ConfiguratorAttributeQuantityComponentOptions,
-  Quantity,
-} from '../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 export interface ConfiguratorAttributeProductCardComponentOptions {
   /** If set to `true`, all action buttons will be disabled.  */
   disableAllButtons?: boolean;
-  /** If set to `true`, the remove/deselect button won't be available. Usefull for required attributes,
+  /** If set to `true`, the remove/deselect button won't be available. Useful for required attributes,
    *  where a deselect/remove of last value shall not be possible.  */
   hideRemoveButton?: boolean;
   fallbackFocusId?: string;
@@ -31,7 +28,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   singleDropdown?: boolean;
   withQuantity?: boolean;
   /**
-   * Used to indicate loading state, for exmaple in case a request triggred by parent component to CPQ is currently in progress.
+   * Used to indicate loading state, for example in case a request triggered by parent component to CPQ is currently in progress.
    * Component will react on it and disable all controls that could cause a request.
    * This prevents the user from triggering concurrent requests with potential conflicting content that might cause unexpected behaviour.
    */
@@ -70,7 +67,7 @@ export class ConfiguratorAttributeProductCardComponent
       .productSystemId;
 
     this.product$ = this.productService
-      .get(productSystemId ? productSystemId : '', ProductScope.LIST)
+      .get(productSystemId ? productSystemId : '', ProductScope.DETAILS)
       .pipe(
         map((respProduct) => {
           return respProduct
@@ -184,9 +181,6 @@ export class ConfiguratorAttributeProductCardComponent
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
     const quantityFromOptions = this.productCardOptions.productBoundValue
       .quantity;
-    const initialQuantity: Quantity = {
-      quantity: quantityFromOptions ? quantityFromOptions : 0,
-    };
 
     const mergedLoading = this.productCardOptions.loading$
       ? combineLatest([this.loading$, this.productCardOptions.loading$]).pipe(
@@ -198,7 +192,7 @@ export class ConfiguratorAttributeProductCardComponent
 
     return {
       allowZero: !this.productCardOptions.hideRemoveButton,
-      initialQuantity: initialQuantity,
+      initialQuantity: quantityFromOptions ? quantityFromOptions : 0,
       disableQuantityActions$: mergedLoading,
     };
   }

@@ -513,7 +513,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       setProductBoundValueAttributes(component, true, 5);
       const qtyParams = component.extractQuantityParameters();
       expect(qtyParams.allowZero).toBe(true);
-      expect(qtyParams.initialQuantity?.quantity).toBe(5);
+      expect(qtyParams.initialQuantity).toBe(5);
       expect(qtyParams.disableQuantityActions$).toBeDefined();
     });
 
