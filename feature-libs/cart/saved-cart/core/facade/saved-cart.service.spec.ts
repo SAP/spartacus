@@ -81,6 +81,7 @@ describe('SavedCartService', () => {
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({}), ProcessModule.forRoot()],
       providers: [
+        SavedCartService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: UserService, useClass: MockUserService },
         { provide: MultiCartService, useClass: MockMultiCartService },

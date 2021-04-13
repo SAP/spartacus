@@ -30,6 +30,7 @@ describe('SavedCartConnector', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        SavedCartConnector,
         { provide: SavedCartAdapter, useClass: MockSavedCartAdapter },
       ],
     });

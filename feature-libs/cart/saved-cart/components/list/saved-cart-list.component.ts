@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   ClearCheckoutService,
@@ -39,7 +39,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
   constructor(
     protected routing: RoutingService,
     protected translation: TranslationService,
-    protected savedCartService: SavedCartService,
+    protected savedCartService: SavedCartFacade,
     protected clearCheckoutService: ClearCheckoutService
   ) {}
 

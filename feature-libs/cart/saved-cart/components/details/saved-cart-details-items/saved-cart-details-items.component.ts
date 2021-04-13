@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import {
   DeleteSavedCartSuccessEvent,
-  SavedCartService,
-} from '@spartacus/cart/saved-cart/core';
+  SavedCartFacade,
+} from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   EventService,
@@ -46,7 +46,7 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
 
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,
-    protected savedCartService: SavedCartService,
+    protected savedCartService: SavedCartFacade,
     protected eventSercvice: EventService,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService
