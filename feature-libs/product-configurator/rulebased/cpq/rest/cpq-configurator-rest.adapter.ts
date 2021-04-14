@@ -10,8 +10,8 @@ import {
 } from '@spartacus/product-configurator/rulebased';
 import { Observable, of, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
+import { CpqConfiguratorOccService } from './../occ/cpq-configurator-occ.service';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
-import { CpqConfiguratorOccService } from './occ/cpq-configurator-occ.service';
 
 @Injectable()
 export class CpqConfiguratorRestAdapter
