@@ -52,7 +52,7 @@ function prepare_install {
     npm i -g concurrently
     npm i -g @angular/cli@${ANGULAR_CLI_VERSION}
 
-    ng config -g cli.packageManager yarn     
+    ng config -g cli.packageManager yarn
 
     mkdir -p ${INSTALLATION_DIR}
     ng analytics off
@@ -77,7 +77,7 @@ function update_projects_versions {
     printh "Updating all library versions to ${SPARTACUS_VERSION}"
     for i in ${projects}
         do
-            (cd "${CLONE_DIR}/${i}" && pwd && sed -i '' -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
+            (cd "${CLONE_DIR}/${i}" && pwd && sed -i -E 's/"version": "[^"]+/"version": "'"${SPARTACUS_VERSION}"'/g' package.json);
         done
 }
 
@@ -111,7 +111,12 @@ function add_feature_libs {
 }
 
 function add_spartacus_csr {
-    ( cd ${INSTALLATION_DIR}/${1} && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --configuration b2c --interactive false
+    ( cd ${INSTALLATION_DIR}/${1}
+    if [ "${ADD_B2B_LIBS}" = true ] ; then
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --configuration b2b --interactive false
+    else
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --configuration b2c --interactive false
+    fi
     add_feature_libs
     add_b2b
     if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
@@ -121,7 +126,12 @@ function add_spartacus_csr {
 }
 
 function add_spartacus_ssr {
-    ( cd ${INSTALLATION_DIR}/${1} && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --configuration b2c --interactive false
+    ( cd ${INSTALLATION_DIR}/${1}
+    if [ "${ADD_B2B_LIBS}" = true ] ; then
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --configuration b2b --interactive false
+    else
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --configuration b2c --interactive false
+    fi
     add_feature_libs
     add_b2b
     if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
@@ -131,7 +141,12 @@ function add_spartacus_ssr {
 }
 
 function add_spartacus_ssr_pwa {
-    ( cd ${INSTALLATION_DIR}/${1} && ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --configuration b2c --interactive false
+    ( cd ${INSTALLATION_DIR}/${1}
+    if [ "${ADD_B2B_LIBS}" = true ] ; then
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --configuration b2b --interactive false
+    else
+      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --configuration b2c --interactive false
+    fi
     add_feature_libs
     add_b2b
     if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
