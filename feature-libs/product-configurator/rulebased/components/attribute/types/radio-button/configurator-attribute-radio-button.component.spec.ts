@@ -70,9 +70,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     };
 
     component.ownerKey = ownerKey;
-
     spyOn(component, 'onHandleQuantity').and.callThrough();
-
     fixture.detectChanges();
   });
 
@@ -86,69 +84,75 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     );
   });
 
-  it('should call emit of selectionChange onSelect', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-    component.onSelect(changedSelectedValue);
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        ownerKey: ownerKey,
-        changedAttribute: jasmine.objectContaining({
-          name: name,
-          selectedSingleValue: changedSelectedValue,
-          uiType: Configurator.UiType.RADIOBUTTON,
-          groupId: groupId,
-        }),
-      })
-    );
+  describe('onSelect', () => {
+    it('should call emit of selectionChange onSelect', () => {
+      spyOn(component.selectionChange, 'emit').and.callThrough();
+      component.onSelect(changedSelectedValue);
+      expect(component.selectionChange.emit).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          ownerKey: ownerKey,
+          changedAttribute: jasmine.objectContaining({
+            name: name,
+            selectedSingleValue: changedSelectedValue,
+            uiType: Configurator.UiType.RADIOBUTTON,
+            groupId: groupId,
+          }),
+        })
+      );
+    });
   });
 
-  it('should call emit of selectionChange onDeselect', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-
-    component.onDeselect();
-
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        ownerKey: ownerKey,
-        changedAttribute: jasmine.objectContaining({
-          name: name,
-          selectedSingleValue: '',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          groupId: groupId,
-        }),
-      })
-    );
+  describe('onDeselect', () => {
+    it('should call emit of selectionChange onDeselect', () => {
+      spyOn(component.selectionChange, 'emit').and.callThrough();
+      component.onDeselect();
+      expect(component.selectionChange.emit).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          ownerKey: ownerKey,
+          changedAttribute: jasmine.objectContaining({
+            name: name,
+            selectedSingleValue: '',
+            uiType: Configurator.UiType.RADIOBUTTON,
+            groupId: groupId,
+          }),
+        })
+      );
+    });
   });
 
-  it('should call emit of selectionChange onHandleQuantity', () => {
-    const quantity = 2;
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-    component.onHandleQuantity(quantity);
+  describe('onHandleQuantity', () => {
+    it('should call emit of selectionChange onHandleQuantity', () => {
+      const quantity = 2;
+      spyOn(component.selectionChange, 'emit').and.callThrough();
+      component.onHandleQuantity(quantity);
 
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          name: name,
-          selectedSingleValue: initialSelectedValue,
-          uiType: Configurator.UiType.RADIOBUTTON,
-          groupId: groupId,
-          quantity,
-        }),
-        ownerKey: ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-      })
-    );
+      expect(component.selectionChange.emit).toHaveBeenCalledWith(
+        jasmine.objectContaining({
+          changedAttribute: jasmine.objectContaining({
+            name: name,
+            selectedSingleValue: initialSelectedValue,
+            uiType: Configurator.UiType.RADIOBUTTON,
+            groupId: groupId,
+            quantity,
+          }),
+          ownerKey: ownerKey,
+          updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
+        })
+      );
+    });
   });
 
-  it('should call onHandleQuantity of event onChangeQuantity', () => {
-    component.onChangeQuantity(2);
-    expect(component.onHandleQuantity).toHaveBeenCalled();
-  });
+  describe('onChangeQuantity', () => {
+    it('should call onHandleQuantity of event onChangeQuantity', () => {
+      component.onChangeQuantity(2);
+      expect(component.onHandleQuantity).toHaveBeenCalled();
+    });
 
-  it('should call onDeselect of event onChangeQuantity', () => {
-    spyOn(component, 'onDeselect');
-    component.onChangeQuantity(0);
-    expect(component.onDeselect).toHaveBeenCalled();
+    it('should call onDeselect of event onChangeQuantity', () => {
+      spyOn(component, 'onDeselect');
+      component.onChangeQuantity(0);
+      expect(component.onDeselect).toHaveBeenCalled();
+    });
   });
 
   it('should allow quantity', () => {
