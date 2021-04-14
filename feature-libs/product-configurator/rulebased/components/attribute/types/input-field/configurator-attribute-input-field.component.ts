@@ -38,7 +38,7 @@ export class ConfiguratorAttributeInputFieldComponent
    * In case no config is injected, or when the debounce time is not configured at all,
    * this value will be used as fallback.
    */
-  readonly FALLBACK_DEBOUNCE_TIME = 500;
+  protected readonly FALLBACK_DEBOUNCE_TIME = 500;
 
   // TODO(#11681): make config a required dependency
   /**
@@ -79,9 +79,6 @@ export class ConfiguratorAttributeInputFieldComponent
       .subscribe(() => this.onChange());
   }
 
-  /**
-   * Triggered when the user input has been changed
-   */
   onChange(): void {
     const event: ConfigFormUpdateEvent = {
       ownerKey: this.ownerKey,
@@ -91,7 +88,9 @@ export class ConfiguratorAttributeInputFieldComponent
       },
     };
 
-    this.inputChange.emit(event);
+    if (!this.attributeInputForm.invalid) {
+      this.inputChange.emit(event);
+    }
   }
 
   ngOnDestroy() {

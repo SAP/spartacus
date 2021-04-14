@@ -11,7 +11,6 @@ import { debounce } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 
 @Component({
   selector: 'cx-configurator-attribute-numeric-input-field',
@@ -98,21 +97,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent extends Configurato
   }
 
   onChange(): void {
-    const event: ConfigFormUpdateEvent = this.createEventFromInput();
-
-    if (!this.attributeInputForm.invalid) {
-      this.inputChange.emit(event);
-    }
-  }
-
-  protected createEventFromInput(): ConfigFormUpdateEvent {
-    return {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
-        ...this.attribute,
-        userInput: this.attributeInputForm.value,
-      },
-    };
+    super.onChange();
   }
 
   ngOnDestroy() {
