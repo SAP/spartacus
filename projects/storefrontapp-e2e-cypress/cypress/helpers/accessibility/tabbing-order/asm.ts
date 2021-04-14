@@ -1,6 +1,6 @@
 import { verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
-import * as asm from '../../../helpers/asm';
+import * as asm from '../../asm';
 
 const containerSelector = 'cx-asm-main-ui';
 
