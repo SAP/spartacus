@@ -6,7 +6,7 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   ClearCheckoutService,
@@ -32,7 +32,7 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
 
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,
-    protected savedCartService: SavedCartService,
+    protected savedCartService: SavedCartFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
     protected savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,

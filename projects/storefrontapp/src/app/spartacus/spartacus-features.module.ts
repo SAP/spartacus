@@ -56,7 +56,6 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
-  ProductVariantsModule,
   ReplenishmentOrderConfirmationModule,
   ReplenishmentOrderDetailsModule,
   ReplenishmentOrderHistoryModule,
@@ -155,7 +154,6 @@ if (environment.cds) {
     ProductReferencesModule,
     ProductImagesModule,
     ProductSummaryModule,
-    ProductVariantsModule,
     ProductIntroModule,
 
     // Cart Core
@@ -204,6 +202,7 @@ if (environment.cds) {
     SmartEditFeatureModule,
     TrackingFeatureModule,
     VariantsFeatureModule,
+    SavedCartFeatureModule,
     ...featureModules,
   ],
 })
