@@ -16,7 +16,7 @@ import {
 } from 'ts-morph';
 import ts from 'typescript';
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from '../constants';
-import { getConfigs, normalizeConfiguration } from './config-utils';
+import { getSpartacusProviders, normalizeConfiguration } from './config-utils';
 import { getTsSourceFile } from './file-utils';
 import { isImportedFrom } from './import-utils';
 import { getSourceRoot } from './workspace-utils';
@@ -196,9 +196,16 @@ function isDuplication(
 ): boolean {
   if (propertyName === 'providers') {
     const normalizedContent = normalizeConfiguration(content);
-    const configs = getConfigs(initializer.getSourceFile());
+    const configs = getSpartacusProviders(initializer.getSourceFile());
     for (const config of configs) {
-      const normalizedConfig = normalizeConfiguration(config.getText());
+      let configText: string;
+      if (Node.isTypeAssertion(config) || Node.isAsExpression(config)) {
+        configText = config.getExpression().getText();
+      } else {
+        configText = config.getText();
+      }
+
+      const normalizedConfig = normalizeConfiguration(configText);
       if (normalizedContent === normalizedConfig) {
         return true;
       }
