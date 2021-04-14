@@ -345,18 +345,12 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should call onHandleDeselect of event onChangeQuantity', () => {
-      const quantity = { quantity: 0 };
-
-      component.onChangeQuantity(quantity);
-
+      component.onChangeQuantity(0);
       expect(component.onHandleDeselect).toHaveBeenCalled();
     });
 
     it('should call onHandleQuantity of event onChangeQuantity', () => {
-      const quantity = { quantity: 2 };
-
-      component.onChangeQuantity(quantity);
-
+      component.onChangeQuantity(2);
       expect(component['onHandleQuantity']).toHaveBeenCalled();
     });
 

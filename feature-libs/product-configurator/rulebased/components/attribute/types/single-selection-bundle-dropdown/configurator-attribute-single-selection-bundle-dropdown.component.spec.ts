@@ -221,9 +221,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   it('should call selectionChange on event onChangeQuantity', () => {
     spyOn(component.selectionChange, 'emit').and.callThrough();
 
-    component.onChangeQuantity({
-      quantity: 2,
-    });
+    component.onChangeQuantity(2);
 
     expect(component.selectionChange.emit).toHaveBeenCalled();
   });

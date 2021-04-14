@@ -116,11 +116,11 @@ export class ConfiguratorAttributeRadioButtonComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject): void {
-    if (!eventObject.quantity) {
+  onChangeQuantity(eventObject: any): void {
+    if (!eventObject) {
       this.onDeselect();
     } else {
-      this.onHandleQuantity(eventObject.quantity);
+      this.onHandleQuantity(eventObject);
     }
   }
 

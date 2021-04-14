@@ -118,10 +118,10 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   onChangeQuantity(eventObject: any): void {
-    if (!eventObject.quantity) {
+    if (!eventObject) {
       this.onHandleDeselect();
     } else {
-      this.onHandleQuantity(eventObject.quantity);
+      this.onHandleQuantity(eventObject);
     }
   }
 
