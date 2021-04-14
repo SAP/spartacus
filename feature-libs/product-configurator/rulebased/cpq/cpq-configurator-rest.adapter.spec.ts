@@ -6,13 +6,11 @@ import {
   CommonConfigurator,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  CpqConfiguratorOccService,
-} from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
+import { CpqConfiguratorOccService } from './occ/cpq-configurator-occ.service';
 
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';

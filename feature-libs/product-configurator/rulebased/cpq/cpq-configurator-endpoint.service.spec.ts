@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { MARKER_HEADER_CPQ_CONFIGURATOR } from '../root/interceptor/cpq-configurator-rest.interceptor';
+import { MARKER_HEADER_CPQ_CONFIGURATOR } from '@spartacus/product-configurator/rulebased/root';
 import { CpqConfiguratorEndpointConfig } from './cpq-configurator-endpoint.config';
 import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
 import { defaultCpqConfiguratorEndpointConfig } from './default-cpq-configurator-endpoint.config';

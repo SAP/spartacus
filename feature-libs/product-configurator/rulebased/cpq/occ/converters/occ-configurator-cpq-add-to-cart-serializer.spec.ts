@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { OccCpqConfigurator } from '../cpq-configurator-occ.models';
-import { Configurator } from './../../../core/model/configurator.model';
 import { OccConfiguratorCpqAddToCartSerializer } from './occ-configurator-cpq-add-to-cart-serializer';
 
 describe('OccConfiguratorCpqAddToCartSerializer', () => {

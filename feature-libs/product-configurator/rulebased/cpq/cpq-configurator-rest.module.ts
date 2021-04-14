@@ -17,9 +17,14 @@ import {
 } from './converters/cpq-configurator.converters';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
 import { defaultCpqConfiguratorEndpointConfig } from './default-cpq-configurator-endpoint.config';
+import { CpqConfiguratorOccModule } from './occ/cpq-configurator-occ.module';
 
 @NgModule({
-  imports: [CommonModule, RulebasedConfiguratorModule],
+  imports: [
+    CommonModule,
+    RulebasedConfiguratorModule,
+    CpqConfiguratorOccModule,
+  ],
 
   providers: [
     {

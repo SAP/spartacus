@@ -7,9 +7,9 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Configurator } from '../../core/model/configurator.model';
 import {
   CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,

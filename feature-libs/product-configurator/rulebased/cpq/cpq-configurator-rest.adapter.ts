@@ -6,12 +6,12 @@ import {
 } from '@spartacus/product-configurator/common';
 import {
   Configurator,
-  CpqConfiguratorOccService,
   RulebasedConfiguratorAdapter,
 } from '@spartacus/product-configurator/rulebased';
 import { Observable, of, throwError } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
+import { CpqConfiguratorOccService } from './occ/cpq-configurator-occ.service';
 
 @Injectable()
 export class CpqConfiguratorRestAdapter

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { OccCpqConfigurator } from '../cpq-configurator-occ.models';
-import { Configurator } from './../../../core/model/configurator.model';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorCpqAddToCartSerializer
