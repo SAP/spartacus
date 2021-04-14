@@ -43,8 +43,8 @@ if (!environment.production) {
     ConfigModule.withConfig({
       backend: {
         occ: {
-          //baseUrl: environment.occBaseUrl,
-          baseUrl: 'https://localhost:9002',
+          baseUrl: environment.occBaseUrl,
+          //baseUrl: 'https://localhost:9002',
           prefix: environment.occApiPrefix,
         },
       },
