@@ -9,10 +9,11 @@
 
   cx-navigation-ui {
     // first level heading / links
-    h5 {
+    span {
       text-transform: uppercase;
       @include type('5');
       margin-bottom: 20px;
+      display: block;
     }
   }
 
