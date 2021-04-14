@@ -150,11 +150,7 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
   describe('onChangeQuantity', () => {
     it('should call onDeselect of event onChangeQuantity', () => {
       spyOn(classUnderTest, 'onDeselect');
-
-      const quantity = { quantity: 0 };
-
-      classUnderTest.onChangeQuantity(quantity);
-
+      classUnderTest.onChangeQuantity(0);
       expect(classUnderTest.onDeselect).toHaveBeenCalled();
     });
   });

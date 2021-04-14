@@ -2,6 +2,7 @@ import {
   HttpErrorResponse,
   HttpEvent,
   HttpHandler,
+  HttpHeaders,
   HttpInterceptor,
   HttpRequest,
   HttpResponse,
@@ -12,8 +13,12 @@ import { catchError, switchMap, take, tap } from 'rxjs/operators';
 import { CpqAccessData } from './cpq-access-data.models';
 import { CpqAccessStorageService } from './cpq-access-storage.service';
 
-export const CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT =
-  'cpq-configurator-virtual-enpoint';
+/**
+ * This header attribute shall be used to mark any request made to the CPQ System.
+ * The presence of it enables this interceptor to actually intercept
+ * this request and to decorate it with the authentication related attributes.
+ */
+export const MARKER_HEADER_CPQ_CONFIGURATOR = 'x-cpq-configurator';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +33,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    if (!request.url.startsWith(CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT)) {
+    if (!request.headers.has(MARKER_HEADER_CPQ_CONFIGURATOR)) {
       return next.handle(request);
     }
     return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
@@ -83,14 +88,11 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     cpqData: CpqAccessData
   ): HttpRequest<any> {
     let newRequest = request.clone({
-      url: request.url.replace(
-        CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT,
-        cpqData.endpoint
-      ),
-      setHeaders: {
+      url: cpqData.endpoint + request.url,
+      headers: new HttpHeaders({
         Authorization: 'Bearer ' + cpqData.accessToken,
         [this.HEADER_ATTR_CPQ_NO_COOKIES]: 'true',
-      },
+      }),
     });
     if (this.cpqAccessStorageService.cpqSessionId) {
       newRequest = newRequest.clone({

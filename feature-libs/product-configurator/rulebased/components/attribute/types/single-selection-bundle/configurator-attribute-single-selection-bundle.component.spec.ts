@@ -207,11 +207,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
 
   it('should call onHandleQuantity of event onChangeQuantity', () => {
     spyOn(component, 'onHandleQuantity');
-
-    const quantity = { quantity: 2 };
-
-    component.onChangeQuantity(quantity);
-
+    component.onChangeQuantity(2);
     expect(component.onHandleQuantity).toHaveBeenCalled();
   });
 

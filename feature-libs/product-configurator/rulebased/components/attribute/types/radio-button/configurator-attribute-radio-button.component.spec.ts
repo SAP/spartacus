@@ -122,9 +122,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
 
   it('should call emit of selectionChange onHandleQuantity', () => {
     const quantity = 2;
-
     spyOn(component.selectionChange, 'emit').and.callThrough();
-
     component.onHandleQuantity(quantity);
 
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
@@ -143,20 +141,13 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   });
 
   it('should call onHandleQuantity of event onChangeQuantity', () => {
-    const quantity = { quantity: 2 };
-
-    component.onChangeQuantity(quantity);
-
+    component.onChangeQuantity(2);
     expect(component.onHandleQuantity).toHaveBeenCalled();
   });
 
   it('should call onDeselect of event onChangeQuantity', () => {
     spyOn(component, 'onDeselect');
-
-    const quantity = { quantity: 0 };
-
-    component.onChangeQuantity(quantity);
-
+    component.onChangeQuantity(0);
     expect(component.onDeselect).toHaveBeenCalled();
   });
 

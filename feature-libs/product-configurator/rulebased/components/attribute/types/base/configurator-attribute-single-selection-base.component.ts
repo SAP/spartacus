@@ -43,7 +43,7 @@ export class ConfiguratorAttributeSingleSelectionBaseComponent extends Configura
    *
    * @return {boolean} - Display quantity picker?
    */
-  get withQuantity() {
+  get withQuantity(): boolean {
     return (
       this.quantityService?.withQuantity(
         this.attribute.dataType,
@@ -57,7 +57,7 @@ export class ConfiguratorAttributeSingleSelectionBaseComponent extends Configura
    *
    * @return {boolean} - Disable quantity picker?
    */
-  get disableQuantityActions() {
+  get disableQuantityActions(): boolean {
     return (
       this.quantityService?.disableQuantityActions(
         this.attribute.selectedSingleValue
@@ -95,7 +95,7 @@ export class ConfiguratorAttributeSingleSelectionBaseComponent extends Configura
     this.selectionChange.emit(event);
   }
 
-  onHandleQuantity(quantity): void {
+  onHandleQuantity(quantity: any): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
@@ -110,11 +110,11 @@ export class ConfiguratorAttributeSingleSelectionBaseComponent extends Configura
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject): void {
-    if (!eventObject.quantity) {
+  onChangeQuantity(eventObject: any): void {
+    if (!eventObject) {
       this.onDeselect();
     } else {
-      this.onHandleQuantity(eventObject.quantity);
+      this.onHandleQuantity(eventObject);
     }
   }
 

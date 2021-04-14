@@ -4,20 +4,21 @@ import { ConverterService } from '@spartacus/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { Configurator } from '../core/model/configurator.model';
-import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '../root/interceptor/cpq-configurator-rest.interceptor';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
   CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
 } from './converters/cpq-configurator.converters';
+import { CpqConfiguratorEndpointService } from './cpq-configurator-endpoint.service';
 import { Cpq } from './cpq.models';
 
 @Injectable({ providedIn: 'root' })
 export class CpqConfiguratorRestService {
   constructor(
     protected http: HttpClient,
-    protected converterService: ConverterService
+    protected converterService: ConverterService,
+    protected endpointService: CpqConfiguratorEndpointService
   ) {}
 
   /**
@@ -217,10 +218,15 @@ export class CpqConfiguratorRestService {
 
   protected callUpdateValue(updateValue: Cpq.UpdateValue): Observable<any> {
     return this.http.patch<Cpq.ConfigurationCreatedResponseData>(
-      `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${updateValue.configurationId}/attributes/${updateValue.standardAttributeCode}/attributeValues/${updateValue.attributeValueId}`,
+      this.endpointService.buildUrl('valueUpdate', {
+        configId: updateValue.configurationId,
+        attributeCode: updateValue.standardAttributeCode,
+        valueCode: updateValue.attributeValueId,
+      }),
       {
         Quantity: updateValue.quantity,
-      }
+      },
+      this.endpointService.CPQ_MARKER_HEADER
     );
   }
 
@@ -228,10 +234,11 @@ export class CpqConfiguratorRestService {
     productSystemId: string
   ): Observable<Cpq.ConfigurationCreatedResponseData> {
     return this.http.post<Cpq.ConfigurationCreatedResponseData>(
-      `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations`,
+      this.endpointService.buildUrl('configurationInit'),
       {
         ProductSystemId: productSystemId,
-      }
+      },
+      this.endpointService.CPQ_MARKER_HEADER
     );
   }
 
@@ -239,19 +246,26 @@ export class CpqConfiguratorRestService {
     configId: string,
     tabId?: string
   ): Observable<Cpq.Configuration> {
-    let url = `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/display`;
-    if (tabId) {
-      url += `?tabId=${tabId}`;
-    }
-    return this.http.get<Cpq.Configuration>(url);
+    return this.http.get<Cpq.Configuration>(
+      this.endpointService.buildUrl(
+        'configurationDisplay',
+        { configId: configId },
+        tabId ? [{ name: 'tabId', value: tabId }] : undefined
+      ),
+      this.endpointService.CPQ_MARKER_HEADER
+    );
   }
 
   protected callUpdateAttribute(
     updateAttribute: Cpq.UpdateAttribute
   ): Observable<any> {
     return this.http.patch<any>(
-      `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${updateAttribute.configurationId}/attributes/${updateAttribute.standardAttributeCode}`,
-      updateAttribute.changeAttributeValue
+      this.endpointService.buildUrl('attributeUpdate', {
+        configId: updateAttribute.configurationId,
+        attributeCode: updateAttribute.standardAttributeCode,
+      }),
+      updateAttribute.changeAttributeValue,
+      this.endpointService.CPQ_MARKER_HEADER
     );
   }
 }
