@@ -38,7 +38,7 @@ const products = {
     },
   ],
   csvString:
-    '"Sku","Quantity","Name","Price"\r\n"4567133","1","PSM 80 A","$12.00"\r\n"3881027","1","Screwdriver BT-SD 3,6/1 Li","$26.00"\r\n"3794609","1","2.4V Şarjli Tornavida, Tüp Ambalaj","$30,200.00"\r\n',
+    'Sku,Quantity,Name,Price\r\n4567133,1,PSM 80 A,$12.00\r\n3881027,1,"Screwdriver BT-SD 3,6/1 Li",$26.00\r\n3794609,1,"2.4V Şarjli Tornavida, Tüp Ambalaj","$30,200.00"\r\n',
 };
 
 describe('ImportExportService', () => {
