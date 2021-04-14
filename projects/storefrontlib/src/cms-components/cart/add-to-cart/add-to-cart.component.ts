@@ -23,9 +23,6 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
 
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
-// import { Observable } from 'rxjs';
-// import { map } from 'rxjs/operators';
-
 @Component({
   selector: 'cx-add-to-cart',
   templateUrl: './add-to-cart.component.html',
