@@ -9,7 +9,7 @@ import {
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { ProductsData } from '../model';
+import { ColumnData, ProductsData } from '../model';
 import { ImportExportService } from './import-export.service';
 
 @Injectable({
@@ -52,7 +52,11 @@ export class ImportToCartService implements OnDestroy {
           .pipe(filter((data) => data.value !== undefined))
           .subscribe((data) => {
             const cartId: string = data.value?.code as string;
-            this.multiCartService.addEntries(userId, cartId, productsToLoad);
+            this.multiCartService.addEntries(
+              userId,
+              cartId,
+              this.updateProductsToLoad(productsToLoad)
+            );
             this.savedCartService.saveCart({
               cartId,
               saveCartName: 'imported cart',
@@ -61,6 +65,13 @@ export class ImportToCartService implements OnDestroy {
           })
       );
     });
+  }
+
+  updateProductsToLoad(productsToLoad: any) {
+    return productsToLoad.map((product: ColumnData) => ({
+      productCode: product.sku,
+      quantity: product.quantity,
+    }));
   }
 
   ngOnDestroy() {

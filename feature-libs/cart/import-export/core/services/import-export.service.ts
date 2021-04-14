@@ -111,7 +111,7 @@ export class ImportExportService {
    * @param columnData object which provides info of required columns
    * @returns Processed JSON containing productCode and quantity
    */
-  protected processCsvData(data: string, columnData: ColumnData): ProductsData {
+  protected processCsvData(data: string, columnData: ColumnData): any {
     let headers: string[];
     return data
       .split('\n')
@@ -132,10 +132,9 @@ export class ImportExportService {
         }
       })
       .filter((value, index) => index !== 0 && value[0] !== '')
-      .map((product) => ({
-        productCode: product[0] as string,
-        quantity: product[1] as number,
-      }));
+      .map((data) => {
+        return this.mapData(data, columnData);
+      });
   }
 
   protected parseData(
@@ -162,6 +161,14 @@ export class ImportExportService {
     columnData: string[]
   ): boolean {
     return columnData.includes(headers[index]?.toLowerCase());
+  }
+
+  protected mapData(data: (string | number)[], columnData: ColumnData) {
+    const json: any = {};
+    Object.keys(columnData).map((key, index) => {
+      json[key] = data[index];
+    });
+    return json;
   }
 
   /**
