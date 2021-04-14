@@ -18,7 +18,7 @@ import {
   PROVIDE_CONFIG_FUNCTION,
   SPARTACUS_CORE,
 } from '../constants';
-import { isImportedFrom } from './import-utils';
+import { isImportedFrom, isImportedFromSpartacusLibs } from './import-utils';
 import { getModule } from './new-module-utils';
 
 /**
@@ -365,4 +365,41 @@ export function normalizeConfiguration(config: string): string {
   newConfig = newConfig.replace(EMPTY_SPACE_REG_EXP, '');
 
   return newConfig;
+}
+
+export function getSpartacusProviders(sourceFile: SourceFile): Node[] {
+  const module = getModule(sourceFile);
+  if (!module) {
+    return [];
+  }
+  const literal = module.getFirstDescendantByKind(
+    tsMorph.SyntaxKind.ObjectLiteralExpression
+  );
+  const providers: Node[] = [];
+  if (literal) {
+    const properties =
+      literal.getChildrenOfKind(tsMorph.SyntaxKind.PropertyAssignment) ?? [];
+    properties.forEach((property) => {
+      if (
+        property.getNameNode().getText() === 'providers' &&
+        property.getInitializerIfKind(tsMorph.SyntaxKind.ArrayLiteralExpression)
+      ) {
+        const initializer = property.getInitializerIfKind(
+          tsMorph.SyntaxKind.ArrayLiteralExpression
+        );
+        initializer?.getElements().forEach((element) => {
+          if (Node.isCallExpression(element) || Node.isSpreadElement(element)) {
+            const expression = element.getExpression();
+            if (
+              Node.isIdentifier(expression) &&
+              isImportedFromSpartacusLibs(expression)
+            ) {
+              providers.push(element);
+            }
+          }
+        });
+      }
+    });
+  }
+  return providers;
 }

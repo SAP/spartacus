@@ -18,3 +18,21 @@ export function isImportedFrom(node: Identifier, importPath: string): boolean {
 
   return result;
 }
+
+export function isImportedFromSpartacusLibs(node: Identifier): boolean {
+  let result = false;
+  const definitions = node.getDefinitions();
+  for (const def of definitions) {
+    const node = def.getDeclarationNode();
+
+    const declaration = node?.getFirstAncestorByKind(
+      ts.SyntaxKind.ImportDeclaration
+    );
+    if (declaration?.getModuleSpecifier().getText().includes('@spartacus/')) {
+      result = true;
+      break;
+    }
+  }
+
+  return result;
+}

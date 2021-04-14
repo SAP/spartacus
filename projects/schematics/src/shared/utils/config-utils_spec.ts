@@ -10,13 +10,14 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
-import { InMemoryFileSystemHost, Project } from 'ts-morph';
+import { InMemoryFileSystemHost, Project, SourceFile } from 'ts-morph';
 import ts from 'typescript';
 import {
   createNewConfig,
   getConfig,
   getConfigs,
   getExistingStorefrontConfigNode,
+  getSpartacusProviders,
   mergeConfig,
 } from './config-utils';
 import { commitChanges, getTsSourceFile } from './file-utils';
@@ -200,61 +201,82 @@ describe('Storefront config utils', () => {
     });
   });
 
-  describe('getConfigs', () => {
-    it('should return all configs from provideConfigs calls', () => {
-      const content = `
+  describe('ts-morph config utils', () => {
+    const configFileContent = `
 import { NgModule } from '@angular/core';
 import {
-  CartAddEntrySuccessEvent,
-  CartRemoveEntrySuccessEvent,
-  provideConfig,
+CartAddEntrySuccessEvent,
+CartRemoveEntrySuccessEvent,
+provideConfig,
 } from '@spartacus/core';
-import { NavigationEvent } from '@spartacus/storefront';
+import { NavigationEvent, defaultCmsContentProviders } from '@spartacus/storefront';
 import { PersonalizationRootModule } from '@spartacus/tracking/personalization/root';
 import { AepModule } from '@spartacus/tracking/tms/aep';
 import { BaseTmsModule, TmsConfig } from '@spartacus/tracking/tms/core';
 import { GtmModule } from '@spartacus/tracking/tms/gtm';
+import { someFunction, someSpread } from '@some/package';
 
 @NgModule({
-  imports: [
-    BaseTmsModule.forRoot(),
-    GtmModule,
-    AepModule,
-    PersonalizationRootModule,
-  ],
-  providers: [
-    provideConfig(<TmsConfig>{
-      tagManager: {
-        gtm: {
-          events: [NavigationEvent, CartAddEntrySuccessEvent],
-        },
-        aep: {
-          events: [NavigationEvent, CartRemoveEntrySuccessEvent],
-        },
-      },
-    }),
-    provideConfig({
-      featureModules: {
-        personalization: {
-          module: () =>
-            import('@spartacus/tracking/personalization').then(
-              (m) => m.PersonalizationModule
-            ),
-        },
-      },
-    }),
-  ],
+imports: [
+BaseTmsModule.forRoot(),
+GtmModule,
+AepModule,
+PersonalizationRootModule,
+],
+providers: [
+someFunction(),
+...someSpread,
+...defaultCmsContentProviders,
+provideConfig(<TmsConfig>{
+  tagManager: {
+    gtm: {
+      events: [NavigationEvent, CartAddEntrySuccessEvent],
+    },
+    aep: {
+      events: [NavigationEvent, CartRemoveEntrySuccessEvent],
+    },
+  },
+}),
+provideConfig({
+  featureModules: {
+    personalization: {
+      module: () =>
+        import('@spartacus/tracking/personalization').then(
+          (m) => m.PersonalizationModule
+        ),
+    },
+  },
+}),
+],
 })
 export class TrackingFeatureModule {}
 `;
+    let sourceFile: SourceFile;
+
+    beforeAll(() => {
       const project = new Project({
         fileSystem: new InMemoryFileSystemHost(),
       });
-      const sourceFile = project.createSourceFile('test.ts', content);
-      const configs = getConfigs(sourceFile);
-      expect(configs.length).toEqual(2);
-      expect(configs[0].getText()).toMatchSnapshot();
-      expect(configs[1].getText()).toMatchSnapshot();
+      sourceFile = project.createSourceFile('test.ts', configFileContent);
+    });
+
+    describe('getConfigs', () => {
+      it('should return all configs from provideConfigs calls', () => {
+        const configs = getConfigs(sourceFile);
+        expect(configs.length).toEqual(2);
+        expect(configs[0].getText()).toMatchSnapshot();
+        expect(configs[1].getText()).toMatchSnapshot();
+      });
+    });
+
+    describe('getSpartacusProviders', () => {
+      it('should return all providers from spartacus in file', () => {
+        const providers = getSpartacusProviders(sourceFile);
+        expect(providers.length).toEqual(3);
+        expect(providers[0].getText()).toMatchSnapshot();
+        expect(providers[1].getText()).toMatchSnapshot();
+        expect(providers[2].getText()).toMatchSnapshot();
+      });
     });
   });
 });
