@@ -8,7 +8,12 @@ import {
 } from '@angular/core';
 
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartService, isNotNullable, Product } from '@spartacus/core';
+import {
+  ActiveCartService,
+  isNotNullable,
+  Product,
+  CmsAddToCartComponent as model,
+} from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
@@ -57,12 +62,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected currentProductService: CurrentProductService,
     private cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartService,
-    protected componentData: CmsComponentData<any>
+    protected componentData: CmsComponentData<model>
   ) {}
 
   ngOnInit() {
-    this.componentData.data$.subscribe((data) => {
-      this.showInventory = data.inventoryDisplay;
+    this.componentData.data$.subscribe((data: model) => {
+      if (data.inventoryDisplay && data.inventoryDisplay == 'true') {
+        this.showInventory = true;
+      }
     });
 
     if (this.product) {

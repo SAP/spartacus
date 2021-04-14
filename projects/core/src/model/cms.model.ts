@@ -109,6 +109,11 @@ export interface CmsProductCarouselComponent extends CmsComponent {
   scroll?: string;
 }
 
+//configuration controlled through static files
+export interface CmsAddToCartComponent extends CmsComponent {
+  inventoryDisplay?: string;
+}
+
 export interface CmsProductReferencesComponent extends CmsComponent {
   title?: string;
   displayProductTitles?: string;
