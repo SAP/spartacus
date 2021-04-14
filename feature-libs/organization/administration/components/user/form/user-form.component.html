@@ -12,6 +12,8 @@
         bindLabel="name"
         bindValue="code"
         appendTo="cx-org-list"
+        [placeholder]="'orgUser.title' | cxTranslate"
+        [attr.aria-label]="'orgUser.title' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('titleCode')"></cx-form-errors>
@@ -94,6 +96,7 @@
         bindValue="id"
         appendTo="cx-org-list"
         [placeholder]="'orgUser.orgUnit' | cxTranslate"
+        [attr.aria-label]="'orgUser.orgUnit' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>

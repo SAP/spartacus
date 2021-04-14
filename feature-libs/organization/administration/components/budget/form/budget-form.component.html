@@ -63,6 +63,7 @@
         [class.invalid]="form.get('currency.isocode').invalid"
         appendTo="cx-org-list"
         [placeholder]="'orgBudget.currency' | cxTranslate"
+        [attr.aria-label]="'orgBudget.currency' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
@@ -98,6 +99,7 @@
         [readonly]="form.get('orgUnit.uid').disabled"
         appendTo="cx-org-list"
         [placeholder]="'orgBudget.businessUnits' | cxTranslate"
+        [attr.aria-label]="'orgBudget.businessUnits' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>

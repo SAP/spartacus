@@ -43,6 +43,7 @@
         [readonly]="form.get('orgUnit.uid').disabled"
         appendTo="cx-org-list"
         [placeholder]="'orgUserGroup.orgUnit' | cxTranslate"
+        [attr.aria-label]="'orgUserGroup.orgUnit' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
