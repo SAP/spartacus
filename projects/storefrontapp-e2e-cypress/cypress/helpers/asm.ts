@@ -23,7 +23,7 @@ export function agentLogin(): void {
   cy.get('cx-customer-selection').should('exist');
 }
 
-function listenForAuthenticationRequest(): string {
+export function listenForAuthenticationRequest(): string {
   const aliasName = 'csAgentAuthentication';
   cy.server();
   cy.route('POST', `/authorizationserver/oauth/token`).as(aliasName);
