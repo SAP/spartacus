@@ -274,6 +274,8 @@ describe('SearchBoxComponent', () => {
         const box = fixture.debugElement.query(
           By.css('input[aria-label="search"]')
         ).nativeElement;
+        fixture.detectChanges();
+
         expect(box.value).toBe('');
         expect(box).toBe(getFocusedElement());
       });
