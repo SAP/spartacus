@@ -1,0 +1,132 @@
+cx-quick-order-list {
+  display: block;
+  margin-top: 30px;
+
+  .quick-order-list-header {
+    @include type('8');
+    border-color: var(--cx-color-light);
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    color: var(--cx-color-secondary);
+    margin: 0;
+    padding: 1.125rem 0;
+    text-transform: uppercase;
+
+    .quick-order-info-header {
+      margin: 0;
+    }
+  }
+
+  .quick-order-image-container {
+    padding: 0;
+  }
+
+  .quick-order-info-container {
+    margin: 0;
+
+    .cx-label {
+      display: none;
+
+      @include media-breakpoint-down(md) {
+        display: inline-block;
+        font-size: var(--cx-font-size, 0.875rem);
+        font-weight: var(--cx-font-weight-bold);
+        line-height: var(--cx-line-height, 1.2222222222);
+        min-width: 5rem;
+        overflow-wrap: break-word;
+        padding-inline-end: 1rem;
+      }
+    }
+  }
+
+  .quick-order-list-item-product {
+    padding: 0;
+    text-align: start;
+  }
+
+  .quick-order-list-item-product-information {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    .cx-name {
+      font-size: var(--cx-font-size, 1rem);
+      font-weight: var(--cx-font-weight-bold);
+      line-height: var(--cx-line-height, 1.2222222222);
+      overflow-wrap: break-word;
+      padding: 0;
+    }
+
+    .cx-link {
+      color: var(--cx-color-text);
+      text-decoration: none;
+    }
+  }
+
+  .quick-order-list-item-price {
+    padding: 0;
+    text-align: center;
+
+    @include media-breakpoint-down(md) {
+      text-align: start;
+    }
+  }
+
+  .quick-order-list-item-quantity {
+    text-align: center;
+    padding: 0;
+
+    @include media-breakpoint-down(md) {
+      text-align: start;
+    }
+
+    @include media-breakpoint-up(xl) {
+      padding-inline-end: 20px;
+      padding-inline-start: 20px;
+    }
+
+    @include media-breakpoint-only(lg) {
+      padding-inline-end: 24px;
+      padding-inline-start: 24px;
+    }
+  }
+
+  .quick-order-list-item-total {
+    padding: 0;
+    text-align: center;
+
+    @include media-breakpoint-down(md) {
+      text-align: start;
+    }
+  }
+
+  .quick-order-list-item-action {
+    padding: 0;
+    text-align: end;
+  }
+
+  .quick-order-list-row {
+    border-color: var(--cx-color-light);
+    border-style: solid;
+    border-width: 0 0 1px 0;
+    padding: 1.25rem 0;
+  }
+
+  .quick-order-list-item {
+    margin: 0;
+  }
+
+  // ------------------------------------ MEDIA QUERIES ------------------------------------
+
+  @include media-breakpoint-down(md) {
+    .cx-quick-order-list {
+      padding: 1.125rem 2.5rem;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .quick-order-list-items {
+      padding-inline-start: 1rem;
+    }
+  }
+}

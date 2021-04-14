@@ -1,18 +1,18 @@
 // import { ComponentFixture, TestBed } from '@angular/core/testing';
-// import { QuickOrderComponent } from './quick-order-container.component';
+// import { QuickOrderItemComponent } from './quick-order-item.component';
 
-// describe('QuickOrderComponent', () => {
-//   let component: QuickOrderComponent;
-//   let fixture: ComponentFixture<QuickOrderComponent>;
+// describe('QuickOrderItemComponent', () => {
+//   let component: QuickOrderItemComponent;
+//   let fixture: ComponentFixture<QuickOrderItemComponent>;
 
 //   beforeEach(async () => {
 //     await TestBed.configureTestingModule({
-//       declarations: [QuickOrderComponent],
+//       declarations: [QuickOrderItemComponent],
 //     }).compileComponents();
 //   });
 
 //   beforeEach(() => {
-//     fixture = TestBed.createComponent(QuickOrderComponent);
+//     fixture = TestBed.createComponent(QuickOrderItemComponent);
 //     component = fixture.componentInstance;
 //   });
 
