@@ -1,21 +1,14 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle-dropdown',
@@ -24,21 +17,12 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit {
   attributeDropDownForm = new FormControl('');
-  loading$ = new BehaviorSubject<boolean>(false);
   selectionValue: Configurator.Value | undefined;
 
-  @Input() attribute: Configurator.Attribute;
   @Input() group: string;
-  @Input() ownerKey: string;
-
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-
-  constructor(private quantityService: ConfiguratorAttributeQuantityService) {
-    super();
-  }
 
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
@@ -50,42 +34,8 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     }
   }
 
-  get withQuantity() {
-    return this.quantityService.withQuantity(
-      this.attribute?.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-      this.attribute?.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
-    );
-  }
-
-  get disableQuantityActions() {
-    return this.quantityService.disableQuantityActions(
-      this.attributeDropDownForm?.value
-    );
-  }
-
-  onSelect(): void {
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
-        ...this.attribute,
-        selectedSingleValue: this.attributeDropDownForm?.value,
-      },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE,
-    };
-    this.selectionChange.emit(event);
-  }
-
   onDeselect(): void {
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
-        ...this.attribute,
-        selectedSingleValue: '0',
-      },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE,
-    };
-
-    this.selectionChange.emit(event);
+    super.onDeselect('0');
   }
 
   onChangeQuantity(eventObject: any): void {
@@ -93,37 +43,10 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
 
     if (!eventObject) {
       this.attributeDropDownForm.setValue('');
-      this.onSelect();
+      this.onSelect(this.attributeDropDownForm?.value);
     } else {
-      const event: ConfigFormUpdateEvent = {
-        changedAttribute: {
-          ...this.attribute,
-          quantity: eventObject,
-        },
-        ownerKey: this.ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-      };
-
-      this.selectionChange.emit(event);
+      this.onHandleQuantity(eventObject);
     }
-  }
-
-  getSelectedValuePrice(): Configurator.PriceDetails | undefined {
-    return this.attribute?.values?.find((value) => value?.selected)?.valuePrice;
-  }
-
-  /**
-   * Extract corresponding price formula parameters
-   *
-   * @return {ConfiguratorPriceComponentOptions} - New price formula
-   */
-  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
-    return {
-      quantity: this.attribute?.quantity,
-      price: this.getSelectedValuePrice(),
-      priceTotal: this.attribute?.attributePriceTotal,
-      isLightedUp: true,
-    };
   }
 
   /**
@@ -145,23 +68,14 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   /**
    *  Extract corresponding quantity parameters
    *
-   * @param {boolean} disableQuantityActions - Disable quantity actions
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
     const initialQuantity =
       this.attributeDropDownForm.value !== '0'
-        ? this.attribute?.quantity ?? 0
+        ? this.attribute.quantity ?? 0
         : 0;
 
-    return {
-      allowZero: !this.attribute?.required,
-      initialQuantity: initialQuantity,
-      disableQuantityActions$: this.loading$.pipe(
-        map((isLoading) => {
-          return isLoading || this.disableQuantityActions;
-        })
-      ),
-    };
+    return super.extractQuantityParameters(initialQuantity);
   }
 }

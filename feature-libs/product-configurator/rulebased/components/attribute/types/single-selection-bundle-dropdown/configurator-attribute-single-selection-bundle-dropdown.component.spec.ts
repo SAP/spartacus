@@ -175,7 +175,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
 
     spyOn(component.selectionChange, 'emit').and.callThrough();
 
-    component.onSelect();
+    component.onSelect(component.attributeDropDownForm.value);
 
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
       jasmine.objectContaining({

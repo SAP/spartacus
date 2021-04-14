@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity';
 
 @Component({
   selector: 'cx-configurator-attribute-single-selection-bundle',
@@ -10,6 +11,10 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeSingleSelectionBundleComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
+  onDeselect(): void {
+    super.onDeselect('');
+  }
+
   /**
    * Extract corresponding product card parameters
    *
@@ -43,5 +48,17 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       this.attribute.attrCode?.toString(),
       this.attribute.values[prevIdx].valueCode
     );
+  }
+
+  /**
+   *  Extract corresponding quantity parameters
+   *
+   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
+   */
+  extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
+    const quantity: number = this.attribute.quantity ?? 0;
+    const initialQuantity = this.attribute.selectedSingleValue ? quantity : 0;
+
+    return super.extractQuantityParameters(initialQuantity);
   }
 }

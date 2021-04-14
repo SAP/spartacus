@@ -44,8 +44,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   get withQuantity(): boolean {
     return (
       this.quantityService?.withQuantity(
-        this.attribute.dataType,
-        this.attribute.uiType
+        this.attribute?.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+        this.attribute?.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
       ) ?? false
     );
   }
@@ -78,13 +78,13 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.selectionChange.emit(event);
   }
 
-  onDeselect(): void {
+  onDeselect(value: string): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
         ...this.attribute,
-        selectedSingleValue: '',
+        selectedSingleValue: value,
       },
       ownerKey: this.ownerKey,
       updateType: Configurator.UpdateType.ATTRIBUTE,
@@ -110,7 +110,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   onChangeQuantity(eventObject: any): void {
     if (!eventObject) {
-      this.onDeselect();
+      this.onDeselect('');
     } else {
       this.onHandleQuantity(eventObject);
     }
@@ -119,19 +119,22 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   /**
    *  Extract corresponding quantity parameters
    *
-   * @param {boolean} disableQuantityActions - Disable quantity actions
+   * @param {number} initialQuantity - Initial quantity
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
-  extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    const quantity: number = this.attribute.quantity ?? 0;
+  extractQuantityParameters(
+    initialQuantity: number
+  ): ConfiguratorAttributeQuantityComponentOptions {
+    const disableQuantityActions$ = this.loading$.pipe(
+      map((loading) => {
+        return loading || this.disableQuantityActions;
+      })
+    );
+
     return {
       allowZero: !this.attribute.required,
-      initialQuantity: this.attribute.selectedSingleValue ? quantity : 0,
-      disableQuantityActions$: this.loading$.pipe(
-        map((loading) => {
-          return loading || this.disableQuantityActions;
-        })
-      ),
+      initialQuantity: initialQuantity,
+      disableQuantityActions$: disableQuantityActions$,
     };
   }
 
