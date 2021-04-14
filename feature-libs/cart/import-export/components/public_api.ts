@@ -1,1 +1,1 @@
-export * from './export-product-list/index';
+export * from './export-entries/index';
