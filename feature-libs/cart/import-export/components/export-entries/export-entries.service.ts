@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {
   ActiveCartService,
   Cart,
-  CmsService,
   OrderEntry,
+  RoutingService,
 } from '@spartacus/core';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { isArray } from 'rxjs/internal-compatibility';
@@ -15,16 +15,16 @@ import { Observable } from 'rxjs';
 })
 export class ExportEntriesService {
   constructor(
-    protected cmsService: CmsService,
+    protected routingService: RoutingService,
     protected activeCartService: ActiveCartService,
     protected savedCartDetailsService: SavedCartDetailsService
   ) {}
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.cmsService.getCurrentPage().pipe(
-      switchMap((page) => {
-        switch (page.pageId) {
-          case 'savedCartDetailsPage':
+    return this.routingService.getRouterState().pipe(
+      switchMap((route) => {
+        switch (route.state?.semanticRoute) {
+          case 'savedCartsDetails':
             return this.savedCartDetailsService
               .getCartDetails()
               .pipe(
@@ -33,7 +33,7 @@ export class ExportEntriesService {
                     cart?.entries ?? ([] as OrderEntry[])
                 )
               );
-          case 'cartPage':
+          case 'cart':
             return this.activeCartService.getEntries();
           default:
             return this.activeCartService.getEntries();
