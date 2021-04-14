@@ -13,9 +13,14 @@ import {
 import {
   ContentSlotComponentData,
   DynamicAttributeService,
+  EventService,
 } from '@spartacus/core';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { CmsComponentsService } from '../../services/cms-components.service';
+import {
+  ComponentCreateEvent,
+  ComponentDestroyEvent,
+} from './events/component.event';
 import { CmsInjectorService } from './services/cms-injector.service';
 import { ComponentHandlerService } from './services/component-handler.service';
 
@@ -46,7 +51,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
-    protected cmsInjector: CmsInjectorService
+    protected cmsInjector: CmsInjectorService,
+    protected eventService: EventService
   ) {}
 
   ngOnInit() {
@@ -84,11 +90,40 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         this.cmsComponentsService.getModule(this.cxComponentWrapper.flexType)
       )
       ?.subscribe(({ elementRef, componentRef }) => {
+        this.registerComponentCreateEvent(componentRef as ComponentRef<any>);
         this.cmpRef = componentRef;
         this.decorate(elementRef);
         this.injector.get(ChangeDetectorRef).markForCheck();
       });
   }
+
+  protected registerComponentCreateEvent(
+    componentRef: ComponentRef<any>
+  ): void {
+    const payload = {
+      typeCode: this.cxComponentWrapper.typeCode,
+      id: this.cxComponentWrapper.uid,
+      componentRef,
+    };
+
+    this.eventService.register(ComponentCreateEvent, of(payload));
+
+    componentRef?.onDestroy(() => {
+      console.log('destroy', payload);
+      this.eventService.register(ComponentDestroyEvent, of(payload));
+    });
+  }
+
+  // /**
+  //  * Returns logout event stream
+  //  */
+  // protected buildLogoutEvent(): Observable<LogoutEvent> {
+  //   return this.authService.isUserLoggedIn().pipe(
+  //     pairwise(),
+  //     filter(([prev, curr]) => prev && !curr),
+  //     map(() => createFrom(LogoutEvent, {}))
+  //   );
+  // }
 
   private decorate(elementRef: ElementRef): void {
     if (this.dynamicAttributeService.addAttributesToComponent) {

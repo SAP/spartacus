@@ -7,8 +7,9 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { RoutingService } from '@spartacus/core';
+import { EventService, RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
+import { ComponentEvent } from '../../cms-structure/page/component/events/component.event';
 import {
   FocusConfig,
   KeyboardFocusService,
@@ -50,7 +51,8 @@ export class StorefrontComponent implements OnInit, OnDestroy {
     private hamburgerMenuService: HamburgerMenuService,
     private routingService: RoutingService,
     protected elementRef: ElementRef<HTMLElement>,
-    protected keyboardFocusService: KeyboardFocusService
+    protected keyboardFocusService: KeyboardFocusService,
+    protected eventService: EventService
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +62,10 @@ export class StorefrontComponent implements OnInit, OnDestroy {
         this.startNavigating = val === true;
         this.stopNavigating = val === false;
       });
+
+    this.eventService.get(ComponentEvent).subscribe((event) => {
+      console.log('comp event', event);
+    });
   }
 
   collapseMenuIfClickOutside(event: any): void {
