@@ -9,7 +9,7 @@ import {
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { ColumnData, ProductsData } from '../model';
+import { ProductsData } from '../model';
 import { ImportExportService } from './import-export.service';
 
 @Injectable({
@@ -28,10 +28,10 @@ export class ImportToCartService implements OnDestroy {
     protected importExportService: ImportExportService
   ) {}
 
-  csvToData(file: FileList): Observable<ProductsData | unknown> {
+  csvToData(file: FileList): Observable<unknown> {
     return this.importExportService.csvToData(
       file,
-      { sku: 'string', quantity: 'number' },
+      ['string', 'number'],
       true,
       {
         maxSize: 1,
@@ -55,7 +55,7 @@ export class ImportToCartService implements OnDestroy {
             this.multiCartService.addEntries(
               userId,
               cartId,
-              this.updateProductsToLoad(productsToLoad)
+              this.dataToJson(productsToLoad)
             );
             this.savedCartService.saveCart({
               cartId,
@@ -67,10 +67,10 @@ export class ImportToCartService implements OnDestroy {
     });
   }
 
-  updateProductsToLoad(productsToLoad: any) {
-    return productsToLoad.map((product: ColumnData) => ({
-      productCode: product.sku,
-      quantity: product.quantity,
+  private dataToJson(productsToLoad: any): ProductsData {
+    return productsToLoad.map((product: (string | number)[]) => ({
+      productCode: product[0],
+      quantity: product[1],
     }));
   }
 

@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { ImportExportConfig } from '../config/import-export-config';
-import {
-  ColumnData,
-  FileValidity,
-  InvalidFileInfo,
-  ProductsData,
-} from '../model';
+import { FileValidity, InvalidFileInfo } from '../model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,10 +20,10 @@ export class ImportExportService {
    */
   csvToData(
     selectedFile: FileList,
-    columnData: ColumnData,
+    columnData: string[],
     checkValidityEnabled?: Boolean,
     validityConfig?: FileValidity
-  ): Observable<ProductsData | unknown> {
+  ): Observable<unknown> {
     const file: File = selectedFile.item(0) as File;
     return new Observable((observer: Observer<unknown>) => {
       const fileReader: FileReader = new FileReader();
@@ -105,45 +100,35 @@ export class ImportExportService {
     return this.importExportConfig.importExport.file.separator;
   }
   /**
-   * Processes the CSV data and convert into JSON
+   * Processes the CSV data
    *
    * @param data raw extracted data from CSV
    * @param columnData object which provides info of required columns
-   * @returns Processed JSON containing productCode and quantity
+   * @returns Processed data containing productCode and quantity
    */
-  protected processCsvData(data: string, columnData: ColumnData): any {
-    let headers: string[];
+  protected processCsvData(
+    data: string,
+    columnData: string[]
+  ): (string | number)[][] {
     return data
       .split('\n')
-      .map((row, index) => {
+      .map((row) => {
         const convertedRow = row
           .split(this.separator)
           .map((cell) => cell.replace(/"/g, ''));
-        if (index === 0) {
-          return (headers = convertedRow);
-        } else {
-          return convertedRow
-            .filter((_cell, index) =>
-              this.filterColumn(index, headers, Object.keys(columnData))
-            )
-            .map((cell, index) =>
-              this.parseData(cell, index, headers, columnData)
-            );
-        }
+        return convertedRow
+          .filter((_cell, index) => index < columnData.length)
+          .map((cell, index) => this.parseData(cell, index, columnData));
       })
-      .filter((value, index) => index !== 0 && value[0] !== '')
-      .map((data) => {
-        return this.mapData(data, columnData);
-      });
+      .filter((value, index) => index !== 0 && value[0] !== '');
   }
 
   protected parseData(
     cell: string,
     index: number,
-    headers: string[],
-    columnData: ColumnData
+    columnData: string[]
   ): number | string {
-    switch (columnData[headers[index]?.toLowerCase()]) {
+    switch (columnData[index]) {
       case 'number':
         return Number(cell);
 
@@ -153,22 +138,6 @@ export class ImportExportService {
       default:
         return cell;
     }
-  }
-
-  protected filterColumn(
-    index: number,
-    headers: string[],
-    columnData: string[]
-  ): boolean {
-    return columnData.includes(headers[index]?.toLowerCase());
-  }
-
-  protected mapData(data: (string | number)[], columnData: ColumnData) {
-    const json: any = {};
-    Object.keys(columnData).map((key, index) => {
-      json[key] = data[index];
-    });
-    return json;
   }
 
   /**
