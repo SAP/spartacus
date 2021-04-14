@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs';
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
   quantityControl: FormControl;
 
+  // Type will be set up later
   @Input()
   entry: any;
 

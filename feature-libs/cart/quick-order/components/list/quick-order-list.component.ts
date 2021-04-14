@@ -3,7 +3,7 @@ import { ImageType, OrderEntry } from 'projects/core/src/model';
 import { Observable, of } from 'rxjs';
 
 // TO remove in future
-const mockEntries: OrderEntry[] = [
+const mockEntries: any[] = [
   {
     basePrice: {
       formattedValue: '$60.00',
@@ -13,7 +13,6 @@ const mockEntries: OrderEntry[] = [
     product: {
       availableForPickup: false,
       code: '2116283',
-      configurable: false,
       images: {
         PRIMARY: {
           cart: {
