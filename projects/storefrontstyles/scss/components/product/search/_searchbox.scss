@@ -45,7 +45,7 @@
           width: 0;
           padding: 0;
         }
-        cx-icon.reset {
+        button.reset {
           display: none;
         }
       }
@@ -130,12 +130,14 @@
       display: none;
     }
 
-    cx-icon {
+    button {
       color: currentColor;
       flex-basis: 48px;
       text-align: center;
       cursor: pointer;
-      &.reset {
+      background: none;
+      border: none;
+      &.reset cx-icon {
         &:before {
           font-size: 1.4rem;
         }
