@@ -13,19 +13,20 @@ declare global {
         cy.requirePaymentDone(auth);
         ```
        */
-      requirePaymentDone: (auth: {}) => Cypress.Chainable<{}>;
+      requirePaymentDone: (auth: {}, cartId?: string) => Cypress.Chainable<{}>;
     }
   }
 }
-Cypress.Commands.add('requirePaymentDone', (auth) => {
+Cypress.Commands.add('requirePaymentDone', (auth, cartId) => {
   function getResponseUrl() {
+    const cartQueryValue = cartId || 'current';
     return cy.request({
       method: 'GET',
       url: `${Cypress.env('API_URL')}/${Cypress.env(
         'OCC_PREFIX'
       )}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
+      )}/users/current/carts/${cartQueryValue}/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.access_token}`,
