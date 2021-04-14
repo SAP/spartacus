@@ -293,31 +293,20 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
 
   it('should call selectionChange on event onDeselectAll', () => {
     spyOn(component.selectionChange, 'emit').and.callThrough();
-
     component.ngOnInit();
-
     component.onDeselectAll();
-
     expect(component.selectionChange.emit).toHaveBeenCalled();
   });
 
   it('should call onHandleAttributeQuantity of event onChangeAttributeQuantity', () => {
     spyOn(component, 'onHandleAttributeQuantity');
-
-    const quantity = { quantity: 2 };
-
-    component.onChangeAttributeQuantity(quantity);
-
+    component.onChangeAttributeQuantity(2);
     expect(component.onHandleAttributeQuantity).toHaveBeenCalled();
   });
 
   it('should call onDeselectAll of event onChangeAttributeQuantity', () => {
     spyOn(component, 'onDeselectAll');
-
-    const quantity = { quantity: 0 };
-
-    component.onChangeAttributeQuantity(quantity);
-
+    component.onChangeAttributeQuantity(0);
     expect(component.onDeselectAll).toHaveBeenCalled();
   });
 

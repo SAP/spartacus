@@ -2,21 +2,21 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT } from '@spartacus/product-configurator/rulebased/root';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
-import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
-import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
   CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
   CPQ_CONFIGURATOR_QUANTITY_SERIALIZER,
   CPQ_CONFIGURATOR_SERIALIZER,
 } from './converters/cpq-configurator.converters';
+import { CpqConfiguratorEndpointConfig } from './cpq-configurator-endpoint.config';
+import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
+import { CpqConfiguratorRestService } from './cpq-configurator-rest.service';
 import { Cpq } from './cpq.models';
+import { defaultCpqConfiguratorEndpointConfig } from './default-cpq-configurator-endpoint.config';
 
 const productCode = 'CONF_LAPTOP';
 const tabId = '2';
@@ -78,9 +78,9 @@ const configResponseTab3: Cpq.Configuration = {
 };
 
 const configResponsesByTab = {
-  '1': configResponseTab1,
-  '2': configResponseTab2,
-  '3': configResponseTab3,
+  1: configResponseTab1,
+  2: configResponseTab2,
+  3: configResponseTab3,
 };
 
 const configUpdateResponse = {};
@@ -117,20 +117,16 @@ describe('CpqConfiguratorRestService', () => {
       providers: [
         CpqConfiguratorRestAdapter,
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        {
+          provide: CpqConfiguratorEndpointConfig,
+          useValue: defaultCpqConfiguratorEndpointConfig,
+        },
       ],
     });
 
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-
-    converterService = TestBed.inject(
-      ConverterService as Type<ConverterService>
-    );
-
-    serviceUnderTest = TestBed.inject(
-      CpqConfiguratorRestService as Type<CpqConfiguratorRestService>
-    );
+    httpMock = TestBed.inject(HttpTestingController);
+    converterService = TestBed.inject(ConverterService);
+    serviceUnderTest = TestBed.inject(CpqConfiguratorRestService);
 
     configResponseTab1.errorMessages = [];
     configResponseTab2.errorMessages = [];
@@ -153,8 +149,7 @@ describe('CpqConfiguratorRestService', () => {
     const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'POST' &&
-        req.url ===
-          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations`
+        req.url === `/api/configuration/v1/configurations`
       );
     });
     mockReq.flush(configCreatedResponse);
@@ -300,7 +295,7 @@ describe('CpqConfiguratorRestService', () => {
       return (
         req.method === 'PATCH' &&
         req.url ===
-          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/attributes/${attrCode}` &&
+          `/api/configuration/v1/configurations/${configId}/attributes/${attrCode}` &&
         req.body === updateAttribute.changeAttributeValue
       );
     });
@@ -326,7 +321,7 @@ describe('CpqConfiguratorRestService', () => {
       return (
         req.method === 'PATCH' &&
         req.url ===
-          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/attributes/${attrCode}/attributeValues/${attrValueId}` &&
+          `/api/configuration/v1/configurations/${configId}/attributes/${attrCode}/attributeValues/${attrValueId}` &&
         req.body.Quantity === 5
       );
     });
@@ -338,8 +333,7 @@ describe('CpqConfiguratorRestService', () => {
     const mockReq = httpMock.expectOne((req) => {
       return (
         req.method === 'GET' &&
-        req.url ===
-          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/display`
+        req.url === `/api/configuration/v1/configurations/${configId}/display`
       );
     });
     if (!response) {
@@ -353,7 +347,7 @@ describe('CpqConfiguratorRestService', () => {
       return (
         req.method === 'GET' &&
         req.url ===
-          `${CPQ_CONFIGURATOR_VIRTUAL_ENDPOINT}/api/configuration/v1/configurations/${configId}/display?tabId=${currentTabId}`
+          `/api/configuration/v1/configurations/${configId}/display?tabId=${currentTabId}`
       );
     });
     mockReq.flush(configResponsesByTab[currentTabId]);

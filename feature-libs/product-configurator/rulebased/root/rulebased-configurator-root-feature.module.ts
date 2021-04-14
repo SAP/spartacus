@@ -3,7 +3,8 @@ import { provideDefaultConfig } from '@spartacus/core';
 
 const cmsComponents: string[] = [
   'ConfiguratorForm',
-  'ConfiguratorOverview',
+  'ConfiguratorOverviewForm',
+  'ConfiguratorUpdateMessage',
   'ConfiguratorAddToCartButton',
   'ConfiguratorGroupTitle',
   'ConfiguratorOverviewBanner',

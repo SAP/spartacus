@@ -13,10 +13,7 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
-import {
-  ConfiguratorAttributeQuantityComponentOptions,
-  Quantity,
-} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
@@ -91,17 +88,17 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject: { quantity: number }): void {
+  onChangeQuantity(eventObject: any): void {
     this.loading$.next(true);
 
-    if (!eventObject.quantity) {
+    if (!eventObject) {
       this.attributeDropDownForm.setValue('');
       this.onSelect();
     } else {
       const event: ConfigFormUpdateEvent = {
         changedAttribute: {
           ...this.attribute,
-          quantity: eventObject.quantity,
+          quantity: eventObject,
         },
         ownerKey: this.ownerKey,
         updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
@@ -152,12 +149,10 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    const initialQuantity: Quantity = {
-      quantity:
-        this.attributeDropDownForm.value !== '0'
-          ? this.attribute?.quantity ?? 0
-          : 0,
-    };
+    const initialQuantity =
+      this.attributeDropDownForm.value !== '0'
+        ? this.attribute?.quantity ?? 0
+        : 0;
 
     return {
       allowZero: !this.attribute?.required,

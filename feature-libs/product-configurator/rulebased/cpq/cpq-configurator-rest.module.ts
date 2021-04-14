@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { provideDefaultConfig } from '@spartacus/core';
 import {
   RulebasedConfiguratorConnector,
   RulebasedConfiguratorModule,
@@ -15,6 +16,7 @@ import {
   CPQ_CONFIGURATOR_SERIALIZER,
 } from './converters/cpq-configurator.converters';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
+import { defaultCpqConfiguratorEndpointConfig } from './default-cpq-configurator-endpoint.config';
 
 @NgModule({
   imports: [CommonModule, RulebasedConfiguratorModule],
@@ -45,6 +47,7 @@ import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
       useClass: CpqConfiguratorOverviewNormalizer,
       multi: true,
     },
+    provideDefaultConfig(defaultCpqConfiguratorEndpointConfig),
   ],
 })
 export class CpqConfiguratorRestModule {}

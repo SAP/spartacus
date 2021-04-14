@@ -112,27 +112,18 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   it('should call onHandleQuantity of event onChangeQuantity', () => {
     spyOn(component, 'onHandleQuantity');
-
-    const quantity = { quantity: 2 };
-
-    component.onChangeQuantity(quantity);
-
+    component.onChangeQuantity(2);
     expect(component.onHandleQuantity).toHaveBeenCalled();
   });
 
   it('should call onSelect of event onChangeQuantity', () => {
     spyOn(component, 'onSelect');
-
-    const quantity = { quantity: 0 };
-
-    component.onChangeQuantity(quantity);
-
+    component.onChangeQuantity(0);
     expect(component.onSelect).toHaveBeenCalled();
   });
 
   it('should not display attribute quantity when dataType is no quantity', () => {
     component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
-
     fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementNotPresent(

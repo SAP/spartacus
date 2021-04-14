@@ -13,10 +13,7 @@ import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import {
-  ConfiguratorAttributeQuantityComponentOptions,
-  Quantity,
-} from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
@@ -134,7 +131,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
     this.selectionChange.emit(event);
   }
 
-  protected onHandleAttributeQuantity(quantity): void {
+  protected onHandleAttributeQuantity(quantity: number): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
@@ -149,8 +146,12 @@ export class ConfiguratorAttributeCheckBoxListComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeValueQuantity(eventObject, valueCode, formIndex): void {
-    if (eventObject.quantity === 0) {
+  onChangeValueQuantity(
+    eventObject: any,
+    valueCode: string,
+    formIndex: number
+  ): void {
+    if (eventObject === 0) {
       this.attributeCheckBoxForms[formIndex].setValue(false);
       this.onSelect();
       return;
@@ -171,7 +172,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
       return;
     }
 
-    value.quantity = eventObject.quantity;
+    value.quantity = eventObject;
 
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
@@ -185,14 +186,14 @@ export class ConfiguratorAttributeCheckBoxListComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject): void {
-    if (!eventObject.quantity) {
+  onChangeQuantity(eventObject: any): void {
+    if (!eventObject) {
       this.attributeCheckBoxForms.forEach((_, index) =>
         this.attributeCheckBoxForms[index].setValue(false)
       );
       this.onSelect();
     } else {
-      this.onHandleAttributeQuantity(eventObject.quantity);
+      this.onHandleAttributeQuantity(eventObject);
     }
   }
 
@@ -207,13 +208,9 @@ export class ConfiguratorAttributeCheckBoxListComponent
     allowZero: boolean,
     initialQuantity: number
   ): ConfiguratorAttributeQuantityComponentOptions {
-    const initQuantity: Quantity = {
-      quantity: initialQuantity,
-    };
-
     return {
       allowZero: allowZero,
-      initialQuantity: initQuantity,
+      initialQuantity: initialQuantity,
       disableQuantityActions$: this.loading$.pipe(
         map((loading) => {
           return loading || this.disableQuantityActions;

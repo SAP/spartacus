@@ -134,7 +134,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   it('should call emit of selectionChange onChangeValueQuantity', () => {
     spyOn(component.selectionChange, 'emit').and.callThrough();
 
-    component.onChangeValueQuantity({ quantity: 0 }, '1', 0);
+    component.onChangeValueQuantity(0, '1', 0);
 
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
       jasmine.objectContaining({
@@ -169,15 +169,13 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
   it('should call onHandleAttributeQuantity of event onChangeQuantity', () => {
     spyOn(component.selectionChange, 'emit').and.callThrough();
-    const quantity = { quantity: 2 };
-    component.onChangeQuantity(quantity);
+    component.onChangeQuantity(2);
     expect(component.selectionChange.emit).toHaveBeenCalled();
   });
 
   it('should call onSelect of event onChangeQuantity', () => {
     spyOn(component, 'onSelect');
-    const quantity = { quantity: 0 };
-    component.onChangeQuantity(quantity);
+    component.onChangeQuantity(0);
     expect(component.onSelect).toHaveBeenCalled();
   });
 

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 
 /**
@@ -21,52 +20,6 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
         canActivate: [CmsPageGuard],
       },
     ]),
-  ],
-  providers: [
-    provideDefaultConfig(<CmsConfig>{
-      layoutSlots: {
-        CpqConfigurationOverviewTemplate: {
-          header: {
-            md: {
-              slots: [
-                'PreHeader',
-                'SiteContext',
-                'SiteLinks',
-                'SiteLogo',
-                'SearchBox',
-                'SiteLogin',
-                'MiniCart',
-              ],
-            },
-            xs: {
-              slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
-            },
-          },
-          navigation: {
-            xs: {
-              slots: ['SiteLogin', 'SiteContext', 'SiteLinks'],
-            },
-          },
-
-          md: {
-            slots: [
-              'CpqConfigOverviewHeader',
-              'CpqConfigOverviewBanner',
-              'CpqConfigOverviewContent',
-              'CpqConfigOverviewBottombar',
-            ],
-          },
-          xs: {
-            slots: [
-              'CpqConfigOverviewHeader',
-              'CpqConfigOverviewBanner',
-              'CpqConfigOverviewContent',
-              'CpqConfigOverviewBottombar',
-            ],
-          },
-        },
-      },
-    }),
   ],
 })
 export class CpqConfiguratorOverviewModule {}

@@ -43,7 +43,8 @@ if (!environment.production) {
     ConfigModule.withConfig({
       backend: {
         occ: {
-          baseUrl: environment.occBaseUrl,
+          //baseUrl: environment.occBaseUrl,
+          baseUrl: 'https://localhost:9002',
           prefix: environment.occApiPrefix,
         },
       },
@@ -54,6 +55,7 @@ if (!environment.production) {
         routes: {
           product: {
             paths: ['product/:productCode/:name', 'product/:productCode'],
+            paramsMapping: { name: 'slug' },
           },
         },
       },

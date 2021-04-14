@@ -15,7 +15,7 @@ import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-co
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        CpqConfiguratorConflictAndErrorMessages: {
+        CpqConfiguratorConflictAndErrorMessagesComponent: {
           component: ConfiguratorConflictAndErrorMessagesComponent,
         },
       },
