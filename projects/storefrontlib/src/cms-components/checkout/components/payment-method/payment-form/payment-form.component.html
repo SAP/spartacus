@@ -18,6 +18,7 @@
                   bindValue="code"
                   placeholder="{{ 'paymentForm.selectOne' | cxTranslate }}"
                   formControlName="code"
+                  [attr.aria-label]="'paymentForm.selectOne' | cxTranslate"
                 >
                 </ng-select>
                 <cx-form-errors
@@ -77,6 +78,7 @@
                     [items]="months"
                     placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
                     formControlName="expiryMonth"
+                    [attr.aria-label]="'paymentForm.monthMask' | cxTranslate"
                   >
                   </ng-select>
                   <cx-form-errors
@@ -89,6 +91,7 @@
                     [clearable]="false"
                     [items]="years"
                     placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"
+                    [attr.aria-label]="'paymentForm.yearMask' | cxTranslate"
                     formControlName="expiryYear"
                   >
                   </ng-select>
@@ -196,6 +199,9 @@
                         placeholder="{{
                           'addressForm.selectOne' | cxTranslate
                         }}"
+                        [attr.aria-label]="
+                          'addressForm.selectOne' | cxTranslate
+                        "
                         (change)="countrySelected($event)"
                         formControlName="isocode"
                       >
@@ -336,6 +342,9 @@
                           placeholder="{{
                             'addressForm.selectOne' | cxTranslate
                           }}"
+                          [attr.aria-label]="
+                            'addressForm.selectOne' | cxTranslate
+                          "
                         >
                         </ng-select>
                         <cx-form-errors

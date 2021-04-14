@@ -44,6 +44,8 @@
         bindLabel="name"
         bindValue="code"
         appendTo="cx-org-list"
+        [placeholder]="'orgUnit.approvalProcess' | cxTranslate"
+        [attr.aria-label]="'orgUnit.approvalProcess' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors
@@ -68,6 +70,7 @@
         bindValue="id"
         appendTo="cx-org-list"
         [placeholder]="'orgUnit.form.parentOrgUnit' | cxTranslate"
+        [attr.aria-label]="'orgUnit.form.parentOrgUnit' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors

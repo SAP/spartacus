@@ -31,6 +31,12 @@
         bindValue="code"
         [readonly]="form.disabled"
         appendTo="cx-org-list"
+        [placeholder]="
+          'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
+        "
+        [attr.aria-label]="
+          'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
+        "
       >
       </ng-select>
       <cx-form-errors
@@ -48,6 +54,8 @@
         [clearable]="false"
         [items]="periods"
         appendTo="cx-org-list"
+        [placeholder]="'orgPurchaseLimit.periodRange' | cxTranslate"
+        [attr.aria-label]="'orgPurchaseLimit.periodRange' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('periodRange')"></cx-form-errors>
@@ -69,6 +77,8 @@
         [items]="currencies"
         bindLabel="name"
         bindValue="isocode"
+        [placeholder]="'orgPurchaseLimit.currency' | cxTranslate"
+        [attr.aria-label]="'orgPurchaseLimit.currency' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
@@ -102,6 +112,7 @@
         [readonly]="form.get('orgUnit').disabled"
         appendTo="cx-org-list"
         [placeholder]="'orgPurchaseLimit.orgUnit' | cxTranslate"
+        [attr.aria-label]="'orgPurchaseLimit.orgUnit' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>

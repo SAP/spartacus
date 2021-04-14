@@ -30,6 +30,7 @@
             (change)="sort(data.pagination)"
             [tabIndex]="0"
             [(ngModel)]="sortCode"
+            [attr.aria-label]="sortCode"
           >
             <ng-option *ngFor="let sort of data.sorts" [value]="sort.code">
               {{ structure.type + '.' + sort.code | cxTranslate }}
