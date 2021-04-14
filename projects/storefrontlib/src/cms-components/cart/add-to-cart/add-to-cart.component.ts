@@ -62,7 +62,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.componentData.data$.subscribe((data) => {
-      this.showInventory = data.showInventory;
+      this.showInventory = data.inventoryDisplay;
     });
 
     if (this.product) {
