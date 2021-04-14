@@ -1,0 +1,63 @@
+<div class="quick-order-list-item row">
+  <div class="col-2 col-md-1 quick-order-image-container">
+    <div class="quick-order-list-item-product-image">
+      <a [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl">
+        <cx-media
+          [container]="entry.product.images?.PRIMARY"
+          format="cartIcon"
+        ></cx-media>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-10 col-md-11 quick-order-info-container row">
+    <div
+      class="quick-order-list-item-product-information col-md-3 col-lg-4 col-xl-4"
+    >
+      <div class="cx-name">
+        <a
+          class="cx-link"
+          [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
+          >{{ entry.product.name || '-' }}
+        </a>
+      </div>
+
+      <div class="cx-value">
+        {{
+          ('quickOrderList.' + entry.product.stock.stockLevelStatus
+            | cxTranslate) || '-'
+        }}
+      </div>
+    </div>
+
+    <div class="quick-order-list-item-price col-md-2 col-lg-2 col-xl-2">
+      <span class="cx-label">
+        {{ 'quickOrderList.itemPrice' | cxTranslate }}
+      </span>
+      {{ entry.basePrice.formattedValue || '-' }}
+    </div>
+
+    <div class="quick-order-list-item-quantity col-md-3 col-lg-3 col-xl-3">
+      <span class="cx-label">
+        {{ 'quickOrderList.qty' | cxTranslate }}
+      </span>
+      <cx-item-counter
+        [control]="quantityControl"
+        [max]="entry.product.stock.stockLevel"
+      ></cx-item-counter>
+    </div>
+
+    <div class="quick-order-list-item-total col-md-2 col-lg-2 col-xl-2">
+      <span class="cx-label">
+        {{ 'quickOrderList.total' | cxTranslate }}
+      </span>
+      {{ entry.totalPrice.formattedValue || '-' }}
+    </div>
+
+    <div class="quick-order-list-item-action col-md-2 col-lg-1 col-xl-1">
+      <button (click)="removeEntry()" class="link cx-action-link">
+        Remove
+      </button>
+    </div>
+  </div>
+</div>
