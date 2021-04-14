@@ -126,6 +126,9 @@ Use the following template:
     "access": "public"
   },
   "repository": "https://github.com/SAP/spartacus",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
   "peerDependencies": {
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
@@ -141,8 +144,6 @@ Adjust the `@spartacus/core` and/or `@spartacus/storefront` depending on the nee
 Make sure the versions match the current spartacus version.
 Make sure the `@angular` peer dependencies matches the versions specified in the _core_ lib.
 
-- `test.ts` - add `import '@angular/localize/init';`
-
 - `tsconfig.lib.json`
 
 Use the following template:
@@ -152,6 +153,7 @@ Use the following template:
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "../../out-tsc/lib",
+    "forceConsistentCasingInFileNames": true,
     "target": "es2015",
     "module": "es2020",
     "moduleResolution": "node",
@@ -172,17 +174,18 @@ Use the following template:
     "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true,
-    "enableResourceInlining": true
+    "enableResourceInlining": true,
+    "strictTemplates": true,
+    "strictInputAccessModifiers": true
   },
   "exclude": ["src/test.ts", "**/*.spec.ts"]
 }
 ```
 
-- run `ts-node ./tools/tsconfig-paths/index.ts` script to update `compilerOptions.path` property in tsconfig files
+- run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
 - `tsconfig.lib.prod.json` - save to re-format it. Make sure that Ivy is off (for the time being, this will change in the future)
-- `tsconfig.spec.json` - save to re-format
-- `tslint.json` - change from `lib` to `cx` in the `directive-selector` and `component-selector`
-- the rest of the generated file should be removed
+- `tslint.json` - remove
+- the rest of the generated files should be removed
 
 ### Additional changes to existing files
 
@@ -190,10 +193,10 @@ Use the following template:
 
 The following files should be modified:
 
-- `projects/storefrontapp/src/environments/models/environment.model.ts` - if creating a feature that can toggled on/off, add your feature to this model class
-- `projects/storefrontapp/src/environments/models/build.process.env.d.ts` - if creating a feature that can toggled on/off, add your feature environment variable to the `Env` interface located in this file
-- `projects/storefrontapp/src/environments/environment.ts` - if creating a feature that can toggled on/off, set you feature for development as enabled or disabled by default
-- `projects/storefrontapp/src/environments/environment.prod.ts` - if creating a feature that can toggled on/off, pass the created env. variable to your feature
+- `projects/storefrontapp/src/environments/models/environment.model.ts` - if creating a feature that can be toggled on/off, add your feature to this model class
+- `projects/storefrontapp/src/environments/models/build.process.env.d.ts` - if creating a feature that can be toggled on/off, add your feature environment variable to the `Env` interface located in this file
+- `projects/storefrontapp/src/environments/environment.ts` - if creating a feature that can be toggled on/off, set you feature for development as enabled or disabled by default
+- `projects/storefrontapp/src/environments/environment.prod.ts` - if creating a feature that can be toggled on/off, pass the created env. variable to your feature
 
 - Root `package.json`
 
@@ -201,12 +204,16 @@ Add the following scripts:
 
 ```json
 "build:myaccount": "ng build my-account --prod",
-"release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../.."
+"release:myaccount:with-changelog": "cd feature-libs/my-account && release-it && cd ../..",
 ```
 
 And replace `myaccount` and `my-account` instances with the name of yours lib.
 
 Optionally, add the generated lib to the `build:libs` and `test:libs` scripts.
+
+- `.github/ISSUE_TEMPLATE/new-release.md`
+
+Add `- [ ] `npm run release:TODO::with-changelog` (needed since `x.x.x`)` under the `For each package select/type version when prompted:` section, and replace `TODO:` to match the `package.json`'s release script name.
 
 - `.release-it.json`
 
@@ -248,6 +255,7 @@ Optionally, add the generated lib to the `build:libs` and `test:libs` scripts.
 ```
 
 Replace `TODO:` with the appropriate name.
+Optionally, adjust the `path` property with the `peerDependencies` to match the peer dependencies defined in the `package.json`.
 
 - `scripts/changelog.ts`
 
@@ -262,24 +270,9 @@ const libraryPaths = {
 
 Also make sure to add the lib to the `switch` statement at the end of the file.
 
-- `.github/api-extractor-action/api-extractor-for-branch.sh`
-
-Add the following (replace the `my-account` and `MY_ACCOUNT_CONFIG_PATH` with the name of your lib):
-
-```sh
-# @spartacus/my-account
-cp "$CONFIG_PATH" ./dist/my-account/api-extractor.json
-(
-  cd ./dist/my-account && \
-  api-extractor run --local --verbose
-)
-```
-
 - `scripts/packages.ts` - just add your lib to the `const packageJsonPaths` array.
 
 - `sonar-project.properties` - list your library to this file
-
-- `tsconfig.compodoc.json` - add your library to this file
 
 - `projects/schematics/package.json` - add the library to the package group
 
@@ -322,13 +315,13 @@ This change requires an update in the:
 
 - make sure to follow the general folder structure, as seen in e.g. `feature-libs/product` library
 - add `ng-package.json` to each of the feature folders
-- run `ts-node ./tools/tsconfig-paths/index.ts` script to update `compilerOptions.path` property in tsconfig files
+- run `yarn config:update` script to update `compilerOptions.path` property in tsconfig files
 
 ## Testing
 
 Don't forget to:
 
-- run the tests for the generated library - `ng test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generate in `coverage/my-account/lcov-report/index.html`
+- run the tests for the generated library - `ng test <lib-name> --code-coverage`. In case of a library with multiple entry points, make sure to check the code-coverage report generated in the `coverage/my-account/lcov-report/index.html`
 - build the generated library _with Ivy enabled_ - `ng build <lib-name>`
 - build the generated library (without Ivy) - `ng build <lib-name> --prod`
 - build the production-ready shell app with the included generated library (import a dummy service from the generated service):

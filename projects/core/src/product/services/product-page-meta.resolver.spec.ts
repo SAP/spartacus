@@ -1,14 +1,19 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { PageRobotsMeta } from '../../cms';
+import { Observable, of } from 'rxjs';
+import {
+  BasePageMetaResolver,
+  CanonicalUrlOptions,
+  PageRobotsMeta,
+} from '../../cms';
+import { PageLinkService } from '../../cms/page/routing/page-link.service';
 import { I18nTestingModule, TranslationService } from '../../i18n';
 import { Product } from '../../model';
 import { RoutingService } from '../../routing';
 import { ProductService } from '../facade';
 import { ProductPageMetaResolver } from './product-page-meta.resolver';
 
-class MockRoutingService {
-  getRouterState() {
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState(): Observable<any> {
     return of({
       state: {
         params: {
@@ -16,6 +21,9 @@ class MockRoutingService {
         },
       },
     });
+  }
+  getFullUrl(): string {
+    return '';
   }
 }
 
@@ -39,6 +47,11 @@ const MockProduct: Product = {
   manufacturer: 'Canon',
 };
 
+const MockProductVariant: Product = {
+  baseProduct: 'base_1234',
+  code: 'variant_1234',
+};
+
 const MockProductWithoutImages: Product = {
   code: '1234',
 };
@@ -50,7 +63,7 @@ class MockProductService {
 }
 
 class MockTranslationService {
-  translate(key, params: any) {
+  translate(key: string, params: any) {
     if (!params) {
       return of(key);
     }
@@ -66,9 +79,26 @@ class MockTranslationService {
   }
 }
 
+class MockBasePageMetaResolver {
+  resolveRobots() {
+    return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
+  }
+  resolveCanonicalUrl(): Observable<string> {
+    return of();
+  }
+}
+
+class MockPageLinkService implements Partial<PageLinkService> {
+  getCanonicalUrl(_options?: CanonicalUrlOptions, url?: string): string {
+    return url ?? '';
+  }
+}
+
 describe('ProductPageMetaResolver', () => {
   let service: ProductPageMetaResolver;
   let productService: ProductService;
+  let routingService: RoutingService;
+  let pageLinkService: PageLinkService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -78,11 +108,21 @@ describe('ProductPageMetaResolver', () => {
         { provide: ProductService, useClass: MockProductService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: BasePageMetaResolver,
+          useClass: MockBasePageMetaResolver,
+        },
+        {
+          provide: PageLinkService,
+          useClass: MockPageLinkService,
+        },
       ],
     });
 
     service = TestBed.inject(ProductPageMetaResolver);
     productService = TestBed.inject(ProductService);
+    routingService = TestBed.inject(RoutingService);
+    pageLinkService = TestBed.inject(PageLinkService);
   });
 
   it('should be created', () => {
@@ -90,7 +130,7 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve product heading', () => {
-    let result: string;
+    let result!: string;
     service
       .resolveHeading()
       .subscribe((value) => (result = value))
@@ -100,7 +140,7 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve product title', () => {
-    let result: string;
+    let result!: string;
     service
       .resolveTitle()
       .subscribe((value) => (result = value))
@@ -112,7 +152,7 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve product description', () => {
-    let result: string;
+    let result!: string;
     service
       .resolveDescription()
       .subscribe((value) => (result = value))
@@ -124,7 +164,7 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve product image', () => {
-    let result: string;
+    let result!: string;
     service
       .resolveImage()
       .subscribe((value) => {
@@ -138,7 +178,7 @@ describe('ProductPageMetaResolver', () => {
   it('should gracefully return null for product without images', () => {
     spyOn(productService, 'get').and.returnValue(of(MockProductWithoutImages));
 
-    let result: string;
+    let result!: string;
     service
       .resolveImage()
       .subscribe((value) => {
@@ -150,7 +190,7 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve breadcrumbs', () => {
-    let result: any[];
+    let result!: any[];
     service
       .resolveBreadcrumbs()
       .subscribe((value) => {
@@ -162,7 +202,7 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve 2nd breadcrumbs with category name', () => {
-    let result: any[];
+    let result!: any[];
     service
       .resolveBreadcrumbs()
       .subscribe((value) => {
@@ -174,7 +214,7 @@ describe('ProductPageMetaResolver', () => {
   });
 
   it('should resolve robots', () => {
-    let result: any[];
+    let result!: any[];
     service
       .resolveRobots()
       .subscribe((value) => {
@@ -186,5 +226,81 @@ describe('ProductPageMetaResolver', () => {
     expect(result).toContain(PageRobotsMeta.INDEX);
     expect(result).not.toContain(PageRobotsMeta.NOINDEX);
     expect(result).not.toContain(PageRobotsMeta.NOFOLLOW);
+  });
+
+  it('should resolve canonical url from the PageLinkService.getCanonicalUrl()', async () => {
+    spyOn(routingService, 'getFullUrl').and.returnValue(
+      'https://store.com/product/123'
+    );
+
+    spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+    expect(pageLinkService.getCanonicalUrl).toHaveBeenCalledWith(
+      {},
+      'https://store.com/product/123'
+    );
+  });
+
+  it('should resolve canonical url for product variant', async () => {
+    spyOn(productService, 'get').and.returnValues(
+      of(MockProductVariant),
+      of({
+        code: 'base_1234',
+      })
+    );
+    spyOn(routingService, 'getFullUrl').and.returnValue(
+      'https://store.com/product/base_1234'
+    );
+
+    spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+
+    expect(routingService.getFullUrl).toHaveBeenCalledWith({
+      cxRoute: 'product',
+      params: { code: 'base_1234' },
+    });
+    expect(pageLinkService.getCanonicalUrl).toHaveBeenCalledWith(
+      {},
+      'https://store.com/product/base_1234'
+    );
+  });
+
+  it('should resolve canonical url for multi-leveled variant', async () => {
+    spyOn(productService, 'get').and.returnValues(
+      of(MockProductVariant),
+      of({
+        code: 'base_1234',
+        baseProduct: 'super_base_1234',
+      }),
+      of({
+        code: 'super_base_1234',
+      })
+    );
+    spyOn(routingService, 'getFullUrl').and.returnValue(
+      'https://store.com/product/super_base_1234'
+    );
+
+    spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+
+    expect(routingService.getFullUrl).toHaveBeenCalledWith({
+      cxRoute: 'product',
+      params: { code: 'super_base_1234' },
+    });
+    expect(pageLinkService.getCanonicalUrl).toHaveBeenCalledWith(
+      {},
+      'https://store.com/product/super_base_1234'
+    );
+  });
+
+  it('should not resolve canonical url for undefined product', async () => {
+    spyOn(productService, 'get').and.returnValues(of(undefined));
+    spyOn(routingService, 'getFullUrl').and.returnValue(
+      'https://store.com/product/123'
+    );
+
+    spyOn(pageLinkService, 'getCanonicalUrl').and.callThrough();
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+    expect(pageLinkService.getCanonicalUrl).not.toHaveBeenCalled();
   });
 });

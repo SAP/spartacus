@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GeoPoint } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -7,13 +7,14 @@ import { StoreFinderService } from '@spartacus/storefinder/core';
 @Component({
   selector: 'cx-store-finder-grid',
   templateUrl: './store-finder-grid.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StoreFinderGridComponent implements OnInit, OnDestroy {
-  locations$: any;
-  isLoading$: Observable<boolean>;
+export class StoreFinderGridComponent implements OnInit {
   defaultLocation: GeoPoint;
   country: string;
   region: string;
+  locations$: any;
+  isLoading$: Observable<boolean>;
 
   constructor(
     private storeFinderService: StoreFinderService,
@@ -21,21 +22,15 @@ export class StoreFinderGridComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.isLoading$ = this.storeFinderService.getViewAllStoresLoading();
-    this.locations$ = this.storeFinderService.getViewAllStoresEntities();
+    this.isLoading$ = this.storeFinderService.getStoresLoading();
+    this.locations$ = this.storeFinderService.getFindStoresEntities();
     this.defaultLocation = {};
-
-    if (this.route.snapshot.params.country) {
-      this.storeFinderService.findStoresAction(
-        '',
-        {
-          pageSize: -1,
-        },
-        undefined,
-        this.route.snapshot.params.country
-      );
-    }
+    this.findStores();
   }
 
-  ngOnDestroy() {}
+  protected findStores(): void {
+    if (this.route.snapshot.params.country) {
+      this.storeFinderService.callFindStoresAction(this.route.snapshot.params);
+    }
+  }
 }

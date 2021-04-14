@@ -5,11 +5,13 @@ import {
   ContentPageMetaResolver,
   I18nTestingModule,
   Page,
+  PageRobotsMeta,
   PageType,
   RouterState,
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
+import { BasePageMetaResolver } from 'projects/core/src/cms/page/base-page-meta.resolver';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrganizationPageMetaResolver } from './organization-page-meta.resolver';
@@ -53,12 +55,28 @@ class MockContentPageMetaResolver implements Partial<ContentPageMetaResolver> {
   resolveBreadcrumbs() {
     return of([testHomeBreadcrumb]);
   }
+
+  resolveRobots() {
+    return of([]);
+  }
+}
+
+class MockBasePageMetaResolver {
+  resolveTitle() {
+    return of('testContentPageTitle');
+  }
+  resolveBreadcrumbs() {
+    return of([testHomeBreadcrumb]);
+  }
+  resolveRobots() {
+    return of([]);
+  }
 }
 
 describe('OrganizationPageMetaResolver', () => {
   let resolver: OrganizationPageMetaResolver;
   let routingService: RoutingService;
-  let contentPageMetaResolver: ContentPageMetaResolver;
+  let basePageMetaResolver: BasePageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -71,12 +89,16 @@ describe('OrganizationPageMetaResolver', () => {
           provide: ContentPageMetaResolver,
           useClass: MockContentPageMetaResolver,
         },
+        {
+          provide: BasePageMetaResolver,
+          useClass: MockBasePageMetaResolver,
+        },
       ],
     });
 
     resolver = TestBed.inject(OrganizationPageMetaResolver);
     routingService = TestBed.inject(RoutingService);
-    contentPageMetaResolver = TestBed.inject(ContentPageMetaResolver);
+    basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
   });
 
   describe('resolveTitle', () => {
@@ -113,7 +135,7 @@ describe('OrganizationPageMetaResolver', () => {
           of({ state: { semanticRoute: 'orgBudgetDetails' } } as any)
         );
 
-        spyOn(contentPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
+        spyOn(basePageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
           of([testHomeBreadcrumb, testBudgetsBreadcrumb])
         );
       });
@@ -127,6 +149,21 @@ describe('OrganizationPageMetaResolver', () => {
           testBudgetsBreadcrumb,
         ]);
       });
+    });
+  });
+
+  describe('resolveRobots', () => {
+    it('should resolve title from the BasePageMetaResolver', async () => {
+      spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
+        of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX])
+      );
+      let result;
+      resolver
+        .resolveRobots()
+        .subscribe((robots) => (result = robots))
+        .unsubscribe();
+      expect(result).toContain(PageRobotsMeta.FOLLOW);
+      expect(result).toContain(PageRobotsMeta.INDEX);
     });
   });
 });

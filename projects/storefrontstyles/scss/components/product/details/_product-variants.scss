@@ -1,3 +1,7 @@
+//
+// @deprecated since 3.2
+// Use feature-library @spartacus/product/variants instead
+//
 %cx-product-variants {
   .variant-section {
     @include media-breakpoint-up(lg) {
@@ -23,12 +27,6 @@
     li {
       display: inline-block;
 
-      &.selected-variant {
-        img {
-          border: 2px solid var(--cx-color-primary);
-        }
-      }
-
       .variant-button {
         @include button-reset();
 
@@ -39,6 +37,12 @@
         img {
           margin: 3px;
           border: 1px solid #ddd;
+        }
+      }
+
+      &.selected-variant {
+        img {
+          border: 2px solid var(--cx-color-primary);
         }
       }
     }

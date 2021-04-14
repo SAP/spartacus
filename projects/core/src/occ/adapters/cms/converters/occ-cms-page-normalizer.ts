@@ -5,7 +5,11 @@ import {
 } from '../../../../cms/config/cms-config';
 import { ContentSlotComponentData } from '../../../../cms/model/content-slot-component-data.model';
 import { ContentSlotData } from '../../../../cms/model/content-slot-data.model';
-import { CmsStructureModel, Page } from '../../../../cms/model/page.model';
+import {
+  CmsStructureModel,
+  Page,
+  PageRobotsMeta,
+} from '../../../../cms/model/page.model';
 import { Converter } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
 
@@ -53,9 +57,14 @@ export class OccCmsPageNormalizer
     if (source.title) {
       page.title = source.title;
     }
+    if (source.description) {
+      page.description = source.description;
+    }
     if (source.properties) {
       page.properties = source.properties;
     }
+
+    this.normalizeRobots(source, page);
 
     target.page = page;
   }
@@ -154,5 +163,34 @@ export class OccCmsPageNormalizer
         }
       }
     }
+  }
+
+  /**
+   * Normalizes the page robot string to an array of `PageRobotsMeta` items.
+   */
+  protected normalizeRobots(source: Occ.CMSPage, target: Page): void {
+    const robots = [];
+    if (source.robotTag) {
+      switch (source.robotTag) {
+        case Occ.PageRobots.INDEX_FOLLOW:
+          robots.push(PageRobotsMeta.INDEX);
+          robots.push(PageRobotsMeta.FOLLOW);
+          break;
+        case Occ.PageRobots.NOINDEX_FOLLOW:
+          robots.push(PageRobotsMeta.NOINDEX);
+          robots.push(PageRobotsMeta.FOLLOW);
+          break;
+        case Occ.PageRobots.INDEX_NOFOLLOW:
+          robots.push(PageRobotsMeta.INDEX);
+          robots.push(PageRobotsMeta.NOFOLLOW);
+          break;
+        case Occ.PageRobots.NOINDEX_NOFOLLOW:
+          robots.push(PageRobotsMeta.NOINDEX);
+          robots.push(PageRobotsMeta.NOFOLLOW);
+          break;
+      }
+    }
+
+    target.robots = robots;
   }
 }

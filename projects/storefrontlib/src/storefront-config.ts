@@ -8,6 +8,7 @@ import {
   GlobalMessageConfig,
   I18nConfig,
   OccConfig,
+  PageMetaConfig,
   PersonalizationConfig,
   RoutingConfig,
   SiteContextConfig,
@@ -51,4 +52,5 @@ export type StorefrontConfig =
   | SkipLinkConfig
   | PaginationConfig
   | CartConfig
-  | SeoConfig;
+  | SeoConfig
+  | PageMetaConfig;

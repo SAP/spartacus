@@ -28,9 +28,8 @@ export class TabParagraphContainerComponent
   implements AfterViewInit, OnInit, OnDestroy {
   activeTabNum = 0;
 
-  @ViewChildren(ComponentWrapperDirective) children!: QueryList<
-    ComponentWrapperDirective
-  >;
+  @ViewChildren(ComponentWrapperDirective)
+  children!: QueryList<ComponentWrapperDirective>;
 
   tabTitleParams: Observable<any>[] = [];
 
@@ -40,7 +39,7 @@ export class TabParagraphContainerComponent
     componentData: CmsComponentData<CMSTabParagraphContainer>,
     cmsService: CmsService,
     winRef?: WindowRef,
-    // tslint:disable-next-line:unified-signatures
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     breakpointService?: BreakpointService
   );
   /**

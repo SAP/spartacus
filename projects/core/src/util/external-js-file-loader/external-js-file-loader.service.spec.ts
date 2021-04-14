@@ -1,5 +1,5 @@
-/* tslint:disable:deprecation */
-// for now there is no better way than to use document.createElement here, therefore we need to disable tslint deprecation rule here
+/* eslint-disable import/no-deprecated */
+// for now there is no better way than to use document.createElement here, therefore we need to disable eslint deprecation rule here
 import { DOCUMENT } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { ExternalJsFileLoader } from './external-js-file-loader.service';
@@ -7,8 +7,10 @@ import { ExternalJsFileLoader } from './external-js-file-loader.service';
 const SCRIPT_LOAD_URL = 'http://url/';
 
 class DocumentMock {
+  head = {
+    appendChild() {},
+  };
   createElement() {}
-  appendChild() {}
 }
 
 describe('ExternalJsFileLoader', () => {
@@ -36,7 +38,6 @@ describe('ExternalJsFileLoader', () => {
   it('should load script with params and load/error callbacks', () => {
     // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2' };
     const callback = function () {};
@@ -65,7 +66,6 @@ describe('ExternalJsFileLoader', () => {
   it('should load script with params and callback', () => {
     // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2' };
     const callback = function () {};
@@ -89,7 +89,6 @@ describe('ExternalJsFileLoader', () => {
   it('should load script with params', () => {
     // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
     const params = { param1: 'value1', param2: 'value2 plus space' };
 
@@ -109,7 +108,6 @@ describe('ExternalJsFileLoader', () => {
   it('should load script', () => {
     // given
     spyOn(documentMock, 'createElement').and.returnValue(jsDomElement);
-    spyOn(documentMock, 'appendChild').and.callThrough();
     spyOn(jsDomElement, 'addEventListener').and.callThrough();
 
     // when

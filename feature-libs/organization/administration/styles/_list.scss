@@ -73,11 +73,28 @@
   }
 }
 
+%organizationTitle {
+  .title {
+    h3 {
+      button {
+        border: none;
+        background-color: inherit;
+        cx-icon {
+          pointer-events: none;
+          color: var(--cx-color, var(--cx-color-info));
+        }
+      }
+    }
+  }
+}
+
 %organizationList {
   .content-wrapper,
   form {
     display: contents;
   }
+
+  @extend %organizationTitle !optional;
 
   cx-split-view:not([active-view='1']) .list table {
     th,
@@ -231,6 +248,7 @@
     padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
     button.tree-item-toggle {
       margin-inline-start: -40px;
+      min-width: 40px;
     }
   }
 
@@ -373,6 +391,10 @@
 
         @include media-breakpoint-up(lg) {
           padding-inline-start: 20px;
+        }
+
+        &.button {
+          color: var(--cx-color-primary);
         }
       }
       ul.text {

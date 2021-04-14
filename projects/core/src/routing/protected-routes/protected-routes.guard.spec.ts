@@ -18,7 +18,6 @@ class MockProtectedRoutesService {
 describe('ProtectedRoutesGuard', () => {
   let guard: ProtectedRoutesGuard;
   let service: ProtectedRoutesService;
-  let authGuard: AuthGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,13 +36,11 @@ describe('ProtectedRoutesGuard', () => {
 
     guard = TestBed.inject(ProtectedRoutesGuard);
     service = TestBed.inject(ProtectedRoutesService);
-    authGuard = TestBed.inject(AuthGuard);
   });
 
   describe('canActivate', () => {
     describe('when anticipated url is NOT protected', () => {
       beforeEach(() => {
-        console.log(guard, service, authGuard);
         spyOn(service, 'isUrlProtected').and.returnValue(false);
       });
 
@@ -58,7 +55,6 @@ describe('ProtectedRoutesGuard', () => {
 
     describe('when anticipated url is protected', () => {
       beforeEach(() => {
-        console.log(guard, service, authGuard);
         spyOn(service, 'isUrlProtected').and.returnValue(true);
       });
 

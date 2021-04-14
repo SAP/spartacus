@@ -112,6 +112,10 @@ label {
   }
 }
 
+legend {
+  margin-bottom: $label-margin-bottom;
+}
+
 .form-check {
   margin-bottom: 18px;
   padding-inline-start: 2.25rem;

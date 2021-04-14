@@ -53,6 +53,17 @@ export interface CmsComponentChildRoutesConfig {
 
 export interface CmsComponentMapping<T = CmsComponent> {
   component?: any;
+  /**
+   * Configurable component providers for cms components.
+   *
+   * Component services are designed to be non-singleton services and are scoped
+   * to the component injection tree. The advantage of these services is that they can
+   * resolve services injected to the component injection tree. However, these services
+   * cannot be extended with the native Angular DI system.
+   *
+   * The configurable component providers mitigate this downside, by allowing you to provide
+   * component providers through services.
+   */
   providers?: StaticProvider[];
   childRoutes?: Route[] | CmsComponentChildRoutesConfig;
   disableSSR?: boolean;
@@ -86,7 +97,7 @@ export enum DeferLoadingStrategy {
 export interface CMSComponentConfig
   extends StandardCmsComponentConfig,
     JspIncludeCmsComponentConfig {
-  [componentType: string]: CmsComponentMapping;
+  [componentType: string]: CmsComponentMapping | undefined;
 }
 
 export interface FeatureModuleConfig {
@@ -95,9 +106,9 @@ export interface FeatureModuleConfig {
    */
   module?: () => Promise<any>;
   /**
-   * Lazy resolved dependency modules
+   * Lazy resolved dependency modules or features referenced by name
    */
-  dependencies?: (() => Promise<any>)[];
+  dependencies?: ((() => Promise<any>) | string)[];
   /**
    * Cms components covered by this feature
    */
@@ -109,6 +120,6 @@ export interface FeatureModuleConfig {
   useExisting: Config,
 })
 export abstract class CmsConfig extends OccConfig {
-  featureModules?: { [featureName: string]: FeatureModuleConfig };
+  featureModules?: { [featureName: string]: FeatureModuleConfig | string };
   cmsComponents?: CMSComponentConfig;
 }

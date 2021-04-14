@@ -52,18 +52,18 @@ export class LanguagesEffects {
   );
 
   @Effect()
-  activateLanguage$: Observable<
-    SiteContextActions.LanguageChange
-  > = this.state.select(getActiveLanguage).pipe(
-    bufferCount(2, 1),
+  activateLanguage$: Observable<SiteContextActions.LanguageChange> = this.state
+    .select(getActiveLanguage)
+    .pipe(
+      bufferCount(2, 1),
 
-    // avoid dispatching `change` action when we're just setting the initial value:
-    filter(([previous]) => !!previous),
-    map(
-      ([previous, current]) =>
-        new SiteContextActions.LanguageChange({ previous, current })
-    )
-  );
+      // avoid dispatching `change` action when we're just setting the initial value:
+      filter(([previous]) => !!previous),
+      map(
+        ([previous, current]) =>
+          new SiteContextActions.LanguageChange({ previous, current })
+      )
+    );
 
   constructor(
     private actions$: Actions,

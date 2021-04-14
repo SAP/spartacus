@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-qualtrics/index#addQualtricsFeatures",
+      "description": "Add and configure Spartacus' qualtrics features",
+      "schema": "./add-qualtrics/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-qualtrics/index#addQualtricsFeatures",
+      "description": "Add and configure Spartacus' qualtrics features",
+      "schema": "./add-qualtrics/schema.json"
+    }
+  }
+}

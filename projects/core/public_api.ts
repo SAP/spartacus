@@ -26,12 +26,14 @@ export * from './src/user/index';
 export * from './src/util/index';
 export * from './src/window/index';
 export * from './src/lazy-loading/index';
+export * from './src/base-core.module';
 
 /** AUGMENTABLE_TYPES_START */
-export { Product } from './src/model/product.model';
+export { Product, Price, Stock } from './src/model/product.model';
 export { ProductSearchPage, Facet } from './src/model/product-search.model';
 export { Cart } from './src/model/cart.model';
 export { CostCenter, B2BUnit, B2BUser } from './src/model/org-unit.model';
 export { AuthToken } from './src/auth/user-auth/models/auth-token.model';
-export { Order } from './src/model/order.model';
+export { Order, OrderEntry, DeliveryMode } from './src/model/order.model';
+export { OccEndpoints } from './src/occ/occ-models/occ-endpoints.model';
 /** AUGMENTABLE_TYPES_END */

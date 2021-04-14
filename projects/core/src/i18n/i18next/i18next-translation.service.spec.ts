@@ -1,9 +1,10 @@
 import * as AngularCore from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import i18next from 'i18next';
+import { i18n } from 'i18next';
 import { first, take } from 'rxjs/operators';
 import { I18nConfig } from '../config/i18n-config';
 import { TranslationChunkService } from '../translation-chunk.service';
+import { I18NEXT_INSTANCE } from './i18next-instance';
 import { I18nextTranslationService } from './i18next-translation.service';
 
 const testKey = 'testKey';
@@ -12,6 +13,7 @@ const nonBreakingSpace = String.fromCharCode(160);
 
 describe('I18nextTranslationService', () => {
   let service: I18nextTranslationService;
+  let i18next: i18n;
 
   beforeEach(() => {
     const mockTranslationChunk = {
@@ -32,6 +34,7 @@ describe('I18nextTranslationService', () => {
     });
 
     service = TestBed.inject(I18nextTranslationService);
+    i18next = TestBed.inject(I18NEXT_INSTANCE);
   });
 
   describe('loadChunks', () => {
@@ -46,10 +49,13 @@ describe('I18nextTranslationService', () => {
   });
 
   describe('translate', () => {
+    beforeEach(() => {
+      i18next.isInitialized = true;
+    });
+
     describe(', when key exists,', () => {
       beforeEach(() => {
         spyOn(i18next, 'exists').and.returnValue(true);
-        i18next.isInitialized = true;
       });
 
       it('should emit result of i18next.t', () => {

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  isNotUndefined,
   Product,
   ProductScope,
   ProductService,
@@ -29,8 +30,7 @@ export class CurrentProductService {
   getProduct(
     scopes?: (ProductScope | string)[] | ProductScope | string
   ): Observable<Product | null> {
-    return this.routingService.getRouterState().pipe(
-      map((state) => state.state.params['productCode']),
+    return this.getCode().pipe(
       distinctUntilChanged(),
       switchMap((productCode: string) => {
         return productCode
@@ -40,7 +40,13 @@ export class CurrentProductService {
             )
           : of(null);
       }),
-      filter((product) => product !== undefined)
+      filter(isNotUndefined)
     );
+  }
+
+  protected getCode(): Observable<string> {
+    return this.routingService
+      .getRouterState()
+      .pipe(map((state) => state.state.params['productCode']));
   }
 }

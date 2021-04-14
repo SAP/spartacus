@@ -1,16 +1,19 @@
 {
-  "defaultCommandTimeout": 2000,
+  "defaultCommandTimeout": 10000,
   "baseUrl": "http://localhost:4200",
-  "requestTimeout": 5000,
-  "keepTestsInMemory": 20,
-  "video": false,
+  "requestTimeout": 15000,
+  "retries": {
+    "runMode": 2
+  },
+  "videoUploadOnPasses": false,
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
-    "API_URL": "https://spartacus-dev0.eastus.cloudapp.azure.com:9002",
+    "API_URL": "https://40.76.109.9:9002",
+    "BASE_SITE": "electronics-spa",
+    "BASE_LANG": "en",
     "OCC_PREFIX": "/occ/v2",
     "OCC_PREFIX_USER_ENDPOINT": "users",
-    "OCC_PREFIX_ORDER_ENDPOINT": "orders",
-    "BASE_SITE": "electronics-spa"
+    "OCC_PREFIX_ORDER_ENDPOINT": "orders"
   }
 }

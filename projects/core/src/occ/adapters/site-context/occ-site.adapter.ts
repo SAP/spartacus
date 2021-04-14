@@ -72,7 +72,7 @@ export class OccSiteAdapter implements SiteAdapter {
    * There is no OCC API to load one site based on Uid.
    * So, we have to load all sites, and find the one from the list.
    */
-  loadBaseSite(siteUid?: string): Observable<BaseSite> {
+  loadBaseSite(siteUid?: string): Observable<BaseSite | undefined> {
     if (!siteUid) {
       const baseUrl = this.occEndpointsService.getBaseEndpoint();
       const urlSplits = baseUrl.split('/');
@@ -81,7 +81,11 @@ export class OccSiteAdapter implements SiteAdapter {
 
     return this.http
       .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.getOccEndpoint('baseSites')
+        this.occEndpointsService.buildUrl(
+          'baseSitesForConfig',
+          {},
+          { baseSite: false }
+        )
       )
       .pipe(
         map((siteList) => {
@@ -93,7 +97,11 @@ export class OccSiteAdapter implements SiteAdapter {
   loadBaseSites(): Observable<BaseSite[]> {
     return this.http
       .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.getOccEndpoint('baseSites')
+        this.occEndpointsService.buildUrl(
+          'baseSitesForConfig',
+          {},
+          { baseSite: false }
+        )
       )
       .pipe(
         map((baseSiteList) => baseSiteList.baseSites),

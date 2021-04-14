@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { CmsLinkComponent } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
@@ -11,8 +12,8 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 export class LinkComponent {
   @HostBinding('class') styleClasses: string;
 
-  data$ = this.component.data$.pipe(
-    tap((data) => (this.styleClasses = data.styleClasses))
+  data$: Observable<CmsLinkComponent> = this.component.data$.pipe(
+    tap((data) => (this.styleClasses = data?.styleClasses))
   );
 
   constructor(protected component: CmsComponentData<CmsLinkComponent>) {}

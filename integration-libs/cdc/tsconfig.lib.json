@@ -10,11 +10,18 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "strict": false, // TODO: Fix strict errors and remove this option
     "types": [],
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/asm/assets": ["dist/asm/assets"],
+      "@spartacus/asm/components": ["dist/asm/components"],
+      "@spartacus/asm/core": ["dist/asm/core"],
+      "@spartacus/asm": ["dist/asm"],
+      "@spartacus/asm/occ": ["dist/asm/occ"],
+      "@spartacus/asm/root": ["dist/asm/root"]
     }
   },
   "angularCompilerOptions": {

@@ -7,22 +7,16 @@ POSITIONAL=()
 readonly help_display="Usage: $0 [ command_options ] [ param ]
 
     command options:
-        --suite, -s                             choose an e2e suite to run. Default: regression
-        --integration, -i                       run the correct e2e integration suite. Default: "" for smoke tests
-        --environment, --env                    [1905 | 2005 | ccv2]. Default: 1905
-        --help, -h                              show this message and exit
+        --suite, -s                             e2e suite to run (b2c, b2b, cds, flaky). Default: b2c
+        --environment, --env                    [ 2005 | 2011 | ccv2]. Default: 2005
+        --help, -h                              show help
 "
 
 while [ "${1:0:1}" == "-" ]
 do
     case "$1" in
         '--suite' | '-s' )
-            SUITE=$2
-            shift
-            shift
-            ;;
-        '--integration' | '-i' )
-            INTEGRATION=":$2"
+            SUITE=":$2"
             shift
             shift
             ;;
@@ -47,18 +41,14 @@ done
 
 set -- "${POSITIONAL[@]}"
 
-
-if [[ -z "${CI_ENV}" ]]; then
-    CI_ENV=":2005"
-fi
-
-yarn
-(cd projects/storefrontapp-e2e-cypress && yarn)
-
 echo '-----'
-echo 'Building Spartacus libraries'
-# Currently for our unified app you have to build all libraries to run it
-yarn build:libs && yarn build"${INTEGRATION}" 2>&1 | tee build.log
+echo "Building Spartacus libraries"
+
+yarn install
+
+(cd projects/storefrontapp-e2e-cypress && yarn install)
+
+yarn build:libs 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "${results}" ]]; then
@@ -69,25 +59,15 @@ else
     rm build.log
     exit 1
 fi
+echo '-----'
+echo "Building Spartacus storefront app"
+yarn build
 
-
-# Hardcoded 2005 becuase cypress.ci.b2b.json currently supports only 2005.
-# TODO: The condition should be removed and logic here simplified, when fixing https://github.com/SAP/spartacus/issues/10160
-SHOULD_RUN_B2B=false;
-if [[ $CI_ENV == '2005' ]]; then 
-    SHOULD_RUN_B2B=true;
-fi
+yarn start:pwa &
 
 echo '-----'
-echo "Running Cypress end to end tests for suite: $SUITE"
-if [[ $SUITE == 'regression' ]]; then
-    yarn e2e:cy"${INTEGRATION}":start-run-ci"${CI_ENV}"
-    if [[ $SHOULD_RUN_B2B ]]; then 
-        yarn e2e:cy"${INTEGRATION}":start-run-ci"${CI_ENV}":b2b
-    fi
-else
-    yarn e2e:cy"${INTEGRATION}":start-run-smoke-ci"${CI_ENV}"
-    if [[ $SHOULD_RUN_B2B ]]; then
-        yarn e2e:cy"${INTEGRATION}":start-run-smoke-ci"${CI_ENV}":b2b
-    fi
-fi
+echo "Running Cypress end to end tests"
+
+yarn e2e:run:ci"${SUITE}"
+
+echo "Running Cypress end to end tests finished"

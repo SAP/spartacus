@@ -1,0 +1,27 @@
+on:
+  pull_request:
+    types: [opened, synchronize]
+name: Hosting service - Deploy
+jobs:
+  hostingServiceDeploy:
+    name: Deployment bot
+    environment: dev
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        if: ${{ !env.ACT }}
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - name: Deployment bot
+        uses: ./.github/hs-deploy-action
+        env:
+          UPP_ACTION: 'deploy'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GHT_USER: ${{ secrets.GHT_USER}}
+          GHT_TOKEN: ${{ secrets.GHT_TOKEN}}
+          UPP_TENANT: ${{ secrets.UPP_TENANT}}
+          UPP_CLIENT: ${{ secrets.UPP_CLIENT}}
+          UPP_SECRET: ${{ secrets.UPP_SECRET}}
+      

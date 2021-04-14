@@ -400,6 +400,27 @@ describe('ActiveCartService', () => {
     });
   });
 
+  describe('getLastEntry', () => {
+    it('should return last entry by product code', () => {
+      spyOn(multiCartService, 'getLastEntry').and.returnValue(
+        of(mockCartEntry)
+      );
+      service['activeCartId$'] = of('cartId');
+
+      let result;
+      service
+        .getLastEntry('code123')
+        .subscribe((entry) => (result = entry))
+        .unsubscribe();
+
+      expect(result).toEqual(mockCartEntry);
+      expect(multiCartService['getLastEntry']).toHaveBeenCalledWith(
+        'cartId',
+        'code123'
+      );
+    });
+  });
+
   describe('addEmail', () => {
     it('should assign email to active cart', () => {
       service['activeCartId$'] = of('cartId');

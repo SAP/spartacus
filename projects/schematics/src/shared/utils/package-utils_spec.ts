@@ -2,14 +2,18 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
-import { ANGULAR_CORE, ANGULAR_LOCALIZE, UTF_8 } from '../constants';
+import { ANGULAR_CORE, UTF_8 } from '../constants';
 import {
   getAngularVersion,
   getMajorVersionNumber,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
-  isAngularLocalizeInstalled,
   readPackageJson,
 } from './package-utils';
 
@@ -18,16 +22,16 @@ const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
 describe('Package utils', () => {
   let appTree: UnitTestTree;
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
     projectRoot: '',
   };
@@ -110,27 +114,6 @@ describe('Package utils', () => {
       expect(featureLevel).toBeTruthy();
       expect(featureLevel.length).toEqual(3);
       expect(featureLevel).toEqual(version.substring(0, 3));
-    });
-  });
-
-  describe('isAngularLocalizeInstalled', () => {
-    beforeEach(() => {
-      const buffer = appTree.read('package.json');
-      if (!buffer) {
-        throw new Error('package.json not found');
-      }
-      let packageJsonObject = JSON.parse(buffer.toString(UTF_8));
-      packageJsonObject = {
-        ...packageJsonObject,
-        dependencies: {
-          ...packageJsonObject.dependencies,
-          [ANGULAR_LOCALIZE]: '^9.0.0',
-        },
-      };
-      appTree.overwrite('package.json', JSON.stringify(packageJsonObject));
-    });
-    it('should return feature level based on spartacus current version', async () => {
-      expect(isAngularLocalizeInstalled(appTree)).toEqual(true);
     });
   });
 });
