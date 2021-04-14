@@ -352,12 +352,21 @@ export function getConfigs(sourceFile: SourceFile): Node[] {
 }
 
 const EMPTY_SPACE_REG_EXP = /\s+/gm;
-export function normalizeConfiguration(config: string): string {
-  let newConfig = config;
+export function normalizeConfiguration(config: string | Node): string {
+  let newConfig: string;
+  if (typeof config === 'string') {
+    newConfig = config;
+  } else {
+    if (Node.isTypeAssertion(config) || Node.isAsExpression(config)) {
+      newConfig = config.getExpression().getText();
+    } else {
+      newConfig = config.getText();
+    }
+  }
 
   newConfig = newConfig.trim();
 
-  if (config.includes(PROVIDE_CONFIG_FUNCTION)) {
+  if (newConfig.startsWith(PROVIDE_CONFIG_FUNCTION)) {
     newConfig = newConfig.replace(`${PROVIDE_CONFIG_FUNCTION}(`, '');
     newConfig = newConfig.substring(0, newConfig.length - 1);
   }

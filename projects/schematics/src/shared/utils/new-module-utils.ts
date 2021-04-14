@@ -198,14 +198,7 @@ function isDuplication(
     const normalizedContent = normalizeConfiguration(content);
     const configs = getSpartacusProviders(initializer.getSourceFile());
     for (const config of configs) {
-      let configText: string;
-      if (Node.isTypeAssertion(config) || Node.isAsExpression(config)) {
-        configText = config.getExpression().getText();
-      } else {
-        configText = config.getText();
-      }
-
-      const normalizedConfig = normalizeConfiguration(configText);
+      const normalizedConfig = normalizeConfiguration(config);
       if (normalizedContent === normalizedConfig) {
         return true;
       }
