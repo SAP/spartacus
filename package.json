@@ -96,7 +96,7 @@
     "@angular/router": "^10.2.4",
     "@angular/service-worker": "^10.2.4",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
-    "@ng-select/ng-select": "^5.0.9",
+    "@ng-select/ng-select": "^5.1.0",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/router-store": "^10.0.0",
     "@ngrx/store": "^10.0.0",
