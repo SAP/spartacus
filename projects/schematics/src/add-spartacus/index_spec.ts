@@ -465,7 +465,7 @@ describe('add-spartacus', () => {
       appTree = await schematicRunner
         .runSchematicAsync('add-spartacus', defaultOptions, appTree)
         .toPromise();
-      // run it twice
+      // run it again
       appTree = await schematicRunner
         .runSchematicAsync('add-spartacus', defaultOptions, appTree)
         .toPromise();
@@ -491,19 +491,28 @@ describe('add-spartacus', () => {
       appTree = await schematicRunner
         .runSchematicAsync('add-spartacus', defaultOptions, appTree)
         .toPromise();
-      // run it twice
+      // run it again
       appTree = await schematicRunner
         .runSchematicAsync('add-spartacus', defaultOptions, appTree)
         .toPromise();
 
-      const configurationContent = appTree.readContent(
+      const configurationModule = appTree.readContent(
         '/projects/schematics-test/src/app/spartacus/spartacus-configuration.module.ts'
       );
-      expect(configurationContent).toContain(`provideConfig(layoutConfig)`);
-      const configurationNumberOfOccurrences =
-        configurationContent.match(/provideConfig\(layoutConfig\)/gm)?.length ??
+
+      // test the `provideConfig` configs
+      expect(configurationModule).toContain(`provideConfig(layoutConfig)`);
+      const provideConfigOccurrences =
+        configurationModule.match(/provideConfig\(layoutConfig\)/gm)?.length ??
         -1;
-      expect(configurationNumberOfOccurrences).toBe(1);
+      expect(provideConfigOccurrences).toBe(1);
+
+      // test other Spartacus-related configs (i.e. NON `provideConfig` configs)
+      expect(configurationModule).toContain(`...defaultCmsContentProviders`);
+      const nonProvideConfigOccurrences =
+        configurationModule.match(/\.\.\.defaultCmsContentProviders/gm)
+          ?.length ?? -1;
+      expect(nonProvideConfigOccurrences).toBe(1);
     });
   });
 });

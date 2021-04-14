@@ -227,7 +227,7 @@ function isTypeTokenDuplicate(
 }
 
 export function getModule(sourceFile: SourceFile): CallExpression | undefined {
-  let moduleNode;
+  let moduleNode: CallExpression | undefined;
 
   function visitor(node: Node) {
     if (Node.isCallExpression(node)) {
