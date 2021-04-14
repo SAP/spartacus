@@ -25,7 +25,7 @@ export function disableNotificationChannel() {
 }
 
 export function updateEmail(): String {
-  const password = 'pw4all';
+  const password = 'Password123.';
   const newUid = generateMail(randomString(), true);
   cy.selectUserMenuOption({
     option: 'Email Address',
