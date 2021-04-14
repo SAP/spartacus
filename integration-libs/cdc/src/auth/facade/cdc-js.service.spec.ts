@@ -4,15 +4,15 @@ import {
   BaseSiteService,
   LanguageService,
   ScriptLoader,
-  User,
-  UserService,
   WindowRef,
 } from '@spartacus/core';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcConfig } from '../../config';
 import { CdcAuthService } from './cdc-auth.service';
 import { CdcJsService } from './cdc-js.service';
+import createSpy = jasmine.createSpy;
 
 const sampleCdcConfig: CdcConfig = {
   cdc: [
@@ -60,8 +60,8 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-class MockUserService implements Partial<UserService> {
-  updatePersonalDetails(_userDetails: User): void {}
+class MockUserProfileFacade implements Partial<UserProfileFacade> {
+  update = createSpy().and.returnValue(of(undefined));
 }
 
 class MockSubscription {
@@ -88,7 +88,7 @@ describe('CdcJsService', () => {
   let languageService: LanguageService;
   let scriptLoader: ScriptLoader;
   let cdcAuth: CdcAuthService;
-  let userService: UserService;
+  let userProfileFacade: UserProfileFacade;
   let winRef: WindowRef;
   let authService: AuthService;
 
@@ -100,7 +100,7 @@ describe('CdcJsService', () => {
         { provide: LanguageService, useClass: LanguageServiceStub },
         { provide: ScriptLoader, useClass: ScriptLoaderMock },
         { provide: CdcAuthService, useClass: MockCdcAuthService },
-        { provide: UserService, useClass: MockUserService },
+        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: Subscription, useValue: MockSubscription },
         { provide: AuthService, useClass: MockAuthService },
@@ -112,7 +112,7 @@ describe('CdcJsService', () => {
     languageService = TestBed.inject(LanguageService);
     scriptLoader = TestBed.inject(ScriptLoader);
     cdcAuth = TestBed.inject(CdcAuthService);
-    userService = TestBed.inject(UserService);
+    userProfileFacade = TestBed.inject(UserProfileFacade);
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
   });
@@ -279,7 +279,6 @@ describe('CdcJsService', () => {
 
   describe('onProfileUpdateEventHandler', () => {
     it('should update personal details when response have data', () => {
-      spyOn(userService, 'updatePersonalDetails');
       const response = {
         profile: {
           firstName: 'firstName',
@@ -289,18 +288,16 @@ describe('CdcJsService', () => {
 
       service.onProfileUpdateEventHandler(response);
 
-      expect(userService.updatePersonalDetails).toHaveBeenCalledWith({
+      expect(userProfileFacade.update).toHaveBeenCalledWith({
         firstName: response.profile.firstName,
         lastName: response.profile.lastName,
       });
     });
 
     it('should not update personal details when response is empty', () => {
-      spyOn(userService, 'updatePersonalDetails');
-
       service.onProfileUpdateEventHandler();
 
-      expect(userService.updatePersonalDetails).not.toHaveBeenCalled();
+      expect(userProfileFacade.update).not.toHaveBeenCalled();
     });
   });
 
