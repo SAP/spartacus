@@ -6,7 +6,7 @@ import {
   flush,
   TestBed,
   tick,
-  waitForAsync
+  waitForAsync,
 } from '@angular/core/testing';
 import { AuthService } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';

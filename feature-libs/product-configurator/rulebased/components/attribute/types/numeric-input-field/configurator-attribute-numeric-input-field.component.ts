@@ -96,10 +96,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent extends Configurato
       .subscribe(() => this.onChange());
   }
 
-  onChange(): void {
-    super.onChange();
-  }
-
   ngOnDestroy() {
     super.ngOnDestroy();
   }
