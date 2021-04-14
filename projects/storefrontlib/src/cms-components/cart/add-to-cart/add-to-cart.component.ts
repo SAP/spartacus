@@ -16,14 +16,10 @@ import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
-
-
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 // import { Observable } from 'rxjs';
 // import { map } from 'rxjs/operators';
-
-
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -61,16 +57,13 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected currentProductService: CurrentProductService,
     private cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartService,
-    protected componentData: CmsComponentData<any>,
+    protected componentData: CmsComponentData<any>
   ) {}
 
   ngOnInit() {
-
-    this.componentData.data$.subscribe(
-      data => {
-        this.showInventory = data.showInventory;
-      }
-    );
+    this.componentData.data$.subscribe((data) => {
+      this.showInventory = data.showInventory;
+    });
 
     if (this.product) {
       this.productCode = this.product.code;
@@ -99,22 +92,19 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       product.stock && product.stock.stockLevelStatus !== 'outOfStock';
     if (this.hasStock && product.stock.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
-    }else{
+    } else {
       this.maxQuantity = 0;
     }
   }
 
-  getInventory(): string{
-
+  getInventory(): string {
     //When backoffice forces 'In Stock' status, DO NOT display inventory.
-    if(this.hasStock && this.maxQuantity == 0){
-      return "";
-    }else{
-      return this.maxQuantity + "";
+    if (this.hasStock && this.maxQuantity == 0) {
+      return '';
+    } else {
+      return this.maxQuantity + '';
     }
-
   }
-
 
   updateCount(value: number): void {
     this.quantity = value;
