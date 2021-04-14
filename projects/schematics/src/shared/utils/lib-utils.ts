@@ -395,34 +395,24 @@ function addLibraryAssets(
 
     // `build` architect section
     const architectBuild = architect?.build;
+    const buildAssets = createAssetsArray(
+      assetsConfig,
+      (architectBuild?.options as any)?.assets
+    );
     const buildOptions = {
       ...architectBuild?.options,
-      assets: [
-        ...((architectBuild?.options as any)?.assets
-          ? (architectBuild?.options as any)?.assets
-          : []),
-        {
-          glob: assetsConfig.glob,
-          input: './node_modules/@spartacus/' + assetsConfig.input,
-          output: assetsConfig.output || 'assets/',
-        },
-      ],
+      assets: buildAssets,
     };
 
     // `test` architect section
     const architectTest = architect?.test;
+    const testAssets = createAssetsArray(
+      assetsConfig,
+      (architectTest?.options as any)?.assets
+    );
     const testOptions = {
       ...architectTest?.options,
-      assets: [
-        ...(architectTest?.options?.assets
-          ? architectTest?.options?.assets
-          : []),
-        {
-          glob: assetsConfig.glob,
-          input: './node_modules/@spartacus/' + assetsConfig.input,
-          output: assetsConfig.output || 'assets/',
-        },
-      ],
+      assets: testAssets,
     };
 
     const updatedAngularJson = {
@@ -447,6 +437,35 @@ function addLibraryAssets(
     };
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
   };
+}
+
+function createAssetsArray(
+  assetsConfig: AssetsConfig,
+  angularJsonAssets: any[] = []
+): unknown[] {
+  for (const asset of angularJsonAssets) {
+    if (typeof asset === 'object') {
+      if (
+        (asset.glob === assetsConfig.glob &&
+          asset.input === `./node_modules/@spartacus/${assetsConfig.input}` &&
+          asset.output === assetsConfig.output) ||
+        'assets/'
+      ) {
+        return angularJsonAssets;
+      }
+    }
+  }
+
+  angularJsonAssets = [
+    ...angularJsonAssets,
+    {
+      glob: assetsConfig.glob,
+      input: `./node_modules/@spartacus/${assetsConfig.input}`,
+      output: assetsConfig.output || 'assets/',
+    },
+  ];
+
+  return angularJsonAssets;
 }
 
 export function addLibraryStyles(
