@@ -6,6 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActiveCartService, isNotNullable, Product } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -14,6 +15,15 @@ import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
+
+
+
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+
+// import { Observable } from 'rxjs';
+// import { map } from 'rxjs/operators';
+
+
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -34,6 +44,9 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   modalRef: ModalRef;
 
   hasStock = false;
+
+  showInventory: boolean;
+
   quantity = 1;
   protected numberOfEntriesBeforeAdd = 0;
 
@@ -47,10 +60,18 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     private cd: ChangeDetectorRef,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected componentData: CmsComponentData<any>,
   ) {}
 
   ngOnInit() {
+
+    this.componentData.data$.subscribe(
+      data => {
+        this.showInventory = data.showInventory;
+      }
+    );
+
     if (this.product) {
       this.productCode = this.product.code;
       this.setStockInfo(this.product);
@@ -78,8 +99,22 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       product.stock && product.stock.stockLevelStatus !== 'outOfStock';
     if (this.hasStock && product.stock.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
+    }else{
+      this.maxQuantity = 0;
     }
   }
+
+  getInventory(): string{
+
+    //When backoffice forces 'In Stock' status, DO NOT display inventory.
+    if(this.hasStock && this.maxQuantity == 0){
+      return "";
+    }else{
+      return this.maxQuantity + "";
+    }
+
+  }
+
 
   updateCount(value: number): void {
     this.quantity = value;

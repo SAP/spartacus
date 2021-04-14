@@ -6,11 +6,18 @@
       [max]="maxQuantity"
       [control]="addToCartForm.get('quantity')"
     ></cx-item-counter>
-    <span class="info">{{
+    
+
+    <div *ngIf="showInventory; else showLabelOnly">  
+      <span class="info">{{ getInventory() }} {{ ('addToCart.inStock' | cxTranslate) }}</span>
+   </div>
+   <ng-template #showLabelOnly><span class="info">{{
       hasStock
-        ? ('addToCart.inStock' | cxTranslate)
-        : ('addToCart.outOfStock' | cxTranslate)
-    }}</span>
+      ? ('addToCart.inStock' | cxTranslate)
+      : ('addToCart.outOfStock' | cxTranslate)
+      }}</span>
+   </ng-template>
+
   </div>
 
   <button
