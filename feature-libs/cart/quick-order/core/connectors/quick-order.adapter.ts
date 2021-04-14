@@ -1,5 +1,6 @@
-import { OrderEntry, Product } from '@spartacus/core';
+import { Cart, Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { QuickOrderEntry } from '../model/quick-order-entry.model';
 
 export abstract class QuickOrderAdapter {
   /**
@@ -9,8 +10,15 @@ export abstract class QuickOrderAdapter {
   abstract addToCart(
     userId: string,
     cartId: string,
-    entries: OrderEntry[]
-  ): Observable<void>;
+    entries: QuickOrderEntry[]
+  ): Observable<Cart[]>;
+
+  /**
+   *
+   * Abstract method used to create cart
+   *
+   */
+  abstract createCart(userId: string): Observable<Cart>;
 
   /**
    *

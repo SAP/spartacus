@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { OrderEntry, Product } from '@spartacus/core';
+import { Cart, Product } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { QuickOrderEntry } from '../model/quick-order-entry.model';
 import { QuickOrderAdapter } from './quick-order.adapter';
 
 @Injectable({
@@ -12,8 +13,8 @@ export class QuickOrderConnector {
   addToCart(
     userId: string,
     cartId: string,
-    entries: OrderEntry[]
-  ): Observable<void> {
+    entries: QuickOrderEntry[]
+  ): Observable<Cart[]> {
     return this.adapter.addToCart(userId, cartId, entries);
   }
 

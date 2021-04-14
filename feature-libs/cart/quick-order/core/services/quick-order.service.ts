@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ActiveCartService,
+  Cart,
   OrderEntry,
   Product,
   UserIdService,
@@ -9,6 +10,7 @@ import {
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { QuickOrderAdapter } from '../connectors/quick-order.adapter';
+import { QuickOrderEntry } from '../model/quick-order-entry.model';
 
 @Injectable({
   providedIn: 'root',
@@ -67,17 +69,37 @@ export class QuickOrderService {
   }
 
   /**
+   * Create new cart
+   */
+  createCart(): Observable<Cart> {
+    return this.userIdService.takeUserId().pipe(
+      switchMap((userId) => {
+        console.log('createCart', userId);
+        return this.quickOrderAdapter.createCart(userId);
+      })
+    );
+  }
+
+  /**
    * Add products to active cart
    */
-  addToCart(): Observable<void> {
+  addToCart(cartCode: string): Observable<Cart[]> {
     return combineLatest([
-      this.activeCartService.getActive(),
-      this.userIdService.takeUserId(true),
+      this.userIdService.takeUserId(),
       this.getProducts(),
     ]).pipe(
-      switchMap(([cart, userId, entries]) =>
-        this.quickOrderAdapter.addToCart(userId, cart.code as string, entries)
-      )
+      switchMap(([userId, entries]) => {
+        console.log(userId, entries);
+        const newEntries: QuickOrderEntry[] = (entries || []).map(
+          (entry: OrderEntry) => {
+            return {
+              quantity: entry.quantity,
+              code: entry?.product?.code,
+            } as QuickOrderEntry;
+          }
+        );
+        return this.quickOrderAdapter.addToCart(userId, cartCode, newEntries);
+      })
     );
   }
 

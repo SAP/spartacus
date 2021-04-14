@@ -4,7 +4,7 @@ import {
   SiteContextParamsService,
   StatePersistenceService,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { QuickOrderService } from './quick-order.service';
 
 @Injectable({

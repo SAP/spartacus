@@ -1,7 +1,7 @@
 <form [formGroup]="form" class="cx-quick-order-form-container row">
   <div class="col-xs-12 col-md-5 col-lg-4 cx-quick-order-form-input">
     <input
-      (keydown.enter)="search()"
+      (keydown.enter)="search($event)"
       aria-label="search"
       class="form-control"
       formControlName="product"
@@ -11,8 +11,8 @@
 
     <cx-icon
       *ngIf="form.get('product')?.value"
-      (keydown.enter)="clear()"
-      (mousedown)="clear()"
+      (keydown.enter)="clear($event)"
+      (mousedown)="clear($event)"
       [type]="iconTypes.RESET"
       aria-label="reset"
       class="reset"

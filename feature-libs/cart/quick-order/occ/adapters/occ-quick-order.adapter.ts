@@ -1,15 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { QuickOrderAdapter } from '@spartacus/cart/quick-order/core';
 import {
+  Cart,
+  CART_NORMALIZER,
   ConverterService,
   Occ,
   OccEndpointsService,
-  OrderEntry,
   Product,
   PRODUCT_NORMALIZER,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { QuickOrderAdapter } from '../../core/connectors/quick-order.adapter';
+import { QuickOrderEntry } from '../../core/model/quick-order-entry.model';
 
 @Injectable()
 export class OccQuickOrderAdapter implements QuickOrderAdapter {
@@ -22,12 +24,18 @@ export class OccQuickOrderAdapter implements QuickOrderAdapter {
   addToCart(
     userId: string,
     cartId: string,
-    entries: OrderEntry[]
-  ): Observable<any> {
-    return this.http.post<any>(
+    entries: QuickOrderEntry[]
+  ): Observable<Cart[]> {
+    return this.http.post<Cart[]>(
       this.getQuickOrderAddEndpoint(userId, cartId),
       entries
     );
+  }
+
+  createCart(userId: string): Observable<Cart> {
+    return this.http
+      .post<Occ.Cart>(this.getQuickOrderCartCreationEndpoint(userId), {})
+      .pipe(this.converter.pipeable(CART_NORMALIZER));
   }
 
   search(productCode: string): Observable<Product> {
@@ -40,6 +48,12 @@ export class OccQuickOrderAdapter implements QuickOrderAdapter {
     return this.occEndpoints.getUrl('addToCart', {
       userId,
       cartId,
+    });
+  }
+
+  protected getQuickOrderCartCreationEndpoint(userId: string): string {
+    return this.occEndpoints.getUrl('createCart', {
+      userId,
     });
   }
 
