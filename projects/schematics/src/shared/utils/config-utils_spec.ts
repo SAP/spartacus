@@ -25,7 +25,7 @@ const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
 // TODO:#10744 - cleanup after implementing the new config utils.
-xdescribe('Storefront config utils', () => {
+describe('Storefront config utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
@@ -66,7 +66,7 @@ xdescribe('Storefront config utils', () => {
       .toPromise();
   });
 
-  describe('getExistingStorefrontConfigNode', () => {
+  describe.skip('getExistingStorefrontConfigNode', () => {
     it('should get the Storefront config from app.module.ts file', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
@@ -78,7 +78,7 @@ xdescribe('Storefront config utils', () => {
     });
   });
 
-  describe('getConfig', () => {
+  describe.skip('getConfig', () => {
     it('should return the specified config from Storefront CallExpression AST node object', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
@@ -102,7 +102,7 @@ xdescribe('Storefront config utils', () => {
     });
   });
 
-  describe('mergeConfig', () => {
+  describe.skip('mergeConfig', () => {
     it('should merge the provided config array', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
@@ -171,7 +171,7 @@ xdescribe('Storefront config utils', () => {
     });
   });
 
-  describe('createNewConfig', () => {
+  describe.skip('createNewConfig', () => {
     it('should nest the given new config in the given config object', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(

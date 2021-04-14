@@ -9,6 +9,7 @@ import { getDecoratorMetadata } from '@schematics/angular/utility/ast-utils';
 import {
   ArrayLiteralExpression,
   CallExpression,
+  Expression,
   Node,
   SourceFile,
   ts as tsMorph,
@@ -66,7 +67,7 @@ export function addModuleImport(
     order?: number;
   },
   createIfMissing = true
-): CallExpression | undefined {
+): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     'imports',
@@ -83,7 +84,7 @@ export function addModuleExport(
     order?: number;
   },
   createIfMissing = true
-): CallExpression | undefined {
+): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     'exports',
@@ -100,7 +101,7 @@ export function addModuleDeclaration(
     order?: number;
   },
   createIfMissing = true
-): CallExpression | undefined {
+): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     'declarations',
@@ -117,7 +118,7 @@ export function addModuleProvider(
     order?: number;
   },
   createIfMissing = true
-): CallExpression | undefined {
+): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     'providers',
@@ -135,68 +136,56 @@ function addToModuleInternal(
     order?: number;
   },
   createIfMissing = true
-): CallExpression | undefined {
-  let createdNode;
+): Expression | undefined {
+  let createdNode: Expression | undefined;
 
-  function visitor<T>(node: Node): T | undefined {
-    if (Node.isCallExpression(node)) {
-      const expression = node.getExpression();
-      if (
-        Node.isIdentifier(expression) &&
-        expression.getText() === 'NgModule' &&
-        isImportedFrom(expression, ANGULAR_CORE)
-      ) {
-        const args = node.getArguments();
-        if (args.length > 0) {
-          const arg = args[0];
-          if (Node.isObjectLiteralExpression(arg)) {
-            if (!arg.getProperty(propertyName) && createIfMissing) {
-              arg.addPropertyAssignment({
-                name: propertyName,
-                initializer: '[]',
-              });
-            }
+  const module = getModule(sourceFile);
+  if (module) {
+    const args = module.getArguments();
+    if (args.length > 0) {
+      const arg = args[0];
+      if (Node.isObjectLiteralExpression(arg)) {
+        if (!arg.getProperty(propertyName) && createIfMissing) {
+          arg.addPropertyAssignment({
+            name: propertyName,
+            initializer: '[]',
+          });
+        }
 
-            const property = arg.getProperty(propertyName);
-            if (property && Node.isPropertyAssignment(property)) {
-              const initializer = property.getInitializerIfKind(
-                tsMorph.SyntaxKind.ArrayLiteralExpression
-              );
-              if (!initializer) {
-                return;
-              }
+        const property = arg.getProperty(propertyName);
+        if (property && Node.isPropertyAssignment(property)) {
+          const initializer = property.getInitializerIfKind(
+            tsMorph.SyntaxKind.ArrayLiteralExpression
+          );
+          if (!initializer) {
+            return;
+          }
 
-              if (
-                isDuplication(initializer, propertyName, insertOptions.content)
-              ) {
-                return;
-              }
+          if (isDuplication(initializer, propertyName, insertOptions.content)) {
+            return;
+          }
 
-              const imports = ([] as Import[]).concat(insertOptions.import);
-              imports.forEach((specifiedImport) =>
-                sourceFile.addImportDeclaration({
-                  moduleSpecifier: specifiedImport.moduleSpecifier,
-                  namedImports: specifiedImport.namedImports,
-                })
-              );
+          const imports = ([] as Import[]).concat(insertOptions.import);
+          imports.forEach((specifiedImport) =>
+            sourceFile.addImportDeclaration({
+              moduleSpecifier: specifiedImport.moduleSpecifier,
+              namedImports: specifiedImport.namedImports,
+            })
+          );
 
-              if (insertOptions.order || insertOptions.order === 0) {
-                initializer.insertElement(
-                  insertOptions.order,
-                  insertOptions.content
-                );
-              } else {
-                createdNode = initializer.addElement(insertOptions.content);
-              }
-            }
+          if (insertOptions.order || insertOptions.order === 0) {
+            initializer.insertElement(
+              insertOptions.order,
+              insertOptions.content
+            );
+          } else {
+            createdNode = initializer.addElement(insertOptions.content);
           }
         }
       }
     }
-    node.forEachChild(visitor);
   }
 
-  sourceFile.forEachChild(visitor);
   return createdNode;
 }
 
