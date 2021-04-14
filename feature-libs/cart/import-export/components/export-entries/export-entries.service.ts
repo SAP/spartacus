@@ -6,7 +6,6 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { filter, map, switchMap } from 'rxjs/operators';
-import { isArray } from 'rxjs/internal-compatibility';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import { Observable } from 'rxjs';
 
@@ -39,7 +38,7 @@ export class ExportEntriesService {
             return this.activeCartService.getEntries();
         }
       }),
-      filter((entries) => isArray(entries) && entries.length > 0)
+      filter((entries) => entries?.length > 0)
     );
   }
 }
