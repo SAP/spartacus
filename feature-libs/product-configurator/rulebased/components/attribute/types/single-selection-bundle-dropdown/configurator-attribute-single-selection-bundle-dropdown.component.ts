@@ -88,17 +88,17 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject: { quantity: number }): void {
+  onChangeQuantity(eventObject: any): void {
     this.loading$.next(true);
 
-    if (!eventObject.quantity) {
+    if (!eventObject) {
       this.attributeDropDownForm.setValue('');
       this.onSelect();
     } else {
       const event: ConfigFormUpdateEvent = {
         changedAttribute: {
           ...this.attribute,
-          quantity: eventObject.quantity,
+          quantity: eventObject,
         },
         ownerKey: this.ownerKey,
         updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,

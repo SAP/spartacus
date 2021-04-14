@@ -102,10 +102,10 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
   }
 
   onChangeQuantity(eventObject: any): void {
-    if (!eventObject.quantity) {
+    if (!eventObject) {
       this.onDeselect();
     } else {
-      this.onHandleQuantity(eventObject.quantity);
+      this.onHandleQuantity(eventObject);
     }
   }
 

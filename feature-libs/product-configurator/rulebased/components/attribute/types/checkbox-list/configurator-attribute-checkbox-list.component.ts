@@ -147,11 +147,11 @@ export class ConfiguratorAttributeCheckBoxListComponent
   }
 
   onChangeValueQuantity(
-    eventObject: { quantity: number },
+    eventObject: any,
     valueCode: string,
     formIndex: number
   ): void {
-    if (eventObject.quantity === 0) {
+    if (eventObject === 0) {
       this.attributeCheckBoxForms[formIndex].setValue(false);
       this.onSelect();
       return;
@@ -172,7 +172,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
       return;
     }
 
-    value.quantity = eventObject.quantity;
+    value.quantity = eventObject;
 
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
@@ -186,14 +186,14 @@ export class ConfiguratorAttributeCheckBoxListComponent
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject: { quantity: number }): void {
-    if (!eventObject.quantity) {
+  onChangeQuantity(eventObject: any): void {
+    if (!eventObject) {
       this.attributeCheckBoxForms.forEach((_, index) =>
         this.attributeCheckBoxForms[index].setValue(false)
       );
       this.onSelect();
     } else {
-      this.onHandleAttributeQuantity(eventObject.quantity);
+      this.onHandleAttributeQuantity(eventObject);
     }
   }
 

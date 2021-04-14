@@ -1,12 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { Config, provideDefaultConfig } from '@spartacus/core';
-import {
-  CpqConfiguratorTokenConfig,
-  DefaultCpqConfiguratorTokenConfig,
-} from './cpq-access-storage.service';
+import { provideDefaultConfig } from '@spartacus/core';
 import { CpqConfiguratorRestInterceptor } from './cpq-configurator-rest.interceptor';
+import { defaultCpqConfiguratorAuthConfig } from './default-cpq-configurator-auth.config';
 
 @NgModule({
   imports: [CommonModule],
@@ -16,9 +13,7 @@ import { CpqConfiguratorRestInterceptor } from './cpq-configurator-rest.intercep
       useClass: CpqConfiguratorRestInterceptor,
       multi: true,
     },
-
-    provideDefaultConfig(DefaultCpqConfiguratorTokenConfig),
-    { provide: CpqConfiguratorTokenConfig, useExisting: Config },
+    provideDefaultConfig(defaultCpqConfiguratorAuthConfig),
   ],
 })
 export class CpqConfiguratorInterceptorModule {}
