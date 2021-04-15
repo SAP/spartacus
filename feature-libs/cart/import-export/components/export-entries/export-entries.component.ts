@@ -1,22 +1,22 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { take } from 'rxjs/operators';
 import { ActiveCartService, OrderEntry } from '@spartacus/core';
-import { filter, take } from 'rxjs/operators';
 import { ImportExportService } from '@spartacus/cart/import-export/core';
+import { ExportEntriesService } from './export-entries.service';
 
 @Component({
-  selector: 'cx-export-product-list',
-  templateUrl: './export-product-list.component.html',
+  selector: 'cx-export-entries',
+  templateUrl: './export-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExportProductListComponent {
+export class ExportEntriesComponent {
   constructor(
+    protected exportEntriesService: ExportEntriesService,
     protected importExportService: ImportExportService,
     protected activeCartService: ActiveCartService
   ) {}
 
-  entries$ = this.activeCartService
-    .getEntries()
-    .pipe(filter((entries) => entries.length > 0));
+  entries$ = this.exportEntriesService.getEntries();
 
   exportToCsv() {
     this.entries$

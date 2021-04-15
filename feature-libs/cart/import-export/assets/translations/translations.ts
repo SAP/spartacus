@@ -6,5 +6,5 @@ export const importExportTranslations: TranslationResources = {
 };
 
 export const importExportTranslationChunksConfig: TranslationChunksConfig = {
-  importExport: ['exportProductList'],
+  importExport: ['exportEntries'],
 };
