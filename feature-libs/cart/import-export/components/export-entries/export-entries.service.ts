@@ -30,11 +30,8 @@ export class ExportEntriesService {
             return this.savedCartDetailsService
               .getCartDetails()
               .pipe(
-                map(
-                  (cart: Cart | undefined) =>
-                    cart?.entries ?? ([] as OrderEntry[])
-                )
-              );
+                map((cart: Cart | undefined) => cart?.entries ?? [])
+              ) as Observable<OrderEntry[]>;
           case 'cart':
             return this.activeCartService.getEntries();
           default:
