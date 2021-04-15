@@ -1,10 +1,13 @@
-<button
-  class="link cx-action-link"
+<ng-container
   *ngIf="{
     entries: entries$ | async,
     columnHeaders: columnHeaders$ | async
   } as exportData"
-  (click)="exportToCsv(exportData.entries, exportData.columnHeaders)"
 >
-  {{ 'exportEntries.exportToCsv' | cxTranslate }}
-</button>
+  <button
+    class="link cx-action-link"
+    (click)="exportToCsv(exportData.entries, exportData.columnHeaders)"
+  >
+    {{ 'exportEntries.exportToCsv' | cxTranslate }}
+  </button>
+</ng-container>

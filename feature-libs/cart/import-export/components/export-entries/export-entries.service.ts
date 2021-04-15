@@ -64,18 +64,14 @@ export class ExportEntriesService {
     entries: OrderEntry[],
     columnHeaders?: ExportOrderEntry
   ): ExportOrderEntry[] {
-    const exportEntries: ExportOrderEntry[] = [];
-
-    if (columnHeaders) exportEntries.push(columnHeaders);
-    entries.forEach((element: OrderEntry) => {
-      exportEntries.push({
-        sku: element?.product?.code || '',
-        quantity: element?.quantity || '',
-        name: element?.product?.name || '',
-        price: element?.totalPrice?.formattedValue || '',
-      });
-    });
-
-    return exportEntries;
+    return [
+      ...[columnHeaders].filter((headers) => headers !== undefined),
+      ...entries.map((element: OrderEntry) => ({
+        sku: element.product?.code ?? '',
+        quantity: element.quantity ?? '',
+        name: element.product?.name ?? '',
+        price: element.totalPrice?.formattedValue ?? '',
+      })),
+    ] as ExportOrderEntry[];
   }
 }
