@@ -7,8 +7,8 @@ import {
   Output,
 } from '@angular/core';
 import { Product, ProductService } from '@spartacus/core';
+import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import { FocusConfig, KeyboardFocusService } from '@spartacus/storefront';
-import { ConfiguratorProductScope } from 'feature-libs/product-configurator/common';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
