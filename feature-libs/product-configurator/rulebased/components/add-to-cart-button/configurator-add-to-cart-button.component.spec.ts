@@ -42,9 +42,9 @@ const mockRouterData: ConfiguratorRouter.Data = {
 let component: ConfiguratorAddToCartButtonComponent;
 let fixture: ComponentFixture<ConfiguratorAddToCartButtonComponent>;
 let htmlElem: HTMLElement;
-let routerStateObservable = null;
-let productConfigurationObservable = null;
-let pendingChangesObservable = null;
+let routerStateObservable: Observable<any>;
+let productConfigurationObservable: Observable<any>;
+let pendingChangesObservable: Observable<any>;
 
 function initialize() {
   routerStateObservable = of(mockRouterState);
