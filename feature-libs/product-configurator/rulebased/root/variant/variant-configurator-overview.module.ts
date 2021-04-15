@@ -17,6 +17,8 @@ import {
   imports: [
     RouterModule.forChild([
       {
+        // We can neither omit the patch nor set to undefined
+        // @ts-ignore
         path: null,
         component: PageLayoutComponent,
         data: {
