@@ -4,20 +4,24 @@ import {
   Component,
   Input,
   isDevMode,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
+import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 
 @Component({
   selector: 'cx-configurator-attribute-numeric-input-field',
   templateUrl: './configurator-attribute-numeric-input-field.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeNumericInputFieldComponent extends ConfiguratorAttributeInputFieldComponent {
+export class ConfiguratorAttributeNumericInputFieldComponent
+  extends ConfiguratorAttributeInputFieldComponent
+  implements OnInit, OnDestroy {
   numericFormatPattern: string;
   locale: string;
 
