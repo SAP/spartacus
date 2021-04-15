@@ -79,11 +79,11 @@ export class ImportExportService {
    *
    * @param objectsArray Array of objects which should be converted to CSV.
    */
-  dataToCsv<T extends { [key: string]: unknown }>(objectsArray: T[]): string {
+  dataToCsv(objectsArray: object): string {
     const array =
       typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
 
-    return array.reduce((csvString: string, row: T) => {
+    return array.reduce((csvString: string, row: any) => {
       const line = Object.keys(row).reduce((currentLine, column) => {
         currentLine += currentLine !== '' ? this.separator : '';
         const cell =

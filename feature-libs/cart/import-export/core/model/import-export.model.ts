@@ -10,3 +10,9 @@ export type FileValidity = {
   allowedExtensions?: string[];
   checkEmptyFile?: Boolean;
 };
+export interface ExportOrderEntry {
+  sku: string;
+  quantity: number | string;
+  name?: string;
+  price?: string;
+}

@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { take } from 'rxjs/operators';
-import { ActiveCartService, OrderEntry } from '@spartacus/core';
-import { ImportExportService } from '@spartacus/cart/import-export/core';
+import { Observable } from 'rxjs';
+import { OrderEntry, TranslationService } from '@spartacus/core';
+import {
+  ExportOrderEntry,
+  ImportExportService,
+} from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
 
 @Component({
@@ -13,35 +16,19 @@ export class ExportEntriesComponent {
   constructor(
     protected exportEntriesService: ExportEntriesService,
     protected importExportService: ImportExportService,
-    protected activeCartService: ActiveCartService
+    protected translationService: TranslationService
   ) {}
 
-  entries$ = this.exportEntriesService.getEntries();
+  entries$: Observable<OrderEntry[]> = this.exportEntriesService.getEntries();
 
-  exportToCsv() {
-    this.entries$
-      .pipe(take(1))
-      .subscribe((entries) => this.parseEntries(entries));
-  }
+  columnHeaders$: Observable<ExportOrderEntry> = this.exportEntriesService.getColumnHeaders();
 
-  parseEntries(entries: OrderEntry[]) {
-    let parsedData = [];
-    parsedData.push({
-      sku: 'Sku',
-      quantity: 'Quantity',
-      name: 'Name',
-      price: 'Price',
-    });
-    entries.forEach((element: OrderEntry) => {
-      parsedData.push({
-        sku: element?.product?.code,
-        quantity: element?.quantity,
-        name: element?.product?.name,
-        price: element?.totalPrice?.formattedValue,
-      });
-    });
-
-    this.downloadCsv(this.importExportService.dataToCsv(parsedData));
+  exportToCsv(entries: OrderEntry[], headers?: ExportOrderEntry) {
+    this.downloadCsv(
+      this.importExportService.dataToCsv(
+        this.exportEntriesService.parseEntries(entries, headers)
+      )
+    );
   }
 
   downloadCsv(csvData: any, filename = 'data') {
