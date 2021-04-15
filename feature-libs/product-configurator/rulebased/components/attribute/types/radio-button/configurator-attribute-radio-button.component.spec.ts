@@ -149,9 +149,9 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     });
 
     it('should call onDeselect of event onChangeQuantity', () => {
-      spyOn(component, 'onDeselect');
+      spyOn(component, 'onSelect');
       component.onChangeQuantity(0);
-      expect(component.onDeselect).toHaveBeenCalled();
+      expect(component.onSelect).toHaveBeenCalled();
     });
   });
 

@@ -24,6 +24,15 @@ export class ConfiguratorAttributeDropDownComponent
     this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
   }
 
+  /**
+   TODO(issue: #11238): update @deprecated level to the release we are publishing with,
+   It is still 3.1 only because app.module.ts states that we are on 3.1.
+   Finally we must have 3.x, x>=2 here
+   */
+  /**
+   * @deprecated since 3.1
+   * User better onSelect(this.attributeDropDownForm.value)
+   */
   onSelect(): void {
     super.onSelect(this.attributeDropDownForm.value);
   }
@@ -31,10 +40,8 @@ export class ConfiguratorAttributeDropDownComponent
   onChangeQuantity(eventObject: any): void {
     if (!eventObject) {
       this.attributeDropDownForm.setValue('');
-      this.onSelect();
-    } else {
-      this.onHandleQuantity(eventObject);
     }
+    super.onChangeQuantity(eventObject);
   }
 
   /**
@@ -43,11 +50,6 @@ export class ConfiguratorAttributeDropDownComponent
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    const initialQuantity =
-      this.attributeDropDownForm.value !== '0'
-        ? this.attribute.quantity ?? 0
-        : 0;
-
-    return super.extractQuantityParameters(initialQuantity);
+    return super.extractQuantityParameters(this.attributeDropDownForm);
   }
 }

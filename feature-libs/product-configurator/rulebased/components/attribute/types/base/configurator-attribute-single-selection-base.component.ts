@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
+import { FormControl } from '@angular/forms';
 
 @Directive()
 export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
@@ -58,27 +59,12 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   get disableQuantityActions(): boolean {
     return (
       this.quantityService?.disableQuantityActions(
-        this.attribute.selectedSingleValue
+        this.attribute?.selectedSingleValue
       ) ?? true
     );
   }
 
   onSelect(value: string): void {
-    this.loading$.next(true);
-
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
-        ...this.attribute,
-        selectedSingleValue: value,
-      },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE,
-    };
-
-    this.selectionChange.emit(event);
-  }
-
-  onDeselect(value: string): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
@@ -110,21 +96,32 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
 
   onChangeQuantity(eventObject: any): void {
     if (!eventObject) {
-      this.onDeselect('');
+      this.onSelect('');
     } else {
       this.onHandleQuantity(eventObject);
+    }
+  }
+
+  protected getInitialQuantity(form: FormControl | undefined): number {
+    const quantity: number = this.attribute.quantity ?? 0;
+
+    if (form) {
+      return form?.value !== '0' ? quantity : 0;
+    } else {
+      return this.attribute?.selectedSingleValue ? quantity : 0;
     }
   }
 
   /**
    *  Extract corresponding quantity parameters
    *
-   * @param {number} initialQuantity - Initial quantity
+   * @param {FormControl} form - Form control
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(
-    initialQuantity: number
+    form: FormControl | undefined
   ): ConfiguratorAttributeQuantityComponentOptions {
+    const initialQuantity = this.getInitialQuantity(form);
     const disableQuantityActions$ = this.loading$.pipe(
       map((loading) => {
         return loading || this.disableQuantityActions;
@@ -132,7 +129,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     );
 
     return {
-      allowZero: !this.attribute.required,
+      allowZero: !this.attribute?.required,
       initialQuantity: initialQuantity,
       disableQuantityActions$: disableQuantityActions$,
     };
@@ -145,14 +142,14 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {
-      quantity: this.attribute.quantity,
+      quantity: this.attribute?.quantity,
       price: this.getSelectedValuePrice(),
-      priceTotal: this.attribute.attributePriceTotal,
+      priceTotal: this.attribute?.attributePriceTotal,
       isLightedUp: true,
     };
   }
 
   protected getSelectedValuePrice(): Configurator.PriceDetails | undefined {
-    return this.attribute.values?.find((value) => value?.selected)?.valuePrice;
+    return this.attribute?.values?.find((value) => value?.selected)?.valuePrice;
   }
 }
