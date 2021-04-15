@@ -6,8 +6,9 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Product, ProductScope, ProductService } from '@spartacus/core';
+import { Product, ProductService } from '@spartacus/core';
 import { FocusConfig, KeyboardFocusService } from '@spartacus/storefront';
+import { ConfiguratorProductScope } from 'feature-libs/product-configurator/common';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -67,7 +68,10 @@ export class ConfiguratorAttributeProductCardComponent
       .productSystemId;
 
     this.product$ = this.productService
-      .get(productSystemId ? productSystemId : '', ProductScope.DETAILS)
+      .get(
+        productSystemId ? productSystemId : '',
+        ConfiguratorProductScope.CONFIGURATOR_PRODUCT_CARD
+      )
       .pipe(
         map((respProduct) => {
           return respProduct
