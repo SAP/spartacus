@@ -1,4 +1,5 @@
 import { Node, SourceFile, ts as tsMorph } from 'ts-morph';
+import { PROVIDE_CONFIG_FUNCTION } from '../constants';
 import { isImportedFromSpartacusLibs } from './import-utils';
 import { getModule } from './new-module-utils';
 
@@ -37,4 +38,29 @@ export function getSpartacusProviders(sourceFile: SourceFile): Node[] {
     });
   }
   return providers;
+}
+
+const EMPTY_SPACE_REG_EXP = /\s+/gm;
+export function normalizeConfiguration(config: string | Node): string {
+  let newConfig: string;
+  if (typeof config === 'string') {
+    newConfig = config;
+  } else {
+    if (Node.isTypeAssertion(config) || Node.isAsExpression(config)) {
+      newConfig = config.getExpression().getText();
+    } else {
+      newConfig = config.getText();
+    }
+  }
+
+  newConfig = newConfig.trim();
+
+  if (newConfig.startsWith(PROVIDE_CONFIG_FUNCTION)) {
+    newConfig = newConfig.replace(`${PROVIDE_CONFIG_FUNCTION}(`, '');
+    newConfig = newConfig.substring(0, newConfig.length - 1);
+  }
+
+  newConfig = newConfig.replace(EMPTY_SPACE_REG_EXP, '');
+
+  return newConfig;
 }
