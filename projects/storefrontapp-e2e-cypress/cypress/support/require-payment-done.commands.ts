@@ -18,8 +18,8 @@ declare global {
   }
 }
 Cypress.Commands.add('requirePaymentDone', (auth, cartId) => {
+  const cartQueryValue = cartId || 'current';
   function getResponseUrl() {
-    const cartQueryValue = cartId || 'current';
     return cy.request({
       method: 'GET',
       url: `${Cypress.env('API_URL')}/${Cypress.env(
@@ -63,7 +63,7 @@ Cypress.Commands.add('requirePaymentDone', (auth, cartId) => {
         'OCC_PREFIX'
       )}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/current/payment/sop/response`,
+      )}/users/current/carts/${cartQueryValue}/payment/sop/response`,
       body: data,
       form: true,
       headers: {
