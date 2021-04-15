@@ -129,6 +129,7 @@ describe('SearchBoxComponent', () => {
     );
     search() {}
     toggleBodyClass() {}
+    clearResults() {}
   }
 
   beforeEach(
@@ -268,13 +269,11 @@ describe('SearchBoxComponent', () => {
       it('should clear when clicking on clear button', () => {
         searchBoxComponent.queryText = 'something';
         fixture.detectChanges();
-
-        fixture.debugElement.query(By.css('.reset')).nativeElement.click();
-
         const box = fixture.debugElement.query(
           By.css('input[aria-label="search"]')
         ).nativeElement;
-        fixture.detectChanges();
+        box.select();
+        fixture.debugElement.query(By.css('.reset')).nativeElement.click();
 
         expect(box.value).toBe('');
         expect(box).toBe(getFocusedElement());
