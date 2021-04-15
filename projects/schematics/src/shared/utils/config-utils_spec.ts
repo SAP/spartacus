@@ -15,7 +15,6 @@ import ts from 'typescript';
 import {
   createNewConfig,
   getConfig,
-  getConfigs,
   getExistingStorefrontConfigNode,
   getSpartacusProviders,
   mergeConfig,
@@ -258,15 +257,6 @@ export class TrackingFeatureModule {}
         fileSystem: new InMemoryFileSystemHost(),
       });
       sourceFile = project.createSourceFile('test.ts', configFileContent);
-    });
-
-    describe('getConfigs', () => {
-      it('should return all configs from provideConfigs calls', () => {
-        const configs = getConfigs(sourceFile);
-        expect(configs.length).toEqual(2);
-        expect(configs[0].getText()).toMatchSnapshot();
-        expect(configs[1].getText()).toMatchSnapshot();
-      });
     });
 
     describe('getSpartacusProviders', () => {

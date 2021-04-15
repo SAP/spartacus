@@ -15,10 +15,8 @@ import {
   ANGULAR_CORE,
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
-  PROVIDE_CONFIG_FUNCTION,
-  SPARTACUS_CORE,
 } from '../constants';
-import { isImportedFrom, isImportedFromSpartacusLibs } from './import-utils';
+import { isImportedFromSpartacusLibs } from './import-utils';
 import { getModule } from './new-module-utils';
 
 /**
@@ -300,80 +298,6 @@ function convert(newValues: string | string[]): string {
     configValue = newValues;
   }
   return configValue;
-}
-
-export function getConfigs(sourceFile: SourceFile): Node[] {
-  const module = getModule(sourceFile);
-  if (!module) {
-    return [];
-  }
-  const literal = module.getFirstDescendantByKind(
-    tsMorph.SyntaxKind.ObjectLiteralExpression
-  );
-  const configs: Node[] = [];
-  if (literal) {
-    const properties =
-      literal.getChildrenOfKind(tsMorph.SyntaxKind.PropertyAssignment) ?? [];
-    properties.forEach((property) => {
-      if (
-        property.getNameNode().getText() === 'providers' &&
-        property.getInitializerIfKind(tsMorph.SyntaxKind.ArrayLiteralExpression)
-      ) {
-        const initializer = property.getInitializerIfKind(
-          tsMorph.SyntaxKind.ArrayLiteralExpression
-        );
-        initializer?.getElements().forEach((element) => {
-          if (Node.isCallExpression(element)) {
-            const expression = element.getExpression();
-            if (
-              Node.isIdentifier(expression) &&
-              expression.getText() === 'provideConfig' &&
-              isImportedFrom(expression, SPARTACUS_CORE)
-            ) {
-              if (element.getArguments()?.[0]) {
-                const config = element.getArguments()[0];
-                // "type assertion" and "as expression" is useless for us, so we can skip it and add it's children
-                if (
-                  Node.isTypeAssertion(config) ||
-                  Node.isAsExpression(config)
-                ) {
-                  configs.push(config.getExpression());
-                } else {
-                  configs.push(config);
-                }
-              }
-            }
-          }
-        });
-      }
-    });
-  }
-  return configs;
-}
-
-const EMPTY_SPACE_REG_EXP = /\s+/gm;
-export function normalizeConfiguration(config: string | Node): string {
-  let newConfig: string;
-  if (typeof config === 'string') {
-    newConfig = config;
-  } else {
-    if (Node.isTypeAssertion(config) || Node.isAsExpression(config)) {
-      newConfig = config.getExpression().getText();
-    } else {
-      newConfig = config.getText();
-    }
-  }
-
-  newConfig = newConfig.trim();
-
-  if (newConfig.startsWith(PROVIDE_CONFIG_FUNCTION)) {
-    newConfig = newConfig.replace(`${PROVIDE_CONFIG_FUNCTION}(`, '');
-    newConfig = newConfig.substring(0, newConfig.length - 1);
-  }
-
-  newConfig = newConfig.replace(EMPTY_SPACE_REG_EXP, '');
-
-  return newConfig;
 }
 
 export function getSpartacusProviders(sourceFile: SourceFile): Node[] {
