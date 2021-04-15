@@ -6,6 +6,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { QuickOrderService } from '@spartacus/cart/quick-order/core';
+import { OrderEntry } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -16,26 +18,29 @@ import { Subscription } from 'rxjs';
 export class QuickOrderItemComponent implements OnInit, OnDestroy {
   quantityControl: FormControl;
 
-  // Type will be set up later
   @Input()
-  entry: any;
+  entry: OrderEntry;
+
+  @Input()
+  index: number;
 
   private subscription = new Subscription();
 
-  constructor() {}
+  constructor(protected quickOrderService: QuickOrderService) {}
 
   ngOnInit(): void {
     this.quantityControl = new FormControl(this.entry.quantity);
 
     this.subscription.add(
       this.quantityControl.valueChanges.subscribe(() => {
-        // TODO
+        console.log(this.quantityControl.value);
+        // this.quickOrderService.updateEntryQuantity(this.index, quantity)
       })
     );
   }
 
   removeEntry(): void {
-    // TODO
+    this.quickOrderService.removeEntry(this.index);
   }
 
   ngOnDestroy(): void {

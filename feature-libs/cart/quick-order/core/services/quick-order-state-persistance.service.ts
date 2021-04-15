@@ -31,7 +31,7 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
         key: this.key,
-        state$: this.quicOrderService.getProducts(),
+        state$: this.quicOrderService.getEntries(),
         context$: this.siteContextParamsService.getValues([
           BASE_SITE_CONTEXT_ID,
         ]),
@@ -54,7 +54,8 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
    */
   protected onRead(state: any) {
     console.log('onRead', state);
-    // TODO
+
+    this.quicOrderService.loadEntries(state);
   }
 
   /**

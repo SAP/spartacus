@@ -35,13 +35,16 @@ export class QuickOrderComponent implements OnInit {
           if (cartId) {
             return this.quickOrderService.addToCart(cartId);
           } else {
-            return this.quickOrderService
-              .createCart()
-              .pipe(
-                switchMap((cart: Cart) =>
-                  this.quickOrderService.addToCart(cart?.code as string)
-                )
-              );
+            // Need to do it via multicart
+            return this.quickOrderService.createCart().pipe(
+              switchMap((cart: Cart) => {
+                console.log(cart);
+                return this.quickOrderService.addToCart(
+                  cart?.code as string,
+                  cart?.guid as string
+                );
+              })
+            );
           }
         })
       )

@@ -28,7 +28,7 @@ export class OccQuickOrderAdapter implements QuickOrderAdapter {
   ): Observable<Cart[]> {
     return this.http.post<Cart[]>(
       this.getQuickOrderAddEndpoint(userId, cartId),
-      entries
+      { orderEntries: entries }
     );
   }
 

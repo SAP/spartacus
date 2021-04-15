@@ -18,7 +18,7 @@
         <a
           class="cx-link"
           [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
-          >{{ entry.product.name || '-' }}
+          >{{ entry.product?.name || '-' }}
         </a>
       </div>
 
@@ -34,7 +34,7 @@
       <span class="cx-label">
         {{ 'quickOrderList.itemPrice' | cxTranslate }}
       </span>
-      {{ entry.basePrice.formattedValue || '-' }}
+      {{ entry.basePrice?.formattedValue || '-' }}
     </div>
 
     <div class="quick-order-list-item-quantity col-md-3 col-lg-3 col-xl-3">
@@ -51,7 +51,7 @@
       <span class="cx-label">
         {{ 'quickOrderList.total' | cxTranslate }}
       </span>
-      {{ entry.totalPrice.formattedValue || '-' }}
+      {{ entry.totalPrice?.formattedValue || '-' }}
     </div>
 
     <div class="quick-order-list-item-action col-md-2 col-lg-1 col-xl-1">
