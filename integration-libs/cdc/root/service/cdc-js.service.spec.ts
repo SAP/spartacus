@@ -10,8 +10,8 @@ import {
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CdcConfig } from '../../config';
-import { CdcAuthService } from './cdc-auth.service';
+import { CdcConfig } from '../config/cdc-config';
+import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 import { CdcJsService } from './cdc-js.service';
 
 const sampleCdcConfig: CdcConfig = {
@@ -50,7 +50,7 @@ class ScriptLoaderMock {
   }): void {}
 }
 
-class MockCdcAuthService implements Partial<CdcAuthService> {
+class MockCdcAuthFacade implements Partial<CdcAuthFacade> {
   loginWithCustomCdcFlow(): void {}
 }
 
@@ -87,7 +87,7 @@ describe('CdcJsService', () => {
   let baseSiteService: BaseSiteService;
   let languageService: LanguageService;
   let scriptLoader: ScriptLoader;
-  let cdcAuth: CdcAuthService;
+  let cdcAuth: CdcAuthFacade;
   let userService: UserService;
   let winRef: WindowRef;
   let authService: AuthService;
@@ -99,7 +99,7 @@ describe('CdcJsService', () => {
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: LanguageService, useClass: LanguageServiceStub },
         { provide: ScriptLoader, useClass: ScriptLoaderMock },
-        { provide: CdcAuthService, useClass: MockCdcAuthService },
+        { provide: CdcAuthFacade, useClass: MockCdcAuthFacade },
         { provide: UserService, useClass: MockUserService },
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: Subscription, useValue: MockSubscription },
@@ -111,7 +111,7 @@ describe('CdcJsService', () => {
     baseSiteService = TestBed.inject(BaseSiteService);
     languageService = TestBed.inject(LanguageService);
     scriptLoader = TestBed.inject(ScriptLoader);
-    cdcAuth = TestBed.inject(CdcAuthService);
+    cdcAuth = TestBed.inject(CdcAuthFacade);
     userService = TestBed.inject(UserService);
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
