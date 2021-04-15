@@ -46,7 +46,7 @@ function prepare_install {
 
     printh "Installing installation script npm required packages"
 
-    npm i -g verdaccio
+    npm i -g verdaccio@4
     npm i -g serve
     npm i -g pm2
     npm i -g concurrently
