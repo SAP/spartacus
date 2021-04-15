@@ -32,11 +32,13 @@ const navParamsOverview: any = {
 };
 
 const attributes = {};
-
+const mockOwner = mockProductConfiguration.owner
+  ? mockProductConfiguration.owner
+  : {};
 const mockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
   isOwnerCartEntry: false,
-  owner: mockProductConfiguration.owner,
+  owner: mockOwner,
 };
 
 let component: ConfiguratorAddToCartButtonComponent;
@@ -118,7 +120,7 @@ function performUpdateCart() {
 
 function ensureCartBound() {
   setRouterTestDataCartBoundAndConfigPage();
-  mockProductConfiguration.owner.id = CART_ENTRY_KEY;
+  mockOwner.id = CART_ENTRY_KEY;
   initialize();
 }
 
@@ -131,7 +133,9 @@ function ensureCartBoundAndOnOverview() {
 
 function ensureProductBound() {
   setRouterTestDataProductBoundAndConfigPage();
-  mockProductConfiguration.nextOwner.id = CART_ENTRY_KEY;
+  if (mockProductConfiguration.nextOwner) {
+    mockProductConfiguration.nextOwner.id = CART_ENTRY_KEY;
+  }
   initialize();
 }
 
@@ -198,8 +202,6 @@ describe('ConfigAddToCartButtonComponent', () => {
   );
 
   beforeEach(() => {
-    routerStateObservable = null;
-    productConfigurationObservable = null;
     pendingChangesObservable = of(false);
     initialize();
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
