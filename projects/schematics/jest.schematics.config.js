@@ -16,10 +16,10 @@ module.exports = {
   coverageDirectory: '<rootDir>/../../coverage/schematics',
   coverageThreshold: {
     global: {
-      branches: 65,
+      statements: 80,
+      branches: 69,
       functions: 80,
       lines: 80,
-      statements: 80,
     },
   },
 
