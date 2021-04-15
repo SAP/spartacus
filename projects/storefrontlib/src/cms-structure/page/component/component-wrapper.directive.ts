@@ -12,11 +12,10 @@ import {
 } from '@angular/core';
 import {
   ContentSlotComponentData,
-  createFrom,
   DynamicAttributeService,
   EventService,
 } from '@spartacus/core';
-import { of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { CmsComponentsService } from '../../services/cms-components.service';
 import {
   ComponentCreateEvent,
@@ -106,18 +105,11 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       id: this.cxComponentWrapper.uid,
       componentRef,
     };
+    this.eventService.dispatch(payload, ComponentCreateEvent);
 
-    this.eventService.register(
-      ComponentCreateEvent,
-      of(createFrom(ComponentCreateEvent, payload))
+    componentRef?.onDestroy(() =>
+      this.eventService.dispatch(payload, ComponentDestroyEvent)
     );
-
-    componentRef?.onDestroy(() => {
-      this.eventService.register(
-        ComponentDestroyEvent,
-        of(createFrom(ComponentDestroyEvent, payload))
-      );
-    });
   }
 
   private decorate(elementRef: ElementRef): void {
