@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import {
   ContentSlotComponentData,
+  createFrom,
   DynamicAttributeService,
   EventService,
 } from '@spartacus/core';
@@ -106,24 +107,18 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
       componentRef,
     };
 
-    this.eventService.register(ComponentCreateEvent, of(payload));
+    this.eventService.register(
+      ComponentCreateEvent,
+      of(createFrom(ComponentCreateEvent, payload))
+    );
 
     componentRef?.onDestroy(() => {
-      console.log('destroy', payload);
-      this.eventService.register(ComponentDestroyEvent, of(payload));
+      this.eventService.register(
+        ComponentDestroyEvent,
+        of(createFrom(ComponentDestroyEvent, payload))
+      );
     });
   }
-
-  // /**
-  //  * Returns logout event stream
-  //  */
-  // protected buildLogoutEvent(): Observable<LogoutEvent> {
-  //   return this.authService.isUserLoggedIn().pipe(
-  //     pairwise(),
-  //     filter(([prev, curr]) => prev && !curr),
-  //     map(() => createFrom(LogoutEvent, {}))
-  //   );
-  // }
 
   private decorate(elementRef: ElementRef): void {
     if (this.dynamicAttributeService.addAttributesToComponent) {

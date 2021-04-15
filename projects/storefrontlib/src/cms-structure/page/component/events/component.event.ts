@@ -2,7 +2,9 @@ import { ComponentRef } from '@angular/core';
 import { CxEvent } from '@spartacus/core';
 
 /**
- * Indicates that the component is added to the DOM.
+ * Lifecycle events for the component.
+ *
+ * Triggers when the component is added or removed from the DOM.
  */
 export abstract class ComponentEvent extends CxEvent {
   typeCode: string;
@@ -21,7 +23,7 @@ export class ComponentCreateEvent extends ComponentEvent {
 }
 
 /**
- * Indicates that the component is added to the DOM.
+ * Indicates that the component is removed from the DOM.
  */
 export class ComponentDestroyEvent extends ComponentEvent {
   /**

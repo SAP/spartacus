@@ -9,7 +9,10 @@ import {
 } from '@angular/core';
 import { EventService, RoutingService } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { ComponentEvent } from '../../cms-structure/page/component/events/component.event';
+import {
+  ComponentCreateEvent,
+  ComponentEvent,
+} from '../../cms-structure/page/component/events/component.event';
 import {
   FocusConfig,
   KeyboardFocusService,
@@ -64,7 +67,7 @@ export class StorefrontComponent implements OnInit, OnDestroy {
       });
 
     this.eventService.get(ComponentEvent).subscribe((event) => {
-      console.log('comp event', event);
+      console.log('comp event', event instanceof ComponentCreateEvent, event);
     });
   }
 
