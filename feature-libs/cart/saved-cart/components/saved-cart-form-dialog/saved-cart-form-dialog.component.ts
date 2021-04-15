@@ -12,8 +12,8 @@ import {
   DeleteSavedCartFailEvent,
   DeleteSavedCartSuccessEvent,
   SavedCartFormType,
-  SavedCartService,
-} from '@spartacus/cart/saved-cart/core';
+  SavedCartFacade,
+} from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   ClearCheckoutService,
@@ -79,7 +79,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
-    protected savedCartService: SavedCartService,
+    protected savedCartService: SavedCartFacade,
     protected eventService: EventService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
