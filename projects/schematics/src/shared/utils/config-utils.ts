@@ -9,12 +9,15 @@ import {
   InsertChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
+import { Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import ts from 'typescript';
 import {
   ANGULAR_CORE,
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
 } from '../constants';
+import { isImportedFromSpartacusLibs } from './import-utils';
+import { getModule } from './new-module-utils';
 
 /**
  * Finds the Storefront config in the given app.module.ts
@@ -295,4 +298,41 @@ function convert(newValues: string | string[]): string {
     configValue = newValues;
   }
   return configValue;
+}
+
+export function getSpartacusProviders(sourceFile: SourceFile): Node[] {
+  const module = getModule(sourceFile);
+  if (!module) {
+    return [];
+  }
+  const literal = module.getFirstDescendantByKind(
+    tsMorph.SyntaxKind.ObjectLiteralExpression
+  );
+  const providers: Node[] = [];
+  if (literal) {
+    const properties =
+      literal.getChildrenOfKind(tsMorph.SyntaxKind.PropertyAssignment) ?? [];
+    properties.forEach((property) => {
+      if (
+        property.getNameNode().getText() === 'providers' &&
+        property.getInitializerIfKind(tsMorph.SyntaxKind.ArrayLiteralExpression)
+      ) {
+        const initializer = property.getInitializerIfKind(
+          tsMorph.SyntaxKind.ArrayLiteralExpression
+        );
+        initializer?.getElements().forEach((element) => {
+          if (Node.isCallExpression(element) || Node.isSpreadElement(element)) {
+            const expression = element.getExpression();
+            if (
+              Node.isIdentifier(expression) &&
+              isImportedFromSpartacusLibs(expression)
+            ) {
+              providers.push(element);
+            }
+          }
+        });
+      }
+    });
+  }
+  return providers;
 }
