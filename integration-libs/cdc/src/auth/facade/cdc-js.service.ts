@@ -159,7 +159,7 @@ export class CdcJsService implements OnDestroy {
       const userDetails: User = {};
       userDetails.firstName = response.profile.firstName;
       userDetails.lastName = response.profile.lastName;
-      this.userProfileFacade.update(userDetails).subscribe();
+      this.userProfileFacade.update(userDetails);
     }
   }
 
