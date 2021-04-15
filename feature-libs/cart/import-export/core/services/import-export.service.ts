@@ -79,7 +79,7 @@ export class ImportExportService {
    *
    * @param objectsArray Array of objects which should be converted to CSV.
    */
-  dataToCsv<T extends { [key: string]: unknown }>(objectsArray: T[]): string {
+  dataToCsv<T extends { [key: string]: any }>(objectsArray: T[]): string {
     const array =
       typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
 
