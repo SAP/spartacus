@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/core/src/auth/client-auth/store/effects/client-token.effect.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/core/src/auth/client-auth/store/effects/client-token.effect.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -234,9 +234,7 @@ import { ClientAuthActions } from &#x27;../actions/index&#x27;;
 @Injectable()
 export class ClientTokenEffect {
   @Effect()
-  loadClientToken$: Observable&lt;
-    ClientAuthActions.ClientTokenAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadClientToken$: Observable&lt;ClientAuthActions.ClientTokenAction&gt; &#x3D; this.actions$.pipe(
     ofType(ClientAuthActions.LOAD_CLIENT_TOKEN),
     exhaustMap(() &#x3D;&gt; {
       return this.clientAuthenticationTokenService

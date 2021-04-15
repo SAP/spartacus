@@ -221,7 +221,7 @@ function comparePathsConfigs(
   const tsConfig &#x3D; readTsConfigFile(tsConfigPath);
   const currentPaths: Record&lt;string, string[]&gt; &#x3D;
     tsConfig?.compilerOptions?.paths ?? {};
-  const errors &#x3D; [];
+  const errors: string[] &#x3D; [];
   Object.keys(currentPaths).forEach((key) &#x3D;&gt; {
     if (typeof targetPaths[key] &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
       errors.push(
@@ -283,7 +283,7 @@ function handleSchematicsConfigs(
   options: ProgramOptions
 ): void {
   const targetPaths &#x3D; {
-    [SPARTACUS_SCHEMATICS]: [&#x27;../../projects/schematics/src/public_api&#x27;],
+    [SPARTACUS_SCHEMATICS]: [&#x27;../../projects/schematics/index&#x27;],
   };
   if (options.fix) {
     reportProgress(&#x27;Updating tsconfig.schematics.json files&#x27;);
@@ -380,15 +380,20 @@ function handleRootConfigs(
     reportProgress(&#x27;Checking root tsconfig files&#x27;);
   }
   let showAllGood &#x3D; true;
-  const entryPoints &#x3D; Object.values(libraries).reduce((acc, curr) &#x3D;&gt; {
-    curr.entryPoints.forEach((entryPoint) &#x3D;&gt; {
-      acc[entryPoint.entryPoint] &#x3D; [
-        // We reference source files entry points in these configs. E.g. &#x60;projects/storefrontlib/src/public_api&#x60;
-        joinPaths(curr.directory, entryPoint.directory, entryPoint.entryFile),
-      ];
-    });
-    return acc;
-  }, {});
+  const entryPoints &#x3D; Object.values(libraries).reduce(
+    (acc, curr) &#x3D;&gt; {
+      curr.entryPoints.forEach((entryPoint) &#x3D;&gt; {
+        acc[entryPoint.entryPoint] &#x3D; [
+          // We reference source files entry points in these configs. E.g. &#x60;projects/storefrontlib/src/public_api&#x60;
+          joinPaths(curr.directory, entryPoint.directory, entryPoint.entryFile),
+        ];
+      });
+      return acc;
+    },
+    { [SPARTACUS_SCHEMATICS]: [&#x27;projects/schematics/index&#x27;] } as {
+      [key: string]: [string];
+    }
+  );
 
   const hadErrors &#x3D; handleConfigUpdate(entryPoints, &#x27;tsconfig.json&#x27;, options);
   const hadErrorsCompodoc &#x3D; handleConfigUpdate(
@@ -424,7 +429,7 @@ function handleAppConfigs(
         ];
       });
       return acc;
-    }, {});
+    }, {} as { [key: string]: [string] });
 
   const hadErrorsApp &#x3D; handleConfigUpdate(
     appEntryPoints,
@@ -448,7 +453,7 @@ function handleAppConfigs(
         ];
       });
       return acc;
-    }, {});
+    }, {} as { [key: string]: [string] });
   const hadErrorsServer &#x3D; handleConfigUpdate(
     serverEntryPoints,
     &#x27;projects/storefrontapp/tsconfig.server.json&#x27;,
@@ -466,7 +471,7 @@ function handleAppConfigs(
         ];
       });
       return acc;
-    }, {});
+    }, {} as { [key: string]: [string] });
 
   const hadErrorsServerProd &#x3D; handleConfigUpdate(
     serverProdEntryPoints,

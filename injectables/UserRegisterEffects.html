@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/core/src/user/store/effects/user-register.effect.ts:65</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/core/src/user/store/effects/user-register.effect.ts:59</a></div>
                             </td>
                         </tr>
 
@@ -223,7 +223,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/user/store/effects/user-register.effect.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/user/store/effects/user-register.effect.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -330,7 +330,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/core/src/user/store/effects/user-register.effect.ts:49</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">projects/core/src/user/store/effects/user-register.effect.ts:45</a></div>
                             </td>
                         </tr>
 
@@ -356,9 +356,7 @@ import { UserActions } from &#x27;../actions/index&#x27;;
 @Injectable()
 export class UserRegisterEffects {
   @Effect()
-  registerUser$: Observable&lt;
-    UserActions.UserRegisterOrRemoveAction
-  &gt; &#x3D; this.actions$.pipe(
+  registerUser$: Observable&lt;UserActions.UserRegisterOrRemoveAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.REGISTER_USER),
     map((action: UserActions.RegisterUser) &#x3D;&gt; action.payload),
     mergeMap((user: UserSignUp) &#x3D;&gt;
@@ -372,9 +370,7 @@ export class UserRegisterEffects {
   );
 
   @Effect()
-  registerGuest$: Observable&lt;
-    UserActions.UserRegisterOrRemoveAction
-  &gt; &#x3D; this.actions$.pipe(
+  registerGuest$: Observable&lt;UserActions.UserRegisterOrRemoveAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.REGISTER_GUEST),
     map((action: UserActions.RegisterGuest) &#x3D;&gt; action.payload),
     mergeMap(({ guid, password }) &#x3D;&gt;
@@ -391,9 +387,7 @@ export class UserRegisterEffects {
   );
 
   @Effect()
-  removeUser$: Observable&lt;
-    UserActions.UserRegisterOrRemoveAction
-  &gt; &#x3D; this.actions$.pipe(
+  removeUser$: Observable&lt;UserActions.UserRegisterOrRemoveAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.REMOVE_USER),
     map((action: UserActions.RemoveUser) &#x3D;&gt; action.payload),
     mergeMap((userId: string) &#x3D;&gt; {

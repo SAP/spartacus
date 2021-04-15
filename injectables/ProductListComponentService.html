@@ -304,8 +304,8 @@ the <code>ProductSearchService</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="106"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:106</a></div>
                 </td>
             </tr>
 
@@ -390,8 +390,8 @@ the <code>ProductSearchService</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="167"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:167</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:165</a></div>
                 </td>
             </tr>
 
@@ -464,8 +464,8 @@ the <code>ProductSearchService</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="121"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:121</a></div>
                 </td>
             </tr>
 
@@ -537,8 +537,8 @@ the <code>ProductSearchService</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="197"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:197</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="195"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:195</a></div>
                 </td>
             </tr>
 
@@ -613,8 +613,8 @@ the <code>ProductSearchService</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="147"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:147</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:145</a></div>
                 </td>
             </tr>
 
@@ -686,8 +686,8 @@ the <code>ProductSearchService</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="187"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:187</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="185"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:185</a></div>
                 </td>
             </tr>
 
@@ -804,7 +804,7 @@ the <code>ProductSearchService</code>.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="97" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:97</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="95" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:95</a></div>
                             </td>
                         </tr>
 
@@ -876,16 +876,18 @@ so no longer the search is performed on route change.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>combineLatest([
-    this.routing.getRouterState().pipe(
-      distinctUntilChanged((x, y) &#x3D;&gt; {
-        // router emits new value also when the anticipated &#x60;nextState&#x60; changes
-        // but we want to perform search only when current url changes
-        return x.state.url &#x3D;&#x3D;&#x3D; y.state.url;
-      })
-    ),
-    ...this.siteContext,
-  ]).pipe(
+                            <i>Default value : </i><code>combineLatest(
+    [
+      this.routing.getRouterState().pipe(
+        distinctUntilChanged((x, y) &#x3D;&gt; {
+          // router emits new value also when the anticipated &#x60;nextState&#x60; changes
+          // but we want to perform search only when current url changes
+          return x.state.url &#x3D;&#x3D;&#x3D; y.state.url;
+        })
+      ),
+      ...this.siteContext,
+    ]
+  ).pipe(
     debounceTime(0),
     map(([routerState, ..._context]) &#x3D;&gt; (routerState as RouterState).state),
     tap((state: ActivatedRouterStateSnapshot) &#x3D;&gt; {
@@ -900,7 +902,7 @@ so no longer the search is performed on route change.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="65" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:65</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:63</a></div>
                             </td>
                         </tr>
 
@@ -980,7 +982,7 @@ into account, so that the search is performed again.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="212" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:212</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="210" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/container/product-list-component.service.ts:210</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1057,9 +1059,7 @@ export class ProductListComponentService {
    * The &#x60;searchResults$&#x60; is _not_ concerned with querying, it only observes the
    * &#x60;productSearchService.getResults()&#x60;
    */
-  protected searchResults$: Observable&lt;
-    ProductSearchPage
-  &gt; &#x3D; this.productSearchService
+  protected searchResults$: Observable&lt;ProductSearchPage&gt; &#x3D; this.productSearchService
     .getResults()
     .pipe(filter((searchResult) &#x3D;&gt; Object.keys(searchResult).length &gt; 0));
 
@@ -1069,18 +1069,18 @@ export class ProductListComponentService {
    * Context changes, such as language and currencies are also taken
    * into account, so that the search is performed again.
    */
-  protected searchByRouting$: Observable&lt;
-    ActivatedRouterStateSnapshot
-  &gt; &#x3D; combineLatest([
-    this.routing.getRouterState().pipe(
-      distinctUntilChanged((x, y) &#x3D;&gt; {
-        // router emits new value also when the anticipated &#x60;nextState&#x60; changes
-        // but we want to perform search only when current url changes
-        return x.state.url &#x3D;&#x3D;&#x3D; y.state.url;
-      })
-    ),
-    ...this.siteContext,
-  ]).pipe(
+  protected searchByRouting$: Observable&lt;ActivatedRouterStateSnapshot&gt; &#x3D; combineLatest(
+    [
+      this.routing.getRouterState().pipe(
+        distinctUntilChanged((x, y) &#x3D;&gt; {
+          // router emits new value also when the anticipated &#x60;nextState&#x60; changes
+          // but we want to perform search only when current url changes
+          return x.state.url &#x3D;&#x3D;&#x3D; y.state.url;
+        })
+      ),
+      ...this.siteContext,
+    ]
+  ).pipe(
     debounceTime(0),
     map(([routerState, ..._context]) &#x3D;&gt; (routerState as RouterState).state),
     tap((state: ActivatedRouterStateSnapshot) &#x3D;&gt; {

@@ -146,7 +146,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:35</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -225,8 +225,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="93"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:93</a></div>
                 </td>
             </tr>
 
@@ -312,8 +312,8 @@ but coming from the route navigation</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:58</a></div>
                 </td>
             </tr>
 
@@ -399,8 +399,8 @@ This is done to avoid a combination of the next page and the current search resu
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:110</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:108</a></div>
                 </td>
             </tr>
 
@@ -486,8 +486,8 @@ since either the category or brand code should match those codes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:79</a></div>
                 </td>
             </tr>
 
@@ -586,7 +586,7 @@ since either the category or brand code should match those codes.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:46</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -702,9 +702,7 @@ export class ProductFacetService {
     .getRouterState()
     .pipe(pluck(&#x27;state&#x27;));
 
-  protected readonly searchResult$: Observable&lt;
-    ProductSearchPage
-  &gt; &#x3D; this.routeState$.pipe(
+  protected readonly searchResult$: Observable&lt;ProductSearchPage&gt; &#x3D; this.routeState$.pipe(
     switchMap((state) &#x3D;&gt;
       this.productListComponentService.model$.pipe(
         filter((page) &#x3D;&gt; this.filterForPage(state, page)),

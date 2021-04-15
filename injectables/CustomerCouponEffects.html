@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="129" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:129</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:121</a></div>
                             </td>
                         </tr>
 
@@ -223,7 +223,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="104" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:104</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:98</a></div>
                             </td>
                         </tr>
 
@@ -357,7 +357,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:46</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -422,7 +422,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:75</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:71</a></div>
                             </td>
                         </tr>
 
@@ -447,9 +447,7 @@ import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27
 @Injectable()
 export class CustomerCouponEffects {
   @Effect()
-  loadCustomerCoupons$: Observable&lt;
-    fromCustomerCouponsAction.CustomerCouponAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadCustomerCoupons$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D; this.actions$.pipe(
     ofType(fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS),
     map(
       (action: fromCustomerCouponsAction.LoadCustomerCoupons) &#x3D;&gt; action.payload
@@ -480,9 +478,7 @@ export class CustomerCouponEffects {
   );
 
   @Effect()
-  subscribeCustomerCoupon$: Observable&lt;
-    fromCustomerCouponsAction.CustomerCouponAction
-  &gt; &#x3D; this.actions$.pipe(
+  subscribeCustomerCoupon$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D; this.actions$.pipe(
     ofType(fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON),
     map(
       (action: fromCustomerCouponsAction.SubscribeCustomerCoupon) &#x3D;&gt;
@@ -509,9 +505,7 @@ export class CustomerCouponEffects {
   );
 
   @Effect()
-  unsubscribeCustomerCoupon$: Observable&lt;
-    fromCustomerCouponsAction.CustomerCouponAction
-  &gt; &#x3D; this.actions$.pipe(
+  unsubscribeCustomerCoupon$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D; this.actions$.pipe(
     ofType(fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON),
     map(
       (action: fromCustomerCouponsAction.UnsubscribeCustomerCoupon) &#x3D;&gt;
@@ -538,9 +532,7 @@ export class CustomerCouponEffects {
   );
 
   @Effect()
-  claimCustomerCoupon$: Observable&lt;
-    fromCustomerCouponsAction.CustomerCouponAction
-  &gt; &#x3D; this.actions$.pipe(
+  claimCustomerCoupon$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D; this.actions$.pipe(
     ofType(fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON),
     map(
       (action: fromCustomerCouponsAction.ClaimCustomerCoupon) &#x3D;&gt; action.payload

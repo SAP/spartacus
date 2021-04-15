@@ -113,7 +113,14 @@ first GALLERY image are resolved if available in the data.</p>
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#findBaseProduct">findBaseProduct</a>
+                            </li>
+                            <li>
                                 <a href="#resolveBreadcrumbs">resolveBreadcrumbs</a>
+                            </li>
+                            <li>
+                                <a href="#resolveCanonicalUrl">resolveCanonicalUrl</a>
                             </li>
                             <li>
                                 <a href="#resolveDescription">resolveDescription</a>
@@ -165,12 +172,12 @@ first GALLERY image are resolved if available in the data.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, productService: <a href="../injectables/ProductService.html">ProductService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, basePageMetaResolver?: <a href="../injectables/BasePageMetaResolver.html">BasePageMetaResolver</a>)</code>
+<code>constructor(routingService: <a href="../injectables/RoutingService.html">RoutingService</a>, productService: <a href="../injectables/ProductService.html">ProductService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, basePageMetaResolver?: <a href="../injectables/BasePageMetaResolver.html">BasePageMetaResolver</a>, pageLinkService?: <a href="../injectables/PageLinkService.html">PageLinkService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:64</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:79</a></div>
                             </td>
                         </tr>
 
@@ -235,6 +242,18 @@ first GALLERY image are resolved if available in the data.</p>
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>pageLinkService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/PageLinkService.html" target="_self" >PageLinkService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -249,6 +268,82 @@ first GALLERY image are resolved if available in the data.</p>
     <h3 id="methods">
         Methods
     </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findBaseProduct"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            findBaseProduct
+                        </b>
+                        <a href="#findBaseProduct"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>findBaseProduct(product: <a href="../interfaces/Product.html">Product</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="226"
+                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:226</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Resolves the base product whenever the given product is a variant product.</p>
+<p>Since product variants can be multi-layered, we recursively try to find the base product
+this might be too opinionated for your business though.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>product</td>
+                                    <td>
+                                                <code><a href="../interfaces/Product.html" target="_self" >Product</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;Product&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -271,8 +366,8 @@ first GALLERY image are resolved if available in the data.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="126"
-                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:126</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:142</a></div>
                 </td>
             </tr>
 
@@ -285,6 +380,58 @@ a static home page crumb and a crumb for each category.</p>
 
                     <div class="io-description">
                         <b>Returns : </b>    <code>Observable&lt;BreadcrumbMeta[]&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveCanonicalUrl"></a>
+                    <span class="name">
+                        <b>
+                            resolveCanonicalUrl
+                        </b>
+                        <a href="#resolveCanonicalUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveCanonicalUrl()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="206"
+                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:206</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Resolves the canonical url for the product page using the default canonical url
+configuration.</p>
+<p>In case of a variant product, the baseProduct code is used to resolve the url. It&#39;s important
+to know that this has a few limitations:</p>
+<ul>
+<li>We&#39;re not always able to get the super baseProduct, in case of multi-level variants.
+ OCC only exposes the direct baseProduct, which might still not resolve in the correct
+ canonical URL. This is business driven and subject to change in a customization.</li>
+<li>The url resolved for the variant doesn&#39;t contain any content other then the product code.
+ This means that we do not provide any product data to resolve pretty URLs (for example
+ the product title).</li>
+</ul>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
 
                     </div>
                 </td>
@@ -313,8 +460,8 @@ a static home page crumb and a crumb for each category.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="112"
-                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:112</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:128</a></div>
                 </td>
             </tr>
 
@@ -357,8 +504,8 @@ is based on the <code>product.summary</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="159"
-                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:159</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:171</a></div>
                 </td>
             </tr>
 
@@ -427,8 +574,8 @@ is based on the <code>product.summary</code>.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:96</a></div>
                 </td>
             </tr>
 
@@ -470,8 +617,8 @@ title is used by the browser and crawlers.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="149"
-                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:149</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:165</a></div>
                 </td>
             </tr>
 
@@ -514,8 +661,8 @@ is based on the PRIMARY product image. The zoom format is used by default.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="169"
-                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:169</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="179"
+                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:179</a></div>
                 </td>
             </tr>
 
@@ -584,8 +731,8 @@ is based on the PRIMARY product image. The zoom format is used by default.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="179"
-                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:179</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="189"
+                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:189</a></div>
                 </td>
             </tr>
 
@@ -627,8 +774,8 @@ regardless of whether they&#39;re purchasable or not.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:111</a></div>
                 </td>
             </tr>
 
@@ -900,17 +1047,25 @@ the page type and page template.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.routingService.getRouterState().pipe(
-    map((state) &#x3D;&gt; state.state.params[&#x27;productCode&#x27;]),
-    filter((code) &#x3D;&gt; !!code),
-    switchMap((code) &#x3D;&gt; this.productService.get(code, ProductScope.DETAILS)),
-    filter(Boolean)
-  )</code>
+                            <i>Type : </i>    <code>Observable&lt;Product&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.routingService
+    .getRouterState()
+    .pipe(
+      map((state) &#x3D;&gt; state.state.params[&#x27;productCode&#x27;]),
+      filter((code) &#x3D;&gt; !!code),
+      switchMap((code) &#x3D;&gt; this.productService.get(code, ProductScope.DETAILS)),
+      filter((p) &#x3D;&gt; Boolean(p))
+    )</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:42</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/core/src/product/services/product-page-meta.resolver.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -1003,7 +1158,7 @@ the page type and page template.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Optional } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
 import { filter, map, switchMap } from &#x27;rxjs/operators&#x27;;
 import { BreadcrumbMeta, PageRobotsMeta } from &#x27;../../cms/model/page.model&#x27;;
@@ -1017,9 +1172,10 @@ import {
   PageRobotsResolver,
   PageTitleResolver,
 } from &#x27;../../cms/page/page.resolvers&#x27;;
+import { PageLinkService } from &#x27;../../cms/page/routing/page-link.service&#x27;;
 import { TranslationService } from &#x27;../../i18n/translation.service&#x27;;
 import { PageType } from &#x27;../../model/cms.model&#x27;;
-import { Product } from &#x27;../../model/product.model&#x27;;
+import { Category, Product } from &#x27;../../model/product.model&#x27;;
 import { RoutingService } from &#x27;../../routing/facade/routing.service&#x27;;
 import { ProductService } from &#x27;../facade/product.service&#x27;;
 import { ProductScope } from &#x27;../model/product-scope&#x27;;
@@ -1044,34 +1200,49 @@ export class ProductPageMetaResolver
     PageImageResolver,
     PageRobotsResolver {
   // reusable observable for product data based on the current page
-  protected product$ &#x3D; this.routingService.getRouterState().pipe(
-    map((state) &#x3D;&gt; state.state.params[&#x27;productCode&#x27;]),
-    filter((code) &#x3D;&gt; !!code),
-    switchMap((code) &#x3D;&gt; this.productService.get(code, ProductScope.DETAILS)),
-    filter(Boolean)
-  );
+  protected product$: Observable&lt;Product&gt; &#x3D; this.routingService
+    .getRouterState()
+    .pipe(
+      map((state) &#x3D;&gt; state.state.params[&#x27;productCode&#x27;]),
+      filter((code) &#x3D;&gt; !!code),
+      switchMap((code) &#x3D;&gt; this.productService.get(code, ProductScope.DETAILS)),
+      filter((p) &#x3D;&gt; Boolean(p))
+    );
 
+  // TODO(#10467): Remove deprecated constructors
+  constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    translation: TranslationService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    pageLinkService?: PageLinkService
+  );
+  /**
+   * @deprecated since 3.2, we&#x27;ll use the PageLinkService in future versions
+   */
+  constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    translation: TranslationService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver
+  );
   /**
    * @deprecated since 3.1, we&#x27;ll use the BasePageMetaResolver in future versions
    */
-  // TODO(#10467): Remove deprecated constructors
   constructor(
     routingService: RoutingService,
     productService: ProductService,
     translation: TranslationService
   );
   constructor(
-    routingService: RoutingService,
-    productService: ProductService,
-    translation: TranslationService,
-    // tslint:disable-next-line: unified-signatures
-    basePageMetaResolver?: BasePageMetaResolver
-  );
-  constructor(
     protected routingService: RoutingService,
     protected productService: ProductService,
     protected translation: TranslationService,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver?: BasePageMetaResolver,
+    protected pageLinkService?: PageLinkService
   ) {
     super();
     this.pageType &#x3D; PageType.PRODUCT_PAGE;
@@ -1099,10 +1270,10 @@ export class ProductPageMetaResolver
    */
   resolveTitle(): Observable&lt;string&gt; {
     return this.product$.pipe(
-      switchMap((p: Product) &#x3D;&gt; {
-        let title &#x3D; p.name;
-        title +&#x3D; this.resolveFirstCategory(p);
-        title +&#x3D; this.resolveManufacturer(p);
+      switchMap((product) &#x3D;&gt; {
+        let title &#x3D; product.name;
+        title +&#x3D; this.resolveFirstCategory(product);
+        title +&#x3D; this.resolveManufacturer(product);
         return this.translation.translate(&#x27;pageMetaResolver.product.title&#x27;, {
           title: title,
         });
@@ -1116,9 +1287,9 @@ export class ProductPageMetaResolver
    */
   resolveDescription(): Observable&lt;string&gt; {
     return this.product$.pipe(
-      switchMap((p: Product) &#x3D;&gt;
+      switchMap((product) &#x3D;&gt;
         this.translation.translate(&#x27;pageMetaResolver.product.description&#x27;, {
-          description: p.summary,
+          description: product.summary,
         })
       )
     );
@@ -1133,14 +1304,14 @@ export class ProductPageMetaResolver
       this.product$.pipe(),
       this.translation.translate(&#x27;common.home&#x27;),
     ]).pipe(
-      map(([p, label]: [Product, string]) &#x3D;&gt; {
+      map(([product, label]) &#x3D;&gt; {
         const breadcrumbs &#x3D; [];
-        breadcrumbs.push({ label: label, link: &#x27;/&#x27; });
-        for (const { name, code, url } of p.categories || []) {
+        breadcrumbs.push({ label, link: &#x27;/&#x27; });
+        for (const { name, code, url } of product.categories || []) {
           breadcrumbs.push({
             label: name || code,
             link: url,
-          });
+          } as BreadcrumbMeta);
         }
         return breadcrumbs;
       })
@@ -1153,19 +1324,13 @@ export class ProductPageMetaResolver
    */
   resolveImage(): Observable&lt;string&gt; {
     return this.product$.pipe(
-      map((p: Product) &#x3D;&gt;
-        (&lt;any&gt;p.images?.PRIMARY)?.zoom?.url
-          ? (&lt;any&gt;p.images.PRIMARY).zoom.url
-          : null
-      )
+      map((product) &#x3D;&gt; (&lt;any&gt;product.images?.PRIMARY)?.zoom?.url ?? null)
     );
   }
 
   protected resolveFirstCategory(product: Product): string {
-    let firstCategory;
-    if (product.categories?.length &gt; 0) {
-      firstCategory &#x3D; product.categories[0];
-    }
+    const firstCategory: Category | undefined &#x3D; product?.categories?.[0];
+
     return firstCategory
       ? &#x60; | ${firstCategory.name || firstCategory.code}&#x60;
       : &#x27;&#x27;;
@@ -1183,6 +1348,51 @@ export class ProductPageMetaResolver
   // TODO(#10467): resolve robots from &#x60;BasePageMetaResolver&#x60; instead
   resolveRobots(): Observable&lt;PageRobotsMeta[]&gt; {
     return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
+  }
+
+  /**
+   * Resolves the canonical url for the product page using the default canonical url
+   * configuration.
+   *
+   * In case of a variant product, the baseProduct code is used to resolve the url. It&#x27;s important
+   * to know that this has a few limitations:
+   * - We&#x27;re not always able to get the super baseProduct, in case of multi-level variants.
+   *   OCC only exposes the direct baseProduct, which might still not resolve in the correct
+   *   canonical URL. This is business driven and subject to change in a customization.
+   * - The url resolved for the variant doesn&#x27;t contain any content other then the product code.
+   *   This means that we do not provide any product data to resolve pretty URLs (for example
+   *   the product title).
+   */
+  resolveCanonicalUrl(): Observable&lt;string&gt; {
+    return this.product$.pipe(
+      switchMap((product) &#x3D;&gt; this.findBaseProduct(product)),
+      map((product) &#x3D;&gt; {
+        const url &#x3D; this.routingService.getFullUrl({
+          cxRoute: &#x27;product&#x27;,
+          params: product,
+        });
+        // TODO (#10467): remove optional pageLinkService and undefined assertion when we pageLinkService becomes default
+        return this.pageLinkService?.getCanonicalUrl({}, url) ?? &#x27;&#x27;;
+      })
+    );
+  }
+
+  /**
+   * Resolves the base product whenever the given product is a variant product.
+   *
+   * Since product variants can be multi-layered, we recursively try to find the base product
+   * this might be too opinionated for your business though.
+   */
+  protected findBaseProduct(product: Product): Observable&lt;Product&gt; {
+    if (product?.baseProduct) {
+      return this.productService
+        .get(product.baseProduct, ProductScope.LIST)
+        .pipe(
+          filter((product) &#x3D;&gt; Boolean(product)),
+          switchMap((baseProduct) &#x3D;&gt; this.findBaseProduct(baseProduct))
+        );
+    }
+    return of(product);
   }
 }
 </code></pre>

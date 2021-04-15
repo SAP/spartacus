@@ -85,6 +85,9 @@
                                 <a href="#forward">forward</a>
                             </li>
                             <li>
+                                <a href="#getFullUrl">getFullUrl</a>
+                            </li>
+                            <li>
                                 <a href="#getNextPageContext">getNextPageContext</a>
                             </li>
                             <li>
@@ -95,6 +98,9 @@
                             </li>
                             <li>
                                 <a href="#getRouterState">getRouterState</a>
+                            </li>
+                            <li>
+                                <a href="#getUrl">getUrl</a>
                             </li>
                             <li>
                                 <a href="#go">go</a>
@@ -127,7 +133,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<RouterState>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, routingParamsService: <a href="../injectables/RoutingParamsService.html">RoutingParamsService</a>)</code>
+<code>constructor(store: Store<RouterState>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, routingParamsService: <a href="../injectables/RoutingParamsService.html">RoutingParamsService</a>, router?: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -197,6 +203,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -233,8 +251,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:130</a></div>
                 </td>
             </tr>
 
@@ -274,8 +292,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:61</a></div>
                 </td>
             </tr>
 
@@ -346,8 +364,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="145"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:145</a></div>
                 </td>
             </tr>
 
@@ -360,6 +378,91 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getFullUrl"></a>
+                    <span class="name">
+                        <b>
+                            getFullUrl
+                        </b>
+                        <a href="#getFullUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFullUrl(commands: <a href="../classes/Command.html">UrlCommands</a>, extras?: <a href="https://angular.io/api/router/NavigationExtras" target="_blank">NavigationExtras</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="112"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:112</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the absolute url for the given <code>UrlCommands</code> and <code>NavigationExtras</code>.</p>
+<p>The absolute url uses the origin of the current location.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>commands</td>
+                                    <td>
+                                                <code><a href="../classes/Command.html" target="_self" >UrlCommands</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>extras</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/NavigationExtras" target="_blank" >NavigationExtras</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -387,8 +490,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:52</a></div>
                 </td>
             </tr>
 
@@ -428,8 +531,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:45</a></div>
                 </td>
             </tr>
 
@@ -469,8 +572,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:31</a></div>
                 </td>
             </tr>
 
@@ -511,8 +614,8 @@ active child routes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:38</a></div>
                 </td>
             </tr>
 
@@ -534,6 +637,91 @@ active child routes.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getUrl"></a>
+                    <span class="name">
+                        <b>
+                            getUrl
+                        </b>
+                        <a href="#getUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getUrl(commands: <a href="../classes/Command.html">UrlCommands</a>, extras?: <a href="https://angular.io/api/router/NavigationExtras" target="_blank">NavigationExtras</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:89</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Resolves the relative url for the given <code>UrlCommands</code> and <code>NavigationExtras</code>.</p>
+<p>The absolute url can be resolved using <code>getFullUrl()</code>.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>commands</td>
+                                    <td>
+                                                <code><a href="../classes/Command.html" target="_self" >UrlCommands</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>extras</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/router/NavigationExtras" target="_blank" >NavigationExtras</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="go"></a>
                     <span class="name">
                         <b>
@@ -545,15 +733,15 @@ active child routes.</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>go(commands: <a href="../undefineds/UrlCommands.html">UrlCommands</a>, query?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>, extras?: <a href="https://angular.io/api/router/NavigationExtras" target="_blank">NavigationExtras</a>)</code>
+<code>go(commands: <a href="../classes/Command.html">UrlCommands</a>, query?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>, extras?: <a href="https://angular.io/api/router/NavigationExtras" target="_blank">NavigationExtras</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:78</a></div>
                 </td>
             </tr>
 
@@ -578,7 +766,7 @@ active child routes.</p>
                                 <tr>
                                     <td>commands</td>
                                     <td>
-                                                <code><a href="../miscellaneous/typealiases.html#UrlCommands" target="_self" >UrlCommands</a></code>
+                                                <code><a href="../classes/Command.html" target="_self" >UrlCommands</a></code>
                                     </td>
 
                                     <td>
@@ -659,8 +847,8 @@ active child routes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="123"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:123</a></div>
                 </td>
             </tr>
 
@@ -731,8 +919,8 @@ active child routes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:68</a></div>
                 </td>
             </tr>
 
@@ -774,8 +962,8 @@ active child routes.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">projects/core/src/routing/facade/routing.service.ts:155</a></div>
                 </td>
             </tr>
 
@@ -864,7 +1052,7 @@ active child routes.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { NavigationExtras } from &#x27;@angular/router&#x27;;
+import { NavigationExtras, Router } from &#x27;@angular/router&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { WindowRef } from &#x27;../../window/window-ref&#x27;;
@@ -884,7 +1072,9 @@ export class RoutingService {
     protected store: Store&lt;RouterState&gt;,
     protected winRef: WindowRef,
     protected semanticPathService: SemanticPathService,
-    protected routingParamsService: RoutingParamsService
+    protected routingParamsService: RoutingParamsService,
+    // TODO(#10467): Consider making router mandatory in next major
+    protected router?: Router
   ) {}
 
   /**
@@ -942,6 +1132,41 @@ export class RoutingService {
     const path &#x3D; this.semanticPathService.transform(commands);
 
     return this.navigate(path, query, extras);
+  }
+
+  /**
+   * Resolves the relative url for the given &#x60;UrlCommands&#x60; and &#x60;NavigationExtras&#x60;.
+   *
+   * The absolute url can be resolved using &#x60;getFullUrl()&#x60;.
+   */
+  getUrl(commands: UrlCommands, extras?: NavigationExtras): string {
+    // TODO(#10467): Remove the warning as soon as the router becomes mandatory
+    if (!this.router) {
+      console.warn(&#x27;No router injected to create the url tree&#x27;);
+      return &#x27;&#x27;;
+    }
+    let url &#x3D; this.router.serializeUrl(
+      this.router.createUrlTree(
+        this.semanticPathService.transform(commands),
+        extras
+      )
+    );
+    if (!url.startsWith(&#x27;/&#x27;)) {
+      url &#x3D; &#x60;/${url}&#x60;;
+    }
+    return url;
+  }
+
+  /**
+   * Returns the absolute url for the given &#x60;UrlCommands&#x60; and &#x60;NavigationExtras&#x60;.
+   *
+   * The absolute url uses the origin of the current location.
+   */
+  getFullUrl(commands: UrlCommands, extras?: NavigationExtras) {
+    return &#x60;${this.winRef.document.location.origin}${this.getUrl(
+      commands,
+      extras
+    )}&#x60;;
   }
 
   /**

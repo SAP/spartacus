@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/user/store/effects/user-details.effect.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/user/store/effects/user-details.effect.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -261,7 +261,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/core/src/user/store/effects/user-details.effect.ts:31</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/user/store/effects/user-details.effect.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -286,9 +286,7 @@ import { UserActions } from &#x27;../actions/index&#x27;;
 @Injectable()
 export class UserDetailsEffects {
   @Effect()
-  loadUserDetails$: Observable&lt;
-    UserActions.UserDetailsAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadUserDetails$: Observable&lt;UserActions.UserDetailsAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_USER_DETAILS),
     map((action: UserActions.LoadUserDetails) &#x3D;&gt; action.payload),
     mergeMap((userId) &#x3D;&gt; {

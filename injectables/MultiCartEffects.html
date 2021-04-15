@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/cart/store/effects/multi-cart.effect.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/cart/store/effects/multi-cart.effect.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -257,9 +257,7 @@ export class MultiCartEffects {
 
   // TODO(#7241): Remove when we drop ADD_VOUCHER process and we sort out checkout and cart dependencies
   @Effect()
-  processesIncrement$: Observable&lt;
-    CartActions.CartProcessesIncrement
-  &gt; &#x3D; this.actions$.pipe(
+  processesIncrement$: Observable&lt;CartActions.CartProcessesIncrement&gt; &#x3D; this.actions$.pipe(
     ofType(CartActions.CART_ADD_VOUCHER),
     map((action: CartActions.CartAddVoucher) &#x3D;&gt; action.payload),
     map((payload) &#x3D;&gt; new CartActions.CartProcessesIncrement(payload.cartId))

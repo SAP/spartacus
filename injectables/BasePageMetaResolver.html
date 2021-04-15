@@ -110,6 +110,9 @@
                                 <a href="#resolveBreadcrumbs">resolveBreadcrumbs</a>
                             </li>
                             <li>
+                                <a href="#resolveCanonicalUrl">resolveCanonicalUrl</a>
+                            </li>
+                            <li>
                                 <a href="#resolveRobots">resolveRobots</a>
                             </li>
                             <li>
@@ -133,12 +136,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(cmsService: <a href="../injectables/CmsService.html">CmsService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, routingPageMetaResolver: <a href="../injectables/RoutingPageMetaResolver.html">RoutingPageMetaResolver</a>)</code>
+<code>constructor(cmsService: <a href="../injectables/CmsService.html">CmsService</a>, translation: <a href="../classes/TranslationService.html">TranslationService</a>, routingPageMetaResolver: <a href="../injectables/RoutingPageMetaResolver.html">RoutingPageMetaResolver</a>, router?: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, pageLinkService?: <a href="../injectables/PageLinkService.html">PageLinkService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -191,6 +194,30 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>pageLinkService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/PageLinkService.html" target="_self" >PageLinkService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -227,8 +254,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:75</a></div>
                 </td>
             </tr>
 
@@ -237,8 +264,78 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;BreadcrumbMeta[]&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;[] | undefined&gt;</code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveCanonicalUrl"></a>
+                    <span class="name">
+                        <b>
+                            resolveCanonicalUrl
+                        </b>
+                        <a href="#resolveCanonicalUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveCanonicalUrl(options?: <a href="../interfaces/CanonicalUrlOptions.html">CanonicalUrlOptions</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:83</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>options</td>
+                                    <td>
+                                                <code><a href="../interfaces/CanonicalUrlOptions.html" target="_self" >CanonicalUrlOptions</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -266,8 +363,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:79</a></div>
                 </td>
             </tr>
 
@@ -305,8 +402,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:71</a></div>
                 </td>
             </tr>
 
@@ -315,7 +412,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;string | undefined&gt;</code>
 
                     </div>
                 </td>
@@ -351,7 +448,7 @@
                         <td class="col-md-4">
                             <i>Default value : </i><code>combineLatest([
     this.homeBreadcrumb$,
-    defer(() &#x3D;&gt; this.routingPageMetaResolver.resolveBreadcrumbs()),
+    defer(() &#x3D;&gt; this.routingPageMetaResolver?.resolveBreadcrumbs()),
   ]).pipe(
     map((breadcrumbs) &#x3D;&gt; breadcrumbs.flat()),
     shareReplay({ bufferSize: 1, refCount: true })
@@ -360,7 +457,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:49</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:63</a></div>
                             </td>
                         </tr>
 
@@ -401,7 +498,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:54</a></div>
                             </td>
                         </tr>
 
@@ -442,7 +539,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:28</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -477,13 +574,13 @@
                     <tr>
                         <td class="col-md-4">
                             <i>Default value : </i><code>this.page$.pipe(
-    map((page) &#x3D;&gt; page.robots)
+    map((page) &#x3D;&gt; page.robots || [])
   )</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -505,18 +602,20 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>Observable&lt;string&gt;</code>
+                            <i>Type : </i>    <code>Observable&lt;string | undefined&gt;</code>
 
                         </td>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.page$.pipe(map((p) &#x3D;&gt; p.title))</code>
+                            <i>Default value : </i><code>this.page$.pipe(
+    map((p) &#x3D;&gt; p.title)
+  )</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:44</a></div>
                             </td>
                         </tr>
 
@@ -530,27 +629,39 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { combineLatest, defer, Observable } from &#x27;rxjs&#x27;;
-import { filter, map, shareReplay } from &#x27;rxjs/operators&#x27;;
+import { NavigationEnd, Router } from &#x27;@angular/router&#x27;;
+import { combineLatest, defer, Observable, of } from &#x27;rxjs&#x27;;
+import { filter, map, shareReplay, startWith } from &#x27;rxjs/operators&#x27;;
 import { TranslationService } from &#x27;../../i18n/translation.service&#x27;;
 import { CmsService } from &#x27;../facade/cms.service&#x27;;
 import { BreadcrumbMeta, Page, PageRobotsMeta } from &#x27;../model/page.model&#x27;;
+import { CanonicalUrlOptions } from &#x27;./config/page-meta.config&#x27;;
 import {
+  CanonicalPageResolver,
   PageBreadcrumbResolver,
   PageRobotsResolver,
   PageTitleResolver,
 } from &#x27;./page.resolvers&#x27;;
+import { PageLinkService } from &#x27;./routing/page-link.service&#x27;;
 import { RoutingPageMetaResolver } from &#x27;./routing/routing-page-meta.resolver&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
+
+// TODO(#10467) make router and pageLinkService standard (non optional arguments)
 export class BasePageMetaResolver
-  implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver {
+  implements
+    PageTitleResolver,
+    PageBreadcrumbResolver,
+    PageRobotsResolver,
+    CanonicalPageResolver {
   constructor(
     protected cmsService: CmsService,
     protected translation: TranslationService,
-    protected routingPageMetaResolver: RoutingPageMetaResolver
+    protected routingPageMetaResolver: RoutingPageMetaResolver,
+    protected router?: Router,
+    protected pageLinkService?: PageLinkService
   ) {}
 
   /**
@@ -560,9 +671,11 @@ export class BasePageMetaResolver
     this.cmsService.getCurrentPage()
   ).pipe(filter((p) &#x3D;&gt; Boolean(p)));
 
-  protected title$: Observable&lt;string&gt; &#x3D; this.page$.pipe(map((p) &#x3D;&gt; p.title));
+  protected title$: Observable&lt;string | undefined&gt; &#x3D; this.page$.pipe(
+    map((p) &#x3D;&gt; p.title)
+  );
   protected robots$: Observable&lt;PageRobotsMeta[]&gt; &#x3D; this.page$.pipe(
-    map((page) &#x3D;&gt; page.robots)
+    map((page) &#x3D;&gt; page.robots || [])
   );
 
   /**
@@ -579,22 +692,34 @@ export class BasePageMetaResolver
    */
   protected breadcrumb$: Observable&lt;BreadcrumbMeta[]&gt; &#x3D; combineLatest([
     this.homeBreadcrumb$,
-    defer(() &#x3D;&gt; this.routingPageMetaResolver.resolveBreadcrumbs()),
+    defer(() &#x3D;&gt; this.routingPageMetaResolver?.resolveBreadcrumbs()),
   ]).pipe(
     map((breadcrumbs) &#x3D;&gt; breadcrumbs.flat()),
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
-  resolveTitle(): Observable&lt;string&gt; {
+  resolveTitle(): Observable&lt;string | undefined&gt; {
     return this.title$;
   }
 
-  resolveBreadcrumbs(): Observable&lt;BreadcrumbMeta[]&gt; {
+  resolveBreadcrumbs(): Observable&lt;BreadcrumbMeta[] | undefined&gt; {
     return this.breadcrumb$;
   }
 
   resolveRobots(): Observable&lt;PageRobotsMeta[]&gt; {
     return this.robots$;
+  }
+
+  resolveCanonicalUrl(options?: CanonicalUrlOptions): Observable&lt;string&gt; {
+    return this.router &amp;&amp; this.pageLinkService
+      ? this.router.events.pipe(
+          filter((ev) &#x3D;&gt; ev instanceof NavigationEnd),
+          startWith(null),
+          // TODO(#10467) the pageLinkService will no longer be optional
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          map(() &#x3D;&gt; this.pageLinkService!.getCanonicalUrl(options) ?? &#x27;&#x27;)
+        )
+      : of();
   }
 }
 </code></pre>

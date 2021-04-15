@@ -397,9 +397,9 @@ export function reducer(
   }
 }
 
-export const reducerToken: InjectionToken&lt;ActionReducerMap&lt;
-  State
-&gt;&gt; &#x3D; new InjectionToken&lt;ActionReducerMap&lt;State&gt;&gt;(&#x27;RouterReducers&#x27;);
+export const reducerToken: InjectionToken&lt;
+  ActionReducerMap&lt;State&gt;
+&gt; &#x3D; new InjectionToken&lt;ActionReducerMap&lt;State&gt;&gt;(&#x27;RouterReducers&#x27;);
 
 export const reducerProvider: Provider &#x3D; {
   provide: reducerToken,

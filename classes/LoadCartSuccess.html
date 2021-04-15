@@ -129,7 +129,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:145</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="147" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:147</a></div>
                             </td>
                         </tr>
 
@@ -193,7 +193,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="146" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:146</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="148" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:148</a></div>
                             </td>
                         </tr>
 
@@ -220,7 +220,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="145" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:145</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="147" class="link-to-prism">projects/core/src/cart/store/actions/cart.action.ts:147</a></div>
                             </td>
                         </tr>
 
@@ -366,6 +366,8 @@ export const LOAD_CART &#x3D; &#x27;[Cart] Load Cart&#x27;;
 export const LOAD_CART_FAIL &#x3D; &#x27;[Cart] Load Cart Fail&#x27;;
 export const LOAD_CART_SUCCESS &#x3D; &#x27;[Cart] Load Cart Success&#x27;;
 
+export const LOAD_CARTS_SUCCESS &#x3D; &#x27;[Cart] Load Carts Success&#x27;;
+
 export const ADD_EMAIL_TO_CART &#x3D; &#x27;[Cart] Add Email to Cart&#x27;;
 export const ADD_EMAIL_TO_CART_FAIL &#x3D; &#x27;[Cart] Add Email to Cart Fail&#x27;;
 export const ADD_EMAIL_TO_CART_SUCCESS &#x3D; &#x27;[Cart] Add Email to Cart Success&#x27;;
@@ -493,6 +495,16 @@ export class LoadCartSuccess extends EntitySuccessAction {
   }
 }
 
+export class LoadCartsSuccess extends EntitySuccessAction {
+  readonly type &#x3D; LOAD_CARTS_SUCCESS;
+  constructor(public payload: Cart[]) {
+    super(
+      MULTI_CART_DATA,
+      payload.map((cart) &#x3D;&gt; cart?.code)
+    );
+  }
+}
+
 interface MergeCartPayload {
   cartId: string;
   userId: string;
@@ -569,6 +581,7 @@ export type CartAction &#x3D;
   | LoadCart
   | LoadCartFail
   | LoadCartSuccess
+  | LoadCartsSuccess
   | MergeCart
   | MergeCartSuccess
   | ResetCartDetails

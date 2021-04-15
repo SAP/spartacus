@@ -187,7 +187,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;BaseSite&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;BaseSite | undefined&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -512,7 +512,7 @@ export abstract class SiteAdapter {
   /**
    * Abstract method used to get base site data based on siteUid.
    */
-  abstract loadBaseSite(siteUid?: string): Observable&lt;BaseSite&gt;;
+  abstract loadBaseSite(siteUid?: string): Observable&lt;BaseSite | undefined&gt;;
 
   /**
    * Abstract method used to get all base sites data.

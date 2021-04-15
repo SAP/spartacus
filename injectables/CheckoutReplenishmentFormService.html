@@ -360,7 +360,9 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>new BehaviorSubject&lt;ScheduleReplenishmentForm&gt;(this.defaultFormData)</code>
+                            <i>Default value : </i><code>new BehaviorSubject&lt;ScheduleReplenishmentForm&gt;(
+    this.defaultFormData
+  )</code>
                         </td>
                     </tr>
                         <tr>
@@ -402,9 +404,9 @@ export class CheckoutReplenishmentFormService {
     replenishmentStartDate: new Date().toISOString().split(&#x27;T&#x27;)[0],
   };
 
-  private scheduleReplenishmentFormData$: BehaviorSubject&lt;
-    ScheduleReplenishmentForm
-  &gt; &#x3D; new BehaviorSubject&lt;ScheduleReplenishmentForm&gt;(this.defaultFormData);
+  private scheduleReplenishmentFormData$: BehaviorSubject&lt;ScheduleReplenishmentForm&gt; &#x3D; new BehaviorSubject&lt;ScheduleReplenishmentForm&gt;(
+    this.defaultFormData
+  );
 
   constructor() {}
 

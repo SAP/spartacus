@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/core/src/user/store/effects/consignment-tracking.effect.ts:39</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/user/store/effects/consignment-tracking.effect.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -240,9 +240,7 @@ import { UserActions } from &#x27;../actions/index&#x27;;
 @Injectable()
 export class ConsignmentTrackingEffects {
   @Effect()
-  loadConsignmentTracking$: Observable&lt;
-    UserActions.ConsignmentTrackingAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadConsignmentTracking$: Observable&lt;UserActions.ConsignmentTrackingAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_CONSIGNMENT_TRACKING),
     map((action: UserActions.LoadConsignmentTracking) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {

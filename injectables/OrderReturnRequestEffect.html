@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="118" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:118</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:110</a></div>
                             </td>
                         </tr>
 
@@ -221,7 +221,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:63</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:59</a></div>
                             </td>
                         </tr>
 
@@ -343,7 +343,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -411,7 +411,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:89</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/core/src/user/store/effects/order-return-request.effect.ts:83</a></div>
                             </td>
                         </tr>
 
@@ -436,9 +436,7 @@ import { UserActions } from &#x27;../actions/index&#x27;;
 @Injectable()
 export class OrderReturnRequestEffect {
   @Effect()
-  createReturnRequest$: Observable&lt;
-    UserActions.OrderReturnRequestAction
-  &gt; &#x3D; this.actions$.pipe(
+  createReturnRequest$: Observable&lt;UserActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.CREATE_ORDER_RETURN_REQUEST),
     map((action: UserActions.CreateOrderReturnRequest) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
@@ -461,9 +459,7 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  loadReturnRequest$: Observable&lt;
-    UserActions.OrderReturnRequestAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadReturnRequest$: Observable&lt;UserActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST),
     map((action: UserActions.LoadOrderReturnRequest) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
@@ -486,9 +482,7 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  cancelReturnRequest$: Observable&lt;
-    UserActions.OrderReturnRequestAction
-  &gt; &#x3D; this.actions$.pipe(
+  cancelReturnRequest$: Observable&lt;UserActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.CANCEL_ORDER_RETURN_REQUEST),
     map((action: UserActions.CancelOrderReturnRequest) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
@@ -512,9 +506,7 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  loadReturnRequestList$: Observable&lt;
-    UserActions.OrderReturnRequestAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadReturnRequestList$: Observable&lt;UserActions.OrderReturnRequestAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST_LIST),
     map((action: UserActions.LoadOrderReturnRequestList) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {

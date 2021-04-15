@@ -211,8 +211,15 @@ export class CardComponent implements OnInit {
 
   @Input()
   content: Card;
+
   @Input()
   fitToContainer &#x3D; false;
+
+  @Input()
+  truncateText &#x3D; false;
+
+  @Input()
+  charactersLimit &#x3D; 100;
 
   // ACTIONS
 

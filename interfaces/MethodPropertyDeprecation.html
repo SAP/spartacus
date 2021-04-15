@@ -283,7 +283,7 @@ import {
   RemoveChange,
   ReplaceChange,
 } from &#x27;@schematics/angular/utility/change&#x27;;
-import * as ts from &#x27;typescript&#x27;;
+import ts from &#x27;typescript&#x27;;
 import {
   ANGULAR_CORE,
   INJECT_DECORATOR,
@@ -403,8 +403,8 @@ export function getAllTsSourceFiles(
 export function getIndexHtmlPath(tree: Tree): string {
   const projectName &#x3D; getDefaultProjectNameFromWorkspace(tree);
   const angularJson &#x3D; getAngularJsonFile(tree);
-  const indexHtml: string &#x3D;
-    angularJson.projects[projectName]?.architect?.build?.options?.index;
+  const indexHtml: string &#x3D; (angularJson.projects[projectName]?.architect?.build
+    ?.options as any)?.index;
   if (!indexHtml) {
     throw new SchematicsException(&#x27;&quot;index.html&quot; file not found.&#x27;);
   }
@@ -520,7 +520,7 @@ export function insertHtmlComment(
   );
 
   resultingElements
-    .map((node: Element) &#x3D;&gt; node.sourceSpan.start.line)
+    .map((node: Node) &#x3D;&gt; node.sourceSpan.start.line)
     .forEach((line, i) &#x3D;&gt; {
       const split &#x3D; content.split(&#x27;\n&#x27;);
       split.splice(line + i, 0, comment);
@@ -1483,19 +1483,20 @@ export function getMetadataProperty(
   propertyName: string
 ): ts.PropertyAssignment {
   const properties &#x3D; (metadata as ts.ObjectLiteralExpression).properties;
-  const property &#x3D; properties
-    .filter((prop) &#x3D;&gt; prop.kind &#x3D;&#x3D;&#x3D; ts.SyntaxKind.PropertyAssignment)
-    .filter((prop: ts.PropertyAssignment) &#x3D;&gt; {
-      const name &#x3D; prop.name;
-      switch (name.kind) {
-        case ts.SyntaxKind.Identifier:
-          return (name as ts.Identifier).getText() &#x3D;&#x3D;&#x3D; propertyName;
-        case ts.SyntaxKind.StringLiteral:
-          return (name as ts.StringLiteral).text &#x3D;&#x3D;&#x3D; propertyName;
-      }
-
+  const property &#x3D; properties.filter((prop) &#x3D;&gt; {
+    if (!ts.isPropertyAssignment(prop)) {
       return false;
-    })[0];
+    }
+    const name &#x3D; prop.name;
+    switch (name.kind) {
+      case ts.SyntaxKind.Identifier:
+        return (name as ts.Identifier).getText() &#x3D;&#x3D;&#x3D; propertyName;
+      case ts.SyntaxKind.StringLiteral:
+        return (name as ts.StringLiteral).text &#x3D;&#x3D;&#x3D; propertyName;
+    }
+
+    return false;
+  })[0];
 
   return property as ts.PropertyAssignment;
 }

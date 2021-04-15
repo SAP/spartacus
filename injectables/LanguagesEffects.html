@@ -207,16 +207,18 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.state.select(getActiveLanguage).pipe(
-    bufferCount(2, 1),
+                            <i>Default value : </i><code>this.state
+    .select(getActiveLanguage)
+    .pipe(
+      bufferCount(2, 1),
 
-    // avoid dispatching &#x60;change&#x60; action when we&#x27;re just setting the initial value:
-    filter(([previous]) &#x3D;&gt; !!previous),
-    map(
-      ([previous, current]) &#x3D;&gt;
-        new SiteContextActions.LanguageChange({ previous, current })
-    )
-  )</code>
+      // avoid dispatching &#x60;change&#x60; action when we&#x27;re just setting the initial value:
+      filter(([previous]) &#x3D;&gt; !!previous),
+      map(
+        ([previous, current]) &#x3D;&gt;
+          new SiteContextActions.LanguageChange({ previous, current })
+      )
+    )</code>
                         </td>
                     </tr>
                     <tr>
@@ -401,18 +403,18 @@ export class LanguagesEffects {
   );
 
   @Effect()
-  activateLanguage$: Observable&lt;
-    SiteContextActions.LanguageChange
-  &gt; &#x3D; this.state.select(getActiveLanguage).pipe(
-    bufferCount(2, 1),
+  activateLanguage$: Observable&lt;SiteContextActions.LanguageChange&gt; &#x3D; this.state
+    .select(getActiveLanguage)
+    .pipe(
+      bufferCount(2, 1),
 
-    // avoid dispatching &#x60;change&#x60; action when we&#x27;re just setting the initial value:
-    filter(([previous]) &#x3D;&gt; !!previous),
-    map(
-      ([previous, current]) &#x3D;&gt;
-        new SiteContextActions.LanguageChange({ previous, current })
-    )
-  );
+      // avoid dispatching &#x60;change&#x60; action when we&#x27;re just setting the initial value:
+      filter(([previous]) &#x3D;&gt; !!previous),
+      map(
+        ([previous, current]) &#x3D;&gt;
+          new SiteContextActions.LanguageChange({ previous, current })
+      )
+    );
 
   constructor(
     private actions$: Actions,

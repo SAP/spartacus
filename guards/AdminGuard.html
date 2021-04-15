@@ -240,7 +240,7 @@ export class AdminGuard implements CanActivate {
 
   canActivate(): Observable&lt;boolean&gt; {
     return this.userService.get().pipe(
-      filter((user: User) &#x3D;&gt; Object.keys(user).length &gt; 0),
+      filter((user: User) &#x3D;&gt; user &amp;&amp; Object.keys(user).length &gt; 0),
       pluck(&#x27;roles&#x27;),
       map((roles: string[]) &#x3D;&gt; {
         const hasRole &#x3D;

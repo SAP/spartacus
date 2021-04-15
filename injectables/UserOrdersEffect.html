@@ -279,7 +279,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/core/src/user/store/effects/user-orders.effect.ts:55</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/core/src/user/store/effects/user-orders.effect.ts:53</a></div>
                             </td>
                         </tr>
 
@@ -314,9 +314,7 @@ export class UserOrdersEffect {
   ) {}
 
   @Effect()
-  loadUserOrders$: Observable&lt;
-    UserActions.UserOrdersAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadUserOrders$: Observable&lt;UserActions.UserOrdersAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ORDERS),
     map((action: UserActions.LoadUserOrders) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
@@ -346,9 +344,7 @@ export class UserOrdersEffect {
   );
 
   @Effect()
-  resetUserOrders$: Observable&lt;
-    UserActions.ClearUserOrders
-  &gt; &#x3D; this.actions$.pipe(
+  resetUserOrders$: Observable&lt;UserActions.ClearUserOrders&gt; &#x3D; this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     map(() &#x3D;&gt; {
       return new UserActions.ClearUserOrders();

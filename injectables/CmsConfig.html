@@ -137,7 +137,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="113" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:113</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:124</a></div>
                             </td>
                         </tr>
 
@@ -165,7 +165,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:112</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="123" class="link-to-prism">projects/core/src/cms/config/cms-config.ts:123</a></div>
                             </td>
                         </tr>
 
@@ -303,6 +303,17 @@ export interface CmsComponentChildRoutesConfig {
 
 export interface CmsComponentMapping&lt;T &#x3D; CmsComponent&gt; {
   component?: any;
+  /**
+   * Configurable component providers for cms components.
+   *
+   * Component services are designed to be non-singleton services and are scoped
+   * to the component injection tree. The advantage of these services is that they can
+   * resolve services injected to the component injection tree. However, these services
+   * cannot be extended with the native Angular DI system.
+   *
+   * The configurable component providers mitigate this downside, by allowing you to provide
+   * component providers through services.
+   */
   providers?: StaticProvider[];
   childRoutes?: Route[] | CmsComponentChildRoutesConfig;
   disableSSR?: boolean;
@@ -345,9 +356,9 @@ export interface FeatureModuleConfig {
    */
   module?: () &#x3D;&gt; Promise&lt;any&gt;;
   /**
-   * Lazy resolved dependency modules
+   * Lazy resolved dependency modules or features referenced by name
    */
-  dependencies?: (() &#x3D;&gt; Promise&lt;any&gt;)[];
+  dependencies?: ((() &#x3D;&gt; Promise&lt;any&gt;) | string)[];
   /**
    * Cms components covered by this feature
    */
@@ -359,7 +370,7 @@ export interface FeatureModuleConfig {
   useExisting: Config,
 })
 export abstract class CmsConfig extends OccConfig {
-  featureModules?: { [featureName: string]: FeatureModuleConfig };
+  featureModules?: { [featureName: string]: FeatureModuleConfig | string };
   cmsComponents?: CMSComponentConfig;
 }
 </code></pre>

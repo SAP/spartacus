@@ -80,7 +80,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="105" class="link-to-prism">projects/core/src/user/store/user-state.ts:105</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="110" class="link-to-prism">projects/core/src/user/store/user-state.ts:110</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -104,10 +104,12 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from &#x27;../../model/order.model&#x27;;
-import { ReplenishmentOrderList } from &#x27;../../model/replenishment-order.model&#x27;;
 import { CostCenter } from &#x27;../../model/org-unit.model&#x27;;
 import { ProductInterestSearchResult } from &#x27;../../model/product-interest.model&#x27;;
-import { ReplenishmentOrder } from &#x27;../../model/replenishment-order.model&#x27;;
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from &#x27;../../model/replenishment-order.model&#x27;;
 import { StateUtils } from &#x27;../../state/utils/index&#x27;;
 
 export const USER_FEATURE &#x3D; &#x27;user&#x27;;
@@ -151,6 +153,9 @@ export interface StateWithUser {
   [USER_FEATURE]: UserState;
 }
 
+/**
+ * @deprecated since 3.2, moved to the &#x60;@spartacus/user&#x60; package.
+ */
 export interface UserState {
   account: UserDetailsState;
   addresses: StateUtils.LoaderState&lt;Address[]&gt;;

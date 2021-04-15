@@ -350,12 +350,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  addProductToCartViaAutoComplete,
-  addProductToCartViaSearchPage,
-  loginRegisteredUser,
-} from &#x27;./cart&#x27;;
-import { visitHomePage, waitForPage } from &#x27;./checkout-flow&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { waitForPage } from &#x27;./checkout-flow&#x27;;
 
 interface PaymentDetail {
   accountHolderName: string;
@@ -377,7 +372,7 @@ interface PaymentDetail {
   };
 }
 
-const testPaymentDetail: PaymentDetail[] &#x3D; [
+export const testPaymentDetail: PaymentDetail[] &#x3D; [
   {
     accountHolderName: &#x27;test user&#x27;,
     cardNumber: 4111111111111111,
@@ -418,23 +413,6 @@ const testPaymentDetail: PaymentDetail[] &#x3D; [
   },
 ];
 
-export function checkAnonymous() {
-  it(&#x27;should redirect anonymous user to login page&#x27;, () &#x3D;&gt; {
-    cy.visit(&#x27;/my-account/payment-details&#x27;);
-    cy.location(&#x27;pathname&#x27;).should(&#x27;contain&#x27;, &#x27;/login&#x27;);
-  });
-}
-
-export function verifyText() {
-  cy.get(&#x27;cx-payment-methods&#x27;).within(() &#x3D;&gt; {
-    cy.get(&#x27;.cx-payment .cx-header&#x27;).should(&#x27;contain&#x27;, &#x27;Payment methods&#x27;);
-    cy.get(&#x27;.cx-payment .cx-body&#x27;).should(
-      &#x27;contain&#x27;,
-      &#x27;New payment methods are added during checkout.&#x27;
-    );
-  });
-}
-
 export function verifyPaymentCard(cardLength: number) {
   cy.get(&#x27;.cx-payment .cx-body&#x27;).then(() &#x3D;&gt; {
     cy.get(&#x27;cx-card&#x27;).should(&#x27;exist&#x27;);
@@ -442,102 +420,16 @@ export function verifyPaymentCard(cardLength: number) {
   });
 }
 
-export function setOtherPaymentToDefault() {
-  cy.get(&#x27;cx-payment-methods&#x27;)
-    .findByText(&#x27;Set as default&#x27;)
-    .click({ force: true });
-
-  const firstCard &#x3D; cy.get(&#x27;.cx-payment-card&#x27;).first();
-  firstCard.should(&#x27;contain&#x27;, &#x27;✓ DEFAULT&#x27;);
-  firstCard.should(&#x27;contain&#x27;, &#x27;1234&#x27;);
-  firstCard.should(&#x27;contain&#x27;, &#x60;Expires: 03/2126&#x60;);
-}
-
-export function deletePayment() {
-  cy.findAllByText(&#x27;Delete&#x27;).first().click({ force: true });
-
-  // should see confirmation message
-  cy.get(&#x27;.cx-card-delete-msg&#x27;).should(
-    &#x27;contain&#x27;,
-    &#x27;Are you sure you want to delete this payment method?&#x27;
-  );
-
-  cy.get(&#x27;.btn-secondary&#x27;).should(&#x27;contain&#x27;, &#x27;Cancel&#x27;);
-  cy.get(&#x27;.btn-secondary&#x27;).click({ force: true });
-  cy.get(&#x27;.cx-card-body__delete-ms&#x27;).should(&#x27;not.exist&#x27;);
-
-  // delete the payment
-  cy.findAllByText(&#x27;Delete&#x27;).first().click({ force: true });
-  cy.get(&#x27;.btn-primary&#x27;).should(&#x27;contain&#x27;, &#x27;Delete&#x27;);
-  cy.get(&#x27;.btn-primary&#x27;).click({ force: true });
-  cy.get(&#x27;.cx-payment-card&#x27;).should(&#x27;have.length&#x27;, 1);
-
-  // verify remaining address is now the default one
-  const defaultCard &#x3D; cy.get(&#x27;.cx-payment-card&#x27;);
-  defaultCard.should(&#x27;contain&#x27;, &#x27;✓ DEFAULT&#x27;);
-  defaultCard.should(&#x27;contain&#x27;, &#x27;test user&#x27;);
-}
-
-export function visitPaymentDetailsPage(isMobile: boolean &#x3D; false) {
+export function visitPaymentDetailsPage() {
   const paymentDetailPage &#x3D; waitForPage(
     &#x27;/my-account/payment-detail&#x27;,
     &#x27;getPaymentDetail&#x27;
   );
-  cy.selectUserMenuOption({
-    option: &#x27;Payment Details&#x27;,
-    isMobile,
-  });
+  cy.selectUserMenuOption({ option: &#x27;Payment Details&#x27; });
   cy.wait(&#x60;@${paymentDetailPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
-export function paymentMethodsTest(isMobile: boolean &#x3D; false) {
-  it(&#x27;should visit payment details page&#x27;, () &#x3D;&gt; {
-    loginRegisteredUser();
-    visitPaymentDetailsPage(isMobile);
-  });
-
-  it(&#x27;should render page with no payment methods&#x27;, () &#x3D;&gt; {
-    verifyText();
-  });
-
-  it(&#x27;should add product to cart via search&#x27;, () &#x3D;&gt; {
-    addProductToCartViaAutoComplete(false);
-  });
-
-  it(&#x27;should create a payment detail using POST request&#x27;, () &#x3D;&gt; {
-    addPaymentMethod(testPaymentDetail[0]);
-  });
-
-  it(&#x27;should render page with only one payment methods&#x27;, () &#x3D;&gt; {
-    visitHomePage();
-    visitPaymentDetailsPage(isMobile);
-    verifyPaymentCard(1);
-  });
-
-  it(&#x27;should add a second product via search&#x27;, () &#x3D;&gt; {
-    addProductToCartViaSearchPage(false);
-  });
-
-  it(&#x27;should add a second payment detail using POST request&#x27;, () &#x3D;&gt; {
-    addPaymentMethod(testPaymentDetail[1]);
-  });
-
-  it(&#x27;should render page with only two payment methods&#x27;, () &#x3D;&gt; {
-    visitHomePage();
-    visitPaymentDetailsPage(isMobile);
-    verifyPaymentCard(2);
-  });
-
-  it(&#x27;should set additional payment method as default&#x27;, () &#x3D;&gt; {
-    setOtherPaymentToDefault();
-  });
-
-  it(&#x27;should be able to delete payment method&#x27;, () &#x3D;&gt; {
-    deletePayment();
-  });
-}
-
-function addPaymentMethod(paymentDetail: PaymentDetail) {
+export function addPaymentMethod(paymentDetail: PaymentDetail) {
   cy.get(&#x27;.cx-total&#x27;)
     .first()
     .then(($cart) &#x3D;&gt; {

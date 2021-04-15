@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:93</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:91</a></div>
                             </td>
                         </tr>
 
@@ -204,7 +204,9 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>isPlatformBrowser(this.platformId) // we don&#x27;t want to run this logic when doing SSR
+                            <i>Default value : </i><code>isPlatformBrowser(
+    this.platformId
+  ) // we don&#x27;t want to run this logic when doing SSR
     ? this.actions$.pipe(
         ofType(GlobalMessageActions.ADD_MESSAGE),
         pluck(&#x27;payload&#x27;),
@@ -247,7 +249,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:62</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="60" class="link-to-prism">projects/core/src/global-message/store/effects/global-message.effect.ts:60</a></div>
                             </td>
                         </tr>
 
@@ -357,9 +359,7 @@ import { GlobalMessageSelectors } from &#x27;../selectors/index&#x27;;
 @Injectable()
 export class GlobalMessageEffect {
   @Effect()
-  removeDuplicated$: Observable&lt;
-    GlobalMessageActions.RemoveMessage
-  &gt; &#x3D; this.actions$.pipe(
+  removeDuplicated$: Observable&lt;GlobalMessageActions.RemoveMessage&gt; &#x3D; this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     pluck(&#x27;payload&#x27;),
     switchMap((message: GlobalMessage) &#x3D;&gt;
@@ -389,9 +389,9 @@ export class GlobalMessageEffect {
   );
 
   @Effect()
-  hideAfterDelay$: Observable&lt;
-    GlobalMessageActions.RemoveMessage
-  &gt; &#x3D; isPlatformBrowser(this.platformId) // we don&#x27;t want to run this logic when doing SSR
+  hideAfterDelay$: Observable&lt;GlobalMessageActions.RemoveMessage&gt; &#x3D; isPlatformBrowser(
+    this.platformId
+  ) // we don&#x27;t want to run this logic when doing SSR
     ? this.actions$.pipe(
         ofType(GlobalMessageActions.ADD_MESSAGE),
         pluck(&#x27;payload&#x27;),

@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/core/src/user/store/effects/replenishment-order-details.effect.ts:77</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/core/src/user/store/effects/replenishment-order-details.effect.ts:73</a></div>
                             </td>
                         </tr>
 
@@ -238,7 +238,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/core/src/user/store/effects/replenishment-order-details.effect.ts:43</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/core/src/user/store/effects/replenishment-order-details.effect.ts:41</a></div>
                             </td>
                         </tr>
 
@@ -329,9 +329,7 @@ import { UserActions } from &#x27;../actions/index&#x27;;
 @Injectable()
 export class ReplenishmentOrderDetailsEffect {
   @Effect()
-  loadReplenishmentOrderDetails$: Observable&lt;
-    UserActions.ReplenishmentOrderDetailsAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadReplenishmentOrderDetails$: Observable&lt;UserActions.ReplenishmentOrderDetailsAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS),
     map((action: UserActions.LoadReplenishmentOrderDetails) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {
@@ -355,9 +353,7 @@ export class ReplenishmentOrderDetailsEffect {
   );
 
   @Effect()
-  cancelReplenishmentOrder$: Observable&lt;
-    UserActions.ReplenishmentOrderDetailsAction
-  &gt; &#x3D; this.actions$.pipe(
+  cancelReplenishmentOrder$: Observable&lt;UserActions.ReplenishmentOrderDetailsAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.CANCEL_REPLENISHMENT_ORDER),
     map((action: UserActions.CancelReplenishmentOrder) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {

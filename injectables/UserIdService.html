@@ -496,7 +496,7 @@ asm customer emulation session, the userId will be the customerId.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;string | never&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -615,7 +615,7 @@ export class UserIdService {
    *
    * @returns Observable that emits once and completes with the last userId value.
    */
-  public takeUserId(loggedIn &#x3D; false): Observable&lt;string | never&gt; {
+  public takeUserId(loggedIn &#x3D; false): Observable&lt;string&gt; {
     return this.getUserId().pipe(
       take(1),
       map((userId) &#x3D;&gt; {

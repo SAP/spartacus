@@ -91,6 +91,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Readonly</span>
+                                <a href="#location$">location$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
                                 <a href="#options$">options$</a>
                             </li>
                             <li>
@@ -174,7 +178,35 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts:14</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts:16</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="location$"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Readonly</span>
+                            location$</b>
+                            <a href="#location$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="../miscellaneous/enumerations.html#PromotionLocation" target="_self" >Observable&lt;PromotionLocation&gt;</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +234,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts:28</a></div>
                             </td>
                         </tr>
 
@@ -230,7 +262,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -258,7 +290,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts:15</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -286,7 +318,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context.model.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -311,10 +343,21 @@ import { CartItemComponentOptions } from &#x27;../cart-item.component&#x27;;
 @Injectable()
 export abstract class CartItemContext {
   readonly compact$: Observable&lt;boolean&gt;;
+
   readonly readonly$: Observable&lt;boolean&gt;;
+
   readonly item$: Observable&lt;OrderEntry&gt;;
+
   readonly quantityControl$: Observable&lt;FormControl&gt;;
+
+  /**
+   * @deprecated since 3.2 - use &#x60;location$&#x60; instead
+   */
+  // TODO: drop it in 4.0
   readonly promotionLocation$: Observable&lt;PromotionLocation&gt;;
+
+  readonly location$: Observable&lt;PromotionLocation&gt;;
+
   readonly options$: Observable&lt;CartItemComponentOptions&gt;;
 }
 </code></pre>

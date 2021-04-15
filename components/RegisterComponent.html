@@ -58,7 +58,7 @@
     <h3>File</h3>
 </p>
 <p class="comment">
-    <code>projects/storefrontlib/src/cms-components/user/register/register.component.ts</code>
+    <code>feature-libs/user/profile/components/register/register.component.ts</code>
 </p>
 
 
@@ -127,7 +127,7 @@
                                 <a href="#anonymousConsent$">anonymousConsent$</a>
                             </li>
                             <li>
-                                <a href="#loading$">loading$</a>
+                                <a href="#isLoading$">isLoading$</a>
                             </li>
                             <li>
                                 <a href="#registerForm">registerForm</a>
@@ -175,10 +175,6 @@
                                 <a href="#registerUser">registerUser</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#registerUserProcessInit">registerUserProcessInit</a>
-                            </li>
-                            <li>
                                 <a href="#submitForm">submitForm</a>
                             </li>
                             <li>
@@ -205,12 +201,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userService: <a href="../injectables/UserService.html">UserService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, router: <a href="../injectables/RoutingService.html">RoutingService</a>, anonymousConsentsService: <a href="../injectables/AnonymousConsentsService.html">AnonymousConsentsService</a>, anonymousConsentsConfig: <a href="../injectables/AnonymousConsentsConfig.html">AnonymousConsentsConfig</a>, authConfigService: <a href="../injectables/AuthConfigService.html">AuthConfigService</a>)</code>
+<code>constructor(userRegister: <a href="../injectables/UserRegisterFacade.html">UserRegisterFacade</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, router: <a href="../injectables/RoutingService.html">RoutingService</a>, anonymousConsentsService: <a href="../injectables/AnonymousConsentsService.html">AnonymousConsentsService</a>, anonymousConsentsConfig: <a href="../injectables/AnonymousConsentsConfig.html">AnonymousConsentsConfig</a>, authConfigService: <a href="../injectables/AuthConfigService.html">AuthConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:64</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="68" class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:68</a></div>
                             </td>
                         </tr>
 
@@ -228,10 +224,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>userService</td>
+                                                        <td>userRegister</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
+                                                                        <code><a href="../injectables/UserRegisterFacade.html" target="_self" >UserRegisterFacade</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -351,8 +347,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:148</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="155"
+                            class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:155</a></div>
                 </td>
             </tr>
 
@@ -421,8 +417,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="160"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:160</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="167"
+                            class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:167</a></div>
                 </td>
             </tr>
 
@@ -493,8 +489,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="164"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:164</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="171"
+                            class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:171</a></div>
                 </td>
             </tr>
 
@@ -533,7 +529,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="211"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:211</a></div>
+                            class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:211</a></div>
                 </td>
             </tr>
 
@@ -571,8 +567,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:80</a></div>
                 </td>
             </tr>
 
@@ -605,15 +601,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onRegisterUserSuccess(success: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    <code>onRegisterUserSuccess()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="177"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:177</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="184"
+                            class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:184</a></div>
                 </td>
             </tr>
 
@@ -621,40 +617,9 @@
             <tr>
                 <td class="col-md-4">
 
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>success</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -682,49 +647,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="138"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:138</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="registerUserProcessInit"></a>
-                    <span class="name">
-                        <b>
-                            <span class="modifier">Private</span>
-                            registerUserProcessInit
-                        </b>
-                        <a href="#registerUserProcessInit"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>registerUserProcessInit()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="202"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:202</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:141</a></div>
                 </td>
             </tr>
 
@@ -762,8 +686,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="133"
+                            class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:133</a></div>
                 </td>
             </tr>
 
@@ -801,8 +725,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="144"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:144</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:151</a></div>
                 </td>
             </tr>
 
@@ -871,8 +795,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="192"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:192</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="197"
+                            class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:197</a></div>
                 </td>
             </tr>
 
@@ -914,7 +838,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:40</a></div>
                             </td>
                         </tr>
 
@@ -925,23 +849,22 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-                        <a name="loading$"></a>
+                        <a name="isLoading$"></a>
                         <span class="name">
                             <b>
-                            loading$</b>
-                            <a href="#loading$"><span class="icon ion-ios-link"></span></a>
+                            isLoading$</b>
+                            <a href="#isLoading$"><span class="icon ion-ios-link"></span></a>
                         </span>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>Observable&lt;boolean&gt;</code>
-
+                            <i>Default value : </i><code>new BehaviorSubject(false)</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:36</a></div>
                             </td>
                         </tr>
 
@@ -996,7 +919,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:41</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:45</a></div>
                             </td>
                         </tr>
 
@@ -1023,7 +946,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:34</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:38</a></div>
                             </td>
                         </tr>
 
@@ -1050,7 +973,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/storefrontlib/src/cms-components/user/register/register.component.ts:32</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">feature-libs/user/profile/components/register/register.component.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -1081,13 +1004,15 @@ import {
   GlobalMessageType,
   OAuthFlow,
   RoutingService,
-  Title,
-  UserService,
-  UserSignUp,
 } from &#x27;@spartacus/core&#x27;;
-import { combineLatest, Observable, Subscription } from &#x27;rxjs&#x27;;
+import { CustomFormValidators, sortTitles } from &#x27;@spartacus/storefront&#x27;;
+import {
+  Title,
+  UserRegisterFacade,
+  UserSignUp,
+} from &#x27;@spartacus/user/profile/root&#x27;;
+import { BehaviorSubject, combineLatest, Observable, Subscription } from &#x27;rxjs&#x27;;
 import { filter, map } from &#x27;rxjs/operators&#x27;;
-import { CustomFormValidators, sortTitles } from &#x27;../../../shared/index&#x27;;
 
 @Component({
   selector: &#x27;cx-register&#x27;,
@@ -1095,7 +1020,9 @@ import { CustomFormValidators, sortTitles } from &#x27;../../../shared/index&#x2
 })
 export class RegisterComponent implements OnInit, OnDestroy {
   titles$: Observable&lt;Title[]&gt;;
-  loading$: Observable&lt;boolean&gt;;
+
+  isLoading$ &#x3D; new BehaviorSubject(false);
+
   private subscription &#x3D; new Subscription();
 
   anonymousConsent$: Observable&lt;{
@@ -1129,7 +1056,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   );
 
   constructor(
-    protected userService: UserService,
+    protected userRegister: UserRegisterFacade,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
     protected router: RoutingService,
@@ -1139,14 +1066,11 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.titles$ &#x3D; this.userService.getTitles().pipe(
-      map((titles) &#x3D;&gt; {
+    this.titles$ &#x3D; this.userRegister.getTitles().pipe(
+      map((titles: Title[]) &#x3D;&gt; {
         return titles.sort(sortTitles);
       })
     );
-
-    this.loading$ &#x3D; this.userService.getRegisterUserResultLoading();
-    this.registerUserProcessInit();
 
     // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
     this.subscription.add(
@@ -1171,7 +1095,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
         })
     );
 
-    const { registerConsent } &#x3D; this.anonymousConsentsConfig?.anonymousConsents;
+    const registerConsent &#x3D;
+      this.anonymousConsentsConfig?.anonymousConsents?.registerConsent ?? &#x27;&#x27;;
 
     this.anonymousConsent$ &#x3D; combineLatest([
       this.anonymousConsentsService.getConsent(registerConsent),
@@ -1180,13 +1105,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
       map(([consent, template]: [AnonymousConsent, ConsentTemplate]) &#x3D;&gt; {
         return {
           consent,
-          template: template ? template.description : &#x27;&#x27;,
+          template: template?.description ? template.description : &#x27;&#x27;,
         };
       })
     );
 
     this.subscription.add(
-      this.registerForm.get(&#x27;newsletter&#x27;).valueChanges.subscribe(() &#x3D;&gt; {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      this.registerForm.get(&#x27;newsletter&#x27;)!.valueChanges.subscribe(() &#x3D;&gt; {
         this.toggleAnonymousConsent();
       })
     );
@@ -1201,9 +1127,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   registerUser(): void {
-    this.userService.register(
-      this.collectDataFromRegisterForm(this.registerForm.value)
-    );
+    this.isLoading$.next(true);
+    this.userRegister
+      .register(this.collectDataFromRegisterForm(this.registerForm.value))
+      .subscribe({
+        next: () &#x3D;&gt; this.onRegisterUserSuccess(),
+        complete: () &#x3D;&gt; this.isLoading$.next(false),
+      });
   }
 
   titleSelected(title: Title): void {
@@ -1227,10 +1157,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   private isConsentRequired(): boolean {
-    const {
-      requiredConsents,
-      registerConsent,
-    } &#x3D; this.anonymousConsentsConfig?.anonymousConsents;
+    const requiredConsents &#x3D; this.anonymousConsentsConfig?.anonymousConsents
+      ?.requiredConsents;
+    const registerConsent &#x3D; this.anonymousConsentsConfig?.anonymousConsents
+      ?.registerConsent;
 
     if (requiredConsents &amp;&amp; registerConsent) {
       return requiredConsents.includes(registerConsent);
@@ -1239,43 +1169,35 @@ export class RegisterComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  private onRegisterUserSuccess(success: boolean): void {
-    if (success) {
-      if (
-        this.authConfigService.getOAuthFlow() &#x3D;&#x3D;&#x3D;
-        OAuthFlow.ResourceOwnerPasswordFlow
-      ) {
-        this.router.go(&#x27;login&#x27;);
-      }
-      this.globalMessageService.add(
-        { key: &#x27;register.postRegisterMessage&#x27; },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
+  private onRegisterUserSuccess(): void {
+    if (
+      this.authConfigService.getOAuthFlow() &#x3D;&#x3D;&#x3D;
+      OAuthFlow.ResourceOwnerPasswordFlow
+    ) {
+      this.router.go(&#x27;login&#x27;);
     }
+    this.globalMessageService.add(
+      { key: &#x27;register.postRegisterMessage&#x27; },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   toggleAnonymousConsent(): void {
-    const { registerConsent } &#x3D; this.anonymousConsentsConfig.anonymousConsents;
+    const registerConsent &#x3D; this.anonymousConsentsConfig?.anonymousConsents
+      ?.registerConsent;
 
-    if (Boolean(this.registerForm.get(&#x27;newsletter&#x27;).value)) {
-      this.anonymousConsentsService.giveConsent(registerConsent);
-    } else {
-      this.anonymousConsentsService.withdrawConsent(registerConsent);
+    if (registerConsent) {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      if (Boolean(this.registerForm.get(&#x27;newsletter&#x27;)!.value)) {
+        this.anonymousConsentsService.giveConsent(registerConsent);
+      } else {
+        this.anonymousConsentsService.withdrawConsent(registerConsent);
+      }
     }
-  }
-
-  private registerUserProcessInit(): void {
-    this.userService.resetRegisterUserProcessState();
-    this.subscription.add(
-      this.userService.getRegisterUserResultSuccess().subscribe((success) &#x3D;&gt; {
-        this.onRegisterUserSuccess(success);
-      })
-    );
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-    this.userService.resetRegisterUserProcessState();
   }
 }
 </code></pre>
@@ -1284,7 +1206,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;section
   class&#x3D;&quot;cx-page-section container&quot;
-  *ngIf&#x3D;&quot;!(loading$ | async); else loading&quot;
+  *ngIf&#x3D;&quot;!(isLoading$ | async); else loading&quot;
 &gt;
   &lt;div class&#x3D;&quot;row justify-content-center&quot;&gt;
     &lt;div class&#x3D;&quot;col-md-6&quot;&gt;
@@ -1495,9 +1417,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><section  class="cx-page-section container"  *ngIf="!(loading$ | async); else loading">  <div class="row justify-content-center">    <div class="col-md-6">      <div class="cx-section">        <form (ngSubmit)="submitForm()" [formGroup]="registerForm">          <div class="form-group">            <label>              <span class="label-content">{{                \'register.title\' | cxTranslate              }}</span>              <select formControlName="titleCode" class="form-control">                <option selected value="" disabled>                  {{ \'register.selectTitle\' | cxTranslate }}                </option>                <option                  *ngFor="let title of titles$ | async"                  [value]="title.code"                >                  {{ title.name }}                </option>              </select>            </label>          </div>          <div class="form-group">            <label>              <span class="label-content">{{                \'register.firstName.label\' | cxTranslate              }}</span>              <input                class="form-control"                type="text"                name="firstname"                placeholder="{{                  \'register.firstName.placeholder\' | cxTranslate                }}"                formControlName="firstName"              />              <cx-form-errors                [control]="registerForm.get(\'firstName\')"              ></cx-form-errors>            </label>          </div>          <div class="form-group">            <label>              <span class="label-content">{{                \'register.lastName.label\' | cxTranslate              }}</span>              <input                class="form-control"                type="text"                name="lastname"                placeholder="{{                  \'register.lastName.placeholder\' | cxTranslate                }}"                formControlName="lastName"              />              <cx-form-errors                [control]="registerForm.get(\'lastName\')"              ></cx-form-errors>            </label>          </div>          <div class="form-group">            <label>              <span class="label-content">{{                \'register.emailAddress.label\' | cxTranslate              }}</span>              <input                class="form-control"                type="email"                name="email"                placeholder="{{                  \'register.emailAddress.placeholder\' | cxTranslate                }}"                formControlName="email"              />              <cx-form-errors                [control]="registerForm.get(\'email\')"              ></cx-form-errors>            </label>          </div>          <div class="form-group">            <label>              <span class="label-content">{{                \'register.password.label\' | cxTranslate              }}</span>              <input                class="form-control"                type="password"                name="password"                placeholder="{{                  \'register.password.placeholder\' | cxTranslate                }}"                formControlName="password"              />              <cx-form-errors                [control]="registerForm.get(\'password\')"              ></cx-form-errors>            </label>          </div>          <div class="form-group">            <label>              <span class="label-content">{{                \'register.confirmPassword.label\' | cxTranslate              }}</span>              <input                class="form-control"                type="password"                name="confirmpassword"                placeholder="{{                  \'register.confirmPassword.placeholder\' | cxTranslate                }}"                formControlName="passwordconf"              />              <cx-form-errors                [control]="registerForm.get(\'passwordconf\')"              ></cx-form-errors>            </label>          </div>          <div class="form-group">            <div class="form-check">              <label *ngIf="anonymousConsent$ | async as anonymousConsent">                <input                  type="checkbox"                  name="newsletter"                  class="form-check-input"                  formControlName="newsletter"                  [checked]="isConsentGiven(anonymousConsent.consent)"                />                <span class="form-check-label">                  {{ anonymousConsent.template }}                </span>              </label>            </div>          </div>          <div class="form-group">            <div class="form-check">              <label>                <input                  type="checkbox"                  name="termsandconditions"                  formControlName="termsandconditions"                />                <span class="form-check-label">                  {{ \'register.confirmThatRead\' | cxTranslate }}                  <a                    [routerLink]="{ cxRoute: \'termsAndConditions\' } | cxUrl"                    target="_blank"                  >                    {{ \'register.termsAndConditions\' | cxTranslate }}                  </a>                </span>                <cx-form-errors                  [control]="registerForm.get(\'termsandconditions\')"                ></cx-form-errors>              </label>            </div>          </div>          <button type="submit" class="btn btn-block btn-primary">            {{ \'register.register\' | cxTranslate }}          </button>          <a            class="cx-login-link btn-link"            [routerLink]="{ cxRoute: \'login\' } | cxUrl"            >{{ \'register.signIn\' | cxTranslate }}</a          >        </form>      </div>    </div>  </div></section><ng-template #loading>  <div class="cx-spinner"><cx-spinner></cx-spinner></div></ng-template></div>'
-    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'ActiveLinkCellComponent', 'selector': 'cx-org-active-link-cell'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmountCellComponent', 'selector': 'cx-org-amount-cell'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AssignCellComponent', 'selector': 'cx-org-assign-cell'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'BudgetCostCenterListComponent', 'selector': 'cx-org-budget-cost-center-list'},{'name': 'BudgetDetailsComponent', 'selector': 'cx-org-budget-details'},{'name': 'BudgetFormComponent', 'selector': 'cx-org-budget-form'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-org-card'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CellComponent', 'selector': 'cx-org-cell'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConfiguratorAddToCartButtonComponent', 'selector': 'cx-configurator-add-to-cart-button'},{'name': 'ConfiguratorAttributeCheckBoxComponent', 'selector': 'cx-configurator-attribute-checkbox'},{'name': 'ConfiguratorAttributeCheckBoxListComponent', 'selector': 'cx-configurator-attribute-checkbox-list'},{'name': 'ConfiguratorAttributeDropDownComponent', 'selector': 'cx-configurator-attribute-drop-down'},{'name': 'ConfiguratorAttributeFooterComponent', 'selector': 'cx-configurator-attribute-footer'},{'name': 'ConfiguratorAttributeHeaderComponent', 'selector': 'cx-configurator-attribute-header'},{'name': 'ConfiguratorAttributeInputFieldComponent', 'selector': 'cx-configurator-attribute-input-field'},{'name': 'ConfiguratorAttributeMultiSelectionImageComponent', 'selector': 'cx-configurator-attribute-multi-selection-image'},{'name': 'ConfiguratorAttributeNumericInputFieldComponent', 'selector': 'cx-configurator-attribute-numeric-input-field'},{'name': 'ConfiguratorAttributeRadioButtonComponent', 'selector': 'cx-configurator-attribute-radio-button'},{'name': 'ConfiguratorAttributeReadOnlyComponent', 'selector': 'cx-configurator-attribute-read-only'},{'name': 'ConfiguratorAttributeSingleSelectionImageComponent', 'selector': 'cx-configurator-attribute-single-selection-image'},{'name': 'ConfiguratorCartEntryInfoComponent', 'selector': 'cx-configurator-cart-entry-info'},{'name': 'ConfiguratorConflictDescriptionComponent', 'selector': 'cx-configurator-conflict-description'},{'name': 'ConfiguratorConflictSuggestionComponent', 'selector': 'cx-configurator-conflict-suggestion'},{'name': 'ConfiguratorFormComponent', 'selector': 'cx-configurator-form'},{'name': 'ConfiguratorGroupMenuComponent', 'selector': 'cx-configurator-group-menu'},{'name': 'ConfiguratorGroupTitleComponent', 'selector': 'cx-configurator-group-title'},{'name': 'ConfiguratorIssuesNotificationComponent', 'selector': 'cx-configurator-issues-notification'},{'name': 'ConfiguratorOverviewAttributeComponent', 'selector': 'cx-configurator-overview-attribute'},{'name': 'ConfiguratorOverviewFormComponent', 'selector': 'cx-configurator-overview-form'},{'name': 'ConfiguratorOverviewNotificationBannerComponent', 'selector': 'cx-configurator-overview-notification-banner'},{'name': 'ConfiguratorPreviousNextButtonsComponent', 'selector': 'cx-configurator-previous-next-buttons'},{'name': 'ConfiguratorPriceSummaryComponent', 'selector': 'cx-configurator-price-summary'},{'name': 'ConfiguratorProductTitleComponent', 'selector': 'cx-configurator-product-title'},{'name': 'ConfiguratorTabBarComponent', 'selector': 'cx-configurator-tab-bar'},{'name': 'ConfiguratorTextfieldAddToCartButtonComponent', 'selector': 'cx-configurator-textfield-add-to-cart-button'},{'name': 'ConfiguratorTextfieldFormComponent', 'selector': 'cx-configurator-textfield-form'},{'name': 'ConfiguratorTextfieldInputFieldComponent', 'selector': 'cx-configurator-textfield-input-field'},{'name': 'ConfiguratorUpdateMessageComponent', 'selector': 'cx-configurator-update-message'},{'name': 'ConfigureCartEntryComponent', 'selector': 'cx-configure-cart-entry'},{'name': 'ConfigureProductComponent', 'selector': 'cx-configure-product'},{'name': 'ConfirmationMessageComponent', 'selector': 'cx-org-confirmation'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CostCenterAssignedBudgetListComponent', 'selector': 'cx-org-cost-center-assigned-budget-list'},{'name': 'CostCenterBudgetListComponent', 'selector': 'cx-org-cost-center-budget-list'},{'name': 'CostCenterComponent', 'selector': 'cx-cost-center'},{'name': 'CostCenterDetailsComponent', 'selector': 'cx-org-cost-center-details'},{'name': 'CostCenterFormComponent', 'selector': 'cx-org-cost-center-form'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DatePickerComponent', 'selector': 'cx-date-picker'},{'name': 'DateRangeCellComponent', 'selector': 'cx-org-date-range-cell'},{'name': 'DeleteItemComponent', 'selector': 'cx-org-delete-item'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormComponent', 'selector': 'cx-org-form'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LimitCellComponent', 'selector': 'cx-org-limit-cell'},{'name': 'LinkCellComponent', 'selector': 'cx-org-link-cell'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'ListComponent', 'selector': 'cx-org-list'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MockCardComponent', 'selector': 'cx-org-card'},{'name': 'MockFormComponent', 'selector': 'cx-org-form'},{'name': 'MockIconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'MockSplitViewComponent', 'selector': 'cx-split-view'},{'name': 'MockSubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'MockViewComponent', 'selector': 'cx-view'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationMessageComponent', 'selector': 'cx-org-notification'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderApprovalDetailFormComponent', 'selector': 'cx-order-approval-detail-form'},{'name': 'OrderApprovalListComponent', 'selector': 'cx-order-approval-list'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailPermissionResultsComponent', 'selector': 'cx-order-detail-permission-results'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderOverviewComponent', 'selector': 'cx-order-overview'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PaymentTypeComponent', 'selector': 'cx-payment-type'},{'name': 'PermissionDetailsComponent', 'selector': 'cx-org-permission-details'},{'name': 'PermissionFormComponent', 'selector': 'cx-org-permission-form'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsEmbeddedFeedbackComponent', 'selector': 'cx-qualtrics-embedded-feedback'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'RolesCellComponent', 'selector': 'cx-org-roles-cell'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'ScheduleReplenishmentOrderComponent', 'selector': 'cx-schedule-replenishment-order'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StatusCellComponent', 'selector': 'cx-org-status-cell'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TableComponent', 'selector': 'cx-table'},{'name': 'TableDataCellComponent', 'selector': 'cx-table-data-cell'},{'name': 'TableHeaderCellComponent', 'selector': 'cx-table-header-cell'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'ToggleLinkCellComponent', 'selector': 'cx-org-toggle-link-cell'},{'name': 'ToggleStatusComponent', 'selector': 'cx-org-toggle-status'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'UnitAddressDetailsComponent', 'selector': 'cx-org-unit-address-details'},{'name': 'UnitAddressFormComponent', 'selector': 'cx-org-unit-address-form'},{'name': 'UnitAddressListComponent', 'selector': 'cx-org-unit-address-list'},{'name': 'UnitApproverListComponent', 'selector': 'cx-org-unit-approver-list'},{'name': 'UnitAssignedApproverListComponent', 'selector': 'cx-org-unit-assigned-approver-list'},{'name': 'UnitCellComponent', 'selector': 'cx-org-unit-cell'},{'name': 'UnitChildCreateComponent', 'selector': 'cx-org-unit-child-create'},{'name': 'UnitChildrenComponent', 'selector': 'cx-org-unit-children'},{'name': 'UnitCostCenterCreateComponent', 'selector': 'cx-org-unit-cost-center-create'},{'name': 'UnitCostCenterListComponent', 'selector': 'cx-org-unit-cost-centers'},{'name': 'UnitDetailsComponent', 'selector': 'cx-org-unit-details'},{'name': 'UnitFormComponent', 'selector': 'cx-org-unit-form'},{'name': 'UnitListComponent', 'selector': 'cx-org-unit-list'},{'name': 'UnitUserCreateComponent', 'selector': 'cx-org-unit-user-create'},{'name': 'UnitUserListComponent', 'selector': 'cx-org-unit-user-list'},{'name': 'UnitUserRolesCellComponent', 'selector': 'cx-org-unit-user-link-cell'},{'name': 'UnitUserRolesFormComponent', 'selector': 'cx-org-unit-user-roles'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'UserApproverListComponent', 'selector': 'cx-org-user-approver-list'},{'name': 'UserAssignedApproverListComponent', 'selector': 'cx-org-user-assigned-approver-list'},{'name': 'UserAssignedPermissionListComponent', 'selector': 'cx-org-user-assigned-permission-list'},{'name': 'UserAssignedUserGroupListComponent', 'selector': 'cx-org-user-assigned-user-group-list'},{'name': 'UserChangePasswordFormComponent', 'selector': 'cx-org-user-change-password-form'},{'name': 'UserDetailsComponent', 'selector': 'cx-org-user-details'},{'name': 'UserFormComponent', 'selector': 'cx-org-user-form'},{'name': 'UserGroupAssignedPermissionListComponent', 'selector': 'cx-org-user-group-assigned-permission-list'},{'name': 'UserGroupAssignedUserListComponent', 'selector': 'cx-org-user-group-assigned-user-list'},{'name': 'UserGroupDetailsComponent', 'selector': 'cx-org-user-group-details'},{'name': 'UserGroupFormComponent', 'selector': 'cx-org-user-group-form'},{'name': 'UserGroupPermissionListComponent', 'selector': 'cx-org-user-group-permission-list'},{'name': 'UserGroupUserListComponent', 'selector': 'cx-org-user-group-user-list'},{'name': 'UserPermissionListComponent', 'selector': 'cx-org-user-permission-list'},{'name': 'UserUserGroupListComponent', 'selector': 'cx-org-user-user-group-list'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
-    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'ItemActiveDirective', 'selector': '[cxOrgItemActive]'},{'name': 'ItemExistsDirective', 'selector': '[cxOrgItemExists]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'MockKeyboardFocusDirective', 'selector': '[cxFocus]'},{'name': 'ModalDirective', 'selector': '[cxModal]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'PageTemplateDirective', 'selector': '[cxPageTemplateStyle]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
+        var COMPONENT_TEMPLATE = '<div><section  class="cx-page-section container"  *ngIf="!(isLoading$ | async); else loading">  <div class="row justify-content-center">    <div class="col-md-6">      <div class="cx-section">        <form (ngSubmit)="submitForm()" [formGroup]="registerForm">          <div class="form-group">            <label>              <span class="label-content">{{                \'register.title\' | cxTranslate              }}</span>              <select formControlName="titleCode" class="form-control">                <option selected value="" disabled>                  {{ \'register.selectTitle\' | cxTranslate }}                </option>                <option                  *ngFor="let title of titles$ | async"                  [value]="title.code"                >                  {{ title.name }}                </option>              </select>            </label>          </div>          <div class="form-group">            <label>              <span class="label-content">{{                \'register.firstName.label\' | cxTranslate              }}</span>              <input                class="form-control"                type="text"                name="firstname"                placeholder="{{                  \'register.firstName.placeholder\' | cxTranslate                }}"                formControlName="firstName"              />              <cx-form-errors                [control]="registerForm.get(\'firstName\')"              ></cx-form-errors>            </label>          </div>          <div class="form-group">            <label>              <span class="label-content">{{                \'register.lastName.label\' | cxTranslate              }}</span>              <input                class="form-control"                type="text"                name="lastname"                placeholder="{{                  \'register.lastName.placeholder\' | cxTranslate                }}"                formControlName="lastName"              />              <cx-form-errors                [control]="registerForm.get(\'lastName\')"              ></cx-form-errors>            </label>          </div>          <div class="form-group">            <label>              <span class="label-content">{{                \'register.emailAddress.label\' | cxTranslate              }}</span>              <input                class="form-control"                type="email"                name="email"                placeholder="{{                  \'register.emailAddress.placeholder\' | cxTranslate                }}"                formControlName="email"              />              <cx-form-errors                [control]="registerForm.get(\'email\')"              ></cx-form-errors>            </label>          </div>          <div class="form-group">            <label>              <span class="label-content">{{                \'register.password.label\' | cxTranslate              }}</span>              <input                class="form-control"                type="password"                name="password"                placeholder="{{                  \'register.password.placeholder\' | cxTranslate                }}"                formControlName="password"              />              <cx-form-errors                [control]="registerForm.get(\'password\')"              ></cx-form-errors>            </label>          </div>          <div class="form-group">            <label>              <span class="label-content">{{                \'register.confirmPassword.label\' | cxTranslate              }}</span>              <input                class="form-control"                type="password"                name="confirmpassword"                placeholder="{{                  \'register.confirmPassword.placeholder\' | cxTranslate                }}"                formControlName="passwordconf"              />              <cx-form-errors                [control]="registerForm.get(\'passwordconf\')"              ></cx-form-errors>            </label>          </div>          <div class="form-group">            <div class="form-check">              <label *ngIf="anonymousConsent$ | async as anonymousConsent">                <input                  type="checkbox"                  name="newsletter"                  class="form-check-input"                  formControlName="newsletter"                  [checked]="isConsentGiven(anonymousConsent.consent)"                />                <span class="form-check-label">                  {{ anonymousConsent.template }}                </span>              </label>            </div>          </div>          <div class="form-group">            <div class="form-check">              <label>                <input                  type="checkbox"                  name="termsandconditions"                  formControlName="termsandconditions"                />                <span class="form-check-label">                  {{ \'register.confirmThatRead\' | cxTranslate }}                  <a                    [routerLink]="{ cxRoute: \'termsAndConditions\' } | cxUrl"                    target="_blank"                  >                    {{ \'register.termsAndConditions\' | cxTranslate }}                  </a>                </span>                <cx-form-errors                  [control]="registerForm.get(\'termsandconditions\')"                ></cx-form-errors>              </label>            </div>          </div>          <button type="submit" class="btn btn-block btn-primary">            {{ \'register.register\' | cxTranslate }}          </button>          <a            class="cx-login-link btn-link"            [routerLink]="{ cxRoute: \'login\' } | cxUrl"            >{{ \'register.signIn\' | cxTranslate }}</a          >        </form>      </div>    </div>  </div></section><ng-template #loading>  <div class="cx-spinner"><cx-spinner></cx-spinner></div></ng-template></div>'
+    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'ActiveLinkCellComponent', 'selector': 'cx-org-active-link-cell'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToSavedCartComponent', 'selector': 'cx-add-to-saved-cart'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmountCellComponent', 'selector': 'cx-org-amount-cell'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AssignCellComponent', 'selector': 'cx-org-assign-cell'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'BudgetCostCenterListComponent', 'selector': 'cx-org-budget-cost-center-list'},{'name': 'BudgetDetailsCellComponent', 'selector': 'cx-org-budget-details-cell'},{'name': 'BudgetDetailsComponent', 'selector': 'cx-org-budget-details'},{'name': 'BudgetFormComponent', 'selector': 'cx-org-budget-form'},{'name': 'BulkPricingTableComponent', 'selector': 'cx-bulk-pricing-table'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-org-card'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CellComponent', 'selector': 'cx-org-cell'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConfiguratorAddToCartButtonComponent', 'selector': 'cx-configurator-add-to-cart-button'},{'name': 'ConfiguratorAttributeCheckBoxComponent', 'selector': 'cx-configurator-attribute-checkbox'},{'name': 'ConfiguratorAttributeCheckBoxListComponent', 'selector': 'cx-configurator-attribute-checkbox-list'},{'name': 'ConfiguratorAttributeDropDownComponent', 'selector': 'cx-configurator-attribute-drop-down'},{'name': 'ConfiguratorAttributeFooterComponent', 'selector': 'cx-configurator-attribute-footer'},{'name': 'ConfiguratorAttributeHeaderComponent', 'selector': 'cx-configurator-attribute-header'},{'name': 'ConfiguratorAttributeInputFieldComponent', 'selector': 'cx-configurator-attribute-input-field'},{'name': 'ConfiguratorAttributeMultiSelectionImageComponent', 'selector': 'cx-configurator-attribute-multi-selection-image'},{'name': 'ConfiguratorAttributeNumericInputFieldComponent', 'selector': 'cx-configurator-attribute-numeric-input-field'},{'name': 'ConfiguratorAttributeRadioButtonComponent', 'selector': 'cx-configurator-attribute-radio-button'},{'name': 'ConfiguratorAttributeReadOnlyComponent', 'selector': 'cx-configurator-attribute-read-only'},{'name': 'ConfiguratorAttributeSingleSelectionImageComponent', 'selector': 'cx-configurator-attribute-single-selection-image'},{'name': 'ConfiguratorCartEntryInfoComponent', 'selector': 'cx-configurator-cart-entry-info'},{'name': 'ConfiguratorConflictDescriptionComponent', 'selector': 'cx-configurator-conflict-description'},{'name': 'ConfiguratorConflictSuggestionComponent', 'selector': 'cx-configurator-conflict-suggestion'},{'name': 'ConfiguratorFormComponent', 'selector': 'cx-configurator-form'},{'name': 'ConfiguratorGroupMenuComponent', 'selector': 'cx-configurator-group-menu'},{'name': 'ConfiguratorGroupTitleComponent', 'selector': 'cx-configurator-group-title'},{'name': 'ConfiguratorIssuesNotificationComponent', 'selector': 'cx-configurator-issues-notification'},{'name': 'ConfiguratorOverviewAttributeComponent', 'selector': 'cx-configurator-overview-attribute'},{'name': 'ConfiguratorOverviewFormComponent', 'selector': 'cx-configurator-overview-form'},{'name': 'ConfiguratorOverviewNotificationBannerComponent', 'selector': 'cx-configurator-overview-notification-banner'},{'name': 'ConfiguratorPreviousNextButtonsComponent', 'selector': 'cx-configurator-previous-next-buttons'},{'name': 'ConfiguratorPriceSummaryComponent', 'selector': 'cx-configurator-price-summary'},{'name': 'ConfiguratorProductTitleComponent', 'selector': 'cx-configurator-product-title'},{'name': 'ConfiguratorTabBarComponent', 'selector': 'cx-configurator-tab-bar'},{'name': 'ConfiguratorTextfieldAddToCartButtonComponent', 'selector': 'cx-configurator-textfield-add-to-cart-button'},{'name': 'ConfiguratorTextfieldFormComponent', 'selector': 'cx-configurator-textfield-form'},{'name': 'ConfiguratorTextfieldInputFieldComponent', 'selector': 'cx-configurator-textfield-input-field'},{'name': 'ConfiguratorUpdateMessageComponent', 'selector': 'cx-configurator-update-message'},{'name': 'ConfigureCartEntryComponent', 'selector': 'cx-configure-cart-entry'},{'name': 'ConfigureProductComponent', 'selector': 'cx-configure-product'},{'name': 'ConfirmationMessageComponent', 'selector': 'cx-org-confirmation'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CostCenterAssignedBudgetListComponent', 'selector': 'cx-org-cost-center-assigned-budget-list'},{'name': 'CostCenterBudgetListComponent', 'selector': 'cx-org-cost-center-budget-list'},{'name': 'CostCenterComponent', 'selector': 'cx-cost-center'},{'name': 'CostCenterDetailsCellComponent', 'selector': 'cx-org-cost-center-details-cell'},{'name': 'CostCenterDetailsComponent', 'selector': 'cx-org-cost-center-details'},{'name': 'CostCenterFormComponent', 'selector': 'cx-org-cost-center-form'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DatePickerComponent', 'selector': 'cx-date-picker'},{'name': 'DateRangeCellComponent', 'selector': 'cx-org-date-range-cell'},{'name': 'DeleteItemComponent', 'selector': 'cx-org-delete-item'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DisableInfoComponent', 'selector': 'cx-org-disable-info'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormComponent', 'selector': 'cx-org-form'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LimitCellComponent', 'selector': 'cx-org-limit-cell'},{'name': 'LinkCellComponent', 'selector': 'cx-org-link-cell'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'ListComponent', 'selector': 'cx-org-list'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MockCardComponent', 'selector': 'cx-org-card'},{'name': 'MockFormComponent', 'selector': 'cx-org-form'},{'name': 'MockIconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'MockSplitViewComponent', 'selector': 'cx-split-view'},{'name': 'MockSubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'MockViewComponent', 'selector': 'cx-view'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationMessageComponent', 'selector': 'cx-org-notification'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderApprovalDetailFormComponent', 'selector': 'cx-order-approval-detail-form'},{'name': 'OrderApprovalListComponent', 'selector': 'cx-order-approval-list'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailPermissionResultsComponent', 'selector': 'cx-order-detail-permission-results'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderOverviewComponent', 'selector': 'cx-order-overview'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PaymentTypeComponent', 'selector': 'cx-payment-type'},{'name': 'PermissionDetailsCellComponent', 'selector': 'cx-org-permission-details-cell'},{'name': 'PermissionDetailsComponent', 'selector': 'cx-org-permission-details'},{'name': 'PermissionFormComponent', 'selector': 'cx-org-permission-form'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'PopoverComponent', 'selector': 'cx-popover'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantColorSelectorComponent', 'selector': 'cx-product-variant-color-selector'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductVariantsContainerComponent', 'selector': 'cx-product-variants-container'},{'name': 'ProductVariantSizeSelectorComponent', 'selector': 'cx-product-variant-size-selector'},{'name': 'ProductVariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'ProductVariantStyleSelectorComponent', 'selector': 'cx-product-variant-style-selector'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsEmbeddedFeedbackComponent', 'selector': 'cx-qualtrics-embedded-feedback'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'RolesCellComponent', 'selector': 'cx-org-roles-cell'},{'name': 'SavedCartDetailsActionComponent', 'selector': 'cx-saved-cart-details-action'},{'name': 'SavedCartDetailsItemsComponent', 'selector': 'cx-saved-cart-details-items'},{'name': 'SavedCartDetailsOverviewComponent', 'selector': 'cx-saved-cart-details-overview'},{'name': 'SavedCartFormDialogComponent', 'selector': 'cx-saved-cart-form-dialog'},{'name': 'SavedCartListComponent', 'selector': 'cx-saved-cart-list'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'ScheduleReplenishmentOrderComponent', 'selector': 'cx-schedule-replenishment-order'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StatusCellComponent', 'selector': 'cx-org-status-cell'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TableComponent', 'selector': 'cx-table'},{'name': 'TableDataCellComponent', 'selector': 'cx-table-data-cell'},{'name': 'TableHeaderCellComponent', 'selector': 'cx-table-header-cell'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'ToggleLinkCellComponent', 'selector': 'cx-org-toggle-link-cell'},{'name': 'ToggleStatusComponent', 'selector': 'cx-org-toggle-status'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'TruncateTextPopoverComponent', 'selector': 'cx-truncate-text-popover'},{'name': 'UnitAddressDetailsComponent', 'selector': 'cx-org-unit-address-details'},{'name': 'UnitAddressFormComponent', 'selector': 'cx-org-unit-address-form'},{'name': 'UnitAddressListComponent', 'selector': 'cx-org-unit-address-list'},{'name': 'UnitApproverListComponent', 'selector': 'cx-org-unit-approver-list'},{'name': 'UnitAssignedApproverListComponent', 'selector': 'cx-org-unit-assigned-approver-list'},{'name': 'UnitCellComponent', 'selector': 'cx-org-unit-cell'},{'name': 'UnitChildCreateComponent', 'selector': 'cx-org-unit-child-create'},{'name': 'UnitChildrenComponent', 'selector': 'cx-org-unit-children'},{'name': 'UnitCostCenterCreateComponent', 'selector': 'cx-org-unit-cost-center-create'},{'name': 'UnitCostCenterListComponent', 'selector': 'cx-org-unit-cost-centers'},{'name': 'UnitDetailsCellComponent', 'selector': 'cx-org-unit-details-cell'},{'name': 'UnitDetailsComponent', 'selector': 'cx-org-unit-details'},{'name': 'UnitFormComponent', 'selector': 'cx-org-unit-form'},{'name': 'UnitListComponent', 'selector': 'cx-org-unit-list'},{'name': 'UnitUserCreateComponent', 'selector': 'cx-org-unit-user-create'},{'name': 'UnitUserListComponent', 'selector': 'cx-org-unit-user-list'},{'name': 'UnitUserRolesCellComponent', 'selector': 'cx-org-unit-user-link-cell'},{'name': 'UnitUserRolesFormComponent', 'selector': 'cx-org-unit-user-roles'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'UserApproverListComponent', 'selector': 'cx-org-user-approver-list'},{'name': 'UserAssignedApproverListComponent', 'selector': 'cx-org-user-assigned-approver-list'},{'name': 'UserAssignedPermissionListComponent', 'selector': 'cx-org-user-assigned-permission-list'},{'name': 'UserAssignedUserGroupListComponent', 'selector': 'cx-org-user-assigned-user-group-list'},{'name': 'UserChangePasswordFormComponent', 'selector': 'cx-org-user-change-password-form'},{'name': 'UserDetailsCellComponent', 'selector': 'cx-org-user-details-cell'},{'name': 'UserDetailsComponent', 'selector': 'cx-org-user-details'},{'name': 'UserFormComponent', 'selector': 'cx-org-user-form'},{'name': 'UserGroupAssignedPermissionListComponent', 'selector': 'cx-org-user-group-assigned-permission-list'},{'name': 'UserGroupAssignedUserListComponent', 'selector': 'cx-org-user-group-assigned-user-list'},{'name': 'UserGroupDetailsCellComponent', 'selector': 'cx-org-user-group-details-cell'},{'name': 'UserGroupDetailsComponent', 'selector': 'cx-org-user-group-details'},{'name': 'UserGroupFormComponent', 'selector': 'cx-org-user-group-form'},{'name': 'UserGroupPermissionListComponent', 'selector': 'cx-org-user-group-permission-list'},{'name': 'UserGroupUserListComponent', 'selector': 'cx-org-user-group-user-list'},{'name': 'UserPermissionListComponent', 'selector': 'cx-org-user-permission-list'},{'name': 'UserUserGroupListComponent', 'selector': 'cx-org-user-user-group-list'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+    var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'ItemActiveDirective', 'selector': '[cxOrgItemActive]'},{'name': 'ItemExistsDirective', 'selector': '[cxOrgItemExists]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'MockKeyboardFocusDirective', 'selector': '[cxFocus]'},{'name': 'ModalDirective', 'selector': '[cxModal]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'PageTemplateDirective', 'selector': '[cxPageTemplateStyle]'},{'name': 'PopoverDirective', 'selector': '[cxPopover]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
     var ACTUAL_COMPONENT = {'name': 'RegisterComponent'};
 </script>
 <script src="../js/tree.js"></script>

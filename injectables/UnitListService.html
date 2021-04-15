@@ -391,8 +391,8 @@ data is driven by the table configuration, using the <code>OrganizationTables.UN
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">feature-libs/organization/administration/components/unit/services/unit-list.service.ts:88</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="91"
+                            class="link-to-prism">feature-libs/organization/administration/components/unit/services/unit-list.service.ts:91</a></div>
                 </td>
             </tr>
 
@@ -1358,12 +1358,15 @@ export class UnitListService extends ListService&lt;B2BUnitTreeNode&gt; {
       depthLevel,
       // tmp, should be normalized
       uid: unit.id,
+      children: [...unit.children].sort((unitA, unitB) &#x3D;&gt;
+        unitA.name.localeCompare(unitB.name)
+      ),
     };
 
     values.push(node);
     pagination.totalResults++;
 
-    unit.children.forEach((childUnit) &#x3D;&gt; {
+    node.children.forEach((childUnit) &#x3D;&gt; {
       const childList &#x3D; this.convertListItem(
         childUnit,
         depthLevel + 1,

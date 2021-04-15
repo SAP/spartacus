@@ -61,14 +61,14 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/product-configurator/rulebased/occ/variant/variant-configurator-occ.models.ts</code>
+            <code>feature-libs/product-configurator/textfield/core/model/configurator-textfield.model.ts</code>
         </p>
 
             <p class="comment">
                 <h3>Description</h3>
             </p>
             <p class="comment">
-                <p>An interface representing the variant configuration consumed through OCC.</p>
+                <p>Textfield configuration. Consists of a list of attributes and the configuration owner</p>
 
             </p>
 
@@ -86,24 +86,11 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#complete">complete</a>
+                                        <a href="#configurationInfos">configurationInfos</a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#configId">configId</a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#groups">groups</a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#rootProduct">rootProduct</a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#totalNumberOfIssues">totalNumberOfIssues</a>
+                                        <a href="#owner">owner</a>
                                 </li>
                             </ul>
                         </td>
@@ -120,13 +107,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="complete"></a>
-                                        <span class="name"><b>complete</b><a href="#complete"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="configurationInfos"></a>
+                                        <span class="name"><b>configurationInfos</b><a href="#configurationInfos"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>complete:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                        <code>configurationInfos:         <code><a href="../miscellaneous/variables.html#Config" target="_self" >ConfigurationInfo[]</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -134,16 +121,11 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                            <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >ConfigurationInfo[]</a></code>
 
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
 
 
 
@@ -154,13 +136,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="configId"></a>
-                                        <span class="name"><b>configId</b><a href="#configId"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="owner"></a>
+                                        <span class="name"><b>owner</b><a href="#owner"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>configId:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>owner:         <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -168,109 +150,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="groups"></a>
-                                        <span class="name"><b>groups</b><a href="#groups"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>groups:     <code>Group[]</code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>    <code>Group[]</code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="rootProduct"></a>
-                                        <span class="name"><b>rootProduct</b><a href="#rootProduct"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>rootProduct:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="totalNumberOfIssues"></a>
-                                        <span class="name"><b>totalNumberOfIssues</b><a href="#totalNumberOfIssues"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>totalNumberOfIssues:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            <i>Type : </i>        <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
 
                                         </td>
                                     </tr>
@@ -291,177 +171,51 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export namespace OccConfigurator {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonConfigurator } from &#x27;@spartacus/product-configurator/common&#x27;;
+
+export namespace ConfiguratorTextfield {
   /**
-   *
-   * An interface representing the variant configuration consumed through OCC.
+   * Textfield configuration. Consists of a list of attributes and the configuration owner
    */
   export interface Configuration {
-    /**
-     * @member {string} [configId]
-     */
-    configId?: string;
-    /**
-     * @member {boolean} [complete]
-     */
-    complete?: boolean;
-
-    totalNumberOfIssues?: number;
-    groups?: Group[];
-    rootProduct?: string;
-  }
-
-  export interface Prices {
-    configId?: string;
-    pricingError?: boolean;
-    showDeltaPrices?: boolean;
-    priceSummary?: PriceSummary;
-  }
-
-  export interface PriceSummary {
-    basePrice?: PriceDetails;
-    currentTotal?: PriceDetails;
-    currentTotalSavings?: PriceSavingDetails;
-    selectedOptions?: PriceDetails;
-  }
-
-  export interface PriceDetails {
-    currencyIso?: string;
-    formattedValue?: string;
-    value?: number;
-  }
-
-  export interface PriceSavingDetails extends PriceDetails {
-    maxQuantity?: number;
-    minQuantity?: number;
-  }
-
-  export interface Group {
-    configurable?: boolean;
-    complete?: boolean;
-    consistent?: boolean;
-    attributes?: Attribute[];
-    description?: string;
-    groupType?: GroupType;
-    id?: string;
-    name?: string;
-    subGroups?: Group[];
-  }
-
-  export interface Attribute {
-    name?: string;
-    langDepName?: string;
-    type?: UiType;
-    domainValues?: Value[];
-    required?: boolean;
-    value?: string;
-    key?: string;
-    formattedValue?: string;
-    maxlength?: number;
-    images?: Image[];
-    typeLength?: number;
-    numberScale?: number;
-    negativeAllowed?: boolean;
-    conflicts?: string[];
-    retractTriggered?: boolean;
-  }
-
-  export interface Value {
-    key?: string;
-    name?: string;
-    langDepName?: string;
-    readonly?: boolean;
-    selected?: boolean;
-    images?: Image[];
-  }
-
-  export interface AddToCartParameters {
-    userId?: string;
-    cartId?: string;
-    product?: AddToCartProductData;
-    quantity?: number;
-    configId?: string;
-  }
-
-  export interface UpdateConfigurationForCartEntryParameters {
-    userId?: string;
-    cartId?: string;
-    product?: AddToCartProductData;
-    quantity?: number;
-    configId: string;
-    entryNumber: string;
     configurationInfos: ConfigurationInfo[];
+    owner?: CommonConfigurator.Owner;
   }
-
+  /**
+   * Represents a textfield configuration attribute. Carries a label, an alphanumeric value and a status
+   */
   export interface ConfigurationInfo {
-    configuratorType: string;
+    configurationLabel?: string;
+    configurationValue?: string;
+    status?: ConfigurationStatus;
+  }
+  /**
+   * Textfield configuration status
+   */
+  export enum ConfigurationStatus {
+    SUCCESS &#x3D; &#x27;SUCCESS&#x27;,
+    ERROR &#x3D; &#x27;ERROR&#x27;,
   }
 
-  export interface AddToCartProductData {
-    code?: string;
+  /**
+   * Collection of parameters needed to add a textfield product to the cart
+   */
+  export interface AddToCartParameters {
+    userId: string;
+    cartId: string;
+    productCode: string;
+    quantity: number;
+    configuration?: Configuration;
   }
-
-  export interface Overview {
-    id: string;
-    totalNumberOfIssues?: number;
-    groups?: GroupOverview[];
-    pricing?: PriceSummary;
-    productCode?: string;
-  }
-
-  export interface GroupOverview {
-    id?: string;
-    groupDescription?: string;
-    characteristicValues?: CharacteristicOverview[];
-    subGroups?: GroupOverview[];
-  }
-
-  export interface CharacteristicOverview {
-    characteristic: string;
-    value: string;
-  }
-  export interface Image {
-    imageType?: ImageType;
-    format?: ImageFormatType;
-    url?: string;
-    altText?: string;
-    galleryIndex?: number;
-  }
-
-  export enum GroupType {
-    CSTIC_GROUP &#x3D; &#x27;CSTIC_GROUP&#x27;,
-    INSTANCE &#x3D; &#x27;INSTANCE&#x27;,
-    CONFLICT_HEADER &#x3D; &#x27;CONFLICT_HEADER&#x27;,
-    CONFLICT &#x3D; &#x27;CONFLICT&#x27;,
-  }
-
-  export enum UiType {
-    STRING &#x3D; &#x27;STRING&#x27;,
-    NUMERIC &#x3D; &#x27;NUMERIC&#x27;,
-    CHECK_BOX &#x3D; &#x27;CHECK_BOX&#x27;,
-    CHECK_BOX_LIST &#x3D; &#x27;CHECK_BOX_LIST&#x27;,
-    RADIO_BUTTON &#x3D; &#x27;RADIO_BUTTON&#x27;,
-    RADIO_BUTTON_ADDITIONAL_INPUT &#x3D; &#x27;RADIO_BUTTON_ADDITIONAL_INPUT&#x27;,
-    DROPDOWN &#x3D; &#x27;DROPDOWN&#x27;,
-    DROPDOWN_ADDITIONAL_INPUT &#x3D; &#x27;DROPDOWN_ADDITIONAL_INPUT&#x27;,
-    READ_ONLY &#x3D; &#x27;READ_ONLY&#x27;,
-    NOT_IMPLEMENTED &#x3D; &#x27;NOT_IMPLEMENTED&#x27;,
-    SINGLE_SELECTION_IMAGE &#x3D; &#x27;SINGLE_SELECTION_IMAGE&#x27;,
-    MULTI_SELECTION_IMAGE &#x3D; &#x27;MULTI_SELECTION_IMAGE&#x27;,
-  }
-
-  export enum PriceType {
-    BUY &#x3D; &#x27;BUY&#x27;,
-  }
-
-  export enum ImageFormatType {
-    VALUE_IMAGE &#x3D; &#x27;VALUE_IMAGE&#x27;,
-    CSTIC_IMAGE &#x3D; &#x27;CSTIC_IMAGE&#x27;,
-  }
-
-  export enum ImageType {
-    PRIMARY &#x3D; &#x27;PRIMARY&#x27;,
-    GALLERY &#x3D; &#x27;GALLERY&#x27;,
+  /**
+   * Collection of parameters needed to update the configuration that is attached
+   * to a cart entry
+   */
+  export interface UpdateCartEntryParameters {
+    userId: string;
+    cartId: string;
+    cartEntryNumber: string;
+    configuration?: Configuration;
   }
 }
 </code></pre>

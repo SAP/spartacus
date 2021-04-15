@@ -437,31 +437,35 @@ export interface SampleCartProduct {
   totalAndShipping: string;
 }
 
-export const user &#x3D; {
-  firstName: &#x27;Winston&#x27;,
-  lastName: &#x27;Rumfoord&#x27;,
-  fullName: &#x27;Winston Rumfoord&#x27;,
-  password: &#x27;Password123.&#x27;,
-  email: generateMail(randomString(), true),
-  phone: &#x27;555 555 555&#x27;,
-  address: {
-    city: &#x27;Tralfamadore&#x27;,
-    line1: &#x27;Chrono-Synclastic Infundibulum&#x27;,
-    line2: &#x27;Betelgeuse&#x27;,
-    country: &#x27;United States&#x27;,
-    state: &#x27;Connecticut&#x27;,
-    postal: &#x27;06247&#x27;,
-  },
-  payment: {
-    card: &#x27;Visa&#x27;,
-    number: &#x27;4111111111111111&#x27;,
-    expires: {
-      month: &#x27;07&#x27;,
-      year: &#x27;2022&#x27;,
+export const user &#x3D; getSampleUser();
+
+export function getSampleUser() {
+  return {
+    firstName: &#x27;Cypress&#x27;,
+    lastName: &#x27;customer&#x27;,
+    fullName: &#x27;Cypress customer&#x27;,
+    password: &#x27;Password123.&#x27;,
+    email: generateMail(randomString(), true),
+    phone: &#x27;555 555 555&#x27;,
+    address: {
+      city: &#x27;Los Angeles&#x27;,
+      line1: &#x27;1111 S Figueroa St&#x27;,
+      line2: &#x27;US-CA&#x27;,
+      country: &#x27;United States&#x27;,
+      state: &#x27;California&#x27;,
+      postal: &#x27;90015&#x27;,
     },
-    cvv: &#x27;123&#x27;,
-  },
-};
+    payment: {
+      card: &#x27;Visa&#x27;,
+      number: &#x27;4111111111111111&#x27;,
+      expires: {
+        month: &#x27;12&#x27;,
+        year: &#x27;2025&#x27;,
+      },
+      cvv: &#x27;123&#x27;,
+    },
+  };
+}
 
 export const product: SampleProduct &#x3D; {
   name: &#x27;Alpha 350&#x27;,

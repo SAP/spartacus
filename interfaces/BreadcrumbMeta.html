@@ -199,30 +199,35 @@ export interface PageMeta {
   title?: string;
 
   /**
-   * the page heading is typically used in the UI
+   * The page heading is typically used in the UI.
    */
   heading?: string;
 
   /**
-   * the page description is used in the Search Engine Result Page
+   * The page description is used in the Search Engine Result Page.
    */
   description?: string;
 
   /**
-   * the robots information drives search engines to index the page and
-   * follow links in the page
+   * The robots information drives search engines to index the page and
+   * follow links in the page.
    */
   robots?: PageRobotsMeta[];
 
   /**
-   * image that can be added to the og:image metatag
+   * Image that can be added to the og:image metatag.
    */
   image?: string;
 
   /**
-   * the list of breadcrumbs that can be rendered in the page UI.
+   * The list of breadcrumbs that can be rendered in the page UI.
    */
   breadcrumbs?: BreadcrumbMeta[];
+
+  /**
+   * The canonical URL us used to avoid duplicates of the page being indexed by crawlers.
+   */
+  canonicalUrl?: string;
 }
 
 export interface BreadcrumbMeta {

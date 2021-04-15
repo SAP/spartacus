@@ -131,6 +131,9 @@
                                 <li>
                                     <a href="#robots">robots</a>
                                 </li>
+                                <li>
+                                    <a href="#canonicalUrl">canonicalUrl</a>
+                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -144,12 +147,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(ngTitle: <a href="../interfaces/Title.html">Title</a>, ngMeta: <a href="https://angular.io/api/platform-browser/Meta" target="_blank">Meta</a>, pageMetaService: <a href="../injectables/PageMetaService.html">PageMetaService</a>)</code>
+<code>constructor(ngTitle: <a href="../interfaces/Title.html">Title</a>, ngMeta: <a href="https://angular.io/api/platform-browser/Meta" target="_blank">Meta</a>, pageMetaService: <a href="../injectables/PageMetaService.html">PageMetaService</a>, pageMetaLinkService?: <a href="../injectables/PageMetaLinkService.html">PageMetaLinkService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -202,6 +205,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>pageMetaLinkService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/PageMetaLinkService.html" target="_self" >PageMetaLinkService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -240,8 +255,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:68</a></div>
                 </td>
             </tr>
 
@@ -310,8 +325,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="21"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:21</a></div>
                 </td>
             </tr>
 
@@ -349,8 +364,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:74</a></div>
                 </td>
             </tr>
 
@@ -393,7 +408,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -423,7 +438,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:28</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -473,12 +488,12 @@
 
                 <tr>
                     <td class="col-md-4">
-                        <span class="accessor"><b>set</b><code>title(title: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code></span>
+                        <span class="accessor"><b>set</b><code>title(title)</code></span>
                     </td>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:35</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:38</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -490,7 +505,6 @@
                                             <thead>
                                                 <tr>
                                                     <td>Name</td>
-                                                        <td>Type</td>
                                                     <td>Optional</td>
                                                 </tr>
                                             </thead>
@@ -498,9 +512,6 @@
                                                     <tr>
                                                             <td>title</td>
                                                     
-                                                            <td>
-                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                                            </td>
                                                     
                                                         <td>
                                                                 No
@@ -532,12 +543,12 @@
 
                 <tr>
                     <td class="col-md-4">
-                        <span class="accessor"><b>set</b><code>description(value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code></span>
+                        <span class="accessor"><b>set</b><code>description(value)</code></span>
                     </td>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:39</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:42</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -549,7 +560,6 @@
                                             <thead>
                                                 <tr>
                                                     <td>Name</td>
-                                                        <td>Type</td>
                                                     <td>Optional</td>
                                                 </tr>
                                             </thead>
@@ -557,9 +567,6 @@
                                                     <tr>
                                                             <td>value</td>
                                                     
-                                                            <td>
-                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                                            </td>
                                                     
                                                         <td>
                                                                 No
@@ -591,12 +598,12 @@
 
                 <tr>
                     <td class="col-md-4">
-                        <span class="accessor"><b>set</b><code>image(imageUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code></span>
+                        <span class="accessor"><b>set</b><code>image(imageUrl)</code></span>
                     </td>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:43</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:46</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -608,7 +615,6 @@
                                             <thead>
                                                 <tr>
                                                     <td>Name</td>
-                                                        <td>Type</td>
                                                     <td>Optional</td>
                                                 </tr>
                                             </thead>
@@ -616,9 +622,6 @@
                                                     <tr>
                                                             <td>imageUrl</td>
                                                     
-                                                            <td>
-                                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                                            </td>
                                                     
                                                         <td>
                                                                 No
@@ -655,7 +658,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:49</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:52</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -697,6 +700,65 @@
                     </tr>
             </tbody>
         </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="canonicalUrl"></a>
+                        <span class="name"><b>canonicalUrl</b><a href="#canonicalUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>set</b><code>canonicalUrl(url)</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/storefrontlib/src/cms-structure/seo/seo-meta.service.ts:64</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Add the canonical Url to the head of the page.</p>
+<p>If the canonical url already exists the link is removed. This is quite
+unlikely though, since canonical links are (typically) only added in SSR.</p>
+</div>
+
+                                <div class="io-description">
+                                        <b>Parameters :</b>
+                                        <table class="params">
+                                            <thead>
+                                                <tr>
+                                                    <td>Name</td>
+                                                    <td>Optional</td>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    <tr>
+                                                            <td>url</td>
+                                                    
+                                                    
+                                                        <td>
+                                                                No
+                                                        </td>
+                                                        
+                                                    </tr>
+                                            </tbody>
+                                        </table>
+                                </div>
+                                <div>
+                                </div>
+                                <div class="io-description">
+                                    <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                                </div>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
 </section>
     </div>
 
@@ -707,6 +769,7 @@ import { Meta, MetaDefinition, Title } from &#x27;@angular/platform-browser&#x27
 import { PageMeta, PageMetaService, PageRobotsMeta } from &#x27;@spartacus/core&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
 import { filter } from &#x27;rxjs/operators&#x27;;
+import { PageMetaLinkService } from &#x27;./page-meta-link.service&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -715,7 +778,8 @@ export class SeoMetaService implements OnDestroy {
   constructor(
     protected ngTitle: Title,
     protected ngMeta: Meta,
-    protected pageMetaService: PageMetaService
+    protected pageMetaService: PageMetaService,
+    protected pageMetaLinkService?: PageMetaLinkService
   ) {}
 
   private subscription: Subscription;
@@ -723,7 +787,7 @@ export class SeoMetaService implements OnDestroy {
   init() {
     this.subscription &#x3D; this.pageMetaService
       .getMeta()
-      .pipe(filter(Boolean))
+      .pipe(filter((meta): meta is PageMeta &#x3D;&gt; Boolean(meta)))
       .subscribe((meta: PageMeta) &#x3D;&gt; (this.meta &#x3D; meta));
   }
 
@@ -734,17 +798,18 @@ export class SeoMetaService implements OnDestroy {
     // TODO(#10467): since we only resolve robots on SSR, we should consider to drop the defaults
     // with next major, as it&#x27;s confusing to get the wrong defaults while navigating in CSR.
     this.robots &#x3D; meta.robots || [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW];
+    this.canonicalUrl &#x3D; meta.canonicalUrl;
   }
 
-  protected set title(title: string) {
+  protected set title(title: string | undefined) {
     this.ngTitle.setTitle(title || &#x27;&#x27;);
   }
 
-  protected set description(value: string) {
-    this.addTag({ name: &#x27;description&#x27;, content: value });
+  protected set description(value: string | undefined) {
+    this.addTag({ name: &#x27;description&#x27;, content: value || &#x27;&#x27; });
   }
 
-  protected set image(imageUrl: string) {
+  protected set image(imageUrl: string | undefined) {
     if (imageUrl) {
       this.addTag({ name: &#x27;og:image&#x27;, content: imageUrl });
     }
@@ -754,6 +819,16 @@ export class SeoMetaService implements OnDestroy {
     if (value &amp;&amp; value.length &gt; 0) {
       this.addTag({ name: &#x27;robots&#x27;, content: value.join(&#x27;, &#x27;) });
     }
+  }
+
+  /**
+   * Add the canonical Url to the head of the page.
+   *
+   * If the canonical url already exists the link is removed. This is quite
+   * unlikely though, since canonical links are (typically) only added in SSR.
+   */
+  protected set canonicalUrl(url: string | undefined) {
+    this.pageMetaLinkService?.setCanonicalLink(url);
   }
 
   protected addTag(meta: MetaDefinition) {

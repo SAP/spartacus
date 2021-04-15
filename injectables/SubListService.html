@@ -1311,9 +1311,9 @@ import { Observable, of } from &#x27;rxjs&#x27;;
 import { OrganizationItemStatus } from &#x27;@spartacus/organization/administration/core&#x27;;
 
 @Injectable()
-export abstract class SubListService&lt;T extends BaseItem&gt; extends ListService&lt;
-  T
-&gt; {
+export abstract class SubListService&lt;
+  T extends BaseItem
+&gt; extends ListService&lt;T&gt; {
   /**
    * The default table structure for sub lists is only showing tables with vertical layout.
    */

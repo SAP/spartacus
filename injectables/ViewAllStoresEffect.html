@@ -314,9 +314,7 @@ export class ViewAllStoresEffect {
   );
 
   @Effect()
-  clearStoreFinderData$: Observable&lt;
-    StoreFinderActions.ClearStoreFinderData
-  &gt; &#x3D; this.actions$.pipe(
+  clearStoreFinderData$: Observable&lt;StoreFinderActions.ClearStoreFinderData&gt; &#x3D; this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
       SiteContextActions.CURRENCY_CHANGE

@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/core/src/user/store/effects/user-cost-center.effect.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/core/src/user/store/effects/user-cost-center.effect.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -234,9 +234,7 @@ import { UserActions } from &#x27;../actions/index&#x27;;
 @Injectable()
 export class UserCostCenterEffects {
   @Effect()
-  loadActiveCostCenters$: Observable&lt;
-    UserActions.UserCostCenterAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadActiveCostCenters$: Observable&lt;UserActions.UserCostCenterAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_ACTIVE_COST_CENTERS),
     map((action: UserActions.LoadActiveCostCenters) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt;

@@ -232,8 +232,8 @@ Use this service when you want to access low level OAuth library methods.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:54</a></div>
                 </td>
             </tr>
 
@@ -317,8 +317,8 @@ Use this service when you want to access low level OAuth library methods.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:96</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:97</a></div>
                 </td>
             </tr>
 
@@ -405,8 +405,8 @@ Use this service when you want to access low level OAuth library methods.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="103"
-                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:103</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="104"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:104</a></div>
                 </td>
             </tr>
 
@@ -446,8 +446,8 @@ Use this service when you want to access low level OAuth library methods.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:88</a></div>
                 </td>
             </tr>
 
@@ -487,8 +487,8 @@ Use this service when you want to access low level OAuth library methods.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:64</a></div>
                 </td>
             </tr>
 
@@ -528,8 +528,8 @@ Use this service when you want to access low level OAuth library methods.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:71</a></div>
                 </td>
             </tr>
 
@@ -540,7 +540,7 @@ Use this service when you want to access low level OAuth library methods.</p>
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
 
                     </div>
                 </td>
@@ -569,8 +569,8 @@ Use this service when you want to access low level OAuth library methods.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:110</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts:111</a></div>
                 </td>
             </tr>
 
@@ -632,7 +632,8 @@ export class OAuthLibWrapperService {
         this.authConfigService.getBaseUrl(),
       redirectUri:
         this.authConfigService.getOAuthLibConfig()?.redirectUri ?? !isSSR
-          ? this.winRef.nativeWindow.location.origin
+          ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            this.winRef.nativeWindow!.location.origin
           : &#x27;&#x27;,
       ...this.authConfigService.getOAuthLibConfig(),
     });
@@ -663,7 +664,7 @@ export class OAuthLibWrapperService {
   /**
    * Revoke access tokens and clear tokens in lib state.
    */
-  revokeAndLogout(): Promise&lt;any&gt; {
+  revokeAndLogout(): Promise&lt;void&gt; {
     return new Promise((resolve) &#x3D;&gt; {
       this.oAuthService
         .revokeTokenAndLogout()

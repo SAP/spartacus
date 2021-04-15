@@ -82,6 +82,20 @@
                     </td>
                 </tr>
 
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#isBrowser">isBrowser</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
 
 
@@ -105,6 +119,9 @@
                                     <a href="#localStorage">localStorage</a>
                                 </li>
                                 <li>
+                                    <a href="#location">location</a>
+                                </li>
+                                <li>
                                     <a href="#resize$">resize$</a>
                                 </li>
                             </ul>
@@ -120,12 +137,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(document)</code>
+<code>constructor(document: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, platformId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, serverUrl?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, serverOrigin?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/window/window-ref.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/window/window-ref.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -137,6 +154,7 @@
                                         <thead>
                                             <tr>
                                                 <td>Name</td>
+                                                    <td>Type</td>
                                                 <td>Optional</td>
                                             </tr>
                                         </thead>
@@ -144,9 +162,48 @@
                                                 <tr>
                                                         <td>document</td>
                                                   
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
                                                   
                                                     <td>
                                                             No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>platformId</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" >Object</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>serverUrl</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>serverOrigin</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -159,7 +216,54 @@
         </table>
 </section>
 
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isBrowser"></a>
+                    <span class="name">
+                        <b>
+                            isBrowser
+                        </b>
+                        <a href="#isBrowser"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isBrowser()</code>
+                </td>
+            </tr>
 
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">projects/core/src/window/window-ref.ts:31</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns true when invoked in browser context.
+Use this method to check if you can access <code>window</code> and other browser globals.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
             <section>
     
         <h3 id="inputs">
@@ -186,7 +290,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/window/window-ref.ts:10</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/window/window-ref.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -215,9 +319,21 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/window/window-ref.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/core/src/window/window-ref.ts:42</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Exposes global <code>window</code> object. In SSR when <code>window</code> is not available it returns <code>undefined</code>.
+To detect if you can safely use <code>nativeWindow</code> use <code>isBrowser</code> to check execution platform.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>Window | undefined</code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -237,9 +353,21 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/window/window-ref.ts:22</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/core/src/window/window-ref.ts:51</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Exposes global <code>sessionStorage</code> object. In SSR when <code>sessionStorage</code> is not available it returns <code>undefined</code>.
+To detect if you can safely use <code>sessionStorage</code> use <code>isBrowser</code> to check execution platform.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>Storage | undefined</code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -259,9 +387,58 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/window/window-ref.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/core/src/window/window-ref.ts:59</a></div>
                                 </td>
                             </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Exposes global <code>localStorage</code> object. In SSR when <code>localStorage</code> is not available it returns <code>undefined</code>.
+To detect if you can safely use <code>localStorage</code> use <code>isBrowser</code> to check execution platform.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>Storage | undefined</code>
+
+                                </div>
+                        </td>
+                    </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="location"></a>
+                        <span class="name"><b>location</b><a href="#location"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>location()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/core/src/window/window-ref.ts:71</a></div>
+                                </td>
+                            </tr>
+                    <tr>
+                        <td class="col-md-4">
+                                <div class="io-description"><p>Returns the window/document location, unless it&#39;s not available (i.e. SSR).</p>
+<p>When there&#39;s no access to the location object, we mimic the location partially, by resolving
+the request url (<code>SERVER_REQUEST_URL</code>) and origin (<code>SERVER_REQUEST_ORIGIN</code>) from the injector.
+These values are injected in the server implementation so that we can resolve some of the location
+values when we do server side rendering.</p>
+</div>
+
+                                <div class="io-description">
+                                    <b>Returns : </b>    <code>Partial&lt;Location&gt;</code>
+
+                                </div>
+                        </td>
+                    </tr>
 
             </tbody>
         </table>
@@ -281,7 +458,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/window/window-ref.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">projects/core/src/window/window-ref.ts:98</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -305,10 +482,11 @@ every 300ms in case of resizing. An event is simulated initially.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DOCUMENT } from &#x27;@angular/common&#x27;;
-import { Inject, Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DOCUMENT, isPlatformBrowser } from &#x27;@angular/common&#x27;;
+import { Inject, Injectable, Optional, PLATFORM_ID } from &#x27;@angular/core&#x27;;
 import { fromEvent, Observable, of } from &#x27;rxjs&#x27;;
 import { debounceTime, distinctUntilChanged, startWith } from &#x27;rxjs/operators&#x27;;
+import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from &#x27;../util/ssr.tokens&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -316,22 +494,83 @@ import { debounceTime, distinctUntilChanged, startWith } from &#x27;rxjs/operato
 export class WindowRef {
   readonly document: Document;
 
-  constructor(@Inject(DOCUMENT) document) {
-    // it&#x27;s a workaround to have document property properly typed
-    // see: https://github.com/angular/angular/issues/15640
-    this.document &#x3D; document;
+  // TODO(#11133): Make platformId required in 4.0
+  /**
+   * @deprecated since 3.2. Provide PLATFORM_ID, serverRequestUrl and serverRequestOrigin as constructor parameters
+   */
+  constructor(
+    // https://github.com/angular/angular/issues/20351
+    @Inject(DOCUMENT) document: any,
+    @Inject(PLATFORM_ID) protected platformId?: Object,
+    @Optional() @Inject(SERVER_REQUEST_URL) protected serverUrl?: string,
+    @Optional() @Inject(SERVER_REQUEST_ORIGIN) protected serverOrigin?: string
+  ) {
+    this.document &#x3D; document as Document;
   }
 
-  get nativeWindow(): Window {
-    return typeof window !&#x3D;&#x3D; &#x27;undefined&#x27; ? window : undefined;
+  /**
+   * Returns true when invoked in browser context.
+   * Use this method to check if you can access &#x60;window&#x60; and other browser globals.
+   */
+  isBrowser(): boolean {
+    // TODO(#11133): Remove condition when platformId will be always provided
+    return this.platformId
+      ? isPlatformBrowser(this.platformId)
+      : typeof window !&#x3D;&#x3D; &#x27;undefined&#x27;;
   }
 
-  get sessionStorage(): Storage {
+  /**
+   * Exposes global &#x60;window&#x60; object. In SSR when &#x60;window&#x60; is not available it returns &#x60;undefined&#x60;.
+   * To detect if you can safely use &#x60;nativeWindow&#x60; use &#x60;isBrowser&#x60; to check execution platform.
+   */
+  get nativeWindow(): Window | undefined {
+    // TODO(#11133): Consider throwing in SSR
+    return this.isBrowser() ? window : undefined;
+  }
+
+  /**
+   * Exposes global &#x60;sessionStorage&#x60; object. In SSR when &#x60;sessionStorage&#x60; is not available it returns &#x60;undefined&#x60;.
+   * To detect if you can safely use &#x60;sessionStorage&#x60; use &#x60;isBrowser&#x60; to check execution platform.
+   */
+  get sessionStorage(): Storage | undefined {
     return this.nativeWindow ? this.nativeWindow.sessionStorage : undefined;
   }
 
-  get localStorage(): Storage {
+  /**
+   * Exposes global &#x60;localStorage&#x60; object. In SSR when &#x60;localStorage&#x60; is not available it returns &#x60;undefined&#x60;.
+   * To detect if you can safely use &#x60;localStorage&#x60; use &#x60;isBrowser&#x60; to check execution platform.
+   */
+  get localStorage(): Storage | undefined {
     return this.nativeWindow ? this.nativeWindow.localStorage : undefined;
+  }
+
+  /**
+   * Returns the window/document location, unless it&#x27;s not available (i.e. SSR).
+   *
+   * When there&#x27;s no access to the location object, we mimic the location partially, by resolving
+   * the request url (&#x60;SERVER_REQUEST_URL&#x60;) and origin (&#x60;SERVER_REQUEST_ORIGIN&#x60;) from the injector.
+   * These values are injected in the server implementation so that we can resolve some of the location
+   * values when we do server side rendering.
+   */
+  get location(): Partial&lt;Location&gt; {
+    if (this.isBrowser()) {
+      return this.document.location;
+    } else {
+      if (!this.serverUrl) {
+        throw new Error(
+          &#x27;Cannot resolve the href as the SERVER_REQUEST_URL is undefined&#x27;
+        );
+      }
+      if (!this.serverOrigin) {
+        throw new Error(
+          &#x27;Cannot resolve the origin as the SERVER_REQUEST_ORIGIN is undefined&#x27;
+        );
+      }
+      return {
+        href: this.serverUrl,
+        origin: this.serverOrigin,
+      };
+    }
   }
 
   /**

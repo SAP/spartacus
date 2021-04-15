@@ -132,7 +132,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>get(ngExpressEngine: <a href="../undefineds/NgExpressEngine.html">NgExpressEngine</a>, optimizationOptions?: <a href="../interfaces/SsrOptimizationOptions.html">SsrOptimizationOptions</a>)</code>
+                    <code>get(ngExpressEngine: <a href="../undefineds/NgExpressEngine.html">NgExpressEngine</a>, optimizationOptions?: <a href="../interfaces/SsrOptimizationOptions.html">SsrOptimizationOptions | null</a>)</code>
                 </td>
             </tr>
 
@@ -176,7 +176,7 @@
                                 <tr>
                                     <td>optimizationOptions</td>
                                     <td>
-                                                <code><a href="../interfaces/SsrOptimizationOptions.html" target="_self" >SsrOptimizationOptions</a></code>
+                                                <code><a href="../interfaces/SsrOptimizationOptions.html" target="_self" >SsrOptimizationOptions | null</a></code>
                                     </td>
 
                                     <td>
@@ -262,7 +262,7 @@ export class NgExpressEngineDecorator {
    */
   static get(
     ngExpressEngine: NgExpressEngine,
-    optimizationOptions?: SsrOptimizationOptions
+    optimizationOptions?: SsrOptimizationOptions | null
   ): NgExpressEngine {
     const result &#x3D; decorateExpressEngine(ngExpressEngine, optimizationOptions);
     return result;
@@ -271,7 +271,7 @@ export class NgExpressEngineDecorator {
 
 export function decorateExpressEngine(
   ngExpressEngine: NgExpressEngine,
-  optimizationOptions: SsrOptimizationOptions &#x3D; {
+  optimizationOptions: SsrOptimizationOptions | null &#x3D; {
     concurrency: 20,
     timeout: 3000,
   }

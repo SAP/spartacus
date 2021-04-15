@@ -59,6 +59,16 @@
             <code>projects/core/src/occ/adapters/cart/occ-save-cart.adapter.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>TODO(#11938): 4.0: use OccSavedCartAdapter instead from saved-cart feature-lib of cart</p>
+<p>When the saved cart feature module exist, there exist a race condition between the &#39;saveCart&#39; key for the default occ config
+Allows wishlist to function when the key value is pulled from the saved-cart feature-lib</p>
+<p>Keep in mind that this adapter will be removed in 4.0 as we will delegate this functionality to the saved-cart feature-lib</p>
+
+            </p>
 
 
 
@@ -102,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/occ/adapters/cart/occ-save-cart.adapter.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/occ/adapters/cart/occ-save-cart.adapter.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -193,8 +203,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-save-cart.adapter.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-save-cart.adapter.ts:27</a></div>
                 </td>
             </tr>
 
@@ -267,7 +277,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;SaveCartResult&gt;</code>
+                        <b>Returns : </b>        <code><a href="../classes/SaveCart.html" target="_self" >Observable&lt;SaveCartResult&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -293,6 +303,14 @@ import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
 import { Occ } from &#x27;../../occ-models/occ.models&#x27;;
 import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#x27;;
 
+/**
+ * TODO(#11938): 4.0: use OccSavedCartAdapter instead from saved-cart feature-lib of cart
+ *
+ * When the saved cart feature module exist, there exist a race condition between the &#x27;saveCart&#x27; key for the default occ config
+ * Allows wishlist to function when the key value is pulled from the saved-cart feature-lib
+ *
+ * Keep in mind that this adapter will be removed in 4.0 as we will delegate this functionality to the saved-cart feature-lib
+ **/
 @Injectable()
 export class OccSaveCartAdapter implements SaveCartAdapter {
   constructor(
@@ -321,13 +339,27 @@ export class OccSaveCartAdapter implements SaveCartAdapter {
       &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
     });
 
-    return this.http
-      .patch&lt;Occ.SaveCartResult&gt;(
-        this.occEndpointsService.getUrl(&#x27;saveCart&#x27;, { userId, cartId }),
-        httpParams,
-        { headers }
-      )
-      .pipe(this.converterService.pipeable(SAVE_CART_NORMALIZER));
+    return !this.occEndpointsService
+      .getUrl(&#x27;saveCart&#x27;, { userId, cartId })
+      .includes(&#x27;saveCartName&#x27;)
+      ? this.http
+          .patch&lt;Occ.SaveCartResult&gt;(
+            this.occEndpointsService.getUrl(&#x27;saveCart&#x27;, { userId, cartId }),
+            httpParams,
+            { headers }
+          )
+          .pipe(this.converterService.pipeable(SAVE_CART_NORMALIZER))
+      : this.http
+          .patch&lt;Occ.SaveCartResult&gt;(
+            this.occEndpointsService.getUrl(&#x27;saveCart&#x27;, {
+              userId,
+              cartId,
+              saveCartName,
+              saveCartDescription,
+            }),
+            cartId
+          )
+          .pipe(this.converterService.pipeable(SAVE_CART_NORMALIZER));
   }
 }
 </code></pre>

@@ -126,7 +126,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="330" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:330</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="326" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:326</a></div>
                             </td>
                         </tr>
 
@@ -261,7 +261,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="263" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:263</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="259" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:259</a></div>
                             </td>
                         </tr>
 
@@ -442,7 +442,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="303" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:303</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="299" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:299</a></div>
                             </td>
                         </tr>
 
@@ -794,7 +794,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="250" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:250</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="248" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:248</a></div>
                             </td>
                         </tr>
 
@@ -1026,9 +1026,7 @@ export class CartEffects {
 
   // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
   @Effect()
-  refreshWithoutProcesses$: Observable&lt;
-    CartActions.LoadCart
-  &gt; &#x3D; this.actions$.pipe(
+  refreshWithoutProcesses$: Observable&lt;CartActions.LoadCart&gt; &#x3D; this.actions$.pipe(
     ofType(
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
@@ -1056,9 +1054,7 @@ export class CartEffects {
   );
 
   @Effect()
-  resetCartDetailsOnSiteContextChange$: Observable&lt;
-    CartActions.ResetCartDetails
-  &gt; &#x3D; this.actions$.pipe(
+  resetCartDetailsOnSiteContextChange$: Observable&lt;CartActions.ResetCartDetails&gt; &#x3D; this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
       SiteContextActions.CURRENCY_CHANGE

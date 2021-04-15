@@ -71,7 +71,7 @@
                 <p>Resolves the page heading value which is used in the UI (typically
 the <code>&lt;H1&gt;</code>). The page heading might differ from the page title,
 which is used in the browser (history, tabs) and outside the storefront
-by search crawlers (Google Seach, Bing) and social crawlers (facebook,
+by search crawlers (Google Search, Bing) and social crawlers (facebook,
 pinterest).</p>
 <p>While there are multiple standard resolvers available, nothing stops you
 from adding custom resolvers to the list of <code>PageMetaService.resolverMethods</code>.</p>
@@ -140,7 +140,7 @@ from adding custom resolvers to the list of <code>PageMetaService.resolverMethod
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;string | undefined&gt;</code>
 
                     </div>
                 </td>
@@ -160,7 +160,7 @@ import { BreadcrumbMeta, PageRobotsMeta } from &#x27;../model/page.model&#x27;;
  * Resolves the page heading value which is used in the UI (typically
  * the &#x60;&lt;H1&gt;&#x60;). The page heading might differ from the page title,
  * which is used in the browser (history, tabs) and outside the storefront
- * by search crawlers (Google Seach, Bing) and social crawlers (facebook,
+ * by search crawlers (Google Search, Bing) and social crawlers (facebook,
  * pinterest).
  *
  * While there are multiple standard resolvers available, nothing stops you
@@ -170,7 +170,7 @@ export interface PageHeadingResolver {
   /**
    * Resolves the page heading.
    */
-  resolveHeading(): Observable&lt;string&gt;;
+  resolveHeading(): Observable&lt;string | undefined&gt;;
 }
 
 /**
@@ -181,7 +181,7 @@ export interface PageTitleResolver {
   /**
    * Resolves the page title.
    */
-  resolveTitle(): Observable&lt;string&gt;;
+  resolveTitle(): Observable&lt;string | undefined&gt;;
 }
 
 /**
@@ -192,7 +192,7 @@ export interface PageDescriptionResolver {
   /**
    * Resolves the page description.
    */
-  resolveDescription(): Observable&lt;string&gt;;
+  resolveDescription(): Observable&lt;string | undefined&gt;;
 }
 
 /**
@@ -203,7 +203,7 @@ export interface PageBreadcrumbResolver {
   /**
    * Resolves the breadcrumbs for the page.
    */
-  resolveBreadcrumbs(): Observable&lt;BreadcrumbMeta[]&gt;;
+  resolveBreadcrumbs(): Observable&lt;BreadcrumbMeta[] | undefined&gt;;
 }
 
 /**
@@ -215,7 +215,7 @@ export interface PageImageResolver {
   /**
    * Resolves the main image for the page.
    */
-  resolveImage(): Observable&lt;string&gt;;
+  resolveImage(): Observable&lt;string | undefined&gt;;
 }
 
 /**
@@ -226,9 +226,27 @@ export interface PageImageResolver {
  */
 export interface PageRobotsResolver {
   /**
-   * Resolves the robots for the page.
+   * Resolves the robot meta data for the page.
+   *
+   * The robot meta data is used by search engines to indicate whether a page
+   * should be indexed and whether links on the page should be followed for
+   * further indexing.
+   *
+   * Robots meta tags are an alternative (or supplement) to the robots.txt as well
+   * as the sitemaps.
    */
-  resolveRobots(): Observable&lt;PageRobotsMeta[]&gt;;
+  resolveRobots(): Observable&lt;PageRobotsMeta[] | undefined&gt;;
+}
+
+export interface CanonicalPageResolver {
+  /**
+   * Resolves the canonical url for the page.
+   *
+   * The canonical url is used by search engines to optimize the search index. Without
+   * a canonical url, url variations for the same page might be considered duplicates
+   * which have a negative impact on SEO.
+   */
+  resolveCanonicalUrl(): Observable&lt;string | undefined&gt;;
 }
 </code></pre>
     </div>

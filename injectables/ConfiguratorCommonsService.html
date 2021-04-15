@@ -105,6 +105,10 @@
                                 <a href="#removeConfiguration">removeConfiguration</a>
                             </li>
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#removeObsoleteProductBoundConfiguration">removeObsoleteProductBoundConfiguration</a>
+                            </li>
+                            <li>
                                 <a href="#updateConfiguration">updateConfiguration</a>
                             </li>
                         </ul>
@@ -489,8 +493,8 @@ available</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="211"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:211</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="228"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:228</a></div>
                 </td>
             </tr>
 
@@ -561,8 +565,8 @@ available</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="241"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:241</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="258"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:258</a></div>
                 </td>
             </tr>
 
@@ -934,6 +938,78 @@ available</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="removeObsoleteProductBoundConfiguration"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            removeObsoleteProductBoundConfiguration
+                        </b>
+                        <a href="#removeObsoleteProductBoundConfiguration"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>removeObsoleteProductBoundConfiguration(owner: <a href="../interfaces/Owner.html">CommonConfigurator.Owner</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="210"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:210</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>owner</td>
+                                    <td>
+                                                <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="updateConfiguration"></a>
                     <span class="name">
                         <b>
@@ -1242,17 +1318,34 @@ export class ConfiguratorCommonsService {
       )
     );
   }
+  protected removeObsoleteProductBoundConfiguration(
+    owner: CommonConfigurator.Owner
+  ): void {
+    this.store
+      .pipe(
+        select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
+        take(1)
+      )
+      .subscribe((configuration) &#x3D;&gt; {
+        if (
+          this.configuratorUtils.isConfigurationCreated(configuration) &amp;&amp;
+          configuration.nextOwner
+        ) {
+          this.removeConfiguration(owner);
+        }
+      });
+  }
 
   protected getOrCreateConfigurationForProduct(
     owner: CommonConfigurator.Owner
   ): Observable&lt;Configurator.Configuration&gt; {
+    this.removeObsoleteProductBoundConfiguration(owner);
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
           owner.key
         )
       ),
-
       tap((configurationState) &#x3D;&gt; {
         if (
           !this.configuratorUtils.isConfigurationCreated(

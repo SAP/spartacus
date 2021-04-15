@@ -428,7 +428,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/SiteContext.html" target="_self" >SiteContext&lt;any&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/SiteContext.html" target="_self" >SiteContext | undefined</a></code>
 
                     </div>
                     <div class="io-description">
@@ -499,8 +499,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:54</a></div>
                 </td>
             </tr>
 
@@ -569,8 +569,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:82</a></div>
                 </td>
             </tr>
 
@@ -647,8 +647,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/core/src/site-context/services/site-context-params.service.ts:68</a></div>
                 </td>
             </tr>
 
@@ -713,7 +713,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Injector } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Injector, isDevMode } from &#x27;@angular/core&#x27;;
 import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
 import { distinctUntilChanged, filter } from &#x27;rxjs/operators&#x27;;
 import {
@@ -753,14 +753,21 @@ export class SiteContextParamsService {
     return getContextParameterDefault(this.config, param);
   }
 
-  getSiteContextService(param: string): SiteContext&lt;any&gt; {
+  getSiteContextService(param: string): SiteContext&lt;any&gt; | undefined {
     if (this.serviceMap[param]) {
-      return this.injector.get&lt;SiteContext&lt;any&gt;&gt;(this.serviceMap[param], null);
+      try {
+        return this.injector.get&lt;SiteContext&lt;any&gt;&gt;(this.serviceMap[param]);
+      } catch {
+        if (isDevMode()) {
+          console.warn(&#x60;Couldn&#x27;t find site context service for &#x27;${param}&#x27;.&#x60;);
+        }
+        return undefined;
+      }
     }
   }
 
   getValue(param: string): string {
-    let value: string;
+    let value: string | undefined;
 
     const service &#x3D; this.getSiteContextService(param);
     if (service) {
@@ -793,11 +800,13 @@ export class SiteContextParamsService {
     }
 
     return combineLatest(
-      params.map((param) &#x3D;&gt;
-        this.getSiteContextService(param)
-          .getActive()
-          .pipe(distinctUntilChanged())
-      )
+      params.map((param) &#x3D;&gt; {
+        const service &#x3D; this.getSiteContextService(param);
+        if (service) {
+          return service.getActive().pipe(distinctUntilChanged());
+        }
+        return of(&#x27;&#x27;);
+      })
     ).pipe(filter((value) &#x3D;&gt; value.every((param) &#x3D;&gt; !!param)));
   }
 }

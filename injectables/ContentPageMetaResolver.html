@@ -128,6 +128,9 @@ specific, for example by using the page template (see <code>CartPageMetaResolver
                                 <a href="#resolveBreadcrumbs">resolveBreadcrumbs</a>
                             </li>
                             <li>
+                                <a href="#resolveCanonicalUrl">resolveCanonicalUrl</a>
+                            </li>
+                            <li>
                                 <a href="#resolveRobots">resolveRobots</a>
                             </li>
                             <li>
@@ -165,7 +168,7 @@ specific, for example by using the page template (see <code>CartPageMetaResolver
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:50</a></div>
                             </td>
                         </tr>
 
@@ -266,8 +269,8 @@ specific, for example by using the page template (see <code>CartPageMetaResolver
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:98</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:118</a></div>
                 </td>
             </tr>
 
@@ -276,7 +279,46 @@ specific, for example by using the page template (see <code>CartPageMetaResolver
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;BreadcrumbMeta[]&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;[] | undefined&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="resolveCanonicalUrl"></a>
+                    <span class="name">
+                        <b>
+                            resolveCanonicalUrl
+                        </b>
+                        <a href="#resolveCanonicalUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveCanonicalUrl()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="137"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:137</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;string | undefined&gt;</code>
 
                     </div>
                 </td>
@@ -305,8 +347,8 @@ specific, for example by using the page template (see <code>CartPageMetaResolver
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="110"
-                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:110</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="130"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:130</a></div>
                 </td>
             </tr>
 
@@ -344,8 +386,8 @@ specific, for example by using the page template (see <code>CartPageMetaResolver
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:107</a></div>
                 </td>
             </tr>
 
@@ -354,7 +396,7 @@ specific, for example by using the page template (see <code>CartPageMetaResolver
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;string | undefined&gt;</code>
 
                     </div>
                 </td>
@@ -630,7 +672,7 @@ the page type and page template.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:61</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:79</a></div>
                             </td>
                         </tr>
 
@@ -671,7 +713,7 @@ the page type and page template.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:75</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:93</a></div>
                             </td>
                         </tr>
 
@@ -712,7 +754,7 @@ the page type and page template.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:49</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="67" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:67</a></div>
                             </td>
                         </tr>
 
@@ -740,18 +782,20 @@ the page type and page template.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Type : </i>    <code>Observable&lt;string&gt;</code>
+                            <i>Type : </i>    <code>Observable&lt;string | undefined&gt;</code>
 
                         </td>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.cms$.pipe(map((p) &#x3D;&gt; p.title))</code>
+                            <i>Default value : </i><code>this.cms$.pipe(
+    map((p) &#x3D;&gt; p.title)
+  )</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:84</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/core/src/cms/page/content-page-meta.resolver.ts:102</a></div>
                             </td>
                         </tr>
 
@@ -844,8 +888,8 @@ the page type and page template.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Optional } from &#x27;@angular/core&#x27;;
-import { combineLatest, defer, Observable } from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { combineLatest, defer, Observable, of } from &#x27;rxjs&#x27;;
 import { filter, map, shareReplay } from &#x27;rxjs/operators&#x27;;
 import { TranslationService } from &#x27;../../i18n/translation.service&#x27;;
 import { PageType } from &#x27;../../model/cms.model&#x27;;
@@ -854,6 +898,7 @@ import { BreadcrumbMeta, Page, PageRobotsMeta } from &#x27;../model/page.model&#
 import { BasePageMetaResolver } from &#x27;./base-page-meta.resolver&#x27;;
 import { PageMetaResolver } from &#x27;./page-meta.resolver&#x27;;
 import {
+  CanonicalPageResolver,
   PageBreadcrumbResolver,
   PageRobotsResolver,
   PageTitleResolver,
@@ -872,15 +917,32 @@ import { RoutingPageMetaResolver } from &#x27;./routing/routing-page-meta.resolv
 })
 export class ContentPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver {
+  implements
+    PageTitleResolver,
+    PageBreadcrumbResolver,
+    PageRobotsResolver,
+    CanonicalPageResolver {
+  // TODO(#10467): Remove deprecated constructors
+  constructor(
+    cmsService: CmsService,
+    translation: TranslationService,
+    routingPageMetaResolver: RoutingPageMetaResolver,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver
+  );
   /**
    * @deprecated since 3.1, we&#x27;ll use the BasePageMetaResolver in future versions.
    */
   constructor(
+    cmsService: CmsService,
+    translation: TranslationService,
+    routingPageMetaResolver: RoutingPageMetaResolver
+  );
+  constructor(
     protected cmsService: CmsService,
     protected translation: TranslationService,
     protected routingPageMetaResolver: RoutingPageMetaResolver,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType &#x3D; PageType.CONTENT_PAGE;
@@ -927,10 +989,12 @@ export class ContentPageMetaResolver
    * the page title
    */
   // TODO(#10467): drop the title$ property
-  protected title$: Observable&lt;string&gt; &#x3D; this.cms$.pipe(map((p) &#x3D;&gt; p.title));
+  protected title$: Observable&lt;string | undefined&gt; &#x3D; this.cms$.pipe(
+    map((p) &#x3D;&gt; p.title)
+  );
 
   // TODO(#10467): resolve the title from the &#x60;BasePageMetaResolver.resolveTitle()&#x60; only
-  resolveTitle(): Observable&lt;string&gt; {
+  resolveTitle(): Observable&lt;string | undefined&gt; {
     return this.basePageMetaResolver
       ? this.basePageMetaResolver.resolveTitle()
       : this.title$;
@@ -941,7 +1005,7 @@ export class ContentPageMetaResolver
    * Resolves a single breadcrumb item to the home page for each &#x60;ContentPage&#x60;.
    * The home page label is resolved from the translation service.
    */
-  resolveBreadcrumbs(): Observable&lt;BreadcrumbMeta[]&gt; {
+  resolveBreadcrumbs(): Observable&lt;BreadcrumbMeta[] | undefined&gt; {
     return this.basePageMetaResolver
       ? this.basePageMetaResolver.resolveBreadcrumbs()
       : this.breadcrumbs$;
@@ -954,7 +1018,14 @@ export class ContentPageMetaResolver
    */
   // TODO(#10467) drop the 3.1 note.
   resolveRobots(): Observable&lt;PageRobotsMeta[]&gt; {
-    return this.basePageMetaResolver?.resolveRobots();
+    return this.basePageMetaResolver?.resolveRobots() ?? of();
+  }
+
+  /**
+   * @override resolves the canonical page for the content page.
+   */
+  resolveCanonicalUrl(): Observable&lt;string | undefined&gt; {
+    return this.basePageMetaResolver?.resolveCanonicalUrl() ?? of();
   }
 }
 </code></pre>

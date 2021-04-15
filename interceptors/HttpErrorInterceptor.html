@@ -409,8 +409,8 @@ If no handler is available, the UNKNOWN handler is returned.</p>
 import { Inject, Injectable } from &#x27;@angular/core&#x27;;
 import { Observable, throwError } from &#x27;rxjs&#x27;;
 import { catchError } from &#x27;rxjs/operators&#x27;;
-import { HttpErrorHandler } from &#x27;./handlers/http-error.handler&#x27;;
 import { resolveApplicable } from &#x27;../../util/applicable&#x27;;
+import { HttpErrorHandler } from &#x27;./handlers/http-error.handler&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class HttpErrorInterceptor implements HttpInterceptor {

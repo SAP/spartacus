@@ -223,7 +223,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="83" class="link-to-prism">projects/core/src/user/store/effects/product-interests.effect.ts:83</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="81" class="link-to-prism">projects/core/src/user/store/effects/product-interests.effect.ts:81</a></div>
                             </td>
                         </tr>
 
@@ -360,7 +360,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/core/src/user/store/effects/product-interests.effect.ts:51</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/core/src/user/store/effects/product-interests.effect.ts:49</a></div>
                             </td>
                         </tr>
 
@@ -392,9 +392,7 @@ export class ProductInterestsEffect {
   ) {}
 
   @Effect()
-  loadProductInteres$: Observable&lt;
-    UserActions.ProductInterestsAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadProductInteres$: Observable&lt;UserActions.ProductInterestsAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_PRODUCT_INTERESTS),
     map((action: UserActions.LoadProductInterests) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {

@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">integration-libs/cdc/src/auth/store/effects/cdc-user-token.effect.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">integration-libs/cdc/src/auth/store/effects/cdc-user-token.effect.ts:48</a></div>
                             </td>
                         </tr>
 
@@ -275,9 +275,7 @@ import { CdcAuthActions } from &#x27;../actions&#x27;;
 @Injectable()
 export class CdcUserTokenEffects {
   @Effect()
-  loadCdcUserToken$: Observable&lt;
-    CdcAuthActions.CdcUserTokenAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadCdcUserToken$: Observable&lt;CdcAuthActions.CdcUserTokenAction&gt; &#x3D; this.actions$.pipe(
     ofType(CdcAuthActions.LOAD_CDC_USER_TOKEN),
     map((action: CdcAuthActions.LoadCdcUserToken) &#x3D;&gt; action.payload),
     mergeMap((payload) &#x3D;&gt;

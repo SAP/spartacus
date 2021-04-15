@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts</code>
+            <code>feature-libs/asm/components/services/asm-component.service.ts</code>
         </p>
 
 
@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">feature-libs/asm/components/services/asm-component.service.ts:12</a></div>
                             </td>
                         </tr>
 
@@ -199,8 +199,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">feature-libs/asm/components/services/asm-component.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -238,8 +238,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">feature-libs/asm/components/services/asm-component.service.ts:23</a></div>
                 </td>
             </tr>
 
@@ -277,8 +277,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">feature-libs/asm/components/services/asm-component.service.ts:19</a></div>
                 </td>
             </tr>
 
@@ -316,8 +316,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-component.service.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">feature-libs/asm/components/services/asm-component.service.ts:38</a></div>
                 </td>
             </tr>
 
@@ -348,9 +348,12 @@ optimizations we could think of:</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { AuthService, CsAgentAuthService, WindowRef } from &#x27;@spartacus/core&#x27;;
+import {
+  ASM_ENABLED_LOCAL_STORAGE_KEY,
+  CsAgentAuthService,
+} from &#x27;@spartacus/asm/root&#x27;;
+import { AuthService, WindowRef } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { ASM_ENABLED_LOCAL_STORAGE_KEY } from &#x27;../asm-constants&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,

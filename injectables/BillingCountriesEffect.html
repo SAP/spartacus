@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/user/store/effects/billing-countries.effect.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/core/src/user/store/effects/billing-countries.effect.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -230,9 +230,7 @@ import { UserActions } from &#x27;../actions/index&#x27;;
 @Injectable()
 export class BillingCountriesEffect {
   @Effect()
-  loadBillingCountries$: Observable&lt;
-    UserActions.BillingCountriesAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadBillingCountries$: Observable&lt;UserActions.BillingCountriesAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_BILLING_COUNTRIES),
     switchMap(() &#x3D;&gt; {
       return this.siteConnector.getCountries(CountryType.BILLING).pipe(

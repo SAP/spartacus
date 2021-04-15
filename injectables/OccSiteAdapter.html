@@ -246,7 +246,7 @@ So, we have to load all sites, and find the one from the list.</p>
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;BaseSite&gt;</code>
+                        <b>Returns : </b>    <code>Observable&lt;BaseSite | undefined&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -278,8 +278,8 @@ So, we have to load all sites, and find the one from the list.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">projects/core/src/occ/adapters/site-context/occ-site.adapter.ts:97</a></div>
                 </td>
             </tr>
 
@@ -593,7 +593,7 @@ export class OccSiteAdapter implements SiteAdapter {
    * There is no OCC API to load one site based on Uid.
    * So, we have to load all sites, and find the one from the list.
    */
-  loadBaseSite(siteUid?: string): Observable&lt;BaseSite&gt; {
+  loadBaseSite(siteUid?: string): Observable&lt;BaseSite | undefined&gt; {
     if (!siteUid) {
       const baseUrl &#x3D; this.occEndpointsService.getBaseEndpoint();
       const urlSplits &#x3D; baseUrl.split(&#x27;/&#x27;);
@@ -602,7 +602,11 @@ export class OccSiteAdapter implements SiteAdapter {
 
     return this.http
       .get&lt;{ baseSites: BaseSite[] }&gt;(
-        this.occEndpointsService.buildUrl(&#x27;baseSites&#x27;, {}, { baseSite: false })
+        this.occEndpointsService.buildUrl(
+          &#x27;baseSitesForConfig&#x27;,
+          {},
+          { baseSite: false }
+        )
       )
       .pipe(
         map((siteList) &#x3D;&gt; {
@@ -614,7 +618,11 @@ export class OccSiteAdapter implements SiteAdapter {
   loadBaseSites(): Observable&lt;BaseSite[]&gt; {
     return this.http
       .get&lt;{ baseSites: BaseSite[] }&gt;(
-        this.occEndpointsService.buildUrl(&#x27;baseSites&#x27;, {}, { baseSite: false })
+        this.occEndpointsService.buildUrl(
+          &#x27;baseSitesForConfig&#x27;,
+          {},
+          { baseSite: false }
+        )
       )
       .pipe(
         map((baseSiteList) &#x3D;&gt; baseSiteList.baseSites),

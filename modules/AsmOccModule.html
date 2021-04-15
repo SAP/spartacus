@@ -54,7 +54,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/adapters/asm/asm-occ.module.ts</code>
+            <code>feature-libs/asm/occ/asm-occ.module.ts</code>
         </p>
 
 
@@ -72,10 +72,10 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
-import { AsmAdapter } from &#x27;../../../asm/connectors/asm.adapter&#x27;;
-import { defaultOccAsmConfig } from &#x27;./default-occ-asm-config&#x27;;
-import { OccAsmAdapter } from &#x27;./occ-asm.adapter&#x27;;
-import { provideDefaultConfig } from &#x27;../../../config/config-providers&#x27;;
+import { AsmAdapter } from &#x27;@spartacus/asm/core&#x27;;
+import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import { defaultOccAsmConfig } from &#x27;./adapters/default-occ-asm-config&#x27;;
+import { OccAsmAdapter } from &#x27;./adapters/occ-asm.adapter&#x27;;
 
 @NgModule({
   imports: [CommonModule],

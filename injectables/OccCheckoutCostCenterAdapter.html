@@ -367,7 +367,7 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
     costCenterId: string
   ): Observable&lt;Cart&gt; {
     let httpParams &#x3D; new HttpParams().set(&#x27;costCenterId&#x27;, costCenterId);
-    /* tslint:disable:max-line-length */
+    /* eslint-disable max-len */
     httpParams &#x3D; httpParams.set(
       &#x27;fields&#x27;,
       &#x27;DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user&#x27;

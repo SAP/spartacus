@@ -66,6 +66,11 @@
 
 
 
+            <p class="comment">
+                <h3>Example</h3>
+            </p>
+            <div class="io-description">
+            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -163,8 +168,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="5"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:5</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="8"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:8</a></div>
                 </td>
             </tr>
 
@@ -235,8 +240,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:34</a></div>
                 </td>
             </tr>
 
@@ -276,8 +281,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="9"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:9</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:12</a></div>
                 </td>
             </tr>
 
@@ -348,8 +353,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="11"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:11</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:14</a></div>
                 </td>
             </tr>
 
@@ -432,8 +437,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:32</a></div>
                 </td>
             </tr>
 
@@ -504,8 +509,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:16</a></div>
                 </td>
             </tr>
 
@@ -576,8 +581,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:18</a></div>
                 </td>
             </tr>
 
@@ -660,8 +665,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="7"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:7</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:10</a></div>
                 </td>
             </tr>
 
@@ -744,8 +749,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:20</a></div>
                 </td>
             </tr>
 
@@ -840,8 +845,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.adapter.ts:26</a></div>
                 </td>
             </tr>
 
@@ -924,7 +929,10 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Observable } from &#x27;rxjs&#x27;;
 import { Title, User, UserSignUp } from &#x27;../../../model/misc.model&#x27;;
-
+/**
+ * @deprecated since 3.2, use &#x60;OccUserAccountAdapter&#x60; and &#x60;UserProfileAdapter&#x60;
+ * from the &#x60;@spartacus/user&#x60; package
+ */
 export abstract class UserAdapter {
   abstract load(userId: string): Observable&lt;User&gt;;
 

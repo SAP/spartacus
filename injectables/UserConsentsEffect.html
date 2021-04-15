@@ -110,7 +110,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/core/src/user/store/effects/user-consents.effect.ts:90</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="86" class="link-to-prism">projects/core/src/user/store/effects/user-consents.effect.ts:86</a></div>
                             </td>
                         </tr>
 
@@ -211,7 +211,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/user/store/effects/user-consents.effect.ts:23</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/core/src/user/store/effects/user-consents.effect.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -287,7 +287,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/user/store/effects/user-consents.effect.ts:37</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/user/store/effects/user-consents.effect.ts:35</a></div>
                             </td>
                         </tr>
 
@@ -383,7 +383,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">projects/core/src/user/store/effects/user-consents.effect.ts:77</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="75" class="link-to-prism">projects/core/src/user/store/effects/user-consents.effect.ts:75</a></div>
                             </td>
                         </tr>
 
@@ -410,9 +410,7 @@ import { UserActions } from &#x27;../actions/index&#x27;;
 @Injectable()
 export class UserConsentsEffect {
   @Effect()
-  resetConsents$: Observable&lt;
-    UserActions.ResetLoadUserConsents
-  &gt; &#x3D; this.actions$.pipe(
+  resetConsents$: Observable&lt;UserActions.ResetLoadUserConsents&gt; &#x3D; this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     map(() &#x3D;&gt; new UserActions.ResetLoadUserConsents())
   );
@@ -472,9 +470,7 @@ export class UserConsentsEffect {
   );
 
   @Effect()
-  withdrawConsent$: Observable&lt;
-    UserActions.UserConsentsAction
-  &gt; &#x3D; this.actions$.pipe(
+  withdrawConsent$: Observable&lt;UserActions.UserConsentsAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.WITHDRAW_USER_CONSENT),
     map((action: UserActions.WithdrawUserConsent) &#x3D;&gt; action.payload),
     concatMap(({ userId, consentCode }) &#x3D;&gt;

@@ -234,7 +234,7 @@ import fs, { readFileSync } from &#x27;fs&#x27;;
 import glob from &#x27;glob&#x27;;
 import postcss from &#x27;postcss-scss&#x27;;
 import semver from &#x27;semver&#x27;;
-import * as ts from &#x27;typescript&#x27;;
+import ts from &#x27;typescript&#x27;;
 import { PACKAGE_JSON, SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from &#x27;./const&#x27;;
 import {
   error,
@@ -352,8 +352,8 @@ export function manageDependencies(
   const libraries &#x3D; Object.values(repository)
     .map(
       (library: Library): LibraryWithDependencies &#x3D;&gt; {
-        const tsImports &#x3D; {};
-        const scssImports &#x3D; {};
+        const tsImports: LibraryWithDependencies[&#x27;tsImports&#x27;] &#x3D; {};
+        const scssImports: LibraryWithDependencies[&#x27;scssImports&#x27;] &#x3D; {};
 
         // Gather data about ts imports
         const tsFilesPaths &#x3D; glob.sync(&#x60;${library.directory}/**/*.ts&#x60;, {
@@ -496,7 +496,7 @@ function filterLocalRelativeImports(
       .reduce((acc, curr) &#x3D;&gt; {
         acc[curr.importPath] &#x3D; curr;
         return acc;
-      }, {});
+      }, {} as LibraryWithDependencies[&#x27;tsImports&#x27;]);
     lib.scssImports &#x3D; Object.values(lib.scssImports)
       .filter(
         (imp) &#x3D;&gt;
@@ -506,7 +506,7 @@ function filterLocalRelativeImports(
       .reduce((acc, curr) &#x3D;&gt; {
         acc[curr.importPath] &#x3D; curr;
         return acc;
-      }, {});
+      }, {} as LibraryWithDependencies[&#x27;scssImports&#x27;]);
   });
 }
 
@@ -567,12 +567,8 @@ function filterNativeNodeAPIs(
           if (nodeAPIs.includes(imp.importPath)) {
             // Don&#x27;t run the check in fix mode
             if (!options.fix) {
-              // Don&#x27;t allow to use node api outside of schematics spec files
-              if (
-                imp.usageIn.spec ||
-                imp.usageIn.lib ||
-                imp.usageIn.schematics
-              ) {
+              // Don&#x27;t allow to use node api outside of schematics files
+              if (imp.usageIn.spec || imp.usageIn.lib) {
                 imp.files.forEach((file) &#x3D;&gt; {
                   // Allow to use Node APIs in SSR
                   if (!file.includes(&#x27;ssr&#x27;)) {
@@ -585,7 +581,7 @@ function filterNativeNodeAPIs(
                         )}\&#x60; is referenced.&#x60;,
                       ],
                       [
-                        &#x60;Node.js APIs can only be used in SSR code or in schematics specs.&#x60;,
+                        &#x60;Node.js APIs can only be used in SSR code or in schematics.&#x60;,
                         &#x60;You might have wanted to import it from some library instead.&#x60;,
                       ]
                     );
@@ -600,7 +596,7 @@ function filterNativeNodeAPIs(
         .reduce((acc, curr) &#x3D;&gt; {
           acc[curr.importPath] &#x3D; curr;
           return acc;
-        }, {});
+        }, {} as LibraryWithDependencies[&#x27;tsImports&#x27;]);
     });
     if (!errorsFound) {
       success();
@@ -658,7 +654,7 @@ function filterLocalAbsolutePathFiles(
         .reduce((acc, curr) &#x3D;&gt; {
           acc[curr.importPath] &#x3D; curr;
           return acc;
-        }, {});
+        }, {} as LibraryWithDependencies[&#x27;tsImports&#x27;]);
     });
     if (!errorsFound) {
       success();
@@ -735,7 +731,7 @@ function extractExternalDependenciesFromImports(
 ): void {
   Object.values(libraries).forEach((lib) &#x3D;&gt; {
     Object.values(lib.tsImports).forEach((imp) &#x3D;&gt; {
-      let dependency;
+      let dependency: string;
       if (imp.importPath.startsWith(&#x27;@&#x27;)) {
         const [scope, name] &#x3D; imp.importPath.split(&#x27;/&#x27;);
         dependency &#x3D; &#x60;${scope}/${name}&#x60;;
@@ -774,7 +770,7 @@ function extractExternalDependenciesFromImports(
       }
     });
     Object.values(lib.scssImports).forEach((imp) &#x3D;&gt; {
-      let dependency;
+      let dependency: string;
       let dep;
       if (imp.importPath.startsWith(&#x27;~&#x27;)) {
         dep &#x3D; imp.importPath.substring(1);
@@ -823,7 +819,7 @@ function checkIfWeHaveAllDependenciesInPackageJson(
       ...packageJson.devDependencies,
       ...packageJson.dependencies,
     };
-    const errors &#x3D; [];
+    const errors: string[] &#x3D; [];
     reportProgress(&#x60;Checking for missing dependencies in root ${PACKAGE_JSON}&#x60;);
     Object.values(libraries).forEach((lib) &#x3D;&gt; {
       Object.values(lib.externalDependencies).forEach((dep) &#x3D;&gt; {
@@ -879,7 +875,7 @@ function filterOutSpecOnlyDependencies(
       .reduce((acc, curr) &#x3D;&gt; {
         acc[curr.dependency] &#x3D; curr;
         return acc;
-      }, {});
+      }, {} as LibraryWithDependencies[&#x27;externalDependenciesForPackageJson&#x27;]);
   });
 }
 
@@ -891,7 +887,7 @@ function addMissingDependenciesToPackageJson(
   rootPackageJson: PackageJson,
   options: ProgramOptions
 ): void {
-  const deps &#x3D; {
+  const deps: PackageJson[&#x27;dependencies&#x27;] | PackageJson[&#x27;devDependencies&#x27;] &#x3D; {
     ...rootPackageJson.dependencies,
     ...rootPackageJson.devDependencies,
   };
@@ -904,7 +900,7 @@ function addMissingDependenciesToPackageJson(
   let errorsFound &#x3D; false;
   Object.values(libraries).forEach((lib) &#x3D;&gt; {
     const pathToPackageJson &#x3D; &#x60;${lib.directory}/${PACKAGE_JSON}&#x60;;
-    const errors &#x3D; [];
+    const errors: string[] &#x3D; [];
     Object.values(lib.externalDependenciesForPackageJson).forEach((dep) &#x3D;&gt; {
       if (
         typeof lib.dependencies[dep.dependency] &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27; &amp;&amp;
@@ -993,7 +989,7 @@ function removeNotUsedDependenciesFromPackageJson(
       ...lib.peerDependencies,
       ...lib.optionalDependencies,
     };
-    const errors &#x3D; [];
+    const errors: string[] &#x3D; [];
     const pathToPackageJson &#x3D; &#x60;${lib.directory}/${PACKAGE_JSON}&#x60;;
     Object.keys(deps).forEach((dep) &#x3D;&gt; {
       if (
@@ -1096,7 +1092,7 @@ function checkTsLibDep(
   options: ProgramOptions
 ): void {
   const tsLibName &#x3D; &#x27;tslib&#x27;;
-  const tsLibVersion &#x3D; rootPackageJson.dependencies[tsLibName];
+  const tsLibVersion &#x3D; rootPackageJson.dependencies?.[tsLibName];
   if (options.fix) {
     reportProgress(&#x60;Updating \&#x60;${tsLibName}\&#x60; dependency usage&#x60;);
   } else {
@@ -1115,7 +1111,7 @@ function checkTsLibDep(
           if (typeof packageJson?.dependencies &#x3D;&#x3D;&#x3D; &#x27;undefined&#x27;) {
             packageJson.dependencies &#x3D; {};
           }
-          packageJson.dependencies[tsLibName] &#x3D; tsLibVersion;
+          packageJson.dependencies[tsLibName] &#x3D; tsLibVersion!;
           updates.add(pathToPackageJson);
         } else {
           errors.push(
@@ -1128,7 +1124,7 @@ function checkTsLibDep(
       if (Object.keys(lib.peerDependencies).includes(tsLibName)) {
         if (options.fix) {
           const packageJson &#x3D; lib.packageJsonContent;
-          delete packageJson.peerDependencies[tsLibName];
+          delete packageJson.peerDependencies?.[tsLibName];
           updates.add(pathToPackageJson);
         } else {
           errors.push(
@@ -1143,7 +1139,7 @@ function checkTsLibDep(
       if (Object.keys(lib.optionalDependencies).includes(tsLibName)) {
         if (options.fix) {
           const packageJson &#x3D; lib.packageJsonContent;
-          delete packageJson.optionalDependencies[tsLibName];
+          delete packageJson.optionalDependencies?.[tsLibName];
           updates.add(pathToPackageJson);
         } else {
           errors.push(
@@ -1221,7 +1217,9 @@ function updateDependenciesVersions(
   rootPackageJson: PackageJson,
   options: ProgramOptions
 ): void {
-  const rootDeps &#x3D; {
+  const rootDeps:
+    | PackageJson[&#x27;dependencies&#x27;]
+    | PackageJson[&#x27;devDependencies&#x27;] &#x3D; {
     ...rootPackageJson.dependencies,
     ...rootPackageJson.devDependencies,
   };
@@ -1239,20 +1237,24 @@ function updateDependenciesVersions(
   Object.values(libraries).forEach((lib) &#x3D;&gt; {
     const pathToPackageJson &#x3D; &#x60;${lib.directory}/${PACKAGE_JSON}&#x60;;
     const packageJson &#x3D; lib.packageJsonContent;
-    const types &#x3D; [&#x27;dependencies&#x27;, &#x27;peerDependencies&#x27;, &#x27;optionalDependencies&#x27;];
-    const errors &#x3D; [];
-    const internalErrors &#x3D; [];
-    const breakingErrors &#x3D; [];
+    const types &#x3D; [
+      &#x27;dependencies&#x27;,
+      &#x27;peerDependencies&#x27;,
+      &#x27;optionalDependencies&#x27;,
+    ] as const;
+    const errors: string[] &#x3D; [];
+    const internalErrors: string[] &#x3D; [];
+    const breakingErrors: string[] &#x3D; [];
     types.forEach((type) &#x3D;&gt; {
       Object.keys(packageJson[type] ?? {}).forEach((dep) &#x3D;&gt; {
-        if (!semver.validRange(packageJson[type][dep])) {
+        if (!semver.validRange(packageJson[type]?.[dep])) {
           if (!options.fix) {
             errorsFound &#x3D; true;
             error(
               pathToPackageJson,
               [
                 &#x60;Package \&#x60;${chalk.bold(
-                  packageJson[type][dep]
+                  packageJson[type]?.[dep]
                 )}\&#x60; version is not correct.&#x60;,
               ],
               [&#x60;Install package version that follows semver.&#x60;]
@@ -1261,16 +1263,16 @@ function updateDependenciesVersions(
           return;
         }
         if (dep.startsWith(SPARTACUS_SCOPE)) {
-          if (packageJson[type][dep] !&#x3D;&#x3D; libraries[dep].version) {
+          if (packageJson[type]?.[dep] !&#x3D;&#x3D; libraries[dep].version) {
             if (options.fix) {
-              packageJson[type][dep] &#x3D; libraries[dep].version;
+              packageJson[type]![dep] &#x3D; libraries[dep].version;
               updates.add(pathToPackageJson);
             } else {
               internalErrors.push(
                 &#x60;Dependency \&#x60;${chalk.bold(
                   dep
                 )}\&#x60; have different version \&#x60;${chalk.bold(
-                  packageJson[type][dep]
+                  packageJson[type]?.[dep]
                 )}\&#x60; than the package in repository \&#x60;${chalk.bold(
                   libraries[dep].version
                 )}\&#x60;.&#x60;
@@ -1279,27 +1281,27 @@ function updateDependenciesVersions(
           }
         } else if (
           typeof rootDeps[dep] !&#x3D;&#x3D; &#x27;undefined&#x27; &amp;&amp;
-          packageJson[type][dep] !&#x3D;&#x3D; rootDeps[dep]
+          packageJson[type]?.[dep] !&#x3D;&#x3D; rootDeps[dep]
         ) {
           // Careful with breaking changes!
           if (
-            semver.major(semver.minVersion(packageJson[type][dep])) &#x3D;&#x3D;&#x3D;
-              semver.major(semver.minVersion(rootDeps[dep])) &amp;&amp;
+            semver.major(semver.minVersion(packageJson[type]![dep])!) &#x3D;&#x3D;&#x3D;
+              semver.major(semver.minVersion(rootDeps[dep])!) &amp;&amp;
             semver.gte(
-              semver.minVersion(packageJson[type][dep]),
-              semver.minVersion(rootDeps[dep])
+              semver.minVersion(packageJson[type]![dep])!,
+              semver.minVersion(rootDeps[dep])!
             )
           ) {
             // not a breaking change!
             if (options.fix) {
-              packageJson[type][dep] &#x3D; rootDeps[dep];
+              packageJson[type]![dep] &#x3D; rootDeps[dep];
               updates.add(pathToPackageJson);
             } else {
               errors.push(
                 &#x60;Dependency \&#x60;${chalk.bold(
                   dep
                 )}\&#x60; have different version \&#x60;${chalk.bold(
-                  packageJson[type][dep]
+                  packageJson[type]?.[dep]
                 )}\&#x60; than the package in root \&#x60;${chalk.bold(
                   PACKAGE_JSON
                 )}\&#x60; file \&#x60;${chalk.bold(rootDeps[dep])}\&#x60;.&#x60;
@@ -1308,14 +1310,14 @@ function updateDependenciesVersions(
           } else {
             // breaking change!
             if (options.bumpVersions &amp;&amp; options.fix) {
-              packageJson[type][dep] &#x3D; rootDeps[dep];
+              packageJson[type]![dep] &#x3D; rootDeps[dep];
               updates.add(pathToPackageJson);
             } else if (!options.fix) {
               breakingErrors.push(
                 &#x60;Dependency \&#x60;${chalk.bold(
                   dep
                 )}\&#x60; have different version \&#x60;${chalk.bold(
-                  packageJson[type][dep]
+                  packageJson[type]?.[dep]
                 )}\&#x60; than the package in root \&#x60;${chalk.bold(
                   PACKAGE_JSON
                 )}\&#x60; file \&#x60;${chalk.bold(rootDeps[dep])}\&#x60;.&#x60;

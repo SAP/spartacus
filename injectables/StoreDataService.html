@@ -200,16 +200,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-data.service.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="95"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-data.service.ts:95</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Extracts schedule from the given location for the given date</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -294,16 +292,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-data.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-data.service.ts:51</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns store closing time</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -387,8 +383,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-data.service.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-data.service.ts:31</a></div>
                 </td>
             </tr>
 
@@ -464,8 +460,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="38"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-data.service.ts:38</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-data.service.ts:39</a></div>
                 </td>
             </tr>
 
@@ -541,16 +537,14 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-data.service.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-data.service.ts:72</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Returns store opening time</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -716,6 +710,7 @@ export class StoreDataService {
    * Returns store latitude
    * @param location store location
    */
+  // TODO(#11411): Move getStoreLatitude and getStoreLongitude to StoreFinderService
   getStoreLatitude(location: PointOfService): number {
     return location?.geoPoint?.latitude;
   }
@@ -729,10 +724,13 @@ export class StoreDataService {
   }
 
   /**
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
+   *
    * Returns store closing time
    * @param location store location
    * @param date date to compare
    */
+  // TODO(#11441): Remove all deprecated functions
   getStoreClosingTime(location: PointOfService, date: Date): string {
     const requestedDaySchedule &#x3D; this.getSchedule(location, date);
 
@@ -748,6 +746,8 @@ export class StoreDataService {
   }
 
   /**
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
+   *
    * Returns store opening time
    * @param location store location
    * @param date date to compare
@@ -767,6 +767,8 @@ export class StoreDataService {
   }
 
   /**
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
+   *
    * Extracts schedule from the given location for the given date
    * @param location location
    * @param date date

@@ -125,7 +125,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="230" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:230</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="228" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:228</a></div>
                             </td>
                         </tr>
 
@@ -264,8 +264,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="249"
-                            class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:249</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="247"
+                            class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:247</a></div>
                 </td>
             </tr>
 
@@ -513,7 +513,7 @@ in which case <code>true</code> is returned.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="175" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:175</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="173" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:173</a></div>
                             </td>
                         </tr>
 
@@ -683,7 +683,7 @@ in which case <code>true</code> is returned.</p>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="119" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:119</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="117" class="link-to-prism">projects/core/src/anonymous-consents/store/effects/anonymous-consents.effect.ts:117</a></div>
                             </td>
                         </tr>
 
@@ -771,9 +771,7 @@ export class AnonymousConsentsEffects {
   );
 
   @Effect()
-  loadAnonymousConsentTemplates$: Observable&lt;
-    AnonymousConsentsActions.AnonymousConsentsActions
-  &gt; &#x3D; this.actions$.pipe(
+  loadAnonymousConsentTemplates$: Observable&lt;AnonymousConsentsActions.AnonymousConsentsActions&gt; &#x3D; this.actions$.pipe(
     ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
     withLatestFrom(this.anonymousConsentService.getTemplates()),
     concatMap(([_, currentConsentTemplates]) &#x3D;&gt;

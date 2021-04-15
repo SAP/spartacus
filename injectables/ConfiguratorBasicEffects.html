@@ -139,7 +139,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="361" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:361</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="357" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:357</a></div>
                             </td>
                         </tr>
 
@@ -264,8 +264,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="344"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:344</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="340"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:340</a></div>
                 </td>
             </tr>
 
@@ -527,7 +527,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="293" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:293</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="289" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:289</a></div>
                             </td>
                         </tr>
 
@@ -581,7 +581,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="275" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:275</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="273" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.ts:273</a></div>
                             </td>
                         </tr>
 
@@ -1199,9 +1199,7 @@ export class ConfiguratorBasicEffects {
   );
 
   @Effect()
-  updateConfigurationFail$: Observable&lt;
-    ConfiguratorActions.UpdateConfigurationFinalizeFail
-  &gt; &#x3D; this.actions$.pipe(
+  updateConfigurationFail$: Observable&lt;ConfiguratorActions.UpdateConfigurationFinalizeFail&gt; &#x3D; this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
     map(
       (action: ConfiguratorActions.UpdateConfigurationFail) &#x3D;&gt; action.payload
@@ -1226,9 +1224,7 @@ export class ConfiguratorBasicEffects {
   );
 
   @Effect()
-  handleErrorOnUpdate$: Observable&lt;
-    ConfiguratorActions.ReadConfiguration
-  &gt; &#x3D; this.actions$.pipe(
+  handleErrorOnUpdate$: Observable&lt;ConfiguratorActions.ReadConfiguration&gt; &#x3D; this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_FAIL),
     map(
       (action: ConfiguratorActions.UpdateConfigurationFinalizeFail) &#x3D;&gt;

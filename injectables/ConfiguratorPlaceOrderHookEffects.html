@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-place-order-hook.effect.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-place-order-hook.effect.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -262,9 +262,7 @@ import { ConfiguratorActions } from &#x27;../actions/index&#x27;;
  */
 export class ConfiguratorPlaceOrderHookEffects {
   @Effect()
-  placeOrder$: Observable&lt;
-    ConfiguratorActions.RemoveConfiguration
-  &gt; &#x3D; this.actions$.pipe(
+  placeOrder$: Observable&lt;ConfiguratorActions.RemoveConfiguration&gt; &#x3D; this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map(() &#x3D;&gt; {
       const ownerKeys &#x3D; [];

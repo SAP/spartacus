@@ -92,6 +92,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Readonly</span>
+                                <a href="#location$">location$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Readonly</span>
                                 <a href="#options$">options$</a>
                             </li>
                             <li>
@@ -173,7 +177,34 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts:19</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="location$"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Readonly</span>
+                            location$</b>
+                            <a href="#location$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new ReplaySubject&lt;PromotionLocation&gt;(1)</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts:29</a></div>
                             </td>
                         </tr>
 
@@ -200,7 +231,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts:31</a></div>
                             </td>
                         </tr>
 
@@ -227,7 +258,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -254,7 +285,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -281,7 +312,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts:16</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -309,10 +340,21 @@ import { CartItemContext } from &#x27;./cart-item-context.model&#x27;;
 @Injectable()
 export class CartItemContextSource implements CartItemContext {
   readonly compact$ &#x3D; new ReplaySubject&lt;boolean&gt;(1);
+
   readonly readonly$ &#x3D; new ReplaySubject&lt;boolean&gt;(1);
+
   readonly item$ &#x3D; new ReplaySubject&lt;OrderEntry&gt;(1);
+
   readonly quantityControl$ &#x3D; new ReplaySubject&lt;FormControl&gt;(1);
+
+  /**
+   * @deprecated since 3.2 - use &#x60;location$&#x60; instead
+   */
+  // TODO: drop it in 4.0
   readonly promotionLocation$ &#x3D; new ReplaySubject&lt;PromotionLocation&gt;(1);
+
+  readonly location$ &#x3D; new ReplaySubject&lt;PromotionLocation&gt;(1);
+
   readonly options$ &#x3D; new ReplaySubject&lt;CartItemComponentOptions&gt;(1);
 }
 </code></pre>

@@ -138,7 +138,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="138" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:138</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="130" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:130</a></div>
                             </td>
                         </tr>
 
@@ -241,8 +241,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="157"
-                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:157</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="149"
+                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:149</a></div>
                 </td>
             </tr>
 
@@ -282,8 +282,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="150"
-                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:150</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:142</a></div>
                 </td>
             </tr>
 
@@ -387,7 +387,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:36</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -443,7 +443,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="85" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:85</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="79" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:79</a></div>
                             </td>
                         </tr>
 
@@ -538,7 +538,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="108" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:108</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="100" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:100</a></div>
                             </td>
                         </tr>
 
@@ -585,7 +585,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="132" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:132</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="124" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:124</a></div>
                             </td>
                         </tr>
 
@@ -632,7 +632,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="120" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:120</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="112" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:112</a></div>
                             </td>
                         </tr>
 
@@ -703,7 +703,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="56" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:56</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/core/src/user/store/effects/user-addresses.effect.ts:52</a></div>
                             </td>
                         </tr>
 
@@ -733,9 +733,7 @@ import { UserActions } from &#x27;../actions/index&#x27;;
 @Injectable()
 export class UserAddressesEffects {
   @Effect()
-  loadUserAddresses$: Observable&lt;
-    UserActions.UserAddressesAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadUserAddresses$: Observable&lt;UserActions.UserAddressesAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ADDRESSES),
     map((action: UserActions.LoadUserAddresses) &#x3D;&gt; action.payload),
     mergeMap((payload) &#x3D;&gt; {
@@ -751,9 +749,7 @@ export class UserAddressesEffects {
   );
 
   @Effect()
-  addUserAddress$: Observable&lt;
-    UserActions.UserAddressesAction
-  &gt; &#x3D; this.actions$.pipe(
+  addUserAddress$: Observable&lt;UserActions.UserAddressesAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.ADD_USER_ADDRESS),
     map((action: UserActions.AddUserAddress) &#x3D;&gt; action.payload),
     mergeMap((payload) &#x3D;&gt; {
@@ -771,9 +767,7 @@ export class UserAddressesEffects {
   );
 
   @Effect()
-  updateUserAddress$: Observable&lt;
-    UserActions.UserAddressesAction
-  &gt; &#x3D; this.actions$.pipe(
+  updateUserAddress$: Observable&lt;UserActions.UserAddressesAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.UPDATE_USER_ADDRESS),
     map((action: UserActions.UpdateUserAddress) &#x3D;&gt; action.payload),
     mergeMap((payload) &#x3D;&gt; {
@@ -800,9 +794,7 @@ export class UserAddressesEffects {
   );
 
   @Effect()
-  deleteUserAddress$: Observable&lt;
-    UserActions.UserAddressesAction
-  &gt; &#x3D; this.actions$.pipe(
+  deleteUserAddress$: Observable&lt;UserActions.UserAddressesAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.DELETE_USER_ADDRESS),
     map((action: UserActions.DeleteUserAddress) &#x3D;&gt; action.payload),
     mergeMap((payload) &#x3D;&gt; {

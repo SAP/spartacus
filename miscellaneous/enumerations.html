@@ -88,6 +88,9 @@
                             <a href="#CmsBannerCarouselEffect" title="projects/core/src/model/cms.model.ts"><b>CmsBannerCarouselEffect</b>&nbsp;&nbsp;&nbsp;(projects/.../cms.model.ts)</a>
                         </li>
                         <li>
+                            <a href="#CommandStrategy" title="projects/core/src/util/command-query/command.service.ts"><b>CommandStrategy</b>&nbsp;&nbsp;&nbsp;(projects/.../command.service.ts)</a>
+                        </li>
+                        <li>
                             <a href="#ConfigurationStatus" title="feature-libs/product-configurator/textfield/core/model/configurator-textfield.model.ts"><b>ConfigurationStatus</b>&nbsp;&nbsp;&nbsp;(feature-libs/.../configurator-textfield.model.ts)</a>
                         </li>
                         <li>
@@ -373,6 +376,9 @@
                             <a href="#ItemList" title="projects/storefrontapp-e2e-cypress/cypress/helpers/save-for-later.ts"><b>ItemList</b>&nbsp;&nbsp;&nbsp;(projects/.../save-for-later.ts)</a>
                         </li>
                         <li>
+                            <a href="#LAUNCH_CALLER" title="feature-libs/cart/saved-cart/root/model/augmented-core.model.ts"><b>LAUNCH_CALLER</b>&nbsp;&nbsp;&nbsp;(feature-libs/.../augmented-core.model.ts)</a>
+                        </li>
+                        <li>
                             <a href="#LAUNCH_CALLER" title="projects/storefrontlib/src/layout/launch-dialog/config/launch-config.ts"><b>LAUNCH_CALLER</b>&nbsp;&nbsp;&nbsp;(projects/.../launch-config.ts)</a>
                         </li>
                         <li>
@@ -451,6 +457,9 @@
                             <a href="#PermissionType" title="feature-libs/organization/administration/components/permission/form/permission-form.service.ts"><b>PermissionType</b>&nbsp;&nbsp;&nbsp;(feature-libs/.../permission-form.service.ts)</a>
                         </li>
                         <li>
+                            <a href="#PopoverEvent" title="projects/storefrontlib/src/shared/components/popover/popover.model.ts"><b>PopoverEvent</b>&nbsp;&nbsp;&nbsp;(projects/.../popover.model.ts)</a>
+                        </li>
+                        <li>
                             <a href="#PriceType" title="projects/core/src/model/product.model.ts"><b>PriceType</b>&nbsp;&nbsp;&nbsp;(projects/.../product.model.ts)</a>
                         </li>
                         <li>
@@ -469,6 +478,9 @@
                             <a href="#ProductListOutlets" title="projects/storefrontlib/src/cms-components/product/product-outlets.model.ts"><b>ProductListOutlets</b>&nbsp;&nbsp;&nbsp;(projects/.../product-outlets.model.ts)</a>
                         </li>
                         <li>
+                            <a href="#ProductScope" title="feature-libs/product/bulk-pricing/core/model/augmented-core.model.ts"><b>ProductScope</b>&nbsp;&nbsp;&nbsp;(feature-libs/.../augmented-core.model.ts)</a>
+                        </li>
+                        <li>
                             <a href="#ProductScope" title="projects/core/src/product/model/product-scope.ts"><b>ProductScope</b>&nbsp;&nbsp;&nbsp;(projects/.../product-scope.ts)</a>
                         </li>
                         <li>
@@ -482,6 +494,12 @@
                         </li>
                         <li>
                             <a href="#RoutingScope" title="projects/schematics/src/add-spartacus/schema.ts"><b>RoutingScope</b>&nbsp;&nbsp;&nbsp;(projects/.../schema.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#SavedCartFormType" title="feature-libs/cart/saved-cart/root/model/saved-cart.model.ts"><b>SavedCartFormType</b>&nbsp;&nbsp;&nbsp;(feature-libs/.../saved-cart.model.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#ScriptPlacement" title="projects/core/src/util/script-loader.service.ts"><b>ScriptPlacement</b>&nbsp;&nbsp;&nbsp;(projects/.../script-loader.service.ts)</a>
                         </li>
                         <li>
                             <a href="#SiteContextType" title="projects/storefrontlib/src/cms-components/misc/site-context-selector/site-context.model.ts"><b>SiteContextType</b>&nbsp;&nbsp;&nbsp;(projects/.../site-context.model.ts)</a>
@@ -509,6 +527,9 @@
                         </li>
                         <li>
                             <a href="#TableLayout" title="projects/storefrontlib/src/shared/components/table/table.model.ts"><b>TableLayout</b>&nbsp;&nbsp;&nbsp;(projects/.../table.model.ts)</a>
+                        </li>
+                        <li>
+                            <a href="#TokenTarget" title="feature-libs/asm/root/services/asm-auth-storage.service.ts"><b>TokenTarget</b>&nbsp;&nbsp;&nbsp;(feature-libs/.../asm-auth-storage.service.ts)</a>
                         </li>
                         <li>
                             <a href="#TokenTarget" title="projects/core/src/asm/services/asm-auth-storage.service.ts"><b>TokenTarget</b>&nbsp;&nbsp;&nbsp;(projects/.../asm-auth-storage.service.ts)</a>
@@ -763,6 +784,16 @@
                                 <i>Value : </i><code>CANCEL</code>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;DISABLE
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>DISABLE</code>
+                            </td>
+                        </tr>
             </tbody>
         </table>
         <table class="table table-sm table-bordered">
@@ -974,6 +1005,26 @@
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>ORDER</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;SaveForLater
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>SAVE_FOR_LATER</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;SavedCart
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>SAVED_CART</code>
                             </td>
                         </tr>
             </tbody>
@@ -1504,6 +1555,39 @@ introduce new screen names, you might loose out on these configurations.</p>
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>CatalogPage</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/core/src/util/command-query/command.service.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="CommandStrategy"></a>
+                        <span class="name"><b>CommandStrategy</b><a href="#CommandStrategy"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;Parallel
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;Queue
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CancelPrevious
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;ErrorPrevious
                             </td>
                         </tr>
             </tbody>
@@ -7319,6 +7403,29 @@ enormously from the lazy loading of images.</p>
             </tbody>
         </table>
 </section>
+    <h3>feature-libs/cart/saved-cart/root/model/augmented-core.model.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="LAUNCH_CALLER"></a>
+                        <span class="name"><b>LAUNCH_CALLER</b><a href="#LAUNCH_CALLER"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;SAVED_CART
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>SAVED_CART</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
     <h3>feature-libs/organization/administration/core/model/organization-item-status.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
@@ -8297,6 +8404,79 @@ PaginationItem, so that the UI understands the usage.</p>
             </tbody>
         </table>
 </section>
+    <h3>projects/storefrontlib/src/shared/components/popover/popover.model.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="PopoverEvent"></a>
+                        <span class="name"><b>PopoverEvent</b><a href="#PopoverEvent"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;INSIDE_CLICK
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>insideClick</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;OUTSIDE_CLICK
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>outsideClick</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;ESCAPE_KEYDOWN
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>escapeKeydown</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CLOSE_BUTTON_CLICK
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>closeButtonClick</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CLOSE_BUTTON_KEYDOWN
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>closeButtonKeydown</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;ROUTE_CHANGE
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>routeChange</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
     <h3>projects/core/src/model/product.model.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
@@ -8556,6 +8736,29 @@ PaginationItem, so that the UI understands the usage.</p>
             </tbody>
         </table>
 </section>
+    <h3>feature-libs/product/bulk-pricing/core/model/augmented-core.model.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ProductScope"></a>
+                        <span class="name"><b>ProductScope</b><a href="#ProductScope"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;BULK_PRICES
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>bulkPrices</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
     <h3>projects/core/src/product/model/product-scope.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
@@ -8675,6 +8878,82 @@ PaginationItem, so that the UI understands the usage.</p>
                         <tr>
                             <td class="col-md-4">
                                 <i>Value : </i><code>always</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>feature-libs/cart/saved-cart/root/model/saved-cart.model.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="SavedCartFormType"></a>
+                        <span class="name"><b>SavedCartFormType</b><a href="#SavedCartFormType"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;EDIT
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>edit</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;DELETE
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>delete</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;SAVE
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>save</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/core/src/util/script-loader.service.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ScriptPlacement"></a>
+                        <span class="name"><b>ScriptPlacement</b><a href="#ScriptPlacement"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;HEAD
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>head</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;BODY
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>body</code>
                             </td>
                         </tr>
             </tbody>
@@ -9072,6 +9351,16 @@ PaginationItem, so that the UI understands the usage.</p>
                                 <i>Value : </i><code>indexOfElement</code>
                             </td>
                         </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;TEXT_AREA
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>textarea</code>
+                            </td>
+                        </tr>
             </tbody>
         </table>
 </section>
@@ -9114,7 +9403,7 @@ PaginationItem, so that the UI understands the usage.</p>
             </tbody>
         </table>
 </section>
-    <h3>projects/core/src/asm/services/asm-auth-storage.service.ts</h3>
+    <h3>feature-libs/asm/root/services/asm-auth-storage.service.ts</h3>
     <section>
         <table class="table table-sm table-bordered">
             <tbody>
@@ -9130,6 +9419,39 @@ PaginationItem, so that the UI understands the usage.</p>
 </div>
                         </td>
                     </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;CSAgent
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>CSAgent</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                &nbsp;User
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <i>Value : </i><code>User</code>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+    <h3>projects/core/src/asm/services/asm-auth-storage.service.ts</h3>
+    <section>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="TokenTarget"></a>
+                        <span class="name"><b>TokenTarget</b><a href="#TokenTarget"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
                         <tr>
                             <td class="col-md-4">
                                 &nbsp;CSAgent

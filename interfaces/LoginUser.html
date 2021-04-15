@@ -170,6 +170,7 @@ export function fillRegistrationForm(
   giveRegistrationConsent,
   hiddenConsent?
 ) {
+  cy.log(&#x60;🛒 Registering user ${email} from the registration page&#x60;);
   cy.get(&#x27;cx-register form&#x27;).within(() &#x3D;&gt; {
     cy.get(&#x27;[formcontrolname&#x3D;&quot;titleCode&quot;]&#x27;).select(&#x27;mr&#x27;);
     cy.get(&#x27;[formcontrolname&#x3D;&quot;firstName&quot;]&#x27;).type(firstName);
@@ -190,6 +191,7 @@ export function fillRegistrationForm(
 }
 
 export function fillLoginForm({ username, password }: LoginUser) {
+  cy.log(&#x60;🛒 Logging in user ${username} from the login form&#x60;);
   cy.get(&#x27;cx-login-form form&#x27;).within(() &#x3D;&gt; {
     cy.get(&#x27;[formcontrolname&#x3D;&quot;userId&quot;]&#x27;).clear().type(username);
     cy.get(&#x27;[formcontrolname&#x3D;&quot;password&quot;]&#x27;).clear().type(password);

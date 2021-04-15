@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts</code>
+            <code>feature-libs/asm/root/services/asm-enabler.service.ts</code>
         </p>
 
             <p class="comment">
@@ -120,12 +120,12 @@ of the UI and runtime performance for the ordinary production user.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(location: <a href="https://angular.io/api/common/Location" target="_blank">Location</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, launchDialogService: <a href="../injectables/LaunchDialogService.html">LaunchDialogService</a>)</code>
+<code>constructor(location: <a href="https://angular.io/api/common/Location" target="_blank">Location</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, launchDialogService: <a href="../injectables/LaunchDialogService.html">LaunchDialogService</a>, featureModules: <a href="../injectables/FeatureModulesService.html">FeatureModulesService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">feature-libs/asm/root/services/asm-enabler.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -178,6 +178,18 @@ of the UI and runtime performance for the ordinary production user.</p>
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>featureModules</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FeatureModulesService.html" target="_self" >FeatureModulesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -216,8 +228,8 @@ of the UI and runtime performance for the ordinary production user.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">feature-libs/asm/root/services/asm-enabler.service.ts:71</a></div>
                 </td>
             </tr>
 
@@ -258,7 +270,7 @@ of the UI and runtime performance for the ordinary production user.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:36</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-enabler.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -301,7 +313,7 @@ of the UI and runtime performance for the ordinary production user.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:49</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-enabler.service.ts:49</a></div>
                 </td>
             </tr>
 
@@ -345,7 +357,7 @@ using the asm flag in the URL.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:57</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-enabler.service.ts:57</a></div>
                 </td>
             </tr>
 
@@ -386,7 +398,7 @@ using the asm flag in the URL.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/asm/services/asm-enabler.service.ts:27</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-enabler.service.ts:27</a></div>
                 </td>
             </tr>
 
@@ -413,9 +425,8 @@ existence of a URL parameter or previous usage given by local storage.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Location } from &#x27;@angular/common&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
-import { WindowRef } from &#x27;@spartacus/core&#x27;;
-import { LAUNCH_CALLER } from &#x27;../../../layout/launch-dialog/config/index&#x27;;
-import { LaunchDialogService } from &#x27;../../../layout/launch-dialog/services/launch-dialog.service&#x27;;
+import { FeatureModulesService, WindowRef } from &#x27;@spartacus/core&#x27;;
+import { LaunchDialogService, LAUNCH_CALLER } from &#x27;@spartacus/storefront&#x27;;
 import { ASM_ENABLED_LOCAL_STORAGE_KEY } from &#x27;../asm-constants&#x27;;
 
 /**
@@ -430,7 +441,8 @@ export class AsmEnablerService {
   constructor(
     protected location: Location,
     protected winRef: WindowRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected featureModules: FeatureModulesService
   ) {}
 
   /**
@@ -461,24 +473,30 @@ export class AsmEnablerService {
    */
   protected isLaunched(): boolean {
     const params &#x3D; this.location.path().split(&#x27;?&#x27;)[1];
-    return params &amp;&amp; params.split(&#x27;&amp;&#x27;).includes(&#x27;asm&#x3D;true&#x27;);
+    return !!params &amp;&amp; params.split(&#x27;&amp;&#x27;).includes(&#x27;asm&#x3D;true&#x27;);
   }
 
   /**
    * Evaluates local storage where we persist the usage of ASM.
    */
   protected isUsedBefore(): boolean {
-    return (
-      this.winRef.localStorage &amp;&amp;
-      this.winRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY) &#x3D;&#x3D;&#x3D; &#x27;true&#x27;
-    );
+    if (this.winRef.localStorage) {
+      return (
+        this.winRef.localStorage.getItem(ASM_ENABLED_LOCAL_STORAGE_KEY) &#x3D;&#x3D;&#x3D;
+        &#x27;true&#x27;
+      );
+    } else {
+      return false;
+    }
   }
 
   /**
    * Adds the ASM UI by using the &#x60;cx-storefront&#x60; outlet.
    */
   protected addUi(): void {
-    this.launchDialogService.launch(LAUNCH_CALLER.ASM);
+    this.featureModules
+      .resolveFeature(&#x27;asm&#x27;)
+      .subscribe(() &#x3D;&gt; this.launchDialogService.launch(LAUNCH_CALLER.ASM));
   }
 }
 </code></pre>

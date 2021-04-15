@@ -346,7 +346,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/RenderingEntry.html" target="_self" >RenderingEntry</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/RenderingEntry.html" target="_self" >RenderingEntry | undefined</a></code>
 
                     </div>
                     <div class="io-description">
@@ -767,7 +767,7 @@ export class RenderingCache {
     if (this.options?.ttl) {
       entry.time &#x3D; Date.now();
     }
-    if (this.options.cacheSize) {
+    if (this.options?.cacheSize) {
       this.renders.delete(key);
       if (this.renders.size &gt;&#x3D; this.options.cacheSize) {
         this.renders.delete(this.renders.keys().next().value);
@@ -776,7 +776,7 @@ export class RenderingCache {
     this.renders.set(key, entry);
   }
 
-  get(key: string): RenderingEntry {
+  get(key: string): RenderingEntry | undefined {
     return this.renders.get(key);
   }
 

@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/config-loader/java-reg-exp-converter.ts</code>
+            <code>projects/core/src/util/java-reg-exp-converter/java-reg-exp-converter.ts</code>
         </p>
 
 
@@ -135,7 +135,7 @@
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">projects/core/src/occ/config-loader/java-reg-exp-converter.ts:32</a></div>
+                            class="link-to-prism">projects/core/src/util/java-reg-exp-converter/java-reg-exp-converter.ts:32</a></div>
                 </td>
             </tr>
 
@@ -182,7 +182,7 @@ If unsupported feature or modifier is used, then <code>null</code> will be retur
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>RegExp</code>
+                        <b>Returns : </b>    <code>RegExp | null</code>
 
                     </div>
                     <div class="io-description">
@@ -225,7 +225,7 @@ If unsupported feature or modifier is used, then <code>null</code> will be retur
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/occ/config-loader/java-reg-exp-converter.ts:19</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/util/java-reg-exp-converter/java-reg-exp-converter.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -286,7 +286,7 @@ export class JavaRegExpConverter {
    * - https://stackoverflow.com/questions/8754444/convert-javascript-regular-expression-to-java-syntax
    * - https://en.wikipedia.org/wiki/Comparison_of_regular_expression_engines#Language_features
    */
-  toJsRegExp(javaSyntax: string): RegExp {
+  toJsRegExp(javaSyntax: string): RegExp | null {
     const parts &#x3D; javaSyntax.match(this.EXTRACT_JAVA_REGEXP_MODIFIERS);
     if (!parts) {
       return null;

@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/asm/services/asm-auth-http-header.service.ts</code>
+            <code>feature-libs/asm/root/services/asm-auth-http-header.service.ts</code>
         </p>
 
             <p class="comment">
@@ -164,7 +164,7 @@ in cases of normal user session and on customer emulation.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/asm/services/asm-auth-http-header.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">feature-libs/asm/root/services/asm-auth-http-header.service.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -304,7 +304,7 @@ in cases of normal user session and on customer emulation.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">projects/core/src/asm/services/asm-auth-http-header.service.ts:62</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-http-header.service.ts:62</a></div>
                 </td>
             </tr>
 
@@ -376,7 +376,7 @@ in cases of normal user session and on customer emulation.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">projects/core/src/asm/services/asm-auth-http-header.service.ts:96</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-http-header.service.ts:96</a></div>
                 </td>
             </tr>
 
@@ -417,7 +417,7 @@ in cases of normal user session and on customer emulation.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/core/src/asm/services/asm-auth-http-header.service.ts:82</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-http-header.service.ts:82</a></div>
                 </td>
             </tr>
 
@@ -489,7 +489,7 @@ in cases of normal user session and on customer emulation.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/core/src/asm/services/asm-auth-http-header.service.ts:50</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth-http-header.service.ts:50</a></div>
                 </td>
             </tr>
 
@@ -1194,20 +1194,20 @@ If it is not possible calls <code>handleExpiredRefreshToken</code>.</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpRequest } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
-import { take } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../auth/user-auth/facade/auth.service&#x27;;
-import { AuthHttpHeaderService } from &#x27;../../auth/user-auth/services/auth-http-header.service&#x27;;
-import { AuthStorageService } from &#x27;../../auth/user-auth/services/auth-storage.service&#x27;;
-import { OAuthLibWrapperService } from &#x27;../../auth/user-auth/services/oauth-lib-wrapper.service&#x27;;
-import { GlobalMessageService } from &#x27;../../global-message/facade/global-message.service&#x27;;
-import { GlobalMessageType } from &#x27;../../global-message/models/global-message.model&#x27;;
-import { OccEndpointsService } from &#x27;../../occ/services/occ-endpoints.service&#x27;;
 import {
+  AuthHttpHeaderService,
+  AuthService,
+  AuthStorageService,
+  GlobalMessageService,
+  GlobalMessageType,
   InterceptorUtil,
+  OAuthLibWrapperService,
+  OccEndpointsService,
+  RoutingService,
   USE_CUSTOMER_SUPPORT_AGENT_TOKEN,
-} from &#x27;../../occ/utils/interceptor-util&#x27;;
-import { RoutingService } from &#x27;../../routing/facade/routing.service&#x27;;
-import { CsAgentAuthService } from &#x27;../facade/csagent-auth.service&#x27;;
+} from &#x27;@spartacus/core&#x27;;
+import { take } from &#x27;rxjs/operators&#x27;;
+import { CsAgentAuthService } from &#x27;./csagent-auth.service&#x27;;
 
 /**
  * Overrides &#x60;AuthHttpHeaderService&#x60; to handle asm calls as well (not only OCC)

@@ -72,6 +72,11 @@
                         <code>Action</code>
             </p>
 
+            <p class="comment">
+                <h3>Example</h3>
+            </p>
+            <div class="io-description">
+            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -117,7 +122,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:70</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +186,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:59</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:71</a></div>
                             </td>
                         </tr>
 
@@ -208,7 +213,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:58</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:70</a></div>
                             </td>
                         </tr>
 
@@ -257,6 +262,9 @@ export class RegisterUser extends StateUtils.EntityLoadAction {
   }
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class RegisterUserFail extends StateUtils.EntityFailAction {
   readonly type &#x3D; REGISTER_USER_FAIL;
   constructor(public payload: any) {
@@ -264,6 +272,9 @@ export class RegisterUserFail extends StateUtils.EntityFailAction {
   }
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class RegisterUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; REGISTER_USER_SUCCESS;
   constructor() {
@@ -271,6 +282,9 @@ export class RegisterUserSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class ResetRegisterUserProcess extends StateUtils.EntityLoaderResetAction {
   readonly type &#x3D; RESET_REGISTER_USER_PROCESS;
   constructor() {
@@ -283,15 +297,24 @@ export class RegisterGuest implements Action {
   constructor(public payload: { guid: string; password: string }) {}
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class RegisterGuestFail implements Action {
   readonly type &#x3D; REGISTER_GUEST_FAIL;
   constructor(public payload: any) {}
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class RegisterGuestSuccess implements Action {
   readonly type &#x3D; REGISTER_GUEST_SUCCESS;
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class RemoveUser extends StateUtils.EntityLoadAction {
   readonly type &#x3D; REMOVE_USER;
   constructor(public payload: string) {

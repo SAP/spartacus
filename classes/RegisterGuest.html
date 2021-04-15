@@ -117,7 +117,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:62</a></div>
                             </td>
                         </tr>
 
@@ -181,7 +181,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:54</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:63</a></div>
                             </td>
                         </tr>
 
@@ -208,7 +208,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:53</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="62" class="link-to-prism">projects/core/src/user/store/actions/user-register.action.ts:62</a></div>
                             </td>
                         </tr>
 
@@ -257,6 +257,9 @@ export class RegisterUser extends StateUtils.EntityLoadAction {
   }
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class RegisterUserFail extends StateUtils.EntityFailAction {
   readonly type &#x3D; REGISTER_USER_FAIL;
   constructor(public payload: any) {
@@ -264,6 +267,9 @@ export class RegisterUserFail extends StateUtils.EntityFailAction {
   }
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class RegisterUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type &#x3D; REGISTER_USER_SUCCESS;
   constructor() {
@@ -271,6 +277,9 @@ export class RegisterUserSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class ResetRegisterUserProcess extends StateUtils.EntityLoaderResetAction {
   readonly type &#x3D; RESET_REGISTER_USER_PROCESS;
   constructor() {
@@ -283,15 +292,24 @@ export class RegisterGuest implements Action {
   constructor(public payload: { guid: string; password: string }) {}
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class RegisterGuestFail implements Action {
   readonly type &#x3D; REGISTER_GUEST_FAIL;
   constructor(public payload: any) {}
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class RegisterGuestSuccess implements Action {
   readonly type &#x3D; REGISTER_GUEST_SUCCESS;
 }
 
+/**
+ * @deprecated since 3.2, moved to &#x60;@spartacus/user/profile/core&#x60;
+ */
 export class RemoveUser extends StateUtils.EntityLoadAction {
   readonly type &#x3D; REMOVE_USER;
   constructor(public payload: string) {

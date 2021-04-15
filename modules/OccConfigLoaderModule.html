@@ -101,8 +101,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-config-loader.module.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-config-loader.module.ts:46</a></div>
                 </td>
             </tr>
 
@@ -128,17 +128,26 @@ import {
   ConfigInitializer,
   CONFIG_INITIALIZER,
 } from &#x27;../../config/config-initializer/config-initializer&#x27;;
+import { FeatureConfigService } from &#x27;../../features-config/services/feature-config.service&#x27;;
 import { SiteContextConfig } from &#x27;../../site-context/config/site-context-config&#x27;;
 import { BASE_SITE_CONTEXT_ID } from &#x27;../../site-context/providers/context-ids&#x27;;
 import { OccConfigLoaderService } from &#x27;./occ-config-loader.service&#x27;;
 
 /**
  * Initializes the Spartacus config asynchronously basing on the external config
+ *
+ * @deprecated since 3.2 - use &#x60;SiteContextConfigInitializer&#x60; instead
+ * Not a public API though.
  */
+// TODO(#11515): drop it 4.0
 export function initConfig(
   configLoader: OccConfigLoaderService,
-  config: SiteContextConfig
-): ConfigInitializer {
+  config: SiteContextConfig,
+  featureConfigService: FeatureConfigService
+): ConfigInitializer | null {
+  if (featureConfigService.isLevel(&#x27;3.2&#x27;)) {
+    return null;
+  }
   /**
    * Load config for &#x60;context&#x60; from backend only when there is no static config for &#x60;context.baseSite&#x60;
    */
@@ -153,7 +162,10 @@ export function initConfig(
 
 /**
  * Re-provides the external config chunk given before Angular bootstrap
+ *
+ * @deprecated since 3.2, use &#x60;SiteContextConfigInitializer&#x60; instead
  */
+// TODO(#11515): drop it 4.0
 @NgModule()
 export class OccConfigLoaderModule {
   static forRoot(): ModuleWithProviders&lt;OccConfigLoaderModule&gt; {
@@ -163,7 +175,11 @@ export class OccConfigLoaderModule {
         {
           provide: CONFIG_INITIALIZER,
           useFactory: initConfig,
-          deps: [OccConfigLoaderService, SiteContextConfig],
+          deps: [
+            OccConfigLoaderService,
+            SiteContextConfig,
+            FeatureConfigService,
+          ],
           multi: true,
         },
       ],

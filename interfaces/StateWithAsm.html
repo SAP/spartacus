@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/asm/store/asm-state.ts</code>
+            <code>feature-libs/asm/core/store/asm-state.ts</code>
         </p>
 
 
@@ -126,7 +126,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LoaderState } from &#x27;../../state/utils/loader/loader-state&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { StateUtils } from &#x27;@spartacus/core&#x27;;
 import { AsmUi, CustomerSearchPage } from &#x27;../models/asm.models&#x27;;
 
 export const ASM_FEATURE &#x3D; &#x27;asm&#x27;;
@@ -137,7 +137,7 @@ export interface StateWithAsm {
 }
 
 export interface AsmState {
-  customerSearchResult: LoaderState&lt;CustomerSearchPage&gt;;
+  customerSearchResult: StateUtils.LoaderState&lt;CustomerSearchPage&gt;;
   asmUi: AsmUi;
 }
 </code></pre>

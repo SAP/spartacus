@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/asm/services/asm-state-persistence.service.ts</code>
+            <code>feature-libs/asm/core/services/asm-state-persistence.service.ts</code>
         </p>
 
             <p class="comment">
@@ -217,13 +217,12 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy } from &#x27;@angular/core&#x27;;
 import { select, Store } from &#x27;@ngrx/store&#x27;;
+import { AsmAuthStorageService, TokenTarget } from &#x27;@spartacus/asm/root&#x27;;
+import { AuthToken, StatePersistenceService } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable, of, Subscription } from &#x27;rxjs&#x27;;
-import { map } from &#x27;rxjs/operators&#x27;;
-import { AuthToken } from &#x27;../../auth/user-auth/models/auth-token.model&#x27;;
-import { StatePersistenceService } from &#x27;../../state/services/state-persistence.service&#x27;;
+import { filter, map } from &#x27;rxjs/operators&#x27;;
 import { AsmUi } from &#x27;../models/asm.models&#x27;;
 import { AsmActions, AsmSelectors, StateWithAsm } from &#x27;../store&#x27;;
-import { AsmAuthStorageService, TokenTarget } from &#x27;./asm-auth-storage.service&#x27;;
 
 /**
  * ASM state synced to browser storage.
@@ -274,14 +273,19 @@ export class AsmStatePersistenceService implements OnDestroy {
    */
   protected getAsmState(): Observable&lt;SyncedAsmState&gt; {
     return combineLatest([
-      this.store.pipe(select(AsmSelectors.getAsmUi)),
+      this.store.pipe(
+        // Since getAsmState() may be called while the module is lazy loded
+        // The asm state slice may not exist yet in the first store emissions.
+        filter((store) &#x3D;&gt; !!store.asm),
+        select(AsmSelectors.getAsmUi)
+      ),
       of(this.authStorageService.getEmulatedUserToken()),
       this.authStorageService.getTokenTarget(),
     ]).pipe(
       map(([ui, emulatedUserToken, tokenTarget]) &#x3D;&gt; {
         let emulatedToken &#x3D; emulatedUserToken;
         if (emulatedToken) {
-          emulatedToken &#x3D; { ...emulatedUserToken };
+          emulatedToken &#x3D; { ...emulatedUserToken } as AuthToken;
           // To minimize risk of user account hijacking we don&#x27;t persist emulated user refresh_token
           delete emulatedToken.refresh_token;
         }

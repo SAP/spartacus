@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">projects/core/src/user/store/effects/order-details.effect.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">projects/core/src/user/store/effects/order-details.effect.ts:55</a></div>
                             </td>
                         </tr>
 
@@ -228,7 +228,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/user/store/effects/order-details.effect.ts:35</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/core/src/user/store/effects/order-details.effect.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -311,9 +311,7 @@ import {
 @Injectable()
 export class OrderDetailsEffect {
   @Effect()
-  loadOrderDetails$: Observable&lt;
-    UserActions.OrderDetailsAction
-  &gt; &#x3D; this.actions$.pipe(
+  loadOrderDetails$: Observable&lt;UserActions.OrderDetailsAction&gt; &#x3D; this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_DETAILS),
     map((action: UserActions.LoadOrderDetails) &#x3D;&gt; action.payload),
     switchMap((payload) &#x3D;&gt; {

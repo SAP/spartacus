@@ -222,7 +222,7 @@ export class NgExpressEngineDecorator {
    */
   static get(
     ngExpressEngine: NgExpressEngine,
-    optimizationOptions?: SsrOptimizationOptions
+    optimizationOptions?: SsrOptimizationOptions | null
   ): NgExpressEngine {
     const result &#x3D; decorateExpressEngine(ngExpressEngine, optimizationOptions);
     return result;
@@ -231,7 +231,7 @@ export class NgExpressEngineDecorator {
 
 export function decorateExpressEngine(
   ngExpressEngine: NgExpressEngine,
-  optimizationOptions: SsrOptimizationOptions &#x3D; {
+  optimizationOptions: SsrOptimizationOptions | null &#x3D; {
     concurrency: 20,
     timeout: 3000,
   }

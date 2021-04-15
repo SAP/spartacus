@@ -664,10 +664,12 @@ the page type and page template.</p>
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>this.productSearchService.getResults().pipe(
-    filter((data) &#x3D;&gt; !!data?.pagination),
-    map((results) &#x3D;&gt; results.pagination.totalResults)
-  )</code>
+                            <i>Default value : </i><code>this.productSearchService
+    .getResults()
+    .pipe(
+      filter((data) &#x3D;&gt; !!data?.pagination),
+      map((results) &#x3D;&gt; results.pagination.totalResults)
+    )</code>
                         </td>
                     </tr>
                         <tr>
@@ -821,12 +823,12 @@ import { SemanticPathService } from &#x27;../../routing/configurable-routes/url-
 export class CouponSearchPageResolver
   extends PageMetaResolver
   implements PageTitleResolver, PageBreadcrumbResolver {
-  protected total$: Observable&lt;
-    number
-  &gt; &#x3D; this.productSearchService.getResults().pipe(
-    filter((data) &#x3D;&gt; !!data?.pagination),
-    map((results) &#x3D;&gt; results.pagination.totalResults)
-  );
+  protected total$: Observable&lt;number&gt; &#x3D; this.productSearchService
+    .getResults()
+    .pipe(
+      filter((data) &#x3D;&gt; !!data?.pagination),
+      map((results) &#x3D;&gt; results.pagination.totalResults)
+    );
 
   constructor(
     protected productSearchService: ProductSearchService,

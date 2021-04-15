@@ -61,6 +61,11 @@
 
 
 
+            <p class="comment">
+                <h3>Example</h3>
+            </p>
+            <div class="io-description">
+            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -138,7 +143,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -217,8 +222,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:20</a></div>
                 </td>
             </tr>
 
@@ -256,8 +261,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:38</a></div>
                 </td>
             </tr>
 
@@ -301,12 +306,12 @@
                     </tr>
                     <tr>
                         <td class="col-md-4">
-                            <i>Default value : </i><code>&#x27;basesites?fields&#x3D;baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))&#x27;</code>
+                            <i>Default value : </i><code>&#x27;basesites?fields&#x3D;baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme)&#x27;</code>
                         </td>
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -335,7 +340,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:26</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:30</a></div>
                                 </td>
                             </tr>
 
@@ -357,7 +362,7 @@
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:30</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/occ/config-loader/occ-sites-config-loader.ts:34</a></div>
                                 </td>
                             </tr>
 
@@ -376,12 +381,16 @@ import { BaseSite } from &#x27;../../model/misc.model&#x27;;
 import { OccConfig } from &#x27;../config/occ-config&#x27;;
 import { Occ } from &#x27;../occ-models/occ.models&#x27;;
 
+/**
+ * @deprecated since 3.2, use &#x60;SiteConnector&#x60; instead
+ */
+// TODO(#11515): drop it in 4.0
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class OccSitesConfigLoader {
   constructor(protected config: OccConfig, protected http: HttpClient) {}
 
   protected readonly endpoint &#x3D;
-    &#x27;basesites?fields&#x3D;baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)))&#x27;;
+    &#x27;basesites?fields&#x3D;baseSites(uid,defaultLanguage(isocode),urlEncodingAttributes,urlPatterns,stores(currencies(isocode),defaultCurrency(isocode),languages(isocode),defaultLanguage(isocode)),theme)&#x27;;
 
   private getPrefix(): string {
     if (

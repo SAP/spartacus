@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/asm/facade/csagent-auth.service.ts</code>
+            <code>feature-libs/asm/root/services/csagent-auth.service.ts</code>
         </p>
 
             <p class="comment">
@@ -125,12 +125,12 @@ or get information about the status of emulation.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(authService: <a href="../injectables/AuthService.html">AuthService</a>, authStorageService: <a href="../injectables/AsmAuthStorageService.html">AsmAuthStorageService</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>, oAuthLibWrapperService: <a href="../injectables/OAuthLibWrapperService.html">OAuthLibWrapperService</a>, store: Store<StateWithAsm>, userService: <a href="../injectables/UserService.html">UserService</a>)</code>
+<code>constructor(authService: <a href="../injectables/AuthService.html">AuthService</a>, authStorageService: <a href="../injectables/AsmAuthStorageService.html">AsmAuthStorageService</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>, oAuthLibWrapperService: <a href="../injectables/OAuthLibWrapperService.html">OAuthLibWrapperService</a>, store: Store, userService: <a href="../injectables/UserService.html">UserService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/asm/facade/csagent-auth.service.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">feature-libs/asm/root/services/csagent-auth.service.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -199,7 +199,7 @@ or get information about the status of emulation.</p>
                                                         <td>store</td>
                                                   
                                                         <td>
-                                                                    <code>Store&lt;StateWithAsm&gt;</code>
+                                                                    <code>Store</code>
                                                         </td>
                                                   
                                                     <td>
@@ -257,8 +257,8 @@ or get information about the status of emulation.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">projects/core/src/asm/facade/csagent-auth.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">feature-libs/asm/root/services/csagent-auth.service.ts:39</a></div>
                 </td>
             </tr>
 
@@ -343,8 +343,8 @@ or get information about the status of emulation.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="124"
-                            class="link-to-prism">projects/core/src/asm/facade/csagent-auth.service.ts:124</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="120"
+                            class="link-to-prism">feature-libs/asm/root/services/csagent-auth.service.ts:120</a></div>
                 </td>
             </tr>
 
@@ -386,8 +386,8 @@ or get information about the status of emulation.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">projects/core/src/asm/facade/csagent-auth.service.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="113"
+                            class="link-to-prism">feature-libs/asm/root/services/csagent-auth.service.ts:113</a></div>
                 </td>
             </tr>
 
@@ -435,8 +435,8 @@ or get information about the status of emulation.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="101"
-                            class="link-to-prism">projects/core/src/asm/facade/csagent-auth.service.ts:101</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">feature-libs/asm/root/services/csagent-auth.service.ts:97</a></div>
                 </td>
             </tr>
 
@@ -484,8 +484,8 @@ or get information about the status of emulation.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="132"
-                            class="link-to-prism">projects/core/src/asm/facade/csagent-auth.service.ts:132</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">feature-libs/asm/root/services/csagent-auth.service.ts:128</a></div>
                 </td>
             </tr>
 
@@ -527,8 +527,8 @@ or get information about the status of emulation.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="87"
-                            class="link-to-prism">projects/core/src/asm/facade/csagent-auth.service.ts:87</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">feature-libs/asm/root/services/csagent-auth.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -586,23 +586,19 @@ A customer emulation session is stopped by calling logout().</p>
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Store } from &#x27;@ngrx/store&#x27;;
-import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
-import { map } from &#x27;rxjs/operators&#x27;;
-import { AuthService } from &#x27;../../auth/user-auth/facade/auth.service&#x27;;
-import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
-import { OAuthLibWrapperService } from &#x27;../../auth/user-auth/services/oauth-lib-wrapper.service&#x27;;
-import { AuthActions } from &#x27;../../auth/user-auth/store/actions&#x27;;
 import {
+  AuthActions,
+  AuthService,
+  AuthToken,
+  OAuthLibWrapperService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
-} from &#x27;../../occ/utils/occ-constants&#x27;;
-import { UserService } from &#x27;../../user/facade/user.service&#x27;;
-import {
-  AsmAuthStorageService,
-  TokenTarget,
-} from &#x27;../services/asm-auth-storage.service&#x27;;
-import { AsmActions } from &#x27;../store/actions&#x27;;
-import { StateWithAsm } from &#x27;../store/asm-state&#x27;;
+  UserIdService,
+  UserService,
+} from &#x27;@spartacus/core&#x27;;
+import { combineLatest, Observable, of } from &#x27;rxjs&#x27;;
+import { map } from &#x27;rxjs/operators&#x27;;
+import { AsmAuthStorageService, TokenTarget } from &#x27;./asm-auth-storage.service&#x27;;
 
 /**
  * Auth service for CS agent. Useful to login/logout agent, start emulation
@@ -617,7 +613,7 @@ export class CsAgentAuthService {
     protected authStorageService: AsmAuthStorageService,
     protected userIdService: UserIdService,
     protected oAuthLibWrapperService: OAuthLibWrapperService,
-    protected store: Store&lt;StateWithAsm&gt;,
+    protected store: Store,
     protected userService: UserService
   ) {}
 
@@ -630,7 +626,7 @@ export class CsAgentAuthService {
     userId: string,
     password: string
   ): Promise&lt;void&gt; {
-    let userToken;
+    let userToken: AuthToken | undefined;
     this.authStorageService
       .getToken()
       .subscribe((token) &#x3D;&gt; (userToken &#x3D; token))
@@ -643,14 +639,14 @@ export class CsAgentAuthService {
         password
       );
       // Start emulation for currently logged in user
-      let customerId: string;
+      let customerId: string | undefined;
       this.userService
         .get()
         .subscribe((user) &#x3D;&gt; (customerId &#x3D; user?.customerId))
         .unsubscribe();
       this.store.dispatch(new AuthActions.Logout());
 
-      if (Boolean(customerId)) {
+      if (customerId !&#x3D;&#x3D; undefined &amp;&amp; userToken !&#x3D;&#x3D; undefined) {
         // OCC specific user id handling. Customize when implementing different backend
         this.userIdService.setUserId(customerId);
         this.authStorageService.setEmulatedUserToken(userToken);
@@ -726,7 +722,7 @@ export class CsAgentAuthService {
 
     await this.oAuthLibWrapperService.revokeAndLogout();
 
-    this.store.dispatch(new AsmActions.LogoutCustomerSupportAgent());
+    this.store.dispatch({ type: &#x27;[Auth] Logout Customer Support Agent&#x27; });
     this.authStorageService.setTokenTarget(TokenTarget.User);
 
     if (isCustomerEmulated &amp;&amp; emulatedToken) {

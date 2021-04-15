@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/asm/services/asm-auth.service.ts</code>
+            <code>feature-libs/asm/root/services/asm-auth.service.ts</code>
         </p>
 
             <p class="comment">
@@ -153,7 +153,7 @@ Overrides AuthService when ASM module is enabled.</p>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">feature-libs/asm/root/services/asm-auth.service.ts:26</a></div>
                             </td>
                         </tr>
 
@@ -293,7 +293,7 @@ Overrides AuthService when ASM module is enabled.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:46</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth.service.ts:46</a></div>
                 </td>
             </tr>
 
@@ -332,7 +332,7 @@ Overrides AuthService when ASM module is enabled.</p>
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:102</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth.service.ts:102</a></div>
                 </td>
             </tr>
 
@@ -374,7 +374,7 @@ To perform logout it is best to use <code>logout</code> method. Use this method 
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="124"
-                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:124</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth.service.ts:124</a></div>
                 </td>
             </tr>
 
@@ -417,7 +417,7 @@ To perform logout it is best to use <code>logout</code> method. Use this method 
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:77</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth.service.ts:77</a></div>
                 </td>
             </tr>
 
@@ -501,7 +501,7 @@ To perform logout it is best to use <code>logout</code> method. Use this method 
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="88"
-                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:88</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth.service.ts:88</a></div>
                 </td>
             </tr>
 
@@ -544,7 +544,7 @@ To perform logout it is best to use <code>logout</code> method. Use this method 
             <tr>
                 <td class="col-md-4">
                     <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">projects/core/src/asm/services/asm-auth.service.ts:63</a></div>
+                            class="link-to-prism">feature-libs/asm/root/services/asm-auth.service.ts:63</a></div>
                 </td>
             </tr>
 
@@ -650,7 +650,7 @@ To perform logout it is best to use <code>logout</code> method. Use this method 
 </div>
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+                        <b>Returns : </b>    <code>Promise&lt;void&gt;</code>
 
                     </div>
                 </td>
@@ -898,20 +898,20 @@ To perform logout it is best to use <code>logout</code> method. Use this method 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Store } from &#x27;@ngrx/store&#x27;;
-import { combineLatest, from, Observable, of } from &#x27;rxjs&#x27;;
-import { map, switchMap, take } from &#x27;rxjs/operators&#x27;;
-import { StateWithClientAuth } from &#x27;../../auth/client-auth/store/client-auth-state&#x27;;
-import { AuthService } from &#x27;../../auth/user-auth/facade/auth.service&#x27;;
-import { UserIdService } from &#x27;../../auth/user-auth/facade/user-id.service&#x27;;
-import { AuthToken } from &#x27;../../auth/user-auth/models/auth-token.model&#x27;;
-import { AuthRedirectService } from &#x27;../../auth/user-auth/services/auth-redirect.service&#x27;;
-import { OAuthLibWrapperService } from &#x27;../../auth/user-auth/services/oauth-lib-wrapper.service&#x27;;
-import { AuthActions } from &#x27;../../auth/user-auth/store/actions/index&#x27;;
 import {
+  AuthActions,
+  AuthRedirectService,
+  AuthService,
+  AuthToken,
   GlobalMessageService,
   GlobalMessageType,
-} from &#x27;../../global-message/index&#x27;;
-import { RoutingService } from &#x27;../../routing/facade/routing.service&#x27;;
+  OAuthLibWrapperService,
+  RoutingService,
+  StateWithClientAuth,
+  UserIdService,
+} from &#x27;@spartacus/core&#x27;;
+import { combineLatest, from, Observable, of } from &#x27;rxjs&#x27;;
+import { map, switchMap, take } from &#x27;rxjs/operators&#x27;;
 import { AsmAuthStorageService, TokenTarget } from &#x27;./asm-auth-storage.service&#x27;;
 
 /**
@@ -942,8 +942,8 @@ export class AsmAuthService extends AuthService {
   }
 
   protected canUserLogin(): boolean {
-    let tokenTarget: TokenTarget;
-    let token: AuthToken;
+    let tokenTarget: TokenTarget | undefined;
+    let token: AuthToken | undefined;
 
     this.authStorageService
       .getToken()

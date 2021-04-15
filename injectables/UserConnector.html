@@ -263,8 +263,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:80</a></div>
                 </td>
             </tr>
 
@@ -302,8 +302,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="23"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:23</a></div>
                 </td>
             </tr>
 
@@ -372,8 +372,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:30</a></div>
                 </td>
             </tr>
 
@@ -454,8 +454,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:73</a></div>
                 </td>
             </tr>
 
@@ -524,8 +524,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:37</a></div>
                 </td>
             </tr>
 
@@ -594,8 +594,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:44</a></div>
                 </td>
             </tr>
 
@@ -758,8 +758,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:51</a></div>
                 </td>
             </tr>
 
@@ -852,8 +852,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">projects/core/src/user/connectors/user/user.connector.ts:62</a></div>
                 </td>
             </tr>
 
@@ -949,22 +949,37 @@ export class UserConnector {
     return this.adapter.update(username, user);
   }
 
+  /**
+   * @deprecated since 3.2, use &#x60;UserProfileConnector&#x60; from &#x60;@spartacus/user&#x60; package
+   */
   register(user: UserSignUp): Observable&lt;User&gt; {
     return this.adapter.register(user);
   }
 
+  /**
+   * @deprecated since 3.2, use &#x60;UserProfileConnector&#x60; from &#x60;@spartacus/user&#x60; package
+   */
   registerGuest(guid: string, password: string): Observable&lt;User&gt; {
     return this.adapter.registerGuest(guid, password);
   }
 
+  /**
+   * @deprecated since 3.2, use &#x60;UserProfileConnector&#x60; from &#x60;@spartacus/user&#x60; package
+   */
   requestForgotPasswordEmail(userEmailAddress: string): Observable&lt;{}&gt; {
     return this.adapter.requestForgotPasswordEmail(userEmailAddress);
   }
 
+  /**
+   * @deprecated since 3.2, use &#x60;UserProfileConnector&#x60; from &#x60;@spartacus/user&#x60; package
+   */
   resetPassword(token: string, newPassword: string): Observable&lt;{}&gt; {
     return this.adapter.resetPassword(token, newPassword);
   }
 
+  /**
+   * @deprecated since 3.2, use &#x60;UserProfileConnector&#x60; from &#x60;@spartacus/user&#x60; package
+   */
   updateEmail(
     userId: string,
     currentPassword: string,
@@ -973,6 +988,9 @@ export class UserConnector {
     return this.adapter.updateEmail(userId, currentPassword, newUserId);
   }
 
+  /**
+   * @deprecated since 3.2, use &#x60;UserProfileConnector&#x60; from &#x60;@spartacus/user&#x60; package
+   */
   updatePassword(
     userId: string,
     oldPassword: string,
@@ -981,10 +999,16 @@ export class UserConnector {
     return this.adapter.updatePassword(userId, oldPassword, newPassword);
   }
 
+  /**
+   * @deprecated since 3.2, use &#x60;UserProfileConnector&#x60; from &#x60;@spartacus/user&#x60; package
+   */
   remove(userId: string): Observable&lt;{}&gt; {
     return this.adapter.remove(userId);
   }
 
+  /**
+   * @deprecated since 3.2, use &#x60;UserProfileConnector&#x60; from &#x60;@spartacus/user&#x60; package
+   */
   getTitles(): Observable&lt;Title[]&gt; {
     return this.adapter.loadTitles();
   }
