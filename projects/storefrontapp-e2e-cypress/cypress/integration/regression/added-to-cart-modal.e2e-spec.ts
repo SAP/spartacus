@@ -82,7 +82,7 @@ describe('Added to cart modal', () => {
 
     it('adding different products to cart', () => {
       cy.onMobile(() => {
-        cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
+        cy.get('cx-searchbox button[aria-label="search"]').click();
       });
 
       // search for new product and select it, and add to cart
