@@ -11,12 +11,11 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { InMemoryFileSystemHost, Project, SourceFile } from 'ts-morph';
-import { getConfigs, getSpartacusProviders } from './config-utils';
+import { getSpartacusProviders } from './config-utils';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
-// TODO:#10744 - cleanup after implementing the new config utils.
 describe('Storefront config utils', () => {
   let appTree: UnitTestTree;
   const workspaceOptions: WorkspaceOptions = {
@@ -114,15 +113,6 @@ export class TrackingFeatureModule {}
         fileSystem: new InMemoryFileSystemHost(),
       });
       sourceFile = project.createSourceFile('test.ts', configFileContent);
-    });
-
-    describe('getConfigs', () => {
-      it('should return all configs from provideConfigs calls', () => {
-        const configs = getConfigs(sourceFile);
-        expect(configs.length).toEqual(2);
-        expect(configs[0].getText()).toMatchSnapshot();
-        expect(configs[1].getText()).toMatchSnapshot();
-      });
     });
 
     describe('getSpartacusProviders', () => {
