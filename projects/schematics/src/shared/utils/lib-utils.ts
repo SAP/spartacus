@@ -446,10 +446,9 @@ function createAssetsArray(
   for (const asset of angularJsonAssets) {
     if (typeof asset === 'object') {
       if (
-        (asset.glob === assetsConfig.glob &&
-          asset.input === `./node_modules/@spartacus/${assetsConfig.input}` &&
-          asset.output === assetsConfig.output) ||
-        'assets/'
+        asset.glob === assetsConfig.glob &&
+        asset.input === `./node_modules/@spartacus/${assetsConfig.input}` &&
+        asset.output === (assetsConfig.output || 'assets/')
       ) {
         return angularJsonAssets;
       }
