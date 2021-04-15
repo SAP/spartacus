@@ -31,7 +31,7 @@
   <button
     aria-label="search"
     class="search"
-    (mousedown)="avoidReopen($event)"
+    (mousedown)="avoidReopen($event); open()"
     (keydown.enter)="avoidReopen($event)"
     tabindex="0"
   >
