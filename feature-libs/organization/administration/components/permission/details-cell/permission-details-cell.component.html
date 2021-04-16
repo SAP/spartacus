@@ -1,0 +1,80 @@
+<ng-template #details>
+  <div class="popover-details">
+    <div class="property">
+      <label>{{ 'orgPurchaseLimit.code' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgPurchaseLimitDetails',
+            params: model
+          } | cxUrl
+        "
+      >
+        {{ model.code }}
+      </a>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgPurchaseLimit.active' | cxTranslate }}</label>
+      <span class="value" [class.is-active]="model.active">
+        {{
+          (model.active ? 'organization.enabled' : 'organization.disabled')
+            | cxTranslate
+        }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{
+        'orgPurchaseLimit.orderApprovalPermissionType' | cxTranslate
+      }}</label>
+      <span class="value">
+        {{ model.orderApprovalPermissionType?.name }}
+      </span>
+    </div>
+
+    <div class="property" *ngIf="model.threshold || model.threshold === 0">
+      <label>{{ 'orgPurchaseLimit.threshold' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.threshold }} {{ model.currency?.symbol }}
+      </span>
+    </div>
+
+    <div class="property" *ngIf="model.periodRange">
+      <label>{{ 'orgPurchaseLimit.periodRange' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.periodRange }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgPurchaseLimit.unit' | cxTranslate }}</label>
+      <a
+        *ngIf="model.code"
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.orgUnit?.name }}
+      </a>
+    </div>
+  </div>
+</ng-template>
+
+<button
+  class="button text"
+  [cxPopover]="details"
+  [cxPopoverOptions]="{
+    placement: 'auto',
+    class: 'my-company-popover',
+    appendToBody: true,
+    displayCloseButton: true
+  }"
+>
+  {{ model.code }}
+</button>

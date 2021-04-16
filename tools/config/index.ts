@@ -223,7 +223,6 @@ const librariesPaths = glob.sync(
   {
     ignore: [
       `projects/storefrontapp-e2e-cypress/${PACKAGE_JSON}`,
-      `projects/dev-schematics/${PACKAGE_JSON}`,
       `projects/storefrontapp/${PACKAGE_JSON}`,
     ],
   }

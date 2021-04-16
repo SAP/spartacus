@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { WindowRef } from '../../window/window-ref';
@@ -19,7 +19,9 @@ export class RoutingService {
     protected store: Store<RouterState>,
     protected winRef: WindowRef,
     protected semanticPathService: SemanticPathService,
-    protected routingParamsService: RoutingParamsService
+    protected routingParamsService: RoutingParamsService,
+    // TODO(#10467): Consider making router mandatory in next major
+    protected router?: Router
   ) {}
 
   /**
@@ -77,6 +79,41 @@ export class RoutingService {
     const path = this.semanticPathService.transform(commands);
 
     return this.navigate(path, query, extras);
+  }
+
+  /**
+   * Resolves the relative url for the given `UrlCommands` and `NavigationExtras`.
+   *
+   * The absolute url can be resolved using `getFullUrl()`.
+   */
+  getUrl(commands: UrlCommands, extras?: NavigationExtras): string {
+    // TODO(#10467): Remove the warning as soon as the router becomes mandatory
+    if (!this.router) {
+      console.warn('No router injected to create the url tree');
+      return '';
+    }
+    let url = this.router.serializeUrl(
+      this.router.createUrlTree(
+        this.semanticPathService.transform(commands),
+        extras
+      )
+    );
+    if (!url.startsWith('/')) {
+      url = `/${url}`;
+    }
+    return url;
+  }
+
+  /**
+   * Returns the absolute url for the given `UrlCommands` and `NavigationExtras`.
+   *
+   * The absolute url uses the origin of the current location.
+   */
+  getFullUrl(commands: UrlCommands, extras?: NavigationExtras) {
+    return `${this.winRef.document.location.origin}${this.getUrl(
+      commands,
+      extras
+    )}`;
   }
 
   /**

@@ -315,18 +315,43 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
-  it('should set current group in case of clicking on a group', () => {
+  it('should set current group in case of clicking on a different group', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
+    routerStateObservable = of(mockRouterState);
+    initialize();
+
+    component.click(mockProductConfiguration.groups[0]);
+
+    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
+    expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+  });
+
+  it('should not set current group and not execute navigation in case of clicking on same group', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     initialize();
 
     component.click(mockProductConfiguration.groups[1]);
 
+    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(0);
+    expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
+  });
+
+  it('should set current group in case of hitting Enter on a different group', () => {
+    productConfigurationObservable = of(mockProductConfiguration);
+    routerStateObservable = of(mockRouterState);
+    initialize();
+
+    const event = new KeyboardEvent('keypress', {
+      code: 'Enter',
+    });
+    component.clickOnEnter(event, mockProductConfiguration.groups[0]);
+
     expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
     expect(hamburgerMenuService.toggle).toHaveBeenCalled();
   });
 
-  it('should set current group in case of hitting Enter on a group', () => {
+  it('should not set current group and not execute navigation in case of hitting Enter on a same group', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     initialize();
@@ -336,8 +361,8 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
     component.clickOnEnter(event, mockProductConfiguration.groups[1]);
 
-    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
-    expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(0);
+    expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
   });
 
   it('should do nothing hitting key other than enter on a group', () => {

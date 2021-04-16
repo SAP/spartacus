@@ -16,6 +16,8 @@ import { RoutingService } from '../../routing/facade/routing.service';
 import { CsAgentAuthService } from '../facade/csagent-auth.service';
 
 /**
+ * @deprecated since 3.2, use asm lib instead
+ *
  * Overrides `AuthHttpHeaderService` to handle asm calls as well (not only OCC)
  * in cases of normal user session and on customer emulation.
  */
