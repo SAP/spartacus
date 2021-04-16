@@ -105,24 +105,7 @@ function addCommonConfiguration(
     content: `...defaultCmsContentProviders`,
   });
 
-  const config = createStorefrontConfig(options);
-  addModuleProvider(sourceFile, {
-    import: [
-      {
-        moduleSpecifier: SPARTACUS_CORE,
-        namedImports: [PROVIDE_CONFIG_FUNCTION],
-      },
-      {
-        moduleSpecifier: SPARTACUS_ASSETS,
-        namedImports: ['translations'],
-      },
-      {
-        moduleSpecifier: SPARTACUS_ASSETS,
-        namedImports: ['translationChunksConfig'],
-      },
-    ],
-    content: `provideConfig(${config})`,
-  });
+  addStorefrontConfig(sourceFile, options);
 }
 
 function addB2bConfiguration(
@@ -159,48 +142,112 @@ function addB2bConfiguration(
   });
 }
 
-function prepareSiteContextConfig(options: SpartacusOptions): string {
+function createSiteContextConfig(options: SpartacusOptions): string {
   const currency = parseCSV(options.currency, ['USD']).toUpperCase();
   const language = parseCSV(options.language, ['en']).toLowerCase();
-  let context = `
+  let contextConfig = `
       context: {
         currency: [${currency}],
         language: [${language}],`;
 
   if (options.baseSite) {
     const baseSites = parseCSV(options.baseSite);
-    context += `\nbaseSite: [${baseSites}]`;
+    contextConfig += `\nbaseSite: [${baseSites}]`;
   }
 
-  context += `},`;
+  contextConfig += `},`;
 
-  return context;
+  return `provideConfig({${contextConfig}})`;
 }
 
 /**
- * Creates a spartacus config based on the provided `options`.
+ * Creates and adds a spartacus config based on the provided `options`.
  * @param options
  */
-function createStorefrontConfig(options: SpartacusOptions): string {
-  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
-  const context = prepareSiteContextConfig(options);
+function addStorefrontConfig(
+  sourceFile: SourceFile,
+  options: SpartacusOptions
+): void {
+  const backendConfig = createBackendConfiguration(options);
+  addModuleProvider(sourceFile, {
+    import: [
+      {
+        moduleSpecifier: SPARTACUS_CORE,
+        namedImports: [PROVIDE_CONFIG_FUNCTION],
+      },
+    ],
+    content: backendConfig,
+  });
 
+  const siteContextConfig = createSiteContextConfig(options);
+  addModuleProvider(sourceFile, {
+    import: [
+      {
+        moduleSpecifier: SPARTACUS_CORE,
+        namedImports: [PROVIDE_CONFIG_FUNCTION],
+      },
+    ],
+    content: siteContextConfig,
+  });
+
+  const i18nConfig = createI18NConfiguration();
+  addModuleProvider(sourceFile, {
+    import: [
+      {
+        moduleSpecifier: SPARTACUS_CORE,
+        namedImports: [PROVIDE_CONFIG_FUNCTION],
+      },
+      {
+        moduleSpecifier: SPARTACUS_ASSETS,
+        namedImports: ['translations'],
+      },
+      {
+        moduleSpecifier: SPARTACUS_ASSETS,
+        namedImports: ['translationChunksConfig'],
+      },
+    ],
+    content: i18nConfig,
+  });
+
+  const featureLevelConfig = createFeatureLevelConfiguration(options);
+  addModuleProvider(sourceFile, {
+    import: [
+      {
+        moduleSpecifier: SPARTACUS_CORE,
+        namedImports: [PROVIDE_CONFIG_FUNCTION],
+      },
+    ],
+    content: featureLevelConfig,
+  });
+}
+
+function createBackendConfiguration(options: SpartacusOptions): string {
+  const baseUrlPart = `\n          baseUrl: '${options.baseUrl}',`;
   const occPrefixPart = options.occPrefix
     ? `prefix: '${options.occPrefix}'`
     : '';
-
-  return `{
-      backend: {
-        occ: {${options.useMetaTags ? '' : baseUrlPart}${occPrefixPart}
-        }
-      },${context}
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en'
-      },
-      features: {
-        level: '${options.featureLevel || getSpartacusCurrentFeatureLevel()}'
+  return `provideConfig({
+    backend: {
+      occ: {${options.useMetaTags ? '' : baseUrlPart}${occPrefixPart}
       }
-    }`;
+    },
+  })`;
+}
+
+function createI18NConfiguration(): string {
+  return `provideConfig({
+  i18n: {
+    resources: translations,
+    chunks: translationChunksConfig,
+    fallbackLang: 'en'
+  },
+})`;
+}
+
+function createFeatureLevelConfiguration(options: SpartacusOptions): string {
+  const featureLevelConfig = `
+  features: {
+    level: '${options.featureLevel || getSpartacusCurrentFeatureLevel()}'
+  }`;
+  return `provideConfig({${featureLevelConfig}})`;
 }
