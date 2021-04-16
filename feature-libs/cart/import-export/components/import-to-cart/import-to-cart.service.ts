@@ -47,6 +47,7 @@ export class ImportToCartService {
                         cartId,
                         products
                       );
+                    // TODO: what will be name & description? Maybe we should display some modal and ask about it? What about filename?
                     this.savedCartService.saveCart({
                       cartId,
                       saveCartName: 'imported cart',
@@ -69,5 +70,4 @@ export class ImportToCartService {
       quantity: Number(row[1]),
     }));
   }
-
 }
