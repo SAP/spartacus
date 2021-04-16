@@ -5,13 +5,12 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
+import { GigyaRaasComponentData } from '@spartacus/cdc/core';
+import { CdcConfig, CdcJsService } from '@spartacus/cdc/root';
 import { BaseSiteService, LanguageService, WindowRef } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, take, tap } from 'rxjs/operators';
-import { CdcJsService } from '../../auth/facade/cdc-js.service';
-import { CdcConfig } from '../../config';
-import { GigyaRaasComponentData } from '../cms.model';
 
 @Component({
   selector: 'cx-gigya-raas',
@@ -66,7 +65,9 @@ export class GigyaRaasComponent implements OnInit {
    * @param lang - language
    */
   showScreenSet(data: GigyaRaasComponentData, lang: string) {
-    this.winRef.nativeWindow?.['gigya']?.accounts?.showScreenSet({
+    (this.winRef.nativeWindow as { [key: string]: any })?.[
+      'gigya'
+    ]?.accounts?.showScreenSet({
       screenSet: data.screenSet,
       startScreen: data.startScreen,
       lang,
@@ -76,7 +77,7 @@ export class GigyaRaasComponent implements OnInit {
       ...(this.isLoginScreenSet(data)
         ? { sessionExpiration: this.getSessionExpirationValue() }
         : {
-            onAfterSubmit: (...params) => {
+            onAfterSubmit: (...params: any[]) => {
               this.zone.run(() =>
                 this.cdcJSService.onProfileUpdateEventHandler(...params)
               );
@@ -93,23 +94,24 @@ export class GigyaRaasComponent implements OnInit {
   }
 
   protected getSessionExpirationValue(): number {
-    const filteredConfigs: any = this.cdcConfig.cdc.filter(
-      (conf) => conf.baseSite === this.getCurrentBaseSite()
-    );
-    if (filteredConfigs && filteredConfigs.length > 0) {
-      return filteredConfigs[0].sessionExpiration;
+    if (this.cdcConfig?.cdc !== undefined) {
+      const filteredConfigs: any = this.cdcConfig.cdc.filter(
+        (conf) => conf.baseSite === this.getCurrentBaseSite()
+      );
+      if (filteredConfigs && filteredConfigs.length > 0) {
+        return filteredConfigs[0].sessionExpiration;
+      }
     }
     // Return a default value
     return 3600;
   }
 
   private getCurrentBaseSite(): string {
-    let baseSite: string;
+    let baseSite: string = '';
     this.baseSiteService
       .getActive()
       .pipe(take(1))
       .subscribe((data) => (baseSite = data));
-
     return baseSite;
   }
 
