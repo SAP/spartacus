@@ -1,10 +1,8 @@
-import {
-  Rule,
-} from '@angular-devkit/schematics';
+import { Rule } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
   LibraryOptions as SpartacusVariantsMultiDimensionalOptions,
-  SPARTACUS_PRODUCT
+  SPARTACUS_PRODUCT,
 } from '@spartacus/schematics';
 
 import {
@@ -15,7 +13,9 @@ import {
   SPARTACUS_VARIANTS_MULTIDIMENSIONAL_ROOT,
   SPARTACUS_VARIANTS_MULTIDIMENSIONAL_ASSETS,
   VARIANTS_MULTIDIMENSIONAL_TRANSLATION_CHUNKS_CONFIG,
-  VARIANTS_MULTIDIMENSIONAL_TRANSLATIONS, PRODUCT_FOLDER_NAME, PRODUCT_SCSS_FILE_NAME
+  VARIANTS_MULTIDIMENSIONAL_TRANSLATIONS,
+  PRODUCT_FOLDER_NAME,
+  PRODUCT_SCSS_FILE_NAME,
 } from './../constants';
 
 export function addVariantsMultiDimensionalFeature(
