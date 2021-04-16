@@ -1,6 +1,7 @@
 import { Component, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { CheckoutStepType } from '@spartacus/checkout/root';
 import {
   I18nTestingModule,
   PaymentType,
@@ -9,7 +10,6 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PaymentTypeComponent } from './payment-type.component';
-
 import createSpy = jasmine.createSpy;
 
 @Component({
