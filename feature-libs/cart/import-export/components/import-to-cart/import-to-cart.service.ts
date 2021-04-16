@@ -2,15 +2,13 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
 import {
   MultiCartService,
-  ProductReviewService,
   ProductService,
   UserIdService,
 } from '@spartacus/core';
-import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { ProductsData } from '../model';
-import { ImportExportService } from './import-export.service';
+import { ProductsData } from '../../core/model';
+import { ImportExportService } from '../../core/services';
 
 @Injectable({
   providedIn: 'root',
@@ -22,9 +20,7 @@ export class ImportToCartService implements OnDestroy {
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartService,
     protected savedCartService: SavedCartService,
-    protected currentProductService: CurrentProductService,
     protected productService: ProductService,
-    protected productReviewService: ProductReviewService,
     protected importExportService: ImportExportService
   ) {}
 
@@ -41,7 +37,7 @@ export class ImportToCartService implements OnDestroy {
     );
   }
 
-  loadProductsToCart(productsToLoad: ProductsData): void {
+  loadProductsToCart(productsToLoad: any): void {
     this.userIdService.invokeWithUserId((userId) => {
       const createdCart = this.multiCartService.createCart({
         userId,

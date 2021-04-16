@@ -6,7 +6,10 @@ import { provideDefaultConfig } from '@spartacus/core';
     provideDefaultConfig({
       featureModules: {
         cartImportExport: {
-          cmsComponents: ['ExportOrderEntriesComponent'],
+          cmsComponents: [
+            'ExportOrderEntriesComponent',
+            'ImportProductsLinkComponent',
+          ],
         },
       },
     }),
