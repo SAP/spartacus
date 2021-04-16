@@ -1,6 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DynamicTemplate } from '@spartacus/core';
+import { StringTemplate } from '@spartacus/core';
 import { MARKER_HEADER_CPQ_CONFIGURATOR } from '@spartacus/product-configurator/rulebased/root';
 import { CpqConfiguratorEndpointConfig } from './cpq-configurator-endpoint.config';
 
@@ -29,7 +29,7 @@ export class CpqConfiguratorEndpointService {
       );
     }
     let url = this.config.backend.cpq.prefix + endpoint;
-    url = urlParams ? DynamicTemplate.resolve(url, urlParams) : url;
+    url = urlParams ? StringTemplate.resolve(url, urlParams) : url;
     url = queryParams ? this.appendQueryParameters(url, queryParams) : url;
     return url;
   }

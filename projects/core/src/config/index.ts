@@ -9,4 +9,4 @@ export {
   TestConfigModuleOptions,
 } from './test-config.module';
 export * from './utils/deep-merge';
-export * from './utils/dynamic-template';
+export * from './utils/string-template';
