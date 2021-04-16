@@ -25,6 +25,7 @@
     "@spartacus/asm": "3.2.0",
     "@spartacus/core": "3.2.0",
     "@spartacus/storefront": "3.2.0",
+    "@spartacus/user": "3.2.0",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
