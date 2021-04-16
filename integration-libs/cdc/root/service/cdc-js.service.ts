@@ -12,11 +12,11 @@ import {
   LanguageService,
   ScriptLoader,
   User,
-  UserService,
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
@@ -37,7 +37,7 @@ export class CdcJsService implements OnDestroy {
     protected cdcAuth: CdcAuthFacade,
     protected auth: AuthService,
     protected zone: NgZone,
-    protected userService: UserService,
+    protected userProfileFacade: UserProfileFacade,
     @Inject(PLATFORM_ID) protected platform: any
   ) {}
 
@@ -167,7 +167,7 @@ export class CdcJsService implements OnDestroy {
       const userDetails: User = {};
       userDetails.firstName = response.profile.firstName;
       userDetails.lastName = response.profile.lastName;
-      this.userService.updatePersonalDetails(userDetails);
+      this.userProfileFacade.update(userDetails);
     }
   }
 
