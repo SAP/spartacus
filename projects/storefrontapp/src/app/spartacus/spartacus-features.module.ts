@@ -23,7 +23,6 @@ import {
   CartComponentModule,
   CartPageEventModule,
   CategoryNavigationModule,
-  CheckoutComponentModule,
   CheckoutLoginModule,
   CmsParagraphModule,
   ConsentManagementModule,
@@ -73,6 +72,7 @@ import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
@@ -167,7 +167,6 @@ if (environment.cds) {
     CostCenterOccModule,
     // Checkout UI
     CheckoutLoginModule,
-    CheckoutComponentModule,
     OrderConfirmationModule,
 
     // Order
@@ -194,6 +193,7 @@ if (environment.cds) {
 
     /************************* External features *************************/
     UserFeatureModule,
+    CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
