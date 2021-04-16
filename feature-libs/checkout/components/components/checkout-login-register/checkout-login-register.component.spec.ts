@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { CheckoutConfigService } from '@spartacus/storefront';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutLoginRegisterComponent } from './checkout-login-register.component';
 
 describe('LoginRegisterComponent', () => {

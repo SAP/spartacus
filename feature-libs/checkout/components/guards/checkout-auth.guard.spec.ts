@@ -12,8 +12,8 @@ import {
   User,
   UserService,
 } from '@spartacus/core';
-import { CheckoutConfigService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
 
 import createSpy = jasmine.createSpy;

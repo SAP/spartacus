@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/root';
 import {
   Address,
   CheckoutCostCenterService,
@@ -7,7 +8,6 @@ import {
   PaymentTypeService,
   RoutingConfigService,
 } from '@spartacus/core';
-import { CheckoutStep, CheckoutStepType } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStepService } from '../services/checkout-step.service';

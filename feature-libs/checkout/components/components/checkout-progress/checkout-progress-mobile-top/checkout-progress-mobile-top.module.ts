@@ -1,16 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { defaultCheckoutConfig } from '@spartacus/checkout/root';
 import {
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import {
-  CartNotEmptyGuard,
-  defaultCheckoutConfig,
-} from '@spartacus/storefront';
+import { CartNotEmptyGuard } from '@spartacus/storefront';
 import { CheckoutAuthGuard } from '../../../guards/checkout-auth.guard';
 import { CheckoutStepsSetGuard } from '../../../guards/checkout-steps-set.guard';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';

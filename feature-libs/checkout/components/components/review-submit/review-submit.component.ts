@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  checkoutPaymentSteps,
+  checkoutShippingSteps,
+  CheckoutStep,
+  CheckoutStepType,
+} from '@spartacus/checkout/root';
+import {
   ActiveCartService,
   Address,
   Cart,
@@ -18,15 +24,7 @@ import {
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
-import {
-  Card,
-  checkoutPaymentSteps,
-  checkoutShippingSteps,
-  CheckoutStep,
-  CheckoutStepType,
-  ICON_TYPE,
-  PromotionService,
-} from '@spartacus/storefront';
+import { Card, ICON_TYPE, PromotionService } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/index';

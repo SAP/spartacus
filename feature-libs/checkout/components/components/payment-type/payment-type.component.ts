@@ -5,12 +5,12 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CheckoutStepType } from '@spartacus/checkout/root';
 import {
   B2BPaymentTypeEnum,
   PaymentType,
   PaymentTypeService,
 } from '@spartacus/core';
-import { CheckoutStepType } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';

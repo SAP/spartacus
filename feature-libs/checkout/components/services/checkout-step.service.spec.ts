@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { CheckoutStepType } from '@spartacus/checkout/root';
 import { RoutingConfigService, RoutingService } from '@spartacus/core';
-import { CheckoutStepType } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CheckoutStepService } from './checkout-step.service';
 

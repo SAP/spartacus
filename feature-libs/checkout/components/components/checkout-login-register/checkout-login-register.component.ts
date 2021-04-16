@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutConfigService } from '@spartacus/storefront';
+import { CheckoutConfigService } from '../../services/checkout-config.service';
 
 @Component({
   selector: 'cx-login-register',

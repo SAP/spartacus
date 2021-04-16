@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CheckoutStep } from '@spartacus/storefront';
+import { CheckoutStep } from '@spartacus/checkout/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../../services/checkout-step.service';

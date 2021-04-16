@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { RoutingConfigService, RoutingService } from '@spartacus/core';
 import {
   CheckoutConfig,
   CheckoutStep,
   CheckoutStepType,
-} from '@spartacus/storefront';
+} from '@spartacus/checkout/root';
+import { RoutingConfigService, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 

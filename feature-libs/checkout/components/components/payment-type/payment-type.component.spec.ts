@@ -6,7 +6,6 @@ import {
   PaymentType,
   PaymentTypeService,
 } from '@spartacus/core';
-import { CheckoutStepType } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PaymentTypeComponent } from './payment-type.component';

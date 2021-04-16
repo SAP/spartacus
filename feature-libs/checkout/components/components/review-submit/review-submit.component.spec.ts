@@ -2,6 +2,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -23,8 +24,6 @@ import {
 } from '@spartacus/core';
 import {
   Card,
-  CheckoutStep,
-  CheckoutStepType,
   PromotionService,
   PromotionsModule,
 } from '@spartacus/storefront';
@@ -32,6 +31,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { IconTestingModule } from '../../../../../projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { CheckoutStepService } from '../../services/index';
 import { ReviewSubmitComponent } from './review-submit.component';
+
 import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {

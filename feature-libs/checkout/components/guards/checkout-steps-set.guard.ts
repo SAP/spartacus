@@ -6,12 +6,12 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/root';
 import {
   CheckoutCostCenterService,
   PaymentTypeService,
   RoutingConfigService,
 } from '@spartacus/core';
-import { CheckoutStep, CheckoutStepType } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDetailsService } from '../services/checkout-details.service';

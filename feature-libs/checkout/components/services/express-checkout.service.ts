@@ -10,9 +10,9 @@ import {
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
-import { CheckoutConfigService } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { debounceTime, filter, map, switchMap, tap } from 'rxjs/operators';
+import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
 
 @Injectable({
