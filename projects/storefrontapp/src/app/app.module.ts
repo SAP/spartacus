@@ -86,7 +86,7 @@ if (!environment.production) {
         productConfiguratorRulebased: {
           module: () =>
             import('@spartacus/product-configurator/rulebased/cpq').then(
-              (m) => m.CpqConfiguratorRestModule
+              (m) => m.RulebasedCpqConfiguratorModule
             ),
         },
 
