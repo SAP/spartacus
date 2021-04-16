@@ -279,10 +279,6 @@ function configureSpartacusModules(
         addModuleImport(sourceFile, {
           import: [
             {
-              moduleSpecifier: SPARTACUS_CORE,
-              namedImports: [],
-            },
-            {
               moduleSpecifier: SPARTACUS_STOREFRONTLIB,
               namedImports: [
                 'OrderCancellationModule',

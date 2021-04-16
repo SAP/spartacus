@@ -42,16 +42,7 @@ export function getSpartacusProviders(sourceFile: SourceFile): Node[] {
 
 const EMPTY_SPACE_REG_EXP = /\s+/gm;
 export function normalizeConfiguration(config: string | Node): string {
-  let newConfig: string;
-  if (typeof config === 'string') {
-    newConfig = config;
-  } else {
-    if (Node.isTypeAssertion(config) || Node.isAsExpression(config)) {
-      newConfig = config.getExpression().getText();
-    } else {
-      newConfig = config.getText();
-    }
-  }
+  let newConfig = typeof config === 'string' ? config : config.getText();
 
   newConfig = newConfig.trim();
 
