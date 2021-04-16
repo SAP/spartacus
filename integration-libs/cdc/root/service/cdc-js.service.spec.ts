@@ -9,8 +9,8 @@ import {
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CdcConfig } from '../../config';
-import { CdcAuthService } from './cdc-auth.service';
+import { CdcConfig } from '../config/cdc-config';
+import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 import { CdcJsService } from './cdc-js.service';
 import createSpy = jasmine.createSpy;
 
@@ -50,7 +50,7 @@ class ScriptLoaderMock {
   }): void {}
 }
 
-class MockCdcAuthService implements Partial<CdcAuthService> {
+class MockCdcAuthFacade implements Partial<CdcAuthFacade> {
   loginWithCustomCdcFlow(): void {}
 }
 
@@ -87,8 +87,8 @@ describe('CdcJsService', () => {
   let baseSiteService: BaseSiteService;
   let languageService: LanguageService;
   let scriptLoader: ScriptLoader;
-  let cdcAuth: CdcAuthService;
   let userProfileFacade: UserProfileFacade;
+  let cdcAuth: CdcAuthFacade;
   let winRef: WindowRef;
   let authService: AuthService;
 
@@ -99,8 +99,8 @@ describe('CdcJsService', () => {
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: LanguageService, useClass: LanguageServiceStub },
         { provide: ScriptLoader, useClass: ScriptLoaderMock },
-        { provide: CdcAuthService, useClass: MockCdcAuthService },
         { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+        { provide: CdcAuthFacade, useClass: MockCdcAuthFacade },
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: Subscription, useValue: MockSubscription },
         { provide: AuthService, useClass: MockAuthService },
@@ -111,8 +111,8 @@ describe('CdcJsService', () => {
     baseSiteService = TestBed.inject(BaseSiteService);
     languageService = TestBed.inject(LanguageService);
     scriptLoader = TestBed.inject(ScriptLoader);
-    cdcAuth = TestBed.inject(CdcAuthService);
     userProfileFacade = TestBed.inject(UserProfileFacade);
+    cdcAuth = TestBed.inject(CdcAuthFacade);
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
   });

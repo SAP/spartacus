@@ -16,9 +16,9 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CdcConfig } from '../../config/cdc-config';
-import { CdcAuthService } from './cdc-auth.service';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
+import { CdcConfig } from '../config/cdc-config';
+import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +34,7 @@ export class CdcJsService implements OnDestroy {
     protected languageService: LanguageService,
     protected scriptLoader: ScriptLoader,
     protected winRef: WindowRef,
-    protected cdcAuth: CdcAuthService,
+    protected cdcAuth: CdcAuthFacade,
     protected auth: AuthService,
     protected zone: NgZone,
     protected userProfileFacade: UserProfileFacade,
@@ -92,7 +92,13 @@ export class CdcJsService implements OnDestroy {
                   this.errorLoading$.next(true);
                 },
               });
-              this.winRef.nativeWindow['__gigyaConf'] = { include: 'id_token' };
+              if (this.winRef?.nativeWindow !== undefined) {
+                (this.winRef.nativeWindow as { [key: string]: any })[
+                  '__gigyaConf'
+                ] = {
+                  include: 'id_token',
+                };
+              }
             }
           })
       );
@@ -100,7 +106,7 @@ export class CdcJsService implements OnDestroy {
   }
 
   private getJavascriptUrlForCurrentSite(baseSite: string): string {
-    const filteredConfigs: any = this.cdcConfig.cdc.filter(
+    const filteredConfigs = (this.cdcConfig.cdc ?? []).filter(
       (conf) => conf.baseSite === baseSite
     );
     if (filteredConfigs && filteredConfigs.length > 0) {
@@ -124,8 +130,10 @@ export class CdcJsService implements OnDestroy {
    * @param baseSite
    */
   protected addCdcEventHandlers(baseSite: string): void {
-    this.winRef.nativeWindow?.['gigya']?.accounts?.addEventHandlers({
-      onLogin: (...params) => {
+    (this.winRef.nativeWindow as { [key: string]: any })?.[
+      'gigya'
+    ]?.accounts?.addEventHandlers({
+      onLogin: (...params: any[]) => {
         this.zone.run(() => this.onLoginEventHandler(baseSite, ...params));
       },
     });
