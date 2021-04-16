@@ -22,6 +22,7 @@ export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
 export const ANGULAR_OAUTH2_OIDC = 'angular-oauth2-oidc';
 
+export const SPARTACUS_SCOPE = '@spartacus/';
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_SETUP = '@spartacus/setup';
