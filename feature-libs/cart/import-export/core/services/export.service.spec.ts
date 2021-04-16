@@ -2,7 +2,7 @@
 
 import { TestBed } from '@angular/core/testing';
 import { ImportExportConfig } from '../config/import-export-config';
-import { ImportExportService } from './import-export.service';
+import { ExportService } from './export.service';
 
 const mockImportExportConfig: ImportExportConfig = {
   importExport: {
@@ -41,8 +41,8 @@ const products = {
     'Sku,Quantity,Name,Price\r\n4567133,1,PSM 80 A,$12.00\r\n3881027,1,"Screwdriver BT-SD 3,6/1 Li",$26.00\r\n3794609,1,"2.4V Şarjli Tornavida, Tüp Ambalaj","$30,200.00"\r\n',
 };
 
-describe('ImportExportService', () => {
-  let service: ImportExportService;
+describe('ExportService', () => {
+  let service: ExportService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,7 +50,7 @@ describe('ImportExportService', () => {
         { provide: ImportExportConfig, useValue: mockImportExportConfig },
       ],
     });
-    service = TestBed.inject(ImportExportService);
+    service = TestBed.inject(ExportService);
   });
 
   it('should be created', () => {

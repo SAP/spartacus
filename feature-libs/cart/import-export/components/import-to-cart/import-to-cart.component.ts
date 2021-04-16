@@ -1,8 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { ImportExportService } from '../../core/services';
 import { ImportToCartService } from './import-to-cart.service';
+import { ImportExportConfig } from '../../core/config/import-export-config';
 
 @Component({
   selector: 'cx-import-to-cart',
@@ -12,14 +11,14 @@ import { ImportToCartService } from './import-to-cart.service';
 export class ImportToCartComponent {
   protected subscription = new Subscription();
   constructor(
-    protected importExportService: ImportExportService,
+    protected importExportConfig: ImportExportConfig,
     protected importToCartService: ImportToCartService
   ) {}
 
+  allowedExtensions =
+    this.importExportConfig.importExport.fileValidity?.allowedExtensions ?? '*';
+
   importProducts(file: FileList): void {
-    this.importToCartService
-      .csvToData(file)
-      .pipe(take(1))
-      .subscribe((data) => this.importToCartService.loadProductsToCart(data));
+    this.importToCartService.loadProductsToCart(file);
   }
 }

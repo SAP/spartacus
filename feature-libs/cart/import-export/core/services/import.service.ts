@@ -6,26 +6,24 @@ import { FileValidity, InvalidFileInfo } from '../model';
 @Injectable({
   providedIn: 'root',
 })
-export class ImportExportService {
+export class ImportService {
   constructor(protected importExportConfig: ImportExportConfig) {}
 
   /**
    * Extracts CSV file and process into a JSON data
    *
    * @param selectedFile CSV file to extract the data
-   * @param columnData object which provides info of required columns
    * @param checkValidityEnabled optional flag to disable the validity check
    * @param validityConfig optional object to pass any custom validity config
    * @returns processed data from CSV or error data in CSV extraction
    */
-  csvToData(
+  loadFile(
     selectedFile: FileList,
-    columnData: string[],
-    checkValidityEnabled?: Boolean,
+    checkValidityEnabled = true,
     validityConfig?: FileValidity
-  ): Observable<unknown> {
+  ): Observable<string[][]> {
     const file: File = selectedFile.item(0) as File;
-    return new Observable((observer: Observer<unknown>) => {
+    return new Observable((observer: Observer<string[][]>) => {
       const fileReader: FileReader = new FileReader();
       const checkValidity = this.checkValidity(file, validityConfig);
       if (
@@ -34,9 +32,7 @@ export class ImportExportService {
       ) {
         fileReader.readAsText(file);
         fileReader.onload = () => {
-          observer.next(
-            this.processCsvData(fileReader.result as string, columnData)
-          );
+          observer.next(this.readCsvData(fileReader.result as string));
           observer.complete();
         };
         fileReader.onerror = () => {
@@ -96,71 +92,25 @@ export class ImportExportService {
     return { isFileValid, invalidFileInfo };
   }
 
-  private get separator() {
-    return this.importExportConfig.importExport.file.separator;
-  }
   /**
    * Processes the CSV data
    *
-   * @param data raw extracted data from CSV
-   * @param columnData object which provides info of required columns
+   * @param csvString raw extracted data from CSV
+   * @param ignoreHeader flag allows for ignore headers row while reading
    * @returns Processed data containing productCode and quantity
    */
-  protected processCsvData(
-    data: string,
-    columnData: string[]
-  ): (string | number)[][] {
-    return data
+  protected readCsvData(csvString: string, ignoreHeader = true): string[][] {
+    return csvString
       .split('\n')
-      .map((row) => {
-        const convertedRow = row
-          .split(this.separator)
-          .map((cell) => cell.replace(/"/g, ''));
-        return convertedRow
-          .filter((_cell, index) => index < columnData.length)
-          .map((cell, index) => this.parseData(cell, index, columnData));
-      })
-      .filter((value, index) => index !== 0 && value[0] !== '');
+      .map((row) =>
+        row.split(this.separator).map((cell) => cell.replace(/"/g, ''))
+      )
+      .filter(
+        (value, index) => !(ignoreHeader && index === 0) || value[0] !== ''
+      );
   }
 
-  protected parseData(
-    cell: string,
-    index: number,
-    columnData: string[]
-  ): number | string {
-    switch (columnData[index]) {
-      case 'number':
-        return Number(cell);
-
-      case 'string':
-        return cell;
-
-      default:
-        return cell;
-    }
-  }
-
-  /**
-   * Converts array of objects into CSV data structure.
-   *
-   * @param objectsArray Array of objects which should be converted to CSV.
-   */
-  dataToCsv<T extends { [key: string]: unknown }>(objectsArray: T[]): string {
-    const array =
-      typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
-
-    return array.reduce((csvString: string, row: T) => {
-      const line = Object.keys(row).reduce((currentLine, column) => {
-        currentLine += currentLine !== '' ? this.separator : '';
-        const cell =
-          typeof row[column] === 'string' &&
-          (row[column] as string).includes(this.separator)
-            ? `"${row[column]}"`
-            : row[column];
-
-        return `${currentLine}${cell}`;
-      }, '');
-      return `${csvString}${line}\r\n`;
-    }, '');
+  private get separator() {
+    return this.importExportConfig.importExport.file.separator;
   }
 }
