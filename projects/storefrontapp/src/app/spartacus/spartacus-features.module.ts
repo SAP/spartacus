@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
-  AsmOccModule,
   AuthModule,
   CartModule,
   CartOccModule,
@@ -11,15 +10,13 @@ import {
   ExternalRoutesModule,
   ProductModule,
   ProductOccModule,
-  UserModule,
-  UserOccModule,
+  UserOccTransitionalModule,
+  UserTransitionalModule,
 } from '@spartacus/core';
-
 import {
   AddressBookModule,
   AnonymousConsentManagementBannerModule,
   AnonymousConsentsDialogModule,
-  AsmModule,
   BannerCarouselModule,
   BannerModule,
   BreadcrumbModule,
@@ -27,15 +24,16 @@ import {
   CartPageEventModule,
   CategoryNavigationModule,
   CheckoutComponentModule,
-  CloseAccountModule,
+  CheckoutLoginModule,
   CmsParagraphModule,
   ConsentManagementModule,
   FooterNavigationModule,
-  ForgotPasswordModule,
   HamburgerMenuModule,
   HomePageEventModule,
   JsonLdBuilderModule,
   LinkModule,
+  LoginRouteModule,
+  LogoutModule,
   MyCouponsModule,
   MyInterestsModule,
   NavigationEventModule,
@@ -46,7 +44,6 @@ import {
   OrderDetailsModule,
   OrderHistoryModule,
   OrderReturnModule,
-  PageEventModule,
   PaymentMethodsModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
@@ -59,34 +56,30 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
-  ProductVariantsModule,
   ReplenishmentOrderConfirmationModule,
   ReplenishmentOrderDetailsModule,
   ReplenishmentOrderHistoryModule,
-  ResetPasswordModule,
   ReturnRequestDetailModule,
   ReturnRequestListModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
-  UpdateEmailModule,
-  UpdatePasswordModule,
-  UpdateProfileModule,
-  UserComponentModule,
   WishListModule,
 } from '@spartacus/storefront';
-
-import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { environment } from '../../environments/environment';
+import { AdministrationFeatureModule } from './features/administration-feature.module';
+import { AsmFeatureModule } from './features/asm-feature.module';
+import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
-import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
+import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking-feature.module';
+import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
 
 const featureModules = [];
@@ -95,6 +88,7 @@ if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
     OrderApprovalFeatureModule,
+
     BulkPricingFeatureModule
   );
 }
@@ -109,6 +103,8 @@ if (environment.cds) {
   imports: [
     // Auth Core
     AuthModule.forRoot(),
+    LogoutModule, // will be come part of auth package
+    LoginRouteModule, // will be come part of auth package
 
     // Basic Cms Components
     HamburgerMenuModule,
@@ -124,17 +120,10 @@ if (environment.cds) {
     BreadcrumbModule,
 
     // User Core
-    UserModule.forRoot(),
-    UserOccModule,
+    UserTransitionalModule,
+    UserOccTransitionalModule,
     // User UI
-    UserComponentModule,
     AddressBookModule,
-    UpdateEmailModule,
-    UpdatePasswordModule,
-    UpdateProfileModule,
-    CloseAccountModule,
-    ForgotPasswordModule,
-    ResetPasswordModule,
     PaymentMethodsModule,
     NotificationPreferenceModule,
     MyInterestsModule,
@@ -163,7 +152,6 @@ if (environment.cds) {
     ProductReferencesModule,
     ProductImagesModule,
     ProductSummaryModule,
-    ProductVariantsModule,
     ProductIntroModule,
 
     // Cart Core
@@ -178,6 +166,7 @@ if (environment.cds) {
     CheckoutOccModule,
     CostCenterOccModule,
     // Checkout UI
+    CheckoutLoginModule,
     CheckoutComponentModule,
     OrderConfirmationModule,
 
@@ -192,16 +181,10 @@ if (environment.cds) {
     ReplenishmentOrderDetailsModule,
     ReplenishmentOrderConfirmationModule,
 
-    // Asm Core
-    AsmOccModule,
-    // Asm UI
-    AsmModule,
-
     // Page Events
     NavigationEventModule,
     HomePageEventModule,
     CartPageEventModule,
-    PageEventModule,
     ProductPageEventModule,
 
     /************************* Opt-in features *************************/
@@ -210,12 +193,14 @@ if (environment.cds) {
     JsonLdBuilderModule,
 
     /************************* External features *************************/
-
+    UserFeatureModule,
+    AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
     SmartEditFeatureModule,
     TrackingFeatureModule,
     VariantsFeatureModule,
+    SavedCartFeatureModule,
     ...featureModules,
   ],
 })

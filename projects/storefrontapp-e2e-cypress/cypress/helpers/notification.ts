@@ -1,4 +1,3 @@
-import { standardUser } from '../sample-data/shared-users';
 import { login } from './auth-forms';
 import { generateMail, randomString } from './user';
 
@@ -15,11 +14,6 @@ export function navigateToNotificationPreferencePage() {
   });
 }
 
-export function verifyNotificationPrefAsAnonymous() {
-  cy.visit('/my-account/notification-preference');
-  cy.location('pathname').should('contain', '/login');
-}
-
 export function enableNotificationChannel() {
   navigateToNotificationPreferencePage();
   cy.get('[type="checkbox"]').first().check();
@@ -30,43 +24,18 @@ export function disableNotificationChannel() {
   cy.get('[type="checkbox"]').first().uncheck();
 }
 
-export function verifyNotificationChannel() {
-  enableNotificationChannel();
-  verifyChannelEnabled();
-  disableNotificationChannel();
-  verifyChannelDisabled();
-}
-
 export function updateEmail(): String {
   const password = 'Password123.';
   const newUid = generateMail(randomString(), true);
   cy.selectUserMenuOption({
     option: 'Email Address',
   });
-  cy.get('cx-update-email-form [formcontrolname="email"]').type(newUid);
-  cy.get('cx-update-email-form [formcontrolname="confirmEmail"]').type(newUid);
-  cy.get('cx-update-email-form [formcontrolname="password"]').type(password);
-  cy.get('cx-update-email-form button[type="submit"]').click();
+  cy.get('cx-update-email [formcontrolname="email"]').type(newUid);
+  cy.get('cx-update-email [formcontrolname="confirmEmail"]').type(newUid);
+  cy.get('cx-update-email [formcontrolname="password"]').type(password);
+  cy.get('cx-update-email button').click();
   login(newUid, password);
   return newUid;
-}
-
-export function verifyChannelValueUpdating() {
-  verifyEmailChannel(standardUser.registrationData.email);
-  const newEmail = updateEmail();
-  verifyEmailChannel(newEmail);
-}
-
-export function verifyChannelDisabled() {
-  cy.visit('/');
-  navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]').first().should('not.be.checked');
-}
-
-export function verifyChannelEnabled() {
-  cy.visit('/');
-  navigateToNotificationPreferencePage();
-  cy.get('[type="checkbox"]').first().should('be.checked');
 }
 
 export function verifyEmailChannel(email: String) {
@@ -148,11 +117,6 @@ export function verifyNavigateToNotificationPreferenceInDialog() {
 export function verifyNavigateToMyInterestsInDialog() {
   cy.get('.link-interests').click();
   verifyCustomerInterest(normalProductCode);
-}
-//Customer interest
-export function verifyMyInterestsAsAnonymous() {
-  cy.visit('/my-account/my-interests');
-  cy.location('pathname').should('contain', '/login');
 }
 
 export function verifySubscriptionAndCustomerInterest(productCode: string) {

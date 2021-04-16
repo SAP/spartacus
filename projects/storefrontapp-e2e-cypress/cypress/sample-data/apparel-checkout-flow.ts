@@ -1,30 +1,34 @@
 import { generateMail, randomString } from '../helpers/user';
 import { SampleCartProduct, SampleProduct, SampleUser } from './checkout-flow';
 
-export const variantUser: SampleUser = {
-  firstName: 'User',
-  lastName: 'Test',
-  fullName: 'User Test',
-  password: 'Password@123456.',
-  email: generateMail(randomString(), true),
-  phone: '44 7911 123456',
-  address: {
-    city: 'London',
-    line1: 'Buckingham Street 5',
-    line2: '1A',
-    country: 'United Kingdom',
-    postal: 'MA8902',
-  },
-  payment: {
-    card: 'Visa',
-    number: '4111111111111111',
-    expires: {
-      month: '07',
-      year: '2022',
+export const variantUser: SampleUser = getApparelCheckoutUser();
+
+export function getApparelCheckoutUser() {
+  return {
+    firstName: 'Cypress',
+    lastName: 'Customer',
+    fullName: 'Cypress Customer',
+    password: 'Pw4all.',
+    email: generateMail(randomString(), true),
+    phone: '44 7911 123456',
+    address: {
+      city: 'London',
+      line1: 'Buckingham Street 5',
+      line2: '1A',
+      country: 'United Kingdom',
+      postal: 'MA8902',
     },
-    cvv: '123',
-  },
-};
+    payment: {
+      card: 'Visa',
+      number: '4111111111111111',
+      expires: {
+        month: '07',
+        year: '2022',
+      },
+      cvv: '123',
+    },
+  };
+}
 
 // base product with variants
 export const product: SampleProduct = {

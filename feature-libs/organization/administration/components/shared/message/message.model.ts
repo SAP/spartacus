@@ -13,6 +13,9 @@ export class MessageData<
    * inside the message component.
    */
   message?: Translatable;
+  messageTitle?: Translatable;
+  cancel?: Translatable;
+  confirm?: Translatable;
 
   /**
    * Icon used to display next to the message.

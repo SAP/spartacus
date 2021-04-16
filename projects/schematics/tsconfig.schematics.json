@@ -21,6 +21,10 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["src/*/files/**/*", "src/**/*_spec.ts"]
+  "include": ["index.ts", "src/**/*.ts"],
+  "exclude": [
+    "src/*/files/**/*",
+    "src/**/*_spec.ts",
+    "src/migrations/test/**/*"
+  ]
 }

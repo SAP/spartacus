@@ -53,6 +53,7 @@ if (!environment.production) {
         routes: {
           product: {
             paths: ['product/:productCode/:name', 'product/:productCode'],
+            paramsMapping: { name: 'slug' },
           },
         },
       },
@@ -65,7 +66,7 @@ if (!environment.production) {
       },
 
       features: {
-        level: '3.1',
+        level: '3.2',
       },
     }),
 

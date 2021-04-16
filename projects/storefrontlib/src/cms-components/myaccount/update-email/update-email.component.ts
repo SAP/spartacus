@@ -7,7 +7,9 @@ import {
   UserService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-
+/**
+ * @deprecated since 3.2, moved to @spartacus/user package.
+ */
 @Component({
   selector: 'cx-update-email',
   templateUrl: './update-email.component.html',
