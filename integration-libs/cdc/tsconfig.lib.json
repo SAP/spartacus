@@ -10,7 +10,7 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "strict": false, // TODO: Fix strict errors and remove this option
+    "strict": true,
     "types": [],
     "lib": ["dom", "esnext"],
     "paths": {
@@ -31,5 +31,5 @@
     "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
-  "exclude": ["src/test.ts", "**/*.spec.ts"]
+  "exclude": ["test.ts", "**/*.spec.ts"]
 }
