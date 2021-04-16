@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { TokenTarget } from '@spartacus/asm/root';
+import { AsmAuthStorageService, TokenTarget } from '@spartacus/asm/root';
 import {
   AuthActions,
   AuthRedirectService,
@@ -10,23 +10,10 @@ import {
   GlobalMessageType,
   OCC_USER_ID_CURRENT,
   UserIdService,
-  WindowRef,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CdcAuthActions } from '../store';
 import { CdcAuthService } from './cdc-auth.service';
-
-const gigya = {
-  accounts: {
-    logout: (): void => {},
-  },
-};
-
-const mockedWindowRef = {
-  nativeWindow: {
-    gigya: gigya,
-  },
-};
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
   setItem() {}
@@ -48,7 +35,6 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
 describe('CdcAuthService', () => {
   let service: CdcAuthService;
   let store: Store;
-  let winRef: WindowRef;
   let authStorageService: AuthStorageService;
   let userIdService: UserIdService;
   let globalMessageService: GlobalMessageService;
@@ -62,13 +48,11 @@ describe('CdcAuthService', () => {
         { provide: AuthStorageService, useClass: MockAuthStorageService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: WindowRef, useValue: mockedWindowRef },
         { provide: AuthRedirectService, useClass: MockAuthRedirectService },
       ],
     });
 
     service = TestBed.inject(CdcAuthService);
-    winRef = TestBed.inject(WindowRef);
     store = TestBed.inject(Store);
     authStorageService = TestBed.inject(AuthStorageService);
     userIdService = TestBed.inject(UserIdService);
@@ -99,16 +83,6 @@ describe('CdcAuthService', () => {
         baseSite: 'baseSite',
       })
     );
-  });
-
-  it('should logout user from CDC', () => {
-    const cdcLogout = spyOn(
-      winRef.nativeWindow['gigya'].accounts,
-      'logout'
-    ).and.stub();
-    service['logoutFromCdc']();
-
-    expect(cdcLogout).toHaveBeenCalled();
   });
 
   it('should allow to login with token data', () => {
@@ -149,7 +123,8 @@ describe('CdcAuthService', () => {
   });
 
   it('should show warning when CS agent is logged in', () => {
-    authStorageService['getTokenTarget'] = () => of(TokenTarget.CSAgent);
+    (<AsmAuthStorageService>authStorageService)['getTokenTarget'] = () =>
+      of(TokenTarget.CSAgent);
     authStorageService['getToken'] = () =>
       of({ access_token: 'token' } as AuthToken);
     spyOn(userIdService, 'setUserId').and.callThrough();

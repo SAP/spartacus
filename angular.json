@@ -535,7 +535,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "integration-libs/cdc/src/test.ts",
+            "main": "integration-libs/cdc/test.ts",
             "tsConfig": "integration-libs/cdc/tsconfig.spec.json",
             "karmaConfig": "integration-libs/cdc/karma.conf.js"
           }

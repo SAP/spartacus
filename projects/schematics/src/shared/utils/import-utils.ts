@@ -1,8 +1,6 @@
 import { Identifier, ts } from 'ts-morph';
 
 export function isImportedFrom(node: Identifier, importPath: string): boolean {
-  let result = false;
-
   const definitions = node.getDefinitions();
   for (const def of definitions) {
     const node = def.getDeclarationNode();
@@ -11,10 +9,30 @@ export function isImportedFrom(node: Identifier, importPath: string): boolean {
       ts.SyntaxKind.ImportDeclaration
     );
     if (declaration?.getModuleSpecifier().getText().includes(importPath)) {
-      result = true;
-      break;
+      return true;
     }
   }
 
-  return result;
+  return false;
+}
+
+export function isImportedFromSpartacusLibs(node: Identifier): boolean {
+  const definitions = node.getDefinitions();
+  for (const def of definitions) {
+    const node = def.getDeclarationNode();
+
+    const declaration = node?.getFirstAncestorByKind(
+      ts.SyntaxKind.ImportDeclaration
+    );
+    const moduleSpecifier = declaration?.getModuleSpecifier().getText();
+    const spartacusScope = '@spartacus/';
+    if (
+      moduleSpecifier?.startsWith(`'${spartacusScope}`) ||
+      moduleSpecifier?.startsWith(`"${spartacusScope}`)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
 }
