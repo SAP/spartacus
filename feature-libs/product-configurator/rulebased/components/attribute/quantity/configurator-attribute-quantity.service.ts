@@ -16,6 +16,37 @@ export class ConfiguratorAttributeQuantityService {
   }
 
   /**
+   * Checks if the interaction with the quantity control needs for multiselection components
+   * to be disabled
+   * @param attribute Configurator Attribute
+   * @returns Quantity actions disabled?
+   */
+  disableQuantityActionsMultiSelection(
+    attribute: Configurator.Attribute
+  ): boolean {
+    return (
+      attribute.dataType ===
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL &&
+      (!attribute.values ||
+        !attribute.values.find((value) => value.selected) ||
+        attribute.quantity === 0)
+    );
+  }
+
+  /**
+   * Checks if it is supposed to render a quantity control on attribute level
+   *
+   * @param attribute Configurator Attribute
+   * @return {boolean} - Display quantity picker on attribute level?
+   */
+  withQuantityOnAttributeLevel(attribute: Configurator.Attribute): boolean {
+    return (
+      attribute.dataType ===
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
+    );
+  }
+
+  /**
    * Checks if an attribute needs to be equipped with the option to select
    * a quantity
    * @param dataType Attribute data type
@@ -44,5 +75,21 @@ export class ConfiguratorAttributeQuantityService {
       default:
         return false;
     }
+  }
+
+  /**
+   * Checks if the zero quantity is allowed
+   *
+   * @param attribute Configurator Attribute
+   * @return {boolean} - true when zero quantity is allowed
+   */
+  allowZeroValueQuantity(attribute: Configurator.Attribute): boolean {
+    const selectedValues = attribute.values
+      ? attribute.values.filter((value) => value.selected).length
+      : 0;
+    if (attribute.required && selectedValues < 2) {
+      return false;
+    }
+    return true;
   }
 }

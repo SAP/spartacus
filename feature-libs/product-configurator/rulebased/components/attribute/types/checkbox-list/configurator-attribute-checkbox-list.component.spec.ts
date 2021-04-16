@@ -11,11 +11,6 @@ import { ConfiguratorAttributeQuantityService } from '../../quantity';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
-class MockQuantityService {
-  withQuantity(dataType: Configurator.DataType): boolean {
-    return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
-  }
-}
 
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
@@ -33,10 +28,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
             provide: ConfiguratorGroupsService,
             useClass: MockGroupService,
           },
-          {
-            provide: ConfiguratorAttributeQuantityService,
-            useClass: MockQuantityService,
-          },
+          ConfiguratorAttributeQuantityService,
         ],
       })
         .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {

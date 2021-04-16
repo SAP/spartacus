@@ -8,7 +8,7 @@
   >
     <cx-configurator-attribute-quantity
       (changeQuantity)="onChangeAttributeQuantity($event)"
-      [quantityOptions]="extractQuantityParameters()"
+      [quantityOptions]="extractQuantityParameters(attribute.quantity)"
     ></cx-configurator-attribute-quantity>
 
     <cx-configurator-price
