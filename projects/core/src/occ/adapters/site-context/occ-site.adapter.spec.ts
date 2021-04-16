@@ -260,7 +260,7 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'baseSites',
+        url: 'baseSitesForConfig',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -274,7 +274,7 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'baseSites',
+        url: 'baseSitesForConfig',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -298,13 +298,13 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'baseSites',
+        url: 'baseSitesForConfig',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-        'baseSites',
+        'baseSitesForConfig',
         {},
         { baseSite: false }
       );
@@ -314,7 +314,7 @@ describe('OccSiteAdapter', () => {
 
   it('should use converter', () => {
     occSiteAdapter.loadBaseSites().subscribe();
-    httpMock.expectOne('baseSites').flush({});
+    httpMock.expectOne('baseSitesForConfig').flush({});
     expect(converterService.pipeableMany).toHaveBeenCalledWith(
       BASE_SITE_NORMALIZER
     );

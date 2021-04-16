@@ -9,20 +9,10 @@
       "hidden": true,
       "aliases": ["install"]
     },
-    "add-bulk-pricing": {
-      "factory": "./add-bulk-pricing/index#addBulkPricingFeatures",
-      "description": "Add product base bulk pricing features",
-      "aliases": ["bulkPricing"]
-    },
-    "add-variants": {
-      "factory": "./add-variants/index#addVariantsFeatures",
-      "description": "Add product base variants features",
-      "aliases": ["variants"]
-    },
-    "add-variants-multidimensional": {
-      "factory": "./add-variants-multidimensional/index#addVariantsMultiDimensionalFeatures",
-      "description": "Add product variants multidimensional feature",
-      "aliases": ["variants-multidimensional"]
+    "add": {
+      "factory": "./add-product/index#addSpartacusProduct",
+      "description": "Add and configure Spartacus' Product library",
+      "schema": "./add-product/schema.json"
     }
   }
 }

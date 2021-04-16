@@ -28,6 +28,9 @@ export class RegisterUser extends StateUtils.EntityLoadAction {
   }
 }
 
+/**
+ * @deprecated since 3.2, moved to `@spartacus/user/profile/core`
+ */
 export class RegisterUserFail extends StateUtils.EntityFailAction {
   readonly type = REGISTER_USER_FAIL;
   constructor(public payload: any) {
@@ -35,6 +38,9 @@ export class RegisterUserFail extends StateUtils.EntityFailAction {
   }
 }
 
+/**
+ * @deprecated since 3.2, moved to `@spartacus/user/profile/core`
+ */
 export class RegisterUserSuccess extends StateUtils.EntitySuccessAction {
   readonly type = REGISTER_USER_SUCCESS;
   constructor() {
@@ -42,6 +48,9 @@ export class RegisterUserSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
+/**
+ * @deprecated since 3.2, moved to `@spartacus/user/profile/core`
+ */
 export class ResetRegisterUserProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_REGISTER_USER_PROCESS;
   constructor() {
@@ -54,15 +63,24 @@ export class RegisterGuest implements Action {
   constructor(public payload: { guid: string; password: string }) {}
 }
 
+/**
+ * @deprecated since 3.2, moved to `@spartacus/user/profile/core`
+ */
 export class RegisterGuestFail implements Action {
   readonly type = REGISTER_GUEST_FAIL;
   constructor(public payload: any) {}
 }
 
+/**
+ * @deprecated since 3.2, moved to `@spartacus/user/profile/core`
+ */
 export class RegisterGuestSuccess implements Action {
   readonly type = REGISTER_GUEST_SUCCESS;
 }
 
+/**
+ * @deprecated since 3.2, moved to `@spartacus/user/profile/core`
+ */
 export class RemoveUser extends StateUtils.EntityLoadAction {
   readonly type = REMOVE_USER;
   constructor(public payload: string) {

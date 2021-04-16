@@ -1,13 +1,22 @@
+/// <reference types="jest" />
+
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
-import * as ts from 'typescript';
+import { InMemoryFileSystemHost, Project, SourceFile } from 'ts-morph';
+import ts from 'typescript';
 import {
   createNewConfig,
   getConfig,
   getExistingStorefrontConfigNode,
+  getSpartacusProviders,
   mergeConfig,
 } from './config-utils';
 import { commitChanges, getTsSourceFile } from './file-utils';
@@ -15,18 +24,19 @@ import { commitChanges, getTsSourceFile } from './file-utils';
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
+// TODO:#10744 - cleanup after implementing the new config utils.
 describe('Storefront config utils', () => {
   let appTree: UnitTestTree;
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
     projectRoot: '',
   };
@@ -56,7 +66,7 @@ describe('Storefront config utils', () => {
       .toPromise();
   });
 
-  describe('getExistingStorefrontConfigNode', () => {
+  describe.skip('getExistingStorefrontConfigNode', () => {
     it('should get the Storefront config from app.module.ts file', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
@@ -68,7 +78,7 @@ describe('Storefront config utils', () => {
     });
   });
 
-  describe('getConfig', () => {
+  describe.skip('getConfig', () => {
     it('should return the specified config from Storefront CallExpression AST node object', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
@@ -92,7 +102,7 @@ describe('Storefront config utils', () => {
     });
   });
 
-  describe('mergeConfig', () => {
+  describe.skip('mergeConfig', () => {
     it('should merge the provided config array', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
@@ -161,7 +171,7 @@ describe('Storefront config utils', () => {
     });
   });
 
-  describe('createNewConfig', () => {
+  describe.skip('createNewConfig', () => {
     it('should nest the given new config in the given config object', async () => {
       const appModuleFile = getTsSourceFile(appTree, appModulePath);
       const config = getExistingStorefrontConfigNode(
@@ -187,6 +197,76 @@ describe('Storefront config utils', () => {
       expect(appTree.readContent(appModulePath)).toContain('testObjectConfig:');
       expect(appTree.readContent(appModulePath)).toContain('value1');
       expect(appTree.readContent(appModulePath)).toContain('value2');
+    });
+  });
+
+  describe('ts-morph config utils', () => {
+    const configFileContent = `
+import { NgModule } from '@angular/core';
+import {
+CartAddEntrySuccessEvent,
+CartRemoveEntrySuccessEvent,
+provideConfig,
+} from '@spartacus/core';
+import { NavigationEvent, defaultCmsContentProviders } from '@spartacus/storefront';
+import { PersonalizationRootModule } from '@spartacus/tracking/personalization/root';
+import { AepModule } from '@spartacus/tracking/tms/aep';
+import { BaseTmsModule, TmsConfig } from '@spartacus/tracking/tms/core';
+import { GtmModule } from '@spartacus/tracking/tms/gtm';
+import { someFunction, someSpread } from '@some/package';
+
+@NgModule({
+imports: [
+BaseTmsModule.forRoot(),
+GtmModule,
+AepModule,
+PersonalizationRootModule,
+],
+providers: [
+someFunction(),
+...someSpread,
+...defaultCmsContentProviders,
+provideConfig(<TmsConfig>{
+  tagManager: {
+    gtm: {
+      events: [NavigationEvent, CartAddEntrySuccessEvent],
+    },
+    aep: {
+      events: [NavigationEvent, CartRemoveEntrySuccessEvent],
+    },
+  },
+}),
+provideConfig({
+  featureModules: {
+    personalization: {
+      module: () =>
+        import('@spartacus/tracking/personalization').then(
+          (m) => m.PersonalizationModule
+        ),
+    },
+  },
+}),
+],
+})
+export class TrackingFeatureModule {}
+`;
+    let sourceFile: SourceFile;
+
+    beforeAll(() => {
+      const project = new Project({
+        fileSystem: new InMemoryFileSystemHost(),
+      });
+      sourceFile = project.createSourceFile('test.ts', configFileContent);
+    });
+
+    describe('getSpartacusProviders', () => {
+      it('should return all providers from spartacus in file', () => {
+        const providers = getSpartacusProviders(sourceFile);
+        expect(providers.length).toEqual(3);
+        expect(providers[0].getText()).toMatchSnapshot();
+        expect(providers[1].getText()).toMatchSnapshot();
+        expect(providers[2].getText()).toMatchSnapshot();
+      });
     });
   });
 });

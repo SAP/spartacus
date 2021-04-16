@@ -1,24 +1,26 @@
 import { NgModule } from '@angular/core';
-import { VariantsRootModule } from '@spartacus/product/variants/root';
+import { ProductVariantsRootModule } from '@spartacus/product/variants/root';
 import { provideConfig } from '@spartacus/core';
 import {
-  variantsTranslationChunksConfig,
-  variantsTranslations,
+  productVariantsTranslationChunksConfig,
+  productVariantsTranslations,
 } from '@spartacus/product/variants/assets';
 
 @NgModule({
-  imports: [VariantsRootModule],
+  imports: [ProductVariantsRootModule],
   providers: [
     provideConfig({
       featureModules: {
-        variants: {
+        productVariants: {
           module: () =>
-            import('@spartacus/product/variants').then((m) => m.VariantsModule),
+            import('@spartacus/product/variants').then(
+              (m) => m.ProductVariantsModule
+            ),
         },
       },
       i18n: {
-        resources: variantsTranslations,
-        chunks: variantsTranslationChunksConfig,
+        resources: productVariantsTranslations,
+        chunks: productVariantsTranslationChunksConfig,
       },
     }),
   ],

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -11,9 +10,11 @@ import { LoginModule } from './login/login.module';
 import { LogoutModule } from './logout/logout.module';
 import { RegisterComponentModule } from './register/register.module';
 
+/**
+ * @deprecated since 3.2, moved to @spartacus/user package.
+ */
 @NgModule({
   imports: [
-    CommonModule,
     LoginModule,
     LoginFormModule,
     LoginRegisterModule,

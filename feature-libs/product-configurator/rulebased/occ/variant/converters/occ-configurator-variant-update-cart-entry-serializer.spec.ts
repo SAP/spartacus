@@ -37,9 +37,7 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
     });
 
     occConfiguratorVariantUpdateCartEntrySerializer = TestBed.inject(
-      OccConfiguratorVariantUpdateCartEntrySerializer as Type<
-        OccConfiguratorVariantUpdateCartEntrySerializer
-      >
+      OccConfiguratorVariantUpdateCartEntrySerializer as Type<OccConfiguratorVariantUpdateCartEntrySerializer>
     );
   });
 

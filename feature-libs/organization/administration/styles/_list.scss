@@ -73,11 +73,28 @@
   }
 }
 
+%organizationTitle {
+  .title {
+    h3 {
+      button {
+        border: none;
+        background-color: inherit;
+        cx-icon {
+          pointer-events: none;
+          color: var(--cx-color, var(--cx-color-info));
+        }
+      }
+    }
+  }
+}
+
 %organizationList {
   .content-wrapper,
   form {
     display: contents;
   }
+
+  @extend %organizationTitle !optional;
 
   cx-split-view:not([active-view='1']) .list table {
     th,
@@ -374,6 +391,10 @@
 
         @include media-breakpoint-up(lg) {
           padding-inline-start: 20px;
+        }
+
+        &.button {
+          color: var(--cx-color-primary);
         }
       }
       ul.text {

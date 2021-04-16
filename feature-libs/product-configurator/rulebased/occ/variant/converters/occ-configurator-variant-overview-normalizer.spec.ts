@@ -143,9 +143,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     occConfiguratorVariantOverviewNormalizer = TestBed.inject(
-      OccConfiguratorVariantOverviewNormalizer as Type<
-        OccConfiguratorVariantOverviewNormalizer
-      >
+      OccConfiguratorVariantOverviewNormalizer as Type<OccConfiguratorVariantOverviewNormalizer>
     );
   });
 

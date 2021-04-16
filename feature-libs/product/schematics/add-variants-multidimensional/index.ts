@@ -1,16 +1,10 @@
 import {
-  chain,
   Rule,
-  SchematicContext,
-  Tree,
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  getAppModule,
-  installPackageJsonDependencies,
-  readPackageJson,
-  validateSpartacusInstallation,
   LibraryOptions as SpartacusVariantsMultiDimensionalOptions,
+  SPARTACUS_PRODUCT
 } from '@spartacus/schematics';
 
 import {
@@ -21,29 +15,14 @@ import {
   SPARTACUS_VARIANTS_MULTIDIMENSIONAL_ROOT,
   SPARTACUS_VARIANTS_MULTIDIMENSIONAL_ASSETS,
   VARIANTS_MULTIDIMENSIONAL_TRANSLATION_CHUNKS_CONFIG,
-  VARIANTS_MULTIDIMENSIONAL_TRANSLATIONS,
+  VARIANTS_MULTIDIMENSIONAL_TRANSLATIONS, PRODUCT_FOLDER_NAME, PRODUCT_SCSS_FILE_NAME
 } from './../constants';
 
-export function addVariantsMultiDimensionalFeatures(
+export function addVariantsMultiDimensionalFeature(
   options: SpartacusVariantsMultiDimensionalOptions
 ): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    const packageJson = readPackageJson(tree);
-    validateSpartacusInstallation(packageJson);
-    const appModulePath = getAppModule(tree, options.project);
-
-    return chain([
-      addVariantsMultiDimensionalFeature(appModulePath, options),
-      installPackageJsonDependencies(),
-    ]);
-  };
-}
-
-function addVariantsMultiDimensionalFeature(
-  appModulePath: string,
-  options: SpartacusVariantsMultiDimensionalOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
+  return addLibraryFeature(options, {
+    folderName: PRODUCT_FOLDER_NAME,
     name: VARIANTS_MULTIDIMENSIONAL_FEATURE_NAME,
     featureModule: {
       name: VARIANTS_MULTIDIMENSIONAL_MODULE,
@@ -57,6 +36,10 @@ function addVariantsMultiDimensionalFeature(
       resources: VARIANTS_MULTIDIMENSIONAL_TRANSLATIONS,
       chunks: VARIANTS_MULTIDIMENSIONAL_TRANSLATION_CHUNKS_CONFIG,
       importPath: SPARTACUS_VARIANTS_MULTIDIMENSIONAL_ASSETS,
+    },
+    styles: {
+      scssFileName: PRODUCT_SCSS_FILE_NAME,
+      importStyle: SPARTACUS_PRODUCT,
     },
   });
 }
