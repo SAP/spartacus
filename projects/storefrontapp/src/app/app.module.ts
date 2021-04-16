@@ -6,7 +6,7 @@ import localeZh from '@angular/common/locales/zh';
 import { NgModule } from '@angular/core';
 import {
   BrowserModule,
-  BrowserTransferStateModule
+  BrowserTransferStateModule,
 } from '@angular/platform-browser';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
