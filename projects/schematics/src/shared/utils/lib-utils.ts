@@ -218,9 +218,9 @@ function handleFeature<T extends LibraryOptions>(
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
     const basePath = process.cwd();
-    const tasks: Rule[] = [];
+    const rules: Rule[] = [];
     for (const tsconfigPath of buildPaths) {
-      tasks.push(
+      rules.push(
         ensureModuleExists({
           name: `${config.name}-feature`,
           path: `app/spartacus/features/${config.folderName}`,
@@ -228,12 +228,12 @@ function handleFeature<T extends LibraryOptions>(
           project: options.project,
         })
       );
-      tasks.push(addRootModule(tsconfigPath, basePath, config));
-      tasks.push(addFeatureModule(tsconfigPath, basePath, config, options));
-      tasks.push(addFeatureTranslations(tsconfigPath, basePath, config));
-      tasks.push(addCustomConfig(tsconfigPath, basePath, config));
+      rules.push(addRootModule(tsconfigPath, basePath, config));
+      rules.push(addFeatureModule(tsconfigPath, basePath, config, options));
+      rules.push(addFeatureTranslations(tsconfigPath, basePath, config));
+      rules.push(addCustomConfig(tsconfigPath, basePath, config));
     }
-    return chain(tasks);
+    return chain(rules);
   };
 }
 
@@ -395,34 +395,24 @@ function addLibraryAssets(
 
     // `build` architect section
     const architectBuild = architect?.build;
+    const buildAssets = createAssetsArray(
+      assetsConfig,
+      (architectBuild?.options as any)?.assets
+    );
     const buildOptions = {
       ...architectBuild?.options,
-      assets: [
-        ...((architectBuild?.options as any)?.assets
-          ? (architectBuild?.options as any)?.assets
-          : []),
-        {
-          glob: assetsConfig.glob,
-          input: './node_modules/@spartacus/' + assetsConfig.input,
-          output: assetsConfig.output || 'assets/',
-        },
-      ],
+      assets: buildAssets,
     };
 
     // `test` architect section
     const architectTest = architect?.test;
+    const testAssets = createAssetsArray(
+      assetsConfig,
+      (architectTest?.options as any)?.assets
+    );
     const testOptions = {
       ...architectTest?.options,
-      assets: [
-        ...(architectTest?.options?.assets
-          ? architectTest?.options?.assets
-          : []),
-        {
-          glob: assetsConfig.glob,
-          input: './node_modules/@spartacus/' + assetsConfig.input,
-          output: assetsConfig.output || 'assets/',
-        },
-      ],
+      assets: testAssets,
     };
 
     const updatedAngularJson = {
@@ -447,6 +437,34 @@ function addLibraryAssets(
     };
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
   };
+}
+
+function createAssetsArray(
+  assetsConfig: AssetsConfig,
+  angularJsonAssets: any[] = []
+): unknown[] {
+  for (const asset of angularJsonAssets) {
+    if (typeof asset === 'object') {
+      if (
+        asset.glob === assetsConfig.glob &&
+        asset.input === `./node_modules/@spartacus/${assetsConfig.input}` &&
+        asset.output === (assetsConfig.output || 'assets/')
+      ) {
+        return angularJsonAssets;
+      }
+    }
+  }
+
+  angularJsonAssets = [
+    ...angularJsonAssets,
+    {
+      glob: assetsConfig.glob,
+      input: `./node_modules/@spartacus/${assetsConfig.input}`,
+      output: assetsConfig.output || 'assets/',
+    },
+  ];
+
+  return angularJsonAssets;
 }
 
 export function addLibraryStyles(
