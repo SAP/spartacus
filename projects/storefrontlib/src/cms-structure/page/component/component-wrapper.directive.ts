@@ -8,6 +8,7 @@ import {
   OnDestroy,
   OnInit,
   Renderer2,
+  Type,
   ViewContainerRef,
 } from '@angular/core';
 import {
@@ -16,10 +17,12 @@ import {
   EventService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
 import { CmsComponentsService } from '../../services/cms-components.service';
 import {
   ComponentCreateEvent,
   ComponentDestroyEvent,
+  ComponentEvent,
 } from './events/component.event';
 import { CmsInjectorService } from './services/cms-injector.service';
 import { ComponentHandlerService } from './services/component-handler.service';
@@ -52,7 +55,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
     protected cmsInjector: CmsInjectorService,
-    protected eventService: EventService
+    protected eventService?: EventService
   ) {}
 
   ngOnInit() {
@@ -89,27 +92,35 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         ),
         this.cmsComponentsService.getModule(this.cxComponentWrapper.flexType)
       )
-      ?.subscribe(({ elementRef, componentRef }) => {
-        this.registerComponentCreateEvent(componentRef as ComponentRef<any>);
-        this.cmpRef = componentRef;
-        this.decorate(elementRef);
-        this.injector.get(ChangeDetectorRef).markForCheck();
-      });
+      .pipe(
+        tap(({ elementRef, componentRef }) => {
+          this.cmpRef = componentRef;
+          this.dispatchEvent(ComponentCreateEvent, elementRef);
+          this.decorate(elementRef);
+          this.injector.get(ChangeDetectorRef).markForCheck();
+        }),
+        finalize(() => this.dispatchEvent(ComponentDestroyEvent))
+      )
+      .subscribe();
   }
 
-  protected registerComponentCreateEvent(
-    componentRef: ComponentRef<any>
-  ): void {
+  /**
+   * Dispatch the component event.
+   *
+   * The event is dispatched during creation and removal of the component.
+   */
+  protected dispatchEvent(
+    event: Type<ComponentEvent>,
+    elementRef?: ElementRef
+  ) {
     const payload = {
       typeCode: this.cxComponentWrapper.typeCode,
       id: this.cxComponentWrapper.uid,
-      componentRef,
-    };
-    this.eventService.dispatch(payload, ComponentCreateEvent);
-
-    componentRef?.onDestroy(() =>
-      this.eventService.dispatch(payload, ComponentDestroyEvent)
-    );
+    } as ComponentCreateEvent;
+    if (elementRef) {
+      payload.host = elementRef.nativeElement;
+    }
+    this.eventService?.dispatch(payload, event);
   }
 
   private decorate(elementRef: ElementRef): void {
