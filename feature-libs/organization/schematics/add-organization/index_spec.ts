@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -10,6 +12,7 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   LibraryOptions as SpartacusOrganizationOptions,
   SpartacusOptions,
+  SPARTACUS_CONFIGURATION_MODULE,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import {
@@ -293,6 +296,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
         );
       });
     });
+
     describe('i18n', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
@@ -319,6 +323,22 @@ describe('Spartacus Organization schematics: ng-add', () => {
           `chunks: orderApprovalTranslationChunksConfig,`
         );
       });
+    });
+  });
+
+  describe('b2b features', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync('ng-add', defaultOptions, appTree)
+        .toPromise();
+    });
+
+    it('should be added', () => {
+      const configurationModule = appTree.readContent(
+        `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+      );
+      console.log(configurationModule);
+      expect(configurationModule).toMatchSnapshot();
     });
   });
 });
