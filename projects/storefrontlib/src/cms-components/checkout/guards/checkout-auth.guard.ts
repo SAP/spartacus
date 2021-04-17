@@ -16,7 +16,10 @@ import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 
-@Injectable({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Injectable({
   providedIn: 'root',
 })
 export class CheckoutAuthGuard implements CanActivate {

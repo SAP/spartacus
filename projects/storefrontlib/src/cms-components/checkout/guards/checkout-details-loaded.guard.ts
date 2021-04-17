@@ -4,7 +4,10 @@ import { Observable } from 'rxjs';
 
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
-@Injectable({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Injectable({
   providedIn: 'root',
 })
 export class CheckoutDetailsLoadedGuard implements CanActivate {

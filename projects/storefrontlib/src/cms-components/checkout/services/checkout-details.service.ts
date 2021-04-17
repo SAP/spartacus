@@ -19,7 +19,10 @@ import {
   tap,
 } from 'rxjs/operators';
 
-@Injectable({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Injectable({
   providedIn: 'root',
 })
 export class CheckoutDetailsService {

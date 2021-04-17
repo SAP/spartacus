@@ -2,7 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { PromotionsComponent } from './promotions.component';
 
-@NgModule({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @NgModule({
   imports: [CommonModule],
   declarations: [PromotionsComponent],
   exports: [PromotionsComponent],

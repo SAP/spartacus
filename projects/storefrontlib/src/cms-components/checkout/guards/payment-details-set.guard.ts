@@ -7,7 +7,10 @@ import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
-@Injectable({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Injectable({
   providedIn: 'root',
 })
 export class PaymentDetailsSetGuard implements CanActivate {

@@ -1,6 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Pipe({
   name: 'cxMultiLine',
 })
 export class MultiLinePipe implements PipeTransform {

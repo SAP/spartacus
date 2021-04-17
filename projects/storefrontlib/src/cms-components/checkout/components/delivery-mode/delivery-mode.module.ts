@@ -7,7 +7,10 @@ import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
 import { DeliveryModeComponent } from './delivery-mode.component';
 
-@NgModule({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @NgModule({
   imports: [CommonModule, ReactiveFormsModule, I18nModule, SpinnerModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{

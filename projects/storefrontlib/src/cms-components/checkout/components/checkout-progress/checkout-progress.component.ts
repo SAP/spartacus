@@ -4,7 +4,10 @@ import { tap } from 'rxjs/operators';
 import { CheckoutStep } from '../../model/checkout-step.model';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
-@Component({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Component({
   selector: 'cx-checkout-progress',
   templateUrl: './checkout-progress.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

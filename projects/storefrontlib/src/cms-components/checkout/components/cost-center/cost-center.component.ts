@@ -8,7 +8,10 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
 
-@Component({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Component({
   selector: 'cx-cost-center',
   templateUrl: 'cost-center.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

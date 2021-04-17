@@ -14,7 +14,10 @@ import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { defaultPlaceOrderSpinnerLayoutConfig } from './default-place-order-spinner-layout.config';
 import { PlaceOrderComponent } from './place-order.component';
 
-@NgModule({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @NgModule({
   imports: [
     CommonModule,
     RouterModule,

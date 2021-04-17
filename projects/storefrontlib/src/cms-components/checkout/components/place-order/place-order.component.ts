@@ -21,7 +21,10 @@ import {
 } from '../../../../layout/launch-dialog/index';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 
-@Component({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Component({
   selector: 'cx-place-order',
   templateUrl: './place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

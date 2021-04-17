@@ -15,7 +15,10 @@ import { Observable, Subscription } from 'rxjs';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
 
-@Component({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Component({
   selector: 'cx-schedule-replenishment-order',
   templateUrl: './schedule-replenishment-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -9,7 +9,10 @@ import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-em
 import { PaymentFormModule } from './payment-form/payment-form.module';
 import { PaymentMethodComponent } from './payment-method.component';
 
-@NgModule({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @NgModule({
   imports: [
     CommonModule,
     RouterModule,

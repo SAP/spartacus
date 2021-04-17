@@ -5,7 +5,10 @@ import {
   DeliveryModePreferences,
 } from '../config/checkout-config';
 
-@Injectable({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Injectable({
   providedIn: 'root',
 })
 export class CheckoutConfigService {

@@ -6,18 +6,27 @@ export enum CheckoutStepType {
   PAYMENT_TYPE = 'paymentType',
 }
 
-export const checkoutShippingSteps = [
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ export const checkoutShippingSteps = [
   CheckoutStepType.SHIPPING_ADDRESS,
   CheckoutStepType.DELIVERY_MODE,
 ];
 
-export const checkoutPaymentSteps = [
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ export const checkoutPaymentSteps = [
   CheckoutStepType.PAYMENT_DETAILS,
   CheckoutStepType.PAYMENT_TYPE,
   CheckoutStepType.SHIPPING_ADDRESS,
 ];
 
-export interface CheckoutStep {
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ export interface CheckoutStep {
   id: string;
   name: string;
   routeName: string;

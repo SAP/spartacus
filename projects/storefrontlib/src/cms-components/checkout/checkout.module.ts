@@ -17,7 +17,10 @@ import { ReviewSubmitModule } from './components/review-submit/review-submit.mod
 import { ScheduleReplenishmentOrderModule } from './components/schedule-replenishment-order/schedule-replenishment-order.module';
 import { ShippingAddressModule } from './components/shipping-address/shipping-address.module';
 
-@NgModule({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @NgModule({
   imports: [
     CommonModule,
     CheckoutOrchestratorModule,
