@@ -337,7 +337,6 @@ describe('Spartacus Organization schematics: ng-add', () => {
       const configurationModule = appTree.readContent(
         `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
-      console.log(configurationModule);
       expect(configurationModule).toMatchSnapshot();
     });
   });
