@@ -7,8 +7,10 @@ import {
   StateUtils,
 } from '@spartacus/core';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
-import { ProductsData } from '../../core/model';
-import { ImportService } from '../../core/services';
+import {
+  ProductsData,
+  ImportService,
+} from '@spartacus/cart/import-export/core';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +28,7 @@ export class ImportToCartService {
       .loadFile(file)
       .pipe(
         map((productsData: string[][]) => this.csvDataToProduct(productsData)),
-        switchMap((products) =>
+        switchMap((products: ProductsData) =>
           this.userIdService.takeUserId().pipe(
             switchMap((userId) =>
               this.multiCartService
@@ -41,7 +43,7 @@ export class ImportToCartService {
                   ),
                   tap((cartData: StateUtils.ProcessesLoaderState<Cart>) => {
                     const cartId = cartData.value?.code;
-                    if (cartId)
+                    if (cartId !== undefined)
                       this.multiCartService.addEntries(
                         userId,
                         cartId,
