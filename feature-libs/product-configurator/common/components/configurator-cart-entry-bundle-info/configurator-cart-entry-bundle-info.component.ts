@@ -77,4 +77,26 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   isDesktop(): Observable<boolean> {
     return this.breakpointService?.isUp(BREAKPOINT.md);
   }
+
+  /**
+   * Prevents page down behaviour when users press space key
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  preventScrollingOnSpace(event: KeyboardEvent): void {
+    if (event.code === 'Space') {
+      event.preventDefault();
+    }
+  }
+
+  /**
+   * Fired on key board events, checks for 'enter' or 'space' and delegates to click.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  clickOnEnterAndSpace(event: KeyboardEvent): void {
+    if (event.code === 'Enter' || event.code === 'Space') {
+      this.toggleItems();
+    }
+  }
 }
