@@ -7,16 +7,11 @@ import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configura
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeQuantityService } from '../../quantity';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 
 class MockGroupService {}
-
-class MockQuantityService {
-  withQuantity(dataType: Configurator.DataType): boolean {
-    return dataType === Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
-  }
-}
 
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
@@ -34,10 +29,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
             provide: ConfiguratorGroupsService,
             useClass: MockGroupService,
           },
-          {
-            provide: ConfiguratorAttributeQuantityService,
-            useClass: MockQuantityService,
-          },
+          ConfiguratorAttributeQuantityService,
         ],
       })
         .overrideComponent(ConfiguratorAttributeCheckBoxListComponent, {
@@ -57,7 +49,6 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     };
     return value;
   }
-
   let values: Configurator.Value[];
   beforeEach(() => {
     const value1 = createValue('1', 'val1', true);
@@ -116,7 +107,9 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
   it('should call emit of selectionChange onHandleAttributeQuantity', () => {
     const quantity = 2;
+
     spyOn(component.selectionChange, 'emit').and.callThrough();
+
     component['onHandleAttributeQuantity'](quantity);
 
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
@@ -133,6 +126,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
   it('should call emit of selectionChange onChangeValueQuantity', () => {
     spyOn(component.selectionChange, 'emit').and.callThrough();
+
     component.onChangeValueQuantity(0, '1', 0);
 
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
@@ -195,8 +189,10 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   });
 
   // HTML
+
   it('should not display attribute quantity when dataType is no quantity', () => {
     component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+
     fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -208,6 +204,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
   it('should not display value quantity when dataType is no quantity', () => {
     component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
+
     fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -220,6 +217,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   it('should display attribute quantity when dataType is with attribute quantity', () => {
     component.attribute.dataType =
       Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+
     fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -232,6 +230,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   it('should display value quantity when dataType is with value quantity', () => {
     component.attribute.dataType =
       Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+
     fixture.detectChanges();
 
     CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -259,5 +258,43 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   it('should not allow quantity actions when service is missing ', () => {
     component['quantityService'] = undefined;
     expect(component.disableQuantityActions).toBe(true);
+  });
+
+  it('should allow quantity on attribute level', () => {
+    component.attribute.dataType =
+      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+    expect(component.withQuantityOnAttributeLevel).toBe(true);
+  });
+
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
+  it('should not allow quantity on attribute level when service is missing ', () => {
+    component['quantityService'] = undefined;
+    expect(component.withQuantityOnAttributeLevel).toBe(false);
+  });
+
+  it('should allow zero value quantity', () => {
+    expect(component.allowZeroValueQuantity).toBe(true);
+  });
+
+  // TODO(#11681):remove this test when the quantityService will be a required dependency
+  it('should not allow zero value quantity when service is missing ', () => {
+    component['quantityService'] = undefined;
+    expect(component.allowZeroValueQuantity).toBe(false);
+  });
+
+  it('should set initial quantity and allow zero', () => {
+    const quantityOptions: ConfiguratorAttributeQuantityComponentOptions = component.extractQuantityParameters(
+      2,
+      true
+    );
+    expect(quantityOptions.initialQuantity).toBe(2);
+    expect(quantityOptions.allowZero).toBe(true);
+  });
+
+  it('should set allow zero from attribute, if undefined', () => {
+    const quantityOptions: ConfiguratorAttributeQuantityComponentOptions = component.extractQuantityParameters(
+      1
+    );
+    expect(quantityOptions.allowZero).toBe(false);
   });
 });

@@ -62,7 +62,7 @@
       ],
       "@spartacus/product-configurator/rulebased/cpq": [
         "dist/product-configurator/rulebased/cpq"
-      ],      
+      ],
       "@spartacus/product-configurator/textfield": [
         "dist/product-configurator/textfield"
       ],

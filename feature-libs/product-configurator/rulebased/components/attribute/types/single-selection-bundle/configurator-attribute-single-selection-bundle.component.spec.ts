@@ -224,13 +224,11 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
         })
       );
     });
-  });
 
-  describe('onDeselect', () => {
     it('should call emit of event onDeselect', () => {
       spyOn(component.selectionChange, 'emit').and.callThrough();
 
-      component.onDeselect();
+      component.onSelect('');
 
       expect(component.selectionChange.emit).toHaveBeenCalledWith(
         jasmine.objectContaining({

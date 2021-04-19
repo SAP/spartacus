@@ -11,19 +11,6 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
 })
 export class ConfiguratorAttributeSingleSelectionBundleComponent extends ConfiguratorAttributeSingleSelectionBaseComponent {
   /**
-   TODO(issue: #11238): update @deprecated level to the release we are publishing with,
-   It is still 3.1 only because app.module.ts states that we are on 3.1.
-   Finally we must have 3.x, x>=2 here
-   */
-  /**
-   * @deprecated since 3.1
-   * User better onSelect('')
-   */
-  onDeselect(): void {
-    this.onSelect('');
-  }
-
-  /**
    * Extract corresponding product card parameters
    *
    * @param {Configurator.Value} value - Value

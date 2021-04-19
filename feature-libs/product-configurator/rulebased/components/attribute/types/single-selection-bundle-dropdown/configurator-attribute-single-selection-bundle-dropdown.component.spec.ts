@@ -201,10 +201,10 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     expect(card).toBeTruthy();
   });
 
-  it('should call emit of event onDeselect', () => {
+  it('should call emit of event onSelect(0)', () => {
     spyOn(component.selectionChange, 'emit').and.callThrough();
 
-    component.onDeselect();
+    component.onSelect('0');
 
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
       jasmine.objectContaining({
