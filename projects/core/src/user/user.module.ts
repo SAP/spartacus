@@ -6,6 +6,9 @@ import { StateWithUser } from './store';
 import { LoadUserConsents } from './store/actions/user-consents.action';
 import { UserStoreModule } from './store/user-store.module';
 
+/**
+ * @deprecated since 3.2, moved to the `@spartacus/user` package.
+ */
 @NgModule({
   imports: [UserStoreModule, ConsentEventModule],
   providers: [

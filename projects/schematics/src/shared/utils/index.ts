@@ -1,10 +1,4 @@
 export {
-  createNewConfig,
-  getConfig,
-  getExistingStorefrontConfigNode,
-  mergeConfig,
-} from './config-utils';
-export {
   commitChanges,
   findMultiLevelNodesByTextAndKind,
   getTsSourceFile,
@@ -21,10 +15,13 @@ export {
   createImportChange,
   getAppModule,
 } from './module-file-utils';
+export * from './new-module-utils';
 export {
   getSpartacusSchematicsVersion,
   readPackageJson,
 } from './package-utils';
+export * from './program';
+export * from './project-tsconfig-paths';
 export {
   getDefaultProjectNameFromWorkspace,
   getProjectTargets,

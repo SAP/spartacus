@@ -4,6 +4,12 @@
     "paths": {
       "@spartacus/setup": ["dist/setup"],
       "@spartacus/setup/ssr": ["dist/setup/ssr"],
+      "@spartacus/asm/assets": ["dist/asm/assets"],
+      "@spartacus/asm/components": ["dist/asm/components"],
+      "@spartacus/asm/core": ["dist/asm/core"],
+      "@spartacus/asm": ["dist/asm"],
+      "@spartacus/asm/occ": ["dist/asm/occ"],
+      "@spartacus/asm/root": ["dist/asm/root"],
       "@spartacus/cart": ["dist/cart"],
       "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
       "@spartacus/cart/saved-cart/components": [
@@ -13,12 +19,6 @@
       "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
       "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
-      "@spartacus/asm/assets": ["dist/asm/assets"],
-      "@spartacus/asm/components": ["dist/asm/components"],
-      "@spartacus/asm/core": ["dist/asm/core"],
-      "@spartacus/asm": ["dist/asm"],
-      "@spartacus/asm/occ": ["dist/asm/occ"],
-      "@spartacus/asm/root": ["dist/asm/root"],
       "@spartacus/organization/administration/assets": [
         "dist/organization/administration/assets"
       ],
@@ -81,6 +81,13 @@
         "dist/product/bulk-pricing/root"
       ],
       "@spartacus/product": ["dist/product"],
+      "@spartacus/product/variants/assets": ["dist/product/variants/assets"],
+      "@spartacus/product/variants/components": [
+        "dist/product/variants/components"
+      ],
+      "@spartacus/product/variants": ["dist/product/variants"],
+      "@spartacus/product/variants/occ": ["dist/product/variants/occ"],
+      "@spartacus/product/variants/root": ["dist/product/variants/root"],
       "@spartacus/qualtrics/components": ["dist/qualtrics/components"],
       "@spartacus/qualtrics": ["dist/qualtrics"],
       "@spartacus/qualtrics/root": ["dist/qualtrics/root"],
@@ -105,19 +112,28 @@
       "@spartacus/tracking/tms/core": ["dist/tracking/tms/core"],
       "@spartacus/tracking/tms/gtm": ["dist/tracking/tms/gtm"],
       "@spartacus/tracking/tms": ["dist/tracking/tms"],
+      "@spartacus/user/account/assets": ["dist/user/account/assets"],
+      "@spartacus/user/account/components": ["dist/user/account/components"],
+      "@spartacus/user/account/core": ["dist/user/account/core"],
+      "@spartacus/user/account": ["dist/user/account"],
+      "@spartacus/user/account/occ": ["dist/user/account/occ"],
+      "@spartacus/user/account/root": ["dist/user/account/root"],
+      "@spartacus/user": ["dist/user"],
+      "@spartacus/user/profile/assets": ["dist/user/profile/assets"],
+      "@spartacus/user/profile/components": ["dist/user/profile/components"],
+      "@spartacus/user/profile/core": ["dist/user/profile/core"],
+      "@spartacus/user/profile": ["dist/user/profile"],
+      "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
+      "@spartacus/user/profile/root": ["dist/user/profile/root"],
+      "@spartacus/cdc/components": ["dist/cdc/components"],
+      "@spartacus/cdc/core": ["dist/cdc/core"],
       "@spartacus/cdc": ["dist/cdc"],
+      "@spartacus/cdc/root": ["dist/cdc/root"],
       "@spartacus/cds": ["dist/cds"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/incubator": ["dist/incubator"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
-      "@spartacus/product/variants": ["dist/product/variants"],
-      "@spartacus/product/variants/assets": ["dist/product/variants/assets"],
-      "@spartacus/product/variants/components": [
-        "dist/product/variants/components"
-      ],
-      "@spartacus/product/variants/occ": ["dist/product/variants/occ"],
-      "@spartacus/product/variants/root": ["dist/product/variants/root"]
+      "@spartacus/storefront": ["dist/storefrontlib"]
     }
   }
 }
