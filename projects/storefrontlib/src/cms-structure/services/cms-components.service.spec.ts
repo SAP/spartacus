@@ -70,7 +70,7 @@ class MockConfigInitializerService
   getStable = () => of(mockConfig);
 }
 
-fdescribe('CmsComponentsService', () => {
+describe('CmsComponentsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -186,6 +186,21 @@ fdescribe('CmsComponentsService', () => {
       const featureModulesService = TestBed.inject(FeatureModulesService);
       service.getModule('unknownType');
       expect(featureModulesService.getModule).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('cms mapping configuration', () => {
+    it('should not be prone to changes caused by lazy-loaded modules augmenting it', () => {
+      const cmsConfig = TestBed.inject(CmsConfig);
+      expect(cmsConfig.cmsComponents.addedMapping).toBeFalsy();
+      expect(service.getMapping('addedMapping')).toBeFalsy();
+      Object.assign(cmsConfig.cmsComponents, {
+        addedMapping: {
+          component: 'added-component',
+        },
+      });
+      expect(cmsConfig.cmsComponents.addedMapping).toBeTruthy();
+      expect(service.getMapping('addedMapping')).toBeFalsy();
     });
   });
 });
