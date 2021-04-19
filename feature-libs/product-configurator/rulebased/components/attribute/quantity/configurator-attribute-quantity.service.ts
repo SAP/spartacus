@@ -8,8 +8,8 @@ export class ConfiguratorAttributeQuantityService {
   /**
    * Checks if the interaction with the quantity control needs
    * to be disabled
-   * @param value Selected value
-   * @returns Quantity actions disabled?
+   * @param {any} value Selected value
+   * @returns {boolean} Quantity actions disabled?
    */
   disableQuantityActions(value: any): boolean {
     return !value || value === '0';
@@ -18,8 +18,8 @@ export class ConfiguratorAttributeQuantityService {
   /**
    * Checks if the interaction with the quantity control needs for multiselection components
    * to be disabled
-   * @param attribute Configurator Attribute
-   * @returns Quantity actions disabled?
+   * @param {Configurator.Attribute} attribute Configurator Attribute
+   * @returns {boolean} Quantity actions disabled?
    */
   disableQuantityActionsMultiSelection(
     attribute: Configurator.Attribute
@@ -36,7 +36,7 @@ export class ConfiguratorAttributeQuantityService {
   /**
    * Checks if it is supposed to render a quantity control on attribute level
    *
-   * @param attribute Configurator Attribute
+   * @param {Configurator.Attribute} attribute Configurator Attribute
    * @return {boolean} - Display quantity picker on attribute level?
    */
   withQuantityOnAttributeLevel(attribute: Configurator.Attribute): boolean {
@@ -49,9 +49,9 @@ export class ConfiguratorAttributeQuantityService {
   /**
    * Checks if an attribute needs to be equipped with the option to select
    * a quantity
-   * @param dataType Attribute data type
-   * @param uiType Attribute ui type, refers to how an attribute must be rendered
-   * @returns Render a quantity component?
+   * @param {Configurator.DataType} dataType Attribute data type
+   * @param {Configurator.UiType} uiType Attribute ui type, refers to how an attribute must be rendered
+   * @returns  {boolean} Render a quantity component?
    */
   withQuantity(
     dataType: Configurator.DataType,
@@ -80,7 +80,7 @@ export class ConfiguratorAttributeQuantityService {
   /**
    * Checks if the zero quantity is allowed
    *
-   * @param attribute Configurator Attribute
+   * @param {Configurator.Attribute} attribute Configurator Attribute
    * @return {boolean} - true when zero quantity is allowed
    */
   allowZeroValueQuantity(attribute: Configurator.Attribute): boolean {

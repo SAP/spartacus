@@ -75,9 +75,6 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     initialQuantity: number,
     allowZero?: boolean
   ): ConfiguratorAttributeQuantityComponentOptions {
-    if (allowZero === undefined) {
-      allowZero = !this.attribute.required;
-    }
     const disableQuantityActions$ = this.loading$.pipe(
       map((loading) => {
         return loading || this.disableQuantityActions;
@@ -85,7 +82,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     );
 
     return {
-      allowZero: allowZero,
+      allowZero: allowZero ?? !this.attribute.required,
       initialQuantity: initialQuantity,
       disableQuantityActions$: disableQuantityActions$,
     };
