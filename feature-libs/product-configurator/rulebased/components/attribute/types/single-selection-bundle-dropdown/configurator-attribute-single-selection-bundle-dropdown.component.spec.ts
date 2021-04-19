@@ -229,24 +229,36 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   it('should extract initial quantity from attribute, if a selection is already made', () => {
     component.attribute.quantity = 3;
     component.attributeDropDownForm.setValue(values[1].valueCode);
-    expect(component.extractQuantityParameters().initialQuantity).toBe(3);
+    expect(
+      component.extractQuantityParameters(component.attributeDropDownForm)
+        .initialQuantity
+    ).toBe(3);
   });
 
   it('should set initial quantity to zero if only the "No Option Selected"-Value is selected', () => {
     component.attribute.quantity = 3;
     component.attributeDropDownForm.setValue(values[0].valueCode); // value 0 is the "No Option Selected"-Value
-    expect(component.extractQuantityParameters().initialQuantity).toBe(0);
+    expect(
+      component.extractQuantityParameters(component.attributeDropDownForm)
+        .initialQuantity
+    ).toBe(0);
   });
 
   it('should set initial quantity to zero if no quantity is provided.', () => {
     component.attributeDropDownForm.setValue(values[1].valueCode);
     component.attribute.quantity = undefined;
-    expect(component.extractQuantityParameters().initialQuantity).toBe(0);
+    expect(
+      component.extractQuantityParameters(component.attributeDropDownForm)
+        .initialQuantity
+    ).toBe(0);
   });
 
   it('should set initial quantity to zero if nothing selected', () => {
     component.attributeDropDownForm.setValue(undefined);
-    expect(component.extractQuantityParameters().initialQuantity).toBe(0);
+    expect(
+      component.extractQuantityParameters(component.attributeDropDownForm)
+        .initialQuantity
+    ).toBe(0);
   });
 
   describe('quantity at attribute level', () => {

@@ -19,8 +19,8 @@
     </option>
   </select>
   <cx-configurator-attribute-quantity
-    (changeQuantity)="onChangeQuantity($event)"
-    [quantityOptions]="extractQuantityParameters()"
+    (changeQuantity)="onChangeQuantity($event, attributeDropDownForm)"
+    [quantityOptions]="extractQuantityParameters(attributeDropDownForm)"
     *ngIf="withQuantity"
   ></cx-configurator-attribute-quantity>
 </div>

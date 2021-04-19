@@ -5,7 +5,6 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
 @Component({
@@ -21,7 +20,7 @@ export class ConfiguratorAttributeDropDownComponent
   @Input() group: string;
 
   ngOnInit() {
-    this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
+    this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
   }
 
   /**
@@ -34,22 +33,6 @@ export class ConfiguratorAttributeDropDownComponent
    * User better onSelect(this.attributeDropDownForm.value)
    */
   onSelect(): void {
-    super.onSelect(this.attributeDropDownForm.value);
-  }
-
-  onChangeQuantity(eventObject: any): void {
-    if (!eventObject) {
-      this.attributeDropDownForm.setValue('');
-    }
-    super.onChangeQuantity(eventObject);
-  }
-
-  /**
-   *  Extract corresponding quantity parameters
-   *
-   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
-   */
-  extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    return super.extractQuantityParameters(this.attributeDropDownForm);
+    super.onSelect(this.attributeDropDownForm?.value);
   }
 }

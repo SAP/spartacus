@@ -10,6 +10,7 @@ import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-p
 import { FormControl } from '@angular/forms';
 
 @Directive()
+// eslint-disable-next-line @angular-eslint/directive-class-suffix
 export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends ConfiguratorAttributeBaseComponent {
   loading$ = new BehaviorSubject<boolean>(false);
 
@@ -79,7 +80,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.selectionChange.emit(event);
   }
 
-  onHandleQuantity(quantity: any): void {
+  onHandleQuantity(quantity: number): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
@@ -94,17 +95,19 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     this.selectionChange.emit(event);
   }
 
-  onChangeQuantity(eventObject: any): void {
+  onChangeQuantity(eventObject: any, form?: FormControl): void {
     if (!eventObject) {
+      if (form) {
+        form.setValue('0');
+      }
       this.onSelect('');
     } else {
       this.onHandleQuantity(eventObject);
     }
   }
 
-  protected getInitialQuantity(form: FormControl | undefined): number {
-    const quantity: number = this.attribute.quantity ?? 0;
-
+  protected getInitialQuantity(form?: FormControl): number {
+    const quantity: number = this.attribute?.quantity ?? 0;
     if (form) {
       return form?.value !== '0' ? quantity : 0;
     } else {
@@ -119,7 +122,7 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(
-    form: FormControl | undefined
+    form?: FormControl
   ): ConfiguratorAttributeQuantityComponentOptions {
     const initialQuantity = this.getInitialQuantity(form);
     const disableQuantityActions$ = this.loading$.pipe(

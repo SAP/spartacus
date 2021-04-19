@@ -102,24 +102,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     });
   });
 
-  describe('onDeselect', () => {
-    it('should call emit of selectionChange onDeselect', () => {
-      spyOn(component.selectionChange, 'emit').and.callThrough();
-      component.onDeselect();
-      expect(component.selectionChange.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          ownerKey: ownerKey,
-          changedAttribute: jasmine.objectContaining({
-            name: name,
-            selectedSingleValue: '',
-            uiType: Configurator.UiType.RADIOBUTTON,
-            groupId: groupId,
-          }),
-        })
-      );
-    });
-  });
-
   describe('onHandleQuantity', () => {
     it('should call emit of selectionChange onHandleQuantity', () => {
       const quantity = 2;

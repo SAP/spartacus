@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 
 @Component({
   selector: 'cx-configurator-attribute-radio-button',
@@ -24,18 +23,9 @@ export class ConfiguratorAttributeRadioButtonComponent
    */
   /**
    * @deprecated since 3.1
-   * User better onSelect('')
+   * This method should be removed because there is no deselect possible for radio buttons
    */
   onDeselect(): void {
     this.onSelect('');
-  }
-
-  /**
-   *  Extract corresponding quantity parameters
-   *
-   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
-   */
-  extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    return super.extractQuantityParameters(undefined);
   }
 }

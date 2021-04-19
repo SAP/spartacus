@@ -7,7 +7,6 @@ import {
 import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
 @Component({
@@ -47,15 +46,6 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
     this.onSelect('0');
   }
 
-  onChangeQuantity(eventObject: any): void {
-    this.loading$.next(true);
-
-    if (!eventObject) {
-      this.attributeDropDownForm.setValue('');
-    }
-    super.onChangeQuantity(eventObject);
-  }
-
   /**
    * Extract corresponding product card parameters
    *
@@ -68,16 +58,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       singleDropdown: true,
       withQuantity: false,
       loading$: this.loading$,
-      attributeId: this.attribute.attrCode,
+      attributeId: this.attribute?.attrCode,
     };
-  }
-
-  /**
-   *  Extract corresponding quantity parameters
-   *
-   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
-   */
-  extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    return super.extractQuantityParameters(this.attributeDropDownForm);
   }
 }
