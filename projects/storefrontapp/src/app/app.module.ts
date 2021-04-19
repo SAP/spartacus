@@ -85,16 +85,6 @@ if (!environment.production) {
               (m) => m.RulebasedCpqConfiguratorModule
             ),
         },
-
-        //this is the state w/o CPQ. Distinction achieved by schematics
-
-        // productConfiguratorRulebased: {
-        //   module: () =>
-        //     import('@spartacus/product-configurator/rulebased').then(
-        //       (m) => m.RulebasedConfiguratorModule
-        //     ),
-        // },
-
         productConfiguratorTextfield: {
           module: () =>
             import('@spartacus/product-configurator/textfield').then(

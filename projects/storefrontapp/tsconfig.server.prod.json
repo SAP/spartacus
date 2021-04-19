@@ -65,7 +65,7 @@
       ],
       "@spartacus/product-configurator/rulebased/root": [
         "../../dist/product-configurator/rulebased/root"
-      ],      
+      ],
       "@spartacus/product-configurator/textfield": [
         "../../dist/product-configurator/textfield"
       ],

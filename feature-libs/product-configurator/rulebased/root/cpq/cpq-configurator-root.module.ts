@@ -1,4 +1,4 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { CpqConfiguratorInteractiveModule } from './cpq-configurator-interactive.module';
 import { CpqConfiguratorOverviewModule } from './cpq-configurator-overview.module';
 import { CpqConfiguratorInterceptorModule } from './interceptor/cpq-configurator-interceptor.module';
@@ -14,10 +14,4 @@ import { CpqConfiguratorInterceptorModule } from './interceptor/cpq-configurator
     CpqConfiguratorInterceptorModule,
   ],
 })
-export class CpqConfiguratorRootModule {
-  static forRoot(): ModuleWithProviders<CpqConfiguratorRootModule> {
-    return {
-      ngModule: CpqConfiguratorRootModule,
-    };
-  }
-}
+export class CpqConfiguratorRootModule {}
