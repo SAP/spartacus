@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
-import { FileValidity } from '../model/import-export.model';
+import { FileValidity } from '@spartacus/cart/import-export/core';
 
 @Injectable({
   providedIn: 'root',

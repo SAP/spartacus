@@ -42,8 +42,8 @@ export class ImportToCartService {
                       cartData.value !== undefined
                   ),
                   tap((cartData: StateUtils.ProcessesLoaderState<Cart>) => {
-                    const cartId = cartData.value?.code;
-                    if (cartId !== undefined)
+                    const cartId: string = cartData.value?.code ?? '';
+                    if (cartId !== '')
                       this.multiCartService.addEntries(
                         userId,
                         cartId,
