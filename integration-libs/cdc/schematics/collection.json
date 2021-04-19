@@ -11,7 +11,7 @@
     },
     "add": {
       "factory": "./add-cdc/index#addCdcFeature",
-      "description": "Add and configure Spartacus' cdc feature",
+      "description": "Add and configure Spartacus' CDC feature",
       "schema": "./add-cdc/schema.json"
     }
   }
