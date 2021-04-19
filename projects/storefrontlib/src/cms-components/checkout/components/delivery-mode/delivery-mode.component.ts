@@ -21,7 +21,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Component({
+@Component({
   selector: 'cx-delivery-mode',
   templateUrl: './delivery-mode.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

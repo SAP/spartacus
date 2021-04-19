@@ -18,7 +18,7 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Component({
+@Component({
   selector: 'cx-payment-type',
   templateUrl: './payment-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

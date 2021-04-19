@@ -34,7 +34,7 @@ import { CheckoutStepService } from '../../services/index';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Component({
+@Component({
   selector: 'cx-review-submit',
   templateUrl: './review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

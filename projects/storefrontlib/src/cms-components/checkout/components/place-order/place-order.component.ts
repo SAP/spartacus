@@ -24,7 +24,7 @@ import { CheckoutReplenishmentFormService } from '../../services/checkout-replen
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Component({
+@Component({
   selector: 'cx-place-order',
   templateUrl: './place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

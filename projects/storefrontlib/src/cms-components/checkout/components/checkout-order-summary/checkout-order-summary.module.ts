@@ -7,7 +7,7 @@ import { CheckoutOrderSummaryComponent } from './checkout-order-summary.componen
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @NgModule({
+@NgModule({
   imports: [CommonModule, CartSharedModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{

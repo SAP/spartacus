@@ -4,7 +4,7 @@ import { Promotion } from '@spartacus/core';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Component({
+@Component({
   selector: 'cx-promotions',
   templateUrl: './promotions.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

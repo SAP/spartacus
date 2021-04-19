@@ -3,7 +3,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Pipe({
+@Pipe({
   name: 'cxMultiLine',
 })
 export class MultiLinePipe implements PipeTransform {

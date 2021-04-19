@@ -9,7 +9,7 @@ import { PaymentTypeComponent } from './payment-type.component';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @NgModule({
+@NgModule({
   imports: [
     CommonModule,
     I18nModule,

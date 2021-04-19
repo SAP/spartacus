@@ -9,7 +9,7 @@ import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Injectable({
+@Injectable({
   providedIn: 'root',
 })
 export class CheckoutStepService {

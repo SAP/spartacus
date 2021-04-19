@@ -17,7 +17,7 @@ import { MultiLinePipe } from './multiline-titles.pipe';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @NgModule({
+@NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
   declarations: [CheckoutProgressComponent, MultiLinePipe],
   entryComponents: [CheckoutProgressComponent],

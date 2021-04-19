@@ -11,7 +11,7 @@ import { ExpressCheckoutService } from '../services/express-checkout.service';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Injectable({
+@Injectable({
   providedIn: 'root',
 })
 export class CheckoutGuard implements CanActivate {

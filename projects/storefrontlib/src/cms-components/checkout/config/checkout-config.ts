@@ -11,7 +11,7 @@ export enum DeliveryModePreferences {
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Injectable({
+@Injectable({
   providedIn: 'root',
   useExisting: Config,
 })

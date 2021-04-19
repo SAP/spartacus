@@ -9,7 +9,7 @@ export enum CheckoutStepType {
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- export const checkoutShippingSteps = [
+export const checkoutShippingSteps = [
   CheckoutStepType.SHIPPING_ADDRESS,
   CheckoutStepType.DELIVERY_MODE,
 ];
@@ -17,7 +17,7 @@ export enum CheckoutStepType {
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- export const checkoutPaymentSteps = [
+export const checkoutPaymentSteps = [
   CheckoutStepType.PAYMENT_DETAILS,
   CheckoutStepType.PAYMENT_TYPE,
   CheckoutStepType.SHIPPING_ADDRESS,
@@ -26,7 +26,7 @@ export enum CheckoutStepType {
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- export interface CheckoutStep {
+export interface CheckoutStep {
   id: string;
   name: string;
   routeName: string;

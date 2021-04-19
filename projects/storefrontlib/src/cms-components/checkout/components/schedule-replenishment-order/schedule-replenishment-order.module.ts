@@ -10,7 +10,7 @@ import { ScheduleReplenishmentOrderComponent } from './schedule-replenishment-or
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @NgModule({
+@NgModule({
   imports: [CommonModule, RouterModule, I18nModule, IconModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{

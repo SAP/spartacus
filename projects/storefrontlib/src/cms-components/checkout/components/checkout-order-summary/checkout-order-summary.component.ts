@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Component({
+@Component({
   selector: 'cx-checkout-order-summary',
   templateUrl: './checkout-order-summary.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

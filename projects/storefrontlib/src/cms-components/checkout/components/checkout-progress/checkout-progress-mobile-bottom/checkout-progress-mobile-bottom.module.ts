@@ -16,7 +16,7 @@ import { CheckoutStepsSetGuard } from '../../../guards/checkout-steps-set.guard'
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @NgModule({
+@NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
   providers: [
     provideDefaultConfig(defaultCheckoutConfig),

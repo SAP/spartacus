@@ -8,7 +8,7 @@ import { CostCenterComponent } from './cost-center.component';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @NgModule({
+@NgModule({
   imports: [
     CommonModule,
     I18nModule,

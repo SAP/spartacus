@@ -35,7 +35,7 @@ import { SuggestedAddressDialogComponent } from '../../shipping-address/address-
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Component({
+@Component({
   selector: 'cx-payment-form',
   templateUrl: './payment-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

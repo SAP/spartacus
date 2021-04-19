@@ -18,7 +18,7 @@ import { ReviewSubmitComponent } from './review-submit.component';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @NgModule({
+@NgModule({
   imports: [
     CommonModule,
     CardModule,

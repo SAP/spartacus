@@ -20,7 +20,7 @@ import { ShippingAddressModule } from './components/shipping-address/shipping-ad
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @NgModule({
+@NgModule({
   imports: [
     CommonModule,
     CheckoutOrchestratorModule,

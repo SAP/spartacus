@@ -17,7 +17,7 @@ import { PlaceOrderComponent } from './place-order.component';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @NgModule({
+@NgModule({
   imports: [
     CommonModule,
     RouterModule,

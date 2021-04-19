@@ -5,7 +5,7 @@ import { PromotionsComponent } from './promotions.component';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @NgModule({
+@NgModule({
   imports: [CommonModule],
   declarations: [PromotionsComponent],
   exports: [PromotionsComponent],
