@@ -5,6 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional
 } from '@angular/core';
 
 import { FormControl, FormGroup } from '@angular/forms';
@@ -54,16 +55,36 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1),
   });
 
+
+
+  constructor(
+    modalService: ModalService,
+    currentProductService: CurrentProductService,
+    cd: ChangeDetectorRef,
+    activeCartService: ActiveCartService,
+    componentData: CmsComponentData<model>
+  );
+
+  /**
+   * @deprecated since 3.4
+   */
+  constructor(
+    modalService: ModalService,
+    currentProductService: CurrentProductService,
+    cd: ChangeDetectorRef,
+    activeCartService: ActiveCartService,
+  );
+
   constructor(
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     private cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartService,
-    protected componentData: CmsComponentData<model>
+    @Optional() protected componentData?: CmsComponentData<model>
   ) {}
 
   ngOnInit() {
-    this.componentData.data$.subscribe((data: model) => {
+    this.componentData?.data$.subscribe((data: model) => {
       if (data.inventoryDisplay && data.inventoryDisplay == 'true') {
         this.showInventory = true;
       }
