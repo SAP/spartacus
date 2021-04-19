@@ -14,7 +14,8 @@ import { provideConfig } from '@spartacus/core';
         },
         {
           baseSite: 'electronics-spa',
-          javascriptUrl: '',
+          javascriptUrl:
+            'https://cdns.eu1.gigya.com/JS/gigya.js?apikey=3_k_wG-sllOhu2rjDEWHjG9-ncnnGAMHfkIcUKzl94weJU1Y18hITRgnTDp1LP8QdC',
           sessionExpiration: 3600,
         },
       ],
