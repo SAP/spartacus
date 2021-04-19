@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ImportToCartService } from './import-to-cart.service';
-import { ImportExportConfig } from '../../core/config/import-export-config';
+import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 
 @Component({
   selector: 'cx-import-to-cart',
