@@ -49,8 +49,7 @@ function addConfiguration(
     ) {
       addCommonConfiguration(sourceFile, options);
       if (options.configuration === 'b2b') {
-        const b2bProviders = getB2bConfiguration();
-        b2bProviders.forEach((b2bProvider) =>
+        getB2bConfiguration().forEach((b2bProvider) =>
           addModuleProvider(sourceFile, b2bProvider)
         );
       }
