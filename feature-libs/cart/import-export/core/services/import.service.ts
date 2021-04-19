@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { ImportExportConfig } from '../config/import-export-config';
-import { FileValidity, InvalidFileInfo } from '../model';
+import { FileValidity, InvalidFileInfo } from '../model/import-to-cart.model';
 
 @Injectable({
   providedIn: 'root',
