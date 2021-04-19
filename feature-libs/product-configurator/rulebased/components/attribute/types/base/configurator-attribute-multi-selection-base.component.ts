@@ -15,6 +15,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
+  // TODO(#11681): make quantityService a required dependency
   constructor(
     protected quantityService?: ConfiguratorAttributeQuantityService
   ) {
@@ -75,9 +76,6 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
   ): ConfiguratorAttributeQuantityComponentOptions {
     if (allowZero === undefined) {
       allowZero = !this.attribute.required;
-    }
-    if (!initialQuantity) {
-      initialQuantity = 0;
     }
     const disableQuantityActions$ = this.loading$.pipe(
       map((loading) => {
