@@ -80,8 +80,8 @@ if (!environment.production) {
       featureModules: {
         productConfiguratorRulebased: {
           module: () =>
-            import('@spartacus/product-configurator/rulebased').then(
-              (m) => m.RulebasedConfiguratorModule
+            import('@spartacus/product-configurator/rulebased/cpq').then(
+              (m) => m.RulebasedCpqConfiguratorModule
             ),
         },
         productConfiguratorTextfield: {
