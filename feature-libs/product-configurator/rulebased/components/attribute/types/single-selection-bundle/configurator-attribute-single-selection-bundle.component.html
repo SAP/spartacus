@@ -15,7 +15,7 @@
 
   <cx-configurator-attribute-product-card
     [id]="createAttributeValueIdForConfigurator(attribute, value?.valueCode)"
-    (handleDeselect)="onDeselect()"
+    (handleDeselect)="onSelect('')"
     (handleSelect)="onSelect($event)"
     *ngFor="let value of attribute?.values"
     [productCardOptions]="extractProductCardParameters(value)"
