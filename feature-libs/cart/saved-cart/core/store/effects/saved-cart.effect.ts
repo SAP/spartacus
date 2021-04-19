@@ -89,8 +89,17 @@ export class SavedCartEffects {
     ofType(SavedCartActions.RESTORE_SAVED_CART),
     map((action: SavedCartActions.RestoreSavedCart) => action.payload),
     withLatestFrom(this.activeCartService.getActive()),
-    switchMap(([{ userId, cartId }, activeCart]) => {
+    switchMap(([{ userId, cartId, extraData }, activeCart]) => {
       const actions: any[] = [];
+
+      if (extraData?.cloneSavedCart) {
+        actions.push(
+          new SavedCartActions.CloneSavedCart({
+            userId,
+            cartId,
+          })
+        );
+      }
 
       if ((activeCart?.entries ?? []).length > 0) {
         if (activeCart.code) {
@@ -234,6 +243,43 @@ export class SavedCartEffects {
             )
           )
         );
+    })
+  );
+
+  @Effect()
+  cloneSavedCart$: Observable<
+    | SavedCartActions.CloneSavedCartFail
+    | SavedCartActions.CloneSavedCartSuccess
+    | SavedCartActions.CloneSavedCart
+    | CartActions.LoadCartSuccess
+  > = this.actions$.pipe(
+    ofType(SavedCartActions.CLONE_SAVED_CART),
+    map((action: SavedCartActions.CloneSavedCart) => action.payload),
+    switchMap(({ userId, cartId }) => {
+      return this.savedCartConnector.cloneSavedCart(userId, cartId).pipe(
+        switchMap((savedCart: Cart) => {
+          return [
+            new CartActions.LoadCartSuccess({
+              userId,
+              cartId,
+              cart: savedCart,
+            }),
+            new SavedCartActions.CloneSavedCartSuccess({
+              userId,
+              cartId,
+            }),
+          ];
+        }),
+        catchError((error: HttpErrorResponse) =>
+          of(
+            new SavedCartActions.CloneSavedCartFail({
+              userId,
+              cartId,
+              error: normalizeHttpError(error),
+            })
+          )
+        )
+      );
     })
   );
 

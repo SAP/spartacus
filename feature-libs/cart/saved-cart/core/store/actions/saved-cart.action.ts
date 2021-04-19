@@ -1,5 +1,6 @@
 import { MULTI_CART_DATA, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
+  SAVED_CART_CLONE_CART_PROCESS_ID,
   SAVED_CART_LIST_PROCESS_ID,
   SAVED_CART_RESTORE_CART_PROCESS_ID,
   SAVED_CART_SAVE_CART_PROCESS_ID,
@@ -28,6 +29,11 @@ export const CLEAR_SAVE_CART = '[Saved Cart] Clear Save Cart';
 export const EDIT_SAVED_CART = '[Saved Cart] Edit Saved Cart';
 export const EDIT_SAVED_CART_SUCCESS = '[Saved Cart] Edit Saved Cart Success';
 export const EDIT_SAVED_CART_FAIL = '[Saved Cart] Edit Saved Cart Fail';
+
+export const CLONE_SAVED_CART = '[Saved Cart] Clone Saved Cart';
+export const CLONE_SAVED_CART_SUCCESS = '[Saved Cart] Clone Saved Cart Success';
+export const CLONE_SAVED_CART_FAIL = '[Saved Cart] Clone Saved Cart Fail';
+export const CLEAR_CLONE_SAVED_CART = '[Saved Cart] Clear Clone Saved Cart';
 
 export class LoadSavedCart extends StateUtils.EntityLoadAction {
   readonly type = LOAD_SAVED_CART;
@@ -107,6 +113,7 @@ export class RestoreSavedCart extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       cartId: string;
+      extraData?: { cloneSavedCart?: boolean };
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID);
@@ -238,6 +245,50 @@ export class EditSavedCartFail extends StateUtils.EntityFailAction {
   }
 }
 
+export class CloneSavedCart extends StateUtils.EntityLoadAction {
+  readonly type = CLONE_SAVED_CART;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID);
+  }
+}
+
+export class CloneSavedCartSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = CLONE_SAVED_CART_SUCCESS;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID);
+  }
+}
+
+export class CloneSavedCartFail extends StateUtils.EntityFailAction {
+  readonly type = CLONE_SAVED_CART_FAIL;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      error: any;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID, payload.error);
+  }
+}
+
+export class ClearCloneSavedCart extends StateUtils.EntityLoaderResetAction {
+  readonly type = CLEAR_CLONE_SAVED_CART;
+  constructor() {
+    super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID);
+  }
+}
+
 export type SavedCartActions =
   | LoadSavedCart
   | LoadSavedCartSuccess
@@ -256,4 +307,8 @@ export type SavedCartActions =
   | ClearSaveCart
   | EditSavedCart
   | EditSavedCartSuccess
-  | EditSavedCartFail;
+  | EditSavedCartFail
+  | CloneSavedCart
+  | CloneSavedCartSuccess
+  | CloneSavedCartFail
+  | ClearCloneSavedCart;

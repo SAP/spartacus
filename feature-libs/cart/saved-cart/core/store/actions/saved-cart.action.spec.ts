@@ -1,5 +1,6 @@
 import { MULTI_CART_DATA, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
+  SAVED_CART_CLONE_CART_PROCESS_ID,
   SAVED_CART_LIST_PROCESS_ID,
   SAVED_CART_RESTORE_CART_PROCESS_ID,
   SAVED_CART_SAVE_CART_PROCESS_ID,
@@ -349,6 +350,78 @@ describe('SavedCart Actions', () => {
             PROCESS_FEATURE,
             SAVED_CART_SAVE_CART_PROCESS_ID,
             error
+          ),
+        });
+      });
+    });
+  });
+
+  describe('CloneSavedCart Actions', () => {
+    describe('CloneSavedCart', () => {
+      it('should create the action', () => {
+        const action = new SavedCartActions.CloneSavedCart({
+          userId: mockUserId,
+          cartId: mockCartId,
+        });
+
+        expect({ ...action }).toEqual({
+          type: SavedCartActions.CLONE_SAVED_CART,
+          payload: { userId: mockUserId, cartId: mockCartId },
+          meta: StateUtils.entityLoadMeta(
+            PROCESS_FEATURE,
+            SAVED_CART_CLONE_CART_PROCESS_ID
+          ),
+        });
+      });
+    });
+    describe('CloneSavedCartSuccess', () => {
+      it('should create the action', () => {
+        const action = new SavedCartActions.CloneSavedCartSuccess({
+          userId: mockUserId,
+          cartId: mockCartId,
+        });
+
+        expect({ ...action }).toEqual({
+          type: SavedCartActions.CLONE_SAVED_CART_SUCCESS,
+          payload: {
+            userId: mockUserId,
+            cartId: mockCartId,
+          },
+          meta: StateUtils.entitySuccessMeta(
+            PROCESS_FEATURE,
+            SAVED_CART_CLONE_CART_PROCESS_ID
+          ),
+        });
+      });
+    });
+    describe('CloneSavedCartFail', () => {
+      it('should create the action', () => {
+        const action = new SavedCartActions.CloneSavedCartFail({
+          userId: mockUserId,
+          cartId: mockCartId,
+          error,
+        });
+
+        expect({ ...action }).toEqual({
+          type: SavedCartActions.CLONE_SAVED_CART_FAIL,
+          payload: { userId: mockUserId, cartId: mockCartId, error },
+          meta: StateUtils.entityFailMeta(
+            PROCESS_FEATURE,
+            SAVED_CART_CLONE_CART_PROCESS_ID,
+            error
+          ),
+        });
+      });
+    });
+    describe('ClearCloneSavedCart', () => {
+      it('should create the action', () => {
+        const action = new SavedCartActions.ClearCloneSavedCart();
+
+        expect({ ...action }).toEqual({
+          type: SavedCartActions.CLEAR_CLONE_SAVED_CART,
+          meta: StateUtils.entityResetMeta(
+            PROCESS_FEATURE,
+            SAVED_CART_CLONE_CART_PROCESS_ID
           ),
         });
       });
