@@ -44,7 +44,6 @@ if (!environment.production) {
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
-          //baseUrl: 'https://localhost:9002',
           prefix: environment.occApiPrefix,
         },
       },
