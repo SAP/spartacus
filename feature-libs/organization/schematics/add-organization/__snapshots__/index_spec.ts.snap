@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Organization schematics: ng-add b2b features should be added 1`] = `
+exports[`Spartacus Organization schematics: ng-add b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
 import { provideConfig } from \\"@spartacus/core\\";

@@ -13,6 +13,7 @@ import {
   LibraryOptions as SpartacusOrganizationOptions,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_SETUP,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import {
@@ -338,6 +339,11 @@ describe('Spartacus Organization schematics: ng-add', () => {
         `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
       expect(configurationModule).toMatchSnapshot();
+    });
+
+    it('should update package.json', () => {
+      const packageJson = appTree.readContent(`package.json`);
+      expect(packageJson).toContain(SPARTACUS_SETUP);
     });
   });
 });
