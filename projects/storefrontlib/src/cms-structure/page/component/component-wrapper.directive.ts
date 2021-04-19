@@ -116,9 +116,9 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     const payload = {
       typeCode: this.cxComponentWrapper.typeCode,
       id: this.cxComponentWrapper.uid,
-    } as ComponentCreateEvent;
-    if (elementRef) {
-      payload.host = elementRef.nativeElement;
+    } as ComponentEvent;
+    if (event === ComponentCreateEvent) {
+      (payload as ComponentCreateEvent).host = elementRef?.nativeElement;
     }
     this.eventService?.dispatch(payload, event);
   }
