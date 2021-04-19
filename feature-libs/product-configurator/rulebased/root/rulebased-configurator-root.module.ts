@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { CpqConfiguratorInteractiveModule } from './cpq/cpq-configurator-interactive.module';
-import { CpqConfiguratorOverviewModule } from './cpq/cpq-configurator-overview.module';
-import { CpqConfiguratorInterceptorModule } from './interceptor/cpq-configurator-interceptor.module';
+import { CpqConfiguratorRootModule } from './cpq/cpq-configurator-root.module';
 import { RulebasedConfiguratorRootFeatureModule } from './rulebased-configurator-root-feature.module';
 import { RulebasedConfiguratorRoutingModule } from './rulebased-configurator-routing.module';
 import { VariantConfiguratorInteractiveModule } from './variant/variant-configurator-interactive.module';
@@ -18,9 +16,7 @@ import { VariantConfiguratorOverviewModule } from './variant/variant-configurato
     RulebasedConfiguratorRootFeatureModule,
     VariantConfiguratorInteractiveModule,
     VariantConfiguratorOverviewModule,
-    CpqConfiguratorInteractiveModule,
-    CpqConfiguratorOverviewModule,
-    CpqConfiguratorInterceptorModule,
+    CpqConfiguratorRootModule,
     RulebasedConfiguratorRoutingModule.forRoot(),
   ],
 })
