@@ -103,7 +103,7 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
   - [ ] Run the installation script to make sure you can create a shell app with the latest imported libraries with no errors:
 
     ```bash
-    cd scripts/install && run.sh install_npm
+    cd scripts/install && ./run.sh install_npm
     ```
 
 - [ ] Merge release branch (PR from release/x.y.z) to the maintenance branch
