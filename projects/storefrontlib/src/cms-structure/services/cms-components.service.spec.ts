@@ -1,7 +1,11 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsConfig, DeferLoadingStrategy } from '@spartacus/core';
-import { Subject } from 'rxjs';
+import {
+  CmsConfig,
+  ConfigInitializerService,
+  DeferLoadingStrategy,
+} from '@spartacus/core';
+import { of, Subject } from 'rxjs';
 import { CmsComponentsService } from './cms-components.service';
 import { FeatureModulesService } from './feature-modules.service';
 import createSpy = jasmine.createSpy;
@@ -61,12 +65,21 @@ class MockFeatureModulesService implements Partial<FeatureModulesService> {
   }
 }
 
-describe('CmsComponentsService', () => {
+class MockConfigInitializerService
+  implements Partial<ConfigInitializerService> {
+  getStable = () => of(mockConfig);
+}
+
+fdescribe('CmsComponentsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: CmsConfig, useValue: mockConfig },
         { provide: FeatureModulesService, useClass: MockFeatureModulesService },
+        {
+          provide: ConfigInitializerService,
+          useClass: MockConfigInitializerService,
+        },
       ],
     });
 
