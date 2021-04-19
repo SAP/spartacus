@@ -16,9 +16,11 @@ import {
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
   PROVIDE_CONFIG_FUNCTION,
+  SPARTACUS_CORE,
+  SPARTACUS_SETUP,
 } from '../constants';
 import { isImportedFromSpartacusLibs } from './import-utils';
-import { getModule } from './new-module-utils';
+import { getModule, Import } from './new-module-utils';
 
 /**
  * Finds the Storefront config in the given app.module.ts
@@ -352,4 +354,35 @@ export function normalizeConfiguration(config: string | Node): string {
   newConfig = newConfig.replace(EMPTY_SPACE_REG_EXP, '');
 
   return newConfig;
+}
+
+export function getB2bConfiguration(): { import: Import[]; content: string }[] {
+  return [
+    {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_CORE,
+          namedImports: [PROVIDE_CONFIG_FUNCTION],
+        },
+        {
+          moduleSpecifier: SPARTACUS_SETUP,
+          namedImports: ['defaultB2bOccConfig'],
+        },
+      ],
+      content: `provideConfig(defaultB2bOccConfig)`,
+    },
+    {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_CORE,
+          namedImports: [PROVIDE_CONFIG_FUNCTION],
+        },
+        {
+          moduleSpecifier: SPARTACUS_SETUP,
+          namedImports: ['defaultB2bCheckoutConfig'],
+        },
+      ],
+      content: `provideConfig(defaultB2bCheckoutConfig)`,
+    },
+  ];
 }
