@@ -79,10 +79,6 @@ if (!environment.production) {
         resources: configuratorTranslations,
       },
       featureModules: {
-        //in case CPQ is active
-        // CpqConfiguratorRestModule to be renamed as it contains
-        // rulebased and CPQ
-
         productConfiguratorRulebased: {
           module: () =>
             import('@spartacus/product-configurator/rulebased/cpq').then(
