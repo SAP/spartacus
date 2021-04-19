@@ -10,8 +10,10 @@ import { Route } from '@angular/router';
 import {
   CmsComponent,
   CmsComponentChildRoutesConfig,
+  CMSComponentConfig,
   CmsComponentMapping,
   CmsConfig,
+  ConfigInitializerService,
   deepMerge,
   DeferLoadingStrategy,
 } from '@spartacus/core';
@@ -28,6 +30,8 @@ import { FeatureModulesService } from './feature-modules.service';
 export class CmsComponentsService {
   private missingComponents: string[] = [];
   private mappings: { [componentType: string]: CmsComponentMapping } = {};
+  // Copy of initial/static cms mapping configuration unaffected by lazy-loaded modules
+  private staticCmsConfig: CMSComponentConfig | undefined;
 
   // contains
   private mappingResolvers: Map<
@@ -38,8 +42,18 @@ export class CmsComponentsService {
   constructor(
     protected config: CmsConfig,
     @Inject(PLATFORM_ID) protected platformId: Object,
-    protected featureModules?: FeatureModulesService
-  ) {}
+    protected featureModules?: FeatureModulesService,
+    protected configInitializer?: ConfigInitializerService
+  ) {
+    this.configInitializer
+      ?.getStable('cmsComponents')
+      .subscribe((cmsConfig: CmsConfig) => {
+        // we want to grab cms configuration available at config initialization phase
+        // as lazy-loaded modules can affect global configuration resulting in
+        // non-deterministic state
+        this.staticCmsConfig = { ...cmsConfig.cmsComponents };
+      });
+  }
 
   /**
    * Should be called to make sure all component mappings are determined,
@@ -58,7 +72,8 @@ export class CmsComponentsService {
 
       for (const componentType of componentTypes) {
         if (!this.mappings[componentType]) {
-          const staticConfig = this.config.cmsComponents[componentType];
+          const staticConfig = (this.staticCmsConfig ??
+            this.config.cmsComponents)[componentType];
 
           // check if this component type is managed by feature module
           if (this.featureModules.hasFeatureFor(componentType)) {
@@ -132,7 +147,7 @@ export class CmsComponentsService {
   getMapping(componentType: string): CmsComponentMapping {
     const componentConfig =
       this.mappings[componentType] ??
-      this.config.cmsComponents?.[componentType];
+      (this.staticCmsConfig ?? this.config.cmsComponents)?.[componentType];
 
     if (isDevMode() && !componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
@@ -160,7 +175,8 @@ export class CmsComponentsService {
    * Return DeferLoadingStrategy for component type.
    */
   getDeferLoadingStrategy(componentType: string): DeferLoadingStrategy {
-    return this.config.cmsComponents?.[componentType]?.deferLoading;
+    return (this.staticCmsConfig ?? this.config.cmsComponents)?.[componentType]
+      ?.deferLoading;
   }
 
   /**
