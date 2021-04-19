@@ -6,16 +6,14 @@ const cmsComponents: string[] = [
   'ConfiguratorOverviewForm',
   'ConfiguratorUpdateMessage',
   'ConfiguratorAddToCartButton',
+  'ConfiguratorMenu',
   'ConfiguratorGroupTitle',
   'ConfiguratorOverviewBanner',
-  'ConfiguratorUpdateMessage',
   'ConfiguratorPrevNext',
   'ConfiguratorPriceSummary',
   'ConfiguratorTitle',
   'ConfiguratorTabBar',
 ];
-
-//const cmsComponents2: string[] = ['ConfiguratorUpdateMessage'];
 
 /**
  * Contains feature module configuration
@@ -35,7 +33,6 @@ const cmsComponents: string[] = [
          */
         rulebased: { cmsComponents },
         productConfiguratorRulebased: { cmsComponents },
-        //productConfiguratorRulebasedCpq: { cmsComponents2 },
       },
     }),
   ],

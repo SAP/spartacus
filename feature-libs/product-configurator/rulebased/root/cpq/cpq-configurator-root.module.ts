@@ -4,8 +4,8 @@ import { CpqConfiguratorOverviewModule } from './cpq-configurator-overview.modul
 import { CpqConfiguratorInterceptorModule } from './interceptor/cpq-configurator-interceptor.module';
 
 /**
- * Exposes the root modules that we need to load statically. Contains page mappings, route configurations
- * and feature configuration
+ * Exposes the CPQ aspects that we need to load eagerly, like page mappings, routing
+ * and interceptor related entities
  */
 @NgModule({
   imports: [
