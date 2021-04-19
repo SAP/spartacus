@@ -211,6 +211,10 @@ describe('with SSR', () => {
       providers: [
         { provide: CmsConfig, useValue: mockConfig },
         { provide: PLATFORM_ID, useValue: 'server' },
+        {
+          provide: ConfigInitializerService,
+          useClass: MockConfigInitializerService,
+        },
       ],
     });
 
