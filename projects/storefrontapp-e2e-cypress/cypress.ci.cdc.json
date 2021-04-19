@@ -1,0 +1,24 @@
+{
+  "defaultCommandTimeout": 15000,
+  "baseUrl": "http://localhost:4200",
+  "requestTimeout": 15000,
+  "projectId": "k3nmep",
+  "numTestsKeptInMemory": 1,
+  "chromeWebSecurity": false,
+  "video": true,
+  "retries": {
+    "runMode": 2
+  },
+  "videoUploadOnPasses": false,
+  "env": {
+    "API_URL": "https://cdc-spa-2011-2102.demo.hybris.com",
+    "BASE_SITE": "electronics-spa",
+    "BASE_LANG": "en",
+    "BASE_CURRENCY": "USD",
+    "CLIENT_ID": "mobile_android",
+    "CLIENT_SECRET": "secret",
+    "OCC_PREFIX": "/occ/v2",
+    "OCC_PREFIX_USER_ENDPOINT": "users",
+    "OCC_PREFIX_ORDER_ENDPOINT": "orders"
+  }
+}
