@@ -221,7 +221,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should be added', () => {
+      it('configuration should be added', () => {
         const configurationModule = appTree.readContent(
           `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
