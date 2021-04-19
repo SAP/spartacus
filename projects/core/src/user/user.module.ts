@@ -1,7 +1,6 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { UserIdService } from '../auth';
-import { ConsentEventModule } from './events';
 import { StateWithUser } from './store';
 import { LoadUserConsents } from './store/actions/user-consents.action';
 import { UserStoreModule } from './store/user-store.module';
@@ -10,7 +9,7 @@ import { UserStoreModule } from './store/user-store.module';
  * @deprecated since 3.2, moved to the `@spartacus/user` package.
  */
 @NgModule({
-  imports: [UserStoreModule, ConsentEventModule],
+  imports: [UserStoreModule],
   providers: [
     // TODO Cleanup and move to user root
     {

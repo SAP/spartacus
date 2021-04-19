@@ -12,7 +12,10 @@ import { SiteContextConfigInitializer } from './config/config-loader/site-contex
 import { defaultSiteContextConfigFactory } from './config/default-site-context-config';
 import { SiteContextConfig } from './config/site-context-config';
 import { SiteContextEventModule } from './events/site-context-event.module';
-import { SiteContextPersistenceService } from './facade/site-context-persistence.service';
+import {
+  CurrencyStatePersistenceService,
+  LanguageStatePersistenceService,
+} from './facade/index';
 import { BASE_SITE_CONTEXT_ID } from './providers/context-ids';
 import { contextServiceMapProvider } from './providers/context-service-map';
 import { contextServiceProviders } from './providers/context-service-providers';
@@ -39,10 +42,16 @@ export function initSiteContextConfig(
   }
   return null;
 }
-export function siteContextStatePersistenceFactory(
-  siteContextPersistenceService: SiteContextPersistenceService
+export function CurrencyStatePersistenceFactory(
+  currencyPersistenceService: CurrencyStatePersistenceService
 ) {
-  const result = () => siteContextPersistenceService.initSync();
+  const result = () => currencyPersistenceService.initSync();
+  return result;
+}
+export function LanguageStatePersistenceFactory(
+  languagePersistenceService: LanguageStatePersistenceService
+) {
+  const result = () => languagePersistenceService.initSync();
   return result;
 }
 
@@ -71,8 +80,14 @@ export class SiteContextModule {
         },
         {
           provide: APP_INITIALIZER,
-          useFactory: siteContextStatePersistenceFactory,
-          deps: [SiteContextPersistenceService],
+          useFactory: CurrencyStatePersistenceFactory,
+          deps: [CurrencyStatePersistenceService],
+          multi: true,
+        },
+        {
+          provide: APP_INITIALIZER,
+          useFactory: LanguageStatePersistenceFactory,
+          deps: [LanguageStatePersistenceService],
           multi: true,
         },
       ],
