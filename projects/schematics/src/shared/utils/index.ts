@@ -1,3 +1,4 @@
+export * from './config-utils';
 export {
   createNewConfig,
   getConfig,

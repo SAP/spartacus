@@ -12,15 +12,19 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   addPackageJsonDependency,
   NodeDependency,
+  NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
   PROVIDE_CONFIG_FUNCTION,
+  SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
+  SPARTACUS_SETUP,
 } from '../constants';
+import { getB2bConfiguration } from './config-utils';
 import { isImportedFrom } from './import-utils';
 import {
   addModuleImport,
@@ -28,6 +32,7 @@ import {
   ensureModuleExists,
   Import,
 } from './new-module-utils';
+import { getSpartacusSchematicsVersion } from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
@@ -567,6 +572,62 @@ export function addPackageJsonDependencies(
         );
       }
     });
+    return tree;
+  };
+}
+
+export function configureB2bFeatures<T extends LibraryOptions>(
+  options: T,
+  packageJson: any
+): Rule {
+  return (_tree: Tree, _context: SchematicContext): Rule => {
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    return chain([
+      addB2bProviders(options),
+      addPackageJsonDependencies(
+        [
+          {
+            type: NodeDependencyType.Default,
+            version: spartacusVersion,
+            name: SPARTACUS_SETUP,
+          },
+        ],
+        packageJson
+      ),
+      installPackageJsonDependencies(),
+    ]);
+  };
+}
+
+function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
+  return (tree: Tree, _context: SchematicContext): Tree => {
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    if (!buildPaths.length) {
+      throw new SchematicsException(
+        'Could not find any tsconfig file. Cannot configure SpartacusConfigurationModule.'
+      );
+    }
+
+    const basePath = process.cwd();
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const sourceFile of appSourceFiles) {
+        if (
+          sourceFile
+            .getFilePath()
+            .includes(`${SPARTACUS_CONFIGURATION_MODULE}.module.ts`)
+        ) {
+          getB2bConfiguration().forEach((provider) =>
+            addModuleProvider(sourceFile, provider)
+          );
+          saveAndFormat(sourceFile);
+
+          break;
+        }
+      }
+    }
+
     return tree;
   };
 }
