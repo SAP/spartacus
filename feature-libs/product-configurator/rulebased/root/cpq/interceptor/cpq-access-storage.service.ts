@@ -14,7 +14,7 @@ import { CpqConfiguratorAuthConfig } from './cpq-configurator-auth.config';
 
 @Injectable({ providedIn: 'root' })
 export class CpqAccessStorageService {
-  protected readonly EXPIRED_TOKEN = {
+  protected readonly EXPIRED_TOKEN: CpqAccessData = {
     accessToken: 'INVALID DUMMY',
     accessTokenExpirationTime: 0,
   };
