@@ -8,6 +8,7 @@ import {
 import {
   addLibraryFeature,
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
+  configureB2bFeatures,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
   shouldAddFeature,
@@ -44,7 +45,7 @@ export function addProductConfiguratorFeatures(
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addProductConfiguratorRulebasedFeature(options),
+      addProductConfiguratorRulebasedFeature(options, packageJson),
       shouldAddFeature(CLI_TEXTFIELD_FEATURE, options.features)
         ? addProductConfiguratorTextfieldFeature(options)
         : noop(),
@@ -53,7 +54,8 @@ export function addProductConfiguratorFeatures(
 }
 
 function addProductConfiguratorRulebasedFeature(
-  options: SpartacusProductConfiguratorOptions
+  options: SpartacusProductConfiguratorOptions,
+  packageJson: any
 ): Rule {
   let moduleName: string;
   let moduleImportPath: string;
@@ -61,6 +63,7 @@ function addProductConfiguratorRulebasedFeature(
   if (shouldAddFeature(CLI_CPQ_FEATURE, options.features)) {
     moduleName = PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE;
     moduleImportPath = SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_CPQ;
+    configureB2bFeatures(options, packageJson);
   } else {
     moduleName = PRODUCT_CONFIGURATOR_RULEBASED_MODULE;
     moduleImportPath = SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED;
