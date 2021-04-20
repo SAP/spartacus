@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { provideDefaultConfig } from '@spartacus/core';
 import { CpqConfiguratorInteractiveModule } from './cpq-configurator-interactive.module';
 import { CpqConfiguratorOverviewModule } from './cpq-configurator-overview.module';
 import { CpqConfiguratorInterceptorModule } from './interceptor/cpq-configurator-interceptor.module';
@@ -13,5 +14,7 @@ import { CpqConfiguratorInterceptorModule } from './interceptor/cpq-configurator
     CpqConfiguratorOverviewModule,
     CpqConfiguratorInterceptorModule,
   ],
+  //force early login
+  providers: [provideDefaultConfig({ routing: { protected: true } })],
 })
 export class CpqConfiguratorRootModule {}

@@ -15,6 +15,8 @@ export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME =
 
 export const PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE =
   'RulebasedConfiguratorRootModule';
+export const PRODUCT_CONFIGURATOR_RULEBASED_CPQ_ROOT_MODULE =
+  'CpqConfiguratorRootModule';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE =
   'TextfieldConfiguratorRootModule';
 export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED =

@@ -14,7 +14,10 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, provideConfig, TestConfigModule } from '@spartacus/core';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
-import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';
+import {
+  CpqConfiguratorRootModule,
+  RulebasedConfiguratorRootModule,
+} from '@spartacus/product-configurator/rulebased/root';
 import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
@@ -50,7 +53,6 @@ if (!environment.production) {
 
       // custom routing configuration for e2e testing
       routing: {
-        protected: true,
         routes: {
           product: {
             paths: ['product/:productCode/:name', 'product/:productCode'],
@@ -93,6 +95,7 @@ if (!environment.production) {
       },
     }),
     RulebasedConfiguratorRootModule,
+    CpqConfiguratorRootModule,
     TextfieldConfiguratorRootModule,
     // PRODUCT CONFIGURATOR END
 
