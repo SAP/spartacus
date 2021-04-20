@@ -287,8 +287,7 @@ export class ConfiguratorGroupMenuComponent {
           groupStatusStyle = groupStatusStyle + this.ERROR;
         }
         return groupStatusStyle;
-      }),
-      take(1)
+      })
     );
   }
 }
