@@ -83,6 +83,28 @@ describe('Spartacus User schematics: ng-add', () => {
       .toPromise();
   });
 
+  describe('Without features', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          { ...defaultOptions, lazy: false, features: [] },
+          appTree
+        )
+        .toPromise();
+    });
+
+    it('should not add any modules', () => {
+      const module = appTree.readContent(userFeatureModulePath);
+      expect(module).not.toContain(
+        `import { UserAccountRootModule } from "@spartacus/user/account/root";`
+      );
+      expect(module).not.toContain(
+        `import { UserProfileRootModule } from "@spartacus/user/profile/root";`
+      );
+    });
+  });
+
   describe('Account feature', () => {
     describe('eager loading', () => {
       beforeEach(async () => {
