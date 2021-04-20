@@ -45,17 +45,19 @@ export function addProductConfiguratorFeatures(
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addProductConfiguratorRulebasedFeature(options, packageJson),
+      addProductConfiguratorRulebasedFeature(options),
       shouldAddFeature(CLI_TEXTFIELD_FEATURE, options.features)
         ? addProductConfiguratorTextfieldFeature(options)
+        : noop(),
+      shouldAddFeature(CLI_CPQ_FEATURE, options.features)
+        ? configureB2bFeatures(options, packageJson)
         : noop(),
     ]);
   };
 }
 
 function addProductConfiguratorRulebasedFeature(
-  options: SpartacusProductConfiguratorOptions,
-  packageJson: any
+  options: SpartacusProductConfiguratorOptions
 ): Rule {
   let moduleName: string;
   let moduleImportPath: string;
@@ -63,7 +65,6 @@ function addProductConfiguratorRulebasedFeature(
   if (shouldAddFeature(CLI_CPQ_FEATURE, options.features)) {
     moduleName = PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE;
     moduleImportPath = SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_CPQ;
-    configureB2bFeatures(options, packageJson);
   } else {
     moduleName = PRODUCT_CONFIGURATOR_RULEBASED_MODULE;
     moduleImportPath = SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED;
