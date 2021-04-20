@@ -5,9 +5,9 @@ import {
   SPARTACUS_ASSETS,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
-  SPARTACUS_SETUP,
   SPARTACUS_STOREFRONTLIB,
 } from '../shared/constants';
+import { getB2bConfiguration } from '../shared/utils/config-utils';
 import { addModuleProvider } from '../shared/utils/new-module-utils';
 import { getSpartacusCurrentFeatureLevel } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
@@ -47,10 +47,11 @@ function addConfiguration(
         .getFilePath()
         .includes(`${SPARTACUS_CONFIGURATION_MODULE}.module.ts`)
     ) {
-      if (options.configuration === 'b2c') {
-        addB2cConfiguration(sourceFile, options);
-      } else {
-        addB2bConfiguration(sourceFile, options);
+      addCommonConfiguration(sourceFile, options);
+      if (options.configuration === 'b2b') {
+        getB2bConfiguration().forEach((b2bProvider) =>
+          addModuleProvider(sourceFile, b2bProvider)
+        );
       }
 
       saveAndFormat(sourceFile);
@@ -58,13 +59,6 @@ function addConfiguration(
       break;
     }
   }
-}
-
-function addB2cConfiguration(
-  sourceFile: SourceFile,
-  options: SpartacusOptions
-): void {
-  addCommonConfiguration(sourceFile, options);
 }
 
 function addCommonConfiguration(
@@ -106,40 +100,6 @@ function addCommonConfiguration(
   });
 
   addStorefrontConfig(sourceFile, options);
-}
-
-function addB2bConfiguration(
-  sourceFile: SourceFile,
-  options: SpartacusOptions
-): void {
-  addCommonConfiguration(sourceFile, options);
-
-  addModuleProvider(sourceFile, {
-    import: [
-      {
-        moduleSpecifier: SPARTACUS_CORE,
-        namedImports: [PROVIDE_CONFIG_FUNCTION],
-      },
-      {
-        moduleSpecifier: SPARTACUS_SETUP,
-        namedImports: ['defaultB2bOccConfig'],
-      },
-    ],
-    content: `provideConfig(defaultB2bOccConfig)`,
-  });
-  addModuleProvider(sourceFile, {
-    import: [
-      {
-        moduleSpecifier: SPARTACUS_CORE,
-        namedImports: [PROVIDE_CONFIG_FUNCTION],
-      },
-      {
-        moduleSpecifier: SPARTACUS_SETUP,
-        namedImports: ['defaultB2bCheckoutConfig'],
-      },
-    ],
-    content: `provideConfig(defaultB2bCheckoutConfig)`,
-  });
 }
 
 function createSiteContextConfig(options: SpartacusOptions): string {

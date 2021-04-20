@@ -17,6 +17,7 @@ import {
   CmsComponent,
   CmsConfig,
   CmsService,
+  ConfigInitializerService,
   ContentSlotComponentData,
   DynamicAttributeService,
   EventService,
@@ -28,6 +29,7 @@ import {
   ComponentHandler,
   PageComponentModule,
 } from '@spartacus/storefront';
+import { of } from 'rxjs';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { WebComponentHandler } from './handlers/web-component.handler';
@@ -92,6 +94,11 @@ class TestWrapperComponent {
   };
 }
 
+class MockConfigInitializerService
+  implements Partial<ConfigInitializerService> {
+  getStable = () => of(MockCmsModuleConfig);
+}
+
 describe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;
   let dynamicAttributeService: DynamicAttributeService;
@@ -118,6 +125,10 @@ describe('ComponentWrapperDirective', () => {
         },
         { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } },
         EventService,
+        {
+          provide: ConfigInitializerService,
+          useClass: MockConfigInitializerService,
+        },
       ],
     };
   });
