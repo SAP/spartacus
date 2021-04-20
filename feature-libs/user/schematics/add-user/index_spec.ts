@@ -95,13 +95,7 @@ describe('Spartacus User schematics: ng-add', () => {
     });
 
     it('should not add any modules', () => {
-      const module = appTree.readContent(userFeatureModulePath);
-      expect(module).not.toContain(
-        `import { UserAccountRootModule } from "@spartacus/user/account/root";`
-      );
-      expect(module).not.toContain(
-        `import { UserProfileRootModule } from "@spartacus/user/profile/root";`
-      );
+      expect(appTree.exists(userFeatureModulePath)).toBeFalsy();
     });
   });
 
