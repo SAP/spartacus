@@ -7,6 +7,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Renderer2,
   Type,
   ViewContainerRef,
@@ -78,7 +79,7 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
     protected cmsInjector: CmsInjectorService,
-    protected eventService?: EventService
+    @Optional() protected eventService?: EventService
   ) {}
 
   ngOnInit() {
