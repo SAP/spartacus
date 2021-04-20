@@ -45,8 +45,6 @@ export function addProductConfiguratorFeatures(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    //in case CPQ feature is enabled, we need to install the rulebased
-    //feature twice, because we need to import 2 root modules
     return chain([
       addProductConfiguratorRulebasedFeature(options),
       shouldAddFeature(CLI_CPQ_FEATURE, options.features)
