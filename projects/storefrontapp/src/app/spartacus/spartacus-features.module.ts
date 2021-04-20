@@ -4,7 +4,6 @@ import {
   AuthModule,
   CartModule,
   CartOccModule,
-  CheckoutModule,
   CheckoutOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
@@ -162,7 +161,6 @@ if (environment.cds) {
     WishListModule,
 
     // Checkout Core
-    CheckoutModule.forRoot(),
     CheckoutOccModule,
     CostCenterOccModule,
     // Checkout UI
