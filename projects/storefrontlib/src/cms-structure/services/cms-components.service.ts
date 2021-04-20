@@ -73,7 +73,7 @@ export class CmsComponentsService {
       for (const componentType of componentTypes) {
         if (!this.mappings[componentType]) {
           const staticConfig = (this.staticCmsConfig ??
-            this.config.cmsComponents)[componentType];
+            this.config.cmsComponents)?.[componentType];
 
           // check if this component type is managed by feature module
           if (this.featureModules.hasFeatureFor(componentType)) {
@@ -174,7 +174,9 @@ export class CmsComponentsService {
   /**
    * Return DeferLoadingStrategy for component type.
    */
-  getDeferLoadingStrategy(componentType: string): DeferLoadingStrategy {
+  getDeferLoadingStrategy(
+    componentType: string
+  ): DeferLoadingStrategy | undefined {
     return (this.staticCmsConfig ?? this.config.cmsComponents)?.[componentType]
       ?.deferLoading;
   }
