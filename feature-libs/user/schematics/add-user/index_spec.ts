@@ -83,6 +83,22 @@ describe('Spartacus User schematics: ng-add', () => {
       .toPromise();
   });
 
+  describe('Without features', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          { ...defaultOptions, lazy: false, features: [] },
+          appTree
+        )
+        .toPromise();
+    });
+
+    it('should not add any modules', () => {
+      expect(appTree.exists(userFeatureModulePath)).toBeFalsy();
+    });
+  });
+
   describe('Account feature', () => {
     describe('eager loading', () => {
       beforeEach(async () => {
