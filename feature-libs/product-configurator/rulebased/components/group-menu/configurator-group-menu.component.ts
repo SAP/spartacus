@@ -235,13 +235,9 @@ export class ConfiguratorGroupMenuComponent {
     return this.configuratorGroupsService
       .isGroupVisited(configuration.owner, group.id)
       .pipe(
-        map((isVisited) => {
-          if (isVisited && !this.isConflictGroupType(group.groupType)) {
-            return true;
-          } else {
-            return false;
-          }
-        }),
+        map(
+          (isVisited) => isVisited && !this.isConflictGroupType(group.groupType)
+        ),
         take(1)
       );
   }
