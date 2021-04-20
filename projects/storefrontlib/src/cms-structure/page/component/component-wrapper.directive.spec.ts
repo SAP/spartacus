@@ -17,6 +17,7 @@ import {
   CmsComponent,
   CmsConfig,
   CmsService,
+  ConfigInitializerService,
   ContentSlotComponentData,
   DynamicAttributeService,
 } from '@spartacus/core';
@@ -25,6 +26,7 @@ import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { CxApiService } from './services/cx-api.service';
 import { WebComponentHandler } from './handlers/web-component.handler';
+import { of } from 'rxjs';
 
 const testText = 'test text';
 

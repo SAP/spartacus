@@ -1,7 +1,9 @@
 import { Inject, Injectable, Injector, PLATFORM_ID } from '@angular/core';
 import {
+  CMSComponentConfig,
   CmsComponentMapping,
   CmsConfig,
+  ConfigInitializerService,
   deepMerge,
   DeferLoadingStrategy,
 } from '@spartacus/core';
