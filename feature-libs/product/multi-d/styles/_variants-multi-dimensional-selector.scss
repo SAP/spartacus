@@ -5,11 +5,21 @@ cx-variants-multi-dimensional-selector {
 
     .image-variant-container {
       display: flex;
+      height: 70px;
+      width: 70px;
 
-      cx-media {
+      .image-variant {
+        cursor: pointer;
         height: 70px;
         margin: 0 5px 0 0;
         width: 70px;
+      }
+
+      cx-media {
+        &.is-missing {
+          min-height: 70px;
+          min-width: 70px;
+        }
       }
     }
 

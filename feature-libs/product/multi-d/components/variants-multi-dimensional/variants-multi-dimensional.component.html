@@ -1,7 +1,7 @@
-<ng-container *ngIf="product$ | async as product">
+<div *ngIf="product$ | async as product" class="variants-section">
   <cx-variants-multi-dimensional-selector
     *ngIf="product.multidimensional && product.variantMatrix"
     [product]="product"
   >
   </cx-variants-multi-dimensional-selector>
-</ng-container>
+</div>

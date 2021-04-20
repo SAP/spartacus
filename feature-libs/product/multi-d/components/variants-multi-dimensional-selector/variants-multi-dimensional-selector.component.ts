@@ -6,15 +6,12 @@ import {
 } from '@angular/core';
 import {
   Product,
+  ProductScope,
   ProductService,
   RoutingService,
   VariantMatrixElement,
-  ProductScope,
 } from '@spartacus/core';
 import { filter, take } from 'rxjs/operators';
-
-// TODO: temp solution until real imports from multi-d/core won't show up
-import '@spartacus/product/multi-d/core';
 
 @Component({
   selector: 'cx-variants-multi-dimensional-selector',
@@ -37,11 +34,13 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
   }
 
   changeVariant(code: string): void {
+    console.log('changeVariant', code);
+
     if (code) {
       this.productService
         .get(code, ProductScope.VARIANTS_MULTIDIMENSIONAL)
         .pipe(filter(Boolean), take(1))
-        .subscribe((product: Product) => {
+        .subscribe((product) => {
           this.routingService.go({
             cxRoute: 'product',
             params: product,

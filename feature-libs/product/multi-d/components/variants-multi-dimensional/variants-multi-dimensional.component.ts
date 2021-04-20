@@ -10,16 +10,21 @@ import { filter, distinctUntilChanged } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantsMultiDimensionalComponent implements OnInit {
-  product$: Observable<Product>;
+  product$: Observable<Product | null>;
 
   constructor(private currentProductService: CurrentProductService) {}
 
   ngOnInit(): void {
     this.product$ = this.currentProductService.getProduct().pipe(
-      filter(
-        (product) =>
-          !!(product && product.multidimensional && product.variantMatrix)
-      ),
+      filter((product) => {
+        console.log(product);
+
+        return !!(
+          product &&
+          product?.multidimensional &&
+          product?.variantMatrix
+        );
+      }),
       distinctUntilChanged()
     );
   }

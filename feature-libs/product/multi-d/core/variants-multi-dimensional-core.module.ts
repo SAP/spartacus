@@ -1,10 +1,4 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 
 @NgModule({})
-export class VariantsMultiDimensionalCoreModule {
-  static forRoot(): ModuleWithProviders<VariantsMultiDimensionalCoreModule> {
-    return {
-      ngModule: VariantsMultiDimensionalCoreModule,
-    };
-  }
-}
+export class VariantsMultiDimensionalCoreModule {}

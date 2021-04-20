@@ -1,1 +1,1 @@
-export * from './variants-multi-dimensional.module';
+export * from './index';
