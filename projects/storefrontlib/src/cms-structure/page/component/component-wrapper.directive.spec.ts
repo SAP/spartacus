@@ -85,6 +85,11 @@ class TestWrapperComponent {
   };
 }
 
+class MockConfigInitializerService
+  implements Partial<ConfigInitializerService> {
+  getStable = () => of(MockCmsModuleConfig);
+}
+
 describe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;
   let dynamicAttributeService: DynamicAttributeService;
@@ -110,6 +115,10 @@ describe('ComponentWrapperDirective', () => {
           multi: true,
         },
         { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } },
+        {
+          provide: ConfigInitializerService,
+          useClass: MockConfigInitializerService,
+        },
       ],
     };
   });
