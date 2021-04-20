@@ -19,7 +19,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit {
   attributeDropDownForm = new FormControl('');
-  selectionValue: Configurator.Value | undefined;
+  selectionValue?: Configurator.Value;
 
   @Input() group: string;
 
