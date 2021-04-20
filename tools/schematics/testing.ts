@@ -17,11 +17,15 @@ const featureLibsFolders: string[] = [
   'tracking',
   'user',
 ];
+
+const integrationLibsFolders: string[] = ['cdc'];
+
 const commands = [
   'publish',
   'build projects/schematics',
   'build asm/schematics',
   'build cart/schematics',
+  'build cdc/schematics',
   'build organization/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
@@ -124,7 +128,12 @@ function testAllSchematics(): void {
   });
 
   featureLibsFolders.forEach((lib) =>
-    execSync(`yarn --cwd feature-libs/${lib}/schematics run test:schematics`, {
+    execSync(`yarn --cwd feature-libs/${lib} run test:schematics`, {
+      stdio: 'inherit',
+    })
+  );
+  integrationLibsFolders.forEach((lib) =>
+    execSync(`yarn --cwd integration-libs/${lib} run test:schematics`, {
       stdio: 'inherit',
     })
   );
@@ -140,6 +149,7 @@ async function executeCommand(command: Command): Promise<void> {
       break;
     case 'build asm/schematics':
     case 'build cart/schematics':
+    case 'build cdc/schematics':
     case 'build organization/schematics':
     case 'build product/schematics':
     case 'build product-configurator/schematics':

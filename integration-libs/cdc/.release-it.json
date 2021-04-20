@@ -18,5 +18,20 @@
     "releaseName": "@spartacus/cdc@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib cdc --to cdc-${version}"
   },
-  "plugins": {}
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/asm",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/schematics",
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/user"
+          ]
+        }
+      ]
+    }
+  }
 }
