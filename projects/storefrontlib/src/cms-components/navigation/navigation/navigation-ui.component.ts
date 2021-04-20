@@ -10,6 +10,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { HamburgerMenuService } from '../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
@@ -57,7 +58,8 @@ export class NavigationUIComponent implements OnDestroy {
   constructor(
     private router: Router,
     private renderer: Renderer2,
-    private elemRef: ElementRef
+    private elemRef: ElementRef,
+    protected hamburgerMenuService?: HamburgerMenuService
   ) {
     this.subscriptions.add(
       this.router.events
@@ -144,6 +146,13 @@ export class NavigationUIComponent implements OnDestroy {
   ngOnDestroy() {
     if (this.subscriptions) {
       this.subscriptions.unsubscribe();
+    }
+  }
+
+  close() {
+    if (this.hamburgerMenuService) {
+      this.clear();
+      this.hamburgerMenuService.toggle(true);
     }
   }
 

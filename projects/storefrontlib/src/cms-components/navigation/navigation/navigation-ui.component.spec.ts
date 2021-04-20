@@ -237,5 +237,23 @@ describe('Navigation UI Component', () => {
       );
       expect(child.length).toEqual(7);
     });
+
+    it('should close when link is clicked', () => {
+      spyOn(navigationComponent, 'close').and.callThrough();
+      fixture.detectChanges();
+
+      const child: ElementRef[] = element.queryAll(By.css('cx-generic-link'));
+      const first: HTMLElement = child[0].nativeElement;
+      const second: HTMLElement = child[1].nativeElement;
+      const third: HTMLElement = child[2].nativeElement;
+
+      expect(navigationComponent.close).toHaveBeenCalledTimes(0);
+      first.click();
+      expect(navigationComponent.close).toHaveBeenCalledTimes(1);
+      second.click();
+      expect(navigationComponent.close).toHaveBeenCalledTimes(2);
+      third.click();
+      expect(navigationComponent.close).toHaveBeenCalledTimes(3);
+    });
   });
 });
