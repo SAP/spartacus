@@ -33,8 +33,6 @@ export class CpqAccessStorageService implements OnDestroy {
   protected currentCpqAccessSubscription: Subscription;
   protected _cpqAccessData$: BehaviorSubject<CpqAccessData>;
 
-  protected currentCpqSessionId: string | null = null;
-
   getCpqAccessData(): Observable<CpqAccessData> {
     if (!this.cpqAccessData$) {
       this.initCpqAccessData();
@@ -125,12 +123,5 @@ export class CpqAccessStorageService implements OnDestroy {
       tokenData.accessTokenExpirationTime -
         this.config.productConfigurator.cpq.authentication.tokenExpirationBuffer
     );
-  }
-
-  get cpqSessionId(): string | null {
-    return this.currentCpqSessionId;
-  }
-  set cpqSessionId(cpqSessionId: string | null) {
-    this.currentCpqSessionId = cpqSessionId;
   }
 }

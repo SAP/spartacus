@@ -27,6 +27,13 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
   protected readonly HEADER_ATTR_CPQ_SESSION_ID = 'x-cpq-session-id';
   protected readonly HEADER_ATTR_CPQ_NO_COOKIES = 'x-cpq-disable-cookies';
 
+  /**
+   * Although CPQ API is stateless and can work without session id, it's recommended to always append the CPQ session id to any request.
+   * It enables CPQ load balancer to redirect the request always to the same node, so that configuration related data is already in memory
+   * and does not need to be reloaded from DB. This can have a significant impact on performance nd reduce load in the CPQ system.
+   */
+  protected cpqSessionId: string | null = null;
+
   constructor(protected cpqAccessStorageService: CpqAccessStorageService) {}
 
   intercept(
@@ -76,7 +83,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
       response instanceof HttpErrorResponse
     ) {
       if (response.headers.has(this.HEADER_ATTR_CPQ_SESSION_ID)) {
-        this.cpqAccessStorageService.cpqSessionId = response.headers.get(
+        this.cpqSessionId = response.headers.get(
           this.HEADER_ATTR_CPQ_SESSION_ID
         );
       }
@@ -94,11 +101,10 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
         [this.HEADER_ATTR_CPQ_NO_COOKIES]: 'true',
       }),
     });
-    if (this.cpqAccessStorageService.cpqSessionId) {
+    if (this.cpqSessionId) {
       newRequest = newRequest.clone({
         setHeaders: {
-          [this.HEADER_ATTR_CPQ_SESSION_ID]: this.cpqAccessStorageService
-            .cpqSessionId,
+          [this.HEADER_ATTR_CPQ_SESSION_ID]: this.cpqSessionId,
         },
       });
     }
