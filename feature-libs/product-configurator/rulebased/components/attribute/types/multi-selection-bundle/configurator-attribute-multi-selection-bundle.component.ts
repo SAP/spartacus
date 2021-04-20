@@ -1,20 +1,10 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeProductCardComponentOptions } from '../../product-card/configurator-attribute-product-card.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
 
 interface SelectionValue {
   name?: string;
@@ -29,20 +19,10 @@ interface SelectionValue {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorAttributeMultiSelectionBaseComponent
   implements OnInit {
   preventAction$ = new BehaviorSubject<boolean>(false);
   multipleSelectionValues: SelectionValue[] = [];
-  loading$ = new BehaviorSubject<boolean>(false);
-
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
-
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
-
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
-    super();
-  }
 
   ngOnInit() {
     if (this.attribute.values && this.attribute.values.length > 0) {
@@ -62,44 +42,6 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     ) {
       this.preventAction$.next(true);
     }
-  }
-
-  /**
-   * Returns true if the quantity control should be displayed on attribute level for this component.
-   *
-   * @return {boolean} - Returns true if quantity control should be displayed.
-   */
-  get withQuantityOnAttributeLevel(): boolean {
-    return (
-      this.attribute.dataType ===
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
-    );
-  }
-
-  /**
-   * Returns true if the quantity control should be displayed on value level for this component.
-   *
-   * @return {boolean} - Returns true if quantity control should be displayed.
-   */
-  get withQuantity(): boolean {
-    return this.quantityService.withQuantity(
-      this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-      this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
-    );
-  }
-
-  /**
-   * Returns true if the quantity control should be disabled.
-   *
-   * @return {boolean} - Returns true if quantity control should be disabled.
-   */
-  get disableQuantityActions(): boolean {
-    return (
-      this.attribute?.dataType ===
-        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL &&
-      (!this.attribute.values.find((value) => value.selected) ||
-        this.attribute?.quantity === 0)
-    );
   }
 
   /**
@@ -261,23 +203,6 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       withQuantity: this.withQuantity,
       loading$: this.loading$,
       attributeId: this.attribute.attrCode,
-    };
-  }
-
-  /**
-   *  Extract corresponding quantity parameters
-   *
-   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
-   */
-  extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    return {
-      allowZero: !this.attribute.required,
-      initialQuantity: this.attribute?.quantity ?? 0,
-      disableQuantityActions$: this.loading$.pipe(
-        map((loading) => {
-          return loading || this.disableQuantityActions;
-        })
-      ),
     };
   }
 }

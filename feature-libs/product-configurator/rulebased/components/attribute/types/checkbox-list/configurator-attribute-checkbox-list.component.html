@@ -3,7 +3,7 @@
     *ngIf="withQuantityOnAttributeLevel"
     (changeQuantity)="onChangeQuantity($event)"
     [quantityOptions]="
-      extractQuantityParameters(!attribute.required, attribute.quantity)
+      extractQuantityParameters(attribute.quantity, !attribute.required)
     "
   ></cx-configurator-attribute-quantity>
 
@@ -34,7 +34,7 @@
       *ngIf="value.selected && withQuantity && !withQuantityOnAttributeLevel"
       (changeQuantity)="onChangeValueQuantity($event, value.valueCode, i)"
       [quantityOptions]="
-        extractQuantityParameters(allowZeroValueQuantity, value.quantity)
+        extractQuantityParameters(value.quantity, allowZeroValueQuantity)
       "
     ></cx-configurator-attribute-quantity>
   </ng-container>

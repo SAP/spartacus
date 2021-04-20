@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { provideDefaultConfig } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { defaultCpqOverviewRoutingConfig } from './default-cpq-overview-routing-config';
 
 /**
  * Takes care of the configuration overview that visualizes the attribute value assignments that have been done already in a condensed, read-only form.
@@ -12,7 +14,7 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
   imports: [
     RouterModule.forChild([
       {
-        // We can neither omit the patch nor set to undefined
+        // We can neither omit the path nor set to undefined
         // @ts-ignore
         path: null,
         component: PageLayoutComponent,
@@ -23,5 +25,6 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
       },
     ]),
   ],
+  providers: [provideDefaultConfig(defaultCpqOverviewRoutingConfig)],
 })
 export class CpqConfiguratorOverviewModule {}

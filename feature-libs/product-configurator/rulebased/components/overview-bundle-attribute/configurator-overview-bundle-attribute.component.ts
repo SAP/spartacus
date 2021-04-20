@@ -1,4 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 import {
   ImageGroup,
   Product,
@@ -13,6 +18,7 @@ import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.c
 @Component({
   selector: 'cx-configurator-cpq-overview-attribute',
   templateUrl: './configurator-overview-bundle-attribute.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
   product$: Observable<Product>;

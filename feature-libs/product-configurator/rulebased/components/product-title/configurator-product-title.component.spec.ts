@@ -1,4 +1,4 @@
-import { Component, Input, Type } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterState } from '@angular/router';
@@ -131,6 +131,7 @@ class MockCxIconComponent {
 describe('ConfigProductTitleComponent', () => {
   let component: ConfiguratorProductTitleComponent;
   let fixture: ComponentFixture<ConfiguratorProductTitleComponent>;
+  let changeDetectorRef: ChangeDetectorRef;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let htmlElem: HTMLElement;
 
@@ -178,6 +179,7 @@ describe('ConfigProductTitleComponent', () => {
   );
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorProductTitleComponent);
+    changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
 
@@ -244,7 +246,7 @@ describe('ConfigProductTitleComponent', () => {
 
   it('should render show more case - default', () => {
     component.triggerDetails();
-    fixture.detectChanges();
+    changeDetectorRef.detectChanges();
 
     expect(component.showMore).toBe(true);
     CommonConfiguratorTestUtilsService.expectElementPresent(

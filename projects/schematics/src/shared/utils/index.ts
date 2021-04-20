@@ -1,9 +1,4 @@
-export {
-  createNewConfig,
-  getConfig,
-  getExistingStorefrontConfigNode,
-  mergeConfig,
-} from './config-utils';
+export * from './config-utils';
 export {
   commitChanges,
   findMultiLevelNodesByTextAndKind,

@@ -7,7 +7,7 @@
     class="form-control"
     [formControl]="attributeDropDownForm"
     [cxFocus]="{ key: attribute.name }"
-    (change)="onSelect()"
+    (change)="onSelect(attributeDropDownForm.value)"
   >
     <option
       *ngFor="let item of attribute.values"
@@ -25,15 +25,15 @@
   id="{{
     createAttributeValueIdForConfigurator(attribute, selectionValue.valueCode)
   }}"
-  (handleDeselect)="onDeselect()"
+  (handleDeselect)="onSelect('0')"
   [productCardOptions]="extractProductCardParameters()"
 >
 </cx-configurator-attribute-product-card>
 
 <div *ngIf="withQuantity" class="cx-attribute-level-quantity-price">
   <cx-configurator-attribute-quantity
-    (changeQuantity)="onChangeQuantity($event)"
-    [quantityOptions]="extractQuantityParameters()"
+    (changeQuantity)="onChangeQuantity($event, attributeDropDownForm)"
+    [quantityOptions]="extractQuantityParameters(attributeDropDownForm)"
   ></cx-configurator-attribute-quantity>
   <cx-configurator-price
     [formula]="extractPriceFormulaParameters()"
