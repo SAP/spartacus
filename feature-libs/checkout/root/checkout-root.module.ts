@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
-
+import { interceptors } from './http-interceptors/index';
 @NgModule({
   imports: [],
   providers: [
+    ...interceptors,
     provideDefaultConfig(defaultCheckoutConfig),
     provideDefaultConfig({
       featureModules: {
