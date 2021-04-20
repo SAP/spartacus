@@ -46,9 +46,11 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    * Returns primary image from product object
    *
    * @param {Product} product
-   * @returns {(ImageGroup | ImageGroup[])} - primary image
+   * @returns {(ImageGroup | ImageGroup[] | undefined)} - primary image. View can handle an undefined image
    */
-  getProductPrimaryImage(product: Product): ImageGroup | ImageGroup[] {
+  getProductPrimaryImage(
+    product: Product
+  ): ImageGroup | ImageGroup[] | undefined {
     return product?.images?.PRIMARY;
   }
 
@@ -72,10 +74,8 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    * @return {boolean} - 'true' if the quantity should be displayed, otherwise 'false'
    */
   displayQuantity(): boolean {
-    return (
-      this.attributeOverview?.quantity !== undefined &&
-      this.attributeOverview?.quantity > 0
-    );
+    const quantity = this.attributeOverview?.quantity;
+    return quantity !== undefined && quantity > 0;
   }
 
   /**
