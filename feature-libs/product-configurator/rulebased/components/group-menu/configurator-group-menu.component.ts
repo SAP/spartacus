@@ -235,11 +235,11 @@ export class ConfiguratorGroupMenuComponent {
     return this.configuratorGroupsService
       .isGroupVisited(configuration.owner, group.id)
       .pipe(
-        switchMap((isVisited) => {
+        map((isVisited) => {
           if (isVisited && !this.isConflictGroupType(group.groupType)) {
-            return of(true);
+            return true;
           } else {
-            return of(false);
+            return false;
           }
         }),
         take(1)
@@ -268,7 +268,7 @@ export class ConfiguratorGroupMenuComponent {
     configuration: Configurator.Configuration
   ): Observable<string> {
     return this.isGroupVisited(group, configuration).pipe(
-      switchMap((isVisited) => {
+      map((isVisited) => {
         const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
         let groupStatusStyle: string = 'cx-menu-item';
         if (
@@ -290,7 +290,7 @@ export class ConfiguratorGroupMenuComponent {
         if (!group.complete && isVisited) {
           groupStatusStyle = groupStatusStyle + this.ERROR;
         }
-        return of(groupStatusStyle);
+        return groupStatusStyle;
       }),
       take(1)
     );
