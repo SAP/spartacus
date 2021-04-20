@@ -139,7 +139,7 @@ export class ConfiguratorAttributeProductCardComponent
       this.productCardOptions.productBoundValue.selected &&
       !this.productCardOptions.singleDropdown;
 
-    return isProductCardSelected ? isProductCardSelected : false;
+    return isProductCardSelected ?? false;
   }
 
   /**

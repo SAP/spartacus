@@ -23,7 +23,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   const ownerKey = 'theOwnerKey';
   const name = 'theName';
   const groupId = 'theGroupId';
-  const changedSelectedValue = 'changedSelectedValue';
   const initialSelectedValue = 'initialSelectedValue';
 
   beforeEach(
@@ -70,9 +69,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     };
 
     component.ownerKey = ownerKey;
-
-    spyOn(component, 'onHandleQuantity').and.callThrough();
-
     fixture.detectChanges();
   });
 
@@ -84,92 +80,5 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     expect(component.attributeRadioButtonForm.value).toEqual(
       initialSelectedValue
     );
-  });
-
-  it('should call emit of selectionChange onSelect', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-    component.onSelect(changedSelectedValue);
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        ownerKey: ownerKey,
-        changedAttribute: jasmine.objectContaining({
-          name: name,
-          selectedSingleValue: changedSelectedValue,
-          uiType: Configurator.UiType.RADIOBUTTON,
-          groupId: groupId,
-        }),
-      })
-    );
-  });
-
-  it('should call emit of selectionChange onDeselect', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-
-    component.onDeselect();
-
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        ownerKey: ownerKey,
-        changedAttribute: jasmine.objectContaining({
-          name: name,
-          selectedSingleValue: '',
-          uiType: Configurator.UiType.RADIOBUTTON,
-          groupId: groupId,
-        }),
-      })
-    );
-  });
-
-  it('should call emit of selectionChange onHandleQuantity', () => {
-    const quantity = 2;
-
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-
-    component.onHandleQuantity(quantity);
-
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          name: name,
-          selectedSingleValue: initialSelectedValue,
-          uiType: Configurator.UiType.RADIOBUTTON,
-          groupId: groupId,
-          quantity,
-        }),
-        ownerKey: ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-      })
-    );
-  });
-
-  it('should call onHandleQuantity of event onChangeQuantity', () => {
-    component.onChangeQuantity(2);
-    expect(component.onHandleQuantity).toHaveBeenCalled();
-  });
-
-  it('should call onDeselect of event onChangeQuantity', () => {
-    spyOn(component, 'onDeselect');
-    component.onChangeQuantity(0);
-    expect(component.onDeselect).toHaveBeenCalled();
-  });
-
-  it('should allow quantity', () => {
-    expect(component.withQuantity).toBe(true);
-  });
-
-  // TODO(#11681):remove this test when the quantityService will be a required dependency
-  it('should not allow quantity when service is missing ', () => {
-    component['quantityService'] = undefined;
-    expect(component.withQuantity).toBe(false);
-  });
-
-  it('should allow quantity actions', () => {
-    expect(component.disableQuantityActions).toBe(false);
-  });
-
-  // TODO(#11681):remove this test when the quantityService will be a required dependency
-  it('should not allow quantity actions when service is missing ', () => {
-    component['quantityService'] = undefined;
-    expect(component.disableQuantityActions).toBe(true);
   });
 });

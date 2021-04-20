@@ -12,15 +12,6 @@ export const defaultRulebasedRoutingConfig: RoutingConfig = {
           'configure-overview/vc/:ownerType/entityKey/:entityKey',
         ],
       },
-      configureCLOUDCPQCONFIGURATOR: {
-        paths: ['configure/cpq/:ownerType/entityKey/:entityKey'],
-      },
-      configureOverviewCLOUDCPQCONFIGURATOR: {
-        paths: [
-          'configure-overview/cpq/:ownerType/entityKey/:entityKey/displayOnly/:displayOnly',
-          'configure-overview/cpq/:ownerType/entityKey/:entityKey',
-        ],
-      },
     },
   },
 };

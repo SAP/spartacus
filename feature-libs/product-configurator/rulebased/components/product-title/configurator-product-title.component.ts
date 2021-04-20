@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -12,6 +12,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 @Component({
   selector: 'cx-configurator-product-title',
   templateUrl: './configurator-product-title.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorProductTitleComponent {
   product$: Observable<Product> = this.configRouterExtractorService

@@ -12,15 +12,19 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   addPackageJsonDependency,
   NodeDependency,
+  NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
   PROVIDE_CONFIG_FUNCTION,
+  SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
+  SPARTACUS_SETUP,
 } from '../constants';
+import { getB2bConfiguration } from './config-utils';
 import { isImportedFrom } from './import-utils';
 import {
   addModuleImport,
@@ -28,6 +32,7 @@ import {
   ensureModuleExists,
   Import,
 } from './new-module-utils';
+import { getSpartacusSchematicsVersion } from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
@@ -218,9 +223,9 @@ function handleFeature<T extends LibraryOptions>(
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
 
     const basePath = process.cwd();
-    const tasks: Rule[] = [];
+    const rules: Rule[] = [];
     for (const tsconfigPath of buildPaths) {
-      tasks.push(
+      rules.push(
         ensureModuleExists({
           name: `${config.name}-feature`,
           path: `app/spartacus/features/${config.folderName}`,
@@ -228,12 +233,12 @@ function handleFeature<T extends LibraryOptions>(
           project: options.project,
         })
       );
-      tasks.push(addRootModule(tsconfigPath, basePath, config));
-      tasks.push(addFeatureModule(tsconfigPath, basePath, config, options));
-      tasks.push(addFeatureTranslations(tsconfigPath, basePath, config));
-      tasks.push(addCustomConfig(tsconfigPath, basePath, config));
+      rules.push(addRootModule(tsconfigPath, basePath, config));
+      rules.push(addFeatureModule(tsconfigPath, basePath, config, options));
+      rules.push(addFeatureTranslations(tsconfigPath, basePath, config));
+      rules.push(addCustomConfig(tsconfigPath, basePath, config));
     }
-    return chain(tasks);
+    return chain(rules);
   };
 }
 
@@ -395,34 +400,24 @@ function addLibraryAssets(
 
     // `build` architect section
     const architectBuild = architect?.build;
+    const buildAssets = createAssetsArray(
+      assetsConfig,
+      (architectBuild?.options as any)?.assets
+    );
     const buildOptions = {
       ...architectBuild?.options,
-      assets: [
-        ...((architectBuild?.options as any)?.assets
-          ? (architectBuild?.options as any)?.assets
-          : []),
-        {
-          glob: assetsConfig.glob,
-          input: './node_modules/@spartacus/' + assetsConfig.input,
-          output: assetsConfig.output || 'assets/',
-        },
-      ],
+      assets: buildAssets,
     };
 
     // `test` architect section
     const architectTest = architect?.test;
+    const testAssets = createAssetsArray(
+      assetsConfig,
+      (architectTest?.options as any)?.assets
+    );
     const testOptions = {
       ...architectTest?.options,
-      assets: [
-        ...(architectTest?.options?.assets
-          ? architectTest?.options?.assets
-          : []),
-        {
-          glob: assetsConfig.glob,
-          input: './node_modules/@spartacus/' + assetsConfig.input,
-          output: assetsConfig.output || 'assets/',
-        },
-      ],
+      assets: testAssets,
     };
 
     const updatedAngularJson = {
@@ -447,6 +442,34 @@ function addLibraryAssets(
     };
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
   };
+}
+
+function createAssetsArray(
+  assetsConfig: AssetsConfig,
+  angularJsonAssets: any[] = []
+): unknown[] {
+  for (const asset of angularJsonAssets) {
+    if (typeof asset === 'object') {
+      if (
+        asset.glob === assetsConfig.glob &&
+        asset.input === `./node_modules/@spartacus/${assetsConfig.input}` &&
+        asset.output === (assetsConfig.output || 'assets/')
+      ) {
+        return angularJsonAssets;
+      }
+    }
+  }
+
+  angularJsonAssets = [
+    ...angularJsonAssets,
+    {
+      glob: assetsConfig.glob,
+      input: `./node_modules/@spartacus/${assetsConfig.input}`,
+      output: assetsConfig.output || 'assets/',
+    },
+  ];
+
+  return angularJsonAssets;
 }
 
 export function addLibraryStyles(
@@ -549,6 +572,62 @@ export function addPackageJsonDependencies(
         );
       }
     });
+    return tree;
+  };
+}
+
+export function configureB2bFeatures<T extends LibraryOptions>(
+  options: T,
+  packageJson: any
+): Rule {
+  return (_tree: Tree, _context: SchematicContext): Rule => {
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    return chain([
+      addB2bProviders(options),
+      addPackageJsonDependencies(
+        [
+          {
+            type: NodeDependencyType.Default,
+            version: spartacusVersion,
+            name: SPARTACUS_SETUP,
+          },
+        ],
+        packageJson
+      ),
+      installPackageJsonDependencies(),
+    ]);
+  };
+}
+
+function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
+  return (tree: Tree, _context: SchematicContext): Tree => {
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    if (!buildPaths.length) {
+      throw new SchematicsException(
+        'Could not find any tsconfig file. Cannot configure SpartacusConfigurationModule.'
+      );
+    }
+
+    const basePath = process.cwd();
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const sourceFile of appSourceFiles) {
+        if (
+          sourceFile
+            .getFilePath()
+            .includes(`${SPARTACUS_CONFIGURATION_MODULE}.module.ts`)
+        ) {
+          getB2bConfiguration().forEach((provider) =>
+            addModuleProvider(sourceFile, provider)
+          );
+          saveAndFormat(sourceFile);
+
+          break;
+        }
+      }
+    }
+
     return tree;
   };
 }

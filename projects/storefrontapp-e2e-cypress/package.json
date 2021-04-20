@@ -13,7 +13,7 @@
     "cy:run:ci:flaky": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,parallel,flaky\" --parallel --group flaky --spec \"cypress/integration/!(vendor|b2b)/**/*.flaky-e2e-spec.ts\"",
     "cy:run:product-configuration": "cypress run --spec \"cypress/integration/**/*-configuration*.*e2e-spec.ts\"",
     "cy:run:cpq": "cypress run  --config-file cypress.cpq.json --spec \"cypress/integration/**/cpq-configuration.e2e-spec.ts\"",
-    "cy:run:ci:cdc": "cypress run --spec \"cypress/integration/vendor/cdc/**/*.e2e-spec.ts\""
+    "cy:run:ci:cdc": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,cdc\" --group CDC --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/cdc/**/*.e2e-spec.ts\""
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.5.0",

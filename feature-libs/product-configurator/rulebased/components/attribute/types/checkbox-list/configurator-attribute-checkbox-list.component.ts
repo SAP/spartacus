@@ -1,21 +1,16 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   isDevMode,
   OnInit,
-  Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/configurator-attribute-multi-selection-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-checkbox-list',
@@ -23,16 +18,11 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeCheckBoxListComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorAttributeMultiSelectionBaseComponent
   implements OnInit {
   attributeCheckBoxForms = new Array<FormControl>();
-  loading$ = new BehaviorSubject<boolean>(false);
 
-  @Input() attribute: Configurator.Attribute;
   @Input() group: string;
-  @Input() ownerKey: string;
-
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
   // TODO(#11681): make quantityService a required dependency and remove deprecated constructor
   /**
@@ -56,7 +46,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
     protected quantityService?: ConfiguratorAttributeQuantityService
   ) {
-    super();
+    super(quantityService);
   }
 
   ngOnInit(): void {
@@ -77,40 +67,10 @@ export class ConfiguratorAttributeCheckBoxListComponent
     }
   }
 
-  get withQuantityOnAttributeLevel(): boolean {
-    return (
-      this.attribute.dataType ===
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL
-    );
-  }
-  get withQuantity(): boolean {
-    return (
-      this.quantityService?.withQuantity(
-        this.attribute.dataType,
-        this.attribute.uiType
-      ) ?? false
-    );
-  }
-
-  get disableQuantityActions(): boolean {
-    return (
-      !this.quantityService ||
-      (this.attribute.dataType ===
-        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL &&
-        (!this.attribute.values.find((value) => value.selected) ||
-          this.attribute.quantity === 0))
-    );
-  }
-
   get allowZeroValueQuantity(): boolean {
-    if (this.attribute.required) {
-      const selectedValues = this.attribute.values.filter(
-        (value) => value.selected
-      );
-      return selectedValues.length > 1;
-    }
-
-    return true;
+    return (
+      this.quantityService?.allowZeroValueQuantity(this.attribute) ?? false
+    );
   }
 
   onSelect(): void {
@@ -195,27 +155,5 @@ export class ConfiguratorAttributeCheckBoxListComponent
     } else {
       this.onHandleAttributeQuantity(eventObject);
     }
-  }
-
-  /**
-   * Extract corresponding quantity parameters
-   *
-   * @param {boolean} allowZero - Allow zero
-   * @param {number} initialQuantity - Initial quantity
-   * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
-   */
-  extractQuantityParameters(
-    allowZero: boolean,
-    initialQuantity: number
-  ): ConfiguratorAttributeQuantityComponentOptions {
-    return {
-      allowZero: allowZero,
-      initialQuantity: initialQuantity,
-      disableQuantityActions$: this.loading$.pipe(
-        map((loading) => {
-          return loading || this.disableQuantityActions;
-        })
-      ),
-    };
   }
 }

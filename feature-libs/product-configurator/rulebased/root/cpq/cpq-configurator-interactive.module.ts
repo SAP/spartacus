@@ -6,6 +6,7 @@ import {
   HamburgerMenuModule,
   PageLayoutComponent,
 } from '@spartacus/storefront';
+import { defaultCpqInteractiveRoutingConfig } from './default-cpq-interactive-routing-config';
 
 /**
  * Takes care of the interactive configuration process (the user enters new attribute values and navigates through the configuration).
@@ -15,7 +16,7 @@ import {
   imports: [
     RouterModule.forChild([
       {
-        // We can neither omit the patch nor set to undefined
+        // We can neither omit the path nor set to undefined
         // @ts-ignore
         path: null,
         data: {
@@ -28,6 +29,7 @@ import {
     HamburgerMenuModule,
   ],
   providers: [
+    provideDefaultConfig(defaultCpqInteractiveRoutingConfig),
     provideDefaultConfig(<CmsConfig>{
       layoutSlots: {
         CpqConfigurationTemplate: {
