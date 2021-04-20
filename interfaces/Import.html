@@ -169,12 +169,14 @@ import { getDecoratorMetadata } from &#x27;@schematics/angular/utility/ast-utils
 import {
   ArrayLiteralExpression,
   CallExpression,
+  Expression,
   Node,
   SourceFile,
   ts as tsMorph,
 } from &#x27;ts-morph&#x27;;
 import ts from &#x27;typescript&#x27;;
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from &#x27;../constants&#x27;;
+import { getSpartacusProviders, normalizeConfiguration } from &#x27;./config-utils&#x27;;
 import { getTsSourceFile } from &#x27;./file-utils&#x27;;
 import { isImportedFrom } from &#x27;./import-utils&#x27;;
 import { getSourceRoot } from &#x27;./workspace-utils&#x27;;
@@ -225,7 +227,7 @@ export function addModuleImport(
     order?: number;
   },
   createIfMissing &#x3D; true
-): CallExpression | undefined {
+): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     &#x27;imports&#x27;,
@@ -242,7 +244,7 @@ export function addModuleExport(
     order?: number;
   },
   createIfMissing &#x3D; true
-): CallExpression | undefined {
+): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     &#x27;exports&#x27;,
@@ -259,7 +261,7 @@ export function addModuleDeclaration(
     order?: number;
   },
   createIfMissing &#x3D; true
-): CallExpression | undefined {
+): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     &#x27;declarations&#x27;,
@@ -276,7 +278,7 @@ export function addModuleProvider(
     order?: number;
   },
   createIfMissing &#x3D; true
-): CallExpression | undefined {
+): Expression | undefined {
   return addToModuleInternal(
     sourceFile,
     &#x27;providers&#x27;,
@@ -294,10 +296,100 @@ function addToModuleInternal(
     order?: number;
   },
   createIfMissing &#x3D; true
-): CallExpression | undefined {
-  let createdNode;
+): Expression | undefined {
+  let createdNode: Expression | undefined;
 
-  function visitor&lt;T&gt;(node: Node): T | undefined {
+  const module &#x3D; getModule(sourceFile);
+  if (module) {
+    const args &#x3D; module.getArguments();
+    if (args.length &gt; 0) {
+      const arg &#x3D; args[0];
+      if (Node.isObjectLiteralExpression(arg)) {
+        if (!arg.getProperty(propertyName) &amp;&amp; createIfMissing) {
+          arg.addPropertyAssignment({
+            name: propertyName,
+            initializer: &#x27;[]&#x27;,
+          });
+        }
+
+        const property &#x3D; arg.getProperty(propertyName);
+        if (property &amp;&amp; Node.isPropertyAssignment(property)) {
+          const initializer &#x3D; property.getInitializerIfKind(
+            tsMorph.SyntaxKind.ArrayLiteralExpression
+          );
+          if (!initializer) {
+            return;
+          }
+
+          if (isDuplication(initializer, propertyName, insertOptions.content)) {
+            return;
+          }
+
+          const imports &#x3D; ([] as Import[]).concat(insertOptions.import);
+          imports.forEach((specifiedImport) &#x3D;&gt;
+            sourceFile.addImportDeclaration({
+              moduleSpecifier: specifiedImport.moduleSpecifier,
+              namedImports: specifiedImport.namedImports,
+            })
+          );
+
+          if (insertOptions.order || insertOptions.order &#x3D;&#x3D;&#x3D; 0) {
+            initializer.insertElement(
+              insertOptions.order,
+              insertOptions.content
+            );
+          } else {
+            createdNode &#x3D; initializer.addElement(insertOptions.content);
+          }
+        }
+      }
+    }
+  }
+
+  return createdNode;
+}
+
+function isDuplication(
+  initializer: ArrayLiteralExpression,
+  propertyName: &#x27;imports&#x27; | &#x27;exports&#x27; | &#x27;declarations&#x27; | &#x27;providers&#x27;,
+  content: string
+): boolean {
+  if (propertyName &#x3D;&#x3D;&#x3D; &#x27;providers&#x27;) {
+    const normalizedContent &#x3D; normalizeConfiguration(content);
+    const configs &#x3D; getSpartacusProviders(initializer.getSourceFile());
+    for (const config of configs) {
+      const normalizedConfig &#x3D; normalizeConfiguration(config);
+      if (normalizedContent &#x3D;&#x3D;&#x3D; normalizedConfig) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  return isTypeTokenDuplicate(initializer, content);
+}
+
+function isTypeTokenDuplicate(
+  initializer: ArrayLiteralExpression,
+  typeToken: string
+): boolean {
+  typeToken &#x3D; normalizeTypeToken(typeToken);
+
+  for (const element of initializer.getElements()) {
+    const elementText &#x3D; normalizeTypeToken(element.getText());
+    if (elementText &#x3D;&#x3D;&#x3D; typeToken) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+export function getModule(sourceFile: SourceFile): CallExpression | undefined {
+  let moduleNode: CallExpression | undefined;
+
+  function visitor(node: Node) {
     if (Node.isCallExpression(node)) {
       const expression &#x3D; node.getExpression();
       if (
@@ -305,72 +397,29 @@ function addToModuleInternal(
         expression.getText() &#x3D;&#x3D;&#x3D; &#x27;NgModule&#x27; &amp;&amp;
         isImportedFrom(expression, ANGULAR_CORE)
       ) {
-        const args &#x3D; node.getArguments();
-        if (args.length &gt; 0) {
-          const arg &#x3D; args[0];
-          if (Node.isObjectLiteralExpression(arg)) {
-            if (!arg.getProperty(propertyName) &amp;&amp; createIfMissing) {
-              arg.addPropertyAssignment({
-                name: propertyName,
-                initializer: &#x27;[]&#x27;,
-              });
-            }
-
-            const property &#x3D; arg.getProperty(propertyName);
-            if (property &amp;&amp; Node.isPropertyAssignment(property)) {
-              const initializer &#x3D; property.getInitializerIfKind(
-                tsMorph.SyntaxKind.ArrayLiteralExpression
-              );
-              if (initializer) {
-                const imports &#x3D; ([] as Import[]).concat(insertOptions.import);
-                // check if the &#x27;imports&#x27;, &#x27;declarations&#x27; or &#x27;exports&#x27; arrays already contain the specified content
-                if (
-                  propertyName !&#x3D;&#x3D; &#x27;providers&#x27; &amp;&amp;
-                  elementExists(initializer, insertOptions.content)
-                ) {
-                  // don&#x27;t duplicate the module in the specified array
-                  return;
-                }
-
-                imports.forEach((specifiedImport) &#x3D;&gt;
-                  sourceFile.addImportDeclaration({
-                    moduleSpecifier: specifiedImport.moduleSpecifier,
-                    namedImports: specifiedImport.namedImports,
-                  })
-                );
-
-                if (insertOptions.order || insertOptions.order &#x3D;&#x3D;&#x3D; 0) {
-                  initializer.insertElement(
-                    insertOptions.order,
-                    insertOptions.content
-                  );
-                } else {
-                  createdNode &#x3D; initializer.addElement(insertOptions.content);
-                }
-              }
-            }
-          }
-        }
+        moduleNode &#x3D; node;
       }
     }
+
     node.forEachChild(visitor);
   }
 
   sourceFile.forEachChild(visitor);
-  return createdNode;
+  return moduleNode;
 }
 
-function elementExists(
-  initializer: ArrayLiteralExpression,
-  moduleToCheck: string
-): boolean {
-  for (const element of initializer.getElements()) {
-    if (element.getText() &#x3D;&#x3D;&#x3D; moduleToCheck) {
-      return true;
-    }
+const COMMENT_REG_EXP &#x3D; /\/\/.+/gm;
+function normalizeTypeToken(token: string): string {
+  let newToken &#x3D; token;
+
+  newToken &#x3D; newToken.replace(COMMENT_REG_EXP, &#x27;&#x27;);
+  newToken &#x3D; newToken.trim();
+  // strip down the trailing comma
+  if (newToken.charAt(newToken.length - 1) &#x3D;&#x3D;&#x3D; &#x27;,&#x27;) {
+    newToken &#x3D; newToken.substring(0, newToken.length - 1);
   }
 
-  return false;
+  return newToken;
 }
 </code></pre>
     </div>

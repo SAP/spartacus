@@ -24,10 +24,6 @@
 <title>cluster_CancelOrderConfirmationModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 651,-268 651,-70 8,-70"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_CancelOrderConfirmationModule_exports</title>
-<polygon fill="none" stroke="black" points="234,-208 234,-260 482,-260 482,-208 234,-208"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_CancelOrderConfirmationModule_imports</title>
 <polygon fill="none" stroke="black" points="268,-78 268,-130 643,-130 643,-78 268,-78"/>
@@ -35,6 +31,10 @@
 <g id="clust2" class="cluster">
 <title>cluster_CancelOrderConfirmationModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-78 16,-130 260,-130 260,-78 16,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_CancelOrderConfirmationModule_exports</title>
+<polygon fill="none" stroke="black" points="234,-208 234,-260 482,-260 482,-208 234,-208"/>
 </g>
 <!-- CancelOrderConfirmationComponent -->
 <g id="node1" class="node">

@@ -24,23 +24,23 @@
 <title>cluster_ConfiguratorPriceSummaryModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="59,-70 59,-268 437,-268 437,-70 59,-70"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ConfiguratorPriceSummaryModule_imports</title>
-<polygon fill="none" stroke="black" points="327,-78 327,-130 429,-130 429,-78 327,-78"/>
-</g>
-<g id="clust2" class="cluster">
-<title>cluster_ConfiguratorPriceSummaryModule_declarations</title>
-<polygon fill="none" stroke="black" points="67,-78 67,-130 319,-130 319,-78 67,-78"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ConfiguratorPriceSummaryModule_exports</title>
 <polygon fill="none" stroke="black" points="120,-208 120,-260 376,-260 376,-208 120,-208"/>
 </g>
+<g id="clust2" class="cluster">
+<title>cluster_ConfiguratorPriceSummaryModule_declarations</title>
+<polygon fill="none" stroke="black" points="177,-78 177,-130 429,-130 429,-78 177,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ConfiguratorPriceSummaryModule_imports</title>
+<polygon fill="none" stroke="black" points="67,-78 67,-130 169,-130 169,-78 67,-78"/>
+</g>
 <!-- ConfiguratorPriceSummaryComponent -->
 <g id="node1" class="node">
 <title>ConfiguratorPriceSummaryComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="311.35,-122 74.65,-122 74.65,-86 311.35,-86 311.35,-122"/>
-<text text-anchor="middle" x="193" y="-99.8" font-family="Times,serif" font-size="14.00">ConfiguratorPriceSummaryComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="421.35,-122 184.65,-122 184.65,-86 421.35,-86 421.35,-122"/>
+<text text-anchor="middle" x="303" y="-99.8" font-family="Times,serif" font-size="14.00">ConfiguratorPriceSummaryComponent</text>
 </g>
 <!-- ConfiguratorPriceSummaryModule -->
 <g id="node2" class="node">
@@ -51,8 +51,8 @@
 <!-- ConfiguratorPriceSummaryComponent&#45;&gt;ConfiguratorPriceSummaryModule -->
 <g id="edge1" class="edge">
 <title>ConfiguratorPriceSummaryComponent&#45;&gt;ConfiguratorPriceSummaryModule</title>
-<path fill="none" stroke="black" d="M225.95,-122.11C225.95,-122.11 225.95,-140.99 225.95,-140.99"/>
-<polygon fill="black" stroke="black" points="222.45,-140.99 225.95,-150.99 229.45,-140.99 222.45,-140.99"/>
+<path fill="none" stroke="black" d="M270.05,-122.11C270.05,-122.11 270.05,-140.99 270.05,-140.99"/>
+<polygon fill="black" stroke="black" points="266.55,-140.99 270.05,-150.99 273.55,-140.99 266.55,-140.99"/>
 </g>
 <!-- ConfiguratorPriceSummaryComponent  -->
 <g id="node4" class="node">
@@ -69,14 +69,14 @@
 <!-- I18nModule -->
 <g id="node3" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="420.71,-122 417.71,-126 396.71,-126 393.71,-122 335.29,-122 335.29,-86 420.71,-86 420.71,-122"/>
-<text text-anchor="middle" x="378" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="160.71,-122 157.71,-126 136.71,-126 133.71,-122 75.29,-122 75.29,-86 160.71,-86 160.71,-122"/>
+<text text-anchor="middle" x="118" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;ConfiguratorPriceSummaryModule -->
 <g id="edge2" class="edge">
 <title>I18nModule&#45;&gt;ConfiguratorPriceSummaryModule</title>
-<path fill="none" stroke="black" d="M345.46,-122.11C345.46,-122.11 345.46,-140.99 345.46,-140.99"/>
-<polygon fill="black" stroke="black" points="341.96,-140.99 345.46,-150.99 348.96,-140.99 341.96,-140.99"/>
+<path fill="none" stroke="black" d="M150.54,-122.11C150.54,-122.11 150.54,-140.99 150.54,-140.99"/>
+<polygon fill="black" stroke="black" points="147.04,-140.99 150.54,-150.99 154.04,-140.99 147.04,-140.99"/>
 </g>
 </g>
 </svg>

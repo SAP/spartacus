@@ -24,6 +24,10 @@
 <title>cluster_StoreFinderComponentsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 3484,-268 3484,-70 8,-70"/>
 </g>
+<g id="clust17" class="cluster">
+<title>cluster_StoreFinderComponentsModule_exports</title>
+<polygon fill="none" stroke="black" points="70,-208 70,-260 2817,-260 2817,-208 70,-208"/>
+</g>
 <g id="clust2" class="cluster">
 <title>cluster_StoreFinderComponentsModule_declarations</title>
 <polygon fill="none" stroke="black" points="778,-78 778,-130 3476,-130 3476,-78 778,-78"/>
@@ -31,10 +35,6 @@
 <g id="clust16" class="cluster">
 <title>cluster_StoreFinderComponentsModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-78 16,-130 770,-130 770,-78 16,-78"/>
-</g>
-<g id="clust17" class="cluster">
-<title>cluster_StoreFinderComponentsModule_exports</title>
-<polygon fill="none" stroke="black" points="70,-208 70,-260 2817,-260 2817,-208 70,-208"/>
 </g>
 <!-- ScheduleComponent -->
 <g id="node1" class="node">

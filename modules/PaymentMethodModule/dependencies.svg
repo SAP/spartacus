@@ -24,95 +24,95 @@
 <title>cluster_PaymentMethodModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 706,-268 706,-70 8,-70"/>
 </g>
+<g id="clust4" class="cluster">
+<title>cluster_PaymentMethodModule_imports</title>
+<polygon fill="none" stroke="black" points="214,-78 214,-130 698,-130 698,-78 214,-78"/>
+</g>
 <g id="clust2" class="cluster">
 <title>cluster_PaymentMethodModule_declarations</title>
-<polygon fill="none" stroke="black" points="508,-78 508,-130 698,-130 698,-78 508,-78"/>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 206,-130 206,-78 16,-78"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_PaymentMethodModule_exports</title>
-<polygon fill="none" stroke="black" points="248,-208 248,-260 442,-260 442,-208 248,-208"/>
-</g>
-<g id="clust4" class="cluster">
-<title>cluster_PaymentMethodModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 500,-130 500,-78 16,-78"/>
+<polygon fill="none" stroke="black" points="316,-208 316,-260 510,-260 510,-208 316,-208"/>
 </g>
 <!-- PaymentMethodComponent -->
 <g id="node1" class="node">
 <title>PaymentMethodComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="689.88,-122 516.12,-122 516.12,-86 689.88,-86 689.88,-122"/>
-<text text-anchor="middle" x="603" y="-99.8" font-family="Times,serif" font-size="14.00">PaymentMethodComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="197.88,-122 24.12,-122 24.12,-86 197.88,-86 197.88,-122"/>
+<text text-anchor="middle" x="111" y="-99.8" font-family="Times,serif" font-size="14.00">PaymentMethodComponent</text>
 </g>
 <!-- PaymentMethodModule -->
 <g id="node2" class="node">
 <title>PaymentMethodModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="421.09,-187 418.09,-191 397.09,-191 394.09,-187 268.91,-187 268.91,-151 421.09,-151 421.09,-187"/>
-<text text-anchor="middle" x="345" y="-164.8" font-family="Times,serif" font-size="14.00">PaymentMethodModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="489.09,-187 486.09,-191 465.09,-191 462.09,-187 336.91,-187 336.91,-151 489.09,-151 489.09,-187"/>
+<text text-anchor="middle" x="413" y="-164.8" font-family="Times,serif" font-size="14.00">PaymentMethodModule</text>
 </g>
 <!-- PaymentMethodComponent&#45;&gt;PaymentMethodModule -->
 <g id="edge1" class="edge">
 <title>PaymentMethodComponent&#45;&gt;PaymentMethodModule</title>
-<path fill="none" stroke="black" d="M603,-122.11C603,-141.34 603,-169 603,-169 603,-169 431.36,-169 431.36,-169"/>
-<polygon fill="black" stroke="black" points="431.36,-165.5 421.36,-169 431.36,-172.5 431.36,-165.5"/>
+<path fill="none" stroke="black" d="M111,-122.28C111,-143.32 111,-175 111,-175 111,-175 326.79,-175 326.79,-175"/>
+<polygon fill="black" stroke="black" points="326.79,-178.5 336.79,-175 326.79,-171.5 326.79,-178.5"/>
 </g>
 <!-- PaymentMethodComponent  -->
 <g id="node7" class="node">
 <title>PaymentMethodComponent </title>
-<polygon fill="#fb8072" stroke="black" points="433.88,-252 256.12,-252 256.12,-216 433.88,-216 433.88,-252"/>
-<text text-anchor="middle" x="345" y="-229.8" font-family="Times,serif" font-size="14.00">PaymentMethodComponent </text>
+<polygon fill="#fb8072" stroke="black" points="501.88,-252 324.12,-252 324.12,-216 501.88,-216 501.88,-252"/>
+<text text-anchor="middle" x="413" y="-229.8" font-family="Times,serif" font-size="14.00">PaymentMethodComponent </text>
 </g>
 <!-- PaymentMethodModule&#45;&gt;PaymentMethodComponent  -->
 <g id="edge6" class="edge">
 <title>PaymentMethodModule&#45;&gt;PaymentMethodComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M345,-187.11C345,-187.11 345,-205.99 345,-205.99"/>
-<polygon fill="black" stroke="black" points="341.5,-205.99 345,-215.99 348.5,-205.99 341.5,-205.99"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M413,-187.11C413,-187.11 413,-205.99 413,-205.99"/>
+<polygon fill="black" stroke="black" points="409.5,-205.99 413,-215.99 416.5,-205.99 409.5,-205.99"/>
 </g>
 <!-- CardModule -->
 <g id="node3" class="node">
 <title>CardModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="492.26,-122 489.26,-126 468.26,-126 465.26,-122 405.74,-122 405.74,-86 492.26,-86 492.26,-122"/>
-<text text-anchor="middle" x="449" y="-99.8" font-family="Times,serif" font-size="14.00">CardModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="690.26,-122 687.26,-126 666.26,-126 663.26,-122 603.74,-122 603.74,-86 690.26,-86 690.26,-122"/>
+<text text-anchor="middle" x="647" y="-99.8" font-family="Times,serif" font-size="14.00">CardModule</text>
 </g>
 <!-- CardModule&#45;&gt;PaymentMethodModule -->
 <g id="edge2" class="edge">
 <title>CardModule&#45;&gt;PaymentMethodModule</title>
-<path fill="none" stroke="black" d="M413.33,-122.11C413.33,-122.11 413.33,-140.99 413.33,-140.99"/>
-<polygon fill="black" stroke="black" points="409.83,-140.99 413.33,-150.99 416.83,-140.99 409.83,-140.99"/>
+<path fill="none" stroke="black" d="M647,-122.28C647,-143.32 647,-175 647,-175 647,-175 499.3,-175 499.3,-175"/>
+<polygon fill="black" stroke="black" points="499.3,-171.5 489.3,-175 499.3,-178.5 499.3,-171.5"/>
 </g>
 <!-- I18nModule -->
 <g id="node4" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="387.71,-122 384.71,-126 363.71,-126 360.71,-122 302.29,-122 302.29,-86 387.71,-86 387.71,-122"/>
-<text text-anchor="middle" x="345" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="585.71,-122 582.71,-126 561.71,-126 558.71,-122 500.29,-122 500.29,-86 585.71,-86 585.71,-122"/>
+<text text-anchor="middle" x="543" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;PaymentMethodModule -->
 <g id="edge3" class="edge">
 <title>I18nModule&#45;&gt;PaymentMethodModule</title>
-<path fill="none" stroke="black" d="M345,-122.11C345,-122.11 345,-140.99 345,-140.99"/>
-<polygon fill="black" stroke="black" points="341.5,-140.99 345,-150.99 348.5,-140.99 341.5,-140.99"/>
+<path fill="none" stroke="black" d="M543.65,-122.02C543.65,-139.37 543.65,-163 543.65,-163 543.65,-163 499.38,-163 499.38,-163"/>
+<polygon fill="black" stroke="black" points="499.38,-159.5 489.38,-163 499.38,-166.5 499.38,-159.5"/>
 </g>
 <!-- PaymentFormModule -->
 <g id="node5" class="node">
 <title>PaymentFormModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="284.38,-122 281.38,-126 260.38,-126 257.38,-122 145.62,-122 145.62,-86 284.38,-86 284.38,-122"/>
-<text text-anchor="middle" x="215" y="-99.8" font-family="Times,serif" font-size="14.00">PaymentFormModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="482.38,-122 479.38,-126 458.38,-126 455.38,-122 343.62,-122 343.62,-86 482.38,-86 482.38,-122"/>
+<text text-anchor="middle" x="413" y="-99.8" font-family="Times,serif" font-size="14.00">PaymentFormModule</text>
 </g>
 <!-- PaymentFormModule&#45;&gt;PaymentMethodModule -->
 <g id="edge4" class="edge">
 <title>PaymentFormModule&#45;&gt;PaymentMethodModule</title>
-<path fill="none" stroke="black" d="M276.7,-122.11C276.7,-122.11 276.7,-140.99 276.7,-140.99"/>
-<polygon fill="black" stroke="black" points="273.2,-140.99 276.7,-150.99 280.2,-140.99 273.2,-140.99"/>
+<path fill="none" stroke="black" d="M413,-122.11C413,-122.11 413,-140.99 413,-140.99"/>
+<polygon fill="black" stroke="black" points="409.5,-140.99 413,-150.99 416.5,-140.99 409.5,-140.99"/>
 </g>
 <!-- SpinnerModule -->
 <g id="node6" class="node">
 <title>SpinnerModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="127.6,-122 124.6,-126 103.6,-126 100.6,-122 24.4,-122 24.4,-86 127.6,-86 127.6,-122"/>
-<text text-anchor="middle" x="76" y="-99.8" font-family="Times,serif" font-size="14.00">SpinnerModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="325.6,-122 322.6,-126 301.6,-126 298.6,-122 222.4,-122 222.4,-86 325.6,-86 325.6,-122"/>
+<text text-anchor="middle" x="274" y="-99.8" font-family="Times,serif" font-size="14.00">SpinnerModule</text>
 </g>
 <!-- SpinnerModule&#45;&gt;PaymentMethodModule -->
 <g id="edge5" class="edge">
 <title>SpinnerModule&#45;&gt;PaymentMethodModule</title>
-<path fill="none" stroke="black" d="M76,-122.11C76,-141.34 76,-169 76,-169 76,-169 258.63,-169 258.63,-169"/>
-<polygon fill="black" stroke="black" points="258.63,-172.5 268.63,-169 258.63,-165.5 258.63,-172.5"/>
+<path fill="none" stroke="black" d="M273.38,-122.02C273.38,-139.37 273.38,-163 273.38,-163 273.38,-163 326.65,-163 326.65,-163"/>
+<polygon fill="black" stroke="black" points="326.65,-166.5 336.65,-163 326.65,-159.5 326.65,-166.5"/>
 </g>
 </g>
 </svg>

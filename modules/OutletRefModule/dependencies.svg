@@ -24,13 +24,13 @@
 <title>cluster_OutletRefModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="169,-70 169,-268 327,-268 327,-70 169,-70"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_OutletRefModule_declarations</title>
-<polygon fill="none" stroke="black" points="178,-78 178,-130 318,-130 318,-78 178,-78"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_OutletRefModule_exports</title>
 <polygon fill="none" stroke="black" points="177,-208 177,-260 319,-260 319,-208 177,-208"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_OutletRefModule_declarations</title>
+<polygon fill="none" stroke="black" points="178,-78 178,-130 318,-130 318,-78 178,-78"/>
 </g>
 <!-- OutletRefDirective -->
 <g id="node1" class="node">

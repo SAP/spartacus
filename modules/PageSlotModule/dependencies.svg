@@ -28,13 +28,13 @@
 <title>cluster_PageSlotModule_declarations</title>
 <polygon fill="none" stroke="black" points="233,-78 233,-130 381,-130 381,-78 233,-78"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_PageSlotModule_exports</title>
-<polygon fill="none" stroke="black" points="173,-208 173,-260 323,-260 323,-208 173,-208"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_PageSlotModule_imports</title>
 <polygon fill="none" stroke="black" points="115,-78 115,-130 225,-130 225,-78 115,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_PageSlotModule_exports</title>
+<polygon fill="none" stroke="black" points="173,-208 173,-260 323,-260 323,-208 173,-208"/>
 </g>
 <!-- PageSlotComponent -->
 <g id="node1" class="node">

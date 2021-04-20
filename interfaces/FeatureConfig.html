@@ -481,15 +481,19 @@ import { NodePackageInstallTask } from &#x27;@angular-devkit/schematics/tasks&#x
 import {
   addPackageJsonDependency,
   NodeDependency,
+  NodeDependencyType,
 } from &#x27;@schematics/angular/utility/dependencies&#x27;;
 import { CallExpression, Node, SourceFile, ts as tsMorph } from &#x27;ts-morph&#x27;;
 import {
   ANGULAR_CORE,
   PROVIDE_CONFIG_FUNCTION,
+  SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
+  SPARTACUS_SETUP,
 } from &#x27;../constants&#x27;;
+import { getB2bConfiguration } from &#x27;./config-utils&#x27;;
 import { isImportedFrom } from &#x27;./import-utils&#x27;;
 import {
   addModuleImport,
@@ -497,6 +501,7 @@ import {
   ensureModuleExists,
   Import,
 } from &#x27;./new-module-utils&#x27;;
+import { getSpartacusSchematicsVersion } from &#x27;./package-utils&#x27;;
 import { createProgram, saveAndFormat } from &#x27;./program&#x27;;
 import { getProjectTsConfigPaths } from &#x27;./project-tsconfig-paths&#x27;;
 import {
@@ -687,9 +692,9 @@ function handleFeature&lt;T extends LibraryOptions&gt;(
     const { buildPaths } &#x3D; getProjectTsConfigPaths(tree, options.project);
 
     const basePath &#x3D; process.cwd();
-    const tasks: Rule[] &#x3D; [];
+    const rules: Rule[] &#x3D; [];
     for (const tsconfigPath of buildPaths) {
-      tasks.push(
+      rules.push(
         ensureModuleExists({
           name: &#x60;${config.name}-feature&#x60;,
           path: &#x60;app/spartacus/features/${config.folderName}&#x60;,
@@ -697,12 +702,12 @@ function handleFeature&lt;T extends LibraryOptions&gt;(
           project: options.project,
         })
       );
-      tasks.push(addRootModule(tsconfigPath, basePath, config));
-      tasks.push(addFeatureModule(tsconfigPath, basePath, config, options));
-      tasks.push(addFeatureTranslations(tsconfigPath, basePath, config));
-      tasks.push(addCustomConfig(tsconfigPath, basePath, config));
+      rules.push(addRootModule(tsconfigPath, basePath, config));
+      rules.push(addFeatureModule(tsconfigPath, basePath, config, options));
+      rules.push(addFeatureTranslations(tsconfigPath, basePath, config));
+      rules.push(addCustomConfig(tsconfigPath, basePath, config));
     }
-    return chain(tasks);
+    return chain(rules);
   };
 }
 
@@ -864,34 +869,24 @@ function addLibraryAssets(
 
     // &#x60;build&#x60; architect section
     const architectBuild &#x3D; architect?.build;
+    const buildAssets &#x3D; createAssetsArray(
+      assetsConfig,
+      (architectBuild?.options as any)?.assets
+    );
     const buildOptions &#x3D; {
       ...architectBuild?.options,
-      assets: [
-        ...((architectBuild?.options as any)?.assets
-          ? (architectBuild?.options as any)?.assets
-          : []),
-        {
-          glob: assetsConfig.glob,
-          input: &#x27;./node_modules/@spartacus/&#x27; + assetsConfig.input,
-          output: assetsConfig.output || &#x27;assets/&#x27;,
-        },
-      ],
+      assets: buildAssets,
     };
 
     // &#x60;test&#x60; architect section
     const architectTest &#x3D; architect?.test;
+    const testAssets &#x3D; createAssetsArray(
+      assetsConfig,
+      (architectTest?.options as any)?.assets
+    );
     const testOptions &#x3D; {
       ...architectTest?.options,
-      assets: [
-        ...(architectTest?.options?.assets
-          ? architectTest?.options?.assets
-          : []),
-        {
-          glob: assetsConfig.glob,
-          input: &#x27;./node_modules/@spartacus/&#x27; + assetsConfig.input,
-          output: assetsConfig.output || &#x27;assets/&#x27;,
-        },
-      ],
+      assets: testAssets,
     };
 
     const updatedAngularJson &#x3D; {
@@ -916,6 +911,34 @@ function addLibraryAssets(
     };
     tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
   };
+}
+
+function createAssetsArray(
+  assetsConfig: AssetsConfig,
+  angularJsonAssets: any[] &#x3D; []
+): unknown[] {
+  for (const asset of angularJsonAssets) {
+    if (typeof asset &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+      if (
+        asset.glob &#x3D;&#x3D;&#x3D; assetsConfig.glob &amp;&amp;
+        asset.input &#x3D;&#x3D;&#x3D; &#x60;./node_modules/@spartacus/${assetsConfig.input}&#x60; &amp;&amp;
+        asset.output &#x3D;&#x3D;&#x3D; (assetsConfig.output || &#x27;assets/&#x27;)
+      ) {
+        return angularJsonAssets;
+      }
+    }
+  }
+
+  angularJsonAssets &#x3D; [
+    ...angularJsonAssets,
+    {
+      glob: assetsConfig.glob,
+      input: &#x60;./node_modules/@spartacus/${assetsConfig.input}&#x60;,
+      output: assetsConfig.output || &#x27;assets/&#x27;,
+    },
+  ];
+
+  return angularJsonAssets;
 }
 
 export function addLibraryStyles(
@@ -1018,6 +1041,62 @@ export function addPackageJsonDependencies(
         );
       }
     });
+    return tree;
+  };
+}
+
+export function configureB2bFeatures&lt;T extends LibraryOptions&gt;(
+  options: T,
+  packageJson: any
+): Rule {
+  return (_tree: Tree, _context: SchematicContext): Rule &#x3D;&gt; {
+    const spartacusVersion &#x3D; &#x60;^${getSpartacusSchematicsVersion()}&#x60;;
+    return chain([
+      addB2bProviders(options),
+      addPackageJsonDependencies(
+        [
+          {
+            type: NodeDependencyType.Default,
+            version: spartacusVersion,
+            name: SPARTACUS_SETUP,
+          },
+        ],
+        packageJson
+      ),
+      installPackageJsonDependencies(),
+    ]);
+  };
+}
+
+function addB2bProviders&lt;T extends LibraryOptions&gt;(options: T): Rule {
+  return (tree: Tree, _context: SchematicContext): Tree &#x3D;&gt; {
+    const { buildPaths } &#x3D; getProjectTsConfigPaths(tree, options.project);
+    if (!buildPaths.length) {
+      throw new SchematicsException(
+        &#x27;Could not find any tsconfig file. Cannot configure SpartacusConfigurationModule.&#x27;
+      );
+    }
+
+    const basePath &#x3D; process.cwd();
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } &#x3D; createProgram(tree, basePath, tsconfigPath);
+
+      for (const sourceFile of appSourceFiles) {
+        if (
+          sourceFile
+            .getFilePath()
+            .includes(&#x60;${SPARTACUS_CONFIGURATION_MODULE}.module.ts&#x60;)
+        ) {
+          getB2bConfiguration().forEach((provider) &#x3D;&gt;
+            addModuleProvider(sourceFile, provider)
+          );
+          saveAndFormat(sourceFile);
+
+          break;
+        }
+      }
+    }
+
     return tree;
   };
 }

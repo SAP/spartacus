@@ -24,79 +24,79 @@
 <title>cluster_RegisterComponentModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-195 637,-195 637,-70 8,-70"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_RegisterComponentModule_declarations</title>
-<polygon fill="none" stroke="black" points="485,-78 485,-130 629,-130 629,-78 485,-78"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_RegisterComponentModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 477,-130 477,-78 16,-78"/>
+<polygon fill="none" stroke="black" points="168,-78 168,-130 629,-130 629,-78 168,-78"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_RegisterComponentModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 160,-130 160,-78 16,-78"/>
 </g>
 <!-- RegisterComponent -->
 <g id="node1" class="node">
 <title>RegisterComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="620.98,-122 493.02,-122 493.02,-86 620.98,-86 620.98,-122"/>
-<text text-anchor="middle" x="557" y="-99.8" font-family="Times,serif" font-size="14.00">RegisterComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="151.98,-122 24.02,-122 24.02,-86 151.98,-86 151.98,-122"/>
+<text text-anchor="middle" x="88" y="-99.8" font-family="Times,serif" font-size="14.00">RegisterComponent</text>
 </g>
 <!-- RegisterComponentModule -->
 <g id="node2" class="node">
 <title>RegisterComponentModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="369.54,-187 366.54,-191 345.54,-191 342.54,-187 198.46,-187 198.46,-151 369.54,-151 369.54,-187"/>
-<text text-anchor="middle" x="284" y="-164.8" font-family="Times,serif" font-size="14.00">RegisterComponentModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="409.54,-187 406.54,-191 385.54,-191 382.54,-187 238.46,-187 238.46,-151 409.54,-151 409.54,-187"/>
+<text text-anchor="middle" x="324" y="-164.8" font-family="Times,serif" font-size="14.00">RegisterComponentModule</text>
 </g>
 <!-- RegisterComponent&#45;&gt;RegisterComponentModule -->
 <g id="edge1" class="edge">
 <title>RegisterComponent&#45;&gt;RegisterComponentModule</title>
-<path fill="none" stroke="black" d="M557,-122.11C557,-141.34 557,-169 557,-169 557,-169 379.63,-169 379.63,-169"/>
-<polygon fill="black" stroke="black" points="379.63,-165.5 369.63,-169 379.63,-172.5 379.63,-165.5"/>
+<path fill="none" stroke="black" d="M88,-122.11C88,-141.34 88,-169 88,-169 88,-169 228.46,-169 228.46,-169"/>
+<polygon fill="black" stroke="black" points="228.46,-172.5 238.46,-169 228.46,-165.5 228.46,-172.5"/>
 </g>
 <!-- FormErrorsModule -->
 <g id="node3" class="node">
 <title>FormErrorsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="469.36,-122 466.36,-126 445.36,-126 442.36,-122 344.64,-122 344.64,-86 469.36,-86 469.36,-122"/>
-<text text-anchor="middle" x="407" y="-99.8" font-family="Times,serif" font-size="14.00">FormErrorsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="621.36,-122 618.36,-126 597.36,-126 594.36,-122 496.64,-122 496.64,-86 621.36,-86 621.36,-122"/>
+<text text-anchor="middle" x="559" y="-99.8" font-family="Times,serif" font-size="14.00">FormErrorsModule</text>
 </g>
 <!-- FormErrorsModule&#45;&gt;RegisterComponentModule -->
 <g id="edge2" class="edge">
 <title>FormErrorsModule&#45;&gt;RegisterComponentModule</title>
-<path fill="none" stroke="black" d="M357.17,-122.11C357.17,-122.11 357.17,-140.99 357.17,-140.99"/>
-<polygon fill="black" stroke="black" points="353.67,-140.99 357.17,-150.99 360.67,-140.99 353.67,-140.99"/>
+<path fill="none" stroke="black" d="M559,-122.11C559,-141.34 559,-169 559,-169 559,-169 419.84,-169 419.84,-169"/>
+<polygon fill="black" stroke="black" points="419.84,-165.5 409.84,-169 419.84,-172.5 419.84,-165.5"/>
 </g>
 <!-- I18nModule -->
 <g id="node4" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="326.71,-122 323.71,-126 302.71,-126 299.71,-122 241.29,-122 241.29,-86 326.71,-86 326.71,-122"/>
-<text text-anchor="middle" x="284" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="478.71,-122 475.71,-126 454.71,-126 451.71,-122 393.29,-122 393.29,-86 478.71,-86 478.71,-122"/>
+<text text-anchor="middle" x="436" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;RegisterComponentModule -->
 <g id="edge3" class="edge">
 <title>I18nModule&#45;&gt;RegisterComponentModule</title>
-<path fill="none" stroke="black" d="M284,-122.11C284,-122.11 284,-140.99 284,-140.99"/>
-<polygon fill="black" stroke="black" points="280.5,-140.99 284,-150.99 287.5,-140.99 280.5,-140.99"/>
+<path fill="none" stroke="black" d="M401.58,-122.11C401.58,-122.11 401.58,-140.99 401.58,-140.99"/>
+<polygon fill="black" stroke="black" points="398.08,-140.99 401.58,-150.99 405.08,-140.99 398.08,-140.99"/>
 </g>
 <!-- SpinnerModule -->
 <g id="node5" class="node">
 <title>SpinnerModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="223.6,-122 220.6,-126 199.6,-126 196.6,-122 120.4,-122 120.4,-86 223.6,-86 223.6,-122"/>
-<text text-anchor="middle" x="172" y="-99.8" font-family="Times,serif" font-size="14.00">SpinnerModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="375.6,-122 372.6,-126 351.6,-126 348.6,-122 272.4,-122 272.4,-86 375.6,-86 375.6,-122"/>
+<text text-anchor="middle" x="324" y="-99.8" font-family="Times,serif" font-size="14.00">SpinnerModule</text>
 </g>
 <!-- SpinnerModule&#45;&gt;RegisterComponentModule -->
 <g id="edge4" class="edge">
 <title>SpinnerModule&#45;&gt;RegisterComponentModule</title>
-<path fill="none" stroke="black" d="M210.89,-122.11C210.89,-122.11 210.89,-140.99 210.89,-140.99"/>
-<polygon fill="black" stroke="black" points="207.39,-140.99 210.89,-150.99 214.39,-140.99 207.39,-140.99"/>
+<path fill="none" stroke="black" d="M324,-122.11C324,-122.11 324,-140.99 324,-140.99"/>
+<polygon fill="black" stroke="black" points="320.5,-140.99 324,-150.99 327.5,-140.99 320.5,-140.99"/>
 </g>
 <!-- UrlModule -->
 <g id="node6" class="node">
 <title>UrlModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="102.21,-122 99.21,-126 78.21,-126 75.21,-122 23.79,-122 23.79,-86 102.21,-86 102.21,-122"/>
-<text text-anchor="middle" x="63" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="254.21,-122 251.21,-126 230.21,-126 227.21,-122 175.79,-122 175.79,-86 254.21,-86 254.21,-122"/>
+<text text-anchor="middle" x="215" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
 </g>
 <!-- UrlModule&#45;&gt;RegisterComponentModule -->
 <g id="edge5" class="edge">
 <title>UrlModule&#45;&gt;RegisterComponentModule</title>
-<path fill="none" stroke="black" d="M63,-122.11C63,-141.34 63,-169 63,-169 63,-169 188.24,-169 188.24,-169"/>
-<polygon fill="black" stroke="black" points="188.24,-172.5 198.24,-169 188.24,-165.5 188.24,-172.5"/>
+<path fill="none" stroke="black" d="M246.17,-122.11C246.17,-122.11 246.17,-140.99 246.17,-140.99"/>
+<polygon fill="black" stroke="black" points="242.67,-140.99 246.17,-150.99 249.67,-140.99 242.67,-140.99"/>
 </g>
 </g>
 </svg>

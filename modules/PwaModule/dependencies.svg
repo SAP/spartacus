@@ -24,13 +24,13 @@
 <title>cluster_PwaModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 616,-268 616,-70 8,-70"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_PwaModule_imports</title>
-<polygon fill="none" stroke="black" points="506,-78 506,-130 608,-130 608,-78 506,-78"/>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_PwaModule_exports</title>
 <polygon fill="none" stroke="black" points="68,-208 68,-260 557,-260 557,-208 68,-208"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_PwaModule_imports</title>
+<polygon fill="none" stroke="black" points="506,-78 506,-130 608,-130 608,-78 506,-78"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_PwaModule_declarations</title>

@@ -28,13 +28,13 @@
 <title>cluster_ConfiguratorAttributeInputFieldModule_imports</title>
 <polygon fill="none" stroke="black" points="302,-78 302,-130 570,-130 570,-78 302,-78"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ConfiguratorAttributeInputFieldModule_declarations</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 294,-130 294,-78 16,-78"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ConfiguratorAttributeInputFieldModule_exports</title>
 <polygon fill="none" stroke="black" points="243,-208 243,-260 525,-260 525,-208 243,-208"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ConfiguratorAttributeInputFieldModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 294,-130 294,-78 16,-78"/>
 </g>
 <!-- ConfiguratorAttributeInputFieldComponent -->
 <g id="node1" class="node">

@@ -24,95 +24,95 @@
 <title>cluster_ShippingAddressModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 707,-268 707,-70 8,-70"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ShippingAddressModule_exports</title>
-<polygon fill="none" stroke="black" points="193,-208 193,-260 391,-260 391,-208 193,-208"/>
+<g id="clust4" class="cluster">
+<title>cluster_ShippingAddressModule_imports</title>
+<polygon fill="none" stroke="black" points="218,-78 218,-130 699,-130 699,-78 218,-78"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ShippingAddressModule_declarations</title>
-<polygon fill="none" stroke="black" points="505,-78 505,-130 699,-130 699,-78 505,-78"/>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 210,-130 210,-78 16,-78"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ShippingAddressModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 497,-130 497,-78 16,-78"/>
+<g id="clust5" class="cluster">
+<title>cluster_ShippingAddressModule_exports</title>
+<polygon fill="none" stroke="black" points="291,-208 291,-260 489,-260 489,-208 291,-208"/>
 </g>
 <!-- ShippingAddressComponent -->
 <g id="node1" class="node">
 <title>ShippingAddressComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="690.77,-122 513.23,-122 513.23,-86 690.77,-86 690.77,-122"/>
-<text text-anchor="middle" x="602" y="-99.8" font-family="Times,serif" font-size="14.00">ShippingAddressComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="201.77,-122 24.23,-122 24.23,-86 201.77,-86 201.77,-122"/>
+<text text-anchor="middle" x="113" y="-99.8" font-family="Times,serif" font-size="14.00">ShippingAddressComponent</text>
 </g>
 <!-- ShippingAddressModule -->
 <g id="node2" class="node">
 <title>ShippingAddressModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="369.98,-187 366.98,-191 345.98,-191 342.98,-187 214.02,-187 214.02,-151 369.98,-151 369.98,-187"/>
-<text text-anchor="middle" x="292" y="-164.8" font-family="Times,serif" font-size="14.00">ShippingAddressModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="467.98,-187 464.98,-191 443.98,-191 440.98,-187 312.02,-187 312.02,-151 467.98,-151 467.98,-187"/>
+<text text-anchor="middle" x="390" y="-164.8" font-family="Times,serif" font-size="14.00">ShippingAddressModule</text>
 </g>
 <!-- ShippingAddressComponent&#45;&gt;ShippingAddressModule -->
 <g id="edge1" class="edge">
 <title>ShippingAddressComponent&#45;&gt;ShippingAddressModule</title>
-<path fill="none" stroke="black" d="M602,-122.11C602,-141.34 602,-169 602,-169 602,-169 380.23,-169 380.23,-169"/>
-<polygon fill="black" stroke="black" points="380.23,-165.5 370.23,-169 380.23,-172.5 380.23,-165.5"/>
+<path fill="none" stroke="black" d="M113,-122.11C113,-141.34 113,-169 113,-169 113,-169 301.73,-169 301.73,-169"/>
+<polygon fill="black" stroke="black" points="301.73,-172.5 311.73,-169 301.73,-165.5 301.73,-172.5"/>
 </g>
 <!-- ShippingAddressComponent  -->
 <g id="node7" class="node">
 <title>ShippingAddressComponent </title>
-<polygon fill="#fb8072" stroke="black" points="382.77,-252 201.23,-252 201.23,-216 382.77,-216 382.77,-252"/>
-<text text-anchor="middle" x="292" y="-229.8" font-family="Times,serif" font-size="14.00">ShippingAddressComponent </text>
+<polygon fill="#fb8072" stroke="black" points="480.77,-252 299.23,-252 299.23,-216 480.77,-216 480.77,-252"/>
+<text text-anchor="middle" x="390" y="-229.8" font-family="Times,serif" font-size="14.00">ShippingAddressComponent </text>
 </g>
 <!-- ShippingAddressModule&#45;&gt;ShippingAddressComponent  -->
 <g id="edge6" class="edge">
 <title>ShippingAddressModule&#45;&gt;ShippingAddressComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M292,-187.11C292,-187.11 292,-205.99 292,-205.99"/>
-<polygon fill="black" stroke="black" points="288.5,-205.99 292,-215.99 295.5,-205.99 288.5,-205.99"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M390,-187.11C390,-187.11 390,-205.99 390,-205.99"/>
+<polygon fill="black" stroke="black" points="386.5,-205.99 390,-215.99 393.5,-205.99 386.5,-205.99"/>
 </g>
 <!-- AddressFormModule -->
 <g id="node3" class="node">
 <title>AddressFormModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="488.75,-122 485.75,-126 464.75,-126 461.75,-122 353.25,-122 353.25,-86 488.75,-86 488.75,-122"/>
-<text text-anchor="middle" x="421" y="-99.8" font-family="Times,serif" font-size="14.00">AddressFormModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="690.75,-122 687.75,-126 666.75,-126 663.75,-122 555.25,-122 555.25,-86 690.75,-86 690.75,-122"/>
+<text text-anchor="middle" x="623" y="-99.8" font-family="Times,serif" font-size="14.00">AddressFormModule</text>
 </g>
 <!-- AddressFormModule&#45;&gt;ShippingAddressModule -->
 <g id="edge2" class="edge">
 <title>AddressFormModule&#45;&gt;ShippingAddressModule</title>
-<path fill="none" stroke="black" d="M361.56,-122.11C361.56,-122.11 361.56,-140.99 361.56,-140.99"/>
-<polygon fill="black" stroke="black" points="358.06,-140.99 361.56,-150.99 365.06,-140.99 358.06,-140.99"/>
+<path fill="none" stroke="black" d="M623,-122.11C623,-141.34 623,-169 623,-169 623,-169 478.23,-169 478.23,-169"/>
+<polygon fill="black" stroke="black" points="478.23,-165.5 468.23,-169 478.23,-172.5 478.23,-165.5"/>
 </g>
 <!-- CardModule -->
 <g id="node4" class="node">
 <title>CardModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="335.26,-122 332.26,-126 311.26,-126 308.26,-122 248.74,-122 248.74,-86 335.26,-86 335.26,-122"/>
-<text text-anchor="middle" x="292" y="-99.8" font-family="Times,serif" font-size="14.00">CardModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="537.26,-122 534.26,-126 513.26,-126 510.26,-122 450.74,-122 450.74,-86 537.26,-86 537.26,-122"/>
+<text text-anchor="middle" x="494" y="-99.8" font-family="Times,serif" font-size="14.00">CardModule</text>
 </g>
 <!-- CardModule&#45;&gt;ShippingAddressModule -->
 <g id="edge3" class="edge">
 <title>CardModule&#45;&gt;ShippingAddressModule</title>
-<path fill="none" stroke="black" d="M292,-122.11C292,-122.11 292,-140.99 292,-140.99"/>
-<polygon fill="black" stroke="black" points="288.5,-140.99 292,-150.99 295.5,-140.99 288.5,-140.99"/>
+<path fill="none" stroke="black" d="M459.31,-122.11C459.31,-122.11 459.31,-140.99 459.31,-140.99"/>
+<polygon fill="black" stroke="black" points="455.81,-140.99 459.31,-150.99 462.81,-140.99 455.81,-140.99"/>
 </g>
 <!-- I18nModule -->
 <g id="node5" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="230.71,-122 227.71,-126 206.71,-126 203.71,-122 145.29,-122 145.29,-86 230.71,-86 230.71,-122"/>
-<text text-anchor="middle" x="188" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="432.71,-122 429.71,-126 408.71,-126 405.71,-122 347.29,-122 347.29,-86 432.71,-86 432.71,-122"/>
+<text text-anchor="middle" x="390" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;ShippingAddressModule -->
 <g id="edge4" class="edge">
 <title>I18nModule&#45;&gt;ShippingAddressModule</title>
-<path fill="none" stroke="black" d="M222.31,-122.11C222.31,-122.11 222.31,-140.99 222.31,-140.99"/>
-<polygon fill="black" stroke="black" points="218.81,-140.99 222.31,-150.99 225.81,-140.99 218.81,-140.99"/>
+<path fill="none" stroke="black" d="M390,-122.11C390,-122.11 390,-140.99 390,-140.99"/>
+<polygon fill="black" stroke="black" points="386.5,-140.99 390,-150.99 393.5,-140.99 386.5,-140.99"/>
 </g>
 <!-- SpinnerModule -->
 <g id="node6" class="node">
 <title>SpinnerModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="127.6,-122 124.6,-126 103.6,-126 100.6,-122 24.4,-122 24.4,-86 127.6,-86 127.6,-122"/>
-<text text-anchor="middle" x="76" y="-99.8" font-family="Times,serif" font-size="14.00">SpinnerModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="329.6,-122 326.6,-126 305.6,-126 302.6,-122 226.4,-122 226.4,-86 329.6,-86 329.6,-122"/>
+<text text-anchor="middle" x="278" y="-99.8" font-family="Times,serif" font-size="14.00">SpinnerModule</text>
 </g>
 <!-- SpinnerModule&#45;&gt;ShippingAddressModule -->
 <g id="edge5" class="edge">
 <title>SpinnerModule&#45;&gt;ShippingAddressModule</title>
-<path fill="none" stroke="black" d="M76,-122.11C76,-141.34 76,-169 76,-169 76,-169 203.71,-169 203.71,-169"/>
-<polygon fill="black" stroke="black" points="203.71,-172.5 213.71,-169 203.71,-165.5 203.71,-172.5"/>
+<path fill="none" stroke="black" d="M320.78,-122.11C320.78,-122.11 320.78,-140.99 320.78,-140.99"/>
+<polygon fill="black" stroke="black" points="317.28,-140.99 320.78,-150.99 324.28,-140.99 317.28,-140.99"/>
 </g>
 </g>
 </svg>

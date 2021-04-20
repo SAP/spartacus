@@ -22,41 +22,41 @@
 <text text-anchor="start" x="429.73" y="-15.4" font-family="sans-serif" font-size="14.00"> &#160;Exports</text>
 <g id="clust1" class="cluster">
 <title>cluster_UserProfileCoreModule</title>
-<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="47,-70 47,-195 449,-195 449,-70 47,-70"/>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="52,-70 52,-195 444,-195 444,-70 52,-70"/>
 </g>
 <g id="clust6" class="cluster">
 <title>cluster_UserProfileCoreModule_providers</title>
-<polygon fill="none" stroke="black" points="55,-78 55,-130 441,-130 441,-78 55,-78"/>
+<polygon fill="none" stroke="black" points="60,-78 60,-130 436,-130 436,-78 60,-78"/>
 </g>
-<!-- SavedCartService -->
+<!-- CdcAuthService -->
 <g id="node1" class="node">
-<title>SavedCartService</title>
-<ellipse fill="#fdb462" stroke="black" cx="353" cy="-104" rx="80.43" ry="18"/>
-<text text-anchor="middle" x="353" y="-99.8" font-family="Times,serif" font-size="14.00">SavedCartService</text>
+<title>CdcAuthService</title>
+<ellipse fill="#fdb462" stroke="black" cx="353" cy="-104" rx="74.72" ry="18"/>
+<text text-anchor="middle" x="353" y="-99.8" font-family="Times,serif" font-size="14.00">CdcAuthService</text>
 </g>
 <!-- UserProfileCoreModule -->
 <g id="node3" class="node">
 <title>UserProfileCoreModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="331.79,-187 328.79,-191 307.79,-191 304.79,-187 180.21,-187 180.21,-151 331.79,-151 331.79,-187"/>
-<text text-anchor="middle" x="256" y="-164.8" font-family="Times,serif" font-size="14.00">UserProfileCoreModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="333.79,-187 330.79,-191 309.79,-191 306.79,-187 182.21,-187 182.21,-151 333.79,-151 333.79,-187"/>
+<text text-anchor="middle" x="258" y="-164.8" font-family="Times,serif" font-size="14.00">UserProfileCoreModule</text>
 </g>
-<!-- SavedCartService&#45;&gt;UserProfileCoreModule -->
+<!-- CdcAuthService&#45;&gt;UserProfileCoreModule -->
 <g id="edge1" class="edge">
-<title>SavedCartService&#45;&gt;UserProfileCoreModule</title>
-<path fill="none" stroke="black" d="M302.21,-118.1C302.21,-118.1 302.21,-140.72 302.21,-140.72"/>
-<polygon fill="black" stroke="black" points="298.71,-140.72 302.21,-150.72 305.71,-140.72 298.71,-140.72"/>
+<title>CdcAuthService&#45;&gt;UserProfileCoreModule</title>
+<path fill="none" stroke="black" d="M305.89,-118.1C305.89,-118.1 305.89,-140.72 305.89,-140.72"/>
+<polygon fill="black" stroke="black" points="302.39,-140.72 305.89,-150.72 309.39,-140.72 302.39,-140.72"/>
 </g>
 <!-- UserProfileConnector -->
 <g id="node2" class="node">
 <title>UserProfileConnector</title>
-<ellipse fill="#fdb462" stroke="black" cx="159" cy="-104" rx="95.54" ry="18"/>
-<text text-anchor="middle" x="159" y="-99.8" font-family="Times,serif" font-size="14.00">UserProfileConnector</text>
+<ellipse fill="#fdb462" stroke="black" cx="164" cy="-104" rx="95.54" ry="18"/>
+<text text-anchor="middle" x="164" y="-99.8" font-family="Times,serif" font-size="14.00">UserProfileConnector</text>
 </g>
 <!-- UserProfileConnector&#45;&gt;UserProfileCoreModule -->
 <g id="edge2" class="edge">
 <title>UserProfileConnector&#45;&gt;UserProfileCoreModule</title>
-<path fill="none" stroke="black" d="M217.56,-118.43C217.56,-118.43 217.56,-140.89 217.56,-140.89"/>
-<polygon fill="black" stroke="black" points="214.06,-140.89 217.56,-150.89 221.06,-140.89 214.06,-140.89"/>
+<path fill="none" stroke="black" d="M221.06,-118.75C221.06,-118.75 221.06,-140.59 221.06,-140.59"/>
+<polygon fill="black" stroke="black" points="217.56,-140.59 221.06,-150.59 224.56,-140.59 217.56,-140.59"/>
 </g>
 </g>
 </svg>

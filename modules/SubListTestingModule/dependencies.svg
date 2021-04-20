@@ -24,13 +24,13 @@
 <title>cluster_SubListTestingModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="151,-70 151,-268 345,-268 345,-70 151,-70"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_SubListTestingModule_declarations</title>
-<polygon fill="none" stroke="black" points="161,-78 161,-130 335,-130 335,-78 161,-78"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_SubListTestingModule_exports</title>
 <polygon fill="none" stroke="black" points="159,-208 159,-260 337,-260 337,-208 159,-208"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SubListTestingModule_declarations</title>
+<polygon fill="none" stroke="black" points="161,-78 161,-130 335,-130 335,-78 161,-78"/>
 </g>
 <!-- MockSubListComponent -->
 <g id="node1" class="node">

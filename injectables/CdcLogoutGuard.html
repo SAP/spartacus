@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>integration-libs/cdc/src/auth/guards/cdc-logout.guard.ts</code>
+            <code>integration-libs/cdc/root/guards/cdc-logout.guard.ts</code>
         </p>
 
 
@@ -90,6 +90,10 @@
                                     <span class="modifier">Protected</span>
                                 <a href="#logout">logout</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#logoutFromCdc">logoutFromCdc</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -108,12 +112,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(auth: <a href="../injectables/AuthService.html">AuthService</a>, cms: <a href="../injectables/CmsService.html">CmsService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, protectedRoutes: <a href="../injectables/ProtectedRoutesService.html">ProtectedRoutesService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, cdcAuthService: <a href="../injectables/CdcAuthService.html">CdcAuthService</a>)</code>
+<code>constructor(auth: <a href="../injectables/AuthService.html">AuthService</a>, cms: <a href="../injectables/CmsService.html">CmsService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html">SemanticPathService</a>, protectedRoutes: <a href="../injectables/ProtectedRoutesService.html">ProtectedRoutesService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">integration-libs/cdc/src/auth/guards/cdc-logout.guard.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">integration-libs/cdc/root/guards/cdc-logout.guard.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -191,10 +195,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>cdcAuthService</td>
+                                                        <td>winRef</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CdcAuthService.html" target="_self" >CdcAuthService</a></code>
+                                                                        <code><a href="../injectables/WindowRef.html" target="_self" >WindowRef</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -240,8 +244,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">integration-libs/cdc/src/auth/guards/cdc-logout.guard.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">integration-libs/cdc/root/guards/cdc-logout.guard.ts:45</a></div>
                 </td>
             </tr>
 
@@ -249,8 +253,57 @@
             <tr>
                 <td class="col-md-4">
 
+                    <div>
+                    </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>promise to resolve after complete logout</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="logoutFromCdc"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            logoutFromCdc
+                        </b>
+                        <a href="#logoutFromCdc"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>logoutFromCdc()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">integration-libs/cdc/root/guards/cdc-logout.guard.ts:35</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Logout user from CDC</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -270,9 +323,9 @@ import {
   CmsService,
   ProtectedRoutesService,
   SemanticPathService,
+  WindowRef,
 } from &#x27;@spartacus/core&#x27;;
 import { LogoutGuard } from &#x27;@spartacus/storefront&#x27;;
-import { CdcAuthService } from &#x27;../facade&#x27;;
 
 /**
  * @override
@@ -289,13 +342,26 @@ export class CdcLogoutGuard extends LogoutGuard {
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
     protected router: Router,
-    protected cdcAuthService: CdcAuthService
+    protected winRef: WindowRef
   ) {
     super(auth, cms, semanticPathService, protectedRoutes, router);
   }
 
+  /**
+   * Logout user from CDC
+   */
+  protected logoutFromCdc(): void {
+    (this.winRef.nativeWindow as { [key: string]: any })?.[
+      &#x27;gigya&#x27;
+    ]?.accounts?.logout();
+  }
+
+  /**
+   * @override
+   * @returns promise to resolve after complete logout
+   */
   protected logout(): Promise&lt;any&gt; {
-    return Promise.all([super.logout(), this.cdcAuthService.logoutFromCdc()]);
+    return Promise.all([super.logout(), this.logoutFromCdc()]);
   }
 }
 </code></pre>

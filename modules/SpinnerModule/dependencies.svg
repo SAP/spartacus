@@ -24,23 +24,23 @@
 <title>cluster_SpinnerModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="115,-70 115,-268 381,-268 381,-70 115,-70"/>
 </g>
+<g id="clust4" class="cluster">
+<title>cluster_SpinnerModule_imports</title>
+<polygon fill="none" stroke="black" points="271,-78 271,-130 373,-130 373,-78 271,-78"/>
+</g>
 <g id="clust5" class="cluster">
 <title>cluster_SpinnerModule_exports</title>
 <polygon fill="none" stroke="black" points="176,-208 176,-260 320,-260 320,-208 176,-208"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_SpinnerModule_declarations</title>
-<polygon fill="none" stroke="black" points="233,-78 233,-130 373,-130 373,-78 233,-78"/>
-</g>
-<g id="clust4" class="cluster">
-<title>cluster_SpinnerModule_imports</title>
-<polygon fill="none" stroke="black" points="123,-78 123,-130 225,-130 225,-78 123,-78"/>
+<polygon fill="none" stroke="black" points="123,-78 123,-130 263,-130 263,-78 123,-78"/>
 </g>
 <!-- SpinnerComponent -->
 <g id="node1" class="node">
 <title>SpinnerComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="365.38,-122 240.62,-122 240.62,-86 365.38,-86 365.38,-122"/>
-<text text-anchor="middle" x="303" y="-99.8" font-family="Times,serif" font-size="14.00">SpinnerComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="255.38,-122 130.62,-122 130.62,-86 255.38,-86 255.38,-122"/>
+<text text-anchor="middle" x="193" y="-99.8" font-family="Times,serif" font-size="14.00">SpinnerComponent</text>
 </g>
 <!-- SpinnerModule -->
 <g id="node2" class="node">
@@ -51,8 +51,8 @@
 <!-- SpinnerComponent&#45;&gt;SpinnerModule -->
 <g id="edge1" class="edge">
 <title>SpinnerComponent&#45;&gt;SpinnerModule</title>
-<path fill="none" stroke="black" d="M270.05,-122.11C270.05,-122.11 270.05,-140.99 270.05,-140.99"/>
-<polygon fill="black" stroke="black" points="266.55,-140.99 270.05,-150.99 273.55,-140.99 266.55,-140.99"/>
+<path fill="none" stroke="black" d="M225.95,-122.11C225.95,-122.11 225.95,-140.99 225.95,-140.99"/>
+<polygon fill="black" stroke="black" points="222.45,-140.99 225.95,-150.99 229.45,-140.99 222.45,-140.99"/>
 </g>
 <!-- SpinnerComponent  -->
 <g id="node4" class="node">
@@ -69,14 +69,14 @@
 <!-- I18nModule -->
 <g id="node3" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="216.71,-122 213.71,-126 192.71,-126 189.71,-122 131.29,-122 131.29,-86 216.71,-86 216.71,-122"/>
-<text text-anchor="middle" x="174" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="364.71,-122 361.71,-126 340.71,-126 337.71,-122 279.29,-122 279.29,-86 364.71,-86 364.71,-122"/>
+<text text-anchor="middle" x="322" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;SpinnerModule -->
 <g id="edge2" class="edge">
 <title>I18nModule&#45;&gt;SpinnerModule</title>
-<path fill="none" stroke="black" d="M206.53,-122.11C206.53,-122.11 206.53,-140.99 206.53,-140.99"/>
-<polygon fill="black" stroke="black" points="203.03,-140.99 206.53,-150.99 210.03,-140.99 203.03,-140.99"/>
+<path fill="none" stroke="black" d="M289.47,-122.11C289.47,-122.11 289.47,-140.99 289.47,-140.99"/>
+<polygon fill="black" stroke="black" points="285.97,-140.99 289.47,-150.99 292.97,-140.99 285.97,-140.99"/>
 </g>
 </g>
 </svg>

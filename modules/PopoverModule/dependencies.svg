@@ -24,95 +24,95 @@
 <title>cluster_PopoverModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 574,-268 574,-70 8,-70"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_PopoverModule_declarations</title>
-<polygon fill="none" stroke="black" points="290,-78 290,-130 566,-130 566,-78 290,-78"/>
+<g id="clust5" class="cluster">
+<title>cluster_PopoverModule_imports</title>
+<polygon fill="none" stroke="black" points="300,-78 300,-130 566,-130 566,-78 300,-78"/>
 </g>
 <g id="clust6" class="cluster">
 <title>cluster_PopoverModule_exports</title>
-<polygon fill="none" stroke="black" points="152,-208 152,-260 436,-260 436,-208 152,-208"/>
+<polygon fill="none" stroke="black" points="146,-208 146,-260 430,-260 430,-208 146,-208"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_PopoverModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 282,-130 282,-78 16,-78"/>
+<g id="clust2" class="cluster">
+<title>cluster_PopoverModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 292,-130 292,-78 16,-78"/>
 </g>
 <!-- PopoverComponent -->
 <g id="node1" class="node">
 <title>PopoverComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="557.99,-122 430.01,-122 430.01,-86 557.99,-86 557.99,-122"/>
-<text text-anchor="middle" x="494" y="-99.8" font-family="Times,serif" font-size="14.00">PopoverComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="283.99,-122 156.01,-122 156.01,-86 283.99,-86 283.99,-122"/>
+<text text-anchor="middle" x="220" y="-99.8" font-family="Times,serif" font-size="14.00">PopoverComponent</text>
 </g>
 <!-- PopoverModule -->
 <g id="node3" class="node">
 <title>PopoverModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="343.21,-187 340.21,-191 319.21,-191 316.21,-187 236.79,-187 236.79,-151 343.21,-151 343.21,-187"/>
-<text text-anchor="middle" x="290" y="-164.8" font-family="Times,serif" font-size="14.00">PopoverModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="337.21,-187 334.21,-191 313.21,-191 310.21,-187 230.79,-187 230.79,-151 337.21,-151 337.21,-187"/>
+<text text-anchor="middle" x="284" y="-164.8" font-family="Times,serif" font-size="14.00">PopoverModule</text>
 </g>
 <!-- PopoverComponent&#45;&gt;PopoverModule -->
 <g id="edge1" class="edge">
 <title>PopoverComponent&#45;&gt;PopoverModule</title>
-<path fill="none" stroke="black" d="M494,-122.11C494,-141.34 494,-169 494,-169 494,-169 353.33,-169 353.33,-169"/>
-<polygon fill="black" stroke="black" points="353.33,-165.5 343.33,-169 353.33,-172.5 353.33,-165.5"/>
+<path fill="none" stroke="black" d="M257.45,-122.11C257.45,-122.11 257.45,-140.99 257.45,-140.99"/>
+<polygon fill="black" stroke="black" points="253.95,-140.99 257.45,-150.99 260.95,-140.99 253.95,-140.99"/>
 </g>
 <!-- PopoverDirective -->
 <g id="node2" class="node">
 <title>PopoverDirective</title>
-<polygon fill="#ffffb3" stroke="black" points="412.24,-122 297.76,-122 297.76,-86 412.24,-86 412.24,-122"/>
-<text text-anchor="middle" x="355" y="-99.8" font-family="Times,serif" font-size="14.00">PopoverDirective</text>
+<polygon fill="#ffffb3" stroke="black" points="138.24,-122 23.76,-122 23.76,-86 138.24,-86 138.24,-122"/>
+<text text-anchor="middle" x="81" y="-99.8" font-family="Times,serif" font-size="14.00">PopoverDirective</text>
 </g>
 <!-- PopoverDirective&#45;&gt;PopoverModule -->
 <g id="edge2" class="edge">
 <title>PopoverDirective&#45;&gt;PopoverModule</title>
-<path fill="none" stroke="black" d="M320.37,-122.11C320.37,-122.11 320.37,-140.99 320.37,-140.99"/>
-<polygon fill="black" stroke="black" points="316.87,-140.99 320.37,-150.99 323.87,-140.99 316.87,-140.99"/>
+<path fill="none" stroke="black" d="M81,-122.11C81,-141.34 81,-169 81,-169 81,-169 220.66,-169 220.66,-169"/>
+<polygon fill="black" stroke="black" points="220.66,-172.5 230.66,-169 220.66,-165.5 220.66,-172.5"/>
 </g>
 <!-- PopoverComponent  -->
 <g id="node6" class="node">
 <title>PopoverComponent </title>
-<polygon fill="#fb8072" stroke="black" points="427.99,-252 296.01,-252 296.01,-216 427.99,-216 427.99,-252"/>
-<text text-anchor="middle" x="362" y="-229.8" font-family="Times,serif" font-size="14.00">PopoverComponent </text>
+<polygon fill="#fb8072" stroke="black" points="421.99,-252 290.01,-252 290.01,-216 421.99,-216 421.99,-252"/>
+<text text-anchor="middle" x="356" y="-229.8" font-family="Times,serif" font-size="14.00">PopoverComponent </text>
 </g>
 <!-- PopoverModule&#45;&gt;PopoverComponent  -->
 <g id="edge5" class="edge">
 <title>PopoverModule&#45;&gt;PopoverComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M319.68,-187.11C319.68,-187.11 319.68,-205.99 319.68,-205.99"/>
-<polygon fill="black" stroke="black" points="316.18,-205.99 319.68,-215.99 323.18,-205.99 316.18,-205.99"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M313.68,-187.11C313.68,-187.11 313.68,-205.99 313.68,-205.99"/>
+<polygon fill="black" stroke="black" points="310.18,-205.99 313.68,-215.99 317.18,-205.99 310.18,-205.99"/>
 </g>
 <!-- PopoverDirective  -->
 <g id="node7" class="node">
 <title>PopoverDirective </title>
-<polygon fill="#fb8072" stroke="black" points="278.24,-252 159.76,-252 159.76,-216 278.24,-216 278.24,-252"/>
-<text text-anchor="middle" x="219" y="-229.8" font-family="Times,serif" font-size="14.00">PopoverDirective </text>
+<polygon fill="#fb8072" stroke="black" points="272.24,-252 153.76,-252 153.76,-216 272.24,-216 272.24,-252"/>
+<text text-anchor="middle" x="213" y="-229.8" font-family="Times,serif" font-size="14.00">PopoverDirective </text>
 </g>
 <!-- PopoverModule&#45;&gt;PopoverDirective  -->
 <g id="edge6" class="edge">
 <title>PopoverModule&#45;&gt;PopoverDirective </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M257.51,-187.11C257.51,-187.11 257.51,-205.99 257.51,-205.99"/>
-<polygon fill="black" stroke="black" points="254.01,-205.99 257.51,-215.99 261.01,-205.99 254.01,-205.99"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M251.51,-187.11C251.51,-187.11 251.51,-205.99 251.51,-205.99"/>
+<polygon fill="black" stroke="black" points="248.01,-205.99 251.51,-215.99 255.01,-205.99 248.01,-205.99"/>
 </g>
 <!-- IconModule -->
 <g id="node4" class="node">
 <title>IconModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="274.43,-122 271.43,-126 250.43,-126 247.43,-122 189.57,-122 189.57,-86 274.43,-86 274.43,-122"/>
-<text text-anchor="middle" x="232" y="-99.8" font-family="Times,serif" font-size="14.00">IconModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="558.43,-122 555.43,-126 534.43,-126 531.43,-122 473.57,-122 473.57,-86 558.43,-86 558.43,-122"/>
+<text text-anchor="middle" x="516" y="-99.8" font-family="Times,serif" font-size="14.00">IconModule</text>
 </g>
 <!-- IconModule&#45;&gt;PopoverModule -->
 <g id="edge3" class="edge">
 <title>IconModule&#45;&gt;PopoverModule</title>
-<path fill="none" stroke="black" d="M255.55,-122.11C255.55,-122.11 255.55,-140.99 255.55,-140.99"/>
-<polygon fill="black" stroke="black" points="252.05,-140.99 255.55,-150.99 259.05,-140.99 252.05,-140.99"/>
+<path fill="none" stroke="black" d="M516,-122.11C516,-141.34 516,-169 516,-169 516,-169 347.23,-169 347.23,-169"/>
+<polygon fill="black" stroke="black" points="347.23,-165.5 337.23,-169 347.23,-172.5 347.23,-165.5"/>
 </g>
 <!-- KeyboardFocusModule -->
 <g id="node5" class="node">
 <title>KeyboardFocusModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="172.19,-122 169.19,-126 148.19,-126 145.19,-122 23.81,-122 23.81,-86 172.19,-86 172.19,-122"/>
-<text text-anchor="middle" x="98" y="-99.8" font-family="Times,serif" font-size="14.00">KeyboardFocusModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="456.19,-122 453.19,-126 432.19,-126 429.19,-122 307.81,-122 307.81,-86 456.19,-86 456.19,-122"/>
+<text text-anchor="middle" x="382" y="-99.8" font-family="Times,serif" font-size="14.00">KeyboardFocusModule</text>
 </g>
 <!-- KeyboardFocusModule&#45;&gt;PopoverModule -->
 <g id="edge4" class="edge">
 <title>KeyboardFocusModule&#45;&gt;PopoverModule</title>
-<path fill="none" stroke="black" d="M165.99,-122.11C165.99,-141.34 165.99,-169 165.99,-169 165.99,-169 226.69,-169 226.69,-169"/>
-<polygon fill="black" stroke="black" points="226.69,-172.5 236.69,-169 226.69,-165.5 226.69,-172.5"/>
+<path fill="none" stroke="black" d="M322.5,-122.11C322.5,-122.11 322.5,-140.99 322.5,-140.99"/>
+<polygon fill="black" stroke="black" points="319,-140.99 322.5,-150.99 326,-140.99 319,-140.99"/>
 </g>
 </g>
 </svg>

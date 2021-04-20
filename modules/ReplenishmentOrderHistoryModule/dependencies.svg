@@ -24,13 +24,13 @@
 <title>cluster_ReplenishmentOrderHistoryModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 647,-268 647,-70 8,-70"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ReplenishmentOrderHistoryModule_imports</title>
-<polygon fill="none" stroke="black" points="280,-78 280,-130 639,-130 639,-78 280,-78"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ReplenishmentOrderHistoryModule_exports</title>
 <polygon fill="none" stroke="black" points="261,-208 261,-260 521,-260 521,-208 261,-208"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ReplenishmentOrderHistoryModule_imports</title>
+<polygon fill="none" stroke="black" points="280,-78 280,-130 639,-130 639,-78 280,-78"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ReplenishmentOrderHistoryModule_declarations</title>

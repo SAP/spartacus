@@ -28,23 +28,23 @@
 <title>cluster_AddressBookModule_imports</title>
 <polygon fill="none" stroke="black" points="402,-78 402,-130 883,-130 883,-78 402,-78"/>
 </g>
+<g id="clust2" class="cluster">
+<title>cluster_AddressBookModule_declarations</title>
+<polygon fill="none" stroke="black" points="220,-78 220,-130 394,-130 394,-78 220,-78"/>
+</g>
+<g id="clust7" class="cluster">
+<title>cluster_AddressBookModule_providers</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 212,-130 212,-78 16,-78"/>
+</g>
 <g id="clust5" class="cluster">
 <title>cluster_AddressBookModule_exports</title>
 <polygon fill="none" stroke="black" points="429,-208 429,-260 607,-260 607,-208 429,-208"/>
 </g>
-<g id="clust7" class="cluster">
-<title>cluster_AddressBookModule_providers</title>
-<polygon fill="none" stroke="black" points="198,-78 198,-130 394,-130 394,-78 198,-78"/>
-</g>
-<g id="clust2" class="cluster">
-<title>cluster_AddressBookModule_declarations</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 190,-130 190,-78 16,-78"/>
-</g>
 <!-- AddressBookComponent -->
 <g id="node1" class="node">
 <title>AddressBookComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="181.54,-122 24.46,-122 24.46,-86 181.54,-86 181.54,-122"/>
-<text text-anchor="middle" x="103" y="-99.8" font-family="Times,serif" font-size="14.00">AddressBookComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="385.54,-122 228.46,-122 228.46,-86 385.54,-86 385.54,-122"/>
+<text text-anchor="middle" x="307" y="-99.8" font-family="Times,serif" font-size="14.00">AddressBookComponent</text>
 </g>
 <!-- AddressBookModule -->
 <g id="node2" class="node">
@@ -55,8 +55,8 @@
 <!-- AddressBookComponent&#45;&gt;AddressBookModule -->
 <g id="edge1" class="edge">
 <title>AddressBookComponent&#45;&gt;AddressBookModule</title>
-<path fill="none" stroke="black" d="M103,-122.28C103,-143.32 103,-175 103,-175 103,-175 439.94,-175 439.94,-175"/>
-<polygon fill="black" stroke="black" points="439.94,-178.5 449.94,-175 439.94,-171.5 439.94,-178.5"/>
+<path fill="none" stroke="black" d="M307,-122.02C307,-139.37 307,-163 307,-163 307,-163 440.08,-163 440.08,-163"/>
+<polygon fill="black" stroke="black" points="440.08,-166.5 450.08,-163 440.08,-159.5 440.08,-166.5"/>
 </g>
 <!-- AddressBookComponent  -->
 <g id="node7" class="node">
@@ -121,14 +121,14 @@
 <!-- UserAddressService -->
 <g id="node8" class="node">
 <title>UserAddressService</title>
-<ellipse fill="#fdb462" stroke="black" cx="296" cy="-104" rx="89.72" ry="18"/>
-<text text-anchor="middle" x="296" y="-99.8" font-family="Times,serif" font-size="14.00">UserAddressService</text>
+<ellipse fill="#fdb462" stroke="black" cx="114" cy="-104" rx="89.72" ry="18"/>
+<text text-anchor="middle" x="114" y="-99.8" font-family="Times,serif" font-size="14.00">UserAddressService</text>
 </g>
 <!-- UserAddressService&#45;&gt;AddressBookModule -->
 <g id="edge7" class="edge">
 <title>UserAddressService&#45;&gt;AddressBookModule</title>
-<path fill="none" stroke="black" d="M296,-122.02C296,-139.37 296,-163 296,-163 296,-163 440.19,-163 440.19,-163"/>
-<polygon fill="black" stroke="black" points="440.19,-166.5 450.19,-163 440.19,-159.5 440.19,-166.5"/>
+<path fill="none" stroke="black" d="M114,-122.28C114,-143.32 114,-175 114,-175 114,-175 439.92,-175 439.92,-175"/>
+<polygon fill="black" stroke="black" points="439.92,-178.5 449.92,-175 439.92,-171.5 439.92,-178.5"/>
 </g>
 </g>
 </svg>

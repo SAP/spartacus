@@ -24,13 +24,13 @@
 <title>cluster_ConfiguratorTabBarModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="31,-70 31,-268 465,-268 465,-70 31,-70"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorTabBarModule_exports</title>
-<polygon fill="none" stroke="black" points="78,-208 78,-260 294,-260 294,-208 78,-208"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_ConfiguratorTabBarModule_declarations</title>
 <polygon fill="none" stroke="black" points="245,-78 245,-130 457,-130 457,-78 245,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorTabBarModule_exports</title>
+<polygon fill="none" stroke="black" points="78,-208 78,-260 294,-260 294,-208 78,-208"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorTabBarModule_imports</title>

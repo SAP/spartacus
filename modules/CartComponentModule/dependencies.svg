@@ -24,13 +24,13 @@
 <title>cluster_CartComponentModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 1162,-268 1162,-70 8,-70"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_CartComponentModule_exports</title>
-<polygon fill="none" stroke="black" points="16,-208 16,-260 1154,-260 1154,-208 16,-208"/>
-</g>
 <g id="clust3" class="cluster">
 <title>cluster_CartComponentModule_imports</title>
 <polygon fill="none" stroke="black" points="289,-78 289,-130 860,-130 860,-78 289,-78"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_CartComponentModule_exports</title>
+<polygon fill="none" stroke="black" points="16,-208 16,-260 1154,-260 1154,-208 16,-208"/>
 </g>
 <!-- CartDetailsModule -->
 <g id="node1" class="node">

@@ -24,79 +24,79 @@
 <title>cluster_UpdatePasswordModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-195 685,-195 685,-70 8,-70"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_UpdatePasswordModule_declarations</title>
-<polygon fill="none" stroke="black" points="485,-78 485,-130 677,-130 677,-78 485,-78"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_UpdatePasswordModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 477,-130 477,-78 16,-78"/>
+<polygon fill="none" stroke="black" points="216,-78 216,-130 677,-130 677,-78 216,-78"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_UpdatePasswordModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 208,-130 208,-78 16,-78"/>
 </g>
 <!-- UpdatePasswordComponent -->
 <g id="node1" class="node">
 <title>UpdatePasswordComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="668.91,-122 493.09,-122 493.09,-86 668.91,-86 668.91,-122"/>
-<text text-anchor="middle" x="581" y="-99.8" font-family="Times,serif" font-size="14.00">UpdatePasswordComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="199.91,-122 24.09,-122 24.09,-86 199.91,-86 199.91,-122"/>
+<text text-anchor="middle" x="112" y="-99.8" font-family="Times,serif" font-size="14.00">UpdatePasswordComponent</text>
 </g>
 <!-- UpdatePasswordModule -->
 <g id="node2" class="node">
 <title>UpdatePasswordModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="360.63,-187 357.63,-191 336.63,-191 333.63,-187 207.37,-187 207.37,-151 360.63,-151 360.63,-187"/>
-<text text-anchor="middle" x="284" y="-164.8" font-family="Times,serif" font-size="14.00">UpdatePasswordModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="448.63,-187 445.63,-191 424.63,-191 421.63,-187 295.37,-187 295.37,-151 448.63,-151 448.63,-187"/>
+<text text-anchor="middle" x="372" y="-164.8" font-family="Times,serif" font-size="14.00">UpdatePasswordModule</text>
 </g>
 <!-- UpdatePasswordComponent&#45;&gt;UpdatePasswordModule -->
 <g id="edge1" class="edge">
 <title>UpdatePasswordComponent&#45;&gt;UpdatePasswordModule</title>
-<path fill="none" stroke="black" d="M581,-122.11C581,-141.34 581,-169 581,-169 581,-169 370.87,-169 370.87,-169"/>
-<polygon fill="black" stroke="black" points="370.87,-165.5 360.87,-169 370.87,-172.5 370.87,-165.5"/>
+<path fill="none" stroke="black" d="M112,-122.11C112,-141.34 112,-169 112,-169 112,-169 285.05,-169 285.05,-169"/>
+<polygon fill="black" stroke="black" points="285.05,-172.5 295.05,-169 285.05,-165.5 285.05,-172.5"/>
 </g>
 <!-- FormErrorsModule -->
 <g id="node3" class="node">
 <title>FormErrorsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="469.36,-122 466.36,-126 445.36,-126 442.36,-122 344.64,-122 344.64,-86 469.36,-86 469.36,-122"/>
-<text text-anchor="middle" x="407" y="-99.8" font-family="Times,serif" font-size="14.00">FormErrorsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="669.36,-122 666.36,-126 645.36,-126 642.36,-122 544.64,-122 544.64,-86 669.36,-86 669.36,-122"/>
+<text text-anchor="middle" x="607" y="-99.8" font-family="Times,serif" font-size="14.00">FormErrorsModule</text>
 </g>
 <!-- FormErrorsModule&#45;&gt;UpdatePasswordModule -->
 <g id="edge2" class="edge">
 <title>FormErrorsModule&#45;&gt;UpdatePasswordModule</title>
-<path fill="none" stroke="black" d="M352.69,-122.11C352.69,-122.11 352.69,-140.99 352.69,-140.99"/>
-<polygon fill="black" stroke="black" points="349.19,-140.99 352.69,-150.99 356.19,-140.99 349.19,-140.99"/>
+<path fill="none" stroke="black" d="M607,-122.11C607,-141.34 607,-169 607,-169 607,-169 458.95,-169 458.95,-169"/>
+<polygon fill="black" stroke="black" points="458.95,-165.5 448.95,-169 458.95,-172.5 458.95,-165.5"/>
 </g>
 <!-- I18nModule -->
 <g id="node4" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="326.71,-122 323.71,-126 302.71,-126 299.71,-122 241.29,-122 241.29,-86 326.71,-86 326.71,-122"/>
-<text text-anchor="middle" x="284" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="526.71,-122 523.71,-126 502.71,-126 499.71,-122 441.29,-122 441.29,-86 526.71,-86 526.71,-122"/>
+<text text-anchor="middle" x="484" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;UpdatePasswordModule -->
 <g id="edge3" class="edge">
 <title>I18nModule&#45;&gt;UpdatePasswordModule</title>
-<path fill="none" stroke="black" d="M284,-122.11C284,-122.11 284,-140.99 284,-140.99"/>
-<polygon fill="black" stroke="black" points="280.5,-140.99 284,-150.99 287.5,-140.99 280.5,-140.99"/>
+<path fill="none" stroke="black" d="M445.1,-122.11C445.1,-122.11 445.1,-140.99 445.1,-140.99"/>
+<polygon fill="black" stroke="black" points="441.6,-140.99 445.1,-150.99 448.6,-140.99 441.6,-140.99"/>
 </g>
 <!-- SpinnerModule -->
 <g id="node5" class="node">
 <title>SpinnerModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="223.6,-122 220.6,-126 199.6,-126 196.6,-122 120.4,-122 120.4,-86 223.6,-86 223.6,-122"/>
-<text text-anchor="middle" x="172" y="-99.8" font-family="Times,serif" font-size="14.00">SpinnerModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="423.6,-122 420.6,-126 399.6,-126 396.6,-122 320.4,-122 320.4,-86 423.6,-86 423.6,-122"/>
+<text text-anchor="middle" x="372" y="-99.8" font-family="Times,serif" font-size="14.00">SpinnerModule</text>
 </g>
 <!-- SpinnerModule&#45;&gt;UpdatePasswordModule -->
 <g id="edge4" class="edge">
 <title>SpinnerModule&#45;&gt;UpdatePasswordModule</title>
-<path fill="none" stroke="black" d="M215.37,-122.11C215.37,-122.11 215.37,-140.99 215.37,-140.99"/>
-<polygon fill="black" stroke="black" points="211.87,-140.99 215.37,-150.99 218.87,-140.99 211.87,-140.99"/>
+<path fill="none" stroke="black" d="M372,-122.11C372,-122.11 372,-140.99 372,-140.99"/>
+<polygon fill="black" stroke="black" points="368.5,-140.99 372,-150.99 375.5,-140.99 368.5,-140.99"/>
 </g>
 <!-- UrlModule -->
 <g id="node6" class="node">
 <title>UrlModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="102.21,-122 99.21,-126 78.21,-126 75.21,-122 23.79,-122 23.79,-86 102.21,-86 102.21,-122"/>
-<text text-anchor="middle" x="63" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="302.21,-122 299.21,-126 278.21,-126 275.21,-122 223.79,-122 223.79,-86 302.21,-86 302.21,-122"/>
+<text text-anchor="middle" x="263" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
 </g>
 <!-- UrlModule&#45;&gt;UpdatePasswordModule -->
 <g id="edge5" class="edge">
 <title>UrlModule&#45;&gt;UpdatePasswordModule</title>
-<path fill="none" stroke="black" d="M63,-122.11C63,-141.34 63,-169 63,-169 63,-169 197.33,-169 197.33,-169"/>
-<polygon fill="black" stroke="black" points="197.33,-172.5 207.33,-169 197.33,-165.5 197.33,-172.5"/>
+<path fill="none" stroke="black" d="M302.42,-104C307.67,-104 311.28,-104 311.28,-104 311.28,-104 311.28,-140.89 311.28,-140.89"/>
+<polygon fill="black" stroke="black" points="307.78,-140.89 311.28,-150.89 314.78,-140.89 307.78,-140.89"/>
 </g>
 </g>
 </svg>

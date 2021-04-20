@@ -24,119 +24,119 @@
 <title>cluster_ProductVariantsContainerModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 1408,-268 1408,-70 8,-70"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ProductVariantsContainerModule_imports</title>
-<polygon fill="none" stroke="black" points="268,-78 268,-130 1400,-130 1400,-78 268,-78"/>
+<g id="clust5" class="cluster">
+<title>cluster_ProductVariantsContainerModule_exports</title>
+<polygon fill="none" stroke="black" points="565,-208 565,-260 811,-260 811,-208 565,-208"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ProductVariantsContainerModule_declarations</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 260,-130 260,-78 16,-78"/>
+<polygon fill="none" stroke="black" points="1156,-78 1156,-130 1400,-130 1400,-78 1156,-78"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ProductVariantsContainerModule_exports</title>
-<polygon fill="none" stroke="black" points="589,-208 589,-260 835,-260 835,-208 589,-208"/>
+<g id="clust4" class="cluster">
+<title>cluster_ProductVariantsContainerModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 1148,-130 1148,-78 16,-78"/>
 </g>
 <!-- ProductVariantsContainerComponent -->
 <g id="node1" class="node">
 <title>ProductVariantsContainerComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="251.51,-122 24.49,-122 24.49,-86 251.51,-86 251.51,-122"/>
-<text text-anchor="middle" x="138" y="-99.8" font-family="Times,serif" font-size="14.00">ProductVariantsContainerComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="1391.51,-122 1164.49,-122 1164.49,-86 1391.51,-86 1391.51,-122"/>
+<text text-anchor="middle" x="1278" y="-99.8" font-family="Times,serif" font-size="14.00">ProductVariantsContainerComponent</text>
 </g>
 <!-- ProductVariantsContainerModule -->
 <g id="node2" class="node">
 <title>ProductVariantsContainerModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="814.73,-187 811.73,-191 790.73,-191 787.73,-187 609.27,-187 609.27,-151 814.73,-151 814.73,-187"/>
-<text text-anchor="middle" x="712" y="-164.8" font-family="Times,serif" font-size="14.00">ProductVariantsContainerModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="790.73,-187 787.73,-191 766.73,-191 763.73,-187 585.27,-187 585.27,-151 790.73,-151 790.73,-187"/>
+<text text-anchor="middle" x="688" y="-164.8" font-family="Times,serif" font-size="14.00">ProductVariantsContainerModule</text>
 </g>
 <!-- ProductVariantsContainerComponent&#45;&gt;ProductVariantsContainerModule -->
 <g id="edge1" class="edge">
 <title>ProductVariantsContainerComponent&#45;&gt;ProductVariantsContainerModule</title>
-<path fill="none" stroke="black" d="M138,-122.29C138,-144.21 138,-178 138,-178 138,-178 599.05,-178 599.05,-178"/>
-<polygon fill="black" stroke="black" points="599.05,-181.5 609.05,-178 599.05,-174.5 599.05,-181.5"/>
+<path fill="none" stroke="black" d="M1278,-122.29C1278,-144.21 1278,-178 1278,-178 1278,-178 800.77,-178 800.77,-178"/>
+<polygon fill="black" stroke="black" points="800.77,-174.5 790.77,-178 800.77,-181.5 800.77,-174.5"/>
 </g>
 <!-- ProductVariantStyleIconsComponent  -->
 <g id="node9" class="node">
 <title>ProductVariantStyleIconsComponent </title>
-<polygon fill="#fb8072" stroke="black" points="826.96,-252 597.04,-252 597.04,-216 826.96,-216 826.96,-252"/>
-<text text-anchor="middle" x="712" y="-229.8" font-family="Times,serif" font-size="14.00">ProductVariantStyleIconsComponent </text>
+<polygon fill="#fb8072" stroke="black" points="802.96,-252 573.04,-252 573.04,-216 802.96,-216 802.96,-252"/>
+<text text-anchor="middle" x="688" y="-229.8" font-family="Times,serif" font-size="14.00">ProductVariantStyleIconsComponent </text>
 </g>
 <!-- ProductVariantsContainerModule&#45;&gt;ProductVariantStyleIconsComponent  -->
 <g id="edge8" class="edge">
 <title>ProductVariantsContainerModule&#45;&gt;ProductVariantStyleIconsComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M712,-187.11C712,-187.11 712,-205.99 712,-205.99"/>
-<polygon fill="black" stroke="black" points="708.5,-205.99 712,-215.99 715.5,-205.99 708.5,-205.99"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M688,-187.11C688,-187.11 688,-205.99 688,-205.99"/>
+<polygon fill="black" stroke="black" points="684.5,-205.99 688,-215.99 691.5,-205.99 684.5,-205.99"/>
 </g>
 <!-- I18nModule -->
 <g id="node3" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="1391.71,-122 1388.71,-126 1367.71,-126 1364.71,-122 1306.29,-122 1306.29,-86 1391.71,-86 1391.71,-122"/>
-<text text-anchor="middle" x="1349" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1139.71,-122 1136.71,-126 1115.71,-126 1112.71,-122 1054.29,-122 1054.29,-86 1139.71,-86 1139.71,-122"/>
+<text text-anchor="middle" x="1097" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;ProductVariantsContainerModule -->
 <g id="edge2" class="edge">
 <title>I18nModule&#45;&gt;ProductVariantsContainerModule</title>
-<path fill="none" stroke="black" d="M1349,-122.29C1349,-144.21 1349,-178 1349,-178 1349,-178 825.05,-178 825.05,-178"/>
-<polygon fill="black" stroke="black" points="825.05,-174.5 815.05,-178 825.05,-181.5 825.05,-174.5"/>
+<path fill="none" stroke="black" d="M1097,-122.11C1097,-141.34 1097,-169 1097,-169 1097,-169 800.94,-169 800.94,-169"/>
+<polygon fill="black" stroke="black" points="800.94,-165.5 790.94,-169 800.94,-172.5 800.94,-165.5"/>
 </g>
 <!-- ProductVariantColorSelectorModule -->
 <g id="node4" class="node">
 <title>ProductVariantColorSelectorModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="1288.33,-122 1285.33,-126 1264.33,-126 1261.33,-122 1065.67,-122 1065.67,-86 1288.33,-86 1288.33,-122"/>
-<text text-anchor="middle" x="1177" y="-99.8" font-family="Times,serif" font-size="14.00">ProductVariantColorSelectorModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1036.33,-122 1033.33,-126 1012.33,-126 1009.33,-122 813.67,-122 813.67,-86 1036.33,-86 1036.33,-122"/>
+<text text-anchor="middle" x="925" y="-99.8" font-family="Times,serif" font-size="14.00">ProductVariantColorSelectorModule</text>
 </g>
 <!-- ProductVariantColorSelectorModule&#45;&gt;ProductVariantsContainerModule -->
 <g id="edge3" class="edge">
 <title>ProductVariantColorSelectorModule&#45;&gt;ProductVariantsContainerModule</title>
-<path fill="none" stroke="black" d="M1177,-122.11C1177,-141.34 1177,-169 1177,-169 1177,-169 824.91,-169 824.91,-169"/>
-<polygon fill="black" stroke="black" points="824.91,-165.5 814.91,-169 824.91,-172.5 824.91,-165.5"/>
+<path fill="none" stroke="black" d="M925,-122.03C925,-138.4 925,-160 925,-160 925,-160 800.92,-160 800.92,-160"/>
+<polygon fill="black" stroke="black" points="800.92,-156.5 790.92,-160 800.92,-163.5 800.92,-156.5"/>
 </g>
 <!-- ProductVariantSizeSelectorModule -->
 <g id="node5" class="node">
 <title>ProductVariantSizeSelectorModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="1047.55,-122 1044.55,-126 1023.55,-126 1020.55,-122 832.45,-122 832.45,-86 1047.55,-86 1047.55,-122"/>
-<text text-anchor="middle" x="940" y="-99.8" font-family="Times,serif" font-size="14.00">ProductVariantSizeSelectorModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="795.55,-122 792.55,-126 771.55,-126 768.55,-122 580.45,-122 580.45,-86 795.55,-86 795.55,-122"/>
+<text text-anchor="middle" x="688" y="-99.8" font-family="Times,serif" font-size="14.00">ProductVariantSizeSelectorModule</text>
 </g>
 <!-- ProductVariantSizeSelectorModule&#45;&gt;ProductVariantsContainerModule -->
 <g id="edge4" class="edge">
 <title>ProductVariantSizeSelectorModule&#45;&gt;ProductVariantsContainerModule</title>
-<path fill="none" stroke="black" d="M940,-122.03C940,-138.4 940,-160 940,-160 940,-160 824.99,-160 824.99,-160"/>
-<polygon fill="black" stroke="black" points="824.99,-156.5 814.99,-160 824.99,-163.5 824.99,-156.5"/>
+<path fill="none" stroke="black" d="M688,-122.11C688,-122.11 688,-140.99 688,-140.99"/>
+<polygon fill="black" stroke="black" points="684.5,-140.99 688,-150.99 691.5,-140.99 684.5,-140.99"/>
 </g>
 <!-- ProductVariantStyleIconsModule -->
 <g id="node6" class="node">
 <title>ProductVariantStyleIconsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="814.17,-122 811.17,-126 790.17,-126 787.17,-122 609.83,-122 609.83,-86 814.17,-86 814.17,-122"/>
-<text text-anchor="middle" x="712" y="-99.8" font-family="Times,serif" font-size="14.00">ProductVariantStyleIconsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="562.17,-122 559.17,-126 538.17,-126 535.17,-122 357.83,-122 357.83,-86 562.17,-86 562.17,-122"/>
+<text text-anchor="middle" x="460" y="-99.8" font-family="Times,serif" font-size="14.00">ProductVariantStyleIconsModule</text>
 </g>
 <!-- ProductVariantStyleIconsModule&#45;&gt;ProductVariantsContainerModule -->
 <g id="edge5" class="edge">
 <title>ProductVariantStyleIconsModule&#45;&gt;ProductVariantsContainerModule</title>
-<path fill="none" stroke="black" d="M712,-122.11C712,-122.11 712,-140.99 712,-140.99"/>
-<polygon fill="black" stroke="black" points="708.5,-140.99 712,-150.99 715.5,-140.99 708.5,-140.99"/>
+<path fill="none" stroke="black" d="M460,-122.03C460,-138.4 460,-160 460,-160 460,-160 575.01,-160 575.01,-160"/>
+<polygon fill="black" stroke="black" points="575.01,-163.5 585.01,-160 575.01,-156.5 575.01,-163.5"/>
 </g>
 <!-- ProductVariantStyleSelectorModule -->
 <g id="node7" class="node">
 <title>ProductVariantStyleSelectorModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="591.72,-122 588.72,-126 567.72,-126 564.72,-122 372.28,-122 372.28,-86 591.72,-86 591.72,-122"/>
-<text text-anchor="middle" x="482" y="-99.8" font-family="Times,serif" font-size="14.00">ProductVariantStyleSelectorModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="339.72,-122 336.72,-126 315.72,-126 312.72,-122 120.28,-122 120.28,-86 339.72,-86 339.72,-122"/>
+<text text-anchor="middle" x="230" y="-99.8" font-family="Times,serif" font-size="14.00">ProductVariantStyleSelectorModule</text>
 </g>
 <!-- ProductVariantStyleSelectorModule&#45;&gt;ProductVariantsContainerModule -->
 <g id="edge6" class="edge">
 <title>ProductVariantStyleSelectorModule&#45;&gt;ProductVariantsContainerModule</title>
-<path fill="none" stroke="black" d="M482,-122.03C482,-138.4 482,-160 482,-160 482,-160 599.11,-160 599.11,-160"/>
-<polygon fill="black" stroke="black" points="599.11,-163.5 609.11,-160 599.11,-156.5 599.11,-163.5"/>
+<path fill="none" stroke="black" d="M230,-122.11C230,-141.34 230,-169 230,-169 230,-169 575.22,-169 575.22,-169"/>
+<polygon fill="black" stroke="black" points="575.22,-172.5 585.22,-169 575.22,-165.5 575.22,-172.5"/>
 </g>
 <!-- UrlModule -->
 <g id="node8" class="node">
 <title>UrlModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="354.21,-122 351.21,-126 330.21,-126 327.21,-122 275.79,-122 275.79,-86 354.21,-86 354.21,-122"/>
-<text text-anchor="middle" x="315" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="102.21,-122 99.21,-126 78.21,-126 75.21,-122 23.79,-122 23.79,-86 102.21,-86 102.21,-122"/>
+<text text-anchor="middle" x="63" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
 </g>
 <!-- UrlModule&#45;&gt;ProductVariantsContainerModule -->
 <g id="edge7" class="edge">
 <title>UrlModule&#45;&gt;ProductVariantsContainerModule</title>
-<path fill="none" stroke="black" d="M315,-122.11C315,-141.34 315,-169 315,-169 315,-169 599.25,-169 599.25,-169"/>
-<polygon fill="black" stroke="black" points="599.25,-172.5 609.25,-169 599.25,-165.5 599.25,-172.5"/>
+<path fill="none" stroke="black" d="M63,-122.29C63,-144.21 63,-178 63,-178 63,-178 575.14,-178 575.14,-178"/>
+<polygon fill="black" stroke="black" points="575.14,-181.5 585.14,-178 575.14,-174.5 575.14,-181.5"/>
 </g>
 </g>
 </svg>

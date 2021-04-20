@@ -24,71 +24,71 @@
 <title>cluster_ConfiguratorAttributeRadioButtonModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 592,-268 592,-70 8,-70"/>
 </g>
+<g id="clust2" class="cluster">
+<title>cluster_ConfiguratorAttributeRadioButtonModule_declarations</title>
+<polygon fill="none" stroke="black" points="292,-78 292,-130 584,-130 584,-78 292,-78"/>
+</g>
 <g id="clust5" class="cluster">
 <title>cluster_ConfiguratorAttributeRadioButtonModule_exports</title>
-<polygon fill="none" stroke="black" points="250,-208 250,-260 546,-260 546,-208 250,-208"/>
+<polygon fill="none" stroke="black" points="85,-208 85,-260 381,-260 381,-208 85,-208"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorAttributeRadioButtonModule_imports</title>
-<polygon fill="none" stroke="black" points="316,-78 316,-130 584,-130 584,-78 316,-78"/>
-</g>
-<g id="clust2" class="cluster">
-<title>cluster_ConfiguratorAttributeRadioButtonModule_declarations</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 308,-130 308,-78 16,-78"/>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 284,-130 284,-78 16,-78"/>
 </g>
 <!-- ConfiguratorAttributeRadioButtonComponent -->
 <g id="node1" class="node">
 <title>ConfiguratorAttributeRadioButtonComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="299.75,-122 24.25,-122 24.25,-86 299.75,-86 299.75,-122"/>
-<text text-anchor="middle" x="162" y="-99.8" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeRadioButtonComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="575.75,-122 300.25,-122 300.25,-86 575.75,-86 575.75,-122"/>
+<text text-anchor="middle" x="438" y="-99.8" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeRadioButtonComponent</text>
 </g>
 <!-- ConfiguratorAttributeRadioButtonModule -->
 <g id="node2" class="node">
 <title>ConfiguratorAttributeRadioButtonModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="524.97,-187 521.97,-191 500.97,-191 497.97,-187 271.03,-187 271.03,-151 524.97,-151 524.97,-187"/>
-<text text-anchor="middle" x="398" y="-164.8" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeRadioButtonModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="359.97,-187 356.97,-191 335.97,-191 332.97,-187 106.03,-187 106.03,-151 359.97,-151 359.97,-187"/>
+<text text-anchor="middle" x="233" y="-164.8" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeRadioButtonModule</text>
 </g>
 <!-- ConfiguratorAttributeRadioButtonComponent&#45;&gt;ConfiguratorAttributeRadioButtonModule -->
 <g id="edge1" class="edge">
 <title>ConfiguratorAttributeRadioButtonComponent&#45;&gt;ConfiguratorAttributeRadioButtonModule</title>
-<path fill="none" stroke="black" d="M285.45,-122.11C285.45,-122.11 285.45,-140.99 285.45,-140.99"/>
-<polygon fill="black" stroke="black" points="281.95,-140.99 285.45,-150.99 288.95,-140.99 281.95,-140.99"/>
+<path fill="none" stroke="black" d="M330.05,-122.11C330.05,-122.11 330.05,-140.99 330.05,-140.99"/>
+<polygon fill="black" stroke="black" points="326.55,-140.99 330.05,-150.99 333.55,-140.99 326.55,-140.99"/>
 </g>
 <!-- ConfiguratorAttributeRadioButtonComponent  -->
 <g id="node5" class="node">
 <title>ConfiguratorAttributeRadioButtonComponent </title>
-<polygon fill="#fb8072" stroke="black" points="537.75,-252 258.25,-252 258.25,-216 537.75,-216 537.75,-252"/>
-<text text-anchor="middle" x="398" y="-229.8" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeRadioButtonComponent </text>
+<polygon fill="#fb8072" stroke="black" points="372.75,-252 93.25,-252 93.25,-216 372.75,-216 372.75,-252"/>
+<text text-anchor="middle" x="233" y="-229.8" font-family="Times,serif" font-size="14.00">ConfiguratorAttributeRadioButtonComponent </text>
 </g>
 <!-- ConfiguratorAttributeRadioButtonModule&#45;&gt;ConfiguratorAttributeRadioButtonComponent  -->
 <g id="edge4" class="edge">
 <title>ConfiguratorAttributeRadioButtonModule&#45;&gt;ConfiguratorAttributeRadioButtonComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M398,-187.11C398,-187.11 398,-205.99 398,-205.99"/>
-<polygon fill="black" stroke="black" points="394.5,-205.99 398,-215.99 401.5,-205.99 394.5,-205.99"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M233,-187.11C233,-187.11 233,-205.99 233,-205.99"/>
+<polygon fill="black" stroke="black" points="229.5,-205.99 233,-215.99 236.5,-205.99 229.5,-205.99"/>
 </g>
 <!-- I18nModule -->
 <g id="node3" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="575.71,-122 572.71,-126 551.71,-126 548.71,-122 490.29,-122 490.29,-86 575.71,-86 575.71,-122"/>
-<text text-anchor="middle" x="533" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="275.71,-122 272.71,-126 251.71,-126 248.71,-122 190.29,-122 190.29,-86 275.71,-86 275.71,-122"/>
+<text text-anchor="middle" x="233" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;ConfiguratorAttributeRadioButtonModule -->
 <g id="edge2" class="edge">
 <title>I18nModule&#45;&gt;ConfiguratorAttributeRadioButtonModule</title>
-<path fill="none" stroke="black" d="M507.69,-122.11C507.69,-122.11 507.69,-140.99 507.69,-140.99"/>
-<polygon fill="black" stroke="black" points="504.19,-140.99 507.69,-150.99 511.19,-140.99 504.19,-140.99"/>
+<path fill="none" stroke="black" d="M233,-122.11C233,-122.11 233,-140.99 233,-140.99"/>
+<polygon fill="black" stroke="black" points="229.5,-140.99 233,-150.99 236.5,-140.99 229.5,-140.99"/>
 </g>
 <!-- KeyboardFocusModule -->
 <g id="node4" class="node">
 <title>KeyboardFocusModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="472.19,-122 469.19,-126 448.19,-126 445.19,-122 323.81,-122 323.81,-86 472.19,-86 472.19,-122"/>
-<text text-anchor="middle" x="398" y="-99.8" font-family="Times,serif" font-size="14.00">KeyboardFocusModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="172.19,-122 169.19,-126 148.19,-126 145.19,-122 23.81,-122 23.81,-86 172.19,-86 172.19,-122"/>
+<text text-anchor="middle" x="98" y="-99.8" font-family="Times,serif" font-size="14.00">KeyboardFocusModule</text>
 </g>
 <!-- KeyboardFocusModule&#45;&gt;ConfiguratorAttributeRadioButtonModule -->
 <g id="edge3" class="edge">
 <title>KeyboardFocusModule&#45;&gt;ConfiguratorAttributeRadioButtonModule</title>
-<path fill="none" stroke="black" d="M398,-122.11C398,-122.11 398,-140.99 398,-140.99"/>
-<polygon fill="black" stroke="black" points="394.5,-140.99 398,-150.99 401.5,-140.99 394.5,-140.99"/>
+<path fill="none" stroke="black" d="M139.06,-122.11C139.06,-122.11 139.06,-140.99 139.06,-140.99"/>
+<polygon fill="black" stroke="black" points="135.56,-140.99 139.06,-150.99 142.56,-140.99 135.56,-140.99"/>
 </g>
 </g>
 </svg>

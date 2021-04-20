@@ -24,13 +24,13 @@
 <title>cluster_UrlModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="133.5,-70 133.5,-268 362.5,-268 362.5,-70 133.5,-70"/>
 </g>
-<g id="clust6" class="cluster">
-<title>cluster_UrlModule_exports</title>
-<polygon fill="none" stroke="black" points="141.5,-208 141.5,-260 354.5,-260 354.5,-208 141.5,-208"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_UrlModule_declarations</title>
 <polygon fill="none" stroke="black" points="142.5,-78 142.5,-130 348.5,-130 348.5,-78 142.5,-78"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_UrlModule_exports</title>
+<polygon fill="none" stroke="black" points="141.5,-208 141.5,-260 354.5,-260 354.5,-208 141.5,-208"/>
 </g>
 <!-- ProductURLPipe -->
 <g id="node1" class="node">

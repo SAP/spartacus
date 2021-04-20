@@ -54,7 +54,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>integration-libs/cdc/src/auth/store/cdc-auth-store.module.ts</code>
+            <code>integration-libs/cdc/core/auth/store/cdc-auth-store.module.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { EffectsModule } from &#x27;@ngrx/effects&#x27;;
-import { CdcUserTokenEffects } from &#x27;./effects&#x27;;
+import { CdcUserTokenEffects } from &#x27;./effects/cdc-user-token.effect&#x27;;
 
 @NgModule({
   imports: [CommonModule, EffectsModule.forFeature([CdcUserTokenEffects])],

@@ -24,71 +24,71 @@
 <title>cluster_VariantColorSelectorModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="28,-70 28,-268 468,-268 468,-70 28,-70"/>
 </g>
+<g id="clust4" class="cluster">
+<title>cluster_VariantColorSelectorModule_imports</title>
+<polygon fill="none" stroke="black" points="262,-78 262,-130 460,-130 460,-78 262,-78"/>
+</g>
 <g id="clust5" class="cluster">
 <title>cluster_VariantColorSelectorModule_exports</title>
-<polygon fill="none" stroke="black" points="73,-208 73,-260 293,-260 293,-208 73,-208"/>
+<polygon fill="none" stroke="black" points="199,-208 199,-260 419,-260 419,-208 199,-208"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_VariantColorSelectorModule_declarations</title>
-<polygon fill="none" stroke="black" points="242,-78 242,-130 460,-130 460,-78 242,-78"/>
-</g>
-<g id="clust4" class="cluster">
-<title>cluster_VariantColorSelectorModule_imports</title>
-<polygon fill="none" stroke="black" points="36,-78 36,-130 234,-130 234,-78 36,-78"/>
+<polygon fill="none" stroke="black" points="36,-78 36,-130 254,-130 254,-78 36,-78"/>
 </g>
 <!-- VariantColorSelectorComponent -->
 <g id="node1" class="node">
 <title>VariantColorSelectorComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="451.57,-122 250.43,-122 250.43,-86 451.57,-86 451.57,-122"/>
-<text text-anchor="middle" x="351" y="-99.8" font-family="Times,serif" font-size="14.00">VariantColorSelectorComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="245.57,-122 44.43,-122 44.43,-86 245.57,-86 245.57,-122"/>
+<text text-anchor="middle" x="145" y="-99.8" font-family="Times,serif" font-size="14.00">VariantColorSelectorComponent</text>
 </g>
 <!-- VariantColorSelectorModule -->
 <g id="node2" class="node">
 <title>VariantColorSelectorModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="272.78,-187 269.78,-191 248.78,-191 245.78,-187 93.22,-187 93.22,-151 272.78,-151 272.78,-187"/>
-<text text-anchor="middle" x="183" y="-164.8" font-family="Times,serif" font-size="14.00">VariantColorSelectorModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="398.78,-187 395.78,-191 374.78,-191 371.78,-187 219.22,-187 219.22,-151 398.78,-151 398.78,-187"/>
+<text text-anchor="middle" x="309" y="-164.8" font-family="Times,serif" font-size="14.00">VariantColorSelectorModule</text>
 </g>
 <!-- VariantColorSelectorComponent&#45;&gt;VariantColorSelectorModule -->
 <g id="edge1" class="edge">
 <title>VariantColorSelectorComponent&#45;&gt;VariantColorSelectorModule</title>
-<path fill="none" stroke="black" d="M261.55,-122.11C261.55,-122.11 261.55,-140.99 261.55,-140.99"/>
-<polygon fill="black" stroke="black" points="258.05,-140.99 261.55,-150.99 265.05,-140.99 258.05,-140.99"/>
+<path fill="none" stroke="black" d="M232.45,-122.11C232.45,-122.11 232.45,-140.99 232.45,-140.99"/>
+<polygon fill="black" stroke="black" points="228.95,-140.99 232.45,-150.99 235.95,-140.99 228.95,-140.99"/>
 </g>
 <!-- VariantColorSelectorComponent  -->
 <g id="node5" class="node">
 <title>VariantColorSelectorComponent </title>
-<polygon fill="#fb8072" stroke="black" points="285.07,-252 80.93,-252 80.93,-216 285.07,-216 285.07,-252"/>
-<text text-anchor="middle" x="183" y="-229.8" font-family="Times,serif" font-size="14.00">VariantColorSelectorComponent </text>
+<polygon fill="#fb8072" stroke="black" points="411.07,-252 206.93,-252 206.93,-216 411.07,-216 411.07,-252"/>
+<text text-anchor="middle" x="309" y="-229.8" font-family="Times,serif" font-size="14.00">VariantColorSelectorComponent </text>
 </g>
 <!-- VariantColorSelectorModule&#45;&gt;VariantColorSelectorComponent  -->
 <g id="edge4" class="edge">
 <title>VariantColorSelectorModule&#45;&gt;VariantColorSelectorComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M183,-187.11C183,-187.11 183,-205.99 183,-205.99"/>
-<polygon fill="black" stroke="black" points="179.5,-205.99 183,-215.99 186.5,-205.99 179.5,-205.99"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M309,-187.11C309,-187.11 309,-205.99 309,-205.99"/>
+<polygon fill="black" stroke="black" points="305.5,-205.99 309,-215.99 312.5,-205.99 305.5,-205.99"/>
 </g>
 <!-- I18nModule -->
 <g id="node3" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="225.71,-122 222.71,-126 201.71,-126 198.71,-122 140.29,-122 140.29,-86 225.71,-86 225.71,-122"/>
-<text text-anchor="middle" x="183" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="451.71,-122 448.71,-126 427.71,-126 424.71,-122 366.29,-122 366.29,-86 451.71,-86 451.71,-122"/>
+<text text-anchor="middle" x="409" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;VariantColorSelectorModule -->
 <g id="edge2" class="edge">
 <title>I18nModule&#45;&gt;VariantColorSelectorModule</title>
-<path fill="none" stroke="black" d="M183,-122.11C183,-122.11 183,-140.99 183,-140.99"/>
-<polygon fill="black" stroke="black" points="179.5,-140.99 183,-150.99 186.5,-140.99 179.5,-140.99"/>
+<path fill="none" stroke="black" d="M382.52,-122.11C382.52,-122.11 382.52,-140.99 382.52,-140.99"/>
+<polygon fill="black" stroke="black" points="379.02,-140.99 382.52,-150.99 386.02,-140.99 379.02,-140.99"/>
 </g>
 <!-- UrlModule -->
 <g id="node4" class="node">
 <title>UrlModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="122.21,-122 119.21,-126 98.21,-126 95.21,-122 43.79,-122 43.79,-86 122.21,-86 122.21,-122"/>
-<text text-anchor="middle" x="83" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="348.21,-122 345.21,-126 324.21,-126 321.21,-122 269.79,-122 269.79,-86 348.21,-86 348.21,-122"/>
+<text text-anchor="middle" x="309" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
 </g>
 <!-- UrlModule&#45;&gt;VariantColorSelectorModule -->
 <g id="edge3" class="edge">
 <title>UrlModule&#45;&gt;VariantColorSelectorModule</title>
-<path fill="none" stroke="black" d="M107.73,-122.11C107.73,-122.11 107.73,-140.99 107.73,-140.99"/>
-<polygon fill="black" stroke="black" points="104.23,-140.99 107.73,-150.99 111.23,-140.99 104.23,-140.99"/>
+<path fill="none" stroke="black" d="M309,-122.11C309,-122.11 309,-140.99 309,-140.99"/>
+<polygon fill="black" stroke="black" points="305.5,-140.99 309,-150.99 312.5,-140.99 305.5,-140.99"/>
 </g>
 </g>
 </svg>

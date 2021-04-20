@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>integration-libs/cdc/src/auth/facade/cdc-auth.service.ts</code>
+            <code>integration-libs/cdc/core/auth/facade/cdc-auth.service.ts</code>
         </p>
 
             <p class="comment">
@@ -83,13 +83,14 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isAsmAuthStorageService">isAsmAuthStorageService</a>
+                            </li>
+                            <li>
                                 <a href="#loginWithCustomCdcFlow">loginWithCustomCdcFlow</a>
                             </li>
                             <li>
                                 <a href="#loginWithToken">loginWithToken</a>
-                            </li>
-                            <li>
-                                <a href="#logoutFromCdc">logoutFromCdc</a>
                             </li>
                         </ul>
                     </td>
@@ -109,12 +110,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store, winRef: <a href="../injectables/WindowRef.html">WindowRef</a>, authStorageService: <a href="../injectables/AuthStorageService.html">AuthStorageService</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>)</code>
+<code>constructor(store: Store, authStorageService: <a href="../injectables/AuthStorageService.html">AuthStorageService</a>, userIdService: <a href="../injectables/UserIdService.html">UserIdService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html">GlobalMessageService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html">AuthRedirectService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">integration-libs/cdc/core/auth/facade/cdc-auth.service.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -136,18 +137,6 @@
                                                   
                                                         <td>
                                                                     <code>Store</code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>winRef</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/WindowRef.html" target="_self" >WindowRef</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -221,6 +210,80 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="isAsmAuthStorageService"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Private</span>
+                            isAsmAuthStorageService
+                        </b>
+                        <a href="#isAsmAuthStorageService"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isAsmAuthStorageService(service: AuthStorageService | AsmAuthStorageService)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">integration-libs/cdc/core/auth/facade/cdc-auth.service.ts:62</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Utility to differentiate between AuthStorageService and AsmAuthStorageService</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>service</td>
+                                    <td>
+                                            <code>AuthStorageService | AsmAuthStorageService</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/AsmAuthStorageService.html" target="_self" >AsmAuthStorageService</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="loginWithCustomCdcFlow"></a>
                     <span class="name">
                         <b>
@@ -239,8 +302,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="42"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:42</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">integration-libs/cdc/core/auth/facade/cdc-auth.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -359,8 +422,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="65"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:65</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">integration-libs/cdc/core/auth/facade/cdc-auth.service.ts:73</a></div>
                 </td>
             </tr>
 
@@ -405,47 +468,6 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="logoutFromCdc"></a>
-                    <span class="name">
-                        <b>
-                            logoutFromCdc
-                        </b>
-                        <a href="#logoutFromCdc"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>logoutFromCdc()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="127"
-                            class="link-to-prism">integration-libs/cdc/src/auth/facade/cdc-auth.service.ts:127</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Logout user from CDC</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
 
     </div>
@@ -464,20 +486,19 @@ import {
   GlobalMessageType,
   OCC_USER_ID_CURRENT,
   UserIdService,
-  WindowRef,
 } from &#x27;@spartacus/core&#x27;;
-import { CdcAuthActions } from &#x27;../store/actions&#x27;;
+import { combineLatest, of } from &#x27;rxjs&#x27;;
+import { map, take, tap } from &#x27;rxjs/operators&#x27;;
+import { CdcAuthActions } from &#x27;../store/actions/index&#x27;;
+import { CdcAuthFacade } from &#x27;@spartacus/cdc/root&#x27;;
 
 /**
  * Service to support custom CDC OAuth flow.
  */
-@Injectable({
-  providedIn: &#x27;root&#x27;,
-})
-export class CdcAuthService {
+@Injectable()
+export class CdcAuthService implements CdcAuthFacade {
   constructor(
     protected store: Store,
-    protected winRef: WindowRef,
     protected authStorageService: AuthStorageService,
     protected userIdService: UserIdService,
     protected globalMessageService: GlobalMessageService,
@@ -512,74 +533,84 @@ export class CdcAuthService {
   }
 
   /**
+   * Utility to differentiate between AuthStorageService and AsmAuthStorageService
+   */
+  private isAsmAuthStorageService(
+    service: AuthStorageService | AsmAuthStorageService
+  ): service is AsmAuthStorageService {
+    return &#x27;getTokenTarget&#x27; in service;
+  }
+
+  /**
    * Transform and store the token received from custom flow to library format and login user.
    *
    * @param token
    */
   loginWithToken(token: Partial&lt;AuthToken&gt; &amp; { expires_in?: number }): void {
-    let tokenTarget: TokenTarget;
-    let currentToken: AuthToken;
-    if (&#x27;getTokenTarget&#x27; in this.authStorageService) {
-      (this.authStorageService as AsmAuthStorageService)
-        .getToken()
-        .subscribe((tok) &#x3D;&gt; (currentToken &#x3D; tok))
-        .unsubscribe();
-      (this.authStorageService as AsmAuthStorageService)
-        .getTokenTarget()
-        .subscribe((tokTarget) &#x3D;&gt; (tokenTarget &#x3D; tokTarget))
-        .unsubscribe();
-      if (
-        Boolean(currentToken?.access_token) &amp;&amp;
-        tokenTarget &#x3D;&#x3D;&#x3D; TokenTarget.CSAgent
-      ) {
-        this.globalMessageService.add(
-          {
-            key: &#x27;asm.auth.agentLoggedInError&#x27;,
-          },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-        return;
-      }
-    }
-
-    // Code mostly based on auth lib we use and the way it handles token properties
-    this.authStorageService.setItem(&#x27;access_token&#x27;, token.access_token);
-
-    if (token.granted_scopes &amp;&amp; Array.isArray(token.granted_scopes)) {
-      this.authStorageService.setItem(
-        &#x27;granted_scopes&#x27;,
-        JSON.stringify(token.granted_scopes)
+    let stream$ &#x3D; of(true);
+    if (this.isAsmAuthStorageService(this.authStorageService)) {
+      stream$ &#x3D; combineLatest([
+        this.authStorageService.getToken(),
+        this.authStorageService.getTokenTarget(),
+      ]).pipe(
+        take(1),
+        map(([currentToken, tokenTarget]) &#x3D;&gt; {
+          return (
+            !!currentToken?.access_token &amp;&amp; tokenTarget &#x3D;&#x3D;&#x3D; TokenTarget.CSAgent
+          );
+        }),
+        tap((isAsmAgentLoggedIn) &#x3D;&gt; {
+          if (isAsmAgentLoggedIn) {
+            this.globalMessageService.add(
+              {
+                key: &#x27;asm.auth.agentLoggedInError&#x27;,
+              },
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+          }
+        }),
+        map((isAsmAgentLoggedIn) &#x3D;&gt; !isAsmAgentLoggedIn)
       );
     }
 
-    this.authStorageService.setItem(&#x27;access_token_stored_at&#x27;, &#x27;&#x27; + Date.now());
+    stream$.pipe(take(1)).subscribe((canLogin) &#x3D;&gt; {
+      if (canLogin) {
+        // Code mostly based on auth lib we use and the way it handles token properties
+        this.authStorageService.setItem(&#x27;access_token&#x27;, token.access_token);
 
-    if (token.expires_in) {
-      const expiresInMilliseconds &#x3D; token.expires_in * 1000;
-      const now &#x3D; new Date();
-      const expiresAt &#x3D; now.getTime() + expiresInMilliseconds;
-      this.authStorageService.setItem(&#x27;expires_at&#x27;, &#x27;&#x27; + expiresAt);
-    }
+        if (token.granted_scopes &amp;&amp; Array.isArray(token.granted_scopes)) {
+          this.authStorageService.setItem(
+            &#x27;granted_scopes&#x27;,
+            JSON.stringify(token.granted_scopes)
+          );
+        }
 
-    if (token.refresh_token) {
-      this.authStorageService.setItem(&#x27;refresh_token&#x27;, token.refresh_token);
-    }
+        this.authStorageService.setItem(
+          &#x27;access_token_stored_at&#x27;,
+          &#x27;&#x27; + Date.now()
+        );
 
-    // OCC specific code
-    this.userIdService.setUserId(OCC_USER_ID_CURRENT);
+        if (token.expires_in) {
+          const expiresInMilliseconds &#x3D; token.expires_in * 1000;
+          const now &#x3D; new Date();
+          const expiresAt &#x3D; now.getTime() + expiresInMilliseconds;
+          this.authStorageService.setItem(&#x27;expires_at&#x27;, &#x27;&#x27; + expiresAt);
+        }
 
-    this.store.dispatch(new AuthActions.Login());
+        if (token.refresh_token) {
+          this.authStorageService.setItem(&#x27;refresh_token&#x27;, token.refresh_token);
+        }
 
-    // Remove any global errors and redirect user on successful login
-    this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
-    this.authRedirectService.redirect();
-  }
+        // OCC specific code
+        this.userIdService.setUserId(OCC_USER_ID_CURRENT);
 
-  /**
-   * Logout user from CDC
-   */
-  logoutFromCdc(): void {
-    this.winRef.nativeWindow?.[&#x27;gigya&#x27;]?.accounts?.logout();
+        this.store.dispatch(new AuthActions.Login());
+
+        // Remove any global errors and redirect user on successful login
+        this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+        this.authRedirectService.redirect();
+      }
+    });
   }
 }
 </code></pre>

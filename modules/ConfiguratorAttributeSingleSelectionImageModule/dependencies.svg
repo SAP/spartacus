@@ -24,6 +24,10 @@
 <title>cluster_ConfiguratorAttributeSingleSelectionImageModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 644,-268 644,-70 8,-70"/>
 </g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorAttributeSingleSelectionImageModule_exports</title>
+<polygon fill="none" stroke="black" points="60,-208 60,-260 406,-260 406,-208 60,-208"/>
+</g>
 <g id="clust2" class="cluster">
 <title>cluster_ConfiguratorAttributeSingleSelectionImageModule_declarations</title>
 <polygon fill="none" stroke="black" points="292,-78 292,-130 636,-130 636,-78 292,-78"/>
@@ -31,10 +35,6 @@
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorAttributeSingleSelectionImageModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-78 16,-130 284,-130 284,-78 16,-78"/>
-</g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorAttributeSingleSelectionImageModule_exports</title>
-<polygon fill="none" stroke="black" points="60,-208 60,-260 406,-260 406,-208 60,-208"/>
 </g>
 <!-- ConfiguratorAttributeSingleSelectionImageComponent -->
 <g id="node1" class="node">

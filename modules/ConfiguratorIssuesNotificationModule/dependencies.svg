@@ -26,93 +26,93 @@
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_ConfiguratorIssuesNotificationModule_exports</title>
-<polygon fill="none" stroke="black" points="127,-208 127,-260 403,-260 403,-208 127,-208"/>
-</g>
-<g id="clust2" class="cluster">
-<title>cluster_ConfiguratorIssuesNotificationModule_declarations</title>
-<polygon fill="none" stroke="black" points="513,-78 513,-130 785,-130 785,-78 513,-78"/>
+<polygon fill="none" stroke="black" points="304,-208 304,-260 580,-260 580,-208 304,-208"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorIssuesNotificationModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 505,-130 505,-78 16,-78"/>
+<polygon fill="none" stroke="black" points="296,-78 296,-130 785,-130 785,-78 296,-78"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ConfiguratorIssuesNotificationModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 288,-130 288,-78 16,-78"/>
 </g>
 <!-- ConfiguratorIssuesNotificationComponent -->
 <g id="node1" class="node">
 <title>ConfiguratorIssuesNotificationComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="776.51,-122 521.49,-122 521.49,-86 776.51,-86 776.51,-122"/>
-<text text-anchor="middle" x="649" y="-99.8" font-family="Times,serif" font-size="14.00">ConfiguratorIssuesNotificationComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="279.51,-122 24.49,-122 24.49,-86 279.51,-86 279.51,-122"/>
+<text text-anchor="middle" x="152" y="-99.8" font-family="Times,serif" font-size="14.00">ConfiguratorIssuesNotificationComponent</text>
 </g>
 <!-- ConfiguratorIssuesNotificationModule -->
 <g id="node2" class="node">
 <title>ConfiguratorIssuesNotificationModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="381.72,-187 378.72,-191 357.72,-191 354.72,-187 148.28,-187 148.28,-151 381.72,-151 381.72,-187"/>
-<text text-anchor="middle" x="265" y="-164.8" font-family="Times,serif" font-size="14.00">ConfiguratorIssuesNotificationModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="558.72,-187 555.72,-191 534.72,-191 531.72,-187 325.28,-187 325.28,-151 558.72,-151 558.72,-187"/>
+<text text-anchor="middle" x="442" y="-164.8" font-family="Times,serif" font-size="14.00">ConfiguratorIssuesNotificationModule</text>
 </g>
 <!-- ConfiguratorIssuesNotificationComponent&#45;&gt;ConfiguratorIssuesNotificationModule -->
 <g id="edge1" class="edge">
 <title>ConfiguratorIssuesNotificationComponent&#45;&gt;ConfiguratorIssuesNotificationModule</title>
-<path fill="none" stroke="black" d="M649,-122.11C649,-141.34 649,-169 649,-169 649,-169 391.78,-169 391.78,-169"/>
-<polygon fill="black" stroke="black" points="391.78,-165.5 381.78,-169 391.78,-172.5 391.78,-165.5"/>
+<path fill="none" stroke="black" d="M152,-122.11C152,-141.34 152,-169 152,-169 152,-169 314.88,-169 314.88,-169"/>
+<polygon fill="black" stroke="black" points="314.88,-172.5 324.88,-169 314.88,-165.5 314.88,-172.5"/>
 </g>
 <!-- ConfiguratorIssuesNotificationComponent  -->
 <g id="node7" class="node">
 <title>ConfiguratorIssuesNotificationComponent </title>
-<polygon fill="#fb8072" stroke="black" points="394.51,-252 135.49,-252 135.49,-216 394.51,-216 394.51,-252"/>
-<text text-anchor="middle" x="265" y="-229.8" font-family="Times,serif" font-size="14.00">ConfiguratorIssuesNotificationComponent </text>
+<polygon fill="#fb8072" stroke="black" points="571.51,-252 312.49,-252 312.49,-216 571.51,-216 571.51,-252"/>
+<text text-anchor="middle" x="442" y="-229.8" font-family="Times,serif" font-size="14.00">ConfiguratorIssuesNotificationComponent </text>
 </g>
 <!-- ConfiguratorIssuesNotificationModule&#45;&gt;ConfiguratorIssuesNotificationComponent  -->
 <g id="edge6" class="edge">
 <title>ConfiguratorIssuesNotificationModule&#45;&gt;ConfiguratorIssuesNotificationComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M265,-187.11C265,-187.11 265,-205.99 265,-205.99"/>
-<polygon fill="black" stroke="black" points="261.5,-205.99 265,-215.99 268.5,-205.99 261.5,-205.99"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M442,-187.11C442,-187.11 442,-205.99 442,-205.99"/>
+<polygon fill="black" stroke="black" points="438.5,-205.99 442,-215.99 445.5,-205.99 438.5,-205.99"/>
 </g>
 <!-- ConfigureCartEntryModule -->
 <g id="node3" class="node">
 <title>ConfigureCartEntryModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="496.52,-122 493.52,-126 472.52,-126 469.52,-122 325.48,-122 325.48,-86 496.52,-86 496.52,-122"/>
-<text text-anchor="middle" x="411" y="-99.8" font-family="Times,serif" font-size="14.00">ConfigureCartEntryModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="776.52,-122 773.52,-126 752.52,-126 749.52,-122 605.48,-122 605.48,-86 776.52,-86 776.52,-122"/>
+<text text-anchor="middle" x="691" y="-99.8" font-family="Times,serif" font-size="14.00">ConfigureCartEntryModule</text>
 </g>
 <!-- ConfigureCartEntryModule&#45;&gt;ConfiguratorIssuesNotificationModule -->
 <g id="edge2" class="edge">
 <title>ConfigureCartEntryModule&#45;&gt;ConfiguratorIssuesNotificationModule</title>
-<path fill="none" stroke="black" d="M353.55,-122.11C353.55,-122.11 353.55,-140.99 353.55,-140.99"/>
-<polygon fill="black" stroke="black" points="350.05,-140.99 353.55,-150.99 357.05,-140.99 350.05,-140.99"/>
+<path fill="none" stroke="black" d="M691,-122.11C691,-141.34 691,-169 691,-169 691,-169 568.84,-169 568.84,-169"/>
+<polygon fill="black" stroke="black" points="568.84,-165.5 558.84,-169 568.84,-172.5 568.84,-165.5"/>
 </g>
 <!-- I18nModule -->
 <g id="node4" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="307.71,-122 304.71,-126 283.71,-126 280.71,-122 222.29,-122 222.29,-86 307.71,-86 307.71,-122"/>
-<text text-anchor="middle" x="265" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="587.71,-122 584.71,-126 563.71,-126 560.71,-122 502.29,-122 502.29,-86 587.71,-86 587.71,-122"/>
+<text text-anchor="middle" x="545" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;ConfiguratorIssuesNotificationModule -->
 <g id="edge3" class="edge">
 <title>I18nModule&#45;&gt;ConfiguratorIssuesNotificationModule</title>
-<path fill="none" stroke="black" d="M265,-122.11C265,-122.11 265,-140.99 265,-140.99"/>
-<polygon fill="black" stroke="black" points="261.5,-140.99 265,-150.99 268.5,-140.99 261.5,-140.99"/>
+<path fill="none" stroke="black" d="M530.63,-122.11C530.63,-122.11 530.63,-140.99 530.63,-140.99"/>
+<polygon fill="black" stroke="black" points="527.13,-140.99 530.63,-150.99 534.13,-140.99 527.13,-140.99"/>
 </g>
 <!-- IconModule -->
 <g id="node5" class="node">
 <title>IconModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="204.43,-122 201.43,-126 180.43,-126 177.43,-122 119.57,-122 119.57,-86 204.43,-86 204.43,-122"/>
-<text text-anchor="middle" x="162" y="-99.8" font-family="Times,serif" font-size="14.00">IconModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="484.43,-122 481.43,-126 460.43,-126 457.43,-122 399.57,-122 399.57,-86 484.43,-86 484.43,-122"/>
+<text text-anchor="middle" x="442" y="-99.8" font-family="Times,serif" font-size="14.00">IconModule</text>
 </g>
 <!-- IconModule&#45;&gt;ConfiguratorIssuesNotificationModule -->
 <g id="edge4" class="edge">
 <title>IconModule&#45;&gt;ConfiguratorIssuesNotificationModule</title>
-<path fill="none" stroke="black" d="M176.18,-122.11C176.18,-122.11 176.18,-140.99 176.18,-140.99"/>
-<polygon fill="black" stroke="black" points="172.68,-140.99 176.18,-150.99 179.68,-140.99 172.68,-140.99"/>
+<path fill="none" stroke="black" d="M442,-122.11C442,-122.11 442,-140.99 442,-140.99"/>
+<polygon fill="black" stroke="black" points="438.5,-140.99 442,-150.99 445.5,-140.99 438.5,-140.99"/>
 </g>
 <!-- UrlModule -->
 <g id="node6" class="node">
 <title>UrlModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="102.21,-122 99.21,-126 78.21,-126 75.21,-122 23.79,-122 23.79,-86 102.21,-86 102.21,-122"/>
-<text text-anchor="middle" x="63" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="382.21,-122 379.21,-126 358.21,-126 355.21,-122 303.79,-122 303.79,-86 382.21,-86 382.21,-122"/>
+<text text-anchor="middle" x="343" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
 </g>
 <!-- UrlModule&#45;&gt;ConfiguratorIssuesNotificationModule -->
 <g id="edge5" class="edge">
 <title>UrlModule&#45;&gt;ConfiguratorIssuesNotificationModule</title>
-<path fill="none" stroke="black" d="M63,-122.11C63,-141.34 63,-169 63,-169 63,-169 138.08,-169 138.08,-169"/>
-<polygon fill="black" stroke="black" points="138.08,-172.5 148.08,-169 138.08,-165.5 138.08,-172.5"/>
+<path fill="none" stroke="black" d="M353.62,-122.11C353.62,-122.11 353.62,-140.99 353.62,-140.99"/>
+<polygon fill="black" stroke="black" points="350.12,-140.99 353.62,-150.99 357.12,-140.99 350.12,-140.99"/>
 </g>
 </g>
 </svg>

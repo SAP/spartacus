@@ -24,119 +24,119 @@
 <title>cluster_ReviewSubmitModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 899,-268 899,-70 8,-70"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ReviewSubmitModule_exports</title>
-<polygon fill="none" stroke="black" points="315,-208 315,-260 499,-260 499,-208 315,-208"/>
+<g id="clust4" class="cluster">
+<title>cluster_ReviewSubmitModule_imports</title>
+<polygon fill="none" stroke="black" points="204,-78 204,-130 891,-130 891,-78 204,-78"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ReviewSubmitModule_declarations</title>
-<polygon fill="none" stroke="black" points="711,-78 711,-130 891,-130 891,-78 711,-78"/>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 196,-130 196,-78 16,-78"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ReviewSubmitModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 703,-130 703,-78 16,-78"/>
+<g id="clust5" class="cluster">
+<title>cluster_ReviewSubmitModule_exports</title>
+<polygon fill="none" stroke="black" points="400,-208 400,-260 584,-260 584,-208 400,-208"/>
 </g>
 <!-- ReviewSubmitComponent -->
 <g id="node1" class="node">
 <title>ReviewSubmitComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="883.05,-122 718.95,-122 718.95,-86 883.05,-86 883.05,-122"/>
-<text text-anchor="middle" x="801" y="-99.8" font-family="Times,serif" font-size="14.00">ReviewSubmitComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="188.05,-122 23.95,-122 23.95,-86 188.05,-86 188.05,-122"/>
+<text text-anchor="middle" x="106" y="-99.8" font-family="Times,serif" font-size="14.00">ReviewSubmitComponent</text>
 </g>
 <!-- ReviewSubmitModule -->
 <g id="node2" class="node">
 <title>ReviewSubmitModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="478.27,-187 475.27,-191 454.27,-191 451.27,-187 335.73,-187 335.73,-151 478.27,-151 478.27,-187"/>
-<text text-anchor="middle" x="407" y="-164.8" font-family="Times,serif" font-size="14.00">ReviewSubmitModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="563.27,-187 560.27,-191 539.27,-191 536.27,-187 420.73,-187 420.73,-151 563.27,-151 563.27,-187"/>
+<text text-anchor="middle" x="492" y="-164.8" font-family="Times,serif" font-size="14.00">ReviewSubmitModule</text>
 </g>
 <!-- ReviewSubmitComponent&#45;&gt;ReviewSubmitModule -->
 <g id="edge1" class="edge">
 <title>ReviewSubmitComponent&#45;&gt;ReviewSubmitModule</title>
-<path fill="none" stroke="black" d="M801,-122.28C801,-143.32 801,-175 801,-175 801,-175 488.35,-175 488.35,-175"/>
-<polygon fill="black" stroke="black" points="488.35,-171.5 478.35,-175 488.35,-178.5 488.35,-171.5"/>
+<path fill="none" stroke="black" d="M106,-122.28C106,-143.32 106,-175 106,-175 106,-175 410.3,-175 410.3,-175"/>
+<polygon fill="black" stroke="black" points="410.3,-178.5 420.3,-175 410.3,-171.5 410.3,-178.5"/>
 </g>
 <!-- ReviewSubmitComponent  -->
 <g id="node9" class="node">
 <title>ReviewSubmitComponent </title>
-<polygon fill="#fb8072" stroke="black" points="491.05,-252 322.95,-252 322.95,-216 491.05,-216 491.05,-252"/>
-<text text-anchor="middle" x="407" y="-229.8" font-family="Times,serif" font-size="14.00">ReviewSubmitComponent </text>
+<polygon fill="#fb8072" stroke="black" points="576.05,-252 407.95,-252 407.95,-216 576.05,-216 576.05,-252"/>
+<text text-anchor="middle" x="492" y="-229.8" font-family="Times,serif" font-size="14.00">ReviewSubmitComponent </text>
 </g>
 <!-- ReviewSubmitModule&#45;&gt;ReviewSubmitComponent  -->
 <g id="edge8" class="edge">
 <title>ReviewSubmitModule&#45;&gt;ReviewSubmitComponent </title>
-<path fill="none" stroke="black" stroke-dasharray="5,2" d="M407,-187.11C407,-187.11 407,-205.99 407,-205.99"/>
-<polygon fill="black" stroke="black" points="403.5,-205.99 407,-215.99 410.5,-205.99 403.5,-205.99"/>
+<path fill="none" stroke="black" stroke-dasharray="5,2" d="M492,-187.11C492,-187.11 492,-205.99 492,-205.99"/>
+<polygon fill="black" stroke="black" points="488.5,-205.99 492,-215.99 495.5,-205.99 488.5,-205.99"/>
 </g>
 <!-- CardModule -->
 <g id="node3" class="node">
 <title>CardModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="695.26,-122 692.26,-126 671.26,-126 668.26,-122 608.74,-122 608.74,-86 695.26,-86 695.26,-122"/>
-<text text-anchor="middle" x="652" y="-99.8" font-family="Times,serif" font-size="14.00">CardModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="883.26,-122 880.26,-126 859.26,-126 856.26,-122 796.74,-122 796.74,-86 883.26,-86 883.26,-122"/>
+<text text-anchor="middle" x="840" y="-99.8" font-family="Times,serif" font-size="14.00">CardModule</text>
 </g>
 <!-- CardModule&#45;&gt;ReviewSubmitModule -->
 <g id="edge2" class="edge">
 <title>CardModule&#45;&gt;ReviewSubmitModule</title>
-<path fill="none" stroke="black" d="M652,-122.02C652,-139.37 652,-163 652,-163 652,-163 488.52,-163 488.52,-163"/>
-<polygon fill="black" stroke="black" points="488.52,-159.5 478.52,-163 488.52,-166.5 488.52,-159.5"/>
+<path fill="none" stroke="black" d="M840,-122.28C840,-143.32 840,-175 840,-175 840,-175 573.68,-175 573.68,-175"/>
+<polygon fill="black" stroke="black" points="573.68,-171.5 563.68,-175 573.68,-178.5 573.68,-171.5"/>
 </g>
 <!-- CartSharedModule -->
 <g id="node4" class="node">
 <title>CartSharedModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="590.03,-122 587.03,-126 566.03,-126 563.03,-122 467.97,-122 467.97,-86 590.03,-86 590.03,-122"/>
-<text text-anchor="middle" x="529" y="-99.8" font-family="Times,serif" font-size="14.00">CartSharedModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="778.03,-122 775.03,-126 754.03,-126 751.03,-122 655.97,-122 655.97,-86 778.03,-86 778.03,-122"/>
+<text text-anchor="middle" x="717" y="-99.8" font-family="Times,serif" font-size="14.00">CartSharedModule</text>
 </g>
 <!-- CartSharedModule&#45;&gt;ReviewSubmitModule -->
 <g id="edge3" class="edge">
 <title>CartSharedModule&#45;&gt;ReviewSubmitModule</title>
-<path fill="none" stroke="black" d="M473.06,-122.11C473.06,-122.11 473.06,-140.99 473.06,-140.99"/>
-<polygon fill="black" stroke="black" points="469.56,-140.99 473.06,-150.99 476.56,-140.99 469.56,-140.99"/>
+<path fill="none" stroke="black" d="M717,-122.02C717,-139.37 717,-163 717,-163 717,-163 573.5,-163 573.5,-163"/>
+<polygon fill="black" stroke="black" points="573.5,-159.5 563.5,-163 573.5,-166.5 573.5,-159.5"/>
 </g>
 <!-- I18nModule -->
 <g id="node5" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="449.71,-122 446.71,-126 425.71,-126 422.71,-122 364.29,-122 364.29,-86 449.71,-86 449.71,-122"/>
-<text text-anchor="middle" x="407" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="637.71,-122 634.71,-126 613.71,-126 610.71,-122 552.29,-122 552.29,-86 637.71,-86 637.71,-122"/>
+<text text-anchor="middle" x="595" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;ReviewSubmitModule -->
 <g id="edge4" class="edge">
 <title>I18nModule&#45;&gt;ReviewSubmitModule</title>
-<path fill="none" stroke="black" d="M407,-122.11C407,-122.11 407,-140.99 407,-140.99"/>
-<polygon fill="black" stroke="black" points="403.5,-140.99 407,-150.99 410.5,-140.99 403.5,-140.99"/>
+<path fill="none" stroke="black" d="M557.89,-122.11C557.89,-122.11 557.89,-140.99 557.89,-140.99"/>
+<polygon fill="black" stroke="black" points="554.39,-140.99 557.89,-150.99 561.39,-140.99 554.39,-140.99"/>
 </g>
 <!-- IconModule -->
 <g id="node6" class="node">
 <title>IconModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="346.43,-122 343.43,-126 322.43,-126 319.43,-122 261.57,-122 261.57,-86 346.43,-86 346.43,-122"/>
-<text text-anchor="middle" x="304" y="-99.8" font-family="Times,serif" font-size="14.00">IconModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="534.43,-122 531.43,-126 510.43,-126 507.43,-122 449.57,-122 449.57,-86 534.43,-86 534.43,-122"/>
+<text text-anchor="middle" x="492" y="-99.8" font-family="Times,serif" font-size="14.00">IconModule</text>
 </g>
 <!-- IconModule&#45;&gt;ReviewSubmitModule -->
 <g id="edge5" class="edge">
 <title>IconModule&#45;&gt;ReviewSubmitModule</title>
-<path fill="none" stroke="black" d="M340.91,-122.11C340.91,-122.11 340.91,-140.99 340.91,-140.99"/>
-<polygon fill="black" stroke="black" points="337.41,-140.99 340.91,-150.99 344.41,-140.99 337.41,-140.99"/>
+<path fill="none" stroke="black" d="M492,-122.11C492,-122.11 492,-140.99 492,-140.99"/>
+<polygon fill="black" stroke="black" points="488.5,-140.99 492,-150.99 495.5,-140.99 488.5,-140.99"/>
 </g>
 <!-- PromotionsModule -->
 <g id="node7" class="node">
 <title>PromotionsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="244.11,-122 241.11,-126 220.11,-126 217.11,-122 119.89,-122 119.89,-86 244.11,-86 244.11,-122"/>
-<text text-anchor="middle" x="182" y="-99.8" font-family="Times,serif" font-size="14.00">PromotionsModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="432.11,-122 429.11,-126 408.11,-126 405.11,-122 307.89,-122 307.89,-86 432.11,-86 432.11,-122"/>
+<text text-anchor="middle" x="370" y="-99.8" font-family="Times,serif" font-size="14.00">PromotionsModule</text>
 </g>
 <!-- PromotionsModule&#45;&gt;ReviewSubmitModule -->
 <g id="edge6" class="edge">
 <title>PromotionsModule&#45;&gt;ReviewSubmitModule</title>
-<path fill="none" stroke="black" d="M182,-122.02C182,-139.37 182,-163 182,-163 182,-163 325.5,-163 325.5,-163"/>
-<polygon fill="black" stroke="black" points="325.5,-166.5 335.5,-163 325.5,-159.5 325.5,-166.5"/>
+<path fill="none" stroke="black" d="M426.34,-122.11C426.34,-122.11 426.34,-140.99 426.34,-140.99"/>
+<polygon fill="black" stroke="black" points="422.84,-140.99 426.34,-150.99 429.84,-140.99 422.84,-140.99"/>
 </g>
 <!-- UrlModule -->
 <g id="node8" class="node">
 <title>UrlModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="102.21,-122 99.21,-126 78.21,-126 75.21,-122 23.79,-122 23.79,-86 102.21,-86 102.21,-122"/>
-<text text-anchor="middle" x="63" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="290.21,-122 287.21,-126 266.21,-126 263.21,-122 211.79,-122 211.79,-86 290.21,-86 290.21,-122"/>
+<text text-anchor="middle" x="251" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
 </g>
 <!-- UrlModule&#45;&gt;ReviewSubmitModule -->
 <g id="edge7" class="edge">
 <title>UrlModule&#45;&gt;ReviewSubmitModule</title>
-<path fill="none" stroke="black" d="M63,-122.28C63,-143.32 63,-175 63,-175 63,-175 325.72,-175 325.72,-175"/>
-<polygon fill="black" stroke="black" points="325.72,-178.5 335.72,-175 325.72,-171.5 325.72,-178.5"/>
+<path fill="none" stroke="black" d="M251,-122.02C251,-139.37 251,-163 251,-163 251,-163 410.67,-163 410.67,-163"/>
+<polygon fill="black" stroke="black" points="410.67,-166.5 420.67,-163 410.67,-159.5 410.67,-166.5"/>
 </g>
 </g>
 </svg>

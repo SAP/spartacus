@@ -24,91 +24,91 @@
 <title>cluster_ConfiguratorCartEntryInfoModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-195 1021,-195 1021,-70 8,-70"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ConfiguratorCartEntryInfoModule_declarations</title>
-<polygon fill="none" stroke="black" points="765,-78 765,-130 1013,-130 1013,-78 765,-78"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorCartEntryInfoModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-78 16,-130 757,-130 757,-78 16,-78"/>
+<polygon fill="none" stroke="black" points="272,-78 272,-130 1013,-130 1013,-78 272,-78"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ConfiguratorCartEntryInfoModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-78 16,-130 264,-130 264,-78 16,-78"/>
 </g>
 <!-- ConfiguratorCartEntryInfoComponent -->
 <g id="node1" class="node">
 <title>ConfiguratorCartEntryInfoComponent</title>
-<polygon fill="#ffffb3" stroke="black" points="1005.17,-122 772.83,-122 772.83,-86 1005.17,-86 1005.17,-122"/>
-<text text-anchor="middle" x="889" y="-99.8" font-family="Times,serif" font-size="14.00">ConfiguratorCartEntryInfoComponent</text>
+<polygon fill="#ffffb3" stroke="black" points="256.17,-122 23.83,-122 23.83,-86 256.17,-86 256.17,-122"/>
+<text text-anchor="middle" x="140" y="-99.8" font-family="Times,serif" font-size="14.00">ConfiguratorCartEntryInfoComponent</text>
 </g>
 <!-- ConfiguratorCartEntryInfoModule -->
 <g id="node2" class="node">
 <title>ConfiguratorCartEntryInfoModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="443.39,-187 440.39,-191 419.39,-191 416.39,-187 232.61,-187 232.61,-151 443.39,-151 443.39,-187"/>
-<text text-anchor="middle" x="338" y="-164.8" font-family="Times,serif" font-size="14.00">ConfiguratorCartEntryInfoModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="574.39,-187 571.39,-191 550.39,-191 547.39,-187 363.61,-187 363.61,-151 574.39,-151 574.39,-187"/>
+<text text-anchor="middle" x="469" y="-164.8" font-family="Times,serif" font-size="14.00">ConfiguratorCartEntryInfoModule</text>
 </g>
 <!-- ConfiguratorCartEntryInfoComponent&#45;&gt;ConfiguratorCartEntryInfoModule -->
 <g id="edge1" class="edge">
 <title>ConfiguratorCartEntryInfoComponent&#45;&gt;ConfiguratorCartEntryInfoModule</title>
-<path fill="none" stroke="black" d="M889,-122.28C889,-143.32 889,-175 889,-175 889,-175 453.26,-175 453.26,-175"/>
-<polygon fill="black" stroke="black" points="453.26,-171.5 443.26,-175 453.26,-178.5 453.26,-171.5"/>
+<path fill="none" stroke="black" d="M140,-122.11C140,-141.34 140,-169 140,-169 140,-169 353.54,-169 353.54,-169"/>
+<polygon fill="black" stroke="black" points="353.54,-172.5 363.54,-169 353.54,-165.5 353.54,-172.5"/>
 </g>
 <!-- ConfiguratorIssuesNotificationModule -->
 <g id="node3" class="node">
 <title>ConfiguratorIssuesNotificationModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="748.72,-122 745.72,-126 724.72,-126 721.72,-122 515.28,-122 515.28,-86 748.72,-86 748.72,-122"/>
-<text text-anchor="middle" x="632" y="-99.8" font-family="Times,serif" font-size="14.00">ConfiguratorIssuesNotificationModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="1004.72,-122 1001.72,-126 980.72,-126 977.72,-122 771.28,-122 771.28,-86 1004.72,-86 1004.72,-122"/>
+<text text-anchor="middle" x="888" y="-99.8" font-family="Times,serif" font-size="14.00">ConfiguratorIssuesNotificationModule</text>
 </g>
 <!-- ConfiguratorIssuesNotificationModule&#45;&gt;ConfiguratorCartEntryInfoModule -->
 <g id="edge2" class="edge">
 <title>ConfiguratorIssuesNotificationModule&#45;&gt;ConfiguratorCartEntryInfoModule</title>
-<path fill="none" stroke="black" d="M632,-122.02C632,-139.37 632,-163 632,-163 632,-163 453.31,-163 453.31,-163"/>
-<polygon fill="black" stroke="black" points="453.31,-159.5 443.31,-163 453.31,-166.5 453.31,-159.5"/>
+<path fill="none" stroke="black" d="M888,-122.11C888,-141.34 888,-169 888,-169 888,-169 584.46,-169 584.46,-169"/>
+<polygon fill="black" stroke="black" points="584.46,-165.5 574.46,-169 584.46,-172.5 584.46,-165.5"/>
 </g>
 <!-- ConfigureCartEntryModule -->
 <g id="node4" class="node">
 <title>ConfigureCartEntryModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="496.52,-122 493.52,-126 472.52,-126 469.52,-122 325.48,-122 325.48,-86 496.52,-86 496.52,-122"/>
-<text text-anchor="middle" x="411" y="-99.8" font-family="Times,serif" font-size="14.00">ConfigureCartEntryModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="752.52,-122 749.52,-126 728.52,-126 725.52,-122 581.48,-122 581.48,-86 752.52,-86 752.52,-122"/>
+<text text-anchor="middle" x="667" y="-99.8" font-family="Times,serif" font-size="14.00">ConfigureCartEntryModule</text>
 </g>
 <!-- ConfigureCartEntryModule&#45;&gt;ConfiguratorCartEntryInfoModule -->
 <g id="edge3" class="edge">
 <title>ConfigureCartEntryModule&#45;&gt;ConfiguratorCartEntryInfoModule</title>
-<path fill="none" stroke="black" d="M384.22,-122.11C384.22,-122.11 384.22,-140.99 384.22,-140.99"/>
-<polygon fill="black" stroke="black" points="380.72,-140.99 384.22,-150.99 387.72,-140.99 380.72,-140.99"/>
+<path fill="none" stroke="black" d="M581.32,-104C573.76,-104 568.9,-104 568.9,-104 568.9,-104 568.9,-140.89 568.9,-140.89"/>
+<polygon fill="black" stroke="black" points="565.4,-140.89 568.9,-150.89 572.4,-140.89 565.4,-140.89"/>
 </g>
 <!-- I18nModule -->
 <g id="node5" class="node">
 <title>I18nModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="307.71,-122 304.71,-126 283.71,-126 280.71,-122 222.29,-122 222.29,-86 307.71,-86 307.71,-122"/>
-<text text-anchor="middle" x="265" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="563.71,-122 560.71,-126 539.71,-126 536.71,-122 478.29,-122 478.29,-86 563.71,-86 563.71,-122"/>
+<text text-anchor="middle" x="521" y="-99.8" font-family="Times,serif" font-size="14.00">I18nModule</text>
 </g>
 <!-- I18nModule&#45;&gt;ConfiguratorCartEntryInfoModule -->
 <g id="edge4" class="edge">
 <title>I18nModule&#45;&gt;ConfiguratorCartEntryInfoModule</title>
-<path fill="none" stroke="black" d="M270.2,-122.11C270.2,-122.11 270.2,-140.99 270.2,-140.99"/>
-<polygon fill="black" stroke="black" points="266.7,-140.99 270.2,-150.99 273.7,-140.99 266.7,-140.99"/>
+<path fill="none" stroke="black" d="M521,-122.11C521,-122.11 521,-140.99 521,-140.99"/>
+<polygon fill="black" stroke="black" points="517.5,-140.99 521,-150.99 524.5,-140.99 517.5,-140.99"/>
 </g>
 <!-- IconModule -->
 <g id="node6" class="node">
 <title>IconModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="204.43,-122 201.43,-126 180.43,-126 177.43,-122 119.57,-122 119.57,-86 204.43,-86 204.43,-122"/>
-<text text-anchor="middle" x="162" y="-99.8" font-family="Times,serif" font-size="14.00">IconModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="460.43,-122 457.43,-126 436.43,-126 433.43,-122 375.57,-122 375.57,-86 460.43,-86 460.43,-122"/>
+<text text-anchor="middle" x="418" y="-99.8" font-family="Times,serif" font-size="14.00">IconModule</text>
 </g>
 <!-- IconModule&#45;&gt;ConfiguratorCartEntryInfoModule -->
 <g id="edge5" class="edge">
 <title>IconModule&#45;&gt;ConfiguratorCartEntryInfoModule</title>
-<path fill="none" stroke="black" d="M162,-122.02C162,-139.37 162,-163 162,-163 162,-163 222.57,-163 222.57,-163"/>
-<polygon fill="black" stroke="black" points="222.57,-166.5 232.57,-163 222.57,-159.5 222.57,-166.5"/>
+<path fill="none" stroke="black" d="M418,-122.11C418,-122.11 418,-140.99 418,-140.99"/>
+<polygon fill="black" stroke="black" points="414.5,-140.99 418,-150.99 421.5,-140.99 414.5,-140.99"/>
 </g>
 <!-- UrlModule -->
 <g id="node7" class="node">
 <title>UrlModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="102.21,-122 99.21,-126 78.21,-126 75.21,-122 23.79,-122 23.79,-86 102.21,-86 102.21,-122"/>
-<text text-anchor="middle" x="63" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="358.21,-122 355.21,-126 334.21,-126 331.21,-122 279.79,-122 279.79,-86 358.21,-86 358.21,-122"/>
+<text text-anchor="middle" x="319" y="-99.8" font-family="Times,serif" font-size="14.00">UrlModule</text>
 </g>
 <!-- UrlModule&#45;&gt;ConfiguratorCartEntryInfoModule -->
 <g id="edge6" class="edge">
 <title>UrlModule&#45;&gt;ConfiguratorCartEntryInfoModule</title>
-<path fill="none" stroke="black" d="M63,-122.28C63,-143.32 63,-175 63,-175 63,-175 222.46,-175 222.46,-175"/>
-<polygon fill="black" stroke="black" points="222.46,-178.5 232.46,-175 222.46,-171.5 222.46,-178.5"/>
+<path fill="none" stroke="black" d="M358.27,-104C364.96,-104 369.8,-104 369.8,-104 369.8,-104 369.8,-140.89 369.8,-140.89"/>
+<polygon fill="black" stroke="black" points="366.3,-140.89 369.8,-150.89 373.3,-140.89 366.3,-140.89"/>
 </g>
 </g>
 </svg>

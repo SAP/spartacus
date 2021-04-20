@@ -361,7 +361,22 @@ function getRequestUrl(req: Request): string {
 }
 
 function getRequestOrigin(req: Request): string {
-  return req.protocol + &#x27;://&#x27; + req.hostname;
+  // If express is resolving and trusting X-Forwarded-Host, we want to take it
+  // into an account to properly generate request origin.
+  const trustProxyFn &#x3D; req.app.get(&#x27;trust proxy fn&#x27;);
+  let forwardedHost &#x3D; req.get(&#x27;X-Forwarded-Host&#x27;);
+  if (forwardedHost &amp;&amp; trustProxyFn(req.connection.remoteAddress, 0)) {
+    if (forwardedHost.indexOf(&#x27;,&#x27;) !&#x3D;&#x3D; -1) {
+      // Note: X-Forwarded-Host is normally only ever a
+      //       single value, but this is to be safe.
+      forwardedHost &#x3D; forwardedHost
+        .substring(0, forwardedHost.indexOf(&#x27;,&#x27;))
+        .trimRight();
+    }
+    return req.protocol + &#x27;://&#x27; + forwardedHost;
+  } else {
+    return req.protocol + &#x27;://&#x27; + req.get(&#x27;host&#x27;);
+  }
 }
 </code></pre>
     </div>

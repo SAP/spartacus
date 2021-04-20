@@ -24,10 +24,6 @@
 <title>cluster_ProductReferencesModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-70 8,-268 571,-268 571,-70 8,-70"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ProductReferencesModule_exports</title>
-<polygon fill="none" stroke="black" points="125,-208 125,-260 331,-260 331,-208 125,-208"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_ProductReferencesModule_declarations</title>
 <polygon fill="none" stroke="black" points="359,-78 359,-130 563,-130 563,-78 359,-78"/>
@@ -35,6 +31,10 @@
 <g id="clust4" class="cluster">
 <title>cluster_ProductReferencesModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-78 16,-130 351,-130 351,-78 16,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ProductReferencesModule_exports</title>
+<polygon fill="none" stroke="black" points="125,-208 125,-260 331,-260 331,-208 125,-208"/>
 </g>
 <!-- ProductReferencesComponent -->
 <g id="node1" class="node">

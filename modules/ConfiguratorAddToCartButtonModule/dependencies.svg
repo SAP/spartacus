@@ -28,13 +28,13 @@
 <title>cluster_ConfiguratorAddToCartButtonModule_declarations</title>
 <polygon fill="none" stroke="black" points="167,-78 167,-130 439,-130 439,-78 167,-78"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorAddToCartButtonModule_exports</title>
-<polygon fill="none" stroke="black" points="110,-208 110,-260 386,-260 386,-208 110,-208"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorAddToCartButtonModule_imports</title>
 <polygon fill="none" stroke="black" points="57,-78 57,-130 159,-130 159,-78 57,-78"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorAddToCartButtonModule_exports</title>
+<polygon fill="none" stroke="black" points="110,-208 110,-260 386,-260 386,-208 110,-208"/>
 </g>
 <!-- ConfiguratorAddToCartButtonComponent -->
 <g id="node1" class="node">

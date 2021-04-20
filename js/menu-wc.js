@@ -891,7 +891,31 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/CdcAuthStoreModule.html" data-type="entity-link">CdcAuthStoreModule</a>
                             </li>
                             <li class="link">
+                                <a href="modules/CdcComponentsModule.html" data-type="entity-link">CdcComponentsModule</a>
+                            </li>
+                            <li class="link">
+                                <a href="modules/CdcCoreModule.html" data-type="entity-link">CdcCoreModule</a>
+                                <li class="chapter inner">
+                                    <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
+                                        'data-target="#injectables-links-module-CdcCoreModule-b26070e6ef3dc20e6d0e06d148be8f90"' : 'data-target="#xs-injectables-links-module-CdcCoreModule-b26070e6ef3dc20e6d0e06d148be8f90"' }>
+                                        <span class="icon ion-md-arrow-round-down"></span>
+                                        <span>Injectables</span>
+                                        <span class="icon ion-ios-arrow-down"></span>
+                                    </div>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-CdcCoreModule-b26070e6ef3dc20e6d0e06d148be8f90"' :
+                                        'id="xs-injectables-links-module-CdcCoreModule-b26070e6ef3dc20e6d0e06d148be8f90"' }>
+                                        <li class="link">
+                                            <a href="injectables/CdcAuthService.html"
+                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>CdcAuthService</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </li>
+                            <li class="link">
                                 <a href="modules/CdcModule.html" data-type="entity-link">CdcModule</a>
+                            </li>
+                            <li class="link">
+                                <a href="modules/CdcRootModule.html" data-type="entity-link">CdcRootModule</a>
                             </li>
                             <li class="link">
                                 <a href="modules/CdsModule.html" data-type="entity-link">CdsModule</a>
@@ -2039,7 +2063,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ForgotPasswordModule-e78b612a06d7cef2e946ec8a80990d34-1"' :
                                             'id="xs-components-links-module-ForgotPasswordModule-e78b612a06d7cef2e946ec8a80990d34-1"' }>
                                             <li class="link">
-                                                <a href="components/ForgotPasswordComponent-1.html"
+                                                <a href="components/ForgotPasswordComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">ForgotPasswordComponent</a>
                                             </li>
                                         </ul>
@@ -2474,7 +2498,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-LoginFormModule-dad3d1611d0ac02414bd81b473fd0f97-1"' :
                                             'id="xs-components-links-module-LoginFormModule-dad3d1611d0ac02414bd81b473fd0f97-1"' }>
                                             <li class="link">
-                                                <a href="components/LoginFormComponent.html"
+                                                <a href="components/LoginFormComponent-1.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">LoginFormComponent</a>
                                             </li>
                                         </ul>
@@ -2611,6 +2635,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         </div>
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-MessageModule-64e30f9bfc9d827bd600f45bb2f5ad30"' :
                                             'id="xs-components-links-module-MessageModule-64e30f9bfc9d827bd600f45bb2f5ad30"' }>
+                                            <li class="link">
+                                                <a href="components/MessageComponent-1.html"
+                                                    data-type="entity-link" data-context="sub-entity" data-context-id="modules">MessageComponent</a>
+                                            </li>
                                             <li class="link">
                                                 <a href="components/MessageComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">MessageComponent</a>
@@ -4109,12 +4137,12 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-SavedCartCoreModule-31733bef184312cd72dc3c0591d8364f"' :
                                         'id="xs-injectables-links-module-SavedCartCoreModule-31733bef184312cd72dc3c0591d8364f"' }>
                                         <li class="link">
-                                            <a href="injectables/SavedCartConnector.html"
-                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>SavedCartConnector</a>
+                                            <a href="injectables/CdcAuthService.html"
+                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>CdcAuthService</a>
                                         </li>
                                         <li class="link">
-                                            <a href="injectables/SavedCartService.html"
-                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>SavedCartService</a>
+                                            <a href="injectables/SavedCartConnector.html"
+                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>SavedCartConnector</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -5178,7 +5206,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-UpdateEmailModule-65c0860adca617cd64a4f055f361b916-1"' :
                                             'id="xs-components-links-module-UpdateEmailModule-65c0860adca617cd64a4f055f361b916-1"' }>
                                             <li class="link">
-                                                <a href="components/UpdateEmailComponent-1.html"
+                                                <a href="components/UpdateEmailComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">UpdateEmailComponent</a>
                                             </li>
                                             <li class="link">
@@ -5323,8 +5351,8 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-UserAccountCoreModule-b8a3fd74c6fca534817005a4637ffd1c"' :
                                         'id="xs-injectables-links-module-UserAccountCoreModule-b8a3fd74c6fca534817005a4637ffd1c"' }>
                                         <li class="link">
-                                            <a href="injectables/SavedCartService.html"
-                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>SavedCartService</a>
+                                            <a href="injectables/CdcAuthService.html"
+                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>CdcAuthService</a>
                                         </li>
                                         <li class="link">
                                             <a href="injectables/UserAccountConnector.html"
@@ -5595,8 +5623,8 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-UserProfileCoreModule-a5a121c2fc4706102d4d67d814de0a47"' :
                                         'id="xs-injectables-links-module-UserProfileCoreModule-a5a121c2fc4706102d4d67d814de0a47"' }>
                                         <li class="link">
-                                            <a href="injectables/SavedCartService.html"
-                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>SavedCartService</a>
+                                            <a href="injectables/CdcAuthService.html"
+                                                data-type="entity-link" data-context="sub-entity" data-context-id="modules" }>CdcAuthService</a>
                                         </li>
                                         <li class="link">
                                             <a href="injectables/UserProfileConnector.html"
@@ -5786,7 +5814,10 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="components/CustomerSelectionComponent-1.html" data-type="entity-link">CustomerSelectionComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/LoginFormComponent-1.html" data-type="entity-link">LoginFormComponent</a>
+                                <a href="components/ForgotPasswordComponent-1.html" data-type="entity-link">ForgotPasswordComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/MessageComponent.html" data-type="entity-link">MessageComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/MockSplitViewComponent.html" data-type="entity-link">MockSplitViewComponent</a>
@@ -5796,6 +5827,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                             </li>
                             <li class="link">
                                 <a href="components/ReplenishmentOrderCancellationComponent.html" data-type="entity-link">ReplenishmentOrderCancellationComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/UpdateEmailComponent-1.html" data-type="entity-link">UpdateEmailComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/UpdatePasswordComponent-1.html" data-type="entity-link">UpdatePasswordComponent</a>
@@ -8357,6 +8391,9 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 </li>
                                 <li class="link">
                                     <a href="injectables/CategoryPageMetaResolver.html" data-type="entity-link">CategoryPageMetaResolver</a>
+                                </li>
+                                <li class="link">
+                                    <a href="injectables/CdcAuthFacade.html" data-type="entity-link">CdcAuthFacade</a>
                                 </li>
                                 <li class="link">
                                     <a href="injectables/CdcAuthService.html" data-type="entity-link">CdcAuthService</a>

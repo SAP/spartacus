@@ -56,7 +56,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>integration-libs/cdc/src/auth/store/effects/cdc-user-token.effect.ts</code>
+            <code>integration-libs/cdc/core/auth/store/effects/cdc-user-token.effect.ts</code>
         </p>
 
 
@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">integration-libs/cdc/src/auth/store/effects/cdc-user-token.effect.ts:48</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">integration-libs/cdc/core/auth/store/effects/cdc-user-token.effect.ts:48</a></div>
                             </td>
                         </tr>
 
@@ -246,7 +246,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">integration-libs/cdc/src/auth/store/effects/cdc-user-token.effect.ts:17</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">integration-libs/cdc/core/auth/store/effects/cdc-user-token.effect.ts:17</a></div>
                             </td>
                         </tr>
 
@@ -268,9 +268,9 @@ import {
 } from &#x27;@spartacus/core&#x27;;
 import { EMPTY, Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, mergeMap, switchMap } from &#x27;rxjs/operators&#x27;;
-import { CdcAuthService } from &#x27;../../facade&#x27;;
+import { CdcAuthService } from &#x27;../../facade/cdc-auth.service&#x27;;
 import { CdcUserAuthenticationTokenService } from &#x27;../../services/user-authentication/cdc-user-authentication-token.service&#x27;;
-import { CdcAuthActions } from &#x27;../actions&#x27;;
+import { CdcAuthActions } from &#x27;../actions/index&#x27;;
 
 @Injectable()
 export class CdcUserTokenEffects {
