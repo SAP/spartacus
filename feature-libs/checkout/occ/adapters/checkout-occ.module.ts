@@ -16,14 +16,14 @@ import {
   OccOrderNormalizer,
   OccReplenishmentOrderFormSerializer,
   OccReplenishmentOrderNormalizer,
-} from './adapters/converters/index';
-import { defaultOccCheckoutConfig } from './adapters/default-occ-checkout-config';
-import { OccCheckoutCostCenterAdapter } from './adapters/occ-checkout-cost-center.adapter';
-import { OccCheckoutDeliveryAdapter } from './adapters/occ-checkout-delivery.adapter';
-import { OccCheckoutPaymentTypeAdapter } from './adapters/occ-checkout-payment-type.adapter';
-import { OccCheckoutPaymentAdapter } from './adapters/occ-checkout-payment.adapter';
-import { OccCheckoutReplenishmentOrderAdapter } from './adapters/occ-checkout-replenishment-order.adapter';
-import { OccCheckoutAdapter } from './adapters/occ-checkout.adapter';
+} from './converters/index';
+import { defaultOccCheckoutConfig } from './default-occ-checkout-config';
+import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
+import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
+import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
+import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
+import { OccCheckoutReplenishmentOrderAdapter } from './occ-checkout-replenishment-order.adapter';
+import { OccCheckoutAdapter } from './occ-checkout.adapter';
 
 @NgModule({
   imports: [CommonModule],

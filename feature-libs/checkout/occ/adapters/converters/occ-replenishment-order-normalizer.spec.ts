@@ -1,0 +1,53 @@
+import { TestBed, waitForAsync } from '@angular/core/testing';
+import { ConverterService, Product, PRODUCT_NORMALIZER } from '@spartacus/core';
+import { OccReplenishmentOrderNormalizer } from './occ-replenishment-order-normalizer';
+
+class MockConverterService {
+  convert() {}
+}
+
+describe('OccReplenishmentOrderNormalizer', () => {
+  let normalizer: OccReplenishmentOrderNormalizer;
+  let converter: ConverterService;
+
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          OccReplenishmentOrderNormalizer,
+          {
+            provide: ConverterService,
+            useClass: MockConverterService,
+          },
+        ],
+      });
+    })
+  );
+
+  beforeEach(() => {
+    normalizer = TestBed.inject(OccReplenishmentOrderNormalizer);
+    converter = TestBed.inject(ConverterService);
+
+    spyOn(converter, 'convert').and.callFake(
+      (product) =>
+        ({
+          ...product,
+          code: (product as Product).code + 'converted',
+        } as any)
+    );
+  });
+
+  it('should create', () => {
+    expect(normalizer).toBeTruthy();
+  });
+
+  it('should convert order entries', () => {
+    const product = { code: 'test1' };
+    const order = {
+      entries: [{ product }],
+    };
+    const result = normalizer.convert(order);
+    expect(result.entries[0].product.code).toBe('test1converted');
+    expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
+  });
+});
