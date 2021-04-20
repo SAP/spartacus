@@ -108,21 +108,6 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     return event;
   }
 
-  onHandleAttributeQuantity(quantity: any): void {
-    this.loading$.next(true);
-
-    const event: ConfigFormUpdateEvent = {
-      changedAttribute: {
-        ...this.attribute,
-        quantity,
-      },
-      ownerKey: this.ownerKey,
-      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-    };
-
-    this.selectionChange.emit(event);
-  }
-
   onSelect(eventValue: any): void {
     this.loading$.next(true);
     this.selectionChange.emit(
