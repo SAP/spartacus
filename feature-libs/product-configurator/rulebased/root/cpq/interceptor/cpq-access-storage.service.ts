@@ -34,7 +34,7 @@ export class CpqAccessStorageService implements OnDestroy {
   protected _cpqAccessData$: BehaviorSubject<CpqAccessData>;
 
   getCpqAccessData(): Observable<CpqAccessData> {
-    if (!this.cpqAccessData$) {
+    if (!this.cpqAccessData$ || this._cpqAccessData$.hasError) {
       this.initCpqAccessData();
     }
     return this.cpqAccessData$;
