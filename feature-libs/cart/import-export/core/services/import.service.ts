@@ -1,21 +1,29 @@
 import { Injectable } from '@angular/core';
 import { Observable, Observer } from 'rxjs';
 import { ImportExportConfig } from '../config/import-export-config';
-import { FileValidity, InvalidFileInfo } from '../model';
+import { FileValidity, InvalidFileInfo } from '../model/import-to-cart.model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ImportExportService {
+export class ImportService {
   constructor(protected importExportConfig: ImportExportConfig) {}
 
-  importFile(
+  /**
+   * Extracts CSV file and process into a JSON data
+   *
+   * @param selectedFile CSV file to extract the data
+   * @param checkValidityEnabled optional flag to disable the validity check
+   * @param validityConfig optional object to pass any custom validity config
+   * @returns processed data from CSV or error data in CSV extraction
+   */
+  loadFile(
     selectedFile: FileList,
-    checkValidityEnabled?: Boolean,
+    checkValidityEnabled = true,
     validityConfig?: FileValidity
-  ): Observable<unknown> {
+  ): Observable<string[][]> {
     const file: File = selectedFile.item(0) as File;
-    return new Observable((observer: Observer<unknown>) => {
+    return new Observable((observer: Observer<string[][]>) => {
       const fileReader: FileReader = new FileReader();
       const checkValidity = this.checkValidity(file, validityConfig);
       if (
@@ -24,7 +32,7 @@ export class ImportExportService {
       ) {
         fileReader.readAsText(file);
         fileReader.onload = () => {
-          observer.next(fileReader.result as string);
+          observer.next(this.readCsvData(fileReader.result as string));
           observer.complete();
         };
         fileReader.onerror = () => {
@@ -37,6 +45,12 @@ export class ImportExportService {
     });
   }
 
+  /**
+   * Combines passed validity config with default
+   *
+   * @param validityConfig optional validity config if passed from parent component
+   * @returns default validity config overridden by passed validity configs
+   */
   protected setValidityConfig(
     validityConfig: FileValidity | undefined
   ): FileValidity {
@@ -46,12 +60,19 @@ export class ImportExportService {
     };
   }
 
+  /**
+   * Checks validity of the file
+   *
+   * @param file CSV file to check
+   * @param validityConfig optional object to pass any custom validity config
+   * @returns validity boolean and invalid file information object if any
+   */
   protected checkValidity(
     file: File,
     validityConfig?: FileValidity
   ): { isFileValid: Boolean; invalidFileInfo: InvalidFileInfo } {
     let isFileValid: Boolean = true;
-    let invalidFileInfo: InvalidFileInfo = {};
+    const invalidFileInfo: InvalidFileInfo = {};
     validityConfig = this.setValidityConfig(validityConfig);
     if (
       validityConfig?.maxSize &&
@@ -71,30 +92,25 @@ export class ImportExportService {
     return { isFileValid, invalidFileInfo };
   }
 
+  /**
+   * Processes the CSV data
+   *
+   * @param csvString raw extracted data from CSV
+   * @param ignoreHeader flag allows for ignore headers row while reading
+   * @returns Processed data containing productCode and quantity
+   */
+  protected readCsvData(csvString: string, ignoreHeader = true): string[][] {
+    return csvString
+      .split('\n')
+      .map((row) =>
+        row.split(this.separator).map((cell) => cell.replace(/"/g, ''))
+      )
+      .filter(
+        (value, index) => !(ignoreHeader && index === 0) || value[0] !== ''
+      );
+  }
+
   private get separator() {
     return this.importExportConfig.importExport.file.separator;
-  }
-  /**
-   * Converts array of objects into CSV data structure.
-   *
-   * @param objectsArray Array of objects which should be converted to CSV.
-   */
-  dataToCsv<T extends { [key: string]: unknown }>(objectsArray: T[]): string {
-    const array =
-      typeof objectsArray != 'object' ? JSON.parse(objectsArray) : objectsArray;
-
-    return array.reduce((csvString: string, row: T) => {
-      const line = Object.keys(row).reduce((currentLine, column) => {
-        currentLine += currentLine !== '' ? this.separator : '';
-        const cell =
-          typeof row[column] === 'string' &&
-          (row[column] as string).includes(this.separator)
-            ? `"${row[column]}"`
-            : row[column];
-
-        return `${currentLine}${cell}`;
-      }, '');
-      return `${csvString}${line}\r\n`;
-    }, '');
   }
 }

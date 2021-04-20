@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { ActiveCartService, OrderEntry } from '@spartacus/core';
-import { ImportExportService } from '@spartacus/cart/import-export/core';
+import { ExportService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { ExportEntriesService } from './export-entries.service';
 export class ExportEntriesComponent {
   constructor(
     protected exportEntriesService: ExportEntriesService,
-    protected importExportService: ImportExportService,
+    protected exportService: ExportService,
     protected activeCartService: ActiveCartService
   ) {}
 
@@ -41,7 +41,7 @@ export class ExportEntriesComponent {
       });
     });
 
-    this.downloadCsv(this.importExportService.dataToCsv(parsedData));
+    this.downloadCsv(this.exportService.dataToCsv(parsedData));
   }
 
   downloadCsv(csvData: any, filename = 'data') {
