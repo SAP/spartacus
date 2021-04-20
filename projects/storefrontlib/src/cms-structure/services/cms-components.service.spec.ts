@@ -1,6 +1,10 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsConfig, ConfigInitializerService, DeferLoadingStrategy } from '@spartacus/core';
+import {
+  CmsConfig,
+  ConfigInitializerService,
+  DeferLoadingStrategy,
+} from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { CmsComponentsService } from './cms-components.service';
 import { FeatureModulesService } from './feature-modules.service';
