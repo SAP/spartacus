@@ -23,7 +23,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeSingleSelectionBundleDropdownComponent>;
   let htmlElem: HTMLElement;
 
-  const ownerKey = 'theOwnerKey';
   const nameFake = 'nameAttribute';
   const attrCode = 1234;
   const groupId = 'theGroupId';
@@ -170,28 +169,8 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     expect(component.attributeDropDownForm.value).toEqual(selectedSingleValue);
   });
 
-  it('should call emit of selectionChange onSelect', () => {
-    component.ownerKey = ownerKey;
-
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-
-    component.onSelect(component.attributeDropDownForm.value);
-
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        ownerKey: ownerKey,
-        changedAttribute: jasmine.objectContaining({
-          name: nameFake,
-          groupId: groupId,
-          selectedSingleValue: component.attributeDropDownForm.value,
-        }),
-      })
-    );
-  });
-
   it('should show product card when product selected', () => {
     component.selectionValue = values[1];
-
     fixture.detectChanges();
 
     const card = htmlElem.querySelector(
@@ -199,66 +178,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     );
 
     expect(card).toBeTruthy();
-  });
-
-  it('should call emit of event onSelect(0)', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-
-    component.onSelect('0');
-
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          ...component.attribute,
-          selectedSingleValue: '0',
-        }),
-        ownerKey: component.ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE,
-      })
-    );
-  });
-
-  it('should call selectionChange on event onChangeQuantity', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-
-    component.onChangeQuantity(2);
-
-    expect(component.selectionChange.emit).toHaveBeenCalled();
-  });
-
-  it('should extract initial quantity from attribute, if a selection is already made', () => {
-    component.attribute.quantity = 3;
-    component.attributeDropDownForm.setValue(values[1].valueCode);
-    expect(
-      component.extractQuantityParameters(component.attributeDropDownForm)
-        .initialQuantity
-    ).toBe(3);
-  });
-
-  it('should set initial quantity to zero if only the "No Option Selected"-Value is selected', () => {
-    component.attribute.quantity = 3;
-    component.attributeDropDownForm.setValue(values[0].valueCode); // value 0 is the "No Option Selected"-Value
-    expect(
-      component.extractQuantityParameters(component.attributeDropDownForm)
-        .initialQuantity
-    ).toBe(0);
-  });
-
-  it('should set initial quantity to zero if no quantity is provided.', () => {
-    component.attributeDropDownForm.setValue(values[1].valueCode);
-    component.attribute.quantity = undefined;
-    expect(
-      component.extractQuantityParameters(component.attributeDropDownForm)
-        .initialQuantity
-    ).toBe(0);
-  });
-
-  it('should set initial quantity to zero if nothing selected', () => {
-    component.attributeDropDownForm.setValue(undefined);
-    expect(
-      component.extractQuantityParameters(component.attributeDropDownForm)
-        .initialQuantity
-    ).toBe(0);
   });
 
   describe('quantity at attribute level', () => {
@@ -299,51 +218,5 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         'cx-configurator-attribute-quantity'
       );
     }
-  });
-
-  describe('price info at attribute level', () => {
-    it('should not display price component', () => {
-      component.attribute.quantity = undefined;
-      component.attribute.dataType =
-        Configurator.DataType.USER_SELECTION_NO_QTY;
-      values[0].valuePrice = undefined;
-      values[0].valuePriceTotal = undefined;
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        'cx-configurator-price'
-      );
-    });
-
-    it('should display price component', () => {
-      component.attribute.dataType =
-        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
-      component.attribute.quantity = 5;
-      component.attribute.attributePriceTotal = {
-        currencyIso: '$',
-        formattedValue: '$10',
-        value: 50,
-      };
-      values[0].selected = false;
-      values[1].valuePrice = {
-        currencyIso: '$',
-        formattedValue: '$10',
-        value: 10,
-      };
-      values[1].valuePriceTotal = {
-        currencyIso: '$',
-        formattedValue: '$100',
-        value: values[1].valuePrice.value ?? 0 * component.attribute.quantity,
-      };
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        'cx-configurator-price'
-      );
-    });
   });
 });

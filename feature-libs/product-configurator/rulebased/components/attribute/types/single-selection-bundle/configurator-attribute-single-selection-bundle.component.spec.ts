@@ -10,27 +10,6 @@ import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-s
 import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 
-const attributeQuantity = 4;
-const selectedValue = 'a';
-
-const createTestValue = (
-  price: number | undefined,
-  total: number | undefined,
-  selected = true
-): Configurator.Value => ({
-  selected,
-  valuePrice: {
-    currencyIso: '$',
-    formattedValue: price ? '$' + price : '',
-    value: price,
-  },
-  valuePriceTotal: {
-    currencyIso: '$',
-    formattedValue: price ? '$' + price : '',
-    value: total,
-  },
-});
-
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
@@ -207,163 +186,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
     expect(getSelected(component, 3)).toEqual(false);
   });
 
-  describe('onSelect', () => {
-    it('should call emit of event onSelect', () => {
-      spyOn(component.selectionChange, 'emit').and.callThrough();
-
-      component.onSelect('1111');
-
-      expect(component.selectionChange.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          changedAttribute: jasmine.objectContaining({
-            ...component.attribute,
-            selectedSingleValue: '1111',
-          }),
-          ownerKey: component.ownerKey,
-          updateType: Configurator.UpdateType.ATTRIBUTE,
-        })
-      );
-    });
-
-    it('should call emit of event onDeselect', () => {
-      spyOn(component.selectionChange, 'emit').and.callThrough();
-
-      component.onSelect('');
-
-      expect(component.selectionChange.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          changedAttribute: jasmine.objectContaining({
-            ...component.attribute,
-            selectedSingleValue: '',
-          }),
-          ownerKey: component.ownerKey,
-          updateType: Configurator.UpdateType.ATTRIBUTE,
-        })
-      );
-    });
-  });
-
-  describe('onHandleQuantity', () => {
-    it('should call emit of event onHandleQuantity', () => {
-      spyOn(component.selectionChange, 'emit').and.callThrough();
-
-      component.onHandleQuantity(2);
-
-      expect(component.selectionChange.emit).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          changedAttribute: jasmine.objectContaining({
-            ...component.attribute,
-            quantity: 2,
-          }),
-          ownerKey: component.ownerKey,
-          updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-        })
-      );
-    });
-  });
-
-  describe('onChangeQuantity', () => {
-    it('should call onDeselect of event onChangeQuantity', () => {
-      spyOn(component, 'onSelect');
-      component.onChangeQuantity(0);
-      expect(component.onSelect).toHaveBeenCalled();
-    });
-
-    it('should call onHandleQuantity of event onChangeQuantity', () => {
-      spyOn(component, 'onHandleQuantity');
-      component.onChangeQuantity(2);
-      expect(component.onHandleQuantity).toHaveBeenCalled();
-    });
-  });
-
-  describe('selected value price calculation', () => {
-    describe('should return number', () => {
-      it('on selected value only', () => {
-        component.attribute = {
-          name: 'testAttribute',
-          values: [createTestValue(100, 100)],
-        };
-        fixture.detectChanges();
-
-        const valuePrice = component['getSelectedValuePrice']();
-        expect(valuePrice?.value).toEqual(100);
-      });
-
-      it('on selected value', () => {
-        component.attribute = {
-          name: 'testAttribute',
-          values: [createTestValue(100, 100), createTestValue(100, 100, false)],
-        };
-        fixture.detectChanges();
-
-        const valuePrice = component['getSelectedValuePrice']();
-        expect(valuePrice?.value).toEqual(100);
-      });
-    });
-
-    describe('should not return price', () => {
-      it('without values property', () => {
-        component.attribute = {
-          name: 'testAttribute',
-        };
-        fixture.detectChanges();
-
-        const valuePrice = component['getSelectedValuePrice']();
-        expect(valuePrice).toBeUndefined();
-      });
-
-      it('without values', () => {
-        component.attribute = {
-          name: 'testAttribute',
-          values: [],
-        };
-        fixture.detectChanges();
-
-        const valuePrice = component['getSelectedValuePrice']();
-        expect(valuePrice).toBeUndefined();
-      });
-
-      it('without price property', () => {
-        component.attribute = {
-          name: 'testAttribute',
-          values: [createTestValue(undefined, undefined)],
-        };
-        fixture.detectChanges();
-
-        const valuePrice = component['getSelectedValuePrice']();
-        expect(valuePrice?.value).toBeUndefined();
-      });
-    });
-  });
-
-  describe('quantity at attribute level', () => {
-    it('should not display attribute quantity when dataType is no quantity', () => {
-      component.attribute.dataType =
-        Configurator.DataType.USER_SELECTION_NO_QTY;
-
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectElementNotPresent(
-        expect,
-        htmlElem,
-        'cx-configurator-attribute-quantity'
-      );
-    });
-
-    it('should display attribute quantity when dataType is with attribute quantity', () => {
-      component.attribute.dataType =
-        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
-
-      fixture.detectChanges();
-
-      CommonConfiguratorTestUtilsService.expectElementPresent(
-        expect,
-        htmlElem,
-        'cx-configurator-attribute-quantity'
-      );
-    });
-  });
-
   describe('price info at attribute level', () => {
     it('should not display price component', () => {
       component.attribute.quantity = undefined;
@@ -410,6 +232,18 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   });
 
   describe('getFocusIdOfNearestValue', () => {
+    it('should return n/a when value is undefined', () => {
+      component.attribute.values = undefined;
+      fixture.detectChanges();
+      expect(component['getFocusIdOfNearestValue'](values[0])).toBe('n/a');
+    });
+
+    it('should return n/a when value is null', () => {
+      component.attribute.values = null;
+      fixture.detectChanges();
+      expect(component['getFocusIdOfNearestValue'](values[0])).toBe('n/a');
+    });
+
     it('should find second value when first is provided', () => {
       expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
         '1111--2222--focus'
@@ -426,26 +260,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
         '1111--1111--focus'
       );
-    });
-  });
-
-  describe('extractQuantityParameters', () => {
-    it('should return 0 as initial if no selected value is specified  ', () => {
-      const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity).toBe(0);
-    });
-
-    it('should return 0 as initial if a selected value but no attribute quantity is specified', () => {
-      component.attribute.selectedSingleValue = selectedValue;
-      const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity).toBe(0);
-    });
-
-    it('should return attribute quantity as initial if a selected value is specified', () => {
-      component.attribute.selectedSingleValue = selectedValue;
-      component.attribute.quantity = attributeQuantity;
-      const quantityParameters = component.extractQuantityParameters();
-      expect(quantityParameters.initialQuantity).toBe(attributeQuantity);
     });
   });
 });

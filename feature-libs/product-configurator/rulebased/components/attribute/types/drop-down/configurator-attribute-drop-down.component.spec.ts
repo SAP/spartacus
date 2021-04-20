@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
@@ -18,7 +17,6 @@ function createValue(code: string, name: string, isSelected: boolean) {
 describe('ConfigAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
-  let htmlElem: HTMLElement;
 
   const ownerKey = 'theOwnerKey';
   const name = 'theName';
@@ -48,7 +46,6 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeDropDownComponent);
-    htmlElem = fixture.nativeElement;
 
     component = fixture.componentInstance;
     component.attribute = {
@@ -87,77 +84,5 @@ describe('ConfigAttributeDropDownComponent', () => {
         }),
       })
     );
-  });
-
-  it('should call emit of selectionChange onHandleQuantity', () => {
-    component.ownerKey = ownerKey;
-
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-
-    component.onHandleQuantity(2);
-
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          name: name,
-          uiType: Configurator.UiType.DROPDOWN,
-          groupId: groupId,
-          selectedSingleValue: component.attributeDropDownForm.value,
-        }),
-        ownerKey: ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-      })
-    );
-  });
-
-  it('should call onHandleQuantity of event onChangeQuantity', () => {
-    spyOn(component, 'onHandleQuantity');
-    component.onChangeQuantity(2);
-    expect(component.onHandleQuantity).toHaveBeenCalled();
-  });
-
-  it('should call onSelect of event onChangeQuantity', () => {
-    spyOn(component, 'onSelect');
-    component.onChangeQuantity(0);
-    expect(component.onSelect).toHaveBeenCalled();
-  });
-
-  it('should not display attribute quantity when dataType is no quantity', () => {
-    component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementNotPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
-  it('should display attribute quantity when dataType is with attribute quantity', () => {
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      '.form-group'
-    );
-  });
-
-  it('should allow quantity', () => {
-    expect(component.withQuantity).toBe(true);
-  });
-
-  // TODO(#11681):remove this test when the quantityService will be a required dependency
-  it('should not allow quantity when service is missing ', () => {
-    component['quantityService'] = undefined;
-    expect(component.withQuantity).toBe(false);
-  });
-
-  it('should allow quantity actions', () => {
-    expect(component.disableQuantityActions).toBe(false);
-  });
-
-  // TODO(#11681):remove this test when the quantityService will be a required dependency
-  it('should not allow quantity actions when service is missing ', () => {
-    component['quantityService'] = undefined;
-    expect(component.disableQuantityActions).toBe(true);
   });
 });

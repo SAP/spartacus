@@ -1,13 +1,13 @@
 import { ConfiguratorAttributeBaseComponent } from './configurator-attribute-base.component';
 import { Directive, EventEmitter, Input, Output } from '@angular/core';
+import { map } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
-import { map } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
-import { FormControl } from '@angular/forms';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
