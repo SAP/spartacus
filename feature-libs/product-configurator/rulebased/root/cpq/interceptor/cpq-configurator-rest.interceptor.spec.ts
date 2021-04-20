@@ -47,8 +47,8 @@ describe('CpqConfiguratorRestInterceptor', () => {
 
   beforeEach(() => {
     cpqAccessStorageServiceMock = jasmine.createSpyObj('mockedAccessService', [
-      'getCachedCpqAccessData',
-      'renewCachedCpqAccessData',
+      'getCpqAccessData',
+      'renewCpqAccessData',
     ]);
     mockedNextHandler = jasmine.createSpyObj('mockedNextHandler', ['handle']);
 
@@ -79,20 +79,22 @@ describe('CpqConfiguratorRestInterceptor', () => {
     cpqResponseStack.push(validCpqResponse);
     cpqResponseStack.push(validCpqResponse);
 
-    asSpy(cpqAccessStorageServiceMock.getCachedCpqAccessData).and.callFake(() =>
+    asSpy(cpqAccessStorageServiceMock.getCpqAccessData).and.callFake(() =>
       of(cpqAccessDataStack[cpqAccessDataStack.length - 1])
     );
-    asSpy(
-      cpqAccessStorageServiceMock.renewCachedCpqAccessData
-    ).and.callFake(() => cpqAccessDataStack.pop());
+    asSpy(cpqAccessStorageServiceMock.renewCpqAccessData).and.callFake(() =>
+      cpqAccessDataStack.pop()
+    );
 
-    asSpy(mockedNextHandler.handle).and.callFake((request) => {
-      capturedRequestsStack.push(request);
-      const cpqResponse = cpqResponseStack.pop();
-      return cpqResponse instanceof HttpErrorResponse
-        ? throwError(cpqResponse)
-        : of(cpqResponse);
-    });
+    asSpy(mockedNextHandler.handle).and.callFake(
+      (request: HttpRequest<any>) => {
+        capturedRequestsStack.push(request);
+        const cpqResponse = cpqResponseStack.pop();
+        return cpqResponse instanceof HttpErrorResponse
+          ? throwError(cpqResponse)
+          : of(cpqResponse);
+      }
+    );
   });
 
   it('should create service', () => {
@@ -115,7 +117,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
   });
 
   it('should call CPQ only once per invocation', (done) => {
-    asSpy(cpqAccessStorageServiceMock.getCachedCpqAccessData).and.callFake(() =>
+    asSpy(cpqAccessStorageServiceMock.getCpqAccessData).and.callFake(() =>
       of(cpqAccessDataStack[0], cpqAccessDataStack[0])
     );
     interceptorUnderTest
@@ -165,7 +167,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
       .subscribe(() => {
         expect(
           capturedRequestsStack.pop()?.headers.has('x-cpq-session-id')
-        ).toBeFalse();
+        ).toBeFalsy();
         interceptorUnderTest
           .intercept(cpqRequest, mockedNextHandler)
           .subscribe(() => {
@@ -187,13 +189,13 @@ describe('CpqConfiguratorRestInterceptor', () => {
       .subscribe(() => {
         expect(
           capturedRequestsStack.pop()?.headers.has('x-cpq-session-id')
-        ).toBeFalse();
+        ).toBeFalsy();
         interceptorUnderTest
           .intercept(cpqRequest, mockedNextHandler)
           .subscribe(() => {
             expect(
               capturedRequestsStack.pop()?.headers.has('x-cpq-session-id')
-            ).toBeFalse();
+            ).toBeFalsy();
             done();
           });
       });
@@ -211,17 +213,17 @@ describe('CpqConfiguratorRestInterceptor', () => {
       .intercept(cpqRequest, mockedNextHandler)
       .subscribe(() => {
         expect(
-          cpqAccessStorageServiceMock.getCachedCpqAccessData
+          cpqAccessStorageServiceMock.getCpqAccessData
         ).toHaveBeenCalledTimes(2);
         expect(
-          cpqAccessStorageServiceMock.renewCachedCpqAccessData
+          cpqAccessStorageServiceMock.renewCpqAccessData
         ).toHaveBeenCalled();
         expect(mockedNextHandler.handle).toHaveBeenCalledTimes(2);
         // last request with new token
         expect(capturedRequestsStack.pop()?.headers.get('Authorization')).toBe(
           'Bearer TOKEN'
         );
-        // initial requets with expired token
+        // initial requests with expired token
         expect(capturedRequestsStack.pop()?.headers.get('Authorization')).toBe(
           'Bearer EXPIRED_TOKEN'
         );
@@ -233,13 +235,13 @@ describe('CpqConfiguratorRestInterceptor', () => {
     cpqResponseStack = [];
     cpqResponseStack.push(new HttpErrorResponse({ status: 401 })); // first error
     interceptorUnderTest.intercept(cpqRequest, mockedNextHandler).subscribe(
-      () => fail('error should be propageted'),
+      () => fail('error should be propagated'),
       () => {
         expect(
-          cpqAccessStorageServiceMock.getCachedCpqAccessData
+          cpqAccessStorageServiceMock.getCpqAccessData
         ).toHaveBeenCalledTimes(1);
         expect(
-          cpqAccessStorageServiceMock.renewCachedCpqAccessData
+          cpqAccessStorageServiceMock.renewCpqAccessData
         ).not.toHaveBeenCalled();
         expect(mockedNextHandler.handle).toHaveBeenCalledTimes(1);
         done();

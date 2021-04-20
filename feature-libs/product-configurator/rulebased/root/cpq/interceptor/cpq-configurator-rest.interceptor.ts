@@ -36,7 +36,7 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
     if (!request.headers.has(MARKER_HEADER_CPQ_CONFIGURATOR)) {
       return next.handle(request);
     }
-    return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
+    return this.cpqAccessStorageService.getCpqAccessData().pipe(
       take(1), // avoid request being re-executed when token expires
       switchMap((cpqData) => {
         return next.handle(this.enrichHeaders(request, cpqData)).pipe(
@@ -56,8 +56,8 @@ export class CpqConfiguratorRestInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     if (errorResponse instanceof HttpErrorResponse) {
       if (errorResponse.status === 403) {
-        this.cpqAccessStorageService.renewCachedCpqAccessData();
-        return this.cpqAccessStorageService.getCachedCpqAccessData().pipe(
+        this.cpqAccessStorageService.renewCpqAccessData();
+        return this.cpqAccessStorageService.getCpqAccessData().pipe(
           take(1),
           switchMap((newCpqData) => {
             return next
