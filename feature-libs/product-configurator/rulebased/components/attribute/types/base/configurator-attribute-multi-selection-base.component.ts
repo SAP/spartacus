@@ -87,4 +87,19 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
       disableQuantityActions$: disableQuantityActions$,
     };
   }
+
+  onHandleAttributeQuantity(quantity: number): void {
+    this.loading$.next(true);
+
+    const event: ConfigFormUpdateEvent = {
+      changedAttribute: {
+        ...this.attribute,
+        quantity,
+      },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
+    };
+
+    this.selectionChange.emit(event);
+  }
 }
