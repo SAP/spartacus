@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,
-  SavedCartService,
-} from '@spartacus/cart/saved-cart/core';
+  SavedCartFacade,
+} from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   ClearCheckoutService,
@@ -59,7 +59,7 @@ class MockRoutingService implements Partial<RoutingService> {
   go(): void {}
 }
 
-class MockSavedCartService implements Partial<SavedCartService> {
+class MockSavedCartFacade implements Partial<SavedCartFacade> {
   saveCart({}: {
     cartId: string;
     saveCartName?: string;
@@ -103,7 +103,7 @@ describe('SavedCartFormDialogComponent', () => {
   let component: SavedCartFormDialogComponent;
   let fixture: ComponentFixture<SavedCartFormDialogComponent>;
   let globalMessageService: GlobalMessageService;
-  let savedCartService: SavedCartService;
+  let savedCartService: SavedCartFacade;
   let eventService: EventService;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
@@ -115,7 +115,7 @@ describe('SavedCartFormDialogComponent', () => {
       declarations: [SavedCartFormDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-        { provide: SavedCartService, useClass: MockSavedCartService },
+        { provide: SavedCartFacade, useClass: MockSavedCartFacade },
         {
           provide: EventService,
           useClass: MockEventService,
@@ -130,7 +130,7 @@ describe('SavedCartFormDialogComponent', () => {
     }).compileComponents();
 
     globalMessageService = TestBed.inject(GlobalMessageService);
-    savedCartService = TestBed.inject(SavedCartService);
+    savedCartService = TestBed.inject(SavedCartFacade);
     eventService = TestBed.inject(EventService);
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);

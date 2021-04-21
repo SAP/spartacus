@@ -84,8 +84,8 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
     - [ ] `npm run release:smartedit:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:product-configurator:with-changelog` (needed since `3.1.0-next.0`)
-    - [ ] `npm run release:cdc:with-changelog` (since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
-      - [ ] before the script set the spartacus peerDependencies manually (as we publish it under 0.201.0-next.0 version)
+    - [ ] `npm run release:cdc:with-changelog` (since 3.2.0 release like any other lib with the same version as everything else. For older versions since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
+      - [ ] before the script set the spartacus peerDependencies manually (only applies to <3.2.0 releases)
 - [ ] Check that the release notes are populated on github (if they are not, update them)
 - [ ] Check tags on npm.
   - `next` tag should always reference the last non-stable version
@@ -103,7 +103,7 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
   - [ ] Run the installation script to make sure you can create a shell app with the latest imported libraries with no errors:
 
     ```bash
-    cd scripts/install && run.sh install_npm
+    cd scripts/install && ./run.sh install_npm
     ```
 
 - [ ] Merge release branch (PR from release/x.y.z) to the maintenance branch

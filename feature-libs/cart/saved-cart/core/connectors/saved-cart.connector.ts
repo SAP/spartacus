@@ -3,9 +3,7 @@ import { Cart } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { SavedCartAdapter } from './saved-cart.adapter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SavedCartConnector {
   constructor(protected adapter: SavedCartAdapter) {}
 

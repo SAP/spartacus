@@ -10,18 +10,31 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "strict": false, // TODO: Fix strict errors and remove this option
+    "strict": true,
     "types": [],
     "lib": ["dom", "esnext"],
     "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/asm/assets": ["dist/asm/assets"],
       "@spartacus/asm/components": ["dist/asm/components"],
       "@spartacus/asm/core": ["dist/asm/core"],
       "@spartacus/asm": ["dist/asm"],
       "@spartacus/asm/occ": ["dist/asm/occ"],
-      "@spartacus/asm/root": ["dist/asm/root"]
+      "@spartacus/asm/root": ["dist/asm/root"],
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/user/account/assets": ["dist/user/account/assets"],
+      "@spartacus/user/account/components": ["dist/user/account/components"],
+      "@spartacus/user/account/core": ["dist/user/account/core"],
+      "@spartacus/user/account": ["dist/user/account"],
+      "@spartacus/user/account/occ": ["dist/user/account/occ"],
+      "@spartacus/user/account/root": ["dist/user/account/root"],
+      "@spartacus/user": ["dist/user"],
+      "@spartacus/user/profile/assets": ["dist/user/profile/assets"],
+      "@spartacus/user/profile/components": ["dist/user/profile/components"],
+      "@spartacus/user/profile/core": ["dist/user/profile/core"],
+      "@spartacus/user/profile": ["dist/user/profile"],
+      "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
+      "@spartacus/user/profile/root": ["dist/user/profile/root"]
     }
   },
   "angularCompilerOptions": {
@@ -31,5 +44,5 @@
     "strictInjectionParameters": true,
     "enableResourceInlining": true
   },
-  "exclude": ["src/test.ts", "**/*.spec.ts"]
+  "exclude": ["test.ts", "**/*.spec.ts"]
 }

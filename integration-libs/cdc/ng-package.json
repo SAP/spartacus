@@ -5,11 +5,13 @@
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
       "@spartacus/core": "core",
-      "@spartacus/storefront": "storefront",
-      "@spartacus/asm": "asm",
-      "rxjs": "rxjs",
-      "@ngrx/store": "store",
-      "@ngrx/effects": "effects"
+      "@spartacus/storefront": "storefront"
     }
-  }
+  },
+  "assets": [
+    "**/*.scss",
+    "migrations/**/*.json",
+    "schematics/**/*.json",
+    "schematics/**/*.js"
+  ]
 }
