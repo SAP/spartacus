@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
@@ -20,14 +20,17 @@ import { SiteContext } from './site-context.interface';
  */
 @Injectable()
 export class LanguageService implements SiteContext<Language> {
-  private sessionStorage: Storage;
+  private sessionStorage: Storage | undefined;
 
+  // TODO: remove winRef for 4.0
   constructor(
     protected store: Store<StateWithSiteContext>,
-    winRef: WindowRef,
+    @Optional() winRef: WindowRef,
     protected config: SiteContextConfig
   ) {
-    this.sessionStorage = winRef.sessionStorage;
+    if (winRef) {
+      this.sessionStorage = winRef.sessionStorage;
+    }
   }
 
   /**
@@ -71,6 +74,8 @@ export class LanguageService implements SiteContext<Language> {
   }
 
   /**
+   * @deprecated since 3.3, The language context is persisted via the state persistence mechanism
+   *
    * Initials the active language. The active language is either given
    * by the last visit (stored in session storage) or by the
    * default session language of the store.

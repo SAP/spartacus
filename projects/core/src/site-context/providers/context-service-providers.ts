@@ -5,6 +5,7 @@ import { CurrencyService } from '../facade/currency.service';
 import { LanguageService } from '../facade/language.service';
 import { SiteContextRoutesHandler } from '../services/site-context-routes-handler';
 
+// TODO 4.0: remove the deprecated initialization
 export function initializeContext(
   baseSiteService: BaseSiteService,
   langService: LanguageService,
