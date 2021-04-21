@@ -11,8 +11,9 @@ const cmsComponents: string[] = [
   'ConfiguratorOverviewBanner',
   'ConfiguratorPrevNext',
   'ConfiguratorPriceSummary',
-  'ConfiguratorTitle',
+  'ConfiguratorProductTitle',
   'ConfiguratorTabBar',
+  'CpqConfiguratorConflictAndErrorMessagesComponent',
 ];
 
 /**
