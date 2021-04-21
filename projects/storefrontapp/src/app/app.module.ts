@@ -14,10 +14,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, provideConfig, TestConfigModule } from '@spartacus/core';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
-import {
-  CpqConfiguratorRootModule,
-  RulebasedConfiguratorRootModule,
-} from '@spartacus/product-configurator/rulebased/root';
+import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';
 import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
@@ -95,7 +92,6 @@ if (!environment.production) {
       },
     }),
     RulebasedConfiguratorRootModule,
-    CpqConfiguratorRootModule,
     TextfieldConfiguratorRootModule,
     // PRODUCT CONFIGURATOR END
 
