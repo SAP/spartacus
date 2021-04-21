@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
+import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [CdcRootModule],
   providers: [
-    provideConfig({
-      [CDC_FEATURE]: [
+    provideConfig(<CdcConfig>{
+      cdc: [
         {
           baseSite: 'electronics-cdc',
           javascriptUrl: '',
@@ -22,7 +22,7 @@ import { provideConfig } from '@spartacus/core';
     }),
     provideConfig({
       featureModules: {
-        cdc: {
+        [CDC_FEATURE]: {
           module: () => import('@spartacus/cdc').then((m) => m.CdcModule),
         },
       },
