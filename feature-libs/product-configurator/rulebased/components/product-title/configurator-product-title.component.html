@@ -6,8 +6,7 @@
     <a
       role="link"
       (click)="triggerDetails()"
-      (keydown)="preventScrollingOnSpace($event)"
-      (keyup)="clickOnEnterAndSpace($event)"
+      (keyup)="clickOnEnter($event)"
       tabindex="0"
     >
       <ng-container *ngIf="!showMore">
