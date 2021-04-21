@@ -184,13 +184,13 @@ describe('CpqConfiguratorSerializer', () => {
   describe('single selection types', () => {
     it('should convert radio button', () => {
       verifyUpdateAttributeSingleValue(
-        cpqConfiguratorSerializer.convertAttribute(attributeRB, configId)
+        cpqConfiguratorSerializer['convertAttribute'](attributeRB, configId)
       );
     });
 
     it('should convert radio button (product)', () => {
       verifyUpdateAttributeSingleValue(
-        cpqConfiguratorSerializer.convertAttribute(
+        cpqConfiguratorSerializer['convertAttribute'](
           attributeRB_PRODUCT,
           configId
         )
@@ -199,13 +199,13 @@ describe('CpqConfiguratorSerializer', () => {
 
     it('should convert dropdown', () => {
       verifyUpdateAttributeSingleValue(
-        cpqConfiguratorSerializer.convertAttribute(attributeDDLB, configId)
+        cpqConfiguratorSerializer['convertAttribute'](attributeDDLB, configId)
       );
     });
 
     it('should convert dropdown (product)', () => {
       verifyUpdateAttributeSingleValue(
-        cpqConfiguratorSerializer.convertAttribute(
+        cpqConfiguratorSerializer['convertAttribute'](
           attributeDDLB_PRODUCT,
           configId
         )
@@ -214,7 +214,7 @@ describe('CpqConfiguratorSerializer', () => {
 
     it('should convert single-selection-image', () => {
       verifyUpdateAttributeSingleValue(
-        cpqConfiguratorSerializer.convertAttribute(attributeSSI, configId)
+        cpqConfiguratorSerializer['convertAttribute'](attributeSSI, configId)
       );
     });
   });
@@ -222,19 +222,19 @@ describe('CpqConfiguratorSerializer', () => {
   describe('multi selection types', () => {
     it('should convert checkbox', () => {
       verifyUpdateAttributeMultiValue(
-        cpqConfiguratorSerializer.convertAttribute(attributeCB, configId)
+        cpqConfiguratorSerializer['convertAttribute'](attributeCB, configId)
       );
     });
 
     it('should convert checkboxlist', () => {
       verifyUpdateAttributeMultiValue(
-        cpqConfiguratorSerializer.convertAttribute(attributeCBList, configId)
+        cpqConfiguratorSerializer['convertAttribute'](attributeCBList, configId)
       );
     });
 
     it('should convert checkboxlist (product)', () => {
       verifyUpdateAttributeMultiValue(
-        cpqConfiguratorSerializer.convertAttribute(
+        cpqConfiguratorSerializer['convertAttribute'](
           attributeCBList_PRODUCT,
           configId
         )
@@ -243,20 +243,18 @@ describe('CpqConfiguratorSerializer', () => {
 
     it('should convert multi-selection-image', () => {
       verifyUpdateAttributeMultiValue(
-        cpqConfiguratorSerializer.convertAttribute(attributeMSI, configId)
+        cpqConfiguratorSerializer['convertAttribute'](attributeMSI, configId)
       );
     });
   });
 
   it('should convert user input attribute types correctly', () => {
-    const updateAttributeString: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convertAttribute(
-      attributeString,
-      configId
-    );
-    const updateAttributeNumeric: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convertAttribute(
-      attributeNumeric,
-      configId
-    );
+    const updateAttributeString: Cpq.UpdateAttribute = cpqConfiguratorSerializer[
+      'convertAttribute'
+    ](attributeString, configId);
+    const updateAttributeNumeric: Cpq.UpdateAttribute = cpqConfiguratorSerializer[
+      'convertAttribute'
+    ](attributeNumeric, configId);
 
     verifyUpdateAttributeUserInput(updateAttributeString);
     verifyUpdateAttributeUserInput(updateAttributeNumeric);
@@ -267,48 +265,47 @@ describe('CpqConfiguratorSerializer', () => {
       ...attributeString,
       userInput: '',
     };
-    const updateAttributeWithEmptyUserInput: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convertAttribute(
-      attributeWithEmptyUserInput,
-      configId
-    );
+    const updateAttributeWithEmptyUserInput: Cpq.UpdateAttribute = cpqConfiguratorSerializer[
+      'convertAttribute'
+    ](attributeWithEmptyUserInput, configId);
     expect(
       updateAttributeWithEmptyUserInput.changeAttributeValue.userInput
     ).toBe(' ');
   });
 
   it('should process single selected value correctly', () => {
-    const processedValue: string = cpqConfiguratorSerializer.processSelectedSingleValue(
-      selectedSingleValue
-    );
+    const processedValue: string = cpqConfiguratorSerializer[
+      'processSelectedSingleValue'
+    ](selectedSingleValue);
     expect(processedValue).toBe(selectedSingleValue);
   });
 
   it('should process single selected value correctly when no value is selected', () => {
-    const singleValue = null;
-    const processedValue: string = cpqConfiguratorSerializer.processSelectedSingleValue(
-      singleValue
-    );
+    const singleValue = undefined;
+    const processedValue: string = cpqConfiguratorSerializer[
+      'processSelectedSingleValue'
+    ](singleValue);
     expect(processedValue).toBe(expectedProcessedSingleValueNoValue);
   });
 
   it('should prepare value ids correctly', () => {
-    const valueIds: string = cpqConfiguratorSerializer.prepareValueIds(
+    const valueIds: string = cpqConfiguratorSerializer['prepareValueIds'](
       attributeCBList
     );
     expect(valueIds).toBe(expectedValueIdsMulti);
   });
 
   it('should prepare value ids correctly when nothing is selected', () => {
-    const valueIds: string = cpqConfiguratorSerializer.prepareValueIds(
+    const valueIds: string = cpqConfiguratorSerializer['prepareValueIds'](
       attributeCBListNoSelection
     );
     expect(valueIds).toBe(expectedValueIdsMultiNoSelection);
   });
 
   it('should find first updated attribute correctly', () => {
-    const attribute: Configurator.Attribute = cpqConfiguratorSerializer.findFirstChangedAttribute(
-      configuration
-    );
+    const attribute: Configurator.Attribute = cpqConfiguratorSerializer[
+      'findFirstChangedAttribute'
+    ](configuration);
     expect(attribute).toBe(firstAttribute);
   });
 

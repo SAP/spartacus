@@ -21,7 +21,7 @@ export class CpqConfiguratorSerializer
     return updateAttribute;
   }
 
-  convertQuantity(
+  protected convertQuantity(
     attribute: Configurator.Attribute,
     configId: string
   ): Cpq.UpdateAttribute {
@@ -34,13 +34,13 @@ export class CpqConfiguratorSerializer
     return updateAttribute;
   }
 
-  findFirstChangedAttribute(
+  protected findFirstChangedAttribute(
     source: Configurator.Configuration
   ): Configurator.Attribute {
     return source.groups[0].attributes[0];
   }
 
-  convertAttribute(
+  protected convertAttribute(
     attribute: Configurator.Attribute,
     configurationId: string
   ): Cpq.UpdateAttribute {
@@ -82,8 +82,8 @@ export class CpqConfiguratorSerializer
     return updateAttribute;
   }
 
-  processSelectedSingleValue(singleValue: string): string {
-    let processedValue: string = singleValue;
+  protected processSelectedSingleValue(singleValue?: string): string {
+    let processedValue = singleValue;
     if (!processedValue) {
       // Is required to remove the value
       processedValue = VALUE_SEPARATOR;
@@ -91,7 +91,7 @@ export class CpqConfiguratorSerializer
     return processedValue;
   }
 
-  prepareValueIds(attribute: Configurator.Attribute): string {
+  protected prepareValueIds(attribute: Configurator.Attribute): string {
     let valueIds = '';
     const selectedValues: Configurator.Value[] = attribute.values.filter(
       (value) => value.selected
