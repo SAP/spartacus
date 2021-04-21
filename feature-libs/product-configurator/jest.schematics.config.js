@@ -11,7 +11,7 @@ module.exports = {
       tsconfig: './tsconfig.schematics.json',
     },
   },
-  
+
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
   coverageDirectory: '<rootDir>/../../coverage/storefinder/schematics',
