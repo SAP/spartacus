@@ -1,0 +1,9 @@
+cx-import-entries-link cx-import-entries {
+  input {
+    display: none;
+  }
+  button {
+    flex: 0 0 calc(50% - 10px);
+    margin-top: 0.5rem;
+  }
+}

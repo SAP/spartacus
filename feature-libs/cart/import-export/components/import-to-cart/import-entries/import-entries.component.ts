@@ -1,15 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ImportToCartService } from './import-to-cart.service';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
+import { ImportToCartService } from '../import-to-cart.service';
 
 @Component({
-  selector: 'cx-import-to-cart',
-  templateUrl: './import-to-cart.component.html',
+  selector: 'cx-import-entries',
+  templateUrl: './import-entries.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportToCartComponent {
-  protected subscription = new Subscription();
+export class ImportEntriesComponent {
   constructor(
     protected importExportConfig: ImportExportConfig,
     protected importToCartService: ImportToCartService

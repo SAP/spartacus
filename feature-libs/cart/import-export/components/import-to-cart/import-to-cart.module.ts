@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
-import { ImportToCartComponent } from './import-to-cart.component';
 import { ImportToCartService } from './import-to-cart.service';
+import { ImportEntriesLinkComponent } from './import-entries-link/import-entries-link-component';
 
 @NgModule({
   imports: [
@@ -12,14 +12,13 @@ import { ImportToCartService } from './import-to-cart.service';
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         ImportProductsLinkComponent: {
-          component: ImportToCartComponent,
+          component: ImportEntriesLinkComponent,
         },
       },
     }),
   ],
-  exports: [ImportToCartComponent],
-  declarations: [ImportToCartComponent],
-  entryComponents: [ImportToCartComponent],
+  exports: [ImportEntriesLinkComponent],
+  declarations: [ImportEntriesLinkComponent],
   providers: [ImportToCartService, SavedCartService],
 })
 export class ImportToCartModule {}
