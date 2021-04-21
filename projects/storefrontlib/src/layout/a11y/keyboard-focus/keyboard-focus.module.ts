@@ -40,8 +40,6 @@ export class KeyboardFocusModule {}
 export function keyboardFocusFactory(
   onNavigateFocusService: OnNavigateFocusService
 ) {
-  const isReady = () => {
-    onNavigateFocusService.enableResetFocusOnNavigate();
-  };
+  const isReady = () => onNavigateFocusService.initializeWithConfig();
   return isReady;
 }
