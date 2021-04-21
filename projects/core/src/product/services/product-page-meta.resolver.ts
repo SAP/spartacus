@@ -39,6 +39,17 @@ export class ProductPageMetaResolver
     PageBreadcrumbResolver,
     PageImageResolver,
     PageRobotsResolver {
+  constructor(
+    protected routingService: RoutingService,
+    protected productService: ProductService,
+    protected translation: TranslationService,
+    protected basePageMetaResolver: BasePageMetaResolver,
+    protected pageLinkService: PageLinkService
+  ) {
+    super();
+    this.pageType = PageType.PRODUCT_PAGE;
+  }
+
   // reusable observable for product data based on the current page
   protected product$: Observable<Product> = this.routingService
     .getRouterState()
@@ -48,45 +59,6 @@ export class ProductPageMetaResolver
       switchMap((code) => this.productService.get(code, ProductScope.DETAILS)),
       filter((p) => Boolean(p))
     );
-
-  // TODO(#10467): Remove deprecated constructors
-  constructor(
-    routingService: RoutingService,
-    productService: ProductService,
-    translation: TranslationService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    basePageMetaResolver?: BasePageMetaResolver,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    pageLinkService?: PageLinkService
-  );
-  /**
-   * @deprecated since 3.2, we'll use the PageLinkService in future versions
-   */
-  constructor(
-    routingService: RoutingService,
-    productService: ProductService,
-    translation: TranslationService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    basePageMetaResolver?: BasePageMetaResolver
-  );
-  /**
-   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
-   */
-  constructor(
-    routingService: RoutingService,
-    productService: ProductService,
-    translation: TranslationService
-  );
-  constructor(
-    protected routingService: RoutingService,
-    protected productService: ProductService,
-    protected translation: TranslationService,
-    protected basePageMetaResolver?: BasePageMetaResolver,
-    protected pageLinkService?: PageLinkService
-  ) {
-    super();
-    this.pageType = PageType.PRODUCT_PAGE;
-  }
 
   /**
    * Resolves the page heading for the Product Detail Page.
@@ -180,14 +152,8 @@ export class ProductPageMetaResolver
     return product.manufacturer ? ` | ${product.manufacturer}` : '';
   }
 
-  /**
-   * Resolves the robot information for the Product Detail Page. The
-   * robot instruction defaults to FOLLOW and INDEX for all product pages,
-   * regardless of whether they're purchasable or not.
-   */
-  // TODO(#10467): resolve robots from `BasePageMetaResolver` instead
   resolveRobots(): Observable<PageRobotsMeta[]> {
-    return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
+    return this.basePageMetaResolver.resolveRobots();
   }
 
   /**
@@ -211,8 +177,7 @@ export class ProductPageMetaResolver
           cxRoute: 'product',
           params: product,
         });
-        // TODO (#10467): remove optional pageLinkService and undefined assertion when we pageLinkService becomes default
-        return this.pageLinkService?.getCanonicalUrl({}, url) ?? '';
+        return this.pageLinkService.getCanonicalUrl({}, url);
       })
     );
   }
