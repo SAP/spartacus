@@ -40,35 +40,6 @@ if (!environment.production) {
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     SpartacusModule,
-    ConfigModule.withConfig({
-      backend: {
-        occ: {
-          baseUrl: environment.occBaseUrl,
-          prefix: environment.occApiPrefix,
-        },
-      },
-
-      // custom routing configuration for e2e testing
-      routing: {
-        routes: {
-          product: {
-            paths: ['product/:productCode/:name', 'product/:productCode'],
-            paramsMapping: { name: 'slug' },
-          },
-        },
-      },
-
-      // we bring in static translations to be up and running soon right away
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en',
-      },
-
-      features: {
-        level: '3.2',
-      },
-    }),
 
     // PRODUCT CONFIGURATOR
     // TODO(#10883): Move product configurator to a separate feature module
