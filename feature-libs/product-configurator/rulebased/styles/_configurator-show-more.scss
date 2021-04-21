@@ -13,6 +13,10 @@
         color: var(--cx-color-primary);
         text-decoration: underline;
       }
+
+      &:focus {
+        @include visible-focus();
+      }
     }
   }
 }
