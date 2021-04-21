@@ -21,9 +21,9 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
+import collectedDependencies from '../dependencies.json';
 import {
   ANGULAR_PLATFORM_BROWSER,
-  ANGULAR_UNIVERSAL_EXPRESS_VERSION,
   NGUNIVERSAL_EXPRESS_ENGINE,
   SPARTACUS_SETUP,
 } from '../shared/constants';
@@ -42,10 +42,15 @@ import {
   addToModuleImportsAndCommitChanges,
 } from '../shared/utils/module-file-utils';
 import {
-  getAngularVersion,
   getSpartacusSchematicsVersion,
   readPackageJson,
 } from '../shared/utils/package-utils';
+
+const DEPENDENCY_NAMES: string[] = [
+  '@angular/platform-server',
+  NGUNIVERSAL_EXPRESS_ENGINE,
+  'ts-loader',
+];
 
 function modifyAppServerModuleFile(): Rule {
   return (tree: Tree, context: SchematicContext) => {
@@ -147,39 +152,35 @@ function modifyAppModuleFile(): Rule {
   };
 }
 
+function prepareDependencies(): NodeDependency[] {
+  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+
+  const spartacusDependencies: NodeDependency[] = [];
+  spartacusDependencies.push({
+    type: NodeDependencyType.Default,
+    version: spartacusVersion,
+    name: SPARTACUS_SETUP,
+  });
+
+  const thirdPartyDependencies: NodeDependency[] = [];
+  for (const dependencyName of DEPENDENCY_NAMES) {
+    thirdPartyDependencies.push({
+      type: NodeDependencyType.Default,
+      version: (collectedDependencies.storefrontapp as any)[dependencyName],
+      name: dependencyName,
+    });
+  }
+
+  return spartacusDependencies.concat(thirdPartyDependencies);
+}
+
 export function addSSR(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const serverTemplate = provideServerFile(options);
-    const packageJsonObject = readPackageJson(tree);
-
-    const angularVersion = getAngularVersion(tree);
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-
-    const dependencies: NodeDependency[] = [
-      {
-        type: NodeDependencyType.Default,
-        version: angularVersion,
-        name: '@angular/platform-server',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: ANGULAR_UNIVERSAL_EXPRESS_VERSION,
-        name: NGUNIVERSAL_EXPRESS_ENGINE,
-      },
-      {
-        type: NodeDependencyType.Dev,
-        version: '^6.0.4',
-        name: 'ts-loader',
-      },
-      {
-        type: NodeDependencyType.Default,
-        version: spartacusVersion,
-        name: SPARTACUS_SETUP,
-      },
-    ];
+    const packageJson = readPackageJson(tree);
 
     return chain([
-      addPackageJsonDependencies(dependencies, packageJsonObject),
+      addPackageJsonDependencies(prepareDependencies(), packageJson),
       externalSchematic(NGUNIVERSAL_EXPRESS_ENGINE, 'ng-add', {
         clientProject: options.project,
       }),

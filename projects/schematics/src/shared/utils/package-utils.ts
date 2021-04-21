@@ -1,6 +1,6 @@
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import { version } from '../../../package.json';
-import { ANGULAR_CORE, DEFAULT_ANGULAR_VERSION, UTF_8 } from '../constants';
+import { UTF_8 } from '../constants';
 import { getServerTsPath } from './file-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
 
@@ -12,15 +12,6 @@ export function readPackageJson(tree: Tree): any {
   }
 
   return JSON.parse(buffer.toString(UTF_8));
-}
-
-export function getAngularVersion(tree: Tree, useFallback = true): string {
-  const packageJsonObject = readPackageJson(tree);
-  let packageJsonVersion = '';
-  if (packageJsonObject) {
-    packageJsonVersion = packageJsonObject.dependencies[ANGULAR_CORE];
-  }
-  return packageJsonVersion || (useFallback ? DEFAULT_ANGULAR_VERSION : '');
 }
 
 export function getMajorVersionNumber(versionString: string): number {
