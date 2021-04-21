@@ -20,13 +20,20 @@ import {
   ConfigInitializerService,
   ContentSlotComponentData,
   DynamicAttributeService,
+  EventService,
 } from '@spartacus/core';
-import { ComponentHandler, PageComponentModule } from '@spartacus/storefront';
+import {
+  ComponentCreateEvent,
+  ComponentDestroyEvent,
+  ComponentEvent,
+  ComponentHandler,
+  PageComponentModule,
+} from '@spartacus/storefront';
+import { of } from 'rxjs';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { WebComponentHandler } from './handlers/web-component.handler';
 import { CxApiService } from './services/cx-api.service';
-import { of } from 'rxjs';
 
 const testText = 'test text';
 
@@ -96,7 +103,7 @@ describe('ComponentWrapperDirective', () => {
   let fixture: ComponentFixture<TestWrapperComponent>;
   let dynamicAttributeService: DynamicAttributeService;
   let renderer: Renderer2;
-
+  let eventService: EventService;
   let testBedConfig: TestModuleMetadata;
 
   beforeEach(() => {
@@ -117,6 +124,7 @@ describe('ComponentWrapperDirective', () => {
           multi: true,
         },
         { provide: CxApiService, useValue: { cms: {}, auth: {}, routing: {} } },
+        EventService,
         {
           provide: ConfigInitializerService,
           useClass: MockConfigInitializerService,
@@ -175,6 +183,7 @@ describe('ComponentWrapperDirective', () => {
       beforeEach(() => {
         fixture = TestBed.createComponent(TestWrapperComponent);
         dynamicAttributeService = TestBed.inject(DynamicAttributeService);
+        eventService = TestBed.inject(EventService);
         renderer = fixture.componentRef.injector.get<Renderer2>(
           Renderer2 as any
         );
@@ -188,7 +197,39 @@ describe('ComponentWrapperDirective', () => {
         );
       });
 
-      it('should add smartedit contract if app launch in smart edit', () => {
+      describe('events', () => {
+        it('should dispatch ComponentCreateEvent on creation', () => {
+          spyOn(eventService, 'dispatch').and.callThrough();
+          fixture.detectChanges();
+
+          const el = fixture.debugElement;
+          const compEl = el.query(By.css('cx-test')).nativeElement;
+
+          expect(eventService.dispatch).toHaveBeenCalledWith(
+            {
+              typeCode: 'cms_typeCode',
+              id: 'test_uid',
+              host: compEl,
+            } as ComponentEvent,
+            ComponentCreateEvent
+          );
+        });
+
+        it('should dispatch ComponentDestroyEvent on creation', () => {
+          spyOn(eventService, 'dispatch').and.callThrough();
+          fixture.detectChanges();
+          fixture.destroy();
+          expect(eventService.dispatch).toHaveBeenCalledWith(
+            {
+              typeCode: 'cms_typeCode',
+              id: 'test_uid',
+            } as ComponentEvent,
+            ComponentDestroyEvent
+          );
+        });
+      });
+
+      it('should add SmartEdit contract if app launch in SmartEdit', () => {
         spyOn(
           dynamicAttributeService,
           'addAttributesToComponent'
