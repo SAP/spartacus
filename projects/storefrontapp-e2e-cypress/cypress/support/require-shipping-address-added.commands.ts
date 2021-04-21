@@ -15,13 +15,14 @@ declare global {
        */
       requireShippingAddressAdded: (
         address: {},
-        auth: {}
+        auth: {},
+        cartId?: string
       ) => Cypress.Chainable<{}>;
     }
   }
 }
 
-Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
+Cypress.Commands.add('requireShippingAddressAdded', (address, auth, cartId) => {
   // format the request body
   const _address = {
     ...address,
@@ -36,6 +37,7 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
     },
     defaultAddress: false,
   };
+  const cartQueryValue = cartId || 'current';
 
   function addAddress() {
     return cy.request({
@@ -44,7 +46,7 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth) => {
         'OCC_PREFIX'
       )}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/current/addresses/delivery`,
+      )}/users/current/carts/${cartQueryValue}/addresses/delivery`,
       body: _address,
       form: false,
       headers: {
