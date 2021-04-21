@@ -1,8 +1,42 @@
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import {
+  NodeDependency,
+  NodeDependencyType,
+} from '@schematics/angular/utility/dependencies';
 import { version } from '../../../package.json';
-import { UTF_8 } from '../constants';
+import { ANGULAR_SCHEMATICS, SPARTACUS_SCOPE, UTF_8 } from '../constants';
 import { getServerTsPath } from './file-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
+
+export const SKIP_SCOPES_FEATURES_LIBS = [SPARTACUS_SCOPE, ANGULAR_SCHEMATICS];
+export function createDependencies(
+  dependencyObject: any,
+  skipScopes: string[] = [SPARTACUS_SCOPE]
+): NodeDependency[] {
+  const dependencies: NodeDependency[] = [];
+  for (const dependencyName in dependencyObject) {
+    if (!dependencyObject.hasOwnProperty(dependencyName)) {
+      continue;
+    }
+
+    for (const scope of skipScopes) {
+      if (dependencyName.startsWith(scope)) {
+        continue;
+      }
+    }
+
+    const type = dependencyName.includes('schematics')
+      ? NodeDependencyType.Dev
+      : NodeDependencyType.Default;
+    dependencies.push({
+      type,
+      name: dependencyName,
+      version: dependencyObject[dependencyName],
+    });
+  }
+
+  return dependencies;
+}
 
 export function readPackageJson(tree: Tree): any {
   const pkgPath = '/package.json';

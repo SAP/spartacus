@@ -6,12 +6,17 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependencies,
+  createDependencies,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusQualtricsOptions,
   QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
   readPackageJson,
+  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_QUALTRICS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   QUALTRICS_FEATURE_NAME,
   QUALTRICS_FOLDER_NAME,
@@ -25,8 +30,21 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([addQualtricsFeature(options)]);
+    return chain([
+      addQualtricsFeature(options),
+      addQualtricsPackageJsonDependencies(packageJson),
+      installPackageJsonDependencies(),
+    ]);
   };
+}
+
+function addQualtricsPackageJsonDependencies(packageJson: any): Rule {
+  const dependencies = createDependencies(
+    peerDependencies,
+    SKIP_SCOPES_FEATURES_LIBS
+  );
+
+  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {

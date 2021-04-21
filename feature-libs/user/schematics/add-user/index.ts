@@ -7,12 +7,17 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependencies,
+  createDependencies,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusUserOptions,
   readPackageJson,
   shouldAddFeature,
+  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_USER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   CLI_ACCOUNT_FEATURE,
   CLI_PROFILE_FEATURE,
@@ -49,8 +54,20 @@ export function addUserFeatures(options: SpartacusUserOptions): Rule {
       shouldAddFeature(CLI_PROFILE_FEATURE, options.features)
         ? addProfileFeature(options)
         : noop(),
+
+      addUserPackageJsonDependencies(packageJson),
+      installPackageJsonDependencies(),
     ]);
   };
+}
+
+function addUserPackageJsonDependencies(packageJson: any): Rule {
+  const dependencies = createDependencies(
+    peerDependencies,
+    SKIP_SCOPES_FEATURES_LIBS
+  );
+
+  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addAccountFeature(options: SpartacusUserOptions): Rule {

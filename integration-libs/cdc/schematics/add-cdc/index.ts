@@ -11,15 +11,18 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependencies,
+  createDependencies,
   getSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
+  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_ASM,
   SPARTACUS_CDC,
   SPARTACUS_USER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   CDC_CONFIG,
   CDC_FEATURE,
@@ -45,7 +48,7 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
 
 function addCdcPackageJsonDependencies(packageJson: any): Rule {
   const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
+  const spartacusDependencies: NodeDependency[] = [
     {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
@@ -57,6 +60,12 @@ function addCdcPackageJsonDependencies(packageJson: any): Rule {
       name: SPARTACUS_USER,
     },
   ];
+  const thirdPartyDependencies = createDependencies(
+    peerDependencies,
+    SKIP_SCOPES_FEATURES_LIBS
+  );
+
+  const dependencies = spartacusDependencies.concat(thirdPartyDependencies);
   return addPackageJsonDependencies(dependencies, packageJson);
 }
 

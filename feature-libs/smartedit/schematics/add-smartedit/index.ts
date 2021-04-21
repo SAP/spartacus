@@ -6,11 +6,16 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependencies,
+  createDependencies,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusSmartEditOptions,
   readPackageJson,
+  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_SMARTEDIT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   SMARTEDIT_FEATURE_NAME,
   SMARTEDIT_FOLDER_NAME,
@@ -25,8 +30,21 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([addSmartEditFeature(options)]);
+    return chain([
+      addSmartEditFeature(options),
+      addSmarteditPackageJsonDependencies(packageJson),
+      installPackageJsonDependencies(),
+    ]);
   };
+}
+
+function addSmarteditPackageJsonDependencies(packageJson: any): Rule {
+  const dependencies = createDependencies(
+    peerDependencies,
+    SKIP_SCOPES_FEATURES_LIBS
+  );
+
+  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {

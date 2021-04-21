@@ -7,13 +7,18 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependencies,
   configureB2bFeatures,
+  createDependencies,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusCartOptions,
   readPackageJson,
   shouldAddFeature,
+  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_CART,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   CART_FOLDER_NAME,
   CART_SAVED_CART_FEATURE_NAME,
@@ -40,8 +45,19 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
             configureB2bFeatures(options, packageJson),
           ])
         : noop(),
+      addCartPackageJsonDependencies(packageJson),
+      installPackageJsonDependencies(),
     ]);
   };
+}
+
+function addCartPackageJsonDependencies(packageJson: any): Rule {
+  const dependencies = createDependencies(
+    peerDependencies,
+    SKIP_SCOPES_FEATURES_LIBS
+  );
+
+  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addSavedCartFeature(options: SpartacusCartOptions): Rule {

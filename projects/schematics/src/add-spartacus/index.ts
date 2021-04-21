@@ -40,7 +40,6 @@ import {
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
   SPARTACUS_ROUTING_MODULE,
-  SPARTACUS_SCOPE,
   SPARTACUS_SETUP,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
@@ -61,6 +60,7 @@ import {
   ensureModuleExists,
 } from '../shared/utils/new-module-utils';
 import {
+  createDependencies,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
   readPackageJson,
@@ -191,7 +191,6 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   };
 }
 
-const DEPS_TO_IGNORE: string[] = [SPARTACUS_SCOPE];
 function prepareDependencies(options: SpartacusOptions): NodeDependency[] {
   const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
 
@@ -225,31 +224,12 @@ function prepareDependencies(options: SpartacusOptions): NodeDependency[] {
     });
   }
 
-  const collectedCoreStorefrontAssetsStyles: any = {
+  const thirdPartyDependencies = createDependencies({
     ...collectedDependencies['@spartacus/core'],
     ...collectedDependencies['@spartacus/storefront'],
     ...collectedDependencies['@spartacus/styles'],
     ...collectedDependencies['@spartacus/assets'],
-  };
-  const thirdPartyDependencies: NodeDependency[] = [];
-  for (const dependencyName in collectedCoreStorefrontAssetsStyles) {
-    if (!collectedCoreStorefrontAssetsStyles.hasOwnProperty(dependencyName)) {
-      continue;
-    }
-
-    for (const ignore of DEPS_TO_IGNORE) {
-      if (dependencyName.startsWith(ignore)) {
-        continue;
-      }
-    }
-
-    thirdPartyDependencies.push({
-      type: NodeDependencyType.Default,
-      name: dependencyName,
-      version: collectedCoreStorefrontAssetsStyles[dependencyName],
-    });
-  }
-
+  });
   return spartacusDependencies.concat(thirdPartyDependencies);
 }
 

@@ -7,11 +7,16 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependencies,
+  createDependencies,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
   shouldAddFeature,
+  SKIP_SCOPES_FEATURES_LIBS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   CLI_PERSONALIZATION_FEATURE,
   CLI_TMS_AEP_FEATURE,
@@ -47,8 +52,20 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
       shouldAddFeature(CLI_PERSONALIZATION_FEATURE, options.features)
         ? addPersonalizationFeature(options)
         : noop(),
+
+      addTrackingPackageJsonDependencies(packageJson),
+      installPackageJsonDependencies(),
     ]);
   };
+}
+
+function addTrackingPackageJsonDependencies(packageJson: any): Rule {
+  const dependencies = createDependencies(
+    peerDependencies,
+    SKIP_SCOPES_FEATURES_LIBS
+  );
+
+  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addGtm(options: SpartacusTrackingOptions): Rule {
