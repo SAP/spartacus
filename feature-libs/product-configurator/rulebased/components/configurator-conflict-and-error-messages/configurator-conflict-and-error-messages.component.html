@@ -13,8 +13,7 @@
       <a
         role="link"
         (click)="toggleWarnings()"
-        (keydown)="preventScrollingOnSpace($event)"
-        (keyup)="clickOnEnterAndSpaceWarning($event)"
+        (keyup)="clickOnEnterWarning($event)"
         tabindex="0"
         *ngIf="configuration?.warningMessages?.length > 1"
         class="cx-warning-toggle"
@@ -59,8 +58,7 @@
       <a
         role="link"
         (click)="toggleErrors()"
-        (keydown)="preventScrollingOnSpace($event)"
-        (keyup)="clickOnEnterAndSpaceError($event)"
+        (keyup)="clickOnEnterError($event)"
         tabindex="0"
         *ngIf="configuration?.errorMessages?.length > 1"
         class="cx-error-toggle"

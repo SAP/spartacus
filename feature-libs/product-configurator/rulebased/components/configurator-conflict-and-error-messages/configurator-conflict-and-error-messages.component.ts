@@ -32,35 +32,25 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
   toggleErrors(): void {
     this.showErrors = !this.showErrors;
   }
-  /**
-   * Prevents page down behaviour when users press space key
-   *
-   * @param {KeyboardEvent} event - Keyboard event
-   */
-  preventScrollingOnSpace(event: KeyboardEvent): void {
-    if (event.code === 'Space') {
-      event.preventDefault();
-    }
-  }
 
   /**
-   * Fired on key board events, checks for 'enter' or 'space' and delegates to click for warning messages.
+   * Fired on key board events, checks for 'enter' and delegates to click for warning messages.
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
-  clickOnEnterAndSpaceWarning(event: KeyboardEvent): void {
-    if (event.code === 'Enter' || event.code === 'Space') {
+  protected clickOnEnterWarning(event: KeyboardEvent): void {
+    if (event.code === 'Enter') {
       this.toggleWarnings();
     }
   }
 
   /**
-   * Fired on key board events, checks for 'enter' or 'space' and delegates to click for error messages.
+   * Fired on key board events, checks for 'enter' and delegates to click for error messages.
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
-  clickOnEnterAndSpaceError(event: KeyboardEvent): void {
-    if (event.code === 'Enter' || event.code === 'Space') {
+  protected clickOnEnterError(event: KeyboardEvent): void {
+    if (event.code === 'Enter') {
       this.toggleErrors();
     }
   }
