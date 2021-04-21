@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Optional } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import {
@@ -19,7 +19,6 @@ import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entr
 @Component({
   selector: 'cx-configurator-cart-entry-bundle-info',
   templateUrl: './configurator-cart-entry-bundle-info.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(
