@@ -7,7 +7,11 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import { LibraryOptions as SpartacusProductConfiguratorOptions } from '@spartacus/schematics';
+import {
+  LibraryOptions as SpartacusProductConfiguratorOptions,
+  SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_SETUP,
+} from '@spartacus/schematics';
 import * as path from 'path';
 import { CLI_CPQ_FEATURE, CLI_TEXTFIELD_FEATURE } from '../constants';
 
@@ -198,12 +202,12 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should import rulebased root module', async () => {
+      it('should import rulebased root module and cpq root module', async () => {
         const productConfiguratorModule = appTree.readContent(
           productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
-          `import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
+          `import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \"@spartacus/product-configurator/rulebased/root\";`
         );
       });
 
@@ -243,6 +247,11 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         expect(productConfiguratorModule).not.toContain(
           `import { RulebasedConfiguratorModule } from "@spartacus/product-configurator/rulebased";`
         );
+      });
+
+      it('should not update package.json with setup per default (as b2b is not required)', () => {
+        const packageJson = appTree.readContent(`package.json`);
+        expect(packageJson.includes(SPARTACUS_SETUP)).toBe(false);
       });
     });
 
@@ -294,16 +303,34 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should import rulebased root module and contain the lazy loading syntax for the CPQ flavor', async () => {
+      it('should contain the lazy loading syntax for the CPQ flavor', async () => {
         const productConfiguratorModule = appTree.readContent(
           productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
-          `import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
-        );
-        expect(productConfiguratorModule).toContain(
           `import('@spartacus/product-configurator/rulebased/cpq').then((m) => m.RulebasedCpqConfiguratorModule),`
         );
+      });
+
+      it('should import rulebased root module, and rulebased cpq root module separately (as it forces early login)', async () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).toContain(
+          `import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \"@spartacus/product-configurator/rulebased/root\";`
+        );
+      });
+
+      it('should add b2b features by adding configuration module', () => {
+        const configurationModule = appTree.readContent(
+          `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+        expect(configurationModule).toMatchSnapshot();
+      });
+
+      it('should update package.json with setup', () => {
+        const packageJson = appTree.readContent(`package.json`);
+        expect(packageJson).toContain(SPARTACUS_SETUP);
       });
 
       it('should not contain the rulebased cpq module import', () => {
