@@ -44,6 +44,7 @@ export function addProductConfiguratorFeatures(
 
     return chain([
       addProductConfiguratorRulebasedFeature(options),
+
       addProductConfiguratorTextfieldFeature(options),
 
       addProductConfiguratorPackageJsonDependencies(packageJson),

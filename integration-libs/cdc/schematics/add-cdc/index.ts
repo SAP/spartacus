@@ -40,6 +40,7 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
 
     return chain([
       addCdc(options),
+
       addCdcPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);

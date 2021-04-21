@@ -51,6 +51,7 @@ export function addUserFeatures(options: SpartacusUserOptions): Rule {
       shouldAddFeature(CLI_ACCOUNT_FEATURE, options.features)
         ? addAccountFeature(options)
         : noop(),
+
       shouldAddFeature(CLI_PROFILE_FEATURE, options.features)
         ? addProfileFeature(options)
         : noop(),

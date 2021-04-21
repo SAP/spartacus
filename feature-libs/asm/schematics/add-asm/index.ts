@@ -34,6 +34,7 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
 
     return chain([
       addAsmFeature(options),
+
       addAsmPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);

@@ -56,7 +56,9 @@ export function addSpartacusOrganization(
       shouldAddFeature(CLI_ORDER_APPROVAL_FEATURE, options.features)
         ? addOrderApprovalsFeature(options)
         : noop(),
+
       configureB2bFeatures(options, packageJson),
+
       addOrganizationPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);

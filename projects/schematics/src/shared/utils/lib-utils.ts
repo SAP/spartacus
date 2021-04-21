@@ -594,7 +594,6 @@ export function configureB2bFeatures<T extends LibraryOptions>(
         ],
         packageJson
       ),
-      installPackageJsonDependencies(),
     ]);
   };
 }

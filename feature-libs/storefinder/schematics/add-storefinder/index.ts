@@ -37,6 +37,7 @@ export function addStorefinderFeatures(
 
     return chain([
       addStorefinderFeature(options),
+
       addStorefinderPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);

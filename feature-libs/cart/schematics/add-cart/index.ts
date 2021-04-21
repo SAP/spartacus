@@ -45,6 +45,7 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
             configureB2bFeatures(options, packageJson),
           ])
         : noop(),
+
       addCartPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);

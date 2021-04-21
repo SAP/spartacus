@@ -32,6 +32,7 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
 
     return chain([
       addSmartEditFeature(options),
+
       addSmarteditPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
