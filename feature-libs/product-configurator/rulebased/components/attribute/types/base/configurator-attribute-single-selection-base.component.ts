@@ -18,19 +18,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  // TODO(#11681): make quantityService a required dependency
-  /**
-   * default constructor
-   * @param {ConfiguratorAttributeQuantityService} quantityService
-   */
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  constructor(quantityService: ConfiguratorAttributeQuantityService);
-
-  /**
-   * @deprecated since 3.3
-   */
-  constructor();
-
   constructor(
     protected quantityService?: ConfiguratorAttributeQuantityService
   ) {

@@ -10,6 +10,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
+import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
@@ -102,6 +103,25 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   ngOnDestroy() {
     super.ngOnDestroy();
+  }
+
+  /**
+   TODO(issue: #11238): update @deprecated level to the release we are publishing with,
+   It is still 3.1 only because app.module.ts states that we are on 3.1.
+   Finally we must have 3.x, x>=2 here
+   */
+  /**
+   * @deprecated since 3.1
+   * This method should be removed because there is no use for this method.
+   */
+  protected createEventFromInput(): ConfigFormUpdateEvent {
+    return {
+      ownerKey: this.ownerKey,
+      changedAttribute: {
+        ...this.attribute,
+        userInput: this.attributeInputForm.value,
+      },
+    };
   }
 
   protected getInstalledLocale(locale: string): string {
