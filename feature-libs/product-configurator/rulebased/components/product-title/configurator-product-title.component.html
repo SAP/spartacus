@@ -12,7 +12,12 @@
         <span> {{ product.name }} </span>
       </ng-container>
     </div>
-    <a role="link" (click)="triggerDetails()" tabindex="0">
+    <a
+      role="link"
+      (click)="triggerDetails()"
+      (keyup)="clickOnEnter($event)"
+      tabindex="0"
+    >
       <ng-container *ngIf="!showMore">
         <div class="cx-toggle-details-link-text">
           {{ 'configurator.header.showMore' | cxTranslate }}

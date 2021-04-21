@@ -70,4 +70,15 @@ export class ConfiguratorProductTitleComponent {
   getProductImageAlt(product: Product): string {
     return product.images?.PRIMARY?.['thumbnail']?.altText;
   }
+
+  /**
+   * Fired on key board events, checks for 'enter' and delegates to click.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  protected clickOnEnter(event: KeyboardEvent): void {
+    if (event.code === 'Enter') {
+      this.triggerDetails();
+    }
+  }
 }

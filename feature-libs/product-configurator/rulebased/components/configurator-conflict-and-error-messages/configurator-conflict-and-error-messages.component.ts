@@ -33,6 +33,28 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
     this.showErrors = !this.showErrors;
   }
 
+  /**
+   * Fired on key board events, checks for 'enter' and delegates to click for warning messages.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  protected clickOnEnterWarning(event: KeyboardEvent): void {
+    if (event.code === 'Enter') {
+      this.toggleWarnings();
+    }
+  }
+
+  /**
+   * Fired on key board events, checks for 'enter' and delegates to click for error messages.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  protected clickOnEnterError(event: KeyboardEvent): void {
+    if (event.code === 'Enter') {
+      this.toggleErrors();
+    }
+  }
+
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService

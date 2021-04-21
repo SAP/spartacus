@@ -7,8 +7,13 @@
         }}
       </div>
 
-      <a role="link" (click)="toggleItems()" tabindex="0">
-        <div class="cx-toggle-hide-items">
+      <a
+        role="link"
+        (click)="toggleItems()"
+        (keyup)="clickOnEnter($event)"
+        tabindex="0"
+      >
+        <div class="link cx-action-link cx-toggle-hide-items">
           <ng-container *ngIf="hideItems">
             {{ 'configurator.header.show' | cxTranslate }}
           </ng-container>
