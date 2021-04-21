@@ -17,13 +17,13 @@ export class CpqConfiguratorValueSerializer
     return updateValue;
   }
 
-  findFirstChangedAttribute(
+  protected findFirstChangedAttribute(
     source: Configurator.Configuration
   ): Configurator.Attribute {
     return source.groups[0].attributes[0];
   }
 
-  convertAttribute(
+  protected convertAttribute(
     attribute: Configurator.Attribute,
     configurationId: string
   ): Cpq.UpdateValue {
@@ -39,7 +39,9 @@ export class CpqConfiguratorValueSerializer
     return updateAttribute;
   }
 
-  findFirstChangedValue(attribute: Configurator.Attribute): Configurator.Value {
+  protected findFirstChangedValue(
+    attribute: Configurator.Attribute
+  ): Configurator.Value {
     return attribute.values[0];
   }
 }
