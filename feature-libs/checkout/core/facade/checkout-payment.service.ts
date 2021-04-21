@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { CardType, PaymentDetails } from '@spartacus/core';
+import {
+  ActiveCartService,
+  CardType,
+  OCC_USER_ID_ANONYMOUS,
+  PaymentDetails,
+  ProcessSelectors,
+  StateUtils,
+  StateWithProcess,
+  UserIdService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { UserIdService } from '@spartacus/core';
-import { ActiveCartService } from '@spartacus/core';
-import { OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
-import { StateWithProcess } from '@spartacus/core';
-import { ProcessSelectors } from '@spartacus/core';
-import { StateUtils } from '@spartacus/core';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_PAYMENT_DETAILS_PROCESS_ID,
@@ -42,9 +45,13 @@ export class CheckoutPaymentService {
   /**
    * Get status about set Payment Details process
    */
-  getSetPaymentDetailsResultProcess(): Observable<StateUtils.LoaderState<void>> {
+  getSetPaymentDetailsResultProcess(): Observable<
+    StateUtils.LoaderState<void>
+  > {
     return this.checkoutStore.pipe(
-      select(ProcessSelectors.getProcessStateFactory(SET_PAYMENT_DETAILS_PROCESS_ID))
+      select(
+        ProcessSelectors.getProcessStateFactory(SET_PAYMENT_DETAILS_PROCESS_ID)
+      )
     );
   }
 

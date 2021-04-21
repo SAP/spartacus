@@ -1,6 +1,16 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Address, AddressValidation, DeliveryMode } from '@spartacus/core';
+import {
+  ActiveCartService,
+  Address,
+  AddressValidation,
+  DeliveryMode,
+  OCC_USER_ID_ANONYMOUS,
+  ProcessSelectors,
+  StateUtils,
+  StateWithProcess,
+  UserIdService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
   filter,
@@ -9,12 +19,6 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { UserIdService } from '@spartacus/core';
-import { ActiveCartService } from '@spartacus/core';
-import { OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
-import { StateWithProcess } from '@spartacus/core';
-import { StateUtils, ProcessSelectors } from '@spartacus/core';
-
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_DELIVERY_ADDRESS_PROCESS_ID,
@@ -42,7 +46,11 @@ export class CheckoutDeliveryService {
       select(CheckoutSelectors.getSupportedDeliveryModes),
       withLatestFrom(
         this.checkoutStore.pipe(
-          select(ProcessSelectors.getProcessStateFactory(SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID))
+          select(
+            ProcessSelectors.getProcessStateFactory(
+              SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
+            )
+          )
         )
       ),
       tap(([, loadingState]) => {
@@ -89,7 +97,9 @@ export class CheckoutDeliveryService {
    */
   getSetDeliveryAddressProcess(): Observable<StateUtils.LoaderState<void>> {
     return this.checkoutStore.pipe(
-      select(ProcessSelectors.getProcessStateFactory(SET_DELIVERY_ADDRESS_PROCESS_ID))
+      select(
+        ProcessSelectors.getProcessStateFactory(SET_DELIVERY_ADDRESS_PROCESS_ID)
+      )
     );
   }
 
@@ -107,7 +117,9 @@ export class CheckoutDeliveryService {
    */
   getSetDeliveryModeProcess(): Observable<StateUtils.LoaderState<void>> {
     return this.checkoutStore.pipe(
-      select(ProcessSelectors.getProcessStateFactory(SET_DELIVERY_MODE_PROCESS_ID))
+      select(
+        ProcessSelectors.getProcessStateFactory(SET_DELIVERY_MODE_PROCESS_ID)
+      )
     );
   }
 
@@ -132,9 +144,15 @@ export class CheckoutDeliveryService {
   /**
    * Get status about of set supported Delivery Modes process
    */
-  getLoadSupportedDeliveryModeProcess(): Observable<StateUtils.LoaderState<void>> {
+  getLoadSupportedDeliveryModeProcess(): Observable<
+    StateUtils.LoaderState<void>
+  > {
     return this.checkoutStore.pipe(
-      select(ProcessSelectors.getProcessStateFactory(SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID))
+      select(
+        ProcessSelectors.getProcessStateFactory(
+          SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
+        )
+      )
     );
   }
 
