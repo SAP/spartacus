@@ -11,6 +11,7 @@ import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-ev
 import { PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/product-page-event.builder.migration';
 import { PRODUCT_PAGE_META_RESOLVER_MIGRATION } from './data/product-page-meta.resolver.migration';
 import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
+import { SEARCH_PAGE_META_RESOLVER_MIGRATION } from './data/search-page-meta.resolver.migration';
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
@@ -27,6 +28,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   BASE_PAGE_META_RESOLVER_MIGRATION,
   CONTENT_PAGE_META_RESOLVER_MIGRATION,
   PRODUCT_PAGE_META_RESOLVER_MIGRATION,
+  SEARCH_PAGE_META_RESOLVER_MIGRATION,
 ];
 
 export function migrate(): Rule {

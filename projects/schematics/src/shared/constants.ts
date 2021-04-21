@@ -110,6 +110,7 @@ export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const BASE_PAGE_META_RESOLVER = 'BasePageMetaResolver';
 export const PAGE_LINK_SERVICE = 'PageLinkService';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
+export const SEARCH_PAGE_META_RESOLVER = 'SearchPageMetaResolver';
 export const CATEGORY_PAGE_META_RESOLVER = 'CategoryPageMetaResolver';
 export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 
