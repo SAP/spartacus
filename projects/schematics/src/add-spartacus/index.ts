@@ -19,6 +19,7 @@ import {
   ANGULAR_HTTP,
   CLI_ASM_FEATURE,
   CLI_CART_FEATURE,
+  CLI_CDC_FEATURE,
   CLI_ORGANIZATION_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
   CLI_PRODUCT_FEATURE,
@@ -29,6 +30,7 @@ import {
   SPARTACUS_ASM,
   SPARTACUS_ASSETS,
   SPARTACUS_CART,
+  SPARTACUS_CDC,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
@@ -374,6 +376,9 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
       : []),
     ...(shouldAddFeature(CLI_TRACKING_FEATURE, options.features)
       ? [SPARTACUS_TRACKING]
+      : []),
+    ...(shouldAddFeature(CLI_CDC_FEATURE, options.features)
+      ? [SPARTACUS_CDC]
       : []),
     SPARTACUS_USER,
   ];

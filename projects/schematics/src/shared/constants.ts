@@ -676,4 +676,5 @@ export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
 export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
 export const CLI_STOREFINDER_FEATURE = 'Store Finder';
 export const CLI_TRACKING_FEATURE = 'Tracking';
+export const CLI_CDC_FEATURE = 'CDC';
 /******* CLI end *******/
