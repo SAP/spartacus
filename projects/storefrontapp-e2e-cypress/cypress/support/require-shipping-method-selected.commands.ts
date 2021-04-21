@@ -13,19 +13,23 @@ declare global {
         cy.requireShippingMethodSelected(auth);
         ```
        */
-      requireShippingMethodSelected: (auth: {}) => Cypress.Chainable<{}>;
+      requireShippingMethodSelected: (
+        auth: {},
+        cartId?: string
+      ) => Cypress.Chainable<{}>;
     }
   }
 }
-Cypress.Commands.add('requireShippingMethodSelected', (auth) => {
+Cypress.Commands.add('requireShippingMethodSelected', (auth, cartId) => {
   function setShippingMethod() {
+    const cartQueryValue = cartId || 'current';
     return cy.request({
       method: 'PUT',
       url: `${Cypress.env('API_URL')}/${Cypress.env(
         'OCC_PREFIX'
       )}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/current/deliverymode?deliveryModeId=${
+      )}/users/current/carts/${cartQueryValue}/deliverymode?deliveryModeId=${
         delivery.mode
       }`,
       form: false,
