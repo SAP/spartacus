@@ -1,17 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/root';
 import {
-  Address,
   CheckoutCostCenterService,
-  Order,
   PaymentTypeService,
-  RoutingConfigService,
-} from '@spartacus/core';
+} from '@spartacus/checkout/core';
+import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/root';
+import { Address, Order, RoutingConfigService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';
+
 import createSpy = jasmine.createSpy;
 
 class MockRoutingConfigService {

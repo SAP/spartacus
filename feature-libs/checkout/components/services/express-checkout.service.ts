@@ -1,9 +1,11 @@
 import { Injectable, Optional } from '@angular/core';
 import {
-  Address,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   ClearCheckoutService,
+} from '@spartacus/checkout/core';
+import {
+  Address,
   DeliveryMode,
   PaymentDetails,
   StateUtils,

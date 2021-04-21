@@ -6,11 +6,13 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
-  ActiveCartService,
-  Address,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
+} from '@spartacus/checkout/core';
+import {
+  ActiveCartService,
+  Address,
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,

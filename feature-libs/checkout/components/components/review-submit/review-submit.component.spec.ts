@@ -2,14 +2,17 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import {
+  CheckoutCostCenterService,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
+  PaymentTypeService,
+} from '@spartacus/checkout/core';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
   Cart,
-  CheckoutCostCenterService,
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
   CostCenter,
   Country,
   DeliveryMode,
@@ -17,7 +20,6 @@ import {
   OrderEntry,
   PaymentDetails,
   PaymentType,
-  PaymentTypeService,
   PromotionLocation,
   UserAddressService,
   UserCostCenterService,

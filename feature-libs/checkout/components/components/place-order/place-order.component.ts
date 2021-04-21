@@ -7,8 +7,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CheckoutService } from '@spartacus/checkout/core';
 import {
-  CheckoutService,
   ORDER_TYPE,
   recurrencePeriod,
   RoutingService,

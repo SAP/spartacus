@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CheckoutService } from '@spartacus/checkout/core';
 import {
-  CheckoutService,
   DaysOfWeek,
   I18nTestingModule,
   ORDER_TYPE,

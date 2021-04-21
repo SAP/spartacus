@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CheckoutDeliveryService } from '@spartacus/checkout/core';
 import {
   Address,
   AddressValidation,
-  CheckoutDeliveryService,
   Country,
   GlobalMessageService,
   I18nTestingModule,
@@ -18,6 +18,7 @@ import {
 import { FormErrorsModule, ModalService } from '@spartacus/storefront';
 import { Observable, of, Subscription } from 'rxjs';
 import { AddressFormComponent } from './address-form.component';
+
 import createSpy = jasmine.createSpy;
 
 class MockUserService {

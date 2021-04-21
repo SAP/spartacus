@@ -3,11 +3,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
-  ActiveCartService,
-  Address,
   CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
+} from '@spartacus/checkout/core';
+import {
+  ActiveCartService,
+  Address,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
@@ -18,6 +20,7 @@ import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PaymentMethodComponent } from './payment-method.component';
+
 import createSpy = jasmine.createSpy;
 
 @Component({

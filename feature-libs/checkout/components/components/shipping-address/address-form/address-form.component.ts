@@ -8,10 +8,10 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CheckoutDeliveryService } from '@spartacus/checkout/core';
 import {
   Address,
   AddressValidation,
-  CheckoutDeliveryService,
   Country,
   ErrorModel,
   GlobalMessageService,

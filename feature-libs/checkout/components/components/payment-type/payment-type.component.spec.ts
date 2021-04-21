@@ -1,12 +1,9 @@
 import { Component, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { PaymentTypeService } from '@spartacus/checkout/core';
 import { CheckoutStepType } from '@spartacus/checkout/root';
-import {
-  I18nTestingModule,
-  PaymentType,
-  PaymentTypeService,
-} from '@spartacus/core';
+import { I18nTestingModule, PaymentType } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { PaymentTypeComponent } from './payment-type.component';

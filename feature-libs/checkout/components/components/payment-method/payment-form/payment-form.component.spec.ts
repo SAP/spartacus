@@ -4,11 +4,13 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
+} from '@spartacus/checkout/core';
+import {
   Address,
   AddressValidation,
   CardType,
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
   Country,
   GlobalMessageService,
   I18nTestingModule,

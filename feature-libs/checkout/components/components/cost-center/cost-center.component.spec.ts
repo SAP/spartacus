@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CheckoutCostCenterService,
+  PaymentTypeService,
+} from '@spartacus/checkout/core';
+import {
   CostCenter,
   I18nTestingModule,
-  PaymentTypeService,
   UserCostCenterService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';

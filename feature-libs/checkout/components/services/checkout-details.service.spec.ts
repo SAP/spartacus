@@ -1,12 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  ActiveCartService,
-  Address,
-  Cart,
   CheckoutDeliveryService,
   CheckoutDetails,
   CheckoutPaymentService,
   CheckoutService,
+} from '@spartacus/checkout/core';
+import {
+  ActiveCartService,
+  Address,
+  Cart,
   DeliveryMode,
   PaymentDetails,
 } from '@spartacus/core';

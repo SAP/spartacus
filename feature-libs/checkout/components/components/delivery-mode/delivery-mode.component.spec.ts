@@ -3,16 +3,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CheckoutDeliveryService,
-  DeliveryMode,
-  I18nTestingModule,
-} from '@spartacus/core';
+import { CheckoutDeliveryService } from '@spartacus/checkout/core';
+import { DeliveryMode, I18nTestingModule } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoaderState } from '../../../../../projects/core/src/state/utils/loader';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
+
 import createSpy = jasmine.createSpy;
 
 @Component({

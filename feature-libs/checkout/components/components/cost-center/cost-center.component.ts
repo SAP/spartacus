@@ -1,10 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CheckoutCostCenterService,
-  CostCenter,
   PaymentTypeService,
-  UserCostCenterService,
-} from '@spartacus/core';
+} from '@spartacus/checkout/core';
+import { CostCenter, UserCostCenterService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
 

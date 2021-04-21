@@ -4,8 +4,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { CheckoutService } from '@spartacus/checkout/core';
 import {
-  CheckoutService,
   DaysOfWeek,
   ORDER_TYPE,
   recurrencePeriod,

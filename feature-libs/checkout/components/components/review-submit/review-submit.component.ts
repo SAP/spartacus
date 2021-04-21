@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  CheckoutCostCenterService,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
+  PaymentTypeService,
+} from '@spartacus/checkout/core';
+import {
   checkoutPaymentSteps,
   checkoutShippingSteps,
   CheckoutStep,
@@ -9,15 +15,11 @@ import {
   ActiveCartService,
   Address,
   Cart,
-  CheckoutCostCenterService,
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
   CostCenter,
   Country,
   DeliveryMode,
   OrderEntry,
   PaymentDetails,
-  PaymentTypeService,
   PromotionLocation,
   PromotionResult,
   TranslationService,

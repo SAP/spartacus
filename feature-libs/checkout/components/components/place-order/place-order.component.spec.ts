@@ -2,8 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CheckoutService } from '@spartacus/checkout/core';
 import {
-  CheckoutService,
   DaysOfWeek,
   I18nTestingModule,
   ORDER_TYPE,
