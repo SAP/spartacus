@@ -9,5 +9,5 @@ interface Env {
   CX_CDS: boolean;
   CX_CDC: boolean;
   CX_B2B: boolean;
-  CX_CPQ?: boolean;
+  CX_CPQ: boolean;
 }

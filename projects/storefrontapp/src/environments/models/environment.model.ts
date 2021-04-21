@@ -5,5 +5,5 @@ export interface Environment {
   b2b: boolean;
   cds: boolean;
   cdc: boolean;
-  cpq?: boolean;
+  cpq: boolean;
 }
