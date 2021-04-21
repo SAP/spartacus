@@ -1,8 +1,12 @@
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsConfig, DeferLoadingStrategy } from '@spartacus/core';
+import {
+  CmsConfig,
+  ConfigInitializerService,
+  DeferLoadingStrategy,
+} from '@spartacus/core';
+import { of, Subject } from 'rxjs';
 import { CmsComponentsService } from './cms-components.service';
-import { Subject } from 'rxjs';
 import { FeatureModulesService } from './feature-modules.service';
 import createSpy = jasmine.createSpy;
 
@@ -48,12 +52,21 @@ class MockFeatureModulesService implements Partial<FeatureModulesService> {
   }
 }
 
+class MockConfigInitializerService
+  implements Partial<ConfigInitializerService> {
+  getStable = () => of(mockConfig);
+}
+
 describe('CmsComponentsService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         { provide: CmsConfig, useValue: mockConfig },
         { provide: FeatureModulesService, useClass: MockFeatureModulesService },
+        {
+          provide: ConfigInitializerService,
+          useClass: MockConfigInitializerService,
+        },
       ],
     });
 
@@ -148,6 +161,21 @@ describe('CmsComponentsService', () => {
       expect(featureModulesService.getInjectors).not.toHaveBeenCalled();
     });
   });
+
+  describe('cms mapping configuration', () => {
+    it('should not be prone to changes caused by lazy-loaded modules augmenting it', () => {
+      const cmsConfig = TestBed.inject(CmsConfig);
+      expect(cmsConfig.cmsComponents.addedMapping).toBeFalsy();
+      expect(service.getMapping('addedMapping')).toBeFalsy();
+      Object.assign(cmsConfig.cmsComponents, {
+        addedMapping: {
+          component: 'added-component',
+        },
+      });
+      expect(cmsConfig.cmsComponents.addedMapping).toBeTruthy();
+      expect(service.getMapping('addedMapping')).toBeFalsy();
+    });
+  });
 });
 
 describe('with SSR', () => {
@@ -156,6 +184,10 @@ describe('with SSR', () => {
       providers: [
         { provide: CmsConfig, useValue: mockConfig },
         { provide: PLATFORM_ID, useValue: 'server' },
+        {
+          provide: ConfigInitializerService,
+          useClass: MockConfigInitializerService,
+        },
       ],
     });
 
