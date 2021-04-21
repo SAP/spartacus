@@ -38,7 +38,7 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
-  protected clickOnEnterWarning(event: KeyboardEvent): void {
+  clickOnEnterWarning(event: KeyboardEvent): void {
     if (event.code === 'Enter') {
       this.toggleWarnings();
     }
@@ -49,7 +49,7 @@ export class ConfiguratorConflictAndErrorMessagesComponent {
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
-  protected clickOnEnterError(event: KeyboardEvent): void {
+  clickOnEnterError(event: KeyboardEvent): void {
     if (event.code === 'Enter') {
       this.toggleErrors();
     }
