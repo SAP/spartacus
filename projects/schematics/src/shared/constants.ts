@@ -107,6 +107,8 @@ export const STORE_DATA_SERVICE = 'StoreDataService';
 export const SPLIT_VIEW_SERVICE = 'SplitViewService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
+export const BASE_PAGE_META_RESOLVER = 'BasePageMetaResolver';
+export const PAGE_LINK_SERVICE = 'PageLinkService';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
 export const CATEGORY_PAGE_META_RESOLVER = 'CategoryPageMetaResolver';
 export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';

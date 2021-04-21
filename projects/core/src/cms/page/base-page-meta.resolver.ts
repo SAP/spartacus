@@ -19,8 +19,6 @@ import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 @Injectable({
   providedIn: 'root',
 })
-
-// TODO(#10467) make router and pageLinkService standard (non optional arguments)
 export class BasePageMetaResolver
   implements
     PageTitleResolver,
@@ -32,8 +30,8 @@ export class BasePageMetaResolver
     protected cmsService: CmsService,
     protected translation: TranslationService,
     protected routingPageMetaResolver: RoutingPageMetaResolver,
-    protected router?: Router,
-    protected pageLinkService?: PageLinkService
+    protected router: Router,
+    protected pageLinkService: PageLinkService
   ) {}
 
   /**
@@ -96,9 +94,7 @@ export class BasePageMetaResolver
       ? this.router.events.pipe(
           filter((ev) => ev instanceof NavigationEnd),
           startWith(null),
-          // TODO(#10467) the pageLinkService will no longer be optional
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          map(() => this.pageLinkService!.getCanonicalUrl(options) ?? '')
+          map(() => this.pageLinkService.getCanonicalUrl(options))
         )
       : of();
   }
