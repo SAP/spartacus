@@ -81,6 +81,10 @@ export class BasePageMetaResolver
     return this.description$;
   }
 
+  /**
+   * Resolves a single breadcrumb item to the home page for each `ContentPage`.
+   * The home page label is resolved from the translation service.
+   */
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[] | undefined> {
     return this.breadcrumb$;
   }

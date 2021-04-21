@@ -1,42 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import {
-  BasePageMetaResolver,
-  CanonicalUrlOptions,
-  CmsService,
-  Page,
-} from '..';
-import { I18nTestingModule, TranslationService } from '../../i18n';
-import { PageType } from '../../model/cms.model';
+import { BasePageMetaResolver, CanonicalUrlOptions } from '..';
+import { I18nTestingModule } from '../../i18n';
 import { PageMetaService } from '../facade';
 import { BreadcrumbMeta, PageRobotsMeta } from '../model/page.model';
 import { ContentPageMetaResolver } from './content-page-meta.resolver';
-import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
-
-const mockContentPage: Page = {
-  type: PageType.CONTENT_PAGE,
-  title: 'Page title',
-  slots: {},
-  robots: [PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX],
-};
-
-class MockCmsService implements Partial<CmsService> {
-  getCurrentPage(): Observable<Page> {
-    return of(mockContentPage);
-  }
-}
-
-class MockTranslationService implements Partial<TranslationService> {
-  translate(key: string) {
-    return of(key);
-  }
-}
-
-class MockRoutingPageMetaResolver implements Partial<RoutingPageMetaResolver> {
-  resolveBreadcrumbs() {
-    return of([]);
-  }
-}
 
 class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
   resolveCanonicalUrl(_options?: CanonicalUrlOptions): Observable<string> {
@@ -68,15 +36,6 @@ describe('ContentPageMetaResolver', () => {
       imports: [I18nTestingModule],
       providers: [
         PageMetaService,
-        { provide: CmsService, useClass: MockCmsService },
-        {
-          provide: TranslationService,
-          useClass: MockTranslationService,
-        },
-        {
-          provide: RoutingPageMetaResolver,
-          useClass: MockRoutingPageMetaResolver,
-        },
         {
           provide: BasePageMetaResolver,
           useClass: MockBasePageMetaResolver,
