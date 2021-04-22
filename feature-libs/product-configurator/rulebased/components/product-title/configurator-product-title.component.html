@@ -1,14 +1,10 @@
 <ng-container *ngIf="product$ | async as product">
   <div class="cx-general-product-info">
     <div class="cx-title">
-      <!-- TODO(issue: #11238): update feature level to the release we are publishing with,
-        It is still 3.1 only because app.module.ts states that we are on 3.1.
-        Finally we must have 3.x, x>=2 here -->
-      <ng-container *cxFeatureLevel="!3.1">
+      <ng-container *cxFeatureLevel="!3.3">
         {{ product.name }}
       </ng-container>
-      <!-- TODO: update feature level to the release we are publishing with-->
-      <ng-container *cxFeatureLevel="3.1">
+      <ng-container *cxFeatureLevel="3.3">
         <span> {{ product.name }} </span>
       </ng-container>
     </div>
@@ -34,17 +30,13 @@
     </a>
     <div class="cx-details" [class.open]="showMore">
       <div class="cx-details-image">
-        <!-- TODO(issue: #11238): update feature level to the release we are publishing with,
-          It is still 3.1 only because app.module.ts states that we are on 3.1.
-          Finally we must have 3.x, x>=2 here -->
-        <ng-container *cxFeatureLevel="!3.1">
+        <ng-container *cxFeatureLevel="!3.3">
           <img
             [alt]="getProductImageAlt(product)"
             [src]="getProductImageURL(product)"
           />
         </ng-container>
-        <!-- TODO: update feature level to the release we are publishing with-->
-        <ng-container *cxFeatureLevel="3.1">
+        <ng-container *cxFeatureLevel="3.3">
           <cx-media
             [container]="product?.images?.PRIMARY"
             format="product"
@@ -53,38 +45,26 @@
       </div>
       <div class="cx-details-content">
         <div class="cx-detail-title">
-          <!-- TODO(issue: #11238): update feature level to the release we are publishing with,
-           It is still 3.1 only because app.module.ts states that we are on 3.1.
-           Finally we must have 3.x, x>=2 here -->
-          <ng-container *cxFeatureLevel="!3.1">
+          <ng-container *cxFeatureLevel="!3.3">
             {{ product.name }}
           </ng-container>
-          <!-- TODO: update feature level to the release we are publishing with-->
-          <ng-container *cxFeatureLevel="3.1">
+          <ng-container *cxFeatureLevel="3.3">
             <span *ngIf="product.name"> {{ product.name }} </span>
           </ng-container>
         </div>
         <div class="cx-code">
-          <!-- TODO(issue: #11238): update feature level to the release we are publishing with,
-            It is still 3.1 only because app.module.ts states that we are on 3.1.
-            Finally we must have 3.x, x>=2 here -->
-          <ng-container *cxFeatureLevel="!3.1">
+          <ng-container *cxFeatureLevel="!3.3">
             {{ product.code }}
           </ng-container>
-          <!-- TODO: update feature level to the release we are publishing with-->
-          <ng-container *cxFeatureLevel="3.1">
+          <ng-container *cxFeatureLevel="3.3">
             <span *ngIf="product.code"> {{ product.code }} </span>
           </ng-container>
         </div>
         <div class="cx-description">
-          <!-- TODO(issue: #11238): update feature level to the release we are publishing with,
-             It is still 3.1 only because app.module.ts states that we are on 3.1.
-             Finally we must have 3.x, x>=2 here -->
-          <ng-container *cxFeatureLevel="!3.1">
+          <ng-container *cxFeatureLevel="!3.3">
             {{ product.description }}
           </ng-container>
-          <!-- TODO: update feature level to the release we are publishing with-->
-          <ng-container *cxFeatureLevel="3.1">
+          <ng-container *cxFeatureLevel="3.3">
             <span *ngIf="product.description"> {{ product.description }} </span>
           </ng-container>
         </div>

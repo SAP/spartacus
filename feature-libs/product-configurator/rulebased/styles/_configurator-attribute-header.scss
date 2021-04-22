@@ -4,7 +4,7 @@
   margin-inline-start: 17px;
   margin-inline-end: 17px;
 
-  @include forVersion(3.1) {
+  @include forVersion(3.3) {
     margin-block-end: 17px;
   }
 
