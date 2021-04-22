@@ -41,7 +41,6 @@ const ruleBasedVcFeatureConfiguration = {
       ),
   },
 };
-
 const ruleBasedCpqFeatureConfiguration = {
   productConfiguratorRulebased: {
     module: () =>
