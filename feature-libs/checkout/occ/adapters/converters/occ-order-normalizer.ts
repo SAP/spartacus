@@ -8,7 +8,7 @@ import {
   PRODUCT_NORMALIZER,
 } from '@spartacus/core';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
   constructor(private converter: ConverterService) {}
 

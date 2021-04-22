@@ -29,6 +29,9 @@ import { OccCheckoutAdapter } from './adapters/occ-checkout.adapter';
   imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccCheckoutConfig),
+    OccOrderNormalizer,
+    OccReplenishmentOrderFormSerializer,
+    OccReplenishmentOrderNormalizer,
     {
       provide: CheckoutAdapter,
       useClass: OccCheckoutAdapter,

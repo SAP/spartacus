@@ -6,7 +6,7 @@ import {
   TimeUtils,
 } from '@spartacus/core';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class OccReplenishmentOrderFormSerializer
   implements
     Converter<Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm> {

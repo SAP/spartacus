@@ -8,7 +8,7 @@ import {
   ReplenishmentOrder,
 } from '@spartacus/core';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class OccReplenishmentOrderNormalizer
   implements Converter<Occ.ReplenishmentOrder, ReplenishmentOrder> {
   constructor(private converter: ConverterService) {}
