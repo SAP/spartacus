@@ -12,26 +12,45 @@
         <span> {{ product.name }} </span>
       </ng-container>
     </div>
-    <a
-      role="link"
-      (click)="triggerDetails()"
-      (keyup)="clickOnEnter($event)"
-      tabindex="0"
-    >
-      <ng-container *ngIf="!showMore">
-        <div class="cx-toggle-details-link-text">
-          {{ 'configurator.header.showMore' | cxTranslate }}
-        </div>
-        <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
-      </ng-container>
+    <ng-container *cxFeatureLevel="!3.1">
+      <a
+        role="link"
+        (click)="triggerDetails()"
+        (keyup)="clickOnEnter($event)"
+        tabindex="0"
+      >
+        <ng-container *ngIf="!showMore">
+          <div class="cx-toggle-details-link-text">
+            {{ 'configurator.header.showMore' | cxTranslate }}
+          </div>
+          <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
+        </ng-container>
 
-      <ng-container *ngIf="showMore">
-        <div class="cx-toggle-details-link-text">
-          {{ 'configurator.header.showLess' | cxTranslate }}
-        </div>
-        <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
-      </ng-container>
-    </a>
+        <ng-container *ngIf="showMore">
+          <div class="cx-toggle-details-link-text">
+            {{ 'configurator.header.showLess' | cxTranslate }}
+          </div>
+          <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
+        </ng-container>
+      </a>
+    </ng-container>
+    <ng-container *cxFeatureLevel="3.1">
+      <button (click)="triggerDetails()">
+        <ng-container *ngIf="!showMore">
+          <div class="cx-toggle-details-link-text">
+            {{ 'configurator.header.showMore' | cxTranslate }}
+          </div>
+          <cx-icon [type]="iconTypes.CARET_DOWN"></cx-icon>
+        </ng-container>
+
+        <ng-container *ngIf="showMore">
+          <div class="cx-toggle-details-link-text">
+            {{ 'configurator.header.showLess' | cxTranslate }}
+          </div>
+          <cx-icon [type]="iconTypes.CARET_UP"></cx-icon>
+        </ng-container>
+      </button>
+    </ng-container>
     <div class="cx-details" [class.open]="showMore">
       <div class="cx-details-image">
         <!-- TODO(issue: #11238): update feature level to the release we are publishing with,
