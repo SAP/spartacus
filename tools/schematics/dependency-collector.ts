@@ -1,9 +1,6 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 
-interface Dependency {
-  [packageName: string]: string;
-}
 const fileName = 'projects/schematics/src/dependencies.json';
 const packageJsonDirectories: string[] = [
   'projects',
@@ -22,9 +19,11 @@ function readJson(path: string): any {
   return JSON.parse(fs.readFileSync(path, 'utf-8'));
 }
 
-function collect(directories: string[]): { [packageName: string]: Dependency } {
+function collect(
+  directories: string[]
+): { [packageName: string]: Record<string, string> } {
   let collected: {
-    [packageName: string]: Dependency;
+    [packageName: string]: Record<string, string>;
   } = {};
 
   for (const dir of directories) {
