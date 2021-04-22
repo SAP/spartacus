@@ -20,6 +20,7 @@ export const ANGULAR_HTTP = '@angular/common/http';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
+export const PLATFORM_ID = 'PLATFORM_ID';
 export const ANGULAR_OAUTH2_OIDC = 'angular-oauth2-oidc';
 
 export const SPARTACUS_SCOPE = '@spartacus/';
@@ -57,6 +58,7 @@ export const OBSERVABLE_CLASS = 'Observable';
 export const RENDERER_2 = 'Renderer2';
 export const ELEMENT_REF = 'ElementRef';
 export const INJECTOR = 'Injector';
+export const UNIFIED_INJECTOR = 'UnifiedInjector';
 export const COMPILER = 'Compiler';
 
 export const STORE = 'Store';
@@ -103,6 +105,7 @@ export const FEATURE_MODULES_SERVICE = 'FeatureModulesService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
+export const PAGE_META_CONFIG = 'PageMetaConfig';
 export const STORE_DATA_SERVICE = 'StoreDataService';
 export const SPLIT_VIEW_SERVICE = 'SplitViewService';
 
