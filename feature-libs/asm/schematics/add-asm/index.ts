@@ -11,7 +11,6 @@ import {
   installPackageJsonDependencies,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
-  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_ASM,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -42,10 +41,7 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
 }
 
 function addAsmPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(
-    peerDependencies,
-    SKIP_SCOPES_FEATURES_LIBS
-  );
+  const dependencies = createDependencies(peerDependencies);
   return addPackageJsonDependencies(dependencies, packageJson);
 }
 

@@ -8,10 +8,10 @@ import { ANGULAR_SCHEMATICS, SPARTACUS_SCOPE, UTF_8 } from '../constants';
 import { getServerTsPath } from './file-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
 
-export const SKIP_SCOPES_FEATURES_LIBS = [SPARTACUS_SCOPE, ANGULAR_SCHEMATICS];
+const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE, ANGULAR_SCHEMATICS];
 export function createDependencies(
   dependencyObject: any,
-  skipScopes: string[] = [SPARTACUS_SCOPE]
+  skipScopes: string[] = FEATURES_LIBS_SKIP_SCOPES
 ): NodeDependency[] {
   const dependencies: NodeDependency[] = [];
   for (const dependencyName in dependencyObject) {

@@ -12,7 +12,6 @@ import {
   installPackageJsonDependencies,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
-  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -54,10 +53,7 @@ export function addProductConfiguratorFeatures(
 }
 
 function addProductConfiguratorPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(
-    peerDependencies,
-    SKIP_SCOPES_FEATURES_LIBS
-  );
+  const dependencies = createDependencies(peerDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }

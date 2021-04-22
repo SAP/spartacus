@@ -14,7 +14,6 @@ import {
   LibraryOptions as SpartacusOrganizationOptions,
   readPackageJson,
   shouldAddFeature,
-  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_ORGANIZATION,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -66,10 +65,7 @@ export function addSpartacusOrganization(
 }
 
 function addOrganizationPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(
-    peerDependencies,
-    SKIP_SCOPES_FEATURES_LIBS
-  );
+  const dependencies = createDependencies(peerDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }

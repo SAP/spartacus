@@ -11,7 +11,6 @@ import {
   installPackageJsonDependencies,
   LibraryOptions as SpartacusSmartEditOptions,
   readPackageJson,
-  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_SMARTEDIT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -40,10 +39,7 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
 }
 
 function addSmarteditPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(
-    peerDependencies,
-    SKIP_SCOPES_FEATURES_LIBS
-  );
+  const dependencies = createDependencies(peerDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }

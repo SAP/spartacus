@@ -13,7 +13,6 @@ import {
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
   shouldAddFeature,
-  SKIP_SCOPES_FEATURES_LIBS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -62,10 +61,7 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
 }
 
 function addTrackingPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(
-    peerDependencies,
-    SKIP_SCOPES_FEATURES_LIBS
-  );
+  const dependencies = createDependencies(peerDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }
