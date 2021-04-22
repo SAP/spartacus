@@ -35,7 +35,7 @@ const directives = [
 export class KeyboardFocusModule {}
 
 /**
- *
+ *  Start keyboard focus services on app initialization.
  */
 export function keyboardFocusFactory(
   onNavigateFocusService: OnNavigateFocusService
