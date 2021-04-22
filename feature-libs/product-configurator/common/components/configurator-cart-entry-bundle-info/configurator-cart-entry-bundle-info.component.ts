@@ -80,15 +80,4 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   isDesktop(): Observable<boolean> {
     return this.breakpointService?.isUp(BREAKPOINT.md);
   }
-
-  /**
-   * Fired on key board events, checks for 'enter' and delegates to click.
-   *
-   * @param {KeyboardEvent} event - Keyboard event
-   */
-  clickOnEnter(event: KeyboardEvent): void {
-    if (event.code === 'Enter') {
-      this.toggleItems();
-    }
-  }
 }

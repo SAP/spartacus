@@ -1,10 +1,17 @@
 %cx-configurator-cart-entry-bundle-info {
-  .cx-toggle-hide-items {
-    color: var(--cx-color-primary);
-    font-size: inherit;
-    inline-size: max-content;
-    text-decoration: underline;
-    cursor: pointer;
+  button {
+    border: none;
+    background-color: transparent;
+    outline-offset: 0px;
+    padding-inline-start: 0px;
+
+    .cx-toggle-hide-items {
+      color: var(--cx-color-primary);
+      font-size: inherit;
+      inline-size: max-content;
+      text-decoration: underline;
+      cursor: pointer;
+    }
   }
 
   .cx-item-infos {
@@ -75,6 +82,7 @@
           text-align: center;
         }
       }
+
       .cx-item-price {
         @include media-breakpoint-only(xl) {
           width: 17%;

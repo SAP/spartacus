@@ -294,7 +294,7 @@ export function checkProductTitleDisplayed(): void {
  */
 export function checkShowMoreLinkAtProductTitleDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
-  cy.get('a:contains("show more")').should('be.visible');
+  cy.get('button:contains("show more")').should('be.visible');
 }
 
 /**
@@ -957,7 +957,7 @@ function checkAddToCartBtnDisplayed(): void {
  * Verifies whether the group menu is not displayed.
  */
 export function checkConfigProductTitleDisplayed(): void {
-  cy.get('a:contains("show more")').should('be.visible');
+  cy.get('button:contains("show more")').should('be.visible');
 }
 
 /**
