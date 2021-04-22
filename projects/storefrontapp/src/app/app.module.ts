@@ -31,6 +31,8 @@ if (!environment.production) {
   devImports.push(StoreDevtoolsModule.instrument());
 }
 
+// PRODUCT CONFIGURATOR
+// TODO(#10883): Move product configurator to a separate feature module
 const ruleBasedVcFeatureConfiguration = {
   productConfiguratorRulebased: {
     module: () =>
@@ -51,6 +53,7 @@ const ruleBasedCpqFeatureConfiguration = {
 const ruleBasedFeatureConfiguration = environment.cpq
   ? ruleBasedCpqFeatureConfiguration
   : ruleBasedVcFeatureConfiguration;
+// PRODUCT CONFIGURATOR END
 
 @NgModule({
   imports: [
