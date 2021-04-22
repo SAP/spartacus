@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import { CmsConfig, provideConfig } from '@spartacus/core';
 import {
   orderApprovalTranslationChunksConfig,
   orderApprovalTranslations,
@@ -9,7 +9,7 @@ import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/
 @NgModule({
   imports: [OrderApprovalRootModule],
   providers: [
-    provideConfig({
+    provideConfig(<CmsConfig>{
       featureModules: {
         organizationOrderApproval: {
           module: () =>

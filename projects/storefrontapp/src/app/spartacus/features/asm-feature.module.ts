@@ -4,12 +4,12 @@ import {
   asmTranslations,
 } from '@spartacus/asm/assets';
 import { AsmRootModule } from '@spartacus/asm/root';
-import { provideConfig } from '@spartacus/core';
+import { CmsConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [AsmRootModule],
   providers: [
-    provideConfig({
+    provideConfig(<CmsConfig>{
       featureModules: {
         asm: {
           module: () => import('@spartacus/asm').then((m) => m.AsmModule),
