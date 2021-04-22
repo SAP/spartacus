@@ -1,43 +1,27 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-import {
-  BasePageMetaResolver,
-  CmsService,
-  Page,
-  PageRobotsMeta,
-} from '../../cms';
+import { of } from 'rxjs';
+import { BasePageMetaResolver, PageRobotsMeta } from '../../cms';
 import { I18nTestingModule } from '../../i18n';
-import { PageType } from '../../model/cms.model';
 import { CartPageMetaResolver } from './cart-page-meta.resolver';
-
-const mockContentPage: Page = {
-  type: PageType.CONTENT_PAGE,
-  template: 'CartPageTemplate',
-  title: 'Shopping Cart',
-  slots: {},
-};
-
-class MockCmsService {
-  getCurrentPage(): Observable<Page> {
-    return of(mockContentPage);
-  }
-}
 
 class MockBasePageMetaResolver {
   resolveRobots() {}
   resolveTitle() {
     return of('Shopping Cart');
   }
+  resolveDescription() {
+    return of();
+  }
 }
 
 describe('CartPageMetaResolver', () => {
   let service: CartPageMetaResolver;
+  let basePageMetaResolver: BasePageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
-        { provide: CmsService, useClass: MockCmsService },
         {
           provide: BasePageMetaResolver,
           useClass: MockBasePageMetaResolver,
@@ -46,6 +30,7 @@ describe('CartPageMetaResolver', () => {
     });
 
     service = TestBed.inject(CartPageMetaResolver);
+    basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
   });
 
   it('should inject service', () => {
@@ -53,7 +38,7 @@ describe('CartPageMetaResolver', () => {
   });
 
   it(`should resolve title`, () => {
-    let result: string;
+    let result: string | undefined;
 
     service
       .resolveTitle()
@@ -65,8 +50,29 @@ describe('CartPageMetaResolver', () => {
     expect(result).toEqual('Shopping Cart');
   });
 
-  it(`should resolve robots`, () => {
-    let result: string[];
+  it(`should resolve 'Page description' for resolveDescription()`, () => {
+    let result: string | undefined;
+
+    spyOn(basePageMetaResolver, 'resolveDescription').and.returnValue(
+      of('Page description')
+    );
+
+    service
+      .resolveDescription()
+      .subscribe((meta) => {
+        result = meta;
+      })
+      .unsubscribe();
+
+    expect(result).toEqual('Page description');
+  });
+
+  it(`should resolve robots for page data`, () => {
+    let result: PageRobotsMeta[] | undefined;
+
+    spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
+      of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX] as PageRobotsMeta[])
+    );
 
     service
       .resolveRobots()
@@ -75,8 +81,7 @@ describe('CartPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.length).toEqual(2);
-    expect(result).toContain(PageRobotsMeta.NOFOLLOW);
-    expect(result).toContain(PageRobotsMeta.NOINDEX);
+    expect(result).toContain(PageRobotsMeta.FOLLOW);
+    expect(result).toContain(PageRobotsMeta.INDEX);
   });
 });

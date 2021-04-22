@@ -112,6 +112,7 @@ export const PAGE_LINK_SERVICE = 'PageLinkService';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
 export const SEARCH_PAGE_META_RESOLVER = 'SearchPageMetaResolver';
 export const CATEGORY_PAGE_META_RESOLVER = 'CategoryPageMetaResolver';
+export const CART_PAGE_META_RESOLVER = `CartPageMetaResolver`;
 export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
