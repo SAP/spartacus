@@ -6,7 +6,10 @@
 </ng-container>
 
 <ng-template #login>
-  <a role="link" [routerLink]="{ cxRoute: 'login' } | cxUrl">{{
-    'miniLogin.signInRegister' | cxTranslate
-  }}</a>
+  <div class="headerLinks">
+    <cx-page-slot position="HeaderLinks"></cx-page-slot>
+    <a role="link" [routerLink]="{ cxRoute: 'login' } | cxUrl">{{
+      'miniLogin.signInRegister' | cxTranslate
+    }}</a>
+  </div>
 </ng-template>
