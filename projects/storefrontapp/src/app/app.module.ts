@@ -31,6 +31,30 @@ if (!environment.production) {
   devImports.push(StoreDevtoolsModule.instrument());
 }
 
+// PRODUCT CONFIGURATOR
+// TODO(#10883): Move product configurator to a separate feature module
+const ruleBasedVcFeatureConfiguration = {
+  productConfiguratorRulebased: {
+    module: () =>
+      import('@spartacus/product-configurator/rulebased').then(
+        (m) => m.RulebasedConfiguratorModule
+      ),
+  },
+};
+
+const ruleBasedCpqFeatureConfiguration = {
+  productConfiguratorRulebased: {
+    module: () =>
+      import('@spartacus/product-configurator/rulebased/cpq').then(
+        (m) => m.RulebasedCpqConfiguratorModule
+      ),
+  },
+};
+const ruleBasedFeatureConfiguration = environment.cpq
+  ? ruleBasedCpqFeatureConfiguration
+  : ruleBasedVcFeatureConfiguration;
+// PRODUCT CONFIGURATOR END
+
 @NgModule({
   imports: [
     BrowserModule.withServerTransition({ appId: 'spartacus-app' }),
@@ -47,19 +71,12 @@ if (!environment.production) {
       i18n: {
         resources: configuratorTranslations,
       },
-      featureModules: {
-        productConfiguratorRulebased: {
-          module: () =>
-            import('@spartacus/product-configurator/rulebased/cpq').then(
-              (m) => m.RulebasedCpqConfiguratorModule
-            ),
-        },
-        productConfiguratorTextfield: {
-          module: () =>
-            import('@spartacus/product-configurator/textfield').then(
-              (m) => m.TextfieldConfiguratorModule
-            ),
-        },
+      featureModules: ruleBasedFeatureConfiguration,
+      productConfiguratorTextfield: {
+        module: () =>
+          import('@spartacus/product-configurator/textfield').then(
+            (m) => m.TextfieldConfiguratorModule
+          ),
       },
     }),
     RulebasedConfiguratorRootModule,
