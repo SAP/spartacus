@@ -93,8 +93,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     htmlElem = fixture.nativeElement;
     spyOn(component.inputChange, 'emit');
     DEBOUNCE_TIME =
-      defaultConfiguratorUISettingsConfig.productConfigurator?.debounceTime
-        ?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
+      defaultConfiguratorUISettingsConfig.productConfigurator
+        ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
   });
 
   function checkForValidity(
