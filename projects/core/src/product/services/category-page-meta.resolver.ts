@@ -46,27 +46,11 @@ export class CategoryPageMetaResolver
     )
   );
 
-  // TODO(#10467): Remove deprecated constructors
-  constructor(
-    productSearchService: ProductSearchService,
-    cmsService: CmsService,
-    translation: TranslationService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    basePageMetaResolver?: BasePageMetaResolver
-  );
-  /**
-   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
-   */
-  constructor(
-    productSearchService: ProductSearchService,
-    cmsService: CmsService,
-    translation: TranslationService
-  );
   constructor(
     protected productSearchService: ProductSearchService,
     protected cms: CmsService,
     protected translation: TranslationService,
-    protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CATEGORY_PAGE;
@@ -136,23 +120,17 @@ export class CategoryPageMetaResolver
     );
   }
 
-  /**
-   * @override
-   * This is added in 3.1 and will be ignored if the `BasePageMetaResolver` is not
-   * available.
-   */
-  // TODO(#10467) drop the 3.1 note.
   resolveRobots(): Observable<PageRobotsMeta[]> {
-    return this.basePageMetaResolver?.resolveRobots() ?? of([]);
+    return this.basePageMetaResolver.resolveRobots();
   }
 
   /**
    * Resolves the canonical url for the category listing page.
    *
    * The default options will be used to resolve the url, which means that
-   * the all query parameters are removed and https and www are added explicitly.
+   * all query parameters are removed and https and www are added explicitly.
    */
   resolveCanonicalUrl(): Observable<string> {
-    return this.basePageMetaResolver?.resolveCanonicalUrl() ?? of();
+    return this.basePageMetaResolver.resolveCanonicalUrl();
   }
 }
