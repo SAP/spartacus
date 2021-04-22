@@ -10,7 +10,7 @@
     @include media-breakpoint-up(md) {
       width: 41.6666666667%;
 
-      @include forVersion(3.1) {
+      @include forVersion(3.3) {
         width: 40%;
       }
     }
@@ -23,7 +23,7 @@
     @include media-breakpoint-up(md) {
       width: 58.3333333333%;
 
-      @include forVersion(3.1) {
+      @include forVersion(3.3) {
         width: 60%;
       }
     }

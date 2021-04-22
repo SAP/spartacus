@@ -1,7 +1,7 @@
 %cx-configurator-attribute-checkbox-list {
   @include cx-configurator-attribute-type();
 
-  @include forVersion(3.1) {
+  @include forVersion(3.3) {
     .cx-quantity {
       padding-block-end: 1rem;
     }
