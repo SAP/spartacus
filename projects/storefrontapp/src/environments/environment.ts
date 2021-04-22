@@ -16,7 +16,7 @@ import { Environment } from './models/environment.model';
 export const environment: Environment = {
   production: false,
   // occBaseUrl: buildProcess.env.CX_BASE_URL,
-  occBaseUrl: 'https://spartacus-dev4.eastus.cloudapp.azure.com:9002/',
+  occBaseUrl: 'https://spartacus-dev0.eastus.cloudapp.azure.com:9002/',
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
   // b2b: buildProcess.env.CX_B2B ?? false,
