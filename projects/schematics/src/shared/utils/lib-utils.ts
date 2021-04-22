@@ -272,7 +272,6 @@ function addRootModule(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addFeatureModule(
   tsconfigPath: string,
   basePath: string,
