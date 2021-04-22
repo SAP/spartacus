@@ -9,7 +9,9 @@
       >
         <cx-media
           *ngFor="let cat of variant"
+          (click)="changeVariant(cat.variantOption.code)"
           [container]="cat.variantOption?.variantOptionQualifiers[0]?.image"
+          class="image-variant"
         ></cx-media>
       </div>
 

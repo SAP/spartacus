@@ -3,8 +3,7 @@
   "compilerOptions": {
     "outDir": "../../out-tsc/spec",
     "types": ["jasmine", "node"],
-    "module": "es2020",
-    "strict": false
+    "module": "es2020"
   },
   "files": ["test.ts"],
   "include": ["**/*.spec.ts", "**/*.d.ts"]

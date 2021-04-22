@@ -14,11 +14,11 @@ import {
 import { filter, take } from 'rxjs/operators';
 
 @Component({
-  selector: 'cx-variant-generic-selector',
-  templateUrl: './variant-generic-selector.component.html',
+  selector: 'cx-variants-multi-dimensional-selector',
+  templateUrl: './variants-multi-dimensional-selector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VariantGenericSelectorComponent implements OnInit {
+export class VariantsMultiDimensionalSelectorComponent implements OnInit {
   @Input()
   product: Product;
 
@@ -34,11 +34,13 @@ export class VariantGenericSelectorComponent implements OnInit {
   }
 
   changeVariant(code: string): void {
+    
+
     if (code) {
       this.productService
-        .get(code, ProductScope.VARIANTS)
+        .get(code, ProductScope.VARIANTS_MULTIDIMENSIONAL)
         .pipe(filter(Boolean), take(1))
-        .subscribe((product: Product) => {
+        .subscribe((product) => {
           this.routingService.go({
             cxRoute: 'product',
             params: product,
@@ -47,12 +49,12 @@ export class VariantGenericSelectorComponent implements OnInit {
           this.setVariants();
         });
     }
-    return null;
+    return;
   }
 
   variantHasImages(variants: VariantMatrixElement[]): boolean {
     return variants.some(
-      (variant: VariantMatrixElement) => variant.parentVariantCategory.hasImage
+      (variant: VariantMatrixElement) => variant.parentVariantCategory?.hasImage
     );
   }
 
@@ -60,7 +62,7 @@ export class VariantGenericSelectorComponent implements OnInit {
     this.variants = [];
 
     const levels = Array.from(
-      { length: this.product.categories.length },
+      { length: this.product?.categories?.length },
       (_, k) => k + 1
     );
 
@@ -83,7 +85,7 @@ export class VariantGenericSelectorComponent implements OnInit {
   private getProductVariantMatrixIndex(matrix: VariantMatrixElement[]): number {
     let productVariantMatrixIndex: number;
     matrix.forEach((variant: VariantMatrixElement, index: number) => {
-      if (variant.variantOption.code === this.product.code) {
+      if (variant.variantOption?.code === this.product.code) {
         productVariantMatrixIndex = index;
       }
     });

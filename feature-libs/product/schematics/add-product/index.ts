@@ -11,9 +11,14 @@ import {
   shouldAddFeature,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import {
+  CLI_BULK_PRICING_FEATURE,
+  CLI_VARIANTS_FEATURE,
+  CLI_VARIANTS_MULTIDIMENSIONAL_FEATURE,
+} from '../constants';
+import { addVariantsMultiDimensionalFeature } from '../add-variants-multidimensional';
 import { addBulkPricingFeature } from '../add-bulk-pricing';
 import { addVariantsFeature } from '../add-product-variants';
-import { CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE } from '../constants';
 
 export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
@@ -27,6 +32,10 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
 
       shouldAddFeature(CLI_VARIANTS_FEATURE, options.features)
         ? addVariantsFeature(options)
+        : noop(),
+
+      shouldAddFeature(CLI_VARIANTS_MULTIDIMENSIONAL_FEATURE, options.features)
+        ? addVariantsMultiDimensionalFeature(options)
         : noop(),
     ]);
   };

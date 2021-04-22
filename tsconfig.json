@@ -238,7 +238,25 @@
       "@spartacus/assets": ["projects/assets/src/public_api"],
       "@spartacus/core": ["projects/core/public_api"],
       "@spartacus/incubator": ["projects/incubator/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"]
+      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
+      "@spartacus/product/multi-d": [
+        "feature-libs/product/multi-d/public_api"
+      ],
+      "@spartacus/product/multi-d/assets": [
+        "feature-libs/product/multi-d/assets/public_api"
+      ],
+      "@spartacus/product/multi-d/components": [
+        "feature-libs/product/multi-d/components/public_api"
+      ],
+      "@spartacus/product/multi-d/core": [
+        "feature-libs/product/multi-d/core/public_api"
+      ],
+      "@spartacus/product/multi-d/occ": [
+        "feature-libs/product/multi-d/occ/public_api"
+      ],
+      "@spartacus/product/multi-d/root": [
+        "feature-libs/product/multi-d/root/public_api"
+      ]
     }
   },
   "exclude": [

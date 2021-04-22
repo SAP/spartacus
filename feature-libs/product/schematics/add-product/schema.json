@@ -20,10 +20,18 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Bulk-Pricing", "Product-Variants"],
+        "enum": [
+          "Bulk-Pricing",
+          "Product-Variants",
+          "Variants-Multidimensional"
+        ],
         "type": "string"
       },
-      "default": ["Bulk-Pricing", "Product-Variants"],
+      "default": [
+        "Bulk-Pricing",
+        "Product-Variants",
+        "Variants-Multidimensional"
+      ],
       "x-prompt": "Which Product features would you like to setup?"
     }
   },

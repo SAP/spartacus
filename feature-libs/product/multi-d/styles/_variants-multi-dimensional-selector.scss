@@ -1,15 +1,25 @@
-%cx-variant-generic-selector {
+cx-variants-multi-dimensional-selector {
   .variant-generic-selector {
     display: flex;
     flex-direction: column;
 
     .image-variant-container {
       display: flex;
+      height: 70px;
+      width: 70px;
 
-      cx-media {
+      .image-variant {
+        cursor: pointer;
         height: 70px;
         margin: 0 5px 0 0;
         width: 70px;
+      }
+
+      cx-media {
+        &.is-missing {
+          min-height: 70px;
+          min-width: 70px;
+        }
       }
     }
 

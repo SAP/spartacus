@@ -81,6 +81,7 @@ import { StorefinderFeatureModule } from './features/storefinder-feature.module'
 import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
+import { VariantsMultidimensionalFeatureModule } from './features/variants-multidimensional-feature.module';
 
 const featureModules = [];
 
@@ -201,6 +202,7 @@ if (environment.cds) {
     TrackingFeatureModule,
     VariantsFeatureModule,
     SavedCartFeatureModule,
+    VariantsMultidimensionalFeatureModule,
     ...featureModules,
   ],
 })
