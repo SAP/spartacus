@@ -7,11 +7,11 @@
       background-color: transparent;
       border: none;
       display: inline-block;
-      outline: none;
+      outline-offset: 0px;
+      text-decoration: underline;
 
       &:hover {
         color: var(--cx-color-primary);
-        text-decoration: underline;
       }
     }
   }
