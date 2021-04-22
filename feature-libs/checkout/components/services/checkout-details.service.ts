@@ -21,9 +21,7 @@ import {
   tap,
 } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutDetailsService {
   cartId$: Observable<string>;
   getCheckoutDetailsLoaded$: Observable<boolean>;

@@ -17,9 +17,7 @@ import { debounceTime, filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ExpressCheckoutService {
   private shippingAddressSet$: Observable<boolean>;
   private deliveryModeSet$: Observable<boolean>;

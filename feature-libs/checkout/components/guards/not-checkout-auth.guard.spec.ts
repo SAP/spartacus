@@ -35,6 +35,7 @@ describe('NotCheckoutAuthGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        NotCheckoutAuthGuard,
         { provide: SemanticPathService, useClass: SemanticPathServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
         {

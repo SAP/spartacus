@@ -17,6 +17,19 @@ import { PromotionsModule } from './components/promotions/promotions.module';
 import { ReviewSubmitModule } from './components/review-submit/review-submit.module';
 import { ScheduleReplenishmentOrderModule } from './components/schedule-replenishment-order/schedule-replenishment-order.module';
 import { ShippingAddressModule } from './components/shipping-address/shipping-address.module';
+import { CheckoutAuthGuard } from './guards/checkout-auth.guard';
+import { CheckoutDetailsLoadedGuard } from './guards/checkout-details-loaded.guard';
+import { CheckoutStepsSetGuard } from './guards/checkout-steps-set.guard';
+import { CheckoutGuard } from './guards/checkout.guard';
+import { DeliveryModeSetGuard } from './guards/delivery-mode-set.guard';
+import { NotCheckoutAuthGuard } from './guards/not-checkout-auth.guard';
+import { PaymentDetailsSetGuard } from './guards/payment-details-set.guard';
+import { ShippingAddressSetGuard } from './guards/shipping-address-set.guard';
+import { CheckoutConfigService } from './services/checkout-config.service';
+import { CheckoutDetailsService } from './services/checkout-details.service';
+import { CheckoutReplenishmentFormService } from './services/checkout-replenishment-form-service';
+import { CheckoutStepService } from './services/checkout-step.service';
+import { ExpressCheckoutService } from './services/express-checkout.service';
 
 @NgModule({
   imports: [
@@ -36,6 +49,21 @@ import { ShippingAddressModule } from './components/shipping-address/shipping-ad
     ShippingAddressModule,
     CostCenterModule,
     CheckoutLoginRegisterModule,
+  ],
+  providers: [
+    CheckoutAuthGuard,
+    CheckoutDetailsLoadedGuard,
+    CheckoutStepsSetGuard,
+    CheckoutGuard,
+    DeliveryModeSetGuard,
+    NotCheckoutAuthGuard,
+    PaymentDetailsSetGuard,
+    ShippingAddressSetGuard,
+    CheckoutConfigService,
+    CheckoutDetailsService,
+    CheckoutReplenishmentFormService,
+    CheckoutStepService,
+    ExpressCheckoutService,
   ],
 })
 export class CheckoutComponentsModule {}

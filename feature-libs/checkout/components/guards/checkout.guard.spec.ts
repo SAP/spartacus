@@ -59,6 +59,7 @@ describe(`CheckoutGuard`, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        CheckoutGuard,
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },

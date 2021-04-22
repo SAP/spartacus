@@ -42,6 +42,7 @@ describe(`DeliveryModeSetGuard`, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        DeliveryModeSetGuard,
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         {
           provide: CheckoutDetailsService,

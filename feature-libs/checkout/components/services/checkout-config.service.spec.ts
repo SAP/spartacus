@@ -26,7 +26,10 @@ describe('CheckoutConfigService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: mockCheckoutConfig, useClass: CheckoutConfig }],
+      providers: [
+        CheckoutConfigService,
+        { provide: mockCheckoutConfig, useClass: CheckoutConfig },
+      ],
     });
 
     service = new CheckoutConfigService(mockCheckoutConfig);

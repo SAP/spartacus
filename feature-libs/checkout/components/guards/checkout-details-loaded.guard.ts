@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutDetailsLoadedGuard implements CanActivate {
   constructor(private checkoutDetailsService: CheckoutDetailsService) {}
 

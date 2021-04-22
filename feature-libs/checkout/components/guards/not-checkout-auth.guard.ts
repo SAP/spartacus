@@ -8,9 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class NotCheckoutAuthGuard implements CanActivate {
   constructor(
     protected authService: AuthService,

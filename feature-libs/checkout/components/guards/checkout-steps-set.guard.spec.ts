@@ -110,6 +110,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
+        CheckoutStepsSetGuard,
         {
           provide: CheckoutDetailsService,
           useClass: MockCheckoutDetailsService,

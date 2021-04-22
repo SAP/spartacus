@@ -16,6 +16,7 @@ describe(`CheckoutDetailsLoadedGuard`, () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        CheckoutDetailsLoadedGuard,
         {
           provide: CheckoutDetailsService,
           useClass: MockCheckoutDetailsService,

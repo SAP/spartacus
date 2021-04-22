@@ -8,9 +8,7 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutGuard implements CanActivate {
   private readonly firstStep$: Observable<UrlTree>;
 
