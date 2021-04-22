@@ -3,9 +3,7 @@ import { Cart } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CheckoutCostCenterAdapter } from './checkout-cost-center.adapter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutCostCenterConnector {
   constructor(protected adapter: CheckoutCostCenterAdapter) {}
 

@@ -36,6 +36,7 @@ describe('CheckoutPageMetaResolver', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
+        CheckoutPageMetaResolver,
         PageMetaService,
         { provide: ActiveCartService, useClass: MockActiveCartService },
         {

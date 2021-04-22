@@ -3,9 +3,7 @@ import { CardType, PaymentDetails } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutPaymentConnector {
   constructor(protected adapter: CheckoutPaymentAdapter) {}
 

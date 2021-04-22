@@ -35,6 +35,7 @@ describe('Checkout Replenishment Order Connector', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         providers: [
+          CheckoutReplenishmentOrderConnector,
           {
             provide: CheckoutReplenishmentOrderAdapter,
             useClass: MockCheckoutReplenishmentOrderAdapter,

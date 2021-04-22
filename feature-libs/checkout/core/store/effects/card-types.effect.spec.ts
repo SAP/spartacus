@@ -28,6 +28,7 @@ describe('Card Types effect', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        CheckoutPaymentConnector,
         CardTypesEffects,
         { provide: CheckoutPaymentAdapter, useValue: {} },
         provideMockActions(() => actions$),

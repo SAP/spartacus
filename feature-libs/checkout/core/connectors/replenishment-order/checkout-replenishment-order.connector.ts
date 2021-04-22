@@ -3,9 +3,7 @@ import { ReplenishmentOrder, ScheduleReplenishmentForm } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CheckoutReplenishmentOrderAdapter } from './checkout-replenishment-order.adapter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutReplenishmentOrderConnector {
   constructor(protected adapter: CheckoutReplenishmentOrderAdapter) {}
 

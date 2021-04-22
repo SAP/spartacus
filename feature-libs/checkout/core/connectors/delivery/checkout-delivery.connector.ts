@@ -3,9 +3,7 @@ import { Address, DeliveryMode } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CheckoutDeliveryAdapter } from './checkout-delivery.adapter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutDeliveryConnector {
   constructor(protected adapter: CheckoutDeliveryAdapter) {}
 

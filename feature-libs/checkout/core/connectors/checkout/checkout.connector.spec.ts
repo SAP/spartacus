@@ -29,13 +29,16 @@ class MockOrderAdapter implements CheckoutAdapter {
   );
 }
 
-describe('OrderConnector', () => {
+describe('CheckoutConnector', () => {
   let service: CheckoutConnector;
   let adapter: CheckoutAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ provide: CheckoutAdapter, useClass: MockOrderAdapter }],
+      providers: [
+        CheckoutConnector,
+        { provide: CheckoutAdapter, useClass: MockOrderAdapter },
+      ],
     });
 
     service = TestBed.inject(CheckoutConnector);

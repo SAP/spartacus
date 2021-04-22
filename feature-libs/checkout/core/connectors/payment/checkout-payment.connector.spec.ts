@@ -19,6 +19,7 @@ describe('CheckoutPaymentConnector', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        CheckoutPaymentConnector,
         {
           provide: CheckoutPaymentAdapter,
           useClass: MockCheckoutPaymentAdapter,

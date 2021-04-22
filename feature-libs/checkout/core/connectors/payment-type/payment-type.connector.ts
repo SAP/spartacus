@@ -3,9 +3,7 @@ import { PaymentType } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PaymentTypeAdapter } from './payment-type.adapter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class PaymentTypeConnector {
   constructor(protected adapter: PaymentTypeAdapter) {}
 

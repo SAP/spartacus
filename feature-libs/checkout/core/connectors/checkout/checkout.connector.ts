@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutAdapter } from './checkout.adapter';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutConnector {
   constructor(protected adapter: CheckoutAdapter) {}
 

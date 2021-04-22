@@ -19,9 +19,7 @@ import { switchMap } from 'rxjs/operators';
  *
  * The page title and robots are resolved in this implementation only.
  */
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutPageMetaResolver
   extends PageMetaResolver
   implements PageTitleResolver, PageRobotsResolver {

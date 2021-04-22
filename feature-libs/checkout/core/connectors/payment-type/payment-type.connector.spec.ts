@@ -19,6 +19,7 @@ describe('PaymentTypeConnector', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        PaymentTypeConnector,
         {
           provide: PaymentTypeAdapter,
           useClass: MockPaymentTypeAdapter,

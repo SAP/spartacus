@@ -25,9 +25,7 @@ import {
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class PaymentTypeService {
   constructor(
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,

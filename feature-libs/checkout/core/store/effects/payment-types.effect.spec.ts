@@ -30,6 +30,7 @@ describe('Payment Types effect', () => {
     TestBed.configureTestingModule({
       providers: [
         PaymentTypesEffects,
+        PaymentTypeConnector,
         { provide: PaymentTypeAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],

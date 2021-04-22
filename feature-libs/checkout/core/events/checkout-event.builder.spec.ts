@@ -18,7 +18,10 @@ describe('CheckoutEventBuilder', () => {
   beforeEach(() => {
     actions$ = new Subject();
     TestBed.configureTestingModule({
-      providers: [{ provide: ActionsSubject, useValue: actions$ }],
+      providers: [
+        CheckoutEventBuilder,
+        { provide: ActionsSubject, useValue: actions$ },
+      ],
     });
 
     TestBed.inject(CheckoutEventBuilder); // register events

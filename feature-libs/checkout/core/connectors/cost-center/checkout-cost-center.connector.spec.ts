@@ -18,6 +18,7 @@ describe('CheckoutCostCenterConnector', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
+        CheckoutCostCenterConnector,
         {
           provide: CheckoutCostCenterAdapter,
           useClass: MockCheckoutCostCenterAdapter,

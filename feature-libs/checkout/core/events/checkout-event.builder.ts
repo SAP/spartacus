@@ -3,9 +3,7 @@ import { StateEventService } from '@spartacus/core';
 import { CheckoutActions } from '../store/actions/index';
 import { OrderPlacedEvent } from './checkout.events';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutEventBuilder {
   constructor(protected stateEventService: StateEventService) {
     this.register();

@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { CheckoutDeliveryService } from '../facade/checkout-delivery.service';
 import { CheckoutPaymentService } from '../facade/checkout-payment.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ClearCheckoutService {
   constructor(
     protected checkoutDeliveryService: CheckoutDeliveryService,
