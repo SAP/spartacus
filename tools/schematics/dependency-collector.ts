@@ -6,8 +6,6 @@ interface Dependency {
 }
 const fileName = 'projects/schematics/src/dependencies.json';
 const packageJsonDirectories: string[] = [
-  'feature-libs',
-  'integration-libs',
   'projects',
   'core-libs',
   // our root package.json
@@ -58,8 +56,8 @@ function collect(directories: string[]): { [packageName: string]: Dependency } {
 
 function run(): void {
   cleanup();
-  const collected = collect(packageJsonDirectories);
 
+  const collected = collect(packageJsonDirectories);
   fs.writeFileSync(fileName, JSON.stringify(collected, undefined, 2));
   execSync(
     `node_modules/prettier/bin-prettier.js --config ./.prettierrc projects/schematics/src/dependencies.json --write`
