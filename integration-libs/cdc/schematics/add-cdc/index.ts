@@ -16,7 +16,6 @@ import {
   installPackageJsonDependencies,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
-  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_ASM,
   SPARTACUS_CDC,
   SPARTACUS_USER,
@@ -61,10 +60,7 @@ function addCdcPackageJsonDependencies(packageJson: any): Rule {
       name: SPARTACUS_USER,
     },
   ];
-  const thirdPartyDependencies = createDependencies(
-    peerDependencies,
-    SKIP_SCOPES_FEATURES_LIBS
-  );
+  const thirdPartyDependencies = createDependencies(peerDependencies);
 
   const dependencies = spartacusDependencies.concat(thirdPartyDependencies);
   return addPackageJsonDependencies(dependencies, packageJson);

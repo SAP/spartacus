@@ -11,7 +11,6 @@ import {
   installPackageJsonDependencies,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
-  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_STOREFINDER,
   STOREFINDER_MODULE,
   STORE_FINDER_SCSS_FILE_NAME,
@@ -45,10 +44,7 @@ export function addStorefinderFeatures(
 }
 
 function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(
-    peerDependencies,
-    SKIP_SCOPES_FEATURES_LIBS
-  );
+  const dependencies = createDependencies(peerDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }

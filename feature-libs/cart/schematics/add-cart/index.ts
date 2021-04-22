@@ -14,7 +14,6 @@ import {
   LibraryOptions as SpartacusCartOptions,
   readPackageJson,
   shouldAddFeature,
-  SKIP_SCOPES_FEATURES_LIBS,
   SPARTACUS_CART,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -53,10 +52,7 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
 }
 
 function addCartPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(
-    peerDependencies,
-    SKIP_SCOPES_FEATURES_LIBS
-  );
+  const dependencies = createDependencies(peerDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }

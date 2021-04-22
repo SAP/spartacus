@@ -1,13 +1,8 @@
 import { execSync } from 'child_process';
 import fs from 'fs';
 
-interface Dependency {
-  [packageName: string]: string;
-}
 const fileName = 'projects/schematics/src/dependencies.json';
 const packageJsonDirectories: string[] = [
-  'feature-libs',
-  'integration-libs',
   'projects',
   'core-libs',
   // our root package.json
@@ -24,10 +19,10 @@ function readJson(path: string): any {
   return JSON.parse(fs.readFileSync(path, 'utf-8'));
 }
 
-function collect(directories: string[]): { [packageName: string]: Dependency } {
-  let collected: {
-    [packageName: string]: Dependency;
-  } = {};
+function collect(
+  directories: string[]
+): Record<string, Record<string, string>> {
+  let collected: Record<string, Record<string, string>> = {};
 
   for (const dir of directories) {
     if (fs.statSync(dir).isFile()) {
@@ -58,11 +53,11 @@ function collect(directories: string[]): { [packageName: string]: Dependency } {
 
 function run(): void {
   cleanup();
-  const collected = collect(packageJsonDirectories);
 
+  const collected = collect(packageJsonDirectories);
   fs.writeFileSync(fileName, JSON.stringify(collected, undefined, 2));
   execSync(
-    `node_modules/prettier/bin-prettier.js --config ./.prettierrc projects/schematics/src/dependencies.json --write`
+    `node ./node_modules/prettier/bin-prettier.js --config ./.prettierrc projects/schematics/src/dependencies.json --write`
   );
 }
 

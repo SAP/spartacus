@@ -40,6 +40,7 @@ import {
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
   SPARTACUS_ROUTING_MODULE,
+  SPARTACUS_SCOPE,
   SPARTACUS_SETUP,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
@@ -224,12 +225,15 @@ function prepareDependencies(options: SpartacusOptions): NodeDependency[] {
     });
   }
 
-  const thirdPartyDependencies = createDependencies({
-    ...collectedDependencies['@spartacus/core'],
-    ...collectedDependencies['@spartacus/storefront'],
-    ...collectedDependencies['@spartacus/styles'],
-    ...collectedDependencies['@spartacus/assets'],
-  });
+  const thirdPartyDependencies = createDependencies(
+    {
+      ...collectedDependencies['@spartacus/core'],
+      ...collectedDependencies['@spartacus/storefront'],
+      ...collectedDependencies['@spartacus/styles'],
+      ...collectedDependencies['@spartacus/assets'],
+    },
+    [SPARTACUS_SCOPE]
+  );
   return spartacusDependencies.concat(thirdPartyDependencies);
 }
 
