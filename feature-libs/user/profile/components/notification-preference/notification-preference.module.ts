@@ -1,31 +1,33 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthGuard,
   CmsConfig,
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
+import { SpinnerModule } from '@spartacus/storefront';
 import { NotificationPreferenceComponent } from './notification-preference.component';
+import { NotificationPreferenceComponentService } from './notification-preference.service';
 
-/**
- * @deprecated
- */
 @NgModule({
   declarations: [NotificationPreferenceComponent],
-  imports: [CommonModule, SpinnerModule, I18nModule],
+  imports: [CommonModule, ReactiveFormsModule, SpinnerModule, I18nModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         NotificationPreferenceComponent: {
           component: NotificationPreferenceComponent,
           guards: [AuthGuard],
+          providers: [
+            {
+              provide: NotificationPreferenceComponentService,
+            },
+          ],
         },
       },
     }),
   ],
-  exports: [NotificationPreferenceComponent],
-  entryComponents: [NotificationPreferenceComponent],
 })
 export class NotificationPreferenceModule {}

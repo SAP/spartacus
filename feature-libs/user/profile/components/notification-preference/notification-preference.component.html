@@ -1,0 +1,14 @@
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
+
+<label *ngFor="let preference of preferences$ | async">
+  <input
+    role="checkbox"
+    type="checkbox"
+    (change)="update(preference)"
+    [checked]="preference.enabled"
+  />
+  <span class="label-content">
+    {{ 'notificationPreference.' + preference.channel | cxTranslate }}
+    {{ preference.value }}
+  </span>
+</label>

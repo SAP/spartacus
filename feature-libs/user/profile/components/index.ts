@@ -1,5 +1,6 @@
 export * from './close-account/index';
 export * from './forgot-password/index';
+export * from './notification-preference/index';
 export * from './register/index';
 export * from './reset-password/index';
 export * from './update-email/index';

@@ -4,12 +4,12 @@ import {
   UserProfileFacadeTransitionalToken,
   UserRegisterFacadeTransitionalToken,
 } from '@spartacus/core';
+import { UserProfileFacade } from './facade/user-profile.facade';
+import { UserRegisterFacade } from './facade/user-register.facade';
 import {
   USER_PROFILE_CORE_FEATURE,
   USER_PROFILE_FEATURE,
 } from './feature-name';
-import { UserProfileFacade } from './facade/user-profile.facade';
-import { UserRegisterFacade } from './facade/user-register.facade';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultUserProfileComponentsConfig() {
@@ -24,6 +24,7 @@ export function defaultUserProfileComponentsConfig() {
           'ForgotPasswordComponent',
           'ResetPasswordComponent',
           'CloseAccountComponent',
+          'NotificationPreferenceComponent',
         ],
       },
       // by default core is bundled together with components

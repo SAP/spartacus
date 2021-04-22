@@ -111,8 +111,11 @@ export class ConverterService implements OnDestroy {
     injectionToken: InjectionToken<Converter<S, T>>
   ): T[] {
     if (this.hasConverters(injectionToken) && Array.isArray(sources)) {
-      return sources.map((source) =>
-        this.convertSource(source, injectionToken)
+      return (
+        sources
+          .map((source) => this.convertSource(source, injectionToken))
+          // if the normalizer returns null, we should filter that out
+          .filter((source) => !!source)
       );
     } else {
       return sources as any[];

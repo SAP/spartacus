@@ -1,8 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
+import { UserProfileConnector } from '@spartacus/user/profile/core';
 import { Observable, of } from 'rxjs';
 import { UserEmailService } from './user-email.service';
-import { UserProfileConnector } from '@spartacus/user/profile/core';
 import createSpy = jasmine.createSpy;
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -13,7 +13,8 @@ class MockUserIdService implements Partial<UserIdService> {
 
 class MockUserProfileConnector implements Partial<UserProfileConnector> {
   updateEmail = createSpy().and.callFake(
-    (_userId, _currentPassword, _newUserId) => of(undefined)
+    (_userId: string, _currentPassword: string, _newUserId: string) =>
+      of(undefined)
   );
 }
 

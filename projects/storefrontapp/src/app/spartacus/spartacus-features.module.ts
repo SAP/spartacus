@@ -38,7 +38,6 @@ import {
   MyInterestsModule,
   NavigationEventModule,
   NavigationModule,
-  NotificationPreferenceModule,
   OrderCancellationModule,
   OrderConfirmationModule,
   OrderDetailsModule,
@@ -125,7 +124,6 @@ if (environment.cds) {
     // User UI
     AddressBookModule,
     PaymentMethodsModule,
-    NotificationPreferenceModule,
     MyInterestsModule,
     StockNotificationModule,
     ConsentManagementModule,
