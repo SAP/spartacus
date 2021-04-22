@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import { CmsConfig, provideConfig } from '@spartacus/core';
 import {
   bulkPricingTranslationChunksConfig,
   bulkPricingTranslations,
@@ -9,7 +9,7 @@ import { BulkPricingRootModule } from '@spartacus/product/bulk-pricing/root';
 @NgModule({
   imports: [BulkPricingRootModule],
   providers: [
-    provideConfig({
+    provideConfig(<CmsConfig>{
       featureModules: {
         productBulkPricing: {
           module: () =>

@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
-import { StoreFinderRootModule } from '@spartacus/storefinder/root';
-import { provideConfig } from '@spartacus/core';
+import { CmsConfig, provideConfig } from '@spartacus/core';
 import {
   storeFinderTranslationChunksConfig,
   storeFinderTranslations,
 } from '@spartacus/storefinder/assets';
+import { StoreFinderRootModule } from '@spartacus/storefinder/root';
 
 @NgModule({
   imports: [StoreFinderRootModule],
   providers: [
-    provideConfig({
+    provideConfig(<CmsConfig>{
       featureModules: {
         storeFinder: {
           module: () =>

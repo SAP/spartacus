@@ -4,12 +4,12 @@ import {
   savedCartTranslations,
 } from '@spartacus/cart/saved-cart/assets';
 import { SavedCartRootModule } from '@spartacus/cart/saved-cart/root';
-import { provideConfig } from '@spartacus/core';
+import { CmsConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [SavedCartRootModule],
   providers: [
-    provideConfig({
+    provideConfig(<CmsConfig>{
       featureModules: {
         cartSavedCart: {
           module: () =>

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import { CmsConfig, provideConfig } from '@spartacus/core';
 import {
   organizationTranslationChunksConfig,
   organizationTranslations,
@@ -10,7 +10,7 @@ import { AdministrationRootModule } from '@spartacus/organization/administration
   declarations: [],
   imports: [AdministrationRootModule],
   providers: [
-    provideConfig({
+    provideConfig(<CmsConfig>{
       featureModules: {
         organizationAdministration: {
           module: () =>
