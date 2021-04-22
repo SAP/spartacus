@@ -166,7 +166,9 @@ function prepareDependencies(): NodeDependency[] {
   for (const dependencyName of DEPENDENCY_NAMES) {
     thirdPartyDependencies.push({
       type: NodeDependencyType.Default,
-      version: (collectedDependencies.storefrontapp as any)[dependencyName],
+      version: (collectedDependencies.storefrontapp as Record<string, string>)[
+        dependencyName
+      ],
       name: dependencyName,
     });
   }
