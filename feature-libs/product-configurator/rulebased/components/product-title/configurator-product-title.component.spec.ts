@@ -166,11 +166,7 @@ describe('ConfigProductTitleComponent', () => {
           {
             provide: FeaturesConfig,
             useValue: {
-              /**
-               TODO(issue: #11238): update features level to the release we are publishing with,
-               It is still 3.1 only because app.module.ts states that we are on 3.1.
-               Finally we must have 3.x, x>=2 here */
-              features: { level: '3.1' },
+              features: { level: '3.3' },
             },
           },
         ],
