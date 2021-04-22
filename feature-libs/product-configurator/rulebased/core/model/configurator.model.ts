@@ -154,22 +154,25 @@ export namespace Configurator {
   }
 
   export enum UiType {
-    AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
+    NOT_IMPLEMENTED = 'not_implemented',
+    RADIOBUTTON = 'radioGroup',
     CHECKBOX = 'checkBox',
     CHECKBOXLIST = 'checkBoxList',
-    CHECKBOXLIST_PRODUCT = 'checkBoxListProduct',
     DROPDOWN = 'dropdown',
-    DROPDOWN_PRODUCT = 'dropdownProduct',
     LISTBOX = 'listbox',
     LISTBOX_MULTI = 'listboxmulti',
-    MULTI_SELECTION_IMAGE = 'multi_selection_image',
-    NOT_IMPLEMENTED = 'not_implemented',
-    NUMERIC = 'numeric',
-    RADIOBUTTON = 'radioGroup',
-    RADIOBUTTON_PRODUCT = 'radioGroupProduct',
     READ_ONLY = 'readonly',
-    SINGLE_SELECTION_IMAGE = 'single_selection_image',
     STRING = 'string',
+    NUMERIC = 'numeric',
+    AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
+    MULTI_SELECTION_IMAGE = 'multi_selection_image',
+    SINGLE_SELECTION_IMAGE = 'single_selection_image',
+
+    //introduced with CPQ
+
+    CHECKBOXLIST_PRODUCT = 'checkBoxListProduct',
+    DROPDOWN_PRODUCT = 'dropdownProduct',
+    RADIOBUTTON_PRODUCT = 'radioGroupProduct',
   }
 
   export enum ImageFormatType {
