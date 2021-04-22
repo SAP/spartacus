@@ -74,7 +74,7 @@
         }
       }
 
-      @include forVersion(3.1) {
+      @include forVersion(3.3) {
         button {
           display: flex;
           flex-direction: row;
