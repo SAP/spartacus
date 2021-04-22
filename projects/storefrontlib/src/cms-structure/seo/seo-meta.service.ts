@@ -34,9 +34,7 @@ export class SeoMetaService implements OnDestroy {
     this.title = meta.title;
     this.description = meta.description;
     this.image = meta.image;
-    // TODO(#10467): since we only resolve robots on SSR, we should consider to drop the defaults
-    // with next major, as it's confusing to get the wrong defaults while navigating in CSR.
-    this.robots = meta.robots || [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW];
+    this.robots = meta.robots;
     this.canonicalUrl = meta.canonicalUrl;
   }
 
@@ -60,7 +58,7 @@ export class SeoMetaService implements OnDestroy {
     }
   }
 
-  protected set robots(value: PageRobotsMeta[]) {
+  protected set robots(value: PageRobotsMeta[] | undefined) {
     if (value && value.length > 0) {
       this.addTag({ name: 'robots', content: value.join(', ') });
     }
@@ -76,7 +74,7 @@ export class SeoMetaService implements OnDestroy {
     this.pageMetaLinkService?.setCanonicalLink(url);
   }
 
-  protected addTag(meta: MetaDefinition) {
+  protected addTag(meta: MetaDefinition): void {
     if (meta.content) {
       this.ngMeta.updateTag(meta);
     }
