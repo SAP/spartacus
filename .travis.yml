@@ -33,8 +33,6 @@ jobs:
     <<: *defaults
   - script: "export CYPRESS_CONFIG=cypress.ci.cdc.json && export SPA_ENV='cdc' && ./ci-scripts/e2e-cypress.sh -s cdc"
     name: "E2E tests for CDC"
-    allow_failures:
-      if: 1 = 1
 addons:
   chrome: stable
   sonarcloud:
