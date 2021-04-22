@@ -70,12 +70,14 @@ const ruleBasedFeatureConfiguration = environment.cpq
       i18n: {
         resources: configuratorTranslations,
       },
-      featureModules: ruleBasedFeatureConfiguration,
-      productConfiguratorTextfield: {
-        module: () =>
-          import('@spartacus/product-configurator/textfield').then(
-            (m) => m.TextfieldConfiguratorModule
-          ),
+      featureModules: {
+        ...ruleBasedFeatureConfiguration,
+        productConfiguratorTextfield: {
+          module: () =>
+            import('@spartacus/product-configurator/textfield').then(
+              (m) => m.TextfieldConfiguratorModule
+            ),
+        },
       },
     }),
     RulebasedConfiguratorRootModule,
