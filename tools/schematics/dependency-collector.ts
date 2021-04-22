@@ -59,7 +59,7 @@ function run(): void {
   const collected = collect(packageJsonDirectories);
   fs.writeFileSync(fileName, JSON.stringify(collected, undefined, 2));
   execSync(
-    `node_modules/prettier/bin-prettier.js --config ./.prettierrc projects/schematics/src/dependencies.json --write`
+    `node ./node_modules/prettier/bin-prettier.js --config ./.prettierrc projects/schematics/src/dependencies.json --write`
   );
 }
 
