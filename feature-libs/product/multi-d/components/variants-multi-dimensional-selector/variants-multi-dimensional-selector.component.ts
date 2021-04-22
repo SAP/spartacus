@@ -34,7 +34,7 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
   }
 
   changeVariant(code: string): void {
-    console.log('changeVariant', code);
+    
 
     if (code) {
       this.productService
