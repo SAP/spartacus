@@ -563,7 +563,7 @@ export function addPackageJsonDependencies(
     dependencies.forEach((dependency) => {
       if (
         !packageJson ||
-        !packageJson.dependencies.hasOwnProperty(dependency.name)
+        !packageJson[dependency.type].hasOwnProperty(dependency.name)
       ) {
         addPackageJsonDependency(tree, dependency);
         context.logger.info(
