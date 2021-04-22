@@ -19,10 +19,8 @@ export function createDependencies(
       continue;
     }
 
-    for (const scope of skipScopes) {
-      if (dependencyName.startsWith(scope)) {
-        continue;
-      }
+    if (skipScopes.some((scope) => dependencyName.startsWith(scope))) {
+      continue;
     }
 
     const type = dependencyName.includes('schematics')
