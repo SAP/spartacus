@@ -20,8 +20,7 @@ export class RoutingService {
     protected winRef: WindowRef,
     protected semanticPathService: SemanticPathService,
     protected routingParamsService: RoutingParamsService,
-    // TODO(#10467): Consider making router mandatory in next major
-    protected router?: Router
+    protected router: Router
   ) {}
 
   /**
@@ -87,11 +86,6 @@ export class RoutingService {
    * The absolute url can be resolved using `getFullUrl()`.
    */
   getUrl(commands: UrlCommands, extras?: NavigationExtras): string {
-    // TODO(#10467): Remove the warning as soon as the router becomes mandatory
-    if (!this.router) {
-      console.warn('No router injected to create the url tree');
-      return '';
-    }
     let url = this.router.serializeUrl(
       this.router.createUrlTree(
         this.semanticPathService.transform(commands),

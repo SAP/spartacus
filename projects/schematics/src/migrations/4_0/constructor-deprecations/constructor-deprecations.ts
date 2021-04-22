@@ -15,6 +15,7 @@ import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-p
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
 import { PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/product-page-event.builder.migration';
 import { PRODUCT_PAGE_META_RESOLVER_MIGRATION } from './data/product-page-meta.resolver.migration';
+import { ROUTING_SERVICE_MIGRATION } from './data/routing.service.migration';
 import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
 import { SEARCH_PAGE_META_RESOLVER_MIGRATION } from './data/search-page-meta.resolver.migration';
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
@@ -39,6 +40,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CART_PAGE_META_RESOLVER_MIGRATION,
   CATEGORY_PAGE_META_RESOLVER_MIGRATION,
   ORGANIZATION_PAGE_META_RESOLVER_MIGRATION,
+  ROUTING_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {
