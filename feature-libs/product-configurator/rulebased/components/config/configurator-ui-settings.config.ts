@@ -7,7 +7,7 @@ import { Config } from '@spartacus/core';
 })
 export abstract class ConfiguratorUISettingsConfig {
   productConfigurator: {
-    debounceTime: {
+    updateDebounceTime: {
       quantity?: number;
       input?: number;
     };

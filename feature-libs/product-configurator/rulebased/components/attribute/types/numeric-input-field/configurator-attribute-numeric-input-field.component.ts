@@ -93,7 +93,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       .pipe(
         debounce(() =>
           timer(
-            this.config?.productConfigurator?.debounceTime?.input ??
+            this.config?.productConfigurator?.updateDebounceTime?.input ??
               this.FALLBACK_DEBOUNCE_TIME
           )
         )

@@ -68,6 +68,9 @@ export class ConfiguratorProductTitleComponent {
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
+  /**
+   * @deprecated since 3.3
+   */
   clickOnEnter(event: KeyboardEvent): void {
     if (event.code === 'Enter') {
       this.triggerDetails();

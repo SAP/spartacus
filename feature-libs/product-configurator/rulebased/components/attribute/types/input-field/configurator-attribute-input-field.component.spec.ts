@@ -60,8 +60,8 @@ describe('ConfigAttributeInputFieldComponent', () => {
     fixture.detectChanges();
     spyOn(component.inputChange, 'emit');
     DEBOUNCE_TIME =
-      defaultConfiguratorUISettingsConfig.productConfigurator?.debounceTime
-        ?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
+      defaultConfiguratorUISettingsConfig.productConfigurator
+        ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
   });
 
   it('should create', () => {

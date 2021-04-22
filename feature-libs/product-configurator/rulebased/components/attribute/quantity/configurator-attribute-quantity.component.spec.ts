@@ -18,7 +18,7 @@ const fakeDebounceTime = 750;
 const changedQty = 9;
 const TestConfiguratorUISettings: ConfiguratorUISettingsConfig = {
   productConfigurator: {
-    debounceTime: {
+    updateDebounceTime: {
       quantity: fakeDebounceTime,
     },
   },
