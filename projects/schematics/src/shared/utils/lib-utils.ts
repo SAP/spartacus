@@ -288,11 +288,7 @@ function addFeatureModule(
             import: [
               {
                 moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
-              },
-              {
-                moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [CMS_CONFIG],
+                namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
               },
             ],
             content: `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
@@ -338,13 +334,12 @@ function addFeatureTranslations(
             import: [
               {
                 moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
+                namedImports: [PROVIDE_CONFIG_FUNCTION, I18N_CONFIG],
               },
               {
                 moduleSpecifier: config.i18n.importPath,
                 namedImports: [config.i18n.chunks, config.i18n.resources],
               },
-              { moduleSpecifier: SPARTACUS_CORE, namedImports: [I18N_CONFIG] },
             ],
             content: `${PROVIDE_CONFIG_FUNCTION}(<${I18N_CONFIG}>{
               i18n: {
