@@ -1,7 +1,11 @@
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { SourceFile } from 'ts-morph';
 import {
+  FEATURES_CONFIG,
+  I18N_CONFIG,
+  OCC_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
+  SITE_CONTEXT_CONFIG,
   SPARTACUS_ASSETS,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
@@ -117,7 +121,7 @@ function createSiteContextConfig(options: SpartacusOptions): string {
 
   contextConfig += `},`;
 
-  return `provideConfig({${contextConfig}})`;
+  return `provideConfig(<${SITE_CONTEXT_CONFIG}>{${contextConfig}})`;
 }
 
 /**
@@ -135,6 +139,7 @@ function addStorefrontConfig(
         moduleSpecifier: SPARTACUS_CORE,
         namedImports: [PROVIDE_CONFIG_FUNCTION],
       },
+      { moduleSpecifier: SPARTACUS_CORE, namedImports: [OCC_CONFIG] },
     ],
     content: backendConfig,
   });
@@ -145,6 +150,10 @@ function addStorefrontConfig(
       {
         moduleSpecifier: SPARTACUS_CORE,
         namedImports: [PROVIDE_CONFIG_FUNCTION],
+      },
+      {
+        moduleSpecifier: SPARTACUS_CORE,
+        namedImports: [SITE_CONTEXT_CONFIG],
       },
     ],
     content: siteContextConfig,
@@ -165,6 +174,7 @@ function addStorefrontConfig(
         moduleSpecifier: SPARTACUS_ASSETS,
         namedImports: ['translationChunksConfig'],
       },
+      { moduleSpecifier: SPARTACUS_CORE, namedImports: [I18N_CONFIG] },
     ],
     content: i18nConfig,
   });
@@ -176,6 +186,7 @@ function addStorefrontConfig(
         moduleSpecifier: SPARTACUS_CORE,
         namedImports: [PROVIDE_CONFIG_FUNCTION],
       },
+      { moduleSpecifier: SPARTACUS_CORE, namedImports: [FEATURES_CONFIG] },
     ],
     content: featureLevelConfig,
   });
@@ -186,7 +197,7 @@ function createBackendConfiguration(options: SpartacusOptions): string {
   const occPrefixPart = options.occPrefix
     ? `prefix: '${options.occPrefix}'`
     : '';
-  return `provideConfig({
+  return `provideConfig(<${OCC_CONFIG}>{
     backend: {
       occ: {${options.useMetaTags ? '' : baseUrlPart}${occPrefixPart}
       }
@@ -195,7 +206,7 @@ function createBackendConfiguration(options: SpartacusOptions): string {
 }
 
 function createI18NConfiguration(): string {
-  return `provideConfig({
+  return `provideConfig(<${I18N_CONFIG}>{
   i18n: {
     resources: translations,
     chunks: translationChunksConfig,
@@ -209,5 +220,5 @@ function createFeatureLevelConfiguration(options: SpartacusOptions): string {
   features: {
     level: '${options.featureLevel || getSpartacusCurrentFeatureLevel()}'
   }`;
-  return `provideConfig({${featureLevelConfig}})`;
+  return `provideConfig(<${FEATURES_CONFIG}>{${featureLevelConfig}})`;
 }
