@@ -137,9 +137,8 @@ function addStorefrontConfig(
     import: [
       {
         moduleSpecifier: SPARTACUS_CORE,
-        namedImports: [PROVIDE_CONFIG_FUNCTION],
+        namedImports: [PROVIDE_CONFIG_FUNCTION, OCC_CONFIG],
       },
-      { moduleSpecifier: SPARTACUS_CORE, namedImports: [OCC_CONFIG] },
     ],
     content: backendConfig,
   });
@@ -149,11 +148,7 @@ function addStorefrontConfig(
     import: [
       {
         moduleSpecifier: SPARTACUS_CORE,
-        namedImports: [PROVIDE_CONFIG_FUNCTION],
-      },
-      {
-        moduleSpecifier: SPARTACUS_CORE,
-        namedImports: [SITE_CONTEXT_CONFIG],
+        namedImports: [PROVIDE_CONFIG_FUNCTION, SITE_CONTEXT_CONFIG],
       },
     ],
     content: siteContextConfig,
@@ -164,17 +159,12 @@ function addStorefrontConfig(
     import: [
       {
         moduleSpecifier: SPARTACUS_CORE,
-        namedImports: [PROVIDE_CONFIG_FUNCTION],
+        namedImports: [PROVIDE_CONFIG_FUNCTION, I18N_CONFIG],
       },
       {
         moduleSpecifier: SPARTACUS_ASSETS,
-        namedImports: ['translations'],
+        namedImports: ['translations', 'translationChunksConfig'],
       },
-      {
-        moduleSpecifier: SPARTACUS_ASSETS,
-        namedImports: ['translationChunksConfig'],
-      },
-      { moduleSpecifier: SPARTACUS_CORE, namedImports: [I18N_CONFIG] },
     ],
     content: i18nConfig,
   });
@@ -184,9 +174,8 @@ function addStorefrontConfig(
     import: [
       {
         moduleSpecifier: SPARTACUS_CORE,
-        namedImports: [PROVIDE_CONFIG_FUNCTION],
+        namedImports: [PROVIDE_CONFIG_FUNCTION, FEATURES_CONFIG],
       },
-      { moduleSpecifier: SPARTACUS_CORE, namedImports: [FEATURES_CONFIG] },
     ],
     content: featureLevelConfig,
   });
