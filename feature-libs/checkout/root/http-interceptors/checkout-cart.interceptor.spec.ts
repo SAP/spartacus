@@ -5,10 +5,9 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { MultiCartService, RoutingService } from '@spartacus/core';
 import { of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { MultiCartService } from '@spartacus/core';
-import { RoutingService } from '@spartacus/core';
 import { CheckoutCartInterceptor } from './checkout-cart.interceptor';
 
 const cartNotFoundStatus = { status: 400, statusText: 'Error' };

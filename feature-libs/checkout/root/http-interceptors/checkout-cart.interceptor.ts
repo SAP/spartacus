@@ -6,10 +6,9 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MultiCartService, RouterState, RoutingService } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';
-import { MultiCartService } from '@spartacus/core';
-import { RouterState, RoutingService } from '@spartacus/core';
 
 /**
  * Interceptor that handles "Cart not found" errors while a user is in a checkout step.
