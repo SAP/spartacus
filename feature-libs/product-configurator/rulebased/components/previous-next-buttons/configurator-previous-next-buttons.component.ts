@@ -40,8 +40,13 @@ export class ConfiguratorPreviousNextButtonsComponent {
       );
 
     this.configUtils.scrollToConfigurationElement(
-      '.VariantConfigurationTemplate, .CpqConfigContent'
+      '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
     );
+
+    this.configuration$.pipe(take(2))
+      .subscribe(() => {
+        this.configUtils.focusFirstAttribute();
+      });
   }
 
   onNext(configuration: Configurator.Configuration): void {
@@ -55,6 +60,11 @@ export class ConfiguratorPreviousNextButtonsComponent {
     this.configUtils.scrollToConfigurationElement(
       '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
     );
+
+    this.configuration$.pipe(take(2))
+      .subscribe(() => {
+        this.configUtils.focusFirstAttribute();
+      });
   }
 
   isFirstGroup(owner: CommonConfigurator.Owner): Observable<boolean> {

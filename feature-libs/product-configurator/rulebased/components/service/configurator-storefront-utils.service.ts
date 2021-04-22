@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { KeyboardFocusService } from '@spartacus/storefront';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -13,7 +14,8 @@ import { Configurator } from '../../core/model/configurator.model';
 export class ConfiguratorStorefrontUtilsService {
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    @Inject(PLATFORM_ID) protected platformId: any
+    @Inject(PLATFORM_ID) protected platformId: any,
+    protected keyboardFocusService: KeyboardFocusService
   ) {}
 
   /**
@@ -104,6 +106,14 @@ export class ConfiguratorStorefrontUtilsService {
       if (element && !this.isInViewport(element)) {
         this.scroll(element);
       }
+    }
+  }
+
+  focusFirstAttribute(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const form : HTMLElement = document.querySelector('cx-configurator-form');
+      const focusedElements: HTMLElement[] = this.keyboardFocusService.findFocusable(form);
+      focusedElements[0]?.focus();
     }
   }
 }
