@@ -17,7 +17,6 @@ export class VariantsMultiDimensionalComponent implements OnInit {
   ngOnInit(): void {
     this.product$ = this.currentProductService.getProduct().pipe(
       filter((product) => {
-        console.log(product);
 
         return !!(
           product &&
