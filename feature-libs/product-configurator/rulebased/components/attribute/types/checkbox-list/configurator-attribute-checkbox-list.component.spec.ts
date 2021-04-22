@@ -9,7 +9,6 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeQuantityService } from '../../quantity';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
-import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 
 class MockGroupService {}
 
@@ -105,25 +104,6 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     expect(valueToSelect.checked).toBeFalsy();
   });
 
-  it('should call emit of selectionChange onHandleAttributeQuantity', () => {
-    const quantity = 2;
-
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-
-    component['onHandleAttributeQuantity'](quantity);
-
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        changedAttribute: jasmine.objectContaining({
-          ...component.attribute,
-          quantity,
-        }),
-        ownerKey: component.ownerKey,
-        updateType: Configurator.UpdateType.ATTRIBUTE_QUANTITY,
-      })
-    );
-  });
-
   it('should call emit of selectionChange onChangeValueQuantity', () => {
     spyOn(component.selectionChange, 'emit').and.callThrough();
 
@@ -170,22 +150,6 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     spyOn(component, 'onSelect');
     component.onChangeQuantity(0);
     expect(component.onSelect).toHaveBeenCalled();
-  });
-
-  it('should allow quantity on attribute level when specified so', () => {
-    (component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL),
-      expect(component.withQuantityOnAttributeLevel).toBeTruthy();
-  });
-
-  it('should not allow quantity on attribute level when specified as value level', () => {
-    (component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL),
-      expect(component.withQuantityOnAttributeLevel).toBeFalsy();
-  });
-
-  it('should check allowZeroValueQuantity getter', () => {
-    expect(component.allowZeroValueQuantity).toBeTruthy();
   });
 
   // HTML
@@ -240,38 +204,6 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     );
   });
 
-  it('should allow quantity', () => {
-    expect(component.withQuantity).toBe(true);
-  });
-
-  // TODO(#11681):remove this test when the quantityService will be a required dependency
-  it('should not allow quantity when service is missing ', () => {
-    component['quantityService'] = undefined;
-    expect(component.withQuantity).toBe(false);
-  });
-
-  it('should allow quantity actions', () => {
-    expect(component.disableQuantityActions).toBe(false);
-  });
-
-  // TODO(#11681):remove this test when the quantityService will be a required dependency
-  it('should not allow quantity actions when service is missing ', () => {
-    component['quantityService'] = undefined;
-    expect(component.disableQuantityActions).toBe(true);
-  });
-
-  it('should allow quantity on attribute level', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
-    expect(component.withQuantityOnAttributeLevel).toBe(true);
-  });
-
-  // TODO(#11681):remove this test when the quantityService will be a required dependency
-  it('should not allow quantity on attribute level when service is missing ', () => {
-    component['quantityService'] = undefined;
-    expect(component.withQuantityOnAttributeLevel).toBe(false);
-  });
-
   it('should allow zero value quantity', () => {
     expect(component.allowZeroValueQuantity).toBe(true);
   });
@@ -280,21 +212,5 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   it('should not allow zero value quantity when service is missing ', () => {
     component['quantityService'] = undefined;
     expect(component.allowZeroValueQuantity).toBe(false);
-  });
-
-  it('should set initial quantity and allow zero', () => {
-    const quantityOptions: ConfiguratorAttributeQuantityComponentOptions = component.extractQuantityParameters(
-      2,
-      true
-    );
-    expect(quantityOptions.initialQuantity).toBe(2);
-    expect(quantityOptions.allowZero).toBe(true);
-  });
-
-  it('should set allow zero from attribute, if undefined', () => {
-    const quantityOptions: ConfiguratorAttributeQuantityComponentOptions = component.extractQuantityParameters(
-      1
-    );
-    expect(quantityOptions.allowZero).toBe(false);
   });
 });

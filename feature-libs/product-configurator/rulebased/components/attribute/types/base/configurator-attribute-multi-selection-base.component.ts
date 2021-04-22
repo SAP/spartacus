@@ -88,7 +88,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     };
   }
 
-  onHandleAttributeQuantity(quantity: number): void {
+  protected onHandleAttributeQuantity(quantity: number): void {
     this.loading$.next(true);
 
     const event: ConfigFormUpdateEvent = {
