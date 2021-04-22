@@ -44,7 +44,7 @@ context('Product Configuration', () => {
       );
       configuration.navigateToOverviewPage();
 
-      configuration.checkGlobalMessageNotDisplayed();
+      configuration.checkSuccessMessageNotDisplayed();
       configuration.checkUpdatingMessageNotDisplayed();
       configurationOverview.checkConfigOverviewPageDisplayed();
       verifyTabbingOrder(
@@ -54,7 +54,7 @@ context('Product Configuration', () => {
     });
   });
 
-  describe('Product Config Keep Focus', () => {
+  xdescribe('Product Config Keep Focus', () => {
     it('should keep focus after selection', () => {
       cy.server();
 
