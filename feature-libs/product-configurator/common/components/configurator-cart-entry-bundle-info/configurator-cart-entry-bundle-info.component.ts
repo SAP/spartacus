@@ -86,7 +86,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
-  protected clickOnEnter(event: KeyboardEvent): void {
+  clickOnEnter(event: KeyboardEvent): void {
     if (event.code === 'Enter') {
       this.toggleItems();
     }

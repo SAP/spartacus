@@ -14,10 +14,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import { ConfigModule, provideConfig, TestConfigModule } from '@spartacus/core';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
-import {
-  CpqConfiguratorRootModule,
-  RulebasedConfiguratorRootModule,
-} from '@spartacus/product-configurator/rulebased/root';
+import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';
 import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
@@ -43,35 +40,6 @@ if (!environment.production) {
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
     SpartacusModule,
-    ConfigModule.withConfig({
-      backend: {
-        occ: {
-          baseUrl: environment.occBaseUrl,
-          prefix: environment.occApiPrefix,
-        },
-      },
-
-      // custom routing configuration for e2e testing
-      routing: {
-        routes: {
-          product: {
-            paths: ['product/:productCode/:name', 'product/:productCode'],
-            paramsMapping: { name: 'slug' },
-          },
-        },
-      },
-
-      // we bring in static translations to be up and running soon right away
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en',
-      },
-
-      features: {
-        level: '3.2',
-      },
-    }),
 
     // PRODUCT CONFIGURATOR
     // TODO(#10883): Move product configurator to a separate feature module
@@ -95,7 +63,6 @@ if (!environment.production) {
       },
     }),
     RulebasedConfiguratorRootModule,
-    CpqConfiguratorRootModule,
     TextfieldConfiguratorRootModule,
     // PRODUCT CONFIGURATOR END
 
