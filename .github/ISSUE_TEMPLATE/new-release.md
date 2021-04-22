@@ -53,7 +53,7 @@ assignees: ''
 
 To keep track of spartacussampledata releases, we keep a `latest` branch on each supported version that always points to the latest stable release. Every release, we incorporate the latest changes to them.
 
-- [ ] Merge _next_ branches into _latest_ branches for each version (1905, 2005) (only if there are additions/changes present in _next_ that are not in _latest_):
+- [ ] Tag sample data branches for each version (1905, 2005):
   - [ ] `git clone https://github.tools.sap/cx-commerce/spartacussampledata` (if already present `cd spartacussampledata && git fetch origin`)
   - [ ] tag the final commit on release/1905/next branch: `git tag 1905-x.y.z HEAD-COMMIT-HASH`
   - [ ] tag the final commit on release/2005/next branch: `git tag 2005-x.y.z HEAD-COMMIT-HASH`
@@ -69,10 +69,13 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
   - For each package select/type version when prompted:
     - [ ] `npm run release:core:with-changelog`
     - [ ] `npm run release:storefront:with-changelog`
+    - [ ] `npm run release:user:with-changelog` (needed since `3.2.0-rc.0`)
     - [ ] `npm run release:cds:with-changelog`
     - [ ] `npm run release:assets:with-changelog`
     - [ ] `npm run release:styles:with-changelog`
     - [ ] `npm run release:schematics:with-changelog`
+    - [ ] `npm run release:asm:with-changelog` (needed since `3.2.0-rc.0`)
+    - [ ] `npm run release:cart:with-changelog` (needed since `3.2.0-rc.0`)
     - [ ] `npm run release:setup:with-changelog` (needed since `3.0.0-next.1`)
     - [ ] `npm run release:organization:with-changelog` (needed since `3.0.0-next.1`)
     - [ ] `npm run release:storefinder:with-changelog` (needed since `3.0.0-rc.0`)
@@ -81,8 +84,8 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
     - [ ] `npm run release:smartedit:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:product-configurator:with-changelog` (needed since `3.1.0-next.0`)
-    - [ ] `npm run release:cdc:with-changelog` (since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
-      - [ ] before the script set the spartacus peerDependencies manually (as we publish it under 0.201.0-next.0 version)
+    - [ ] `npm run release:cdc:with-changelog` (since 3.2.0 release like any other lib with the same version as everything else. For older versions since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
+      - [ ] before the script set the spartacus peerDependencies manually (only applies to <3.2.0 releases)
 - [ ] Check that the release notes are populated on github (if they are not, update them)
 - [ ] Check tags on npm.
   - `next` tag should always reference the last non-stable version
@@ -100,7 +103,7 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
   - [ ] Run the installation script to make sure you can create a shell app with the latest imported libraries with no errors:
 
     ```bash
-    cd scripts/install && run.sh install_npm
+    cd scripts/install && ./run.sh install_npm
     ```
 
 - [ ] Merge release branch (PR from release/x.y.z) to the maintenance branch

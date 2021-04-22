@@ -104,6 +104,7 @@ export class CartItemComponent implements OnInit, OnChanges {
       this.cartItemContextSource?.promotionLocation$.next(
         this.promotionLocation
       );
+      this.cartItemContextSource?.location$.next(this.promotionLocation);
     }
     if (changes?.options) {
       this.cartItemContextSource?.options$.next(this.options);
