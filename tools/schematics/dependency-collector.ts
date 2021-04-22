@@ -21,10 +21,8 @@ function readJson(path: string): any {
 
 function collect(
   directories: string[]
-): { [packageName: string]: Record<string, string> } {
-  let collected: {
-    [packageName: string]: Record<string, string>;
-  } = {};
+): Record<string, Record<string, string>> {
+  let collected: Record<string, Record<string, string>> = {};
 
   for (const dir of directories) {
     if (fs.statSync(dir).isFile()) {
