@@ -1,7 +1,7 @@
 import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as tabConfig } from '../../helpers/accessibility/tabbing-order.config';
+import * as configurationOverviewCommon from '../../helpers/product-configuration-overview';
 import * as configuration from '../../helpers/product-configurator-vc';
-import * as configurationOverview from '../../helpers/product-configurator-vc-overview';
 /**
  * This suite is marked as flaky due to performance (synchronization) issues on
  * https://spartacus-devci767.eastus.cloudapp.azure.com:9002 that we analyze in
@@ -51,7 +51,7 @@ context('Product Configuration', () => {
 
       configuration.checkGlobalMessageNotDisplayed();
       configuration.checkUpdatingMessageNotDisplayed();
-      configurationOverview.checkConfigOverviewPageDisplayed();
+      configurationOverviewCommon.checkConfigOverviewPageDisplayed();
       verifyTabbingOrder(
         containerSelectorOverviewForm,
         tabConfig.productConfigurationOverview

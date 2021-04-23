@@ -7,6 +7,7 @@ import {
   PaymentDetails,
 } from './checkout-forms';
 import { navigation } from './navigation';
+import * as ProductConfiguratorCommon from './product-configuration';
 
 const shippingAddressData: AddressData = user;
 const billingAddress: AddressData = user;
@@ -211,7 +212,7 @@ export function checkConfigPageDisplayed(): void {
   checkPriceSummaryDisplayed();
   checkAddToCartBtnDisplayed();
   checkProductTitleDisplayed();
-  checkShowMoreLinkAtProductTitleDisplayed();
+  ProductConfiguratorCommon.checkShowMoreLinkAtProductTitleDisplayed();
 }
 
 /**
@@ -222,14 +223,6 @@ export function checkProductTitleDisplayed(): void {
   cy.get('cx-configurator-product-title', { timeout: 10000 }).should(
     'be.visible'
   );
-}
-
-/**
- * Verifies whether 'show more' link is displayed in the product title component.
- */
-export function checkShowMoreLinkAtProductTitleDisplayed(): void {
-  checkUpdatingMessageNotDisplayed();
-  cy.get('a:contains("show more")').should('be.visible');
 }
 
 /**

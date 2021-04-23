@@ -1,7 +1,6 @@
 import Chainable = Cypress.Chainable;
+import * as configurationOverviewCommon from './product-configuration-overview';
 
-const continueToCartButtonSelector =
-  'cx-configurator-add-to-cart-button button';
 const resolveIssuesLinkSelector =
   'cx-configurator-overview-notification-banner button.cx-action-link';
 
@@ -20,24 +19,8 @@ export function goToConfigOverviewPage(
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
-    this.checkConfigOverviewPageDisplayed();
+    configurationOverviewCommon.checkConfigOverviewPageDisplayed();
   });
-}
-
-/**
- * Verifies whether the product overview page is displayed.
- */
-export function checkConfigOverviewPageDisplayed(): void {
-  cy.get('cx-configurator-overview-form').should('be.visible');
-}
-
-/**
- * Verifies whether 'Continue to Cart' button is displayed.
- */
-export function checkContinueToCartBtnDisplayed(): void {
-  cy.get('.cx-configurator-add-to-cart-btn button.btn-primary')
-    .contains('Continue to Cart')
-    .should('be.visible');
 }
 
 /**
@@ -47,18 +30,6 @@ export function navigateToConfigurationPage(): void {
   cy.get('cx-configurator-tab-bar a:contains("Configuration")').click({
     force: true,
   });
-}
-
-/**
- * Clicks on 'Continue to cart' on the product overview page.
- */
-export function clickContinueToCartBtnOnOP(): void {
-  cy.get(continueToCartButtonSelector)
-    .click()
-    .then(() => {
-      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
-      cy.get('cx-cart-details').should('be.visible');
-    });
 }
 
 /**
@@ -113,15 +84,4 @@ export function verifyNotificationBannerOnOP(numberOfIssues?: number): void {
   } else {
     element.should('not.contain.html', 'div.cx-error-msg');
   }
-}
-/**
- * Registers OCC call for OV page in order to wait for it
- */
-export function registerConfigurationOvOCC() {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/ccpconfigurator/*/configurationOverview?lang=en&curr=USD`
-  ).as('configure_overview');
 }

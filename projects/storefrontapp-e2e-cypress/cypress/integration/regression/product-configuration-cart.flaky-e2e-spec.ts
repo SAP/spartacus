@@ -1,5 +1,6 @@
 import * as cart from '../../helpers/cart';
 import * as login from '../../helpers/login';
+import * as configurationOverviewCommon from '../../helpers/product-configuration-overview';
 import * as configuration from '../../helpers/product-configurator-vc';
 import * as configurationOverview from '../../helpers/product-configurator-vc-overview';
 import * as productSearch from '../../helpers/product-search';
@@ -138,12 +139,12 @@ context('Product Configuration', () => {
       configuration.clickOnNextBtn(GENERAL);
       configuration.checkStatusIconDisplayed(SOURCE_COMPONENTS, WARNING);
       configuration.checkStatusIconDisplayed(VIDEO_SYSTEM, WARNING);
-      configurationOverview.registerConfigurationOvOCC();
+      configurationOverviewCommon.registerConfigurationOvOCC();
       configuration.clickAddToCartBtn();
       // Navigate to Overview page and verify whether the resolve issues banner is displayed and how many issues are there
       configurationOverview.verifyNotificationBannerOnOP(1);
       // Navigate to cart and verify whether the  the resolve issues banner is displayed and how many issues are there
-      configurationOverview.clickContinueToCartBtnOnOP();
+      configurationOverviewCommon.clickContinueToCartBtnOnOP();
       configuration.verifyNotificationBannerInCart(0, 1);
       // Navigate back to the configuration page
       configuration.clickOnEditConfigurationLink(0);
@@ -163,11 +164,11 @@ context('Product Configuration', () => {
         GAMING_CONSOLE_NO
       );
       //Click 'Add to cart' and verify whether the resolve issues banner is not displayed anymore
-      configurationOverview.registerConfigurationOvOCC();
+      configurationOverviewCommon.registerConfigurationOvOCC();
       configuration.clickAddToCartBtn();
       configurationOverview.verifyNotificationBannerOnOP();
       // Click 'Continue to cart' and verify whether there is a resolve issues banner in the cart entry list
-      configurationOverview.clickContinueToCartBtnOnOP();
+      configurationOverviewCommon.clickContinueToCartBtnOnOP();
       configuration.verifyNotificationBannerInCart(0);
     });
   });
