@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   bulkPricingTranslationChunksConfig,
   bulkPricingTranslations,
@@ -18,6 +18,8 @@ import { BulkPricingRootModule } from '@spartacus/product/bulk-pricing/root';
             ),
         },
       },
+    }),
+    provideConfig(<I18nConfig>{
       i18n: {
         resources: bulkPricingTranslations,
         chunks: bulkPricingTranslationChunksConfig,

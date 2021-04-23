@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   storeFinderTranslationChunksConfig,
   storeFinderTranslations,
@@ -16,6 +16,8 @@ import { StoreFinderRootModule } from '@spartacus/storefinder/root';
             import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
         },
       },
+    }),
+    provideConfig(<I18nConfig>{
       i18n: {
         resources: storeFinderTranslations,
         chunks: storeFinderTranslationChunksConfig,

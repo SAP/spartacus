@@ -4,7 +4,7 @@ import {
   savedCartTranslations,
 } from '@spartacus/cart/saved-cart/assets';
 import { SavedCartRootModule } from '@spartacus/cart/saved-cart/root';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [SavedCartRootModule],
@@ -16,6 +16,8 @@ import { CmsConfig, provideConfig } from '@spartacus/core';
             import('@spartacus/cart/saved-cart').then((m) => m.SavedCartModule),
         },
       },
+    }),
+    provideConfig(<I18nConfig>{
       i18n: {
         resources: savedCartTranslations,
         chunks: savedCartTranslationChunksConfig,
