@@ -33,7 +33,9 @@
               (keyup)="clickOnEnter($event, group)"
               [cxFocus]="{ key: group.id }"
             >
-              <span>{{ group.description }}</span>
+              <span title="{{ group.description }}">{{
+                group.description
+              }}</span>
               <div class="groupIndicators">
                 <div class="conflictNumberIndicator">
                   {{ getConflictNumber(group) }}
