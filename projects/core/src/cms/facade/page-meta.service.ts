@@ -108,7 +108,6 @@ export class PageMetaService {
       .forEach(
         (resolver) => (resolverMethods[resolver.property] = resolver.method)
       );
-    console.log('resolvers', resolverMethods);
     return resolverMethods;
   }
 
