@@ -37,9 +37,7 @@
                 [sortLabels]="getSortLabels() | async"
                 (sortListEvent)="changeSortCode($event)"
                 [selectedOption]="type.orderHistory.pagination.sort"
-                placeholder="{{
-                  'orderHistory.sortByMostRecent' | cxTranslate
-                }}"
+                placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
               ></cx-sorting>
             </div>
             <div
