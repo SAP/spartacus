@@ -1,7 +1,7 @@
 import * as cart from '../../helpers/cart';
 import * as login from '../../helpers/login';
-import * as configuration from '../../helpers/product-configuration';
-import * as configurationOverview from '../../helpers/product-configuration-overview';
+import * as configuration from '../../helpers/product-configurator-vc';
+import * as configurationOverview from '../../helpers/product-configurator-vc-overview';
 import * as productSearch from '../../helpers/product-search';
 
 /**

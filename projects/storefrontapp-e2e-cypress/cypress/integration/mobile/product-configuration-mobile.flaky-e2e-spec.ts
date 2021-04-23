@@ -1,4 +1,4 @@
-import * as configuration from '../../helpers/product-configuration';
+import * as configuration from '../../helpers/product-configurator-vc';
 import { formats } from '../../sample-data/viewports';
 
 /**

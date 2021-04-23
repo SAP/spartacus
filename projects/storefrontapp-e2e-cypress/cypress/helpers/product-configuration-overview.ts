@@ -8,25 +8,6 @@ const resolveIssuesLinkSelector =
 const resolveIssuesText = ' must be resolved before checkout.  Resolve Issues';
 
 /**
- * Navigates to the configured product overview page.
- *
- * @param {string} shopName - shop name
- * @param {string} productId - Product ID
- * @return {Chainable<Window>} - New configuration overview window
- */
-export function goToConfigOverviewPage(
-  shopName: string,
-  productId: string
-): Chainable<Window> {
-  const location = `/${shopName}/en/USD/configure-overview/vc/product/entityKey/${productId}`;
-  return cy.visit(location).then(() => {
-    cy.location('pathname').should('contain', location);
-    cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
-    this.checkConfigOverviewPageDisplayed();
-  });
-}
-
-/**
  * Verifies whether the product overview page is displayed.
  */
 export function checkConfigOverviewPageDisplayed(): void {
