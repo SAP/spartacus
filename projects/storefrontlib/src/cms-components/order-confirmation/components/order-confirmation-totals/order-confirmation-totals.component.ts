@@ -7,6 +7,9 @@ import {
 import { CheckoutService, Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Component({
   selector: 'cx-order-confirmation-totals',
   templateUrl: './order-confirmation-totals.component.html',

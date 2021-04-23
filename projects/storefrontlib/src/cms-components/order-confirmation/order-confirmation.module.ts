@@ -31,7 +31,10 @@ const orderConfirmationComponents = [
   GuestRegisterFormComponent,
 ];
 
-@NgModule({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @NgModule({
   imports: [
     CommonModule,
     CartSharedModule,

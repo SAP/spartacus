@@ -18,7 +18,10 @@ import { OrderConfirmationThankYouMessageComponent } from './components/order-co
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
 
-@NgModule({
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @NgModule({
   imports: [
     CommonModule,
     CartSharedModule,
