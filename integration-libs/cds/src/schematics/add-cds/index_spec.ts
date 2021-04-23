@@ -9,17 +9,15 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import {
-  LibraryOptions as SpartacusCdcOptions,
-  SpartacusOptions,
-} from '@spartacus/schematics';
+import { SpartacusOptions } from '@spartacus/schematics';
 import * as path from 'path';
-import featureLibPackageJson from '../../package.json';
+import { Schema as SpartacusCdsOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const cdcModulePath = 'src/app/spartacus/features/cdc/cdc-feature.module.ts';
+const spartacusCdsFeatureModulePath =
+  'src/app/spartacus/features/cds/cds-feature.module.ts';
 
-describe('Spartacus CDC schematics: ng-add', () => {
+describe('Spartacus CDS schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
   let appTree: UnitTestTree;
@@ -39,9 +37,11 @@ describe('Spartacus CDC schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions: SpartacusCdcOptions = {
+  const defaultOptions: SpartacusCdsOptions = {
     project: 'schematics-test',
     lazy: true,
+    tenant: 'my-tenant',
+    baseUrl: 'my-base-url.com',
   };
 
   const spartacusDefaultOptions: SpartacusOptions = {
@@ -82,22 +82,12 @@ describe('Spartacus CDC schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('CDC feature', () => {
-    describe('general setup', () => {
+  describe('CDS feature', () => {
+    describe('general setup without ProfileTag', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', defaultOptions, appTree)
           .toPromise();
-      });
-
-      it('should install @spartacus/asm and @spartacus/user', async () => {
-        const packageJson = JSON.parse(appTree.readContent('package.json'));
-        expect(packageJson.dependencies['@spartacus/asm']).toEqual(
-          `^${featureLibPackageJson.peerDependencies['@spartacus/asm']}`
-        );
-        expect(packageJson.dependencies['@spartacus/user']).toEqual(
-          `^${featureLibPackageJson.peerDependencies['@spartacus/user']}`
-        );
       });
 
       it('should import feature module in SpartacusFeaturesModule', () => {
@@ -106,35 +96,41 @@ describe('Spartacus CDC schematics: ng-add', () => {
         );
         expect(spartacusFeaturesModulePath).toMatchSnapshot();
       });
+
+      it('should generate CDS feature module without ProfileTag config', () => {
+        const cdsFeatureModule = appTree.readContent(
+          spartacusCdsFeatureModulePath
+        );
+        expect(cdsFeatureModule).toMatchSnapshot();
+      });
     });
 
-    describe('eager loading', () => {
+    describe('general setup with ProfileTag', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultOptions, lazy: false },
+            {
+              ...defaultOptions,
+              profileTagConfigUrl: 'profile-tag-config-url.com',
+              profileTagLoadUrl: 'profile-tag-load-url.com',
+            },
             appTree
           )
           .toPromise();
       });
 
-      it('should import correct modules (without lazy loaded syntax)', async () => {
-        const cdcModule = appTree.readContent(cdcModulePath);
-        expect(cdcModule).toMatchSnapshot();
+      it('should import feature module in SpartacusFeaturesModule', () => {
+        const spartacusFeaturesModulePath = appTree.readContent(
+          'src/app/spartacus/spartacus-features.module.ts'
+        );
+        expect(spartacusFeaturesModulePath).toMatchSnapshot();
       });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import correct modules (with lazy loaded syntax)', async () => {
-        const cdcModule = appTree.readContent(cdcModulePath);
-        expect(cdcModule).toMatchSnapshot();
+      it('should generate CDS feature module with ProfileTag config', () => {
+        const cdsFeatureModule = appTree.readContent(
+          spartacusCdsFeatureModulePath
+        );
+        expect(cdsFeatureModule).toMatchSnapshot();
       });
     });
   });
