@@ -71,7 +71,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
       .pipe(map((group) => !group));
   }
 
-  private focusFirstAttribute(): void {
+  protected focusFirstAttribute(): void {
     this.configRouterExtractorService
       .extractRouterData()
       .pipe(
