@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   productVariantsTranslationChunksConfig,
   productVariantsTranslations,
@@ -18,6 +18,8 @@ import { ProductVariantsRootModule } from '@spartacus/product/variants/root';
             ),
         },
       },
+    }),
+    provideConfig(<I18nConfig>{
       i18n: {
         resources: productVariantsTranslations,
         chunks: productVariantsTranslationChunksConfig,

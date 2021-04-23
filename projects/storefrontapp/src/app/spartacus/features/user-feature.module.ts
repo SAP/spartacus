@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   userAccountTranslationChunksConfig,
   userAccountTranslations,
@@ -28,6 +28,8 @@ import {
             import('@spartacus/user/account').then((m) => m.UserAccountModule),
         },
       },
+    }),
+    provideConfig(<I18nConfig>{
       i18n: {
         resources: userAccountTranslations,
         chunks: userAccountTranslationChunksConfig,
@@ -41,6 +43,8 @@ import {
             import('@spartacus/user/profile').then((m) => m.UserProfileModule),
         },
       },
+    }),
+    provideConfig(<I18nConfig>{
       i18n: {
         resources: userProfileTranslations,
         chunks: userProfileTranslationChunksConfig,
