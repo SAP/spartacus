@@ -129,7 +129,7 @@ function testAllSchematics(): void {
   });
 
   featureLibsFolders.forEach((lib) =>
-    execSync(`yarn --cwd feature-libs/${lib} run test:schematics`, {
+    execSync(`yarn --cwd feature-libs/${lib} run test:schematics --coverage`, {
       stdio: 'inherit',
     })
   );
