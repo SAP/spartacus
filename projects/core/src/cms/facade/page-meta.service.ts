@@ -40,7 +40,6 @@ export class PageMetaService {
     switchMap((metaResolver: PageMetaResolver | undefined) =>
       metaResolver ? this.resolve(metaResolver) : of(null)
     ),
-    tap((meta) => console.log('meta', meta)),
     shareReplay({ bufferSize: 1, refCount: true })
   );
 
