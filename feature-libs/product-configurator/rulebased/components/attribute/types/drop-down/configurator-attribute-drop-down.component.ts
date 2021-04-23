@@ -1,46 +1,52 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
+
 @Component({
   selector: 'cx-configurator-attribute-drop-down',
   templateUrl: './configurator-attribute-drop-down.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeDropDownComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit {
   attributeDropDownForm = new FormControl('');
-  @Input() attribute: Configurator.Attribute;
   @Input() group: string;
-  @Input() ownerKey: string;
 
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  // TODO(#11681): make quantityService a required dependency
+  /**
+   * default constructor
+   * @param {ConfiguratorAttributeQuantityService} quantityService
+   */
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(quantityService: ConfiguratorAttributeQuantityService);
+
+  /**
+   * @deprecated since 3.3
+   */
+  constructor();
+
+  constructor(
+    protected quantityService?: ConfiguratorAttributeQuantityService
+  ) {
+    super();
+  }
 
   ngOnInit() {
-    this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
+    this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
   }
+
   /**
-   * Triggered when a value has been selected
+   * @deprecated since 3.3
+   * Better use onSelect(this.attributeDropDownForm.value)
    */
   onSelect(): void {
-    const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
-        name: this.attribute.name,
-        selectedSingleValue: this.attributeDropDownForm.value,
-        uiType: this.attribute.uiType,
-        groupId: this.attribute.groupId,
-      },
-    };
-    this.selectionChange.emit(event);
+    super.onSelect(this.attributeDropDownForm?.value);
   }
 }
