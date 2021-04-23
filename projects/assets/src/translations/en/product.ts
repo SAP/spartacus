@@ -18,6 +18,8 @@ export const product = {
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
+    sortBy: 'Sort by',
+    // TODO: deprecated, to remove in 4.0
     sortByRelevance: 'Sort by Relevance',
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
@@ -30,6 +32,8 @@ export const product = {
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
+    sortBy: 'Sort by',
+    // TODO: deprecated, to remove in 4.0
     sortByRelevance: 'Sort by Relevance',
   },
   productSummary: {

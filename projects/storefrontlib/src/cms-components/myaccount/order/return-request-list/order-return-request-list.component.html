@@ -13,9 +13,7 @@
               [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="returnRequests.pagination.sort"
-              placeholder="{{
-                'returnRequestList.sortByMostRecent' | cxTranslate
-              }}"
+              placeholder="{{ 'returnRequestList.sortBy' | cxTranslate }}"
             ></cx-sorting>
           </div>
           <div class="cx-order-history-pagination">
@@ -100,9 +98,7 @@
               [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="returnRequests.pagination.sort"
-              placeholder="{{
-                'returnRequestList.sortByMostRecent' | cxTranslate
-              }}"
+              placeholder="{{ 'returnRequestList.sortBy' | cxTranslate }}"
             ></cx-sorting>
           </div>
           <div class="cx-order-history-pagination">

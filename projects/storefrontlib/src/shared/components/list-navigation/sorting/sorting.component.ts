@@ -32,4 +32,11 @@ export class SortingComponent {
   sortList(sortCode: string): void {
     this.sortListEvent.emit(sortCode);
   }
+
+  get selectedLabel() {
+    return (
+      this.sortOptions.find((sort) => sort.code === this.selectedOption)
+        ?.name ?? this.sortLabels?.[this.selectedOption]
+    );
+  }
 }
