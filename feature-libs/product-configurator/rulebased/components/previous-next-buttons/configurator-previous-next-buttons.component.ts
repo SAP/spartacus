@@ -4,7 +4,7 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -75,18 +75,19 @@ export class ConfiguratorPreviousNextButtonsComponent {
     this.configRouterExtractorService
       .extractRouterData()
       .pipe(
-        map((routerData) =>
+        switchMap((routerData) =>
           this.configuratorCommonsService
-            .hasPendingChanges(routerData.owner)
+            .isConfigurationLoading(routerData.owner)
             .pipe(
-              filter((hasPendingChanges) => !hasPendingChanges),
+              filter((isLoading) => isLoading),
               take(1),
-              map(() =>
+              switchMap(() =>
                 this.configuratorCommonsService
                   .isConfigurationLoading(routerData.owner)
                   .pipe(
                     filter((isLoading) => !isLoading),
-                    take(1)
+                    take(1),
+                    delay(50) //we need to consider the rerendering of the page
                   )
               )
             )
