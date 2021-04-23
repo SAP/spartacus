@@ -37,7 +37,6 @@ import {
   NavigationModule,
   NotificationPreferenceModule,
   OrderCancellationModule,
-  OrderConfirmationModule,
   OrderDetailsModule,
   OrderHistoryModule,
   OrderReturnModule,
@@ -53,7 +52,6 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
-  ReplenishmentOrderConfirmationModule,
   ReplenishmentOrderDetailsModule,
   ReplenishmentOrderHistoryModule,
   ReturnRequestDetailModule,
@@ -163,7 +161,6 @@ if (environment.cds) {
     CostCenterOccModule,
     // Checkout UI
     CheckoutLoginModule,
-    OrderConfirmationModule,
 
     // Order
     OrderHistoryModule,
@@ -174,7 +171,6 @@ if (environment.cds) {
     ReturnRequestDetailModule,
     ReplenishmentOrderHistoryModule,
     ReplenishmentOrderDetailsModule,
-    ReplenishmentOrderConfirmationModule,
 
     // Page Events
     NavigationEventModule,
