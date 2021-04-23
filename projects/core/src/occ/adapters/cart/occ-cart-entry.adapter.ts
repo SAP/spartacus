@@ -21,21 +21,16 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     productCode: string,
     quantity: number = 1
   ): Observable<CartModification> {
-    const toAdd = JSON.stringify({});
+    const toAdd = { quantity, product: { code: productCode } };
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.getUrl(
-      'addEntries',
-      {
-        userId,
-        cartId,
-        quantity, // The "quantity" parameter is required for the b2b add to cart endpoint.
-      },
-      { code: productCode, qty: quantity } // The "qty" parameter is used for the base b2c add to cart endpoint.
-    );
+    const url = this.occEndpointsService.getUrl('addEntries', {
+      userId,
+      cartId,
+    });
 
     return this.http
       .post<CartModification>(url, toAdd, { headers })
@@ -51,21 +46,25 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   ): Observable<CartModification> {
     let params = {};
     if (pickupStore) {
-      params = { pickupStore };
+      params = {
+        deliveryPointOfService: {
+          name: pickupStore,
+        },
+      };
     }
 
     const headers = new HttpHeaders({
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.getUrl(
-      'updateEntries',
-      { userId, cartId, entryNumber },
-      { qty, ...params }
-    );
+    const url = this.occEndpointsService.getUrl('updateEntries', {
+      userId,
+      cartId,
+      entryNumber,
+    });
 
     return this.http
-      .patch<CartModification>(url, {}, { headers })
+      .patch<CartModification>(url, { quantity: qty, ...params }, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 
