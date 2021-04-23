@@ -43,7 +43,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
       '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
     );
 
-    this.configUtils.focusFirstAttribute();
+    this.focusFirstAttribute();
   }
 
   onNext(configuration: Configurator.Configuration): void {
@@ -58,7 +58,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
       '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
     );
 
-    this.configUtils.focusFirstAttribute();
+    this.focusFirstAttribute();
   }
 
   isFirstGroup(owner: CommonConfigurator.Owner): Observable<boolean> {
@@ -71,5 +71,27 @@ export class ConfiguratorPreviousNextButtonsComponent {
     return this.configuratorGroupsService
       .getNextGroupId(owner)
       .pipe(map((group) => !group));
+  }
+
+  private focusFirstAttribute(): void {
+    this.configRouterExtractorService.extractRouterData().pipe(
+      map((routerData) =>
+        this.configuratorCommonsService
+          .hasPendingChanges(routerData.owner)
+          .pipe(
+            map((hasPendingChanges) =>
+              this.configuratorCommonsService
+                .isConfigurationLoading(routerData.owner)
+                .pipe(
+                  map((isLoading) => {
+                    if (!hasPendingChanges && !isLoading) {
+                      this.configUtils.focusFirstAttribute();
+                    }
+                  })
+                )
+            )
+          )
+      )
+    );
   }
 }

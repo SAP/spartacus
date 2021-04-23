@@ -111,8 +111,10 @@ export class ConfiguratorStorefrontUtilsService {
 
   focusFirstAttribute(): void {
     if (isPlatformBrowser(this.platformId)) {
-      const form : HTMLElement = document.querySelector('cx-configurator-form');
-      const focusedElements: HTMLElement[] = this.keyboardFocusService.findFocusable(form);
+      const form: HTMLElement = document.querySelector('cx-configurator-form');
+      const focusedElements: HTMLElement[] = this.keyboardFocusService.findFocusable(
+        form
+      );
       focusedElements[0]?.focus();
     }
   }
