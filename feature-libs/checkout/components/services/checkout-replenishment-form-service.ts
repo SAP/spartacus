@@ -6,7 +6,9 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CheckoutReplenishmentFormService {
   /**
    * Default form data

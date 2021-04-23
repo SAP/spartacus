@@ -16,7 +16,9 @@ import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CheckoutAuthGuard implements CanActivate {
   constructor(
     protected authService: AuthService,

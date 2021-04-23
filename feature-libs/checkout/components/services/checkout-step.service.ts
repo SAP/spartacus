@@ -9,7 +9,9 @@ import { RoutingConfigService, RoutingService } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CheckoutStepService {
   // initial enabled steps
   allSteps: CheckoutStep[];

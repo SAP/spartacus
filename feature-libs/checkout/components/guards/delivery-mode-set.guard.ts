@@ -7,7 +7,9 @@ import { map } from 'rxjs/operators';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class DeliveryModeSetGuard implements CanActivate {
   constructor(
     private checkoutDetailsService: CheckoutDetailsService,

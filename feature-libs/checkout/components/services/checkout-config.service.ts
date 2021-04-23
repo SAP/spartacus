@@ -5,7 +5,9 @@ import {
 } from '@spartacus/checkout/root';
 import { DeliveryMode } from '@spartacus/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CheckoutConfigService {
   private express: boolean = this.checkoutConfig.checkout.express;
   private guest: boolean = this.checkoutConfig.checkout.guest;

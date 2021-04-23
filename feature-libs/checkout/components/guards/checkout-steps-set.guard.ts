@@ -17,7 +17,9 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class CheckoutStepsSetGuard implements CanActivate {
   constructor(
     protected paymentTypeService: PaymentTypeService,
