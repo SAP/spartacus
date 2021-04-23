@@ -4,7 +4,7 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -35,30 +35,28 @@ export class ConfiguratorPreviousNextButtonsComponent {
     this.configuratorGroupsService
       .getPreviousGroupId(configuration.owner)
       .pipe(take(1))
-      .subscribe((groupId) =>
-        this.configuratorGroupsService.navigateToGroup(configuration, groupId)
-      );
+      .subscribe((groupId) => {
+        this.configuratorGroupsService.navigateToGroup(configuration, groupId);
+        this.focusFirstAttribute();
+      });
 
     this.configUtils.scrollToConfigurationElement(
       '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
     );
-
-    this.focusFirstAttribute();
   }
 
   onNext(configuration: Configurator.Configuration): void {
     this.configuratorGroupsService
       .getNextGroupId(configuration.owner)
       .pipe(take(1))
-      .subscribe((groupId) =>
-        this.configuratorGroupsService.navigateToGroup(configuration, groupId)
-      );
+      .subscribe((groupId) => {
+        this.configuratorGroupsService.navigateToGroup(configuration, groupId);
+        this.focusFirstAttribute();
+      });
 
     this.configUtils.scrollToConfigurationElement(
       '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
     );
-
-    this.focusFirstAttribute();
   }
 
   isFirstGroup(owner: CommonConfigurator.Owner): Observable<boolean> {
@@ -74,24 +72,26 @@ export class ConfiguratorPreviousNextButtonsComponent {
   }
 
   private focusFirstAttribute(): void {
-    this.configRouterExtractorService.extractRouterData().pipe(
-      map((routerData) =>
-        this.configuratorCommonsService
-          .hasPendingChanges(routerData.owner)
-          .pipe(
-            map((hasPendingChanges) =>
-              this.configuratorCommonsService
-                .isConfigurationLoading(routerData.owner)
-                .pipe(
-                  map((isLoading) => {
-                    if (!hasPendingChanges && !isLoading) {
-                      this.configUtils.focusFirstAttribute();
-                    }
-                  })
-                )
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        map((routerData) =>
+          this.configuratorCommonsService
+            .hasPendingChanges(routerData.owner)
+            .pipe(
+              filter((hasPendingChanges) => !hasPendingChanges),
+              take(1),
+              map(() =>
+                this.configuratorCommonsService
+                  .isConfigurationLoading(routerData.owner)
+                  .pipe(
+                    filter((isLoading) => !isLoading),
+                    take(1)
+                  )
+              )
             )
-          )
+        )
       )
-    );
+      .subscribe(() => this.configUtils.focusFirstAttribute());
   }
 }
