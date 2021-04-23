@@ -14,7 +14,10 @@ import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-@Injectable()
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Injectable()
 export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
   constructor(
     protected http: HttpClient,

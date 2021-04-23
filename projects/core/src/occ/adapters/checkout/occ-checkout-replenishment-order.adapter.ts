@@ -13,7 +13,10 @@ import {
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-@Injectable()
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Injectable()
 export class OccCheckoutReplenishmentOrderAdapter
   implements CheckoutReplenishmentOrderAdapter {
   constructor(

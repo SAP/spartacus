@@ -16,7 +16,10 @@ import { HttpParamsURIEncoder } from '../../../util/http-params-uri.encoder';
 
 const ENDPOINT_CARD_TYPES = 'cardtypes';
 
-@Injectable()
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Injectable()
 export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   constructor(
     protected http: HttpClient,

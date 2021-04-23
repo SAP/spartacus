@@ -12,7 +12,10 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 const ENDPOINT_PAYMENT_TYPES = 'paymenttypes';
 
-@Injectable()
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
+ @Injectable()
 export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
   constructor(
     protected http: HttpClient,
