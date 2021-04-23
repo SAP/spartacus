@@ -13,6 +13,25 @@ import { Configurator } from '../../core/model/configurator.model';
 })
 export class ConfiguratorStorefrontUtilsService {
   constructor(
+    configuratorGroupsService: ConfiguratorGroupsService,
+    platformId: any,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    keyboardFocusService: KeyboardFocusService
+  );
+
+  // TODO(#11681): make keyboardFocusService a required dependency and remove deprecated constructor
+  /**
+   * @deprecated since 3.3
+   * Use constructor(protected configuratorGroupsService: ConfiguratorGroupsService, @Inject(PLATFORM_ID) protected platformId: any, protected keyboardFocusService: KeyboardFocusService) instead
+   */
+  constructor(
+    configuratorGroupsService: ConfiguratorGroupsService,
+    platformId: any,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    keyboardFocusService: KeyboardFocusService
+  );
+
+  constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     @Inject(PLATFORM_ID) protected platformId: any,
     protected keyboardFocusService: KeyboardFocusService
@@ -109,13 +128,18 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
+  /**
+   * Focus the first attribute in the form.
+   */
   focusFirstAttribute(): void {
     if (isPlatformBrowser(this.platformId)) {
       const form: HTMLElement = document.querySelector('cx-configurator-form');
       const focusedElements: HTMLElement[] = this.keyboardFocusService.findFocusable(
         form
       );
-      focusedElements[0]?.focus();
+      if (focusedElements && focusedElements.length > 1) {
+        focusedElements[0]?.focus();
+      }
     }
   }
 }
