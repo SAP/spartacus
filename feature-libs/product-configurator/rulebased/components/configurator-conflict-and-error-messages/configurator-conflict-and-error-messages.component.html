@@ -10,11 +10,8 @@
       >
         {{ 'configurator.header.multipleWarnings' | cxTranslate }}</span
       >
-      <a
-        role="link"
+      <button
         (click)="toggleWarnings()"
-        (keyup)="clickOnEnterWarning($event)"
-        tabindex="0"
         *ngIf="configuration?.warningMessages?.length > 1"
         class="cx-warning-toggle"
       >
@@ -27,7 +24,7 @@
         <ng-container *ngIf="showWarnings">
           <cx-icon type="CARET_UP"></cx-icon>
         </ng-container>
-      </a>
+      </button>
       <div
         class="cx-warning-messages"
         [class.inline]="configuration?.warningMessages?.length === 1"
@@ -55,11 +52,8 @@
       >
         {{ 'configurator.header.multipleErrors' | cxTranslate }}</span
       >
-      <a
-        role="link"
+      <button
         (click)="toggleErrors()"
-        (keyup)="clickOnEnterError($event)"
-        tabindex="0"
         *ngIf="configuration?.errorMessages?.length > 1"
         class="cx-error-toggle"
       >
@@ -71,7 +65,7 @@
         <ng-container *ngIf="showErrors">
           <cx-icon type="CARET_UP"></cx-icon>
         </ng-container>
-      </a>
+      </button>
       <div
         class="cx-error-messages"
         [class.inline]="configuration?.errorMessages?.length === 1"

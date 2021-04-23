@@ -7,14 +7,18 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependencies,
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
   configureB2bFeatures,
+  createDependencies,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   CLI_CPQ_FEATURE,
   CLI_TEXTFIELD_FEATURE,
@@ -56,9 +60,18 @@ export function addProductConfiguratorFeatures(
       shouldAddFeature(CLI_TEXTFIELD_FEATURE, options.features)
         ? addProductConfiguratorTextfieldFeature(options)
         : noop(),
+      addProductConfiguratorPackageJsonDependencies(packageJson),
+      installPackageJsonDependencies(),
     ]);
   };
 }
+
+function addProductConfiguratorPackageJsonDependencies(packageJson: any): Rule {
+  const dependencies = createDependencies(peerDependencies);
+
+  return addPackageJsonDependencies(dependencies, packageJson);
+}
+
 /**
  * Called with or without CPQ enabled, and uses a different
  * application module for CPQ

@@ -40,7 +40,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
       );
 
     this.configUtils.scrollToConfigurationElement(
-      '.VariantConfigurationTemplate, .CpqConfigContent'
+      '.VariantConfigurationTemplate, .CpqConfigurationTemplate'
     );
   }
 

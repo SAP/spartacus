@@ -10,7 +10,7 @@
     padding-block-start: 16px;
     padding-block-end: 16px;
 
-    @include forVersion(3.1) {
+    @include forVersion(3.3) {
       padding-inline-start: 16px;
       padding-inline-end: 16px;
       padding-block-start: 16px;
@@ -23,7 +23,7 @@
       padding-block-start: 20px;
       padding-block-end: 20px;
 
-      @include forVersion(3.1) {
+      @include forVersion(3.3) {
         padding-inline-start: 16px;
         padding-inline-end: 16px;
       }

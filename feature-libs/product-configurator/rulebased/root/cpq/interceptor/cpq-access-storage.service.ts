@@ -26,11 +26,13 @@ export class CpqAccessStorageService implements OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.currentCpqAccessSubscription.unsubscribe();
+    this.currentCpqAccessSubscription?.unsubscribe();
+    this.currentAuthServiceSubscription?.unsubscribe();
   }
 
   protected cpqAccessData$: Observable<CpqAccessData>;
   protected currentCpqAccessSubscription: Subscription;
+  protected currentAuthServiceSubscription: Subscription;
   protected _cpqAccessData$: BehaviorSubject<CpqAccessData>;
 
   getCpqAccessData(): Observable<CpqAccessData> {
@@ -69,7 +71,9 @@ export class CpqAccessStorageService implements OnDestroy {
       // or the cached one expired before a new one was fetched.
       filter((data) => !this.isTokenExpired(data))
     );
-    this.authService
+    this.currentAuthServiceSubscription?.unsubscribe(); // cancel subscriptions created for old
+
+    this.currentAuthServiceSubscription = this.authService
       .isUserLoggedIn()
       .pipe(distinctUntilChanged()) // only react if user login status changes
       .subscribe((loggedIn) => {

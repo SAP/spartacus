@@ -68,7 +68,7 @@
           overflow: hidden;
           line-break: anywhere;
 
-          @include forVersion(3.1) {
+          @include forVersion(3.3) {
             @include cx-configurator-truncate-content();
           }
         }

@@ -6,14 +6,8 @@
           'configurator.header.items' | cxTranslate: { count: numberOfItems }
         }}
       </div>
-
-      <a
-        role="link"
-        (click)="toggleItems()"
-        (keyup)="clickOnEnter($event)"
-        tabindex="0"
-      >
-        <div class="link cx-action-link cx-toggle-hide-items">
+      <button (click)="toggleItems()">
+        <div class="cx-toggle-hide-items">
           <ng-container *ngIf="hideItems">
             {{ 'configurator.header.show' | cxTranslate }}
           </ng-container>
@@ -21,7 +15,7 @@
             {{ 'configurator.header.hide' | cxTranslate }}
           </ng-container>
         </div>
-      </a>
+      </button>
 
       <div class="cx-item-infos" [class.open]="!hideItems">
         <div class="cx-item-info" *ngFor="let lineItem of lineItems$ | async">
