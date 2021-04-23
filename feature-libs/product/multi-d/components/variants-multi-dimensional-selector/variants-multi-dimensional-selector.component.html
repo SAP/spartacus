@@ -1,23 +1,30 @@
 <ng-container *ngIf="product">
   <div class="variant-generic-selector">
-    <ng-container *ngFor="let variant of variants">
-      <span>{{ variant[0].parentVariantCategory.name }}</span>
+    <ng-container *ngFor="let variant of multiDimensionalService.getVariants()">
+      <label>{{ variant[0].parentVariantCategory.name }}</label>
 
       <div
-        *ngIf="variantHasImages(variant); else noImages"
+        *ngIf="multiDimensionalService.variantHasImages(variant); else noImages"
         class="image-variant-container"
       >
+        <!-- TO DO check 3 element for image -->
         <cx-media
           *ngFor="let cat of variant"
           (click)="changeVariant(cat.variantOption.code)"
-          [container]="cat.variantOption?.variantOptionQualifiers[0]?.image"
+          [container]="cat.variantOption?.variantOptionQualifiers"
+          [title]="cat.variantValueCategory.name"
           class="image-variant"
-        ></cx-media>
+          format="cartIcon"
+        >
+        </cx-media>
       </div>
 
       <ng-template #noImages>
         <div class="select-variant-container">
-          <select (change)="changeVariant($event.target.value)">
+          <select
+            (change)="changeVariant($event.target.value)"
+            class="form-control"
+          >
             <option
               *ngFor="let cat of variant"
               [value]="cat.variantOption.code"

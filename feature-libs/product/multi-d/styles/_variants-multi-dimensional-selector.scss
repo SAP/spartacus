@@ -3,10 +3,15 @@ cx-variants-multi-dimensional-selector {
     display: flex;
     flex-direction: column;
 
+    label {
+      font-size: var(--cx-font-size, 0.875rem);
+      font-weight: var(--cx-font-weight-bold);
+      line-height: var(--cx-line-height, 1.2222222222);
+      margin: 15px 0 10px 0;
+    }
+
     .image-variant-container {
       display: flex;
-      height: 70px;
-      width: 70px;
 
       .image-variant {
         cursor: pointer;
@@ -16,6 +21,10 @@ cx-variants-multi-dimensional-selector {
       }
 
       cx-media {
+        img {
+          width: 70px;
+          height: 70px;
+        }
         &.is-missing {
           min-height: 70px;
           min-width: 70px;

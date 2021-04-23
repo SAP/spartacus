@@ -1,1 +1,18 @@
 Order grid works
+
+<ng-container *ngIf="multiDimensionalService.product$ | async">
+  <ol>
+    <li
+      *ngFor="
+        let variant of multiDimensionalService.getVariantOptions() | async
+      "
+    >
+      variant
+      {{ variant.code }}
+      <span *ngFor="let variant of variant.variantData">
+        {{ variant.type }}
+        {{ variant.value }}
+      </span>
+    </li>
+  </ol>
+</ng-container>
