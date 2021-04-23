@@ -77,6 +77,7 @@ describe('OccCartEntryAdapter', () => {
       expect(occEnpointsService.getUrl).toHaveBeenCalledWith('addEntries', {
         userId,
         cartId,
+        quantity: 5,
       });
 
       expect(mockReq.cancelled).toBeFalsy();
