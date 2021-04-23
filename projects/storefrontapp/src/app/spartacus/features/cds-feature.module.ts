@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CdsModule } from '@spartacus/cds';
+import { CdsConfig, CdsModule } from '@spartacus/cds';
 
 @NgModule({
   imports: [
-    CdsModule.forRoot({
+    CdsModule.forRoot(<CdsConfig>{
       cds: {
         tenant: 'argotest',
         baseUrl: 'https://api.stage.context.cloud.sap',
