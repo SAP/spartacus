@@ -19,7 +19,6 @@ import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverOptions } from './popover.model';
 import { PositioningService } from '../../services/positioning/positioning.service';
 import { PopoverService } from './popover.service';
-// import { filter } from 'rxjs/operators';
 
 /**
  * Directive to bind popover with any DOM element.
