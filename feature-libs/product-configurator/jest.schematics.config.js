@@ -6,6 +6,11 @@ module.exports = {
   transform: {
     '^.+\\.ts?$': 'ts-jest',
   },
+  globals: {
+    'ts-jest': {
+      tsconfig: './tsconfig.schematics.json',
+    },
+  },
 
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],

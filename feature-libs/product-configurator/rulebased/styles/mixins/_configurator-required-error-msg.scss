@@ -2,5 +2,11 @@
   .cx-required-error-msg {
     color: var(--cx-color-danger);
     font-size: 14px;
+
+    @include forVersion(3.3) {
+      cx-icon {
+        padding-inline-end: 5px;
+      }
+    }
   }
 }

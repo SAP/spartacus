@@ -1,7 +1,7 @@
 <ng-container *ngIf="routerData$ | async as routerData">
   <ng-container *ngIf="!routerData.displayOnly">
     <a
-      tabindex="-1"
+      tabindex="0"
       [class.active]="!(isOverviewPage$ | async)"
       [routerLink]="
         {
@@ -16,7 +16,7 @@
       >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
     >
     <a
-      tabindex="-1"
+      tabindex="0"
       [class.active]="isOverviewPage$ | async"
       [routerLink]="
         {

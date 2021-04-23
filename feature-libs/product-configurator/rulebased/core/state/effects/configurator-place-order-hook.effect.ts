@@ -4,6 +4,7 @@ import { ActiveCartService, CheckoutActions } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -26,7 +27,7 @@ export class ConfiguratorPlaceOrderHookEffects {
           entries.forEach((entry) => {
             if (
               !entry.product?.configurable ||
-              entry.product?.configuratorType !== 'CPQCONFIGURATOR'
+              entry.product?.configuratorType !== ConfiguratorType.VARIANT
             ) {
               return;
             }

@@ -3,15 +3,37 @@
     <ng-container *ngFor="let group of configuration.overview.groups">
       <div class="cx-group">
         <h2>
-          {{ group.groupDescription }}
+          <ng-container *cxFeatureLevel="'!3.3'">
+            {{ group.groupDescription }}
+          </ng-container>
+          <ng-container *cxFeatureLevel="'3.3'">
+            <span>{{ group.groupDescription }}</span>
+          </ng-container>
         </h2>
         <div
+          *ngFor="let attributeOverview of group.attributes; let i = index"
           class="cx-attribute-value-pair"
-          *ngFor="let attributeOverview of group.attributes"
+          [ngClass]="getStyleClasses(group.attributes, i)"
         >
-          <cx-configurator-overview-attribute
-            [attributeOverview]="attributeOverview"
-          ></cx-configurator-overview-attribute>
+          <ng-container [ngSwitch]="attributeOverview?.type">
+            <ng-container *ngSwitchCase="attributeOverviewType.GENERAL">
+              <cx-configurator-overview-attribute
+                [attributeOverview]="attributeOverview"
+              ></cx-configurator-overview-attribute>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="attributeOverviewType.BUNDLE">
+              <cx-configurator-cpq-overview-attribute
+                [attributeOverview]="attributeOverview"
+              ></cx-configurator-cpq-overview-attribute>
+            </ng-container>
+
+            <ng-container *ngSwitchDefault>
+              <cx-configurator-overview-attribute
+                [attributeOverview]="attributeOverview"
+              ></cx-configurator-overview-attribute>
+            </ng-container>
+          </ng-container>
         </div>
       </div>
     </ng-container>

@@ -67,6 +67,10 @@
           -webkit-box-orient: vertical;
           overflow: hidden;
           line-break: anywhere;
+
+          @include forVersion(3.3) {
+            @include cx-configurator-truncate-content();
+          }
         }
 
         .groupIndicators {
@@ -80,6 +84,7 @@
             display: flex;
             flex-direction: row;
             justify-content: flex-start;
+
             cx-icon.ERROR,
             cx-icon.WARNING,
             cx-icon.COMPLETE {
@@ -90,6 +95,7 @@
               color: var(--cx-color-danger);
               padding-inline-end: 5px;
             }
+
             cx-icon.WARNING {
               color: var(--cx-color-warning);
               padding-inline-end: 5px;
@@ -103,6 +109,7 @@
 
           .subGroupIndicator {
             inline-size: 25px;
+
             cx-icon {
               margin-inline-start: 5px;
               margin-inline-end: 5px;

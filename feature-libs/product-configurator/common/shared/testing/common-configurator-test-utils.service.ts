@@ -62,4 +62,27 @@ export class CommonConfiguratorTestUtilsService {
         htmlElement.innerHTML
     );
   }
+
+  /**
+   * Helper function for proving how many times the element comes in the DOM tree.
+   *
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector
+   * @param {number} expectedNumber- expected number of elements
+   */
+  static expectNumberOfElements(
+    expect: any,
+    htmlElement: Element,
+    querySelector: string,
+    expectedNumber: number
+  ) {
+    expect(htmlElement.querySelectorAll(querySelector).length).toBe(
+      expectedNumber,
+      "expected elements identified by selector '" +
+        querySelector +
+        "' to be present times, but it is NOT! innerHtml: " +
+        htmlElement.innerHTML
+    );
+  }
 }

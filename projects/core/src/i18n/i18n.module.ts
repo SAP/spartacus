@@ -13,6 +13,7 @@ import { i18nextProviders } from './i18next/i18next-providers';
 import { I18nextTranslationService } from './i18next/i18next-translation.service';
 import { TranslatePipe } from './translate.pipe';
 import { TranslationService } from './translation.service';
+import { CxNumericPipe } from './numeric.pipe';
 
 export function initI18nConfig(
   configInitializer: I18nConfigInitializer,
@@ -33,8 +34,8 @@ export function initI18nConfig(
 }
 
 @NgModule({
-  declarations: [TranslatePipe, CxDatePipe],
-  exports: [TranslatePipe, CxDatePipe],
+  declarations: [TranslatePipe, CxDatePipe, CxNumericPipe],
+  exports: [TranslatePipe, CxDatePipe, CxNumericPipe],
 })
 export class I18nModule {
   static forRoot(): ModuleWithProviders<I18nModule> {

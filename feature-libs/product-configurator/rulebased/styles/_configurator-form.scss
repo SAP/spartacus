@@ -1,7 +1,17 @@
 %cx-configurator-form {
+  @include forVersion(3.3) {
+    width: 100%;
+  }
+
   .cx-group-attribute {
     padding-inline-start: 20px;
     padding-inline-end: 20px;
+
+    @include forVersion(3.3) {
+      padding-inline-start: 16px;
+      padding-inline-end: 16px;
+    }
+
     padding-block-start: 12px;
     padding-block-end: 12px;
 
@@ -14,6 +24,18 @@
 
     em {
       @include cx-configurator-attribute-type();
+    }
+  }
+
+  @include forVersion(3.3) {
+    cx-item-counter {
+      &.readonly {
+        input {
+          border: solid 1px var(--cx-color-light);
+          min-height: 48px;
+          width: 10rem;
+        }
+      }
     }
   }
 }

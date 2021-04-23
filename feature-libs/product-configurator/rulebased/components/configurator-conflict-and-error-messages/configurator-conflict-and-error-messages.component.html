@@ -1,0 +1,85 @@
+<ng-container *ngIf="configuration$ | async as configuration">
+  <ng-container *ngIf="configuration?.warningMessages?.length > 0">
+    <div class="alert-message alert-message-invalid-warning">
+      <span class="alert-icon">
+        <cx-icon type="WARNING"></cx-icon>
+      </span>
+      <span
+        class="cx-warning-text"
+        *ngIf="configuration?.warningMessages?.length > 1"
+      >
+        {{ 'configurator.header.multipleWarnings' | cxTranslate }}</span
+      >
+      <button
+        (click)="toggleWarnings()"
+        *ngIf="configuration?.warningMessages?.length > 1"
+        class="cx-warning-toggle"
+      >
+        {{ 'configurator.header.reviewWarnings' | cxTranslate }}
+
+        <ng-container *ngIf="!showWarnings">
+          <cx-icon type="CARET_DOWN"></cx-icon>
+        </ng-container>
+
+        <ng-container *ngIf="showWarnings">
+          <cx-icon type="CARET_UP"></cx-icon>
+        </ng-container>
+      </button>
+      <div
+        class="cx-warning-messages"
+        [class.inline]="configuration?.warningMessages?.length === 1"
+      >
+        <div
+          class="cx-warning-message"
+          [class.open]="
+            showWarnings || configuration?.warningMessages?.length === 1
+          "
+          *ngFor="let warningMessage of configuration.warningMessages"
+        >
+          {{ warningMessage }}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="configuration?.errorMessages?.length > 0">
+    <div class="alert-message alert-message-error">
+      <span class="alert-icon">
+        <cx-icon type="ERROR"></cx-icon>
+      </span>
+      <span
+        class="cx-error-text"
+        *ngIf="configuration?.errorMessages?.length > 1"
+      >
+        {{ 'configurator.header.multipleErrors' | cxTranslate }}</span
+      >
+      <button
+        (click)="toggleErrors()"
+        *ngIf="configuration?.errorMessages?.length > 1"
+        class="cx-error-toggle"
+      >
+        {{ 'configurator.header.reviewErrors' | cxTranslate }}
+        <ng-container *ngIf="!showErrors">
+          <cx-icon type="CARET_DOWN"></cx-icon>
+        </ng-container>
+
+        <ng-container *ngIf="showErrors">
+          <cx-icon type="CARET_UP"></cx-icon>
+        </ng-container>
+      </button>
+      <div
+        class="cx-error-messages"
+        [class.inline]="configuration?.errorMessages?.length === 1"
+      >
+        <div
+          class="cx-error-message"
+          [class.open]="
+            showErrors || configuration?.errorMessages?.length === 1
+          "
+          *ngFor="let errorMessage of configuration.errorMessages"
+        >
+          {{ errorMessage }}
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

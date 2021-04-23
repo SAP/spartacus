@@ -7,7 +7,7 @@ export namespace ConfiguratorRouter {
   export interface Data {
     pageType?: PageType;
     isOwnerCartEntry?: boolean;
-    owner?: CommonConfigurator.Owner;
+    owner: CommonConfigurator.Owner;
     displayOnly?: boolean;
     forceReload?: boolean;
     resolveIssues?: boolean;

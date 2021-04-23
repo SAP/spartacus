@@ -1,0 +1,18 @@
+%cx-configurator-show-more {
+  &:not(:empty) {
+    font-size: 14px;
+    line-height: 1.2;
+
+    button {
+      background-color: transparent;
+      border: none;
+      display: inline-block;
+      outline-offset: 0px;
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+}

@@ -1,4 +1,4 @@
-export class DynamicTemplate {
+export class StringTemplate {
   /**
    * Populates the given template with the variables provided
    *

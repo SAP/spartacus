@@ -5,6 +5,12 @@
   max-width: 1140px;
   padding-inline-start: 20px;
   padding-inline-end: 25px;
+
+  @include forVersion(3.3) {
+    padding-inline-start: 0px;
+    padding-inline-end: 0px;
+  }
+
   padding-block-start: 5px;
   padding-block-end: 5px;
 
@@ -22,17 +28,116 @@
     margin-inline-start: -20px;
     margin-inline-end: -25px;
 
+    @include forVersion(3.3) {
+      @include media-breakpoint-up(md) {
+        padding-block-start: 20px;
+        padding-block-end: 20px;
+        margin-inline-start: 0px;
+        margin-inline-end: 0px;
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding-block-start: 20px;
+        padding-block-end: 20px;
+        margin-inline-start: -20px;
+        margin-inline-end: -20px;
+      }
+    }
+
     h2 {
       padding-inline-start: 30px;
       padding-inline-end: 30px;
       padding-block-start: 15px;
       padding-block-end: 15px;
+
+      @include forVersion(3.3) {
+        padding-inline-start: 32px;
+        padding-inline-end: 32px;
+        padding-block-start: 16px;
+        padding-block-end: 16px;
+
+        @include media-breakpoint-down(sm) {
+          padding-inline-start: 16px;
+          padding-inline-end: 16px;
+          padding-block-start: 16px;
+          padding-block-end: 16px;
+        }
+      }
+
       border: solid 1px var(--cx-color-light);
+
+      @include forVersion(3.3) {
+        span {
+          @include cx-configurator-truncate-content();
+        }
+      }
     }
 
     .cx-attribute-value-pair {
       padding-inline-start: 30px;
       padding-inline-end: 30px;
+
+      @include forVersion(3.3) {
+        padding-inline-start: 32px;
+        padding-inline-end: 32px;
+
+        @include media-breakpoint-down(sm) {
+          padding-inline-start: 16px;
+          padding-inline-end: 16px;
+        }
+
+        &.general {
+          @include media-breakpoint-up(md) {
+            &:not(:first-of-type) {
+              .cx-attribute-label {
+                visibility: hidden;
+              }
+            }
+          }
+
+          @include media-breakpoint-down(sm) {
+            .cx-attribute-label {
+              display: none;
+            }
+
+            &.last-value-pair {
+              .cx-attribute-label {
+                display: inline;
+              }
+            }
+          }
+        }
+
+        &.bundle {
+          background-color: var(--cx-color-background);
+
+          @include media-breakpoint-up(md) {
+            &:not(:first-of-type) {
+              .cx-attribute-label {
+                visibility: hidden;
+              }
+            }
+          }
+        }
+
+        &.margin {
+          margin-block-start: 15px;
+
+          &.bundle {
+            .cx-attribute-label {
+              visibility: visible;
+            }
+          }
+
+          @include media-breakpoint-up(md) {
+            &.general {
+              .cx-attribute-label {
+                visibility: visible;
+              }
+            }
+          }
+        }
+      }
     }
   }
 
@@ -41,5 +146,10 @@
     padding-inline-end: 10px;
     padding-block-start: 25px;
     padding-block-end: 25px;
+
+    @include forVersion(3.3) {
+      padding-block-start: 20px;
+      padding-block-end: 20px;
+    }
   }
 }

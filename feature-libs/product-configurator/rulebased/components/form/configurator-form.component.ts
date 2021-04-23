@@ -88,7 +88,8 @@ export class ConfiguratorFormComponent implements OnInit {
   updateConfiguration(event: ConfigFormUpdateEvent): void {
     this.configuratorCommonsService.updateConfiguration(
       event.ownerKey,
-      event.changedAttribute
+      event.changedAttribute,
+      event.updateType
     );
   }
 

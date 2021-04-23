@@ -117,4 +117,10 @@ describe('ConfigUIKeyGeneratorService', () => {
       )
     ).toBe('cx-configurator--radioGroup--attributeId--valueId');
   });
+
+  it('should generate focus id for attribute value', () => {
+    expect(classUnderTest.createFocusId('attrCode', 'valueCode')).toBe(
+      'attrCode--valueCode--focus'
+    );
+  });
 });

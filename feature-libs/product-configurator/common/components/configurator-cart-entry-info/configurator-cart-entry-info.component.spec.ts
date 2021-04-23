@@ -14,6 +14,7 @@ import {
 import { CartItemContext } from '@spartacus/storefront';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
+import { ConfiguratorType } from './../../core/model/common-configurator.model';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -114,7 +115,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           {
             configurationLabel: 'Color',
             configurationValue: 'Blue',
-            configuratorType: 'CPQCONFIGURATOR',
+            configuratorType: ConfiguratorType.VARIANT,
             status: 'SUCCESS',
           },
         ],
@@ -137,7 +138,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           {
             configurationLabel: 'Pricing',
             configurationValue: 'could not be carried out',
-            configuratorType: 'CPQCONFIGURATOR',
+            configuratorType: ConfiguratorType.VARIANT,
             status: 'WARNING',
           },
         ],
@@ -191,8 +192,12 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
     });
 
     describe('hasStatus', () => {
-      it('should be true if first entry of status summary is in error status', () => {
-        const entry: OrderEntry = { configurationInfos: [{ status: 'ERROR' }] };
+      it('should be true if first entry of status summary is in error status and has a definition of the configurator type', () => {
+        const entry: OrderEntry = {
+          configurationInfos: [
+            { status: 'ERROR', configuratorType: ConfiguratorType.VARIANT },
+          ],
+        };
         expect(component.hasStatus(entry)).toBe(true);
       });
 
@@ -206,9 +211,24 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         expect(component.hasStatus(entry)).toBe(false);
       });
 
-      it('should be false if configuration infos are emptry', () => {
+      it('should be false if configuration infos are empty', () => {
         const entry: OrderEntry = { configurationInfos: [] };
         expect(component.hasStatus(entry)).toBe(false);
+      });
+    });
+
+    describe('isAttributeBasedConfigurator', () => {
+      it('should return true if for CCP based configurator', () => {
+        const entry: OrderEntry = {
+          configurationInfos: [
+            { status: 'ERROR', configuratorType: ConfiguratorType.VARIANT },
+          ],
+        };
+        expect(component.isAttributeBasedConfigurator(entry)).toBe(true);
+      });
+      it('should return false if no configurationInfos are provided', () => {
+        const entry: OrderEntry = {};
+        expect(component.isAttributeBasedConfigurator(entry)).toBe(false);
       });
     });
   });

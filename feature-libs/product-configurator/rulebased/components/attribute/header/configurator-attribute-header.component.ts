@@ -61,6 +61,7 @@ export class ConfiguratorAttributeHeaderComponent
   protected isMultiSelection(): boolean {
     switch (this.attribute.uiType) {
       case Configurator.UiType.CHECKBOXLIST:
+      case Configurator.UiType.CHECKBOXLIST_PRODUCT:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         return true;
       }
@@ -71,8 +72,10 @@ export class ConfiguratorAttributeHeaderComponent
   protected isSingleSelection(): boolean {
     switch (this.attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
+      case Configurator.UiType.RADIOBUTTON_PRODUCT:
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN_PRODUCT:
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         return true;
       }

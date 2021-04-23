@@ -1,0 +1,21 @@
+{
+  "defaultCommandTimeout": 100000,
+  "baseUrl": "https://jsapps.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com",
+  "chromeWebSecurity": false,
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "results/test-results-[hash].xml"
+  },
+  "requestTimeout": 1000000,
+  "responseTimeout": 1000000,
+  "pageLoadTimeout": 1000000,
+  "env": {
+    "CLIENT_ID": "mobile_android",
+    "CLIENT_SECRET": "secret",
+    "API_URL": "https://api.cpce-teamtiger1-d1-public.model-t.cc.commerce.ondemand.com/",
+    "OCC_PREFIX": "/occ/v2",
+    "OCC_PREFIX_USER_ENDPOINT": "users",
+    "OCC_PREFIX_ORDER_ENDPOINT": "orders",
+    "BASE_SITE": "powertools-spa"
+  }
+}
