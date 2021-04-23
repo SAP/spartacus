@@ -121,14 +121,14 @@ export class SpartacusFeaturesModule { }
 exports[`Spartacus CDC schematics: ng-add CDC feature lazy loading should import correct modules (with lazy loaded syntax) 1`] = `
 "import { NgModule } from '@angular/core';
 import { CdcConfig, CdcRootModule, CDC_FEATURE } from \\"@spartacus/cdc/root\\";
-import { provideConfig } from \\"@spartacus/core\\";
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
     CdcRootModule
   ],
-  providers: [provideConfig({
+  providers: [provideConfig(<CmsConfig>{
     featureModules: {
       [CDC_FEATURE]: {
         module: () =>
