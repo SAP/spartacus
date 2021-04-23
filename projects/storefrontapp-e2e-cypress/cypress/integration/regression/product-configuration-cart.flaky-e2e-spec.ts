@@ -1,5 +1,6 @@
 import * as cart from '../../helpers/cart';
 import * as login from '../../helpers/login';
+import * as configurationCommon from '../../helpers/product-configuration';
 import * as configurationOverviewCommon from '../../helpers/product-configuration-overview';
 import * as configuration from '../../helpers/product-configurator-vc';
 import * as configurationOverview from '../../helpers/product-configurator-vc-overview';
@@ -74,8 +75,8 @@ context('Product Configuration', () => {
       ).as('productSearch');
       productSearch.searchForProduct(testProductMultiLevel);
       cy.wait('@productSearch');
-      configuration.clickOnAddToCartBtnOnPD();
-      configuration.clickOnViewCartBtnOnPD();
+      configurationCommon.clickOnAddToCartBtnOnPD();
+      configurationCommon.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
       configuration.clickOnEditConfigurationLink(0);
     });
@@ -178,10 +179,10 @@ context('Product Configuration', () => {
       login.registerUser();
       login.loginUser();
       productSearch.searchForProduct(testProductMultiLevel);
-      configuration.clickOnAddToCartBtnOnPD();
-      configuration.clickOnProceedToCheckoutBtnOnPD();
-      configuration.checkout();
-      configuration.navigateToOrderDetails();
+      configurationCommon.clickOnAddToCartBtnOnPD();
+      configurationCommon.clickOnProceedToCheckoutBtnOnPD();
+      configurationCommon.checkout();
+      configurationCommon.navigateToOrderDetails();
       //don't check the order history aspect because this part is flaky
       //configuration.selectOrderByOrderNumberAlias();
       login.signOutUser();

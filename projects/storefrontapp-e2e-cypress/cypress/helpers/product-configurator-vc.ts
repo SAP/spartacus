@@ -1,17 +1,5 @@
 import Chainable = Cypress.Chainable;
-import { user } from '../sample-data/checkout-flow';
-import {
-  AddressData,
-  fillPaymentDetails,
-  fillShippingAddress,
-  PaymentDetails,
-} from './checkout-forms';
-import { navigation } from './navigation';
 import * as ProductConfiguratorCommon from './product-configuration';
-
-const shippingAddressData: AddressData = user;
-const billingAddress: AddressData = user;
-const paymentDetailsData: PaymentDetails = user;
 
 const nextBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Next")';
@@ -702,41 +690,6 @@ function checkAddToCartBtnDisplayed(): void {
 }
 
 /**
- * Verifies whether the group menu is not displayed.
- */
-export function checkConfigProductTitleDisplayed(): void {
-  cy.get('a:contains("show more")').should('be.visible');
-}
-
-/**
- * Verifies whether the Add To Cart Button component is displayed.
- */
-export function checkConfigAddToCartBtnDisplayed(): void {
-  cy.get('.cx-configurator-add-to-cart-btn').should('be.visible');
-}
-
-/**
- * Verifies whether the overview content is displayed.
- */
-export function checkOverviewContentDisplayed(): void {
-  cy.get('.cx-configurator-group-attribute').should('be.visible');
-}
-
-/**
- * Verifies whether the category navigation is displayed.
- */
-export function checkCategoryNavigationDisplayed(): void {
-  cy.get('cx-category-navigation').should('be.visible');
-}
-
-/**
- * Verifies whether the category navigation is displayed.
- */
-export function checkCategoryNavigationNotDisplayed(): void {
-  cy.get('cx-category-navigation').should('not.be.visible');
-}
-
-/**
  * Verifies the accuracy of the formatted price.
  *
  * @param {string} formattedPrice - Formatted price
@@ -763,19 +716,6 @@ export function navigateToOverviewPage(): void {
  *
  * @param {number} groupIndex - Group index
  */
-function clickOnGroupByGroupIndex(groupIndex: number): void {
-  cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
-    .not('.cx-menu-conflict')
-    .eq(groupIndex)
-    .children('a')
-    .click({ force: true });
-}
-
-/**
- * Clicks on the group via its index in the group menu.
- *
- * @param {number} groupIndex - Group index
- */
 export function clickOnGroup(groupIndex: number): void {
   cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
     .not('.cx-menu-conflict')
@@ -794,10 +734,10 @@ export function clickOnGroup(groupIndex: number): void {
   cy.get('@subGroupIndicator').then((subGroupIndicator) => {
     cy.log('subGroupIndicator: ' + subGroupIndicator);
     if (!subGroupIndicator) {
-      clickOnGroupByGroupIndex(groupIndex);
+      ProductConfiguratorCommon.clickOnGroupByGroupIndex(groupIndex);
     } else {
-      clickOnGroupByGroupIndex(groupIndex);
-      clickOnGroupByGroupIndex(0);
+      ProductConfiguratorCommon.clickOnGroupByGroupIndex(groupIndex);
+      ProductConfiguratorCommon.clickOnGroupByGroupIndex(0);
     }
   });
 }
@@ -814,13 +754,6 @@ export function clickHamburger(): void {
 }
 
 /**
- * Verifies whether the group menu is displayed.
- */
-export function checkHamburgerDisplayed(): void {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]').should('be.visible');
-}
-
-/**
  * Clicks on the 'Add to cart' button.
  */
 export function clickAddToCartBtn(): void {
@@ -832,220 +765,6 @@ export function clickAddToCartBtn(): void {
     });
 }
 
-export function registerCartRefreshRoute() {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/carts/*?fields=*&lang=en&curr=USD`
-  ).as('refresh_cart');
-}
-
 export function closeAddedToCartDialog() {
   cy.get('cx-added-to-cart-dialog [aria-label="Close"]').click({ force: true });
-}
-
-/**
- * Clicks on 'Add to cart' on the product details page.
- */
-export function clickOnAddToCartBtnOnPD(): void {
-  registerCartRefreshRoute();
-
-  cy.get('cx-add-to-cart button[type=submit]').first().click({ force: true });
-  cy.wait('@refresh_cart');
-}
-
-/**
- * Clicks on 'View Cart' on the product details page.
- */
-export function clickOnViewCartBtnOnPD(): void {
-  cy.get('div.cx-dialog-buttons a.btn-primary')
-    .contains('view cart')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/cart');
-      cy.get('h1').contains('Your Shopping Cart').should('be.visible');
-      cy.get('cx-cart-details').should('be.visible');
-    });
-}
-
-/**
- * Clicks on 'Proceed to Checkout' on the product details page.
- */
-export function clickOnProceedToCheckoutBtnOnPD(): void {
-  cy.get('div.cx-dialog-buttons a.btn-secondary')
-    .contains('proceed to checkout')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/checkout/shipping-address');
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-      cy.get('cx-shipping-address').should('be.visible');
-    });
-}
-
-/**
- * Navigates to the order details page.
- */
-export function navigateToOrderDetails(): void {
-  cy.log('Navigate to order detail page');
-  // Verify whether the ordered product is displayed in the order list
-  cy.get('cx-cart-item-list cx-configure-cart-entry a')
-    .first()
-    .click()
-    .then(() => {
-      cy.get('cx-configurator-overview-form').should('be.visible');
-    });
-}
-
-/**
- * Navigates to the oder history page.
- *
- * @return {Chainable<Window>} - New order history window
- */
-export function goToOrderHistory(): Chainable<Window> {
-  cy.log('Navigate to order history');
-  return cy.visit('/electronics-spa/en/USD/my-account/orders').then(() => {
-    cy.get('cx-order-history h3').should('contain', 'Order history');
-  });
-}
-
-/**
- * Verifies whether the searched order exists in the order history and
- * sets the '@isFound' alias accordingly.
- *
- * @param {string} orderNumber - Order number
- */
-function searchForOrder(orderNumber: string): void {
-  cy.get('cx-order-history')
-    .get('td.cx-order-history-code a.cx-order-history-value')
-    .each((elem) => {
-      const order = elem.text().trim();
-      cy.log('order number: ' + order);
-      cy.log('searched order number: ' + orderNumber);
-      if (order === orderNumber) {
-        cy.wrap(true).as('isFound');
-        return false;
-      } else {
-        cy.wrap(false).as('isFound');
-      }
-    });
-}
-
-/**
- * Selects the order by the oder number alias.
- */
-export function selectOrderByOrderNumberAlias(): void {
-  cy.get('@orderNumber').then((orderNumber) => {
-    cy.log('Searched order number: ' + orderNumber);
-    // To refresh the order history content, navigate to the home page and back to the order history
-    cy.log('Navigate to home page');
-    navigation.visitHomePage({});
-    this.goToOrderHistory();
-
-    // Verify whether the searched order exists
-    searchForOrder(orderNumber.toString());
-    cy.get('@isFound').then((isFound) => {
-      let found = isFound ? ' ' : ' not ';
-      cy.log("Order with number '" + orderNumber + "' is" + found + 'found');
-      if (!isFound) {
-        cy.waitForOrderToBePlacedRequest(
-          'electronics-spa',
-          'USD',
-          orderNumber.toString()
-        );
-
-        searchForOrder(orderNumber.toString());
-        cy.get('@isFound').then((isOFound) => {
-          found = isOFound ? ' ' : ' not ';
-          cy.log(
-            "Order with number '" + orderNumber + "' is" + found + 'found'
-          );
-          if (!isFound) {
-            // To refresh the order history content, navigate to the home page and back to the order history
-            cy.log('Navigate to home page');
-            navigation.visitHomePage({});
-            this.goToOrderHistory();
-          }
-        });
-      }
-      // Navigate to the order details page of the searched order
-      cy.get(
-        'cx-order-history a.cx-order-history-value:contains(' +
-          `${orderNumber}` +
-          ')'
-      )
-        .click()
-        .then(() => {
-          navigateToOrderDetails();
-        });
-    });
-  });
-}
-
-/**
- * Defines the order number alias.
- */
-export function defineOrderNumberAlias(): void {
-  const orderConfirmationText = 'Confirmation of Order:';
-
-  cy.get('cx-order-confirmation-thank-you-message h1.cx-page-title')
-    .first()
-    .invoke('text')
-    .then((text) => {
-      expect(text).contains(orderConfirmationText);
-      const orderNumber = text.replace(orderConfirmationText, '').trim();
-      expect(orderNumber).match(/^[0-9]+$/);
-      cy.wrap(orderNumber).as('orderNumber');
-    });
-}
-
-/**
- * Conducts the checkout.
- */
-export function checkout(): void {
-  cy.log('Complete checkout process');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-  cy.log('Fulfill shipping address form');
-  fillShippingAddress(shippingAddressData, false);
-
-  cy.log("Navigate to the next step 'Delivery mode' tab");
-  cy.get('button.btn-primary')
-    .contains('Continue')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/checkout/delivery-mode');
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-      cy.get('cx-delivery-mode').should('be.visible');
-    });
-
-  cy.log("Navigate to the next step 'Payment details' tab");
-  cy.get('button.btn-primary')
-    .contains('Continue')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/checkout/payment-details');
-      cy.get('.cx-checkout-title').should('contain', 'Payment');
-      cy.get('cx-payment-method').should('be.visible');
-    });
-
-  cy.log('Fulfill payment details form');
-  fillPaymentDetails(paymentDetailsData, billingAddress);
-
-  cy.log("Check 'Terms & Conditions'");
-  cy.get('input[formcontrolname="termsAndConditions"]')
-    .check()
-    .then(() => {
-      cy.get('cx-place-order form').should('have.class', 'ng-valid');
-    });
-
-  cy.log('Place order');
-  cy.get('cx-place-order button.btn-primary')
-    .click()
-    .then(() => {
-      cy.location('pathname').should('contain', '/order-confirmation');
-      cy.get('cx-breadcrumb').should('contain', 'Order Confirmation');
-    });
-
-  cy.log('Define order number alias');
-  defineOrderNumberAlias();
 }

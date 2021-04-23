@@ -954,41 +954,6 @@ function checkAddToCartBtnDisplayed(): void {
 }
 
 /**
- * Verifies whether the group menu is not displayed.
- */
-export function checkConfigProductTitleDisplayed(): void {
-  cy.get('button:contains("show more")').should('be.visible');
-}
-
-/**
- * Verifies whether the Add To Cart Button component is displayed.
- */
-export function checkConfigAddToCartBtnDisplayed(): void {
-  cy.get('.cx-configurator-add-to-cart-btn').should('be.visible');
-}
-
-/**
- * Verifies whether the overview content is displayed.
- */
-export function checkOverviewContentDisplayed(): void {
-  cy.get('.cx-configurator-group-attribute').should('be.visible');
-}
-
-/**
- * Verifies whether the category navigation is displayed.
- */
-export function checkCategoryNavigationDisplayed(): void {
-  cy.get('cx-category-navigation').should('be.visible');
-}
-
-/**
- * Verifies whether the category navigation is displayed.
- */
-export function checkCategoryNavigationNotDisplayed(): void {
-  cy.get('cx-category-navigation').should('not.be.visible');
-}
-
-/**
  * Verifies the accuracy of the formatted price.
  *
  * @param {string} formattedPrice - Formatted price
@@ -1015,7 +980,7 @@ export function navigateToOverviewPage(): void {
  *
  * @param {number} groupIndex - Group index
  */
-function clickOnGroupByGroupIndex(groupIndex: number): void {
+export function clickOnGroupByGroupIndex(groupIndex: number): void {
   cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
     .not('.cx-menu-conflict')
     .eq(groupIndex)
