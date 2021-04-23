@@ -13,10 +13,10 @@ import { PageMetaResolver } from './page-meta.resolver';
     },
   ],
 })
-export class PageModule {
-  static forRoot(): ModuleWithProviders<PageModule> {
+export class PageMetaModule {
+  static forRoot(): ModuleWithProviders<PageMetaModule> {
     return {
-      ngModule: PageModule,
+      ngModule: PageMetaModule,
       providers: [provideDefaultConfig(defaultPageMetaConfig)],
     };
   }
