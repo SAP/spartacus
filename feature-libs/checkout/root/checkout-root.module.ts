@@ -25,6 +25,7 @@ import { interceptors } from './http-interceptors/index';
             'CheckoutReviewOrder',
             'CheckoutScheduleReplenishmentOrder',
             'CheckoutShippingAddress',
+            'GuestCheckoutLoginComponent',
           ],
         },
       },
