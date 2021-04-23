@@ -8,6 +8,7 @@ import {
 } from './data/cart-page-event.builder.migration';
 import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/category-page-meta.resolver.migration';
 import { CHECKOUT_PAGE_META_RESOLVER_MIGRATION } from './data/checkout-page-meta.resolver.migration';
+import { COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION } from './data/component-wrapper.directive.migration';
 import {
   CONTENT_PAGE_META_RESOLVER_MIGRATION_V1,
   CONTENT_PAGE_META_RESOLVER_MIGRATION_V2,
@@ -47,6 +48,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CATEGORY_PAGE_META_RESOLVER_MIGRATION,
   ORGANIZATION_PAGE_META_RESOLVER_MIGRATION,
   ROUTING_SERVICE_MIGRATION,
+  COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
 ];
 
 export function migrate(): Rule {
