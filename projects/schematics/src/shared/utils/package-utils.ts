@@ -1,8 +1,40 @@
 import { SchematicsException, Tree } from '@angular-devkit/schematics';
+import {
+  NodeDependency,
+  NodeDependencyType,
+} from '@schematics/angular/utility/dependencies';
 import { version } from '../../../package.json';
-import { ANGULAR_CORE, DEFAULT_ANGULAR_VERSION, UTF_8 } from '../constants';
+import { SPARTACUS_SCOPE, UTF_8 } from '../constants';
 import { getServerTsPath } from './file-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
+
+const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
+export function createDependencies(
+  dependencyObject: any,
+  skipScopes: string[] = FEATURES_LIBS_SKIP_SCOPES
+): NodeDependency[] {
+  const dependencies: NodeDependency[] = [];
+  for (const dependencyName in dependencyObject) {
+    if (!dependencyObject.hasOwnProperty(dependencyName)) {
+      continue;
+    }
+
+    if (skipScopes.some((scope) => dependencyName.startsWith(scope))) {
+      continue;
+    }
+
+    const type = dependencyName.includes('schematics')
+      ? NodeDependencyType.Dev
+      : NodeDependencyType.Default;
+    dependencies.push({
+      type,
+      name: dependencyName,
+      version: dependencyObject[dependencyName],
+    });
+  }
+
+  return dependencies;
+}
 
 export function readPackageJson(tree: Tree): any {
   const pkgPath = '/package.json';
@@ -12,15 +44,6 @@ export function readPackageJson(tree: Tree): any {
   }
 
   return JSON.parse(buffer.toString(UTF_8));
-}
-
-export function getAngularVersion(tree: Tree, useFallback = true): string {
-  const packageJsonObject = readPackageJson(tree);
-  let packageJsonVersion = '';
-  if (packageJsonObject) {
-    packageJsonVersion = packageJsonObject.dependencies[ANGULAR_CORE];
-  }
-  return packageJsonVersion || (useFallback ? DEFAULT_ANGULAR_VERSION : '');
 }
 
 export function getMajorVersionNumber(versionString: string): number {

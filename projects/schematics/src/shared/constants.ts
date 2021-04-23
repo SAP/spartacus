@@ -1,15 +1,5 @@
 export const UTF_8 = 'utf-8';
 
-/***** Libraries versions start *****/
-
-export const DEFAULT_ANGULAR_VERSION = '^10.2.0';
-export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '^10.1.0';
-export const ANGULAR_UNIVERSAL_BUILDERS = '^10.1.0';
-export const DEFAULT_NGRX_VERSION = '^10.0.0';
-export const DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION = '^10.0.0';
-
-/***** Libraries versions end *****/
-
 /***** Imports start *****/
 export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
@@ -22,6 +12,7 @@ export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
 export const ANGULAR_OAUTH2_OIDC = 'angular-oauth2-oidc';
 
+export const SPARTACUS_SCOPE = '@spartacus/';
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_SETUP = '@spartacus/setup';
@@ -685,4 +676,5 @@ export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
 export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
 export const CLI_STOREFINDER_FEATURE = 'Store Finder';
 export const CLI_TRACKING_FEATURE = 'Tracking';
+export const CLI_CDC_FEATURE = 'CDC';
 /******* CLI end *******/

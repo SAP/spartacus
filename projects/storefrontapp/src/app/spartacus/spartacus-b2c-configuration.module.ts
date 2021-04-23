@@ -22,10 +22,14 @@ import {
           'apparel-uk-spa',
         ],
       },
+    }),
+    provideConfig({
       pwa: {
         enabled: true,
         addToHomeScreen: true,
       },
+    }),
+    provideConfig({
       cart: {
         selectiveCart: {
           enabled: true,
