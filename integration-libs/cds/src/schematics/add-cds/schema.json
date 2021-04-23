@@ -14,48 +14,25 @@
     "tenant": {
       "type": "string",
       "description": "The tenant name.",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
+      "default": "my-tenant",
       "x-prompt": "What is your tenant name?"
     },
     "baseUrl": {
       "type": "string",
       "description": "The base URL.",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
+      "default": "https://my-tenant.api.us.context.cloud.sap",
       "x-prompt": "What is your base URL?"
-    },
-    "strategyId": {
-      "type": "string",
-      "description": "The strategy ID to use for the strategyProducts endpoint.",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
-      "x-prompt": "What is your strategy ID?"
     },
     "profileTagLoadUrl": {
       "type": "string",
-      "description": "Where to load ProfileTag from.",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
+      "description": "Where to load ProfileTag from. (e.g. https://tag.static.us.context.cloud.sap/js/profile-tag.js)",
       "x-prompt": "Where to load ProfileTag from? (optional)"
     },
     "profileTagConfigUrl": {
       "type": "string",
-      "description": " Configuration URL for ProfileTag.",
-      "$default": {
-        "$source": "argv",
-        "index": 0
-      },
+      "description": " Configuration URL for ProfileTag. (e.g. https://tag.static.stage.context.cloud.sap/config/my-config123)",
       "x-prompt": "What is the ProfileTag configuration URL? (optional)"
     }
   },
-  "required": ["tenant", "baseUrl", "strategyId"]
+  "required": ["tenant", "baseUrl"]
 }

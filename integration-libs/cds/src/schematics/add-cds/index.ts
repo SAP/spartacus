@@ -2,6 +2,7 @@ import {
   chain,
   Rule,
   SchematicContext,
+  SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
 import {
@@ -23,6 +24,7 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
+    validateCdsOptions(options);
 
     return chain([
       addCds(options),
@@ -31,6 +33,15 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
       installPackageJsonDependencies(),
     ]);
   };
+}
+
+function validateCdsOptions({ tenant, baseUrl }: SpartacusCdsOptions): void {
+  if (!tenant) {
+    throw new SchematicsException(`Please specify tenant name.`);
+  }
+  if (!baseUrl) {
+    throw new SchematicsException(`Please specify the base URL.`);
+  }
 }
 
 function addCdsPackageJsonDependencies(packageJson: any): Rule {
@@ -52,8 +63,7 @@ function addCds(options: SpartacusCdsOptions): Rule {
         tenant: '${options.tenant}',
         baseUrl: '${options.baseUrl}',
         endpoints: {
-          strategyProducts:
-            '/strategy/${options.tenant}/strategies/${options.strategyId}/products',
+          strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
         },
         merchandising: {
           defaultCarouselViewportThreshold: 80,
