@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
+  CmsConfig,
   provideConfig,
 } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
@@ -18,7 +19,7 @@ import { GtmModule } from '@spartacus/tracking/tms/gtm';
     PersonalizationRootModule,
   ],
   providers: [
-    provideConfig({
+    provideConfig(<TmsConfig>{
       tagManager: {
         gtm: {
           events: [NavigationEvent, CartAddEntrySuccessEvent],
@@ -27,8 +28,8 @@ import { GtmModule } from '@spartacus/tracking/tms/gtm';
           events: [NavigationEvent, CartRemoveEntrySuccessEvent],
         },
       },
-    } as TmsConfig),
-    provideConfig({
+    }),
+    provideConfig(<CmsConfig>{
       featureModules: {
         personalization: {
           module: () =>

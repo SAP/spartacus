@@ -89,7 +89,7 @@ if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
     OrderApprovalFeatureModule,
-    SavedCartFeatureModule,
+
     BulkPricingFeatureModule
   );
 }
@@ -202,6 +202,7 @@ if (environment.cds) {
     SmartEditFeatureModule,
     TrackingFeatureModule,
     VariantsFeatureModule,
+    SavedCartFeatureModule,
     ...featureModules,
   ],
 })
