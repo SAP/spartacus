@@ -12,23 +12,7 @@ import { Configurator } from '../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorStorefrontUtilsService {
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  constructor(
-    configuratorGroupsService: ConfiguratorGroupsService,
-    platformId: any,
-    keyboardFocusService?: KeyboardFocusService
-  );
-
   // TODO(#11681): make keyboardFocusService a required dependency and remove deprecated constructor
-  /**
-   * @deprecated since 3.3
-   * Use constructor(protected configuratorGroupsService: ConfiguratorGroupsService, @Inject(PLATFORM_ID) protected platformId: any, protected keyboardFocusService: KeyboardFocusService) instead
-   */
-  constructor(
-    configuratorGroupsService: ConfiguratorGroupsService,
-    platformId: any
-  );
-
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     @Inject(PLATFORM_ID) protected platformId: any,
