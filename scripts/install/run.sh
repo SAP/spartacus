@@ -100,6 +100,18 @@ function add_b2b {
     fi
 }
 
+function add_cdc {
+  if [ "$ADD_CDC" = true ] ; then
+        ng add @spartacus/cdc@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
+function add_product_configurator {
+  if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
+        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
   ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
@@ -119,9 +131,8 @@ function add_spartacus_csr {
     fi
     add_feature_libs
     add_b2b
-    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi
+    add_cdc
+    add_product_configurator
     )
 }
 
@@ -134,9 +145,8 @@ function add_spartacus_ssr {
     fi
     add_feature_libs
     add_b2b
-    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi
+    add_cdc
+    add_product_configurator
     )
 }
 
@@ -149,9 +159,8 @@ function add_spartacus_ssr_pwa {
     fi
     add_feature_libs
     add_b2b
-    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi
+    add_cdc
+    add_product_configurator
     )
 }
 
@@ -221,6 +230,9 @@ function install_from_sources {
 
     printh "Creating cds npm package"
     ( cd ${CLONE_DIR}/dist/cds && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    printh "Creating cdc npm package"
+    ( cd ${CLONE_DIR}/dist/cdc && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     printh "Creating setup npm package"
     ( cd ${CLONE_DIR}/dist/setup && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )

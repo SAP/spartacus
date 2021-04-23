@@ -6,6 +6,9 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
+  addPackageJsonDependencies,
+  createDependencies,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
   shouldAddFeature,
@@ -17,6 +20,7 @@ import {
   CLI_VARIANTS_MULTIDIMENSIONAL_FEATURE,
 } from '../constants';
 import { addVariantsMultiDimensionalFeature } from '../add-variants-multidimensional';
+import { peerDependencies } from '../../package.json';
 import { addBulkPricingFeature } from '../add-bulk-pricing';
 import { addVariantsFeature } from '../add-product-variants';
 
@@ -37,6 +41,14 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
       shouldAddFeature(CLI_VARIANTS_MULTIDIMENSIONAL_FEATURE, options.features)
         ? addVariantsMultiDimensionalFeature(options)
         : noop(),
+      addProductPackageJsonDependencies(packageJson),
+      installPackageJsonDependencies(),
     ]);
   };
+}
+
+function addProductPackageJsonDependencies(packageJson: any): Rule {
+  const dependencies = createDependencies(peerDependencies);
+
+  return addPackageJsonDependencies(dependencies, packageJson);
 }
