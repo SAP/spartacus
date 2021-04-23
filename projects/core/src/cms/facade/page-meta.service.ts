@@ -61,11 +61,12 @@ export class PageMetaService {
   protected resolve(metaResolver: PageMetaResolver): Observable<PageMeta> {
     const resolverMethods = this.getResolverMethods();
     const resolvedData: Observable<PageMeta>[] = Object.keys(resolverMethods)
-      .filter((key) => metaResolver[resolverMethods[key]])
+      // TODO: Revisit if typing is possible here with Template Literal Types when we update to TS >=4.1
+      .filter((key) => (metaResolver as any)[resolverMethods[key]])
       .map((key) => {
-        return metaResolver[resolverMethods[key]]().pipe(
-          map((data) => ({ [key]: data }))
-        );
+        return (metaResolver as any)
+          [resolverMethods[key]]()
+          .pipe(map((data) => ({ [key]: data })));
       });
 
     if (resolvedData.length === 0) {
@@ -92,7 +93,7 @@ export class PageMetaService {
    * relevant during browsing.
    */
   protected getResolverMethods(): { [property: string]: string } {
-    let resolverMethods = {};
+    let resolverMethods: Record<string, string> = {};
     // filter the resolvers to avoid unnecessary processing in CSR
     this.pageMetaConfig?.pageMeta?.resolvers
       ?.filter((resolver) => {
