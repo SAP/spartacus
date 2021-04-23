@@ -19,6 +19,7 @@ import { PopoverComponent } from './popover.component';
 import { PopoverEvent, PopoverOptions } from './popover.model';
 import { PositioningService } from '../../services/positioning/positioning.service';
 import { PopoverService } from './popover.service';
+// import { filter } from 'rxjs/operators';
 
 /**
  * Directive to bind popover with any DOM element.
@@ -71,6 +72,13 @@ export class PopoverDirective {
    * dedicated `FocusConfig` can be set to autofocus first
    * focusable element in popover container.
    */
+
+  @HostListener('keydown.escape')
+  handleEscape(): void {
+    this.popoverContainer.instance.eventSubject.next(
+      PopoverEvent.ESCAPE_KEYDOWN
+    );
+  }
 
   @HostListener('click', ['$event'])
   @HostListener('keydown.enter', ['$event'])
