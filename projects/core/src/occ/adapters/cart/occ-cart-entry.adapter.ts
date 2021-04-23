@@ -21,15 +21,34 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     productCode: string,
     quantity: number = 1
   ): Observable<CartModification> {
-    const toAdd = { quantity, product: { code: productCode } };
-
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-
     const url = this.occEndpointsService.getUrl('addEntries', {
       userId,
       cartId,
+      quantity,
+    });
+
+    // Handle b2b case where the x-www-form-urlencoded is still used
+    if (url.includes(`quantity=${quantity}`)) {
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/x-www-form-urlencoded',
+      });
+
+      return this.http
+        .post<CartModification>(
+          url,
+          {},
+          { headers, params: { code: productCode } }
+        )
+        .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+    }
+
+    const toAdd = {
+      quantity,
+      product: { code: productCode },
+    };
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
     });
 
     return this.http
