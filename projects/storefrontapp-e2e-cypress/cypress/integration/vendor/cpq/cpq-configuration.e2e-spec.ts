@@ -1,7 +1,7 @@
-import * as cart from '../../helpers/cart';
-import * as configuration from '../../helpers/product-configuration';
-import * as configurationOverview from '../../helpers/product-configuration-overview';
-import * as productSearch from '../../helpers/product-search';
+import * as cart from '../../../helpers/cart';
+import * as configuration from '../../../helpers/product-configuration';
+import * as configurationOverview from '../../../helpers/product-configuration-overview';
+import * as productSearch from '../../../helpers/product-search';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'cpq03@sap.com';
