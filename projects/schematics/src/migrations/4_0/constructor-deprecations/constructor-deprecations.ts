@@ -6,7 +6,6 @@ import {
   CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V1,
   CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V2,
 } from './data/cart-page-event.builder.migration';
-import { CART_PAGE_META_RESOLVER_MIGRATION } from './data/cart-page-meta.resolver.migration';
 import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/category-page-meta.resolver.migration';
 import { CHECKOUT_PAGE_META_RESOLVER_MIGRATION } from './data/checkout-page-meta.resolver.migration';
 import { CONTENT_PAGE_META_RESOLVER_MIGRATION } from './data/content-page-meta.resolver.migration';
@@ -37,7 +36,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   PRODUCT_PAGE_META_RESOLVER_MIGRATION,
   SEARCH_PAGE_META_RESOLVER_MIGRATION,
   CHECKOUT_PAGE_META_RESOLVER_MIGRATION,
-  CART_PAGE_META_RESOLVER_MIGRATION,
   CATEGORY_PAGE_META_RESOLVER_MIGRATION,
   ORGANIZATION_PAGE_META_RESOLVER_MIGRATION,
   ROUTING_SERVICE_MIGRATION,

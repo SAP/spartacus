@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import {
-  BasePageMetaResolver,
   BreadcrumbMeta,
   ContentPageMetaResolver,
   PageBreadcrumbResolver,
@@ -58,8 +57,7 @@ export class OrganizationPageMetaResolver
     protected contentPageMetaResolver: ContentPageMetaResolver,
     protected translation: TranslationService,
     protected semanticPath: SemanticPathService,
-    protected routingService: RoutingService,
-    protected basePageMetaResolver: BasePageMetaResolver
+    protected routingService: RoutingService
   ) {
     super();
   }
