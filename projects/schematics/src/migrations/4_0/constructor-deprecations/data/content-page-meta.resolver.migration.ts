@@ -8,7 +8,7 @@ import {
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
-export const CONTENT_PAGE_META_RESOLVER_MIGRATION: ConstructorDeprecation = {
+export const CONTENT_PAGE_META_RESOLVER_MIGRATION_V1: ConstructorDeprecation = {
   class: CONTENT_PAGE_META_RESOLVER,
   importPath: SPARTACUS_CORE,
   deprecatedParams: [
@@ -23,5 +23,21 @@ export const CONTENT_PAGE_META_RESOLVER_MIGRATION: ConstructorDeprecation = {
   ],
   addParams: [
     { className: BASE_PAGE_META_RESOLVER, importPath: SPARTACUS_CORE },
+  ],
+};
+
+export const CONTENT_PAGE_META_RESOLVER_MIGRATION_V2: ConstructorDeprecation = {
+  class: CONTENT_PAGE_META_RESOLVER,
+  importPath: SPARTACUS_CORE,
+  deprecatedParams: [
+    { className: CMS_SERVICE, importPath: SPARTACUS_CORE },
+    { className: TRANSLATION_SERVICE, importPath: SPARTACUS_CORE },
+    { className: ROUTING_PAGE_META_RESOLVER, importPath: SPARTACUS_CORE },
+    { className: BASE_PAGE_META_RESOLVER, importPath: SPARTACUS_CORE },
+  ],
+  removeParams: [
+    { className: CMS_SERVICE, importPath: SPARTACUS_CORE },
+    { className: TRANSLATION_SERVICE, importPath: SPARTACUS_CORE },
+    { className: ROUTING_PAGE_META_RESOLVER, importPath: SPARTACUS_CORE },
   ],
 };

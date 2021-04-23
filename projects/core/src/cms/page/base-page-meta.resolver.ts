@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { combineLatest, defer, Observable, of } from 'rxjs';
+import { combineLatest, defer, Observable } from 'rxjs';
 import { filter, map, shareReplay, startWith } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { CmsService } from '../facade/cms.service';
@@ -94,12 +94,10 @@ export class BasePageMetaResolver
   }
 
   resolveCanonicalUrl(options?: CanonicalUrlOptions): Observable<string> {
-    return this.router && this.pageLinkService
-      ? this.router.events.pipe(
-          filter((ev) => ev instanceof NavigationEnd),
-          startWith(null),
-          map(() => this.pageLinkService.getCanonicalUrl(options))
-        )
-      : of();
+    return this.router.events.pipe(
+      filter((ev) => ev instanceof NavigationEnd),
+      startWith(null),
+      map(() => this.pageLinkService.getCanonicalUrl(options))
+    );
   }
 }
