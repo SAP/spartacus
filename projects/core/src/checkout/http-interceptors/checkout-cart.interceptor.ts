@@ -16,8 +16,10 @@ import { RouterState, RoutingService } from '../../routing/index';
  *
  * When a user doing a checkout has a "Cart not found" error, he is redirected to checkout and the cart is reloaded.
  * If a "Cart not found" error happens and the user is not on checkout, this interceptor does not perform any actions.
+ *
+ * @deprecated since 4.0, use checkout feature lib instead.
  */
-@Injectable({ providedIn: 'root' })
+ @Injectable({ providedIn: 'root' })
 export class CheckoutCartInterceptor implements HttpInterceptor {
   constructor(
     protected routingService: RoutingService,

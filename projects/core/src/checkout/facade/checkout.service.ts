@@ -24,6 +24,9 @@ import {
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
 })

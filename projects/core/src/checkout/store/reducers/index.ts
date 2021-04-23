@@ -12,6 +12,9 @@ import * as fromCheckout from './checkout.reducer';
 import * as fromOrderTypes from './order-types.reducer';
 import * as fromPaymentTypes from './payment-types.reducer';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export function getReducers(): ActionReducerMap<CheckoutState> {
   return {
     steps: loaderReducer<CheckoutStepsState>(
@@ -25,10 +28,16 @@ export function getReducers(): ActionReducerMap<CheckoutState> {
   };
 }
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const reducerToken: InjectionToken<
   ActionReducerMap<CheckoutState>
 > = new InjectionToken<ActionReducerMap<CheckoutState>>('CheckoutReducers');
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const reducerProvider: Provider = {
   provide: reducerToken,
   useFactory: getReducers,

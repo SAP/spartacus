@@ -6,6 +6,9 @@ import { UserAddressConnector } from '../../../user/connectors/address/user-addr
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { CheckoutActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable()
 export class AddressVerificationEffect {
   @Effect()

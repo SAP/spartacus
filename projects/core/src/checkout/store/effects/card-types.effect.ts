@@ -6,6 +6,9 @@ import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 import { CheckoutActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable()
 export class CardTypesEffects {
   @Effect()

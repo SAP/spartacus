@@ -2,10 +2,16 @@ import { ORDER_TYPE } from '../../../model/replenishment-order.model';
 import { CheckoutActions } from '../actions/index';
 import { OrderTypesState } from '../checkout-state';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const initialState: OrderTypesState = {
   selected: ORDER_TYPE.PLACE_ORDER,
 };
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export function reducer(
   state = initialState,
   action: CheckoutActions.OrderTypesActions | CheckoutActions.CheckoutAction

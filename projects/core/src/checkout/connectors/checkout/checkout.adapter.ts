@@ -2,6 +2,9 @@ import { Observable } from 'rxjs';
 import { Order } from '../../../model/order.model';
 import { CheckoutDetails } from '../../models/checkout.model';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export abstract class CheckoutAdapter {
   /**
    * Abstract method used to place an order.

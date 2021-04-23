@@ -1,8 +1,11 @@
-import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { PaymentTypeAdapter } from './payment-type.adapter';
+import { Observable } from 'rxjs';
 import { PaymentType } from '../../../model/cart.model';
+import { PaymentTypeAdapter } from './payment-type.adapter';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
 })

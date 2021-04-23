@@ -4,6 +4,9 @@ import { Order } from '../../../model/order.model';
 import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutAdapter } from './checkout.adapter';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
 })

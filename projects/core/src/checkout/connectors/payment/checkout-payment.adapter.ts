@@ -1,6 +1,9 @@
 import { Observable } from 'rxjs';
 import { CardType, PaymentDetails } from '../../../model/cart.model';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export abstract class CheckoutPaymentAdapter {
   /**
    * Abstract method used to create payment details on cart

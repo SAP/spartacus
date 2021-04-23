@@ -6,6 +6,9 @@ import { CHECKOUT_FEATURE } from './checkout-state';
 import { effects } from './effects/index';
 import { reducerProvider, reducerToken } from './reducers/index';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

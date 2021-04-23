@@ -8,6 +8,9 @@ import {
 import * as fromReducer from './../reducers/address-verification.reducer';
 import { getCheckoutState } from './checkout.selectors';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getAddressVerificationResultsState: MemoizedSelector<
   StateWithCheckout,
   AddressVerificationState
@@ -16,6 +19,9 @@ export const getAddressVerificationResultsState: MemoizedSelector<
   (state: CheckoutState) => state.addressVerification
 );
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getAddressVerificationResults: MemoizedSelector<
   StateWithCheckout,
   string | AddressValidation

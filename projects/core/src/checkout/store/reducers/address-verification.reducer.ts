@@ -1,10 +1,16 @@
 import { CheckoutActions } from '../actions/index';
 import { AddressVerificationState } from '../checkout-state';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const initialState: AddressVerificationState = {
   results: {},
 };
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export function reducer(
   state = initialState,
   action: CheckoutActions.AddressVerificationActions
@@ -37,6 +43,9 @@ export function reducer(
   return state;
 }
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getAddressVerificationResults = (
   state: AddressVerificationState
 ) => state.results;

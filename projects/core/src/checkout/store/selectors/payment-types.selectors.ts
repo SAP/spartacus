@@ -8,6 +8,9 @@ import {
 import * as fromReducer from './../reducers/payment-types.reducer';
 import { getCheckoutState } from './checkout.selectors';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getPaymentTypesState: MemoizedSelector<
   StateWithCheckout,
   PaymentTypesState
@@ -16,11 +19,17 @@ export const getPaymentTypesState: MemoizedSelector<
   (state: CheckoutState) => state.paymentTypes
 );
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getPaymentTypesEntites: MemoizedSelector<
   StateWithCheckout,
   { [code: string]: PaymentType }
 > = createSelector(getPaymentTypesState, fromReducer.getPaymentTypesEntites);
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getAllPaymentTypes: MemoizedSelector<
   StateWithCheckout,
   PaymentType[]
@@ -28,6 +37,9 @@ export const getAllPaymentTypes: MemoizedSelector<
   return Object.keys(entites).map((code) => entites[code]);
 });
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getSelectedPaymentType: MemoizedSelector<
   StateWithCheckout,
   string
