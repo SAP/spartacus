@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
-import { filter, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { resolveApplicable } from '../../util/applicable';
 import { uniteLatest } from '../../util/rxjs/unite-latest';

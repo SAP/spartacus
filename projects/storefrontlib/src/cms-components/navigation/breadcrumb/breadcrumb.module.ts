@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CmsConfig, PageModule, provideDefaultConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  PageMetaModule,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import { BreadcrumbComponent } from './breadcrumb.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, PageModule],
+  imports: [CommonModule, RouterModule, PageMetaModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
