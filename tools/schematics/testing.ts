@@ -134,9 +134,12 @@ function testAllSchematics(): void {
     })
   );
   integrationLibsFolders.forEach((lib) =>
-    execSync(`yarn --cwd integration-libs/${lib} run test:schematics`, {
-      stdio: 'inherit',
-    })
+    execSync(
+      `yarn --cwd integration-libs/${lib} run test:schematics --coverage`,
+      {
+        stdio: 'inherit',
+      }
+    )
   );
 }
 
