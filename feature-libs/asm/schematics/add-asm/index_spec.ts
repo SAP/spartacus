@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -18,7 +20,6 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const asmFeatureModulePath =
   'src/app/spartacus/features/asm/asm-feature.module.ts';
 
-// TODO: Improve tests after lib-util test update
 describe('Spartacus Asm schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -39,17 +40,17 @@ describe('Spartacus Asm schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions: SpartacusAsmOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [CLI_ASM_FEATURE],
-  };
-
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
     lazy: true,
     features: [],
+  };
+
+  const defaultFeatureOptions: SpartacusAsmOptions = {
+    project: 'schematics-test',
+    lazy: true,
+    features: [CLI_ASM_FEATURE],
   };
 
   beforeEach(async () => {
@@ -83,15 +84,38 @@ describe('Spartacus Asm schematics: ng-add', () => {
       .toPromise();
   });
 
+  describe('When no features are provided', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync(
+          'ng-add',
+          { ...defaultFeatureOptions, features: [] },
+          appTree
+        )
+        .toPromise();
+    });
+
+    it('should not create the feature module', () => {
+      const featureModulePath = appTree.readContent(asmFeatureModulePath);
+      expect(featureModulePath).toBeFalsy();
+    });
+    it('should not add the feature to the feature module', () => {
+      const spartacusFeaturesModulePath = appTree.readContent(
+        'src/app/spartacus/spartacus-features.module.ts'
+      );
+      expect(spartacusFeaturesModulePath).toMatchSnapshot();
+    });
+    it('should just install the package', () => {
+      const packageJson = JSON.parse(appTree.readContent('package.json'));
+      expect(packageJson.dependencies['@spartacus/asm']).toBeTruthy();
+    });
+  });
+
   describe('Asm feature', () => {
     describe('styling', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...defaultOptions, features: [] },
-            appTree
-          )
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
     });
@@ -101,7 +125,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultOptions, lazy: false },
+            { ...defaultFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
@@ -126,7 +150,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
     describe('lazy loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -148,7 +172,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
     describe('i18n', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
