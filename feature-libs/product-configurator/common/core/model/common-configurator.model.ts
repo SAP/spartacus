@@ -44,6 +44,16 @@ export namespace CommonConfigurator {
     ORDER_ENTRY = 'orderEntry',
   }
 }
+
+/**
+ * Possible configurator types
+ */
+export const enum ConfiguratorType {
+  CPQ = 'CLOUDCPQCONFIGURATOR',
+  VARIANT = 'CPQCONFIGURATOR',
+  TEXTFIELD = 'TEXTFIELD',
+}
+
 /**
  * Statuses that can occur in the generic configuration
  * status summary

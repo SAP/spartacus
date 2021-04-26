@@ -58,7 +58,7 @@ export function configuratorReducer(
       const result: Configurator.Configuration = {
         ...state,
         ...configuration,
-        priceSummary: configuration.overview.priceSummary,
+        priceSummary: configuration.overview?.priceSummary,
       };
 
       return result;

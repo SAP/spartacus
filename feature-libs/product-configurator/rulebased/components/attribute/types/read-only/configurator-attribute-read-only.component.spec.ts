@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/shared/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
 
 describe('ConfigAttributeReadOnlyComponent', () => {
@@ -28,7 +27,6 @@ describe('ConfigAttributeReadOnlyComponent', () => {
       TestBed.configureTestingModule({
         declarations: [ConfiguratorAttributeReadOnlyComponent],
         imports: [ReactiveFormsModule],
-        providers: [ConfiguratorAttributeBaseComponent],
       })
         .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
           set: {
