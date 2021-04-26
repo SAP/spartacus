@@ -19,7 +19,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": []
+      "default": ["Assisted Services Module"]
     }
   },
   "required": []

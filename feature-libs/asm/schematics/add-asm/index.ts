@@ -8,10 +8,12 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependencies,
+  CLI_ASM_FEATURE,
   createDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
+  shouldAddFeature,
   SPARTACUS_ASM,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -33,7 +35,9 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      options.features ? addAsmFeature(options) : noop(),
+      shouldAddFeature(CLI_ASM_FEATURE, options.features)
+        ? addAsmFeature(options)
+        : noop(),
 
       addAsmPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),

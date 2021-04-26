@@ -57,7 +57,7 @@ function addCdcPackageJsonDependencies(
 
   addSchematicsTasks(spartacusDeps, context, {
     ...options,
-    features: undefined,
+    features: [],
   });
 
   return chain([rule, thirdPartyPackagesRule]);
