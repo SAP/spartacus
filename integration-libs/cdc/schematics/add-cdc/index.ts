@@ -10,6 +10,7 @@ import {
   addPackageJsonDependencies,
   addSchematicsTasks,
   createDependencies,
+  createSpartacusFeatureOptionsForLibrary,
   installSpartacusFeatures,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
@@ -50,22 +51,19 @@ function addCdcPackageJsonDependencies(
   context: SchematicContext,
   options: SpartacusCdcOptions
 ): Rule {
-  const spartacusDeps = [SPARTACUS_ASM, SPARTACUS_USER];
+  const spartacusLibraries = [SPARTACUS_ASM, SPARTACUS_USER];
 
-  const rule = installSpartacusFeatures(spartacusDeps);
+  const rule = installSpartacusFeatures(spartacusLibraries);
   const thirdPartyDependencies = createDependencies(peerDependencies);
   const thirdPartyPackagesRule = addPackageJsonDependencies(
     thirdPartyDependencies,
     packageJson
   );
 
-  const featureOptions = spartacusDeps.map((spartacusDep) => ({
-    feature: spartacusDep,
-    options: {
-      ...options,
-      features: [],
-    },
-  }));
+  const featureOptions = createSpartacusFeatureOptionsForLibrary(
+    spartacusLibraries,
+    options
+  );
   addSchematicsTasks(featureOptions, context);
 
   return chain([rule, thirdPartyPackagesRule]);

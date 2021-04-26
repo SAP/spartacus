@@ -673,6 +673,34 @@ export function installSpartacusFeatures(features: string[]): Rule {
   };
 }
 
+/**
+ * A helper method that creates the default options for the given Spartacus' libraries.
+ *
+ * All `features` options will be set to an empty array, meaning that no features should be installed.
+ *
+ * @param spartacusLibraries
+ * @param options
+ * @returns
+ */
+export function createSpartacusFeatureOptionsForLibrary<
+  T extends LibraryOptions
+>(
+  spartacusLibraries: string[],
+  options: T
+): {
+  feature: string;
+  options: LibraryOptions;
+}[] {
+  return spartacusLibraries.map((spartacusLibrary) => ({
+    feature: spartacusLibrary,
+    options: {
+      ...options,
+      // an empty array means that no library features will be installed.
+      features: [],
+    },
+  }));
+}
+
 export function addSchematicsTasks(
   featureOptions: {
     feature: string;
