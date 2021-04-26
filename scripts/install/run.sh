@@ -107,8 +107,14 @@ function add_cdc {
 }
 
 function add_product_configurator {
-  if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
+    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
+        local FEATURES="--features=\"Textfield configurator\"";
+    
+        if [ "$ADD_CPQ" = true ] ; then
+            FEATURES="$FEATURES --features=\"CPQ configurator\""
+        fi
+        
+        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false $FEATURES
     fi
 }
 
