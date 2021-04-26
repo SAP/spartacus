@@ -55,6 +55,7 @@ import {
   addPackageJsonDependencies,
   addSchematicsTasks,
   installSpartacusFeatures,
+  LibraryOptions,
   shouldAddFeature,
 } from '../shared/utils/lib-utils';
 import {
@@ -327,13 +328,15 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
     const rule = installSpartacusFeatures(features)(tree, context);
 
     const featureOptions = features.map((feature) => {
-      const libraryFeatures = createLibraryFeatureList(feature);
+      const libraryOptions: LibraryOptions = {
+        ...options,
+      };
       return {
         feature,
         options: {
-          ...options,
+          ...libraryOptions,
           // when the `features` option is `undefined`, the "default" set of features will be installed (specified in the library's schema.json)
-          features: libraryFeatures,
+          features: undefined,
         },
       };
     });
@@ -341,19 +344,6 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
 
     return rule;
   };
-}
-
-const REQUIRED_SPARTACUS_LIBRARIES = [SPARTACUS_USER];
-/**
- * Creates Spartacus' library's feature list based on the given `feature`.
- *
- * @param feature
- * @returns
- * - `undefined` for the cases when the library's schematic should install the default features (specified in the library's schema.json)
- * - an empty array - for the cases when no library's features should be installed
- */
-function createLibraryFeatureList(feature: string): string[] | undefined {
-  return REQUIRED_SPARTACUS_LIBRARIES.includes(feature) ? undefined : [];
 }
 
 function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
@@ -391,6 +381,6 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
     ...(shouldAddFeature(CLI_CDS_FEATURE, options.features)
       ? [SPARTACUS_CDS]
       : []),
-    ...REQUIRED_SPARTACUS_LIBRARIES,
+    SPARTACUS_USER,
   ];
 }
