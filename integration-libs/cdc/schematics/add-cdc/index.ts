@@ -52,9 +52,9 @@ function addCdcPackageJsonDependencies(
   options: SpartacusCdcOptions
 ): Rule {
   const spartacusLibraries = [SPARTACUS_ASM, SPARTACUS_USER];
+  const thirdPartyDependencies = createDependencies(peerDependencies);
 
   const rule = installSpartacusFeatures(spartacusLibraries);
-  const thirdPartyDependencies = createDependencies(peerDependencies);
   const thirdPartyPackagesRule = addPackageJsonDependencies(
     thirdPartyDependencies,
     packageJson

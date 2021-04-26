@@ -329,15 +329,14 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
 
     const featureOptions = features.map((feature) => {
       const libraryOptions: LibraryOptions = {
-        ...options,
+        project: options.project,
+        lazy: options.lazy,
+        // when the `features` option is `undefined`, the "default" set of features will be installed (specified in the library's schema.json)
+        features: undefined,
       };
       return {
         feature,
-        options: {
-          ...libraryOptions,
-          // when the `features` option is `undefined`, the "default" set of features will be installed (specified in the library's schema.json)
-          features: undefined,
-        },
+        options: libraryOptions,
       };
     });
     addSchematicsTasks(featureOptions, context);
