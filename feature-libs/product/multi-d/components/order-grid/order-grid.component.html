@@ -1,18 +1,95 @@
-Order grid works
-
 <ng-container *ngIf="multiDimensionalService.product$ | async">
-  <ol>
-    <li
-      *ngFor="
-        let variant of multiDimensionalService.getVariantOptions() | async
-      "
-    >
-      variant
-      {{ variant.code }}
-      <span *ngFor="let variant of variant.variantData">
-        {{ variant.type }}
-        {{ variant.value }}
-      </span>
-    </li>
-  </ol>
+  <div class="container">
+    <table class="table cx-order-grid-table">
+      <thead class="cx-order-grid-list-thead-mobile">
+        <th
+          *ngFor="let type of multiDimensionalService.getVariantCategories()"
+          scope="col"
+        >
+          {{ type }}
+        </th>
+        <th scope="col">QTY</th>
+        <th scope="col">Availability</th>
+        <th scope="col" class="cx-order-grid-list-item-price">Item price</th>
+        <th scope="col" class="cx-order-grid-list-total-price">Total price</th>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let variant of multiDimensionalService.getVariantOptions() | async
+          "
+        >
+          <td
+            *ngFor="let data of variant.variantData"
+            class="cx-order-grid-list-variant-type"
+          >
+            <div class="cx-table-label-mobile cx-order-grid-list-label">
+              {{ data.type || '-' }}
+            </div>
+
+            <span class="cx-order-grid-list-value">
+              {{ data.value || '-' }}
+            </span>
+          </td>
+
+          <td class="cx-order-grid-list-quantity">
+            <div class="cx-table-label-mobile cx-order-grid-list-label">
+              QTY
+            </div>
+            <span class="cx-order-grid-list-value"> 0 </span>
+          </td>
+
+          <td class="cx-order-grid-list-availability">
+            <div class="cx-table-label-mobile cx-order-grid-list-label">
+              Availability
+            </div>
+
+            <span class="cx-order-grid-list-value">
+              <ng-container
+                *ngIf="variant.stock?.stockLevel > 0; else outOfStock"
+              >
+                {{ variant.stock?.stockLevel }}
+                {{
+                  'addToCart.' + variant.stock?.stockLevelStatus | cxTranslate
+                }}
+              </ng-container>
+              <ng-template #outOfStock>
+                {{
+                  'addToCart.' + variant.stock?.stockLevelStatus | cxTranslate
+                }}
+              </ng-template>
+            </span>
+          </td>
+
+          <td class="cx-order-grid-list-item-price">
+            <div class="cx-table-label-mobile cx-order-grid-list-label">
+              Item price
+            </div>
+
+            <span class="cx-order-grid-list-value">
+              {{ variant.priceData?.formattedValue || '-' }}
+            </span>
+          </td>
+
+          <td class="cx-order-grid-list-total-price">
+            <div class="cx-table-label-mobile cx-order-grid-list-label">
+              Total price
+            </div>
+
+            <span class="cx-order-grid-list-value">
+              {{ variant.priceData?.formattedValue || '-' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cx-order-grid-add-to-cart-btn row">
+      <div class="col-xs-12 col-md-5 col-lg-4">
+        <button class="btn btn-block btn-primary" (click)="addAllToCart()">
+          {{ 'orderGrid.addAllToCart' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </div>
 </ng-container>

@@ -7,5 +7,5 @@ export const variantsMultidimensionalTranslations: TranslationResources = {
 
 // expose all translation chunk mapping for variantsMultidimensional feature
 export const variantsMultidimensionalTranslationChunksConfig: TranslationChunksConfig = {
-  variantsMultidimensional: [],
+  variantsMultidimensional: ['orderGrid'],
 };

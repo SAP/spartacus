@@ -5,6 +5,7 @@ import {
   Product,
   VariantMatrixElement,
   VariantOption,
+  VariantOptionQualifier,
 } from 'projects/core/src/model';
 import { Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
@@ -53,6 +54,10 @@ export class VariantsMultiDimensionalService {
 
   getVariants(): VariantMatrixElement[] {
     return this.variants;
+  }
+
+  getVariantCategories(): string[] {
+    return this.variantCategories;
   }
 
   getVariantOptions(): Observable<GridVariantOption[]> {
@@ -154,6 +159,7 @@ export class VariantsMultiDimensionalService {
 
         if (variant) {
           variant.variantData = elementVariantTypes;
+
           list.push(variant);
         }
       }
