@@ -156,7 +156,7 @@ if (environment.cds) {
     CartComponentModule,
     WishListModule,
 
-    // Checkout Core
+    // Cost Center
     CostCenterOccModule,
 
     // Order
