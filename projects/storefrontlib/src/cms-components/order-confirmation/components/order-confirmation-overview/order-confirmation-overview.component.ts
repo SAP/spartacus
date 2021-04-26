@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Component({
+@Component({
   selector: 'cx-order-confirmation-overview',
   templateUrl: './order-confirmation-overview.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

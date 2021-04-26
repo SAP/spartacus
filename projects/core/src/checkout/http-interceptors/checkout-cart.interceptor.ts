@@ -19,7 +19,7 @@ import { RouterState, RoutingService } from '../../routing/index';
  *
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: 'root' })
 export class CheckoutCartInterceptor implements HttpInterceptor {
   constructor(
     protected routingService: RoutingService,

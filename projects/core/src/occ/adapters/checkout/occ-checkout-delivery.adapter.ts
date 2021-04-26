@@ -17,7 +17,7 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Injectable()
+@Injectable()
 export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
   constructor(
     protected http: HttpClient,

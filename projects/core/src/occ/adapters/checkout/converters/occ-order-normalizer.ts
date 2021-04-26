@@ -10,7 +10,7 @@ import { Occ } from '../../../occ-models/occ.models';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: 'root' })
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
   constructor(private converter: ConverterService) {}
 

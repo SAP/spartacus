@@ -19,7 +19,7 @@ const ENDPOINT_CARD_TYPES = 'cardtypes';
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
  */
- @Injectable()
+@Injectable()
 export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   constructor(
     protected http: HttpClient,
