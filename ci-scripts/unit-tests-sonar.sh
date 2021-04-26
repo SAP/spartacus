@@ -14,7 +14,7 @@ if [[ -n "$coverage" ]]; then
 fi
 echo "Running schematics unit tests and code coverage for CDS library"
 exec 5>&1
-output=$(yarn --cwd feature-libs/cds run test:schematics --coverage=true | tee /dev/fd/5)
+output=$(yarn --cwd integration-libs/cds run test:schematics --coverage=true | tee /dev/fd/5)
 
 
 echo "Running unit tests and code coverage for core"
