@@ -16,7 +16,6 @@ export interface VariantData {
   type: string;
   value: string;
 }
-
 @Injectable({
   providedIn: 'root',
 })
@@ -33,9 +32,6 @@ export class VariantsMultiDimensionalService {
       }
 
       this.extractAndAssignVariantValuesFromMatrix(product);
-      console.log('PRODUCT', product);
-      console.log('variantCategories', this.variantCategories);
-      console.log('variantOptions', this.variantOptions);
     })
   );
 
@@ -56,7 +52,6 @@ export class VariantsMultiDimensionalService {
   }
 
   getVariantOptions(): Observable<GridVariantOption[]> {
-    console.log('getVariantOptions', this.variantOptions);
     return of(this.variantOptions);
   }
 
@@ -85,7 +80,6 @@ export class VariantsMultiDimensionalService {
         this.variants.push(productMatrix);
       });
     }
-    console.log('variants', this.variants);
   }
 
   getProductCategories(product: Product): void {

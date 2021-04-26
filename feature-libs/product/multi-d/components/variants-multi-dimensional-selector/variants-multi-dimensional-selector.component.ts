@@ -1,15 +1,22 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Inject,
   Input,
   OnInit,
 } from '@angular/core';
 import {
+  Config,
+  Image,
+  ImageType,
+  OccConfig,
   Product,
   ProductScope,
   ProductService,
   RoutingService,
+  VariantOptionQualifier,
 } from '@spartacus/core';
+import { StorefrontConfig } from 'projects/storefrontlib/src/storefront-config';
 import { filter, take } from 'rxjs/operators';
 import { VariantsMultiDimensionalService } from '../../core/services/variants-multi-dimensional.service';
 
@@ -23,6 +30,7 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
   product: Product;
 
   constructor(
+    @Inject(Config) protected config: StorefrontConfig,
     public multiDimensionalService: VariantsMultiDimensionalService,
     private productService: ProductService,
     private routingService: RoutingService
@@ -47,5 +55,36 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
         });
     }
     return;
+  }
+
+  getVariantOptionImages(variantOptionQualifier: VariantOptionQualifier[]) {
+    const elements = JSON.parse(JSON.stringify(variantOptionQualifier));
+    const images = {};
+
+    const defaultImageObject = {
+      imageType: ImageType.PRIMARY,
+      altText: this.product.name || '',
+    } as Image;
+
+    elements.forEach((element: any) => {
+      const imageObject = {
+        [element.image?.format as any]: Object.assign(defaultImageObject, {
+          format: element.image?.format,
+          url: this.getBaseUrl() + element.image?.url,
+        }),
+      } as Image;
+
+      Object.assign(images, imageObject);
+    });
+
+    return images;
+  }
+
+  protected getBaseUrl(): string {
+    return (
+      (this.config as OccConfig).backend?.media?.baseUrl ??
+      (this.config as OccConfig).backend?.occ?.baseUrl ??
+      ''
+    );
   }
 }

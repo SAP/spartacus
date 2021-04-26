@@ -11,10 +11,11 @@
         <cx-media
           *ngFor="let cat of variant"
           (click)="changeVariant(cat.variantOption.code)"
-          [container]="cat.variantOption?.variantOptionQualifiers"
+          [container]="
+            getVariantOptionImages(cat.variantOption?.variantOptionQualifiers)
+          "
           [title]="cat.variantValueCategory.name"
           class="image-variant"
-          format="cartIcon"
         >
         </cx-media>
       </div>
