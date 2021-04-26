@@ -9,21 +9,22 @@ module.exports = {
   globals: {
     'ts-jest': {
       tsconfig: './tsconfig.schematics.json',
-    }
+    },
   },
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
-  coverageDirectory: '<rootDir>/../../coverage/schematics',
+  coverageDirectory: '<rootDir>/../../coverage/cds/schematics',
   coverageThreshold: {
     global: {
-      statements: 89,
-      branches: 68,
-      functions: 88,
-      lines: 88,
+      branches: 70,
+      functions: 80,
+      lines: 80,
+      statements: 80,
     },
   },
 
-  roots: ['<rootDir>/src'],
+  roots: ['<rootDir>/src/schematics'],
+  modulePaths: ['<rootDir>/../../projects/schematics'],
   testMatch: ['**/+(*_)+(spec).+(ts)'],
   moduleFileExtensions: ['js', 'ts', 'json'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
