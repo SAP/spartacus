@@ -17,8 +17,9 @@ export const ORGANIZATION_PAGE_META_RESOLVER_MIGRATION: ConstructorDeprecation =
     { className: TRANSLATION_SERVICE, importPath: SPARTACUS_CORE },
     { className: SEMANTIC_PATH_SERVICE, importPath: SPARTACUS_CORE },
     { className: ROUTING_SERVICE, importPath: SPARTACUS_CORE },
+    { className: BASE_PAGE_META_RESOLVER, importPath: SPARTACUS_CORE },
   ],
-  addParams: [
+  removeParams: [
     { className: BASE_PAGE_META_RESOLVER, importPath: SPARTACUS_CORE },
   ],
 };
