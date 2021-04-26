@@ -8,7 +8,6 @@ import {
   RoutingService,
   SemanticPathService,
 } from '@spartacus/core';
-import { BasePageMetaResolver } from 'projects/core/src/cms/page/base-page-meta.resolver';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrganizationPageMetaResolver } from './organization-page-meta.resolver';
@@ -37,34 +36,23 @@ class MockContentPageMetaResolver implements Partial<ContentPageMetaResolver> {
     return of('testContentPageTitle');
   }
 
+  resolveDescription(): Observable<string | undefined> {
+    return of('Page description');
+  }
+
   resolveBreadcrumbs() {
     return of([testHomeBreadcrumb]);
   }
 
   resolveRobots() {
-    return of([]);
-  }
-}
-
-class MockBasePageMetaResolver {
-  resolveTitle() {
-    return of('testContentPageTitle');
-  }
-  resolveDescription() {
-    return of();
-  }
-  resolveBreadcrumbs() {
-    return of([testHomeBreadcrumb]);
-  }
-  resolveRobots() {
-    return of([]);
+    return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
   }
 }
 
 describe('OrganizationPageMetaResolver', () => {
   let service: OrganizationPageMetaResolver;
   let routingService: RoutingService;
-  let basePageMetaResolver: BasePageMetaResolver;
+  let contentPageMetaResolver: ContentPageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -76,16 +64,12 @@ describe('OrganizationPageMetaResolver', () => {
           provide: ContentPageMetaResolver,
           useClass: MockContentPageMetaResolver,
         },
-        {
-          provide: BasePageMetaResolver,
-          useClass: MockBasePageMetaResolver,
-        },
       ],
     });
 
     service = TestBed.inject(OrganizationPageMetaResolver);
     routingService = TestBed.inject(RoutingService);
-    basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
+    contentPageMetaResolver = TestBed.inject(ContentPageMetaResolver);
   });
 
   describe('resolveTitle', () => {
@@ -122,7 +106,7 @@ describe('OrganizationPageMetaResolver', () => {
           of({ state: { semanticRoute: 'orgBudgetDetails' } } as any)
         );
 
-        spyOn(basePageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
+        spyOn(contentPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
           of([testHomeBreadcrumb, testBudgetsBreadcrumb])
         );
       });
@@ -142,10 +126,6 @@ describe('OrganizationPageMetaResolver', () => {
   it(`should resolve 'Page description' for resolveDescription()`, () => {
     let result: string | undefined;
 
-    spyOn(basePageMetaResolver, 'resolveDescription').and.returnValue(
-      of('Page description')
-    );
-
     service
       .resolveDescription()
       .subscribe((meta) => {
@@ -158,10 +138,6 @@ describe('OrganizationPageMetaResolver', () => {
 
   it(`should resolve robots for page data`, () => {
     let result: PageRobotsMeta[] | undefined;
-
-    spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
-      of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX] as PageRobotsMeta[])
-    );
 
     service
       .resolveRobots()
