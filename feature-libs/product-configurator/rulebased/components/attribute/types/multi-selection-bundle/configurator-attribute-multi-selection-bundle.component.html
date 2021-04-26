@@ -1,0 +1,36 @@
+<div
+  id="{{ createAttributeIdForConfigurator(attribute) }}"
+  *ngIf="attribute?.values?.length"
+>
+  <div
+    *ngIf="withQuantityOnAttributeLevel"
+    class="cx-attribute-level-quantity-price"
+  >
+    <cx-configurator-attribute-quantity
+      (changeQuantity)="onChangeAttributeQuantity($event)"
+      [quantityOptions]="extractQuantityParameters(attribute.quantity)"
+    ></cx-configurator-attribute-quantity>
+
+    <cx-configurator-price
+      [formula]="extractPriceFormulaParameters()"
+    ></cx-configurator-price>
+  </div>
+
+  <cx-configurator-attribute-product-card
+    id="{{
+      createAttributeValueIdForConfigurator(attribute, value?.valueCode)
+    }}"
+    (handleDeselect)="onDeselect($event)"
+    (handleQuantity)="onChangeValueQuantity($event)"
+    (handleSelect)="onSelect($event)"
+    *ngFor="let value of attribute?.values"
+    [productCardOptions]="
+      extractProductCardParameters(
+        loading$ | async,
+        preventAction$ | async,
+        value
+      )
+    "
+  >
+  </cx-configurator-attribute-product-card>
+</div>
