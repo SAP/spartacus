@@ -5,15 +5,11 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
   addPackageJsonDependencies,
+  addSchematicsTasks,
   createDependencies,
-  getSpartacusSchematicsVersion,
-  installPackageJsonDependencies,
+  installSpartacusFeatures,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
   SPARTACUS_ASM,
@@ -33,37 +29,38 @@ import {
 } from '../constants';
 
 export function addCdcFeature(options: SpartacusCdcOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
       addCdc(options),
 
-      addCdcPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addCdcPackageJsonDependencies(packageJson, context, options),
     ]);
   };
 }
 
-function addCdcPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const spartacusDependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_ASM,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_USER,
-    },
-  ];
-  const thirdPartyDependencies = createDependencies(peerDependencies);
+function addCdcPackageJsonDependencies(
+  packageJson: any,
+  context: SchematicContext,
+  options: SpartacusCdcOptions
+): Rule {
+  const spartacusDeps = [SPARTACUS_ASM, SPARTACUS_USER];
 
-  const dependencies = spartacusDependencies.concat(thirdPartyDependencies);
-  return addPackageJsonDependencies(dependencies, packageJson);
+  const rule = installSpartacusFeatures(spartacusDeps);
+  const thirdPartyDependencies = createDependencies(peerDependencies);
+  const thirdPartyPackagesRule = addPackageJsonDependencies(
+    thirdPartyDependencies,
+    packageJson
+  );
+
+  addSchematicsTasks(spartacusDeps, context, {
+    ...options,
+    features: undefined,
+  });
+
+  return chain([rule, thirdPartyPackagesRule]);
 }
 
 function addCdc(options: SpartacusCdcOptions): Rule {

@@ -3,7 +3,7 @@ import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-sc
 import {
   LibraryOptions,
   runExternalSpartacusLibrary,
-} from '../shared/utils/lib-utils';
+} from '@spartacus/schematics';
 
 export function addSpartacusLibrary(
   taskOptions: RunSchematicTaskOptions<LibraryOptions>

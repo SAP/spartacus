@@ -1,5 +1,6 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
@@ -32,7 +33,7 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addAsmFeature(options),
+      options.features ? addAsmFeature(options) : noop(),
 
       addAsmPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),

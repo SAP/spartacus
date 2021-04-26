@@ -1,6 +1,7 @@
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
+  externalSchematic,
   noop,
   Rule,
   SchematicContext,
@@ -8,7 +9,11 @@ import {
   TaskId,
   Tree,
 } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import {
+  NodePackageInstallTask,
+  RunSchematicTask,
+} from '@angular-devkit/schematics/tasks';
+import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   addPackageJsonDependency,
   NodeDependency,
@@ -34,7 +39,10 @@ import {
   ensureModuleExists,
   Import,
 } from './new-module-utils';
-import { getSpartacusSchematicsVersion } from './package-utils';
+import {
+  getSpartacusSchematicsVersion,
+  readPackageJson,
+} from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
@@ -641,5 +649,59 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
     }
 
     return tree;
+  };
+}
+
+export function installSpartacusFeatures(features: string[]): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const packageJson = readPackageJson(tree);
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    const dependencies: NodeDependency[] = features.map((collectionName) => ({
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: collectionName,
+    }));
+
+    return addPackageJsonDependencies(dependencies, packageJson)(tree, context);
+  };
+}
+
+export function addSchematicsTasks(
+  features: string[],
+  context: SchematicContext,
+  options: LibraryOptions
+): void {
+  const installationTaskId = createNodePackageInstallationTask(context);
+
+  features.forEach((collectionName) => {
+    const runSchematicTaskOptions: RunSchematicTaskOptions<LibraryOptions> = {
+      collection: collectionName,
+      name: 'add',
+      options,
+    };
+
+    context.addTask(
+      new RunSchematicTask('add-spartacus-library', runSchematicTaskOptions),
+      [installationTaskId]
+    );
+  });
+}
+
+export function runExternalSpartacusLibrary(
+  taskOptions: RunSchematicTaskOptions<LibraryOptions>
+): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    if (!taskOptions.collection) {
+      throw new SchematicsException(
+        `Can't run the Spartacus library schematic, please specify the 'collection' argument.`
+      );
+    }
+    return chain([
+      externalSchematic(
+        taskOptions.collection,
+        taskOptions.name,
+        taskOptions.options
+      ),
+    ])(tree, context);
   };
 }

@@ -8,8 +8,6 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   NodeDependency,
   NodeDependencyType,
@@ -55,7 +53,8 @@ import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
-  createNodePackageInstallationTask,
+  addSchematicsTasks,
+  installSpartacusFeatures,
   shouldAddFeature,
 } from '../shared/utils/lib-utils';
 import {
@@ -66,7 +65,6 @@ import {
   createDependencies,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
-  readPackageJson,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -229,10 +227,10 @@ function prepareDependencies(options: SpartacusOptions): NodeDependency[] {
 
   const thirdPartyDependencies = createDependencies(
     {
-      ...collectedDependencies['@spartacus/core'],
-      ...collectedDependencies['@spartacus/storefront'],
-      ...collectedDependencies['@spartacus/styles'],
-      ...collectedDependencies['@spartacus/assets'],
+      ...collectedDependencies[SPARTACUS_CORE],
+      ...collectedDependencies[SPARTACUS_STOREFRONTLIB],
+      ...collectedDependencies[SPARTACUS_STYLES],
+      ...collectedDependencies[SPARTACUS_ASSETS],
     },
     [SPARTACUS_SCOPE]
   );
@@ -328,7 +326,7 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
     const features = prepareSpartacusFeatures(options);
     const rule = installSpartacusFeatures(features)(tree, context);
 
-    addSchematicsTasks(features, context);
+    addSchematicsTasks(features, context, { ...options, features: [] });
 
     return rule;
   };
@@ -371,39 +369,4 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
       : []),
     SPARTACUS_USER,
   ];
-}
-
-function installSpartacusFeatures(features: string[]): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const packageJson = readPackageJson(tree);
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-    const dependencies: NodeDependency[] = features.map((collectionName) => ({
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: collectionName,
-    }));
-
-    return addPackageJsonDependencies(dependencies, packageJson)(tree, context);
-  };
-}
-
-function addSchematicsTasks(
-  features: string[],
-  context: SchematicContext
-): void {
-  const installationTaskId = createNodePackageInstallationTask(context);
-
-  features.forEach((collectionName) => {
-    const runSchematicTaskOptions: RunSchematicTaskOptions<unknown> = {
-      collection: collectionName,
-      name: 'add',
-      // we don't delegate any options to the lib's schematics, for now.
-      options: {},
-    };
-
-    context.addTask(
-      new RunSchematicTask('add-spartacus-library', runSchematicTaskOptions),
-      [installationTaskId]
-    );
-  });
 }
