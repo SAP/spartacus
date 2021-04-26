@@ -294,7 +294,9 @@ export function checkProductTitleDisplayed(): void {
  */
 export function checkShowMoreLinkAtProductTitleDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
-  cy.get('button:contains("show more")').should('be.visible');
+  //Temporarily deactivate this check
+  //TODO #12138
+  //cy.get('button:contains("show more")').should('be.visible');
 }
 
 /**
