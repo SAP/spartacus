@@ -1,5 +1,6 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
@@ -7,11 +8,13 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependencies,
+  CLI_QUALTRICS_FEATURE,
   createDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusQualtricsOptions,
   QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
   readPackageJson,
+  shouldAddFeature,
   SPARTACUS_QUALTRICS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -30,7 +33,9 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addQualtricsFeature(options),
+      shouldAddFeature(CLI_QUALTRICS_FEATURE, options.features)
+        ? addQualtricsFeature(options)
+        : noop(),
 
       addQualtricsPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),

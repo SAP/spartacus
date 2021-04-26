@@ -1,5 +1,6 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
@@ -7,10 +8,12 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependencies,
+  CLI_SMARTEDIT_FEATURE,
   createDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusSmartEditOptions,
   readPackageJson,
+  shouldAddFeature,
   SPARTACUS_SMARTEDIT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -30,7 +33,9 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addSmartEditFeature(options),
+      shouldAddFeature(CLI_SMARTEDIT_FEATURE, options.features)
+        ? addSmartEditFeature(options)
+        : noop(),
 
       addSmarteditPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),

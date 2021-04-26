@@ -1,5 +1,6 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
@@ -12,6 +13,7 @@ import {
   installSpartacusFeatures,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
+  shouldAddFeature,
   SPARTACUS_ASM,
   SPARTACUS_CDC,
   SPARTACUS_USER,
@@ -34,7 +36,9 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addCdc(options),
+      shouldAddFeature(CLI_CDC_FEATURE, options.features)
+        ? addCdc(options)
+        : noop(),
 
       addCdcPackageJsonDependencies(packageJson, context, options),
     ]);

@@ -1,5 +1,6 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
@@ -7,10 +8,12 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependencies,
+  CLI_STOREFINDER_FEATURE,
   createDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
+  shouldAddFeature,
   SPARTACUS_STOREFINDER,
   STOREFINDER_MODULE,
   STORE_FINDER_SCSS_FILE_NAME,
@@ -35,7 +38,9 @@ export function addStorefinderFeatures(
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addStorefinderFeature(options),
+      shouldAddFeature(CLI_STOREFINDER_FEATURE, options.features)
+        ? addStorefinderFeature(options)
+        : noop(),
 
       addStorefinderPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),

@@ -1,5 +1,6 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   SchematicsException,
@@ -9,25 +10,28 @@ import {
   addLibraryFeature,
   addPackageJsonDependencies,
   CDS_CONFIG,
+  CLI_CDS_FEATURE,
   createDependencies,
   CustomConfig,
   installPackageJsonDependencies,
   readPackageJson,
+  shouldAddFeature,
   SPARTACUS_CDS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../../package.json';
-import { CDS_FOLDER_NAME, CDS_MODULE, CLI_CDS_FEATURE } from '../constants';
+import { CDS_FOLDER_NAME, CDS_MODULE } from '../constants';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 export function addCdsFeature(options: SpartacusCdsOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
-    validateCdsOptions(options);
 
     return chain([
-      addCds(options),
+      shouldAddFeature(CLI_CDS_FEATURE, options.features)
+        ? addCds(options)
+        : noop(),
 
       addCdsPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
@@ -50,6 +54,8 @@ function addCdsPackageJsonDependencies(packageJson: any): Rule {
 }
 
 function addCds(options: SpartacusCdsOptions): Rule {
+  validateCdsOptions(options);
+
   const customConfig: CustomConfig[] = [
     {
       import: [

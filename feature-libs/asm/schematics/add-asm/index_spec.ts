@@ -96,14 +96,14 @@ describe('Spartacus Asm schematics: ng-add', () => {
     });
 
     it('should not create the feature module', () => {
-      const featureModulePath = appTree.readContent(asmFeatureModulePath);
-      expect(featureModulePath).toBeFalsy();
+      const featureModule = appTree.readContent(asmFeatureModulePath);
+      expect(featureModule).toBeFalsy();
     });
     it('should not add the feature to the feature module', () => {
-      const spartacusFeaturesModulePath = appTree.readContent(
+      const spartacusFeaturesModule = appTree.readContent(
         'src/app/spartacus/spartacus-features.module.ts'
       );
-      expect(spartacusFeaturesModulePath).toMatchSnapshot();
+      expect(spartacusFeaturesModule).toMatchSnapshot();
     });
   });
 

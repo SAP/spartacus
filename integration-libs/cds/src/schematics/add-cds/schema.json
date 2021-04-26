@@ -11,6 +11,11 @@
         "$source": "projectName"
       }
     },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "default": ["CDS"]
+    },
     "tenant": {
       "type": "string",
       "description": "The tenant name.",
