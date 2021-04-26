@@ -70,7 +70,7 @@ export interface FeatureConfig {
   /**
    * The root module configuration.
    */
-  rootModule: Module;
+  rootModule?: Module;
   /**
    * Translation chunk configuration
    */
@@ -86,7 +86,12 @@ export interface FeatureConfig {
   /**
    * An optional custom configuration to provide to the generated module.
    */
-  customConfig?: { import: Import[]; content: string };
+  customConfig?: CustomConfig | CustomConfig[];
+}
+
+export interface CustomConfig {
+  import: Import[];
+  content: string;
 }
 
 export interface Module {
@@ -250,6 +255,10 @@ function addRootModule(
   config: FeatureConfig
 ) {
   return (tree: Tree): Tree => {
+    if (!config.rootModule) {
+      return tree;
+    }
+
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     for (const sourceFile of appSourceFiles) {
       if (
@@ -368,15 +377,20 @@ function addCustomConfig(
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.customConfig) {
-          addModuleProvider(sourceFile, {
-            import: [
-              {
-                moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
-              },
-              ...config.customConfig.import,
-            ],
-            content: `${PROVIDE_CONFIG_FUNCTION}(${config.customConfig.content})`,
+          const customConfigs = ([] as CustomConfig[]).concat(
+            config.customConfig
+          );
+          customConfigs.forEach((customConfig) => {
+            addModuleProvider(sourceFile, {
+              import: [
+                {
+                  moduleSpecifier: SPARTACUS_CORE,
+                  namedImports: [PROVIDE_CONFIG_FUNCTION],
+                },
+                ...customConfig.import,
+              ],
+              content: `${PROVIDE_CONFIG_FUNCTION}(${customConfig.content})`,
+            });
           });
           saveAndFormat(sourceFile);
         }
