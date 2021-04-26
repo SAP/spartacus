@@ -1,15 +1,5 @@
 export const UTF_8 = 'utf-8';
 
-/***** Libraries versions start *****/
-
-export const DEFAULT_ANGULAR_VERSION = '^10.2.0';
-export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '^10.1.0';
-export const ANGULAR_UNIVERSAL_BUILDERS = '^10.1.0';
-export const DEFAULT_NGRX_VERSION = '^10.0.0';
-export const DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION = '^10.0.0';
-
-/***** Libraries versions end *****/
-
 /***** Imports start *****/
 export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
