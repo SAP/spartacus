@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { take } from 'rxjs/operators';
-import { ActiveCartService, OrderEntry } from '@spartacus/core';
+
+import { ActiveCartService } from '@spartacus/core';
 import { ExportService } from '@spartacus/cart/import-export/core';
 import { ExportEntriesService } from './export-entries.service';
 
@@ -19,30 +19,25 @@ export class ExportEntriesComponent {
   entries$ = this.exportEntriesService.getEntries();
 
   exportToCsv() {
-    this.entries$
-      .pipe(take(1))
-      .subscribe((entries) => this.parseEntries(entries));
+    this.exportEntriesService.exportEntries();
   }
 
-  parseEntries(entries: OrderEntry[]) {
-    let parsedData = [];
-    parsedData.push({
-      sku: 'Sku',
-      quantity: 'Quantity',
-      name: 'Name',
-      price: 'Price',
-    });
-    entries.forEach((element: OrderEntry) => {
-      parsedData.push({
-        sku: element?.product?.code,
-        quantity: element?.quantity,
-        name: element?.product?.name,
-        price: element?.totalPrice?.formattedValue,
-      });
-    });
-
-    this.downloadCsv(this.exportService.dataToCsv(parsedData));
-  }
+  // parseEntries(entries: OrderEntry[]) {
+  //   let parsedData = [];
+  //   parsedData.push({
+  //     sku: 'Sku',
+  //     quantity: 'Quantity',
+  //     name: 'Name',
+  //     price: 'Price',
+  //   });
+  //   entries.forEach((element: OrderEntry) => {
+  //     parsedData.push({
+  //       sku: element?.product?.code,
+  //       quantity: element?.quantity,
+  //       name: element?.product?.name,
+  //       price: element?.totalPrice?.formattedValue,
+  //     });
+  //   });
 
   downloadCsv(csvData: any, filename = 'data') {
     let blob = new Blob(['\ufeff' + csvData], {
