@@ -20,6 +20,7 @@ import {
   CLI_ASM_FEATURE,
   CLI_CART_FEATURE,
   CLI_CDC_FEATURE,
+  CLI_CDS_FEATURE,
   CLI_ORGANIZATION_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
   CLI_PRODUCT_FEATURE,
@@ -36,6 +37,7 @@ import {
   SPARTACUS_ASSETS,
   SPARTACUS_CART,
   SPARTACUS_CDC,
+  SPARTACUS_CDS,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
@@ -416,6 +418,9 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
       : []),
     ...(shouldAddFeature(CLI_CDC_FEATURE, options.features)
       ? [SPARTACUS_CDC]
+      : []),
+    ...(shouldAddFeature(CLI_CDS_FEATURE, options.features)
+      ? [SPARTACUS_CDS]
       : []),
     SPARTACUS_USER,
   ];
