@@ -17,6 +17,8 @@ import {
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
+  CMS_CONFIG,
+  I18N_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
@@ -279,7 +281,6 @@ function addRootModule(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addFeatureModule(
   tsconfigPath: string,
   basePath: string,
@@ -296,10 +297,10 @@ function addFeatureModule(
             import: [
               {
                 moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
+                namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
               },
             ],
-            content: `${PROVIDE_CONFIG_FUNCTION}({
+            content: `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
               featureModules: {
                 ${config.lazyModuleName || config.name}: {
                   module: () =>
@@ -327,7 +328,6 @@ function addFeatureModule(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addFeatureTranslations(
   tsconfigPath: string,
   basePath: string,
@@ -343,14 +343,14 @@ function addFeatureTranslations(
             import: [
               {
                 moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
+                namedImports: [PROVIDE_CONFIG_FUNCTION, I18N_CONFIG],
               },
               {
                 moduleSpecifier: config.i18n.importPath,
                 namedImports: [config.i18n.chunks, config.i18n.resources],
               },
             ],
-            content: `${PROVIDE_CONFIG_FUNCTION}({
+            content: `${PROVIDE_CONFIG_FUNCTION}(<${I18N_CONFIG}>{
               i18n: {
                 resources: ${config.i18n.resources},
                 chunks: ${config.i18n.chunks},
@@ -366,7 +366,6 @@ function addFeatureTranslations(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addCustomConfig(
   tsconfigPath: string,
   basePath: string,
