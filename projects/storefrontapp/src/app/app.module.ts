@@ -12,7 +12,15 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
-import { ConfigModule, provideConfig, TestConfigModule } from '@spartacus/core';
+import {
+  ConfigModule,
+  FeaturesConfig,
+  I18nConfig,
+  OccConfig,
+  provideConfig,
+  RoutingConfig,
+  TestConfigModule,
+} from '@spartacus/core';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
 import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';
 import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';
@@ -71,7 +79,7 @@ if (!environment.production) {
     ...devImports,
   ],
   providers: [
-    provideConfig({
+    provideConfig(<OccConfig>{
       backend: {
         occ: {
           baseUrl: environment.occBaseUrl,
@@ -79,7 +87,7 @@ if (!environment.production) {
         },
       },
     }),
-    provideConfig({
+    provideConfig(<RoutingConfig>{
       // custom routing configuration for e2e testing
       routing: {
         routes: {
@@ -90,7 +98,7 @@ if (!environment.production) {
         },
       },
     }),
-    provideConfig({
+    provideConfig(<I18nConfig>{
       // we bring in static translations to be up and running soon right away
       i18n: {
         resources: translations,
@@ -98,7 +106,7 @@ if (!environment.production) {
         fallbackLang: 'en',
       },
     }),
-    provideConfig({
+    provideConfig(<FeaturesConfig>{
       features: {
         level: '3.2',
       },
