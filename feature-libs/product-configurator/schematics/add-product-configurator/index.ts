@@ -6,12 +6,16 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependencies,
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
+  createDependencies,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
   SPARTACUS_PRODUCT_CONFIGURATOR,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   PRODUCT_CONFIGURATOR_FOLDER_NAME,
   PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME,
@@ -39,9 +43,19 @@ export function addProductConfiguratorFeatures(
 
     return chain([
       addProductConfiguratorRulebasedFeature(options),
+
       addProductConfiguratorTextfieldFeature(options),
+
+      addProductConfiguratorPackageJsonDependencies(packageJson),
+      installPackageJsonDependencies(),
     ]);
   };
+}
+
+function addProductConfiguratorPackageJsonDependencies(packageJson: any): Rule {
+  const dependencies = createDependencies(peerDependencies);
+
+  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addProductConfiguratorRulebasedFeature(
