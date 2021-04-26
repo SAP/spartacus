@@ -54,6 +54,5 @@ SSR_PWA_APP_NAME="ssr-pwa"
 
 ADD_B2B_LIBS=false
 
-ADD_PRODUCT_CONFIGURATOR=false
 ADD_CPQ=false
 ADD_CDC=false

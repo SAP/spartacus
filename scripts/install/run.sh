@@ -107,15 +107,13 @@ function add_cdc {
 }
 
 function add_product_configurator {
-    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-        local FEATURES="--features=\"Textfield configurator\"";
-    
-        if [ "$ADD_CPQ" = true ] ; then
-            FEATURES="$FEATURES --features=\"CPQ configurator\""
-        fi
-        
-        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false $FEATURES
+    local FEATURES=(--features="Textfield configurator");
+
+    if [ "$ADD_CPQ" = true ] ; then
+        FEATURES+=(--features="CPQ configurator");
     fi
+
+    ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false "${FEATURES[@]}"
 }
 
 # Don't install b2b features here (use add_b2b function for that)
