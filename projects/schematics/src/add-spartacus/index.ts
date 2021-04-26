@@ -326,10 +326,27 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
     const features = prepareSpartacusFeatures(options);
     const rule = installSpartacusFeatures(features)(tree, context);
 
-    addSchematicsTasks(features, context, { ...options, features: [] });
+    const featureOptions = features.map((feature) => {
+      const libraryFeatures = createDefaultLibraryFeatureList(feature);
+      return {
+        feature,
+        options: {
+          ...options,
+          features: libraryFeatures,
+        },
+      };
+    });
+    addSchematicsTasks(featureOptions, context);
 
     return rule;
   };
+}
+
+const REQUIRED_SPARTACUS_LIBRARIES = [SPARTACUS_USER];
+function createDefaultLibraryFeatureList(
+  feature: string
+): string[] | undefined {
+  return REQUIRED_SPARTACUS_LIBRARIES.includes(feature) ? undefined : [];
 }
 
 function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
@@ -367,6 +384,6 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
     ...(shouldAddFeature(CLI_CDS_FEATURE, options.features)
       ? [SPARTACUS_CDS]
       : []),
-    SPARTACUS_USER,
+    ...REQUIRED_SPARTACUS_LIBRARIES,
   ];
 }

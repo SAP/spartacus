@@ -55,10 +55,14 @@ function addCdcPackageJsonDependencies(
     packageJson
   );
 
-  addSchematicsTasks(spartacusDeps, context, {
-    ...options,
-    features: [],
-  });
+  const featureOptions = spartacusDeps.map((spartacusDep) => ({
+    feature: spartacusDep,
+    options: {
+      ...options,
+      features: [],
+    },
+  }));
+  addSchematicsTasks(featureOptions, context);
 
   return chain([rule, thirdPartyPackagesRule]);
 }

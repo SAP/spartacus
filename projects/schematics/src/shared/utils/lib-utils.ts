@@ -583,10 +583,7 @@ export function addPackageJsonDependencies(
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     dependencies.forEach((dependency) => {
-      if (
-        !packageJson ||
-        !packageJson[dependency.type].hasOwnProperty(dependency.name)
-      ) {
+      if (shouldAddDependency(dependency, packageJson)) {
         addPackageJsonDependency(tree, dependency);
         context.logger.info(
           `✅️ Added '${dependency.name}' into ${dependency.type}`
@@ -595,6 +592,16 @@ export function addPackageJsonDependencies(
     });
     return tree;
   };
+}
+
+export function shouldAddDependency(
+  dependency: NodeDependency,
+  packageJson?: any
+): boolean {
+  return (
+    !packageJson ||
+    !packageJson[dependency.type].hasOwnProperty(dependency.name)
+  );
 }
 
 export function configureB2bFeatures<T extends LibraryOptions>(
@@ -667,17 +674,19 @@ export function installSpartacusFeatures(features: string[]): Rule {
 }
 
 export function addSchematicsTasks(
-  features: string[],
-  context: SchematicContext,
-  options: LibraryOptions
+  featureOptions: {
+    feature: string;
+    options: LibraryOptions;
+  }[],
+  context: SchematicContext
 ): void {
   const installationTaskId = createNodePackageInstallationTask(context);
 
-  features.forEach((collectionName) => {
+  featureOptions.forEach((featureOption) => {
     const runSchematicTaskOptions: RunSchematicTaskOptions<LibraryOptions> = {
-      collection: collectionName,
+      collection: featureOption.feature,
       name: 'add',
-      options,
+      options: featureOption.options,
     };
 
     context.addTask(
