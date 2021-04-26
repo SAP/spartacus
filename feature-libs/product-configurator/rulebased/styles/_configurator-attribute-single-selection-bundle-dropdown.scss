@@ -1,0 +1,47 @@
+%cx-configurator-attribute-single-selection-bundle-dropdown {
+  @include cx-configurator-attribute-type();
+  @include cx-configurator-form-group();
+
+  flex-direction: column;
+
+  cx-configurator-attribute-product-card {
+    &:first-of-type {
+      .cx-product-card-rows {
+        padding-inline-start: 0px;
+      }
+    }
+
+    .cx-product-card-rows {
+      &.column {
+        padding-inline-end: 0px;
+      }
+    }
+
+    &:first-of-type {
+      .cx-product-card {
+        border-top: none;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      margin-inline-start: -17px;
+      margin-inline-end: -17px;
+    }
+  }
+
+  .cx-attribute-level-quantity-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-block-start: 32px;
+    margin-block-end: 32px;
+
+    @include media-breakpoint-down(sm) {
+      margin-inline-end: 0px;
+    }
+
+    cx-configurator-attribute-quantity {
+      padding-inline-end: 10px;
+    }
+  }
+}
