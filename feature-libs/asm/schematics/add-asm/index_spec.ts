@@ -105,10 +105,6 @@ describe('Spartacus Asm schematics: ng-add', () => {
       );
       expect(spartacusFeaturesModulePath).toMatchSnapshot();
     });
-    it('should just install the package', () => {
-      const packageJson = JSON.parse(appTree.readContent('package.json'));
-      expect(packageJson.dependencies['@spartacus/asm']).toBeTruthy();
-    });
   });
 
   describe('Asm feature', () => {
