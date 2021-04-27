@@ -30,18 +30,6 @@ export const defaultImportExportConfig: ImportExportConfig = {
           },
           value: 'totalPrice.formattedValue',
         },
-        {
-          name: {
-            key: 'configurable',
-          },
-          value: 'product.configurable',
-        },
-        {
-          name: {
-            key: 'currencyIso',
-          },
-          value: 'totalPrice.currencyIso',
-        },
       ],
     },
   },

@@ -7,8 +7,8 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { filter, map, switchMap, take } from 'rxjs/operators';
-import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import { Observable } from 'rxjs';
+import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 import { ExportColumn } from '../../core/model/export-entries.model';
 
@@ -44,6 +44,20 @@ export class ExportEntriesService {
     ...this.additionalColumns,
   ];
 
+  private resolveValue(value: string, entry: OrderEntry): string {
+    const keys = value.split('.');
+    let resolvedValue: any;
+
+    keys.map((key) => {
+      resolvedValue = (entry as any)[key];
+      if (resolvedValue) entry = resolvedValue;
+    });
+
+    if (resolvedValue) return resolvedValue.toString();
+
+    return '';
+  }
+
   getEntries(): Observable<OrderEntry[]> {
     return this.routingService.getRouterState().pipe(
       switchMap((route) => {
@@ -68,8 +82,8 @@ export class ExportEntriesService {
   }
 
   exportEntries() {
-    const names: any = [];
-    const values: any = [];
+    const names: string[] = [];
+    const values: any[] = [];
 
     this.columns.map((column) => {
       this.translationService
@@ -82,7 +96,6 @@ export class ExportEntriesService {
       .pipe(take(1))
       .subscribe((entries) => {
         entries.map((entry) => {
-          console.log(entry);
           values.push(
             Object.assign(
               {},
