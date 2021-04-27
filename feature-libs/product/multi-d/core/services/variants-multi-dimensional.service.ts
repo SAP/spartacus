@@ -35,8 +35,9 @@ export class VariantsMultiDimensionalService {
     })
   );
 
+  // TODO change to private
+  public variantCategories: string[] = [];
   private variantOptions: GridVariantOption[] = [];
-  private variantCategories: string[] = [];
   private variants: VariantMatrixElement[] = [];
 
   constructor(private currentProductService: CurrentProductService) {}

@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { VariantsMultiDimensionalService } from '../../core/services/variants-multi-dimensional.service';
 
 @Component({
   selector: 'cx-order-grid',
@@ -7,7 +6,5 @@ import { VariantsMultiDimensionalService } from '../../core/services/variants-mu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderGridComponent {
-  constructor(
-    public multiDimensionalService: VariantsMultiDimensionalService
-  ) {}
+  constructor() {}
 }
