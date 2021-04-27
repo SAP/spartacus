@@ -46,7 +46,7 @@ export class ExportEntriesService {
     ...(this.additionalColumns || []),
   ];
 
-  private resolveValue(value: string, entry: OrderEntry): string {
+  protected resolveValue(value: string, entry: OrderEntry): string {
     const keys = value.split('.');
     let resolvedValue: any;
 
