@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { I18nModule, UrlModule } from '@spartacus/core';
+import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
 import { ItemCounterModule } from '../../../shared/components/item-counter/item-counter.module';
@@ -28,6 +28,7 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
     IconModule,
     MediaModule,
     ItemCounterModule,
+    FeaturesConfigModule,
     ModalModule,
     OutletModule,
   ],
