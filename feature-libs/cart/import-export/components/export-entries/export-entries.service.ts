@@ -9,8 +9,10 @@ import {
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
-import { ImportExportConfig } from '@spartacus/cart/import-export/core';
-import { ExportColumn } from '../../core/model/index';
+import {
+  ImportExportConfig,
+  ExportColumn,
+} from '@spartacus/cart/import-export/core';
 
 @Injectable({
   providedIn: 'root',
