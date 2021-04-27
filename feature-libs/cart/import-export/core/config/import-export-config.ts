@@ -11,8 +11,8 @@ export abstract class ImportExportConfig {
   importExport: {
     fileValidity?: FileValidity;
     file: { separator: string };
-    export: {
-      additionalColumns: ExportColumn[];
+    export?: {
+      additionalColumns?: ExportColumn[];
     };
   };
 }

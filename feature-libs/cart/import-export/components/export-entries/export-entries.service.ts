@@ -25,7 +25,7 @@ export class ExportEntriesService {
   ) {}
 
   private get additionalColumns() {
-    return this.importExportConfig.importExport.export.additionalColumns;
+    return this.importExportConfig.importExport.export?.additionalColumns;
   }
 
   private columns: ExportColumn[] = [
@@ -41,7 +41,7 @@ export class ExportEntriesService {
       },
       value: 'quantity',
     },
-    ...this.additionalColumns,
+    ...(this.additionalColumns || []),
   ];
 
   private resolveValue(value: string, entry: OrderEntry): string {
