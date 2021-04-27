@@ -32,9 +32,15 @@ export const defaultImportExportConfig: ImportExportConfig = {
         },
         {
           name: {
-            key: 'description',
+            key: 'configurable',
           },
-          value: 'product.description',
+          value: 'product.configurable',
+        },
+        {
+          name: {
+            key: 'currencyIso',
+          },
+          value: 'totalPrice.currencyIso',
         },
       ],
     },

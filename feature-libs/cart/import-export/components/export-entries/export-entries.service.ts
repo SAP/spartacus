@@ -6,7 +6,7 @@ import {
   RoutingService,
   TranslationService,
 } from '@spartacus/core';
-import { filter, first, map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import { Observable } from 'rxjs';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
@@ -67,42 +67,33 @@ export class ExportEntriesService {
     );
   }
 
-  private flatObj(ob) {
-    var toReturn = {};
-
-    for (var i in ob) {
-      if (!ob.hasOwnProperty(i)) continue;
-
-      if (typeof ob[i] == 'object') {
-        var flatObject = this.flatObj(ob[i]);
-        for (var x in flatObject) {
-          if (!flatObject.hasOwnProperty(x)) continue;
-
-          toReturn[i + '.' + x] = flatObject[x];
-        }
-      } else {
-        toReturn[i] = ob[i];
-      }
-    }
-    return toReturn;
-  }
-
   exportEntries() {
-    const columnNames: any[] = [];
-    const columnValues: any[] = [];
+    const names: any = [];
+    const values: any = [];
 
     this.columns.map((column) => {
       this.translationService
         .translate(`exportEntries.columnNames.${column.name.key}`)
-        .pipe(first())
-        .subscribe((name) => columnNames.push(name));
-      columnValues.push(column.value);
+        .pipe(take(1))
+        .subscribe((name) => names.push(name));
     });
 
     this.getEntries()
       .pipe(take(1))
-      .subscribe((entry) => {
-        console.log(this.flatObj(entry));
+      .subscribe((entries) => {
+        entries.map((entry) => {
+          console.log(entry);
+          values.push(
+            Object.assign(
+              {},
+              this.columns.map((column) =>
+                this.resolveValue(column.value, entry)
+              )
+            )
+          );
+        });
       });
+
+    return [{ ...names }, ...values];
   }
 }

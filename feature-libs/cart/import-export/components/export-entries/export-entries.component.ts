@@ -19,25 +19,10 @@ export class ExportEntriesComponent {
   entries$ = this.exportEntriesService.getEntries();
 
   exportToCsv() {
-    this.exportEntriesService.exportEntries();
+    this.downloadCsv(
+      this.exportService.dataToCsv(this.exportEntriesService.exportEntries())
+    );
   }
-
-  // parseEntries(entries: OrderEntry[]) {
-  //   let parsedData = [];
-  //   parsedData.push({
-  //     sku: 'Sku',
-  //     quantity: 'Quantity',
-  //     name: 'Name',
-  //     price: 'Price',
-  //   });
-  //   entries.forEach((element: OrderEntry) => {
-  //     parsedData.push({
-  //       sku: element?.product?.code,
-  //       quantity: element?.quantity,
-  //       name: element?.product?.name,
-  //       price: element?.totalPrice?.formattedValue,
-  //     });
-  //   });
 
   downloadCsv(csvData: any, filename = 'data') {
     let blob = new Blob(['\ufeff' + csvData], {

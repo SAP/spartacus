@@ -3,6 +3,8 @@ export const exportEntries = {
   columnNames: {
     code: 'Code',
     quantity: 'Quantity',
+    name: 'Name',
+    price: 'Price',
   },
 };
 
