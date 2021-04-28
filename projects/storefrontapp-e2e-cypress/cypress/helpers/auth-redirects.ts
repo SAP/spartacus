@@ -38,6 +38,6 @@ export function fakeExpiredAccessToken() {
   cy.window().then((win) => {
     const authState = JSON.parse(win.localStorage.getItem(AUTH_STORAGE_KEY));
     authState.token.access_token = 'fake_expired_access_token';
-    JSON.stringify(win.localStorage.setItem(AUTH_STORAGE_KEY, authState));
+    win.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authState));
   });
 }

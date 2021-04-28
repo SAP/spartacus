@@ -37,7 +37,7 @@ context('Redirect after auth', () => {
     cy.location('pathname').should('contain', '/my-account/address-book');
   });
 
-  it('should redirect back after the forced login when page was refreshed and access token expired', () => {
+  it('should redirect back after the forced login when access token expired and page was refreshed', () => {
     cy.requireLoggedIn(user);
     cy.visit('/my-account/update-profile');
     cy.location('pathname').should('contain', '/my-account/update-profile');
@@ -46,6 +46,11 @@ context('Redirect after auth', () => {
     cy.reload();
 
     cy.location('pathname').should('contain', `/login`);
+    cy.get('cx-global-message div').should(
+      'contain',
+      'Your session has expired. Please login again.'
+    );
+
     authForms.login(
       user.registrationData.email,
       user.registrationData.password
