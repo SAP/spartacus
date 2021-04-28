@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-product-added-to-cart.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-placed-order.commands.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#requireProductAddedToCart">requireProductAddedToCart</a>
+                                        <a href="#requirePlacedOrder">requirePlacedOrder</a>
                                 </li>
                             </ul>
                         </td>
@@ -96,13 +96,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="requireProductAddedToCart"></a>
-                                        <span class="name"><b>requireProductAddedToCart</b><a href="#requireProductAddedToCart"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="requirePlacedOrder"></a>
+                                        <span class="name"><b>requirePlacedOrder</b><a href="#requirePlacedOrder"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>requireProductAddedToCart:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>requirePlacedOrder:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -121,7 +121,7 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Make sure you have product added to cart. Returns cart object.</p>
+                                    <div class="io-description"><p>Make sure you have placed the order. Returns new order data.</p>
 </div>
                                 </td>
                             </tr>
@@ -132,89 +132,55 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { product } from &#x27;../sample-data/checkout-flow&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DaysOfWeek, recurrencePeriod } from &#x27;../sample-data/b2b-checkout&#x27;;
 
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      /**
-       * Make sure you have product added to cart. Returns cart object.
+declare namespace Cypress {
+  interface Chainable {
+    /**
+       * Make sure you have placed the order. Returns new order data.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.requireProductAddedToCart(auth);
+        cy.requirePlacedOrder(auth, address);
         &#x60;&#x60;&#x60;
        */
-      requireProductAddedToCart: (
-        auth: {},
-        productData?: {}
-      ) &#x3D;&gt; Cypress.Chainable&lt;any&gt;;
-    }
+    requirePlacedOrder: (token: {}, cartId: {}) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
   }
 }
 
-Cypress.Commands.add(
-  &#x27;requireProductAddedToCart&#x27;,
-  (auth, productData &#x3D; product) &#x3D;&gt; {
-    function createCart() {
-      return cy.request({
-        method: &#x27;POST&#x27;,
-        url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
-          &#x27;OCC_PREFIX&#x27;
-        )}/${Cypress.env(&#x27;BASE_SITE&#x27;)}/users/current/carts&#x60;,
-        body: {
-          fields: &#x27;DEFAULT&#x27;,
-        },
-        form: true,
-        headers: {
-          Authorization: &#x60;bearer ${auth.access_token}&#x60;,
-        },
-      });
-    }
-
-    function addToCart(cartCode: any, productData: any) {
-      return cy.request({
-        method: &#x27;POST&#x27;,
-        url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
-          &#x27;OCC_PREFIX&#x27;
-        )}/${Cypress.env(&#x27;BASE_SITE&#x27;)}/${Cypress.env(
-          &#x27;OCC_PREFIX_USER_ENDPOINT&#x27;
-        )}/current/carts/${cartCode}/entries&#x60;,
-        body: {
-          code: productData.code,
-          qty: 1,
-        },
-        form: true,
-        headers: {
-          Authorization: &#x60;bearer ${auth.access_token}&#x60;,
-        },
-      });
-    }
-
-    cy.server();
-
-    createCart().then((cart) &#x3D;&gt; {
-      addToCart(cart.body.code, productData).then((response) &#x3D;&gt; {
-        response.body.cartId &#x3D; cart.body.code; // need this in the response for later use
-        Cypress.log({
-          name: &#x27;requireProductaddedToCart&#x27;,
-          displayName: &#x27;Add to cart (require)&#x27;,
-          message: [&#x60;🛒 Product added to cart&#x60;],
-          consoleProps: () &#x3D;&gt; {
-            return {
-              &#x27;Cart ID&#x27;: response.body.cartId,
-              &#x27;Product code&#x27;: productData.code,
-              Quantity: productData.qty,
-            };
-          },
-        });
-        cy.wrap(response.body);
-      });
+Cypress.Commands.add(&#x27;requirePlacedOrder&#x27;, (auth, cartId) &#x3D;&gt; {
+  function placeOrder() {
+    return cy.request({
+      method: &#x27;POST&#x27;,
+      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
+        &#x27;OCC_PREFIX&#x27;
+      )}/${Cypress.env(&#x27;BASE_SITE&#x27;)}/${Cypress.env(
+        &#x27;OCC_PREFIX_USER_ENDPOINT&#x27;
+      )}/current/${Cypress.env(
+        &#x27;OCC_PREFIX_ORDER_ENDPOINT&#x27;
+      )}?cartId&#x3D;${cartId}&amp;termsChecked&#x3D;true&#x60;,
+      form: false,
+      headers: {
+        Authorization: &#x60;bearer ${auth.access_token}&#x60;,
+      },
+      body: Cypress.env(&#x27;OCC_PREFIX_USER_ENDPOINT&#x27;)
+        ? {
+            daysOfWeek: [DaysOfWeek.MONDAY],
+            nthDayOfMonth: &#x27;1&#x27;,
+            numberOfDays: &#x27;14&#x27;,
+            numberOfWeeks: &#x27;1&#x27;,
+            recurrencePeriod: recurrencePeriod.DAILY,
+            replenishmentStartDate: &#x27;2020-10-08T07:52:23Z&#x27;,
+          }
+        : {},
     });
   }
-);
+
+  cy.server();
+  placeOrder().then((response) &#x3D;&gt; cy.wrap(response));
+});
 </code></pre>
     </div>
 </div>

@@ -215,6 +215,8 @@ import {
 import { CallExpression, Node, SourceFile, ts as tsMorph } from &#x27;ts-morph&#x27;;
 import {
   ANGULAR_CORE,
+  CMS_CONFIG,
+  I18N_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
@@ -266,7 +268,7 @@ export interface FeatureConfig {
   /**
    * The root module configuration.
    */
-  rootModule: Module;
+  rootModule?: Module;
   /**
    * Translation chunk configuration
    */
@@ -282,7 +284,12 @@ export interface FeatureConfig {
   /**
    * An optional custom configuration to provide to the generated module.
    */
-  customConfig?: { import: Import[]; content: string };
+  customConfig?: CustomConfig | CustomConfig[];
+}
+
+export interface CustomConfig {
+  import: Import[];
+  content: string;
 }
 
 export interface Module {
@@ -446,6 +453,10 @@ function addRootModule(
   config: FeatureConfig
 ) {
   return (tree: Tree): Tree &#x3D;&gt; {
+    if (!config.rootModule) {
+      return tree;
+    }
+
     const { appSourceFiles } &#x3D; createProgram(tree, basePath, tsconfigPath);
     for (const sourceFile of appSourceFiles) {
       if (
@@ -468,7 +479,6 @@ function addRootModule(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addFeatureModule(
   tsconfigPath: string,
   basePath: string,
@@ -485,10 +495,10 @@ function addFeatureModule(
             import: [
               {
                 moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
+                namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
               },
             ],
-            content: &#x60;${PROVIDE_CONFIG_FUNCTION}({
+            content: &#x60;${PROVIDE_CONFIG_FUNCTION}(&lt;${CMS_CONFIG}&gt;{
               featureModules: {
                 ${config.lazyModuleName || config.name}: {
                   module: () &#x3D;&gt;
@@ -516,7 +526,6 @@ function addFeatureModule(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addFeatureTranslations(
   tsconfigPath: string,
   basePath: string,
@@ -532,14 +541,14 @@ function addFeatureTranslations(
             import: [
               {
                 moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
+                namedImports: [PROVIDE_CONFIG_FUNCTION, I18N_CONFIG],
               },
               {
                 moduleSpecifier: config.i18n.importPath,
                 namedImports: [config.i18n.chunks, config.i18n.resources],
               },
             ],
-            content: &#x60;${PROVIDE_CONFIG_FUNCTION}({
+            content: &#x60;${PROVIDE_CONFIG_FUNCTION}(&lt;${I18N_CONFIG}&gt;{
               i18n: {
                 resources: ${config.i18n.resources},
                 chunks: ${config.i18n.chunks},
@@ -555,7 +564,6 @@ function addFeatureTranslations(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addCustomConfig(
   tsconfigPath: string,
   basePath: string,
@@ -567,15 +575,20 @@ function addCustomConfig(
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.customConfig) {
-          addModuleProvider(sourceFile, {
-            import: [
-              {
-                moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
-              },
-              ...config.customConfig.import,
-            ],
-            content: &#x60;${PROVIDE_CONFIG_FUNCTION}(${config.customConfig.content})&#x60;,
+          const customConfigs &#x3D; ([] as CustomConfig[]).concat(
+            config.customConfig
+          );
+          customConfigs.forEach((customConfig) &#x3D;&gt; {
+            addModuleProvider(sourceFile, {
+              import: [
+                {
+                  moduleSpecifier: SPARTACUS_CORE,
+                  namedImports: [PROVIDE_CONFIG_FUNCTION],
+                },
+                ...customConfig.import,
+              ],
+              content: &#x60;${PROVIDE_CONFIG_FUNCTION}(${customConfig.content})&#x60;,
+            });
           });
           saveAndFormat(sourceFile);
         }
@@ -762,7 +775,7 @@ export function addPackageJsonDependencies(
     dependencies.forEach((dependency) &#x3D;&gt; {
       if (
         !packageJson ||
-        !packageJson.dependencies.hasOwnProperty(dependency.name)
+        !packageJson[dependency.type].hasOwnProperty(dependency.name)
       ) {
         addPackageJsonDependency(tree, dependency);
         context.logger.info(
@@ -792,7 +805,6 @@ export function configureB2bFeatures&lt;T extends LibraryOptions&gt;(
         ],
         packageJson
       ),
-      installPackageJsonDependencies(),
     ]);
   };
 }
