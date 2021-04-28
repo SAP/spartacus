@@ -1,1 +1,96 @@
-Order grid works
+<ng-container *ngIf="product$ | async">
+  <div class="container">
+    <table class="table cx-order-grid-table">
+      <thead class="cx-order-grid-list-thead-mobile">
+        <th *ngFor="let type of getVariantCategories()" scope="col">
+          {{ type }}
+        </th>
+        <th scope="col">{{ 'orderGrid.quantity' | cxTranslate }}</th>
+        <th scope="col">{{ 'orderGrid.availability' | cxTranslate }}</th>
+        <th scope="col" class="cx-order-grid-list-item-price">
+          {{ 'orderGrid.itemPrice' | cxTranslate }}
+        </th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let variant of getVariantOptions() | async">
+          <td
+            *ngFor="let data of variant.variantData"
+            class="cx-order-grid-list-variant-type"
+          >
+            <div class="cx-table-label-mobile cx-order-grid-list-label">
+              {{ data.type || '-' }}
+            </div>
+
+            <span class="cx-order-grid-list-value">
+              {{ data.value || '-' }}
+            </span>
+          </td>
+
+          <td class="cx-order-grid-list-quantity">
+            <div class="cx-table-label-mobile cx-order-grid-list-label">
+              {{ 'orderGrid.quantity' | cxTranslate }}
+            </div>
+            <span class="cx-order-grid-list-value">
+              <cx-order-grid-counter
+                (quantityChange$)="updateEntries($event)"
+                [variant]="variant"
+              ></cx-order-grid-counter>
+            </span>
+          </td>
+
+          <td class="cx-order-grid-list-availability">
+            <div class="cx-table-label-mobile cx-order-grid-list-label">
+              {{ 'orderGrid.availability' | cxTranslate }}
+            </div>
+
+            <span class="cx-order-grid-list-value">
+              <ng-container
+                *ngIf="variant.stock?.stockLevel > 0; else outOfStock"
+              >
+                {{ variant.stock?.stockLevel }}
+                {{
+                  'addToCart.' + variant.stock?.stockLevelStatus | cxTranslate
+                }}
+              </ng-container>
+              <ng-template #outOfStock>
+                {{
+                  'addToCart.' + variant.stock?.stockLevelStatus | cxTranslate
+                }}
+              </ng-template>
+            </span>
+          </td>
+
+          <td class="cx-order-grid-list-item-price">
+            <div class="cx-table-label-mobile cx-order-grid-list-label">
+              {{ 'orderGrid.itemPrice' | cxTranslate }}
+            </div>
+
+            <span class="cx-order-grid-list-value">
+              {{ variant.priceData?.formattedValue || '-' }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="cx-order-grid-summary row">
+      <h4 class="cx-order-grid-summary-label">
+        {{ 'orderGrid.items' | cxTranslate: { count: getAllEnriesQuantity() } }}
+      </h4>
+    </div>
+
+    <div class="cx-order-grid-add-to-cart-btn row">
+      <div class="col-xs-12 col-md-5 col-lg-4">
+        <button class="btn btn-block btn-secondary" (click)="clearEntries()">
+          {{ 'orderGrid.clearForm' | cxTranslate }}
+        </button>
+      </div>
+
+      <div class="col-xs-12 col-md-5 col-lg-4">
+        <button class="btn btn-block btn-primary" (click)="addAllToCart()">
+          {{ 'orderGrid.addToCart' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-container>

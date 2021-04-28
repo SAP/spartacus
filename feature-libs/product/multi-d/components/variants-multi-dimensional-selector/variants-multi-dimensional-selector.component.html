@@ -7,7 +7,6 @@
         *ngIf="variantHasImages(variant); else noImages"
         class="image-variant-container"
       >
-        <!-- TO DO check 3 element for image -->
         <cx-media
           *ngFor="let category of variant"
           (click)="changeVariant(category.variantOption.code)"

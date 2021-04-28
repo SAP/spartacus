@@ -7,7 +7,7 @@ import {
   VariantOption,
 } from 'projects/core/src/model';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
 export interface GridVariantOption extends VariantOption {
   variantData: VariantData[];
@@ -35,8 +35,7 @@ export class VariantsMultiDimensionalService {
     })
   );
 
-  // TODO change to private
-  public variantCategories: string[] = [];
+  private variantCategories: string[] = [];
   private variantOptions: GridVariantOption[] = [];
   private variants: VariantMatrixElement[] = [];
 
@@ -53,7 +52,13 @@ export class VariantsMultiDimensionalService {
   }
 
   getVariantOptions(): Observable<GridVariantOption[]> {
-    return of(this.variantOptions);
+    return of(this.variantOptions).pipe(
+      map((variant) => variant.sort(sortVariants))
+    );
+  }
+
+  getVariantCategories(): string[] {
+    return this.variantCategories;
   }
 
   setVariantsGroups(product: Product): void {
@@ -186,4 +191,30 @@ export class VariantsMultiDimensionalService {
       }
     });
   }
+}
+
+function sortVariants(a: GridVariantOption, b: GridVariantOption) {
+  const variantTypesLength = a.variantData?.length;
+  let i: number = 0;
+  let result: number = 0;
+
+  if (variantTypesLength) {
+    while (i < variantTypesLength && result === 0) {
+      let variantData1: any = a.variantData[i].value;
+      let variantData2: any = b.variantData[i].value;
+
+      if (isNaN(variantData1) && isNaN(variantData2)) {
+        result =
+          variantData1 < variantData2
+            ? -1
+            : variantData1 > variantData2
+            ? 1
+            : 0;
+      } else {
+        result = variantData1 - variantData2;
+      }
+      i++;
+    }
+  }
+  return result;
 }
