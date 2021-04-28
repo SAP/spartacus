@@ -10,7 +10,7 @@
 @import './store-finder-map';
 @import './store-finder-store';
 
-$store-finder-components-whitelist: cx-store-finder-list-item,
+$store-finder-components-allowlist: cx-store-finder-list-item,
   cx-store-finder-grid, cx-store-finder, cx-store-finder-store-description,
   cx-store-finder-stores-count, cx-store-finder-search-result,
   cx-store-finder-list, cx-store-finder-search, cx-store-finder-schedule,
@@ -18,7 +18,7 @@ $store-finder-components-whitelist: cx-store-finder-list-item,
 
 $skipComponentStyles: () !default;
 
-@each $selector in $store-finder-components-whitelist {
+@each $selector in $store-finder-components-allowlist {
   #{$selector} {
     // skip selectors if they're added to the $skipComponentStyles list
     @if (index($skipComponentStyles, $selector) == null) {
@@ -29,7 +29,7 @@ $skipComponentStyles: () !default;
 
 // add body specific selectors
 body {
-  @each $selector in $store-finder-components-whitelist {
+  @each $selector in $store-finder-components-allowlist {
     @if (index($skipComponentStyles, $selector) == null) {
       @extend %#{$selector}__body !optional;
     }
