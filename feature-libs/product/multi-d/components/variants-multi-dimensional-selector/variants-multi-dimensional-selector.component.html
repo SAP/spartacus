@@ -16,6 +16,7 @@
               category.variantOption?.variantOptionQualifiers
             )
           "
+          [ngClass]="{ active: category.variantOption.code === product.code }"
           [title]="category.variantValueCategory.name"
           class="image-variant"
         >
