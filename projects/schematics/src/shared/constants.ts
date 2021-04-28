@@ -76,6 +76,10 @@ export const B2B_STOREFRONT_MODULE = 'B2bStorefrontModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
+export const SITE_CONTEXT_CONFIG = 'SiteContextConfig';
+export const I18N_CONFIG = 'I18nConfig';
+export const OCC_CONFIG = 'OccConfig';
+export const FEATURES_CONFIG = 'FeaturesConfig';
 export const PROVIDE_DEFAULT_CONFIG = 'provideDefaultConfig';
 export const DEFAULT_B2B_OCC_CONFIG = 'defaultB2bOccConfig';
 export const CMS_CONFIG = 'CmsConfig';
@@ -677,4 +681,5 @@ export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
 export const CLI_STOREFINDER_FEATURE = 'Store Finder';
 export const CLI_TRACKING_FEATURE = 'Tracking';
 export const CLI_CDC_FEATURE = 'CDC';
+export const CLI_CDS_FEATURE = 'CDS';
 /******* CLI end *******/
