@@ -504,18 +504,19 @@ export function addLibraryStyles(
     const libraryScssPath = `${getSourceRoot(tree, {
       project: project,
     })}/styles/spartacus/${stylingConfig.scssFileName}`;
-
     const toAdd = `@import "${stylingConfig.importStyle}";`;
-    const buff = tree.read(libraryScssPath);
-    let content = buff ? buff.toString(UTF_8) : toAdd;
-    if (!buff) {
-      tree.create(libraryScssPath, toAdd);
-    } else {
+
+    if (tree.exists(libraryScssPath)) {
+      let content = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
       if (!content.includes(toAdd)) {
         content += `\n${toAdd}`;
       }
+
+      tree.overwrite(libraryScssPath, content);
+      return tree;
     }
-    tree.overwrite(libraryScssPath, content);
+
+    tree.create(libraryScssPath, toAdd);
 
     const { path, workspace: angularJson } = getWorkspace(tree);
     const architect = angularJson.projects[project].architect;

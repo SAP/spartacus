@@ -195,9 +195,7 @@ describe('Lib utils', () => {
 
             expect(tree.exists(scssFilePath)).toEqual(true);
             const content = tree.read(scssFilePath)?.toString(UTF_8);
-            expect(content).toContain(
-              `@import "${FEATURE_MODULE_IMPORT_PATH}";`
-            );
+            expect(content).toEqual(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
           });
         });
         describe('and the scss with the same content already exists', () => {
