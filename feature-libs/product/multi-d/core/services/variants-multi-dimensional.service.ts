@@ -194,21 +194,27 @@ export class VariantsMultiDimensionalService {
 }
 
 function sortVariants(a: GridVariantOption, b: GridVariantOption) {
-  const variantTypesLength = a.variantData.length;
+  const variantTypesLength = a.variantData?.length;
   let i: number = 0;
   let result: number = 0;
 
-  while (i < variantTypesLength && result === 0) {
-    let variantData1: any = a.variantData[i].value;
-    let variantData2: any = b.variantData[i].value;
+  if (variantTypesLength) {
+    while (i < variantTypesLength && result === 0) {
+      let variantData1: any = a.variantData[i].value;
+      let variantData2: any = b.variantData[i].value;
 
-    if (isNaN(variantData1) && isNaN(variantData2)) {
-      result =
-        variantData1 < variantData2 ? -1 : variantData1 > variantData2 ? 1 : 0;
-    } else {
-      result = variantData1 - variantData2;
+      if (isNaN(variantData1) && isNaN(variantData2)) {
+        result =
+          variantData1 < variantData2
+            ? -1
+            : variantData1 > variantData2
+            ? 1
+            : 0;
+      } else {
+        result = variantData1 - variantData2;
+      }
+      i++;
     }
-    i++;
   }
   return result;
 }

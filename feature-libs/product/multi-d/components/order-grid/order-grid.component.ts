@@ -1,15 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Product } from '@spartacus/core';
+import { CurrencyService } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { OrderGridEntry } from '../../core/model/order-grid-entry.model';
 import {
   GridVariantOption,
   VariantsMultiDimensionalService,
 } from '../../core/services/variants-multi-dimensional.service';
-
-export interface OrderGridEntry {
-  quantity?: number;
-  product: Product;
-}
 
 @Component({
   selector: 'cx-order-grid',
@@ -22,7 +18,8 @@ export class OrderGridComponent {
   private entries: OrderGridEntry[] = [];
 
   constructor(
-    protected multiDimensionalService: VariantsMultiDimensionalService
+    protected multiDimensionalService: VariantsMultiDimensionalService,
+    protected currencyService: CurrencyService
   ) {}
 
   getVariantOptions(): Observable<GridVariantOption[]> {
@@ -33,18 +30,30 @@ export class OrderGridComponent {
     return this.multiDimensionalService.getVariantCategories();
   }
 
+  getAllEnriesQuantity(): number {
+    return this.entries.reduce((prev, current) => {
+      return prev + current.quantity;
+    }, 0);
+  }
+
+  // getAllEnriesTotal(): number {
+  //   this.currencyService.getActive().subscribe(console.log);
+  //   console.log('this.entries', this.entries);
+  //   return this.entries.reduce((prev, current) => {
+  //     return prev + current.quantity * (current.product?.priceData?.value || 0);
+  //   }, 0);
+  // }
+
   updateEntries(entry: OrderGridEntry): void {
     const entryIndex = this.entries.findIndex(
       (element: OrderGridEntry) => element.product.code === entry.product.code
     );
 
     if (entryIndex === -1) {
-      const element = {
+      const element: OrderGridEntry = {
         quantity: entry.quantity,
-        product: {
-          code: entry.product.code,
-        },
-      } as OrderGridEntry;
+        product: entry.product,
+      };
 
       this.entries.push(element);
     } else {
@@ -57,7 +66,7 @@ export class OrderGridComponent {
     this.clearEntries();
   }
 
-  protected clearEntries(): void {
+  clearEntries(): void {
     this.entries = [];
   }
 }

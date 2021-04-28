@@ -86,10 +86,22 @@
       </tbody>
     </table>
 
+    <div class="cx-order-grid-summary row">
+      <h4 class="cx-order-grid-summary-label">
+        {{ 'orderGrid.items' | cxTranslate: { count: getAllEnriesQuantity() } }}
+      </h4>
+    </div>
+
     <div class="cx-order-grid-add-to-cart-btn row">
       <div class="col-xs-12 col-md-5 col-lg-4">
+        <button class="btn btn-block btn-secondary" (click)="clearEntries()">
+          {{ 'orderGrid.clearForm' | cxTranslate }}
+        </button>
+      </div>
+
+      <div class="col-xs-12 col-md-5 col-lg-4">
         <button class="btn btn-block btn-primary" (click)="addAllToCart()">
-          {{ 'orderGrid.addAllToCart' | cxTranslate }}
+          {{ 'orderGrid.addToCart' | cxTranslate }}
         </button>
       </div>
     </div>

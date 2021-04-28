@@ -122,6 +122,15 @@ cx-order-grid {
     }
   }
 
+  .cx-order-grid-summary {
+    justify-content: flex-end;
+    margin: 2rem 0;
+
+    .cx-order-grid-summary-label {
+      padding: 0 15px;
+    }
+  }
+
   .cx-order-grid-add-to-cart-btn {
     justify-content: flex-end;
     margin: 2rem 0;

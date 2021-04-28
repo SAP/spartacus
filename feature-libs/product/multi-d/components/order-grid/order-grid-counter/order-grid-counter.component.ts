@@ -9,9 +9,9 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Product } from '@spartacus/core';
+import { OrderGridEntry } from 'feature-libs/product/multi-d/core/model/order-grid-entry.model';
 import { GridVariantOption } from 'feature-libs/product/multi-d/core/services/variants-multi-dimensional.service';
 import { Subscription } from 'rxjs';
-import { OrderGridEntry } from '../order-grid.component';
 
 @Component({
   selector: 'cx-order-grid-counter',
@@ -27,7 +27,7 @@ export class OrderGridCounterComponent implements OnInit, OnDestroy {
   maxQuantity: number = 0;
   hasStock = false;
 
-  addEntryForm = new FormGroup({
+  form = new FormGroup({
     quantity: new FormControl(0),
   });
 
@@ -41,22 +41,19 @@ export class OrderGridCounterComponent implements OnInit, OnDestroy {
     }
 
     this.subscription.add(
-      this.addEntryForm
-        .get('quantity')
-        ?.valueChanges.subscribe((quantity: number) => {
-          this.quantityChange$.emit({
-            quantity,
-            product: this.variant,
-          } as OrderGridEntry);
-        })
+      this.form.get('quantity')?.valueChanges.subscribe((quantity: number) => {
+        this.quantityChange$.emit({
+          quantity,
+          product: this.variant,
+        });
+      })
     );
   }
 
   private setStockInfo(product: Product): void {
-    this.hasStock =
+    this.hasStock = !!(
       product.stock && product.stock.stockLevelStatus !== 'outOfStock'
-        ? true
-        : false;
+    );
 
     if (this.hasStock && product.stock?.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
