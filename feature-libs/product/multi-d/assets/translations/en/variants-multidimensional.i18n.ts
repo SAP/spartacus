@@ -4,7 +4,6 @@ export const orderGrid = {
   quantity: 'QTY',
   availability: 'Availability',
   itemPrice: 'Item price',
-  totalPrice: 'Total price',
   items: '{{count}} items',
 };
 

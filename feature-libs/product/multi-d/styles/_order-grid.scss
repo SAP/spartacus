@@ -93,8 +93,7 @@ cx-order-grid {
 
   .cx-order-grid-list-quantity,
   .cx-order-grid-list-availability,
-  .cx-order-grid-list-item-price,
-  .cx-order-grid-list-total-price {
+  .cx-order-grid-list-item-price {
     text-align: center;
 
     @include media-breakpoint-down(md) {
