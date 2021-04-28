@@ -36,7 +36,12 @@
             <div class="cx-table-label-mobile cx-order-grid-list-label">
               QTY
             </div>
-            <span class="cx-order-grid-list-value"> 0 </span>
+            <span class="cx-order-grid-list-value">
+              <cx-order-grid-counter
+                (quantityChange$)="updateEntries($event)"
+                [variant]="variant"
+              ></cx-order-grid-counter>
+            </span>
           </td>
 
           <td class="cx-order-grid-list-availability">

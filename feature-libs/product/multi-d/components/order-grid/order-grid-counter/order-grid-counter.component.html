@@ -1,0 +1,7 @@
+<cx-item-counter
+  [allowZero]="true"
+  [control]="addEntryForm.get('quantity')"
+  [max]="maxQuantity"
+  [readonly]="!hasStock"
+  [min]="0"
+></cx-item-counter>
