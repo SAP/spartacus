@@ -3,6 +3,7 @@ import {
   ConfigInitializer,
   CONFIG_INITIALIZER,
 } from '../config/config-initializer/config-initializer';
+import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
 import { provideDefaultConfigFactory } from '../config/config-providers';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
 import { FeatureConfigService } from '../features-config/services/feature-config.service';
@@ -40,16 +41,25 @@ export function initSiteContextConfig(
   }
   return null;
 }
-export function CurrencyStatePersistenceFactory(
-  currencyPersistenceService: CurrencyStatePersistenceService
+export function currencyStatePersistenceFactory(
+  currencyPersistenceService: CurrencyStatePersistenceService,
+  configInit: ConfigInitializerService
 ) {
-  const result = () => currencyPersistenceService.initSync();
+  const result = () =>
+    configInit.getStableConfig('context').then(() => {
+      console.log('Before init CONTEXT');
+      currencyPersistenceService.initSync();
+    });
   return result;
 }
-export function LanguageStatePersistenceFactory(
-  languagePersistenceService: LanguageStatePersistenceService
+export function languageStatePersistenceFactory(
+  languagePersistenceService: LanguageStatePersistenceService,
+  configInit: ConfigInitializerService
 ) {
-  const result = () => languagePersistenceService.initSync();
+  const result = () =>
+    configInit
+      .getStableConfig('context')
+      .then(() => languagePersistenceService.initSync());
   return result;
 }
 
@@ -78,14 +88,14 @@ export class SiteContextModule {
         },
         {
           provide: APP_INITIALIZER,
-          useFactory: CurrencyStatePersistenceFactory,
-          deps: [CurrencyStatePersistenceService],
+          useFactory: languageStatePersistenceFactory,
+          deps: [LanguageStatePersistenceService, ConfigInitializerService],
           multi: true,
         },
         {
           provide: APP_INITIALIZER,
-          useFactory: LanguageStatePersistenceFactory,
-          deps: [LanguageStatePersistenceService],
+          useFactory: currencyStatePersistenceFactory,
+          deps: [CurrencyStatePersistenceService, ConfigInitializerService],
           multi: true,
         },
       ],

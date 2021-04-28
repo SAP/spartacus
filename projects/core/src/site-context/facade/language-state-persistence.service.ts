@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
-import {
-  getContextParameterDefault,
-  getContextParameterValues,
-} from '../config/context-config-utils';
+import { getContextParameterValues } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
 import { LanguageService } from './language.service';
@@ -32,10 +29,6 @@ export class LanguageStatePersistenceService {
       )
     ) {
       this.languageService.setActive(state);
-    } else {
-      this.languageService.setActive(
-        getContextParameterDefault(this.config, LANGUAGE_CONTEXT_ID)
-      );
     }
   }
 }

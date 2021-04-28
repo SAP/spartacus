@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
-import {
-  getContextParameterDefault,
-  getContextParameterValues,
-} from '../config/context-config-utils';
+import { getContextParameterValues } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
 import { CurrencyService } from './currency.service';
@@ -32,10 +29,6 @@ export class CurrencyStatePersistenceService {
       )
     ) {
       this.currencyService.setActive(state);
-    } else {
-      this.currencyService.setActive(
-        getContextParameterDefault(this.config, CURRENCY_CONTEXT_ID)
-      );
     }
   }
 }

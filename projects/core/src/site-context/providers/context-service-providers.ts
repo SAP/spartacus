@@ -5,11 +5,8 @@ import { CurrencyService } from '../facade/currency.service';
 import { LanguageService } from '../facade/language.service';
 import { SiteContextRoutesHandler } from '../services/site-context-routes-handler';
 
-// TODO 4.0: remove the deprecated initialization
 export function initializeContext(
   baseSiteService: BaseSiteService,
-  langService: LanguageService,
-  currService: CurrencyService,
   configInit: ConfigInitializerService,
   siteContextRoutesHandler: SiteContextRoutesHandler
 ) {
@@ -17,8 +14,6 @@ export function initializeContext(
     await configInit.getStableConfig('context');
     siteContextRoutesHandler.init();
     baseSiteService.initialize();
-    langService.initialize();
-    currService.initialize();
   };
 }
 
@@ -29,13 +24,7 @@ export const contextServiceProviders: Provider[] = [
   {
     provide: APP_INITIALIZER,
     useFactory: initializeContext,
-    deps: [
-      BaseSiteService,
-      LanguageService,
-      CurrencyService,
-      ConfigInitializerService,
-      SiteContextRoutesHandler,
-    ],
+    deps: [BaseSiteService, ConfigInitializerService, SiteContextRoutesHandler],
     multi: true,
   },
 ];
