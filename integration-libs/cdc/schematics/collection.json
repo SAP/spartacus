@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-cdc/index#addCdcFeature",
+      "description": "Add and configure Spartacus' CDC feature",
+      "schema": "./add-cdc/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-cdc/index#addCdcFeature",
+      "description": "Add and configure Spartacus' CDC feature",
+      "schema": "./add-cdc/schema.json"
+    }
+  }
+}

@@ -66,18 +66,19 @@ describe('OccCartEntryAdapter', () => {
       const mockReq = httpMock.expectOne({ method: 'POST', url: 'addEntries' });
 
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/x-www-form-urlencoded'
+        'application/json'
       );
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-        'addEntries',
-        {
-          userId,
-          cartId,
-          quantity: 5,
-        },
-        { code: '147852', qty: 5 }
-      );
+      expect(mockReq.request.body).toEqual({
+        product: { code: '147852' },
+        quantity: 5,
+      });
+
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('addEntries', {
+        userId,
+        cartId,
+        quantity: 5,
+      });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -90,7 +91,7 @@ describe('OccCartEntryAdapter', () => {
   });
 
   describe('update entry in a cart', () => {
-    it('should update an entry in a cart for given user id, cart id, entryNumber and quantitiy', () => {
+    it('should update an entry in a cart for given user id, cart id, entryNumber and quantity', () => {
       let result;
       occCartEntryAdapter
         .update(userId, cartId, '12345', 5)
@@ -102,18 +103,17 @@ describe('OccCartEntryAdapter', () => {
       });
 
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/x-www-form-urlencoded'
+        'application/json'
       );
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-        'updateEntries',
-        {
-          userId,
-          cartId,
-          entryNumber: '12345',
-        },
-        { qty: 5 }
-      );
+      expect(mockReq.request.body).toEqual({ quantity: 5 });
+
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('updateEntries', {
+        userId,
+        cartId,
+        entryNumber: '12345',
+      });
+
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartModified);
@@ -131,20 +131,21 @@ describe('OccCartEntryAdapter', () => {
         .subscribe()
         .unsubscribe();
 
-      httpMock.expectOne({
+      const mockReq = httpMock.expectOne({
         method: 'PATCH',
         url: 'updateEntries',
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-        'updateEntries',
-        {
-          userId,
-          cartId,
-          entryNumber: '12345',
-        },
-        { qty: 5, pickupStore }
-      );
+      expect(mockReq.request.body).toEqual({
+        quantity: 5,
+        deliveryPointOfService: { name: pickupStore },
+      });
+
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('updateEntries', {
+        userId,
+        cartId,
+        entryNumber: '12345',
+      });
     });
   });
 

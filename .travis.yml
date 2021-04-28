@@ -11,13 +11,13 @@ branches:
     - "/^epic\\/.*$/"
     - "/^release\\/.*$/"
 defaults: &defaults
-  script: "export CYPRESS_CONFIG=cypress.ci.json &&  export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
+  script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
 jobs:
   - script: "./ci-scripts/unit-tests-sonar.sh sonar"
     name: "Unit tests / Sonar"
   - script: "./ci-scripts/validate-lint.sh"
     name: "Validation checks"
-  - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json &&  export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
+  - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json && export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
     name: E2E regression tests for B2B
   - script:
     name: "E2E tests for B2C, 1st job"
@@ -31,6 +31,8 @@ jobs:
   - script:
     name: "E2E tests for B2C, 4th job"
     <<: *defaults
+  - script: "export CYPRESS_CONFIG=cypress.ci.cdc.json && export SPA_ENV='cdc' && ./ci-scripts/e2e-cypress.sh -s cdc || exit 0"
+    name: "E2E tests for CDC"
 addons:
   chrome: stable
   sonarcloud:

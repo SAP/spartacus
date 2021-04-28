@@ -5,6 +5,12 @@
     "paths": {
       "@spartacus/setup": ["../../dist/setup"],
       "@spartacus/setup/ssr": ["../../dist/setup/ssr"],
+      "@spartacus/asm/assets": ["../../dist/asm/assets"],
+      "@spartacus/asm/components": ["../../dist/asm/components"],
+      "@spartacus/asm/core": ["../../dist/asm/core"],
+      "@spartacus/asm": ["../../dist/asm"],
+      "@spartacus/asm/occ": ["../../dist/asm/occ"],
+      "@spartacus/asm/root": ["../../dist/asm/root"],
       "@spartacus/cart": ["../../dist/cart"],
       "@spartacus/cart/saved-cart/assets": [
         "../../dist/cart/saved-cart/assets"
@@ -16,12 +22,6 @@
       "@spartacus/cart/saved-cart": ["../../dist/cart/saved-cart"],
       "@spartacus/cart/saved-cart/occ": ["../../dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["../../dist/cart/saved-cart/root"],
-      "@spartacus/asm/assets": ["../../dist/asm/assets"],
-      "@spartacus/asm/components": ["../../dist/asm/components"],
-      "@spartacus/asm/core": ["../../dist/asm/core"],
-      "@spartacus/asm": ["../../dist/asm"],
-      "@spartacus/asm/occ": ["../../dist/asm/occ"],
-      "@spartacus/asm/root": ["../../dist/asm/root"],
       "@spartacus/organization/administration/assets": [
         "../../dist/organization/administration/assets"
       ],
@@ -59,6 +59,9 @@
       "@spartacus/product-configurator": ["../../dist/product-configurator"],
       "@spartacus/product-configurator/rulebased": [
         "../../dist/product-configurator/rulebased"
+      ],
+      "@spartacus/product-configurator/rulebased/cpq": [
+        "../../dist/product-configurator/rulebased/cpq"
       ],
       "@spartacus/product-configurator/rulebased/root": [
         "../../dist/product-configurator/rulebased/root"
@@ -140,7 +143,10 @@
       "@spartacus/user/profile": ["../../dist/user/profile"],
       "@spartacus/user/profile/occ": ["../../dist/user/profile/occ"],
       "@spartacus/user/profile/root": ["../../dist/user/profile/root"],
+      "@spartacus/cdc/components": ["../../dist/cdc/components"],
+      "@spartacus/cdc/core": ["../../dist/cdc/core"],
       "@spartacus/cdc": ["../../dist/cdc"],
+      "@spartacus/cdc/root": ["../../dist/cdc/root"],
       "@spartacus/cds": ["../../dist/cds"],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
