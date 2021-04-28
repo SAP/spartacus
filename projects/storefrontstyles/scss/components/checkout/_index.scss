@@ -2,7 +2,7 @@
 @import './order-confirmation/index';
 @import './promotions';
 
-$checkout-components-whitelist: cx-payment-method, cx-payment-methods,
+$checkout-components-allowlist: cx-payment-method, cx-payment-methods,
   cx-checkout-progress, cx-checkout-progress-mobile-top,
   cx-checkout-progress-mobile-bottom, cx-delivery-mode, cx-shipping-address,
   cx-address-form, cx-billing-address-form, cx-payment-form, cx-review-submit,

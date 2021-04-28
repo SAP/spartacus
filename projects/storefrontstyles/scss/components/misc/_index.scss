@@ -6,5 +6,5 @@
 @import './order-overview/index';
 @import './popover/index';
 
-$misc-components-whitelist: cx-table, cx-icon, cx-spinner, cx-card,
+$misc-components-allowlist: cx-table, cx-icon, cx-spinner, cx-card,
   cx-pagination, cx-order-overview, cx-popover !default;

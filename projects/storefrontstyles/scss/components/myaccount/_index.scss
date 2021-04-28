@@ -14,7 +14,7 @@
 @import './my-coupons-dialog';
 @import './my-interests';
 
-$myaccount-components-whitelist: cx-address-book, cx-order-summary,
+$myaccount-components-allowlist: cx-address-book, cx-order-summary,
   cx-order-history, cx-order-confirmation-items, cx-order-confirmation-totals,
   cx-order-confirmation-thank-you-message, cx-promotions, cx-order-detail-items,
   cx-order-detail-shipping, cx-order-detail-totals, cx-order-detail-totals,

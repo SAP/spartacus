@@ -12,7 +12,7 @@
 @import './add-to-wishlist';
 @import './save-for-later';
 
-$cart-components-whitelist: cx-mini-cart, cx-add-to-cart, cx-item-counter,
+$cart-components-allowlist: cx-mini-cart, cx-add-to-cart, cx-item-counter,
   cx-added-to-cart-dialog, cx-cart-details, cx-cart-item, cx-cart-item-list,
   cx-cart-totals, cx-cart-coupon, cx-applied-coupons, cx-add-to-wishlist,
   cx-save-for-later !default;

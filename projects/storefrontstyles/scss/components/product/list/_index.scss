@@ -8,6 +8,6 @@
 @import './facet-list';
 @import './product-facet-navigation';
 
-$product-list-whitelist: cx-product-list, cx-product-list-item, cx-product-grid,
+$product-list-allowlist: cx-product-list, cx-product-list-item, cx-product-grid,
   cx-product-grid-item, cx-product-view, cx-product-facet-navigation,
   cx-active-facets, cx-facet, cx-facet-list !default;

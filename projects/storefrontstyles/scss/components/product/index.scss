@@ -4,9 +4,9 @@
 @import './carousel/index';
 @import './star-rating';
 
-$product-components-whitelist: mergeAll(
+$product-components-allowlist: mergeAll(
   (
-    $product-list-whitelist,
+    $product-list-allowlist,
     cx-searchbox,
     cx-product-carousel,
     cx-product-references,
