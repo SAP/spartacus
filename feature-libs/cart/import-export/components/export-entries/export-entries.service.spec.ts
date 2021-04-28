@@ -49,29 +49,25 @@ const entry: OrderEntry = {
           altText: 'PC Service Set Professional',
           format: 'zoom',
           imageType: ImageType.PRIMARY,
-          url:
-            'https://40.76.109.9:9002/medias/?context=bWFzdGVyfGltYWdlc3wzMTA0NXxpbWFnZS9qcGVnfGltYWdlcy9oYzAvaDM3Lzg3OTY4MjYxNDA3MDIuanBnfDgxZWFmMjU1YmNiNWY4ZjdjM2UyNDlhMjYyMzg5MGMyYTc1MTU4ODM2NmI5N2NlMDY0MjlhOTRiMGY2ZGMyMWI',
+          url: 'imageUrl',
         },
         product: {
           altText: 'PC Service Set Professional',
           format: 'product',
           imageType: ImageType.PRIMARY,
-          url:
-            'https://40.76.109.9:9002/medias/?context=bWFzdGVyfGltYWdlc3wxNTUyNnxpbWFnZS9qcGVnfGltYWdlcy9oNTUvaDUxLzg3OTY4NTM0MDM2NzguanBnfDNjNjExMzliZThjYzhlNGQyYWYzZTBjOGI1YWNkZjYzMDliMmU0NTEwMzAwZDYxOGJiYzZmZjk2NWE2OGJkZmY',
+          url: 'imageUrl',
         },
         thumbnail: {
           altText: 'PC Service Set Professional',
           format: 'thumbnail',
           imageType: ImageType.PRIMARY,
-          url:
-            'https://40.76.109.9:9002/medias/?context=bWFzdGVyfGltYWdlc3wyODA3fGltYWdlL2pwZWd8aW1hZ2VzL2gyYS9oNzQvODc5Njg4MDY2NjY1NC5qcGd8MDJmNmIyYWMzMmQzN2I5N2UwMGRlMmM4YTA3OWJjNGYxODZiNWIyZGIyYjlkYjljMTNkMmQ1ZDk1MTJkYmU5Yw',
+          url: 'imageUrl',
         },
         cartIcon: {
           altText: 'PC Service Set Professional',
           format: 'cartIcon',
           imageType: ImageType.PRIMARY,
-          url:
-            'https://40.76.109.9:9002/medias/?context=bWFzdGVyfGltYWdlc3wxNjk4fGltYWdlL2pwZWd8aW1hZ2VzL2hkYi9oOTEvODc5NjkwNzkyOTYzMC5qcGd8N2UxZWQwZGYxZjQzOTZmMTUxOGI3MTMxMjNhNDc1NmU5ZmYxYTRlOWFmNjI3NDNmYmM0Nzc1ZTQyOTBhODZhOA',
+          url: 'imageUrl',
         },
       },
     },
