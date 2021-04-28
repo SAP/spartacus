@@ -3,10 +3,17 @@ import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
+/**
+ * @deprecated since 3.3 - use `LaunchDialogService` instead
+ * TODO: deprecation cleanup
+ */
 @Injectable({ providedIn: 'root' })
 export class SavedCartFormLaunchDialogService {
   constructor(protected launchDialogService: LaunchDialogService) {}
 
+  /**
+   * @deprecated since 3.3 - use `LaunchDialogService.openDialog` with LAUNCH_CALLER.SAVED_CART instead
+   */
   openDialog(
     openElement?: ElementRef,
     vcr?: ViewContainerRef,

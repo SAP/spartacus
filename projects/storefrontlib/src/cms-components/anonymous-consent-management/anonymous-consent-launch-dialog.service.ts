@@ -6,10 +6,17 @@ import {
   LAUNCH_CALLER,
 } from '../../layout/launch-dialog/index';
 
+/**
+ * @deprecated since 3.3 - use `LaunchDialogService` instead
+ * TODO: deprecation cleanup
+ */
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentLaunchDialogService {
   constructor(protected launchDialogService: LaunchDialogService) {}
 
+  /**
+   * @deprecated since 3.3 - use `LaunchDialogService.openDialog` with LAUNCH_CALLER.ANONYMOUS_CONSENT instead
+   */
   openDialog(
     openElement?: ElementRef,
     vcr?: ViewContainerRef
