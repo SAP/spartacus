@@ -4,9 +4,17 @@ import { UrlModule, I18nModule } from '@spartacus/core';
 import { RouterModule } from '@angular/router';
 import { MediaModule } from '@spartacus/storefront';
 import { VariantsMultiDimensionalSelectorComponent } from './variants-multi-dimensional-selector.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, I18nModule, MediaModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    I18nModule,
+    MediaModule,
+    NgSelectModule,
+  ],
   declarations: [VariantsMultiDimensionalSelectorComponent],
   entryComponents: [VariantsMultiDimensionalSelectorComponent],
   exports: [VariantsMultiDimensionalSelectorComponent],
