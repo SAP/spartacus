@@ -43,7 +43,7 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
         ProductAddToCartComponent: {
           component: AddToCartComponent,
           data: {
-            inventoryDisplay: 'false',
+            inventoryDisplay: 'true',
           },
         },
       },
