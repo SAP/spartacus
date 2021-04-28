@@ -6,9 +6,9 @@ import {
   LAUNCH_CALLER,
 } from '../../layout/launch-dialog/index';
 
+// TODO(#12167): deprecations cleanup
 /**
  * @deprecated since 3.3 - use `LaunchDialogService` instead
- * TODO: deprecation cleanup
  */
 @Injectable({ providedIn: 'root' })
 export class AnonymousConsentLaunchDialogService {
