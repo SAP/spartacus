@@ -1,5 +1,4 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CurrencyService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { OrderGridEntry } from '../../core/model/order-grid-entry.model';
 import {
@@ -18,8 +17,7 @@ export class OrderGridComponent {
   private entries: OrderGridEntry[] = [];
 
   constructor(
-    protected multiDimensionalService: VariantsMultiDimensionalService,
-    protected currencyService: CurrencyService
+    protected multiDimensionalService: VariantsMultiDimensionalService
   ) {}
 
   getVariantOptions(): Observable<GridVariantOption[]> {
@@ -35,14 +33,6 @@ export class OrderGridComponent {
       return prev + current.quantity;
     }, 0);
   }
-
-  // getAllEnriesTotal(): number {
-  //   this.currencyService.getActive().subscribe(console.log);
-  //   console.log('this.entries', this.entries);
-  //   return this.entries.reduce((prev, current) => {
-  //     return prev + current.quantity * (current.product?.priceData?.value || 0);
-  //   }, 0);
-  // }
 
   updateEntries(entry: OrderGridEntry): void {
     const entryIndex = this.entries.findIndex(
