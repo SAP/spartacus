@@ -113,7 +113,7 @@
             aria-label="Upload"
             class="btn btn-primary"
             type="button"
-            [disabled]="form.invalid || !this.loadedFile"
+            [disabled]="form.invalid"
             (click)="importProducts()"
           >
             {{ 'importEntriesDialog.upload' | cxTranslate }}
