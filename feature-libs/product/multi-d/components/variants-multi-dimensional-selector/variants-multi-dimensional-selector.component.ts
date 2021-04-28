@@ -7,13 +7,12 @@ import {
 } from '@angular/core';
 import {
   Config,
-  Image,
-  ImageType,
   OccConfig,
   Product,
   ProductScope,
   ProductService,
   RoutingService,
+  VariantMatrixElement,
   VariantOptionQualifier,
 } from '@spartacus/core';
 import { StorefrontConfig } from 'projects/storefrontlib/src/storefront-config';
@@ -40,6 +39,14 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
     this.multiDimensionalService.setVariantsGroups(this.product);
   }
 
+  getVariants(): VariantMatrixElement[] {
+    return this.multiDimensionalService.getVariants();
+  }
+
+  variantHasImages(variants: VariantMatrixElement[]): boolean {
+    return this.multiDimensionalService.variantHasImages(variants);
+  }
+
   changeVariant(code: string): void {
     if (code) {
       this.productService
@@ -50,7 +57,7 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
             cxRoute: 'product',
             params: product,
           });
-          this.product = product;
+          this.product = product as Product;
           this.multiDimensionalService.setVariantsGroups(this.product);
         });
     }
@@ -58,22 +65,17 @@ export class VariantsMultiDimensionalSelectorComponent implements OnInit {
   }
 
   getVariantOptionImages(variantOptionQualifier: VariantOptionQualifier[]) {
-    const elements = JSON.parse(JSON.stringify(variantOptionQualifier));
     const images = {};
 
     const defaultImageObject = {
-      imageType: ImageType.PRIMARY,
       altText: this.product.name || '',
-    } as Image;
+    };
 
-    elements.forEach((element: any) => {
-      const imageObject = {
-        [element.image?.format as any]: Object.assign(defaultImageObject, {
-          format: element.image?.format,
-          url: this.getBaseUrl() + element.image?.url,
-        }),
-      } as Image;
-
+    variantOptionQualifier.forEach((element: any) => {
+      const imageObject = Object.assign(defaultImageObject, {
+        format: element.image?.format,
+        url: this.getBaseUrl() + element.image?.url,
+      });
       Object.assign(images, imageObject);
     });
 
