@@ -17,8 +17,8 @@ import { OccConfigurator } from '../../../../product-configurator/rulebased/occ/
 import PriceType = OccConfigurator.PriceType;
 import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import { Observable, of } from 'rxjs';
+
 const entry: OrderEntry = {
-  // TODO: Add unit tests for service
   basePrice: {
     currencyIso: 'USD',
     formattedValue: '$23.50',
@@ -100,9 +100,16 @@ const entry: OrderEntry = {
 
 const testData = [
   { key: 'product.code', output: '3803058' },
-  { key: 'quantity ', output: '2' },
+  { key: 'quantity', output: '2' },
   { key: 'product.name', output: 'PC Service Set Professional' },
   { key: 'totalPrice.formattedValue', output: '$47.00' },
+  { key: 'updateable', output: 'true' },
+  {
+    key: 'product.images.PRIMARY.zoom.altText',
+    output: 'PC Service Set Professional',
+  },
+  { key: 'returnableQuantity', output: '0' },
+  { key: 'notExistingKey', output: '' },
 ];
 
 class MockRoutingService implements Partial<RoutingService> {
