@@ -53,22 +53,7 @@ export class VariantsMultiDimensionalService {
 
   getVariantOptions(): Observable<GridVariantOption[]> {
     return of(this.variantOptions).pipe(
-      map((variant) =>
-        variant.sort((a: GridVariantOption, b: GridVariantOption) => {
-          let variantData1: any = a.variantData[0].value;
-          let variantData2: any = b.variantData[0].value;
-
-          if (isNaN(variantData1) && isNaN(variantData2)) {
-            return variantData1 < variantData2
-              ? -1
-              : variantData1 > variantData2
-              ? 1
-              : 0;
-          } else {
-            return variantData1 - variantData2;
-          }
-        })
-      )
+      map((variant) => variant.sort(sortVariants))
     );
   }
 
@@ -206,4 +191,24 @@ export class VariantsMultiDimensionalService {
       }
     });
   }
+}
+
+function sortVariants(a: GridVariantOption, b: GridVariantOption) {
+  const variantTypesLength = a.variantData.length;
+  let i: number = 0;
+  let result: number = 0;
+
+  while (i < variantTypesLength && result === 0) {
+    let variantData1: any = a.variantData[i].value;
+    let variantData2: any = b.variantData[i].value;
+
+    if (isNaN(variantData1) && isNaN(variantData2)) {
+      result =
+        variantData1 < variantData2 ? -1 : variantData1 > variantData2 ? 1 : 0;
+    } else {
+      result = variantData1 - variantData2;
+    }
+    i++;
+  }
+  return result;
 }
