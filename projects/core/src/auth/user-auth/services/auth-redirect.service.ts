@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import {
   NavigationEnd,
   NavigationStart,
@@ -16,7 +16,7 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthRedirectService {
+export class AuthRedirectService implements OnDestroy {
   /**
    * This service is responsible for redirecting to the last page before authorization. "The last page" can be:
    * 1. Just the previously opened page; or
@@ -132,7 +132,11 @@ export class AuthRedirectService {
 
     const [lastEvent] = this.redirectUrlCandidates.slice(-1);
 
-    this.authRedirectStorageService.setRedirectUrl(lastEvent.url);
+    // when visiting /login page from a deep link (or page refresh),
+    // there might be no `lastEvent`
+    if (lastEvent) {
+      this.authRedirectStorageService.setRedirectUrl(lastEvent.url);
+    }
 
     // // SPIKE OLD:
     // const { url, initialUrl, navigationId } = this.getCurrentNavigation();
