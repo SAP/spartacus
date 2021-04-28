@@ -81,6 +81,7 @@ export class VariantsMultiDimensionalService {
         this.variants.push(productMatrix);
       });
     }
+    console.log('variants', this.variants);
   }
 
   getProductCategories(product: Product): void {

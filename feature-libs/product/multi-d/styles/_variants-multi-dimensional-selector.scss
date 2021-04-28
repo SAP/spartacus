@@ -14,6 +14,11 @@ cx-variants-multi-dimensional-selector {
         margin: 0 5px 0 0;
         min-width: 70px;
         width: 70px;
+
+        &.active {
+          // TODO change color, should be decided by UI team on epic review
+          border: 1px solid grey;
+        }
       }
 
       cx-media {
