@@ -1,6 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Product } from '@spartacus/core';
-import { VariantsMultiDimensionalService } from '../../core/services/variants-multi-dimensional.service';
+import { Observable } from 'rxjs';
+import {
+  GridVariantOption,
+  VariantsMultiDimensionalService,
+} from '../../core/services/variants-multi-dimensional.service';
 
 export interface OrderGridEntry {
   quantity?: number;
@@ -13,11 +17,21 @@ export interface OrderGridEntry {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderGridComponent {
+  product$ = this.multiDimensionalService.product$;
+
   private entries: OrderGridEntry[] = [];
 
   constructor(
-    public multiDimensionalService: VariantsMultiDimensionalService
+    protected multiDimensionalService: VariantsMultiDimensionalService
   ) {}
+
+  getVariantOptions(): Observable<GridVariantOption[]> {
+    return this.multiDimensionalService.getVariantOptions();
+  }
+
+  getVariantCategories(): string[] {
+    return this.multiDimensionalService.getVariantCategories();
+  }
 
   updateEntries(entry: OrderGridEntry): void {
     const entryIndex = this.entries.findIndex(
@@ -36,13 +50,10 @@ export class OrderGridComponent {
     } else {
       this.entries[entryIndex].quantity = entry.quantity;
     }
-
-    console.log('updateEntries after', this.entries);
   }
 
   addAllToCart(): void {
     // TODO
-
     this.clearEntries();
   }
 

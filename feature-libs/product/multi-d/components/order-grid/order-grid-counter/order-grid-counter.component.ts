@@ -44,8 +44,6 @@ export class OrderGridCounterComponent implements OnInit, OnDestroy {
       this.addEntryForm
         .get('quantity')
         ?.valueChanges.subscribe((quantity: number) => {
-          console.log('value changes', quantity);
-
           this.quantityChange$.emit({
             quantity,
             product: this.variant,

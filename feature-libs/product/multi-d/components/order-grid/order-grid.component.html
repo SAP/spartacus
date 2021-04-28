@@ -1,11 +1,8 @@
-<ng-container *ngIf="multiDimensionalService.product$ | async">
+<ng-container *ngIf="product$ | async">
   <div class="container">
     <table class="table cx-order-grid-table">
       <thead class="cx-order-grid-list-thead-mobile">
-        <th
-          *ngFor="let type of multiDimensionalService.getVariantCategories()"
-          scope="col"
-        >
+        <th *ngFor="let type of getVariantCategories()" scope="col">
           {{ type }}
         </th>
         <th scope="col">QTY</th>
@@ -14,11 +11,7 @@
         <th scope="col" class="cx-order-grid-list-total-price">Total price</th>
       </thead>
       <tbody>
-        <tr
-          *ngFor="
-            let variant of multiDimensionalService.getVariantOptions() | async
-          "
-        >
+        <tr *ngFor="let variant of getVariantOptions() | async">
           <td
             *ngFor="let data of variant.variantData"
             class="cx-order-grid-list-variant-type"

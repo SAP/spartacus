@@ -35,8 +35,7 @@ export class VariantsMultiDimensionalService {
     })
   );
 
-  // TODO change to private
-  public variantCategories: string[] = [];
+  private variantCategories: string[] = [];
   private variantOptions: GridVariantOption[] = [];
   private variants: VariantMatrixElement[] = [];
 
@@ -54,6 +53,10 @@ export class VariantsMultiDimensionalService {
 
   getVariantOptions(): Observable<GridVariantOption[]> {
     return of(this.variantOptions);
+  }
+
+  getVariantCategories(): string[] {
+    return this.variantCategories;
   }
 
   setVariantsGroups(product: Product): void {
