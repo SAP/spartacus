@@ -5,7 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional
+  Optional,
 } from '@angular/core';
 
 import { FormControl, FormGroup } from '@angular/forms';
@@ -55,8 +55,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1),
   });
 
-
-
   constructor(
     modalService: ModalService,
     currentProductService: CurrentProductService,
@@ -72,7 +70,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     modalService: ModalService,
     currentProductService: CurrentProductService,
     cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService,
+    activeCartService: ActiveCartService
   );
 
   constructor(
