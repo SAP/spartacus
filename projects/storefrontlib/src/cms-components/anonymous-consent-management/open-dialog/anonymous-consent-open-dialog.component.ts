@@ -4,7 +4,10 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '../../../layout/launch-dialog';
 import { take } from 'rxjs/operators';
 import { AnonymousConsentLaunchDialogService } from '../anonymous-consent-launch-dialog.service';
 

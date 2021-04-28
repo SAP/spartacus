@@ -9,7 +9,10 @@ import {
   ReplenishmentOrder,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '../../../../../layout/launch-dialog';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ReplenishmentOrderCancellationLaunchDialogService } from './replenishment-order-cancellation-launch-dialog.service';

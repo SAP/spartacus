@@ -16,7 +16,8 @@ import {
 import { ReplenishmentOrderCancellationLaunchDialogService } from '../replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation-launch-dialog.service';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { LaunchDialogService } from 'projects/storefrontlib/src/layout/launch-dialog/services';
+import { LAUNCH_CALLER } from '../../../../layout/launch-dialog';
 
 @Component({
   selector: 'cx-replenishment-order-history',
