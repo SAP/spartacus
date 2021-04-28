@@ -4,7 +4,6 @@ import {
   ImportToCartModule,
 } from '@spartacus/cart/import-export/components';
 import { ImportExportCoreModule } from '@spartacus/cart/import-export/core';
-import { ImportEntriesComponent } from './components/import-to-cart/import-entries/import-entries.component';
 
 @NgModule({
   imports: [
@@ -12,6 +11,5 @@ import { ImportEntriesComponent } from './components/import-to-cart/import-entri
     ExportEntriesModule,
     ImportToCartModule,
   ],
-  declarations: [ImportEntriesComponent],
 })
 export class ImportExportModule {}

@@ -1,0 +1,123 @@
+<ng-container>
+  <div
+    [cxFocus]="focusConfig"
+    (esc)="close('Escape clicked')"
+    class="cx-import-entries-dialog"
+  >
+    <form *ngIf="form" [formGroup]="form" class="cx-import-entries-container">
+      <!-- Modal Header -->
+      <div class="modal-header cx-import-entries-header">
+        <ng-container>
+          <div class="cx-import-entries-title modal-title">
+            {{ 'importEntriesDialog.importProducts' | cxTranslate }}
+          </div>
+        </ng-container>
+
+        <button
+          (click)="close('Close Import Products Dialog')"
+          aria-label="Close"
+          class="cx-import-entries-close close"
+          type="button"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          </span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="cx-import-entries-body">
+        <p class="cx-import-entries-subtitle">
+          {{ 'importEntriesDialog.importProductsSubtitle' | cxTranslate }}
+        </p>
+        <p>
+          {{ 'importEntriesDialog.importProductFileText' | cxTranslate }}
+        </p>
+        <input
+          class="cx-import-entries-select-file"
+          type="file"
+          [accept]="allowedExtensions"
+          (change)="selectFile($event.target.files)"
+          #uploadCSV
+        />
+        <div class="cx-import-entries-select-button">
+          <button
+            aria-label="selectFile"
+            class="btn btn-action"
+            type="button"
+            (click)="uploadCSV.click()"
+          >
+            {{ 'importEntriesDialog.selectFile' | cxTranslate }}
+          </button>
+          <p *ngIf="selectedFile">
+            {{ selectedFile[0]?.name }}
+          </p>
+        </div>
+
+        <div class="cx-import-entries-row">
+          <ng-container>
+            <label>
+              <span class="cx-import-entries-label label-content">
+                {{ 'importEntriesDialog.savedCartName' | cxTranslate }}
+              </span>
+              <input
+                [maxLength]="nameMaxLength"
+                class="form-control"
+                formControlName="name"
+                required
+                type="text"
+              />
+              <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+            </label>
+          </ng-container>
+        </div>
+
+        <div class="cx-import-entries-row">
+          <label>
+            <span class="cx-import-entries-label label-content">
+              {{ 'importEntriesDialog.savedCartDescription' | cxTranslate }}
+              <span class="cx-import-entries-label-optional">
+                ({{ 'importEntriesDialog.optional' | cxTranslate }})
+              </span></span
+            >
+            <textarea
+              [maxLength]="descriptionMaxLength"
+              class="form-control"
+              formControlName="description"
+              rows="5"
+            ></textarea>
+            <cx-form-errors
+              [control]="form.get('description')"
+            ></cx-form-errors>
+
+            <p class="cx-import-entries-input-hint">
+              {{
+                'importEntriesDialog.charactersLeft'
+                  | cxTranslate: { count: descriptionsCharacterLeft }
+              }}
+            </p>
+          </label>
+        </div>
+        <div class="cx-import-entries-footer">
+          <button
+            (click)="close('Close Import Products Dialog')"
+            aria-label="Close"
+            class="btn btn-action"
+            type="button"
+          >
+            {{ 'importEntriesDialog.cancel' | cxTranslate }}
+          </button>
+          <button
+            aria-label="Upload"
+            class="btn btn-primary"
+            type="button"
+            [disabled]="form.invalid || !this.selectedFile"
+            (click)="importProducts()"
+          >
+            {{ 'importEntriesDialog.upload' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-container>

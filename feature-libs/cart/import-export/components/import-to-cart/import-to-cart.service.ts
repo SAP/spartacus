@@ -12,9 +12,7 @@ import {
   ImportService,
 } from '@spartacus/cart/import-export/core';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ImportToCartService {
   constructor(
     protected userIdService: UserIdService,
@@ -23,7 +21,10 @@ export class ImportToCartService {
     protected importService: ImportService
   ) {}
 
-  loadProductsToCart(file: FileList) {
+  loadProductsToCart(
+    file: FileList,
+    savedCartInfo: { name: string; description?: string }
+  ) {
     this.importService
       .loadFile(file)
       .pipe(
@@ -52,8 +53,8 @@ export class ImportToCartService {
                     // TODO: what will be name & description? Maybe we should display some modal and ask about it? What about filename?
                     this.savedCartService.saveCart({
                       cartId,
-                      saveCartName: 'imported cart',
-                      saveCartDescription: 'imported cart',
+                      saveCartName: savedCartInfo.name,
+                      saveCartDescription: savedCartInfo.description,
                     });
                     this.savedCartService.loadSavedCarts();
                   })
