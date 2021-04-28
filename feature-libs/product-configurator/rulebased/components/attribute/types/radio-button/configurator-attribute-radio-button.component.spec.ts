@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { I18nTestingModule } from '@spartacus/core';
+import { ItemCounterComponent } from '@spartacus/storefront';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
 
 class MockGroupService {}
@@ -13,7 +14,7 @@ class MockGroupService {}
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: any;
 }
 
 describe('ConfigAttributeRadioButtonComponent', () => {
@@ -22,7 +23,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   const ownerKey = 'theOwnerKey';
   const name = 'theName';
   const groupId = 'theGroupId';
-  const changedSelectedValue = 'changedSelectedValue';
   const initialSelectedValue = 'initialSelectedValue';
 
   beforeEach(
@@ -30,11 +30,11 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       TestBed.configureTestingModule({
         declarations: [
           ConfiguratorAttributeRadioButtonComponent,
+          ItemCounterComponent,
           MockFocusDirective,
         ],
-        imports: [ReactiveFormsModule],
+        imports: [I18nTestingModule, ReactiveFormsModule],
         providers: [
-          ConfiguratorAttributeBaseComponent,
           ConfiguratorStorefrontUtilsService,
           {
             provide: ConfiguratorGroupsService,
@@ -55,7 +55,9 @@ describe('ConfigAttributeRadioButtonComponent', () => {
     fixture = TestBed.createComponent(
       ConfiguratorAttributeRadioButtonComponent
     );
+
     component = fixture.componentInstance;
+
     component.attribute = {
       name: name,
       attrCode: 444,
@@ -63,7 +65,9 @@ describe('ConfigAttributeRadioButtonComponent', () => {
       selectedSingleValue: initialSelectedValue,
       groupId: groupId,
       quantity: 1,
+      dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
     };
+
     component.ownerKey = ownerKey;
     fixture.detectChanges();
   });
@@ -75,22 +79,6 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   it('should set selectedSingleValue on init', () => {
     expect(component.attributeRadioButtonForm.value).toEqual(
       initialSelectedValue
-    );
-  });
-
-  it('should call emit of selectionChange onSelect', () => {
-    spyOn(component.selectionChange, 'emit').and.callThrough();
-    component.onSelect(changedSelectedValue);
-    expect(component.selectionChange.emit).toHaveBeenCalledWith(
-      jasmine.objectContaining({
-        ownerKey: ownerKey,
-        changedAttribute: jasmine.objectContaining({
-          name: name,
-          selectedSingleValue: changedSelectedValue,
-          uiType: Configurator.UiType.RADIOBUTTON,
-          groupId: groupId,
-        }),
-      })
     );
   });
 });

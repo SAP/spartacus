@@ -39,10 +39,8 @@ export class ConfiguratorAttributeSingleSelectionImageComponent
     const event: ConfigFormUpdateEvent = {
       ownerKey: this.ownerKey,
       changedAttribute: {
-        name: this.attribute.name,
+        ...this.attribute,
         selectedSingleValue: value,
-        uiType: this.attribute.uiType,
-        groupId: this.attribute.groupId,
       },
     };
     this.selectionChange.emit(event);

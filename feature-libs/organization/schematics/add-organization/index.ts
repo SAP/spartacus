@@ -7,12 +7,17 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependencies,
+  configureB2bFeatures,
+  createDependencies,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusOrganizationOptions,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_ORGANIZATION,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   ADMINISTRATION_MODULE,
   ADMINISTRATION_ROOT_MODULE,
@@ -50,8 +55,19 @@ export function addSpartacusOrganization(
       shouldAddFeature(CLI_ORDER_APPROVAL_FEATURE, options.features)
         ? addOrderApprovalsFeature(options)
         : noop(),
+
+      configureB2bFeatures(options, packageJson),
+
+      addOrganizationPackageJsonDependencies(packageJson),
+      installPackageJsonDependencies(),
     ]);
   };
+}
+
+function addOrganizationPackageJsonDependencies(packageJson: any): Rule {
+  const dependencies = createDependencies(peerDependencies);
+
+  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
