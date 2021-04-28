@@ -26,8 +26,8 @@ export class ExportEntriesService {
     protected translationService: TranslationService
   ) {}
 
-  private get additionalColumns() {
-    return this.importExportConfig.importExport.export?.additionalColumns;
+  private get additionalColumns(): ExportColumn[] {
+    return this.importExportConfig.importExport.export?.additionalColumns ?? [];
   }
 
   private columns: ExportColumn[] = [
@@ -43,7 +43,7 @@ export class ExportEntriesService {
       },
       value: 'quantity',
     },
-    ...(this.additionalColumns || []),
+    ...this.additionalColumns,
   ];
 
   protected resolveValue(value: string, entry: OrderEntry): string {
