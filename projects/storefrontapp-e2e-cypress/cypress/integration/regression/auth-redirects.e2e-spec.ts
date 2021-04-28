@@ -37,7 +37,7 @@ context('Redirect after auth', () => {
     cy.location('pathname').should('contain', '/my-account/address-book');
   });
 
-  it('should redirect back after the forced login when page was refreshed and access token expired', async () => {
+  it('should redirect back after the forced login when page was refreshed and access token expired', () => {
     cy.requireLoggedIn(user);
     cy.visit('/my-account/update-profile');
     cy.location('pathname').should('contain', '/my-account/update-profile');
