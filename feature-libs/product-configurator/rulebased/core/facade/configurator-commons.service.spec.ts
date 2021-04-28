@@ -274,7 +274,15 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
 
     expect(
       configuratorUtilsService.createConfigurationExtract
@@ -289,7 +297,15 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
+
     expect(
       configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalledTimes(0);
@@ -308,11 +324,39 @@ describe('ConfiguratorCommonsService', () => {
       groupId: GROUP_ID_1,
     };
 
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
 
     expect(
       configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalled();
+  });
+
+  it('should update a configuration in case if no updateType parameter in the call', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    const changedAttribute: Configurator.Attribute = {
+      name: ATTRIBUTE_NAME_1,
+      groupId: GROUP_ID_1,
+    };
+
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+
+    expect(
+      configuratorUtilsService.createConfigurationExtract
+    ).toHaveBeenCalledWith(changedAttribute, productConfiguration, updateType);
   });
 
   describe('getConfigurationWithOverview', () => {
