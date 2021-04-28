@@ -36,8 +36,9 @@
         <input
           class="cx-import-entries-select-file"
           type="file"
+          formControlName="fileName"
           [accept]="allowedExtensions"
-          (change)="selectFile($event.target.files)"
+          (change)="selectFile($event.target.files, form)"
           #uploadCSV
         />
         <div class="cx-import-entries-select-button">
@@ -49,9 +50,10 @@
           >
             {{ 'importEntriesDialog.selectFile' | cxTranslate }}
           </button>
-          <p *ngIf="selectedFile">
-            {{ selectedFile[0]?.name }}
+          <p *ngIf="fileName">
+            {{ fileName[0]?.name }}
           </p>
+          <cx-form-errors [control]="form.get('fileName')"></cx-form-errors>
         </div>
 
         <div class="cx-import-entries-row">

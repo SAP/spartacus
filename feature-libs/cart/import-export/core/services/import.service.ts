@@ -25,11 +25,11 @@ export class ImportService {
     const file: File = selectedFile.item(0) as File;
     return new Observable((observer: Observer<string[][]>) => {
       const fileReader: FileReader = new FileReader();
-      const checkValidity = this.checkValidity(file, validityConfig);
-      if (
-        !checkValidityEnabled ||
-        (checkValidityEnabled && checkValidity.isFileValid)
-      ) {
+      const { isFileValid, invalidFileInfo } = this.checkValidity(
+        file,
+        validityConfig
+      );
+      if (!checkValidityEnabled || (checkValidityEnabled && isFileValid)) {
         fileReader.readAsText(file);
         fileReader.onload = () => {
           observer.next(this.readCsvData(fileReader.result as string));
@@ -37,10 +37,11 @@ export class ImportService {
         };
         fileReader.onerror = () => {
           fileReader.abort();
-          observer.error(new DOMException('Could not parse the file'));
+          invalidFileInfo.notParsable = true;
+          observer.error(invalidFileInfo);
         };
       } else {
-        observer.error(checkValidity.invalidFileInfo);
+        observer.error(invalidFileInfo);
       }
     });
   }

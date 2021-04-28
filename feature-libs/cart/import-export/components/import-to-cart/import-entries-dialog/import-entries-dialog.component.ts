@@ -7,6 +7,7 @@ import {
   LaunchDialogService,
 } from '@spartacus/storefront';
 import { ImportToCartService } from '../import-to-cart.service';
+import { InvalidFileInfo } from '../../../core/model/import-to-cart.model';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -24,7 +25,10 @@ export class ImportEntriesDialogComponent {
   };
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
-  selectedFile: FileList;
+  selectedFile: string[][] | null;
+  fileName: FileList;
+  fileError: InvalidFileInfo | {};
+
   get descriptionsCharacterLeft(): number {
     return (
       this.descriptionMaxLength -
@@ -44,8 +48,12 @@ export class ImportEntriesDialogComponent {
     this.launchDialogService.closeDialog(reason);
   }
 
-  protected build() {
+  protected build(): FormGroup {
     const form = new FormGroup({});
+    form.setControl(
+      'fileName',
+      new FormControl('', [Validators.required, () => this.fileError])
+    );
     form.setControl(
       'name',
       new FormControl('', [
@@ -60,14 +68,28 @@ export class ImportEntriesDialogComponent {
     return form;
   }
 
-  selectFile(file: FileList) {
-    this.selectedFile = file;
+  selectFile(file: FileList, form: FormGroup) {
+    this.fileName = file;
+    this.importToCartService.load(file).subscribe(
+      (data) => {
+        this.fileError = {};
+        this.selectedFile = data as string[][];
+        form.get('fileName')?.updateValueAndValidity();
+      },
+      (error) => {
+        this.fileError = error;
+        this.selectedFile = null;
+        form.get('fileName')?.updateValueAndValidity();
+      }
+    );
   }
 
   importProducts(): void {
-    this.importToCartService.loadProductsToCart(this.selectedFile, {
-      name: this.form.get('name')?.value,
-      description: this.form.get('description')?.value,
-    });
+    if (this.selectedFile) {
+      this.importToCartService.loadProductsToCart(this.selectedFile, {
+        name: this.form.get('name')?.value,
+        description: this.form.get('description')?.value,
+      });
+    }
   }
 }

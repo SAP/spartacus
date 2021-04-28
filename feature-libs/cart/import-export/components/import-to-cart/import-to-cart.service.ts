@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import {
   Cart,
   MultiCartService,
@@ -11,6 +11,7 @@ import {
   ProductsData,
   ImportService,
 } from '@spartacus/cart/import-export/core';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class ImportToCartService {
@@ -21,46 +22,43 @@ export class ImportToCartService {
     protected importService: ImportService
   ) {}
 
+  load(file: FileList): Observable<string[][]> {
+    return this.importService.loadFile(file);
+  }
+
   loadProductsToCart(
-    file: FileList,
+    productsData: string[][],
     savedCartInfo: { name: string; description?: string }
   ) {
-    this.importService
-      .loadFile(file)
+    const products = this.csvDataToProduct(productsData);
+
+    this.userIdService
+      .takeUserId()
       .pipe(
-        map((productsData: string[][]) => this.csvDataToProduct(productsData)),
-        switchMap((products: ProductsData) =>
-          this.userIdService.takeUserId().pipe(
-            switchMap((userId) =>
-              this.multiCartService
-                .createCart({
-                  userId,
-                  extraData: { active: false },
-                })
-                .pipe(
-                  filter(
-                    (cartData: StateUtils.ProcessesLoaderState<Cart>) =>
-                      cartData.value !== undefined
-                  ),
-                  tap((cartData: StateUtils.ProcessesLoaderState<Cart>) => {
-                    const cartId: string = cartData.value?.code ?? '';
-                    if (cartId !== '')
-                      this.multiCartService.addEntries(
-                        userId,
-                        cartId,
-                        products
-                      );
-                    // TODO: what will be name & description? Maybe we should display some modal and ask about it? What about filename?
-                    this.savedCartService.saveCart({
-                      cartId,
-                      saveCartName: savedCartInfo.name,
-                      saveCartDescription: savedCartInfo.description,
-                    });
-                    this.savedCartService.loadSavedCarts();
-                  })
-                )
+        switchMap((userId) =>
+          this.multiCartService
+            .createCart({
+              userId,
+              extraData: { active: false },
+            })
+            .pipe(
+              filter(
+                (cartData: StateUtils.ProcessesLoaderState<Cart>) =>
+                  cartData.value !== undefined
+              ),
+              tap((cartData: StateUtils.ProcessesLoaderState<Cart>) => {
+                const cartId: string = cartData.value?.code ?? '';
+                if (cartId !== '')
+                  this.multiCartService.addEntries(userId, cartId, products);
+                // TODO: what will be name & description? Maybe we should display some modal and ask about it? What about filename?
+                this.savedCartService.saveCart({
+                  cartId,
+                  saveCartName: savedCartInfo.name,
+                  saveCartDescription: savedCartInfo.description,
+                });
+                this.savedCartService.loadSavedCarts();
+              })
             )
-          )
         ),
         take(1)
       )
