@@ -30,6 +30,7 @@ import {
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
   SPARTACUS_SETUP,
+  UTF_8,
 } from '../constants';
 import { getB2bConfiguration } from './config-utils';
 import { isImportedFrom } from './import-utils';
@@ -497,23 +498,26 @@ export function addLibraryStyles(
   stylingConfig: StylingConfig,
   options: LibraryOptions
 ): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext) => {
     const defaultProject = getDefaultProjectNameFromWorkspace(tree);
     const project = options.project || defaultProject;
     const libraryScssPath = `${getSourceRoot(tree, {
       project: project,
     })}/styles/spartacus/${stylingConfig.scssFileName}`;
-    if (tree.exists(libraryScssPath)) {
-      context.logger.info(
-        `Skipping the creation of '${libraryScssPath}', as it already exists.`
-      );
-      return noop();
-    }
 
-    tree.create(libraryScssPath, `@import "${stylingConfig.importStyle}";`);
+    const toAdd = `@import "${stylingConfig.importStyle}";`;
+    const buff = tree.read(libraryScssPath);
+    let content = buff ? buff.toString(UTF_8) : toAdd;
+    if (!buff) {
+      tree.create(libraryScssPath, toAdd);
+    } else {
+      if (!content.includes(toAdd)) {
+        content += `\n${toAdd}`;
+      }
+    }
+    tree.overwrite(libraryScssPath, content);
 
     const { path, workspace: angularJson } = getWorkspace(tree);
-
     const architect = angularJson.projects[project].architect;
 
     // `build` architect section
