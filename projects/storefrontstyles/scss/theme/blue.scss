@@ -6,9 +6,15 @@
   --cx-color-primary: #2480c5;
   --cx-color-secondary: #a1aabf;
   --cx-buttons-border-radius: 27px;
+  --cx-buttons-border-width: 3px;
   --cx-color-dark: #212738;
   --cx-button-text-transform: uppercase;
   --cx-spinner-primary-color: #2480c5;
+
+  cx-page-layout.CompanyPageTemplate cx-banner cx-media {
+    --cx-img-filter: invert(46%) sepia(9%) saturate(3655%) hue-rotate(163deg)
+      brightness(94%) contrast(96%);
+  }
 
   cx-site-context-selector {
     select {
@@ -103,7 +109,7 @@
       button.link {
         color: var(--cx-color-primary);
         font-weight: var(--cx-font-weight-semi);
-        font-size: var(--cx-font-size, 1rem);
+        @include type('6');
       }
     }
 
@@ -135,13 +141,50 @@
 
   cx-add-to-cart .quantity .info {
     color: var(--cx-color-text);
-    font-size: var(--cx-font-size);
+    @include type('8');
   }
 
   cx-order-history {
     .cx-order-history-code .cx-order-history-value {
       color: var(--cx-color-primary);
       font-weight: var(--cx-font-weight-semi);
+    }
+  }
+
+  %cx-pagination {
+    a {
+      @include type('4');
+      font-weight: var(--cx-font-weight-normal);
+
+      &.current {
+        font-weight: var(--cx-font-weight-bold);
+      }
+    }
+  }
+
+  cx-item-counter {
+    button {
+      font-size: var(--cx-font-size, 1.25rem);
+    }
+  }
+
+  cx-org-list {
+    button,
+    .btn,
+    a.button,
+    a.link,
+    button.link,
+    .actions .primary {
+      border-radius: var(--cx-buttons-border-radius);
+      padding: 0 25px;
+    }
+  }
+
+  cx-page-layout.CompanyPageTemplate {
+    cx-banner cx-media {
+      img {
+        filter: var(--cx-img-filter);
+      }
     }
   }
 }
