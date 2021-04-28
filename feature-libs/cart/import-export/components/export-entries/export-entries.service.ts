@@ -46,18 +46,13 @@ export class ExportEntriesService {
     ...this.additionalColumns,
   ];
 
-  protected resolveValue(value: string, entry: OrderEntry): string {
-    const keys = value.split('.');
-    let resolvedValue: any;
-
-    keys.map((key) => {
-      resolvedValue = (entry as any)[key];
-      if (resolvedValue) entry = resolvedValue;
-    });
-
-    if (resolvedValue) return resolvedValue.toString();
-
-    return '';
+  protected resolveValue(combinedKeys: string, entry: OrderEntry): string {
+    return (
+      combinedKeys
+        .split('.')
+        .reduce((obj, key) => (obj as any)[key], entry)
+        ?.toString() ?? ''
+    );
   }
 
   getEntries(): Observable<OrderEntry[]> {
