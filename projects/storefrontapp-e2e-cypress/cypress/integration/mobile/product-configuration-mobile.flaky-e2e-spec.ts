@@ -1,4 +1,5 @@
-import * as configuration from '../../helpers/product-configuration';
+import * as configurationCommon from '../../helpers/product-configuration';
+import * as configuration from '../../helpers/product-configurator-vc';
 import { formats } from '../../sample-data/viewports';
 
 /**
@@ -26,7 +27,7 @@ context('Product Configuration', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
       configuration.goToConfigurationPage(electronicsShop, testProduct);
-      configuration.checkHamburgerDisplayed();
+      configurationCommon.checkHamburgerDisplayed();
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
 
       configuration.clickHamburger();

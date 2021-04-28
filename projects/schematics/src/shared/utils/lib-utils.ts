@@ -17,6 +17,8 @@ import {
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
+  CMS_CONFIG,
+  I18N_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
@@ -68,7 +70,7 @@ export interface FeatureConfig {
   /**
    * The root module configuration.
    */
-  rootModule: Module;
+  rootModule?: Module;
   /**
    * Translation chunk configuration
    */
@@ -84,7 +86,12 @@ export interface FeatureConfig {
   /**
    * An optional custom configuration to provide to the generated module.
    */
-  customConfig?: { import: Import[]; content: string };
+  customConfig?: CustomConfig | CustomConfig[];
+}
+
+export interface CustomConfig {
+  import: Import[];
+  content: string;
 }
 
 export interface Module {
@@ -248,6 +255,10 @@ function addRootModule(
   config: FeatureConfig
 ) {
   return (tree: Tree): Tree => {
+    if (!config.rootModule) {
+      return tree;
+    }
+
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     for (const sourceFile of appSourceFiles) {
       if (
@@ -270,7 +281,6 @@ function addRootModule(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addFeatureModule(
   tsconfigPath: string,
   basePath: string,
@@ -287,10 +297,10 @@ function addFeatureModule(
             import: [
               {
                 moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
+                namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
               },
             ],
-            content: `${PROVIDE_CONFIG_FUNCTION}({
+            content: `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
               featureModules: {
                 ${config.lazyModuleName || config.name}: {
                   module: () =>
@@ -318,7 +328,6 @@ function addFeatureModule(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addFeatureTranslations(
   tsconfigPath: string,
   basePath: string,
@@ -334,14 +343,14 @@ function addFeatureTranslations(
             import: [
               {
                 moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
+                namedImports: [PROVIDE_CONFIG_FUNCTION, I18N_CONFIG],
               },
               {
                 moduleSpecifier: config.i18n.importPath,
                 namedImports: [config.i18n.chunks, config.i18n.resources],
               },
             ],
-            content: `${PROVIDE_CONFIG_FUNCTION}({
+            content: `${PROVIDE_CONFIG_FUNCTION}(<${I18N_CONFIG}>{
               i18n: {
                 resources: ${config.i18n.resources},
                 chunks: ${config.i18n.chunks},
@@ -357,7 +366,6 @@ function addFeatureTranslations(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addCustomConfig(
   tsconfigPath: string,
   basePath: string,
@@ -369,15 +377,20 @@ function addCustomConfig(
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.customConfig) {
-          addModuleProvider(sourceFile, {
-            import: [
-              {
-                moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
-              },
-              ...config.customConfig.import,
-            ],
-            content: `${PROVIDE_CONFIG_FUNCTION}(${config.customConfig.content})`,
+          const customConfigs = ([] as CustomConfig[]).concat(
+            config.customConfig
+          );
+          customConfigs.forEach((customConfig) => {
+            addModuleProvider(sourceFile, {
+              import: [
+                {
+                  moduleSpecifier: SPARTACUS_CORE,
+                  namedImports: [PROVIDE_CONFIG_FUNCTION],
+                },
+                ...customConfig.import,
+              ],
+              content: `${PROVIDE_CONFIG_FUNCTION}(${customConfig.content})`,
+            });
           });
           saveAndFormat(sourceFile);
         }

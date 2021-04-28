@@ -7,7 +7,9 @@ import { VariantsMultiDimensionalService } from '../../core/services/variants-mu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VariantsMultiDimensionalComponent {
+  product$ = this.multiDimensionalService.product$;
+
   constructor(
-    public multiDimensionalService: VariantsMultiDimensionalService
+    protected multiDimensionalService: VariantsMultiDimensionalService
   ) {}
 }

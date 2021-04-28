@@ -16,7 +16,6 @@ export interface VariantData {
   type: string;
   value: string;
 }
-
 @Injectable({
   providedIn: 'root',
 })
@@ -33,14 +32,12 @@ export class VariantsMultiDimensionalService {
       }
 
       this.extractAndAssignVariantValuesFromMatrix(product);
-      // console.log('PRODUCT', product);
-      // console.log('variantCategories', this.variantCategories);
-      // console.log('variantOptions', this.variantOptions);
     })
   );
 
+  // TODO change to private
+  public variantCategories: string[] = [];
   private variantOptions: GridVariantOption[] = [];
-  private variantCategories: string[] = [];
   private variants: VariantMatrixElement[] = [];
 
   constructor(private currentProductService: CurrentProductService) {}
@@ -55,12 +52,7 @@ export class VariantsMultiDimensionalService {
     return this.variants;
   }
 
-  getVariantCategories(): string[] {
-    return this.variantCategories;
-  }
-
   getVariantOptions(): Observable<GridVariantOption[]> {
-    // console.log('getVariantOptions', this.variantOptions);
     return of(this.variantOptions);
   }
 
@@ -89,7 +81,6 @@ export class VariantsMultiDimensionalService {
         this.variants.push(productMatrix);
       });
     }
-    console.log('variants', this.variants);
   }
 
   getProductCategories(product: Product): void {
@@ -158,7 +149,6 @@ export class VariantsMultiDimensionalService {
 
         if (variant) {
           variant.variantData = elementVariantTypes;
-
           list.push(variant);
         }
       }
