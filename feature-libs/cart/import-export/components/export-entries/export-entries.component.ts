@@ -24,7 +24,7 @@ export class ExportEntriesComponent {
     );
   }
 
-  downloadCsv(csvData: any, filename = 'data') {
+  downloadCsv(csvData: string, filename = 'data') {
     let blob = new Blob(['\ufeff' + csvData], {
       type: 'text/csv;charset=utf-8;',
     });
