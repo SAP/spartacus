@@ -58,7 +58,7 @@ export function configuratorReducer(
       const result: Configurator.Configuration = {
         ...state,
         ...configuration,
-        priceSummary: configuration.overview.priceSummary,
+        priceSummary: configuration.overview?.priceSummary,
       };
 
       return result;
@@ -68,6 +68,10 @@ export function configuratorReducer(
       content.nextOwner = {
         type: CommonConfigurator.OwnerType.CART_ENTRY,
         id: action.payload.cartEntryNo,
+        key:
+          CommonConfigurator.OwnerType.CART_ENTRY +
+          '/' +
+          action.payload.cartEntryNo,
       };
       const result = {
         ...state,

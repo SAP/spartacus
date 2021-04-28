@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
-import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';
-import { provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   orderApprovalTranslationChunksConfig,
   orderApprovalTranslations,
 } from '@spartacus/organization/order-approval/assets';
+import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';
 
 @NgModule({
   imports: [OrderApprovalRootModule],
   providers: [
-    provideConfig({
+    provideConfig(<CmsConfig>{
       featureModules: {
         organizationOrderApproval: {
           module: () =>
@@ -18,10 +18,11 @@ import {
             ),
         },
       },
+    }),
+    provideConfig(<I18nConfig>{
       i18n: {
         resources: orderApprovalTranslations,
         chunks: orderApprovalTranslationChunksConfig,
-        fallbackLang: 'en',
       },
     }),
   ],

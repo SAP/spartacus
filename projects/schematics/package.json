@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "3.2.0-next.0",
+  "version": "3.2.0-next.2",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -9,16 +9,16 @@
   "homepage": "https://github.com/SAP/spartacus",
   "repository": "https://github.com/SAP/spartacus/tree/develop/projects/schematics",
   "license": "MIT",
-  "author": "",
-  "main": "src/public_api.js",
+  "main": "index.js",
   "scripts": {
-    "build": "yarn clean && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
-    "clean": "../../node_modules/.bin/rimraf \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
+    "build": "yarn clean && yarn --cwd ../../ generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean": "../../node_modules/.bin/rimraf \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
     "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
     "@angular/pwa": "^0.1001.0",
     "@nguniversal/express-engine": "^10.1.0",
+    "ts-morph": "^9.1.0",
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
@@ -38,16 +38,19 @@
       "@spartacus/core",
       "@spartacus/storefront",
       "@spartacus/styles",
+      "@spartacus/user",
       "@spartacus/cds",
       "@spartacus/assets",
       "@spartacus/incubator",
       "@spartacus/organization",
       "@spartacus/product",
       "@spartacus/storefinder",
+      "@spartacus/asm",
       "@spartacus/smartedit",
       "@spartacus/qualtrics",
       "@spartacus/cdc",
       "@spartacus/tracking",
+      "@spartacus/cart",
       "@spartacus/setup"
     ]
   },

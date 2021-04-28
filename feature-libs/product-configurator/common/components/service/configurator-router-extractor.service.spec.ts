@@ -8,12 +8,13 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import { ConfiguratorType } from './../../core/model/common-configurator.model';
 import { ConfiguratorRouter } from './configurator-router-data';
 import { ConfiguratorRouterExtractorService } from './configurator-router-extractor.service';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_NUMBER = '0';
-const CONFIGURATOR_TYPE = 'CPQCONFIGURATOR';
+const CONFIGURATOR_TYPE = ConfiguratorType.VARIANT;
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
 const OVERVIEW_ROUTE = 'configureOverviewCPQCONFIGURATOR';
 
@@ -43,9 +44,7 @@ describe('ConfigRouterExtractorService', () => {
   );
   beforeEach(() => {
     serviceUnderTest = TestBed.inject(
-      ConfiguratorRouterExtractorService as Type<
-        ConfiguratorRouterExtractorService
-      >
+      ConfiguratorRouterExtractorService as Type<ConfiguratorRouterExtractorService>
     );
 
     mockRouterState = {

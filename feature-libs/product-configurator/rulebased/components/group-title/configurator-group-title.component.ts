@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -10,11 +10,10 @@ import { Configurator } from '../../core/model/configurator.model';
 @Component({
   selector: 'cx-configurator-group-title',
   templateUrl: './configurator-group-title.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorGroupTitleComponent {
-  configuration$: Observable<
-    Configurator.Configuration
-  > = this.configRouterExtractorService
+  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>
@@ -22,9 +21,7 @@ export class ConfiguratorGroupTitleComponent {
       )
     );
 
-  displayedGroup$: Observable<
-    Configurator.Group
-  > = this.configRouterExtractorService
+  displayedGroup$: Observable<Configurator.Group> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>

@@ -6,21 +6,18 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
+  addPackageJsonDependencies,
+  createDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
   shouldAddFeature,
   validateSpartacusInstallation,
-  addPackageJsonDependencies,
-  getSpartacusSchematicsVersion,
 } from '@spartacus/schematics';
-import { CLI_BULK_PRICING_FEATURE, SPARTACUS_PRODUCT } from '../constants';
-
-import { addBulkPricingFeatures } from '../add-bulk-pricing';
-import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
+import { peerDependencies } from '../../package.json';
+import { addBulkPricingFeature } from '../add-bulk-pricing';
+import { addVariantsFeature } from '../add-product-variants';
+import { CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE } from '../constants';
 
 export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
   return (tree: Tree, _context: SchematicContext) => {
@@ -28,9 +25,14 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      shouldAddFeature(options.features, CLI_BULK_PRICING_FEATURE)
-        ? addBulkPricingFeatures(options)
+      shouldAddFeature(CLI_BULK_PRICING_FEATURE, options.features)
+        ? addBulkPricingFeature(options)
         : noop(),
+
+      shouldAddFeature(CLI_VARIANTS_FEATURE, options.features)
+        ? addVariantsFeature(options)
+        : noop(),
+
       addProductPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
@@ -38,13 +40,7 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
 }
 
 function addProductPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_PRODUCT,
-    },
-  ];
+  const dependencies = createDependencies(peerDependencies);
+
   return addPackageJsonDependencies(dependencies, packageJson);
 }

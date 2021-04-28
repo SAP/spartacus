@@ -3,34 +3,39 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
+import {
   LibraryOptions as SpartacusProductConfiguratorOptions,
-  SpartacusOptions,
+  SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_SETUP,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import {
-  CLI_PRODUCT_CONFIGURATOR_FEATURE,
-  SPARTACUS_PRODUCT_CONFIGURATOR,
-} from './index';
+import { CLI_CPQ_FEATURE, CLI_TEXTFIELD_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const appModulePath = 'src/app/app.module.ts';
+const productConfiguratorFeatureModulePath =
+  'src/app/spartacus/features/product-configurator/product-configurator-feature.module.ts';
 
+// TODO: Improve tests after lib-util test update
 describe('Spartacus product configurator schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
 
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
     projectRoot: '',
   };
@@ -38,21 +43,23 @@ describe('Spartacus product configurator schematics: ng-add', () => {
   const defaultOptions: SpartacusProductConfiguratorOptions = {
     project: 'schematics-test',
     lazy: true,
-    features: [CLI_PRODUCT_CONFIGURATOR_FEATURE],
+    features: [],
   };
 
-  const spartacusDefaultOptions: SpartacusOptions = {
-    project: 'schematics-test',
+  const optionsIncludingCpq: SpartacusProductConfiguratorOptions = {
+    ...defaultOptions,
+    features: [CLI_CPQ_FEATURE],
+  };
+
+  const optionsIncludingTextfield: SpartacusProductConfiguratorOptions = {
+    ...defaultOptions,
+    features: [CLI_TEXTFIELD_FEATURE],
   };
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
       '@spartacus/schematics',
       '../../projects/schematics/src/collection.json'
-    );
-    schematicRunner.registerCollection(
-      '@spartacus/organization',
-      '../../feature-libs/organization/schematics/collection.json'
     );
 
     appTree = await schematicRunner
@@ -74,7 +81,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       .runExternalSchematicAsync(
         '@spartacus/schematics',
         'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
+        { ...defaultOptions, name: 'schematics-test' },
         appTree
       )
       .toPromise();
@@ -126,33 +133,90 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should add product-configurator deps', async () => {
-        const packageJson = appTree.readContent('/package.json');
-        const packageObj = JSON.parse(packageJson);
-        const depPackageList = Object.keys(packageObj.dependencies);
-        expect(depPackageList.includes(SPARTACUS_PRODUCT_CONFIGURATOR)).toBe(
-          true
+      it('should import rulebased root module', async () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).toContain(
+          `import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
         );
       });
 
+      it('should not contain lazy loading syntax for rulebased configurator', async () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).not.toContain(
+          `import('@spartacus/product-configurator/rulebased').then(`
+        );
+      });
+    });
+
+    describe('eager loading with textfield configurator enabled', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...optionsIncludingTextfield, lazy: false },
+            appTree
+          )
+          .toPromise();
+      });
+
       it('should import rulebased root module', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(
-          `import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';`
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).toContain(
+          `import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
         );
       });
 
       it('should import textfield root module', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(
-          `import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';`
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).toContain(
+          `import { TextfieldConfiguratorRootModule } from "@spartacus/product-configurator/textfield/root";`
         );
       });
 
-      it('should not contain lazy loading syntax', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).not.toContain(
-          `import('@spartacus/product-configurator/rulebased').then(`
+      it('should not contain lazy loading syntax for textfield configurator', async () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).not.toContain(
+          `import('@spartacus/product-configurator/textfield').then(`
+        );
+      });
+    });
+
+    describe('eager loading with CPQ feature enabled', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...optionsIncludingCpq, lazy: false },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should import rulebased root module and cpq root module', async () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).toContain(
+          `import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \"@spartacus/product-configurator/rulebased/root\";`
+        );
+      });
+
+      it('should not contain lazy loading syntax for cpq configurator module', async () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).not.toContain(
+          `import('@spartacus/product-configurator/rulebased/cpq').then(`
         );
       });
     });
@@ -164,46 +228,117 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should add product-configurator deps', async () => {
-        const packageJson = appTree.readContent('/package.json');
-        const packageObj = JSON.parse(packageJson);
-        const depPackageList = Object.keys(packageObj.dependencies);
-        expect(depPackageList.includes('@spartacus/product-configurator')).toBe(
-          true
+      it('should import rulebased root module and contain the lazy loading syntax', async () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).toContain(
+          `import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
+        );
+        expect(productConfiguratorModule).toContain(
+          `import('@spartacus/product-configurator/rulebased').then(`
         );
       });
 
-      it('should import rulebased root module and contain the lazy loading syntax', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(
-          `import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';`
+      it('should not contain the rulebased module import', () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
         );
-        expect(appModule).toContain(
+        expect(productConfiguratorModule).not.toContain(
+          `import { RulebasedConfiguratorModule } from "@spartacus/product-configurator/rulebased";`
+        );
+      });
+
+      it('should not update package.json with setup per default (as b2b is not required)', () => {
+        const packageJson = appTree.readContent(`package.json`);
+        expect(packageJson.includes(SPARTACUS_SETUP)).toBe(false);
+      });
+    });
+
+    describe('lazy loading with textfield feature enabled', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', optionsIncludingTextfield, appTree)
+          .toPromise();
+      });
+
+      it('should import rulebased root module and contain the lazy loading syntax', async () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).toContain(
+          `import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
+        );
+        expect(productConfiguratorModule).toContain(
           `import('@spartacus/product-configurator/rulebased').then(`
         );
       });
 
       it('should import textfield root module and contain the lazy loading syntax', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(
-          `import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';`
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
         );
-        expect(appModule).toContain(
+        expect(productConfiguratorModule).toContain(
+          `import { TextfieldConfiguratorRootModule } from "@spartacus/product-configurator/textfield/root";`
+        );
+        expect(productConfiguratorModule).toContain(
           `import('@spartacus/product-configurator/textfield').then(`
         );
       });
 
-      it('should not contain the rulebase module import', () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).not.toContain(
-          `import { RulebasedConfiguratorModule } from '@spartacus/product-configurator/rulebased';`
+      it('should not contain the textfield module import', () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).not.toContain(
+          `import { TextfieldConfiguratorModule } from "@spartacus/product-configurator/textfield";`
+        );
+      });
+    });
+
+    describe('lazy loading with CPQ feature enabled', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', optionsIncludingCpq, appTree)
+          .toPromise();
+      });
+
+      it('should contain the lazy loading syntax for the CPQ flavor', async () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).toContain(
+          `import('@spartacus/product-configurator/rulebased/cpq').then((m) => m.RulebasedCpqConfiguratorModule),`
         );
       });
 
-      it('should not contain the textfield module import', () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).not.toContain(
-          `import { TextfieldConfiguratorModule } from '@spartacus/product-configurator/textfield';`
+      it('should import rulebased root module, and rulebased cpq root module separately (as it forces early login)', async () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).toContain(
+          `import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \"@spartacus/product-configurator/rulebased/root\";`
+        );
+      });
+
+      it('should add b2b features by adding configuration module', () => {
+        const configurationModule = appTree.readContent(
+          `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+        expect(configurationModule).toMatchSnapshot();
+      });
+
+      it('should update package.json with setup', () => {
+        const packageJson = appTree.readContent(`package.json`);
+        expect(packageJson).toContain(SPARTACUS_SETUP);
+      });
+
+      it('should not contain the rulebased cpq module import', () => {
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).not.toContain(
+          `import { RulebasedConfiguratorModule } from "@spartacus/product-configurator/rulebased/cpq";`
         );
       });
     });
@@ -215,41 +350,24 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       });
 
       it('should import the i18n resource and chunk from assets', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(
-          `import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';`
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).toContain(
+          `import { configuratorTranslationChunksConfig, configuratorTranslations } from "@spartacus/product-configurator/common/assets";`
         );
       });
       it('should provideConfig', async () => {
-        const appModule = appTree.readContent(appModulePath);
-        expect(appModule).toContain(`resources: configuratorTranslations,`);
-        expect(appModule).toContain(
+        const productConfiguratorModule = appTree.readContent(
+          productConfiguratorFeatureModulePath
+        );
+        expect(productConfiguratorModule).toContain(
+          `resources: configuratorTranslations,`
+        );
+        expect(productConfiguratorModule).toContain(
           `chunks: configuratorTranslationChunksConfig,`
         );
       });
-    });
-  });
-
-  describe('when other Spartacus features are already installed', () => {
-    beforeEach(async () => {
-      appTree = await schematicRunner
-        .runExternalSchematicAsync(
-          '@spartacus/organization',
-          'ng-add',
-          { ...spartacusDefaultOptions, name: 'schematics-test' },
-          appTree
-        )
-        .toPromise();
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', defaultOptions, appTree)
-        .toPromise();
-    });
-
-    it('should just append productconfig feature without duplicating the featureModules config', () => {
-      const appModule = appTree.readContent(appModulePath);
-      expect(appModule.match(/featureModules:/g)?.length).toEqual(1);
-      expect(appModule).toContain(`productConfiguratorRulebased: {`);
-      expect(appModule).toContain(`productConfiguratorTextfield: {`);
     });
   });
 });

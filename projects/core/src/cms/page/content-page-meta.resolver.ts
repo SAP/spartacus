@@ -1,5 +1,5 @@
-import { Injectable, Optional } from '@angular/core';
-import { combineLatest, defer, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { combineLatest, defer, Observable, of } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
@@ -8,7 +8,9 @@ import { BreadcrumbMeta, Page, PageRobotsMeta } from '../model/page.model';
 import { BasePageMetaResolver } from './base-page-meta.resolver';
 import { PageMetaResolver } from './page-meta.resolver';
 import {
+  CanonicalPageResolver,
   PageBreadcrumbResolver,
+  PageDescriptionResolver,
   PageRobotsResolver,
   PageTitleResolver,
 } from './page.resolvers';
@@ -26,15 +28,33 @@ import { RoutingPageMetaResolver } from './routing/routing-page-meta.resolver';
 })
 export class ContentPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageBreadcrumbResolver, PageRobotsResolver {
+  implements
+    PageTitleResolver,
+    PageDescriptionResolver,
+    PageBreadcrumbResolver,
+    PageRobotsResolver,
+    CanonicalPageResolver {
+  // TODO(#10467): Remove deprecated constructors
+  constructor(
+    cmsService: CmsService,
+    translation: TranslationService,
+    routingPageMetaResolver: RoutingPageMetaResolver,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver
+  );
   /**
    * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions.
    */
   constructor(
+    cmsService: CmsService,
+    translation: TranslationService,
+    routingPageMetaResolver: RoutingPageMetaResolver
+  );
+  constructor(
     protected cmsService: CmsService,
     protected translation: TranslationService,
     protected routingPageMetaResolver: RoutingPageMetaResolver,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver?: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -81,13 +101,21 @@ export class ContentPageMetaResolver
    * the page title
    */
   // TODO(#10467): drop the title$ property
-  protected title$: Observable<string> = this.cms$.pipe(map((p) => p.title));
+  protected title$: Observable<string | undefined> = this.cms$.pipe(
+    map((p) => p.title)
+  );
 
   // TODO(#10467): resolve the title from the `BasePageMetaResolver.resolveTitle()` only
-  resolveTitle(): Observable<string> {
+  resolveTitle(): Observable<string | undefined> {
     return this.basePageMetaResolver
       ? this.basePageMetaResolver.resolveTitle()
       : this.title$;
+  }
+
+  resolveDescription(): Observable<string | undefined> {
+    return this.basePageMetaResolver
+      ? this.basePageMetaResolver.resolveDescription()
+      : of();
   }
 
   /**
@@ -95,7 +123,7 @@ export class ContentPageMetaResolver
    * Resolves a single breadcrumb item to the home page for each `ContentPage`.
    * The home page label is resolved from the translation service.
    */
-  resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
+  resolveBreadcrumbs(): Observable<BreadcrumbMeta[] | undefined> {
     return this.basePageMetaResolver
       ? this.basePageMetaResolver.resolveBreadcrumbs()
       : this.breadcrumbs$;
@@ -108,6 +136,13 @@ export class ContentPageMetaResolver
    */
   // TODO(#10467) drop the 3.1 note.
   resolveRobots(): Observable<PageRobotsMeta[]> {
-    return this.basePageMetaResolver?.resolveRobots();
+    return this.basePageMetaResolver?.resolveRobots() ?? of();
+  }
+
+  /**
+   * @override resolves the canonical page for the content page.
+   */
+  resolveCanonicalUrl(): Observable<string | undefined> {
+    return this.basePageMetaResolver?.resolveCanonicalUrl() ?? of();
   }
 }

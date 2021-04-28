@@ -53,7 +53,9 @@ If you are working with Spartacus 1.x, your Angular development environment shou
 - node.js: v10 or later, < v12
 - yarn: v1.15 or later
 
-For the back end, SAP Commerce Cloud version 1905 or higher is required, and SAP Commerce Cloud version 2005 is recommended.
+For the back end, SAP Commerce Cloud version 1905 or higher is required, and SAP Commerce Cloud version 2005 or newer is recommended.
+
+**Note:** Some Spartacus features require API endpoints that are only available in newer versions of SAP Commerce Cloud. For more information, see [Feature Compatibility](https://sap.github.io/spartacus-docs/feature-release-versions/) in the Spartacus documentation.
 
 # Download and Installation
 
@@ -124,5 +126,3 @@ Many improvements are coming! All tasks will be posted to our GitHub issue track
 
 Copyright (c) 2018 SAP SE or an SAP affiliate company. All rights reserved.
 This file is licensed under the Apache Software License, v. 2 except as noted otherwise in the [LICENSE](LICENSE) file.
-
-![Deploys by Netlify](https://www.netlify.com/img/global/badges/netlify-color-accent.svg)

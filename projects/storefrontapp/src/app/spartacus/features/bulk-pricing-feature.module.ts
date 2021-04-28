@@ -1,15 +1,15 @@
 import { NgModule } from '@angular/core';
-import { BulkPricingRootModule } from '@spartacus/product/bulk-pricing/root';
-import { provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   bulkPricingTranslationChunksConfig,
   bulkPricingTranslations,
 } from '@spartacus/product/bulk-pricing/assets';
+import { BulkPricingRootModule } from '@spartacus/product/bulk-pricing/root';
 
 @NgModule({
   imports: [BulkPricingRootModule],
   providers: [
-    provideConfig({
+    provideConfig(<CmsConfig>{
       featureModules: {
         productBulkPricing: {
           module: () =>
@@ -18,10 +18,11 @@ import {
             ),
         },
       },
+    }),
+    provideConfig(<I18nConfig>{
       i18n: {
         resources: bulkPricingTranslations,
         chunks: bulkPricingTranslationChunksConfig,
-        fallbackLang: 'en',
       },
     }),
   ],

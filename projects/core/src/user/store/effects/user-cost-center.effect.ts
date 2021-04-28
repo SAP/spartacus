@@ -11,9 +11,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class UserCostCenterEffects {
   @Effect()
-  loadActiveCostCenters$: Observable<
-    UserActions.UserCostCenterAction
-  > = this.actions$.pipe(
+  loadActiveCostCenters$: Observable<UserActions.UserCostCenterAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_ACTIVE_COST_CENTERS),
     map((action: UserActions.LoadActiveCostCenters) => action.payload),
     switchMap((payload) =>

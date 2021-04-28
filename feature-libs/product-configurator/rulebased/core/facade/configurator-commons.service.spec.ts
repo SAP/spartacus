@@ -68,6 +68,11 @@ let productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
 };
 
+const productConfigurationProductBoundObsolete: Configurator.Configuration = {
+  configId: CONFIG_ID,
+  nextOwner: OWNER_CART_ENTRY,
+};
+
 const productConfigurationChanged: Configurator.Configuration = {
   configId: CONFIG_ID,
 };
@@ -269,7 +274,15 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
 
     expect(
       configuratorUtilsService.createConfigurationExtract
@@ -284,7 +297,15 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
+
     expect(
       configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalledTimes(0);
@@ -303,11 +324,39 @@ describe('ConfiguratorCommonsService', () => {
       groupId: GROUP_ID_1,
     };
 
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
 
     expect(
       configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalled();
+  });
+
+  it('should update a configuration in case if no updateType parameter in the call', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    const changedAttribute: Configurator.Attribute = {
+      name: ATTRIBUTE_NAME_1,
+      groupId: GROUP_ID_1,
+    };
+
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+
+    expect(
+      configuratorUtilsService.createConfigurationExtract
+    ).toHaveBeenCalledWith(changedAttribute, productConfiguration, updateType);
   });
 
   describe('getConfigurationWithOverview', () => {
@@ -511,6 +560,30 @@ describe('ConfiguratorCommonsService', () => {
           done();
         })
         .unsubscribe();
+    });
+  });
+
+  describe('removeObsoleteProductBoundConfiguration', () => {
+    it('should not dispatch any action if the configuration does not carry a next owner', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfiguration)
+      );
+      serviceUnderTest['removeObsoleteProductBoundConfiguration'](
+        OWNER_PRODUCT
+      );
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should dispatch the remove action if the configuration carries a next owner', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfigurationProductBoundObsolete)
+      );
+      serviceUnderTest['removeObsoleteProductBoundConfiguration'](
+        OWNER_PRODUCT
+      );
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });
 });

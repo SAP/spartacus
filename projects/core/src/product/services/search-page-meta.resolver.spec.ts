@@ -45,6 +45,9 @@ class MockBasePageMetaResolver {
   resolveRobots() {
     return of([]);
   }
+  resolveCanonicalUrl(): Observable<string> {
+    return of();
+  }
 }
 
 describe('SearchPageMetaResolver', () => {
@@ -86,18 +89,22 @@ describe('SearchPageMetaResolver', () => {
     expect(result).toEqual('pageMetaResolver.search.title count:3 query:Canon');
   });
 
-  describe('resolveRobots', () => {
-    it('should resolve title from the BasePageMetaResolver', async () => {
-      spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
-        of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX])
-      );
-      let result;
-      resolver
-        .resolveRobots()
-        .subscribe((robots) => (result = robots))
-        .unsubscribe();
-      expect(result).toContain(PageRobotsMeta.FOLLOW);
-      expect(result).toContain(PageRobotsMeta.INDEX);
-    });
+  it('should resolve robots from the BasePageMetaResolver', async () => {
+    spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
+      of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX])
+    );
+    let result;
+    resolver
+      .resolveRobots()
+      .subscribe((robots) => (result = robots))
+      .unsubscribe();
+    expect(result).toContain(PageRobotsMeta.FOLLOW);
+    expect(result).toContain(PageRobotsMeta.INDEX);
+  });
+
+  it('should resolve canonical url from the BasePageMetaResolver.resolveCanonicalUrl()', async () => {
+    spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.callThrough();
+    resolver.resolveCanonicalUrl().subscribe().unsubscribe();
+    expect(basePageMetaResolver.resolveCanonicalUrl).toHaveBeenCalled();
   });
 });

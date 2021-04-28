@@ -12,12 +12,17 @@ export const orgCostCenter = {
   byCode: 'Sort by code',
   byUnitName: 'Sort by unit',
 
+  hint:
+    "All orders placed through your organization's purchase account are linked to a cost center for tracking purposes. Each unit can have multiple cost centers. To limit spending, budgets are assigned to cost centers. A buyer selects a cost center when checking out.",
   disable: {
     confirm: 'Disable',
   },
 
   messages: {
+    deactivateTitle: 'Disable this cost center?',
     deactivate: 'Are you sure you want to disable this cost center?',
+    deactivateBody:
+      'Disabled cost centers cannot be used for placing new orders. Ensure that your unit has at least one cost center. Existing orders are not affected.',
     confirmEnabled: 'Cost Center {{ item.name }} enabled successfully',
     confirmDisabled: 'Cost Center {{ item.name }} disabled successfully',
     update: 'Cost Center {{ item.name }} updated successfully',

@@ -4,6 +4,7 @@ import { ActiveCartService, CheckoutActions } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -15,9 +16,7 @@ import { ConfiguratorActions } from '../actions/index';
  */
 export class ConfiguratorPlaceOrderHookEffects {
   @Effect()
-  placeOrder$: Observable<
-    ConfiguratorActions.RemoveConfiguration
-  > = this.actions$.pipe(
+  placeOrder$: Observable<ConfiguratorActions.RemoveConfiguration> = this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map(() => {
       const ownerKeys = [];
@@ -28,7 +27,7 @@ export class ConfiguratorPlaceOrderHookEffects {
           entries.forEach((entry) => {
             if (
               !entry.product?.configurable ||
-              entry.product?.configuratorType !== 'CPQCONFIGURATOR'
+              entry.product?.configuratorType !== ConfiguratorType.VARIANT
             ) {
               return;
             }
