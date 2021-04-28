@@ -50,8 +50,8 @@
           >
             {{ 'importEntriesDialog.selectFile' | cxTranslate }}
           </button>
-          <p *ngIf="fileName">
-            {{ fileName[0]?.name }}
+          <p *ngIf="selectedFile">
+            {{ selectedFile[0]?.name }}
           </p>
           <cx-form-errors [control]="form.get('fileName')"></cx-form-errors>
         </div>
@@ -113,7 +113,7 @@
             aria-label="Upload"
             class="btn btn-primary"
             type="button"
-            [disabled]="form.invalid || !this.selectedFile"
+            [disabled]="form.invalid || !this.loadedFile"
             (click)="importProducts()"
           >
             {{ 'importEntriesDialog.upload' | cxTranslate }}

@@ -8,6 +8,7 @@ import {
 } from '@spartacus/storefront';
 import { ImportToCartService } from '../import-to-cart.service';
 import { InvalidFileInfo } from '../../../core/model/import-to-cart.model';
+import { ImportService } from '../../../core/services/import.service';
 
 @Component({
   selector: 'cx-import-entries-dialog',
@@ -25,8 +26,8 @@ export class ImportEntriesDialogComponent {
   };
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
-  selectedFile: string[][] | null;
-  fileName: FileList;
+  selectedFile: FileList;
+  loadedFile: string[][] | null;
   fileError: InvalidFileInfo | {};
 
   get descriptionsCharacterLeft(): number {
@@ -39,7 +40,8 @@ export class ImportEntriesDialogComponent {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected importExportConfig: ImportExportConfig,
-    protected importToCartService: ImportToCartService
+    protected importToCartService: ImportToCartService,
+    protected importService: ImportService
   ) {}
   allowedExtensions =
     this.importExportConfig.importExport.fileValidity?.allowedExtensions ?? '*';
@@ -69,24 +71,24 @@ export class ImportEntriesDialogComponent {
   }
 
   selectFile(file: FileList, form: FormGroup) {
-    this.fileName = file;
-    this.importToCartService.load(file).subscribe(
+    this.selectedFile = file;
+    this.importService.loadFile(file).subscribe(
       (data) => {
         this.fileError = {};
-        this.selectedFile = data as string[][];
+        this.loadedFile = data as string[][];
         form.get('fileName')?.updateValueAndValidity();
       },
       (error) => {
         this.fileError = error;
-        this.selectedFile = null;
+        this.loadedFile = null;
         form.get('fileName')?.updateValueAndValidity();
       }
     );
   }
 
   importProducts(): void {
-    if (this.selectedFile) {
-      this.importToCartService.loadProductsToCart(this.selectedFile, {
+    if (this.loadedFile) {
+      this.importToCartService.loadProductsToCart(this.loadedFile, {
         name: this.form.get('name')?.value,
         description: this.form.get('description')?.value,
       });

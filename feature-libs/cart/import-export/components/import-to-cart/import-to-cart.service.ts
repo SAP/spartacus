@@ -7,24 +7,15 @@ import {
   StateUtils,
 } from '@spartacus/core';
 import { SavedCartService } from '@spartacus/cart/saved-cart/core';
-import {
-  ProductsData,
-  ImportService,
-} from '@spartacus/cart/import-export/core';
-import { Observable } from 'rxjs';
+import { ProductsData } from '@spartacus/cart/import-export/core';
 
 @Injectable()
 export class ImportToCartService {
   constructor(
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartService,
-    protected savedCartService: SavedCartService,
-    protected importService: ImportService
+    protected savedCartService: SavedCartService
   ) {}
-
-  load(file: FileList): Observable<string[][]> {
-    return this.importService.loadFile(file);
-  }
 
   loadProductsToCart(
     productsData: string[][],
