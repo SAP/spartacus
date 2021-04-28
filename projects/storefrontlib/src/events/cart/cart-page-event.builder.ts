@@ -22,6 +22,7 @@ export class CartPageEventBuilder {
       filter((navigationEvent) => navigationEvent.semanticRoute === 'cart'),
       map((navigationEvent) =>
         createFrom(CartPageEvent, {
+          ...navigationEvent,
           navigation: {
             ...navigationEvent,
           },

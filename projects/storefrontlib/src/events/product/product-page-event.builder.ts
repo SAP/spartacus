@@ -78,7 +78,7 @@ export class ProductPageEventBuilder {
         return searchResults$.pipe(
           map((searchResults) =>
             createFrom(CategoryPageResultsEvent, {
-              ...navigationEvent,
+              ...{ ...navigationEvent },
               navigation: { ...navigationEvent },
               ...{
                 categoryCode: navigationEvent?.context?.id,
@@ -107,7 +107,7 @@ export class ProductPageEventBuilder {
         return searchResults$.pipe(
           map((searchResults) =>
             createFrom(SearchPageResultsEvent, {
-              ...navigationEvent,
+              ...{ ...navigationEvent },
               navigation: { ...navigationEvent },
               ...{
                 searchTerm: searchResults?.freeTextSearch,
