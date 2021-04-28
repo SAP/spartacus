@@ -5,10 +5,14 @@
         <th *ngFor="let type of getVariantCategories()" scope="col">
           {{ type }}
         </th>
-        <th scope="col">QTY</th>
-        <th scope="col">Availability</th>
-        <th scope="col" class="cx-order-grid-list-item-price">Item price</th>
-        <th scope="col" class="cx-order-grid-list-total-price">Total price</th>
+        <th scope="col">{{ 'orderGrid.quantity' | cxTranslate }}</th>
+        <th scope="col">{{ 'orderGrid.availability' | cxTranslate }}</th>
+        <th scope="col" class="cx-order-grid-list-item-price">
+          {{ 'orderGrid.itemPrice' | cxTranslate }}
+        </th>
+        <th scope="col" class="cx-order-grid-list-total-price">
+          {{ 'orderGrid.totalPrice' | cxTranslate }}
+        </th>
       </thead>
       <tbody>
         <tr *ngFor="let variant of getVariantOptions() | async">
@@ -27,7 +31,7 @@
 
           <td class="cx-order-grid-list-quantity">
             <div class="cx-table-label-mobile cx-order-grid-list-label">
-              QTY
+              {{ 'orderGrid.quantity' | cxTranslate }}
             </div>
             <span class="cx-order-grid-list-value">
               <cx-order-grid-counter
@@ -39,7 +43,7 @@
 
           <td class="cx-order-grid-list-availability">
             <div class="cx-table-label-mobile cx-order-grid-list-label">
-              Availability
+              {{ 'orderGrid.availability' | cxTranslate }}
             </div>
 
             <span class="cx-order-grid-list-value">
@@ -61,7 +65,7 @@
 
           <td class="cx-order-grid-list-item-price">
             <div class="cx-table-label-mobile cx-order-grid-list-label">
-              Item price
+              {{ 'orderGrid.itemPrice' | cxTranslate }}
             </div>
 
             <span class="cx-order-grid-list-value">
@@ -71,7 +75,7 @@
 
           <td class="cx-order-grid-list-total-price">
             <div class="cx-table-label-mobile cx-order-grid-list-label">
-              Total price
+              {{ 'orderGrid.totalPrice' | cxTranslate }}
             </div>
 
             <span class="cx-order-grid-list-value">

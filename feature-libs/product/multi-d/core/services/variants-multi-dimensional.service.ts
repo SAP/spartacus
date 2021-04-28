@@ -7,7 +7,7 @@ import {
   VariantOption,
 } from 'projects/core/src/model';
 import { Observable, of } from 'rxjs';
-import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
 export interface GridVariantOption extends VariantOption {
   variantData: VariantData[];
@@ -52,7 +52,24 @@ export class VariantsMultiDimensionalService {
   }
 
   getVariantOptions(): Observable<GridVariantOption[]> {
-    return of(this.variantOptions);
+    return of(this.variantOptions).pipe(
+      map((variant) =>
+        variant.sort((a: GridVariantOption, b: GridVariantOption) => {
+          let variantData1: any = a.variantData[0].value;
+          let variantData2: any = b.variantData[0].value;
+
+          if (isNaN(variantData1) && isNaN(variantData2)) {
+            return variantData1 < variantData2
+              ? -1
+              : variantData1 > variantData2
+              ? 1
+              : 0;
+          } else {
+            return variantData1 - variantData2;
+          }
+        })
+      )
+    );
   }
 
   getVariantCategories(): string[] {
