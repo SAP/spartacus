@@ -1,3 +1,5 @@
+import { TestBed } from '@angular/core/testing';
+import { Observable, of } from 'rxjs';
 import {
   ActiveCartService,
   Cart,
@@ -6,17 +8,14 @@ import {
   OrderEntry,
   RoutingService,
   RouterState,
+  PriceType,
 } from '@spartacus/core';
-import { TestBed } from '@angular/core/testing';
-import { ExportEntriesService } from './export-entries.service';
+import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
 import {
   defaultImportExportConfig,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
-import { OccConfigurator } from '../../../../product-configurator/rulebased/occ/variant/variant-configurator-occ.models';
-import PriceType = OccConfigurator.PriceType;
-import { SavedCartDetailsService } from '@spartacus/cart/saved-cart/components';
-import { Observable, of } from 'rxjs';
+import { ExportEntriesService } from './export-entries.service';
 
 const entry: OrderEntry = {
   basePrice: {
@@ -152,7 +151,7 @@ describe('ExportEntriesService', () => {
 
   describe('resolveValue', () => {
     testData.forEach(({ key, output }) => {
-      it(`should resolve ${key}`, () => {
+      it(`should resolve value for ${key}`, () => {
         expect(service['resolveValue'](key, entry)).toBe(output);
       });
     });
