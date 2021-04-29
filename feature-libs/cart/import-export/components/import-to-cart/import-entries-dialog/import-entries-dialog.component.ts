@@ -45,7 +45,7 @@ export class ImportEntriesDialogComponent {
   ) {}
   allowedExtensions =
     this.importExportConfig.importExport.fileValidity?.allowedExtensions ?? '*';
-
+  fileSize = this.importExportConfig.importExport.fileValidity?.maxSize ?? 10;
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
