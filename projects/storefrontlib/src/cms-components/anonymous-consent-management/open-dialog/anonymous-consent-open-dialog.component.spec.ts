@@ -3,6 +3,9 @@ import { I18nTestingModule } from '@spartacus/core';
 import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
 import { AnonymousConsentLaunchDialogService } from '../anonymous-consent-launch-dialog.service';
 import { AnonymousConsentOpenDialogComponent } from './anonymous-consent-open-dialog.component';
+import { ElementRef, ViewContainerRef } from '@angular/core';
+import { of } from 'rxjs';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 
 class MockModalService {
   open(_content: any, _options?: ModalOptions): ModalRef {
@@ -14,10 +17,20 @@ class MockAnonymousConsentLaunchDialogService {
   openDialog() {}
 }
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return of();
+  }
+}
+
 describe('AnonymousConsentOpenDialogComponent', () => {
   let component: AnonymousConsentOpenDialogComponent;
   let fixture: ComponentFixture<AnonymousConsentOpenDialogComponent>;
-  let anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(
     waitForAsync(() => {
@@ -33,6 +46,10 @@ describe('AnonymousConsentOpenDialogComponent', () => {
             provide: AnonymousConsentLaunchDialogService,
             useClass: MockAnonymousConsentLaunchDialogService,
           },
+          {
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
+          },
         ],
       }).compileComponents();
     })
@@ -41,10 +58,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AnonymousConsentOpenDialogComponent);
     component = fixture.componentInstance;
-    anonymousConsentLaunchDialogService = TestBed.inject(
-      AnonymousConsentLaunchDialogService
-    );
-
+    launchDialogService = TestBed.inject(LaunchDialogService);
     fixture.detectChanges();
   });
 
@@ -54,12 +68,14 @@ describe('AnonymousConsentOpenDialogComponent', () => {
 
   describe('openDialog', () => {
     it('should call modalService.open', () => {
-      spyOn(anonymousConsentLaunchDialogService, 'openDialog');
+      spyOn(launchDialogService, 'openDialog');
       component.openDialog();
 
-      expect(
-        anonymousConsentLaunchDialogService.openDialog
-      ).toHaveBeenCalledWith(component.openElement, component['vcr']);
+      expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+        LAUNCH_CALLER.ANONYMOUS_CONSENT,
+        component.openElement,
+        component['vcr']
+      );
     });
   });
 });

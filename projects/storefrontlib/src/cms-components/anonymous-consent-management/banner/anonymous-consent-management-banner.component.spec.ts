@@ -1,9 +1,11 @@
+import { ElementRef, ViewContainerRef } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   AnonymousConsentsService,
   ConsentTemplate,
   I18nTestingModule,
 } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { AnonymousConsentLaunchDialogService } from '../anonymous-consent-launch-dialog.service';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';
@@ -25,11 +27,21 @@ class MockAnonymousConsentLaunchDialogService {
   openDialog() {}
 }
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return of();
+  }
+}
+
 describe('AnonymousConsentManagementBannerComponent', () => {
   let component: AnonymousConsentManagementBannerComponent;
   let fixture: ComponentFixture<AnonymousConsentManagementBannerComponent>;
   let anonymousConsentsService: AnonymousConsentsService;
-  let anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(
     waitForAsync(() => {
@@ -45,6 +57,10 @@ describe('AnonymousConsentManagementBannerComponent', () => {
             provide: AnonymousConsentLaunchDialogService,
             useClass: MockAnonymousConsentLaunchDialogService,
           },
+          {
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
+          },
         ],
       }).compileComponents();
     })
@@ -56,9 +72,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
     );
     component = fixture.componentInstance;
     anonymousConsentsService = TestBed.inject(AnonymousConsentsService);
-    anonymousConsentLaunchDialogService = TestBed.inject(
-      AnonymousConsentLaunchDialogService
-    );
+    launchDialogService = TestBed.inject(LaunchDialogService);
 
     fixture.detectChanges();
   });
@@ -70,14 +84,16 @@ describe('AnonymousConsentManagementBannerComponent', () => {
   describe('viewDetails', () => {
     it('should hide the banner and open the dialog', () => {
       spyOn(component, 'hideBanner').and.stub();
-      spyOn(anonymousConsentLaunchDialogService, 'openDialog');
+      spyOn(launchDialogService, 'openDialog');
 
       component.viewDetails();
 
       expect(component.hideBanner).toHaveBeenCalled();
-      expect(
-        anonymousConsentLaunchDialogService.openDialog
-      ).toHaveBeenCalledWith(null, component['vcr']);
+      expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+        LAUNCH_CALLER.ANONYMOUS_CONSENT,
+        null,
+        component['vcr']
+      );
     });
   });
 
