@@ -35,6 +35,8 @@ export function createDependencies(
      * create and return dependencies only listed in the given array
      */
     onlyIncludeScopes?: string[];
+    /** dependency version which to set. If not provided, the one from the given `dependencyObject` will be used. */
+    version?: string;
   } = {
     skipScopes: FEATURES_LIBS_SKIP_SCOPES,
   }
@@ -60,7 +62,7 @@ export function createDependencies(
       dependencies.push(
         mapPackageToNodeDependencies(
           dependencyName,
-          dependencyObject[dependencyName]
+          options.version ?? dependencyObject[dependencyName]
         )
       );
     }
