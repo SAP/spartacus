@@ -40,7 +40,6 @@ import {
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
   SPARTACUS_ROUTING_MODULE,
-  SPARTACUS_SCOPE,
   SPARTACUS_SETUP,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
@@ -54,7 +53,6 @@ import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
   addSchematicsTasks,
-  installSpartacusFeatures,
   LibraryOptions,
   shouldAddFeature,
 } from '../shared/utils/lib-utils';
@@ -66,6 +64,8 @@ import {
   createDependencies,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
+  mapPackageToNodeDependencies,
+  readPackageJson,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -226,15 +226,12 @@ function prepareDependencies(options: SpartacusOptions): NodeDependency[] {
     });
   }
 
-  const thirdPartyDependencies = createDependencies(
-    {
-      ...collectedDependencies[SPARTACUS_CORE],
-      ...collectedDependencies[SPARTACUS_STOREFRONTLIB],
-      ...collectedDependencies[SPARTACUS_STYLES],
-      ...collectedDependencies[SPARTACUS_ASSETS],
-    },
-    [SPARTACUS_SCOPE]
-  );
+  const thirdPartyDependencies = createDependencies({
+    ...collectedDependencies[SPARTACUS_CORE],
+    ...collectedDependencies[SPARTACUS_STOREFRONTLIB],
+    ...collectedDependencies[SPARTACUS_STYLES],
+    ...collectedDependencies[SPARTACUS_ASSETS],
+  });
   return spartacusDependencies.concat(thirdPartyDependencies);
 }
 
@@ -324,10 +321,20 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
 function addSpartacusFeatures(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const features = prepareSpartacusFeatures(options);
-    const rule = installSpartacusFeatures(features)(tree, context);
+    const featurePackages = prepareSpartacusFeatures(options);
 
-    const featureOptions = features.map((feature) => {
+    const packageJson = readPackageJson(tree);
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    const dependencies = featurePackages.map((feature) =>
+      mapPackageToNodeDependencies(feature, spartacusVersion)
+    );
+
+    const rule = addPackageJsonDependencies(dependencies, packageJson)(
+      tree,
+      context
+    );
+
+    const featureOptions = featurePackages.map((feature) => {
       const libraryOptions: LibraryOptions = {
         project: options.project,
         lazy: options.lazy,
