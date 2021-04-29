@@ -26,7 +26,7 @@ export class ImportEntriesDialogComponent {
   };
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
-  selectedFile: FileList;
+  selectedFile: File;
   loadedFile: string[][] | null;
   fileError: InvalidFileInfo | {};
 
@@ -53,7 +53,7 @@ export class ImportEntriesDialogComponent {
   protected build(): FormGroup {
     const form = new FormGroup({});
     form.setControl(
-      'fileName',
+      'file',
       new FormControl('', [Validators.required, () => this.fileError])
     );
     form.setControl(
@@ -70,18 +70,18 @@ export class ImportEntriesDialogComponent {
     return form;
   }
 
-  selectFile(file: FileList, form: FormGroup) {
+  selectFile(file: File, form: FormGroup) {
     this.selectedFile = file;
     this.importService.loadFile(file).subscribe(
       (data) => {
         this.fileError = {};
         this.loadedFile = data as string[][];
-        form.get('fileName')?.updateValueAndValidity();
+        form.get('file')?.updateValueAndValidity();
       },
       (error) => {
         this.fileError = error;
         this.loadedFile = null;
-        form.get('fileName')?.updateValueAndValidity();
+        form.get('file')?.updateValueAndValidity();
       }
     );
   }

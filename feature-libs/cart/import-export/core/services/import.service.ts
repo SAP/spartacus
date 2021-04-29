@@ -12,17 +12,16 @@ export class ImportService {
   /**
    * Extracts CSV file and process into a JSON data
    *
-   * @param selectedFile CSV file to extract the data
+   * @param file CSV file to extract the data
    * @param checkValidityEnabled optional flag to disable the validity check
    * @param validityConfig optional object to pass any custom validity config
    * @returns processed data from CSV or error data in CSV extraction
    */
   loadFile(
-    selectedFile: FileList,
+    file: File,
     checkValidityEnabled = true,
     validityConfig?: FileValidity
   ): Observable<string[][]> {
-    const file: File = selectedFile.item(0) as File;
     return new Observable((observer: Observer<string[][]>) => {
       const fileReader: FileReader = new FileReader();
       const { isFileValid, invalidFileInfo } = this.checkValidity(
