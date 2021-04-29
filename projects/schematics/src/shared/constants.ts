@@ -585,6 +585,7 @@ export const INJECT_DECORATOR = 'Inject';
 export const PLATFORM = 'Platform';
 export const PLATFORM_ID_STRING = 'PLATFORM_ID';
 export const ANY_TYPE = 'any';
+export const INCREMENT = 'increment';
 /***** Properties end *****/
 
 /***** APIs start *****/
