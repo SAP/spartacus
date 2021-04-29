@@ -1,5 +1,6 @@
 import {
   GET_OCC_ENDPOINT,
+  GET_BASE_ENDPOINT,
   OCC_ENDPOINTS_SERVICE,
   SPARTACUS_CORE,
   TODO_SPARTACUS,
@@ -13,5 +14,11 @@ export const OCC_ENDPOINTS_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
     importPath: SPARTACUS_CORE,
     deprecatedNode: GET_OCC_ENDPOINT,
     comment: `// ${TODO_SPARTACUS} Method '${GET_OCC_ENDPOINT}' was removed. Please use 'buildUrl' method instead with the proper parameters.`,
+  },
+  {
+    class: OCC_ENDPOINTS_SERVICE,
+    importPath: SPARTACUS_CORE,
+    deprecatedNode: GET_BASE_ENDPOINT,
+    comment: `// ${TODO_SPARTACUS} Method '${GET_BASE_ENDPOINT}' was removed. Please use 'buildUrl' method instead with the proper parameters.`,
   },
 ];
