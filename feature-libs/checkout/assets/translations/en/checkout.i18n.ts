@@ -1,6 +1,3 @@
-/**
- * @deprecated since 4.0, use checkout feature lib instead.
- */
 export const checkout = {
   checkoutAddress: {
     shippingAddress: 'Shipping Address',
