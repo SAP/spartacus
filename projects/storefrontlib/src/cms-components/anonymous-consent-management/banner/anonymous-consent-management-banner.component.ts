@@ -19,20 +19,12 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
 
   // TODO(#12167): make launchDialogService a required dependency instead of anonymousConsentLaunchDialogService and remove deprecated constructor
   /**
-   * Default constructor
+   * @deprecated since 3.3
+   * Default constructor will looks like:
    *
    * @param {AnonymousConsentsService} anonymousConsentsService
    * @param {ViewContainerRef} vcr
    * @param {LaunchDialogService} launchDialogService
-   */
-  constructor(
-    anonymousConsentsService: AnonymousConsentsService,
-    vcr: ViewContainerRef,
-    launchDialogService: LaunchDialogService
-  );
-
-  /**
-   * @deprecated since 3.3
    */
   constructor(
     anonymousConsentsService: AnonymousConsentsService,

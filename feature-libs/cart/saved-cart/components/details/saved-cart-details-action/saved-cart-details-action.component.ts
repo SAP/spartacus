@@ -33,7 +33,8 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
 
   // TODO(#12167): make launchDialogService a required dependency instead of savedCartFormLaunchDialogService and remove deprecated constructor
   /**
-   * Default constructor
+   * @deprecated since 3.3
+   * Default constructor will looks like:
    *
    * @param {SavedCartDetailsService} savedCartDetailsService
    * @param {SavedCartFacade} savedCartService
@@ -42,19 +43,6 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
    * @param {ViewContainerRef} vcr
    * @param {ClearCheckoutService} clearCheckoutService
    * @param {LaunchDialogService} launchDialogService
-   */
-  constructor(
-    savedCartDetailsService: SavedCartDetailsService,
-    savedCartService: SavedCartFacade,
-    routingService: RoutingService,
-    globalMessageService: GlobalMessageService,
-    vcr: ViewContainerRef,
-    clearCheckoutService: ClearCheckoutService,
-    launchDialogService: LaunchDialogService
-  );
-
-  /**
-   * @deprecated since 3.3
    */
   constructor(
     savedCartDetailsService: SavedCartDetailsService,
