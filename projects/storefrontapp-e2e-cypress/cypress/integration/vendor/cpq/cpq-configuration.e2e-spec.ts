@@ -428,8 +428,17 @@ context('CPQ Configuration', () => {
         const numberOfCartItems = Number(elem.text());
         cy.log('numberOfCartItems = ' + numberOfCartItems);
         editConfigurationFromCartEntry(numberOfCartItems);
-        checkout();
-        orderHistory();
+        // Checkout
+        configuration.clickOnProceedToCheckoutBtnInCart();
+        configuration.checkoutB2B();
+        // Order historyorderHistory();
+        configuration.selectOrderByOrderNumberAlias(POWERTOOLS);
+        configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
+        configurationOverview.checkAttrDisplayed(
+          'Camera Body',
+          'Canon EOS 80D',
+          0
+        );
       });
     });
   });
@@ -459,7 +468,10 @@ context('CPQ Configuration', () => {
         quantity: '1',
       },
     ];
-    configuration.checkAmountOfBundleItems(cartEntryIndex, 3);
+    configuration.checkAmountOfBundleItems(
+      cartEntryIndex,
+      ovBundleInfos.length
+    );
 
     ovBundleInfos.forEach((line, bundleItemIndex) => {
       configuration.checkBundleItemName(
@@ -515,16 +527,5 @@ context('CPQ Configuration', () => {
 
     configuration.checkAmountOfBundleItems(cartEntryIndex, 4);
     configuration.verifyCartCount(numberOfCartItems);
-  }
-
-  function checkout() {
-    configuration.clickOnProceedToCheckoutBtnInCart();
-    configuration.checkoutB2B();
-  }
-
-  function orderHistory() {
-    configuration.selectOrderByOrderNumberAlias(POWERTOOLS);
-    configurationOverview.checkGroupHeaderDisplayed(GRP_CAM_MAIN, 0);
-    configurationOverview.checkAttrDisplayed('Camera Body', 'Canon EOS 80D', 0);
   }
 });
