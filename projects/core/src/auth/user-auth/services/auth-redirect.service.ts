@@ -73,16 +73,11 @@ export class AuthRedirectService implements OnDestroy {
     this.subscription = this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
         this.redirectUrlCandidates.push(event.url); // current candidate
-
-        console.log(this.redirectUrlCandidates); // spike todo remove
-        debugger;
       }
 
       if (event instanceof NavigationEnd) {
         // drop the history of old candidates, when navigation ends. Leave only the last one:
         this.redirectUrlCandidates = this.redirectUrlCandidates.slice(-1);
-        console.log(this.redirectUrlCandidates); // spike todo remove
-        debugger;
       }
     });
   }
