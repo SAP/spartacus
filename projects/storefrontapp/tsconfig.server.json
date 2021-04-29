@@ -92,6 +92,9 @@
       "@spartacus/product-configurator/rulebased/root": [
         "../../feature-libs/product-configurator/rulebased/root/public_api"
       ],
+      "@spartacus/product-configurator/rulebased/cpq": [
+        "../../feature-libs/product-configurator/rulebased/cpq/public_api"
+      ],
       "@spartacus/product-configurator/textfield": [
         "../../feature-libs/product-configurator/textfield/public_api"
       ],
@@ -215,7 +218,12 @@
       "@spartacus/user/profile/root": [
         "../../feature-libs/user/profile/root/public_api"
       ],
+      "@spartacus/cdc/components": [
+        "../../integration-libs/cdc/components/public_api"
+      ],
+      "@spartacus/cdc/core": ["../../integration-libs/cdc/core/public_api"],
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
+      "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],

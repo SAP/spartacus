@@ -1,0 +1,18 @@
+{
+  "$schema": "../../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-cds/index#addCdsFeature",
+      "description": "Add and configure Spartacus' CDS feature",
+      "schema": "./add-cds/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add": {
+      "factory": "./add-cds/index#addCdsFeature",
+      "description": "Add and configure Spartacus' CDS feature",
+      "schema": "./add-cds/schema.json"
+    }
+  }
+}
