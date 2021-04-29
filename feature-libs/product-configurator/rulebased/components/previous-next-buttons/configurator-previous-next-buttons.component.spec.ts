@@ -37,12 +37,15 @@ class MockConfiguratorGroupsService {
   getCurrentGroupId() {
     return of('');
   }
+
   getNextGroupId() {
     return of('');
   }
+
   getPreviousGroupId() {
     return of('');
   }
+
   navigateToGroup() {}
 }
 
@@ -72,6 +75,7 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
   }
+
   isConfigurationLoading(): Observable<boolean> {
     return of(false);
   }
@@ -79,6 +83,8 @@ class MockConfiguratorCommonsService {
 
 class MockConfigUtilsService {
   scrollToConfigurationElement(): void {}
+
+  focusFirstAttribute(): void {}
 }
 
 @Directive({
@@ -94,6 +100,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configurationGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
 
   beforeEach(
     waitForAsync(() => {
@@ -146,6 +153,14 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     configuratorUtils.setOwnerKey(config.owner);
+
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
+    spyOn(
+      configuratorStorefrontUtilsService,
+      'focusFirstAttribute'
+    ).and.callThrough();
   });
 
   it('should create', () => {
@@ -293,5 +308,29 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     });
 
     expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call focusFirstAttribute', () => {
+    //usage of TestScheduler because of the async check in last line
+    const testScheduler = new TestScheduler((actual, expected) => {
+      expect(actual).toEqual(expected);
+    });
+    testScheduler.run(() => {
+      const configurationLoading = cold('-a-b', {
+        a: true,
+        b: false,
+      });
+      spyOn(
+        configuratorCommonsService,
+        'isConfigurationLoading'
+      ).and.returnValue(configurationLoading);
+      classUnderTest['focusFirstAttribute']();
+    });
+    expect(
+      configuratorStorefrontUtilsService.focusFirstAttribute
+    ).toHaveBeenCalled();
+    expect(
+      configuratorStorefrontUtilsService.focusFirstAttribute
+    ).toHaveBeenCalledTimes(1);
   });
 });
