@@ -9,7 +9,7 @@ import { BehaviorSubject } from 'rxjs';
 import { OrderSummaryComponent } from '../../../../cms-components/cart/cart-shared/order-summary/order-summary.component';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
 import { AppliedCouponsComponent } from '../../../cart/cart-coupon/applied-coupons/applied-coupons.component';
-import { PromotionsComponent } from '../promotions/promotions.component';
+import { PromotionsComponent } from '../../../misc/promotions/promotions.component';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 import createSpy = jasmine.createSpy;
 

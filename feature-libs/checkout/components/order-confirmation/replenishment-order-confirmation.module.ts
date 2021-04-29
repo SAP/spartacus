@@ -11,9 +11,9 @@ import {
   CardModule,
   CartSharedModule,
   FormErrorsModule,
+  PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
-import { PromotionsModule } from '../components/promotions/promotions.module';
 import { OrderConfirmationItemsComponent } from './components/order-confirmation-items/order-confirmation-items.component';
 import { OrderConfirmationOverviewComponent } from './components/order-confirmation-overview/order-confirmation-overview.component';
 import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';

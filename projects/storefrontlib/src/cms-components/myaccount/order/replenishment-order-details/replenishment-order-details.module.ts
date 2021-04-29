@@ -18,7 +18,7 @@ import {
   SpinnerModule,
 } from '../../../../shared/index';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
-import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
+import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { OrderDetailItemsComponent } from '../order-details/order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from '../order-details/order-detail-totals/order-detail-totals.component';

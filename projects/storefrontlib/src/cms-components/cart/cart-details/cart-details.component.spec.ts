@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
-import { PromotionsModule } from '../../checkout/components/promotions/promotions.module';
+import { PromotionsModule } from '../../misc/promotions/promotions.module';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockActiveCartService {

@@ -8,10 +8,10 @@ import {
 import {
   AppliedCouponsComponent,
   OrderSummaryComponent,
+  PromotionsComponent,
 } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { MockFeatureLevelDirective } from '../../../../../projects/storefrontlib/src/shared/test/mock-feature-level-directive';
-import { PromotionsComponent } from '../promotions/promotions.component';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 import createSpy = jasmine.createSpy;
 

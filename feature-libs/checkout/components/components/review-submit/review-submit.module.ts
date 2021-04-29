@@ -12,9 +12,9 @@ import {
   CartNotEmptyGuard,
   CartSharedModule,
   IconModule,
+  PromotionsModule,
 } from '@spartacus/storefront';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
-import { PromotionsModule } from '../promotions/promotions.module';
 import { ReviewSubmitComponent } from './review-submit.component';
 
 @NgModule({

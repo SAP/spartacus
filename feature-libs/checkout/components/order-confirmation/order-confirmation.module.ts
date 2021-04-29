@@ -12,9 +12,9 @@ import {
   CartSharedModule,
   FormErrorsModule,
   OrderOverviewModule,
+  PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
-import { PromotionsModule } from '../components/promotions/promotions.module';
 import { GuestRegisterFormComponent } from './components/guest-register-form/guest-register-form.component';
 import { OrderConfirmationItemsComponent } from './components/order-confirmation-items/order-confirmation-items.component';
 import { OrderConfirmationOverviewComponent } from './components/order-confirmation-overview/order-confirmation-overview.component';

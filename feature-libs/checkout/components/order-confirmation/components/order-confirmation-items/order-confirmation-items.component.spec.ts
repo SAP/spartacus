@@ -10,9 +10,8 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/core';
-import { PromotionService } from '@spartacus/storefront';
+import { PromotionService, PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { PromotionsModule } from '../../../components/promotions/promotions.module';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 
 import createSpy = jasmine.createSpy;
