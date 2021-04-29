@@ -1,10 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import {
-  NavigationEnd,
-  NavigationStart,
-  Router,
-  RouterEvent,
-} from '@angular/router';
+import { Event, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
@@ -18,9 +13,11 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 })
 export class AuthRedirectService implements OnDestroy {
   /**
-   * This service is responsible for redirecting to the last page before authorization. "The last page" can be:
+   * This service is responsible for remembering the last page before the authentication. "The last page" can be:
    * 1. Just the previously opened page; or
    * 2. The page that we just tried to open, but AuthGuard cancelled it
+   *
+   * Then, after successful authentication it allows for redirecting to that remembered page via the `redirect()` method.
    *
    * For example:
    * 1. The user opens the product page, then clicks /login link and signs in
@@ -40,16 +37,12 @@ export class AuthRedirectService implements OnDestroy {
     this.init();
   }
 
-  // SPIKE OLD:
-  // private ignoredUrls = new Set<string>();
-  // private lastAuthGuardNavigation: {
-  //   url: string;
-  //   navigationId: number;
-  // };
-
-  // SPIKE NEW:
   private sub: Subscription;
-  private redirectUrlCandidates: RouterEvent[] = [];
+
+  /**
+   * Array of candidates for being the redirect URL.
+   */
+  private redirectUrlCandidates: string[] = [];
 
   // IDEA:
   // remember the last URL before entering a page with NotAuthGuard
@@ -69,9 +62,9 @@ export class AuthRedirectService implements OnDestroy {
   // when NavigationEnd happens, clear the structure to store only the navigation URL
 
   protected init() {
-    this.sub = this.router.events.subscribe((event: RouterEvent) => {
+    this.sub = this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
-        this.redirectUrlCandidates.push(event);
+        this.redirectUrlCandidates.push(event.url);
         console.log(this.redirectUrlCandidates); // spike todo remove
       }
 
@@ -101,73 +94,45 @@ export class AuthRedirectService implements OnDestroy {
           this.routing.goByUrl(redirectUrl);
         }
         this.authRedirectStorageService.setRedirectUrl(undefined);
-
-        // // SPIKE OLD:
-        // this.lastAuthGuardNavigation = undefined;
       });
   }
 
   /**
-   * Saves url of a page that user wanted to access, but wasn't yet logged in.
+   * @deprecated since 4.0, the method is not needed anymore
    */
-  reportAuthGuard() {
-    // // SPIKE OLD:
-    // const { url, navigationId } = this.getCurrentNavigation();
-    // this.lastAuthGuardNavigation = { url, navigationId };
-    // this.authRedirectStorageService.setRedirectUrl(url);
-  }
-
+  reportAuthGuard() {}
   /**
    * Saves url of a page that was accessed before entering a page only for not auth users.
    */
   reportNotAuthGuard() {
-    // SPIKE NEW:
-    // TODO: optimize the structure for storing candidates
-    const navigation = this.router.getCurrentNavigation();
-    const url = this.router.serializeUrl(navigation.finalUrl);
-
-    this.redirectUrlCandidates = this.redirectUrlCandidates.filter(
-      (event) => event.url !== url
-    );
-
-    const [lastEvent] = this.redirectUrlCandidates.slice(-1);
-
-    // when visiting /login page from a deep link (or page refresh),
-    // there might be no `lastEvent`
-    if (lastEvent) {
-      this.authRedirectStorageService.setRedirectUrl(lastEvent.url);
-    }
-
-    // // SPIKE OLD:
-    // const { url, initialUrl, navigationId } = this.getCurrentNavigation();
-    // this.ignoredUrls.add(url);
-    // // Don't save redirect url if you've already come from page with NotAuthGuard (i.e. user has come from login to register)
-    // if (!this.ignoredUrls.has(initialUrl)) {
-    //   // We compare the navigation id to find out if the url cancelled by AuthGuard (i.e. my-account) is more recent
-    //   // than the last opened page
-    //   if (
-    //     !this.lastAuthGuardNavigation ||
-    //     this.lastAuthGuardNavigation.navigationId < navigationId - 1
-    //   ) {
-    //     this.authRedirectStorageService.setRedirectUrl(initialUrl);
-    //     this.lastAuthGuardNavigation = undefined;
-    //   }
-    // }
+    this.ignoreCurrentNavigationUrl();
+    this.setRedirectUrl();
   }
 
-  // // SPIKE OLD:
-  // private getCurrentNavigation(): {
-  //   navigationId: number;
-  //   url: string;
-  //   initialUrl: string;
-  // } {
-  //   const initialUrl = this.router.url;
-  //   const navigation = this.router.getCurrentNavigation();
-  //   const url = this.router.serializeUrl(navigation.finalUrl);
-  //   return {
-  //     navigationId: navigation.id,
-  //     url,
-  //     initialUrl,
-  //   };
-  // }
+  /**
+   * Removes the the current navigation URL from the candidates
+   * of being redirect URL.
+   */
+  private ignoreCurrentNavigationUrl() {
+    const navigation = this.router.getCurrentNavigation();
+    if (!navigation?.finalUrl) {
+      return;
+    }
+    const currentNavigationUrl = this.router.serializeUrl(navigation.finalUrl);
+    this.redirectUrlCandidates = this.redirectUrlCandidates.filter(
+      (url) => url !== currentNavigationUrl
+    );
+  }
+
+  /**
+   * Sets the last candidate as the redirect url.
+   */
+  private setRedirectUrl() {
+    const [lastRedirectUrlCandidate] = this.redirectUrlCandidates.slice(-1);
+
+    // there might be no last candidate URL especially when it's the initial navigation (i.e. on page refresh)
+    if (lastRedirectUrlCandidate) {
+      this.authRedirectStorageService.setRedirectUrl(lastRedirectUrlCandidate);
+    }
+  }
 }
