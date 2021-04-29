@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
-import { getContextParameterValues } from '../config/context-config-utils';
+import {
+  getContextParameterDefault,
+  getContextParameterValues,
+} from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
 import { CurrencyService } from './currency.service';
@@ -22,6 +25,16 @@ export class CurrencyStatePersistenceService {
   }
 
   protected onRead(state: string): void {
+    let value;
+    this.currencyService
+      .getActive()
+      .subscribe((val) => (value = val))
+      .unsubscribe();
+    if (value) {
+      // don't initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)
+      return;
+    }
+
     if (
       state &&
       getContextParameterValues(this.config, CURRENCY_CONTEXT_ID).includes(
@@ -29,6 +42,10 @@ export class CurrencyStatePersistenceService {
       )
     ) {
       this.currencyService.setActive(state);
+    } else {
+      this.currencyService.setActive(
+        getContextParameterDefault(this.config, CURRENCY_CONTEXT_ID)
+      );
     }
   }
 }
