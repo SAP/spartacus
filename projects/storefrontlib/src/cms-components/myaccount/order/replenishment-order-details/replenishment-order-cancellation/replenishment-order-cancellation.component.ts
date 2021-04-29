@@ -28,9 +28,9 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
 
   replenishmentOrder$: Observable<ReplenishmentOrder> = this.userReplenishmentOrderService.getReplenishmentOrderDetails();
 
-  // TODO(#12167): make launchDialogService a required dependency instead of replenishmentOrderCancellationLaunchDialogService and remove deprecated constructor
+  // TODO(#12167): make launchDialogService a required dependency instead of replenishmentOrderCancellationLaunchDialogService and remove deprecated constructors
   /**
-   * Default constructor
+   * Default constructor will be
    *
    * @param {UserReplenishmentOrderService} userReplenishmentOrderService
    * @param {ViewContainerRef} vcr
@@ -38,6 +38,7 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
    */
   constructor(
     userReplenishmentOrderService: UserReplenishmentOrderService,
+    replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
     vcr: ViewContainerRef,
     launchDialogService: LaunchDialogService
   );
@@ -47,8 +48,8 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
    */
   constructor(
     userReplenishmentOrderService: UserReplenishmentOrderService,
-    vcr: ViewContainerRef,
-    replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService
+    replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
+    vcr: ViewContainerRef
   );
   constructor(
     protected userReplenishmentOrderService: UserReplenishmentOrderService,

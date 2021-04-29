@@ -17,9 +17,9 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
 
   bannerVisible$: Observable<boolean> = this.anonymousConsentsService.isBannerVisible();
 
-  // TODO(#12167): make launchDialogService a required dependency instead of anonymousConsentLaunchDialogService and remove deprecated constructor
+  // TODO(#12167): make launchDialogService a required dependency instead of anonymousConsentLaunchDialogService and remove deprecated constructors
   /**
-   * Default constructor
+   * Default constructor will be
    *
    * @param {AnonymousConsentsService} anonymousConsentsService
    * @param {ViewContainerRef} vcr
@@ -27,6 +27,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
    */
   constructor(
     anonymousConsentsService: AnonymousConsentsService,
+    anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService,
     vcr: ViewContainerRef,
     launchDialogService: LaunchDialogService
   );

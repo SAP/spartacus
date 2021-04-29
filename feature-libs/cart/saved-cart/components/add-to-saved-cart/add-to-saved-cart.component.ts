@@ -31,9 +31,9 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
 
   cart$: Observable<Cart>;
 
-  // TODO(#12167): make launchDialogService a required dependency instead of savedCartFormLaunchDialogService and remove deprecated constructor
+  // TODO(#12167): make launchDialogService a required dependency instead of savedCartFormLaunchDialogService and remove deprecated constructors
   /**
-   * Default constructor
+   * Default constructor will be:
    *
    * @param {ActiveCartService} activeCartService
    * @param {AuthService} authService
@@ -45,8 +45,10 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     activeCartService: ActiveCartService,
     authService: AuthService,
     routingService: RoutingService,
+    savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
     vcr: ViewContainerRef,
-    launchDialogService?: LaunchDialogService
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    launchDialogService: LaunchDialogService
   );
 
   /**

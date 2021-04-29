@@ -43,9 +43,9 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
     );
 
   isLoaded$: Observable<boolean> = this.userReplenishmentOrderService.getReplenishmentOrderHistoryListSuccess();
-  // TODO(#12167): make launchDialogService a required dependency instead of replenishmentOrderCancellationLaunchDialogService and remove deprecated constructor
+  // TODO(#12167): make launchDialogService a required dependency instead of replenishmentOrderCancellationLaunchDialogService and remove deprecated constructors
   /**
-   * Default constructor
+   * Default constructor will be
    *
    * @param {RoutingService} routing
    * @param {UserReplenishmentOrderService} userReplenishmentOrderService
@@ -56,6 +56,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   constructor(
     routing: RoutingService,
     userReplenishmentOrderService: UserReplenishmentOrderService,
+    replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
     translation: TranslationService,
     vcr: ViewContainerRef,
     launchDialogService: LaunchDialogService

@@ -31,9 +31,9 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
     Cart | undefined
   > = this.savedCartDetailsService.getCartDetails();
 
-  // TODO(#12167): make launchDialogService a required dependency instead of savedCartFormLaunchDialogService and remove deprecated constructor
+  // TODO(#12167): make launchDialogService a required dependency instead of savedCartFormLaunchDialogService and remove deprecated constructors
   /**
-   * Default constructor
+   * Default constructor will be
    *
    * @param {SavedCartDetailsService} savedCartDetailsService
    * @param {SavedCartFacade} savedCartService
@@ -48,8 +48,10 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
     savedCartService: SavedCartFacade,
     routingService: RoutingService,
     globalMessageService: GlobalMessageService,
+    savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
     vcr: ViewContainerRef,
     clearCheckoutService: ClearCheckoutService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     launchDialogService: LaunchDialogService
   );
 
