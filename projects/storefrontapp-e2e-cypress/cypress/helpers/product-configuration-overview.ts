@@ -1,11 +1,8 @@
-import Chainable = Cypress.Chainable;
-
 const continueToCartButtonSelector =
   'cx-configurator-add-to-cart-button button';
-const resolveIssuesLinkSelector =
-  'cx-configurator-overview-notification-banner button.cx-action-link';
 
 const resolveIssuesText = ' must be resolved before checkout.  Resolve Issues';
+<<<<<<< HEAD
 
 /**
  * Navigates to the configured product overview page.
@@ -25,6 +22,8 @@ export function goToConfigOverviewPage(
     this.checkConfigOverviewPageDisplayed();
   });
 }
+=======
+>>>>>>> develop
 
 /**
  * Verifies whether the product overview page is displayed.
@@ -43,15 +42,6 @@ export function checkContinueToCartBtnDisplayed(): void {
 }
 
 /**
- * Navigates to the configuration page via configuration tab.
- */
-export function navigateToConfigurationPage(): void {
-  cy.get('cx-configurator-tab-bar a:contains("Configuration")').click({
-    force: true,
-  });
-}
-
-/**
  * Clicks on 'Continue to cart' on the product overview page.
  */
 export function clickContinueToCartBtnOnOP(): void {
@@ -64,6 +54,7 @@ export function clickContinueToCartBtnOnOP(): void {
 }
 
 /**
+<<<<<<< HEAD
  * Clicks on 'Resolve Issues' link on the product overview page.
  */
 export function clickOnResolveIssuesLinkOnOP(): void {
@@ -109,9 +100,26 @@ export function verifyNotificationBannerOnOP(numberOfIssues?: number): void {
     this.checkNotificationBannerOnOP(element, numberOfIssues);
   } else {
     element.get('.cx-error-msg').should('not.be.visible');
+=======
+ * Waits for the notitication banner to display the correct number of issues
+ *
+ * @param {number} numberOfIssues - Expected number of issues
+ */
+export function waitForNotificationBanner(numberOfIssues?: number): void {
+  const element = cy.get('cx-configurator-overview-notification-banner');
+  let numberOfIssueText;
+
+  if (numberOfIssues > 1) {
+    numberOfIssueText = numberOfIssues + ' issues' + resolveIssuesText;
+  } else {
+    numberOfIssueText = numberOfIssues + ' issue' + resolveIssuesText;
+>>>>>>> develop
   }
+
+  element.get(`.cx-error-msg:contains(${numberOfIssueText})`);
 }
 
+<<<<<<< HEAD
 /**
  * Waits for the notitication banner to display the correct number of issues
  *
@@ -130,6 +138,8 @@ export function waitForNotificationBanner(numberOfIssues?: number): void {
   element.get(`.cx-error-msg:contains(${numberOfIssueText})`);
 }
 
+=======
+>>>>>>> develop
 /**
  * Registers OCC call for OV page in order to wait for it
  */

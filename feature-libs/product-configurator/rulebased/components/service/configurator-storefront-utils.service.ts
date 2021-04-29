@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -11,9 +12,11 @@ import { Configurator } from '../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorStorefrontUtilsService {
+  // TODO(#11681): make keyboardFocusService a required dependency and remove deprecated constructor
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    @Inject(PLATFORM_ID) protected platformId: any
+    @Inject(PLATFORM_ID) protected platformId: any,
+    protected keyboardFocusService?: KeyboardFocusService
   ) {}
 
   /**
@@ -103,6 +106,25 @@ export class ConfiguratorStorefrontUtilsService {
       const element = document.querySelector(selector);
       if (element && !this.isInViewport(element)) {
         this.scroll(element);
+      }
+    }
+  }
+
+  /**
+   * Focus the first attribute in the form.
+   */
+  focusFirstAttribute(): void {
+    if (this.keyboardFocusService) {
+      if (isPlatformBrowser(this.platformId)) {
+        const form: HTMLElement = document.querySelector(
+          'cx-configurator-form'
+        );
+        const focusedElements: HTMLElement[] = this.keyboardFocusService.findFocusable(
+          form
+        );
+        if (focusedElements && focusedElements.length > 1) {
+          focusedElements[0]?.focus();
+        }
       }
     }
   }

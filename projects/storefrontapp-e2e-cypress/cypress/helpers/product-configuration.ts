@@ -954,6 +954,7 @@ function checkAddToCartBtnDisplayed(): void {
 }
 
 /**
+<<<<<<< HEAD
  * Verifies whether the group menu is not displayed.
  */
 export function checkConfigProductTitleDisplayed(): void {
@@ -989,6 +990,8 @@ export function checkCategoryNavigationNotDisplayed(): void {
 }
 
 /**
+=======
+>>>>>>> develop
  * Verifies the accuracy of the formatted price.
  *
  * @param {string} formattedPrice - Formatted price
@@ -1015,7 +1018,7 @@ export function navigateToOverviewPage(): void {
  *
  * @param {number} groupIndex - Group index
  */
-function clickOnGroupByGroupIndex(groupIndex: number): void {
+export function clickOnGroupByGroupIndex(groupIndex: number): void {
   cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
     .not('.cx-menu-conflict')
     .eq(groupIndex)
