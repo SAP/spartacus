@@ -86,5 +86,10 @@ describe('CurrencyStatePersistenceService', () => {
 
       expect(currencyService.setActive).toHaveBeenCalledWith(mockCurrencies[0]);
     });
+    it('should ignore storage if the currency is already set', () => {
+      spyOn(currencyService, 'getActive').and.returnValue(of('JPY'));
+
+      expect(currencyService.setActive).not.toHaveBeenCalled();
+    });
   });
 });

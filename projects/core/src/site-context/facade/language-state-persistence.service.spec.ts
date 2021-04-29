@@ -86,5 +86,10 @@ describe('LanguageStatePersistenceService', () => {
 
       expect(languageService.setActive).toHaveBeenCalledWith(mockLanguages[0]);
     });
+    it('should ignore storage if the language is already set', () => {
+      spyOn(languageService, 'getActive').and.returnValue(of('zh'));
+
+      expect(languageService.setActive).not.toHaveBeenCalled();
+    });
   });
 });
