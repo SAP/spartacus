@@ -31,54 +31,15 @@ export class AuthRedirectService implements OnDestroy {
     protected router: Router,
     protected authRedirectStorageService: AuthRedirectStorageService
   ) {
-    // SPIKE TODO REMOVE:
-    window['authRedirectService'] = this;
-
     this.init();
   }
 
-  private sub: Subscription;
+  private subscription: Subscription;
 
   /**
    * Array of candidates for being the redirect URL.
    */
   private redirectUrlCandidates: string[] = [];
-
-  // IDEA:
-  // remember the last URL before entering a page with NotAuthGuard
-  //
-  // CONCERN:
-  // if we observe NavigationStart, we get the url that we attempted to visit just before a page with NotAuthGuard
-  // but when we enter a page with NotAuthGuard (i.e. login), the last recorded NavigationStart, is i.e. /login
-  // so we need to record last two NavigationStart, so we can exclude the last recorded /login navigation
-  //
-  // CONCERN 2:
-  // when you open /login and then /register and then back to /login, you should ignore all of them,
-  // but take the url which you visited before all of them
-  //
-  // IMPLEMENTATION IDEA:
-  // save the redirect URL only in reportNotAuthGuard
-  // save last NavigationStart url that was not called together with reportNotAuthGuard
-  // when NavigationEnd happens, clear the structure to store only the navigation URL
-
-  protected init() {
-    this.sub = this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        this.redirectUrlCandidates.push(event.url);
-        console.log(this.redirectUrlCandidates); // spike todo remove
-      }
-
-      if (event instanceof NavigationEnd) {
-        // leave only the last URL, when navigation ends (the current resolved URL):
-        this.redirectUrlCandidates = this.redirectUrlCandidates.slice(-1);
-        console.log(this.redirectUrlCandidates); // spike todo remove
-      }
-    });
-  }
-
-  ngOnDestroy() {
-    this.sub?.unsubscribe();
-  }
 
   /**
    * Redirect to saved url (homepage if nothing is saved).
@@ -98,25 +59,58 @@ export class AuthRedirectService implements OnDestroy {
   }
 
   /**
-   * @deprecated since 4.0, the method is not needed anymore
+   * Initializes the subscription to the NavigationStart Router events. Based on those events,
+   * we remember possible redirect URL candidates.
+   *
+   * During the phase of evaluating guards the candidate being might be abandoned,
+   * when some guard calls the method `reportNotAuthGuard()`.
    */
-  reportAuthGuard() {}
-  /**
-   * Saves url of a page that was accessed before entering a page only for not auth users.
-   */
-  reportNotAuthGuard() {
-    this.ignoreCurrentNavigationUrl();
-    this.setRedirectUrl();
+  protected init() {
+    if (this.subscription) {
+      return; // prevent calling init() twice
+    }
+
+    this.subscription = this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        this.redirectUrlCandidates.push(event.url); // current candidate
+
+        console.log(this.redirectUrlCandidates); // spike todo remove
+        debugger;
+      }
+
+      if (event instanceof NavigationEnd) {
+        // drop the history of old candidates, when navigation ends. Leave only the last one:
+        this.redirectUrlCandidates = this.redirectUrlCandidates.slice(-1);
+        console.log(this.redirectUrlCandidates); // spike todo remove
+        debugger;
+      }
+    });
   }
 
   /**
-   * Removes the the current navigation URL from the candidates
-   * of being redirect URL.
+   * @deprecated since 4.0, the method is not needed anymore
    */
-  private ignoreCurrentNavigationUrl() {
+  reportAuthGuard() {}
+
+  /**
+   * Saves the last redirect URL candidate as the actual redirect URL.
+   *
+   * It doesn't treat the current navigation URL as a candidate.
+   */
+  reportNotAuthGuard() {
+    this.excludeCurrentNavigationCandidate();
+    this.saveRedirectUrl();
+  }
+
+  /**
+   * Removes the the current navigation URL from the candidates array
+   */
+  private excludeCurrentNavigationCandidate() {
     const navigation = this.router.getCurrentNavigation();
     if (!navigation?.finalUrl) {
-      return;
+      throw new Error(
+        'AuthRedirectService.reportNotAuthGuard method can be called only during the router navigation phase.'
+      );
     }
     const currentNavigationUrl = this.router.serializeUrl(navigation.finalUrl);
     this.redirectUrlCandidates = this.redirectUrlCandidates.filter(
@@ -125,14 +119,18 @@ export class AuthRedirectService implements OnDestroy {
   }
 
   /**
-   * Sets the last candidate as the redirect url.
+   * Saves the last redirect URL candidate as the actual redirect URL.
    */
-  private setRedirectUrl() {
-    const [lastRedirectUrlCandidate] = this.redirectUrlCandidates.slice(-1);
+  private saveRedirectUrl() {
+    const [lastCandidate] = this.redirectUrlCandidates.slice(-1);
 
-    // there might be no last candidate URL especially when it's the initial navigation (i.e. on page refresh)
-    if (lastRedirectUrlCandidate) {
-      this.authRedirectStorageService.setRedirectUrl(lastRedirectUrlCandidate);
+    // there might be no last candidate URL, especially when it's the initial navigation
+    if (lastCandidate) {
+      this.authRedirectStorageService.setRedirectUrl(lastCandidate);
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }
