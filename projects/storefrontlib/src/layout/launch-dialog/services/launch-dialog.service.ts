@@ -39,7 +39,7 @@ export class LaunchDialogService {
    * @param data optional data which could be passed to dialog
    */
   openDialog(
-    caller: LAUNCH_CALLER,
+    caller: LAUNCH_CALLER | string,
     openElement?: ElementRef,
     vcr?: ViewContainerRef,
     data?: any
