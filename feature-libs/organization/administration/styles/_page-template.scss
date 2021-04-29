@@ -4,8 +4,8 @@
 // being generated.
 $page-template-blocklist-organization: () !default;
 
-// whitelisted page template selectors are processed
-// unless (some) they are blacklisted
+// allowlisted page template selectors are processed
+// unless (some) they are blocklisted
 $page-template-allowlist-organization: CompanyPageTemplate !default;
 
 @each $selector in $page-template-allowlist-organization {

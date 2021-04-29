@@ -4,7 +4,7 @@
 // being generated.
 $page-template-blocklist-store-finder: () !default;
 
-// whitelisted page template selectors are processed
+// allowlisted page template selectors are processed
 // unless (some) they are blocklisted
 $page-template-allowlist-store-finder: StoreFinderPageTemplate !default;
 
