@@ -9,15 +9,14 @@ import {
   addLibraryFeature,
   addPackageJsonDependencies,
   addSchematicsTasks,
+  CORE_SPARTACUS_SCOPES,
   createDependencies,
   createSpartacusFeatureOptionsForLibrary,
-  installSpartacusFeatures,
+  FEATURES_LIBS_SKIP_SCOPES,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
   shouldAddFeature,
-  SPARTACUS_ASM,
   SPARTACUS_CDC,
-  SPARTACUS_USER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -51,22 +50,22 @@ function addCdcPackageJsonDependencies(
   context: SchematicContext,
   options: SpartacusCdcOptions
 ): Rule {
-  const spartacusLibraries = [SPARTACUS_ASM, SPARTACUS_USER];
+  const spartacusLibraries = createDependencies(peerDependencies, {
+    skipScopes: CORE_SPARTACUS_SCOPES,
+    onlyIncludeScopes: FEATURES_LIBS_SKIP_SCOPES,
+  });
   const thirdPartyDependencies = createDependencies(peerDependencies);
+  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
 
-  const rule = installSpartacusFeatures(spartacusLibraries);
-  const thirdPartyPackagesRule = addPackageJsonDependencies(
-    thirdPartyDependencies,
-    packageJson
-  );
+  const rule = addPackageJsonDependencies(dependencies, packageJson);
 
   const featureOptions = createSpartacusFeatureOptionsForLibrary(
-    spartacusLibraries,
+    spartacusLibraries.map((dependency) => dependency.name),
     options
   );
   addSchematicsTasks(featureOptions, context);
 
-  return chain([rule, thirdPartyPackagesRule]);
+  return rule;
 }
 
 function addCdc(options: SpartacusCdcOptions): Rule {
