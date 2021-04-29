@@ -1,15 +1,14 @@
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CouponCardComponent } from './coupon-card.component';
-import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
-import { By } from '@angular/platform-browser';
-import { ModalService } from '../../../../shared/components/modal/index';
 import { Component, DebugElement, Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MyCouponsComponentService } from '../my-coupons.component.service';
+import { CustomerCoupon, I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalService } from '../../../../shared/components/modal/index';
+import { MyCouponsComponentService } from '../my-coupons.component.service';
+import { CouponCardComponent } from './coupon-card.component';
+import createSpy = jasmine.createSpy;
 
 const mockCoupon: CustomerCoupon = {
   couponId: 'CustomerCoupon',
@@ -60,11 +59,15 @@ class MyCouponsComponent {
     });
 }
 
+class MockModalService {
+  open = createSpy('open');
+}
+
 describe('CouponCardComponent', () => {
   let component: MyCouponsComponent;
   let fixture: ComponentFixture<MyCouponsComponent>;
   let el: DebugElement;
-  let modalInstance: any;
+  let modalService: ModalService;
   const couponComponentService = jasmine.createSpyObj(
     'MyCouponsComponentService',
     ['launchSearchPage']
@@ -75,7 +78,7 @@ describe('CouponCardComponent', () => {
         declarations: [CouponCardComponent, MyCouponsComponent, MockUrlPipe],
         imports: [I18nTestingModule, RouterTestingModule],
         providers: [
-          { provide: NgbActiveModal, useValue: { open: () => {} } },
+          { provide: ModalService, useClass: MockModalService },
           {
             provide: MyCouponsComponentService,
             useValue: couponComponentService,
@@ -89,9 +92,8 @@ describe('CouponCardComponent', () => {
     fixture = TestBed.createComponent(MyCouponsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    modalInstance = TestBed.inject(ModalService);
-    spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
     component.coupon.notificationOn = false;
+    modalService = TestBed.inject(ModalService);
     unsubLoading$.next(false);
     subLoading$.next(false);
   });
@@ -142,7 +144,7 @@ describe('CouponCardComponent', () => {
     fixture.detectChanges();
     const readMoreLink = el.query(By.css('a'));
     readMoreLink.nativeElement.click();
-    expect(modalInstance.open).toHaveBeenCalled();
+    expect(modalService.open).toHaveBeenCalled();
   });
 
   it('should be able to show correct status when subscribe notification', () => {

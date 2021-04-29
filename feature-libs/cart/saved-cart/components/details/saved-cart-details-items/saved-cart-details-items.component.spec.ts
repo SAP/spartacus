@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { SavedCartService } from '@spartacus/cart/saved-cart/core';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   EventService,
@@ -70,7 +70,7 @@ class MockEventService implements Partial<EventService> {
   }
 }
 
-class MockSavedCartService implements Partial<SavedCartService> {
+class MockSavedCartFacade implements Partial<SavedCartFacade> {
   isStable(_cartId: string): Observable<boolean> {
     return of(true);
   }
@@ -91,7 +91,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 describe('SavedCartDetailsItemsComponent', () => {
   let component: SavedCartDetailsItemsComponent;
   let fixture: ComponentFixture<SavedCartDetailsItemsComponent>;
-  let savedCartService: SavedCartService;
+  let savedCartFacade: SavedCartFacade;
   let eventService: EventService;
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
@@ -106,8 +106,8 @@ describe('SavedCartDetailsItemsComponent', () => {
         ],
         providers: [
           {
-            provide: SavedCartService,
-            useClass: MockSavedCartService,
+            provide: SavedCartFacade,
+            useClass: MockSavedCartFacade,
           },
           {
             provide: EventService,
@@ -125,14 +125,14 @@ describe('SavedCartDetailsItemsComponent', () => {
       fixture = TestBed.createComponent(SavedCartDetailsItemsComponent);
       component = fixture.componentInstance;
 
-      savedCartService = TestBed.inject(SavedCartService);
+      savedCartFacade = TestBed.inject(SavedCartFacade);
       eventService = TestBed.inject(EventService);
       globalMessageService = TestBed.inject(GlobalMessageService);
       routingService = TestBed.inject(RoutingService);
 
       spyOn(routingService, 'go').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
-      spyOn(savedCartService, 'deleteSavedCart').and.callThrough();
+      spyOn(savedCartFacade, 'deleteSavedCart').and.callThrough();
 
       cart$.next(mockSavedCart);
 
@@ -175,7 +175,7 @@ describe('SavedCartDetailsItemsComponent', () => {
     component.savedCart$
       .subscribe((savedCart) => {
         expect(savedCart).toEqual(mockSavedCart);
-        expect(savedCartService.deleteSavedCart).not.toHaveBeenCalled();
+        expect(savedCartFacade.deleteSavedCart).not.toHaveBeenCalled();
       })
       .unsubscribe();
   });
@@ -186,7 +186,7 @@ describe('SavedCartDetailsItemsComponent', () => {
     component.savedCart$
       .subscribe((savedCart) => {
         expect(savedCart).toEqual(mockEmptyEntriesCart);
-        expect(savedCartService.deleteSavedCart).toHaveBeenCalledWith(
+        expect(savedCartFacade.deleteSavedCart).toHaveBeenCalledWith(
           mockCartId
         );
       })

@@ -145,13 +145,11 @@ export function removeProductFromPdp() {
 }
 
 export function addProductToCart(product: TestProduct) {
-  cy.server();
-
-  cy.route(
+  cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/carts/*/entries?code=*&qty=*&lang=en&curr=USD`
+    )}/users/*/carts/*/entries?lang=en&curr=USD`
   ).as('add_to_cart');
 
   getWishListItem(product.name).within(() => {
