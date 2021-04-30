@@ -259,7 +259,7 @@ function addRootModule(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     if (!config.rootModule) {
       return tree;
@@ -288,7 +288,7 @@ function addFeatureModule(
   basePath: string,
   config: FeatureConfig,
   options: LibraryOptions
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
@@ -339,7 +339,7 @@ function addFeatureTranslations(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
@@ -377,7 +377,7 @@ function addCustomConfig(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
