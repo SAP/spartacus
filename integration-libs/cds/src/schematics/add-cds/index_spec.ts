@@ -109,19 +109,12 @@ describe('Spartacus CDS schematics: ng-add', () => {
 
   describe('CDS feature', () => {
     describe('without Profile tag', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner
             .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
             .toPromise();
         });
-
         it('should install necessary Spartacus libraries', async () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
@@ -137,6 +130,31 @@ describe('Spartacus CDS schematics: ng-add', () => {
         it('should create the feature module', async () => {
           const module = appTree.readContent(featureModulePath);
           expect(module).toMatchSnapshot();
+        });
+      });
+
+      describe('validation', () => {
+        let firstMessage: string | undefined;
+        beforeEach(async () => {
+          schematicRunner.logger.subscribe((log) => {
+            if (!firstMessage) {
+              firstMessage = log.message;
+            }
+          });
+
+          appTree = await schematicRunner
+            .runSchematicAsync(
+              'ng-add',
+              { ...defaultFeatureOptions, profileTagConfigUrl: 'xxx' },
+              appTree
+            )
+            .toPromise();
+        });
+
+        it('show the warning', () => {
+          expect(firstMessage).toEqual(
+            `Profile tag will not be added. Please run the schematic again, and make sure you provide both profile tag options.`
+          );
         });
       });
     });
@@ -157,12 +175,6 @@ describe('Spartacus CDS schematics: ng-add', () => {
       });
 
       describe('general setup', () => {
-        beforeEach(async () => {
-          appTree = await schematicRunner
-            .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-            .toPromise();
-        });
-
         it('should install necessary Spartacus libraries', async () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
