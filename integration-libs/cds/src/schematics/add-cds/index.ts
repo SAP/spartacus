@@ -12,6 +12,7 @@ import {
   CDS_CONFIG,
   CLI_CDS_FEATURE,
   createDependencies,
+  createSpartacusDependencies,
   CustomConfig,
   installPackageJsonDependencies,
   readPackageJson,
@@ -49,7 +50,10 @@ function validateCdsOptions({ tenant, baseUrl }: SpartacusCdsOptions): void {
 }
 
 function addCdsPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
+  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
+  const thirdPartyDependencies = createDependencies(peerDependencies);
+  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
+
   return addPackageJsonDependencies(dependencies, packageJson);
 }
 

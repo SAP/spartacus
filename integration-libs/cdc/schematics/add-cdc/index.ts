@@ -9,11 +9,9 @@ import {
   addLibraryFeature,
   addPackageJsonDependencies,
   addSchematicsTasks,
-  CORE_SPARTACUS_SCOPES,
   createDependencies,
+  createSpartacusDependencies,
   createSpartacusFeatureOptionsForLibrary,
-  FEATURES_LIBS_SKIP_SCOPES,
-  getSpartacusSchematicsVersion,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
   shouldAddFeature,
@@ -51,12 +49,7 @@ function addCdcPackageJsonDependencies(
   context: SchematicContext,
   options: SpartacusCdcOptions
 ): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const spartacusLibraries = createDependencies(peerDependencies, {
-    skipScopes: CORE_SPARTACUS_SCOPES,
-    onlyIncludeScopes: FEATURES_LIBS_SKIP_SCOPES,
-    version: spartacusVersion,
-  });
+  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
   const thirdPartyDependencies = createDependencies(peerDependencies);
   const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
 

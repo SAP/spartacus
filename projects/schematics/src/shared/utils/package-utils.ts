@@ -24,6 +24,18 @@ export const CORE_SPARTACUS_SCOPES = [
   SPARTACUS_STYLES,
 ];
 export const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
+
+export function createSpartacusDependencies(
+  dependencyObject: any
+): NodeDependency[] {
+  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+  return createDependencies(dependencyObject, {
+    skipScopes: CORE_SPARTACUS_SCOPES,
+    onlyIncludeScopes: FEATURES_LIBS_SKIP_SCOPES,
+    version: spartacusVersion,
+  });
+}
+
 export function createDependencies(
   dependencyObject: any,
   options: {

@@ -10,6 +10,7 @@ import {
   addPackageJsonDependencies,
   CLI_SMARTEDIT_FEATURE,
   createDependencies,
+  createSpartacusDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusSmartEditOptions,
   readPackageJson,
@@ -44,7 +45,9 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
 }
 
 function addSmarteditPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
+  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
+  const thirdPartyDependencies = createDependencies(peerDependencies);
+  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }

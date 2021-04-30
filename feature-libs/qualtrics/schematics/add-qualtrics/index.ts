@@ -10,6 +10,7 @@ import {
   addPackageJsonDependencies,
   CLI_QUALTRICS_FEATURE,
   createDependencies,
+  createSpartacusDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusQualtricsOptions,
   QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
@@ -44,7 +45,9 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
 }
 
 function addQualtricsPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
+  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
+  const thirdPartyDependencies = createDependencies(peerDependencies);
+  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }
