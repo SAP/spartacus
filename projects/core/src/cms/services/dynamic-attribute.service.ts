@@ -26,7 +26,7 @@ export class DynamicAttributeService {
 
   constructor(
     // TODO: remove this SmartEditService in 4.0
-    protected smartEditService: SmartEditService,
+    protected smartEditService?: SmartEditService,
     protected unifiedInjector?: UnifiedInjector
   ) {}
 
