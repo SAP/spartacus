@@ -7,6 +7,7 @@ import {
 import {
   PRODUCT_FOLDER_NAME,
   PRODUCT_SCSS_FILE_NAME,
+  PRODUCT_VARIANTS_FEATURE_CONSTANT,
   SPARTACUS_VARIANTS,
   SPARTACUS_VARIANTS_ASSETS,
   SPARTACUS_VARIANTS_ROOT,
@@ -28,6 +29,10 @@ export function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
     rootModule: {
       name: VARIANTS_ROOT_MODULE,
       importPath: SPARTACUS_VARIANTS_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_VARIANTS_ROOT,
+      namedImports: [PRODUCT_VARIANTS_FEATURE_CONSTANT],
     },
     i18n: {
       resources: VARIANTS_TRANSLATIONS,
