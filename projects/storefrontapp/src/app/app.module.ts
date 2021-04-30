@@ -14,6 +14,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   ConfigModule,
+  FeatureModuleConfig,
   FeaturesConfig,
   I18nConfig,
   OccConfig,
@@ -47,7 +48,9 @@ if (!environment.production) {
 
 // PRODUCT CONFIGURATOR
 // TODO(#10883): Move product configurator to a separate feature module
-const ruleBasedVcFeatureConfiguration = {
+const ruleBasedVcFeatureConfiguration: {
+  [featureName: string]: FeatureModuleConfig | string;
+} = {
   [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
     module: () =>
       import('@spartacus/product-configurator/rulebased').then(
@@ -55,7 +58,9 @@ const ruleBasedVcFeatureConfiguration = {
       ),
   },
 };
-const ruleBasedCpqFeatureConfiguration = {
+const ruleBasedCpqFeatureConfiguration: {
+  [featureName: string]: FeatureModuleConfig | string;
+} = {
   [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
     module: () =>
       import('@spartacus/product-configurator/rulebased/cpq').then(
