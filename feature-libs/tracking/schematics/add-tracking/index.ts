@@ -20,10 +20,9 @@ import { peerDependencies } from '../../package.json';
 import {
   CLI_PERSONALIZATION_FEATURE,
   CLI_TMS_AEP_FEATURE,
-  CLI_TMS_FEATURE,
   CLI_TMS_GTM_FEATURE,
-  PERSONALIZATION_FEATURE_CONSTANT,
   PERSONALIZATION_FEATURE_NAME,
+  PERSONALIZATION_FEATURE_NAME_CONSTANT,
   PERSONALIZATION_MODULE,
   PERSONALIZATION_ROOT_MODULE,
   SPARTACUS_PERSONALIZATION,
@@ -34,6 +33,7 @@ import {
   TMS_AEP_MODULE,
   TMS_BASE_MODULE,
   TMS_CONFIG,
+  TMS_FEATURE_NAME,
   TMS_GTM_MODULE,
   TRACKING_FOLDER_NAME,
 } from '../constants';
@@ -75,7 +75,7 @@ function addGtm(options: SpartacusTrackingOptions): Rule {
     { ...options, lazy: false }, // To add feature module in imports (not lazy)
     {
       folderName: TRACKING_FOLDER_NAME,
-      name: CLI_TMS_FEATURE,
+      name: TMS_FEATURE_NAME,
       rootModule: {
         importPath: SPARTACUS_TMS_CORE,
         name: TMS_BASE_MODULE,
@@ -110,7 +110,7 @@ function addAep(options: SpartacusTrackingOptions): Rule {
     { ...options, lazy: false }, // To add feature module in imports (not lazy)
     {
       folderName: TRACKING_FOLDER_NAME,
-      name: CLI_TMS_FEATURE,
+      name: TMS_FEATURE_NAME,
       rootModule: {
         importPath: SPARTACUS_TMS_CORE,
         name: TMS_BASE_MODULE,
@@ -154,7 +154,7 @@ function addPersonalizationFeature(options: SpartacusTrackingOptions): Rule {
     },
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_PERSONALIZATION_ROOT,
-      namedImports: [PERSONALIZATION_FEATURE_CONSTANT],
+      namedImports: [PERSONALIZATION_FEATURE_NAME_CONSTANT],
     },
   });
 }

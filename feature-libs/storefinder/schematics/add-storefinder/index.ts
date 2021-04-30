@@ -24,8 +24,8 @@ import { peerDependencies } from '../../package.json';
 import {
   SPARTACUS_STOREFINDER_ASSETS,
   SPARTACUS_STOREFINDER_ROOT,
-  STOREFINDER_FEATURE_CONSTANT,
   STOREFINDER_FEATURE_NAME,
+  STOREFINDER_FEATURE_NAME_CONSTANT,
   STOREFINDER_FOLDER_NAME,
   STOREFINDER_ROOT_MODULE,
   STOREFINDER_TRANSLATIONS,
@@ -72,7 +72,7 @@ function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
     },
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_STOREFINDER_ROOT,
-      namedImports: [STOREFINDER_FEATURE_CONSTANT],
+      namedImports: [STOREFINDER_FEATURE_NAME_CONSTANT],
     },
     i18n: {
       resources: STOREFINDER_TRANSLATIONS,

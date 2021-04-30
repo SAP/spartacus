@@ -20,8 +20,8 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
-  SMARTEDIT_FEATURE_CONSTANT,
   SMARTEDIT_FEATURE_NAME,
+  SMARTEDIT_FEATURE_NAME_CONSTANT,
   SMARTEDIT_FOLDER_NAME,
   SMARTEDIT_MODULE,
   SMARTEDIT_ROOT_MODULE,
@@ -67,7 +67,7 @@ function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
     },
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_SMARTEDIT_ROOT,
-      namedImports: [SMARTEDIT_FEATURE_CONSTANT],
+      namedImports: [SMARTEDIT_FEATURE_NAME_CONSTANT],
     },
     assets: {
       input: SPARTACUS_SMARTEDIT_ASSETS,
