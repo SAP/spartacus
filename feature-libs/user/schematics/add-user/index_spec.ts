@@ -128,23 +128,22 @@ describe('Spartacus User schematics: ng-add', () => {
         );
         expect(spartacusFeaturesModule).toMatchSnapshot();
       });
-    });
 
-    describe('styling', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
 
-      it('should create a proper scss file', () => {
-        const scssContent = appTree.readContent(scssFilePath);
-        expect(scssContent).toMatchSnapshot();
-      });
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
 
-      it('should update angular.json', async () => {
-        const content = appTree.readContent('/angular.json');
-        expect(content).toMatchSnapshot();
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
       });
     });
 
@@ -160,19 +159,6 @@ describe('Spartacus User schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
-        expect(module).toMatchSnapshot();
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import UserAccountRootModule and contain the lazy loading syntax', async () => {
         const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();
       });
@@ -198,23 +184,22 @@ describe('Spartacus User schematics: ng-add', () => {
         );
         expect(spartacusFeaturesModule).toMatchSnapshot();
       });
-    });
 
-    describe('styling', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
 
-      it('should create a proper scss file', () => {
-        const scssContent = appTree.readContent(scssFilePath);
-        expect(scssContent).toMatchSnapshot();
-      });
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
 
-      it('should update angular.json', async () => {
-        const content = appTree.readContent('/angular.json');
-        expect(content).toMatchSnapshot();
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
       });
     });
 
@@ -230,19 +215,6 @@ describe('Spartacus User schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
-        expect(module).toMatchSnapshot();
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import UserProfileRootModule and contain the lazy loading syntax', async () => {
         const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();
       });

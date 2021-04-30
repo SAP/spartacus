@@ -24,6 +24,37 @@ export class StoreFinderFeatureModule { }
 "
 `;
 
+exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { storeFinderTranslationChunksConfig, storeFinderTranslations } from \\"@spartacus/storefinder/assets\\";
+import { StoreFinderRootModule, STORE_FINDER_FEATURE } from \\"@spartacus/storefinder/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    StoreFinderRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [STORE_FINDER_FEATURE]: {
+        module: () =>
+          import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: storeFinderTranslations,
+      chunks: storeFinderTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class StoreFinderFeatureModule { }
+"
+`;
+
 exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general setup should import feature module to SpartacusFeaturesModule 1`] = `
 "import { NgModule } from '@angular/core';
 import { AnonymousConsentsModule, AuthModule, CartModule, CartOccModule, CheckoutModule, CheckoutOccModule, CostCenterOccModule, ProductModule, ProductOccModule, UserOccTransitionalModule, UserTransitionalModule } from \\"@spartacus/core\\";
@@ -183,40 +214,9 @@ exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general se
 "
 `;
 
-exports[`Spartacus Storefinder schematics: ng-add Storefinder feature lazy loading should import StoreFinderRootModule and contain the lazy loading syntax 1`] = `
-"import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { storeFinderTranslationChunksConfig, storeFinderTranslations } from \\"@spartacus/storefinder/assets\\";
-import { StoreFinderRootModule, STORE_FINDER_FEATURE } from \\"@spartacus/storefinder/root\\";
+exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/storefinder\\";"`;
 
-@NgModule({
-  declarations: [],
-  imports: [
-    StoreFinderRootModule
-  ],
-  providers: [provideConfig(<CmsConfig>{
-    featureModules: {
-      [STORE_FINDER_FEATURE]: {
-        module: () =>
-          import('@spartacus/storefinder').then((m) => m.StoreFinderModule),
-      },
-    }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: storeFinderTranslations,
-      chunks: storeFinderTranslationChunksConfig,
-    },
-  })
-  ]
-})
-export class StoreFinderFeatureModule { }
-"
-`;
-
-exports[`Spartacus Storefinder schematics: ng-add Storefinder feature styling should create a proper scss file 1`] = `"@import \\"@spartacus/storefinder\\";"`;
-
-exports[`Spartacus Storefinder schematics: ng-add Storefinder feature styling should update angular.json 1`] = `
+exports[`Spartacus Storefinder schematics: ng-add Storefinder feature general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,

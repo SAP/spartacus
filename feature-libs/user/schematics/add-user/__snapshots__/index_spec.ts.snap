@@ -36,6 +36,54 @@ export class UserFeatureModule { }
 "
 `;
 
+exports[`Spartacus User schematics: ng-add Account feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
 exports[`Spartacus User schematics: ng-add Account feature general setup should import feature module to SpartacusFeaturesModule 1`] = `
 "import { NgModule } from '@angular/core';
 import { AnonymousConsentsModule, AuthModule, CartModule, CartOccModule, CheckoutModule, CheckoutOccModule, CostCenterOccModule, ProductModule, ProductOccModule, UserOccTransitionalModule, UserTransitionalModule } from \\"@spartacus/core\\";
@@ -195,57 +243,9 @@ exports[`Spartacus User schematics: ng-add Account feature general setup should 
 "
 `;
 
-exports[`Spartacus User schematics: ng-add Account feature lazy loading should import UserAccountRootModule and contain the lazy loading syntax 1`] = `
-"import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
-import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
-import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
-import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+exports[`Spartacus User schematics: ng-add Account feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/user\\";"`;
 
-@NgModule({
-  declarations: [],
-  imports: [
-    UserAccountRootModule,
-    UserProfileRootModule
-  ],
-  providers: [provideConfig(<CmsConfig>{
-    featureModules: {
-      [USER_ACCOUNT_FEATURE]: {
-        module: () =>
-          import('@spartacus/user/account').then((m) => m.UserAccountModule),
-      },
-    }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: userAccountTranslations,
-      chunks: userAccountTranslationChunksConfig,
-    },
-  }),
-  provideConfig(<CmsConfig>{
-    featureModules: {
-      [USER_PROFILE_FEATURE]: {
-        module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
-      },
-    }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: userProfileTranslations,
-      chunks: userProfileTranslationChunksConfig,
-    },
-  })
-  ]
-})
-export class UserFeatureModule { }
-"
-`;
-
-exports[`Spartacus User schematics: ng-add Account feature styling should create a proper scss file 1`] = `"@import \\"@spartacus/user\\";"`;
-
-exports[`Spartacus User schematics: ng-add Account feature styling should update angular.json 1`] = `
+exports[`Spartacus User schematics: ng-add Account feature general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,
@@ -402,6 +402,54 @@ import { UserProfileRootModule } from \\"@spartacus/user/profile/root\\";
       resources: userAccountTranslations,
       chunks: userAccountTranslationChunksConfig,
     },
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userProfileTranslations,
+      chunks: userProfileTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class UserFeatureModule { }
+"
+`;
+
+exports[`Spartacus User schematics: ng-add Profile feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
+import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
+import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
+import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    UserAccountRootModule,
+    UserProfileRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_ACCOUNT_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/account').then((m) => m.UserAccountModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: userAccountTranslations,
+      chunks: userAccountTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [USER_PROFILE_FEATURE]: {
+        module: () =>
+          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+      },
+    }
   }),
   provideConfig(<I18nConfig>{
     i18n: {
@@ -574,57 +622,9 @@ exports[`Spartacus User schematics: ng-add Profile feature general setup should 
 "
 `;
 
-exports[`Spartacus User schematics: ng-add Profile feature lazy loading should import UserProfileRootModule and contain the lazy loading syntax 1`] = `
-"import { NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
-import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
-import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from \\"@spartacus/user/account/root\\";
-import { userProfileTranslationChunksConfig, userProfileTranslations } from \\"@spartacus/user/profile/assets\\";
-import { UserProfileRootModule, USER_PROFILE_FEATURE } from \\"@spartacus/user/profile/root\\";
+exports[`Spartacus User schematics: ng-add Profile feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/user\\";"`;
 
-@NgModule({
-  declarations: [],
-  imports: [
-    UserAccountRootModule,
-    UserProfileRootModule
-  ],
-  providers: [provideConfig(<CmsConfig>{
-    featureModules: {
-      [USER_ACCOUNT_FEATURE]: {
-        module: () =>
-          import('@spartacus/user/account').then((m) => m.UserAccountModule),
-      },
-    }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: userAccountTranslations,
-      chunks: userAccountTranslationChunksConfig,
-    },
-  }),
-  provideConfig(<CmsConfig>{
-    featureModules: {
-      [USER_PROFILE_FEATURE]: {
-        module: () =>
-          import('@spartacus/user/profile').then((m) => m.UserProfileModule),
-      },
-    }
-  }),
-  provideConfig(<I18nConfig>{
-    i18n: {
-      resources: userProfileTranslations,
-      chunks: userProfileTranslationChunksConfig,
-    },
-  })
-  ]
-})
-export class UserFeatureModule { }
-"
-`;
-
-exports[`Spartacus User schematics: ng-add Profile feature styling should create a proper scss file 1`] = `"@import \\"@spartacus/user\\";"`;
-
-exports[`Spartacus User schematics: ng-add Profile feature styling should update angular.json 1`] = `
+exports[`Spartacus User schematics: ng-add Profile feature general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,

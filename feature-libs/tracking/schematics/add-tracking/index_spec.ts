@@ -134,6 +134,13 @@ describe('Spartacus Tracking schematics: ng-add', () => {
         );
         expect(spartacusFeaturesModule).toMatchSnapshot();
       });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const personalizationModule = appTree.readContent(
+          personalizationModulePath
+        );
+        expect(personalizationModule).toMatchSnapshot();
+      });
     });
 
     describe('eager loading', () => {
@@ -150,21 +157,6 @@ describe('Spartacus Tracking schematics: ng-add', () => {
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(personalizationModulePath);
         expect(module).toMatchSnapshot();
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import appropriate modules (with lazy loaded syntax)', async () => {
-        const personalizationModule = appTree.readContent(
-          personalizationModulePath
-        );
-        expect(personalizationModule).toMatchSnapshot();
       });
     });
   });
@@ -195,13 +187,13 @@ describe('Spartacus Tracking schematics: ng-add', () => {
           );
           expect(spartacusFeaturesModule).toMatchSnapshot();
         });
-      });
 
-      it('should import appropriate modules (without lazy loaded syntax)', async () => {
-        const tagManagementModule = appTree.readContent(
-          tagManagementModulePath
-        );
-        expect(tagManagementModule).toMatchSnapshot();
+        it('should import appropriate modules (without lazy loaded syntax)', async () => {
+          const tagManagementModule = appTree.readContent(
+            tagManagementModulePath
+          );
+          expect(tagManagementModule).toMatchSnapshot();
+        });
       });
     });
 
@@ -231,13 +223,13 @@ describe('Spartacus Tracking schematics: ng-add', () => {
           );
           expect(spartacusFeaturesModule).toMatchSnapshot();
         });
-      });
 
-      it('should import appropriate modules (without lazy loaded syntax)', async () => {
-        const tagManagementModule = appTree.readContent(
-          tagManagementModulePath
-        );
-        expect(tagManagementModule).toMatchSnapshot();
+        it('should import appropriate modules (without lazy loaded syntax)', async () => {
+          const tagManagementModule = appTree.readContent(
+            tagManagementModulePath
+          );
+          expect(tagManagementModule).toMatchSnapshot();
+        });
       });
     });
 
@@ -267,13 +259,13 @@ describe('Spartacus Tracking schematics: ng-add', () => {
           );
           expect(spartacusFeaturesModule).toMatchSnapshot();
         });
-      });
 
-      it('should import appropriate modules (no lazy loaded syntax)', async () => {
-        const tagManagementModule = appTree.readContent(
-          tagManagementModulePath
-        );
-        expect(tagManagementModule).toMatchSnapshot();
+        it('should import appropriate modules (without lazy loaded syntax)', async () => {
+          const tagManagementModule = appTree.readContent(
+            tagManagementModulePath
+          );
+          expect(tagManagementModule).toMatchSnapshot();
+        });
       });
     });
   });
