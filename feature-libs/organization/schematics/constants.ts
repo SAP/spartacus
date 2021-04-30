@@ -5,6 +5,8 @@ export const SCSS_FILE_NAME = 'organization.scss';
 
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME =
   'organizationAdministration';
+export const ORGANIZATION_ADMINISTRATION_FEATURE_CONSTANT =
+  'ORGANIZATION_ADMINISTRATION_FEATURE';
 export const ADMINISTRATION_ROOT_MODULE = 'AdministrationRootModule';
 export const ADMINISTRATION_MODULE = 'AdministrationModule';
 export const SPARTACUS_ADMINISTRATION = `${SPARTACUS_ORGANIZATION}/administration`;
@@ -16,6 +18,8 @@ export const ORGANIZATION_TRANSLATION_CHUNKS_CONFIG =
 
 export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME =
   'organizationOrderApproval';
+export const ORGANIZATION_ORDER_APPROVAL_FEATURE_CONSTANT =
+  'ORGANIZATION_ORDER_APPROVAL_FEATURE';
 export const ORDER_APPROVAL_MODULE = 'OrderApprovalModule';
 export const ORDER_APPROVAL_ROOT_MODULE = 'OrderApprovalRootModule';
 export const SPARTACUS_ORDER_APPROVAL = `${SPARTACUS_ORGANIZATION}/order-approval`;
