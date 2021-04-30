@@ -12,7 +12,6 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { TestScheduler } from 'rxjs/testing';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -262,59 +261,53 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it('should navigate to group exactly one time on navigateToPreviousGroup', () => {
-    //usage of TestScheduler because of the async check in last line
-    const testScheduler = new TestScheduler((actual, expected) => {
-      expect(actual).toEqual(expected);
+    const previousGroup = cold('-a-b|', {
+      a: ConfigurationTestData.GROUP_ID_1,
+      b: ConfigurationTestData.GROUP_ID_2,
     });
-    testScheduler.run((helpers) => {
-      const { expectObservable } = helpers;
-      const previousGroup = cold('-a-b', {
-        a: ConfigurationTestData.GROUP_ID_1,
-        b: ConfigurationTestData.GROUP_ID_2,
-      });
-      //this just validates the testScheduler
-      expectObservable(previousGroup.pipe(take(1))).toBe('-(a|)', {
-        a: ConfigurationTestData.GROUP_ID_1,
-      });
 
-      spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
-        previousGroup
-      );
-      spyOn(configurationGroupsService, 'navigateToGroup');
+    spyOn(configurationGroupsService, 'getPreviousGroupId').and.returnValue(
+      previousGroup
+    );
+    spyOn(configurationGroupsService, 'navigateToGroup');
 
-      classUnderTest.onPrevious(config);
+    classUnderTest.onPrevious(config);
+    previousGroup.subscribe({
+      complete: () => {
+        expect(
+          configurationGroupsService.navigateToGroup
+        ).toHaveBeenCalledTimes(1);
+      },
     });
-    //this is the actual test
-    expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);
   });
 
   it('should navigate to group exactly one time on navigateToNextGroup', () => {
-    //usage of TestScheduler because of the async check in last line
-    const testScheduler = new TestScheduler((actual, expected) => {
-      expect(actual).toEqual(expected);
-    });
-    testScheduler.run(() => {
-      const nextGroup = cold('-a-b', {
-        a: ConfigurationTestData.GROUP_ID_1,
-        b: ConfigurationTestData.GROUP_ID_2,
-      });
-
-      spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
-        nextGroup
-      );
-      spyOn(configurationGroupsService, 'navigateToGroup');
-
-      classUnderTest.onNext(config);
+    const nextGroup = cold('-a-b|', {
+      a: ConfigurationTestData.GROUP_ID_1,
+      b: ConfigurationTestData.GROUP_ID_2,
     });
 
-    expect(configurationGroupsService.navigateToGroup).toHaveBeenCalledTimes(1);
+    spyOn(configurationGroupsService, 'getNextGroupId').and.returnValue(
+      nextGroup
+    );
+    spyOn(configurationGroupsService, 'navigateToGroup');
+
+    classUnderTest.onNext(config);
+    nextGroup.subscribe({
+      complete: () => {
+        expect(
+          configurationGroupsService.navigateToGroup
+        ).toHaveBeenCalledTimes(1);
+      },
+    });
   });
 
   it('should call focusFirstAttribute', () => {
-    //usage of TestScheduler because of the async check in last line
     const testScheduler = new TestScheduler((actual, expected) => {
       expect(actual).toEqual(expected);
     });
+    //we need to run the test in a test scheduler
+    //because of the delay() in method focusFirstAttribute
     testScheduler.run(() => {
       const configurationLoading = cold('-a-b', {
         a: true,
