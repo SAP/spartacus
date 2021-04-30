@@ -20,6 +20,7 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
+  QUALTRICS_FEATURE_CONSTANT,
   QUALTRICS_FEATURE_NAME,
   QUALTRICS_FOLDER_NAME,
   QUALTRICS_MODULE,
@@ -60,6 +61,10 @@ function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {
     rootModule: {
       name: QUALTRICS_ROOT_MODULE,
       importPath: SPARTACUS_QUALTRICS_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_QUALTRICS_ROOT,
+      namedImports: [QUALTRICS_FEATURE_CONSTANT],
     },
     styles: {
       scssFileName: QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
