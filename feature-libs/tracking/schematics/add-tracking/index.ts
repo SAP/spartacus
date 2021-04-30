@@ -9,6 +9,7 @@ import {
   addLibraryFeature,
   addPackageJsonDependencies,
   createDependencies,
+  createSpartacusDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
@@ -62,7 +63,9 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
 }
 
 function addTrackingPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
+  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
+  const thirdPartyDependencies = createDependencies(peerDependencies);
+  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }

@@ -10,6 +10,7 @@ import {
   addPackageJsonDependencies,
   configureB2bFeatures,
   createDependencies,
+  createSpartacusDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusOrganizationOptions,
   readPackageJson,
@@ -67,7 +68,9 @@ export function addSpartacusOrganization(
 }
 
 function addOrganizationPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
+  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
+  const thirdPartyDependencies = createDependencies(peerDependencies);
+  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }

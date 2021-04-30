@@ -13,7 +13,9 @@ import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+  CartRemoveEntryFailEvent,
   CartRemoveEntrySuccessEvent,
+  CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
 } from './cart.events';
 
@@ -240,7 +242,56 @@ describe('CartEventBuilder', () => {
       subscription.unsubscribe();
     });
 
-    it('CartModifiedEntrySuccessEvent', () => {
+    it('CartRemoveEntryFailEvent', () => {
+      const firstEventData: CartRemoveEntryFailEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
+        entry: MOCK_ACTIVE_CART.entries[0],
+        ...MOCK_ACTIVE_CART_EVENT,
+      };
+
+      const secondEventData: CartRemoveEntryFailEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
+        entry: MOCK_ACTIVE_CART.entries[1],
+        ...MOCK_ACTIVE_CART_EVENT,
+      };
+
+      const results: CartRemoveEntryFailEvent[] = [];
+      const subscription = eventService
+        .get(CartRemoveEntryFailEvent)
+        .subscribe((e) => results.push(e));
+
+      actions$.next(
+        new CartActions.CartRemoveEntryFail({
+          error: 'remove failed',
+          entryNumber: '0',
+          ...MOCK_ACTIVE_CART_EVENT,
+        })
+      );
+      actions$.next(
+        new CartActions.CartRemoveEntryFail({
+          error: 'remove failed',
+          entryNumber: '0',
+          ...MOCK_NOT_ACTIVE_CART_EVENT,
+        })
+      );
+
+      actions$.next(
+        new CartActions.CartRemoveEntryFail({
+          error: 'remove failed',
+          entryNumber: '1',
+          ...MOCK_ACTIVE_CART_EVENT,
+        })
+      );
+
+      expect(results.length).toBe(2);
+      expect(results[0].constructor).toEqual(CartRemoveEntryFailEvent);
+      expect(results[0]).toEqual(jasmine.objectContaining(firstEventData));
+      expect(results[1]).toEqual(jasmine.objectContaining(secondEventData));
+
+      subscription.unsubscribe();
+    });
+
+    it('CartUpdateEntrySuccessEvent', () => {
       const firstEventData: CartUpdateEntrySuccessEvent = {
         cartCode: MOCK_ACTIVE_CART.code,
         entry: MOCK_ACTIVE_CART.entries[0],
@@ -248,10 +299,10 @@ describe('CartEventBuilder', () => {
         ...MOCK_ACTIVE_CART_EVENT,
       };
 
-      const result = [];
+      const results: CartUpdateEntrySuccessEvent[] = [];
       const subscription = eventService
         .get(CartUpdateEntrySuccessEvent)
-        .subscribe((e) => result.push(e));
+        .subscribe((e) => results.push(e));
 
       actions$.next(
         new CartActions.CartUpdateEntrySuccess({
@@ -260,9 +311,37 @@ describe('CartEventBuilder', () => {
           ...MOCK_ACTIVE_CART_EVENT,
         })
       );
-      expect(result.length).toBe(1);
-      expect(result[0].constructor).toEqual(CartUpdateEntrySuccessEvent);
-      expect(result[0]).toEqual(jasmine.objectContaining(firstEventData));
+      expect(results.length).toBe(1);
+      expect(results[0].constructor).toEqual(CartUpdateEntrySuccessEvent);
+      expect(results[0]).toEqual(jasmine.objectContaining(firstEventData));
+
+      subscription.unsubscribe();
+    });
+
+    it('CartUpdateEntryFailEvent', () => {
+      const firstEventData: CartUpdateEntryFailEvent = {
+        cartCode: MOCK_ACTIVE_CART.code,
+        entry: MOCK_ACTIVE_CART.entries[0],
+        quantity: 2,
+        ...MOCK_ACTIVE_CART_EVENT,
+      };
+
+      const results: CartUpdateEntryFailEvent[] = [];
+      const subscription = eventService
+        .get(CartUpdateEntryFailEvent)
+        .subscribe((e) => results.push(e));
+
+      actions$.next(
+        new CartActions.CartUpdateEntryFail({
+          error: 'update failed',
+          entryNumber: '0',
+          quantity: 2,
+          ...MOCK_ACTIVE_CART_EVENT,
+        })
+      );
+      expect(results.length).toBe(1);
+      expect(results[0].constructor).toEqual(CartUpdateEntryFailEvent);
+      expect(results[0]).toEqual(jasmine.objectContaining(firstEventData));
 
       subscription.unsubscribe();
     });

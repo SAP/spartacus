@@ -11,6 +11,7 @@ import {
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
   configureB2bFeatures,
   createDependencies,
+  createSpartacusDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
@@ -51,15 +52,19 @@ export function addProductConfiguratorFeatures(
 
     return chain([
       addProductConfiguratorRulebasedFeature(options),
+
       shouldAddFeature(CLI_CPQ_FEATURE, options.features)
         ? addCpqRulebasedRootModule(options)
         : noop(),
+
       shouldAddFeature(CLI_CPQ_FEATURE, options.features)
         ? configureB2bFeatures(options, packageJson)
         : noop(),
+
       shouldAddFeature(CLI_TEXTFIELD_FEATURE, options.features)
         ? addProductConfiguratorTextfieldFeature(options)
         : noop(),
+
       addProductConfiguratorPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
@@ -67,7 +72,9 @@ export function addProductConfiguratorFeatures(
 }
 
 function addProductConfiguratorPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
+  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
+  const thirdPartyDependencies = createDependencies(peerDependencies);
+  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }
