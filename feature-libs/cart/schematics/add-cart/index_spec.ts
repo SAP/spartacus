@@ -13,13 +13,14 @@ import {
   LibraryOptions as SpartacusCartOptions,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
-  SPARTACUS_SETUP,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { CLI_SAVED_CART_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const saveCartFeatureModulePath =
+const spartacusFeaturesModulePath =
+  'src/app/spartacus/spartacus-features.module.ts';
+const featureModulePath =
   'src/app/spartacus/features/cart/cart-saved-cart-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/cart.scss';
 
@@ -61,10 +62,6 @@ describe('Spartacus Cart schematics: ng-add', () => {
       '@spartacus/schematics',
       '../../projects/schematics/src/collection.json'
     );
-    schematicRunner.registerCollection(
-      '@spartacus/storefinder',
-      '../../feature-libs/storefinder/schematics/collection.json'
-    );
 
     appTree = await schematicRunner
       .runExternalSchematicAsync(
@@ -91,7 +88,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('when no features are selected', () => {
+  describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
@@ -102,27 +99,61 @@ describe('Spartacus Cart schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not install saved-cart', () => {
-      expect(appTree.exists(saveCartFeatureModulePath)).toBeFalsy();
+    it('should not add the feature to the feature module', () => {
+      const spartacusFeaturesModule = appTree.readContent(
+        spartacusFeaturesModulePath
+      );
+      expect(spartacusFeaturesModule).toMatchSnapshot();
+    });
+    it('should not add create any of the modules', () => {
+      expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
   });
 
   describe('Saved Cart feature', () => {
-    describe('styling', () => {
+    describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should create a proper scss file', () => {
-        const scssContent = appTree.readContent(scssFilePath);
-        expect(scssContent).toMatchSnapshot();
+      it('should install necessary Spartacus libraries', async () => {
+        const packageJson = appTree.readContent('package.json');
+        expect(packageJson).toMatchSnapshot();
       });
 
-      it('should update angular.json', async () => {
-        const content = appTree.readContent('/angular.json');
-        expect(content).toMatchSnapshot();
+      it('should import feature module to SpartacusFeaturesModule', () => {
+        const spartacusFeaturesModule = appTree.readContent(
+          spartacusFeaturesModulePath
+        );
+        expect(spartacusFeaturesModule).toMatchSnapshot();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
+      });
+
+      describe('b2b features', () => {
+        it('configuration should be added', () => {
+          const configurationModule = appTree.readContent(
+            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+          );
+          expect(configurationModule).toMatchSnapshot();
+        });
       });
     });
 
@@ -138,87 +169,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).toContain(
-          `import { SavedCartRootModule } from "@spartacus/cart/saved-cart/root";`
-        );
-        expect(appModule).toContain(
-          `import { SavedCartModule } from "@spartacus/cart/saved-cart";`
-        );
-      });
-
-      it('should not contain lazy loading syntax', async () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).not.toContain(
-          `import('@spartacus/cart/saved-cart').then(`
-        );
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import SavedCartRootModule and contain the lazy loading syntax', async () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).toContain(
-          `import { CART_SAVED_CART_FEATURE, SavedCartRootModule } from "@spartacus/cart/saved-cart/root";`
-        );
-        expect(appModule).toContain(
-          `import('@spartacus/cart/saved-cart').then(`
-        );
-      });
-
-      it('should not contain the SavedCartModule import', () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).not.toContain(
-          `import { SavedCartModule } from "@spartacus/cart/saved-cart";`
-        );
-      });
-    });
-
-    describe('i18n', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import the i18n resource and chunk from assets', async () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).toContain(
-          `import { savedCartTranslationChunksConfig, savedCartTranslations } from "@spartacus/cart/saved-cart/assets";`
-        );
-      });
-      it('should provideConfig', async () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).toContain(`resources: savedCartTranslations,`);
-        expect(appModule).toContain(
-          `chunks: savedCartTranslationChunksConfig,`
-        );
-      });
-    });
-
-    describe('b2b features', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('configuration should be added', () => {
-        const configurationModule = appTree.readContent(
-          `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
-        );
-        expect(configurationModule).toMatchSnapshot();
-      });
-
-      it('should update package.json', () => {
-        const packageJson = appTree.readContent(`package.json`);
-        expect(packageJson).toContain(SPARTACUS_SETUP);
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
   });
