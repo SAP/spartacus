@@ -11,7 +11,7 @@ export const importEntriesDialog = {
   importProductsSubtitle:
     'Add products by importing a .CSV file and creating a new saved cart.',
   importProductFileText:
-    'The text file should list the product SKUs and quantities, separated by a comma. File size should not exceed ',
+    'The text file should list the product SKUs and quantities, separated by a comma. File size should not exceed {{ size }} kb',
   selectFile: 'Select File',
   savedCartName: 'Saved Cart Name',
   savedCartDescription: 'Saved Cart Description',
