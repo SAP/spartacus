@@ -23,17 +23,17 @@ export namespace CommonConfigurator {
   }
 
   export interface ReadConfigurationFromCartEntryParameters {
-    owner: CommonConfigurator.Owner;
     userId?: string;
     cartId?: string;
     cartEntryNumber?: string;
+    owner: CommonConfigurator.Owner;
   }
 
   export interface ReadConfigurationFromOrderEntryParameters {
-    owner: CommonConfigurator.Owner;
     userId?: string;
     orderId?: string;
     orderEntryNumber?: string;
+    owner: CommonConfigurator.Owner;
   }
   /**
    * Possible types of owners: Product, cart or order entry
