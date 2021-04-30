@@ -98,7 +98,13 @@ describe('Spartacus User schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not add any modules', () => {
+    it('should not add the feature to the feature module', () => {
+      const spartacusFeaturesModule = appTree.readContent(
+        spartacusFeaturesModulePath
+      );
+      expect(spartacusFeaturesModule).toMatchSnapshot();
+    });
+    it('should not add create any of the modules', () => {
       expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
   });
