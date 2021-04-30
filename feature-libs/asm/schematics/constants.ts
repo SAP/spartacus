@@ -1,6 +1,7 @@
 import { SPARTACUS_ASM } from '@spartacus/schematics';
 
 export const ASM_FOLDER_NAME = 'asm';
+export const ASM_FEATURE_CONSTANT = 'ASM_FEATURE';
 export const ASM_MODULE = 'AsmModule';
 export const ASM_FEATURE_NAME = 'asm';
 export const ASM_ROOT_MODULE = 'AsmRootModule';

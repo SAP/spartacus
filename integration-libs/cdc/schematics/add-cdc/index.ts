@@ -23,7 +23,7 @@ import {
 import { peerDependencies } from '../../package.json';
 import {
   CDC_CONFIG,
-  CDC_FEATURE,
+  CDC_FEATURE_CONSTANT,
   CDC_FOLDER_NAME,
   CDC_MODULE,
   CDC_ROOT_MODULE,
@@ -84,12 +84,15 @@ function addCdc(options: SpartacusCdcOptions): Rule {
       importPath: SPARTACUS_CDC,
       name: CDC_MODULE,
     },
-    lazyModuleName: `[CDC_FEATURE]`,
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_CDC_ROOT,
+      namedImports: [CDC_FEATURE_CONSTANT],
+    },
     customConfig: {
       import: [
         {
           moduleSpecifier: SPARTACUS_CDC_ROOT,
-          namedImports: [CDC_CONFIG, CDC_FEATURE],
+          namedImports: [CDC_CONFIG],
         },
       ],
       content: `<${CDC_CONFIG}>{

@@ -66,9 +66,9 @@ export interface FeatureConfig {
    */
   name: string;
   /**
-   * The configuration name of the lazy loaded feature.
+   * The lazy loading chunk's name. It's usually a constant imported from a library.
    */
-  lazyModuleName?: string;
+  lazyLoadingChunk?: Import;
   /**
    * The feature module configuration.
    */
@@ -299,6 +299,13 @@ function addFeatureModule(
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (options.lazy) {
+          let lazyLoadingChunkName = config.name;
+          if (config.lazyLoadingChunk) {
+            const content = config.lazyLoadingChunk.namedImports[0];
+            lazyLoadingChunkName = `[${content}]`;
+            sourceFile.addImportDeclaration(config.lazyLoadingChunk);
+          }
+
           addModuleProvider(sourceFile, {
             import: [
               {
@@ -308,11 +315,9 @@ function addFeatureModule(
             ],
             content: `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
               featureModules: {
-                ${config.lazyModuleName || config.name}: {
+                ${lazyLoadingChunkName}: {
                   module: () =>
-                    import('${
-                      config.featureModule.importPath
-                    }').then((m) => m.${config.featureModule.name}),
+                    import('${config.featureModule.importPath}').then((m) => m.${config.featureModule.name}),
                 },
               }
             })`,
