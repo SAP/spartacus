@@ -9,9 +9,9 @@ import { CheckoutReplenishmentOrderConnector } from './connectors/replenishment-
 import { CheckoutEventBuilder } from './events/checkout-event.builder';
 import { CheckoutEventModule } from './events/checkout-event.module';
 import { CheckoutCostCenterService } from './facade/checkout-cost-center.service';
-import { CheckoutDeliveryService } from './facade/checkout-delivery.service';
 import { CheckoutPaymentService } from './facade/checkout-payment.service';
 import { CheckoutService } from './facade/checkout.service';
+import { facadeProviders } from './facade/facade-providers';
 import { PaymentTypeService } from './facade/payment-type.service';
 import { CheckoutPageMetaResolver } from './services/checkout-page-meta.resolver';
 import { ClearCheckoutService } from './services/clear-checkout.service';
@@ -20,6 +20,7 @@ import { CheckoutStoreModule } from './store/checkout-store.module';
 @NgModule({
   imports: [CheckoutStoreModule, CheckoutEventModule],
   providers: [
+    ...facadeProviders,
     CheckoutDeliveryConnector,
     CheckoutCostCenterConnector,
     CheckoutConnector,
@@ -28,7 +29,6 @@ import { CheckoutStoreModule } from './store/checkout-store.module';
     CheckoutReplenishmentOrderConnector,
     CheckoutEventBuilder,
     CheckoutCostCenterService,
-    CheckoutDeliveryService,
     CheckoutPaymentService,
     CheckoutService,
     PaymentTypeService,
