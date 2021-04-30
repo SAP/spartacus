@@ -15,10 +15,12 @@ import {
   SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import featureLibPackageJson from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const cdcModulePath = 'src/app/spartacus/features/cdc/cdc-feature.module.ts';
+const spartacusFeaturesModulePath =
+  'src/app/spartacus/spartacus-features.module.ts';
+const featureModulePath =
+  'src/app/spartacus/features/cdc/cdc-feature.module.ts';
 
 describe('Spartacus CDC schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -84,7 +86,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('When no features are provided', () => {
+  describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
@@ -95,15 +97,14 @@ describe('Spartacus CDC schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not create the feature module', () => {
-      const featureModule = appTree.readContent(cdcModulePath);
-      expect(featureModule).toBeFalsy();
-    });
     it('should not add the feature to the feature module', () => {
       const spartacusFeaturesModule = appTree.readContent(
-        'src/app/spartacus/spartacus-features.module.ts'
+        spartacusFeaturesModulePath
       );
       expect(spartacusFeaturesModule).toMatchSnapshot();
+    });
+    it('should not add create any of the modules', () => {
+      expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
   });
 
@@ -115,21 +116,21 @@ describe('Spartacus CDC schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should install @spartacus/asm and @spartacus/user', async () => {
-        const packageJson = JSON.parse(appTree.readContent('package.json'));
-        expect(packageJson.dependencies['@spartacus/asm']).toEqual(
-          `^${featureLibPackageJson.peerDependencies['@spartacus/asm']}`
-        );
-        expect(packageJson.dependencies['@spartacus/user']).toEqual(
-          `^${featureLibPackageJson.peerDependencies['@spartacus/user']}`
-        );
+      it('should install necessary Spartacus libraries', async () => {
+        const packageJson = appTree.readContent('package.json');
+        expect(packageJson).toMatchSnapshot();
       });
 
-      it('should import feature module in SpartacusFeaturesModule', () => {
-        const spartacusFeaturesModulePath = appTree.readContent(
-          'src/app/spartacus/spartacus-features.module.ts'
+      it('should import feature module to SpartacusFeaturesModule', () => {
+        const spartacusFeaturesModule = appTree.readContent(
+          spartacusFeaturesModulePath
         );
-        expect(spartacusFeaturesModulePath).toMatchSnapshot();
+        expect(spartacusFeaturesModule).toMatchSnapshot();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
 
@@ -144,22 +145,9 @@ describe('Spartacus CDC schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should import correct modules (without lazy loaded syntax)', async () => {
-        const cdcModule = appTree.readContent(cdcModulePath);
-        expect(cdcModule).toMatchSnapshot();
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import correct modules (with lazy loaded syntax)', async () => {
-        const cdcModule = appTree.readContent(cdcModulePath);
-        expect(cdcModule).toMatchSnapshot();
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
   });
