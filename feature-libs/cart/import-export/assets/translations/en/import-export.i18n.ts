@@ -19,7 +19,6 @@ export const importEntriesDialog = {
   charactersLeft: 'characters left: {{count}}',
   cancel: 'Cancel',
   upload: 'Upload',
-  kb: 'KB.',
 };
 
 export const importExport = {
