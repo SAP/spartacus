@@ -4,6 +4,7 @@ export const TRACKING_FOLDER_NAME = 'tracking';
 
 export const PERSONALIZATION_MODULE = 'PersonalizationModule';
 export const PERSONALIZATION_FEATURE_NAME = 'personalization';
+export const PERSONALIZATION_FEATURE_CONSTANT = 'PERSONALIZATION_FEATURE';
 export const PERSONALIZATION_ROOT_MODULE = 'PersonalizationRootModule';
 export const SPARTACUS_PERSONALIZATION = `${SPARTACUS_TRACKING}/personalization`;
 export const SPARTACUS_PERSONALIZATION_ROOT = `${SPARTACUS_PERSONALIZATION}/root`;

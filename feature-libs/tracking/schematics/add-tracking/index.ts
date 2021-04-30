@@ -21,6 +21,7 @@ import {
   CLI_TMS_AEP_FEATURE,
   CLI_TMS_FEATURE,
   CLI_TMS_GTM_FEATURE,
+  PERSONALIZATION_FEATURE_CONSTANT,
   PERSONALIZATION_FEATURE_NAME,
   PERSONALIZATION_MODULE,
   PERSONALIZATION_ROOT_MODULE,
@@ -147,6 +148,10 @@ function addPersonalizationFeature(options: SpartacusTrackingOptions): Rule {
     rootModule: {
       name: PERSONALIZATION_ROOT_MODULE,
       importPath: SPARTACUS_PERSONALIZATION_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_PERSONALIZATION_ROOT,
+      namedImports: [PERSONALIZATION_FEATURE_CONSTANT],
     },
   });
 }
