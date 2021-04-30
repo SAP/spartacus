@@ -4,13 +4,13 @@ export namespace CommonConfigurator {
    */
   export interface Owner {
     /**
-     * Specifies an owner uniquely, is used as key in the configuration store
-     */
-    key: string;
-    /**
      * Type of the owner, can be product or document related
      */
     type?: OwnerType;
+    /**
+     * Specifies an owner uniquely, is used as key in the configuration store
+     */
+    key: string;
     /**
      * Business identifier of the owner.
      * Can be a product code, a cart entry number, or an order code with order entry number
