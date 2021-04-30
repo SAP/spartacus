@@ -328,9 +328,6 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     });
     expect(
       configuratorStorefrontUtilsService.focusFirstAttribute
-    ).toHaveBeenCalled();
-    expect(
-      configuratorStorefrontUtilsService.focusFirstAttribute
     ).toHaveBeenCalledTimes(1);
   });
 });
