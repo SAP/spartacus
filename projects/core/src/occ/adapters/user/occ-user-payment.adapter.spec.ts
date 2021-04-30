@@ -40,7 +40,7 @@ describe('OccUserPaymentAdapter', () => {
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -67,7 +67,7 @@ describe('OccUserPaymentAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'paymentDetailsAll',
         {
           userId: username,
@@ -108,10 +108,13 @@ describe('OccUserPaymentAdapter', () => {
         return req.method === 'PATCH' && req.body.defaultPayment === true;
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('paymentDetail', {
-        userId: username,
-        paymentDetailId: mockPayment.id,
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'paymentDetail',
+        {
+          userId: username,
+          paymentDetailId: mockPayment.id,
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush('');
@@ -132,10 +135,13 @@ describe('OccUserPaymentAdapter', () => {
         return req.method === 'DELETE';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('paymentDetail', {
-        userId: username,
-        paymentDetailId: mockPayment.id,
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'paymentDetail',
+        {
+          userId: username,
+          paymentDetailId: mockPayment.id,
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush('');

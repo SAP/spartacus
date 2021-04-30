@@ -31,7 +31,7 @@ import {
 import { OccConfigurator } from './variant-configurator-occ.models';
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {
@@ -134,7 +134,7 @@ describe('OccConfigurationVariantAdapter', () => {
     configuratorUtils.setOwnerKey(productConfiguration.owner);
 
     spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -160,7 +160,7 @@ describe('OccConfigurationVariantAdapter', () => {
       return req.method === 'GET' && req.url === 'createVariantConfiguration';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'createVariantConfiguration',
       {
         productCode,
@@ -185,7 +185,7 @@ describe('OccConfigurationVariantAdapter', () => {
       return req.method === 'GET' && req.url === 'readVariantConfiguration';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfiguration',
       { configId },
       { groupId }
@@ -212,7 +212,7 @@ describe('OccConfigurationVariantAdapter', () => {
       return req.method === 'PATCH' && req.url === 'updateVariantConfiguration';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateVariantConfiguration',
       {
         configId,
@@ -249,7 +249,7 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationPriceSummary',
       {
         configId,
@@ -287,7 +287,7 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationForCartEntry',
       {
         userId,
@@ -326,7 +326,7 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationOverviewForOrderEntry',
       {
         userId,
@@ -367,7 +367,7 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateVariantConfigurationForCartEntry',
       {
         userId,
@@ -453,7 +453,7 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'getVariantConfigurationOverview',
       {
         configId,

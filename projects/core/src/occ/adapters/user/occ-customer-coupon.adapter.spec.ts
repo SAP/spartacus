@@ -55,7 +55,7 @@ describe('OccCustomerCouponAdapter', () => {
     occEnpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -105,7 +105,7 @@ describe('OccCustomerCouponAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'customerCoupons',
         {
           userId: userId,
@@ -129,7 +129,7 @@ describe('OccCustomerCouponAdapter', () => {
         });
 
       httpMock.expectNone(
-        occEnpointsService.getUrl('customerCoupons', {
+        occEnpointsService.buildUrl('customerCoupons', {
           userId: OCC_USER_ID_ANONYMOUS,
         })
       );
@@ -163,7 +163,7 @@ describe('OccCustomerCouponAdapter', () => {
         return req.method === 'POST';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'couponNotification',
         {
           userId: userId,
@@ -186,7 +186,7 @@ describe('OccCustomerCouponAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'couponNotification',
         {
           userId: userId,
@@ -225,7 +225,7 @@ describe('OccCustomerCouponAdapter', () => {
         return req.method === 'POST';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('claimCoupon', {
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('claimCoupon', {
         userId: userId,
         couponCode: couponCode,
       });

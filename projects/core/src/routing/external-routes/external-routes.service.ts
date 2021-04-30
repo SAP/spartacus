@@ -45,7 +45,7 @@ export class ExternalRoutesService {
 
     routes.push({
       pathMatch: 'full',
-      matcher: this.getUrlMatcher(),
+      matcher: this.buildUrlMatcher(),
       canActivate: [ExternalRoutesGuard],
       component: {} as any,
     });
@@ -56,7 +56,7 @@ export class ExternalRoutesService {
   /**
    * Returns the URL matcher for the external route
    */
-  protected getUrlMatcher(): UrlMatcher {
+  protected buildUrlMatcher(): UrlMatcher {
     const matcher = this.urlMatcherService.getFromGlob(
       this.internalUrlPatterns
     );

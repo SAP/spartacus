@@ -42,7 +42,7 @@ describe('CpqAccessLoaderService', () => {
       CpqAccessLoaderService as Type<CpqAccessLoaderService>
     );
 
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -60,7 +60,9 @@ describe('CpqAccessLoaderService', () => {
       return req.method === 'GET' && req.url === '/getCpqAccessData';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith('getCpqAccessData');
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+      'getCpqAccessData'
+    );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');

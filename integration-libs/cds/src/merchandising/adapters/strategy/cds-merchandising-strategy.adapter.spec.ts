@@ -45,7 +45,7 @@ const strategyRequestUndefinedConsentReference = {
 };
 
 class MockCdsEndpointsService {
-  getUrl = createSpy('MockCdsEndpointsService.getUrl').and.callFake(
+  buildUrl = createSpy('MockCdsEndpointsService.buildUrl').and.callFake(
     (endpoint) => endpoint
   );
 }
@@ -121,7 +121,7 @@ describe('MerchandisingStrategyAdapter', () => {
         );
       });
 
-      expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
+      expect(cdsEndpointsService.buildUrl).toHaveBeenCalledWith(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
         strategyIdObject,
         strategyRequest.queryParams
@@ -154,7 +154,7 @@ describe('MerchandisingStrategyAdapter', () => {
         mockStrategyProductsRequest.request.headers.get('consent-reference')
       ).toBeFalsy();
 
-      expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
+      expect(cdsEndpointsService.buildUrl).toHaveBeenCalledWith(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
         strategyIdObject,
         strategyRequest.queryParams

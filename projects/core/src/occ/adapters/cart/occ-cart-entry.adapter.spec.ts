@@ -20,7 +20,7 @@ const cartModified: CartModification = {
 };
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {
@@ -49,7 +49,7 @@ describe('OccCartEntryAdapter', () => {
     occEnpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -74,10 +74,12 @@ describe('OccCartEntryAdapter', () => {
         quantity: 5,
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('addEntries', {
-        userId,
-        cartId,
-        quantity: 5,
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('addEntries', {
+        urlParams: {
+          userId,
+          cartId,
+          quantity: 5,
+        },
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -108,11 +110,16 @@ describe('OccCartEntryAdapter', () => {
 
       expect(mockReq.request.body).toEqual({ quantity: 5 });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('updateEntries', {
-        userId,
-        cartId,
-        entryNumber: '12345',
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'updateEntries',
+        {
+          urlParams: {
+            userId,
+            cartId,
+            entryNumber: '12345',
+          },
+        }
+      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -141,11 +148,16 @@ describe('OccCartEntryAdapter', () => {
         deliveryPointOfService: { name: pickupStore },
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('updateEntries', {
-        userId,
-        cartId,
-        entryNumber: '12345',
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'updateEntries',
+        {
+          urlParams: {
+            userId,
+            cartId,
+            entryNumber: '12345',
+          },
+        }
+      );
     });
   });
 
@@ -161,11 +173,16 @@ describe('OccCartEntryAdapter', () => {
         url: 'removeEntries',
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('removeEntries', {
-        userId,
-        cartId,
-        entryNumber: '147852',
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'removeEntries',
+        {
+          urlParams: {
+            userId,
+            cartId,
+            entryNumber: '147852',
+          },
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);

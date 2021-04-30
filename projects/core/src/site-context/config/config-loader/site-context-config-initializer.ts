@@ -55,7 +55,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
   protected getConfig(source: BaseSite): SiteContextConfig {
     const result = {
       context: {
-        urlParameters: this.getUrlParams(source.urlEncodingAttributes),
+        urlParameters: this.buildUrlParams(source.urlEncodingAttributes),
         [BASE_SITE_CONTEXT_ID]: [source.uid],
         [LANGUAGE_CONTEXT_ID]: this.getIsoCodes(
           source.baseStore?.languages,
@@ -89,7 +89,7 @@ export class SiteContextConfigInitializer implements ConfigInitializer {
    *
    * It maps the string "storefront" (used in OCC) to the "baseSite" (used in Spartacus)
    */
-  private getUrlParams(params: string[] | undefined): string[] {
+  private buildUrlParams(params: string[] | undefined): string[] {
     const STOREFRONT_PARAM = 'storefront';
 
     return (params || []).map((param) =>

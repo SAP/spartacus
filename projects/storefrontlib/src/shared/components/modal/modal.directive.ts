@@ -86,7 +86,7 @@ export class ModalDirective {
   /**
    * Returns URL in case when the directive is in the scope of a `routerLink` directive at the same time.
    */
-  protected getUrl(): string | undefined {
+  protected buildUrl(): string | undefined {
     const routerLink = this.routerLink ?? this.routerLinkWithHref;
     return routerLink
       ? this.router.serializeUrl(routerLink.urlTree)
@@ -96,7 +96,7 @@ export class ModalDirective {
   @HostListener('click')
   onClick() {
     if (this.activeModal) {
-      this.service.onClick(this.options, this.activeModal, this.getUrl());
+      this.service.onClick(this.options, this.activeModal, this.buildUrl());
     }
   }
 

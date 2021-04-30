@@ -33,7 +33,7 @@ class OccEndpointsServiceMock {
   getEndpoint(): string {
     return endpoint;
   }
-  getUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
+  buildUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
     return '';
   }
 }
@@ -93,9 +93,9 @@ describe('OccCmsComponentAdapter', () => {
 
       const testRequest = mockHttpRequest('GET', spyOnLoadEndpoint);
 
-      expect(endpointsService.getUrl).toHaveBeenCalledWith(
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith(
         'component',
-        { id: 'comp1' },
+        { urlParams: { id: 'comp1' } },
         { productCode: '123' }
       );
 
@@ -121,7 +121,7 @@ describe('OccCmsComponentAdapter', () => {
 
       const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
 
-      assertGetRequestGetUrl('DEFAULT', '2');
+      assertGetRequestbuildUrl('DEFAULT', '2');
 
       assertTestRequest(testRequest, componentList);
     });
@@ -133,7 +133,7 @@ describe('OccCmsComponentAdapter', () => {
 
       const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
 
-      assertGetRequestGetUrl('FULL', '5');
+      assertGetRequestbuildUrl('FULL', '5');
 
       assertTestRequest(testRequest, componentList);
     });
@@ -149,7 +149,7 @@ describe('OccCmsComponentAdapter', () => {
   });
 
   function spyOnEndpoint(requestUrl: string): jasmine.Spy {
-    return spyOn(endpointsService, 'getUrl').and.returnValue(requestUrl);
+    return spyOn(endpointsService, 'buildUrl').and.returnValue(requestUrl);
   }
 
   function mockHttpRequest(
@@ -170,8 +170,8 @@ describe('OccCmsComponentAdapter', () => {
     testRequest.flush(componentObj);
   }
 
-  function assertGetRequestGetUrl(fields: string, pageSize: string) {
-    expect(endpointsService.getUrl).toHaveBeenCalledWith(
+  function assertGetRequestbuildUrl(fields: string, pageSize: string) {
+    expect(endpointsService.buildUrl).toHaveBeenCalledWith(
       'components',
       {},
       {

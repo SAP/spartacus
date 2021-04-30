@@ -64,7 +64,7 @@ describe('OccUserOrderAdapter', () => {
     occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -80,7 +80,7 @@ describe('OccUserOrderAdapter', () => {
         httpMock.expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
         }, `GET method and url`);
-        expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderHistory',
           {
             userId,
@@ -103,7 +103,7 @@ describe('OccUserOrderAdapter', () => {
         httpMock.expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
         }, `GET method`);
-        expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderHistory',
           {
             userId,
@@ -136,10 +136,13 @@ describe('OccUserOrderAdapter', () => {
         httpMock.expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
         }, `GET a single order`);
-        expect(occEnpointsService.getUrl).toHaveBeenCalledWith('orderDetail', {
-          userId,
-          orderId: orderData.code,
-        });
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'orderDetail',
+          {
+            userId,
+            orderId: orderData.code,
+          }
+        );
       })
     );
 
@@ -164,7 +167,7 @@ describe('OccUserOrderAdapter', () => {
         const mockReq = httpMock.expectOne((req) => {
           return req.method === 'GET';
         }, `GET a consignment tracking`);
-        expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'consignmentTracking',
           {
             userId,
@@ -211,10 +214,13 @@ describe('OccUserOrderAdapter', () => {
         const mockReq = httpMock.expectOne((req) => {
           return req.method === 'POST';
         });
-        expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cancelOrder', {
-          userId,
-          orderId: orderData.code,
-        });
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'cancelOrder',
+          {
+            userId,
+            orderId: orderData.code,
+          }
+        );
         expect(mockReq.cancelled).toBeFalsy();
         expect(mockReq.request.responseType).toEqual('json');
         mockReq.flush({});
@@ -240,9 +246,12 @@ describe('OccUserOrderAdapter', () => {
         const mockReq = httpMock.expectOne((req) => {
           return req.method === 'POST';
         });
-        expect(occEnpointsService.getUrl).toHaveBeenCalledWith('returnOrder', {
-          userId,
-        });
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'returnOrder',
+          {
+            userId,
+          }
+        );
         expect(mockReq.cancelled).toBeFalsy();
         expect(mockReq.request.responseType).toEqual('json');
         mockReq.flush(returnRequest);
@@ -278,7 +287,7 @@ describe('OccUserOrderAdapter', () => {
         httpMock.expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
         });
-        expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderReturns',
           { userId },
           {}
@@ -299,7 +308,7 @@ describe('OccUserOrderAdapter', () => {
         httpMock.expectOne((req: HttpRequest<any>) => {
           return req.method === 'GET';
         });
-        expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderReturns',
           { userId },
           {
@@ -334,7 +343,7 @@ describe('OccUserOrderAdapter', () => {
         const mockReq = httpMock.expectOne((req) => {
           return req.method === 'GET';
         });
-        expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderReturnDetail',
           {
             userId,
@@ -372,10 +381,13 @@ describe('OccUserOrderAdapter', () => {
         const mockReq = httpMock.expectOne((req) => {
           return req.method === 'PATCH';
         });
-        expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cancelReturn', {
-          userId,
-          returnRequestCode: 'returnCode',
-        });
+        expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+          'cancelReturn',
+          {
+            userId,
+            returnRequestCode: 'returnCode',
+          }
+        );
         expect(mockReq.cancelled).toBeFalsy();
         expect(mockReq.request.responseType).toEqual('json');
         mockReq.flush({});

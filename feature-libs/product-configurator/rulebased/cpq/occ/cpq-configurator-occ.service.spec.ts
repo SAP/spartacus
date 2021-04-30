@@ -69,7 +69,7 @@ describe('CpqConfigurationOccService', () => {
   };
 
   class MockOccEndpointsService {
-    getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+    buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
       return this.getEndpoint(endpoint);
     }
     getEndpoint(url: string) {
@@ -106,7 +106,7 @@ describe('CpqConfigurationOccService', () => {
     );
 
     spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 
@@ -132,7 +132,7 @@ describe('CpqConfigurationOccService', () => {
       CART_MODIFICATION_NORMALIZER
     );
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'addCpqConfigurationToCart',
       {
         userId: userId,
@@ -155,7 +155,7 @@ describe('CpqConfigurationOccService', () => {
     });
     mockReq.flush({ configId: configId });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readCpqConfigurationForCartEntry',
       {
         userId: userId,
@@ -179,7 +179,7 @@ describe('CpqConfigurationOccService', () => {
     });
     mockReq.flush({ configId: configId });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readCpqConfigurationForOrderEntry',
       {
         userId: userId,
@@ -209,7 +209,7 @@ describe('CpqConfigurationOccService', () => {
       CART_MODIFICATION_NORMALIZER
     );
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateCpqConfigurationForCartEntry',
       {
         userId: userId,

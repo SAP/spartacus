@@ -20,7 +20,7 @@ const saveCartData: Occ.SaveCartResult = {
 };
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
     return endpoint;
   }
 }
@@ -43,7 +43,7 @@ describe('OccSaveCartAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(occEndpointsService, 'getUrl').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -67,9 +67,11 @@ describe('OccSaveCartAdapter', () => {
         { param: 'saveCartName', value: 'Name', op: 's' },
         { param: 'saveCartDescription', value: 'Description', op: 's' },
       ]);
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('saveCart', {
-        userId,
-        cartId,
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('saveCart', {
+        urlParams: {
+          userId,
+          cartId,
+        },
       });
       mockReq.flush(saveCartData);
       expect(result).toEqual(saveCartData);

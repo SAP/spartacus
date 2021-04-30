@@ -24,7 +24,7 @@ const productReviews: Occ.ReviewList = {
 const endpoint = '/productReviews';
 
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.returnValue(
+  buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.returnValue(
     endpoint
   );
 }
@@ -84,7 +84,7 @@ describe('OccProductReviewsAdapter', () => {
       service.load(productCode, maxCount).subscribe();
       const mockReq = httpMock.expectOne(endpoint);
       mockReq.flush(productReviews);
-      expect(endpoints.getUrl).toHaveBeenCalledWith(
+      expect(endpoints.buildUrl).toHaveBeenCalledWith(
         'productReviews',
         {
           productCode,
@@ -122,7 +122,7 @@ describe('OccProductReviewsAdapter', () => {
     it('should use reviews endpoint', () => {
       service.post(productCode, { rating: 3 }).subscribe();
       httpMock.expectOne(endpoint).flush('');
-      expect(endpoints.getUrl).toHaveBeenCalledWith(
+      expect(endpoints.buildUrl).toHaveBeenCalledWith(
         'productReviews',
         {
           productCode,

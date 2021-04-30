@@ -72,7 +72,7 @@ describe('OccUserReplenishmentOrderAdapter', () => {
     occEndpointService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEndpointService, 'getUrl').and.callThrough();
+    spyOn(occEndpointService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -91,7 +91,7 @@ describe('OccUserReplenishmentOrderAdapter', () => {
         return req.method === 'GET' && req.url === '/replenishmentOrderDetails';
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
         'replenishmentOrderDetails',
         {
           userId: mockUserId,
@@ -141,7 +141,7 @@ describe('OccUserReplenishmentOrderAdapter', () => {
         );
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
         'replenishmentOrderDetailsHistory',
         {
           userId: mockUserId,
@@ -189,7 +189,7 @@ describe('OccUserReplenishmentOrderAdapter', () => {
         );
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
         'cancelReplenishmentOrder',
         {
           userId: mockUserId,
@@ -232,7 +232,7 @@ describe('OccUserReplenishmentOrderAdapter', () => {
         return req.method === 'GET' && req.url === '/replenishmentOrderHistory';
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
         'replenishmentOrderHistory',
         {
           userId: mockUserId,

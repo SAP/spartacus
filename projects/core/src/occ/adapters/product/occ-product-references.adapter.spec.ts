@@ -26,7 +26,7 @@ const productReferences: Occ.ProductReferenceList = {
 const endpoint = '/productReferences';
 
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.returnValue(
+  buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.returnValue(
     endpoint
   );
 }
@@ -88,7 +88,7 @@ describe('OccProductReferencesAdapter', () => {
       service.load(productCode, referenceType, pageSize).subscribe();
       const mockReq = httpMock.expectOne(endpoint);
       mockReq.flush(productReferences);
-      expect(endpoints.getUrl).toHaveBeenCalledWith(
+      expect(endpoints.buildUrl).toHaveBeenCalledWith(
         'productReferences',
         {
           productCode,

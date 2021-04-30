@@ -26,7 +26,7 @@ export class SiteContextParamsService {
     return [];
   }
 
-  getUrlEncodingParameters(): string[] {
+  buildUrlEncodingParameters(): string[] {
     return (this.config.context && this.config.context.urlParameters) || [];
   }
 

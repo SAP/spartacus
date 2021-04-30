@@ -21,7 +21,7 @@ const permission = {
 };
 
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
+  buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // eslint-disable-next-line no-shadow
     (url, { orderApprovalPermissionCode }) =>
       url === 'permission' ? url + orderApprovalPermissionCode : url

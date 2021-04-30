@@ -26,7 +26,7 @@ export const mockOccModuleConfig: OccConfig = {
 };
 
 export class MockOccEndpointsService {
-  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
     return this.getEndpoint(endpointKey);
   }
   getEndpoint(endpoint: string) {
@@ -74,7 +74,7 @@ describe('OccUserAccountAdapter', () => {
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEndpointsService, 'getUrl').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -91,7 +91,7 @@ describe('OccUserAccountAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('user', {
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('user', {
         userId: user.customerId,
       });
       expect(mockReq.cancelled).toBeFalsy();

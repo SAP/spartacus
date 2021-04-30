@@ -15,7 +15,7 @@ const UrlSplit = /(^[^#?]*)(.*)/; // used to split url into path and query/fragm
 @Injectable()
 export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   private get urlEncodingParameters(): string[] {
-    return this.siteContextParams.getUrlEncodingParameters();
+    return this.siteContextParams.buildUrlEncodingParameters();
   }
 
   get hasContextInRoutes() {

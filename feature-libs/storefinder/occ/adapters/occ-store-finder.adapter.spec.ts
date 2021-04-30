@@ -37,7 +37,7 @@ const mockRadius = 50000;
 const storeId = 'test';
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {
@@ -66,7 +66,7 @@ describe('OccStoreFinderAdapter', () => {
     occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'pipeableMany').and.callThrough();
-    spyOn(occEndpointsService, 'getUrl').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -86,7 +86,7 @@ describe('OccStoreFinderAdapter', () => {
           url: 'stores',
         });
 
-        expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
+        expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
           'stores',
           undefined,
           { query: queryText, pageSize: mockSearchConfig.pageSize.toString() }
@@ -106,7 +106,7 @@ describe('OccStoreFinderAdapter', () => {
           url: 'stores',
         });
 
-        expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
+        expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
           'stores',
           undefined,
           {
@@ -141,7 +141,7 @@ describe('OccStoreFinderAdapter', () => {
         .expectOne({ method: 'GET', url: 'storescounts' })
         .flush(storeCountResponseBody);
 
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('storescounts');
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('storescounts');
     });
 
     it('should use converter', () => {
@@ -166,7 +166,7 @@ describe('OccStoreFinderAdapter', () => {
         })
         .flush(searchResults.stores[0]);
 
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('store', {
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('store', {
         storeId,
       });
     });
