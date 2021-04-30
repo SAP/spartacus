@@ -14,19 +14,15 @@ import {
   SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import {
-  CLI_BULK_PRICING_FEATURE,
-  CLI_VARIANTS_FEATURE,
-  SPARTACUS_BULK_PRICING_ROOT,
-  SPARTACUS_VARIANTS_ROOT,
-} from '../constants';
+import { CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
+const spartacusFeaturesModulePath =
+  'src/app/spartacus/spartacus-features.module.ts';
 const bulkPricingModulePath =
   'src/app/spartacus/features/product/bulk-pricing-feature.module.ts';
 const variantsFeatureModulePath =
   'src/app/spartacus/features/product/product-variants-feature.module.ts';
-const scssFilePath = 'src/styles/spartacus/product.scss';
 
 describe('Spartacus Product schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -92,7 +88,7 @@ describe('Spartacus Product schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('when no features are selected', () => {
+  describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
@@ -103,31 +99,15 @@ describe('Spartacus Product schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not install bulkPricing feature', () => {
-      const bulkPricingModule = appTree.readContent(bulkPricingModulePath);
-      expect(bulkPricingModule).not.toContain(SPARTACUS_BULK_PRICING_ROOT);
+    it('should not add the feature to the feature module', () => {
+      const spartacusFeaturesModule = appTree.readContent(
+        spartacusFeaturesModulePath
+      );
+      expect(spartacusFeaturesModule).toMatchSnapshot();
     });
-
-    it('should not install variants feature', () => {
-      const variantsModule = appTree.readContent(variantsFeatureModulePath);
-      expect(variantsModule).not.toContain(SPARTACUS_VARIANTS_ROOT);
-    });
-  });
-
-  describe('styling', () => {
-    beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-        .toPromise();
-    });
-
-    it('should create the scss file', () => {
-      expect(appTree.exists(scssFilePath)).toBeTruthy();
-    });
-
-    it('should match the snapshot content', () => {
-      const scssContent = appTree.readContent(scssFilePath);
-      expect(scssContent).toMatchSnapshot();
+    it('should not add create any of the modules', () => {
+      expect(appTree.exists(bulkPricingModulePath)).toBeFalsy();
+      expect(appTree.exists(variantsFeatureModulePath)).toBeFalsy();
     });
   });
 });

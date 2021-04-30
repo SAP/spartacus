@@ -1,8 +1,171 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Variants schematics: ng-add Variants feature styling should create a proper scss file 1`] = `"@import \\"@spartacus/product\\";"`;
+exports[`Spartacus Variants schematics: ng-add Variants feature eager loading should import appropriate modules 1`] = `""`;
 
-exports[`Spartacus Variants schematics: ng-add Variants feature styling should update angular.json 1`] = `
+exports[`Spartacus Variants schematics: ng-add Variants feature general setup should add the feature using the lazy loading syntax 1`] = `""`;
+
+exports[`Spartacus Variants schematics: ng-add Variants feature general setup should import feature module to SpartacusFeaturesModule 1`] = `
+"import { NgModule } from '@angular/core';
+import { AnonymousConsentsModule, AuthModule, CartModule, CartOccModule, CheckoutModule, CheckoutOccModule, CostCenterOccModule, ProductModule, ProductOccModule, UserOccTransitionalModule, UserTransitionalModule } from \\"@spartacus/core\\";
+import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CartComponentModule, CartPageEventModule, CategoryNavigationModule, CheckoutComponentModule, CheckoutLoginModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, OrderCancellationModule, OrderConfirmationModule, OrderDetailsModule, OrderHistoryModule, OrderReturnModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ReplenishmentOrderConfirmationModule, ReplenishmentOrderDetailsModule, ReplenishmentOrderHistoryModule, ReturnRequestDetailModule, ReturnRequestListModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule, WishListModule } from \\"@spartacus/storefront\\";
+import { ProductVariantsFeatureModule } from './features/product/product-variants-feature.module';
+
+@NgModule({
+  declarations: [],
+  imports: [
+    // Auth Core
+    AuthModule.forRoot(),
+    LogoutModule,
+    LoginRouteModule,
+    // Basic Cms Components
+    HamburgerMenuModule,
+    SiteContextSelectorModule,
+    LinkModule,
+    BannerModule,
+    CmsParagraphModule,
+    TabParagraphContainerModule,
+    BannerCarouselModule,
+    CategoryNavigationModule,
+    NavigationModule,
+    FooterNavigationModule,
+    BreadcrumbModule,
+    // User Core,
+    UserTransitionalModule,
+    UserOccTransitionalModule,
+    // User UI,
+    AddressBookModule,
+    PaymentMethodsModule,
+    NotificationPreferenceModule,
+    MyInterestsModule,
+    StockNotificationModule,
+    ConsentManagementModule,
+    MyCouponsModule,
+    // Anonymous Consents Core,
+    AnonymousConsentsModule.forRoot(),
+    // Anonymous Consents UI,
+    AnonymousConsentsDialogModule,
+    AnonymousConsentManagementBannerModule,
+    // Product Core,
+    ProductModule.forRoot(),
+    ProductOccModule,
+    // Product UI,
+    ProductDetailsPageModule,
+    ProductListingPageModule,
+    ProductListModule,
+    SearchBoxModule,
+    ProductFacetNavigationModule,
+    ProductTabsModule,
+    ProductCarouselModule,
+    ProductReferencesModule,
+    ProductImagesModule,
+    ProductSummaryModule,
+    ProductIntroModule,
+    // Cart Core,
+    CartModule.forRoot(),
+    CartOccModule,
+    // Cart UI,
+    CartComponentModule,
+    WishListModule,
+    // Checkout Core,
+    CheckoutModule.forRoot(),
+    CheckoutOccModule,
+    CostCenterOccModule,
+    // Checkout UI,
+    CheckoutLoginModule,
+    CheckoutComponentModule,
+    OrderConfirmationModule,
+    // Order,
+    OrderHistoryModule,
+    OrderDetailsModule,
+    OrderCancellationModule,
+    OrderReturnModule,
+    ReturnRequestListModule,
+    ReturnRequestDetailModule,
+    ReplenishmentOrderHistoryModule,
+    ReplenishmentOrderDetailsModule,
+    ReplenishmentOrderConfirmationModule,
+    // Page Events,
+    NavigationEventModule,
+    HomePageEventModule,
+    CartPageEventModule,
+    ProductPageEventModule,
+    ProductVariantsFeatureModule,
+  ]
+})
+export class SpartacusFeaturesModule { }
+"
+`;
+
+exports[`Spartacus Variants schematics: ng-add Variants feature general setup should install necessary Spartacus libraries 1`] = `
+"{
+  \\"name\\": \\"workspace\\",
+  \\"version\\": \\"0.0.0\\",
+  \\"scripts\\": {
+    \\"ng\\": \\"ng\\",
+    \\"start\\": \\"ng serve\\",
+    \\"build\\": \\"ng build\\",
+    \\"test\\": \\"ng test\\",
+    \\"lint\\": \\"ng lint\\",
+    \\"e2e\\": \\"ng e2e\\"
+  },
+  \\"private\\": true,
+  \\"dependencies\\": {
+    \\"@angular/animations\\": \\"~10.2.4\\",
+    \\"@angular/common\\": \\"~10.2.4\\",
+    \\"@angular/compiler\\": \\"~10.2.4\\",
+    \\"@angular/core\\": \\"~10.2.4\\",
+    \\"@angular/forms\\": \\"~10.2.4\\",
+    \\"@angular/platform-browser\\": \\"~10.2.4\\",
+    \\"@angular/platform-browser-dynamic\\": \\"~10.2.4\\",
+    \\"@angular/router\\": \\"~10.2.4\\",
+    \\"@angular/service-worker\\": \\"^10.1.0\\",
+    \\"@ng-bootstrap/ng-bootstrap\\": \\"^7.0.0\\",
+    \\"@ng-select/ng-select\\": \\"^5.0.9\\",
+    \\"@ngrx/effects\\": \\"^10.0.0\\",
+    \\"@ngrx/router-store\\": \\"^10.0.0\\",
+    \\"@ngrx/store\\": \\"^10.0.0\\",
+    \\"@spartacus/assets\\": \\"^3.2.0-next.2\\",
+    \\"@spartacus/core\\": \\"^3.2.0-next.2\\",
+    \\"@spartacus/storefront\\": \\"^3.2.0-next.2\\",
+    \\"@spartacus/styles\\": \\"^3.2.0-next.2\\",
+    \\"@spartacus/user\\": \\"^3.2.0-next.2\\",
+    \\"angular-oauth2-oidc\\": \\"^10.0.1\\",
+    \\"bootstrap\\": \\"^4.0\\",
+    \\"i18next\\": \\"^19.3.4\\",
+    \\"i18next-xhr-backend\\": \\"^3.2.2\\",
+    \\"ngx-infinite-scroll\\": \\"^8.0.0\\",
+    \\"rxjs\\": \\"~6.6.0\\",
+    \\"tslib\\": \\"^2.0.0\\",
+    \\"zone.js\\": \\"~0.10.2\\"
+  },
+  \\"devDependencies\\": {
+    \\"@angular-devkit/build-angular\\": \\"~0.1002.1\\",
+    \\"@angular-devkit/schematics\\": \\"^10.1.0\\",
+    \\"@angular/cli\\": \\"~0.5.0\\",
+    \\"@angular/compiler-cli\\": \\"~10.2.4\\",
+    \\"@types/node\\": \\"^12.11.1\\",
+    \\"@types/jasmine\\": \\"~3.5.0\\",
+    \\"@types/jasminewd2\\": \\"~2.0.3\\",
+    \\"codelyzer\\": \\"^6.0.0\\",
+    \\"jasmine-core\\": \\"~3.6.0\\",
+    \\"jasmine-spec-reporter\\": \\"~5.0.0\\",
+    \\"karma\\": \\"~5.0.0\\",
+    \\"karma-chrome-launcher\\": \\"~3.1.0\\",
+    \\"karma-coverage-istanbul-reporter\\": \\"~3.0.2\\",
+    \\"karma-jasmine\\": \\"~4.0.0\\",
+    \\"karma-jasmine-html-reporter\\": \\"^1.5.0\\",
+    \\"protractor\\": \\"~7.0.0\\",
+    \\"ts-node\\": \\"~8.3.0\\",
+    \\"tslint\\": \\"~6.1.0\\",
+    \\"typescript\\": \\"~4.0.2\\"
+  }
+}
+"
+`;
+
+exports[`Spartacus Variants schematics: ng-add Variants feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/product\\";"`;
+
+exports[`Spartacus Variants schematics: ng-add Variants feature general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,

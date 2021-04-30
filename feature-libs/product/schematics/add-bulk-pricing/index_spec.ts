@@ -17,11 +17,12 @@ import * as path from 'path';
 import { CLI_BULK_PRICING_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const bulkPricingModulePath =
+const spartacusFeaturesModulePath =
+  'src/app/spartacus/spartacus-features.module.ts';
+const featureModulePath =
   'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/product.scss';
 
-// TODO: Improve tests after lib-util test update
 describe('Spartacus BulkPricing schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -87,6 +88,43 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
   });
 
   describe('BulkPricing feature', () => {
+    describe('general setup', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .toPromise();
+      });
+
+      it('should install necessary Spartacus libraries', async () => {
+        const packageJson = appTree.readContent('package.json');
+        expect(packageJson).toMatchSnapshot();
+      });
+
+      it('should import feature module to SpartacusFeaturesModule', () => {
+        const spartacusFeaturesModule = appTree.readContent(
+          spartacusFeaturesModulePath
+        );
+        expect(spartacusFeaturesModule).toMatchSnapshot();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
+      });
+    });
+
     describe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
@@ -99,87 +137,8 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const bulkPricingModule = appTree.readContent(bulkPricingModulePath);
-        expect(bulkPricingModule).toContain(
-          `import { BulkPricingRootModule } from "@spartacus/product/bulk-pricing/root";`
-        );
-        expect(bulkPricingModule).toContain(
-          `import { BulkPricingModule } from "@spartacus/product/bulk-pricing";`
-        );
-      });
-
-      it('should not contain lazy loading syntax', async () => {
-        const bulkPricingModule = appTree.readContent(bulkPricingModulePath);
-        expect(bulkPricingModule).not.toContain(
-          `import('@spartacus/product/bulk-pricing').then(`
-        );
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import BulkPricingRootModule and contain the lazy loading syntax', async () => {
-        const bulkPricingModule = appTree.readContent(bulkPricingModulePath);
-        expect(bulkPricingModule).toContain(
-          `import { BulkPricingRootModule, PRODUCT_BULK_PRICING_FEATURE } from "@spartacus/product/bulk-pricing/root";`
-        );
-        expect(bulkPricingModule).toContain(
-          `import('@spartacus/product/bulk-pricing').then(`
-        );
-      });
-
-      it('should not contain the BulkPricingModule import', () => {
-        const bulkPricingModule = appTree.readContent(bulkPricingModulePath);
-        expect(bulkPricingModule).not.toContain(
-          `import { BulkPricingModule } from "@spartacus/product/bulk-pricing";`
-        );
-      });
-    });
-
-    describe('i18n', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import the i18n resource and chunk from assets', async () => {
-        const bulkPricingModule = appTree.readContent(bulkPricingModulePath);
-        expect(bulkPricingModule).toContain(
-          `import { bulkPricingTranslationChunksConfig, bulkPricingTranslations } from "@spartacus/product/bulk-pricing/assets";`
-        );
-      });
-      it('should provideConfig', async () => {
-        const bulkPricingModule = appTree.readContent(bulkPricingModulePath);
-        expect(bulkPricingModule).toContain(
-          `resources: bulkPricingTranslations,`
-        );
-        expect(bulkPricingModule).toContain(
-          `chunks: bulkPricingTranslationChunksConfig,`
-        );
-      });
-    });
-
-    describe('styling', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should create a proper scss file', () => {
-        const scssContent = appTree.readContent(scssFilePath);
-        expect(scssContent).toMatchSnapshot();
-      });
-
-      it('should update angular.json', async () => {
-        const content = appTree.readContent('/angular.json');
-        expect(content).toMatchSnapshot();
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
   });
