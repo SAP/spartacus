@@ -77,22 +77,6 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.2 - use "buildUrl" instead
-   *
-   * Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
-   * Most OCC endpoints are related to a baseSite context and are therefor prefixed
-   * with the baseSite. The `/basesites` endpoint does not relate to a specific baseSite
-   * as it will load all baseSites.
-   *
-   * @param endpoint Endpoint suffix
-   */
-  getOccEndpoint(endpoint: string): string {
-    endpoint = this.getRawEndpointValue(endpoint);
-
-    return this.getEndpoint(endpoint, { baseSite: false });
-  }
-
-  /**
    * @Deprecated since 3.2 - use "getBaseUrl" with the same parameters
    *
    * Returns base OCC endpoint (baseUrl + prefix + baseSite) by if no parameters are specified
