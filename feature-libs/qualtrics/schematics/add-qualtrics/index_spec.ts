@@ -17,11 +17,12 @@ import {
 import * as path from 'path';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const qualtricsModulePath =
+const spartacusFeaturesModulePath =
+  'src/app/spartacus/spartacus-features.module.ts';
+const featureModulePath =
   'src/app/spartacus/features/qualtrics/qualtrics-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/qualtrics-embedded-feedback.scss';
 
-// TODO: Improve tests after lib-util test update
 describe('Spartacus Qualtrics schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -86,7 +87,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('When no features are provided', () => {
+  describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
@@ -97,34 +98,52 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not create the feature module', () => {
-      const featureModule = appTree.readContent(qualtricsModulePath);
-      expect(featureModule).toBeFalsy();
-    });
     it('should not add the feature to the feature module', () => {
-      const spartacusFeaturesModulePath = appTree.readContent(
-        'src/app/spartacus/spartacus-features.module.ts'
+      const spartacusFeaturesModule = appTree.readContent(
+        spartacusFeaturesModulePath
       );
-      expect(spartacusFeaturesModulePath).toMatchSnapshot();
+      expect(spartacusFeaturesModule).toMatchSnapshot();
+    });
+    it('should not add create any of the modules', () => {
+      expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
   });
 
   describe('Qualtrics feature', () => {
-    describe('styling', () => {
+    describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should create a proper scss file', () => {
-        const scssContent = appTree.readContent(scssFilePath);
-        expect(scssContent).toMatchSnapshot();
+      it('should install necessary Spartacus libraries', async () => {
+        const packageJson = appTree.readContent('package.json');
+        expect(packageJson).toMatchSnapshot();
       });
 
-      it('should update angular.json', async () => {
-        const content = appTree.readContent('/angular.json');
-        expect(content).toMatchSnapshot();
+      it('should import feature module to SpartacusFeaturesModule', () => {
+        const spartacusFeaturesModule = appTree.readContent(
+          spartacusFeaturesModulePath
+        );
+        expect(spartacusFeaturesModule).toMatchSnapshot();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
       });
     });
 
@@ -140,45 +159,8 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const qualtricsModule = appTree.readContent(qualtricsModulePath);
-        expect(qualtricsModule).toContain(
-          `import { QualtricsRootModule } from "@spartacus/qualtrics/root";`
-        );
-        expect(qualtricsModule).toContain(
-          `import { QualtricsModule } from "@spartacus/qualtrics";`
-        );
-      });
-
-      it('should not contain lazy loading syntax', async () => {
-        const qualtricsModule = appTree.readContent(qualtricsModulePath);
-        expect(qualtricsModule).not.toContain(
-          `import('@spartacus/qualtrics').then(`
-        );
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import QualtricsRootModule and contain the lazy loading syntax', async () => {
-        const qualtricsModule = appTree.readContent(qualtricsModulePath);
-        expect(qualtricsModule).toContain(
-          `import { QualtricsRootModule, QUALTRICS_FEATURE } from "@spartacus/qualtrics/root";`
-        );
-        expect(qualtricsModule).toContain(
-          `import('@spartacus/qualtrics').then(`
-        );
-      });
-
-      it('should not contain the QualtricsModule import', () => {
-        const qualtricsModule = appTree.readContent(qualtricsModulePath);
-        expect(qualtricsModule).not.toContain(
-          `import { QualtricsModule } from "@spartacus/qualtrics";`
-        );
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
   });
