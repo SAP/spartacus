@@ -27,14 +27,14 @@ import {
   SPARTACUS_USER_PROFILE,
   SPARTACUS_USER_PROFILE_ASSETS,
   SPARTACUS_USER_PROFILE_ROOT,
-  USER_ACCOUNT_FEATURE_NAME,
+  USER_ACCOUNT_FEATURE_CONSTANT,
   USER_ACCOUNT_MODULE,
   USER_ACCOUNT_ROOT_MODULE,
   USER_ACCOUNT_TRANSLATIONS,
   USER_ACCOUNT_TRANSLATION_CHUNKS_CONFIG,
   USER_FEATURE_NAME,
   USER_FOLDER_NAME,
-  USER_PROFILE_FEATURE_NAME,
+  USER_PROFILE_FEATURE_CONSTANT,
   USER_PROFILE_MODULE,
   USER_PROFILE_ROOT_MODULE,
   USER_PROFILE_TRANSLATIONS,
@@ -71,7 +71,6 @@ function addAccountFeature(options: SpartacusUserOptions): Rule {
   return addLibraryFeature(options, {
     folderName: USER_FOLDER_NAME,
     name: USER_FEATURE_NAME,
-    lazyModuleName: USER_ACCOUNT_FEATURE_NAME,
     featureModule: {
       name: USER_ACCOUNT_MODULE,
       importPath: SPARTACUS_USER_ACCOUNT,
@@ -79,6 +78,10 @@ function addAccountFeature(options: SpartacusUserOptions): Rule {
     rootModule: {
       name: USER_ACCOUNT_ROOT_MODULE,
       importPath: SPARTACUS_USER_ACCOUNT_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_USER_ACCOUNT_ROOT,
+      namedImports: [USER_ACCOUNT_FEATURE_CONSTANT],
     },
     i18n: {
       resources: USER_ACCOUNT_TRANSLATIONS,
@@ -96,7 +99,6 @@ function addProfileFeature(options: SpartacusUserOptions): Rule {
   return addLibraryFeature(options, {
     folderName: USER_FOLDER_NAME,
     name: USER_FEATURE_NAME,
-    lazyModuleName: USER_PROFILE_FEATURE_NAME,
     featureModule: {
       name: USER_PROFILE_MODULE,
       importPath: SPARTACUS_USER_PROFILE,
@@ -104,6 +106,10 @@ function addProfileFeature(options: SpartacusUserOptions): Rule {
     rootModule: {
       name: USER_PROFILE_ROOT_MODULE,
       importPath: SPARTACUS_USER_PROFILE_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_USER_PROFILE_ROOT,
+      namedImports: [USER_PROFILE_FEATURE_CONSTANT],
     },
     i18n: {
       resources: USER_PROFILE_TRANSLATIONS,
