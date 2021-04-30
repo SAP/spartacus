@@ -1353,6 +1353,7 @@ export function checkoutB2B(): void {
     .contains('Continue')
     .click()
     .then(() => {
+      cy.wait('@deliveryMode');
       cy.location('pathname').should('contain', '/checkout/delivery-mode');
       cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
       cy.get('cx-delivery-mode').should('be.visible');
@@ -1575,4 +1576,21 @@ export function checkAmountOfBundleItems(
     cy.get('.cx-number-items').should('contain', itemsAmount);
     toggleBundleItems('show');
   });
+}
+
+/**
+ * Verifies the amount of cart entries.
+ *
+ * @param {number} expectedCount - Expected amount of cart entries
+ */
+export function verifyCartCount(expectedCount: number) {
+  cy.log('expectedCount =' + expectedCount);
+  cy.get('cx-mini-cart .count').contains(expectedCount);
+}
+
+/**
+ * Define alias for deliveryMode API call.
+ */
+export function defineDeliveryModeAlias() {
+  cy.intercept('PUT', '**/deliverymode*').as('deliveryMode');
 }
