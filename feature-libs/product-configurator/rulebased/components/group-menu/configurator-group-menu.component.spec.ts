@@ -8,6 +8,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
+  ConfiguratorType,
   ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
@@ -35,6 +36,13 @@ class MockRoutingService {
     return routerStateObservable;
   }
 }
+
+const baseStyleClass = 'cx-menu-item';
+const completeStyleClass = ' COMPLETE';
+const errorStyleClass = ' ERROR';
+const warningStyleClass = ' WARNING';
+const typeCPQ = ConfiguratorType.CPQ;
+const typeVariant = ConfiguratorType.VARIANT;
 
 const simpleConfig: Configurator.Configuration = {
   configId: mockProductConfiguration.configId,
@@ -450,7 +458,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
   });
 
-  it('should not navigate up on hitting a key other than enter', () => {
+  it('should not navigate up on hitting a key other than enter and space', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
@@ -458,7 +466,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     );
     initialize();
     const event = new KeyboardEvent('keypress', {
-      code: 'Space',
+      code: 'ShiftRight',
     });
     component.navigateUpOnEnter(event);
     expect(configuratorGroupsService.getParentGroup).toHaveBeenCalledTimes(0);
@@ -566,6 +574,158 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
+  describe('getGroupStatusStyles', () => {
+    it('should return COMPLETE style class  for variant configurator if group is complete and consistent', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[1].complete = true;
+      mockProductConfiguration.groups[1].consistent = true;
+      mockProductConfiguration.owner.configuratorType = typeVariant;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[1],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(baseStyleClass + completeStyleClass)
+        );
+    });
+
+    it('should not return COMPLETE style class if group is complete, consistent and type is CPQ', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[1].complete = true;
+      mockProductConfiguration.groups[1].consistent = true;
+      mockProductConfiguration.owner.configuratorType = typeCPQ;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[1],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) => expect(style).toEqual(baseStyleClass));
+    });
+
+    it('should return WARNING style class if group is inconsistent and type is variant', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = true;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = typeVariant;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(baseStyleClass + warningStyleClass)
+        );
+    });
+
+    it('should not return WARNING style class if group is inconsistent and type is CPQ', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = true;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = typeCPQ;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) => expect(style).toEqual(baseStyleClass));
+    });
+
+    it('should return ERROR style class if group is incomplete, consistent and type is CPQ', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = true;
+      mockProductConfiguration.owner.configuratorType = typeCPQ;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(baseStyleClass + errorStyleClass)
+        );
+    });
+
+    it('should return ERROR style class if group is incomplete, consistent and type is variant', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = true;
+      mockProductConfiguration.owner.configuratorType = typeVariant;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(baseStyleClass + errorStyleClass)
+        );
+    });
+
+    it('should return WARNING and ERROR style class if group is incomplete, inconsistent and type is variant', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = typeVariant;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(
+            baseStyleClass + warningStyleClass + errorStyleClass
+          )
+        );
+    });
+
+    it('should return ERROR style class if group is incomplete, inconsistent and type is variant', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = typeCPQ;
+      initialize();
+      component
+        .getGroupStatusStyles(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((style) =>
+          expect(style).toEqual(baseStyleClass + errorStyleClass)
+        );
+    });
+  });
+
   describe('verify whether the corresponding group status class stands at cx-menu-item element', () => {
     it("should contain 'WARNING' class despite the group has not been visited", () => {
       simpleConfig.consistent = false;
@@ -597,10 +757,27 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
+    it("should not contain 'WARNING' class despite the group has been visited and has some conflicts but the type is CPQ ", () => {
+      simpleConfig.consistent = false;
+      simpleConfig.groups[0].consistent = false;
+      simpleConfig.owner.configuratorType = typeCPQ;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = true;
+      initialize();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.WARNING'
+      );
+    });
+
     it("should not contain 'COMPLETE' class despite the group is complete but it has not been visited", () => {
       simpleConfig.complete = true;
       simpleConfig.groups[0].complete = true;
       simpleConfig.groups[0].consistent = true;
+      simpleConfig.owner.configuratorType = typeVariant;
       productConfigurationObservable = of(simpleConfig);
       routerStateObservable = of(mockRouterState);
       mockGroupVisited = false;
@@ -645,6 +822,23 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
+    it("should not contain 'COMPLETE' class despite the group is complete and has been visited but the type is CPQ", () => {
+      simpleConfig.complete = true;
+      simpleConfig.groups[0].complete = true;
+      simpleConfig.groups[0].consistent = true;
+      simpleConfig.owner.configuratorType = typeCPQ;
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = false;
+      initialize();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'li.cx-menu-item.COMPLETE'
+      );
+    });
+
     it("should not contain 'ERROR' class despite the group is incomplete but it has not been visited", () => {
       simpleConfig.complete = false;
       simpleConfig.groups[0].complete = false;
@@ -678,6 +872,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     it("should contain 'DISABLED' class despite the group is empty", () => {
       simpleConfig.complete = true;
       simpleConfig.groups[0].configurable = false;
+      simpleConfig.owner.configuratorType = typeVariant;
       productConfigurationObservable = of(simpleConfig);
       routerStateObservable = of(mockRouterState);
       mockGroupVisited = false;

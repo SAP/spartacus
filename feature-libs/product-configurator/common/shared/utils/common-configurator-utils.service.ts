@@ -5,8 +5,11 @@ import {
   OrderEntry,
   UserIdService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
-import { OrderEntryStatus } from './../../core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+  OrderEntryStatus,
+} from '../../core/model/common-configurator.model';
 import { getOwnerKey } from './common-configurator-model-utils';
 
 /**
@@ -18,7 +21,7 @@ export class CommonConfiguratorUtilsService {
   /**
    * Compiles a unique key for a configuration owner and sets it into the 'key'
    * attribute
-   * @param owner Specifies the owner of a product configuration
+   * @param {CommonConfigurator.Owner }owner - Specifies the owner of a product configuration
    */
   setOwnerKey(owner: CommonConfigurator.Owner) {
     owner.key = getOwnerKey(owner.type, owner.id);
@@ -26,9 +29,9 @@ export class CommonConfiguratorUtilsService {
 
   /**
    * Composes owner ID from document ID and entry number
-   * @param documentId ID of document the entry is part of, like the order or quote code
-   * @param entryNumber Entry number
-   * @returns {string} owner ID
+   * @param {string} documentId - ID of document the entry is part of, like the order or quote code
+   * @param {string} entryNumber - Entry number
+   * @returns {string} - owner ID
    */
   getComposedOwnerId(documentId: string, entryNumber: number): string {
     return documentId + '+' + entryNumber;
@@ -36,7 +39,7 @@ export class CommonConfiguratorUtilsService {
 
   /**
    * Decomposes an owner ID into documentId and entryNumber
-   * @param ownerId ID of owner
+   * @param {string} ownerId - ID of owner
    * @returns {any} object containing documentId and entryNumber
    */
   decomposeOwnerId(ownerId: string): any {
@@ -49,8 +52,8 @@ export class CommonConfiguratorUtilsService {
   }
   /**
    * Gets cart ID (which can be either its guid or its code)
-   * @param cart Cart
-   * @returns Cart identifier
+   * @param {Cart} cart - Cart
+   * @returns {string} - Cart identifier
    */
   getCartId(cart: Cart): string {
     const cartId =
@@ -64,7 +67,7 @@ export class CommonConfiguratorUtilsService {
   /**
    * Verifies whether the item has any issues.
    *
-   * @param cartItem - Cart item
+   * @param {OrderEntry} cartItem - Cart item
    * @returns {boolean} - whether there are any issues
    */
   hasIssues(cartItem: OrderEntry): boolean {
@@ -74,7 +77,7 @@ export class CommonConfiguratorUtilsService {
   /**
    * Retrieves the number of issues at the cart item.
    *
-   * @param cartItem - Cart item
+   * @param {OrderEntry} cartItem - Cart item
    * @returns {number} - the number of issues at the cart item
    */
   getNumberOfIssues(cartItem: OrderEntry): number {
@@ -88,5 +91,34 @@ export class CommonConfiguratorUtilsService {
       }
     });
     return numberOfIssues;
+  }
+
+  /**
+   * Verifies whether the configurator type is an attribute based one.
+   *
+   * @param {string} configuratorType - Configurator type
+   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'false'
+   */
+  isAttributeBasedConfigurator(configuratorType: string | undefined): boolean {
+    if (configuratorType) {
+      return (
+        configuratorType === ConfiguratorType.VARIANT ||
+        configuratorType === ConfiguratorType.TEXTFIELD
+      );
+    }
+    return false;
+  }
+
+  /**
+   * Verifies whether the configurator type is a bundle based one.
+   *
+   * @param {string} configuratorType - Configurator type
+   * @returns {boolean} - 'True' if the expected configurator type, otherwise 'fasle'
+   */
+  isBundleBasedConfigurator(configuratorType: string | undefined): boolean {
+    if (configuratorType) {
+      return configuratorType === ConfiguratorType.CPQ;
+    }
+    return false;
   }
 }

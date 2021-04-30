@@ -75,6 +75,7 @@ class MockConfiguratorCommonsService {
       : defaultConfigObservable;
     return obs;
   }
+
   getConfigurationWithOverview(
     configuration: Configurator.Configuration
   ): Observable<Configurator.Configuration> {
@@ -83,6 +84,7 @@ class MockConfiguratorCommonsService {
       : of(configuration);
     return obs;
   }
+
   removeConfiguration(): void {}
 }
 
@@ -208,6 +210,135 @@ describe('ConfigurationOverviewFormComponent', () => {
       owner: ModelUtils.createInitialOwner(),
     };
     expect(component.hasAttributes(configWOOverviewAttributes)).toBe(false);
+  });
+
+  describe('isSameAttribute', () => {
+    it("should return 'false' because the attributes array is empty", () => {
+      initialize();
+      const attributes: Configurator.AttributeOverview[] = [];
+      const result = component.isSameAttribute(attributes, 0);
+      expect(result).toBe(false);
+    });
+
+    it("should return 'false' because it is not the same attribute", () => {
+      initialize();
+      const attributes: Configurator.AttributeOverview[] = [
+        {
+          attribute: 'C2',
+          value: 'V2',
+        },
+      ];
+      const result = component.isSameAttribute(attributes, 0);
+      expect(result).toBe(false);
+    });
+
+    it("should return 'true' because it is the same attribute", () => {
+      initialize();
+      const attributes: Configurator.AttributeOverview[] = [
+        {
+          attribute: 'C2',
+          value: 'V2',
+        },
+        {
+          attribute: 'C2',
+          value: 'V3',
+        },
+      ];
+      let result = component.isSameAttribute(attributes, 0);
+      expect(result).toBe(true);
+      result = component.isSameAttribute(attributes, 1);
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('getStyleClasses', () => {
+    const generalAttributes: Configurator.AttributeOverview[] = [
+      {
+        attribute: 'C1',
+        value: 'V1',
+        type: Configurator.AttributeOverviewType.GENERAL,
+      },
+      {
+        attribute: 'C1',
+        value: 'V2',
+        type: Configurator.AttributeOverviewType.GENERAL,
+      },
+      {
+        attribute: 'C1',
+        value: 'V4',
+      },
+    ];
+
+    const bundleAttribute: Configurator.AttributeOverview[] = [
+      {
+        attribute: 'C1',
+        value: 'V1',
+        type: Configurator.AttributeOverviewType.BUNDLE,
+      },
+      {
+        attribute: 'C1',
+        value: 'V2',
+        type: Configurator.AttributeOverviewType.BUNDLE,
+      },
+      {
+        attribute: 'C1',
+        value: 'V4',
+      },
+    ];
+
+    it('should return general and margin classes for general attribute type', () => {
+      initialize();
+      const result = component.getStyleClasses(generalAttributes, 0);
+      expect(result.includes('general')).toBe(true);
+      expect(result.includes('bundle')).toBe(false);
+      expect(result.includes('margin')).toBe(true);
+      expect(result.includes('last-value-pair')).toBe(false);
+    });
+
+    it('should return only general class for general attribute type', () => {
+      initialize();
+      const result = component.getStyleClasses(generalAttributes, 1);
+      expect(result.includes('general')).toBe(true);
+      expect(result.includes('bundle')).toBe(false);
+      expect(result.includes('margin')).toBe(false);
+      expect(result.includes('last-value-pair')).toBe(false);
+    });
+
+    it('should return only last-value-pair class for general attribute type', () => {
+      initialize();
+      const result = component.getStyleClasses(generalAttributes, 2);
+      expect(result.includes('general')).toBe(false);
+      expect(result.includes('bundle')).toBe(false);
+      expect(result.includes('margin')).toBe(false);
+      expect(result.includes('last-value-pair')).toBe(true);
+    });
+
+    it('should return bundle and margin classes for bundle attribute type', () => {
+      initialize();
+      const result = component.getStyleClasses(bundleAttribute, 0);
+      expect(result.includes('bundle')).toBe(true);
+      expect(result.includes('general')).toBe(false);
+      expect(result.includes('margin')).toBe(true);
+      expect(result.includes('last-value-pair')).toBe(false);
+    });
+
+    it('should return only bundle class for bundle attribute type', () => {
+      initialize();
+      const result = component.getStyleClasses(bundleAttribute, 1);
+      expect(result.includes('bundle')).toBe(true);
+      expect(result.includes('general')).toBe(false);
+      expect(result.includes('margin')).toBe(false);
+      expect(result.includes('last-value-pair')).toBe(false);
+    });
+
+    it('should return only last-value-pair class for bundle attribute type', () => {
+      initialize();
+      const result = component.getStyleClasses(bundleAttribute, 2);
+      expect(result.includes('bundle')).toBe(false);
+      expect(result.includes('general')).toBe(false);
+      expect(result.includes('margin')).toBe(false);
+      expect(result.includes('last-value-pair')).toBe(true);
+    });
   });
 });
 

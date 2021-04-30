@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
-import {
-  defaultCmsContentProviders,
-  layoutConfig,
-  mediaConfig,
-} from '@spartacus/storefront';
+import { provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultB2bCheckoutConfig,
   defaultB2bOccConfig,
 } from '@spartacus/setup';
+import {
+  defaultCmsContentProviders,
+  layoutConfig,
+  mediaConfig,
+  PWAModuleConfig,
+} from '@spartacus/storefront';
 
 @NgModule({
   providers: [
@@ -19,11 +20,13 @@ import {
     // b2b
     provideConfig(defaultB2bOccConfig),
     provideConfig(defaultB2bCheckoutConfig),
-    provideConfig({
+    provideConfig(<SiteContextConfig>{
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: ['powertools-spa'],
       },
+    }),
+    provideConfig(<PWAModuleConfig>{
       pwa: {
         enabled: true,
         addToHomeScreen: true,

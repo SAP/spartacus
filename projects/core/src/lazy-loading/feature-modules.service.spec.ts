@@ -17,6 +17,9 @@ const mockCmsConfig: CmsConfig = {
       module: async () => MockFeature4Module,
       dependencies: ['feature2'],
     },
+    feature5: 'feature1',
+    feature6: 'feature3',
+    feature7: 'feature5',
   },
 };
 
@@ -70,6 +73,18 @@ describe('FeatureModulesService', () => {
       expect(service.isConfigured('feature3')).toBeFalse();
       expect(service.isConfigured('feature-unknown')).toBeFalse();
     });
+
+    it('should return true for configured feature alias', () => {
+      expect(service.isConfigured('feature5')).toBeTrue();
+    });
+
+    it('should return false for not configured feature alias', () => {
+      expect(service.isConfigured('feature6')).toBeFalse();
+    });
+
+    it('should return true for configured feature not direct alias', () => {
+      expect(service.isConfigured('feature7')).toBeTrue();
+    });
   });
 
   describe('resolveFeature', () => {
@@ -115,6 +130,14 @@ describe('FeatureModulesService', () => {
 
         const testProviderValue2 = moduleRef.injector.get(TEST_DEP_TOKEN);
         expect(testProviderValue2).toBe('test-dependency-value');
+        done();
+      });
+    });
+
+    it('should return feature module with alias mapping', (done) => {
+      service.resolveFeature('feature5').subscribe((moduleRef) => {
+        expect(moduleRef).toBeTruthy();
+        expect(moduleRef.instance).toBeInstanceOf(MockFeature1Module);
         done();
       });
     });

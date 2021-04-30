@@ -4,6 +4,7 @@ import {
   CommonConfigurator,
   ModelUtils,
 } from '@spartacus/product-configurator/common';
+import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -14,6 +15,12 @@ let isGroupVisited: Observable<boolean> = of(false);
 class MockConfiguratorGroupsService {
   isGroupVisited(): Observable<boolean> {
     return isGroupVisited;
+  }
+}
+
+class MockKeyboardFocusService {
+  findFocusable(): HTMLElement[] {
+    return undefined;
   }
 }
 
@@ -30,6 +37,10 @@ describe('ConfigUtilsService', () => {
         {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
+        },
+        {
+          provide: KeyboardFocusService,
+          useClass: MockKeyboardFocusService,
         },
       ],
     });

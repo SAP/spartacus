@@ -37,9 +37,7 @@ describe('OccConfiguratorVariantAddToCartSerializer', () => {
     });
 
     occConfiguratorVariantAddToCartSerializer = TestBed.inject(
-      OccConfiguratorVariantAddToCartSerializer as Type<
-        OccConfiguratorVariantAddToCartSerializer
-      >
+      OccConfiguratorVariantAddToCartSerializer as Type<OccConfiguratorVariantAddToCartSerializer>
     );
   });
 

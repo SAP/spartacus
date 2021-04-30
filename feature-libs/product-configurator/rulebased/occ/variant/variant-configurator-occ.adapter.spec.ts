@@ -13,6 +13,7 @@ import {
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorType,
   ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
@@ -470,7 +471,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should return configurator type', () => {
     expect(occConfiguratorVariantAdapter.getConfiguratorType()).toEqual(
-      'CPQCONFIGURATOR'
+      ConfiguratorType.VARIANT
     );
   });
 });

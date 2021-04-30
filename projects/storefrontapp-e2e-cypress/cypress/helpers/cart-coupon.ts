@@ -107,9 +107,9 @@ export function placeOrder(stateAuth: any) {
     .first()
     .then(($cart) => {
       const cartId = $cart.text().match(/[0-9]+/)[0];
-      cy.requireShippingAddressAdded(user.address, stateAuth);
-      cy.requireShippingMethodSelected(stateAuth);
-      cy.requirePaymentDone(stateAuth);
+      cy.requireShippingAddressAdded(user.address, stateAuth, cartId);
+      cy.requireShippingMethodSelected(stateAuth, cartId);
+      cy.requirePaymentDone(stateAuth, cartId);
       return cy.requirePlacedOrder(stateAuth, cartId);
     });
 }

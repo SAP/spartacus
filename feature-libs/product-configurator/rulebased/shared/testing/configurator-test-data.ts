@@ -1,11 +1,12 @@
 import {
   CommonConfigurator,
+  ConfiguratorType,
   ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../rulebased/core/model/configurator.model';
 
 export const PRODUCT_CODE = 'CONF_LAPTOP';
-export const CONFIGURATOR_TYPE = 'cpqconfigurator';
+export const CONFIGURATOR_TYPE = ConfiguratorType.VARIANT;
 export const CONFIG_ID = '1234-56-7890';
 
 export const GROUP_ID_1 = '1234-56-7891';

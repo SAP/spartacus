@@ -13,25 +13,38 @@ const owner: CommonConfigurator.Owner = {
   id: PRODUCT_CODE,
   key: CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
 };
+
+const interactionState: Configurator.InteractionState = {
+  currentGroup: 'firstGroup',
+  groupsVisited: {},
+  menuParentGroup: undefined,
+  issueNavigationDone: true,
+};
+
+const groups: Configurator.Group[] = [
+  {
+    id: 'firstGroup',
+  },
+  {
+    id: 'secondGroup',
+  },
+];
+
 const configuration: Configurator.Configuration = {
   configId: 'ds',
   productCode: PRODUCT_CODE,
   owner: owner,
-  groups: [
-    {
-      id: 'firstGroup',
-    },
-    {
-      id: 'secondGroup',
-    },
-  ],
+  groups: groups,
   isCartEntryUpdateRequired: false,
-  interactionState: {
-    currentGroup: 'firstGroup',
-    groupsVisited: {},
-    menuParentGroup: null,
-    issueNavigationDone: true,
-  },
+  interactionState: interactionState,
+};
+const configurationWithoutOv: Configurator.Configuration = {
+  configId: 'ds',
+  productCode: PRODUCT_CODE,
+  owner: owner,
+  groups: groups,
+  isCartEntryUpdateRequired: false,
+  interactionState: interactionState,
 };
 const CURRENT_GROUP = 'currentGroupId';
 const PARENT_GROUP = 'parentGroupId';
@@ -370,6 +383,15 @@ describe('Configurator reducer', () => {
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.priceSummary).toBe(priceSummary);
+    });
+
+    it('should not copy price summary from OV to configuration if not yet available', () => {
+      const action = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
+        configurationWithoutOv
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.priceSummary).toBeUndefined();
     });
   });
 

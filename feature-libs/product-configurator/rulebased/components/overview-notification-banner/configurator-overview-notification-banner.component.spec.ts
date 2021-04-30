@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   CommonConfigurator,
   ConfiguratorRouterExtractorService,
+  ConfiguratorType,
   ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
@@ -31,7 +32,7 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-const configuratorType = 'cpqconfigurator';
+const configuratorType = ConfiguratorType.VARIANT;
 
 const routerData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.OVERVIEW,
@@ -137,6 +138,25 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
 
   it('should display banner when there are issues', () => {
     configurationObs = of(productConfigurationWithConflicts);
+    initialize(routerData);
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      'cx-icon'
+    );
+    CommonConfiguratorTestUtilsService.expectElementPresent(
+      expect,
+      htmlElem,
+      '.cx-error-msg'
+    );
+  });
+
+  it('should display banner when there are issues counted in Configurator.Overview', () => {
+    const productConfigurationWithConflictsCountedInOverview: Configurator.Configuration = productConfigurationWithoutIssues;
+    productConfigurationWithConflictsCountedInOverview.overview = {
+      totalNumberOfIssues: 5,
+    };
+    configurationObs = of(productConfigurationWithConflictsCountedInOverview);
     initialize(routerData);
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,

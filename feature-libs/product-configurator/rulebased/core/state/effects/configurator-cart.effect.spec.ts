@@ -136,9 +136,7 @@ describe('ConfiguratorCartEffect', () => {
     });
 
     configCartEffects = TestBed.inject(
-      fromEffects.ConfiguratorCartEffects as Type<
-        fromEffects.ConfiguratorCartEffects
-      >
+      fromEffects.ConfiguratorCartEffects as Type<fromEffects.ConfiguratorCartEffects>
     );
 
     payloadInputUpdateConfiguration = {

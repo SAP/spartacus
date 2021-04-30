@@ -89,6 +89,8 @@ const productConfigurationMultiLevel: Configurator.Configuration = {
   groups: [group4],
 };
 
+const updateType: Configurator.UpdateType = Configurator.UpdateType.ATTRIBUTE;
+
 function mergeChangesAndGetFirstGroup(
   serviceUnderTest: ConfiguratorUtilsService,
   changedAttribute: Configurator.Attribute,
@@ -96,8 +98,10 @@ function mergeChangesAndGetFirstGroup(
 ) {
   const configurationForSendingChanges = serviceUnderTest.createConfigurationExtract(
     changedAttribute,
-    configuration
+    configuration,
+    updateType
   );
+
   expect(configurationForSendingChanges).toBeDefined();
   const groups = configurationForSendingChanges.groups;
   expect(groups).toBeDefined();
@@ -313,9 +317,24 @@ describe('ConfiguratorGroupUtilsService', () => {
       expect(function () {
         classUnderTest.createConfigurationExtract(
           changedAttribute,
-          productConfiguration
+          productConfiguration,
+          updateType
         );
       }).toThrow();
+    });
+
+    it('should create a new configuration in case if no updateType parameter in the call', () => {
+      const changedAttribute: Configurator.Attribute = {
+        name: ATTRIBUTE_1_CHECKBOX,
+        groupId: GROUP_ID_1,
+      };
+      const configurationForSendingChanges = classUnderTest.createConfigurationExtract(
+        changedAttribute,
+        productConfiguration
+      );
+      expect(configurationForSendingChanges.updateType).toBe(
+        Configurator.UpdateType.ATTRIBUTE
+      );
     });
   });
 });

@@ -15,6 +15,15 @@
       "type": "boolean",
       "description": "Lazy load the product configurator features.",
       "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["CPQ configurator", "Textfield configurator"],
+        "type": "string"
+      },
+      "x-prompt": "Which product configurator features besides variant configurator would you like to setup?"
     }
   },
   "required": []

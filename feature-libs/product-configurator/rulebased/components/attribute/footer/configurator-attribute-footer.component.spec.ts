@@ -137,6 +137,28 @@ describe('ConfigAttributeFooterComponent', () => {
     );
   });
 
+  it("shouldn't render a required message if attribute is complete.", () => {
+    currentAttribute.incomplete = false;
+    classUnderTest.ngOnInit();
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-required-error-msg'
+    );
+  });
+
+  it("shouldn't render a required message if UI type is another.", () => {
+    currentAttribute.uiType = Configurator.UiType.CHECKBOX;
+    classUnderTest.ngOnInit();
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementNotPresent(
+      expect,
+      htmlElem,
+      'cx-required-error-msg'
+    );
+  });
+
   it("shouldn't render a required message because user input is set.", () => {
     currentAttribute.userInput = 'test';
     classUnderTest.ngOnInit();
@@ -175,6 +197,42 @@ describe('ConfigAttributeFooterComponent', () => {
       expect(
         classUnderTest.isUserInputEmpty(classUnderTest.attribute.userInput)
       ).toBe(false);
+    });
+  });
+
+  describe('needsUserInputMessage()', () => {
+    it('should not display user input message because attribute is not required', () => {
+      classUnderTest.attribute.required = false;
+      fixture.detectChanges();
+      expect(classUnderTest['needsUserInputMessage']()).toBe(false);
+    });
+
+    it('should not display user input message because attribute is complete', () => {
+      classUnderTest.attribute.incomplete = false;
+      fixture.detectChanges();
+      expect(classUnderTest['needsUserInputMessage']()).toBe(false);
+    });
+
+    it('should not display user input message because attribute user input is not empty', () => {
+      classUnderTest.attribute.userInput = ' test ';
+      fixture.detectChanges();
+      expect(classUnderTest['needsUserInputMessage']()).toBe(false);
+    });
+
+    it('should not display user input message for another UI type', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOX;
+      fixture.detectChanges();
+      expect(classUnderTest['needsUserInputMessage']()).toBe(false);
+    });
+
+    it('should display user input message for UI type `STRING`', () => {
+      expect(classUnderTest['needsUserInputMessage']()).toBe(true);
+    });
+
+    it('should display user input message for UI type `NUMERIC`', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.NUMERIC;
+      fixture.detectChanges();
+      expect(classUnderTest['needsUserInputMessage']()).toBe(true);
     });
   });
 });

@@ -8,6 +8,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorType,
   ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
@@ -34,7 +35,7 @@ export class VariantConfiguratorOccAdapter
   ) {}
 
   getConfiguratorType(): string {
-    return 'CPQCONFIGURATOR';
+    return ConfiguratorType.VARIANT;
   }
 
   createConfiguration(

@@ -91,9 +91,7 @@ describe('ConfiguratorTextfieldEffect', () => {
     });
 
     configEffects = TestBed.inject(
-      fromEffects.ConfiguratorTextfieldEffects as Type<
-        fromEffects.ConfiguratorTextfieldEffects
-      >
+      fromEffects.ConfiguratorTextfieldEffects as Type<fromEffects.ConfiguratorTextfieldEffects>
     );
   });
 

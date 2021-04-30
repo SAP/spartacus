@@ -7,8 +7,11 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
-import { OrderEntryStatus } from './../../core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+  OrderEntryStatus,
+} from '../../core/model/common-configurator.model';
 import { createInitialOwner } from './common-configurator-model-utils';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
 
@@ -192,6 +195,50 @@ describe('CommonConfiguratorUtilsService', () => {
         { numberOfIssues: 2, status: OrderEntryStatus.Success },
       ];
       expect(classUnderTest.hasIssues(cartItem)).toBeFalse();
+    });
+  });
+
+  describe('isAttributeBasedConfigurator', () => {
+    it('should return false, because the configurator type is undefined', () => {
+      expect(classUnderTest.isAttributeBasedConfigurator(undefined)).toBe(
+        false
+      );
+    });
+
+    it('should return false, because the configurator type is not an attribute based one', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator('ANYCONFIGURATOR')
+      ).toBe(false);
+    });
+
+    it('should return true for the variant configurator type', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.VARIANT)
+      ).toBe(true);
+    });
+
+    it('should return true for the textfield configurator type', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.TEXTFIELD)
+      ).toBe(true);
+    });
+  });
+
+  describe('isBundleBasedConfigurator', () => {
+    it('should return false, because the configurator type is undefined', () => {
+      expect(classUnderTest.isBundleBasedConfigurator(undefined)).toBe(false);
+    });
+
+    it('should return false, because the configurator type is not an attribute based one', () => {
+      expect(classUnderTest.isBundleBasedConfigurator('ANYCONFIGURATOR')).toBe(
+        false
+      );
+    });
+
+    it('should return true for the CPQ configurator type', () => {
+      expect(
+        classUnderTest.isBundleBasedConfigurator(ConfiguratorType.CPQ)
+      ).toBe(true);
     });
   });
 });
