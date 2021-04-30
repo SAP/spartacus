@@ -5,7 +5,7 @@
 $page-template-blocklist-organization: () !default;
 
 // allowlisted page template selectors are processed
-// unless (some) they are blocklisted
+// unless (some) that are blocklisted using `$page-template-blocklist`
 $page-template-allowlist-organization: CompanyPageTemplate !default;
 
 @each $selector in $page-template-allowlist-organization {

@@ -9,7 +9,7 @@
 $page-template-blocklist: () !default;
 
 // allowlisted page template selectors are processed
-// unless (some) they are blocklisted using `$page-template-blocklist`
+// unless (some) that are blocklisted using `$page-template-blocklist`
 $page-template-allowlist: LandingPage2Template, ContentPage1Template,
   CategoryPageTemplate, ProductListPageTemplate, ProductGridPageTemplate,
   SearchResultsListPageTemplate, ProductDetailsPageTemplate, CartPageTemplate,
