@@ -20,6 +20,7 @@ import {
 import { peerDependencies } from '../../package.json';
 import {
   CART_FOLDER_NAME,
+  CART_SAVED_CART_FEATURE_CONSTANT,
   CART_SAVED_CART_FEATURE_NAME,
   CLI_SAVED_CART_FEATURE,
   SAVED_CART_MODULE,
@@ -68,6 +69,10 @@ function addSavedCartFeature(options: SpartacusCartOptions): Rule {
     rootModule: {
       name: SAVED_CART_ROOT_MODULE,
       importPath: SPARTACUS_SAVED_CART_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_SAVED_CART_ROOT,
+      namedImports: [CART_SAVED_CART_FEATURE_CONSTANT],
     },
     i18n: {
       resources: SAVED_CART_TRANSLATIONS,
