@@ -20,10 +20,10 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
-  ASM_FEATURE_NAME,
   ASM_FEATURE_NAME_CONSTANT,
   ASM_FOLDER_NAME,
   ASM_MODULE,
+  ASM_MODULE_NAME,
   ASM_ROOT_MODULE,
   ASM_TRANSLATIONS,
   ASM_TRANSLATION_CHUNKS_CONFIG,
@@ -58,7 +58,7 @@ function addAsmPackageJsonDependencies(packageJson: any): Rule {
 function addAsmFeature(options: SpartacusAsmOptions): Rule {
   return addLibraryFeature(options, {
     folderName: ASM_FOLDER_NAME,
-    moduleName: ASM_FEATURE_NAME,
+    moduleName: ASM_MODULE_NAME,
     featureModule: {
       name: ASM_MODULE,
       importPath: SPARTACUS_ASM,

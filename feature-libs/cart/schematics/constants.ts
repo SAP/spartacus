@@ -4,7 +4,7 @@ export const CART_FOLDER_NAME = 'cart';
 export const SCSS_FILE_NAME = 'cart.scss';
 
 export const CLI_SAVED_CART_FEATURE = 'Saved Cart (b2b feature)';
-export const CART_SAVED_CART_FEATURE_NAME = 'cartSavedCart';
+export const CART_SAVED_CART_MODULE_NAME = 'CartSavedCart';
 export const CART_SAVED_CART_FEATURE_NAME_CONSTANT = 'CART_SAVED_CART_FEATURE';
 export const SAVED_CART_MODULE = 'SavedCartModule';
 export const SAVED_CART_ROOT_MODULE = 'SavedCartRootModule';

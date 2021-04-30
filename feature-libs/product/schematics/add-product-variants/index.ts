@@ -10,9 +10,9 @@ import {
   SPARTACUS_VARIANTS,
   SPARTACUS_VARIANTS_ASSETS,
   SPARTACUS_VARIANTS_ROOT,
-  VARIANTS_FEATURE_NAME,
   VARIANTS_FEATURE_NAME_CONSTANT,
   VARIANTS_MODULE,
+  VARIANTS_MODULE_NAME,
   VARIANTS_ROOT_MODULE,
   VARIANTS_TRANSLATIONS,
   VARIANTS_TRANSLATION_CHUNKS_CONFIG,
@@ -21,7 +21,7 @@ import {
 export function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
   return addLibraryFeature(options, {
     folderName: PRODUCT_FOLDER_NAME,
-    moduleName: VARIANTS_FEATURE_NAME,
+    moduleName: VARIANTS_MODULE_NAME,
     featureModule: {
       name: VARIANTS_MODULE,
       importPath: SPARTACUS_VARIANTS,

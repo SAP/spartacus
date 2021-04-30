@@ -4,8 +4,8 @@ export const ORGANIZATION_FOLDER_NAME = 'organization';
 export const SCSS_FILE_NAME = 'organization.scss';
 
 export const CLI_ADMINISTRATION_FEATURE = 'Administration (b2b feature)';
-export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME =
-  'organizationAdministration';
+export const ORGANIZATION_ADMINISTRATION_MODULE_NAME =
+  'OrganizationAdministration';
 export const ORGANIZATION_ADMINISTRATION_FEATURE_NAME_CONSTANT =
   'ORGANIZATION_ADMINISTRATION_FEATURE';
 export const ADMINISTRATION_MODULE = 'AdministrationModule';
@@ -18,8 +18,8 @@ export const ORGANIZATION_TRANSLATION_CHUNKS_CONFIG =
   'organizationTranslationChunksConfig';
 
 export const CLI_ORDER_APPROVAL_FEATURE = 'Order-approval (b2b feature)';
-export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME =
-  'organizationOrderApproval';
+export const ORGANIZATION_ORDER_APPROVAL_MODULE_NAME =
+  'OrganizationOrderApproval';
 export const ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME_CONSTANT =
   'ORGANIZATION_ORDER_APPROVAL_FEATURE';
 export const ORDER_APPROVAL_MODULE = 'OrderApprovalModule';

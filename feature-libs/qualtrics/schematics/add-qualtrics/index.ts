@@ -21,10 +21,10 @@ import {
 import { peerDependencies } from '../../package.json';
 import {
   QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
-  QUALTRICS_FEATURE_NAME,
   QUALTRICS_FEATURE_NAME_CONSTANT,
   QUALTRICS_FOLDER_NAME,
   QUALTRICS_MODULE,
+  QUALTRICS_MODULE_NAME,
   QUALTRICS_ROOT_MODULE,
   SPARTACUS_QUALTRICS_ROOT,
 } from '../constants';
@@ -56,7 +56,7 @@ function addQualtricsPackageJsonDependencies(packageJson: any): Rule {
 function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {
   return addLibraryFeature(options, {
     folderName: QUALTRICS_FOLDER_NAME,
-    moduleName: QUALTRICS_FEATURE_NAME,
+    moduleName: QUALTRICS_MODULE_NAME,
     featureModule: {
       name: QUALTRICS_MODULE,
       importPath: SPARTACUS_QUALTRICS,

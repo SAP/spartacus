@@ -3,14 +3,14 @@ import { SPARTACUS_TRACKING } from '@spartacus/schematics';
 export const TRACKING_FOLDER_NAME = 'tracking';
 
 export const CLI_PERSONALIZATION_FEATURE = 'Personalization';
-export const PERSONALIZATION_FEATURE_NAME = 'personalization';
+export const PERSONALIZATION_MODULE_NAME = 'Personalization';
 export const PERSONALIZATION_FEATURE_NAME_CONSTANT = 'PERSONALIZATION_FEATURE';
 export const PERSONALIZATION_MODULE = 'PersonalizationModule';
 export const PERSONALIZATION_ROOT_MODULE = 'PersonalizationRootModule';
 export const SPARTACUS_PERSONALIZATION = `${SPARTACUS_TRACKING}/personalization`;
 export const SPARTACUS_PERSONALIZATION_ROOT = `${SPARTACUS_PERSONALIZATION}/root`;
 
-export const TMS_FEATURE_NAME = 'TagManagement';
+export const TMS_MODULE_NAME = 'TagManagement';
 export const TMS_CONFIG = 'TmsConfig';
 export const TMS_BASE_MODULE = 'BaseTmsModule';
 export const SPARTACUS_TMS_CORE = `${SPARTACUS_TRACKING}/tms/core`;

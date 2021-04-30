@@ -21,8 +21,8 @@ import {
 import { peerDependencies } from '../../package.json';
 import {
   CART_FOLDER_NAME,
-  CART_SAVED_CART_FEATURE_NAME,
   CART_SAVED_CART_FEATURE_NAME_CONSTANT,
+  CART_SAVED_CART_MODULE_NAME,
   CLI_SAVED_CART_FEATURE,
   SAVED_CART_MODULE,
   SAVED_CART_ROOT_MODULE,
@@ -64,7 +64,7 @@ function addCartPackageJsonDependencies(packageJson: any): Rule {
 function addSavedCartFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CART_FOLDER_NAME,
-    moduleName: CART_SAVED_CART_FEATURE_NAME,
+    moduleName: CART_SAVED_CART_MODULE_NAME,
     featureModule: {
       name: SAVED_CART_MODULE,
       importPath: SPARTACUS_SAVED_CART,

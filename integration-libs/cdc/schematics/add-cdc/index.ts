@@ -9,6 +9,7 @@ import {
   addLibraryFeature,
   addPackageJsonDependencies,
   addSchematicsTasks,
+  CLI_CDC_FEATURE,
   createDependencies,
   createSpartacusDependencies,
   createSpartacusFeatureOptionsForLibrary,
@@ -24,8 +25,8 @@ import {
   CDC_FEATURE_CONSTANT,
   CDC_FOLDER_NAME,
   CDC_MODULE,
+  CDC_MODULE_NAME,
   CDC_ROOT_MODULE,
-  CLI_CDC_FEATURE,
   SPARTACUS_CDC_ROOT,
 } from '../constants';
 
@@ -67,7 +68,7 @@ function addCdcPackageJsonDependencies(
 function addCdc(options: SpartacusCdcOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CDC_FOLDER_NAME,
-    moduleName: CLI_CDC_FEATURE,
+    moduleName: CDC_MODULE_NAME,
     rootModule: {
       importPath: SPARTACUS_CDC_ROOT,
       name: CDC_ROOT_MODULE,

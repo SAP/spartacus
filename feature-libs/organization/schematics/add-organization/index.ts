@@ -28,11 +28,11 @@ import {
   ORDER_APPROVAL_ROOT_MODULE,
   ORDER_APPROVAL_TRANSLATIONS,
   ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG,
-  ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME_CONSTANT,
+  ORGANIZATION_ADMINISTRATION_MODULE_NAME,
   ORGANIZATION_FOLDER_NAME,
-  ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
   ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME_CONSTANT,
+  ORGANIZATION_ORDER_APPROVAL_MODULE_NAME,
   ORGANIZATION_TRANSLATIONS,
   ORGANIZATION_TRANSLATION_CHUNKS_CONFIG,
   SCSS_FILE_NAME,
@@ -78,7 +78,7 @@ function addOrganizationPackageJsonDependencies(packageJson: any): Rule {
 function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
     folderName: ORGANIZATION_FOLDER_NAME,
-    moduleName: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+    moduleName: ORGANIZATION_ADMINISTRATION_MODULE_NAME,
     featureModule: {
       name: ADMINISTRATION_MODULE,
       importPath: SPARTACUS_ADMINISTRATION,
@@ -106,7 +106,7 @@ function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
 function addOrderApprovalsFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
     folderName: ORGANIZATION_FOLDER_NAME,
-    moduleName: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
+    moduleName: ORGANIZATION_ORDER_APPROVAL_MODULE_NAME,
     featureModule: {
       name: ORDER_APPROVAL_MODULE,
       importPath: SPARTACUS_ORDER_APPROVAL,

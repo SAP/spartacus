@@ -5,9 +5,9 @@ import {
   SPARTACUS_PRODUCT,
 } from '@spartacus/schematics';
 import {
-  BULK_PRICING_FEATURE_NAME,
   BULK_PRICING_FEATURE_NAME_CONSTANT,
   BULK_PRICING_MODULE,
+  BULK_PRICING_MODULE_NAME,
   BULK_PRICING_ROOT_MODULE,
   BULK_PRICING_TRANSLATIONS,
   BULK_PRICING_TRANSLATION_CHUNKS_CONFIG,
@@ -23,7 +23,7 @@ export function addBulkPricingFeature(
 ): Rule {
   return addLibraryFeature(options, {
     folderName: PRODUCT_FOLDER_NAME,
-    moduleName: BULK_PRICING_FEATURE_NAME,
+    moduleName: BULK_PRICING_MODULE_NAME,
     featureModule: {
       name: BULK_PRICING_MODULE,
       importPath: SPARTACUS_BULK_PRICING,
