@@ -18,6 +18,8 @@ import { PageType } from '../../model/cms.model';
  * the more generic `ContentPageMetaResolver` is overridden by this resolver.
  *
  * The page title and robots are resolved in this implementation only.
+ *
+ * @deprecated since 4.0, use checkout feature lib instead.
  */
 @Injectable({
   providedIn: 'root',

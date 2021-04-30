@@ -13,6 +13,9 @@ import { CartNotEmptyGuard } from './../../../../../cms-components/cart/cart-not
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';
 import { CheckoutStepsSetGuard } from '../../../guards/checkout-steps-set.guard';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
   providers: [

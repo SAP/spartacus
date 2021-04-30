@@ -25,6 +25,9 @@ export interface CardWithAddress {
   address: Address;
 }
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Component({
   selector: 'cx-shipping-address',
   templateUrl: './shipping-address.component.html',

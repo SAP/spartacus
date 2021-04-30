@@ -4,9 +4,12 @@ import { Address, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CheckoutStep, CheckoutStepType } from '../model/checkout-step.model';
-import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
 })

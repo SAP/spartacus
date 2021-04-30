@@ -7,12 +7,15 @@ import {
 import {
   CheckoutService,
   Order,
-  PromotionResult,
   PromotionLocation,
+  PromotionResult,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Component({
   selector: 'cx-order-confirmation-items',
   templateUrl: './order-confirmation-items.component.html',

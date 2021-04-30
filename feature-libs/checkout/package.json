@@ -20,7 +20,16 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/core": "^10.2.4"
+    "@angular/common": "^10.2.4",
+    "@angular/core": "^10.2.4",
+    "@angular/forms": "^10.2.4",
+    "@angular/router": "^10.2.4",
+    "@ng-select/ng-select": "^5.0.9",
+    "@ngrx/effects": "^10.0.0",
+    "@ngrx/store": "^10.0.0",
+    "@spartacus/core": "3.2.0-next.2",
+    "@spartacus/storefront": "3.2.0-next.2",
+    "rxjs": "^6.6.0"
   },
   "publishConfig": {
     "access": "public"

@@ -4,6 +4,9 @@ import { ActiveCartService, AuthRedirectService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { CustomFormValidators } from '../../../shared/utils/validators/custom-form-validators';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Component({
   selector: 'cx-checkout-login',
   templateUrl: './checkout-login.component.html',

@@ -10,7 +10,7 @@ import {
 import { CardModule } from '../../shared/components/card/card.module';
 import { FormErrorsModule } from '../../shared/index';
 import { CartSharedModule } from '../cart/cart-shared/cart-shared.module';
-import { PromotionsModule } from '../checkout/components/promotions/promotions.module';
+import { PromotionsModule } from '../misc/promotions/promotions.module';
 import { PwaModule } from './../../cms-structure/pwa/pwa.module';
 import { OrderConfirmationItemsComponent } from './components/order-confirmation-items/order-confirmation-items.component';
 import { OrderConfirmationOverviewComponent } from './components/order-confirmation-overview/order-confirmation-overview.component';
@@ -18,6 +18,9 @@ import { OrderConfirmationThankYouMessageComponent } from './components/order-co
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

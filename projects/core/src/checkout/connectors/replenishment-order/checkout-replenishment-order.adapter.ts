@@ -4,6 +4,9 @@ import {
   ScheduleReplenishmentForm,
 } from '../../../model/replenishment-order.model';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export abstract class CheckoutReplenishmentOrderAdapter {
   /**
    * Abstract method used to schedule a replenishment order.

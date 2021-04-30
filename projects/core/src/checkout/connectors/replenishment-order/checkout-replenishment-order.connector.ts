@@ -6,6 +6,9 @@ import {
 } from '../../../model/replenishment-order.model';
 import { CheckoutReplenishmentOrderAdapter } from './checkout-replenishment-order.adapter';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
 })

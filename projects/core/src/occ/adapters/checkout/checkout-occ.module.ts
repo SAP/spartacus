@@ -25,6 +25,9 @@ import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
 import { OccCheckoutReplenishmentOrderAdapter } from './occ-checkout-replenishment-order.adapter';
 import { OccCheckoutAdapter } from './occ-checkout.adapter';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [CommonModule],
   providers: [

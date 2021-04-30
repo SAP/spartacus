@@ -5,6 +5,9 @@ import { CartNotEmptyGuard } from '../../../cart';
 import { CheckoutAuthGuard } from '../../guards';
 import { CostCenterComponent } from './cost-center.component';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

@@ -27,7 +27,7 @@ import { ICON_TYPE } from '../../../../cms-components';
 import { ModalDirective } from '../../../../shared/components/modal/modal.directive';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
-import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
+import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 @Directive({

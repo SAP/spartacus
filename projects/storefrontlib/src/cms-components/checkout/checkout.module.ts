@@ -12,11 +12,14 @@ import { DeliveryModeModule } from './components/delivery-mode/delivery-mode.mod
 import { PaymentMethodModule } from './components/payment-method/payment-method.module';
 import { PaymentTypeModule } from './components/payment-type/payment-type.module';
 import { PlaceOrderModule } from './components/place-order/place-order.module';
-import { PromotionsModule } from './components/promotions/promotions.module';
+import { PromotionsModule } from '../misc/promotions/promotions.module';
 import { ReviewSubmitModule } from './components/review-submit/review-submit.module';
 import { ScheduleReplenishmentOrderModule } from './components/schedule-replenishment-order/schedule-replenishment-order.module';
 import { ShippingAddressModule } from './components/shipping-address/shipping-address.module';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

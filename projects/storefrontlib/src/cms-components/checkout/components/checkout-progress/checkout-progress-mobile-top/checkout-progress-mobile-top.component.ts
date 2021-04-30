@@ -5,6 +5,9 @@ import { tap } from 'rxjs/operators';
 import { CheckoutStep } from '../../../model/checkout-step.model';
 import { CheckoutStepService } from '../../../services/checkout-step.service';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Component({
   selector: 'cx-checkout-progress-mobile-top',
   templateUrl: './checkout-progress-mobile-top.component.html',

@@ -1,0 +1,9 @@
+<div *ngIf="(activeStepIndex$ | async) !== undefined">
+  <div class="cx-media">
+    <div *ngFor="let step of steps$ | async; let i = index">
+      <div class="cx-list-media" *ngIf="i > activeStepIndex">
+        <div>{{ i + 1 }}. {{ step.name | cxTranslate }}</div>
+      </div>
+    </div>
+  </div>
+</div>

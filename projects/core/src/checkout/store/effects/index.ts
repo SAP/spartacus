@@ -4,6 +4,9 @@ import { CheckoutEffects } from './checkout.effect';
 import { PaymentTypesEffects } from './payment-types.effect';
 import { ReplenishmentOrderEffects } from './replenishment-order.effect';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const effects: any[] = [
   CheckoutEffects,
   AddressVerificationEffect,

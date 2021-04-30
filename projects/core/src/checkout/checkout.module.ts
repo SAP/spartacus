@@ -5,6 +5,9 @@ import { interceptors } from './http-interceptors/index';
 import { CheckoutPageMetaResolver } from './services/checkout-page-meta.resolver';
 import { CheckoutStoreModule } from './store/checkout-store.module';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [CheckoutStoreModule, CheckoutEventModule],
 })

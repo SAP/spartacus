@@ -9,6 +9,9 @@ import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-em
 import { AddressFormModule } from './address-form/address-form.module';
 import { ShippingAddressComponent } from './shipping-address.component';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

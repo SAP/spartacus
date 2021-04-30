@@ -13,7 +13,7 @@ import {
   OrderOverviewModule,
 } from '../../shared/index';
 import { CartSharedModule } from '../cart/cart-shared/cart-shared.module';
-import { PromotionsModule } from '../checkout/components/promotions/promotions.module';
+import { PromotionsModule } from '../misc/promotions/promotions.module';
 import { PwaModule } from './../../cms-structure/pwa/pwa.module';
 import { GuestRegisterFormComponent } from './components/guest-register-form/guest-register-form.component';
 import { OrderConfirmationItemsComponent } from './components/order-confirmation-items/order-confirmation-items.component';
@@ -31,6 +31,9 @@ const orderConfirmationComponents = [
   GuestRegisterFormComponent,
 ];
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

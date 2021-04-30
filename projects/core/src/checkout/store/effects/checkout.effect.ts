@@ -24,6 +24,9 @@ import { CheckoutDeliveryConnector } from '../../connectors/delivery/checkout-de
 import { CheckoutPaymentConnector } from '../../connectors/payment/checkout-payment.connector';
 import { CheckoutActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable()
 export class CheckoutEffects {
   private contextChange$ = this.actions$.pipe(

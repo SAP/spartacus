@@ -5,6 +5,9 @@ import { ReplenishmentOrder } from '../../../model/replenishment-order.model';
 import { CheckoutStepsState } from '../checkout-state';
 import { CheckoutActions } from './../actions/index';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const initialState: CheckoutStepsState = {
   poNumber: { po: undefined, costCenter: undefined },
   address: {},
@@ -16,6 +19,9 @@ export const initialState: CheckoutStepsState = {
   orderDetails: {},
 };
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export function reducer(
   state = initialState,
   action:

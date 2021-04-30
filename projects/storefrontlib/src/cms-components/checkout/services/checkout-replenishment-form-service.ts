@@ -6,6 +6,9 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
 })

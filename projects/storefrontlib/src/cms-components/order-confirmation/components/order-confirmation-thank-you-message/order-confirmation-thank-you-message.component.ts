@@ -8,6 +8,9 @@ import { CheckoutService, ORDER_TYPE } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',
   templateUrl: './order-confirmation-thank-you-message.component.html',

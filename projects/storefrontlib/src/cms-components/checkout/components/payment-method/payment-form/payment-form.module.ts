@@ -9,6 +9,9 @@ import { IconModule } from '../../../../misc/icon/icon.module';
 import { PaymentFormComponent } from './payment-form.component';
 import { FormErrorsModule } from '../../../../../shared/index';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

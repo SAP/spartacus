@@ -8,6 +8,9 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
 })

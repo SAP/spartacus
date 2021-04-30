@@ -18,6 +18,9 @@ import { OCC_USER_ID_ANONYMOUS } from '../../utils/occ-constants';
 const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 const CARTS_ENDPOINT = '/carts/';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable()
 export class OccCheckoutAdapter implements CheckoutAdapter {
   constructor(

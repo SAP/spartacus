@@ -2,11 +2,17 @@ import { PaymentType } from '../../../model/cart.model';
 import { CheckoutActions } from '../actions/index';
 import { PaymentTypesState } from '../checkout-state';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const initialState: PaymentTypesState = {
   entities: {},
   selected: undefined,
 };
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export function reducer(
   state = initialState,
   action:
@@ -60,7 +66,13 @@ export function reducer(
   return state;
 }
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getPaymentTypesEntites = (state: PaymentTypesState) =>
   state.entities;
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getSelectedPaymentType = (state: PaymentTypesState) =>
   state.selected;

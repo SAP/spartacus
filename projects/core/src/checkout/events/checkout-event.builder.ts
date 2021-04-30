@@ -3,6 +3,9 @@ import { StateEventService } from '../../state/event/state-event.service';
 import { CheckoutActions } from '../store/actions/index';
 import { OrderPlacedEvent } from './checkout.events';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
 })

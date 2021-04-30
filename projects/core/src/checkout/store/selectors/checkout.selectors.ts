@@ -24,11 +24,17 @@ const getPaymentDetailsSelector = (state: CheckoutStepsState) =>
 const getOrderDetailsSelector = (state: CheckoutStepsState) =>
   state.orderDetails;
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getCheckoutState: MemoizedSelector<
   StateWithCheckout,
   CheckoutState
 > = createFeatureSelector<CheckoutState>(CHECKOUT_FEATURE);
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getCheckoutStepsState: MemoizedSelector<
   StateWithCheckout,
   LoaderState<CheckoutStepsState>
@@ -37,6 +43,9 @@ export const getCheckoutStepsState: MemoizedSelector<
   (checkoutState: CheckoutState) => checkoutState.steps
 );
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getCheckoutSteps: MemoizedSelector<
   StateWithCheckout,
   CheckoutStepsState
@@ -44,11 +53,17 @@ export const getCheckoutSteps: MemoizedSelector<
   StateUtils.loaderValueSelector(state)
 );
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getDeliveryAddress: MemoizedSelector<
   StateWithCheckout,
   Address
 > = createSelector(getCheckoutSteps, getDeliveryAddressSelector);
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getDeliveryMode: MemoizedSelector<
   StateWithCheckout,
   {
@@ -57,6 +72,9 @@ export const getDeliveryMode: MemoizedSelector<
   }
 > = createSelector(getCheckoutSteps, getDeliveryModeSelector);
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getSupportedDeliveryModes: MemoizedSelector<
   StateWithCheckout,
   DeliveryMode[]
@@ -69,6 +87,9 @@ export const getSupportedDeliveryModes: MemoizedSelector<
   );
 });
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getSelectedDeliveryModeCode: MemoizedSelector<
   StateWithCheckout,
   string
@@ -76,6 +97,9 @@ export const getSelectedDeliveryModeCode: MemoizedSelector<
   return deliveryMode && deliveryMode.selected;
 });
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getSelectedDeliveryMode: MemoizedSelector<
   StateWithCheckout,
   DeliveryMode
@@ -88,16 +112,25 @@ export const getSelectedDeliveryMode: MemoizedSelector<
   }
 });
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getPaymentDetails: MemoizedSelector<
   StateWithCheckout,
   PaymentDetails
 > = createSelector(getCheckoutSteps, getPaymentDetailsSelector);
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getCheckoutOrderDetails: MemoizedSelector<
   StateWithCheckout,
   Order | ReplenishmentOrder
 > = createSelector(getCheckoutSteps, getOrderDetailsSelector);
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getCheckoutDetailsLoaded: MemoizedSelector<
   StateWithCheckout,
   boolean
@@ -108,6 +141,9 @@ export const getCheckoutDetailsLoaded: MemoizedSelector<
     !StateUtils.loaderLoadingSelector(state)
 );
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getCheckoutLoading: MemoizedSelector<
   StateWithCheckout,
   boolean
@@ -115,6 +151,9 @@ export const getCheckoutLoading: MemoizedSelector<
   StateUtils.loaderLoadingSelector(state)
 );
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getPoNumer: MemoizedSelector<
   StateWithCheckout,
   string
@@ -123,6 +162,9 @@ export const getPoNumer: MemoizedSelector<
   (state: CheckoutStepsState) => state.poNumber.po
 );
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getCostCenter: MemoizedSelector<
   StateWithCheckout,
   string

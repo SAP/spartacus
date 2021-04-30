@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, UrlTree, Router } from '@angular/router';
-
+import { CanActivate, Router, UrlTree } from '@angular/router';
+import { CheckoutService, SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { CheckoutService, SemanticPathService } from '@spartacus/core';
-
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
 })

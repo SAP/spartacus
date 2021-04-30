@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
-import { TimeUtils } from '../../../../util/time-utils';
 import { ScheduleReplenishmentForm } from '../../../../model/replenishment-order.model';
 import { Converter } from '../../../../util/converter.service';
+import { TimeUtils } from '../../../../util/time-utils';
 import { Occ } from '../../../occ-models/occ.models';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderFormSerializer
   implements

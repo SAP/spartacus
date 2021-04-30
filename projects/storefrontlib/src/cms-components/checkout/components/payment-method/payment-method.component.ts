@@ -23,6 +23,9 @@ import { Card } from '../../../../shared/components/card/card.component';
 import { ICON_TYPE } from '../../../misc/icon';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Component({
   selector: 'cx-payment-method',
   templateUrl: './payment-method.component.html',

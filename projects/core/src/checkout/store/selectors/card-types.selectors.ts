@@ -8,16 +8,25 @@ import {
 import * as fromReducer from './../reducers/card-types.reducer';
 import { getCheckoutState } from './checkout.selectors';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getCardTypesState: MemoizedSelector<
   StateWithCheckout,
   CardTypesState
 > = createSelector(getCheckoutState, (state: CheckoutState) => state.cardTypes);
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getCardTypesEntites: MemoizedSelector<
   StateWithCheckout,
   { [code: string]: CardType }
 > = createSelector(getCardTypesState, fromReducer.getCardTypesEntites);
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getAllCardTypes: MemoizedSelector<
   StateWithCheckout,
   CardType[]

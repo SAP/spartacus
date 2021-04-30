@@ -6,6 +6,9 @@ import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
 import { PaymentTypeComponent } from './payment-type.component';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

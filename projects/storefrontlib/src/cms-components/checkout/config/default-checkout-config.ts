@@ -1,6 +1,9 @@
 import { CheckoutStepType } from '../model/checkout-step.model';
 import { CheckoutConfig, DeliveryModePreferences } from './checkout-config';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const defaultCheckoutConfig: CheckoutConfig = {
   checkout: {
     steps: [

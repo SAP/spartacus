@@ -4,6 +4,9 @@ import { CheckoutDeliveryAdapter } from './checkout-delivery.adapter';
 import { Address } from '../../../model/address.model';
 import { DeliveryMode } from '../../../model/order.model';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
 })

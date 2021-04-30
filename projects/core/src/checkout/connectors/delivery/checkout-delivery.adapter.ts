@@ -2,6 +2,9 @@ import { Observable } from 'rxjs';
 import { Address } from '../../../model/address.model';
 import { DeliveryMode } from '../../../model/order.model';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export abstract class CheckoutDeliveryAdapter {
   /**
    * Abstract method used to create address in cart

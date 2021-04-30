@@ -2,10 +2,16 @@ import { CardType } from '../../../model/cart.model';
 import { CheckoutActions } from '../actions/index';
 import { CardTypesState } from '../checkout-state';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const initialState: CardTypesState = {
   entities: {},
 };
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export function reducer(
   state = initialState,
   action:
@@ -41,4 +47,7 @@ export function reducer(
   return state;
 }
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export const getCardTypesEntites = (state: CardTypesState) => state.entities;

@@ -13,7 +13,18 @@
     "importHelpers": true,
     "types": [],
     "lib": ["dom", "esnext"],
-    "paths": {}
+    "strict": true,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "alwaysStrict": false,
+    "strictBindCallApply": false,
+    "strictNullChecks": false,
+    "strictFunctionTypes": false,
+    "strictPropertyInitialization": false,
+    "paths": {
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"]
+    }
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,

@@ -5,7 +5,6 @@
     "paths": {
       "@spartacus/setup": ["../../dist/setup"],
       "@spartacus/setup/ssr": ["../../dist/setup/ssr"],
-      "@spartacus/checkout": ["../../dist/checkout"],
       "@spartacus/asm/assets": ["../../dist/asm/assets"],
       "@spartacus/asm/components": ["../../dist/asm/components"],
       "@spartacus/asm/core": ["../../dist/asm/core"],
@@ -23,6 +22,12 @@
       "@spartacus/cart/saved-cart": ["../../dist/cart/saved-cart"],
       "@spartacus/cart/saved-cart/occ": ["../../dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["../../dist/cart/saved-cart/root"],
+      "@spartacus/checkout/assets": ["../../dist/checkout/assets"],
+      "@spartacus/checkout/components": ["../../dist/checkout/components"],
+      "@spartacus/checkout/core": ["../../dist/checkout/core"],
+      "@spartacus/checkout": ["../../dist/checkout"],
+      "@spartacus/checkout/occ": ["../../dist/checkout/occ"],
+      "@spartacus/checkout/root": ["../../dist/checkout/root"],
       "@spartacus/organization/administration/assets": [
         "../../dist/organization/administration/assets"
       ],

@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
 import { CardType, PaymentDetails } from '../../../model/cart.model';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
 })

@@ -32,6 +32,9 @@ import {
 import { ICON_TYPE } from '../../../../misc/icon/index';
 import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // eslint-disable-line
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Component({
   selector: 'cx-payment-form',
   templateUrl: './payment-form.component.html',

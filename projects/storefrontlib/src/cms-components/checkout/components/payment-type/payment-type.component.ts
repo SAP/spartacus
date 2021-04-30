@@ -15,6 +15,9 @@ import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { CheckoutStepType } from '../../model/checkout-step.model';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Component({
   selector: 'cx-payment-type',
   templateUrl: './payment-type.component.html',

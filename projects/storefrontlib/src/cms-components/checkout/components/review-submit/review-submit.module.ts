@@ -11,10 +11,13 @@ import { CartSharedModule } from '../../../../cms-components/cart/cart-shared/ca
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { IconModule } from '../../../misc/icon/icon.module';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
-import { PromotionsModule } from '../promotions/promotions.module';
+import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
 import { ReviewSubmitComponent } from './review-submit.component';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [
     CommonModule,

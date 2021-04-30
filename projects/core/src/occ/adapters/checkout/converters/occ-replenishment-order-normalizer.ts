@@ -8,6 +8,9 @@ import {
 } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderNormalizer
   implements Converter<Occ.ReplenishmentOrder, ReplenishmentOrder> {

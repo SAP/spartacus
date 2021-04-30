@@ -8,6 +8,9 @@ export enum DeliveryModePreferences {
   MOST_EXPENSIVE = 'MOST_EXPENSIVE',
 }
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @Injectable({
   providedIn: 'root',
   useExisting: Config,

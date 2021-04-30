@@ -14,6 +14,9 @@ import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-em
 import { CheckoutProgressComponent } from './checkout-progress.component';
 import { MultiLinePipe } from './multiline-titles.pipe';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
   declarations: [CheckoutProgressComponent, MultiLinePipe],
