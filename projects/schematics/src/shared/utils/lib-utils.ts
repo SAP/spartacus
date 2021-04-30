@@ -267,7 +267,7 @@ function addRootModule(
 
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(createModuleName(config))) {
+      if (sourceFile.getFilePath().includes(createModuleFileName(config))) {
         addModuleImport(sourceFile, {
           import: {
             moduleSpecifier: config.rootModule.importPath,
@@ -291,7 +291,7 @@ function addFeatureModule(
 ) {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = createModuleName(config);
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (options.lazy) {
@@ -342,7 +342,7 @@ function addFeatureTranslations(
 ) {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = createModuleName(config);
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.i18n) {
@@ -380,7 +380,7 @@ function addCustomConfig(
 ) {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = createModuleName(config);
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.customConfig) {
@@ -732,6 +732,6 @@ export function runExternalSpartacusLibrary(
   };
 }
 
-function createModuleName(config: FeatureConfig): string {
+function createModuleFileName(config: FeatureConfig): string {
   return `${dasherize(config.name)}-feature.module.ts`;
 }
