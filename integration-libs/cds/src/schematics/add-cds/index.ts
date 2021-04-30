@@ -25,28 +25,19 @@ import { CDS_FOLDER_NAME, CDS_MODULE, CDS_MODULE_NAME } from '../constants';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 export function addCdsFeature(options: SpartacusCdsOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
       shouldAddFeature(CLI_CDS_FEATURE, options.features)
-        ? addCds(options)
+        ? addCds(options, context)
         : noop(),
 
       addCdsPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
     ]);
   };
-}
-
-function validateCdsOptions({ tenant, baseUrl }: SpartacusCdsOptions): void {
-  if (!tenant) {
-    throw new SchematicsException(`Please specify tenant name.`);
-  }
-  if (!baseUrl) {
-    throw new SchematicsException(`Please specify the base URL.`);
-  }
 }
 
 function addCdsPackageJsonDependencies(packageJson: any): Rule {
@@ -57,8 +48,8 @@ function addCdsPackageJsonDependencies(packageJson: any): Rule {
   return addPackageJsonDependencies(dependencies, packageJson);
 }
 
-function addCds(options: SpartacusCdsOptions): Rule {
-  validateCdsOptions(options);
+function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
+  validateCdsOptions(options, context);
 
   const customConfig: CustomConfig[] = [
     {
@@ -117,4 +108,32 @@ function addCds(options: SpartacusCdsOptions): Rule {
       customConfig,
     }
   );
+}
+
+function validateCdsOptions(
+  {
+    tenant,
+    baseUrl,
+    profileTagConfigUrl,
+    profileTagLoadUrl,
+  }: SpartacusCdsOptions,
+  context: SchematicContext
+): void {
+  if (!tenant) {
+    throw new SchematicsException(`Please specify tenant name.`);
+  }
+  if (!baseUrl) {
+    throw new SchematicsException(`Please specify the base URL.`);
+  }
+
+  if (
+    !(
+      (profileTagConfigUrl && profileTagLoadUrl) ||
+      (!profileTagConfigUrl && !profileTagLoadUrl)
+    )
+  ) {
+    context.logger.warn(
+      `Profile tag will not be added. Please run the schematic again, and make sure you provide both profile tag options.`
+    );
+  }
 }

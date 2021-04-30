@@ -14,7 +14,9 @@ import * as path from 'path';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const spartacusCdsFeatureModulePath =
+const spartacusFeaturesModulePath =
+  'src/app/spartacus/spartacus-features.module.ts';
+const featureModulePath =
   'src/app/spartacus/features/cds/cds-feature.module.ts';
 
 describe('Spartacus CDS schematics: ng-add', () => {
@@ -83,7 +85,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('When no features are provided', () => {
+  describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
@@ -94,42 +96,52 @@ describe('Spartacus CDS schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not create the feature module', () => {
-      const featureModule = appTree.readContent(spartacusCdsFeatureModulePath);
-      expect(featureModule).toBeFalsy();
-    });
     it('should not add the feature to the feature module', () => {
       const spartacusFeaturesModule = appTree.readContent(
-        'src/app/spartacus/spartacus-features.module.ts'
+        spartacusFeaturesModulePath
       );
       expect(spartacusFeaturesModule).toMatchSnapshot();
+    });
+    it('should not add create any of the modules', () => {
+      expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
   });
 
   describe('CDS feature', () => {
-    describe('general setup without ProfileTag', () => {
+    describe('without Profile tag', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should import feature module in SpartacusFeaturesModule', () => {
-        const spartacusFeaturesModulePath = appTree.readContent(
-          'src/app/spartacus/spartacus-features.module.ts'
-        );
-        expect(spartacusFeaturesModulePath).toMatchSnapshot();
-      });
+      describe('general setup', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+            .toPromise();
+        });
 
-      it('should generate CDS feature module without ProfileTag config', () => {
-        const cdsFeatureModule = appTree.readContent(
-          spartacusCdsFeatureModulePath
-        );
-        expect(cdsFeatureModule).toMatchSnapshot();
+        it('should install necessary Spartacus libraries', async () => {
+          const packageJson = appTree.readContent('package.json');
+          expect(packageJson).toMatchSnapshot();
+        });
+
+        it('should import feature module to SpartacusFeaturesModule', () => {
+          const spartacusFeaturesModule = appTree.readContent(
+            spartacusFeaturesModulePath
+          );
+          expect(spartacusFeaturesModule).toMatchSnapshot();
+        });
+
+        it('should create the feature module', async () => {
+          const module = appTree.readContent(featureModulePath);
+          expect(module).toMatchSnapshot();
+        });
       });
     });
 
-    describe('general setup with ProfileTag', () => {
+    describe('with Profile tag configured', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync(
@@ -144,17 +156,29 @@ describe('Spartacus CDS schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should import feature module in SpartacusFeaturesModule', () => {
-        const spartacusFeaturesModulePath = appTree.readContent(
-          'src/app/spartacus/spartacus-features.module.ts'
-        );
-        expect(spartacusFeaturesModulePath).toMatchSnapshot();
-      });
-      it('should generate CDS feature module with ProfileTag config', () => {
-        const cdsFeatureModule = appTree.readContent(
-          spartacusCdsFeatureModulePath
-        );
-        expect(cdsFeatureModule).toMatchSnapshot();
+      describe('general setup', () => {
+        beforeEach(async () => {
+          appTree = await schematicRunner
+            .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+            .toPromise();
+        });
+
+        it('should install necessary Spartacus libraries', async () => {
+          const packageJson = appTree.readContent('package.json');
+          expect(packageJson).toMatchSnapshot();
+        });
+
+        it('should import feature module to SpartacusFeaturesModule', () => {
+          const spartacusFeaturesModule = appTree.readContent(
+            spartacusFeaturesModulePath
+          );
+          expect(spartacusFeaturesModule).toMatchSnapshot();
+        });
+
+        it('should create the feature module', async () => {
+          const module = appTree.readContent(featureModulePath);
+          expect(module).toMatchSnapshot();
+        });
       });
     });
   });
