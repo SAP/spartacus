@@ -40,10 +40,7 @@ import {
   ensureModuleExists,
   Import,
 } from './new-module-utils';
-import {
-  getSpartacusSchematicsVersion,
-  readPackageJson,
-} from './package-utils';
+import { getSpartacusSchematicsVersion } from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
@@ -661,20 +658,6 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
     }
 
     return tree;
-  };
-}
-
-export function installSpartacusFeatures(features: string[]): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const packageJson = readPackageJson(tree);
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-    const dependencies: NodeDependency[] = features.map((collectionName) => ({
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: collectionName,
-    }));
-
-    return addPackageJsonDependencies(dependencies, packageJson)(tree, context);
   };
 }
 
