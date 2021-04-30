@@ -36,8 +36,7 @@ export const CART_LIST_ITEM_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
   ],
 };
 
-
-export const CART_LIST_ITEM_COMPONENT_MIGRATION_V4: ConstructorDeprecation = {
+export const CART_LIST_ITEM_COMPONENT_MIGRATION_V2: ConstructorDeprecation = {
   // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts
   class: CART_ITEM_LIST_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
