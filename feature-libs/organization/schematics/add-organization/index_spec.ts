@@ -120,7 +120,14 @@ describe('Spartacus Organization schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...defaultFeatureOptions,
+              features: [CLI_ADMINISTRATION_FEATURE],
+            },
+            appTree
+          )
           .toPromise();
       });
 
@@ -185,7 +192,14 @@ describe('Spartacus Organization schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...defaultFeatureOptions,
+              features: [CLI_ORDER_APPROVAL_FEATURE],
+            },
+            appTree
+          )
           .toPromise();
       });
 
