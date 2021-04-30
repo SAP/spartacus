@@ -7,9 +7,9 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import {
   CheckoutCostCenterService,
-  CheckoutDeliveryService,
   PaymentTypeService,
 } from '@spartacus/checkout/core';
+import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -43,7 +43,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,

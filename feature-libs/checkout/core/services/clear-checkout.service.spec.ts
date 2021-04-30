@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { CheckoutDeliveryService } from '../facade/checkout-delivery.service';
+import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import { CheckoutPaymentService } from '../facade/checkout-payment.service';
 import { ClearCheckoutService } from './clear-checkout.service';
 
-class MockCheckoutDeliveryService implements Partial<CheckoutDeliveryService> {
+class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
   resetSetDeliveryAddressProcess() {}
   resetSetDeliveryModeProcess() {}
 }
@@ -14,7 +14,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentService> {
 
 describe('ClearCheckoutService', () => {
   let service: ClearCheckoutService;
-  let checkoutDeliveryService: CheckoutDeliveryService;
+  let checkoutDeliveryFacade: CheckoutDeliveryFacade;
   let checkoutPaymentService: CheckoutPaymentService;
 
   beforeEach(() => {
@@ -22,8 +22,8 @@ describe('ClearCheckoutService', () => {
       providers: [
         ClearCheckoutService,
         {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
+          provide: CheckoutDeliveryFacade,
+          useClass: MockCheckoutDeliveryFacade,
         },
         {
           provide: CheckoutPaymentService,
@@ -33,11 +33,11 @@ describe('ClearCheckoutService', () => {
     });
 
     service = TestBed.inject(ClearCheckoutService);
-    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+    checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
     checkoutPaymentService = TestBed.inject(CheckoutPaymentService);
 
-    spyOn(checkoutDeliveryService, 'resetSetDeliveryAddressProcess');
-    spyOn(checkoutDeliveryService, 'resetSetDeliveryModeProcess');
+    spyOn(checkoutDeliveryFacade, 'resetSetDeliveryAddressProcess');
+    spyOn(checkoutDeliveryFacade, 'resetSetDeliveryModeProcess');
     spyOn(checkoutPaymentService, 'resetSetPaymentDetailsProcess');
   });
 
@@ -52,13 +52,13 @@ describe('ClearCheckoutService', () => {
 
     it('delivery address process', () => {
       expect(
-        checkoutDeliveryService.resetSetDeliveryAddressProcess
+        checkoutDeliveryFacade.resetSetDeliveryAddressProcess
       ).toHaveBeenCalled();
     });
 
     it('delivery mode process', () => {
       expect(
-        checkoutDeliveryService.resetSetDeliveryModeProcess
+        checkoutDeliveryFacade.resetSetDeliveryModeProcess
       ).toHaveBeenCalled();
     });
 
