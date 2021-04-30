@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import { defaultStoreFinderLayoutConfig } from './config/default-store-finder-layout-config';
-import { STORE_FINDER_FEATURE } from './feature-name';
 
 @NgModule({
   declarations: [],
@@ -9,7 +8,7 @@ import { STORE_FINDER_FEATURE } from './feature-name';
     provideDefaultConfig(defaultStoreFinderLayoutConfig),
     provideDefaultConfig({
       featureModules: {
-        [STORE_FINDER_FEATURE]: {
+        storeFinder: {
           cmsComponents: ['StoreFinderComponent'],
         },
       },

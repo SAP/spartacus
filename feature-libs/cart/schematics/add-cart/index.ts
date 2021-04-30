@@ -20,8 +20,8 @@ import {
 import { peerDependencies } from '../../package.json';
 import {
   CART_FOLDER_NAME,
-  CART_SAVED_CART_FEATURE_CONSTANT,
   CART_SAVED_CART_FEATURE_NAME,
+  CART_SAVED_CART_FEATURE_NAME_CONSTANT,
   CLI_SAVED_CART_FEATURE,
   SAVED_CART_MODULE,
   SAVED_CART_ROOT_MODULE,
@@ -72,7 +72,7 @@ function addSavedCartFeature(options: SpartacusCartOptions): Rule {
     },
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_SAVED_CART_ROOT,
-      namedImports: [CART_SAVED_CART_FEATURE_CONSTANT],
+      namedImports: [CART_SAVED_CART_FEATURE_NAME_CONSTANT],
     },
     i18n: {
       resources: SAVED_CART_TRANSLATIONS,
