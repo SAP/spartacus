@@ -10,6 +10,7 @@ import {
   addPackageJsonDependencies,
   CLI_ASM_FEATURE,
   createDependencies,
+  createSpartacusDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
@@ -46,7 +47,10 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
 }
 
 function addAsmPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
+  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
+  const thirdPartyDependencies = createDependencies(peerDependencies);
+  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
+
   return addPackageJsonDependencies(dependencies, packageJson);
 }
 

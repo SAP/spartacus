@@ -10,6 +10,7 @@ import {
   addPackageJsonDependencies,
   CLI_STOREFINDER_FEATURE,
   createDependencies,
+  createSpartacusDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
@@ -49,7 +50,9 @@ export function addStorefinderFeatures(
 }
 
 function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
+  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
+  const thirdPartyDependencies = createDependencies(peerDependencies);
+  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }

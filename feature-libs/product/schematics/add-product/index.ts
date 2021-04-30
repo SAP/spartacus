@@ -8,6 +8,7 @@ import {
 import {
   addPackageJsonDependencies,
   createDependencies,
+  createSpartacusDependencies,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
@@ -40,7 +41,9 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
 }
 
 function addProductPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
+  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
+  const thirdPartyDependencies = createDependencies(peerDependencies);
+  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
 
   return addPackageJsonDependencies(dependencies, packageJson);
 }
