@@ -24,34 +24,11 @@ export class StoreFinderService implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    store: Store<StateWithStoreFinder>,
-    winRef: WindowRef,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService
-  );
-
-  /**
-   * @deprecated since version 3.1
-   * Use constructor(protected store: Store<StateWithStoreFinder>, protected winRef: WindowRef, protected globalMessageService: GlobalMessageService,
-   * protected routingService: RoutingService @Inject(PLATFORM_ID) protected platformId: any); instead
-   */
-  // TODO(#11093): Remove deprecated constructors
-
-  constructor(
-    store: Store<StateWithStoreFinder>,
-    winRef: WindowRef,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    platformId: any
-  );
-
-  constructor(
     protected store: Store<StateWithStoreFinder>,
     protected winRef: WindowRef,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    @Inject(PLATFORM_ID) protected platformId?: any
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {
     this.reloadStoreEntitiesOnContextChange();
   }

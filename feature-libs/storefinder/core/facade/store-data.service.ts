@@ -16,12 +16,7 @@ export class StoreDataService {
     6: 'Sat',
   };
 
-  /**
-   * @deprecated since version 3.1
-   * Use constructor(private winRef: WindowRef) {} instead
-   */
-  // TODO(#11093): Remove deprecated constructors
-  constructor(protected winRef?: WindowRef) {}
+  constructor(protected winRef: WindowRef) {}
 
   /**
    * Returns store latitude
