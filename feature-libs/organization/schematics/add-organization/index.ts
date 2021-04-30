@@ -78,7 +78,7 @@ function addOrganizationPackageJsonDependencies(packageJson: any): Rule {
 function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
     folderName: ORGANIZATION_FOLDER_NAME,
-    name: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
+    moduleName: ORGANIZATION_ADMINISTRATION_FEATURE_NAME,
     featureModule: {
       name: ADMINISTRATION_MODULE,
       importPath: SPARTACUS_ADMINISTRATION,
@@ -106,7 +106,7 @@ function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
 function addOrderApprovalsFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
     folderName: ORGANIZATION_FOLDER_NAME,
-    name: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
+    moduleName: ORGANIZATION_ORDER_APPROVAL_FEATURE_NAME,
     featureModule: {
       name: ORDER_APPROVAL_MODULE,
       importPath: SPARTACUS_ORDER_APPROVAL,

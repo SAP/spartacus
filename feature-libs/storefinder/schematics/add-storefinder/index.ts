@@ -61,7 +61,7 @@ function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
 function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
   return addLibraryFeature(options, {
     folderName: STOREFINDER_FOLDER_NAME,
-    name: STOREFINDER_FEATURE_NAME,
+    moduleName: STOREFINDER_FEATURE_NAME,
     featureModule: {
       name: STOREFINDER_MODULE,
       importPath: SPARTACUS_STOREFINDER,

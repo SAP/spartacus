@@ -58,7 +58,7 @@ function addAsmPackageJsonDependencies(packageJson: any): Rule {
 function addAsmFeature(options: SpartacusAsmOptions): Rule {
   return addLibraryFeature(options, {
     folderName: ASM_FOLDER_NAME,
-    name: ASM_FEATURE_NAME,
+    moduleName: ASM_FEATURE_NAME,
     featureModule: {
       name: ASM_MODULE,
       importPath: SPARTACUS_ASM,

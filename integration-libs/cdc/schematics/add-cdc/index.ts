@@ -67,7 +67,7 @@ function addCdcPackageJsonDependencies(
 function addCdc(options: SpartacusCdcOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CDC_FOLDER_NAME,
-    name: CLI_CDC_FEATURE,
+    moduleName: CLI_CDC_FEATURE,
     rootModule: {
       importPath: SPARTACUS_CDC_ROOT,
       name: CDC_ROOT_MODULE,

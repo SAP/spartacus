@@ -56,7 +56,7 @@ function addQualtricsPackageJsonDependencies(packageJson: any): Rule {
 function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {
   return addLibraryFeature(options, {
     folderName: QUALTRICS_FOLDER_NAME,
-    name: QUALTRICS_FEATURE_NAME,
+    moduleName: QUALTRICS_FEATURE_NAME,
     featureModule: {
       name: QUALTRICS_MODULE,
       importPath: SPARTACUS_QUALTRICS,

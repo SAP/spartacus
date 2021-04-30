@@ -56,7 +56,7 @@ function addSmarteditPackageJsonDependencies(packageJson: any): Rule {
 function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
   return addLibraryFeature(options, {
     folderName: SMARTEDIT_FOLDER_NAME,
-    name: SMARTEDIT_FEATURE_NAME,
+    moduleName: SMARTEDIT_FEATURE_NAME,
     featureModule: {
       name: SMARTEDIT_MODULE,
       importPath: SPARTACUS_SMARTEDIT,

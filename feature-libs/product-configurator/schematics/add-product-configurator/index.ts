@@ -101,7 +101,7 @@ function addProductConfiguratorRulebasedFeature(
 
   return addLibraryFeature(options, {
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
-    name: CLI_PRODUCT_CONFIGURATOR_FEATURE,
+    moduleName: CLI_PRODUCT_CONFIGURATOR_FEATURE,
     featureModule: {
       name: moduleName,
       importPath: moduleImportPath,
@@ -137,7 +137,7 @@ function addCpqRulebasedRootModule(
 ): Rule {
   return addLibraryFeature(options, {
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
-    name: CLI_PRODUCT_CONFIGURATOR_FEATURE,
+    moduleName: CLI_PRODUCT_CONFIGURATOR_FEATURE,
     featureModule: {
       name: PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_CPQ,
@@ -158,7 +158,7 @@ function addProductConfiguratorTextfieldFeature(
 ): Rule {
   return addLibraryFeature(options, {
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
-    name: CLI_PRODUCT_CONFIGURATOR_FEATURE,
+    moduleName: CLI_PRODUCT_CONFIGURATOR_FEATURE,
     featureModule: {
       name: PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD,

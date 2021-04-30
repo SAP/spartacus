@@ -108,7 +108,7 @@ function addCds(options: SpartacusCdsOptions): Rule {
     { ...options, lazy: false },
     {
       folderName: CDS_FOLDER_NAME,
-      name: CLI_CDS_FEATURE,
+      moduleName: CLI_CDS_FEATURE,
       featureModule: {
         importPath: SPARTACUS_CDS,
         name: CDS_MODULE,

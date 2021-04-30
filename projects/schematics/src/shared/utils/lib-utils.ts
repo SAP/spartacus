@@ -64,7 +64,7 @@ export interface FeatureConfig {
    * Used as the generated feature module's file name.
    * Also, used as the lazy loading's feature name if the `lazyLoadingChunk` config is not provided.
    */
-  name: string;
+  moduleName: string;
   /**
    * The feature module configuration.
    */
@@ -240,7 +240,7 @@ function handleFeature<T extends LibraryOptions>(
     for (const tsconfigPath of buildPaths) {
       rules.push(
         ensureModuleExists({
-          name: `${dasherize(config.name)}-feature`,
+          name: `${dasherize(config.moduleName)}-feature`,
           path: `app/spartacus/features/${config.folderName}`,
           module: SPARTACUS_FEATURES_MODULE,
           project: options.project,
@@ -295,7 +295,7 @@ function addFeatureModule(
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (options.lazy) {
-          let lazyLoadingChunkName = config.name;
+          let lazyLoadingChunkName = config.moduleName;
           if (config.lazyLoadingChunk) {
             const content = config.lazyLoadingChunk.namedImports[0];
             lazyLoadingChunkName = `[${content}]`;
@@ -733,5 +733,5 @@ export function runExternalSpartacusLibrary(
 }
 
 function createModuleFileName(config: FeatureConfig): string {
-  return `${dasherize(config.name)}-feature.module.ts`;
+  return `${dasherize(config.moduleName)}-feature.module.ts`;
 }

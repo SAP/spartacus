@@ -23,7 +23,7 @@ export function addBulkPricingFeature(
 ): Rule {
   return addLibraryFeature(options, {
     folderName: PRODUCT_FOLDER_NAME,
-    name: BULK_PRICING_FEATURE_NAME,
+    moduleName: BULK_PRICING_FEATURE_NAME,
     featureModule: {
       name: BULK_PRICING_MODULE,
       importPath: SPARTACUS_BULK_PRICING,

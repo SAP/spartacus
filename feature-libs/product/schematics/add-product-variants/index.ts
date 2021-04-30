@@ -21,7 +21,7 @@ import {
 export function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
   return addLibraryFeature(options, {
     folderName: PRODUCT_FOLDER_NAME,
-    name: VARIANTS_FEATURE_NAME,
+    moduleName: VARIANTS_FEATURE_NAME,
     featureModule: {
       name: VARIANTS_MODULE,
       importPath: SPARTACUS_VARIANTS,

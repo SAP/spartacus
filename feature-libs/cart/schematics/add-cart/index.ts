@@ -64,7 +64,7 @@ function addCartPackageJsonDependencies(packageJson: any): Rule {
 function addSavedCartFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CART_FOLDER_NAME,
-    name: CART_SAVED_CART_FEATURE_NAME,
+    moduleName: CART_SAVED_CART_FEATURE_NAME,
     featureModule: {
       name: SAVED_CART_MODULE,
       importPath: SPARTACUS_SAVED_CART,

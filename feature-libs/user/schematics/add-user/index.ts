@@ -73,7 +73,7 @@ function addUserPackageJsonDependencies(packageJson: any): Rule {
 function addAccountFeature(options: SpartacusUserOptions): Rule {
   return addLibraryFeature(options, {
     folderName: USER_FOLDER_NAME,
-    name: USER_FEATURE_NAME,
+    moduleName: USER_FEATURE_NAME,
     featureModule: {
       name: USER_ACCOUNT_MODULE,
       importPath: SPARTACUS_USER_ACCOUNT,
@@ -101,7 +101,7 @@ function addAccountFeature(options: SpartacusUserOptions): Rule {
 function addProfileFeature(options: SpartacusUserOptions): Rule {
   return addLibraryFeature(options, {
     folderName: USER_FOLDER_NAME,
-    name: USER_FEATURE_NAME,
+    moduleName: USER_FEATURE_NAME,
     featureModule: {
       name: USER_PROFILE_MODULE,
       importPath: SPARTACUS_USER_PROFILE,
