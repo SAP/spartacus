@@ -2,12 +2,6 @@ import * as configuration from '../../helpers/product-configurator-vc';
 import * as configurationOverview from '../../helpers/product-configurator-vc-overview';
 import * as productSearch from '../../helpers/product-search';
 
-/**
- * This suite is marked as flaky due to performance (synchronization) issues on
- * https://spartacus-devci767.eastus.cloudapp.azure.com:9002 that we analyze in
- * https://cxjira.sap.com/browse/TIGER-7252
- */
-
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
