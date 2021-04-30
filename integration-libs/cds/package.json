@@ -29,8 +29,8 @@
     "@angular/router": "^10.1.0",
     "@ngrx/store": "^10.0.0",
     "@spartacus/core": "3.2.1",
+    "@spartacus/schematics": "3.2.1",
     "@spartacus/storefront": "3.2.1",
-    "@spartacus/schematics": "3.2.0",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
