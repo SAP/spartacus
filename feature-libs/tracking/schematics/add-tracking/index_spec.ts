@@ -21,6 +21,8 @@ import {
 } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
+const spartacusFeaturesModulePath =
+  'src/app/spartacus/spartacus-features.module.ts';
 const personalizationModulePath =
   'src/app/spartacus/features/tracking/personalization-feature.module.ts';
 const tagManagementModulePath =
@@ -46,17 +48,17 @@ describe('Spartacus Tracking schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions: SpartacusPersonalizationOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [CLI_PERSONALIZATION_FEATURE],
-  };
-
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
     lazy: true,
     features: [],
+  };
+
+  const defaultFeatureOptions: SpartacusPersonalizationOptions = {
+    project: 'schematics-test',
+    lazy: true,
+    features: [CLI_PERSONALIZATION_FEATURE],
   };
 
   beforeEach(async () => {
@@ -95,7 +97,7 @@ describe('Spartacus Tracking schematics: ng-add', () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',
-          { ...defaultOptions, features: [] },
+          { ...defaultFeatureOptions, features: [] },
           appTree
         )
         .toPromise();
@@ -111,15 +113,20 @@ describe('Spartacus Tracking schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should import feature module in SpartacusFeaturesModule', () => {
-        const spartacusFeaturesModulePath = appTree.readContent(
-          'src/app/spartacus/spartacus-features.module.ts'
+      it('should install necessary Spartacus libraries', async () => {
+        const packageJson = appTree.readContent('package.json');
+        expect(packageJson).toMatchSnapshot();
+      });
+
+      it('should import feature module to SpartacusFeaturesModule', () => {
+        const spartacusFeaturesModule = appTree.readContent(
+          spartacusFeaturesModulePath
         );
-        expect(spartacusFeaturesModulePath).toMatchSnapshot();
+        expect(spartacusFeaturesModule).toMatchSnapshot();
       });
     });
 
@@ -128,24 +135,22 @@ describe('Spartacus Tracking schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultOptions, lazy: false },
+            { ...defaultFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
       });
 
-      it('should import appropriate modules (no lazy loaded syntax)', async () => {
-        const personalizationModule = appTree.readContent(
-          personalizationModulePath
-        );
-        expect(personalizationModule).toMatchSnapshot();
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(personalizationModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
 
     describe('lazy loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -159,39 +164,34 @@ describe('Spartacus Tracking schematics: ng-add', () => {
   });
 
   describe('Tag Management feature', () => {
-    describe('general setup', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            { ...defaultOptions, features: [CLI_TMS_GTM_FEATURE] },
-            appTree
-          )
-          .toPromise();
-      });
-
-      it('should import feature module in SpartacusFeaturesModule', () => {
-        const spartacusFeaturesModulePath = appTree.readContent(
-          'src/app/spartacus/spartacus-features.module.ts'
-        );
-        expect(spartacusFeaturesModulePath).toMatchSnapshot();
-      });
-    });
-
     describe('GTM', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
             {
-              ...defaultOptions,
+              ...defaultFeatureOptions,
               features: [CLI_TMS_GTM_FEATURE],
             },
             appTree
           )
           .toPromise();
       });
-      it('should import appropriate modules (no lazy loaded syntax)', async () => {
+      describe('general setup', () => {
+        it('should install necessary Spartacus libraries', async () => {
+          const packageJson = appTree.readContent('package.json');
+          expect(packageJson).toMatchSnapshot();
+        });
+
+        it('should import feature module to SpartacusFeaturesModule', () => {
+          const spartacusFeaturesModule = appTree.readContent(
+            spartacusFeaturesModulePath
+          );
+          expect(spartacusFeaturesModule).toMatchSnapshot();
+        });
+      });
+
+      it('should import appropriate modules (without lazy loaded syntax)', async () => {
         const tagManagementModule = appTree.readContent(
           tagManagementModulePath
         );
@@ -205,14 +205,29 @@ describe('Spartacus Tracking schematics: ng-add', () => {
           .runSchematicAsync(
             'ng-add',
             {
-              ...defaultOptions,
+              ...defaultFeatureOptions,
               features: [CLI_TMS_AEP_FEATURE],
             },
             appTree
           )
           .toPromise();
       });
-      it('should import appropriate modules (no lazy loaded syntax)', async () => {
+
+      describe('general setup', () => {
+        it('should install necessary Spartacus libraries', async () => {
+          const packageJson = appTree.readContent('package.json');
+          expect(packageJson).toMatchSnapshot();
+        });
+
+        it('should import feature module to SpartacusFeaturesModule', () => {
+          const spartacusFeaturesModule = appTree.readContent(
+            spartacusFeaturesModulePath
+          );
+          expect(spartacusFeaturesModule).toMatchSnapshot();
+        });
+      });
+
+      it('should import appropriate modules (without lazy loaded syntax)', async () => {
         const tagManagementModule = appTree.readContent(
           tagManagementModulePath
         );
@@ -226,13 +241,28 @@ describe('Spartacus Tracking schematics: ng-add', () => {
           .runSchematicAsync(
             'ng-add',
             {
-              ...defaultOptions,
+              ...defaultFeatureOptions,
               features: [CLI_TMS_GTM_FEATURE, CLI_TMS_AEP_FEATURE],
             },
             appTree
           )
           .toPromise();
       });
+
+      describe('general setup', () => {
+        it('should install necessary Spartacus libraries', async () => {
+          const packageJson = appTree.readContent('package.json');
+          expect(packageJson).toMatchSnapshot();
+        });
+
+        it('should import feature module to SpartacusFeaturesModule', () => {
+          const spartacusFeaturesModule = appTree.readContent(
+            spartacusFeaturesModulePath
+          );
+          expect(spartacusFeaturesModule).toMatchSnapshot();
+        });
+      });
+
       it('should import appropriate modules (no lazy loaded syntax)', async () => {
         const tagManagementModule = appTree.readContent(
           tagManagementModulePath
