@@ -7,7 +7,6 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { NavigationEvent } from '../navigation/navigation.event';
-import { PageEvent } from '../page/page.events';
 import { HomePageEvent } from './home-page.events';
 
 @Injectable({
@@ -31,22 +30,9 @@ export class HomePageEventBuilder {
       filter((navigationEvent) => navigationEvent.semanticRoute === 'home'),
       map((navigationEvent) =>
         createFrom(HomePageEvent, {
-          ...this.createDeprecatedPageEvent(navigationEvent),
-          navigation: { ...navigationEvent },
+          navigation: navigationEvent,
         })
       )
     );
-  }
-
-  private createDeprecatedPageEvent(
-    navigationEvent: NavigationEvent
-  ): PageEvent | undefined {
-    if (
-      !this.featureConfigService ||
-      this.featureConfigService.isLevel('!3.1')
-    ) {
-      return { ...navigationEvent };
-    }
-    return undefined;
   }
 }

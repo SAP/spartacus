@@ -8,7 +8,6 @@ import {
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { NavigationEvent } from '../navigation/navigation.event';
-import { PageEvent } from '../page/page.events';
 import { CartPageEvent } from './cart-page.events';
 
 @Injectable({
@@ -35,25 +34,9 @@ export class CartPageEventBuilder {
       filter((navigationEvent) => navigationEvent.semanticRoute === 'cart'),
       map((navigationEvent) =>
         createFrom(CartPageEvent, {
-          ...this.createDeprecatedPageEvent(navigationEvent),
-          navigation: {
-            ...navigationEvent,
-          },
+          navigation: navigationEvent,
         })
       )
     );
-  }
-
-  // TODO: #10896 - remove this method
-  private createDeprecatedPageEvent(
-    navigationEvent: NavigationEvent
-  ): PageEvent | undefined {
-    if (
-      !this.featureConfigService ||
-      this.featureConfigService.isLevel('!3.1')
-    ) {
-      return { ...navigationEvent };
-    }
-    return undefined;
   }
 }

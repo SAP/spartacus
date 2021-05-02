@@ -9,7 +9,6 @@ import {
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { NavigationEvent } from '../navigation/navigation.event';
-import { PageEvent } from '../page/page.events';
 import {
   CategoryPageResultsEvent,
   ProductDetailsPageEvent,
@@ -54,8 +53,7 @@ export class ProductPageEventBuilder {
           take(1),
           map((product) =>
             createFrom(ProductDetailsPageEvent, {
-              ...this.createDeprecatedPageEvent(navigationEvent),
-              navigation: { ...navigationEvent },
+              navigation: navigationEvent,
               categories: product.categories,
               code: product.code,
               name: product.name,
@@ -82,8 +80,7 @@ export class ProductPageEventBuilder {
         return searchResults$.pipe(
           map((searchResults) =>
             createFrom(CategoryPageResultsEvent, {
-              ...this.createDeprecatedPageEvent(navigationEvent),
-              navigation: { ...navigationEvent },
+              navigation: navigationEvent,
               ...{
                 categoryCode: navigationEvent?.context?.id,
                 numberOfResults: searchResults?.pagination?.totalResults,
@@ -111,8 +108,7 @@ export class ProductPageEventBuilder {
         return searchResults$.pipe(
           map((searchResults) =>
             createFrom(SearchPageResultsEvent, {
-              ...this.createDeprecatedPageEvent(navigationEvent),
-              navigation: { ...navigationEvent },
+              navigation: navigationEvent,
               ...{
                 searchTerm: searchResults?.freeTextSearch,
                 numberOfResults: searchResults?.pagination?.totalResults,
@@ -122,18 +118,5 @@ export class ProductPageEventBuilder {
         );
       })
     );
-  }
-
-  // TODO: #10896 - remove this method
-  private createDeprecatedPageEvent(
-    navigationEvent: NavigationEvent
-  ): PageEvent | undefined {
-    if (
-      !this.featureConfigService ||
-      this.featureConfigService.isLevel('!3.1')
-    ) {
-      return { ...navigationEvent };
-    }
-    return undefined;
   }
 }

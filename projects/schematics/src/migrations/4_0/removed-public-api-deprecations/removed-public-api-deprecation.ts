@@ -1,5 +1,5 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { SPARTACUS_STOREFRONTLIB } from 'projects/schematics/src/shared';
+import { SPARTACUS_STOREFRONTLIB } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
