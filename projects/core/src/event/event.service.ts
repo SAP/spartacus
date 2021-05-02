@@ -1,13 +1,6 @@
-import {
-  AbstractType,
-  Injectable,
-  isDevMode,
-  Optional,
-  Type,
-} from '@angular/core';
+import { AbstractType, Injectable, isDevMode, Type } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FeatureConfigService } from '../features-config/services/feature-config.service';
 import { createFrom } from '../util/create-from';
 import { CxEvent } from './cx-event';
 import { MergingSubject } from './utils/merging-subject';
@@ -39,11 +32,7 @@ interface EventMeta<T> {
   providedIn: 'root',
 })
 export class EventService {
-  constructor(
-    // TODO: #10896 - remove this
-    /** @deprecated @since 3.1 - this will be removed in 4.0 */ @Optional()
-    protected featureConfigService?: FeatureConfigService
-  ) {}
+  constructor() {}
 
   /**
    * The various events meta are collected in a map, stored by the event type class
@@ -147,16 +136,13 @@ export class EventService {
     };
     this.eventsMeta.set(eventType, eventMeta);
 
-    // TODO: #10896 - remove this if block, and leave its body
-    if (this.featureConfigService?.isLevel('3.1')) {
-      let parentEvent = Object.getPrototypeOf(eventType);
-      while (
-        parentEvent !== null &&
-        Object.getPrototypeOf(parentEvent) !== Object.getPrototypeOf({})
-      ) {
-        this.register(parentEvent, eventMeta.mergingSubject.output$);
-        parentEvent = Object.getPrototypeOf(parentEvent);
-      }
+    let parentEvent = Object.getPrototypeOf(eventType);
+    while (
+      parentEvent !== null &&
+      Object.getPrototypeOf(parentEvent) !== Object.getPrototypeOf({})
+    ) {
+      this.register(parentEvent, eventMeta.mergingSubject.output$);
+      parentEvent = Object.getPrototypeOf(parentEvent);
     }
   }
 
@@ -172,10 +158,7 @@ export class EventService {
       );
     }
 
-    // TODO: #10896 - remove this if block and leave its body
-    if (this.featureConfigService?.isLevel('3.1')) {
-      this.validateCxEvent(eventType);
-    }
+    this.validateCxEvent(eventType);
   }
 
   /**

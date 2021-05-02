@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   createFrom,
   EventService,
-  FeatureConfigService,
   ProductSearchService,
   ProductService,
 } from '@spartacus/core';
@@ -22,9 +21,7 @@ export class ProductPageEventBuilder {
   constructor(
     protected eventService: EventService,
     protected productService: ProductService,
-    protected productSearchService: ProductSearchService,
-    // TODO: #10896 - remove this
-    /** @deprecated @since 3.1 - this will be removed in 4.0 */ protected featureConfigService?: FeatureConfigService
+    protected productSearchService: ProductSearchService
   ) {
     this.register();
   }
