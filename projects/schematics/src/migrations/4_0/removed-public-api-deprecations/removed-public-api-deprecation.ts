@@ -40,6 +40,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'PageEventModule' was removed, please use 'NavigationEventModule' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
   },
+  {
+    node: 'PageEventBuilder',
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'PageEventBuilder' was removed, please use 'NavigationEventBuilder' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
+  },
 ];
 
 export function migrate(): Rule {
