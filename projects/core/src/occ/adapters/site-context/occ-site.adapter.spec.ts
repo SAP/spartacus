@@ -36,7 +36,7 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 class MockOccEndpointsService implements Partial<OccEndpointsService> {
-  buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {
@@ -180,11 +180,9 @@ describe('OccSiteAdapter', () => {
       httpMock
         .expectOne((req) => req.method === 'GET' && req.url === 'countries')
         .flush({});
-      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-        'countries',
-        undefined,
-        { type: CountryType.BILLING }
-      );
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('countries', {
+        queryParams: { type: CountryType.BILLING },
+      });
     });
 
     it('should use converter', () => {
@@ -227,7 +225,7 @@ describe('OccSiteAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('regions', {
-        isoCode: countryIsoCode,
+        queryParams: { isoCode: countryIsoCode },
       });
       mockReq.flush(regions);
     });

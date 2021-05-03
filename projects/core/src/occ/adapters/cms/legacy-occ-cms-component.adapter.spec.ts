@@ -158,10 +158,8 @@ describe('LegacyOccCmsComponentAdapter', () => {
   }
 
   function assertPostRequestbuildUrl(fields: string, pageSize: string) {
-    expect(endpointsService.buildUrl).toHaveBeenCalledWith(
-      'components',
-      {},
-      { urlParams: { fields, productCode: '123', currentPage: '0', pageSize } }
-    );
+    expect(endpointsService.buildUrl).toHaveBeenCalledWith('components', {
+      urlParams: { fields, productCode: '123', currentPage: '0', pageSize },
+    });
   }
 });

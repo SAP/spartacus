@@ -88,13 +88,10 @@ describe('OccProductReferencesAdapter', () => {
       service.load(productCode, referenceType, pageSize).subscribe();
       const mockReq = httpMock.expectOne(endpoint);
       mockReq.flush(productReferences);
-      expect(endpoints.buildUrl).toHaveBeenCalledWith(
-        'productReferences',
-        {
-          productCode,
-        },
-        { referenceType, pageSize }
-      );
+      expect(endpoints.buildUrl).toHaveBeenCalledWith('productReferences', {
+        urlParams: { productCode },
+        queryParams: { referenceType, pageSize },
+      });
     });
 
     it('should use converter', () => {

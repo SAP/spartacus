@@ -88,7 +88,7 @@ describe('OccUserNotificationPreferenceAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'notificationPreference',
         {
-          userId: userId,
+          urlParams: { userId: userId },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -124,7 +124,7 @@ describe('OccUserNotificationPreferenceAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'notificationPreference',
         {
-          userId: userId,
+          urlParams: { userId: userId },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();

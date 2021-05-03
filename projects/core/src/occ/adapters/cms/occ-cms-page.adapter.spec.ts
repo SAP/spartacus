@@ -111,14 +111,12 @@ describe('OccCmsPageAdapter', () => {
     it('should get cms pages by page type and id for any page', () => {
       spyOn(endpointsService, 'buildUrl');
       service.load(contentPageContext);
-      expect(endpointsService.buildUrl).toHaveBeenCalledWith(
-        'pages',
-        undefined,
-        {
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
+        queryParams: {
           pageLabelOrId: contentPageContext.id,
           pageType: PageType.CONTENT_PAGE,
-        }
-      );
+        },
+      });
     });
 
     it('should get cms pages by page type and id for any page', () => {
@@ -134,34 +132,30 @@ describe('OccCmsPageAdapter', () => {
     it('should get cms product page by product code and ProductPage type', () => {
       spyOn(endpointsService, 'buildUrl');
       service.load(productPageContext);
-      expect(endpointsService.buildUrl).toHaveBeenCalledWith(
-        'pages',
-        undefined,
-        {
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
+        urlParams: {
           pageType: PageType.PRODUCT_PAGE,
           code: productPageContext.id,
-        }
-      );
+        },
+      });
     });
 
     it('should get cms category page by category code and CategoryPage type', () => {
       spyOn(endpointsService, 'buildUrl');
       service.load(categoryPageContext);
-      expect(endpointsService.buildUrl).toHaveBeenCalledWith(
-        'pages',
-        undefined,
-        {
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
+        queryParams: {
           pageType: PageType.CATEGORY_PAGE,
           code: categoryPageContext.id,
-        }
-      );
+        },
+      });
     });
 
     it('should get cms page by pageId if there is no PageType', () => {
       spyOn(endpointsService, 'buildUrl');
       service.load(contextWithoutType);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('page', {
-        id: contextWithoutType.id,
+        urlParams: { id: contextWithoutType.id },
       });
     });
   });
@@ -207,14 +201,12 @@ describe('OccCmsPageAdapter', () => {
         );
       });
 
-      expect(endpointsService.buildUrl).toHaveBeenCalledWith(
-        'pages',
-        undefined,
-        {
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
+        urlParams: {
           pageType: contentPageContext.type,
           pageLabelOrId: contentPageContext.id,
-        }
-      );
+        },
+      });
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
       testRequest.flush(cmsPageData);
@@ -238,14 +230,12 @@ describe('OccCmsPageAdapter', () => {
         );
       });
 
-      expect(endpointsService.buildUrl).toHaveBeenCalledWith(
-        'pages',
-        undefined,
-        {
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
+        urlParams: {
           pageType: productPageContext.type,
           code: productPageContext.id,
-        }
-      );
+        },
+      });
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
       testRequest.flush(cmsPageData);

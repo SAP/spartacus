@@ -78,7 +78,7 @@ describe('OccUserInterestsAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'getProductInterests',
         {
-          userId: userId,
+          urlParams: { userId: userId },
         }
       );
 

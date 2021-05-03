@@ -84,13 +84,10 @@ describe('OccProductReviewsAdapter', () => {
       service.load(productCode, maxCount).subscribe();
       const mockReq = httpMock.expectOne(endpoint);
       mockReq.flush(productReviews);
-      expect(endpoints.buildUrl).toHaveBeenCalledWith(
-        'productReviews',
-        {
-          productCode,
-        },
-        { maxCount }
-      );
+      expect(endpoints.buildUrl).toHaveBeenCalledWith('productReviews', {
+        urlParams: { productCode },
+        queryParams: { maxCount },
+      });
     });
 
     it('should use converter', () => {
@@ -122,13 +119,9 @@ describe('OccProductReviewsAdapter', () => {
     it('should use reviews endpoint', () => {
       service.post(productCode, { rating: 3 }).subscribe();
       httpMock.expectOne(endpoint).flush('');
-      expect(endpoints.buildUrl).toHaveBeenCalledWith(
-        'productReviews',
-        {
-          productCode,
-        },
-        { maxCount: undefined }
-      );
+      expect(endpoints.buildUrl).toHaveBeenCalledWith('productReviews', {
+        urlParams: { productCode },
+      });
     });
 
     it('should use converter', () => {

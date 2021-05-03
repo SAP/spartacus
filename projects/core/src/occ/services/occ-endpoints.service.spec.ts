@@ -90,7 +90,11 @@ describe('OccEndpointsService', () => {
 
     describe('using scope', () => {
       it('should return endpoint from config', () => {
-        const url = service.buildUrl('product', undefined, undefined, 'test');
+        const url = service.buildUrl('product', {
+          urlParams: undefined,
+          queryParams: undefined,
+          scope: 'test',
+        });
 
         expect(url).toEqual(
           baseEndpoint + '/configured-endpoint1/${test}?fields=test'
@@ -98,12 +102,11 @@ describe('OccEndpointsService', () => {
       });
 
       it('should fallback to default scope', () => {
-        const url = service.buildUrl(
-          'product',
-          undefined,
-          undefined,
-          'test-non-existing'
-        );
+        const url = service.buildUrl('product', {
+          urlParams: undefined,
+          queryParams: undefined,
+          scope: 'test-non-existing',
+        });
 
         expect(url).toEqual(
           baseEndpoint + '/configured-endpoint1/${test}?fields=abc'
@@ -114,12 +117,11 @@ describe('OccEndpointsService', () => {
         const config = TestBed.inject(OccConfig);
         delete config.backend.occ.endpoints.product;
 
-        const url = service.buildUrl(
-          'product',
-          undefined,
-          undefined,
-          'test-non-existing'
-        );
+        const url = service.buildUrl('product', {
+          urlParams: undefined,
+          queryParams: undefined,
+          scope: 'test-non-existing',
+        });
 
         expect(url).toBe('test-baseUrl/test-occPrefix/test-baseSite/product');
       });
@@ -129,12 +131,11 @@ describe('OccEndpointsService', () => {
         config.backend.occ.endpoints.product =
           'configured-endpoint1/${test}?fields=fallback';
 
-        const url = service.buildUrl(
-          'product',
-          undefined,
-          undefined,
-          'test-non-existing'
-        );
+        const url = service.buildUrl('product', {
+          urlParams: undefined,
+          queryParams: undefined,
+          scope: 'test-non-existing',
+        });
 
         expect(url).toBe(
           'test-baseUrl/test-occPrefix/test-baseSite/configured-endpoint1/${test}?fields=fallback'
@@ -143,18 +144,19 @@ describe('OccEndpointsService', () => {
     });
 
     it('should apply parameters to configured endpoint', () => {
-      const url = service.buildUrl('product', { test: 'test-value' });
+      const url = service.buildUrl('product', {
+        urlParams: { test: 'test-value' },
+      });
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/test-value?fields=abc'
       );
     });
 
     it('should add query parameters to configured endpoint', () => {
-      const url = service.buildUrl(
-        'product',
-        { test: 'test-value' },
-        { param: 'test-param' }
-      );
+      const url = service.buildUrl('product', {
+        urlParams: { test: 'test-value' },
+        queryParams: { param: 'test-param' },
+      });
 
       expect(url).toEqual(
         baseEndpoint +
@@ -163,11 +165,10 @@ describe('OccEndpointsService', () => {
     });
 
     it('should allow to redefine preconfigured query parameters', () => {
-      const url = service.buildUrl(
-        'product',
-        { test: 'test-value' },
-        { fields: 'xyz' }
-      );
+      const url = service.buildUrl('product', {
+        urlParams: { test: 'test-value' },
+        queryParams: { fields: 'xyz' },
+      });
 
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/test-value?fields=xyz'
@@ -175,21 +176,19 @@ describe('OccEndpointsService', () => {
     });
 
     it('should allow to remove preconfigured query parameters', () => {
-      const url = service.buildUrl(
-        'product',
-        { test: 'test-value' },
-        { fields: null }
-      );
+      const url = service.buildUrl('product', {
+        urlParams: { test: 'test-value' },
+        queryParams: { fields: null },
+      });
 
       expect(url).toEqual(baseEndpoint + '/configured-endpoint1/test-value');
     });
 
     it('should escape special characters passed in url params', () => {
-      const url = service.buildUrl(
-        'product',
-        { test: 'ąćę$%' },
-        { fields: null }
-      );
+      const url = service.buildUrl('product', {
+        urlParams: { test: 'ąćę$%' },
+        queryParams: { fields: null },
+      });
 
       expect(url).toEqual(
         baseEndpoint + '/configured-endpoint1/%C4%85%C4%87%C4%99%24%25'
@@ -197,11 +196,10 @@ describe('OccEndpointsService', () => {
     });
 
     it('should escape query parameters', () => {
-      const url = service.buildUrl(
-        'product',
-        { test: 'test-value' },
-        { fields: '+./.\\.,.?' }
-      );
+      const url = service.buildUrl('product', {
+        urlParams: { test: 'test-value' },
+        queryParams: { fields: '+./.\\.,.?' },
+      });
 
       expect(url).toEqual(
         baseEndpoint +

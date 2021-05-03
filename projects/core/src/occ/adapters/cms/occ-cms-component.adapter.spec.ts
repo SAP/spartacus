@@ -93,11 +93,9 @@ describe('OccCmsComponentAdapter', () => {
 
       const testRequest = mockHttpRequest('GET', spyOnLoadEndpoint);
 
-      expect(endpointsService.buildUrl).toHaveBeenCalledWith(
-        'component',
-        { urlParams: { id: 'comp1' } },
-        { productCode: '123' }
-      );
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('component', {
+        urlParams: { id: 'comp1', productCode: '123' },
+      });
 
       assertTestRequest(testRequest, component);
     });
@@ -171,17 +169,15 @@ describe('OccCmsComponentAdapter', () => {
   }
 
   function assertGetRequestbuildUrl(fields: string, pageSize: string) {
-    expect(endpointsService.buildUrl).toHaveBeenCalledWith(
-      'components',
-      {},
-      {
+    expect(endpointsService.buildUrl).toHaveBeenCalledWith('components', {
+      urlParams: {
         fields,
         componentIds: ids.toString(),
         productCode: '123',
         currentPage: '0',
         pageSize,
-      }
-    );
+      },
+    });
   }
 
   function assertConverterPipeableMany() {

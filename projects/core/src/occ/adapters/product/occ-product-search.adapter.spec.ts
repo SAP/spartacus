@@ -75,14 +75,12 @@ describe('OccProductSearchAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(endpoints.buildUrl).toHaveBeenCalledWith(
-        'productSearch',
-        {},
-        {
+      expect(endpoints.buildUrl).toHaveBeenCalledWith('productSearch', {
+        queryParams: {
           query: queryText,
           pageSize: mockSearchConfig.pageSize,
-        }
-      );
+        },
+      });
       mockReq.flush(searchResults);
     });
 
@@ -110,14 +108,12 @@ describe('OccProductSearchAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(endpoints.buildUrl).toHaveBeenCalledWith(
-        'productSuggestions',
-        {},
-        {
+      expect(endpoints.buildUrl).toHaveBeenCalledWith('productSuggestions', {
+        urlParams: {
           term: queryText,
           max: mockSearchConfig.pageSize.toString(),
-        }
-      );
+        },
+      });
       mockReq.flush(suggestionList);
     });
 

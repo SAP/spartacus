@@ -70,7 +70,7 @@ describe('OccUserPaymentAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'paymentDetailsAll',
         {
-          userId: username,
+          urlParams: { userId: username },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -111,8 +111,7 @@ describe('OccUserPaymentAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'paymentDetail',
         {
-          userId: username,
-          paymentDetailId: mockPayment.id,
+          urlParams: { userId: username, paymentDetailId: mockPayment.id },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -138,8 +137,7 @@ describe('OccUserPaymentAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'paymentDetail',
         {
-          userId: username,
-          paymentDetailId: mockPayment.id,
+          urlParams: { userId: username, paymentDetailId: mockPayment.id },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();

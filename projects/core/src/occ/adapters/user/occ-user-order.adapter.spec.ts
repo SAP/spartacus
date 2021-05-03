@@ -83,9 +83,9 @@ describe('OccUserOrderAdapter', () => {
         expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderHistory',
           {
-            userId,
-          },
-          { pageSize: PAGE_SIZE.toString() }
+            urlParams: { userId },
+            queryParams: { pageSize: PAGE_SIZE.toString() },
+          }
         );
       })
     );
@@ -106,12 +106,12 @@ describe('OccUserOrderAdapter', () => {
         expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderHistory',
           {
-            userId,
-          },
-          {
-            pageSize: PAGE_SIZE.toString(),
-            currentPage: currentPage.toString(),
-            sort,
+            urlParams: { userId },
+            queryParams: {
+              pageSize: PAGE_SIZE.toString(),
+              currentPage: currentPage.toString(),
+              sort,
+            },
           }
         );
       })
@@ -139,8 +139,7 @@ describe('OccUserOrderAdapter', () => {
         expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderDetail',
           {
-            userId,
-            orderId: orderData.code,
+            urlParams: { userId, orderId: orderData.code },
           }
         );
       })
@@ -170,9 +169,7 @@ describe('OccUserOrderAdapter', () => {
         expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'consignmentTracking',
           {
-            userId,
-            orderCode: orderData.code,
-            consignmentCode,
+            urlParams: { userId, orderCode: orderData.code, consignmentCode },
           }
         );
         expect(mockReq.cancelled).toBeFalsy();
@@ -217,8 +214,7 @@ describe('OccUserOrderAdapter', () => {
         expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'cancelOrder',
           {
-            userId,
-            orderId: orderData.code,
+            urlParams: { userId, orderId: orderData.code },
           }
         );
         expect(mockReq.cancelled).toBeFalsy();
@@ -249,7 +245,7 @@ describe('OccUserOrderAdapter', () => {
         expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'returnOrder',
           {
-            userId,
+            urlParams: { userId },
           }
         );
         expect(mockReq.cancelled).toBeFalsy();
@@ -289,7 +285,7 @@ describe('OccUserOrderAdapter', () => {
         });
         expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderReturns',
-          { userId },
+          { urlParams: { userId } },
           {}
         );
       })
@@ -310,11 +306,13 @@ describe('OccUserOrderAdapter', () => {
         });
         expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderReturns',
-          { userId },
           {
-            pageSize: PAGE_SIZE.toString(),
-            currentPage: currentPage.toString(),
-            sort,
+            urlParams: { userId },
+            queryParams: {
+              pageSize: PAGE_SIZE.toString(),
+              currentPage: currentPage.toString(),
+              sort,
+            },
           }
         );
       })
@@ -346,8 +344,7 @@ describe('OccUserOrderAdapter', () => {
         expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderReturnDetail',
           {
-            userId,
-            returnRequestCode: 'test',
+            urlParams: { userId, returnRequestCode: 'test' },
           }
         );
         expect(mockReq.cancelled).toBeFalsy();
@@ -384,8 +381,7 @@ describe('OccUserOrderAdapter', () => {
         expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'cancelReturn',
           {
-            userId,
-            returnRequestCode: 'returnCode',
+            urlParams: { userId, returnRequestCode: 'returnCode' },
           }
         );
         expect(mockReq.cancelled).toBeFalsy();

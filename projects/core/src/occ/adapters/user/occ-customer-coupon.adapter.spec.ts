@@ -108,7 +108,7 @@ describe('OccCustomerCouponAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'customerCoupons',
         {
-          userId: userId,
+          urlParams: { userId: userId },
         }
       );
 
@@ -130,7 +130,7 @@ describe('OccCustomerCouponAdapter', () => {
 
       httpMock.expectNone(
         occEnpointsService.buildUrl('customerCoupons', {
-          userId: OCC_USER_ID_ANONYMOUS,
+          urlParams: { userId: OCC_USER_ID_ANONYMOUS },
         })
       );
     });
@@ -166,8 +166,7 @@ describe('OccCustomerCouponAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'couponNotification',
         {
-          userId: userId,
-          couponCode: couponCode,
+          urlParams: { userId: userId, couponCode: couponCode },
         }
       );
 
@@ -189,8 +188,7 @@ describe('OccCustomerCouponAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'couponNotification',
         {
-          userId: userId,
-          couponCode: couponCode,
+          urlParams: { userId: userId, couponCode: couponCode },
         }
       );
 
@@ -226,8 +224,10 @@ describe('OccCustomerCouponAdapter', () => {
       });
 
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('claimCoupon', {
-        userId: userId,
-        couponCode: couponCode,
+        urlParams: {
+          userId: userId,
+          couponCode: couponCode,
+        },
       });
 
       expect(mockReq.cancelled).toBeFalsy();

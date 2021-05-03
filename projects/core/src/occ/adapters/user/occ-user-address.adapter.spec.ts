@@ -73,7 +73,7 @@ describe('OccUserAddressAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'addressVerification',
         {
-          userId: username,
+          urlParams: { userId: username },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -93,7 +93,7 @@ describe('OccUserAddressAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'addressVerification',
         {
-          userId: 'anonymous',
+          urlParams: { userId: 'anonymous' },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -140,7 +140,7 @@ describe('OccUserAddressAdapter', () => {
       });
 
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('addresses', {
-        userId: username,
+        urlParams: { userId: username },
       });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

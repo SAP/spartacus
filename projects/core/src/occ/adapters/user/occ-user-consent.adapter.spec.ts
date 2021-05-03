@@ -67,7 +67,7 @@ describe('OccUserConsentAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'consentTemplates',
         {
-          userId,
+          urlParams: { userId },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -113,7 +113,7 @@ describe('OccUserConsentAdapter', () => {
             `consentTemplateId=${consentTemplateId}&consentTemplateVersion=${consentTemplateVersion}`
       );
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('consents', {
-        userId,
+        queryParams: { userId },
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -147,8 +147,7 @@ describe('OccUserConsentAdapter', () => {
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'consentDetail',
         {
-          userId: 'xxx@xxx.xxx',
-          consentId: 'xxx',
+          urlParams: { userId: 'xxx@xxx.xxx', consentId: 'xxx' },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
