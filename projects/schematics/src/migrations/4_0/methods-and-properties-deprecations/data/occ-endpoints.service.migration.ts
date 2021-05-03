@@ -19,6 +19,6 @@ export const OCC_ENDPOINTS_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
     class: OCC_ENDPOINTS_SERVICE,
     importPath: SPARTACUS_CORE,
     deprecatedNode: GET_BASE_ENDPOINT,
-    comment: `// ${TODO_SPARTACUS} Method '${GET_BASE_ENDPOINT}' was removed. Please use 'buildUrl' method instead with the proper parameters.`,
+    comment: `// ${TODO_SPARTACUS} Method '${GET_BASE_ENDPOINT}' was removed. Please use 'getBaseUrl' method instead with the proper parameters.`,
   },
 ];

@@ -11,7 +11,7 @@ import { DebugInterceptor } from './debug-interceptor';
 describe('Debug interceptor', () => {
   let ProfileTagEventTrackerMock;
   const occEndPointsMock = {
-    getBaseEndpoint: () => '/occ',
+    getBaseUrl: () => '/occ',
   };
   beforeEach(() => {
     ProfileTagEventTrackerMock = {

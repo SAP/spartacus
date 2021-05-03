@@ -36,7 +36,7 @@ const MockWindowRef = {
 };
 const endpoint = '/test';
 class OccEndpointsServiceMock {
-  getBaseEndpoint(): string {
+  getBaseUrl(): string {
     return endpoint;
   }
 }

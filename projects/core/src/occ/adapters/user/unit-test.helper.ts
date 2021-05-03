@@ -23,7 +23,7 @@ export class MockOccEndpointsService {
     }
     return endpoint;
   }
-  getBaseEndpoint() {
+  getBaseUrl() {
     return '';
   }
 }

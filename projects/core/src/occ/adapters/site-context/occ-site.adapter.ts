@@ -74,7 +74,7 @@ export class OccSiteAdapter implements SiteAdapter {
    */
   loadBaseSite(siteUid?: string): Observable<BaseSite | undefined> {
     if (!siteUid) {
-      const baseUrl = this.occEndpointsService.getBaseEndpoint();
+      const baseUrl = this.occEndpointsService.getBaseUrl();
       const urlSplits = baseUrl.split('/');
       siteUid = urlSplits.pop();
     }
