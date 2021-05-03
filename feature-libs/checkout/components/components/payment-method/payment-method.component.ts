@@ -5,11 +5,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CheckoutService } from '@spartacus/checkout/core';
 import {
-  CheckoutPaymentService,
-  CheckoutService,
-} from '@spartacus/checkout/core';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -47,7 +47,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     protected userPaymentService: UserPaymentService,
     protected checkoutService: CheckoutService,
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
-    protected checkoutPaymentService: CheckoutPaymentService,
+    protected checkoutPaymentService: CheckoutPaymentFacade,
     protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,

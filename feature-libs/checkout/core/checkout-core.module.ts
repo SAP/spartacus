@@ -9,7 +9,6 @@ import { CheckoutReplenishmentOrderConnector } from './connectors/replenishment-
 import { CheckoutEventBuilder } from './events/checkout-event.builder';
 import { CheckoutEventModule } from './events/checkout-event.module';
 import { CheckoutCostCenterService } from './facade/checkout-cost-center.service';
-import { CheckoutPaymentService } from './facade/checkout-payment.service';
 import { CheckoutService } from './facade/checkout.service';
 import { facadeProviders } from './facade/facade-providers';
 import { PaymentTypeService } from './facade/payment-type.service';
@@ -29,7 +28,6 @@ import { CheckoutStoreModule } from './store/checkout-store.module';
     CheckoutReplenishmentOrderConnector,
     CheckoutEventBuilder,
     CheckoutCostCenterService,
-    CheckoutPaymentService,
     CheckoutService,
     PaymentTypeService,
     CheckoutPageMetaResolver,

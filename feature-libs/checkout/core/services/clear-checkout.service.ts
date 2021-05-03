@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
-import { CheckoutPaymentService } from '../facade/checkout-payment.service';
+import {
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 
 @Injectable()
 export class ClearCheckoutService {
   constructor(
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
-    protected checkoutPaymentService: CheckoutPaymentService
+    protected checkoutPaymentService: CheckoutPaymentFacade
   ) {}
 
   /**

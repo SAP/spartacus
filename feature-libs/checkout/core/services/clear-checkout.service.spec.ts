@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
-import { CheckoutPaymentService } from '../facade/checkout-payment.service';
+import {
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import { ClearCheckoutService } from './clear-checkout.service';
 
 class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
@@ -8,14 +10,14 @@ class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
   resetSetDeliveryModeProcess() {}
 }
 
-class MockCheckoutPaymentService implements Partial<CheckoutPaymentService> {
+class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   resetSetPaymentDetailsProcess() {}
 }
 
 describe('ClearCheckoutService', () => {
   let service: ClearCheckoutService;
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
-  let checkoutPaymentService: CheckoutPaymentService;
+  let checkoutPaymentService: CheckoutPaymentFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,7 +28,7 @@ describe('ClearCheckoutService', () => {
           useClass: MockCheckoutDeliveryFacade,
         },
         {
-          provide: CheckoutPaymentService,
+          provide: CheckoutPaymentFacade,
           useClass: MockCheckoutPaymentService,
         },
       ],
@@ -34,7 +36,7 @@ describe('ClearCheckoutService', () => {
 
     service = TestBed.inject(ClearCheckoutService);
     checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
-    checkoutPaymentService = TestBed.inject(CheckoutPaymentService);
+    checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
 
     spyOn(checkoutDeliveryFacade, 'resetSetDeliveryAddressProcess');
     spyOn(checkoutDeliveryFacade, 'resetSetDeliveryModeProcess');

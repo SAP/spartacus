@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+import { CheckoutDetails, CheckoutService } from '@spartacus/checkout/core';
 import {
-  CheckoutDetails,
-  CheckoutPaymentService,
-  CheckoutService,
-} from '@spartacus/checkout/core';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -78,7 +77,7 @@ describe('CheckoutDetailsService', () => {
           useClass: MockCheckoutDeliveryFacade,
         },
         {
-          provide: CheckoutPaymentService,
+          provide: CheckoutPaymentFacade,
           useClass: MockCheckoutPaymentService,
         },
         {
@@ -91,7 +90,7 @@ describe('CheckoutDetailsService', () => {
     service = TestBed.inject(CheckoutDetailsService);
     checkoutService = TestBed.inject(CheckoutService);
     checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
-    checkoutPaymentService = TestBed.inject(CheckoutPaymentService);
+    checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
     activeCartService = TestBed.inject(ActiveCartService);
   });
 

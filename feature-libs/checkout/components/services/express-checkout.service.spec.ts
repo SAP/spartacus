@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
-  CheckoutDetails,
-  CheckoutPaymentService,
-} from '@spartacus/checkout/core';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import {
   Address,
   DeliveryMode,
@@ -116,7 +116,7 @@ const mockSetPaymentDetailsResult = new BehaviorSubject({
   loading: false,
 });
 
-class MockCheckoutPaymentService implements Partial<CheckoutPaymentService> {
+class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   resetSetPaymentDetailsProcess() {}
   getSetPaymentDetailsResultProcess(): Observable<
     StateUtils.LoaderState<void>
@@ -157,7 +157,7 @@ describe('ExpressCheckoutService', () => {
           useClass: MockCheckoutDeliveryFacade,
         },
         {
-          provide: CheckoutPaymentService,
+          provide: CheckoutPaymentFacade,
           useClass: MockCheckoutPaymentService,
         },
         {
@@ -207,7 +207,7 @@ describe('ExpressCheckoutService', () => {
     userAddressService = TestBed.inject(UserAddressService);
     userPaymentService = TestBed.inject(UserPaymentService);
     checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
-    checkoutPaymentService = TestBed.inject(CheckoutPaymentService);
+    checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
   });
 
   it('should be created', () => {

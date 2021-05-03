@@ -4,11 +4,11 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutCostCenterService,
-  CheckoutPaymentService,
   PaymentTypeService,
 } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/root';
@@ -231,7 +231,7 @@ describe('ReviewSubmitComponent', () => {
             useClass: MockCheckoutDeliveryService,
           },
           {
-            provide: CheckoutPaymentService,
+            provide: CheckoutPaymentFacade,
             useClass: MockCheckoutPaymentService,
           },
           { provide: UserAddressService, useClass: MockUserAddressService },

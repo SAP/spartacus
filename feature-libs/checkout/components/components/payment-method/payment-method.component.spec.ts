@@ -2,11 +2,11 @@ import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { CheckoutService } from '@spartacus/checkout/core';
 import {
-  CheckoutPaymentService,
-  CheckoutService,
-} from '@spartacus/checkout/core';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -129,7 +129,7 @@ describe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let mockUserPaymentService: UserPaymentService;
-  let mockCheckoutPaymentService: CheckoutPaymentService;
+  let mockCheckoutPaymentService: CheckoutPaymentFacade;
   let mockActiveCartService: ActiveCartService;
   let mockGlobalMessageService: GlobalMessageService;
   let mockCheckoutService: CheckoutService;
@@ -158,7 +158,7 @@ describe('PaymentMethodComponent', () => {
             useClass: MockActiveCartService,
           },
           {
-            provide: CheckoutPaymentService,
+            provide: CheckoutPaymentFacade,
             useClass: MockCheckoutPaymentService,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -168,7 +168,7 @@ describe('PaymentMethodComponent', () => {
       }).compileComponents();
 
       mockUserPaymentService = TestBed.inject(UserPaymentService);
-      mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentService);
+      mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
       mockActiveCartService = TestBed.inject(ActiveCartService);
       mockGlobalMessageService = TestBed.inject(GlobalMessageService);
       mockCheckoutService = TestBed.inject(CheckoutService);

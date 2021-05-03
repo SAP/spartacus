@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CheckoutCostCenterService,
-  CheckoutPaymentService,
   PaymentTypeService,
 } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
   checkoutPaymentSteps,
   checkoutShippingSteps,
   CheckoutStep,
@@ -43,7 +43,7 @@ export class ReviewSubmitComponent {
 
   constructor(
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
-    protected checkoutPaymentService: CheckoutPaymentService,
+    protected checkoutPaymentService: CheckoutPaymentFacade,
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
