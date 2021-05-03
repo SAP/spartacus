@@ -6,4 +6,5 @@ export interface Environment {
   cds: boolean;
   cdc: boolean;
   cpq: boolean;
+  digitalPayments: boolean;
 }

@@ -1,0 +1,81 @@
+<!-- Copied from core module except #newPaymentForm -->
+<ng-container *ngIf="cards$ | async as cards">
+  <h3 class="cx-checkout-title d-none d-lg-block d-xl-block">
+    {{ 'paymentForm.payment' | cxTranslate }}
+  </h3>
+  <ng-container *ngIf="!showCallbackScreen; else loadingPaymentDetails">
+    <ng-container *ngIf="!(isLoading$ | async); else loading">
+      <ng-container
+        *ngIf="
+          cards?.length && !newPaymentFormManuallyOpened;
+          else newPaymentForm
+        "
+      >
+        <p class="cx-checkout-text">
+          {{ 'paymentForm.choosePaymentMethod' | cxTranslate }}
+        </p>
+        <div class="cx-checkout-btns row">
+          <div class="col-md-12 col-lg-6">
+            <button
+              class="btn btn-block btn-action"
+              (click)="showNewPaymentForm()"
+            >
+              {{ 'paymentForm.addNewPayment' | cxTranslate }}
+            </button>
+          </div>
+        </div>
+
+        <div class="cx-checkout-body row">
+          <div
+            class="cx-payment-card col-md-12 col-lg-6"
+            *ngFor="let card of cards; let i = index"
+          >
+            <div class="cx-payment-card-inner">
+              <cx-card
+                [border]="true"
+                [fitToContainer]="true"
+                [content]="card.content"
+                (sendCard)="selectPaymentMethod(card.paymentMethod)"
+              ></cx-card>
+            </div>
+          </div>
+        </div>
+
+        <div class="row cx-checkout-btns">
+          <div class="col-md-12 col-lg-6">
+            <button class="btn btn-block btn-action" (click)="back()">
+              {{ backBtnText | cxTranslate }}
+            </button>
+          </div>
+          <div class="col-md-12 col-lg-6">
+            <button
+              class="btn btn-block btn-primary"
+              [disabled]="!(selectedMethod$ | async)?.id"
+              (click)="next()"
+            >
+              {{ 'common.continue' | cxTranslate }}
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #newPaymentForm>
+      <cx-dp-payment-form
+        (setPaymentDetails)="setPaymentDetails($event)"
+        (closeForm)="hideNewPaymentForm()"
+      ></cx-dp-payment-form>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+  </ng-template>
+
+  <ng-template #loadingPaymentDetails>
+    <cx-dp-payment-callback
+      (paymentDetailsAdded)="paymentDetailsAdded($event)"
+      (closeCallback)="hideCallbackScreen()"
+    ></cx-dp-payment-callback>
+  </ng-template>
+</ng-container>

@@ -19,6 +19,7 @@ export const SPARTACUS_SETUP = '@spartacus/setup';
 export const SPARTACUS_SETUP_SSR = `${SPARTACUS_SETUP}/ssr`;
 export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
+export const SPARTACUS_DIGITAL_PAYMENTS = '@spartacus/digital-payments';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 export const SPARTACUS_ORGANIZATION = '@spartacus/organization';

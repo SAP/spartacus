@@ -51,6 +51,7 @@
       "@spartacus/cdc",
       "@spartacus/tracking",
       "@spartacus/cart",
+      "@spartacus/digital-payments",
       "@spartacus/setup"
     ]
   },

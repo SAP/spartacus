@@ -1,0 +1,34 @@
+{
+  "name": "@spartacus/digital-payments",
+  "version": "0.300.0",
+  "description": "Customer Data Cloud Integration library for Spartacus",
+  "keywords": [
+    "spartacus",
+    "framework",
+    "storefront",
+    "digital payments",
+    "payments"
+  ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/digital-payments",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "peerDependencies": {
+    "@angular/common": "^10.2.4",
+    "@angular/core": "^10.2.4",
+    "@angular/forms": "^10.2.4",
+    "@angular/router": "^10.2.4",
+    "@ng-select/ng-select": "^5.0.9",
+    "@ngrx/effects": "^10.0.0",
+    "@ngrx/store": "^10.0.0",
+    "@spartacus/assets": "3.1.0-next.0",
+    "@spartacus/core": "3.1.0-next.0",
+    "@spartacus/storefront": "3.1.0-next.0",
+    "rxjs": "^6.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

@@ -65,6 +65,7 @@ const packageJsonPaths = [
   path.join(__dirname, '..', 'feature-libs', 'qualtrics', 'package.json'),
   path.join(__dirname, '..', 'integration-libs', 'cdc', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'cart', 'package.json'),
+  path.join(__dirname, '..', 'integration-libs', 'digital-payments', 'package.json'),
 ];
 
 // All the supported packages. Go through the packages directory and create a map of
