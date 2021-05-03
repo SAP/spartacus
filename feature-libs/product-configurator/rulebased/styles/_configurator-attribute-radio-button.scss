@@ -6,4 +6,10 @@
       margin-block-end: 9px;
     }
   }
+
+  @include forVersion(3.3) {
+    .cx-quantity {
+      padding-block-end: 1rem;
+    }
+  }
 }

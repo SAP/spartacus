@@ -12,15 +12,21 @@ import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import {
   addPackageJsonDependency,
   NodeDependency,
+  NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
+  CMS_CONFIG,
+  I18N_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
+  SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
+  SPARTACUS_SETUP,
 } from '../constants';
+import { getB2bConfiguration } from './config-utils';
 import { isImportedFrom } from './import-utils';
 import {
   addModuleImport,
@@ -28,6 +34,7 @@ import {
   ensureModuleExists,
   Import,
 } from './new-module-utils';
+import { getSpartacusSchematicsVersion } from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
@@ -63,7 +70,7 @@ export interface FeatureConfig {
   /**
    * The root module configuration.
    */
-  rootModule: Module;
+  rootModule?: Module;
   /**
    * Translation chunk configuration
    */
@@ -79,7 +86,12 @@ export interface FeatureConfig {
   /**
    * An optional custom configuration to provide to the generated module.
    */
-  customConfig?: { import: Import[]; content: string };
+  customConfig?: CustomConfig | CustomConfig[];
+}
+
+export interface CustomConfig {
+  import: Import[];
+  content: string;
 }
 
 export interface Module {
@@ -243,6 +255,10 @@ function addRootModule(
   config: FeatureConfig
 ) {
   return (tree: Tree): Tree => {
+    if (!config.rootModule) {
+      return tree;
+    }
+
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     for (const sourceFile of appSourceFiles) {
       if (
@@ -265,7 +281,6 @@ function addRootModule(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addFeatureModule(
   tsconfigPath: string,
   basePath: string,
@@ -282,10 +297,10 @@ function addFeatureModule(
             import: [
               {
                 moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
+                namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
               },
             ],
-            content: `${PROVIDE_CONFIG_FUNCTION}({
+            content: `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
               featureModules: {
                 ${config.lazyModuleName || config.name}: {
                   module: () =>
@@ -313,7 +328,6 @@ function addFeatureModule(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addFeatureTranslations(
   tsconfigPath: string,
   basePath: string,
@@ -329,14 +343,14 @@ function addFeatureTranslations(
             import: [
               {
                 moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
+                namedImports: [PROVIDE_CONFIG_FUNCTION, I18N_CONFIG],
               },
               {
                 moduleSpecifier: config.i18n.importPath,
                 namedImports: [config.i18n.chunks, config.i18n.resources],
               },
             ],
-            content: `${PROVIDE_CONFIG_FUNCTION}({
+            content: `${PROVIDE_CONFIG_FUNCTION}(<${I18N_CONFIG}>{
               i18n: {
                 resources: ${config.i18n.resources},
                 chunks: ${config.i18n.chunks},
@@ -352,7 +366,6 @@ function addFeatureTranslations(
   };
 }
 
-// TODO: Avoid duplication when running twice
 function addCustomConfig(
   tsconfigPath: string,
   basePath: string,
@@ -364,15 +377,20 @@ function addCustomConfig(
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.customConfig) {
-          addModuleProvider(sourceFile, {
-            import: [
-              {
-                moduleSpecifier: SPARTACUS_CORE,
-                namedImports: [PROVIDE_CONFIG_FUNCTION],
-              },
-              ...config.customConfig.import,
-            ],
-            content: `${PROVIDE_CONFIG_FUNCTION}(${config.customConfig.content})`,
+          const customConfigs = ([] as CustomConfig[]).concat(
+            config.customConfig
+          );
+          customConfigs.forEach((customConfig) => {
+            addModuleProvider(sourceFile, {
+              import: [
+                {
+                  moduleSpecifier: SPARTACUS_CORE,
+                  namedImports: [PROVIDE_CONFIG_FUNCTION],
+                },
+                ...customConfig.import,
+              ],
+              content: `${PROVIDE_CONFIG_FUNCTION}(${customConfig.content})`,
+            });
           });
           saveAndFormat(sourceFile);
         }
@@ -559,7 +577,7 @@ export function addPackageJsonDependencies(
     dependencies.forEach((dependency) => {
       if (
         !packageJson ||
-        !packageJson.dependencies.hasOwnProperty(dependency.name)
+        !packageJson[dependency.type].hasOwnProperty(dependency.name)
       ) {
         addPackageJsonDependency(tree, dependency);
         context.logger.info(
@@ -567,6 +585,61 @@ export function addPackageJsonDependencies(
         );
       }
     });
+    return tree;
+  };
+}
+
+export function configureB2bFeatures<T extends LibraryOptions>(
+  options: T,
+  packageJson: any
+): Rule {
+  return (_tree: Tree, _context: SchematicContext): Rule => {
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    return chain([
+      addB2bProviders(options),
+      addPackageJsonDependencies(
+        [
+          {
+            type: NodeDependencyType.Default,
+            version: spartacusVersion,
+            name: SPARTACUS_SETUP,
+          },
+        ],
+        packageJson
+      ),
+    ]);
+  };
+}
+
+function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
+  return (tree: Tree, _context: SchematicContext): Tree => {
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    if (!buildPaths.length) {
+      throw new SchematicsException(
+        'Could not find any tsconfig file. Cannot configure SpartacusConfigurationModule.'
+      );
+    }
+
+    const basePath = process.cwd();
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      for (const sourceFile of appSourceFiles) {
+        if (
+          sourceFile
+            .getFilePath()
+            .includes(`${SPARTACUS_CONFIGURATION_MODULE}.module.ts`)
+        ) {
+          getB2bConfiguration().forEach((provider) =>
+            addModuleProvider(sourceFile, provider)
+          );
+          saveAndFormat(sourceFile);
+
+          break;
+        }
+      }
+    }
+
     return tree;
   };
 }

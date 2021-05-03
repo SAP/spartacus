@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { delay, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
@@ -8,6 +8,7 @@ import { MessageConfig } from '../config/message-config';
 @Component({
   selector: 'cx-configurator-update-message',
   templateUrl: './configurator-update-message.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorUpdateMessageComponent {
   hasPendingChanges$: Observable<boolean> = this.configRouterExtractorService

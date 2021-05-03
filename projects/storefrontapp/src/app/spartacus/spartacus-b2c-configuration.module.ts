@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
-import { provideConfig } from '@spartacus/core';
+import { CartConfig, provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
   layoutConfig,
   mediaConfig,
+  PWAModuleConfig,
 } from '@spartacus/storefront';
 
 @NgModule({
@@ -11,7 +12,7 @@ import {
     provideConfig(layoutConfig),
     provideConfig(mediaConfig),
     ...defaultCmsContentProviders,
-    provideConfig({
+    provideConfig(<SiteContextConfig>{
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: [
@@ -23,13 +24,13 @@ import {
         ],
       },
     }),
-    provideConfig({
+    provideConfig(<PWAModuleConfig>{
       pwa: {
         enabled: true,
         addToHomeScreen: true,
       },
     }),
-    provideConfig({
+    provideConfig(<CartConfig>{
       cart: {
         selectiveCart: {
           enabled: true,
