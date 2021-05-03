@@ -4,11 +4,14 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutCostCenterService,
-  CheckoutDeliveryService,
   CheckoutPaymentService,
   PaymentTypeService,
 } from '@spartacus/checkout/core';
-import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/root';
+import {
+  CheckoutDeliveryFacade,
+  CheckoutStep,
+  CheckoutStepType,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -205,7 +208,7 @@ class MockPromotionService {
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
-  let mockCheckoutDeliveryService: CheckoutDeliveryService;
+  let mockCheckoutDeliveryService: CheckoutDeliveryFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -224,7 +227,7 @@ describe('ReviewSubmitComponent', () => {
         ],
         providers: [
           {
-            provide: CheckoutDeliveryService,
+            provide: CheckoutDeliveryFacade,
             useClass: MockCheckoutDeliveryService,
           },
           {
@@ -262,7 +265,7 @@ describe('ReviewSubmitComponent', () => {
     fixture = TestBed.createComponent(ReviewSubmitComponent);
     component = fixture.componentInstance;
 
-    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+    mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryFacade);
 
     addressBS.next(mockAddress.country);
     deliveryModeBS.next(mockDeliveryMode);

@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
-  CheckoutDeliveryService,
   CheckoutPaymentService,
   CheckoutService,
 } from '@spartacus/checkout/core';
+import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -150,7 +150,7 @@ describe('PaymentMethodComponent', () => {
           { provide: UserPaymentService, useClass: MockUserPaymentService },
           { provide: CheckoutService, useClass: MockCheckoutService },
           {
-            provide: CheckoutDeliveryService,
+            provide: CheckoutDeliveryFacade,
             useClass: MockCheckoutDeliveryService,
           },
           {
