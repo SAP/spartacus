@@ -5,9 +5,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutService } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
+  CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -45,7 +45,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userPaymentService: UserPaymentService,
-    protected checkoutService: CheckoutService,
+    protected checkoutService: CheckoutFacade,
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected globalMessageService: GlobalMessageService,

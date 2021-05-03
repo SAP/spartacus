@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { CheckoutDetails, CheckoutService } from '@spartacus/checkout/core';
+import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
+  CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -59,9 +60,9 @@ class MockActiveCartService {
 
 describe('CheckoutDetailsService', () => {
   let service: CheckoutDetailsService;
-  let checkoutService;
+  let checkoutService: CheckoutFacade;
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
-  let checkoutPaymentService;
+  let checkoutPaymentService: CheckoutPaymentFacade;
   let activeCartService;
 
   beforeEach(() => {
@@ -69,7 +70,7 @@ describe('CheckoutDetailsService', () => {
       providers: [
         CheckoutDetailsService,
         {
-          provide: CheckoutService,
+          provide: CheckoutFacade,
           useClass: MockCheckoutService,
         },
         {
@@ -88,7 +89,7 @@ describe('CheckoutDetailsService', () => {
     });
 
     service = TestBed.inject(CheckoutDetailsService);
-    checkoutService = TestBed.inject(CheckoutService);
+    checkoutService = TestBed.inject(CheckoutFacade);
     checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
     checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
     activeCartService = TestBed.inject(ActiveCartService);
@@ -139,16 +140,16 @@ describe('CheckoutDetailsService', () => {
     spyOn(activeCartService, 'getActive');
     spyOn(checkoutService, 'loadCheckoutDetails');
     spyOn(checkoutPaymentService, 'getPaymentDetails').and.returnValue(
-      of(mockDetails)
+      of(mockDetails.paymentInfo)
     );
 
-    let checkoutDetails;
+    let paymentInfo;
     service
       .getPaymentDetails()
-      .subscribe((data) => (checkoutDetails = data))
+      .subscribe((data) => (paymentInfo = data))
       .unsubscribe();
     expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
     expect(checkoutPaymentService.getPaymentDetails).toHaveBeenCalled();
-    expect(checkoutDetails).toBe(mockDetails);
+    expect(paymentInfo).toBe(mockDetails.paymentInfo);
   });
 });

@@ -2,9 +2,9 @@ import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutService } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
+  CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -132,7 +132,7 @@ describe('PaymentMethodComponent', () => {
   let mockCheckoutPaymentService: CheckoutPaymentFacade;
   let mockActiveCartService: ActiveCartService;
   let mockGlobalMessageService: GlobalMessageService;
-  let mockCheckoutService: CheckoutService;
+  let mockCheckoutService: CheckoutFacade;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(
@@ -148,7 +148,7 @@ describe('PaymentMethodComponent', () => {
         ],
         providers: [
           { provide: UserPaymentService, useClass: MockUserPaymentService },
-          { provide: CheckoutService, useClass: MockCheckoutService },
+          { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
             provide: CheckoutDeliveryFacade,
             useClass: MockCheckoutDeliveryService,
@@ -171,7 +171,7 @@ describe('PaymentMethodComponent', () => {
       mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
       mockActiveCartService = TestBed.inject(ActiveCartService);
       mockGlobalMessageService = TestBed.inject(GlobalMessageService);
-      mockCheckoutService = TestBed.inject(CheckoutService);
+      mockCheckoutService = TestBed.inject(CheckoutFacade);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );

@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CheckoutService } from '@spartacus/checkout/core';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
   DaysOfWeek,
   I18nTestingModule,
@@ -89,7 +89,7 @@ describe('PlaceOrderComponent', () => {
   let fixture: ComponentFixture<PlaceOrderComponent>;
   let controls: FormGroup['controls'];
 
-  let checkoutService: CheckoutService;
+  let checkoutService: CheckoutFacade;
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
@@ -100,7 +100,7 @@ describe('PlaceOrderComponent', () => {
         imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
         declarations: [MockUrlPipe, PlaceOrderComponent],
         providers: [
-          { provide: CheckoutService, useClass: MockCheckoutService },
+          { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
             provide: CheckoutReplenishmentFormService,
             useClass: MockCheckoutReplenishmentFormService,
@@ -118,7 +118,7 @@ describe('PlaceOrderComponent', () => {
 
     controls = component.checkoutSubmitForm.controls;
 
-    checkoutService = TestBed.inject(CheckoutService);
+    checkoutService = TestBed.inject(CheckoutFacade);
     checkoutReplenishmentFormService = TestBed.inject(
       CheckoutReplenishmentFormService
     );

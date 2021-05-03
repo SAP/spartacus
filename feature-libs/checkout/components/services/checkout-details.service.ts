@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CheckoutService } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
+  CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
@@ -29,7 +29,7 @@ export class CheckoutDetailsService {
   getCheckoutDetailsLoaded$: Observable<boolean>;
 
   constructor(
-    protected checkoutService: CheckoutService,
+    protected checkoutService: CheckoutFacade,
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected activeCartService: ActiveCartService
