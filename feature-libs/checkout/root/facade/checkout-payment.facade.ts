@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
-export function checkoutDeliveryFacadeFactory() {
+export function checkoutPaymentFacadeFactory() {
   return facadeFactory({
     facade: CheckoutPaymentFacade,
     feature: CHECKOUT_CORE_FEATURE,
@@ -26,7 +26,10 @@ export function checkoutDeliveryFacadeFactory() {
   });
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+  useFactory: checkoutPaymentFacadeFactory,
+})
 export abstract class CheckoutPaymentFacade {
   /**
    * Get card types
