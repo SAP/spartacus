@@ -6,7 +6,10 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import {
+  SavedCartFacade,
+  SavedCartFormType,
+} from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
   ClearCheckoutService,
@@ -24,6 +27,7 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 })
 export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
+  savedCartFormType = SavedCartFormType;
 
   @ViewChild('element') element: ElementRef;
   savedCart$: Observable<
@@ -48,24 +52,26 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
     );
   }
 
-  restoreSavedCart(cartId: string): void {
-    this.savedCartService.restoreSavedCart(cartId);
-  }
+  // TODO: ask if it's a breaking change / REMOVE
+  // restoreSavedCart(cartId: string): void {
+  //   this.savedCartService.restoreSavedCart(cartId);
+  // }
 
   onRestoreComplete(success: boolean): void {
     if (success) {
       this.routingService.go({ cxRoute: 'savedCarts' });
+      this.savedCartService.clearCloneSavedCart();
       this.savedCartService.clearRestoreSavedCart();
       this.savedCartService.clearSaveCart();
       this.clearCheckoutService.resetCheckoutProcesses();
     }
   }
 
-  openDialog(cart: Cart): void {
+  openDialog(cart: Cart, type: SavedCartFormType): void {
     const dialog = this.savedCartFormLaunchDialogService.openDialog(
       this.element,
       this.vcr,
-      { cart, layoutOption: 'delete' }
+      { cart, layoutOption: type }
     );
 
     if (dialog) {

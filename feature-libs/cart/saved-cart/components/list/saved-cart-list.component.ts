@@ -61,6 +61,7 @@ export class SavedCartListComponent implements OnInit, OnDestroy {
     });
   }
 
+  // TODO: remove / breaking change?
   restoreSavedCart(event: Event, cartId: string): void {
     this.savedCartService.restoreSavedCart(cartId);
     event.stopPropagation();

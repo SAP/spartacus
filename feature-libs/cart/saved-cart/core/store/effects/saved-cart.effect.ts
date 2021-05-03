@@ -89,10 +89,10 @@ export class SavedCartEffects {
     ofType(SavedCartActions.RESTORE_SAVED_CART),
     map((action: SavedCartActions.RestoreSavedCart) => action.payload),
     withLatestFrom(this.activeCartService.getActive()),
-    switchMap(([{ userId, cartId, extraData }, activeCart]) => {
+    switchMap(([{ userId, cartId, cloneSavedCart }, activeCart]) => {
       const actions: any[] = [];
 
-      if (extraData?.cloneSavedCart) {
+      if (cloneSavedCart) {
         actions.push(
           new SavedCartActions.CloneSavedCart({
             userId,

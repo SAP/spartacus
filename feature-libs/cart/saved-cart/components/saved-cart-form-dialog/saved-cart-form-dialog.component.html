@@ -18,6 +18,9 @@
             <ng-container *ngSwitchCase="savedCartFormType.SAVE">
               {{ 'savedCartDialog.saveForLater' | cxTranslate }}
             </ng-container>
+            <ng-container *ngSwitchCase="savedCartFormType.RESTORE">
+              {{ 'savedCartDialog.restoreSavedCart' | cxTranslate }}
+            </ng-container>
           </div>
         </ng-container>
 
@@ -36,15 +39,21 @@
 
       <!-- Modal Body -->
       <div class="cx-saved-cart-form-body">
-        <!-- start DELETE form -->
+        <!-- start DELETE and RESTORE form -->
         <ng-container
           *ngIf="
-            layoutOption === savedCartFormType.DELETE;
+            layoutOption === savedCartFormType.DELETE ||
+              layoutOption === savedCartFormType.RESTORE;
             else saveAndEditCart
           "
         >
           <p class="cx-saved-cart-form-subtitle">
-            {{ 'savedCartDialog.followingCartDelete' | cxTranslate }}
+            {{
+              (layoutOption === savedCartFormType.DELETE
+                ? 'savedCartDialog.followingCartDelete'
+                : 'savedCartDialog.followingCartRestore'
+              ) | cxTranslate
+            }}
           </p>
 
           <div class="cx-saved-cart-form-row">
@@ -94,6 +103,21 @@
             </div>
           </div>
 
+          <div
+            *ngIf="layoutOption === savedCartFormType.RESTORE"
+            class="cx-saved-cart-form-row"
+          >
+            <input
+              id="copy-saved-cart"
+              type="checkbox"
+              [checked]="isCloneSavedCart"
+              (change)="toggleIsCloneSavedCart()"
+            />
+            <label for="copy-saved-cart" class="abc">{{
+              'savedCartDialog.keepCopySavedCart' | cxTranslate
+            }}</label>
+          </div>
+
           <div class="cx-saved-cart-form-footer">
             <button
               (click)="close('Close Save Cart Dialog')"
@@ -104,16 +128,36 @@
               {{ 'savedCartDialog.cancel' | cxTranslate }}
             </button>
 
-            <button
-              *ngIf="cart.code"
-              (click)="deleteCart(cart.code)"
-              [disabled]="isDisableDeleteButton$ | async"
-              aria-label="delete"
-              class="ml-2 btn btn-primary"
-              type="button"
+            <ng-container
+              *ngIf="
+                layoutOption === savedCartFormType.DELETE;
+                else isRestoreSavedCart
+              "
             >
-              {{ 'savedCartDialog.delete' | cxTranslate }}
-            </button>
+              <button
+                *ngIf="cart.code"
+                (click)="deleteCart(cart.code)"
+                [disabled]="isDisableDeleteButton$ | async"
+                aria-label="delete"
+                class="ml-2 btn btn-primary"
+                type="button"
+              >
+                {{ 'savedCartDialog.delete' | cxTranslate }}
+              </button>
+            </ng-container>
+
+            <ng-template #isRestoreSavedCart>
+              <button
+                *ngIf="cart.code"
+                (click)="restoreSavedCart(cart.code)"
+                [disabled]="isDisableDeleteButton$ | async"
+                aria-label="delete"
+                class="ml-2 btn btn-primary"
+                type="button"
+              >
+                {{ 'savedCartDialog.restore' | cxTranslate }}
+              </button>
+            </ng-template>
           </div>
         </ng-container>
         <!-- end DELETE form -->

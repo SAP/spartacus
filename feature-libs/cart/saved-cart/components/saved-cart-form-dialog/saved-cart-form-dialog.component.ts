@@ -11,8 +11,8 @@ import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,
   DeleteSavedCartSuccessEvent,
-  SavedCartFormType,
   SavedCartFacade,
+  SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
@@ -50,6 +50,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
+  isCloneSavedCart = false;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -149,6 +150,10 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     this.savedCartService.deleteSavedCart(cartId);
   }
 
+  restoreSavedCart(cartId: string): void {
+    this.savedCartService.restoreSavedCart(cartId, this.isCloneSavedCart);
+  }
+
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
   }
@@ -207,6 +212,11 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     }
   }
 
+  toggleIsCloneSavedCart() {
+    this.isCloneSavedCart = !this.isCloneSavedCart;
+    console.log(this.isCloneSavedCart);
+  }
+
   protected build(cart?: Cart) {
     const form = new FormGroup({});
     form.setControl(
@@ -220,6 +230,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
       'description',
       new FormControl('', [Validators.maxLength(this.descriptionMaxLength)])
     );
+    form.setControl('isCloneSavedCart', new FormControl(''));
     this.form = form;
     this.patchData(cart);
   }

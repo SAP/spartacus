@@ -113,7 +113,7 @@ export class RestoreSavedCart extends StateUtils.EntityLoadAction {
     public payload: {
       userId: string;
       cartId: string;
-      extraData?: { cloneSavedCart?: boolean };
+      cloneSavedCart: boolean;
     }
   ) {
     super(PROCESS_FEATURE, SAVED_CART_RESTORE_CART_PROCESS_ID);
