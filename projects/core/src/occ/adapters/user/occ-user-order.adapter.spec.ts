@@ -84,7 +84,7 @@ describe('OccUserOrderAdapter', () => {
           'orderHistory',
           {
             urlParams: { userId },
-            queryParams: { pageSize: PAGE_SIZE.toString() },
+            queryParams: { params: { pageSize: PAGE_SIZE.toString() } },
           }
         );
       })
@@ -108,9 +108,11 @@ describe('OccUserOrderAdapter', () => {
           {
             urlParams: { userId },
             queryParams: {
-              pageSize: PAGE_SIZE.toString(),
-              currentPage: currentPage.toString(),
-              sort,
+              params: {
+                pageSize: PAGE_SIZE.toString(),
+                currentPage: currentPage.toString(),
+                sort,
+              },
             },
           }
         );
@@ -285,8 +287,7 @@ describe('OccUserOrderAdapter', () => {
         });
         expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
           'orderReturns',
-          { urlParams: { userId } },
-          {}
+          { urlParams: { userId }, queryParams: { params: {} } }
         );
       })
     );
@@ -309,9 +310,11 @@ describe('OccUserOrderAdapter', () => {
           {
             urlParams: { userId },
             queryParams: {
-              pageSize: PAGE_SIZE.toString(),
-              currentPage: currentPage.toString(),
-              sort,
+              params: {
+                pageSize: PAGE_SIZE.toString(),
+                currentPage: currentPage.toString(),
+                sort,
+              },
             },
           }
         );

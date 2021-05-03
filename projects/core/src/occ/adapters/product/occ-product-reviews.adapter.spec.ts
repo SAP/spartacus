@@ -86,7 +86,6 @@ describe('OccProductReviewsAdapter', () => {
       mockReq.flush(productReviews);
       expect(endpoints.buildUrl).toHaveBeenCalledWith('productReviews', {
         urlParams: { productCode },
-        queryParams: { maxCount },
       });
     });
 
@@ -121,6 +120,7 @@ describe('OccProductReviewsAdapter', () => {
       httpMock.expectOne(endpoint).flush('');
       expect(endpoints.buildUrl).toHaveBeenCalledWith('productReviews', {
         urlParams: { productCode },
+        queryParams: { maxCount: undefined },
       });
     });
 

@@ -113,7 +113,7 @@ describe('OccUserConsentAdapter', () => {
             `consentTemplateId=${consentTemplateId}&consentTemplateVersion=${consentTemplateVersion}`
       );
       expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('consents', {
-        queryParams: { userId },
+        urlParams: { userId },
       });
 
       expect(mockReq.cancelled).toBeFalsy();

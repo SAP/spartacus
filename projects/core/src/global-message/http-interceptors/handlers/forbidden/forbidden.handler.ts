@@ -16,7 +16,9 @@ export class ForbiddenHandler extends HttpErrorHandler {
   handleError(request) {
     if (
       request.url.endsWith(
-        this.occEndpoints.buildUrl('user', { urlParams: { userId: 'current' } })
+        this.occEndpoints.buildUrl('user', {
+          queryParams: { userId: 'current' },
+        })
       )
     ) {
       this.authService.logout();

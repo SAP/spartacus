@@ -109,7 +109,7 @@ describe('OccProductSearchAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(endpoints.buildUrl).toHaveBeenCalledWith('productSuggestions', {
-        urlParams: {
+        queryParams: {
           term: queryText,
           max: mockSearchConfig.pageSize.toString(),
         },
