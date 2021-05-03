@@ -1,8 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  CheckoutCostCenterService,
-  PaymentTypeService,
-} from '@spartacus/checkout/core';
+import { CheckoutCostCenterService } from '@spartacus/checkout/core';
+import { PaymentTypeFacade } from '@spartacus/checkout/root';
 import {
   CostCenter,
   I18nTestingModule,
@@ -61,7 +59,7 @@ describe('CostCenterComponent', () => {
           useClass: MockCheckoutCostCenterService,
         },
         {
-          provide: PaymentTypeService,
+          provide: PaymentTypeFacade,
           useClass: MockPaymentTypeService,
         },
       ],

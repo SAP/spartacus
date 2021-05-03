@@ -5,11 +5,11 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CheckoutCostCenterService } from '@spartacus/checkout/core';
 import {
-  CheckoutCostCenterService,
-  PaymentTypeService,
-} from '@spartacus/checkout/core';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+  CheckoutDeliveryFacade,
+  PaymentTypeFacade,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -48,7 +48,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
-    protected paymentTypeService?: PaymentTypeService,
+    protected paymentTypeService?: PaymentTypeFacade,
     protected userCostCenterService?: UserCostCenterService,
     protected checkoutCostCenterService?: CheckoutCostCenterService
   ) {}

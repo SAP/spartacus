@@ -1,10 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CheckoutCostCenterService } from '@spartacus/checkout/core';
 import {
-  CheckoutCostCenterService,
-  PaymentTypeService,
-} from '@spartacus/checkout/core';
-import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/root';
+  CheckoutStep,
+  CheckoutStepType,
+  PaymentTypeFacade,
+} from '@spartacus/checkout/root';
 import { Address, Order, RoutingConfigService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
@@ -103,7 +104,7 @@ class MockPaymentTypeService {
 
 describe(`CheckoutStepsSetGuard`, () => {
   let guard: CheckoutStepsSetGuard;
-  let paymentTypeService: PaymentTypeService;
+  let paymentTypeService: PaymentTypeFacade;
   let checkoutDetailsService: CheckoutDetailsService;
 
   beforeEach(() => {
@@ -117,7 +118,7 @@ describe(`CheckoutStepsSetGuard`, () => {
         },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         {
-          provide: PaymentTypeService,
+          provide: PaymentTypeFacade,
           useClass: MockPaymentTypeService,
         },
         {
@@ -129,7 +130,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     });
 
     guard = TestBed.inject(CheckoutStepsSetGuard);
-    paymentTypeService = TestBed.inject(PaymentTypeService);
+    paymentTypeService = TestBed.inject(PaymentTypeFacade);
     checkoutDetailsService = TestBed.inject(CheckoutDetailsService);
   });
 

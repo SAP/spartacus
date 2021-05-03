@@ -2,11 +2,11 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { CheckoutCostCenterService } from '@spartacus/checkout/core';
 import {
-  CheckoutCostCenterService,
-  PaymentTypeService,
-} from '@spartacus/checkout/core';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+  CheckoutDeliveryFacade,
+  PaymentTypeFacade,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -162,7 +162,7 @@ describe('ShippingAddressComponent', () => {
           },
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: PaymentTypeService, useClass: MockPaymentTypeService },
+          { provide: PaymentTypeFacade, useClass: MockPaymentTypeService },
           {
             provide: UserCostCenterService,
             useClass: MockUserCostCenterService,

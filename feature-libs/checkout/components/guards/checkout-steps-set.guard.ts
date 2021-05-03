@@ -6,11 +6,12 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
+import { CheckoutCostCenterService } from '@spartacus/checkout/core';
 import {
-  CheckoutCostCenterService,
-  PaymentTypeService,
-} from '@spartacus/checkout/core';
-import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/root';
+  CheckoutStep,
+  CheckoutStepType,
+  PaymentTypeFacade,
+} from '@spartacus/checkout/root';
 import { RoutingConfigService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
@@ -22,7 +23,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 })
 export class CheckoutStepsSetGuard implements CanActivate {
   constructor(
-    protected paymentTypeService: PaymentTypeService,
+    protected paymentTypeService: PaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDetailsService: CheckoutDetailsService,
     protected routingConfigService: RoutingConfigService,

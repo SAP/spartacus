@@ -2,15 +2,13 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  CheckoutCostCenterService,
-  PaymentTypeService,
-} from '@spartacus/checkout/core';
+import { CheckoutCostCenterService } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
+  PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
@@ -245,7 +243,7 @@ describe('ReviewSubmitComponent', () => {
             useClass: MockPromotionService,
           },
           {
-            provide: PaymentTypeService,
+            provide: PaymentTypeFacade,
             useClass: MockPaymentTypeService,
           },
           {
