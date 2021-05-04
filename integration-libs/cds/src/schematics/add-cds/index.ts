@@ -8,13 +8,10 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
   CDS_CONFIG,
   CLI_CDS_FEATURE,
-  createDependencies,
-  createSpartacusDependencies,
   CustomConfig,
-  installPackageJsonDependencies,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CDS,
@@ -25,7 +22,7 @@ import { CDS_FOLDER_NAME, CDS_MODULE } from '../constants';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 export function addCdsFeature(options: SpartacusCdsOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -34,8 +31,12 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
         ? addCds(options)
         : noop(),
 
-      addCdsPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
 }
@@ -47,14 +48,6 @@ function validateCdsOptions({ tenant, baseUrl }: SpartacusCdsOptions): void {
   if (!baseUrl) {
     throw new SchematicsException(`Please specify the base URL.`);
   }
-}
-
-function addCdsPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
-  const thirdPartyDependencies = createDependencies(peerDependencies);
-  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
-
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addCds(options: SpartacusCdsOptions): Rule {
