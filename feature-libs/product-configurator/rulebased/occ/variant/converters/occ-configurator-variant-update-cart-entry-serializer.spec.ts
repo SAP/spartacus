@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  ConfiguratorModelUtils,
   ConfiguratorType,
-  ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
@@ -25,7 +25,7 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
     configuration: {
       productCode: PRODUCT_CODE,
       configId: CONFIG_ID,
-      owner: ModelUtils.createInitialOwner(),
+      owner: ConfiguratorModelUtils.createInitialOwner(),
     },
   };
 

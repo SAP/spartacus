@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -165,7 +165,7 @@ describe('ConfiguratorCartEffect', () => {
         configuration: productConfiguration,
         cartEntryNo: cartEntryNumber,
       });
-      const newCartEntryOwner = ModelUtils.createOwner(
+      const newCartEntryOwner = ConfiguratorModelUtils.createOwner(
         CommonConfigurator.OwnerType.CART_ENTRY,
         cartEntryNumber
       );

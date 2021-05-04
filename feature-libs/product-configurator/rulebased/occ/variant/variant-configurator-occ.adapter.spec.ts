@@ -13,8 +13,8 @@ import {
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
   ConfiguratorType,
-  ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
@@ -55,7 +55,7 @@ const documentId = '82736353';
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
-  owner: ModelUtils.createOwner(
+  owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
     productCode
   ),
@@ -74,7 +74,7 @@ const pricesOcc: OccConfigurator.Prices = {
 const productConfigurationForCartEntry: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
-  owner: ModelUtils.createOwner(
+  owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
     cartEntryNo
   ),

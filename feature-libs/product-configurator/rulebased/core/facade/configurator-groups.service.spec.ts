@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartService } from '@spartacus/core';
-import { ModelUtils } from '@spartacus/product-configurator/common';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import {
   GROUP_ID_1,
@@ -125,7 +125,7 @@ describe('ConfiguratorGroupsService', () => {
       const configNoGroups: Configurator.Configuration = {
         configId: 'abc',
         flatGroups: undefined,
-        owner: ModelUtils.createInitialOwner(),
+        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(configNoGroups)

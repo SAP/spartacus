@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
@@ -21,7 +21,7 @@ import { ConfiguratorTextfieldAddToCartButtonComponent } from './configurator-te
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const URL_CONFIGURATION = 'host:port/electronics-spa/en/USD/configureTEXTFIELD';
-const OWNER = ModelUtils.createOwner(
+const OWNER = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.PRODUCT,
   PRODUCT_CODE
 );

@@ -6,7 +6,7 @@ import { ActiveCartService, Cart, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -24,9 +24,9 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorUtilsService } from './utils';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-let OWNER_PRODUCT = ModelUtils.createInitialOwner();
-let OWNER_CART_ENTRY = ModelUtils.createInitialOwner();
-let OWNER_ORDER_ENTRY = ModelUtils.createInitialOwner();
+let OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
+let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
+let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '123ab';
@@ -67,7 +67,7 @@ const group2: Configurator.Group = {
 
 let productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
-  owner: ModelUtils.createInitialOwner(),
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 
 const productConfigurationProductBoundObsolete: Configurator.Configuration = {
@@ -78,7 +78,7 @@ const productConfigurationProductBoundObsolete: Configurator.Configuration = {
 
 const productConfigurationChanged: Configurator.Configuration = {
   configId: CONFIG_ID,
-  owner: ModelUtils.createInitialOwner(),
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 
 const configurationState: ConfiguratorState = {
@@ -188,15 +188,15 @@ describe('ConfiguratorCommonsService', () => {
     configuratorUtilsService = TestBed.inject(
       ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
     );
-    OWNER_PRODUCT = ModelUtils.createOwner(
+    OWNER_PRODUCT = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     );
-    OWNER_CART_ENTRY = ModelUtils.createOwner(
+    OWNER_CART_ENTRY = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.CART_ENTRY,
       '3'
     );
-    OWNER_ORDER_ENTRY = ModelUtils.createOwner(
+    OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.ORDER_ENTRY,
       configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER)
     );
@@ -384,7 +384,7 @@ describe('ConfiguratorCommonsService', () => {
       const configurationWithOverview: Configurator.Configuration = {
         configId: CONFIG_ID,
         overview: {},
-        owner: ModelUtils.createInitialOwner(),
+        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(configurationWithOverview)

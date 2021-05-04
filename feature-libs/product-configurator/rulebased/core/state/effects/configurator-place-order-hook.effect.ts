@@ -4,8 +4,8 @@ import { ActiveCartService, CheckoutActions } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
   ConfiguratorType,
-  ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -32,7 +32,7 @@ export class ConfiguratorPlaceOrderHookEffects {
             ) {
               return;
             }
-            const owner = ModelUtils.createOwner(
+            const owner = ConfiguratorModelUtils.createOwner(
               CommonConfigurator.OwnerType.CART_ENTRY,
               String(entry.entryNumber)
             );

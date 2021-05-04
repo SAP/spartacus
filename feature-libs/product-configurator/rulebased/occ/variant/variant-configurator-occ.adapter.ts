@@ -8,8 +8,8 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorModelUtils,
   ConfiguratorType,
-  ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -198,7 +198,7 @@ export class VariantConfiguratorOccAdapter
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
           overview: overview,
-          owner: ModelUtils.createInitialOwner(),
+          owner: ConfiguratorModelUtils.createInitialOwner(),
         };
         return configuration;
       }),
@@ -229,7 +229,7 @@ export class VariantConfiguratorOccAdapter
         const result: Configurator.Configuration = {
           configId: configuration.configId,
           priceSummary: pricingResult,
-          owner: ModelUtils.createInitialOwner(),
+          owner: ConfiguratorModelUtils.createInitialOwner(),
         };
         return result;
       }),

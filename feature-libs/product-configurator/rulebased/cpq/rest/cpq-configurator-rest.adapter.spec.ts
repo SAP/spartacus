@@ -4,8 +4,8 @@ import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorModelUtils,
   ConfiguratorType,
-  ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
@@ -21,7 +21,7 @@ const documentId = '82736353';
 const owner: CommonConfigurator.Owner = {
   type: CommonConfigurator.OwnerType.PRODUCT,
   id: productCode,
-  key: ModelUtils.getOwnerKey(
+  key: ConfiguratorModelUtils.getOwnerKey(
     CommonConfigurator.OwnerType.PRODUCT,
     productCode
   ),

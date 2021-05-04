@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import {
   CommonConfigurator,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -25,7 +25,7 @@ class MockKeyboardFocusService {
 
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
-  const owner = ModelUtils.createOwner(
+  const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
     'testProduct'
   );

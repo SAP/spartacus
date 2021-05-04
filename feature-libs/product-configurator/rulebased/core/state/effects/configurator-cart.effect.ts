@@ -9,7 +9,7 @@ import {
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';
@@ -173,7 +173,7 @@ export class ConfiguratorCartEffects {
         ),
         take(1),
         switchMap((configuration) => {
-          const newOwner = ModelUtils.createOwner(
+          const newOwner = ConfiguratorModelUtils.createOwner(
             CommonConfigurator.OwnerType.CART_ENTRY,
             action.payload.cartEntryNo
           );

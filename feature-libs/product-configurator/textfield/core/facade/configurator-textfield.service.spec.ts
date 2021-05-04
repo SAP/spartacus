@@ -10,7 +10,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
@@ -31,12 +31,12 @@ const CHANGED_VALUE = 'theNewValue';
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const CART_ENTRY_NUMBER = '2';
-const owner = ModelUtils.createOwner(
+const owner = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.PRODUCT,
   PRODUCT_CODE
 );
 
-const ownerCartRelated = ModelUtils.createOwner(
+const ownerCartRelated = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.CART_ENTRY,
   CART_ENTRY_NUMBER
 );
@@ -52,7 +52,7 @@ const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [
     { configurationLabel: ATTRIBUTE_NAME, configurationValue: ATTRIBUTE_VALUE },
   ],
-  owner: ModelUtils.createOwner(
+  owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
     PRODUCT_CODE
   ),
@@ -86,7 +86,7 @@ const changedProductConfiguration: ConfiguratorTextfield.Configuration = {
       status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
     },
   ],
-  owner: ModelUtils.createOwner(
+  owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
     PRODUCT_CODE
   ),

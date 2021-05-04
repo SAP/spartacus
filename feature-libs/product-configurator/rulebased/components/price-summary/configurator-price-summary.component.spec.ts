@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -28,7 +28,7 @@ const mockRouterState: any = {
 };
 
 const config: Configurator.Configuration = {
-  owner: ModelUtils.createInitialOwner(),
+  owner: ConfiguratorModelUtils.createInitialOwner(),
   configId: '1234-56-7890',
   consistent: true,
   complete: true,

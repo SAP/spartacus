@@ -11,7 +11,7 @@ import {
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
@@ -46,7 +46,7 @@ const mockRouterState: any = {
   },
 };
 
-const owner = ModelUtils.createOwner(
+const owner = ConfiguratorModelUtils.createOwner(
   CommonConfigurator.OwnerType.PRODUCT,
   PRODUCT_CODE
 );

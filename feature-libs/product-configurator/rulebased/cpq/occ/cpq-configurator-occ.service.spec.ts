@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import {
@@ -39,7 +39,7 @@ describe('CpqConfigurationOccService', () => {
     owner: {
       type: CommonConfigurator.OwnerType.PRODUCT,
       id: productCode,
-      key: ModelUtils.getOwnerKey(
+      key: ConfiguratorModelUtils.getOwnerKey(
         CommonConfigurator.OwnerType.PRODUCT,
         productCode
       ),
@@ -56,7 +56,7 @@ describe('CpqConfigurationOccService', () => {
       owner: {
         type: CommonConfigurator.OwnerType.CART_ENTRY,
         id: entryNumber.toString(),
-        key: ModelUtils.getOwnerKey(
+        key: ConfiguratorModelUtils.getOwnerKey(
           CommonConfigurator.OwnerType.PRODUCT,
           entryNumber.toString()
         ),
@@ -71,7 +71,7 @@ describe('CpqConfigurationOccService', () => {
     owner: {
       type: CommonConfigurator.OwnerType.CART_ENTRY,
       id: productCode,
-      key: ModelUtils.getOwnerKey(
+      key: ConfiguratorModelUtils.getOwnerKey(
         CommonConfigurator.OwnerType.CART_ENTRY,
         productCode
       ),
@@ -85,7 +85,7 @@ describe('CpqConfigurationOccService', () => {
     owner: {
       type: CommonConfigurator.OwnerType.ORDER_ENTRY,
       id: productCode,
-      key: ModelUtils.getOwnerKey(
+      key: ConfiguratorModelUtils.getOwnerKey(
         CommonConfigurator.OwnerType.ORDER_ENTRY,
         productCode
       ),

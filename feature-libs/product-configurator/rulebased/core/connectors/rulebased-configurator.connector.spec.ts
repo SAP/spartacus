@@ -4,7 +4,7 @@ import { CartModification } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
@@ -22,7 +22,7 @@ const CONFIGURATOR_TYPE = 'cpqconfig';
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
-  owner: ModelUtils.createOwner(
+  owner: ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.PRODUCT,
     PRODUCT_CODE,
     CONFIGURATOR_TYPE
@@ -140,7 +140,7 @@ describe('RulebasedConfiguratorConnector', () => {
 
   it('should throw an error in case no adapter present for configurator type', () => {
     expect(function () {
-      const ownerForUnknownConfigurator = ModelUtils.createOwner(
+      const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
         CommonConfigurator.OwnerType.PRODUCT,
         PRODUCT_CODE,
         'unknown'
@@ -151,7 +151,7 @@ describe('RulebasedConfiguratorConnector', () => {
 
   it('should not throw an error in case an adapter is present for owners configurator type', () => {
     expect(function () {
-      const ownerForUnknownConfigurator = ModelUtils.createOwner(
+      const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
         CommonConfigurator.OwnerType.PRODUCT,
         PRODUCT_CODE,
         CONFIGURATOR_TYPE

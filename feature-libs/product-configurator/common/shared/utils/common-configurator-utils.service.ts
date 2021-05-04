@@ -10,7 +10,7 @@ import {
   ConfiguratorType,
   OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
-import { getOwnerKey } from './common-configurator-model-utils';
+import { ConfiguratorModelUtils } from './common-configurator-model-utils';
 
 /**
  * Utilities for generic configuration
@@ -24,7 +24,7 @@ export class CommonConfiguratorUtilsService {
    * @param {CommonConfigurator.Owner }owner - Specifies the owner of a product configuration
    */
   setOwnerKey(owner: CommonConfigurator.Owner) {
-    owner.key = getOwnerKey(owner.type, owner.id);
+    owner.key = ConfiguratorModelUtils.getOwnerKey(owner.type, owner.id);
   }
 
   /**

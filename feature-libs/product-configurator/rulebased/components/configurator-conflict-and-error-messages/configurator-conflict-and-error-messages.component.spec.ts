@@ -7,10 +7,10 @@ import {
   CommonConfigurator,
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
-  ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -38,7 +38,7 @@ const configWOMessages: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
-    key: ModelUtils.getOwnerKey(
+    key: ConfiguratorModelUtils.getOwnerKey(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),
@@ -50,7 +50,7 @@ const configWithMessages: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
-    key: ModelUtils.getOwnerKey(
+    key: ConfiguratorModelUtils.getOwnerKey(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),
@@ -68,7 +68,7 @@ const configWithOnlyOneMessage: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
-    key: ModelUtils.getOwnerKey(
+    key: ConfiguratorModelUtils.getOwnerKey(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),

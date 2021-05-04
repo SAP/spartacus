@@ -11,7 +11,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -132,7 +132,7 @@ describe('ConfiguratorTextfieldEffect', () => {
 
   it('should emit a success action with content for an action of type readConfigurationFromCart if read from cart is successful', () => {
     const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: ModelUtils.createInitialOwner(),
+      owner: ConfiguratorModelUtils.createInitialOwner(),
     };
     const action = new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
       payloadInput
@@ -152,7 +152,7 @@ describe('ConfiguratorTextfieldEffect', () => {
   it('should emit a fail action in case read from cart leads to an error', () => {
     readFromCartEntryMock.and.returnValue(throwError(errorResponse));
     const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: ModelUtils.createInitialOwner(),
+      owner: ConfiguratorModelUtils.createInitialOwner(),
     };
     const action = new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
       payloadInput

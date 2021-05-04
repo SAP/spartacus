@@ -5,9 +5,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-  ModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -197,7 +197,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     const configWOOverviewGroups: Configurator.Configuration = {
       configId: configId,
       overview: {},
-      owner: ModelUtils.createInitialOwner(),
+      owner: ConfiguratorModelUtils.createInitialOwner(),
     };
     expect(component.hasAttributes(configWOOverviewGroups)).toBe(false);
   });
@@ -207,7 +207,7 @@ describe('ConfigurationOverviewFormComponent', () => {
     const configWOOverviewAttributes: Configurator.Configuration = {
       configId: configId,
       overview: { groups: [{ id: 'GROUP1' }] },
-      owner: ModelUtils.createInitialOwner(),
+      owner: ConfiguratorModelUtils.createInitialOwner(),
     };
     expect(component.hasAttributes(configWOOverviewAttributes)).toBe(false);
   });
@@ -344,7 +344,7 @@ describe('ConfigurationOverviewFormComponent', () => {
 
 describe('ConfigurationOverviewFormComponent with forceReload', () => {
   let configuratorCommonsServiceMock: ConfiguratorCommonsService;
-  const theOwner = ModelUtils.createOwner(
+  const theOwner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
     '1',
     'cpqconfigurator'

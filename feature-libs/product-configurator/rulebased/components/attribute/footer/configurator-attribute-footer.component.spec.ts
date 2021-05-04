@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ModelUtils,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import {
   IconLoaderService,
@@ -50,7 +50,7 @@ describe('ConfigAttributeFooterComponent', () => {
   };
   let htmlElem: HTMLElement;
 
-  const owner = ModelUtils.createOwner(
+  const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
     'PRODUCT_CODE'
   );

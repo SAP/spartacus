@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ModelUtils } from '@spartacus/product-configurator/common';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import {
   ATTRIBUTE_1_CHECKBOX,
   GROUP_ID_1,
@@ -25,7 +25,7 @@ const ATTRIBUTE_NAME_2 = 'Attribute_DropDown';
 const ATTRIBUTE_NAME_3_1 = 'Attribute_1';
 const ATTRIBUTE_NAME_3_2 = 'Attribute_DropDown';
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const OWNER_PRODUCT = ModelUtils.createInitialOwner();
+const OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
 const group1: Configurator.Group = {
   id: GROUP_ID_1,
   name: GROUP_NAME,
@@ -168,7 +168,7 @@ describe('ConfiguratorGroupUtilsService', () => {
       const configuration: Configurator.Configuration = {
         configId: 'a',
         flatGroups: [],
-        owner: ModelUtils.createInitialOwner(),
+        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });
@@ -176,14 +176,14 @@ describe('ConfiguratorGroupUtilsService', () => {
       const configuration: Configurator.Configuration = {
         configId: '',
         flatGroups: [],
-        owner: ModelUtils.createInitialOwner(),
+        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(false);
     });
     it('should know that config is not created in case the groups are not defined', () => {
       const configuration: Configurator.Configuration = {
         configId: 'a',
-        owner: ModelUtils.createInitialOwner(),
+        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(false);
     });
@@ -191,7 +191,7 @@ describe('ConfiguratorGroupUtilsService', () => {
       const configuration: Configurator.Configuration = {
         configId: 'a',
         overview: {},
-        owner: ModelUtils.createInitialOwner(),
+        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });

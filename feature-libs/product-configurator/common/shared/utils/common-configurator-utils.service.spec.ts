@@ -12,7 +12,7 @@ import {
   ConfiguratorType,
   OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
-import { createInitialOwner } from './common-configurator-model-utils';
+import { ConfiguratorModelUtils } from './common-configurator-model-utils';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
 
 const productCode = 'CONF_LAPTOP';
@@ -57,7 +57,7 @@ describe('CommonConfiguratorUtilsService', () => {
     classUnderTest = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    owner = createInitialOwner();
+    owner = ConfiguratorModelUtils.createInitialOwner();
     cartItem = {};
   });
 
