@@ -1,8 +1,8 @@
 /// <reference types="@types/googlemaps" />
 import { Injectable } from '@angular/core';
-import { ExternalJsFileLoader, ScriptLoader } from '@spartacus/core';
+import { ScriptLoader } from '@spartacus/core';
 import { StoreFinderConfig } from '../config/store-finder-config';
-import { StoreDataService } from '../facade/store-data.service';
+import { StoreFinderService } from '../facade/store-finder.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,26 +12,9 @@ export class GoogleMapRendererService {
   private markers: google.maps.Marker[];
 
   constructor(
-    config: StoreFinderConfig,
-    externalJsFileLoader: ExternalJsFileLoader,
-    storeDataService: StoreDataService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    scriptLoader?: ScriptLoader
-  );
-  /**
-   * @deprecated since 3.2
-   */
-  constructor(
-    config: StoreFinderConfig,
-    externalJsFileLoader: ExternalJsFileLoader,
-    storeDataService: StoreDataService
-  );
-  // TODO: remove externalJsFileLoader in 4.0
-  constructor(
     protected config: StoreFinderConfig,
-    protected externalJsFileLoader: ExternalJsFileLoader,
-    protected storeDataService: StoreDataService,
-    protected scriptLoader?: ScriptLoader
+    protected storeFinderService: StoreFinderService,
+    protected scriptLoader: ScriptLoader
   ) {}
 
   /**
@@ -87,8 +70,8 @@ export class GoogleMapRendererService {
    */
   private defineMapCenter(locations: any[]): google.maps.LatLng {
     return new google.maps.LatLng(
-      this.storeDataService.getStoreLatitude(locations[0]),
-      this.storeDataService.getStoreLongitude(locations[0])
+      this.storeFinderService.getStoreLatitude(locations[0]),
+      this.storeFinderService.getStoreLongitude(locations[0])
     );
   }
 
@@ -126,8 +109,8 @@ export class GoogleMapRendererService {
     locations.forEach((element, index) => {
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(
-          this.storeDataService.getStoreLatitude(element),
-          this.storeDataService.getStoreLongitude(element)
+          this.storeFinderService.getStoreLatitude(element),
+          this.storeFinderService.getStoreLongitude(element)
         ),
         label: index + 1 + '',
       });

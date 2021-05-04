@@ -5,6 +5,7 @@ import {
   GeoPoint,
   GlobalMessageService,
   GlobalMessageType,
+  PointOfService,
   RoutingService,
   SearchConfig,
   WindowRef,
@@ -207,5 +208,22 @@ export class StoreFinderService implements OnDestroy {
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+  }
+
+  /**
+   * Returns store latitude
+   * @param location store location
+   */
+  // TODO(#11411): Move getStoreLatitude and getStoreLongitude to StoreFinderService
+  getStoreLatitude(location: PointOfService): number | undefined {
+    return location?.geoPoint?.latitude;
+  }
+
+  /**
+   * Returns store longitude
+   * @param location store location
+   */
+  getStoreLongitude(location: PointOfService): number | undefined {
+    return location?.geoPoint?.longitude;
   }
 }
