@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CheckoutCostCenterService } from '@spartacus/checkout/core';
 import {
+  CheckoutCostCenterFacade,
   CheckoutStep,
   CheckoutStepType,
   PaymentTypeFacade,
@@ -122,7 +122,7 @@ describe(`CheckoutStepsSetGuard`, () => {
           useClass: MockPaymentTypeService,
         },
         {
-          provide: CheckoutCostCenterService,
+          provide: CheckoutCostCenterFacade,
           useClass: MockCheckoutCostCenterService,
         },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },

@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutCostCenterService } from '@spartacus/checkout/core';
 import {
+  CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
@@ -168,7 +168,7 @@ describe('ShippingAddressComponent', () => {
             useClass: MockUserCostCenterService,
           },
           {
-            provide: CheckoutCostCenterService,
+            provide: CheckoutCostCenterFacade,
             useClass: MockCheckoutCostCenterService,
           },
         ],

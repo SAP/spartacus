@@ -1,10 +1,12 @@
 import { Provider } from '@angular/core';
 import {
+  CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
+import { CheckoutCostCenterService } from './checkout-cost-center.service';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
 import { CheckoutPaymentService } from './checkout-payment.service';
 import { CheckoutService } from './checkout.service';
@@ -30,5 +32,10 @@ export const facadeProviders: Provider[] = [
   {
     provide: PaymentTypeFacade,
     useExisting: PaymentTypeService,
+  },
+  CheckoutCostCenterService,
+  {
+    provide: CheckoutCostCenterFacade,
+    useExisting: CheckoutCostCenterService,
   },
 ];

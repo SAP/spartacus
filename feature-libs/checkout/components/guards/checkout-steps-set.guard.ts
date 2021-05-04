@@ -6,8 +6,8 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { CheckoutCostCenterService } from '@spartacus/checkout/core';
 import {
+  CheckoutCostCenterFacade,
   CheckoutStep,
   CheckoutStepType,
   PaymentTypeFacade,
@@ -27,7 +27,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDetailsService: CheckoutDetailsService,
     protected routingConfigService: RoutingConfigService,
-    protected checkoutCostCenterService: CheckoutCostCenterService,
+    protected checkoutCostCenterService: CheckoutCostCenterFacade,
     protected router: Router
   ) {}
 

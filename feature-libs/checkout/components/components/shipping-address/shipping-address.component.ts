@@ -5,8 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutCostCenterService } from '@spartacus/checkout/core';
 import {
+  CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
@@ -50,7 +50,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected checkoutStepService: CheckoutStepService,
     protected paymentTypeService?: PaymentTypeFacade,
     protected userCostCenterService?: UserCostCenterService,
-    protected checkoutCostCenterService?: CheckoutCostCenterService
+    protected checkoutCostCenterService?: CheckoutCostCenterFacade
   ) {}
 
   get isGuestCheckout(): boolean {
