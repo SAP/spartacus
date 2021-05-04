@@ -31,24 +31,14 @@ export class GoogleMapRendererService {
   ): void {
     if (Object.entries(locations[Object.keys(locations)[0]]).length > 0)
       if (this.googleMap === null) {
-        if (this.scriptLoader) {
-          this.scriptLoader.embedScript({
-            src: this.config.googleMaps.apiUrl,
-            params: { key: this.config.googleMaps.apiKey },
-            attributes: { type: 'text/javascript' },
-            callback: () => {
-              this.drawMap(mapElement, locations, selectMarkerHandler);
-            },
-          });
-        } else {
-          this.externalJsFileLoader.load(
-            this.config.googleMaps.apiUrl,
-            { key: this.config.googleMaps.apiKey },
-            () => {
-              this.drawMap(mapElement, locations, selectMarkerHandler);
-            }
-          );
-        }
+        this.scriptLoader.embedScript({
+          src: this.config.googleMaps.apiUrl,
+          params: { key: this.config.googleMaps.apiKey },
+          attributes: { type: 'text/javascript' },
+          callback: () => {
+            this.drawMap(mapElement, locations, selectMarkerHandler);
+          },
+        });
       } else {
         this.drawMap(mapElement, locations, selectMarkerHandler);
       }

@@ -214,7 +214,6 @@ export class StoreFinderService implements OnDestroy {
    * Returns store latitude
    * @param location store location
    */
-  // TODO(#11411): Move getStoreLatitude and getStoreLongitude to StoreFinderService
   getStoreLatitude(location: PointOfService): number | undefined {
     return location?.geoPoint?.latitude;
   }
