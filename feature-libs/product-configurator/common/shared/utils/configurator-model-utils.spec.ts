@@ -1,6 +1,6 @@
-import { CommonConfigurator } from './../../core/model/common-configurator.model';
-import { ConfiguratorModelUtils } from './common-configurator-model-utils';
-describe('CommonConfiguratorModelUtils', () => {
+import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import { ConfiguratorModelUtils } from './configurator-model-utils';
+describe('ConfiguratorModelUtils', () => {
   const PRODUCT_CODE = 'CONF_LAPTOP';
 
   it('should compile owner key', () => {

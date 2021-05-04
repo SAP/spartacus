@@ -10,7 +10,7 @@ import {
   ConfiguratorType,
   OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
-import { ConfiguratorModelUtils } from './common-configurator-model-utils';
+import { ConfiguratorModelUtils } from './configurator-model-utils';
 
 /**
  * Utilities for generic configuration

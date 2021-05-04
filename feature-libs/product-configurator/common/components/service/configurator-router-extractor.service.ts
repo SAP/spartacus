@@ -3,8 +3,8 @@ import { RouterState, RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
-import { ConfiguratorModelUtils } from '../../shared/utils/common-configurator-model-utils';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { ConfiguratorModelUtils } from '../../shared/utils/configurator-model-utils';
 import { ConfiguratorRouter } from './configurator-router-data';
 
 /**

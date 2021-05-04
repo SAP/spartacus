@@ -12,8 +12,8 @@ import {
   ConfiguratorType,
   OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
-import { ConfiguratorModelUtils } from './common-configurator-model-utils';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
+import { ConfiguratorModelUtils } from './configurator-model-utils';
 
 const productCode = 'CONF_LAPTOP';
 const documentId = '12344';

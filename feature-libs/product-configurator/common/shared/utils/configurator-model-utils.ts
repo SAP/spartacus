@@ -1,4 +1,4 @@
-import { CommonConfigurator } from './../../core/model/common-configurator.model';
+import { CommonConfigurator } from '../../core/model/common-configurator.model';
 
 export class ConfiguratorModelUtils {
   /**
@@ -28,10 +28,21 @@ export class ConfiguratorModelUtils {
     return ownerType + '/' + ownerId;
   }
 
+  /**
+   * Creates an initial owner object
+   * @returns Initial owner
+   */
   static createInitialOwner(): CommonConfigurator.Owner {
     return { key: 'INITIAL' };
   }
 
+  /**
+   * Creates a configuration owner object based on its essential attributes
+   * @param ownerType Owner type (Does it refer to product, cart or order?)
+   * @param ownerId Owner identifier
+   * @param configuratorType Configurator type
+   * @returns Owner
+   */
   static createOwner(
     ownerType: CommonConfigurator.OwnerType,
     ownerId: string,
