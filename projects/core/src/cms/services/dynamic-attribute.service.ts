@@ -46,13 +46,38 @@ export class DynamicAttributeService {
       slotData?: ContentSlotData;
     }
   ): void {
-    this.addAttributesToComponent(
-      element,
-      renderer,
-      cmsRenderingContext.componentData
-    );
+    const properties =
+      cmsRenderingContext.componentData?.properties ||
+      cmsRenderingContext.slotData?.properties;
 
-    this.addAttributesToSlot(element, renderer, cmsRenderingContext.slotData);
+    if (properties && this.smartEditService.isLaunchedInSmartEdit()) {
+      // check each group of properties, e.g. smartedit
+      Object.keys(properties).forEach((group) => {
+        const name = 'data-' + group + '-';
+        const groupProps = properties[group];
+
+        // check each property in the group
+        Object.keys(groupProps).forEach((propName) => {
+          const propValue = groupProps[propName];
+          if (propName === 'classes') {
+            const classes = propValue.split(' ');
+            classes.forEach((classItem) => {
+              element.classList.add(classItem);
+            });
+          } else {
+            renderer.setAttribute(
+              element,
+              name +
+                propName
+                  .split(/(?=[A-Z])/)
+                  .join('-')
+                  .toLowerCase(),
+              propValue
+            );
+          }
+        });
+      });
+    }
   }
 
   /**
@@ -66,6 +91,11 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     componentData?: ContentSlotComponentData
   ) {
+    if (this.smartEditService.isLaunchedInSmartEdit()) {
+      this.addDynamicAttributes(element, renderer, { componentData });
+      return;
+    }
+
     (getLastValueSync(this.componentDecorators$) || []).forEach((decorator) =>
       decorator.decorate(element, renderer, componentData)
     );
@@ -82,6 +112,11 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     slotData?: ContentSlotData
   ) {
+    if (this.smartEditService.isLaunchedInSmartEdit()) {
+      this.addDynamicAttributes(element, renderer, { slotData });
+      return;
+    }
+
     (getLastValueSync(this.slotDecorators$) || []).forEach((decorator) =>
       decorator.decorate(element, renderer, slotData)
     );
