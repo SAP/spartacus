@@ -7,7 +7,6 @@ import { ReplenishmentOrderCancellationDialogComponent } from './replenishment-o
 @NgModule({
   imports: [CommonModule, I18nModule, KeyboardFocusModule],
   declarations: [ReplenishmentOrderCancellationDialogComponent],
-  entryComponents: [ReplenishmentOrderCancellationDialogComponent],
   exports: [ReplenishmentOrderCancellationDialogComponent],
 })
 export class ReplenishmentOrderCancellationDialogModule {}

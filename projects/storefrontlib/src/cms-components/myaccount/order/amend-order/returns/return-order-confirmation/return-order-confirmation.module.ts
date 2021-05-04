@@ -53,6 +53,5 @@ import { ReturnOrderConfirmationComponent } from './return-order-confirmation.co
   ],
   declarations: [ReturnOrderConfirmationComponent],
   exports: [ReturnOrderConfirmationComponent],
-  entryComponents: [ReturnOrderConfirmationComponent],
 })
 export class ReturnOrderConfirmationModule {}

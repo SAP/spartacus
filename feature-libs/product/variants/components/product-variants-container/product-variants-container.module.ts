@@ -21,7 +21,6 @@ import { ProductVariantStyleIconsComponent } from '../variant-style-icons/produc
     ProductVariantStyleIconsModule,
   ],
   declarations: [ProductVariantsContainerComponent],
-  entryComponents: [ProductVariantsContainerComponent],
   exports: [ProductVariantStyleIconsComponent],
 })
 export class ProductVariantsContainerModule {}

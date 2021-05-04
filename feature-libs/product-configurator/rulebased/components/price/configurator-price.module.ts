@@ -5,7 +5,6 @@ import { I18nModule } from '@spartacus/core';
 
 @NgModule({
   declarations: [ConfiguratorPriceComponent],
-  entryComponents: [ConfiguratorPriceComponent],
   exports: [ConfiguratorPriceComponent],
   imports: [CommonModule, I18nModule],
 })

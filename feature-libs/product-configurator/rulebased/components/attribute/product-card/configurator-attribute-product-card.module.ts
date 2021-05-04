@@ -11,7 +11,6 @@ import { ConfiguratorAttributeProductCardComponent } from './configurator-attrib
 
 @NgModule({
   declarations: [ConfiguratorAttributeProductCardComponent],
-  entryComponents: [ConfiguratorAttributeProductCardComponent],
   exports: [ConfiguratorAttributeProductCardComponent],
   imports: [
     CommonModule,

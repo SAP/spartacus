@@ -88,6 +88,5 @@ const moduleComponents = [
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],
-  entryComponents: [...moduleComponents],
 })
 export class OrderDetailsModule {}

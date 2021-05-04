@@ -27,7 +27,6 @@ import { CheckoutStepsSetGuard } from '../../../guards/checkout-steps-set.guard'
     }),
   ],
   declarations: [CheckoutProgressMobileTopComponent],
-  entryComponents: [CheckoutProgressMobileTopComponent],
   exports: [CheckoutProgressMobileTopComponent],
 })
 export class CheckoutProgressMobileTopModule {}

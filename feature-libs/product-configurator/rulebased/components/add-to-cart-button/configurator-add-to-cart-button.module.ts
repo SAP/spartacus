@@ -16,6 +16,5 @@ import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart
   ],
   declarations: [ConfiguratorAddToCartButtonComponent],
   exports: [ConfiguratorAddToCartButtonComponent],
-  entryComponents: [ConfiguratorAddToCartButtonComponent],
 })
 export class ConfiguratorAddToCartButtonModule {}

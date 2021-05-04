@@ -19,6 +19,5 @@ import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute
   ],
   declarations: [ConfiguratorAttributeDropDownComponent],
   exports: [ConfiguratorAttributeDropDownComponent],
-  entryComponents: [ConfiguratorAttributeDropDownComponent],
 })
 export class ConfiguratorAttributeDropDownModule {}

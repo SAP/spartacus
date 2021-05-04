@@ -24,6 +24,5 @@ import { PaymentMethodsComponent } from './payment-methods.component';
   ],
   declarations: [PaymentMethodsComponent],
   exports: [PaymentMethodsComponent],
-  entryComponents: [PaymentMethodsComponent],
 })
 export class PaymentMethodsModule {}

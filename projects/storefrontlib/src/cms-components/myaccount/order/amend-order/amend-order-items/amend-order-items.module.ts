@@ -21,6 +21,5 @@ import { CancelOrReturnItemsComponent } from './amend-order-items.component';
   ],
   declarations: [CancelOrReturnItemsComponent],
   exports: [CancelOrReturnItemsComponent],
-  entryComponents: [CancelOrReturnItemsComponent],
 })
 export class AmendOrderItemsModule {}

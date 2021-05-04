@@ -7,6 +7,5 @@ import { ConfiguratorConflictSuggestionComponent } from './configurator-conflict
   imports: [CommonModule, I18nModule],
   declarations: [ConfiguratorConflictSuggestionComponent],
   exports: [ConfiguratorConflictSuggestionComponent],
-  entryComponents: [ConfiguratorConflictSuggestionComponent],
 })
 export class ConfiguratorConflictSuggestionModule {}

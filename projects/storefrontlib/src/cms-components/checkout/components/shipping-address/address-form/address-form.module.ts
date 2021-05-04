@@ -21,7 +21,6 @@ import { FormErrorsModule } from '../../../../../shared/index';
     FormErrorsModule,
   ],
   declarations: [AddressFormComponent, SuggestedAddressDialogComponent],
-  entryComponents: [SuggestedAddressDialogComponent],
   exports: [AddressFormComponent, SuggestedAddressDialogComponent],
 })
 export class AddressFormModule {}

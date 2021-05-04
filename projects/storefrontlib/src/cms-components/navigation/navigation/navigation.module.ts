@@ -25,7 +25,6 @@ import { NavigationComponent } from './navigation.component';
     }),
   ],
   declarations: [NavigationComponent, NavigationUIComponent],
-  entryComponents: [NavigationComponent],
   exports: [NavigationComponent, NavigationUIComponent],
 })
 export class NavigationModule {}

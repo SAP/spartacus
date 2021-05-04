@@ -25,6 +25,5 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
   ],
   declarations: [ConfiguratorAttributeSingleSelectionBundleComponent],
   exports: [ConfiguratorAttributeSingleSelectionBundleComponent],
-  entryComponents: [ConfiguratorAttributeSingleSelectionBundleComponent],
 })
 export class ConfiguratorAttributeSingleSelectionBundleModule {}

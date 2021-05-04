@@ -25,7 +25,6 @@ import { StarRatingModule, FormErrorsModule } from '../../../../shared/index';
     }),
   ],
   declarations: [ProductReviewsComponent],
-  entryComponents: [ProductReviewsComponent],
   exports: [ProductReviewsComponent],
 })
 export class ProductReviewsModule {}

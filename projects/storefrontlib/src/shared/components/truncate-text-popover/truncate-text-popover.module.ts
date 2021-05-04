@@ -8,7 +8,6 @@ import { TruncatePipe } from './truncate.pipe';
 @NgModule({
   imports: [CommonModule, I18nModule, PopoverModule],
   declarations: [TruncateTextPopoverComponent, TruncatePipe],
-  entryComponents: [TruncateTextPopoverComponent],
   exports: [TruncateTextPopoverComponent, TruncatePipe],
 })
 export class TruncateTextPopoverModule {}

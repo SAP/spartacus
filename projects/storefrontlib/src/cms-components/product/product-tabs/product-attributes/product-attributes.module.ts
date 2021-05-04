@@ -16,7 +16,6 @@ import { ProductAttributesComponent } from './product-attributes.component';
     }),
   ],
   declarations: [ProductAttributesComponent],
-  entryComponents: [ProductAttributesComponent],
   exports: [ProductAttributesComponent],
 })
 export class ProductAttributesModule {}

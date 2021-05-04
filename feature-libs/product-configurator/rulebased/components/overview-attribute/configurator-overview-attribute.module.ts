@@ -6,6 +6,5 @@ import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-
   imports: [CommonModule],
   declarations: [ConfiguratorOverviewAttributeComponent],
   exports: [ConfiguratorOverviewAttributeComponent],
-  entryComponents: [ConfiguratorOverviewAttributeComponent],
 })
 export class ConfiguratorOverviewAttributeModule {}

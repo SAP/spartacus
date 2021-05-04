@@ -16,7 +16,6 @@ import { ProductSummaryComponent } from './product-summary.component';
     }),
   ],
   declarations: [ProductSummaryComponent],
-  entryComponents: [ProductSummaryComponent],
   exports: [ProductSummaryComponent],
 })
 export class ProductSummaryModule {}

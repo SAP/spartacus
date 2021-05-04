@@ -36,6 +36,5 @@ import { UpdatePasswordComponent } from './components/update-password/update-pas
   ],
   declarations: [UpdatePasswordComponent, UpdatePasswordFormComponent],
   exports: [UpdatePasswordComponent, UpdatePasswordFormComponent],
-  entryComponents: [UpdatePasswordComponent],
 })
 export class UpdatePasswordModule {}

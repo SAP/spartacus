@@ -26,6 +26,5 @@ import { ConfiguratorUpdateMessageComponent } from './configurator-update-messag
   ],
   declarations: [ConfiguratorUpdateMessageComponent],
   exports: [ConfiguratorUpdateMessageComponent],
-  entryComponents: [ConfiguratorUpdateMessageComponent],
 })
 export class ConfiguratorUpdateMessageModule {}

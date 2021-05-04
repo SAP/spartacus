@@ -19,6 +19,5 @@ import { CostCenterComponent } from './cost-center.component';
     }),
   ],
   declarations: [CostCenterComponent],
-  entryComponents: [CostCenterComponent],
 })
 export class CostCenterModule {}

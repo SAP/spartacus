@@ -35,6 +35,5 @@ import { CartDetailsComponent } from './cart-details.component';
   ],
   declarations: [CartDetailsComponent],
   exports: [CartDetailsComponent],
-  entryComponents: [CartDetailsComponent],
 })
 export class CartDetailsModule {}

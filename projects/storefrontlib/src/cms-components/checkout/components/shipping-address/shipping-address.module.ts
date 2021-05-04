@@ -29,7 +29,6 @@ import { ShippingAddressComponent } from './shipping-address.component';
     }),
   ],
   declarations: [ShippingAddressComponent],
-  entryComponents: [ShippingAddressComponent],
   exports: [ShippingAddressComponent],
 })
 export class ShippingAddressModule {}

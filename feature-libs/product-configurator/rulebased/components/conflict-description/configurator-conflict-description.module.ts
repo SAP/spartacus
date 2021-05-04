@@ -7,6 +7,5 @@ import { ConfiguratorConflictDescriptionComponent } from './configurator-conflic
   imports: [CommonModule, IconModule],
   declarations: [ConfiguratorConflictDescriptionComponent],
   exports: [ConfiguratorConflictDescriptionComponent],
-  entryComponents: [ConfiguratorConflictDescriptionComponent],
 })
 export class ConfiguratorConflictDescriptionModule {}

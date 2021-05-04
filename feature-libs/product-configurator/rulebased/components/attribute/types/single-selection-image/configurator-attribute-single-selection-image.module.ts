@@ -15,6 +15,5 @@ import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurat
   ],
   declarations: [ConfiguratorAttributeSingleSelectionImageComponent],
   exports: [ConfiguratorAttributeSingleSelectionImageComponent],
-  entryComponents: [ConfiguratorAttributeSingleSelectionImageComponent],
 })
 export class ConfiguratorAttributeSingleSelectionImageModule {}

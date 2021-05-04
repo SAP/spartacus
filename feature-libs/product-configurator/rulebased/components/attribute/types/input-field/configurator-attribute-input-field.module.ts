@@ -15,6 +15,5 @@ import { ConfiguratorAttributeInputFieldComponent } from './configurator-attribu
   ],
   declarations: [ConfiguratorAttributeInputFieldComponent],
   exports: [ConfiguratorAttributeInputFieldComponent],
-  entryComponents: [ConfiguratorAttributeInputFieldComponent],
 })
 export class ConfiguratorAttributeInputFieldModule {}

@@ -21,6 +21,5 @@ import { BreadcrumbComponent } from './breadcrumb.component';
   ],
   declarations: [BreadcrumbComponent],
   exports: [BreadcrumbComponent],
-  entryComponents: [BreadcrumbComponent],
 })
 export class BreadcrumbModule {}

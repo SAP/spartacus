@@ -40,7 +40,6 @@ import {
 } from '../shared/utils/file-utils';
 import {
   addToModuleDeclarations,
-  addToModuleEntryComponents,
   addToModuleExports,
   addToModuleImports,
   buildRelativePath,
@@ -125,14 +124,6 @@ function updateModule(options: CxCmsComponentSchema): Rule {
       moduleTs
     );
     changes.push(...addToModuleDeclarationsChanges);
-
-    const addToModuleEntryComponentsChanges = addToModuleEntryComponents(
-      tree,
-      modulePath,
-      componentName,
-      moduleTs
-    );
-    changes.push(...addToModuleEntryComponentsChanges);
 
     const addToModuleExportsChanges = addToModuleExports(
       tree,

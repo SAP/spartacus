@@ -22,7 +22,6 @@ import { AddToWishListComponent } from './add-to-wish-list.component';
     }),
   ],
   declarations: [AddToWishListComponent],
-  entryComponents: [AddToWishListComponent],
   exports: [AddToWishListComponent],
 })
 export class AddToWishListModule {}

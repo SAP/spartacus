@@ -17,6 +17,5 @@ import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attri
   ],
   declarations: [ConfiguratorAttributeCheckBoxListComponent],
   exports: [ConfiguratorAttributeCheckBoxListComponent],
-  entryComponents: [ConfiguratorAttributeCheckBoxListComponent],
 })
 export class ConfiguratorAttributeCheckboxListModule {}

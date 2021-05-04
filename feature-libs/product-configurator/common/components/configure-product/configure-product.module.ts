@@ -38,7 +38,6 @@ import { ConfigureProductComponent } from './configure-product.component';
     }),
   ],
   declarations: [ConfigureProductComponent],
-  entryComponents: [ConfigureProductComponent],
   exports: [ConfigureProductComponent],
 })
 export class ConfigureProductModule {}

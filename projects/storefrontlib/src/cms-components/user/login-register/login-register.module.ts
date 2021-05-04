@@ -35,7 +35,6 @@ import { LoginRegisterComponent } from './login-register.component';
     }),
   ],
   declarations: [LoginRegisterComponent],
-  entryComponents: [LoginRegisterComponent],
   exports: [LoginRegisterComponent],
 })
 export class LoginRegisterModule {}

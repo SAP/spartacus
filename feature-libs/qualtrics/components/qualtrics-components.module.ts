@@ -22,6 +22,5 @@ import { QualtricsComponent } from './qualtrics-loader/qualtrics.component';
   ],
   declarations: [QualtricsComponent, QualtricsEmbeddedFeedbackComponent],
   exports: [QualtricsComponent, QualtricsEmbeddedFeedbackComponent],
-  entryComponents: [QualtricsComponent, QualtricsEmbeddedFeedbackComponent],
 })
 export class QualtricsComponentsModule {}

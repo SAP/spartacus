@@ -56,6 +56,5 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
   ],
   declarations: [ConfiguratorFormComponent],
   exports: [ConfiguratorFormComponent],
-  entryComponents: [ConfiguratorFormComponent],
 })
 export class ConfiguratorFormModule {}

@@ -19,6 +19,5 @@ import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
   ],
   declarations: [ParagraphComponent],
   exports: [ParagraphComponent],
-  entryComponents: [ParagraphComponent],
 })
 export class CmsParagraphModule {}

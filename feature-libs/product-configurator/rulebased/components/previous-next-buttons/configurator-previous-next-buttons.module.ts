@@ -17,6 +17,5 @@ import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previou
   ],
   declarations: [ConfiguratorPreviousNextButtonsComponent],
   exports: [ConfiguratorPreviousNextButtonsComponent],
-  entryComponents: [ConfiguratorPreviousNextButtonsComponent],
 })
 export class ConfiguratorPreviousNextButtonsModule {}

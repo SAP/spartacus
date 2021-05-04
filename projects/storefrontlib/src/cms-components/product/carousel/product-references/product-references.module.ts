@@ -18,7 +18,6 @@ import { ProductReferencesComponent } from './product-references.component';
     }),
   ],
   declarations: [ProductReferencesComponent],
-  entryComponents: [ProductReferencesComponent],
   exports: [ProductReferencesComponent],
 })
 export class ProductReferencesModule {}

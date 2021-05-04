@@ -31,6 +31,5 @@ import { OrderReturnRequestListComponent } from './order-return-request-list.com
   ],
   declarations: [OrderReturnRequestListComponent],
   exports: [OrderReturnRequestListComponent],
-  entryComponents: [OrderReturnRequestListComponent],
 })
 export class ReturnRequestListModule {}

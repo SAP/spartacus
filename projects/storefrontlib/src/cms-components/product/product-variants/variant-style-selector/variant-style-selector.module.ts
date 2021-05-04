@@ -11,7 +11,6 @@ import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule],
   declarations: [VariantStyleSelectorComponent],
-  entryComponents: [VariantStyleSelectorComponent],
   exports: [VariantStyleSelectorComponent],
 })
 export class VariantStyleSelectorModule {}

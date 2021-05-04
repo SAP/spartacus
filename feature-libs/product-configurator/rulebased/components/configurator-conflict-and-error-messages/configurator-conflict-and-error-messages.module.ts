@@ -23,7 +23,6 @@ import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-co
   ],
 
   declarations: [ConfiguratorConflictAndErrorMessagesComponent],
-  entryComponents: [ConfiguratorConflictAndErrorMessagesComponent],
   exports: [ConfiguratorConflictAndErrorMessagesComponent],
 })
 export class ConfiguratorConflictAndErrorMessagesModule {}
