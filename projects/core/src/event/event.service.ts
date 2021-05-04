@@ -12,7 +12,7 @@ interface EventMeta<T> {
   /**
    * Input subject used for dispatching occasional event (without registering a source)
    */
-  inputSubject$: Subject<T>;
+  inputSubject$: Subject<T> | null;
 
   /**
    * A custom subject that allows for dynamic adding and removing sources to be merged as an output
@@ -53,7 +53,6 @@ export class EventService {
    *
    * @returns a teardown function which unregisters the given event source
    */
-  // TODO: #10896 - change from `AbstractType` to `Type`.
   register<T>(eventType: AbstractType<T>, source$: Observable<T>): () => void {
     const eventMeta = this.getEventMeta(eventType);
     if (eventMeta.mergingSubject.has(source$)) {
@@ -91,7 +90,7 @@ export class EventService {
    * @param event an event
    * @param eventType (optional) - type of event
    */
-  dispatch<T>(event: T, eventType?: Type<T>): void {
+  dispatch<T extends object>(event: T, eventType?: Type<T>): void {
     if (!eventType) {
       eventType = event.constructor as Type<T>;
     } else if (!(event instanceof eventType)) {
@@ -126,7 +125,8 @@ export class EventService {
       }
       this.createEventMeta(eventType);
     }
-    return this.eventsMeta.get(eventType);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.eventsMeta.get(eventType)!;
   }
 
   private createEventMeta<T>(eventType: AbstractType<T>): void {
