@@ -2,8 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutConfig,
-  defaultCheckoutConfig,
+  
 } from '@spartacus/checkout/root';
+import {defaultCheckoutConfig} from '../../root/config/default-checkout-config';
 import { Order, RoutesConfig, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../../projects/storefrontlib/src/cms-structure/routing/default-routing-config';
