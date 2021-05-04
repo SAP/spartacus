@@ -66,6 +66,7 @@ describe('SavedCartDetailsOverviewComponent', () => {
           provide: SavedCartDetailsService,
           useClass: MockSavedCartDetailsService,
         },
+        // TODO(#12167): remove unused class and provider
         {
           provide: SavedCartFormLaunchDialogService,
           useClass: MockSavedCartFormLaunchDialogService,

@@ -67,6 +67,7 @@ describe('AddToSavedCartComponent', () => {
         { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
+        // TODO(#12167): remove unused class and provider
         {
           provide: SavedCartFormLaunchDialogService,
           useClass: MockSavedCartFormLaunchDialogService,

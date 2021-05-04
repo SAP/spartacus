@@ -103,6 +103,7 @@ describe('SavedCartDetailsActionComponent', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        // TODO(#12167): remove unused class and provider
         {
           provide: SavedCartFormLaunchDialogService,
           useClass: MockSavedCartFormLaunchDialogService,

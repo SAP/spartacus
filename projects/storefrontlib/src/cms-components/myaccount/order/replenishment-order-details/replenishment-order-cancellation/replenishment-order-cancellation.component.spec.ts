@@ -73,6 +73,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
             provide: UserReplenishmentOrderService,
             useClass: MockUserReplenishmentOrderService,
           },
+          // TODO(#12167): remove unused class and provider
           {
             provide: ReplenishmentOrderCancellationLaunchDialogService,
             useClass: MockReplenishmentOrderCancellationLaunchDialogService,

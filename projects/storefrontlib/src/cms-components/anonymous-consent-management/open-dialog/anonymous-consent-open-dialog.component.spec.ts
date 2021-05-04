@@ -42,6 +42,7 @@ describe('AnonymousConsentOpenDialogComponent', () => {
             provide: ModalService,
             useClass: MockModalService,
           },
+          // TODO(#12167): remove unused class and provider
           {
             provide: AnonymousConsentLaunchDialogService,
             useClass: MockAnonymousConsentLaunchDialogService,

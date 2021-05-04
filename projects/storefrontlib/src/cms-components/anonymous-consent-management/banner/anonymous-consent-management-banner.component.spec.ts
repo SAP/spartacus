@@ -53,6 +53,7 @@ describe('AnonymousConsentManagementBannerComponent', () => {
             provide: AnonymousConsentsService,
             useClass: MockAnonymousConsentsService,
           },
+          // TODO(#12167): remove unused class and provider
           {
             provide: AnonymousConsentLaunchDialogService,
             useClass: MockAnonymousConsentLaunchDialogService,
