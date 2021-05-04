@@ -40,7 +40,7 @@ describe('SaveForLaterComponent', () => {
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
-    ['getCart', 'getLoaded', 'removeEntry', 'getEntries']
+    ['getCart', 'removeEntry', 'getEntries']
   );
 
   const mockCmsService = jasmine.createSpyObj('CmsService', [
@@ -70,7 +70,6 @@ describe('SaveForLaterComponent', () => {
       of<Cart>({ code: '00001', totalItems: 0 })
     );
     mockCmsService.getComponentData.and.returnValue(of({ content: 'content' }));
-    mockSelectiveCartService.getLoaded.and.returnValue(of(true));
     mockSelectiveCartService.getCart.and.returnValue(
       of<Cart>({ code: '123' })
     );

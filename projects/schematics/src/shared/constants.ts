@@ -652,6 +652,8 @@ export const SET_RATE = 'setRate';
 export const GET_META = 'getMeta';
 export const GET_META_RESOLVER = 'getMetaResolver';
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
+export const GET_LOADED = 'getLoaded';
+export const IS_STABLE = 'isStable';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 /***** APIs end *****/
