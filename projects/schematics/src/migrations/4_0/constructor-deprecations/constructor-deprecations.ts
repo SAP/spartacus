@@ -12,6 +12,7 @@ import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-compon
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
+import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   UNIT_CHILDREN_COMPONENT_MIGRATION,
@@ -23,6 +24,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION,
   SEARCH_BOX_COMPONENT_SERVICE_MIGRATION,
   COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
+  USER_GROUP_USER_LIST_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
