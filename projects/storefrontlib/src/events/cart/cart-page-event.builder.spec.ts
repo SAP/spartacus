@@ -27,11 +27,11 @@ describe('CartPageEventBuilder', () => {
       params: {},
     });
     eventService.dispatch(navigationEvent);
+
     expect(result).toBeTruthy();
-    expect(result).toEqual(
-      jasmine.objectContaining({
-        navigation: { ...navigationEvent },
-      } as CartPageEvent)
-    );
+    const expected = createFrom(CartPageEvent, {
+      navigation: navigationEvent,
+    });
+    expect(result).toEqual(jasmine.objectContaining({ ...expected }));
   });
 });
