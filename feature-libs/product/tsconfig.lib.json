@@ -15,7 +15,8 @@
     "paths": {
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"]
-    }
+    },
+    "strict": false /* Enable when feature-lib is ready to code review. */
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,

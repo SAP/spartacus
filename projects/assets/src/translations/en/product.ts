@@ -65,6 +65,7 @@ export const product = {
   },
   TabPanelContainer: {
     tabs: {
+      ProductOrderGridTabComponent: 'Order Grid',
       ProductDetailsTabComponent: 'Product Details',
       ProductSpecsTabComponent: 'Specs',
       ProductReviewsTabComponent: 'Reviews',
