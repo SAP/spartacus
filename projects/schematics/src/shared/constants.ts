@@ -586,6 +586,7 @@ export const PLATFORM = 'Platform';
 export const PLATFORM_ID_STRING = 'PLATFORM_ID';
 export const ANY_TYPE = 'any';
 export const ITEM = 'Item';
+export const ORDER_ENTRY = 'OrderEntry';
 /***** Properties end *****/
 
 /***** APIs start *****/
