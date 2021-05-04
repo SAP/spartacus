@@ -34,6 +34,7 @@ export class AnonymousConsentOpenDialogComponent {
   constructor(
     vcr: ViewContainerRef,
     anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     launchDialogService: LaunchDialogService
   );
   constructor(

@@ -37,6 +37,7 @@ export class AnonymousConsentManagementBannerComponent implements OnDestroy {
     anonymousConsentsService: AnonymousConsentsService,
     anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService,
     vcr: ViewContainerRef,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     launchDialogService: LaunchDialogService
   );
   constructor(

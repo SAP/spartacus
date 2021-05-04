@@ -48,6 +48,7 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
     userReplenishmentOrderService: UserReplenishmentOrderService,
     replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
     vcr: ViewContainerRef,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     launchDialogService: LaunchDialogService
   );
 
