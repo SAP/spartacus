@@ -1,7 +1,6 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="configuration?.groups?.length > 1">
     <button
-      [cxFocus]="{ key: 'cx-previous-button' }"
       class="cx-btn btn btn-action"
       [disabled]="isFirstGroup(configuration.owner) | async"
       (click)="onPrevious(configuration)"
@@ -9,7 +8,6 @@
       {{ 'configurator.button.previous' | cxTranslate }}
     </button>
     <button
-      [cxFocus]="{ key: 'cx-next-button' }"
       class="cx-btn btn btn-secondary"
       [disabled]="isLastGroup(configuration.owner) | async"
       (click)="onNext(configuration)"
