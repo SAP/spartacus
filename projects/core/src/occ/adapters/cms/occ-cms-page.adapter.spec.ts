@@ -102,7 +102,7 @@ describe('OccCmsPageAdapter', () => {
       spyOn(endpointsService, 'buildUrl');
       service.load(homePageContext);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
-        queryParams: { params: {} },
+        queryParams: {},
       });
     });
 
@@ -111,10 +111,8 @@ describe('OccCmsPageAdapter', () => {
       service.load(contentPageContext);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
         queryParams: {
-          params: {
-            pageLabelOrId: contentPageContext.id,
-            pageType: PageType.CONTENT_PAGE,
-          },
+          pageLabelOrId: contentPageContext.id,
+          pageType: PageType.CONTENT_PAGE,
         },
       });
     });
@@ -123,7 +121,7 @@ describe('OccCmsPageAdapter', () => {
       spyOn(endpointsService, 'buildUrl');
       service.load(homePageContext);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
-        queryParams: { params: {} },
+        queryParams: {},
       });
     });
 
@@ -132,10 +130,8 @@ describe('OccCmsPageAdapter', () => {
       service.load(productPageContext);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
         queryParams: {
-          params: {
-            pageType: PageType.PRODUCT_PAGE,
-            code: productPageContext.id,
-          },
+          pageType: PageType.PRODUCT_PAGE,
+          code: productPageContext.id,
         },
       });
     });
@@ -145,10 +141,8 @@ describe('OccCmsPageAdapter', () => {
       service.load(categoryPageContext);
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
         queryParams: {
-          params: {
-            pageType: PageType.CATEGORY_PAGE,
-            code: categoryPageContext.id,
-          },
+          pageType: PageType.CATEGORY_PAGE,
+          code: categoryPageContext.id,
         },
       });
     });
@@ -175,7 +169,7 @@ describe('OccCmsPageAdapter', () => {
       });
 
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
-        queryParams: { params: {} },
+        queryParams: {},
       });
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
@@ -203,10 +197,8 @@ describe('OccCmsPageAdapter', () => {
 
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
         queryParams: {
-          params: {
-            pageType: contentPageContext.type,
-            pageLabelOrId: contentPageContext.id,
-          },
+          pageType: contentPageContext.type,
+          pageLabelOrId: contentPageContext.id,
         },
       });
       expect(testRequest.cancelled).toBeFalsy();
@@ -234,10 +226,8 @@ describe('OccCmsPageAdapter', () => {
 
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
         queryParams: {
-          params: {
-            pageType: productPageContext.type,
-            code: productPageContext.id,
-          },
+          pageType: productPageContext.type,
+          code: productPageContext.id,
         },
       });
       expect(testRequest.cancelled).toBeFalsy();

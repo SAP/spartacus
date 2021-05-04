@@ -43,7 +43,7 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
       ? this.occEndpoints.buildUrl('page', {
           urlParams: { id: pageContext.id },
         })
-      : this.occEndpoints.buildUrl('pages', { queryParams: { params } });
+      : this.occEndpoints.buildUrl('pages', { queryParams: params });
 
     return this.http
       .get(endpoint, { headers: this.headers })

@@ -94,7 +94,8 @@ describe('OccCmsComponentAdapter', () => {
       const testRequest = mockHttpRequest('GET', spyOnLoadEndpoint);
 
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('component', {
-        urlParams: { id: 'comp1', productCode: '123' },
+        urlParams: { id: 'comp1' },
+        queryParams: { productCode: '123' },
       });
 
       assertTestRequest(testRequest, component);

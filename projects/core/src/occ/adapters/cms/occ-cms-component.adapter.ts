@@ -62,9 +62,10 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   }
 
   protected getComponentEndPoint(id: string, pageContext: PageContext): string {
-    const context = this.getContextParams(pageContext);
+    // const context = this.getContextParams(pageContext);
     return this.occEndpoints.buildUrl('component', {
-      urlParams: { id, context },
+      urlParams: { id },
+      queryParams: this.getContextParams(pageContext),
     });
   }
 
