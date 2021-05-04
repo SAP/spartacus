@@ -30,6 +30,14 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
 
   // TODO(#12167): make launchDialogService a required dependency instead of replenishmentOrderCancellationLaunchDialogService and remove deprecated constructors
   /**
+   * @deprecated since 3.3
+   */
+  constructor(
+    userReplenishmentOrderService: UserReplenishmentOrderService,
+    replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
+    vcr: ViewContainerRef
+  );
+  /**
    * Default constructor will be
    *
    * @param {UserReplenishmentOrderService} userReplenishmentOrderService
@@ -43,14 +51,6 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
     launchDialogService: LaunchDialogService
   );
 
-  /**
-   * @deprecated since 3.3
-   */
-  constructor(
-    userReplenishmentOrderService: UserReplenishmentOrderService,
-    replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
-    vcr: ViewContainerRef
-  );
   constructor(
     protected userReplenishmentOrderService: UserReplenishmentOrderService,
     protected replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,

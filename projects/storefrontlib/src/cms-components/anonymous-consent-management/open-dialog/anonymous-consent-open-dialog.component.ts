@@ -20,6 +20,13 @@ export class AnonymousConsentOpenDialogComponent {
 
   // TODO(#12167): make launchDialogService a required dependency instead of anonymousConsentLaunchDialogService and remove deprecated constructors
   /**
+   * @deprecated since 3.3
+   */
+  constructor(
+    vcr: ViewContainerRef,
+    anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService
+  );
+  /**
    * Default constructor will be
    * @param {ViewContainerRef} vcr
    * @param {LaunchDialogService} launchDialogService
@@ -28,13 +35,6 @@ export class AnonymousConsentOpenDialogComponent {
     vcr: ViewContainerRef,
     anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService,
     launchDialogService: LaunchDialogService
-  );
-  /**
-   * @deprecated since 3.3
-   */
-  constructor(
-    vcr: ViewContainerRef,
-    anonymousConsentLaunchDialogService: AnonymousConsentLaunchDialogService
   );
   constructor(
     protected vcr: ViewContainerRef,
