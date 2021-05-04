@@ -40,7 +40,11 @@ import {
   ensureModuleExists,
   Import,
 } from './new-module-utils';
-import { getSpartacusSchematicsVersion } from './package-utils';
+import {
+  createDependencies,
+  createSpartacusDependencies,
+  getSpartacusSchematicsVersion,
+} from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
@@ -597,6 +601,37 @@ export function addPackageJsonDependencies(
   };
 }
 
+export function addPackageJsonDependenciesForLibrary<
+  OPTIONS extends LibraryOptions
+>(options: {
+  packageJson: any;
+  context: SchematicContext;
+  libraryPeerDependencies: Record<string, string>;
+  options: OPTIONS;
+}): Rule {
+  const spartacusLibraries = createSpartacusDependencies(
+    options.libraryPeerDependencies
+  );
+  const thirdPartyDependencies = createDependencies(
+    options.libraryPeerDependencies
+  );
+  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
+
+  const dependencyRule = addPackageJsonDependencies(
+    dependencies,
+    options.packageJson
+  );
+
+  const featureOptions = createSpartacusFeatureOptionsForLibrary(
+    spartacusLibraries.map((dependency) => dependency.name),
+    options.options
+  );
+  addSchematicsTasks(featureOptions, options.context);
+
+  const installationRule = installPackageJsonDependencies();
+  return chain([dependencyRule, installationRule]);
+}
+
 export function shouldAddDependency(
   dependency: NodeDependency,
   packageJson?: any
@@ -671,9 +706,7 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
  * @param options
  * @returns
  */
-export function createSpartacusFeatureOptionsForLibrary<
-  T extends LibraryOptions
->(
+function createSpartacusFeatureOptionsForLibrary<T extends LibraryOptions>(
   spartacusLibraries: string[],
   options: T
 ): {

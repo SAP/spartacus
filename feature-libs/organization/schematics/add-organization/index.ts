@@ -7,11 +7,8 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
   configureB2bFeatures,
-  createDependencies,
-  createSpartacusDependencies,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusOrganizationOptions,
   readPackageJson,
   shouldAddFeature,
@@ -47,32 +44,33 @@ import {
 export function addSpartacusOrganization(
   options: SpartacusOrganizationOptions
 ): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
       shouldAddFeature(CLI_ADMINISTRATION_FEATURE, options.features)
-        ? addAdministrationFeature(options)
+        ? chain([
+            addAdministrationFeature(options),
+            configureB2bFeatures(options, packageJson),
+          ])
         : noop(),
+
       shouldAddFeature(CLI_ORDER_APPROVAL_FEATURE, options.features)
-        ? addOrderApprovalsFeature(options)
+        ? chain([
+            addOrderApprovalsFeature(options),
+            configureB2bFeatures(options, packageJson),
+          ])
         : noop(),
 
-      configureB2bFeatures(options, packageJson),
-
-      addOrganizationPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
-}
-
-function addOrganizationPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
-  const thirdPartyDependencies = createDependencies(peerDependencies);
-  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
-
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
