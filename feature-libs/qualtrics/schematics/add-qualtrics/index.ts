@@ -7,11 +7,8 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
   CLI_QUALTRICS_FEATURE,
-  createDependencies,
-  createSpartacusDependencies,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusQualtricsOptions,
   readPackageJson,
   shouldAddFeature,
@@ -30,7 +27,7 @@ import {
 } from '../constants';
 
 export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -39,18 +36,14 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
         ? addQualtricsFeature(options)
         : noop(),
 
-      addQualtricsPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
-}
-
-function addQualtricsPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
-  const thirdPartyDependencies = createDependencies(peerDependencies);
-  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
-
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {

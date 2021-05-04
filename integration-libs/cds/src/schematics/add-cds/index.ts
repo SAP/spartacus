@@ -8,13 +8,10 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
   CDS_CONFIG,
   CLI_CDS_FEATURE,
-  createDependencies,
-  createSpartacusDependencies,
   CustomConfig,
-  installPackageJsonDependencies,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CDS,
@@ -34,18 +31,14 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
         ? addCds(options, context)
         : noop(),
 
-      addCdsPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
-}
-
-function addCdsPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
-  const thirdPartyDependencies = createDependencies(peerDependencies);
-  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
-
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {

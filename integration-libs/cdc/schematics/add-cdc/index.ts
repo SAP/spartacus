@@ -7,12 +7,8 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  addSchematicsTasks,
+  addPackageJsonDependenciesForLibrary,
   CLI_CDC_FEATURE,
-  createDependencies,
-  createSpartacusDependencies,
-  createSpartacusFeatureOptionsForLibrary,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
   shouldAddFeature,
@@ -40,29 +36,14 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
         ? addCdc(options)
         : noop(),
 
-      addCdcPackageJsonDependencies(packageJson, context, options),
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
-}
-
-function addCdcPackageJsonDependencies(
-  packageJson: any,
-  context: SchematicContext,
-  options: SpartacusCdcOptions
-): Rule {
-  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
-  const thirdPartyDependencies = createDependencies(peerDependencies);
-  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
-
-  const rule = addPackageJsonDependencies(dependencies, packageJson);
-
-  const featureOptions = createSpartacusFeatureOptionsForLibrary(
-    spartacusLibraries.map((dependency) => dependency.name),
-    options
-  );
-  addSchematicsTasks(featureOptions, context);
-
-  return rule;
 }
 
 function addCdc(options: SpartacusCdcOptions): Rule {

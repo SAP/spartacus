@@ -7,11 +7,8 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
   configureB2bFeatures,
-  createDependencies,
-  createSpartacusDependencies,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
   shouldAddFeature,
@@ -46,7 +43,7 @@ import {
 export function addProductConfiguratorFeatures(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -64,18 +61,14 @@ export function addProductConfiguratorFeatures(
         ? addProductConfiguratorTextfieldFeature(options)
         : noop(),
 
-      addProductConfiguratorPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
-}
-
-function addProductConfiguratorPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusLibraries = createSpartacusDependencies(peerDependencies);
-  const thirdPartyDependencies = createDependencies(peerDependencies);
-  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
-
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 /**
