@@ -1,7 +1,7 @@
 import { AbstractStoreItemComponent } from './abstract-store-item.component';
-import { StoreDataService } from '@spartacus/storefinder/core';
+import { StoreFinderService } from '@spartacus/storefinder/core';
 
-class MockStoreDataService extends StoreDataService {
+class MockStoreFinderService implements Partial<StoreFinderService> {
   getStoreLatitude(): number {
     return 1;
   }
@@ -13,10 +13,10 @@ class MockStoreDataService extends StoreDataService {
 
 describe('AbstractStoreItemComponent', () => {
   let component: AbstractStoreItemComponent;
-  const mockStoreDataService: MockStoreDataService = new MockStoreDataService();
+  const mockStoreFinderService: MockStoreFinderService = new MockStoreFinderService();
 
   beforeEach(() => {
-    component = new AbstractStoreItemComponent(mockStoreDataService);
+    component = new AbstractStoreItemComponent(<any>mockStoreFinderService);
   });
 
   it('should create', () => {

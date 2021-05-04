@@ -8,10 +8,11 @@ import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map
 import { StoreFinderListComponent } from './store-finder-list.component';
 import {
   GoogleMapRendererService,
-  StoreDataService,
   StoreFinderService,
 } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
 const location: PointOfService = {
   displayName: 'Test Store',
@@ -19,7 +20,12 @@ const location: PointOfService = {
 const stores: Array<PointOfService> = [location];
 const locations = { stores: stores, pagination: { currentPage: 0 } };
 
-class StoreFinderServiceMock {
+class StoreFinderServiceMock implements Partial<StoreFinderService> {
+  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
+    of()
+  );
+  getStoresLoading = createSpy('getStoresLoading');
+  callFindStoresAction = createSpy('callFindStoresAction');
   getStoreLatitude(_location: any): number {
     return 35.528984;
   }
@@ -57,7 +63,7 @@ describe('StoreFinderDisplayListComponent', () => {
             provide: GoogleMapRendererService,
             useClass: GoogleMapRendererServiceMock,
           },
-          { provide: storeFinderService, useClass: StoreFinderServiceMock },
+          { provide: StoreFinderService, useClass: StoreFinderServiceMock },
         ],
       }).compileComponents();
     })
