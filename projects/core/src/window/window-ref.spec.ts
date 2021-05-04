@@ -69,23 +69,4 @@ describe('WindowRef service', () => {
       expect(service.localStorage).toEqual(localStorage);
     });
   });
-
-  describe('when platform is not defined', () => {
-    let service: WindowRef;
-    beforeEach(() => {
-      TestBed.configureTestingModule({
-        providers: [{ provide: PLATFORM_ID, useValue: undefined }],
-      });
-      service = TestBed.inject(WindowRef);
-    });
-
-    it('isBrowser should return true when window exists', () => {
-      expect(window).toBeDefined();
-      expect(service.isBrowser()).toEqual(true);
-    });
-
-    it('should expose window as nativeWindow', () => {
-      expect(service.nativeWindow).toEqual(window);
-    });
-  });
 });
