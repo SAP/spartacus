@@ -4,6 +4,7 @@ import { migrateConstructorDeprecation } from '../../mechanism/constructor-depre
 import {
   CART_LIST_ITEM_COMPONENT_MIGRATION_V1,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V2,
+  CART_LIST_ITEM_COMPONENT_MIGRATION_V3,
 } from './data/cart-list-item.component.migration';
 import {
   CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V1,
@@ -29,6 +30,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V1,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V2,
+  CART_LIST_ITEM_COMPONENT_MIGRATION_V3,
 ];
 
 export function migrate(): Rule {
