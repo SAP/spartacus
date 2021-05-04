@@ -170,7 +170,7 @@ describe('OccCmsComponentAdapter', () => {
 
   function assertGetRequestbuildUrl(fields: string, pageSize: string) {
     expect(endpointsService.buildUrl).toHaveBeenCalledWith('components', {
-      urlParams: {
+      queryParams: {
         fields,
         componentIds: ids.toString(),
         productCode: '123',

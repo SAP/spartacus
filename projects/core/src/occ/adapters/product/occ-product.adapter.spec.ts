@@ -17,7 +17,7 @@ const product = {
 class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // eslint-disable-next-line no-shadow
-    (url, { productCode }, _, scope) =>
+    (url, { urlParams: { productCode }, queryParams: {}, scope }) =>
       `${url}${productCode}` + (scope ? `?fields=${scope}` : '')
   );
 }

@@ -86,6 +86,7 @@ describe('OccProductReviewsAdapter', () => {
       mockReq.flush(productReviews);
       expect(endpoints.buildUrl).toHaveBeenCalledWith('productReviews', {
         urlParams: { productCode },
+        queryParams: { maxCount },
       });
     });
 

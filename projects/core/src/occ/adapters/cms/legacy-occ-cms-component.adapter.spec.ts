@@ -161,7 +161,9 @@ describe('LegacyOccCmsComponentAdapter', () => {
     expect(endpointsService.buildUrl).toHaveBeenCalledWith(
       'components',
 
-      { urlParams: { fields, productCode: '123', currentPage: '0', pageSize } }
+      {
+        queryParams: { fields, productCode: '123', currentPage: '0', pageSize },
+      }
     );
   }
 });

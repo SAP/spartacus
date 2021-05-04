@@ -233,9 +233,11 @@ describe('OccCmsPageAdapter', () => {
       });
 
       expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
-        urlParams: {
-          pageType: productPageContext.type,
-          code: productPageContext.id,
+        queryParams: {
+          params: {
+            pageType: productPageContext.type,
+            code: productPageContext.id,
+          },
         },
       });
       expect(testRequest.cancelled).toBeFalsy();

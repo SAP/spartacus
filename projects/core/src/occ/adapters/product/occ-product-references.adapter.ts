@@ -30,13 +30,9 @@ export class OccProductReferencesAdapter implements ProductReferencesAdapter {
     reference?: string,
     pageSize?: number
   ): string {
-    return this.occEndpoints.buildUrl(
-      'productReferences',
-      {
-        urlParams: { productCode: code },
-        queryParams: { referenceType: reference, pageSize },
-      },
-      {}
-    );
+    return this.occEndpoints.buildUrl('productReferences', {
+      urlParams: { productCode: code },
+      queryParams: { referenceType: reference, pageSize },
+    });
   }
 }

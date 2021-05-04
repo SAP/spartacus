@@ -81,7 +81,6 @@ describe('OccSiteAdapter', () => {
     occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeableMany').and.callThrough();
     spyOn(occEndpointsService, 'buildUrl').and.callThrough();
-    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -225,7 +224,7 @@ describe('OccSiteAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('regions', {
-        queryParams: { isoCode: countryIsoCode },
+        urlParams: { isoCode: countryIsoCode },
       });
       mockReq.flush(regions);
     });
