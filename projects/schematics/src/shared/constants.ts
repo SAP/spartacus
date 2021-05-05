@@ -330,10 +330,15 @@ export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
 export const VIEW_COMPONENT = 'ViewComponent';
 export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
 export const OCC_CMS_COMPONENT_ADAPTER = 'OccCmsComponentAdapter';
+
+export const MESSAGE_SERVICE = 'MessageService';
 export const CURRENT_UNIT_SERVICE = 'CurrentUnitService';
+export const CURRENT_USER_GROUP_SERVICE = 'CurrentUserGroupService';
 export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
+export const USER_GROUP_USER_LIST_COMPONENT = 'UserGroupUserListComponent';
+export const USER_GROUP_USER_LIST_SERVICE = 'UserGroupUserListService';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
