@@ -1,9 +1,10 @@
-import { Type } from '@angular/core';
+import { AbstractType, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
+  CxEvent,
   EventService,
   OrderPlacedEvent,
   PersonalizationContext,
@@ -22,9 +23,12 @@ import { filter, tap } from 'rxjs/operators';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';
 
 let profileTagPushEventsService: ProfileTagPushEventsService;
-let eventService;
-let eventServiceEvents: Map<Type<any>, ReplaySubject<any>>;
-let personalizationContextService;
+let eventService: Partial<EventService>;
+let eventServiceEvents: Map<
+  AbstractType<CxEvent>,
+  ReplaySubject<any>
+> = new Map();
+let personalizationContextService: Partial<PersonalizationContextService>;
 let getPersonalizationContext;
 
 function setVariables() {
@@ -157,45 +161,51 @@ describe('profileTagPushEventsService', () => {
   });
 
   describe('CategoryPageResultsEvent events', () => {
-    const pageEventHome: PageEvent[] = [
-      {
+    const pageEventHome: PageEvent = {
+      navigation: {
         semanticRoute: 'home',
         url: 'page 1',
         context: undefined,
         params: { 'pt-debug': true },
       },
-    ];
-    const pageEventCategory: PageEvent[] = [
-      {
+    };
+    const pageEventCategory: PageEvent = {
+      navigation: {
         semanticRoute: 'home',
         url: 'page 1',
         context: undefined,
         params: { 'pt-debug': true },
       },
-    ];
+    };
     const categoryPageResultsEvent123: CategoryPageResultsEvent = {
       categoryCode: '123',
       categoryName: 'categoryName1',
       numberOfResults: 2,
-      context: null,
-      url: 'http',
-      params: { 'pt-debug': true },
+      navigation: {
+        context: null,
+        url: 'http',
+        params: { 'pt-debug': true },
+      },
     };
     const categoryPageResultsEvent234: CategoryPageResultsEvent = {
       categoryCode: '234',
       categoryName: 'categoryName2',
       numberOfResults: 2,
-      context: null,
-      url: 'http',
-      params: { 'pt-debug': true },
+      navigation: {
+        context: null,
+        url: 'http',
+        params: { 'pt-debug': true },
+      },
     };
     const categoryPageResultsEvent345: CategoryPageResultsEvent = {
       categoryCode: '345',
       categoryName: 'categoryName3',
       numberOfResults: 2,
-      context: undefined,
-      url: 'http',
-      params: { 'pt-debug': true },
+      navigation: {
+        context: undefined,
+        url: 'http',
+        params: { 'pt-debug': true },
+      },
     };
     it(`Should emit an event for every CategoryPageResultsEvent event with a different category code`, () => {
       let timesCalled = 0;
@@ -232,7 +242,6 @@ describe('profileTagPushEventsService', () => {
         )
         .subscribe();
       eventServiceEvents.get(PageEvent).next(pageEventHome);
-
       eventServiceEvents
         .get(CategoryPageResultsEvent)
         .next(categoryPageResultsEvent123);
@@ -313,23 +322,29 @@ describe('profileTagPushEventsService', () => {
       const searchResultEvent1: SearchPageResultsEvent = {
         searchTerm: 'search term 1',
         numberOfResults: 0,
-        context: undefined,
-        url: 'http',
-        params: { 'pt-debug': true },
+        navigation: {
+          context: undefined,
+          url: 'http',
+          params: { 'pt-debug': true },
+        },
       };
       const searchResultEvent2: SearchPageResultsEvent = {
         searchTerm: 'search term 2',
         numberOfResults: 1,
-        context: undefined,
-        url: 'http',
-        params: { 'pt-debug': true },
+        navigation: {
+          context: undefined,
+          url: 'http',
+          params: { 'pt-debug': true },
+        },
       };
       const searchResultEvent3: SearchPageResultsEvent = {
         searchTerm: 'search term 3',
         numberOfResults: 4,
-        context: undefined,
-        url: 'http',
-        params: { 'pt-debug': true },
+        navigation: {
+          context: undefined,
+          url: 'http',
+          params: { 'pt-debug': true },
+        },
       };
       eventServiceEvents.get(SearchPageResultsEvent).next(searchResultEvent1);
       eventServiceEvents.get(SearchPageResultsEvent).next(searchResultEvent2);
@@ -353,9 +368,11 @@ describe('profileTagPushEventsService', () => {
           name: 'category 1',
         },
       ],
-      context: undefined,
-      url: 'http',
-      params: { 'pt-debug': true },
+      navigation: {
+        context: undefined,
+        url: 'http',
+        params: { 'pt-debug': true },
+      },
     };
 
     it(`Should call the productDetailsPageView method for every ProductDetailsPageEvent event with a different code`, () => {
@@ -383,9 +400,11 @@ describe('profileTagPushEventsService', () => {
         .pipe(tap(() => timesCalled++))
         .subscribe();
       const pageEvent: PageEvent = {
-        url: 'page 1',
-        context: undefined,
-        params: { 'pt-debug': true },
+        navigation: {
+          url: 'page 1',
+          context: undefined,
+          params: { 'pt-debug': true },
+        },
       };
       eventServiceEvents.get(PageEvent).next(pageEvent);
       eventServiceEvents.get(PageEvent).next(pageEvent);
@@ -402,11 +421,29 @@ describe('profileTagPushEventsService', () => {
         .pipe(tap(() => timesCalled++))
         .subscribe();
       const mockOrderEntry: HomePageEvent[] = [
-        { url: 'page 1', context: undefined, params: { 'pt-debug': true } },
+        {
+          navigation: {
+            url: 'page 1',
+            context: undefined,
+            params: { 'pt-debug': true },
+          },
+        },
       ];
       const mockOrderEntries: HomePageEvent[] = [
-        { url: 'page 1', context: undefined, params: { 'pt-debug': true } },
-        { url: 'page 1', context: undefined, params: { 'pt-debug': true } },
+        {
+          navigation: {
+            url: 'page 1',
+            context: undefined,
+            params: { 'pt-debug': true },
+          },
+        },
+        {
+          navigation: {
+            url: 'page 1',
+            context: undefined,
+            params: { 'pt-debug': true },
+          },
+        },
       ];
       eventServiceEvents.get(HomePageEvent).next(mockOrderEntry);
       eventServiceEvents.get(HomePageEvent).next(mockOrderEntries);
