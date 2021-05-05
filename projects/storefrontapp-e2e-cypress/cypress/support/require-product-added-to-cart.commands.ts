@@ -41,6 +41,25 @@ Cypress.Commands.add(
     }
 
     function addToCart(cartCode: any, productData: any) {
+      if (Cypress.env('OCC_PREFIX_USER_ENDPOINT') !== 'users') {
+        return cy.request({
+          method: 'POST',
+          url: `${Cypress.env('API_URL')}/${Cypress.env(
+            'OCC_PREFIX'
+          )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+            'OCC_PREFIX_USER_ENDPOINT'
+          )}/current/carts/${cartCode}/entries`,
+          body: {
+            code: productData.code,
+            qty: 1,
+          },
+          form: true,
+          headers: {
+            Authorization: `bearer ${auth.access_token}`,
+          },
+        });
+      }
+
       return cy.request({
         method: 'POST',
         url: `${Cypress.env('API_URL')}/${Cypress.env(
