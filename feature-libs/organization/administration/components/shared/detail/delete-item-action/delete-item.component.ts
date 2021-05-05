@@ -52,11 +52,6 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   protected confirmation: Subject<ConfirmationMessageData>;
 
   constructor(
-    itemService: ItemService<T>,
-    messageService: MessageService<ConfirmationMessageData>
-  );
-
-  constructor(
     protected itemService: ItemService<T>,
     protected messageService: MessageService<ConfirmationMessageData>
   ) {}
