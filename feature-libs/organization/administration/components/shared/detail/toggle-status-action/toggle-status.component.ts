@@ -7,6 +7,7 @@ import { ConfirmationMessageComponent } from '../../message/confirmation/confirm
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
+import { DisableInfoService } from '../disable-info/disable-info.service';
 
 /**
  * Reusable component in the my-company is to toggle the disabled state for
@@ -52,13 +53,9 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   protected confirmation: Subject<ConfirmationMessageData>;
 
   constructor(
-    itemService: ItemService<T>,
-    messageService: MessageService<ConfirmationMessageData>
-  );
-
-  constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService<ConfirmationMessageData>
+    protected messageService: MessageService<ConfirmationMessageData>,
+    protected disableInfoService: DisableInfoService<T>
   ) {}
 
   toggle(item: T) {
@@ -102,12 +99,7 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
    * Indicates whether the status can be toggled or not.
    */
   isDisabled(item: T): boolean {
-    return (
-      this.disabled ??
-      //* TODO: 4.0: Use this.disableInfoService.isParentDisabled(item) instead
-      !(item.orgUnit || item.unit || item.parentOrgUnit)?.active
-      //*
-    );
+    return this.disabled ?? this.disableInfoService.isParentDisabled(item);
   }
 
   protected update(item: T): void {
