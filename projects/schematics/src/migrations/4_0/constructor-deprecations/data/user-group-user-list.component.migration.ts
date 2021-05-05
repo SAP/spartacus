@@ -20,8 +20,12 @@ export const USER_GROUP_USER_LIST_COMPONENT_MIGRATION: ConstructorDeprecation = 
       className: USER_GROUP_USER_LIST_SERVICE,
       importPath: SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
     },
+    {
+      className: MESSAGE_SERVICE,
+      importPath: SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
+    },
   ],
-  addParams: [
+  removeParams: [
     {
       className: MESSAGE_SERVICE,
       importPath: SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
