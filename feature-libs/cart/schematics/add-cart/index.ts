@@ -47,7 +47,7 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
       addPackageJsonDependenciesForLibrary({
         packageJson,
         context,
-        libraryPeerDependencies: peerDependencies,
+        dependencies: peerDependencies,
         options,
       }),
     ]);

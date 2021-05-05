@@ -39,7 +39,7 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
       addPackageJsonDependenciesForLibrary({
         packageJson,
         context,
-        libraryPeerDependencies: peerDependencies,
+        dependencies: peerDependencies,
         options,
       }),
     ]);

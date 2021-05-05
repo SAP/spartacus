@@ -66,7 +66,7 @@ export function addSpartacusOrganization(
       addPackageJsonDependenciesForLibrary({
         packageJson,
         context,
-        libraryPeerDependencies: peerDependencies,
+        dependencies: peerDependencies,
         options,
       }),
     ]);

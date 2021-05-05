@@ -56,7 +56,7 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
       addPackageJsonDependenciesForLibrary({
         packageJson,
         context,
-        libraryPeerDependencies: peerDependencies,
+        dependencies: peerDependencies,
         options,
       }),
     ]);

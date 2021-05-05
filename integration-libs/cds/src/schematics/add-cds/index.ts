@@ -34,7 +34,7 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
       addPackageJsonDependenciesForLibrary({
         packageJson,
         context,
-        libraryPeerDependencies: peerDependencies,
+        dependencies: peerDependencies,
         options,
       }),
     ]);
