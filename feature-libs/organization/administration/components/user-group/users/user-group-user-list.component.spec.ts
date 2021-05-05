@@ -6,10 +6,7 @@ import { SubListTestingModule } from '../../shared/sub-list/sub-list.testing.mod
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListComponent } from './user-group-user-list.component';
 import { UserGroupUserListService } from './user-group-user-list.service';
-import {
-  MessageService,
-  SubListComponent,
-} from '@spartacus/organization/administration/components';
+import { SubListComponent } from '@spartacus/organization/administration/components';
 import {
   LoadStatus,
   OrganizationItemStatus,
@@ -51,7 +48,6 @@ describe('UserGroupUserListComponent', () => {
           provide: CurrentUserGroupService,
           useClass: MockCurrentUserGroupService,
         },
-        MessageService,
       ],
       declarations: [UserGroupUserListComponent],
     }).compileComponents();
