@@ -10,7 +10,7 @@ import {
   B2BUnitNode,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
 import { ItemService } from '../../shared/item.service';
@@ -40,31 +40,23 @@ export class UnitFormComponent implements OnInit {
 
   @Input() createChildUnit = false;
 
-  /*
-   * TODO: 4.0: rename to `form` #10710
-   */
-  formGroup: FormGroup = this.itemService.getForm();
-
-  /*
-   * deprecated since 3.0, use `formGroup` instead
-   */
-  form$: Observable<FormGroup> = of(this.formGroup);
+  form: FormGroup = this.itemService.getForm();
 
   units$: Observable<B2BUnitNode[]> = this.itemService.unit$.pipe(
     tap((unit) => {
-      this.formGroup.get('parentOrgUnit.uid')?.setValue(unit);
+      this.form.get('parentOrgUnit.uid')?.setValue(unit);
       if (this.createChildUnit) {
-        this.formGroup.get('parentOrgUnit')?.disable();
+        this.form.get('parentOrgUnit')?.disable();
       }
     }),
     switchMap(() =>
       this.unitService.getActiveUnitList().pipe(
         map((units) =>
-          units.filter((unit) => unit.id !== this.formGroup?.value.uid)
+          units.filter((unit) => unit.id !== this.form?.value.uid)
         ),
         tap((units) => {
           if (units.length === 1) {
-            this.formGroup?.get('parentOrgUnit.uid')?.setValue(units[0]?.id);
+            this.form?.get('parentOrgUnit.uid')?.setValue(units[0]?.id);
           }
         })
       )
