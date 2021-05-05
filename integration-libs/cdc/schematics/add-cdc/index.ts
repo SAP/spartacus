@@ -1,24 +1,17 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  createDependencies,
-  getSpartacusSchematicsVersion,
-  installPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
-  SPARTACUS_ASM,
+  shouldAddFeature,
   SPARTACUS_CDC,
-  SPARTACUS_USER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -33,37 +26,23 @@ import {
 } from '../constants';
 
 export function addCdcFeature(options: SpartacusCdcOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addCdc(options),
+      shouldAddFeature(CLI_CDC_FEATURE, options.features)
+        ? addCdc(options)
+        : noop(),
 
-      addCdcPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
-}
-
-function addCdcPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const spartacusDependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_ASM,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_USER,
-    },
-  ];
-  const thirdPartyDependencies = createDependencies(peerDependencies);
-
-  const dependencies = spartacusDependencies.concat(thirdPartyDependencies);
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addCdc(options: SpartacusCdcOptions): Rule {
