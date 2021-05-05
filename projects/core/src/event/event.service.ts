@@ -32,8 +32,6 @@ interface EventMeta<T> {
   providedIn: 'root',
 })
 export class EventService {
-  constructor() {}
-
   /**
    * The various events meta are collected in a map, stored by the event type class
    */

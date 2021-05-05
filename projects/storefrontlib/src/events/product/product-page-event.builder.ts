@@ -80,7 +80,7 @@ export class ProductPageEventBuilder {
               navigation: navigationEvent,
               ...{
                 categoryCode: navigationEvent?.context?.id,
-                numberOfResults: searchResults?.pagination?.totalResults,
+                numberOfResults: searchResults?.pagination?.totalResults ?? 0,
                 categoryName: searchResults.breadcrumbs?.[0].facetValueName,
               },
             })
@@ -107,8 +107,8 @@ export class ProductPageEventBuilder {
             createFrom(SearchPageResultsEvent, {
               navigation: navigationEvent,
               ...{
-                searchTerm: searchResults?.freeTextSearch,
-                numberOfResults: searchResults?.pagination?.totalResults,
+                searchTerm: searchResults?.freeTextSearch ?? '',
+                numberOfResults: searchResults?.pagination?.totalResults ?? 0,
               },
             })
           )
