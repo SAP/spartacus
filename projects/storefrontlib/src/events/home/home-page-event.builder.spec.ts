@@ -16,7 +16,7 @@ describe('HomePageEventBuilder', () => {
   });
 
   it('HomePageEvent', () => {
-    let result: HomePageEvent;
+    let result: HomePageEvent | undefined;
     eventService
       .get(HomePageEvent)
       .pipe(take(1))
@@ -26,14 +26,14 @@ describe('HomePageEventBuilder', () => {
       context: { id: 'home' },
       semanticRoute: 'home',
       url: 'home url',
-      params: undefined,
+      params: {},
     });
     eventService.dispatch(navigationEvent);
+
     expect(result).toBeTruthy();
-    expect(result).toEqual(
-      jasmine.objectContaining({
-        navigation: { ...navigationEvent } as HomePageEvent,
-      })
-    );
+    const expected = createFrom(HomePageEvent, {
+      navigation: navigationEvent,
+    });
+    expect(result).toEqual(jasmine.objectContaining({ ...expected }));
   });
 });
