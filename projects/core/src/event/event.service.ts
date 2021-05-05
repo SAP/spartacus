@@ -1,13 +1,6 @@
-import {
-  AbstractType,
-  Injectable,
-  isDevMode,
-  Optional,
-  Type,
-} from '@angular/core';
+import { AbstractType, Injectable, isDevMode, Type } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FeatureConfigService } from '../features-config/services/feature-config.service';
 import { createFrom } from '../util/create-from';
 import { CxEvent } from './cx-event';
 import { MergingSubject } from './utils/merging-subject';
@@ -19,7 +12,7 @@ interface EventMeta<T> {
   /**
    * Input subject used for dispatching occasional event (without registering a source)
    */
-  inputSubject$: Subject<T>;
+  inputSubject$: Subject<T> | null;
 
   /**
    * A custom subject that allows for dynamic adding and removing sources to be merged as an output
@@ -39,12 +32,6 @@ interface EventMeta<T> {
   providedIn: 'root',
 })
 export class EventService {
-  constructor(
-    // TODO: #10896 - remove this
-    /** @deprecated @since 3.1 - this will be removed in 4.0 */ @Optional()
-    protected featureConfigService?: FeatureConfigService
-  ) {}
-
   /**
    * The various events meta are collected in a map, stored by the event type class
    */
@@ -64,7 +51,6 @@ export class EventService {
    *
    * @returns a teardown function which unregisters the given event source
    */
-  // TODO: #10896 - change from `AbstractType` to `Type`.
   register<T>(eventType: AbstractType<T>, source$: Observable<T>): () => void {
     const eventMeta = this.getEventMeta(eventType);
     if (eventMeta.mergingSubject.has(source$)) {
@@ -102,7 +88,7 @@ export class EventService {
    * @param event an event
    * @param eventType (optional) - type of event
    */
-  dispatch<T>(event: T, eventType?: Type<T>): void {
+  dispatch<T extends object>(event: T, eventType?: Type<T>): void {
     if (!eventType) {
       eventType = event.constructor as Type<T>;
     } else if (!(event instanceof eventType)) {
@@ -137,7 +123,8 @@ export class EventService {
       }
       this.createEventMeta(eventType);
     }
-    return this.eventsMeta.get(eventType);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    return this.eventsMeta.get(eventType)!;
   }
 
   private createEventMeta<T>(eventType: AbstractType<T>): void {
@@ -147,16 +134,13 @@ export class EventService {
     };
     this.eventsMeta.set(eventType, eventMeta);
 
-    // TODO: #10896 - remove this if block, and leave its body
-    if (this.featureConfigService?.isLevel('3.1')) {
-      let parentEvent = Object.getPrototypeOf(eventType);
-      while (
-        parentEvent !== null &&
-        Object.getPrototypeOf(parentEvent) !== Object.getPrototypeOf({})
-      ) {
-        this.register(parentEvent, eventMeta.mergingSubject.output$);
-        parentEvent = Object.getPrototypeOf(parentEvent);
-      }
+    let parentEvent = Object.getPrototypeOf(eventType);
+    while (
+      parentEvent !== null &&
+      Object.getPrototypeOf(parentEvent) !== Object.getPrototypeOf({})
+    ) {
+      this.register(parentEvent, eventMeta.mergingSubject.output$);
+      parentEvent = Object.getPrototypeOf(parentEvent);
     }
   }
 
@@ -172,10 +156,7 @@ export class EventService {
       );
     }
 
-    // TODO: #10896 - remove this if block and leave its body
-    if (this.featureConfigService?.isLevel('3.1')) {
-      this.validateCxEvent(eventType);
-    }
+    this.validateCxEvent(eventType);
   }
 
   /**
