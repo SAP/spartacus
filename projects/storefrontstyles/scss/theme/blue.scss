@@ -10,6 +10,7 @@
   --cx-color-dark: #212738;
   --cx-button-text-transform: uppercase;
   --cx-spinner-primary-color: #2480c5;
+  --cx-text-decoration: underline;
 
   cx-page-layout.CompanyPageTemplate cx-banner cx-media {
     --cx-img-filter: invert(46%) sepia(9%) saturate(3655%) hue-rotate(163deg)
@@ -94,6 +95,11 @@
     color: var(--cx-color-primary);
   }
 
+  cx-saved-cart-details-items .cx-total,
+  cx-cart-details .cx-total {
+    font-weight: var(--cx-font-weight-semi);
+  }
+
   cx-cart-item-list .cx-item-list-header,
   cx-wish-list .cx-item-list-header {
     color: var(--cx-color-text);
@@ -116,6 +122,7 @@
     .cx-name .cx-link {
       font-weight: var(--cx-font-weight-semi);
       color: var(--cx-color-primary);
+      text-decoration: var(--cx-text-decoration);
     }
 
     .cx-compact {
@@ -132,11 +139,36 @@
     color: var(--cx-color-primary);
   }
 
-  .btn-outline-text,
-  .btn-action {
+  a.btn {
+    line-height: var(--cx-line-height, 1.6);
+  }
+
+  .btn {
+    @include type('5');
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  button.btn-outline-text,
+  button.btn-action,
+  a.btn-outline-text,
+  a.btn-action {
     color: var(--cx-color-primary);
     border-color: var(--cx-color-primary);
     background-color: var(--cx-color-inverse);
+    border-width: var(--cx-buttons-border-width);
+  }
+
+  .btn-action,
+  .btn-outline-text {
+    &:hover {
+      border-width: var(--cx-buttons-border-width);
+    }
+  }
+
+  a.btn-primary,
+  button.btn-primary {
+    background-color: var(--cx-color-primary);
+    border-color: var(--cx-color-primary);
   }
 
   cx-add-to-cart .quantity .info {
@@ -184,6 +216,15 @@
     cx-banner cx-media {
       img {
         filter: var(--cx-img-filter);
+      }
+    }
+  }
+
+  cx-facet {
+    a,
+    button {
+      cx-icon {
+        color: var(--cx-color-secondary);
       }
     }
   }
