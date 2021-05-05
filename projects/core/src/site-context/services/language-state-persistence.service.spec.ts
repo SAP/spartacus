@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteContextConfig } from '../config/site-context-config';
+import { LanguageService } from '../facade/language.service';
 import { LANGUAGE_CONTEXT_ID } from '../providers';
 import { LanguageStatePersistenceService } from './language-state-persistence.service';
-import { LanguageService } from './language.service';
 import createSpy = jasmine.createSpy;
 
 class MockLanguageService implements Partial<LanguageService> {

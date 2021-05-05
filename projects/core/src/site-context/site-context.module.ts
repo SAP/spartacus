@@ -1,9 +1,8 @@
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import {
   ConfigInitializer,
   CONFIG_INITIALIZER,
 } from '../config/config-initializer/config-initializer';
-import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
 import { provideDefaultConfigFactory } from '../config/config-providers';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
 import { FeatureConfigService } from '../features-config/services/feature-config.service';
@@ -13,8 +12,7 @@ import { SiteContextConfigInitializer } from './config/config-loader/site-contex
 import { defaultSiteContextConfigFactory } from './config/default-site-context-config';
 import { SiteContextConfig } from './config/site-context-config';
 import { SiteContextEventModule } from './events/site-context-event.module';
-import { CurrencyStatePersistenceService } from './facade/currency-state-persistence.service';
-import { LanguageStatePersistenceService } from './facade/language-state-persistence.service';
+import { contextPersistenceProviders } from './providers/contex-persistence-providers';
 import { BASE_SITE_CONTEXT_ID } from './providers/context-ids';
 import { contextServiceMapProvider } from './providers/context-service-map';
 import { contextServiceProviders } from './providers/context-service-providers';
@@ -41,27 +39,6 @@ export function initSiteContextConfig(
   }
   return null;
 }
-export function currencyStatePersistenceFactory(
-  currencyPersistenceService: CurrencyStatePersistenceService,
-  configInit: ConfigInitializerService
-) {
-  const result = () =>
-    configInit.getStableConfig('context').then(() => {
-      console.log('Before init CONTEXT');
-      currencyPersistenceService.initSync();
-    });
-  return result;
-}
-export function languageStatePersistenceFactory(
-  languagePersistenceService: LanguageStatePersistenceService,
-  configInit: ConfigInitializerService
-) {
-  const result = () =>
-    configInit
-      .getStableConfig('context')
-      .then(() => languagePersistenceService.initSync());
-  return result;
-}
 
 @NgModule({
   imports: [StateModule, SiteContextStoreModule, SiteContextEventModule],
@@ -86,18 +63,7 @@ export class SiteContextModule {
           ],
           multi: true,
         },
-        {
-          provide: APP_INITIALIZER,
-          useFactory: languageStatePersistenceFactory,
-          deps: [LanguageStatePersistenceService, ConfigInitializerService],
-          multi: true,
-        },
-        {
-          provide: APP_INITIALIZER,
-          useFactory: currencyStatePersistenceFactory,
-          deps: [CurrencyStatePersistenceService, ConfigInitializerService],
-          multi: true,
-        },
+        ...contextPersistenceProviders,
       ],
     };
   }
