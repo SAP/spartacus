@@ -211,8 +211,8 @@ and slot elements.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -318,8 +318,8 @@ and slot elements.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="80"
-                            class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:80</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:110</a></div>
                 </td>
             </tr>
 
@@ -626,13 +626,38 @@ export class DynamicAttributeService {
       slotData?: ContentSlotData;
     }
   ): void {
-    this.addAttributesToComponent(
-      element,
-      renderer,
-      cmsRenderingContext.componentData
-    );
+    const properties &#x3D;
+      cmsRenderingContext.componentData?.properties ||
+      cmsRenderingContext.slotData?.properties;
 
-    this.addAttributesToSlot(element, renderer, cmsRenderingContext.slotData);
+    if (properties &amp;&amp; this.smartEditService.isLaunchedInSmartEdit()) {
+      // check each group of properties, e.g. smartedit
+      Object.keys(properties).forEach((group) &#x3D;&gt; {
+        const name &#x3D; &#x27;data-&#x27; + group + &#x27;-&#x27;;
+        const groupProps &#x3D; properties[group];
+
+        // check each property in the group
+        Object.keys(groupProps).forEach((propName) &#x3D;&gt; {
+          const propValue &#x3D; groupProps[propName];
+          if (propName &#x3D;&#x3D;&#x3D; &#x27;classes&#x27;) {
+            const classes &#x3D; propValue.split(&#x27; &#x27;);
+            classes.forEach((classItem) &#x3D;&gt; {
+              element.classList.add(classItem);
+            });
+          } else {
+            renderer.setAttribute(
+              element,
+              name +
+                propName
+                  .split(/(?&#x3D;[A-Z])/)
+                  .join(&#x27;-&#x27;)
+                  .toLowerCase(),
+              propValue
+            );
+          }
+        });
+      });
+    }
   }
 
   /**
@@ -646,6 +671,11 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     componentData?: ContentSlotComponentData
   ) {
+    if (this.smartEditService.isLaunchedInSmartEdit()) {
+      this.addDynamicAttributes(element, renderer, { componentData });
+      return;
+    }
+
     (getLastValueSync(this.componentDecorators$) || []).forEach((decorator) &#x3D;&gt;
       decorator.decorate(element, renderer, componentData)
     );
@@ -662,6 +692,11 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     slotData?: ContentSlotData
   ) {
+    if (this.smartEditService.isLaunchedInSmartEdit()) {
+      this.addDynamicAttributes(element, renderer, { slotData });
+      return;
+    }
+
     (getLastValueSync(this.slotDecorators$) || []).forEach((decorator) &#x3D;&gt;
       decorator.decorate(element, renderer, slotData)
     );

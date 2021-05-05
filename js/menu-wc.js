@@ -2063,7 +2063,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ForgotPasswordModule-e78b612a06d7cef2e946ec8a80990d34-1"' :
                                             'id="xs-components-links-module-ForgotPasswordModule-e78b612a06d7cef2e946ec8a80990d34-1"' }>
                                             <li class="link">
-                                                <a href="components/ForgotPasswordComponent-1.html"
+                                                <a href="components/ForgotPasswordComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">ForgotPasswordComponent</a>
                                             </li>
                                         </ul>
@@ -2544,13 +2544,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/LoginRegisterModule.html" data-type="entity-link">LoginRegisterModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-LoginRegisterModule-92bef8a135626a58d219c8e96dd664ba"' : 'data-target="#xs-components-links-module-LoginRegisterModule-92bef8a135626a58d219c8e96dd664ba"' }>
+                                            'data-target="#components-links-module-LoginRegisterModule-c47b43a31d9316f88101f46967712113"' : 'data-target="#xs-components-links-module-LoginRegisterModule-c47b43a31d9316f88101f46967712113"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-LoginRegisterModule-92bef8a135626a58d219c8e96dd664ba"' :
-                                            'id="xs-components-links-module-LoginRegisterModule-92bef8a135626a58d219c8e96dd664ba"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-LoginRegisterModule-c47b43a31d9316f88101f46967712113"' :
+                                            'id="xs-components-links-module-LoginRegisterModule-c47b43a31d9316f88101f46967712113"' }>
                                             <li class="link">
                                                 <a href="components/LoginRegisterComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">LoginRegisterComponent</a>
@@ -3816,7 +3816,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-QualtricsModule-bcd975c0cacdf483baedd1fc90162c4a-1"' :
                                             'id="xs-components-links-module-QualtricsModule-bcd975c0cacdf483baedd1fc90162c4a-1"' }>
                                             <li class="link">
-                                                <a href="components/QualtricsComponent-1.html"
+                                                <a href="components/QualtricsComponent.html"
                                                     data-type="entity-link" data-context="sub-entity" data-context-id="modules">QualtricsComponent</a>
                                             </li>
                                         </ul>
@@ -5810,10 +5810,16 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="components/CustomerSelectionComponent-1.html" data-type="entity-link">CustomerSelectionComponent</a>
                             </li>
                             <li class="link">
+                                <a href="components/ForgotPasswordComponent-1.html" data-type="entity-link">ForgotPasswordComponent</a>
+                            </li>
+                            <li class="link">
                                 <a href="components/MockSplitViewComponent.html" data-type="entity-link">MockSplitViewComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/MockViewComponent.html" data-type="entity-link">MockViewComponent</a>
+                            </li>
+                            <li class="link">
+                                <a href="components/QualtricsComponent-1.html" data-type="entity-link">QualtricsComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/ReplenishmentOrderCancellationComponent.html" data-type="entity-link">ReplenishmentOrderCancellationComponent</a>

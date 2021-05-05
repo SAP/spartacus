@@ -61,97 +61,77 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/tracking/tms/aep/config/default-aep.config.ts</code>
+            <code>feature-libs/tracking/tms/core/config/tms-config.ts</code>
         </p>
 
 
 
-        <section>
-            <h3 id="index">Index</h3>
-            <table class="table table-sm table-bordered index-table">
-                <tbody>
-                    <tr>
-                        <td class="col-md-4">
-                            <h6><b>Properties</b></h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <ul class="index-list">
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#aep">aep</a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
 
 
             <section>
-                <h3 id="inputs">Properties</h3>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="aep"></a>
-                                        <span class="name"><b>aep</b><a href="#aep"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>aep:         <code><a href="../interfaces/AepCollectorConfig.html" target="_self" >AepCollectorConfig</a></code>
+    <h3 id="inputs">Indexable</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <code>[tms: string]:        <code><a href="../miscellaneous/variables.html#Config" target="_self" >TmsCollectorConfig | undefined</a></code>
 </code>
-                                    </td>
-                                </tr>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">feature-libs/tracking/tms/core/config/tms-config.ts:25</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
 
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../interfaces/AepCollectorConfig.html" target="_self" >AepCollectorConfig</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-            </section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { TmsCollectorConfig, TmsConfig } from &#x27;@spartacus/tracking/tms/core&#x27;;
-import { AepCollectorService } from &#x27;../services/aep-collector.service&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { AbstractType, Injectable, Type } from &#x27;@angular/core&#x27;;
+import { Config, CxEvent } from &#x27;@spartacus/core&#x27;;
+import { TmsCollector } from &#x27;../model/tms.model&#x27;;
 
-export interface AepCollectorConfig extends TmsCollectorConfig {
-  scriptUrl?: string;
+/**
+ * Collector configuration
+ */
+export interface TmsCollectorConfig {
+  /** Should be enabled in development mode only */
+  debug?: boolean;
+  /**
+   * The name for the data layer object.
+   */
+  dataLayerProperty?: string;
+  /**
+   * Events to send to the configured TMS.
+   */
+  events?: AbstractType&lt;CxEvent&gt;[];
+  /**
+   * The collector service implementation.
+   */
+  collector?: Type&lt;TmsCollector&gt;;
 }
 
-declare module &#x27;@spartacus/tracking/tms/core&#x27; {
-  interface TmsCollectors {
-    aep?: AepCollectorConfig;
-  }
+export interface TmsCollectors {
+  [tms: string]: TmsCollectorConfig | undefined;
 }
 
-export const defaultAdobeExperiencePlatformConfig: TmsConfig &#x3D; {
-  tagManager: {
-    aep: {
-      collector: AepCollectorService,
-    },
-  },
-};
+/**
+ * TMS configuration
+ */
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+  useExisting: Config,
+})
+export abstract class TmsConfig {
+  /**
+   * Tag manager config
+   */
+  tagManager?: TmsCollectors;
+}
 </code></pre>
     </div>
 </div>
