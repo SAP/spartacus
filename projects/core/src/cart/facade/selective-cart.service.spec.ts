@@ -154,6 +154,102 @@ describe('Selective Cart Service', () => {
     expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
   });
 
+  it('should return stable true when cart load success', () => {
+    service['cartSelector$'] = of({
+      value: { code: TEST_CART_ID },
+      loading: false,
+      success: true,
+      error: false,
+    });
+
+    let result: boolean;
+    service
+      .isStable()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(true);
+  });
+
+  it('should return stable true when cart load error', () => {
+    service['cartSelector$'] = of({
+      value: { code: TEST_CART_ID },
+      loading: false,
+      success: false,
+      error: true,
+    });
+
+    let result: boolean;
+    service
+      .isStable()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(true);
+  });
+
+  it('should return stable false when cart loading', () => {
+    service['cartSelector$'] = of({
+      value: { code: TEST_CART_ID },
+      loading: true,
+      success: false,
+      error: false,
+    });
+
+    let result: boolean;
+    service
+      .isStable()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(false);
+  });
+
+  it('should return loaded true when cart load success', () => {
+    service['cartSelector$'] = of({
+      value: { code: TEST_CART_ID },
+      loading: false,
+      success: true,
+      error: false,
+    });
+
+    let result: boolean;
+    service
+      .getLoaded()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(true);
+  });
+
+  it('should return loaded true when cart load error', () => {
+    service['cartSelector$'] = of({
+      value: { code: TEST_CART_ID },
+      loading: false,
+      success: false,
+      error: true,
+    });
+
+    let result: boolean;
+    service
+      .getLoaded()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(true);
+  });
+
+  it('should return loaded false when cart loading', () => {
+    service['cartSelector$'] = of({
+      value: { code: TEST_CART_ID },
+      loading: true,
+      success: false,
+      error: false,
+    });
+
+    let result: boolean;
+    service
+      .getLoaded()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+    expect(result).toEqual(false);
+  });
+
   it('should not load selective cart for anonymous user', () => {
     spyOn<any>(service, 'load').and.callThrough();
     spyOn(multiCartService, 'loadCart').and.stub();
