@@ -585,6 +585,12 @@ export const INJECT_DECORATOR = 'Inject';
 export const PLATFORM = 'Platform';
 export const PLATFORM_ID_STRING = 'PLATFORM_ID';
 export const ANY_TYPE = 'any';
+export const OBJECT_TYPE = 'Object';
+export const STRING_TYPE = 'string';
+export const DOCUMENT = 'Document';
+export const DOCUMENT_STRING = 'DOCUMENT';
+export const SERVER_REQUEST_URL_STRING = 'SERVER_REQUEST_URL';
+export const SERVER_REQUEST_ORIGIN_STRING = 'SERVER_REQUEST_ORIGIN';
 /***** Properties end *****/
 
 /***** APIs start *****/
