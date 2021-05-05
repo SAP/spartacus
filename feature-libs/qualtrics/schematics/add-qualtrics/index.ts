@@ -1,17 +1,18 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  createDependencies,
-  installPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
+  CLI_QUALTRICS_FEATURE,
   LibraryOptions as SpartacusQualtricsOptions,
   QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
   readPackageJson,
+  shouldAddFeature,
   SPARTACUS_QUALTRICS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -25,23 +26,23 @@ import {
 } from '../constants';
 
 export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addQualtricsFeature(options),
+      shouldAddFeature(CLI_QUALTRICS_FEATURE, options.features)
+        ? addQualtricsFeature(options)
+        : noop(),
 
-      addQualtricsPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
-}
-
-function addQualtricsPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
-
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {

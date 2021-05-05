@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -17,6 +19,7 @@ import { CLI_ACCOUNT_FEATURE, CLI_PROFILE_FEATURE } from '../constants';
 const collectionPath = path.join(__dirname, '../collection.json');
 const userFeatureModulePath =
   'src/app/spartacus/features/user/user-feature.module.ts';
+const scssFilePath = 'src/styles/spartacus/user.scss';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus User schematics: ng-add', () => {
@@ -39,17 +42,17 @@ describe('Spartacus User schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions: SpartacusPersonalizationOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [CLI_ACCOUNT_FEATURE, CLI_PROFILE_FEATURE],
-  };
-
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
     lazy: true,
     features: [],
+  };
+
+  const defaultFeatureOptions: SpartacusPersonalizationOptions = {
+    project: 'schematics-test',
+    lazy: true,
+    features: [CLI_ACCOUNT_FEATURE, CLI_PROFILE_FEATURE],
   };
 
   beforeEach(async () => {
@@ -88,7 +91,7 @@ describe('Spartacus User schematics: ng-add', () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',
-          { ...defaultOptions, lazy: false, features: [] },
+          { ...defaultFeatureOptions, lazy: false, features: [] },
           appTree
         )
         .toPromise();
@@ -100,12 +103,30 @@ describe('Spartacus User schematics: ng-add', () => {
   });
 
   describe('Account feature', () => {
+    describe('styling', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .toPromise();
+      });
+
+      it('should create a proper scss file', () => {
+        const scssContent = appTree.readContent(scssFilePath);
+        expect(scssContent).toMatchSnapshot();
+      });
+
+      it('should update angular.json', async () => {
+        const content = appTree.readContent('/angular.json');
+        expect(content).toMatchSnapshot();
+      });
+    });
+
     describe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultOptions, lazy: false },
+            { ...defaultFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
@@ -130,7 +151,7 @@ describe('Spartacus User schematics: ng-add', () => {
     describe('lazy loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -157,7 +178,7 @@ describe('Spartacus User schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultOptions, lazy: false },
+            { ...defaultFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
@@ -182,7 +203,7 @@ describe('Spartacus User schematics: ng-add', () => {
     describe('lazy loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 

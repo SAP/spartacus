@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { CartModification } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
@@ -17,14 +18,19 @@ const configId = '1234-56-7890';
 const userId = 'Anony';
 const documentId = '82736353';
 
-const productConfiguration: Configurator.Configuration = {
-  configId: configId,
-  productCode: productCode,
-};
-
 const owner: CommonConfigurator.Owner = {
   type: CommonConfigurator.OwnerType.PRODUCT,
   id: productCode,
+  key: ConfiguratorModelUtils.getOwnerKey(
+    CommonConfigurator.OwnerType.PRODUCT,
+    productCode
+  ),
+};
+
+const productConfiguration: Configurator.Configuration = {
+  configId: configId,
+  productCode: productCode,
+  owner: owner,
 };
 
 const groupId = '123';
@@ -50,6 +56,7 @@ const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters =
   cartEntryNumber: '3',
   configuration: {
     configId: configId,
+    owner: owner,
   },
 };
 
@@ -166,7 +173,7 @@ describe('CpqConfiguratorRestAdapter', () => {
   });
 
   it('should handle missing product code during create configuration', () => {
-    adapterUnderTest.createConfiguration({}).subscribe(
+    adapterUnderTest.createConfiguration({ key: owner.key }).subscribe(
       () => {},
       (error) => {
         expect(error).toBeDefined();

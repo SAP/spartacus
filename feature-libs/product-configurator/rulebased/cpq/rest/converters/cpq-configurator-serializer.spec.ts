@@ -127,6 +127,7 @@ const groups: Configurator.Group[] = [
 const configuration: Configurator.Configuration = {
   configId: configId,
   groups: groups,
+  owner: { key: 'A' },
 };
 
 describe('CpqConfiguratorSerializer', () => {
