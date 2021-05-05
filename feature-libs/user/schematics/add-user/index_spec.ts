@@ -10,11 +10,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CLI_USER_ACCOUNT_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
   LibraryOptions as SpartacusPersonalizationOptions,
   SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { CLI_ACCOUNT_FEATURE, CLI_PROFILE_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const spartacusFeaturesModulePath =
@@ -53,7 +54,7 @@ describe('Spartacus User schematics: ng-add', () => {
   const defaultFeatureOptions: SpartacusPersonalizationOptions = {
     project: 'schematics-test',
     lazy: true,
-    features: [CLI_ACCOUNT_FEATURE, CLI_PROFILE_FEATURE],
+    features: [CLI_USER_ACCOUNT_FEATURE, CLI_USER_PROFILE_FEATURE],
   };
 
   beforeEach(async () => {

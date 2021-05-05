@@ -8,6 +8,8 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CLI_USER_ACCOUNT_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
   LibraryOptions as SpartacusUserOptions,
   readPackageJson,
   shouldAddFeature,
@@ -16,8 +18,6 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
-  CLI_ACCOUNT_FEATURE,
-  CLI_PROFILE_FEATURE,
   SCSS_FILE_NAME,
   SPARTACUS_USER_ACCOUNT,
   SPARTACUS_USER_ACCOUNT_ASSETS,
@@ -45,11 +45,11 @@ export function addUserFeatures(options: SpartacusUserOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      shouldAddFeature(CLI_ACCOUNT_FEATURE, options.features)
+      shouldAddFeature(CLI_USER_ACCOUNT_FEATURE, options.features)
         ? addAccountFeature(options)
         : noop(),
 
-      shouldAddFeature(CLI_PROFILE_FEATURE, options.features)
+      shouldAddFeature(CLI_USER_PROFILE_FEATURE, options.features)
         ? addProfileFeature(options)
         : noop(),
 
