@@ -77,7 +77,7 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
   ): string {
     return this.occEndpoints.buildUrl('orderApprovals', {
       urlParams: { userId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 

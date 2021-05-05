@@ -55,7 +55,7 @@ export class OccUserReplenishmentOrderAdapter
       .get<Occ.OrderHistoryList>(
         this.occEndpoints.buildUrl('replenishmentOrderDetailsHistory', {
           urlParams: { userId, replenishmentOrderCode },
-          queryParams: { params },
+          queryParams: params,
         })
       )
       .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
@@ -97,7 +97,7 @@ export class OccUserReplenishmentOrderAdapter
 
     const url = this.occEndpoints.buildUrl('replenishmentOrderHistory', {
       urlParams: { userId },
-      queryParams: { params },
+      queryParams: params,
     });
 
     return this.http

@@ -177,7 +177,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   protected getB2BUsersEndpoint(userId: string, params?: SearchConfig): string {
     return this.occEndpoints.buildUrl('b2bUsers', {
       urlParams: { userId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 
@@ -202,7 +202,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   ): string {
     return this.occEndpoints.buildUrl('b2bUserApprovers', {
       urlParams: { userId, orgCustomerId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 
@@ -230,7 +230,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
         userId,
         orgCustomerId,
       },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 
@@ -255,7 +255,7 @@ export class OccB2BUserAdapter implements B2BUserAdapter {
   ): string {
     return this.occEndpoints.buildUrl('b2bUserUserGroups', {
       urlParams: { userId, orgCustomerId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 }

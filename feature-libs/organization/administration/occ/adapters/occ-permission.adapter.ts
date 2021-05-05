@@ -88,7 +88,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
   ): string {
     return this.occEndpoints.buildUrl('permissions', {
       urlParams: { userId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 

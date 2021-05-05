@@ -149,7 +149,7 @@ describe('OccCartAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       expect(occEndpointService.buildUrl).toHaveBeenCalledWith('createCart', {
         urlParams: { userId },
-        queryParams: { params: {} },
+        queryParams: {},
       });
       mockReq.flush(cartData);
       expect(result).toEqual(cartData);
@@ -169,9 +169,7 @@ describe('OccCartAdapter', () => {
 
       expect(occEndpointService.buildUrl).toHaveBeenCalledWith('createCart', {
         urlParams: { userId },
-        queryParams: {
-          params: { oldCartId: cartId, toMergeCartGuid: toMergeCart.guid },
-        },
+        queryParams: { oldCartId: cartId, toMergeCartGuid: toMergeCart.guid },
       });
 
       expect(mockReq.cancelled).toBeFalsy();

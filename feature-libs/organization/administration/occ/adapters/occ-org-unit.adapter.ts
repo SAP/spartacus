@@ -222,7 +222,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
         orgUnitId,
         roleId,
       },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 
@@ -233,7 +233,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   ): string {
     return this.occEndpoints.buildUrl('orgUnitUserRoles', {
       urlParams: { userId, orgCustomerId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 
@@ -259,7 +259,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   ): string {
     return this.occEndpoints.buildUrl('orgUnitApprovers', {
       urlParams: { userId, orgUnitId, orgCustomerId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 

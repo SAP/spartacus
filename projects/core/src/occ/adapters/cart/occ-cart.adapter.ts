@@ -81,7 +81,7 @@ export class OccCartAdapter implements CartAdapter {
       .post<Occ.Cart>(
         this.occEndpointsService.buildUrl('createCart', {
           urlParams: { userId },
-          queryParams: { params },
+          queryParams: params,
         }),
         toAdd
       )

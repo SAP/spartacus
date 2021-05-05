@@ -165,7 +165,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   ): string {
     return this.occEndpoints.buildUrl('userGroups', {
       urlParams: { userId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 
@@ -176,7 +176,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   ): string {
     return this.occEndpoints.buildUrl('userGroupAvailableOrgCustomers', {
       urlParams: { userId, userGroupId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 
@@ -187,7 +187,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   ): string {
     return this.occEndpoints.buildUrl(
       'userGroupAvailableOrderApprovalPermissions',
-      { urlParams: { userId, userGroupId }, queryParams: { params } }
+      { urlParams: { userId, userGroupId }, queryParams: params }
     );
   }
 
@@ -212,7 +212,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   ): string {
     return this.occEndpoints.buildUrl('userGroupMembers', {
       urlParams: { userId, userGroupId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 
@@ -223,7 +223,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   ): string {
     return this.occEndpoints.buildUrl('userGroupOrderApprovalPermissions', {
       urlParams: { userId, userGroupId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 

@@ -110,7 +110,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   ): string {
     return this.occEndpoints.buildUrl('costCenters', {
       urlParams: { userId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 
@@ -120,7 +120,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   ): string {
     return this.occEndpoints.buildUrl('costCentersAll', {
       urlParams: { userId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 
@@ -131,7 +131,7 @@ export class OccCostCenterAdapter implements CostCenterAdapter {
   ): string {
     return this.occEndpoints.buildUrl('costCenterBudgets', {
       urlParams: { userId, costCenterCode },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 

@@ -151,11 +151,9 @@ describe('OccUserReplenishmentOrderAdapter', () => {
             replenishmentOrderCode: mockReplenishmentOrderCode,
           },
           queryParams: {
-            params: {
-              pageSize: PAGE_SIZE.toString(),
-              currentPage: CURRENT_PAGE.toString(),
-              sort: SORT,
-            },
+            pageSize: PAGE_SIZE.toString(),
+            currentPage: CURRENT_PAGE.toString(),
+            sort: SORT,
           },
         }
       );
@@ -245,11 +243,9 @@ describe('OccUserReplenishmentOrderAdapter', () => {
         {
           urlParams: { userId: mockUserId },
           queryParams: {
-            params: {
-              pageSize: PAGE_SIZE.toString(),
-              currentPage: CURRENT_PAGE.toString(),
-              sort: SORT,
-            },
+            pageSize: PAGE_SIZE.toString(),
+            currentPage: CURRENT_PAGE.toString(),
+            sort: SORT,
           },
         }
       );

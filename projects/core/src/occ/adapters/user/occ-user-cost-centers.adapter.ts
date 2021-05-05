@@ -30,7 +30,7 @@ export class OccUserCostCenterAdapter implements UserCostCenterAdapter {
   ): string {
     return this.occEndpoints.buildUrl('getActiveCostCenters', {
       urlParams: { userId },
-      queryParams: { params },
+      queryParams: params,
     });
   }
 }

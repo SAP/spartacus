@@ -75,7 +75,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
     const url = this.occEndpoints.buildUrl('orderHistory', {
       urlParams: { userId },
-      queryParams: { params },
+      queryParams: params,
     });
 
     return this.http
@@ -154,7 +154,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
 
     const url = this.occEndpoints.buildUrl('orderReturns', {
       urlParams: { userId },
-      queryParams: { params },
+      queryParams: params,
     });
 
     return this.http
