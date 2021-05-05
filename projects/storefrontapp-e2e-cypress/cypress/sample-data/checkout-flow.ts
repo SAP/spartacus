@@ -91,5 +91,5 @@ export const cartWithCheapProduct: SampleCartProduct = {
 };
 
 export const delivery = {
-  mode: 'standard-net',
+  mode: 'standard-gross',
 };
