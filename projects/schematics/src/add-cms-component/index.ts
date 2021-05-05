@@ -373,7 +373,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       export: exportOption,
       name: componentName,
       changeDetection,
-      entryComponent,
       flat,
       inlineStyle,
       inlineTemplate,
@@ -419,7 +418,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         : noop(),
       externalSchematic(ANGULAR_SCHEMATICS, 'component', {
         changeDetection,
-        entryComponent,
         export: exportOption,
         flat,
         inlineStyle,

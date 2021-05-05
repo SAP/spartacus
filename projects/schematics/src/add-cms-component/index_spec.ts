@@ -223,7 +223,6 @@ describe('add-cms-component', () => {
         project: defaultOptions.project,
         name: 'dummy',
         module: moduleName,
-        entryComponent: true,
         export: true,
       };
       const modifiedOptions: CxCmsComponentSchema = {
