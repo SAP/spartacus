@@ -14,7 +14,7 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
   const sourceParameters: Configurator.UpdateConfigurationForCartEntryParameters = {
     userId: USER_ID,
     cartId: CART_ID,
-    configuration: { configId: CONFIG_ID },
+    configuration: { configId: CONFIG_ID, owner: { key: 'B' } },
     cartEntryNumber: ENTRY_NUMBER,
   };
 

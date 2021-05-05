@@ -4,6 +4,7 @@ import { select, Store, StoreModule } from '@ngrx/store';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions';
@@ -18,9 +19,10 @@ describe('Configurator selectors', () => {
   let store: Store<StateWithConfigurator>;
   let configuratorUtils: CommonConfiguratorUtilsService;
   const productCode = 'CONF_LAPTOP';
-  let owner: CommonConfigurator.Owner = {};
+  let owner = ConfiguratorModelUtils.createInitialOwner();
   let configuration: Configurator.Configuration = {
     configId: 'a',
+    owner: owner,
   };
   let configurationWithInteractionState: Configurator.Configuration = {
     ...configuration,
@@ -49,10 +51,11 @@ describe('Configurator selectors', () => {
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    owner = {
-      type: CommonConfigurator.OwnerType.PRODUCT,
-      id: productCode,
-    };
+    owner = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      productCode
+    );
+
     configuration = {
       configId: 'a',
       productCode: productCode,
