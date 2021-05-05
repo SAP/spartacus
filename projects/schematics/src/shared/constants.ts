@@ -339,6 +339,9 @@ export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
 export const USER_GROUP_USER_LIST_COMPONENT = 'UserGroupUserListComponent';
 export const USER_GROUP_USER_LIST_SERVICE = 'UserGroupUserListService';
+export const TOGGLE_STATUS_COMPONENT = 'ToggleStatusComponent';
+export const DELETE_ITEM_COMPONENT = 'DeleteItemComponent';
+export const ITEM_SERVICE = 'ItemService';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
