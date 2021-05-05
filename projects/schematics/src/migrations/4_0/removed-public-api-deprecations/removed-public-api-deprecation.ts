@@ -1,5 +1,4 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { SPARTACUS_STOREFRONTLIB } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
@@ -35,21 +34,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   //   importPath: SPARTACUS_STOREFRONTLIB,
   //   comment: `'${VARIANT_STYLE_SELECTOR_COMPONENT}' was moved to @spartacus/product/variants.`,
   // },
-  {
-    node: 'PageEventModule',
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'PageEventModule' was removed, please use 'NavigationEventModule' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
-  },
-  {
-    node: 'PageEventBuilder',
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'PageEventBuilder' was removed, please use 'NavigationEventBuilder' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
-  },
-  {
-    node: 'EventsModule',
-    importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'EventsModule' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
-  },
 ];
 
 export function migrate(): Rule {
