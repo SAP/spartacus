@@ -606,19 +606,15 @@ export function addPackageJsonDependenciesForLibrary<
 >(options: {
   packageJson: any;
   context: SchematicContext;
-  libraryPeerDependencies: Record<string, string>;
+  dependencies: Record<string, string>;
   options: OPTIONS;
 }): Rule {
-  const spartacusLibraries = createSpartacusDependencies(
-    options.libraryPeerDependencies
-  );
-  const thirdPartyDependencies = createDependencies(
-    options.libraryPeerDependencies
-  );
-  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
+  const spartacusLibraries = createSpartacusDependencies(options.dependencies);
+  const thirdPartyLibraries = createDependencies(options.dependencies);
+  const libraries = spartacusLibraries.concat(thirdPartyLibraries);
 
   const dependencyRule = addPackageJsonDependencies(
-    dependencies,
+    libraries,
     options.packageJson
   );
 

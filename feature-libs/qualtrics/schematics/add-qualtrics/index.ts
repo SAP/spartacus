@@ -39,7 +39,7 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
       addPackageJsonDependenciesForLibrary({
         packageJson,
         context,
-        libraryPeerDependencies: peerDependencies,
+        dependencies: peerDependencies,
         options,
       }),
     ]);
