@@ -49,10 +49,11 @@ Cypress.Commands.add(
           'OCC_PREFIX_USER_ENDPOINT'
         )}/current/carts/${cartCode}/entries`,
         body: {
-          code: productData.code,
+          product: {
+            code: productData.code,
+          },
           qty: 1,
         },
-        form: true,
         headers: {
           Authorization: `bearer ${auth.access_token}`,
         },

@@ -73,7 +73,7 @@ export const orderDetails = {
   },
   deliveryItemsQuantity: 1,
   deliveryMode: {
-    code: 'standard-net',
+    code: 'standard-gross',
     deliveryCost: {
       currencyIso: 'USD',
       formattedValue: '$7.49',

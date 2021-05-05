@@ -133,7 +133,7 @@ const pendingOrder_raw = JSON.parse(`
   },
   "deliveryItemsQuantity" : 100,
   "deliveryMode" : {
-     "code" : "standard-net",
+     "code" : "standard-gross",
      "deliveryCost" : {
         "currencyIso" : "USD",
         "formattedValue" : "$9.99",
@@ -359,7 +359,7 @@ export const approvalOrderDetail = {
     },
     deliveryItemsQuantity: 100,
     deliveryMode: {
-      code: 'standard-net',
+      code: 'standard-gross',
       deliveryCost: {
         currencyIso: 'USD',
         formattedValue: '$9.99',
