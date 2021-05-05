@@ -1,16 +1,21 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
+  CLI_SMARTEDIT_FEATURE,
   LibraryOptions as SpartacusSmartEditOptions,
   readPackageJson,
+  shouldAddFeature,
   SPARTACUS_SMARTEDIT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   SMARTEDIT_FEATURE_NAME,
   SMARTEDIT_FOLDER_NAME,
@@ -21,11 +26,22 @@ import {
 } from '../constants';
 
 export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([addSmartEditFeature(options)]);
+    return chain([
+      shouldAddFeature(CLI_SMARTEDIT_FEATURE, options.features)
+        ? addSmartEditFeature(options)
+        : noop(),
+
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
+    ]);
   };
 }
 

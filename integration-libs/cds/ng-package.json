@@ -9,5 +9,11 @@
       "@ngrx/store": "store",
       "rxjs": "rxjs"
     }
-  }
+  },
+  "assets": [
+    "**/*.scss",
+    "src/migrations/**/*.json",
+    "src/schematics/**/*.json",
+    "src/schematics/**/*.js"
+  ]
 }

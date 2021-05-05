@@ -61,22 +61,30 @@ export class ConfiguratorUtilsService {
 
   createConfigurationExtract(
     changedAttribute: Configurator.Attribute,
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
+    updateType?: Configurator.UpdateType
   ): Configurator.Configuration {
+    if (!updateType) {
+      updateType = Configurator.UpdateType.ATTRIBUTE;
+    }
     const newConfiguration: Configurator.Configuration = {
       configId: configuration.configId,
       groups: [],
       owner: configuration.owner,
       productCode: configuration.productCode,
+      updateType,
     };
 
     const groupPath: Configurator.Group[] = [];
+
     this.buildGroupPath(
       changedAttribute.groupId,
       configuration.groups,
       groupPath
     );
+
     const groupPathLength = groupPath.length;
+
     if (groupPathLength === 0) {
       throw new Error(
         'At this point we expect that group is available in the configuration: ' +
@@ -85,10 +93,13 @@ export class ConfiguratorUtilsService {
           JSON.stringify(configuration.groups.map((cGroup) => cGroup.id))
       );
     }
+
     let currentGroupInExtract: Configurator.Group = this.buildGroupForExtract(
       groupPath[groupPathLength - 1]
     );
+
     let currentLeafGroupInExtract: Configurator.Group = currentGroupInExtract;
+
     newConfiguration.groups.push(currentGroupInExtract);
 
     for (let index = groupPath.length - 1; index > 0; index--) {

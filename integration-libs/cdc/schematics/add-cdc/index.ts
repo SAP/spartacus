@@ -1,25 +1,20 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  getSpartacusSchematicsVersion,
-  installPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
-  SPARTACUS_ASM,
+  shouldAddFeature,
   SPARTACUS_CDC,
-  SPARTACUS_USER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   CDC_CONFIG,
   CDC_FEATURE,
@@ -31,33 +26,23 @@ import {
 } from '../constants';
 
 export function addCdcFeature(options: SpartacusCdcOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addCdc(options),
-      addCdcPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      shouldAddFeature(CLI_CDC_FEATURE, options.features)
+        ? addCdc(options)
+        : noop(),
+
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
-}
-
-function addCdcPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_ASM,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_USER,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addCdc(options: SpartacusCdcOptions): Rule {

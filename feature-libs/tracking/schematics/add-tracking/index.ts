@@ -7,11 +7,13 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
   shouldAddFeature,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   CLI_PERSONALIZATION_FEATURE,
   CLI_TMS_AEP_FEATURE,
@@ -33,7 +35,7 @@ import {
 } from '../constants';
 
 export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -41,12 +43,21 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
       shouldAddFeature(CLI_TMS_GTM_FEATURE, options.features)
         ? addGtm(options)
         : noop(),
+
       shouldAddFeature(CLI_TMS_AEP_FEATURE, options.features)
         ? addAep(options)
         : noop(),
+
       shouldAddFeature(CLI_PERSONALIZATION_FEATURE, options.features)
         ? addPersonalizationFeature(options)
         : noop(),
+
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
 }

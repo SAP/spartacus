@@ -83,7 +83,7 @@ describe('Currency switch - checkout page', () => {
     it('should change currency in the checkoutReviewPath page', () => {
       cy.get('cx-review-submit .cx-price .cx-value').should(
         'have.text',
-        ' ¥9,720 '
+        ' ¥9,771 '
       );
     });
   });

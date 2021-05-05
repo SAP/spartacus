@@ -7,14 +7,18 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
-import { OrderEntryStatus } from './../../core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+  OrderEntryStatus,
+} from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
+import { ConfiguratorModelUtils } from './configurator-model-utils';
 
 const productCode = 'CONF_LAPTOP';
 const documentId = '12344';
 const entryNumber = 4;
-let owner: CommonConfigurator.Owner = null;
+let owner: CommonConfigurator.Owner;
 
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
@@ -53,7 +57,7 @@ describe('CommonConfiguratorUtilsService', () => {
     classUnderTest = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    owner = {};
+    owner = ConfiguratorModelUtils.createInitialOwner();
     cartItem = {};
   });
 
@@ -191,6 +195,50 @@ describe('CommonConfiguratorUtilsService', () => {
         { numberOfIssues: 2, status: OrderEntryStatus.Success },
       ];
       expect(classUnderTest.hasIssues(cartItem)).toBeFalse();
+    });
+  });
+
+  describe('isAttributeBasedConfigurator', () => {
+    it('should return false, because the configurator type is undefined', () => {
+      expect(classUnderTest.isAttributeBasedConfigurator(undefined)).toBe(
+        false
+      );
+    });
+
+    it('should return false, because the configurator type is not an attribute based one', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator('ANYCONFIGURATOR')
+      ).toBe(false);
+    });
+
+    it('should return true for the variant configurator type', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.VARIANT)
+      ).toBe(true);
+    });
+
+    it('should return true for the textfield configurator type', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.TEXTFIELD)
+      ).toBe(true);
+    });
+  });
+
+  describe('isBundleBasedConfigurator', () => {
+    it('should return false, because the configurator type is undefined', () => {
+      expect(classUnderTest.isBundleBasedConfigurator(undefined)).toBe(false);
+    });
+
+    it('should return false, because the configurator type is not an attribute based one', () => {
+      expect(classUnderTest.isBundleBasedConfigurator('ANYCONFIGURATOR')).toBe(
+        false
+      );
+    });
+
+    it('should return true for the CPQ configurator type', () => {
+      expect(
+        classUnderTest.isBundleBasedConfigurator(ConfiguratorType.CPQ)
+      ).toBe(true);
     });
   });
 });

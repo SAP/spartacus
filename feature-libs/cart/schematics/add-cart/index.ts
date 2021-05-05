@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   configureB2bFeatures,
   LibraryOptions as SpartacusCartOptions,
   readPackageJson,
@@ -14,6 +15,7 @@ import {
   SPARTACUS_CART,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   CART_FOLDER_NAME,
   CART_SAVED_CART_FEATURE_NAME,
@@ -29,7 +31,7 @@ import {
 } from '../constants';
 
 export function addCartFeatures(options: SpartacusCartOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -40,6 +42,13 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
             configureB2bFeatures(options, packageJson),
           ])
         : noop(),
+
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
 }
