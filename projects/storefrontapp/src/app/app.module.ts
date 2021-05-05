@@ -13,12 +13,21 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
+  BaseSiteService,
+  BASE_SITE_CONTEXT_ID,
   ConfigModule,
+  ContextServiceMap,
+  CurrencyService,
+  CURRENCY_CONTEXT_ID,
   FeaturesConfig,
   I18nConfig,
+  LanguageService,
+  LANGUAGE_CONTEXT_ID,
   OccConfig,
   provideConfig,
   RoutingConfig,
+  SiteContextConfig,
+  SiteContextUrlSerializer,
   TestConfigModule,
 } from '@spartacus/core';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
@@ -28,6 +37,8 @@ import { StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { AppRoutingModule } from './app-routing.module';
+import { CustomContextService } from './custom-context.service';
+import { CustomSiteContextUrlSerializer } from './custom-site-context-url-serializer';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
 registerLocaleData(localeDe);
@@ -61,6 +72,15 @@ const ruleBasedFeatureConfiguration = environment.cpq
   ? ruleBasedCpqFeatureConfiguration
   : ruleBasedVcFeatureConfiguration;
 // PRODUCT CONFIGURATOR END
+
+export function serviceMapFactory() {
+  return {
+    [LANGUAGE_CONTEXT_ID]: LanguageService,
+    [CURRENCY_CONTEXT_ID]: CurrencyService,
+    [BASE_SITE_CONTEXT_ID]: BaseSiteService,
+    custom: CustomContextService,
+  };
+}
 
 @NgModule({
   imports: [
@@ -98,6 +118,21 @@ const ruleBasedFeatureConfiguration = environment.cpq
     ...devImports,
   ],
   providers: [
+    {
+      provide: ContextServiceMap,
+      useFactory: serviceMapFactory,
+    },
+    {
+      provide: SiteContextUrlSerializer,
+      useExisting: CustomSiteContextUrlSerializer,
+    },
+    provideConfig(<SiteContextConfig>{
+      context: {
+        urlParameters: ['baseSite', 'custom', 'currency'],
+        custom: ['e/n', 'd/e', 'j/a', 'z/h'],
+      },
+    }),
+
     provideConfig(<OccConfig>{
       backend: {
         occ: {
