@@ -1,4 +1,9 @@
-import { Component, Injectable, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  Injectable,
+  ViewContainerRef,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LayoutConfig } from '../../config/layout-config';
 import {
@@ -9,6 +14,7 @@ import {
 } from '../config/launch-config';
 import { LaunchDialogService } from './launch-dialog.service';
 import { LaunchRenderStrategy } from './launch-render.strategy';
+import { of } from 'rxjs';
 
 const mockLaunchConfig: LayoutConfig = {
   launch: {
@@ -71,6 +77,7 @@ describe('LaunchDialogService', () => {
   let routingRenderStrategy: MockRoutingRenderStrategy;
   let inlineRenderStrategy: MockInlineRenderStrategy;
   let component: TestContainerComponent;
+  let componentRef: ComponentRef<TestContainerComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -94,6 +101,7 @@ describe('LaunchDialogService', () => {
     service = TestBed.inject(LaunchDialogService);
     component = TestBed.createComponent(TestContainerComponent)
       .componentInstance;
+    componentRef = TestBed.createComponent(TestContainerComponent).componentRef;
     routingRenderStrategy = TestBed.inject(MockRoutingRenderStrategy);
     inlineRenderStrategy = TestBed.inject(MockInlineRenderStrategy);
 
@@ -156,6 +164,48 @@ describe('LaunchDialogService', () => {
       expect(service['findConfiguration']('TEST_INLINE')).toEqual(inlineConfig);
 
       expect(service['findConfiguration']('TEST_URL')).toEqual(urlConfig);
+    });
+  });
+
+  describe('openDialog', () => {
+    beforeEach(() => {
+      spyOn(service, 'launch').and.returnValue(of(componentRef));
+    });
+
+    it('should call LaunchDialogService launch', () => {
+      service.openDialog(
+        LAUNCH_CALLER.REPLENISHMENT_ORDER,
+        null,
+        component.vcr,
+        { test: 123 }
+      );
+
+      expect(service.launch).toHaveBeenCalledWith(
+        LAUNCH_CALLER.REPLENISHMENT_ORDER,
+        component.vcr,
+        {
+          test: 123,
+        }
+      );
+    });
+
+    it('should call LaunchDialogService clear on close and destriy', () => {
+      spyOn(service, 'clear');
+      spyOn(componentRef, 'destroy');
+      service['_dialogClose'].next('close');
+
+      const comp = service.openDialog(
+        LAUNCH_CALLER.REPLENISHMENT_ORDER,
+        null,
+        component.vcr
+      );
+
+      comp.subscribe();
+
+      expect(service.clear).toHaveBeenCalledWith(
+        LAUNCH_CALLER.REPLENISHMENT_ORDER
+      );
+      expect(componentRef.destroy).toHaveBeenCalled();
     });
   });
 });

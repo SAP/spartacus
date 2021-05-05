@@ -2,6 +2,7 @@
   "$schema": "http://json-schema.org/schema",
   "id": "UserSchematics",
   "title": "User Schematics",
+  "description": "Most of the Spartacus features require User Account feature to be properly configured.",
   "type": "object",
   "properties": {
     "project": {
@@ -24,7 +25,7 @@
         "type": "string"
       },
       "default": ["Account", "Profile"],
-      "x-prompt": "Which User features would you like to setup?"
+      "x-prompt": "Which User features would you like to setup? Please note that most of the Spartacus features require User Account feature to be properly configured."
     }
   },
   "required": []
