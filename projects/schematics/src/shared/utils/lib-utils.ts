@@ -624,8 +624,7 @@ export function addPackageJsonDependenciesForLibrary<
   );
   addSchematicsTasks(featureOptions, options.context);
 
-  const installationRule = installPackageJsonDependencies();
-  return chain([dependencyRule, installationRule]);
+  return chain([dependencyRule, installPackageJsonDependencies()]);
 }
 
 export function shouldAddDependency(

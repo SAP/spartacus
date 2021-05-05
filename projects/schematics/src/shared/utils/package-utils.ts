@@ -28,7 +28,7 @@ export const CORE_SPARTACUS_SCOPES = [
 export const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
 
 export function createSpartacusDependencies(
-  dependencyObject: any
+  dependencyObject: Record<string, string>
 ): NodeDependency[] {
   const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
   return createDependencies(dependencyObject, {
@@ -39,7 +39,7 @@ export function createSpartacusDependencies(
 }
 
 export function createDependencies(
-  dependencyObject: any,
+  dependencyObject: Record<string, string>,
   options: {
     /**
      * skip the scopes that start with any of the given scopes
