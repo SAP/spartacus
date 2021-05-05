@@ -7,11 +7,9 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
   configureB2bFeatures,
-  createDependencies,
-  installPackageJsonDependencies,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
   shouldAddFeature,
@@ -45,31 +43,33 @@ import {
 export function addProductConfiguratorFeatures(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
       addProductConfiguratorRulebasedFeature(options),
+
       shouldAddFeature(CLI_CPQ_FEATURE, options.features)
         ? addCpqRulebasedRootModule(options)
         : noop(),
+
       shouldAddFeature(CLI_CPQ_FEATURE, options.features)
         ? configureB2bFeatures(options, packageJson)
         : noop(),
+
       shouldAddFeature(CLI_TEXTFIELD_FEATURE, options.features)
         ? addProductConfiguratorTextfieldFeature(options)
         : noop(),
-      addProductConfiguratorPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
-}
-
-function addProductConfiguratorPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
-
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 /**
