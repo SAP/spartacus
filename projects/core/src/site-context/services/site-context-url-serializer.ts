@@ -26,7 +26,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   /**
    * Splits the URL into 2 parts: path and the query/fragment part
    */
-  protected readonly URL_SPLIT = /(^[^#?]*)(.*)/;
+  protected readonly URL_SPLIT: RegExp = /(^[^#?]*)(.*)/;
 
   /**
    * Names of site context parameters encoded in the URL
@@ -38,7 +38,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   /**
    * Tells whether any site context parameters should be encoded in the URL
    */
-  protected get hasContextInRoutes() {
+  protected get hasContextInRoutes(): boolean {
     return this.urlEncodingParameters.length > 0;
   }
 
@@ -108,7 +108,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   protected urlTreeIncludeContextParameters(
     urlTree: UrlTreeWithSiteContext,
     params: SiteContextUrlParams
-  ) {
+  ): void {
     urlTree.siteContext = params;
   }
 
@@ -139,7 +139,7 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
   protected urlIncludeContextParameters(
     url: string,
     params: SiteContextUrlParams
-  ) {
+  ): string {
     const contextRoutePart = this.urlEncodingParameters
       .map((param) => {
         return params[param]
