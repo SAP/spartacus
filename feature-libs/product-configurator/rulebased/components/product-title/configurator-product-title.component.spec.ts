@@ -15,6 +15,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
@@ -39,19 +40,19 @@ const mockRouterState: any = {
 };
 
 const config: Configurator.Configuration = {
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  },
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    PRODUCT_CODE
+  ),
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
 };
 
 const orderEntryconfig: Configurator.Configuration = {
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-  },
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.ORDER_ENTRY,
+    PRODUCT_CODE
+  ),
   configId: CONFIG_ID,
   overview: {
     productCode: PRODUCT_CODE,
@@ -62,6 +63,10 @@ const orderEntryconfigWoOverview: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.ORDER_ENTRY,
+    key: ConfiguratorModelUtils.getOwnerKey(
+      CommonConfigurator.OwnerType.ORDER_ENTRY,
+      PRODUCT_CODE
+    ),
   },
   configId: CONFIG_ID,
 };
