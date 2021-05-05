@@ -187,8 +187,6 @@ export const CART_DETAILS_COMPONENT = 'CartDetailsComponent';
 export const ORDER_DETAIL_ITEMS_COMPONENT = 'OrderDetailItemsComponent';
 export const ORDER_CONFIRMATION_ITEMS_COMPONENT =
   'OrderConfirmationItemsComponent';
-export const TOGGLE_STATUS_COMPONENT = 'ToggleStatusComponent';
-export const DELETE_ITEM_COMPONENT = 'DeleteItemComponent';
 export const REVIEW_SUBMIT_COMPONENT = 'ReviewSubmitComponent';
 export const CART_VOUCHER_SERVICE = 'CartVoucherService';
 export const CART_COUPON_COMPONENT = 'CartCouponComponent';
@@ -341,6 +339,9 @@ export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
 export const USER_GROUP_USER_LIST_COMPONENT = 'UserGroupUserListComponent';
 export const USER_GROUP_USER_LIST_SERVICE = 'UserGroupUserListService';
+export const TOGGLE_STATUS_COMPONENT = 'ToggleStatusComponent';
+export const DELETE_ITEM_COMPONENT = 'DeleteItemComponent';
+export const ITEM_SERVICE = 'ItemService';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
@@ -381,8 +382,6 @@ export const SITE_CONTEXT_PARAMS_PROVIDERS = 'siteContextParamsProviders';
 export const INIT_SITE_CONTEXT_ROUTES_HANDLER = 'initSiteContextRoutesHandler';
 export const INITITIALIZE_CONTEXT = 'inititializeContext';
 export const CONTEXT_SERVICE_PROVIDERS = 'contextServiceProviders';
-
-export const ITEM_SERVICE = 'ItemService';
 
 export const URL_MATCHER_FACTORY_SERVICE = 'UrlMatcherFactoryService';
 export const CMS_COMPONENTS_SERVICE = 'CmsComponentsService';
