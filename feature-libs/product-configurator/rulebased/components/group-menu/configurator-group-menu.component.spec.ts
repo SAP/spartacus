@@ -8,6 +8,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
@@ -66,11 +67,7 @@ const simpleConfig: Configurator.Configuration = {
   interactionState: {
     issueNavigationDone: false,
   },
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-    configuratorType: typeVariant,
-  },
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 
 const inconsistentConfig: Configurator.Configuration = {
@@ -82,6 +79,7 @@ const inconsistentConfig: Configurator.Configuration = {
   interactionState: {
     issueNavigationDone: false,
   },
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 
 const incompleteConfig: Configurator.Configuration = {
@@ -93,6 +91,7 @@ const incompleteConfig: Configurator.Configuration = {
   interactionState: {
     issueNavigationDone: false,
   },
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 
 class MockRouter {
