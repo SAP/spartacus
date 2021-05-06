@@ -183,8 +183,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
 
   protected getOrgUnitEndpoint(userId: string, orgUnitId: string): string {
     return this.occEndpoints.buildUrl('orgUnit', {
-      urlParams: { userId },
-      queryParams: { orgUnitId },
+      urlParams: { userId, orgUnitId },
     });
   }
 

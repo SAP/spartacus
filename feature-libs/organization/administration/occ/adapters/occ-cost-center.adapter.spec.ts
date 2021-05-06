@@ -28,7 +28,7 @@ const budget = {
 class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // eslint-disable-next-line no-shadow
-    (url, { costCenterCode }) =>
+    (url, { urlParams: { costCenterCode } }) =>
       url === 'costCenter' ? url + costCenterCode : url
   );
 }

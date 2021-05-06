@@ -38,7 +38,8 @@ const addressId: string = address.id;
 class MockOccEndpointsService {
   buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // eslint-disable-next-line no-shadow
-    (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
+    (url, { urlParams: { orgUnitId } }) =>
+      url === 'orgUnit' ? url + orgUnitId : url
   );
 }
 
