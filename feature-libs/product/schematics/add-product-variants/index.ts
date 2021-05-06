@@ -1,6 +1,7 @@
 import { Rule } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  CLI_PRODUCT_FEATURE,
   LibraryOptions as SpartacusVariantsOptions,
   SPARTACUS_PRODUCT,
 } from '@spartacus/schematics';
@@ -21,6 +22,7 @@ import {
 
 export function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_PRODUCT_FEATURE,
     folderName: PRODUCT_FOLDER_NAME,
     moduleName: VARIANTS_MODULE_NAME,
     featureModule: {

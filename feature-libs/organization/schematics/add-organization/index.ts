@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  CLI_ORGANIZATION_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusOrganizationOptions,
   readPackageJson,
@@ -67,6 +68,7 @@ export function addSpartacusOrganization(
 
 function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_ORGANIZATION_FEATURE,
     folderName: ORGANIZATION_FOLDER_NAME,
     moduleName: ORGANIZATION_ADMINISTRATION_MODULE_NAME,
     featureModule: {
@@ -98,6 +100,7 @@ function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
 
 function addOrderApprovalsFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_ORGANIZATION_FEATURE,
     folderName: ORGANIZATION_FOLDER_NAME,
     moduleName: ORGANIZATION_ORDER_APPROVAL_MODULE_NAME,
     featureModule: {

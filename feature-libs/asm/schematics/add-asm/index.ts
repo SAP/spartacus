@@ -42,6 +42,7 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
 
 function addAsmFeature(options: SpartacusAsmOptions): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_ASM_FEATURE,
     folderName: ASM_FOLDER_NAME,
     moduleName: ASM_MODULE_NAME,
     featureModule: {

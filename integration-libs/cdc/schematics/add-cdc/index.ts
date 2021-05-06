@@ -42,6 +42,7 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
 
 function addCdc(options: SpartacusCdcOptions): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_CDC_FEATURE,
     folderName: CDC_FOLDER_NAME,
     moduleName: CDC_MODULE_NAME,
     rootModule: {

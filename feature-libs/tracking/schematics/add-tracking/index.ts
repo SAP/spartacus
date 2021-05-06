@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  CLI_TRACKING_FEATURE,
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
   shouldAddFeature,
@@ -59,6 +60,7 @@ function addGtm(options: SpartacusTrackingOptions): Rule {
   return addLibraryFeature(
     { ...options, lazy: false }, // To add feature module in imports (not lazy)
     {
+      cliFeature: CLI_TRACKING_FEATURE,
       folderName: TRACKING_FOLDER_NAME,
       moduleName: TMS_MODULE_NAME,
       rootModule: {
@@ -97,6 +99,7 @@ function addAep(options: SpartacusTrackingOptions): Rule {
   return addLibraryFeature(
     { ...options, lazy: false }, // To add feature module in imports (not lazy)
     {
+      cliFeature: CLI_TRACKING_FEATURE,
       folderName: TRACKING_FOLDER_NAME,
       moduleName: TMS_MODULE_NAME,
       rootModule: {
@@ -133,6 +136,7 @@ function addAep(options: SpartacusTrackingOptions): Rule {
 
 function addPersonalizationFeature(options: SpartacusTrackingOptions): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_TRACKING_FEATURE,
     folderName: TRACKING_FOLDER_NAME,
     moduleName: PERSONALIZATION_MODULE_NAME,
     featureModule: {

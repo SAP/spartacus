@@ -40,6 +40,7 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
 
 function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_QUALTRICS_FEATURE,
     folderName: QUALTRICS_FOLDER_NAME,
     moduleName: QUALTRICS_MODULE_NAME,
     featureModule: {

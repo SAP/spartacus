@@ -45,6 +45,7 @@ export function addStorefinderFeatures(
 
 function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_STOREFINDER_FEATURE,
     folderName: STOREFINDER_FOLDER_NAME,
     moduleName: STOREFINDER_MODULE_NAME,
     featureModule: {

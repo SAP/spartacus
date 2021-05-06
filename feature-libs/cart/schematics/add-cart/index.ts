@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  CLI_CART_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusCartOptions,
   readPackageJson,
@@ -48,6 +49,7 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
 
 function addSavedCartFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_CART_FEATURE,
     folderName: CART_FOLDER_NAME,
     moduleName: CART_SAVED_CART_MODULE_NAME,
     featureModule: {

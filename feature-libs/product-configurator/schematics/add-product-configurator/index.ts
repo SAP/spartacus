@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  CLI_PRODUCT_CONFIGURATOR_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
@@ -80,6 +81,7 @@ function addProductConfiguratorRulebasedFeature(
   }
 
   return addLibraryFeature(options, {
+    cliFeature: CLI_PRODUCT_CONFIGURATOR_FEATURE,
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
     moduleName: PRODUCT_CONFIGURATOR_MODULE_NAME,
     featureModule: {
@@ -119,6 +121,7 @@ function addCpqRulebasedRootModule(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_PRODUCT_CONFIGURATOR_FEATURE,
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
     moduleName: PRODUCT_CONFIGURATOR_MODULE_NAME,
     featureModule: {
@@ -143,6 +146,7 @@ function addProductConfiguratorTextfieldFeature(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_PRODUCT_CONFIGURATOR_FEATURE,
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
     moduleName: PRODUCT_CONFIGURATOR_MODULE_NAME,
     featureModule: {

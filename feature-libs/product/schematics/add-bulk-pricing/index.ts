@@ -1,6 +1,7 @@
 import { Rule } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  CLI_PRODUCT_FEATURE,
   LibraryOptions as SpartacusBulkPricingOptions,
   SPARTACUS_PRODUCT,
 } from '@spartacus/schematics';
@@ -23,6 +24,7 @@ export function addBulkPricingFeature(
   options: SpartacusBulkPricingOptions
 ): Rule {
   return addLibraryFeature(options, {
+    cliFeature: CLI_PRODUCT_FEATURE,
     folderName: PRODUCT_FOLDER_NAME,
     moduleName: BULK_PRICING_MODULE_NAME,
     featureModule: {
