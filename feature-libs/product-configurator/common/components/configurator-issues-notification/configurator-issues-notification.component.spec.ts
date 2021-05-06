@@ -37,13 +37,13 @@ describe('ConfigureIssuesNotificationComponent', () => {
     readOnly: boolean;
     productConfigurable: boolean;
   }) {
-    mockCartItemContext.item$.next({
+    mockCartItemContext.item$?.next({
       statusSummaryList: testData.statusSummary,
       configurationInfos: testData.configurationInfos,
       product: { configurable: testData.productConfigurable ?? true },
     });
-    mockCartItemContext.readonly$.next(testData.readOnly);
-    mockCartItemContext.quantityControl$.next(new FormControl());
+    mockCartItemContext.readonly$?.next(testData.readOnly);
+    mockCartItemContext.quantityControl$?.next(new FormControl());
   }
 
   beforeEach(
@@ -81,7 +81,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
       done();
     });
 
-    mockCartItemContext.item$.next(orderEntry);
+    mockCartItemContext.item$?.next(orderEntry);
   });
 
   it('should expose quantityControl$', (done) => {
@@ -91,7 +91,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
       done();
     });
 
-    mockCartItemContext.quantityControl$.next(quantityControl);
+    mockCartItemContext.quantityControl$?.next(quantityControl);
   });
 
   it('should expose readonly$', (done) => {
@@ -100,8 +100,8 @@ describe('ConfigureIssuesNotificationComponent', () => {
       done();
     });
 
-    mockCartItemContext.readonly$.next(true);
-    mockCartItemContext.readonly$.next(false);
+    mockCartItemContext.readonly$?.next(true);
+    mockCartItemContext.readonly$?.next(false);
   });
 
   it('should display configure from cart in case issues are present', () => {
