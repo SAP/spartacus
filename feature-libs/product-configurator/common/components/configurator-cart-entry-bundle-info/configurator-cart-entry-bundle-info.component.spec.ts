@@ -144,7 +144,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   describe('bundle info for cart entry', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configuratorType: 'ANOTHERCPQCONFIGURATOR',
@@ -163,7 +163,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     it('should be displayed if model provides a success entry', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configurationLabel: 'Color',
@@ -185,7 +185,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     it('should be displayed if model provides a warning entry', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configurationLabel: 'Pricing',
@@ -310,7 +310,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     describe('with line item information', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
-          statusSummaryList: null,
+          statusSummaryList: undefined,
           configurationInfos: configurationInfos,
           product: {
             configurable: true,
@@ -383,7 +383,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     describe('cart entry bundle info with price and quantity', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
-          statusSummaryList: null,
+          statusSummaryList: undefined,
           configurationInfos: [
             {
               configurationLabel: 'Canon ABC',
@@ -524,7 +524,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     describe('cart entry bundle info with only quantity', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
-          statusSummaryList: null,
+          statusSummaryList: undefined,
           configurationInfos: [
             {
               configurationLabel: 'Canon ABC',
