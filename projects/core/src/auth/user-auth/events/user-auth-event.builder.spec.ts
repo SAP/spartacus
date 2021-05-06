@@ -4,13 +4,6 @@ import { TokenResponse } from 'angular-oauth2-oidc';
 import { UserService } from 'projects/core/src/user/facade/user.service';
 import { of, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { CsAgentAuthService } from '../../../asm/facade/csagent-auth.service';
-import {
-  AsmAuthStorageService,
-  TokenTarget,
-} from '../../../asm/services/asm-auth-storage.service';
-import { ASM_FEATURE } from '../../../asm/store/asm-state';
-import * as fromReducers from '../../../asm/store/reducers/index';
 import { EventService } from '../../../event/event.service';
 import { User } from '../../../model/misc.model';
 import { UserIdService } from '../facade';
@@ -26,10 +19,6 @@ const authenticatedUser: AuthToken = {
   access_token: '123',
   access_token_stored_at: 'now',
 };
-const asmUser: AuthToken = {
-  access_token: '456',
-  access_token_stored_at: 'now',
-};
 
 const token$ = new Subject<AuthToken>();
 class MockAuthService implements Partial<AuthService> {
@@ -37,27 +26,6 @@ class MockAuthService implements Partial<AuthService> {
     token$.asObservable().pipe(map((token) => !!token.access_token));
   logout = () => token$.next(anonymousUser);
 }
-
-class MockAsmAuthStorageService implements Partial<AsmAuthStorageService> {
-  setEmulatedUserToken() {}
-  getEmulatedUserToken() {
-    return authenticatedUser;
-  }
-  setTokenTarget() {}
-  getTokenTarget() {
-    return of(TokenTarget.CSAgent);
-  }
-  getToken() {
-    return token$.asObservable();
-  }
-  setToken(token: AuthToken) {
-    return token$.next(token);
-  }
-  switchTokenTargetToCSAgent() {}
-  switchTokenTargetToUser() {}
-  clearEmulatedUserToken() {}
-}
-
 class MockUserService implements Partial<UserService> {
   get = () => of({} as User);
 }
@@ -81,33 +49,26 @@ class MockUserIdService implements Partial<UserIdService> {
 describe('UserAuthEventBuilder', () => {
   let actions$: Subject<Action>;
   let eventService: EventService;
-  let csAgentAuthService: CsAgentAuthService;
   let userIdService: UserIdService;
 
   beforeEach(() => {
     actions$ = new Subject();
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(ASM_FEATURE, fromReducers.getReducers()),
-      ],
+      imports: [StoreModule.forRoot({})],
       providers: [
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: ActionsSubject, useValue: actions$ },
         { provide: AuthService, useClass: MockAuthService },
-        { provide: AsmAuthStorageService, useClass: MockAsmAuthStorageService },
         { provide: UserService, useClass: MockUserService },
         {
           provide: OAuthLibWrapperService,
           useClass: MockOAuthLibWrapperService,
         },
-        CsAgentAuthService,
       ],
     });
 
     TestBed.inject(UserAuthEventBuilder); // register events
     eventService = TestBed.inject(EventService);
-    csAgentAuthService = TestBed.inject(CsAgentAuthService);
     userIdService = TestBed.inject(UserIdService);
   });
 
@@ -167,54 +128,6 @@ describe('UserAuthEventBuilder', () => {
 
       expect(result).toEqual(new LogoutEvent());
     });
-
-    describe('ASM', () => {
-      it('should NOT fire when an ASM agent logs IN if a user was NOT authenticated', () => {
-        let result: LogoutEvent;
-        eventService
-          .get(LogoutEvent)
-          .pipe(take(1))
-          .subscribe((value) => (result = value));
-
-        token$.next(anonymousUser);
-
-        csAgentAuthService.authorizeCustomerSupportAgent('test', 'test');
-
-        expect(result).toBeUndefined();
-      });
-
-      it('should NOT fire when an ASM agent logs OUT if an emulation session was in progress', async () => {
-        spyOn(userIdService, 'isEmulated').and.returnValue(of(true));
-
-        let result: LogoutEvent;
-        eventService
-          .get(LogoutEvent)
-          .pipe(take(1))
-          .subscribe((value) => (result = value));
-
-        token$.next(asmUser);
-
-        await csAgentAuthService.logoutCustomerSupportAgent();
-
-        expect(result).toBeUndefined();
-      });
-
-      it('should NOT fire when an ASM agent logs OUT if an emulation session was NOT in progress', async () => {
-        spyOn(userIdService, 'isEmulated').and.returnValue(of(false));
-
-        let result: LogoutEvent;
-        eventService
-          .get(LogoutEvent)
-          .pipe(take(1))
-          .subscribe((value) => (result = value));
-
-        token$.next(anonymousUser);
-
-        await csAgentAuthService.logoutCustomerSupportAgent();
-
-        expect(result).toBeUndefined();
-      });
-    });
   });
 
   describe('LoginEvent', () => {
@@ -244,20 +157,6 @@ describe('UserAuthEventBuilder', () => {
       actions$.next({ type: AuthActions.LOGOUT });
       actions$.next({ type: AuthActions.LOGIN });
       expect(result).toEqual(new LoginEvent());
-    });
-
-    describe('ASM', () => {
-      it('should fire when starting customer emulation', () => {
-        let result: LoginEvent;
-        eventService
-          .get(LoginEvent)
-          .pipe(take(1))
-          .subscribe((value) => (result = value));
-
-        csAgentAuthService.startCustomerEmulationSession('test id');
-
-        expect(result).toEqual(new LoginEvent());
-      });
     });
   });
 });

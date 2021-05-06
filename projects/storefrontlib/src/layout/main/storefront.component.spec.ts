@@ -9,11 +9,6 @@ import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.se
 import { StorefrontComponent } from './storefront.component';
 
 @Component({
-  selector: 'cx-asm',
-  template: '',
-})
-class MockAsmRootComponent {}
-@Component({
   selector: 'cx-header',
   template: '',
 })
@@ -83,7 +78,6 @@ describe('StorefrontComponent', () => {
           MockFooterComponent,
           DynamicSlotComponent,
           MockPageLayoutComponent,
-          MockAsmRootComponent,
           MockFeatureDirective,
           MockSchemaComponent,
           MockOutletDirective,

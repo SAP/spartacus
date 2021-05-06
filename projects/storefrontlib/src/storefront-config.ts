@@ -1,6 +1,5 @@
 import {
   AnonymousConsentsConfig,
-  AsmConfig,
   AuthConfig,
   CartConfig,
   CmsConfig,
@@ -48,7 +47,6 @@ export type StorefrontConfig =
   | ExternalRoutesConfig
   | ViewConfig
   | FeatureToggles
-  | AsmConfig
   | SkipLinkConfig
   | PaginationConfig
   | CartConfig

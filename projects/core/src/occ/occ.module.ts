@@ -2,7 +2,6 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { provideDefaultConfig } from '../config/config-providers';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
-import { AsmOccModule } from './adapters/asm/asm-occ.module';
 import { CartOccModule } from './adapters/cart/cart-occ.module';
 import { CheckoutOccModule } from './adapters/checkout/checkout-occ.module';
 import { CmsOccModule } from './adapters/cms/cms-occ.module';
@@ -20,7 +19,6 @@ import { WithCredentialsInterceptor } from './interceptors/with-credentials.inte
  */
 @NgModule({
   imports: [
-    AsmOccModule,
     CmsOccModule,
     CartOccModule,
     CheckoutOccModule,
