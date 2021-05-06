@@ -2,7 +2,7 @@ import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
   production: true,
-  occBaseUrl: 
+  occBaseUrl:
     buildProcess.env.CX_BASE_URL ??
     'https://localhost:9002',
   occApiPrefix: '/occ/v2/',
