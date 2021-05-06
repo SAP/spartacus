@@ -44,6 +44,7 @@ import {
   createDependencies,
   createSpartacusDependencies,
   getSpartacusSchematicsVersion,
+  readPackageJson,
 } from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
@@ -97,6 +98,25 @@ export interface FeatureConfig {
    * An optional custom configuration to provide to the generated module.
    */
   customConfig?: CustomConfig | CustomConfig[];
+  /**
+   * Dependency management for the library
+   */
+  dependencyManagement?: DependencyManagement;
+}
+
+/**
+ * Dependency management for the library
+ */
+export interface DependencyManagement {
+  /**
+   * Dependencies to install with the library.
+   */
+  dependencies: Record<string, string>;
+  /**
+   * The key is a Spartacus scope, while the value is an array of features to install for it.
+   * Should be provided only when a specific feature needs to be installed. Otherwise, it defaults to an empty array.
+   */
+  cliFeatures?: Record<string, string[]>;
 }
 
 export interface CustomConfig {
@@ -152,6 +172,12 @@ export function addLibraryFeature<T extends LibraryOptions>(
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
+      config.dependencyManagement
+        ? addPackageJsonDependenciesForLibrary(
+            config.dependencyManagement,
+            options
+          )
+        : noop(),
     ]);
   };
 }
@@ -601,30 +627,30 @@ export function addPackageJsonDependencies(
   };
 }
 
-export function addPackageJsonDependenciesForLibrary<
-  OPTIONS extends LibraryOptions
->(options: {
-  packageJson: any;
-  context: SchematicContext;
-  dependencies: Record<string, string>;
-  options: OPTIONS;
-}): Rule {
-  const spartacusLibraries = createSpartacusDependencies(options.dependencies);
-  const thirdPartyLibraries = createDependencies(options.dependencies);
-  const libraries = spartacusLibraries.concat(thirdPartyLibraries);
+function addPackageJsonDependenciesForLibrary<OPTIONS extends LibraryOptions>(
+  dependencyManagement: DependencyManagement,
+  options: OPTIONS
+): Rule {
+  return (tree: Tree, context: SchematicContext): Rule => {
+    const packageJson = readPackageJson(tree);
+    const spartacusLibraries = createSpartacusDependencies(
+      dependencyManagement.dependencies
+    );
+    const thirdPartyLibraries = createDependencies(
+      dependencyManagement.dependencies
+    );
+    const libraries = spartacusLibraries.concat(thirdPartyLibraries);
+    const dependencyRule = addPackageJsonDependencies(libraries, packageJson);
 
-  const dependencyRule = addPackageJsonDependencies(
-    libraries,
-    options.packageJson
-  );
+    const featureOptions = createSpartacusFeatureOptionsForLibrary(
+      options,
+      spartacusLibraries.map((dependency) => dependency.name),
+      dependencyManagement.cliFeatures
+    );
+    addSchematicsTasks(featureOptions, context);
 
-  const featureOptions = createSpartacusFeatureOptionsForLibrary(
-    spartacusLibraries.map((dependency) => dependency.name),
-    options.options
-  );
-  addSchematicsTasks(featureOptions, options.context);
-
-  return chain([dependencyRule, installPackageJsonDependencies()]);
+    return chain([dependencyRule, installPackageJsonDependencies()]);
+  };
 }
 
 export function shouldAddDependency(
@@ -701,9 +727,12 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
  * @param options
  * @returns
  */
-function createSpartacusFeatureOptionsForLibrary<T extends LibraryOptions>(
+function createSpartacusFeatureOptionsForLibrary<
+  OPTIONS extends LibraryOptions
+>(
+  options: OPTIONS,
   spartacusLibraries: string[],
-  options: T
+  cliFeatures: Record<string, string[]> = {}
 ): {
   feature: string;
   options: LibraryOptions;
@@ -713,7 +742,7 @@ function createSpartacusFeatureOptionsForLibrary<T extends LibraryOptions>(
     options: {
       ...options,
       // an empty array means that no library features will be installed.
-      features: [],
+      features: cliFeatures[spartacusLibrary] ?? [],
     },
   }));
 }

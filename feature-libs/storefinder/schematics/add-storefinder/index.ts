@@ -7,7 +7,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependenciesForLibrary,
   CLI_STOREFINDER_FEATURE,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
@@ -32,7 +31,7 @@ import {
 export function addStorefinderFeatures(
   options: SpartacusStorefinderOptions
 ): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -40,13 +39,6 @@ export function addStorefinderFeatures(
       shouldAddFeature(CLI_STOREFINDER_FEATURE, options.features)
         ? addStorefinderFeature(options)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }
@@ -75,6 +67,9 @@ function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
     styles: {
       scssFileName: STORE_FINDER_SCSS_FILE_NAME,
       importStyle: SPARTACUS_STOREFINDER,
+    },
+    dependencyManagement: {
+      dependencies: peerDependencies,
     },
   });
 }

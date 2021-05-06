@@ -7,7 +7,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependenciesForLibrary,
   configureB2bFeatures,
   LibraryOptions as SpartacusOrganizationOptions,
   readPackageJson,
@@ -44,7 +43,7 @@ import {
 export function addSpartacusOrganization(
   options: SpartacusOrganizationOptions
 ): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -62,13 +61,6 @@ export function addSpartacusOrganization(
             configureB2bFeatures(options, packageJson),
           ])
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }
@@ -98,6 +90,9 @@ function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
       scssFileName: SCSS_FILE_NAME,
       importStyle: SPARTACUS_ORGANIZATION,
     },
+    dependencyManagement: {
+      dependencies: peerDependencies,
+    },
   });
 }
 
@@ -125,6 +120,9 @@ function addOrderApprovalsFeature(options: SpartacusOrganizationOptions): Rule {
     styles: {
       scssFileName: SCSS_FILE_NAME,
       importStyle: SPARTACUS_ORGANIZATION,
+    },
+    dependencyManagement: {
+      dependencies: peerDependencies,
     },
   });
 }

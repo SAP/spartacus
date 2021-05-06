@@ -7,7 +7,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependenciesForLibrary,
   configureB2bFeatures,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
@@ -43,7 +42,7 @@ import {
 export function addProductConfiguratorFeatures(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -60,13 +59,6 @@ export function addProductConfiguratorFeatures(
       shouldAddFeature(CLI_TEXTFIELD_FEATURE, options.features)
         ? addProductConfiguratorTextfieldFeature(options)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }
@@ -111,6 +103,9 @@ function addProductConfiguratorRulebasedFeature(
       scssFileName: PRODUCT_CONFIGURATOR_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT_CONFIGURATOR,
     },
+    dependencyManagement: {
+      dependencies: peerDependencies,
+    },
   });
 }
 /**
@@ -137,6 +132,9 @@ function addCpqRulebasedRootModule(
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT,
       namedImports: [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME_CONSTANT],
+    },
+    dependencyManagement: {
+      dependencies: peerDependencies,
     },
   });
 }
@@ -167,6 +165,9 @@ function addProductConfiguratorTextfieldFeature(
     styles: {
       scssFileName: PRODUCT_CONFIGURATOR_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT_CONFIGURATOR,
+    },
+    dependencyManagement: {
+      dependencies: peerDependencies,
     },
   });
 }

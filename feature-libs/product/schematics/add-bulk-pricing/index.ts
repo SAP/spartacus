@@ -4,6 +4,7 @@ import {
   LibraryOptions as SpartacusBulkPricingOptions,
   SPARTACUS_PRODUCT,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   BULK_PRICING_FEATURE_NAME_CONSTANT,
   BULK_PRICING_MODULE,
@@ -44,6 +45,9 @@ export function addBulkPricingFeature(
     styles: {
       scssFileName: PRODUCT_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT,
+    },
+    dependencyManagement: {
+      dependencies: peerDependencies,
     },
   });
 }

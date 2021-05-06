@@ -7,7 +7,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependenciesForLibrary,
   CLI_QUALTRICS_FEATURE,
   LibraryOptions as SpartacusQualtricsOptions,
   readPackageJson,
@@ -27,7 +26,7 @@ import {
 } from '../constants';
 
 export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -35,13 +34,6 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
       shouldAddFeature(CLI_QUALTRICS_FEATURE, options.features)
         ? addQualtricsFeature(options)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }
@@ -65,6 +57,9 @@ function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {
     styles: {
       scssFileName: QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
       importStyle: SPARTACUS_QUALTRICS,
+    },
+    dependencyManagement: {
+      dependencies: peerDependencies,
     },
   });
 }

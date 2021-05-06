@@ -4,6 +4,7 @@ import {
   LibraryOptions as SpartacusVariantsOptions,
   SPARTACUS_PRODUCT,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   PRODUCT_FOLDER_NAME,
   PRODUCT_SCSS_FILE_NAME,
@@ -42,6 +43,9 @@ export function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
     styles: {
       scssFileName: PRODUCT_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT,
+    },
+    dependencyManagement: {
+      dependencies: peerDependencies,
     },
   });
 }

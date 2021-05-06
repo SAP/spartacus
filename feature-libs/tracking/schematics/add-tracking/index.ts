@@ -7,7 +7,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependenciesForLibrary,
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
   shouldAddFeature,
@@ -36,7 +35,7 @@ import {
 } from '../constants';
 
 export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -52,13 +51,6 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
       shouldAddFeature(CLI_PERSONALIZATION_FEATURE, options.features)
         ? addPersonalizationFeature(options)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }
@@ -93,6 +85,9 @@ function addGtm(options: SpartacusTrackingOptions): Rule {
             },
           },
         }`,
+      },
+      dependencyManagement: {
+        dependencies: peerDependencies,
       },
     }
   );
@@ -129,6 +124,9 @@ function addAep(options: SpartacusTrackingOptions): Rule {
           },
         }`,
       },
+      dependencyManagement: {
+        dependencies: peerDependencies,
+      },
     }
   );
 }
@@ -148,6 +146,9 @@ function addPersonalizationFeature(options: SpartacusTrackingOptions): Rule {
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_PERSONALIZATION_ROOT,
       namedImports: [PERSONALIZATION_FEATURE_NAME_CONSTANT],
+    },
+    dependencyManagement: {
+      dependencies: peerDependencies,
     },
   });
 }

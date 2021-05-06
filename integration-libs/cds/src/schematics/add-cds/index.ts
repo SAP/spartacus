@@ -8,7 +8,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependenciesForLibrary,
   CDS_CONFIG,
   CLI_CDS_FEATURE,
   CustomConfig,
@@ -30,13 +29,6 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
       shouldAddFeature(CLI_CDS_FEATURE, options.features)
         ? addCds(options, context)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }
@@ -99,6 +91,9 @@ function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
         content: `${CDS_MODULE}.forRoot()`,
       },
       customConfig,
+      dependencyManagement: {
+        dependencies: peerDependencies,
+      },
     }
   );
 }

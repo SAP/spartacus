@@ -7,7 +7,6 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependenciesForLibrary,
   CLI_ASM_FEATURE,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
@@ -29,7 +28,7 @@ import {
 } from '../constants';
 
 export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -37,13 +36,6 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
       shouldAddFeature(CLI_ASM_FEATURE, options.features)
         ? addAsmFeature(options)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }
@@ -68,6 +60,9 @@ function addAsmFeature(options: SpartacusAsmOptions): Rule {
       resources: ASM_TRANSLATIONS,
       chunks: ASM_TRANSLATION_CHUNKS_CONFIG,
       importPath: SPARTACUS_ASM_ASSETS,
+    },
+    dependencyManagement: {
+      dependencies: peerDependencies,
     },
   });
 }

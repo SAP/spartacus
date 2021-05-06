@@ -7,12 +7,13 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependenciesForLibrary,
   CLI_CDC_FEATURE,
+  CLI_USER_ACCOUNT_FEATURE,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CDC,
+  SPARTACUS_USER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -27,7 +28,7 @@ import {
 } from '../constants';
 
 export function addCdcFeature(options: SpartacusCdcOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -35,13 +36,6 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
       shouldAddFeature(CLI_CDC_FEATURE, options.features)
         ? addCdc(options)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }
@@ -79,6 +73,12 @@ function addCdc(options: SpartacusCdcOptions): Rule {
             },
           ],
         }`,
+    },
+    dependencyManagement: {
+      dependencies: peerDependencies,
+      cliFeatures: {
+        [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE],
+      },
     },
   });
 }
