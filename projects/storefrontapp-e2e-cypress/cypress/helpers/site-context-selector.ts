@@ -99,7 +99,7 @@ export function addressBookNextStep() {
 }
 
 export function deliveryModeNextStep() {
-  cy.get('cx-delivery-mode #deliveryMode-standard-gross').click({
+  cy.get('cx-delivery-mode #deliveryMode-standard-net').click({
     force: true,
   });
 

@@ -3,7 +3,7 @@ import { addCheapProductToCart } from '../checkout-flow';
 
 export const APPAREL_BASESITE = 'apparel-uk-spa';
 export const APPAREL_CURRENCY = 'GBP';
-export const APPAREL_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-gross';
+export const APPAREL_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
 
 export function configureProductWithVariants() {
   cy.cxConfig({

@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -52,7 +52,7 @@ const mockAddress: Address = {
 const addressBS = new BehaviorSubject<Country>(mockAddress.country);
 
 const mockDeliveryMode: DeliveryMode = {
-  name: 'standard-gross',
+  name: 'standard-net',
   description: 'Delivery mode test description',
 };
 const deliveryModeBS = new BehaviorSubject<DeliveryMode>(mockDeliveryMode);
@@ -392,7 +392,7 @@ describe('ReviewSubmitComponent', () => {
 
   it('should call getDeliveryModeCard(deliveryMode) to get delivery mode card data', () => {
     const selectedMode: DeliveryMode = {
-      code: 'standard-gross',
+      code: 'standard-net',
       name: 'Standard gross',
       description: 'Standard Delivery description',
       deliveryCost: {
