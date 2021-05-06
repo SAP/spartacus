@@ -6,6 +6,7 @@ import {
   MESSAGE_SERVICE,
   FEATURE_CONFIG_SERVICE,
   SPARTACUS_CORE,
+  DISABLE_INFO_SERVICE,
 } from '../../../../shared/constants';
 export const TOGGLE_STATUS_COMPONENT_MIGRATION: ConstructorDeprecation = {
   class: TOGGLE_STATUS_COMPONENT,
@@ -28,6 +29,12 @@ export const TOGGLE_STATUS_COMPONENT_MIGRATION: ConstructorDeprecation = {
     {
       className: FEATURE_CONFIG_SERVICE,
       importPath: SPARTACUS_CORE,
+    },
+  ],
+  addParams: [
+    {
+      className: DISABLE_INFO_SERVICE,
+      importPath: SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
     },
   ],
 };
