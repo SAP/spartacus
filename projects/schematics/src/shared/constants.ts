@@ -342,6 +342,7 @@ export const USER_GROUP_USER_LIST_SERVICE = 'UserGroupUserListService';
 export const TOGGLE_STATUS_COMPONENT = 'ToggleStatusComponent';
 export const DELETE_ITEM_COMPONENT = 'DeleteItemComponent';
 export const ITEM_SERVICE = 'ItemService';
+export const DISABLE_INFO_SERVICE = 'DisableInfoService';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
