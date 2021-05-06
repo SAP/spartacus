@@ -1,12 +1,15 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
+import { FormControl } from '@angular/forms';
 import {
   Cart,
   OCC_USER_ID_ANONYMOUS,
   OrderEntry,
+  PromotionLocation,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { CartItemContext, CartItemContextSource } from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -38,8 +41,18 @@ class MockUserIdService {
   }
 }
 
+class MockCartItemContext implements Partial<CartItemContext> {
+  item$ = new ReplaySubject<OrderEntry>(1);
+  readonly$ = new ReplaySubject<boolean>(1);
+  quantityControl$ = new ReplaySubject<FormControl>(1);
+  location$ = new BehaviorSubject<PromotionLocation>(
+    PromotionLocation.ActiveCart
+  );
+}
+
 describe('CommonConfiguratorUtilsService', () => {
   let classUnderTest: CommonConfiguratorUtilsService;
+  let mockCartItemContext: CartItemContextSource;
 
   beforeEach(
     waitForAsync(() => {
@@ -49,6 +62,7 @@ describe('CommonConfiguratorUtilsService', () => {
             provide: UserIdService,
             useClass: MockUserIdService,
           },
+          { provide: CartItemContext, useClass: MockCartItemContext },
         ],
       }).compileComponents();
     })
@@ -58,6 +72,7 @@ describe('CommonConfiguratorUtilsService', () => {
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     owner = ConfiguratorModelUtils.createInitialOwner();
+    mockCartItemContext = TestBed.inject(CartItemContext) as any;
     cartItem = {};
   });
 
@@ -239,6 +254,34 @@ describe('CommonConfiguratorUtilsService', () => {
       expect(
         classUnderTest.isBundleBasedConfigurator(ConfiguratorType.CPQ)
       ).toBe(true);
+    });
+  });
+
+  describe('isActiveCartContext', () => {
+    it('should emit false if context is SaveForLater', () => {
+      mockCartItemContext.location$?.next(PromotionLocation.SaveForLater);
+
+      let result: boolean | undefined;
+
+      classUnderTest
+        .isActiveCartContext(mockCartItemContext)
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should emit true if context is active cart', () => {
+      mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
+
+      let result: boolean | undefined;
+
+      classUnderTest
+        .isActiveCartContext(mockCartItemContext)
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
     });
   });
 });
