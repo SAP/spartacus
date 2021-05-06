@@ -1,10 +1,11 @@
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
+import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -16,7 +17,9 @@ export class ConfiguratorStorefrontUtilsService {
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     @Inject(PLATFORM_ID) protected platformId: any,
-    protected keyboardFocusService?: KeyboardFocusService
+    @Inject(DOCUMENT) protected document,
+    protected keyboardFocusService?: KeyboardFocusService,
+    protected breakpointService?: BreakpointService
   ) {}
 
   /**
@@ -127,5 +130,74 @@ export class ConfiguratorStorefrontUtilsService {
         }
       }
     }
+  }
+
+  protected getTabs() {
+    if (isPlatformBrowser(this.platformId)) {
+      let selector = ' cx-configurator-group-menu button[role="tab"]';
+      if (this.breakpointService?.isUp(BREAKPOINT.lg)) {
+        selector = 'main' + selector;
+      } else {
+        selector = '.navigation' + selector;
+      }
+      return this.document.querySelectorAll(selector);
+    }
+  }
+
+  protected focusNextTab(currentTabIndex?: number): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const tabs = this.getTabs();
+      if (currentTabIndex === tabs.length - 1) {
+        tabs[0].focus();
+      } else {
+        tabs[currentTabIndex + 1].focus();
+      }
+    }
+  }
+
+  protected focusPreviousTab(currentTabIndex?: number): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const tabs = this.getTabs();
+      if (tabs[0].id === 'back-button') {
+        currentTabIndex++;
+      }
+      if (currentTabIndex === 0) {
+        tabs[tabs.length - 1].focus();
+      } else {
+        tabs[currentTabIndex - 1].focus();
+      }
+    }
+  }
+
+  switchTabOnArrowPress(
+    event: KeyboardEvent,
+    currentGroupIndex?: number
+  ): void {
+    if (isPlatformBrowser(this.platformId)) {
+      event.preventDefault();
+      const pressedKey = event.key;
+      if (pressedKey === 'ArrowUp') {
+        this.focusPreviousTab(currentGroupIndex);
+      } else if (pressedKey == 'ArrowDown') {
+        this.focusNextTab(currentGroupIndex);
+      }
+    }
+  }
+
+  protected deactivateTabs(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const tabs = this.getTabs();
+      for (let t = 0; t < tabs.length; t++) {
+        tabs[t].setAttribute('tabindex', '-1');
+        tabs[t].setAttribute('aria-selected', 'false');
+      }
+    }
+  }
+
+  activateTab(tab: HTMLElement): void {
+    this.deactivateTabs();
+    tab.setAttribute('tabindex', '0');
+    tab.setAttribute('aria-selected', 'true');
+    tab.focus();
   }
 }

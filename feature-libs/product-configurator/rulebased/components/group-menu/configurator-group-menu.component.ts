@@ -83,16 +83,25 @@ export class ConfiguratorGroupMenuComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configUtils: ConfiguratorStorefrontUtilsService
   ) {}
+
   /**
-   * Prevents page down behaviour when users press space key to select buttons
+   * Prevents page down behaviour when users press 'ArrowUp' or 'ArrowDown' keys
+   * to change the focus to the corresponding group
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
-  preventScrollingOnSpace(event: KeyboardEvent): void {
-    if (event.code === 'Space') {
-      event.preventDefault();
+  switchTabOnArrowPress(
+    event: KeyboardEvent,
+    groupIndex?: number,
+    group?: Configurator.Group
+  ): void {
+    if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
+      this.configUtils.switchTabOnArrowPress(event, groupIndex);
+    } else if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+      this.click(group);
     }
   }
+
   /**
    * Fired on key board events, checks for 'enter' or 'space' and delegates to click.
    *
@@ -102,6 +111,7 @@ export class ConfiguratorGroupMenuComponent {
   clickOnEnter(event: KeyboardEvent, group: Configurator.Group): void {
     if (event.code === 'Enter' || event.code === 'Space') {
       this.click(group);
+      this.configUtils.activateTab(event.target as HTMLElement);
     }
   }
 
@@ -132,8 +142,9 @@ export class ConfiguratorGroupMenuComponent {
    * @param {KeyboardEvent} event - Keyboard event
    */
   navigateUpOnEnter(event: KeyboardEvent): void {
-    if (event.code === 'Enter' || event.code === 'Space') {
+    if (event.code === 'Space' || event.code === 'Enter') {
       this.navigateUp();
+      this.configUtils.activateTab(event.target as HTMLElement);
     }
   }
 
@@ -289,5 +300,9 @@ export class ConfiguratorGroupMenuComponent {
         return groupStatusStyle;
       })
     );
+  }
+
+  protected isGroupSelected(currentGroupId: string, groupId: string): boolean {
+    return currentGroupId === groupId;
   }
 }
