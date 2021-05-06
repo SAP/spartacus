@@ -12,8 +12,8 @@ import { SiteContextConfigInitializer } from './config/config-loader/site-contex
 import { defaultSiteContextConfigFactory } from './config/default-site-context-config';
 import { SiteContextConfig } from './config/site-context-config';
 import { SiteContextEventModule } from './events/site-context-event.module';
-import { contextPersistenceProviders } from './providers/contex-persistence-providers';
 import { BASE_SITE_CONTEXT_ID } from './providers/context-ids';
+import { contextPersistenceProviders } from './providers/context-persistence-providers';
 import { contextServiceMapProvider } from './providers/context-service-map';
 import { contextServiceProviders } from './providers/context-service-providers';
 import { siteContextParamsProviders } from './providers/site-context-params-providers';
