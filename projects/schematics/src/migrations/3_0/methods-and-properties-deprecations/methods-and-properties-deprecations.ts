@@ -43,6 +43,10 @@ import { STORE_FINDER_ACTIONS_MIGRATION } from './data/store-finder-group.action
 import { STOREFRONT_COMPONENT_MIGRATION } from './data/storefront-component.migration';
 import { UPDATE_EMAIL_COMPONENT_MIGRATION } from './data/update-email.component.migration';
 
+import { SITE_CONTEXT_MODULE_MIGRATION } from './data/site-context.module.migration';
+import { I18N_MODULE_MIGRATION } from './data/i18n.module.migration';
+import { OCC_ENDPOINT_MIGRATION } from './data/occ-endpoint.model.migration.ts';
+
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CHECKOUT_CONNECTOR_MIGRATION,
   ...CHECKOUT_ADAPTER_MIGRATION,
@@ -85,6 +89,9 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR_MIGRATION,
   ...OCC_CMS_COMPONENT_ADAPTER_MIGRATION,
   ...PAGE_META_SERVICE_MIGRATION,
+  ...SITE_CONTEXT_MODULE_MIGRATION,
+  ...I18N_MODULE_MIGRATION,
+  ...OCC_ENDPOINT_MIGRATION,
 ];
 
 export function migrate(): Rule {

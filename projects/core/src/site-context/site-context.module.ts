@@ -23,13 +23,8 @@ import { SiteContextStoreModule } from './store/site-context-store.module';
  */
 export function initSiteContextConfig(
   configInitializer: SiteContextConfigInitializer,
-  config: SiteContextConfig,
-  featureConfigService: FeatureConfigService
+  config: SiteContextConfig
 ): ConfigInitializer | null {
-  // TODO(#11515): remove it in 4.0
-  if (!featureConfigService.isLevel('3.2')) {
-    return null;
-  }
   /**
    * Load config for `context` from backend only when there is no static config for `context.baseSite`
    */

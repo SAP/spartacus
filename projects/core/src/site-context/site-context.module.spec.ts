@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { ConfigInitializer } from '../config/config-initializer/config-initializer';
-import { FeatureConfigService } from '../features-config/services/feature-config.service';
 import { SiteContextConfigInitializer } from './config/config-loader/site-context-config-initializer';
 import { SiteContextConfig } from './config/site-context-config';
 import { initSiteContextConfig } from './site-context.module';
@@ -10,13 +9,6 @@ class MockSiteContextConfigInitializer implements ConfigInitializer {
   readonly configFactory = async () => ({});
 }
 
-// TODO(#11515): remove it in 4.0
-class MockFeatureConfigService {
-  isLevel() {
-    return true;
-  }
-}
-
 class MockSiteContextConfig {
   context = {};
 }
@@ -24,7 +16,6 @@ class MockSiteContextConfig {
 describe('SiteContextModule', () => {
   let config: SiteContextConfig;
   let initializer: SiteContextConfigInitializer;
-  let featureService: FeatureConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -34,14 +25,11 @@ describe('SiteContextModule', () => {
           useClass: MockSiteContextConfigInitializer,
         },
         { provide: SiteContextConfig, useClass: MockSiteContextConfig },
-        // TODO(#11515): remove it in 4.0
-        { provide: FeatureConfigService, useClass: MockFeatureConfigService },
       ],
     });
 
     config = TestBed.inject(SiteContextConfig);
     initializer = TestBed.inject(SiteContextConfigInitializer);
-    featureService = TestBed.inject(FeatureConfigService);
 
     spyOn(initializer, 'configFactory').and.callThrough();
   });
@@ -50,13 +38,13 @@ describe('SiteContextModule', () => {
     config.context = {
       baseSite: ['electronics'],
     };
-    const result = initSiteContextConfig(initializer, config, featureService);
+    const result = initSiteContextConfig(initializer, config);
     expect(result).toEqual(null);
   });
 
   it(`should resolve SiteContextConfig when it was not configured statically `, () => {
     config.context = {};
-    const result = initSiteContextConfig(initializer, config, featureService);
+    const result = initSiteContextConfig(initializer, config);
     expect(result).toEqual(initializer);
   });
 });
