@@ -5,7 +5,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -92,13 +92,17 @@ export class ConfiguratorGroupMenuComponent {
    */
   switchTabOnArrowPress(
     event: KeyboardEvent,
-    groupIndex?: number,
+    groupIndex: number,
     group?: Configurator.Group
   ): void {
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
       this.configUtils.switchTabOnArrowPress(event, groupIndex);
     } else if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
-      this.click(group);
+      if (this.configUtils.isBackBtnVisible()) {
+        this.navigateUp();
+      } else {
+        this.click(group);
+      }
     }
   }
 
@@ -155,7 +159,7 @@ export class ConfiguratorGroupMenuComponent {
         const parentGroup$ = this.getParentGroup(displayedParentGroup);
         this.configuration$.pipe(take(1)).subscribe((configuration) => {
           parentGroup$
-            .pipe(take(1))
+            .pipe(take(1), delay(0)) //we need to consider the re-rendering of the page)
             .subscribe((parentGroup) =>
               this.configuratorGroupsService.setMenuParentGroup(
                 configuration.owner,
