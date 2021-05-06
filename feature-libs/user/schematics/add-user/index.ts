@@ -7,9 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  createDependencies,
-  installPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
   LibraryOptions as SpartacusUserOptions,
   readPackageJson,
   shouldAddFeature,
@@ -42,7 +40,7 @@ import {
 } from '../constants';
 
 export function addUserFeatures(options: SpartacusUserOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -55,16 +53,14 @@ export function addUserFeatures(options: SpartacusUserOptions): Rule {
         ? addProfileFeature(options)
         : noop(),
 
-      addUserPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
-}
-
-function addUserPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
-
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addAccountFeature(options: SpartacusUserOptions): Rule {

@@ -1,4 +1,7 @@
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 
@@ -9,6 +12,7 @@ export const initialState: Configurator.Configuration = {
     groupsVisited: {},
     menuParentGroup: null,
   },
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 export const initialStatePendingChanges = 0;
 
@@ -65,14 +69,10 @@ export function configuratorReducer(
     }
     case ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY: {
       const content = { ...action.payload.configuration };
-      content.nextOwner = {
-        type: CommonConfigurator.OwnerType.CART_ENTRY,
-        id: action.payload.cartEntryNo,
-        key:
-          CommonConfigurator.OwnerType.CART_ENTRY +
-          '/' +
-          action.payload.cartEntryNo,
-      };
+      content.nextOwner = ConfiguratorModelUtils.createOwner(
+        CommonConfigurator.OwnerType.CART_ENTRY,
+        action.payload.cartEntryNo
+      );
       const result = {
         ...state,
         ...content,

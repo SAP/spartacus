@@ -12,6 +12,7 @@ const groupIdOfChangedAttribute = '1';
 
 const configuration: Configurator.Configuration = {
   configId: configId,
+  owner: { key: 'A' },
   groups: [
     {
       attributes: [
