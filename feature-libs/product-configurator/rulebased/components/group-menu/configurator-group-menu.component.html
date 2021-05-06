@@ -12,7 +12,7 @@
               [attr.aria-selected]="false"
               [cxFocus]="{ autofocus: true }"
               (click)="navigateUp()"
-              (keydown)="switchTabOnArrowPress($event, groupIndex)"
+              (keydown)="switchTabOnArrowPress($event, groupIndex, group)"
               (keyup)="navigateUpOnEnter($event)"
             >
               <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>

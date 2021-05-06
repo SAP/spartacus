@@ -98,9 +98,9 @@ export class ConfiguratorGroupMenuComponent {
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
       this.configUtils.switchTabOnArrowPress(event, groupIndex);
     } else if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
-      if (this.configUtils.isBackBtnVisible()) {
+      if (this.configUtils.isBackBtnFocused()) {
         this.navigateUp();
-      } else {
+      } else if (!this.configUtils.isBackBtnExist()) {
         this.click(group);
       }
     }
@@ -148,7 +148,7 @@ export class ConfiguratorGroupMenuComponent {
   navigateUpOnEnter(event: KeyboardEvent): void {
     if (event.code === 'Space' || event.code === 'Enter') {
       this.navigateUp();
-      this.configUtils.activateTab(event.target as HTMLElement);
+      //this.configUtils.activateTab(event.target as HTMLElement);
     }
   }
 
@@ -160,12 +160,13 @@ export class ConfiguratorGroupMenuComponent {
         this.configuration$.pipe(take(1)).subscribe((configuration) => {
           parentGroup$
             .pipe(take(1), delay(0)) //we need to consider the re-rendering of the page)
-            .subscribe((parentGroup) =>
+            .subscribe((parentGroup) => {
               this.configuratorGroupsService.setMenuParentGroup(
                 configuration.owner,
                 parentGroup ? parentGroup.id : null
-              )
-            );
+              );
+              this.configUtils.activateTab(undefined, displayedParentGroup.id);
+            });
         });
       });
   }

@@ -217,11 +217,16 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
-  activateTab(tab: HTMLElement): void {
-    this.deactivateTabs();
-    tab.setAttribute('tabindex', '0');
-    tab.setAttribute('aria-selected', 'true');
-    tab.focus();
+  activateTab(tab: HTMLElement, elementId?: string): void {
+    if (isPlatformBrowser(this.platformId)) {
+      if (!tab) {
+        tab = document.querySelector(elementId);
+      }
+      this.deactivateTabs();
+      tab.setAttribute('tabindex', '0');
+      tab.setAttribute('aria-selected', 'true');
+      tab.focus();
+    }
   }
 
   protected deactivateBackButton(): void {
@@ -234,6 +239,7 @@ export class ConfiguratorStorefrontUtilsService {
       backButton?.focus();
     }
   }
+  
   protected focusBackButton(): void {
     if (isPlatformBrowser(this.platformId)) {
       const backButton: HTMLElement = document.querySelector(
@@ -254,7 +260,18 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
-  isBackBtnVisible(): boolean {
-    return this.getTabs()[0].id === 'back-button';
+  isBackBtnExist(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      return this.getTabs()[0].id === 'back-button';
+    }
+  }
+
+  isBackBtnFocused(): boolean {
+    if (isPlatformBrowser(this.platformId)) {
+      const tabs = this.getTabs();
+      return (
+        tabs[0].id === 'back-button' && this.document.activeElement === tabs[0]
+      );
+    }
   }
 }
