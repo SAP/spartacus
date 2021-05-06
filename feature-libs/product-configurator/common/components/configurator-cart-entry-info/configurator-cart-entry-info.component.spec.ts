@@ -148,43 +148,6 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       );
     });
 
-    it('should disable product configuration when context is SaveForLater', () => {
-      mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
-      fixture.detectChanges();
-
-      let result: boolean | undefined;
-
-      component.shouldShowButton$
-        .subscribe((data) => (result = data))
-        .unsubscribe();
-
-      expect(result).toEqual(false);
-    });
-
-    it('should disable product configuration when context is SavedCart', () => {
-      mockCartItemContext.location$.next(PromotionLocation.SavedCart);
-      fixture.detectChanges();
-      let result: boolean | undefined;
-
-      component.shouldShowButton$
-        .subscribe((data) => (result = data))
-        .unsubscribe();
-
-      expect(result).toEqual(false);
-    });
-
-    it('should display configure button if context is NOT related to saved carts ', () => {
-      mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
-      fixture.detectChanges();
-      let result: boolean | undefined;
-
-      component.shouldShowButton$
-        .subscribe((data) => (result = data))
-        .unsubscribe();
-
-      expect(result).toEqual(true);
-    });
-
     describe('hasStatus', () => {
       it('should be true if first entry of status summary is in error status and has a definition of the configurator type', () => {
         const entry: OrderEntry = {
@@ -223,6 +186,88 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       it('should return false if no configurationInfos are provided', () => {
         const entry: OrderEntry = {};
         expect(component.isAttributeBasedConfigurator(entry)).toBe(false);
+      });
+    });
+
+    describe('shouldShowButton', () => {
+      it('should emit false if context is SaveForLater', () => {
+        mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
+        fixture.detectChanges();
+
+        let result: boolean | undefined;
+
+        component.shouldShowButton$
+          .subscribe((data) => (result = data))
+          .unsubscribe();
+
+        expect(result).toEqual(false);
+      });
+
+      it('should prevent the rendering of "edit configuration" if context is SaveForLater', () => {
+        const quantityControl = new FormControl();
+        mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        mockCartItemContext.item$.next({
+          statusSummaryList: undefined,
+          product: { configurable: true },
+          configurationInfos: [
+            {
+              configuratorType: ConfiguratorType.VARIANT,
+            },
+          ],
+        });
+        fixture.detectChanges();
+
+        const htmlElem = fixture.nativeElement;
+        expect(
+          htmlElem.querySelectorAll('.cx-configure-cart-entry').length
+        ).toBe(0);
+      });
+
+      it('should emit false if context is SavedCart', () => {
+        mockCartItemContext.location$.next(PromotionLocation.SavedCart);
+        fixture.detectChanges();
+        let result: boolean | undefined;
+
+        component.shouldShowButton$
+          .subscribe((data) => (result = data))
+          .unsubscribe();
+
+        expect(result).toEqual(false);
+      });
+
+      it('should emit true if context is NOT related to saved carts ', () => {
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+
+        fixture.detectChanges();
+        let result: boolean | undefined;
+
+        component.shouldShowButton$
+          .subscribe((data) => (result = data))
+          .unsubscribe();
+
+        expect(result).toEqual(true);
+      });
+
+      it('should allow the rendering of "edit configuration" if context is active cart', () => {
+        const quantityControl = new FormControl();
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        mockCartItemContext.item$.next({
+          statusSummaryList: undefined,
+          product: { configurable: true },
+          configurationInfos: [
+            {
+              configuratorType: ConfiguratorType.VARIANT,
+            },
+          ],
+        });
+        fixture.detectChanges();
+
+        const htmlElem = fixture.nativeElement;
+        expect(
+          htmlElem.querySelectorAll('cx-configure-cart-entry').length
+        ).toBe(1);
       });
     });
   });
