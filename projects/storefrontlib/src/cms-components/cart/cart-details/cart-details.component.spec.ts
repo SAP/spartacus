@@ -83,7 +83,14 @@ describe('CartDetailsComponent', () => {
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
-    ['getCart', 'removeEntry', 'getEntries', 'addEntry', 'isEnabled']
+    [
+      'getCart',
+      'removeEntry',
+      'getEntries',
+      'isStable',
+      'addEntry',
+      'isEnabled',
+    ]
   );
 
   const mockAuthService = jasmine.createSpyObj('AuthService', [
@@ -122,6 +129,7 @@ describe('CartDetailsComponent', () => {
       }).compileComponents();
 
       mockSelectiveCartService.isEnabled.and.returnValue(true);
+      mockSelectiveCartService.isStable.and.returnValue(of(true));
     })
   );
 
