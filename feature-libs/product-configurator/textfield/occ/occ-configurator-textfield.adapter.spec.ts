@@ -185,9 +185,11 @@ describe('OccConfigurationTextfieldAdapter', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateTextfieldConfigurationForCartEntry',
       {
-        userId: USER_ID,
-        cartId: CART_ID,
-        cartEntryNumber: CART_ENTRY_NUMBER,
+        urlParams: {
+          userId: USER_ID,
+          cartId: CART_ID,
+          cartEntryNumber: CART_ENTRY_NUMBER,
+        },
       }
     );
 

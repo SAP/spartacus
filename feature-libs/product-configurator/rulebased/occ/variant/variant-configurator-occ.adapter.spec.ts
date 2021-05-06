@@ -163,7 +163,9 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'createVariantConfiguration',
       {
-        productCode,
+        urlParams: {
+          productCode,
+        },
       }
     );
 
@@ -187,8 +189,10 @@ describe('OccConfigurationVariantAdapter', () => {
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfiguration',
-      { configId },
-      { groupId }
+      {
+        urlParams: { configId },
+        queryParams: { groupId },
+      }
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -215,7 +219,7 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateVariantConfiguration',
       {
-        configId,
+        urlParams: { configId },
       }
     );
 
@@ -252,7 +256,9 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationPriceSummary',
       {
-        configId,
+        urlParams: {
+          configId,
+        },
       }
     );
 
@@ -290,9 +296,11 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationForCartEntry',
       {
-        userId,
-        cartId: documentId,
-        cartEntryNumber: documentEntryNumber,
+        urlParams: {
+          userId,
+          cartId: documentId,
+          cartEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -329,9 +337,11 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationOverviewForOrderEntry',
       {
-        userId,
-        orderId: documentId,
-        orderEntryNumber: documentEntryNumber,
+        urlParams: {
+          userId,
+          orderId: documentId,
+          orderEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -370,9 +380,11 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateVariantConfigurationForCartEntry',
       {
-        userId,
-        cartId: documentId,
-        cartEntryNumber: documentEntryNumber,
+        urlParams: {
+          userId,
+          cartId: documentId,
+          cartEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -456,7 +468,9 @@ describe('OccConfigurationVariantAdapter', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'getVariantConfigurationOverview',
       {
-        configId,
+        urlParams: {
+          configId,
+        },
       }
     );
 

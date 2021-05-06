@@ -135,8 +135,10 @@ describe('CpqConfigurationOccService', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'addCpqConfigurationToCart',
       {
-        userId: userId,
-        cartId: documentId,
+        urlParams: {
+          userId: userId,
+          cartId: documentId,
+        },
       }
     );
   });
@@ -158,9 +160,11 @@ describe('CpqConfigurationOccService', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readCpqConfigurationForCartEntry',
       {
-        userId: userId,
-        cartId: documentId,
-        cartEntryNumber: '3',
+        urlParams: {
+          userId: userId,
+          cartId: documentId,
+          cartEntryNumber: '3',
+        },
       }
     );
   });
@@ -182,9 +186,11 @@ describe('CpqConfigurationOccService', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readCpqConfigurationForOrderEntry',
       {
-        userId: userId,
-        orderId: documentId,
-        orderEntryNumber: '3',
+        urlParams: {
+          userId: userId,
+          orderId: documentId,
+          orderEntryNumber: '3',
+        },
       }
     );
   });
@@ -212,9 +218,11 @@ describe('CpqConfigurationOccService', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateCpqConfigurationForCartEntry',
       {
-        userId: userId,
-        cartId: documentId,
-        cartEntryNumber: '3',
+        urlParams: {
+          userId: userId,
+          cartId: documentId,
+          cartEntryNumber: '3',
+        },
       }
     );
   });

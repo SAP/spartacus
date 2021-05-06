@@ -27,7 +27,7 @@ export class CpqConfiguratorOccService {
     parameters: Configurator.AddToCartParameters
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl('addCpqConfigurationToCart', {
-      queryParams: {
+      urlParams: {
         userId: parameters.userId,
         cartId: parameters.cartId,
       },
@@ -49,7 +49,7 @@ export class CpqConfiguratorOccService {
     const url = this.occEndpointsService.buildUrl(
       'updateCpqConfigurationForCartEntry',
       {
-        queryParams: {
+        urlParams: {
           userId: parameters.userId,
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
@@ -73,7 +73,7 @@ export class CpqConfiguratorOccService {
     const url = this.occEndpointsService.buildUrl(
       'readCpqConfigurationForCartEntry',
       {
-        queryParams: {
+        urlParams: {
           userId: parameters.userId,
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
@@ -94,7 +94,7 @@ export class CpqConfiguratorOccService {
     const url = this.occEndpointsService.buildUrl(
       'readCpqConfigurationForOrderEntry',
       {
-        queryParams: {
+        urlParams: {
           userId: parameters.userId,
           orderId: parameters.orderId,
           orderEntryNumber: parameters.orderEntryNumber,

@@ -67,11 +67,10 @@ export class VariantConfiguratorOccAdapter
   ): Observable<Configurator.Configuration> {
     return this.http
       .get<OccConfigurator.Configuration>(
-        this.occEndpointsService.getUrl(
-          'readVariantConfiguration',
-          { urlParams: { configId } },
-          { groupId: groupId }
-        )
+        this.occEndpointsService.buildUrl('readVariantConfiguration', {
+          urlParams: { configId },
+          queryParams: { groupId },
+        })
       )
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
