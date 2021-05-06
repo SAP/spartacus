@@ -3,8 +3,12 @@ import {
   Cart,
   OCC_USER_ID_ANONYMOUS,
   OrderEntry,
+  PromotionLocation,
   UserIdService,
 } from '@spartacus/core';
+import { CartItemContext } from '@spartacus/storefront';
+import { EMPTY, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   CommonConfigurator,
   ConfiguratorType,
@@ -134,5 +138,22 @@ export class CommonConfiguratorUtilsService {
       return configuratorType === ConfiguratorType.CPQ;
     }
     return false;
+  }
+
+  /**
+   * Determines whether we are in the context of an active cart
+   * @param cartItemContext Cart item context
+   * @returns Item part of an active cart?
+   */
+  isActiveCartContext(
+    cartItemContext: CartItemContext | undefined
+  ): Observable<boolean> {
+    return (cartItemContext?.location$ ?? EMPTY).pipe(
+      map(
+        (location) =>
+          location !== PromotionLocation.SaveForLater &&
+          location !== PromotionLocation.SavedCart
+      )
+    );
   }
 }
