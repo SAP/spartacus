@@ -202,7 +202,7 @@ describe('Selective Cart Service', () => {
     expect(result).toEqual(false);
   });
 
-  it('should return loaded true when cart load success', () => {
+  it('should return stable true when cart load success', () => {
     service['cartSelector$'] = of({
       value: { code: TEST_CART_ID },
       loading: false,
@@ -212,13 +212,13 @@ describe('Selective Cart Service', () => {
 
     let result: boolean;
     service
-      .getLoaded()
+      .isStable()
       .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
 
-  it('should return loaded true when cart load error', () => {
+  it('should return stable true when cart load error', () => {
     service['cartSelector$'] = of({
       value: { code: TEST_CART_ID },
       loading: false,
@@ -228,13 +228,13 @@ describe('Selective Cart Service', () => {
 
     let result: boolean;
     service
-      .getLoaded()
+      .isStable()
       .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(true);
   });
 
-  it('should return loaded false when cart loading', () => {
+  it('should return stable false when cart loading', () => {
     service['cartSelector$'] = of({
       value: { code: TEST_CART_ID },
       loading: true,
@@ -244,7 +244,7 @@ describe('Selective Cart Service', () => {
 
     let result: boolean;
     service
-      .getLoaded()
+      .isStable()
       .subscribe((value) => (result = value))
       .unsubscribe();
     expect(result).toEqual(false);
