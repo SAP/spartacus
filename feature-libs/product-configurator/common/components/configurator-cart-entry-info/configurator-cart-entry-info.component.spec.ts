@@ -95,8 +95,8 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   describe('configuration infos', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
-        configurationInfos: null,
+        statusSummaryList: undefined,
+        configurationInfos: undefined,
       });
       mockCartItemContext.readonly$.next(false);
 
@@ -110,7 +110,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
     it('should be displayed if model provides a success entry', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configurationLabel: 'Color',
@@ -133,7 +133,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
     it('should be displayed if model provides a warning entry', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configurationLabel: 'Pricing',

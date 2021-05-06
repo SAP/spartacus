@@ -3,8 +3,8 @@ import { FormControl } from '@angular/forms';
 import { OrderEntry, PromotionLocation } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
-import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { map } from 'rxjs/operators';
+import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
   selector: 'cx-configurator-cart-entry-info',
@@ -79,10 +79,12 @@ export class ConfiguratorCartEntryInfoComponent {
    */
   isAttributeBasedConfigurator(item: OrderEntry): boolean {
     const configurationInfos = item.configurationInfos;
-    return configurationInfos
+
+    const attributeBased = configurationInfos
       ? this.commonConfigUtilsService?.isAttributeBasedConfigurator(
           configurationInfos[0]?.configuratorType
         )
       : false;
+    return attributeBased ? attributeBased : false;
   }
 }
