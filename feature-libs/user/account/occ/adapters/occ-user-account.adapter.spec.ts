@@ -92,7 +92,7 @@ describe('OccUserAccountAdapter', () => {
       });
 
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('user', {
-        userId: user.customerId,
+        urlParams: { userId: user.customerId },
       });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
