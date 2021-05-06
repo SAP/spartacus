@@ -7,7 +7,6 @@ import {
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { AnonymousConsentLaunchDialogService } from '../anonymous-consent-launch-dialog.service';
 import { AnonymousConsentManagementBannerComponent } from './anonymous-consent-management-banner.component';
 
 class MockAnonymousConsentsService {
@@ -21,10 +20,6 @@ class MockAnonymousConsentsService {
     return of();
   }
   toggleBannerDismissed(_dismissed: boolean): void {}
-}
-
-class MockAnonymousConsentLaunchDialogService {
-  openDialog() {}
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -52,11 +47,6 @@ describe('AnonymousConsentManagementBannerComponent', () => {
           {
             provide: AnonymousConsentsService,
             useClass: MockAnonymousConsentsService,
-          },
-          // TODO(#12167): remove unused class and provider
-          {
-            provide: AnonymousConsentLaunchDialogService,
-            useClass: MockAnonymousConsentLaunchDialogService,
           },
           {
             provide: LaunchDialogService,

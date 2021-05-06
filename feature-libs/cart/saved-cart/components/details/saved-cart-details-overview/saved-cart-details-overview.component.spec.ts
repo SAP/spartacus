@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Cart, I18nTestingModule, TranslationService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview.component';
 
@@ -23,16 +22,6 @@ const mockSavedCart: Cart = {
 class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
   getCartDetails(): Observable<Cart> {
     return of(mockSavedCart);
-  }
-}
-class MockSavedCartFormLaunchDialogService
-  implements Partial<SavedCartFormLaunchDialogService> {
-  openDialog(
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef,
-    _data?: any
-  ): Observable<any> {
-    return of();
   }
 }
 
@@ -65,11 +54,6 @@ describe('SavedCartDetailsOverviewComponent', () => {
         {
           provide: SavedCartDetailsService,
           useClass: MockSavedCartDetailsService,
-        },
-        // TODO(#12167): remove unused class and provider
-        {
-          provide: SavedCartFormLaunchDialogService,
-          useClass: MockSavedCartFormLaunchDialogService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },

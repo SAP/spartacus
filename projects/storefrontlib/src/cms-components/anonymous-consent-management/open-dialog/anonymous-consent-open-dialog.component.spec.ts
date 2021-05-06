@@ -1,7 +1,6 @@
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { ModalOptions, ModalRef, ModalService } from '../../../shared/index';
-import { AnonymousConsentLaunchDialogService } from '../anonymous-consent-launch-dialog.service';
 import { AnonymousConsentOpenDialogComponent } from './anonymous-consent-open-dialog.component';
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { of } from 'rxjs';
@@ -11,10 +10,6 @@ class MockModalService {
   open(_content: any, _options?: ModalOptions): ModalRef {
     return undefined;
   }
-}
-
-class MockAnonymousConsentLaunchDialogService {
-  openDialog() {}
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -41,11 +36,6 @@ describe('AnonymousConsentOpenDialogComponent', () => {
           {
             provide: ModalService,
             useClass: MockModalService,
-          },
-          // TODO(#12167): remove unused class and provider
-          {
-            provide: AnonymousConsentLaunchDialogService,
-            useClass: MockAnonymousConsentLaunchDialogService,
           },
           {
             provide: LaunchDialogService,
