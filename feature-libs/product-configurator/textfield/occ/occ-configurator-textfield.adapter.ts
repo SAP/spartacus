@@ -34,7 +34,7 @@ export class OccConfiguratorTextfieldAdapter
     return this.http
       .get<OccConfiguratorTextfield.Configuration>(
         this.occEndpointsService.buildUrl('createTextfieldConfiguration', {
-          queryParams: {
+          urlParams: {
             productCode,
           },
         })
@@ -58,7 +58,7 @@ export class OccConfiguratorTextfieldAdapter
     const url = this.occEndpointsService.buildUrl(
       'addTextfieldConfigurationToCart',
       {
-        queryParams: {
+        urlParams: {
           userId: parameters.userId,
           cartId: parameters.cartId,
         },
@@ -81,7 +81,7 @@ export class OccConfiguratorTextfieldAdapter
     const url = this.occEndpointsService.buildUrl(
       'readTextfieldConfigurationForCartEntry',
       {
-        queryParams: {
+        urlParams: {
           userId: parameters.userId,
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,

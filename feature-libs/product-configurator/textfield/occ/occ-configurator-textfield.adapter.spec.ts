@@ -110,7 +110,7 @@ describe('OccConfigurationTextfieldAdapter', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'createTextfieldConfiguration',
       {
-        productCode,
+        urlParams: { productCode },
       }
     );
 
@@ -135,7 +135,9 @@ describe('OccConfigurationTextfieldAdapter', () => {
 
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readTextfieldConfigurationForCartEntry',
-      readParams
+      {
+        urlParams: readParams,
+      }
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -157,8 +159,7 @@ describe('OccConfigurationTextfieldAdapter', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'addTextfieldConfigurationToCart',
       {
-        userId: USER_ID,
-        cartId: CART_ID,
+        urlParams: { userId: USER_ID, cartId: CART_ID },
       }
     );
 
