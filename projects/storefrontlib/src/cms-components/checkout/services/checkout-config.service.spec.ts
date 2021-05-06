@@ -12,7 +12,7 @@ const mockCheckoutConfig: CheckoutConfig = JSON.parse(
 
 const [FREE_CODE, STANDARD_CODE, PREMIUM_CODE] = [
   'free-gross',
-  'standard-net',
+  'standard-gross',
   'premium-gross',
 ];
 const [freeMode, standardMode, premiumMode] = [

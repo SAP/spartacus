@@ -56,7 +56,7 @@ const mockActivatedRoute = {
 };
 
 const mockDeliveryMode1: DeliveryMode = {
-  code: 'standard-net',
+  code: 'standard-gross',
   name: 'Standard Delivery',
   deliveryCost: { formattedValue: '$10.00' },
 };

@@ -52,7 +52,7 @@ const mockAddress: Address = {
 const addressBS = new BehaviorSubject<Country>(mockAddress.country);
 
 const mockDeliveryMode: DeliveryMode = {
-  name: 'standard-net',
+  name: 'standard-gross',
   description: 'Delivery mode test description',
 };
 const deliveryModeBS = new BehaviorSubject<DeliveryMode>(mockDeliveryMode);
@@ -392,7 +392,7 @@ describe('ReviewSubmitComponent', () => {
 
   it('should call getDeliveryModeCard(deliveryMode) to get delivery mode card data', () => {
     const selectedMode: DeliveryMode = {
-      code: 'standard-net',
+      code: 'standard-gross',
       name: 'Standard gross',
       description: 'Standard Delivery description',
       deliveryCost: {
