@@ -672,8 +672,9 @@ function logFeatureInstallation(
       continue;
     }
 
+    const requiredFeatures = cliFeatures[spartacusScope].join(',');
     context.logger.info(
-      `⚙️  '${library}' requires the following features from '${spartacusScope}': [${cliFeatures[spartacusScope]}]`
+      `⚙️  ${library} requires the following features from ${spartacusScope}: ${requiredFeatures}`
     );
   }
 }
