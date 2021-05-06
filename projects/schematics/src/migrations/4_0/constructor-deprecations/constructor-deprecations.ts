@@ -13,7 +13,10 @@ import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.componen
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
-import { TOGGLE_STATUS_COMPONENT_MIGRATION } from './data/toggle-status.component.migration';
+import {
+  TOGGLE_STATUS_COMPONENT_MIGRATION_V1,
+  TOGGLE_STATUS_COMPONENT_MIGRATION_V2,
+} from './data/toggle-status.component.migration';
 import { DELETE_ITEM_COMPONENT_MIGRATION } from './data/delete-item.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
@@ -27,7 +30,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   SEARCH_BOX_COMPONENT_SERVICE_MIGRATION,
   COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
   USER_GROUP_USER_LIST_COMPONENT_MIGRATION,
-  TOGGLE_STATUS_COMPONENT_MIGRATION,
+  TOGGLE_STATUS_COMPONENT_MIGRATION_V1,
+  TOGGLE_STATUS_COMPONENT_MIGRATION_V2,
   DELETE_ITEM_COMPONENT_MIGRATION,
 ];
 

@@ -8,7 +8,29 @@ import {
   SPARTACUS_CORE,
   DISABLE_INFO_SERVICE,
 } from '../../../../shared/constants';
-export const TOGGLE_STATUS_COMPONENT_MIGRATION: ConstructorDeprecation = {
+
+export const TOGGLE_STATUS_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
+  class: TOGGLE_STATUS_COMPONENT,
+  importPath: SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
+  deprecatedParams: [
+    {
+      className: ITEM_SERVICE,
+      importPath: SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
+    },
+    {
+      className: MESSAGE_SERVICE,
+      importPath: SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
+    },
+  ],
+  addParams: [
+    {
+      className: DISABLE_INFO_SERVICE,
+      importPath: SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
+    },
+  ],
+};
+
+export const TOGGLE_STATUS_COMPONENT_MIGRATION_V2: ConstructorDeprecation = {
   class: TOGGLE_STATUS_COMPONENT,
   importPath: SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
   deprecatedParams: [
