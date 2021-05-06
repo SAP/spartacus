@@ -99,7 +99,11 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
    * Indicates whether the status can be toggled or not.
    */
   isDisabled(item: T): boolean {
-    return this.disabled ?? this.disableInfoService.isParentDisabled(item);
+    return (
+      this.disabled ??
+      (this.disableInfoService.isParentDisabled(item) ||
+        this.disableInfoService.isRootUnit(item))
+    );
   }
 
   protected update(item: T): void {
