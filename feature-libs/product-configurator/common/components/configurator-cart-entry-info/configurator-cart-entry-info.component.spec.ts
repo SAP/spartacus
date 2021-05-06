@@ -102,9 +102,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
 
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        0,
-        "expected configuration info identified by selector '.cx-configuration-info' not to be present, but it is! innerHtml: " +
-          htmlElem.innerHTML
+        0
       );
     });
 
@@ -125,9 +123,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        1,
-        "expected configuration info identified by selector '.cx-configuration-info' to be present, but it is not! innerHtml: " +
-          htmlElem.innerHTML
+        1
       );
     });
 
@@ -148,9 +144,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        1,
-        "expected configuration info identified by selector '.cx-configuration-info' to be present, but it is not! innerHtml: " +
-          htmlElem.innerHTML
+        1
       );
     });
 

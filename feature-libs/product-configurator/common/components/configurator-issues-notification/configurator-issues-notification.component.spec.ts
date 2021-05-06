@@ -107,7 +107,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
   it('should display configure from cart in case issues are present', () => {
     emitNewContextValue({
       statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
-      configurationInfos: null,
+      configurationInfos: [],
       readOnly: false,
       productConfigurable: true,
     });
@@ -116,43 +116,31 @@ describe('ConfigureIssuesNotificationComponent', () => {
 
     expect(
       htmlElem.querySelectorAll('cx-configure-cart-entry').length
-    ).toBeGreaterThan(
-      0,
-      'expected configure cart entry to be present, but it is not; innerHtml: ' +
-        htmlElem.innerHTML
-    );
+    ).toBeGreaterThan(0);
   });
 
   it('should not display configure from cart in case issues are present but product not configurable', () => {
     emitNewContextValue({
       statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
-      configurationInfos: null,
+      configurationInfos: [],
       readOnly: false,
       productConfigurable: false,
     });
 
     fixture.detectChanges();
 
-    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
-      0,
-      'expected configure cart entry not to be present, but it is; innerHtml: ' +
-        htmlElem.innerHTML
-    );
+    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(0);
   });
 
   it('should return false if number of issues of ERROR status is = 0', () => {
     emitNewContextValue({
       statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
-      configurationInfos: null,
+      configurationInfos: [],
       readOnly: false,
       productConfigurable: true,
     });
 
     fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
-      0,
-      'expected configure cart entry not to be present, but it is; innerHtml: ' +
-        htmlElem.innerHTML
-    );
+    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(0);
   });
 });
