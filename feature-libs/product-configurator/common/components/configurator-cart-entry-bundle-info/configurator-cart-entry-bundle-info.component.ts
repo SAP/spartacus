@@ -80,4 +80,9 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   isDesktop(): Observable<boolean> {
     return this.breakpointService?.isUp(BREAKPOINT.md);
   }
+
+  // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
+  readonly shouldShowButton$: Observable<boolean> = this.commonConfigUtilsService.isActiveCartContext(
+    this.cartItemContext
+  );
 }
