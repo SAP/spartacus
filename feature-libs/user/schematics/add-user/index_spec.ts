@@ -12,6 +12,7 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   LibraryOptions as SpartacusPersonalizationOptions,
   SpartacusOptions,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { CLI_ACCOUNT_FEATURE, CLI_PROFILE_FEATURE } from '../constants';
@@ -58,7 +59,7 @@ describe('Spartacus User schematics: ng-add', () => {
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 

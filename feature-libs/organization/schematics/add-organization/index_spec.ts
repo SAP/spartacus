@@ -13,6 +13,7 @@ import {
   LibraryOptions as SpartacusOrganizationOptions,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import {
@@ -64,7 +65,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 
@@ -85,7 +86,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree

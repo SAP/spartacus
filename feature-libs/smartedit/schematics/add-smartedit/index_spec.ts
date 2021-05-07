@@ -13,6 +13,7 @@ import {
   CLI_SMARTEDIT_FEATURE,
   LibraryOptions as SpartacusSmartEditOptions,
   SpartacusOptions,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 
@@ -57,7 +58,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 

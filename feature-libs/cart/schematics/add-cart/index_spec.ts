@@ -13,6 +13,7 @@ import {
   LibraryOptions as SpartacusCartOptions,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { CLI_SAVED_CART_FEATURE } from '../constants';
@@ -59,7 +60,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 
@@ -80,7 +81,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree

@@ -12,6 +12,7 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   LibraryOptions as SpartacusProductOptions,
   SpartacusOptions,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE } from '../constants';
@@ -59,7 +60,7 @@ describe('Spartacus Product schematics: ng-add', () => {
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 

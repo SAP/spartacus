@@ -9,7 +9,11 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import { CLI_CDS_FEATURE, SpartacusOptions } from '@spartacus/schematics';
+import {
+  CLI_CDS_FEATURE,
+  SpartacusOptions,
+  SPARTACUS_SCHEMATICS,
+} from '@spartacus/schematics';
 import * as path from 'path';
 import { Schema as SpartacusCdsOptions } from './schema';
 
@@ -56,7 +60,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 
