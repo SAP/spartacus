@@ -1,16 +1,17 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  createDependencies,
-  installPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
+  CLI_STOREFINDER_FEATURE,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
+  shouldAddFeature,
   SPARTACUS_STOREFINDER,
   STOREFINDER_MODULE,
   STORE_FINDER_SCSS_FILE_NAME,
@@ -30,23 +31,23 @@ import {
 export function addStorefinderFeatures(
   options: SpartacusStorefinderOptions
 ): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addStorefinderFeature(options),
+      shouldAddFeature(CLI_STOREFINDER_FEATURE, options.features)
+        ? addStorefinderFeature(options)
+        : noop(),
 
-      addStorefinderPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        libraryPeerDependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
-}
-
-function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
-
-  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
