@@ -45,7 +45,7 @@ import { UPDATE_EMAIL_COMPONENT_MIGRATION } from './data/update-email.component.
 
 import { SITE_CONTEXT_MODULE_MIGRATION } from './data/site-context.module.migration';
 import { I18N_MODULE_MIGRATION } from './data/i18n.module.migration';
-import { OCC_ENDPOINT_MIGRATION } from './data/occ-endpoint.model.migration.ts';
+import { OCC_ENDPOINT_MIGRATION } from './data/occ-endpoint.model.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CHECKOUT_CONNECTOR_MIGRATION,
