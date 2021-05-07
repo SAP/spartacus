@@ -344,6 +344,9 @@ export const SEMANTIC_ROUTE = 'semanticRoute';
 export const URL = 'url';
 export const PARAMS = 'params';
 
+export const EXTERNAL_JS_FILE_LOADER = 'ExternalJsFileLoader';
+export const SCRIPT_LOADER = 'ScriptLoader';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
