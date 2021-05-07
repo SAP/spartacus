@@ -24,3 +24,5 @@ export * from './review-submit/review-submit.component';
 export * from './review-submit/review-submit.module';
 export * from './schedule-replenishment-order/schedule-replenishment-order.component';
 export * from './schedule-replenishment-order/schedule-replenishment-order.module';
+export * from './shipping-address/shipping-address.component';
+export * from './shipping-address/shipping-address.module';
