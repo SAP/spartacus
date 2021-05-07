@@ -85,3 +85,15 @@ export function verifyNotificationBannerOnOP(numberOfIssues?: number): void {
     element.should('not.contain.html', 'div.cx-error-msg');
   }
 }
+
+/**
+ * Registers OCC call for OV page in order to wait for it
+ */
+export function registerConfigurationOvOCC() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/ccpconfigurator/*/configurationOverview?lang=en&curr=USD`
+  ).as('configure_overview');
+}
