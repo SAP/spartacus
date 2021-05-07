@@ -21,7 +21,7 @@ import {
   UserService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import {
   ModalRef,
   ModalService,
@@ -193,6 +193,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.backToAddress.emit();
   }
 
+  /* TODO: Undo this temporarry hack */
+  verifyAddress(): void {
+    this.submitAddress.emit(this.addressForm.value);
+  }
+
+  /*
   verifyAddress(): void {
     if (this.addressForm.valid) {
       if (this.addressForm.get('region').value.isocode) {
@@ -219,7 +225,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       this.addressForm.markAllAsTouched();
     }
   }
-
+  */
   openSuggestedAddress(results: AddressValidation): void {
     if (!this.suggestedAddressModalRef) {
       this.suggestedAddressModalRef = this.modalService.open(
