@@ -13,12 +13,8 @@ export function currencyStatePersistenceFactory(
     });
   return result;
 }
-export function initializeLanguage(
-  languageInitializer: LanguageInitializer,
-  configInit: ConfigInitializerService
-) {
+export function initializeLanguage(languageInitializer: LanguageInitializer) {
   const result = async () => {
-    await configInit.getStable('context').toPromise();
     languageInitializer.initialize();
   };
   return result;
@@ -28,7 +24,7 @@ export const contextInitializerProviders: Provider[] = [
   {
     provide: APP_INITIALIZER,
     useFactory: initializeLanguage,
-    deps: [LanguageInitializer, ConfigInitializerService],
+    deps: [LanguageInitializer],
     multi: true,
   },
   {

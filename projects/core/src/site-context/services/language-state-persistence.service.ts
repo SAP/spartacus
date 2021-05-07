@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, ReplaySubject } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
-import { getContextParameterValues } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { LanguageService } from '../facade/language.service';
 import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
@@ -14,54 +13,30 @@ export class LanguageStatePersistenceService {
     protected config: SiteContextConfig
   ) {}
 
-  protected valueInitialized$ = new ReplaySubject<boolean>();
+  protected initialized$ = new ReplaySubject<unknown>(1);
 
   /**
    * Initializes the synchronization of the active language with the local storage.
    *
-   * @returns `valueInitialized$`: Observable that emits true if the active language is initialized.
-   *          Emits false if it's left not initialized.
-   *          Completes after the emission.
+   * @returns Observable that emits and completes when the value is read from the storage.
    */
-  public initSync(): { valueInitialized$: Observable<boolean> } {
+  public initSync(): Observable<unknown> {
     this.statePersistenceService.syncWithStorage({
       key: LANGUAGE_CONTEXT_ID,
       state$: this.languageService.getActive(),
       onRead: (state) => this.onRead(state),
     });
-    return { valueInitialized$: this.valueInitialized$ };
+    return this.initialized$;
   }
 
   protected onRead(valueFromStorage: string): void {
-    let wasAlreadyInitialized = false;
-    this.languageService
-      .getActive()
-      .subscribe(() => (wasAlreadyInitialized = true))
-      .unsubscribe();
-
-    // don't set the value from storage, if it has been already initialized
-    // (i.e. retrieved from route or transferred from SSR)
-    if (!wasAlreadyInitialized && this.isValid(valueFromStorage)) {
+    if (!this.languageService.isInitialized() && valueFromStorage) {
       this.languageService.setActive(valueFromStorage);
-      this.valueInitialized$.next(true);
-      return;
     }
 
-    this.valueInitialized$.next(wasAlreadyInitialized);
-    this.valueInitialized$.complete();
-  }
-
-  /**
-   * Tells whether the given iso code is allowed.
-   *
-   * The list of allowed iso codes can be configured in the `context` config of Spartacus.
-   */
-  protected isValid(value: string): boolean {
-    return (
-      !!value &&
-      getContextParameterValues(this.config, LANGUAGE_CONTEXT_ID).includes(
-        value
-      )
-    );
+    if (!this.initialized$.closed) {
+      this.initialized$.next();
+      this.initialized$.complete();
+    }
   }
 }
