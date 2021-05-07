@@ -738,7 +738,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.WARNING'
+        'li.cx-menu-item.WARNING'
       );
     });
 
@@ -753,7 +753,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.WARNING'
+        'li.cx-menu-item.WARNING'
       );
     });
 
@@ -769,7 +769,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.WARNING'
+        'li.cx-menu-item.WARNING'
       );
     });
 
@@ -786,7 +786,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.COMPLETE'
+        'li.cx-menu-item.COMPLETE'
       );
     });
 
@@ -802,7 +802,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.COMPLETE'
+        'li.cx-menu-item.COMPLETE'
       );
     });
 
@@ -818,7 +818,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.COMPLETE'
+        'li.cx-menu-item.COMPLETE'
       );
     });
 
@@ -835,7 +835,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.COMPLETE'
+        'li.cx-menu-item.COMPLETE'
       );
     });
 
@@ -850,7 +850,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.ERROR'
+        'li.cx-menu-item.ERROR'
       );
     });
 
@@ -865,7 +865,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.ERROR'
+        'li.cx-menu-item.ERROR'
       );
     });
 
@@ -881,7 +881,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        '.cx-menu-item.DISABLED'
+        'li.cx-menu-item.DISABLED'
       );
     });
   });
