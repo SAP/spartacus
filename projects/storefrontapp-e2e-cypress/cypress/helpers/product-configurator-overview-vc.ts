@@ -1,5 +1,5 @@
 import Chainable = Cypress.Chainable;
-import * as configurationOverviewCommon from './product-configuration-overview';
+import * as configurationOverview from './product-configurator-overview';
 
 const resolveIssuesLinkSelector =
   'cx-configurator-overview-notification-banner button.cx-action-link';
@@ -19,7 +19,7 @@ export function goToConfigOverviewPage(
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
-    configurationOverviewCommon.checkConfigOverviewPageDisplayed();
+    configurationOverview.checkConfigOverviewPageDisplayed();
   });
 }
 

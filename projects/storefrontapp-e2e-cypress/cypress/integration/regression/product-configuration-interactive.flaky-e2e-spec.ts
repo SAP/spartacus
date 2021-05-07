@@ -1,6 +1,6 @@
 import * as configurationVc from '../../helpers/product-configurator-vc';
-import * as configuration from '../../helpers/product-configuration';
-import * as configurationOverviewVc from '../../helpers/product-configurator-vc-overview';
+import * as configuration from '../../helpers/product-configurator';
+import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
 import * as productSearch from '../../helpers/product-search';
 
 /**

@@ -1,4 +1,4 @@
-import * as configurationCommon from './product-configuration';
+import * as configuration from './product-configurator';
 
 const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
 
@@ -95,21 +95,21 @@ export function clickOnConfigureBtnInCatalog(): void {
 export function checkConfigPageDisplayed(): void {
   checkLoadingMsgNotDisplayed();
   checkGlobalMessageNotDisplayed();
-  configurationCommon.checkTabBarDisplayed();
-  configurationCommon.checkGroupTitleDisplayed();
-  configurationCommon.checkGroupFormDisplayed();
-  configurationCommon.checkPreviousAndNextBtnsDispalyed();
-  configurationCommon.checkPriceSummaryDisplayed();
-  configurationCommon.checkAddToCartBtnDisplayed();
+  configuration.checkTabBarDisplayed();
+  configuration.checkGroupTitleDisplayed();
+  configuration.checkGroupFormDisplayed();
+  configuration.checkPreviousAndNextBtnsDispalyed();
+  configuration.checkPriceSummaryDisplayed();
+  configuration.checkAddToCartBtnDisplayed();
   checkProductTitleDisplayed();
-  configurationCommon.checkShowMoreLinkAtProductTitleDisplayed();
+  configuration.checkShowMoreLinkAtProductTitleDisplayed();
 }
 
 /**
  * Verifies whether the product title component is displayed.
  */
 export function checkProductTitleDisplayed(): void {
-  configurationCommon.checkUpdatingMessageNotDisplayed();
+  configuration.checkUpdatingMessageNotDisplayed();
   cy.get('cx-configurator-product-title', { timeout: 10000 }).should(
     'be.visible'
   );
@@ -149,15 +149,15 @@ export function checkStatusIconDisplayed(
  * Verifies whether the image value is selected.
  *
  * @param {string} attributeName - Attribute name
- * @param {configurationCommon.uiType} uiType - UI type
+ * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
  */
 export function checkImageSelected(
-  uiType: configurationCommon.uiType,
+  uiType: configuration.uiType,
   attributeName: string,
   valueName: string
 ): void {
-  const attributeId = configurationCommon.getAttributeId(attributeName, uiType);
+  const attributeId = configuration.getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}-input`;
   cy.log('valueId: ' + valueId);
   cy.get(`#${valueId}`).should('be.checked');
@@ -170,7 +170,7 @@ export function checkImageSelected(
  */
 export function checkConflictDetectedMsgDisplayed(attributeName: string): void {
   const parent = cy.get(conflictDetectedMsgSelector).parent();
-  const attributeId = configurationCommon.getAttributeLabelId(attributeName);
+  const attributeId = configuration.getAttributeLabelId(attributeName);
   parent.children(`#${attributeId}`).should('be.visible');
 }
 
@@ -182,7 +182,7 @@ export function checkConflictDetectedMsgDisplayed(attributeName: string): void {
 export function checkConflictDetectedMsgNotDisplayed(
   attributeName: string
 ): void {
-  const attributeId = configurationCommon.getAttributeLabelId(attributeName);
+  const attributeId = configuration.getAttributeLabelId(attributeName);
   cy.get(`#${attributeId}`).next().should('not.exist');
 }
 
@@ -229,17 +229,17 @@ function verifyNumberOfConflicts(numberOfConflicts: number): void {
  * Finally verifies whether the expected number of conflicts is accurate.
  *
  * @param {string} attributeName - Attribute name
- * @param {configurationCommon.uiType} uiType - UI type
+ * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
  * @param {number} numberOfConflicts - Expected number of conflicts
  */
 export function selectConflictingValue(
   attributeName: string,
-  uiType: configurationCommon.uiType,
+  uiType: configuration.uiType,
   valueName: string,
   numberOfConflicts: number
 ): void {
-  configurationCommon.selectAttribute(attributeName, uiType, valueName);
+  configuration.selectAttribute(attributeName, uiType, valueName);
   this.checkConflictDetectedMsgDisplayed(attributeName);
   checkConflictHeaderGroupDisplayed();
   verifyNumberOfConflicts(numberOfConflicts);
@@ -251,15 +251,15 @@ export function selectConflictingValue(
  * the conflict header group in the group menu is not displayed either.
  *
  * @param {string} attributeName - Attribute name
- * @param {configurationCommon.uiType} uiType - UI type
+ * @param {configuration.uiType} uiType - UI type
  * @param {string} valueName - Value name
  */
 export function deselectConflictingValue(
   attributeName: string,
-  uiType: configurationCommon.uiType,
+  uiType: configuration.uiType,
   valueName: string
 ): void {
-  configurationCommon.selectAttribute(attributeName, uiType, valueName);
+  configuration.selectAttribute(attributeName, uiType, valueName);
   this.checkConflictDetectedMsgNotDisplayed(attributeName);
   checkConflictHeaderGroupNotDisplayed();
 }
@@ -287,10 +287,10 @@ export function clickOnGroup(groupIndex: number): void {
   cy.get('@subGroupIndicator').then((subGroupIndicator) => {
     cy.log('subGroupIndicator: ' + subGroupIndicator);
     if (!subGroupIndicator) {
-      configurationCommon.clickOnGroupByGroupIndex(groupIndex);
+      configuration.clickOnGroupByGroupIndex(groupIndex);
     } else {
-      configurationCommon.clickOnGroupByGroupIndex(groupIndex);
-      configurationCommon.clickOnGroupByGroupIndex(0);
+      configuration.clickOnGroupByGroupIndex(groupIndex);
+      configuration.clickOnGroupByGroupIndex(0);
     }
   });
 }

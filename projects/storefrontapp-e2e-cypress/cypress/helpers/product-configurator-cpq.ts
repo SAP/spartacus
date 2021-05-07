@@ -1,7 +1,7 @@
 import Chainable = Cypress.Chainable;
 import * as authentication from './auth-forms';
 import * as globalMessage from './global-message';
-import * as configuration from './product-configuration';
+import * as configuration from './product-configurator';
 
 /**
  * bundle types
