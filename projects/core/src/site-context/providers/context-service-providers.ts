@@ -1,4 +1,5 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
+import { tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { BaseSiteService } from '../facade/base-site.service';
 import { CurrencyService } from '../facade/currency.service';
@@ -10,10 +11,16 @@ export function initializeContext(
   configInit: ConfigInitializerService,
   siteContextRoutesHandler: SiteContextRoutesHandler
 ) {
-  return async () => {
-    await configInit.getStableConfig('context');
-    siteContextRoutesHandler.init();
-    baseSiteService.initialize();
+  return () => {
+    return configInit
+      .getStable('context')
+      .pipe(
+        tap(() => {
+          siteContextRoutesHandler.init();
+          baseSiteService.initialize();
+        })
+      )
+      .toPromise();
   };
 }
 
