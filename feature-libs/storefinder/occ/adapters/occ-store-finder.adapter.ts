@@ -89,7 +89,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     }
 
     return this.http.get<Occ.StoreFinderSearchPage>(
-      this.occEndpointsService.buildUrl('stores', undefined, params)
+      this.occEndpointsService.buildUrl('stores', { queryParams: params })
     );
   }
 }

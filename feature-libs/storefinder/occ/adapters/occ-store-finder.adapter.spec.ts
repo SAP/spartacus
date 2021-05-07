@@ -86,11 +86,12 @@ describe('OccStoreFinderAdapter', () => {
           url: 'stores',
         });
 
-        expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-          'stores',
-          undefined,
-          { query: queryText, pageSize: mockSearchConfig.pageSize.toString() }
-        );
+        expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('stores', {
+          queryParams: {
+            query: queryText,
+            pageSize: mockSearchConfig.pageSize.toString(),
+          },
+        });
       });
     });
 
@@ -106,16 +107,14 @@ describe('OccStoreFinderAdapter', () => {
           url: 'stores',
         });
 
-        expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
-          'stores',
-          undefined,
-          {
+        expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('stores', {
+          queryParams: {
             longitude: longitudeLatitude.longitude.toString(),
             latitude: longitudeLatitude.latitude.toString(),
             radius: mockRadius.toString(),
             pageSize: mockSearchConfig.pageSize.toString(),
-          }
-        );
+          },
+        });
       });
     });
 
@@ -167,7 +166,7 @@ describe('OccStoreFinderAdapter', () => {
         .flush(searchResults.stores[0]);
 
       expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('store', {
-        storeId,
+        urlParams: { storeId },
       });
     });
 
