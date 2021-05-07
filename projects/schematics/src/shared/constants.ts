@@ -266,6 +266,7 @@ export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
 export const ROUTING_PARAMS_SERVICE = 'RoutingParamsService';
 export const CONFIG_INITIALIZER_SERVICE = 'ConfigInitializerService';
 export const LAZY_MODULES_SERVICE = 'LazyModulesService';
+export const UNIFIED_INJECTOR = 'UnifiedInjector';
 export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
   'AnonymousConsentManagementBannerComponent';
 export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =

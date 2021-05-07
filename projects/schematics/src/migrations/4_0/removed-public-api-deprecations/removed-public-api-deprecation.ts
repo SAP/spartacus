@@ -1,4 +1,5 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import { SPARTACUS_CORE } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
@@ -34,6 +35,19 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   //   importPath: SPARTACUS_STOREFRONTLIB,
   //   comment: `'${VARIANT_STYLE_SELECTOR_COMPONENT}' was moved to @spartacus/product/variants.`,
   // },
+
+  // projects/core/src/smart-edit/smart-edit.module.ts
+  {
+    node: 'SmartEditModule',
+    importPath: SPARTACUS_CORE,
+    comment: `'SmartEditModule was removed. Use @spartacus/smartedit instead.`,
+  },
+  // projects/core/src/smart-edit/services/smart-edit.service.ts
+  {
+    node: 'SmartEditService',
+    importPath: SPARTACUS_CORE,
+    comment: `'SmartEditService was moved to @spartacus/smartedit/core.`,
+  },
 ];
 
 export function migrate(): Rule {
