@@ -59,8 +59,9 @@
     </ng-container>
     <cx-configure-cart-entry
       *ngIf="
-        orderEntry?.product?.configurable && quantityControl$
-          | async as quantityControl
+        (shouldShowButton$ | async) &&
+          orderEntry?.product?.configurable &&
+          quantityControl$ | async as quantityControl
       "
       [cartEntry]="orderEntry"
       [readOnly]="readonly$ | async"

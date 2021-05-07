@@ -10,7 +10,10 @@ import {
   ConverterService,
   OccEndpointsService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import {
   CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
@@ -22,10 +25,11 @@ describe('CpqConfigurationOccService', () => {
   const configId = '1234-56-7890';
   const userId = 'Anony';
   const documentId = '82736353';
+  const entryNumber = 3;
   const productCode = 'Product';
   const cartResponse: CartModification = {
     quantityAdded: 1,
-    entry: { entryNumber: 3 },
+    entry: { entryNumber: entryNumber },
     statusCode: '201',
   };
   const addToCartParams: Configurator.AddToCartParameters = {
@@ -35,6 +39,10 @@ describe('CpqConfigurationOccService', () => {
     owner: {
       type: CommonConfigurator.OwnerType.PRODUCT,
       id: productCode,
+      key: ConfiguratorModelUtils.getOwnerKey(
+        CommonConfigurator.OwnerType.PRODUCT,
+        productCode
+      ),
     },
     userId: userId,
     cartId: documentId,
@@ -42,9 +50,17 @@ describe('CpqConfigurationOccService', () => {
   const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters = {
     userId: userId,
     cartId: documentId,
-    cartEntryNumber: '3',
+    cartEntryNumber: entryNumber.toString(),
     configuration: {
       configId: configId,
+      owner: {
+        type: CommonConfigurator.OwnerType.CART_ENTRY,
+        id: entryNumber.toString(),
+        key: ConfiguratorModelUtils.getOwnerKey(
+          CommonConfigurator.OwnerType.PRODUCT,
+          entryNumber.toString()
+        ),
+      },
     },
   };
 
@@ -55,6 +71,10 @@ describe('CpqConfigurationOccService', () => {
     owner: {
       type: CommonConfigurator.OwnerType.CART_ENTRY,
       id: productCode,
+      key: ConfiguratorModelUtils.getOwnerKey(
+        CommonConfigurator.OwnerType.CART_ENTRY,
+        productCode
+      ),
     },
   };
 
@@ -65,6 +85,10 @@ describe('CpqConfigurationOccService', () => {
     owner: {
       type: CommonConfigurator.OwnerType.ORDER_ENTRY,
       id: productCode,
+      key: ConfiguratorModelUtils.getOwnerKey(
+        CommonConfigurator.OwnerType.ORDER_ENTRY,
+        productCode
+      ),
     },
   };
 
