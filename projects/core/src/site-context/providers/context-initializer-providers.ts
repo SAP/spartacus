@@ -19,7 +19,7 @@ export function initializeLanguage(
 ) {
   const result = async () => {
     await configInit.getStable('context').toPromise();
-    await languageInitializer.initialize().toPromise();
+    languageInitializer.initialize();
   };
   return result;
 }
