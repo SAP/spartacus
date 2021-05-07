@@ -51,6 +51,7 @@ import { defaultCpqInteractiveRoutingConfig } from './default-cpq-interactive-ro
           },
 
           navigation: {
+            lg: { slots: [] },
             slots: ['SiteLogin', 'SiteContext', 'SiteLinks', 'CpqConfigMenu'],
           },
 

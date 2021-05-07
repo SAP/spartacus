@@ -89,6 +89,7 @@ const attrValueId = 'abc';
 const configuration: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
+  owner: { key: 'A' },
 };
 const updateAttribute: Cpq.UpdateAttribute = {
   configurationId: configId,
