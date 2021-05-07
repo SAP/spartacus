@@ -31,7 +31,7 @@ export class LanguageInitializer implements OnDestroy {
   }
 
   /**
-   * Sets the active language based on the default value set in the Spartacus config.
+   * Sets the default value taken from config, unless the active language has been already initialized.
    */
   protected setFallbackValue(): Observable<unknown> {
     return this.configInit
@@ -42,7 +42,7 @@ export class LanguageInitializer implements OnDestroy {
   }
 
   /**
-   * Sets the active language value based on the default value in the config,
+   * Sets the active language value based on the default value from the config,
    * unless the active language has been already initialized.
    */
   protected setDefaultFromConfig(config: SiteContextConfig): void {
