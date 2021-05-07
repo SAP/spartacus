@@ -16,8 +16,8 @@ import {
   UserService,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
-import { ModalService } from '../../../../../shared/components/modal/index';
-import { FormErrorsModule } from '../../../../../shared/index';
+import { ModalService } from '../../../../shared/components/modal/index';
+import { FormErrorsModule } from '../../../../shared/index';
 import { AddressFormComponent } from './address-form.component';
 import createSpy = jasmine.createSpy;
 

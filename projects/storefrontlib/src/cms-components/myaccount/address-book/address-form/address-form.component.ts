@@ -26,8 +26,8 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 import {
   ModalRef,
   ModalService,
-} from '../../../../../shared/components/modal/index';
-import { sortTitles } from '../../../../../shared/utils/forms/title-utils';
+} from '../../../../shared/components/modal/index';
+import { sortTitles } from '../../../../shared/utils/forms/title-utils';
 import { SuggestedAddressDialogComponent } from './suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 @Component({
