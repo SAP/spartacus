@@ -11,7 +11,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
   Address,
   AddressValidation,
-  CheckoutDeliveryService,
   Country,
   ErrorModel,
   GlobalMessageService,
@@ -90,7 +89,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   constructor(
     protected fb: FormBuilder,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
     protected userService: UserService,
     protected userAddressService: UserAddressService,
     protected globalMessageService: GlobalMessageService,
@@ -130,11 +128,11 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     );
 
     // verify the new added address
-    this.addressVerifySub = this.checkoutDeliveryService
+    this.addressVerifySub = this.userAddressService
       .getAddressVerificationResults()
       .subscribe((results: AddressValidation) => {
         if (results.decision === 'FAIL') {
-          this.checkoutDeliveryService.clearAddressVerificationResults();
+          this.userAddressService.clearAddressVerificationResults();
         } else if (results.decision === 'ACCEPT') {
           this.submitAddress.emit(this.addressForm.value);
         } else if (results.decision === 'REJECT') {
@@ -154,7 +152,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
               GlobalMessageType.MSG_TYPE_ERROR
             );
           }
-          this.checkoutDeliveryService.clearAddressVerificationResults();
+          this.userAddressService.clearAddressVerificationResults();
         } else if (results.decision === 'REVIEW') {
           this.openSuggestedAddress(results);
         }
@@ -211,7 +209,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       }
 
       if (this.addressForm.dirty) {
-        this.checkoutDeliveryService.verifyAddress(this.addressForm.value);
+        this.userAddressService.verifyAddress(this.addressForm.value);
       } else {
         // address form value not changed
         // ignore duplicate address
@@ -233,7 +231,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result
         .then((address) => {
-          this.checkoutDeliveryService.clearAddressVerificationResults();
+          this.userAddressService.clearAddressVerificationResults();
           if (address) {
             address = Object.assign(
               {
@@ -249,7 +247,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         })
         .catch(() => {
           // this  callback is called when modal is closed with Esc key or clicking backdrop
-          this.checkoutDeliveryService.clearAddressVerificationResults();
+          this.userAddressService.clearAddressVerificationResults();
           const address = Object.assign(
             {
               selected: true,
@@ -263,7 +261,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.checkoutDeliveryService.clearAddressVerificationResults();
+    this.userAddressService.clearAddressVerificationResults();
 
     if (this.addressVerifySub) {
       this.addressVerifySub.unsubscribe();

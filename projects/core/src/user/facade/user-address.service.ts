@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Address, Country, Region } from '../../model/address.model';
@@ -170,5 +170,42 @@ export class UserAddressService {
         return regions;
       })
     );
+  }
+  /**
+   * Verifies the address
+   * @param address : the address to be verified
+   */
+  verifyAddress(address: Address): void {
+    let userId;
+    this.userIdService
+      .getUserId()
+      .subscribe((occUserId) => (userId = occUserId))
+      .unsubscribe();
+    if (userId) {
+      // this.checkoutStore.dispatch(
+      //   new CheckoutActions.VerifyAddress({
+      //     userId,
+      //     address,
+      //   })
+      // );
+    }
+  }
+  /**
+   * Get address verification results
+   */
+  getAddressVerificationResults(): Observable<AddressValidation | string> {
+    // return this.checkoutStore.pipe(
+    //   select(CheckoutSelectors.getAddressVerificationResults),
+    //   filter((results) => Object.keys(results).length !== 0)
+    // );
+    return of('sdf');
+  }
+  /**
+   * Clear address verification results
+   */
+  clearAddressVerificationResults(): void {
+    // this.checkoutStore.dispatch(
+    //   new CheckoutActions.ClearAddressVerificationResults()
+    // );
   }
 }
