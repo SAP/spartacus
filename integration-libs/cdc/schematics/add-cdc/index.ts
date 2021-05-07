@@ -8,7 +8,7 @@ import {
 import {
   addLibraryFeature,
   CLI_CDC_FEATURE,
-  CLI_USER_ACCOUNT_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
   shouldAddFeature,
@@ -78,7 +78,7 @@ function addCdc(options: SpartacusCdcOptions): Rule {
     dependencyManagement: {
       dependencies: peerDependencies,
       cliFeatures: {
-        [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE],
+        [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
       },
     },
   });
