@@ -105,8 +105,8 @@ describe('PageSlotComponent', () => {
   let fixture: ComponentFixture<PageSlotComponent>;
   let pageSlotComponent: PageSlotComponent;
   let cmsService: CmsService;
-  let dynamicAttributeService;
-  let renderer;
+  let dynamicAttributeService: DynamicAttributeService;
+  let renderer: Renderer2;
   let pageSlotService: PageSlotService;
 
   beforeEach(() => {

@@ -148,19 +148,11 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
   }
 
   private decorate(elementRef: ElementRef): void {
-    if (this.dynamicAttributeService.addAttributesToComponent) {
-      this.dynamicAttributeService.addAttributesToComponent(
-        elementRef.nativeElement,
-        this.renderer,
-        this.cxComponentWrapper
-      );
-    } else {
-      this.dynamicAttributeService.addDynamicAttributes(
-        elementRef.nativeElement,
-        this.renderer,
-        { componentData: this.cxComponentWrapper }
-      );
-    }
+    this.dynamicAttributeService.addAttributesToComponent(
+      elementRef.nativeElement,
+      this.renderer,
+      this.cxComponentWrapper
+    );
   }
 
   ngOnDestroy() {

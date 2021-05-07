@@ -8,7 +8,6 @@ import {
   PersonalizationModule,
   provideConfig,
   SiteContextModule,
-  SmartEditModule,
 } from '@spartacus/core';
 import { AsmModule } from '../cms-components/asm/asm.module';
 import { ProductDetailsPageModule } from '../cms-pages/product-details-page/product-details-page.module';
@@ -37,7 +36,6 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     MainModule,
     SiteContextModule.forRoot(), // should be imported after RouterModule.forRoot, because it overwrites UrlSerializer
 
-    SmartEditModule.forRoot(), // should be custom
     PersonalizationModule.forRoot(), // should be custom
 
     // opt-in explicitly
