@@ -123,7 +123,7 @@ function add_feature_libs {
   ng add @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="Personalization" --features="Tag Management System - Google Tag Manager" --features="Tag Management System - Adobe Experience Platform Launch"
   ng add @spartacus/product@${SPARTACUS_VERSION} --interactive false
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --interactive false
-  ng add @spartacus/cart@${SPARTACUS_VERSION} --interactive false 
+  ng add @spartacus/cart@${SPARTACUS_VERSION} --interactive false
 }
 
 function add_spartacus_csr {
