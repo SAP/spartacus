@@ -1,7 +1,6 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
-import { OccConfigLoaderModule } from './config-loader/occ-config-loader.module';
 import { defaultOccConfig } from './config/default-occ-config';
 import { occConfigValidator } from './config/occ-config-validator';
 import { WithCredentialsInterceptor } from './interceptors/with-credentials.interceptor';
@@ -13,7 +12,6 @@ import { provideDefaultConfig } from '../config/config-providers';
   imports: [
     CmsOccModule,
     SiteContextOccModule,
-    OccConfigLoaderModule.forRoot(),
   ],
 })
 export class BaseOccModule {

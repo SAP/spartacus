@@ -1,5 +1,4 @@
 export * from './adapters/index';
-export * from './config-loader/index';
 export * from './config/config-from-meta-tag-factory';
 export * from './config/default-occ-config';
 export * from './config/occ-config';
