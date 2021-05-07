@@ -62,13 +62,6 @@ describe('OccEndpointsService', () => {
     );
   });
 
-  it('should return occ endpoint', () => {
-    const occ = mockOccConfig.backend.occ;
-    expect(service.getOccEndpoint('asmCustomerSearch')).toEqual(
-      occ.baseUrl + occ.prefix + occ.endpoints['asmCustomerSearch']
-    );
-  });
-
   it('should be immune to late baseSite default value in config', () => {
     const config = TestBed.inject(OccConfig);
     expect(service.getBaseEndpoint()).toEqual(baseEndpoint);
