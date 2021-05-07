@@ -20,8 +20,6 @@ export class LanguageInitializer implements OnDestroy {
 
   /**
    * Initializes the value of the active language.
-   *
-   * @returns Observable that emits and completes when the initialization process is completed.
    */
   initialize(): void {
     this.subscription = concat(
