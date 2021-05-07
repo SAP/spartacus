@@ -3,7 +3,12 @@ import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { Address, AddressValidation, Country, Region } from '../../model/address.model';
+import {
+  Address,
+  AddressValidation,
+  Country,
+  Region,
+} from '../../model/address.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -182,19 +187,19 @@ export class UserAddressService {
       .subscribe((occUserId) => (userId = occUserId))
       .unsubscribe();
     if (userId) {
-      // this.checkoutStore.dispatch(
-      //   new CheckoutActions.VerifyAddress({
-      //     userId,
-      //     address,
-      //   })
-      // );
+      this.store.dispatch(
+        new UserActions.VerifyUserAddress({
+          userId,
+          address,
+        })
+      );
     }
   }
   /**
    * Get address verification results
    */
   getAddressVerificationResults(): Observable<AddressValidation | string> {
-    // return this.checkoutStore.pipe(
+    // return this.store.pipe(
     //   select(CheckoutSelectors.getAddressVerificationResults),
     //   filter((results) => Object.keys(results).length !== 0)
     // );
@@ -204,6 +209,6 @@ export class UserAddressService {
    * Clear address verification results
    */
   clearAddressVerificationResults(): void {
-    this.store.dispatch(new UserActions.ClearAddressVerificationResults());
+    this.store.dispatch(new UserActions.ClearUserAddressVerificationResults());
   }
 }

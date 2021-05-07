@@ -85,10 +85,6 @@ class MockAddressFormComponent {
   backToAddress = new EventEmitter<any>();
 }
 
-class MockCheckoutDeliveryService {
-  clearCheckoutDeliveryDetails = jasmine.createSpy();
-}
-
 class MockUserAddressService {
   deleteUserAddress = jasmine.createSpy();
   setAddressAsDefault = jasmine.createSpy();

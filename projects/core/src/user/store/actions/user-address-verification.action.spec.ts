@@ -28,7 +28,7 @@ describe('Address Verification Actions', () => {
       const action = new UserActions.VerifyUserAddressFail(error);
 
       expect({ ...action }).toEqual({
-        type: CheckoutActions.VERIFY_ADDRESS_FAIL,
+        type: UserActions.VERIFY_USER_ADDRESS_FAIL,
         payload: error,
       });
     });
@@ -40,11 +40,11 @@ describe('Address Verification Actions', () => {
         decision: 'test address validation',
         suggestedAddresses: [{ id: 'address1' }],
       };
-      const action = new CheckoutActions.VerifyAddressSuccess(
+      const action = new UserActions.VerifyUserAddressSuccess(
         addressValidation
       );
       expect({ ...action }).toEqual({
-        type: CheckoutActions.VERIFY_ADDRESS_SUCCESS,
+        type: UserActions.VERIFY_USER_ADDRESS_SUCCESS,
         payload: addressValidation,
       });
     });
@@ -52,9 +52,9 @@ describe('Address Verification Actions', () => {
 
   describe('ClearAddressVerificationResults', () => {
     it('should create the action', () => {
-      const action = new CheckoutActions.ClearAddressVerificationResults();
+      const action = new UserActions.ClearUserAddressVerificationResults();
       expect({ ...action }).toEqual({
-        type: CheckoutActions.CLEAR_ADDRESS_VERIFICATION_RESULTS,
+        type: UserActions.CLEAR_USER_ADDRESS_VERIFICATION_RESULTS,
       });
     });
   });

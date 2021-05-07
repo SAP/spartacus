@@ -37,10 +37,6 @@ class MockUserAddressService {
   }
 }
 
-class MockCheckoutDeliveryService {
-  clearCheckoutDeliveryDetails() {}
-}
-
 describe('AddressBookComponentService', () => {
   let service: AddressBookComponentService;
   let userAddressService: UserAddressService;
