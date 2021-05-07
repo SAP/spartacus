@@ -12,4 +12,4 @@ export const SPARTACUS_SAVED_CART_ASSETS = `${SPARTACUS_SAVED_CART}/assets`;
 export const SAVED_CART_TRANSLATIONS = 'savedCartTranslations';
 export const SAVED_CART_TRANSLATION_CHUNKS_CONFIG =
   'savedCartTranslationChunksConfig';
-export const CLI_SAVED_CART_FEATURE = 'Saved Cart (b2b feature)';
+export const CLI_SAVED_CART_FEATURE = 'Saved Cart';
