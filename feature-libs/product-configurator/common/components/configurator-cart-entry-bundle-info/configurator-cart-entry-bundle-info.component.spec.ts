@@ -61,6 +61,16 @@ const entry: OrderEntry = {
   configurationInfos: configurationInfos,
 };
 
+function setConfiguratorTypeIntoFirstConfigInfo(
+  entry: OrderEntry,
+  configuratorType: string
+) {
+  const configInfos = entry.configurationInfos;
+  if (configInfos && configInfos[0]) {
+    configInfos[0].configuratorType = configuratorType;
+  }
+}
+
 describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   let component: ConfiguratorCartEntryBundleInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
@@ -225,14 +235,18 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   describe('isBundleBasedConfigurator', () => {
     it('should return false because the configurator type is not bundle based one', () => {
-      entry.configurationInfos[0].configuratorType =
-        'notBundleBasedConfiguratorType';
+      setConfiguratorTypeIntoFirstConfigInfo(
+        entry,
+        'notBundleBasedConfiguratorType'
+      );
+
       fixture.detectChanges();
       expect(component.isBundleBasedConfigurator(entry)).toBe(false);
     });
 
     it('should return true because the configurator type is a bundle based one', () => {
-      entry.configurationInfos[0].configuratorType = ConfiguratorType.CPQ;
+      setConfiguratorTypeIntoFirstConfigInfo(entry, ConfiguratorType.CPQ);
+
       fixture.detectChanges();
       expect(component.isBundleBasedConfigurator(entry)).toBe(true);
     });
@@ -252,9 +266,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       let result: boolean;
       component
         .isDesktop()
-        .subscribe((br) => (result = br))
+        .subscribe((br) => {
+          result = br;
+          expect(result).toBe(false);
+        })
         .unsubscribe();
-      expect(result).toBe(false);
     });
 
     it('should return `true` because we deal with desktop widget', () => {
@@ -262,9 +278,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       let result: boolean;
       component
         .isDesktop()
-        .subscribe((br) => (result = br))
+        .subscribe((br) => {
+          result = br;
+          expect(result).toBe(true);
+        })
         .unsubscribe();
-      expect(result).toBe(true);
     });
   });
 
@@ -272,7 +290,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     describe('without any line item information', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
-          statusSummaryList: null,
+          statusSummaryList: undefined,
           configurationInfos: [],
           product: {
             configurable: true,
