@@ -27,6 +27,8 @@ export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `${SPARTACUS_ORGANIZAT
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `${SPARTACUS_ORGANIZATION}/administration/components`;
 export const SPARTACUS_ASM = '@spartacus/asm';
 export const SPARTACUS_CART = '@spartacus/cart';
+export const SPARTACUS_CART_SAVED_CART_COMPONENTS = `${SPARTACUS_CART}/saved-cart/components`;
+export const SPARTACUS_CART_SAVED_CART_ROOT = `${SPARTACUS_CART}/saved-cart/root`;
 export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
@@ -221,7 +223,7 @@ export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
 export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
-export const LAUNCH_DIALOG_SERVICE = 'LaunchComponentService';
+export const LAUNCH_DIALOG_SERVICE = 'LaunchDialogService';
 export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =
@@ -335,6 +337,24 @@ export const CURRENT_UNIT_SERVICE = 'CurrentUnitService';
 export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
+
+export const SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE =
+  'SavedCartFormLaunchDialogService';
+export const ADD_TO_SAVED_CART_COMPONENT = 'AddToSavedCartComponent ';
+export const SAVED_CART_DETAILS_ACTION_COMPONENT =
+  'SavedCartDetailsActionComponent ';
+export const SAVED_CART_DETAILS_OVERVIEW_COMPONENT =
+  'SavedCartDetailsOverviewComponent ';
+export const SAVED_CART_DETAILS_SERVICE = 'SavedCartDetailsService';
+export const SAVED_CART_FACADE = 'SavedCartFacade';
+export const CLEAR_CHECKOUT_SERVICE = 'ClearCheckoutService';
+
+export const REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE =
+  'ReplenishmentOrderCancellationLaunchDialogService';
+export const REPLENISHMENT_ORDER_CANCELLATION_COMPONENT =
+  'ReplenishmentOrderCancellationComponent';
+export const REPLENISHMENT_ORDER_HISTORY_COMPONENT =
+  'ReplenishmentOrderHistoryComponent';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
