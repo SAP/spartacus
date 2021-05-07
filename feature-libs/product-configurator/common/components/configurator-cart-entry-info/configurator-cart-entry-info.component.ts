@@ -73,10 +73,12 @@ export class ConfiguratorCartEntryInfoComponent {
    */
   isAttributeBasedConfigurator(item: OrderEntry): boolean {
     const configurationInfos = item.configurationInfos;
-    return configurationInfos
+
+    const attributeBased = configurationInfos
       ? this.commonConfigUtilsService?.isAttributeBasedConfigurator(
           configurationInfos[0]?.configuratorType
         )
       : false;
+    return attributeBased ? attributeBased : false;
   }
 }

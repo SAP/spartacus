@@ -65,14 +65,14 @@ describe('ConfigRouterExtractorService', () => {
   describe('extractRouterData', () => {
     it('should find proper owner for route based purely on product code', () => {
       let owner: CommonConfigurator.Owner;
-      serviceUnderTest
-        .extractRouterData()
-        .subscribe((routerData) => (owner = routerData.owner));
-      expect(owner.id).toBe(PRODUCT_CODE);
-      expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
-      expect(owner.key.includes(CommonConfigurator.OwnerType.PRODUCT)).toBe(
-        true
-      );
+      serviceUnderTest.extractRouterData().subscribe((routerData) => {
+        owner = routerData.owner;
+        expect(owner.id).toBe(PRODUCT_CODE);
+        expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
+        expect(owner.key.includes(CommonConfigurator.OwnerType.PRODUCT)).toBe(
+          true
+        );
+      });
     });
 
     it('should find proper owner for route based on owner type PRODUCT and product code', () => {
@@ -81,14 +81,14 @@ describe('ConfigRouterExtractorService', () => {
         CommonConfigurator.OwnerType.PRODUCT;
       mockRouterState.state.params.entityKey = PRODUCT_CODE;
 
-      serviceUnderTest
-        .extractRouterData()
-        .subscribe((routerData) => (owner = routerData.owner));
-      expect(owner.id).toBe(PRODUCT_CODE);
-      expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
-      expect(owner.key.includes(CommonConfigurator.OwnerType.PRODUCT)).toBe(
-        true
-      );
+      serviceUnderTest.extractRouterData().subscribe((routerData) => {
+        owner = routerData.owner;
+        expect(owner.id).toBe(PRODUCT_CODE);
+        expect(owner.type).toBe(CommonConfigurator.OwnerType.PRODUCT);
+        expect(owner.key.includes(CommonConfigurator.OwnerType.PRODUCT)).toBe(
+          true
+        );
+      });
     });
 
     it('should find proper owner for route based on owner type CART_ENTRY and cart entry number', () => {
@@ -97,26 +97,26 @@ describe('ConfigRouterExtractorService', () => {
         CommonConfigurator.OwnerType.CART_ENTRY;
       mockRouterState.state.params.entityKey = CART_ENTRY_NUMBER;
 
-      serviceUnderTest
-        .extractRouterData()
-        .subscribe((routerData) => (owner = routerData.owner));
-      expect(owner.id).toBe(CART_ENTRY_NUMBER);
-      expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
-      expect(owner.key.includes(CommonConfigurator.OwnerType.CART_ENTRY)).toBe(
-        true
-      );
+      serviceUnderTest.extractRouterData().subscribe((routerData) => {
+        owner = routerData.owner;
+        expect(owner.id).toBe(CART_ENTRY_NUMBER);
+        expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
+        expect(
+          owner.key.includes(CommonConfigurator.OwnerType.CART_ENTRY)
+        ).toBe(true);
+      });
     });
 
     it('should determine configurator and page type from router state ', () => {
       let routerData: ConfiguratorRouter.Data;
-      serviceUnderTest
-        .extractRouterData()
-        .subscribe((data) => (routerData = data));
-      expect(routerData.owner.configuratorType).toBe(CONFIGURATOR_TYPE);
-      expect(routerData.isOwnerCartEntry).toBe(false);
-      expect(routerData.pageType).toBe(
-        ConfiguratorRouter.PageType.CONFIGURATION
-      );
+      serviceUnderTest.extractRouterData().subscribe((data) => {
+        routerData = data;
+        expect(routerData.owner.configuratorType).toBe(CONFIGURATOR_TYPE);
+        expect(routerData.isOwnerCartEntry).toBe(false);
+        expect(routerData.pageType).toBe(
+          ConfiguratorRouter.PageType.CONFIGURATION
+        );
+      });
     });
 
     it('should determine configurator and page type from router based on owner type CART_ENTRY and cart entry number ', () => {
@@ -127,12 +127,16 @@ describe('ConfigRouterExtractorService', () => {
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
-        .subscribe((data) => (routerData = data))
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.owner.configuratorType).toBe(CONFIGURATOR_TYPE);
+          expect(routerData.isOwnerCartEntry).toBe(true);
+          expect(routerData.pageType).toBe(
+            ConfiguratorRouter.PageType.OVERVIEW
+          );
+          expect(routerData.forceReload).toBe(false);
+        })
         .unsubscribe();
-      expect(routerData.owner.configuratorType).toBe(CONFIGURATOR_TYPE);
-      expect(routerData.isOwnerCartEntry).toBe(true);
-      expect(routerData.pageType).toBe(ConfiguratorRouter.PageType.OVERVIEW);
-      expect(routerData.forceReload).toBe(false);
     });
 
     it('should tell from the URL if we need to enforce a reload of a configuration', () => {
@@ -140,10 +144,11 @@ describe('ConfigRouterExtractorService', () => {
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
-        .subscribe((data) => (routerData = data))
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.forceReload).toBe(true);
+        })
         .unsubscribe();
-
-      expect(routerData.forceReload).toBe(true);
     });
 
     it('should tell from the URL if we need to resolve issues of a configuration', () => {
@@ -151,10 +156,11 @@ describe('ConfigRouterExtractorService', () => {
       let routerData: ConfiguratorRouter.Data;
       serviceUnderTest
         .extractRouterData()
-        .subscribe((data) => (routerData = data))
+        .subscribe((data) => {
+          routerData = data;
+          expect(routerData.resolveIssues).toBe(true);
+        })
         .unsubscribe();
-
-      expect(routerData.resolveIssues).toBe(true);
     });
   });
 
@@ -192,9 +198,9 @@ describe('ConfigRouterExtractorService', () => {
   });
 
   describe('getConfiguratorTypeFromSemanticRoute', () => {
-    it('should throw error if semantic route is undefined', () => {
+    it('should throw error if semantic route is empty', () => {
       expect(() =>
-        serviceUnderTest['getConfiguratorTypeFromSemanticRoute'](undefined)
+        serviceUnderTest['getConfiguratorTypeFromSemanticRoute']('')
       ).toThrowError();
     });
 
