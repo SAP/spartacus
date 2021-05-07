@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { concat, defer, Observable, Subscription } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { getContextParameterDefault } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
@@ -24,13 +24,11 @@ export class LanguageInitializer implements OnDestroy {
    * @returns Observable that emits and completes when the initialization process is completed.
    */
   initialize(): void {
-    this.subscription = this.configInit
-      .getStable('context')
-      .pipe(
-        switchMap(() => this.languageStatePersistenceService.initSync()),
-        switchMap(() => this.setFallbackValue())
-      )
-      .subscribe();
+    this.subscription = concat(
+      defer(() => this.configInit.getStable('context')),
+      defer(() => this.languageStatePersistenceService.initSync()),
+      defer(() => this.setFallbackValue())
+    ).subscribe();
   }
 
   /**
