@@ -27,26 +27,27 @@ export class LanguageStatePersistenceService {
     this.statePersistenceService.syncWithStorage({
       key: LANGUAGE_CONTEXT_ID,
       state$: this.languageService.getActive(),
-      onRead: (stateFromStorage) => this.onRead(stateFromStorage),
+      onRead: (state) => this.onRead(state),
     });
     return { valueInitialized$: this.valueInitialized$ };
   }
 
-  protected onRead(stateFromStorage: string): void {
-    let alreadyInitialized = false;
+  protected onRead(valueFromStorage: string): void {
+    let wasAlreadyInitialized = false;
     this.languageService
       .getActive()
-      .subscribe(() => (alreadyInitialized = true))
+      .subscribe(() => (wasAlreadyInitialized = true))
       .unsubscribe();
 
-    // don't initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)
-    if (!alreadyInitialized && this.isValid(stateFromStorage)) {
-      this.languageService.setActive(stateFromStorage);
+    // don't set the value from storage, if it has been already initialized
+    // (i.e. retrieved from route or transferred from SSR)
+    if (!wasAlreadyInitialized && this.isValid(valueFromStorage)) {
+      this.languageService.setActive(valueFromStorage);
       this.valueInitialized$.next(true);
       return;
     }
 
-    this.valueInitialized$.next(alreadyInitialized);
+    this.valueInitialized$.next(wasAlreadyInitialized);
     this.valueInitialized$.complete();
   }
 
