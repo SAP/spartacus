@@ -16,7 +16,6 @@ import { PaymentTypeModule } from './components/payment-type/payment-type.module
 import { PlaceOrderModule } from './components/place-order/place-order.module';
 import { ReviewSubmitModule } from './components/review-submit/review-submit.module';
 import { ScheduleReplenishmentOrderModule } from './components/schedule-replenishment-order/schedule-replenishment-order.module';
-import { ShippingAddressModule } from './components/shipping-address/shipping-address.module';
 import { OrderConfirmationModule } from './order-confirmation/order-confirmation.module';
 import { ReplenishmentOrderConfirmationModule } from './order-confirmation/replenishment-order-confirmation.module';
 
@@ -34,7 +33,6 @@ import { ReplenishmentOrderConfirmationModule } from './order-confirmation/reple
     PlaceOrderModule,
     ScheduleReplenishmentOrderModule,
     ReviewSubmitModule,
-    ShippingAddressModule,
     CostCenterModule,
     CheckoutLoginRegisterModule,
     OrderConfirmationModule,

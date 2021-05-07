@@ -27,7 +27,7 @@ import {
 import { Card, ICON_TYPE, ModalRef, ModalService } from '@spartacus/storefront'; // eslint-disable-line
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // eslint-disable-line
+import { SuggestedAddressDialogComponent } from '@spartacus/storefront'; // eslint-disable-line
 
 @Component({
   selector: 'cx-payment-form',
