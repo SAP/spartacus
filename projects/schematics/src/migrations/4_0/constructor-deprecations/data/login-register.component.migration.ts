@@ -1,5 +1,6 @@
 import {
   ACTIVATED_ROUTE,
+  ANGULAR_ROUTER,
   CHECKOUT_CONFIG_SERVICE,
   LOGIN_REGISTER_COMPONENT,
   SPARTACUS_CORE,
@@ -13,7 +14,7 @@ export const LOGIN_REGISTER_COMPONENT_MIGRATION: ConstructorDeprecation = {
   importPath: SPARTACUS_USER,
   deprecatedParams: [
     { className: CHECKOUT_CONFIG_SERVICE, importPath: SPARTACUS_CORE },
-    { className: CHECKOUT_CONFIG_SERVICE, importPath: ACTIVATED_ROUTE },
+    { className: ACTIVATED_ROUTE, importPath: ANGULAR_ROUTER },
   ],
   removeParams: [
     { className: CHECKOUT_CONFIG_SERVICE, importPath: SPARTACUS_CORE },
