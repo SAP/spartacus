@@ -13,7 +13,6 @@
               [cxFocus]="{ autofocus: true }"
               (click)="navigateUp()"
               (keydown)="switchTabOnArrowPress($event, groupIndex, group)"
-              (keyup)="navigateUpOnEnter($event)"
             >
               <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
               {{ 'configurator.button.back' | cxTranslate }}
@@ -27,15 +26,12 @@
             [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
             [class.active]="isGroupSelected(currentGroup.id, group.id)"
             [class.disable]="!group.configurable"
-            [attr.aria-selected]="
-              isGroupSelected(currentGroup.id, group.id) ? true : false
-            "
+            [attr.aria-selected]="isGroupSelected(currentGroup.id, group.id)"
             [attr.aria-controls]="group.id"
             [cxFocus]="{ key: group.id }"
             (click)="click(group)"
-            [tabindex]="!isGroupSelected(currentGroup.id, group.id) ? -1 : 0"
+            [tabindex]="setTabIndex(currentGroup.id, group)"
             (keydown)="switchTabOnArrowPress($event, groupIndex, group)"
-            (keyup)="clickOnEnter($event, group)"
           >
             <span title="{{ group.description }}">{{ group.description }}</span>
             <div class="groupIndicators">

@@ -5,7 +5,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { delay, filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -85,28 +85,8 @@ export class ConfiguratorGroupMenuComponent {
   ) {}
 
   /**
-   * Prevents page down behaviour when users press 'ArrowUp' or 'ArrowDown' keys
-   * to change the focus to the corresponding group
+   * @deprecated since 4.0
    *
-   * @param {KeyboardEvent} event - Keyboard event
-   */
-  switchTabOnArrowPress(
-    event: KeyboardEvent,
-    groupIndex: number,
-    group?: Configurator.Group
-  ): void {
-    if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
-      this.configUtils.switchTabOnArrowPress(event, groupIndex);
-    } else if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
-      if (this.configUtils.isBackBtnFocused()) {
-        this.navigateUp();
-      } else if (!this.configUtils.isBackBtnExist()) {
-        this.click(group);
-      }
-    }
-  }
-
-  /**
    * Fired on key board events, checks for 'enter' or 'space' and delegates to click.
    *
    * @param {KeyboardEvent} event - Keyboard event
@@ -115,7 +95,6 @@ export class ConfiguratorGroupMenuComponent {
   clickOnEnter(event: KeyboardEvent, group: Configurator.Group): void {
     if (event.code === 'Enter' || event.code === 'Space') {
       this.click(group);
-      this.configUtils.activateTab(event.target as HTMLElement);
     }
   }
 
@@ -141,6 +120,8 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
+   * @deprecated since 4.0
+   *
    * Fired on key board events, checks for 'enter' or 'space' and delegates to navigateUp.
    *
    * @param {KeyboardEvent} event - Keyboard event
@@ -148,7 +129,6 @@ export class ConfiguratorGroupMenuComponent {
   navigateUpOnEnter(event: KeyboardEvent): void {
     if (event.code === 'Space' || event.code === 'Enter') {
       this.navigateUp();
-      //this.configUtils.activateTab(event.target as HTMLElement);
     }
   }
 
@@ -158,15 +138,12 @@ export class ConfiguratorGroupMenuComponent {
       .subscribe((displayedParentGroup) => {
         const parentGroup$ = this.getParentGroup(displayedParentGroup);
         this.configuration$.pipe(take(1)).subscribe((configuration) => {
-          parentGroup$
-            .pipe(take(1), delay(0)) //we need to consider the re-rendering of the page)
-            .subscribe((parentGroup) => {
-              this.configuratorGroupsService.setMenuParentGroup(
-                configuration.owner,
-                parentGroup ? parentGroup.id : null
-              );
-              this.configUtils.activateTab(undefined, displayedParentGroup.id);
-            });
+          parentGroup$.pipe(take(1)).subscribe((parentGroup) => {
+            this.configuratorGroupsService.setMenuParentGroup(
+              configuration.owner,
+              parentGroup ? parentGroup.id : null
+            );
+          });
         });
       });
   }
@@ -305,6 +282,57 @@ export class ConfiguratorGroupMenuComponent {
         return groupStatusStyle;
       })
     );
+  }
+
+  /**
+   * Prevents page down behaviour when users press 'ArrowUp' or 'ArrowDown' keys
+   * to change the focus to the corresponding group
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  protected switchTabOnArrowPress(
+    event: KeyboardEvent,
+    groupIndex: number,
+    group?: Configurator.Group
+  ): void {
+    if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
+      this.configUtils.switchTabOnArrowPress(event, groupIndex);
+    } else if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+      if (this.configUtils.isBackBtnFocused()) {
+        this.navigateUp();
+      } else if (this.hasSubGroups(group)) {
+        this.click(group);
+      }
+    }
+  }
+
+  protected containsSelectedGroup(
+    currentGroupId: string,
+    group: Configurator.Group
+  ): boolean {
+    let isCurrentGroupFound = false;
+    if (this.hasSubGroups(group)) {
+      group.subGroups.forEach((subGroup) => {
+        if (this.isGroupSelected(subGroup.id, currentGroupId)) {
+          isCurrentGroupFound = true;
+        }
+      });
+    }
+    return isCurrentGroupFound;
+  }
+
+  protected setTabIndex(
+    currentGroupId: string,
+    group: Configurator.Group
+  ): number {
+    if (
+      !this.isGroupSelected(currentGroupId, group.id) &&
+      !this.containsSelectedGroup(currentGroupId, group)
+    ) {
+      return -1;
+    } else {
+      return 0;
+    }
   }
 
   protected isGroupSelected(currentGroupId: string, groupId: string): boolean {

@@ -195,14 +195,13 @@ export class ConfiguratorStorefrontUtilsService {
     }
   }
 
-  switchTabOnArrowPress(event: KeyboardEvent, currentGroupIndex: number): void {
+  switchTabOnArrowPress(event: KeyboardEvent, groupIndex: number): void {
     if (isPlatformBrowser(this.platformId)) {
       event.preventDefault();
-      const pressedKey = event.key;
-      if (pressedKey === 'ArrowUp') {
-        this.focusPreviousTab(currentGroupIndex);
-      } else if (pressedKey == 'ArrowDown') {
-        this.focusNextTab(currentGroupIndex);
+      if (event.key === 'ArrowUp') {
+        this.focusPreviousTab(groupIndex);
+      } else if (event.key == 'ArrowDown') {
+        this.focusNextTab(groupIndex);
       }
     }
   }
@@ -226,43 +225,6 @@ export class ConfiguratorStorefrontUtilsService {
       tab.setAttribute('tabindex', '0');
       tab.setAttribute('aria-selected', 'true');
       tab.focus();
-    }
-  }
-
-  protected deactivateBackButton(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const backButton: HTMLElement = document.querySelector(
-        'button.back-button'
-      );
-      backButton?.setAttribute('tabindex', '-1');
-      backButton?.setAttribute('aria-selected', 'selected');
-      backButton?.focus();
-    }
-  }
-  
-  protected focusBackButton(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const backButton: HTMLElement = document.querySelector(
-        'button.back-button'
-      );
-      backButton?.setAttribute('tabindex', '0');
-      backButton?.setAttribute('aria-selected', 'true');
-      backButton?.focus();
-    }
-  }
-
-  setFocus() {
-    if (isPlatformBrowser(this.platformId)) {
-      const element: HTMLElement = this.document.querySelector(
-        '[aria-selected="true"]'
-      );
-      element?.focus();
-    }
-  }
-
-  isBackBtnExist(): boolean {
-    if (isPlatformBrowser(this.platformId)) {
-      return this.getTabs()[0].id === 'back-button';
     }
   }
 
