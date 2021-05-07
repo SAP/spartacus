@@ -40,13 +40,13 @@ describe('ConfigureIssuesNotificationComponent', () => {
     readOnly: boolean;
     productConfigurable: boolean;
   }) {
-    mockCartItemContext.item$.next({
+    mockCartItemContext.item$?.next({
       statusSummaryList: testData.statusSummary,
       configurationInfos: testData.configurationInfos,
       product: { configurable: testData.productConfigurable ?? true },
     });
-    mockCartItemContext.readonly$.next(testData.readOnly);
-    mockCartItemContext.quantityControl$.next(new FormControl());
+    mockCartItemContext.readonly$?.next(testData.readOnly);
+    mockCartItemContext.quantityControl$?.next(new FormControl());
   }
 
   beforeEach(
@@ -84,7 +84,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
       done();
     });
 
-    mockCartItemContext.item$.next(orderEntry);
+    mockCartItemContext.item$?.next(orderEntry);
   });
 
   it('should expose quantityControl$', (done) => {
@@ -94,7 +94,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
       done();
     });
 
-    mockCartItemContext.quantityControl$.next(quantityControl);
+    mockCartItemContext.quantityControl$?.next(quantityControl);
   });
 
   it('should expose readonly$', (done) => {
@@ -103,14 +103,14 @@ describe('ConfigureIssuesNotificationComponent', () => {
       done();
     });
 
-    mockCartItemContext.readonly$.next(true);
-    mockCartItemContext.readonly$.next(false);
+    mockCartItemContext.readonly$?.next(true);
+    mockCartItemContext.readonly$?.next(false);
   });
 
   it('should display configure from cart in case issues are present', () => {
     emitNewContextValue({
       statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
-      configurationInfos: null,
+      configurationInfos: [],
       readOnly: false,
       productConfigurable: true,
     });
@@ -119,44 +119,32 @@ describe('ConfigureIssuesNotificationComponent', () => {
 
     expect(
       htmlElem.querySelectorAll('cx-configure-cart-entry').length
-    ).toBeGreaterThan(
-      0,
-      'expected configure cart entry to be present, but it is not; innerHtml: ' +
-        htmlElem.innerHTML
-    );
+    ).toBeGreaterThan(0);
   });
 
   it('should not display configure from cart in case issues are present but product not configurable', () => {
     emitNewContextValue({
       statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
-      configurationInfos: null,
+      configurationInfos: [],
       readOnly: false,
       productConfigurable: false,
     });
 
     fixture.detectChanges();
 
-    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
-      0,
-      'expected configure cart entry not to be present, but it is; innerHtml: ' +
-        htmlElem.innerHTML
-    );
+    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(0);
   });
 
   it('should return false if number of issues of ERROR status is = 0', () => {
     emitNewContextValue({
       statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Success }],
-      configurationInfos: null,
+      configurationInfos: [],
       readOnly: false,
       productConfigurable: true,
     });
 
     fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
-      0,
-      'expected configure cart entry not to be present, but it is; innerHtml: ' +
-        htmlElem.innerHTML
-    );
+    expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(0);
   });
 
   describe('shouldShowButton', () => {

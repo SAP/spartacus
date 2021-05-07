@@ -95,22 +95,20 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   describe('configuration infos', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
-        configurationInfos: null,
+        statusSummaryList: undefined,
+        configurationInfos: undefined,
       });
       mockCartItemContext.readonly$.next(false);
 
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        0,
-        "expected configuration info identified by selector '.cx-configuration-info' not to be present, but it is! innerHtml: " +
-          htmlElem.innerHTML
+        0
       );
     });
 
     it('should be displayed if model provides a success entry', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configurationLabel: 'Color',
@@ -125,15 +123,13 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        1,
-        "expected configuration info identified by selector '.cx-configuration-info' to be present, but it is not! innerHtml: " +
-          htmlElem.innerHTML
+        1
       );
     });
 
     it('should be displayed if model provides a warning entry', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configurationLabel: 'Pricing',
@@ -148,9 +144,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        1,
-        "expected configuration info identified by selector '.cx-configuration-info' to be present, but it is not! innerHtml: " +
-          htmlElem.innerHTML
+        1
       );
     });
 

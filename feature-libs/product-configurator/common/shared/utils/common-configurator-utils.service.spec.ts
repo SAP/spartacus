@@ -202,14 +202,14 @@ describe('CommonConfiguratorUtilsService', () => {
       cartItem.statusSummaryList = [
         { numberOfIssues: 2, status: OrderEntryStatus.Error },
       ];
-      expect(classUnderTest.hasIssues(cartItem)).toBeTrue();
+      expect(classUnderTest.hasIssues(cartItem)).toBe(true);
     });
 
     it('should return false if number of issues of ERROR status is = 0', () => {
       cartItem.statusSummaryList = [
         { numberOfIssues: 2, status: OrderEntryStatus.Success },
       ];
-      expect(classUnderTest.hasIssues(cartItem)).toBeFalse();
+      expect(classUnderTest.hasIssues(cartItem)).toBe(false);
     });
   });
 
