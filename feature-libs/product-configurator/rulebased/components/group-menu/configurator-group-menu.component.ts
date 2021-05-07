@@ -83,17 +83,10 @@ export class ConfiguratorGroupMenuComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configUtils: ConfiguratorStorefrontUtilsService
   ) {}
+
   /**
-   * Prevents page down behaviour when users press space key to select buttons
+   * @deprecated since 4.0
    *
-   * @param {KeyboardEvent} event - Keyboard event
-   */
-  preventScrollingOnSpace(event: KeyboardEvent): void {
-    if (event.code === 'Space') {
-      event.preventDefault();
-    }
-  }
-  /**
    * Fired on key board events, checks for 'enter' or 'space' and delegates to click.
    *
    * @param {KeyboardEvent} event - Keyboard event
@@ -127,12 +120,14 @@ export class ConfiguratorGroupMenuComponent {
   }
 
   /**
+   * @deprecated since 4.0
+   *
    * Fired on key board events, checks for 'enter' or 'space' and delegates to navigateUp.
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
   navigateUpOnEnter(event: KeyboardEvent): void {
-    if (event.code === 'Enter' || event.code === 'Space') {
+    if (event.code === 'Space' || event.code === 'Enter') {
       this.navigateUp();
     }
   }
@@ -143,14 +138,12 @@ export class ConfiguratorGroupMenuComponent {
       .subscribe((displayedParentGroup) => {
         const parentGroup$ = this.getParentGroup(displayedParentGroup);
         this.configuration$.pipe(take(1)).subscribe((configuration) => {
-          parentGroup$
-            .pipe(take(1))
-            .subscribe((parentGroup) =>
-              this.configuratorGroupsService.setMenuParentGroup(
-                configuration.owner,
-                parentGroup ? parentGroup.id : null
-              )
+          parentGroup$.pipe(take(1)).subscribe((parentGroup) => {
+            this.configuratorGroupsService.setMenuParentGroup(
+              configuration.owner,
+              parentGroup ? parentGroup.id : null
             );
+          });
         });
       });
   }
@@ -289,5 +282,57 @@ export class ConfiguratorGroupMenuComponent {
         return groupStatusStyle;
       })
     );
+  }
+
+  /**
+   * Prevents page down behaviour when users press 'ArrowUp' or 'ArrowDown' keys
+   * to change the focus to the corresponding group
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   */
+  switchTabOnArrowPress(
+    event: KeyboardEvent,
+    groupIndex: number,
+    group?: Configurator.Group
+  ): void {
+    if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
+      this.configUtils.switchTabOnArrowPress(event, groupIndex);
+    } else if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+      if (this.configUtils.isBackBtnFocused()) {
+        this.navigateUp();
+      } else if (this.hasSubGroups(group)) {
+        this.click(group);
+      }
+    }
+  }
+
+  containsSelectedGroup(
+    currentGroupId: string,
+    group: Configurator.Group
+  ): boolean {
+    let isCurrentGroupFound = false;
+    if (this.hasSubGroups(group)) {
+      group.subGroups.forEach((subGroup) => {
+        if (this.isGroupSelected(subGroup.id, currentGroupId)) {
+          isCurrentGroupFound = true;
+        }
+      });
+    }
+    return isCurrentGroupFound;
+  }
+
+  setTabIndex(currentGroupId: string, group: Configurator.Group): number {
+    if (
+      !this.isGroupSelected(currentGroupId, group.id) &&
+      !this.containsSelectedGroup(currentGroupId, group)
+    ) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
+
+  isGroupSelected(currentGroupId: string, groupId: string): boolean {
+    return currentGroupId === groupId;
   }
 }
