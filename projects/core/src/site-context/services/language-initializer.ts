@@ -26,6 +26,7 @@ export class LanguageInitializer implements OnDestroy {
   initialize(): void {
     this.subscription = concat(
       defer(() => this.configInit.getStable('context')),
+      // TODO(#12351): plug here explicitly SiteContextRoutesHandler
       defer(() => this.languageStatePersistenceService.initSync()),
       defer(() => this.setFallbackValue())
     ).subscribe();
