@@ -136,8 +136,7 @@ export class ProfileTagPushEventsService {
           return (
             previouslyEmittedCategoryPage.categoryCode ===
               currentCategoryPage.categoryCode &&
-            previousRoute.navigation.semanticRoute ===
-              currentRoute.navigation.semanticRoute
+            previousRoute.semanticRoute === currentRoute.semanticRoute
           ); // A true means that this item is not unique, so this is hard to wrap your head around.
           // What we are saying, is that if the categoryCode is the same AND the last emitted semantic route is the same
           // then this is a duplicate (I.E. via a facet change). In other words, no other page type was visited, and we are on the same categorycode

@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import {
   createFrom,
   EventService,
+  FeatureConfigService,
   ProductSearchService,
   ProductService,
 } from '@spartacus/core';
 import { EMPTY, Observable } from 'rxjs';
 import { filter, map, skip, switchMap, take } from 'rxjs/operators';
 import { NavigationEvent } from '../navigation/navigation.event';
+import { PageEvent } from '../page/page.events';
 import {
   CategoryPageResultsEvent,
   ProductDetailsPageEvent,
@@ -21,7 +23,9 @@ export class ProductPageEventBuilder {
   constructor(
     protected eventService: EventService,
     protected productService: ProductService,
-    protected productSearchService: ProductSearchService
+    protected productSearchService: ProductSearchService,
+    // TODO: #10896 - remove this
+    /** @deprecated @since 3.1 - this will be removed in 4.0 */ protected featureConfigService?: FeatureConfigService
   ) {
     this.register();
   }
@@ -50,7 +54,8 @@ export class ProductPageEventBuilder {
           take(1),
           map((product) =>
             createFrom(ProductDetailsPageEvent, {
-              navigation: navigationEvent,
+              ...this.createDeprecatedPageEvent(navigationEvent),
+              navigation: { ...navigationEvent },
               categories: product.categories,
               code: product.code,
               name: product.name,
@@ -77,10 +82,11 @@ export class ProductPageEventBuilder {
         return searchResults$.pipe(
           map((searchResults) =>
             createFrom(CategoryPageResultsEvent, {
-              navigation: navigationEvent,
+              ...this.createDeprecatedPageEvent(navigationEvent),
+              navigation: { ...navigationEvent },
               ...{
                 categoryCode: navigationEvent?.context?.id,
-                numberOfResults: searchResults?.pagination?.totalResults ?? 0,
+                numberOfResults: searchResults?.pagination?.totalResults,
                 categoryName: searchResults.breadcrumbs?.[0].facetValueName,
               },
             })
@@ -105,15 +111,29 @@ export class ProductPageEventBuilder {
         return searchResults$.pipe(
           map((searchResults) =>
             createFrom(SearchPageResultsEvent, {
-              navigation: navigationEvent,
+              ...this.createDeprecatedPageEvent(navigationEvent),
+              navigation: { ...navigationEvent },
               ...{
-                searchTerm: searchResults?.freeTextSearch ?? '',
-                numberOfResults: searchResults?.pagination?.totalResults ?? 0,
+                searchTerm: searchResults?.freeTextSearch,
+                numberOfResults: searchResults?.pagination?.totalResults,
               },
             })
           )
         );
       })
     );
+  }
+
+  // TODO: #10896 - remove this method
+  private createDeprecatedPageEvent(
+    navigationEvent: NavigationEvent
+  ): PageEvent | undefined {
+    if (
+      !this.featureConfigService ||
+      this.featureConfigService.isLevel('!3.1')
+    ) {
+      return { ...navigationEvent };
+    }
+    return undefined;
   }
 }
