@@ -6,20 +6,19 @@ import {
   Output,
   Type,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   Address,
   I18nTestingModule,
   User,
   UserAddressService,
-  CheckoutDeliveryService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CardModule } from '../../../shared/components/card';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
-import { CardModule } from '../../../shared/components/card';
 
 const mockAddress: Address = {
   id: '123',
@@ -100,7 +99,6 @@ describe('AddressBookComponent', () => {
   let fixture: ComponentFixture<AddressBookComponent>;
   let el: DebugElement;
   let userAddressService: UserAddressService;
-  let checkoutDeliveryService: CheckoutDeliveryService;
 
   beforeEach(
     waitForAsync(() => {
@@ -112,10 +110,6 @@ describe('AddressBookComponent', () => {
             useClass: MockComponentService,
           },
           { provide: UserAddressService, useClass: MockUserAddressService },
-          {
-            provide: CheckoutDeliveryService,
-            useClass: MockCheckoutDeliveryService,
-          },
         ],
         declarations: [AddressBookComponent, MockAddressFormComponent],
       }).compileComponents();
@@ -129,9 +123,6 @@ describe('AddressBookComponent', () => {
     el = fixture.debugElement;
     userAddressService = TestBed.inject(
       UserAddressService as Type<UserAddressService>
-    );
-    checkoutDeliveryService = TestBed.inject(
-      CheckoutDeliveryService as Type<CheckoutDeliveryService>
     );
 
     isLoading.next(false);
@@ -235,9 +226,7 @@ describe('AddressBookComponent', () => {
 
     it('should clear checkout delivery details', () => {
       component.setAddressAsDefault(mockAddress[0]);
-      expect(
-        checkoutDeliveryService.clearCheckoutDeliveryDetails
-      ).toHaveBeenCalled();
+      // TODO Assert an event is fired
     });
   });
 
@@ -249,9 +238,7 @@ describe('AddressBookComponent', () => {
 
     it('should clear checkout delivery details', () => {
       component.deleteAddress('1');
-      expect(
-        checkoutDeliveryService.clearCheckoutDeliveryDetails
-      ).toHaveBeenCalled();
+      // TODO Assert an event is fired
     });
   });
 });

@@ -1,12 +1,11 @@
 import { ChangeDetectionStrategy, DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
   Address,
   AddressValidation,
-  CheckoutDeliveryService,
   Country,
   GlobalMessageService,
   I18nTestingModule,
@@ -42,6 +41,12 @@ class MockUserAddressService {
 
   getAddresses(): Observable<Address[]> {
     return of([]);
+  }
+
+  clearAddressVerificationResults = createSpy();
+  verifyAddress = createSpy();
+  getAddressVerificationResults(): Observable<AddressValidation> {
+    return of({ decision: 'ACCEPT' });
   }
 }
 
@@ -113,20 +118,11 @@ const mockAddressValidation: AddressValidation = {
   suggestedAddresses: [{ id: 'address1' }],
 };
 
-class MockCheckoutDeliveryService {
-  clearAddressVerificationResults = createSpy();
-  verifyAddress = createSpy();
-  getAddressVerificationResults(): Observable<AddressValidation> {
-    return of({ decision: 'ACCEPT' });
-  }
-}
-
 describe('AddressFormComponent', () => {
   let component: AddressFormComponent;
   let fixture: ComponentFixture<AddressFormComponent>;
   let controls: FormGroup['controls'];
 
-  let mockCheckoutDeliveryService: CheckoutDeliveryService;
   let userAddressService: UserAddressService;
   let userService: UserService;
   let mockGlobalMessageService: any;
@@ -152,10 +148,6 @@ describe('AddressFormComponent', () => {
         declarations: [AddressFormComponent],
         providers: [
           { provide: ModalService, useValue: { open: () => {} } },
-          {
-            provide: CheckoutDeliveryService,
-            useClass: MockCheckoutDeliveryService,
-          },
           { provide: UserService, useClass: MockUserService },
           { provide: UserAddressService, useClass: MockUserAddressService },
           { provide: GlobalMessageService, useValue: mockGlobalMessageService },
@@ -169,7 +161,6 @@ describe('AddressFormComponent', () => {
 
       userService = TestBed.inject(UserService);
       userAddressService = TestBed.inject(UserAddressService);
-      mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
     })
   );
 
@@ -195,10 +186,9 @@ describe('AddressFormComponent', () => {
 
     spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
 
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getAddressVerificationResults'
-    ).and.returnValue(of({}));
+    spyOn(userAddressService, 'getAddressVerificationResults').and.returnValue(
+      of({})
+    );
     component.ngOnInit();
 
     component.countries$
@@ -216,10 +206,9 @@ describe('AddressFormComponent', () => {
     spyOn(userService, 'getTitles').and.returnValue(of(mockTitles));
     spyOn(userAddressService, 'getRegions').and.returnValue(of(mockRegions));
 
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getAddressVerificationResults'
-    ).and.returnValue(of({}));
+    spyOn(userAddressService, 'getAddressVerificationResults').and.returnValue(
+      of({})
+    );
 
     component.ngOnInit();
 
@@ -255,10 +244,9 @@ describe('AddressFormComponent', () => {
     const mockAddressVerificationResult: AddressValidation = {
       decision: 'ACCEPT',
     };
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getAddressVerificationResults'
-    ).and.returnValue(of(mockAddressVerificationResult));
+    spyOn(userAddressService, 'getAddressVerificationResults').and.returnValue(
+      of(mockAddressVerificationResult)
+    );
 
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
@@ -278,15 +266,14 @@ describe('AddressFormComponent', () => {
         errors: [{ subject: 'No' }],
       },
     };
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getAddressVerificationResults'
-    ).and.returnValue(of(mockAddressVerificationResult));
+    spyOn(userAddressService, 'getAddressVerificationResults').and.returnValue(
+      of(mockAddressVerificationResult)
+    );
 
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
     expect(
-      mockCheckoutDeliveryService.clearAddressVerificationResults
+      userAddressService.clearAddressVerificationResults
     ).toHaveBeenCalledWith();
     mockAddressVerificationResult.errors.errors = [{ subject: 'titleCode' }];
     component.ngOnInit();
@@ -298,13 +285,12 @@ describe('AddressFormComponent', () => {
       decision: 'FAIL',
     };
     component.addressData = mockAddress;
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getAddressVerificationResults'
-    ).and.returnValue(of(mockAddressVerificationResult));
+    spyOn(userAddressService, 'getAddressVerificationResults').and.returnValue(
+      of(mockAddressVerificationResult)
+    );
     component.ngOnInit();
     expect(
-      mockCheckoutDeliveryService.clearAddressVerificationResults
+      userAddressService.clearAddressVerificationResults
     ).toHaveBeenCalled();
   });
 
@@ -316,10 +302,9 @@ describe('AddressFormComponent', () => {
     const mockAddressVerificationResult: AddressValidation = {
       decision: 'REVIEW',
     };
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getAddressVerificationResults'
-    ).and.returnValue(of(mockAddressVerificationResult));
+    spyOn(userAddressService, 'getAddressVerificationResults').and.returnValue(
+      of(mockAddressVerificationResult)
+    );
 
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
@@ -333,14 +318,14 @@ describe('AddressFormComponent', () => {
     component.addressForm.setValue(mockAddress);
     component.addressForm.markAsDirty();
     component.verifyAddress();
-    expect(mockCheckoutDeliveryService.verifyAddress).toHaveBeenCalled();
+    expect(userAddressService.verifyAddress).toHaveBeenCalled();
   });
 
   it('should not call verifyAddress() when address does not have change', () => {
     component.ngOnInit();
     component.addressForm.setValue(mockAddress);
     component.verifyAddress();
-    expect(mockCheckoutDeliveryService.verifyAddress).not.toHaveBeenCalled();
+    expect(userAddressService.verifyAddress).not.toHaveBeenCalled();
   });
 
   it('should call back()', () => {
@@ -381,7 +366,7 @@ describe('AddressFormComponent', () => {
     component.openSuggestedAddress(mockAddressValidation);
     component.suggestedAddressModalRef.result.then(() => {
       expect(
-        mockCheckoutDeliveryService.clearAddressVerificationResults
+        userAddressService.clearAddressVerificationResults
       ).toHaveBeenCalled();
       done();
     });

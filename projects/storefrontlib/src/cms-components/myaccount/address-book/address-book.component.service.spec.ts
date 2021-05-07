@@ -1,13 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { Address, User, UserAddressService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-
-import {
-  Address,
-  CheckoutDeliveryService,
-  User,
-  UserAddressService,
-} from '@spartacus/core';
 import { AddressBookComponentService } from './address-book.component.service';
 
 const mockAddresses: Address[] = [
@@ -50,7 +44,6 @@ class MockCheckoutDeliveryService {
 describe('AddressBookComponentService', () => {
   let service: AddressBookComponentService;
   let userAddressService: UserAddressService;
-  let checkoutDeliveryService: CheckoutDeliveryService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,16 +53,11 @@ describe('AddressBookComponentService', () => {
           provide: UserAddressService,
           useClass: MockUserAddressService,
         },
-        {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
-        },
       ],
     });
 
     service = TestBed.inject(AddressBookComponentService);
     userAddressService = TestBed.inject(UserAddressService);
-    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
   });
 
   it('should service be created', () => {
@@ -116,11 +104,8 @@ describe('AddressBookComponentService', () => {
     });
 
     it('should clear checkout delivery details', () => {
-      spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
       service.updateUserAddress('addressId', mockAddresses[0]);
-      expect(
-        checkoutDeliveryService.clearCheckoutDeliveryDetails
-      ).toHaveBeenCalled();
+      // TODO Assert that an event is fired
     });
   });
 });
