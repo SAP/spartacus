@@ -2,7 +2,7 @@ import {
   SPARTACUS_CORE,
   TODO_SPARTACUS,
   OCC_ENDPOINT,
-  BASE_SITES_FOR_CONFIG
+  BASE_SITES_FOR_CONFIG,
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 

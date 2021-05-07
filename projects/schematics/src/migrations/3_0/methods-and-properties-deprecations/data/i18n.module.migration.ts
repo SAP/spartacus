@@ -2,8 +2,7 @@ import {
   SPARTACUS_CORE,
   TODO_SPARTACUS,
   I18N_MODULE,
-  INIT_I18N_CONFIG
-
+  INIT_I18N_CONFIG,
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 

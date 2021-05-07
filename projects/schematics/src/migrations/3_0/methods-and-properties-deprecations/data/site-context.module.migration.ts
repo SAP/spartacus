@@ -2,8 +2,7 @@ import {
   SPARTACUS_CORE,
   TODO_SPARTACUS,
   SITE_CONTEXT_MODULE,
-  INIT_SITE_CONTEXT_CONFIG
-
+  INIT_SITE_CONTEXT_CONFIG,
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 

@@ -9,10 +9,7 @@ import { SiteContextOccModule } from './adapters/site-context/site-context-occ.m
 import { provideDefaultConfig } from '../config/config-providers';
 
 @NgModule({
-  imports: [
-    CmsOccModule,
-    SiteContextOccModule,
-  ],
+  imports: [CmsOccModule, SiteContextOccModule],
 })
 export class BaseOccModule {
   static forRoot(): ModuleWithProviders<BaseOccModule> {
