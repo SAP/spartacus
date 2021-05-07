@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { Address, Country, Region } from '../../model/address.model';
+import { Address, AddressValidation, Country, Region } from '../../model/address.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
@@ -204,8 +204,6 @@ export class UserAddressService {
    * Clear address verification results
    */
   clearAddressVerificationResults(): void {
-    // this.checkoutStore.dispatch(
-    //   new CheckoutActions.ClearAddressVerificationResults()
-    // );
+    this.store.dispatch(new UserActions.ClearAddressVerificationResults());
   }
 }
