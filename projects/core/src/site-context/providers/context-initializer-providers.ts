@@ -14,7 +14,7 @@ export function currencyStatePersistenceFactory(
   return result;
 }
 export function initializeLanguage(languageInitializer: LanguageInitializer) {
-  const result = async () => {
+  const result = () => {
     languageInitializer.initialize();
   };
   return result;
