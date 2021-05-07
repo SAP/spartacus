@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry, PromotionLocation } from '@spartacus/core';
 import { CartItemContext, CartItemContextSource } from '@spartacus/storefront';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import {
   ConfigurationInfo,
@@ -23,6 +23,9 @@ class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<FormControl>(1);
+  location$ = new BehaviorSubject<PromotionLocation>(
+    PromotionLocation.ActiveCart
+  );
 }
 
 describe('ConfigureIssuesNotificationComponent', () => {
@@ -142,5 +145,38 @@ describe('ConfigureIssuesNotificationComponent', () => {
 
     fixture.detectChanges();
     expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(0);
+  });
+
+  describe('shouldShowButton', () => {
+    beforeEach(() => {
+      const quantityControl = new FormControl();
+
+      mockCartItemContext.quantityControl$?.next(quantityControl);
+      mockCartItemContext.item$?.next({
+        statusSummaryList: [
+          { numberOfIssues: 2, status: OrderEntryStatus.Error },
+        ],
+        product: { configurable: true },
+      });
+    });
+    it('should prevent the rendering of "edit configuration" if context is SaveForLater', () => {
+      mockCartItemContext.location$?.next(PromotionLocation.SaveForLater);
+      fixture.detectChanges();
+
+      const htmlElem = fixture.nativeElement;
+      expect(htmlElem.querySelectorAll('.cx-configure-cart-entry').length).toBe(
+        0
+      );
+    });
+
+    it('should allow the rendering of "edit configuration" if context is active cart', () => {
+      mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
+      fixture.detectChanges();
+
+      const htmlElem = fixture.nativeElement;
+      expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
+        1
+      );
+    });
   });
 });
