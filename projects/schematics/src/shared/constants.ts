@@ -338,6 +338,7 @@ export const CURRENT_USER_GROUP_SERVICE = 'CurrentUserGroupService';
 export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
+export const UNIT_FORM_COMPONENT = 'UnitFormComponent';
 export const USER_GROUP_USER_LIST_COMPONENT = 'UserGroupUserListComponent';
 export const USER_GROUP_USER_LIST_SERVICE = 'UserGroupUserListService';
 export const TOGGLE_STATUS_COMPONENT = 'ToggleStatusComponent';
@@ -353,6 +354,8 @@ export const CONTEXT = 'context';
 export const SEMANTIC_ROUTE = 'semanticRoute';
 export const URL = 'url';
 export const PARAMS = 'params';
+export const FORM_GROUP = 'formGroup';
+export const FORM$ = 'form$';
 
 /***** Classes end *****/
 
