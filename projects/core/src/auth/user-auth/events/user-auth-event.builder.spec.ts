@@ -6,7 +6,6 @@ import { of, Subject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { EventService } from '../../../event/event.service';
 import { User } from '../../../model/misc.model';
-import { UserIdService } from '../facade';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
@@ -39,24 +38,15 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   }
 }
 
-class MockUserIdService implements Partial<UserIdService> {
-  setUserId() {}
-  isEmulated() {
-    return of(false);
-  }
-}
-
 describe('UserAuthEventBuilder', () => {
   let actions$: Subject<Action>;
   let eventService: EventService;
-  let userIdService: UserIdService;
 
   beforeEach(() => {
     actions$ = new Subject();
     TestBed.configureTestingModule({
       imports: [StoreModule.forRoot({})],
       providers: [
-        { provide: UserIdService, useClass: MockUserIdService },
         { provide: ActionsSubject, useValue: actions$ },
         { provide: AuthService, useClass: MockAuthService },
         { provide: UserService, useClass: MockUserService },
@@ -69,7 +59,6 @@ describe('UserAuthEventBuilder', () => {
 
     TestBed.inject(UserAuthEventBuilder); // register events
     eventService = TestBed.inject(EventService);
-    userIdService = TestBed.inject(UserIdService);
   });
 
   describe('LogoutEvent', () => {
