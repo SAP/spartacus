@@ -13,6 +13,7 @@ import {
   CLI_QUALTRICS_FEATURE,
   LibraryOptions as SpartacusQualtricsOptions,
   SpartacusOptions,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 
@@ -58,7 +59,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 

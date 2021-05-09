@@ -12,7 +12,7 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   LibraryOptions as SpartacusCartOptions,
   SpartacusOptions,
-  SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { CLI_SAVED_CART_FEATURE } from '../constants';
@@ -59,7 +59,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 
@@ -80,7 +80,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -144,15 +144,6 @@ describe('Spartacus Cart schematics: ng-add', () => {
         it('should update angular.json', async () => {
           const content = appTree.readContent('/angular.json');
           expect(content).toMatchSnapshot();
-        });
-      });
-
-      describe('b2b features', () => {
-        it('configuration should be added', () => {
-          const configurationModule = appTree.readContent(
-            `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
-          );
-          expect(configurationModule).toMatchSnapshot();
         });
       });
     });
