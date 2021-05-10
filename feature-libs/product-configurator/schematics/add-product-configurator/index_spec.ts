@@ -18,6 +18,7 @@ import { CLI_CPQ_FEATURE, CLI_TEXTFIELD_FEATURE } from '../constants';
 const collectionPath = path.join(__dirname, '../collection.json');
 const productConfiguratorFeatureModulePath =
   'src/app/spartacus/features/product-configurator/product-configurator-feature.module.ts';
+const scssFilePath = 'src/styles/spartacus/product-configurator.scss';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus product configurator schematics: ng-add', () => {
@@ -40,19 +41,19 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions: SpartacusProductConfiguratorOptions = {
+  const defaultFeatureOptions: SpartacusProductConfiguratorOptions = {
     project: 'schematics-test',
     lazy: true,
     features: [],
   };
 
   const optionsIncludingCpq: SpartacusProductConfiguratorOptions = {
-    ...defaultOptions,
+    ...defaultFeatureOptions,
     features: [CLI_CPQ_FEATURE],
   };
 
   const optionsIncludingTextfield: SpartacusProductConfiguratorOptions = {
-    ...defaultOptions,
+    ...defaultFeatureOptions,
     features: [CLI_TEXTFIELD_FEATURE],
   };
 
@@ -81,7 +82,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       .runExternalSchematicAsync(
         '@spartacus/schematics',
         'ng-add',
-        { ...defaultOptions, name: 'schematics-test' },
+        { ...defaultFeatureOptions, name: 'schematics-test' },
         appTree
       )
       .toPromise();
@@ -91,34 +92,18 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     describe('styling', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should add style import to /src/styles/spartacus/product-configurator.scss', async () => {
-        const content = appTree.readContent(
-          '/src/styles/spartacus/product-configurator.scss'
-        );
-        expect(content).toEqual(`@import "@spartacus/product-configurator";`);
+      it('should create a proper scss file', () => {
+        const scssContent = appTree.readContent(scssFilePath);
+        expect(scssContent).toMatchSnapshot();
       });
 
-      it('should add update angular.json with spartacus/product-configurator.scss', async () => {
+      it('should update angular.json', async () => {
         const content = appTree.readContent('/angular.json');
-        const angularJson = JSON.parse(content);
-        const buildStyles: string[] =
-          angularJson.projects['schematics-test'].architect.build.options
-            .styles;
-        expect(buildStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/product-configurator.scss',
-        ]);
-
-        const testStyles: string[] =
-          angularJson.projects['schematics-test'].architect.test.options.styles;
-        expect(testStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/product-configurator.scss',
-        ]);
+        expect(content).toMatchSnapshot();
       });
     });
 
@@ -127,7 +112,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultOptions, lazy: false },
+            { ...defaultFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
@@ -224,7 +209,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     describe('lazy loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -342,10 +327,11 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         );
       });
     });
+
     describe('i18n', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 

@@ -133,10 +133,6 @@ describe('Lib utils', () => {
         .toPromise();
     });
 
-    it('should create new feature module', () => {});
-
-    it('should import new feature module in SpartacusFeaturesModule', () => {});
-
     it('should add i18n config in feature module', async () => {
       const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
       const tree = await schematicRunner.callRule(rule, appTree).toPromise();
@@ -188,25 +184,69 @@ describe('Lib utils', () => {
         );
       });
     });
-    describe('when styling config is provided', () => {
-      it('should add it ', async () => {
-        const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
-        const tree = await schematicRunner.callRule(rule, appTree).toPromise();
+    describe('style', () => {
+      describe('when style config is provided', () => {
+        describe('and the scss file does NOT exist', () => {
+          it('should add it', async () => {
+            const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
+            const tree = await schematicRunner
+              .callRule(rule, appTree)
+              .toPromise();
 
-        expect(tree.exists(scssFilePath)).toEqual(true);
-        const content = tree.read(scssFilePath)?.toString(UTF_8);
-        expect(content).toContain(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
-      });
-    });
-    describe('when styling config is NOT provided', () => {
-      it('should not add it ', async () => {
-        const rule = addLibraryFeature(BASE_OPTIONS, {
-          ...BASE_FEATURE_CONFIG,
-          styles: undefined,
+            expect(tree.exists(scssFilePath)).toEqual(true);
+            const content = tree.read(scssFilePath)?.toString(UTF_8);
+            expect(content).toEqual(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
+          });
         });
-        const tree = await schematicRunner.callRule(rule, appTree).toPromise();
+        describe('and the scss with the same content already exists', () => {
+          beforeEach(() => {
+            appTree.create(
+              scssFilePath,
+              `@import "${FEATURE_MODULE_IMPORT_PATH}";`
+            );
+          });
+          it('should NOT append it', async () => {
+            const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
+            const tree = await schematicRunner
+              .callRule(rule, appTree)
+              .toPromise();
 
-        expect(tree.exists(scssFilePath)).toEqual(false);
+            expect(tree.exists(scssFilePath)).toEqual(true);
+            const content = tree.read(scssFilePath)?.toString(UTF_8);
+            expect(content).toEqual(`@import "${FEATURE_MODULE_IMPORT_PATH}";`);
+          });
+        });
+        describe('and the scss file with a different content already exists', () => {
+          const randomContent = `@import "@random/xxx";`;
+          beforeEach(() => {
+            appTree.create(scssFilePath, randomContent);
+          });
+          it('should append it', async () => {
+            const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
+            const tree = await schematicRunner
+              .callRule(rule, appTree)
+              .toPromise();
+
+            expect(tree.exists(scssFilePath)).toEqual(true);
+            const content = tree.read(scssFilePath)?.toString(UTF_8);
+            expect(content).toEqual(
+              `${randomContent}\n@import "${FEATURE_MODULE_IMPORT_PATH}";`
+            );
+          });
+        });
+      });
+      describe('when style config is NOT provided', () => {
+        it('should not add it', async () => {
+          const rule = addLibraryFeature(BASE_OPTIONS, {
+            ...BASE_FEATURE_CONFIG,
+            styles: undefined,
+          });
+          const tree = await schematicRunner
+            .callRule(rule, appTree)
+            .toPromise();
+
+          expect(tree.exists(scssFilePath)).toEqual(false);
+        });
       });
     });
   });
