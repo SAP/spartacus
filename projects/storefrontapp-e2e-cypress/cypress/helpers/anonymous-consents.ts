@@ -70,12 +70,7 @@ export function registerNewUserAndLogin(
   giveRegistrationConsent = false,
   hiddenConsent?
 ) {
-  const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.get('cx-login [role="link"]').click();
-  cy.wait(`@${loginPage}`).its('status').should('eq', 200);
-  const registerPage = waitForPage('/login/register', 'getRegisterPage');
-  cy.findByText('Register').click();
-  cy.wait(`@${registerPage}`).its('status').should('eq', 200);
+  cy.visit('/login/register');
   register(newUser, giveRegistrationConsent, hiddenConsent);
   cy.get('cx-breadcrumb').contains('Login');
 

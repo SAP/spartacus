@@ -52,13 +52,12 @@ context('Anonymous consents flow', () => {
     });
   });
 
-  describe.only('when registering a user and checking registration consent', () => {
+  describe('when registering a user and checking registration consent', () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
-      cy.visit('/');
     });
 
     giveRegistrationConsentTest();
@@ -70,7 +69,6 @@ context('Anonymous consents flow', () => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
-      cy.reload();
       cy.visit('/');
     });
 
