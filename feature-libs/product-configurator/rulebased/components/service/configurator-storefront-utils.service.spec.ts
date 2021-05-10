@@ -1,7 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -22,12 +25,12 @@ class MockKeyboardFocusService {
 
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
+  const owner = ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    'testProduct'
+  );
   let keyboardFocusService: KeyboardFocusService;
-
-  const owner: CommonConfigurator.Owner = {
-    id: 'testProduct',
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  };
+  let querySelectorOriginal: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,6 +49,11 @@ describe('ConfigUtilsService', () => {
     keyboardFocusService = TestBed.inject(
       KeyboardFocusService as Type<KeyboardFocusService>
     );
+    querySelectorOriginal = document.querySelector;
+  });
+
+  afterEach(() => {
+    document.querySelector = querySelectorOriginal;
   });
 
   it('should be created', () => {
@@ -115,24 +123,30 @@ describe('ConfigUtilsService', () => {
   });
 
   describe('focusFirstAttribute', () => {
-    it('should return no focused attribute because keyboardFocusService is undefined', () => {
+    it('should not delegate to keyboardFocusService if we did not provide that', () => {
       classUnderTest['keyboardFocusService'] = undefined;
       spyOn(keyboardFocusService, 'findFocusable').and.stub();
       classUnderTest.focusFirstAttribute();
       expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
     });
 
-    it('should return no focused attribute because keyboardFocusService is null', () => {
-      classUnderTest['keyboardFocusService'] = null;
-      spyOn(keyboardFocusService, 'findFocusable').and.stub();
-      classUnderTest.focusFirstAttribute();
-      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
-    });
-
-    it('should return no focused attribute because there is no found', () => {
+    it('should delegate to focus service', () => {
+      const theElement = document.createElement('form');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
       spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
       classUnderTest.focusFirstAttribute();
       expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not delegate to focus service if form is not available', () => {
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(null);
+      spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
+      classUnderTest.focusFirstAttribute();
+      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
     });
   });
 });

@@ -1,6 +1,7 @@
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
+  externalSchematic,
   noop,
   Rule,
   SchematicContext,
@@ -8,7 +9,11 @@ import {
   TaskId,
   Tree,
 } from '@angular-devkit/schematics';
-import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
+import {
+  NodePackageInstallTask,
+  RunSchematicTask,
+} from '@angular-devkit/schematics/tasks';
+import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   addPackageJsonDependency,
   NodeDependency,
@@ -25,6 +30,7 @@ import {
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
   SPARTACUS_SETUP,
+  UTF_8,
 } from '../constants';
 import { getB2bConfiguration } from './config-utils';
 import { isImportedFrom } from './import-utils';
@@ -34,7 +40,11 @@ import {
   ensureModuleExists,
   Import,
 } from './new-module-utils';
-import { getSpartacusSchematicsVersion } from './package-utils';
+import {
+  createDependencies,
+  createSpartacusDependencies,
+  getSpartacusSchematicsVersion,
+} from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
@@ -55,14 +65,10 @@ export interface FeatureConfig {
    */
   folderName: string;
   /**
-   * The feature name corresponds to the configuration feature name which is used if the `lazyModuleName` is not provided.
-   * Also used as a name of the generated feature module file.
+   * Used as the generated feature module's file name.
+   * Also, used as the lazy loading's feature name if the `lazyLoadingChunk` config is not provided.
    */
-  name: string;
-  /**
-   * The configuration name of the lazy loaded feature.
-   */
-  lazyModuleName?: string;
+  moduleName: string;
   /**
    * The feature module configuration.
    */
@@ -71,6 +77,10 @@ export interface FeatureConfig {
    * The root module configuration.
    */
   rootModule?: Module;
+  /**
+   * The lazy loading chunk's name. It's usually a constant imported from a library.
+   */
+  lazyLoadingChunk?: Import;
   /**
    * Translation chunk configuration
    */
@@ -234,7 +244,7 @@ function handleFeature<T extends LibraryOptions>(
     for (const tsconfigPath of buildPaths) {
       rules.push(
         ensureModuleExists({
-          name: `${config.name}-feature`,
+          name: `${dasherize(config.moduleName)}-feature`,
           path: `app/spartacus/features/${config.folderName}`,
           module: SPARTACUS_FEATURES_MODULE,
           project: options.project,
@@ -253,7 +263,7 @@ function addRootModule(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     if (!config.rootModule) {
       return tree;
@@ -261,11 +271,7 @@ function addRootModule(
 
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     for (const sourceFile of appSourceFiles) {
-      if (
-        sourceFile
-          .getFilePath()
-          .includes(`${dasherize(config.name)}-feature.module.ts`)
-      ) {
+      if (sourceFile.getFilePath().includes(createModuleFileName(config))) {
         addModuleImport(sourceFile, {
           import: {
             moduleSpecifier: config.rootModule.importPath,
@@ -286,13 +292,20 @@ function addFeatureModule(
   basePath: string,
   config: FeatureConfig,
   options: LibraryOptions
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (options.lazy) {
+          let lazyLoadingChunkName = config.moduleName;
+          if (config.lazyLoadingChunk) {
+            const content = config.lazyLoadingChunk.namedImports[0];
+            lazyLoadingChunkName = `[${content}]`;
+            sourceFile.addImportDeclaration(config.lazyLoadingChunk);
+          }
+
           addModuleProvider(sourceFile, {
             import: [
               {
@@ -302,11 +315,9 @@ function addFeatureModule(
             ],
             content: `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
               featureModules: {
-                ${config.lazyModuleName || config.name}: {
+                ${lazyLoadingChunkName}: {
                   module: () =>
-                    import('${
-                      config.featureModule.importPath
-                    }').then((m) => m.${config.featureModule.name}),
+                    import('${config.featureModule.importPath}').then((m) => m.${config.featureModule.name}),
                 },
               }
             })`,
@@ -332,10 +343,10 @@ function addFeatureTranslations(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.i18n) {
@@ -370,10 +381,10 @@ function addCustomConfig(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.customConfig) {
@@ -489,23 +500,27 @@ export function addLibraryStyles(
   stylingConfig: StylingConfig,
   options: LibraryOptions
 ): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext) => {
     const defaultProject = getDefaultProjectNameFromWorkspace(tree);
     const project = options.project || defaultProject;
     const libraryScssPath = `${getSourceRoot(tree, {
       project: project,
     })}/styles/spartacus/${stylingConfig.scssFileName}`;
+    const toAdd = `@import "${stylingConfig.importStyle}";`;
+
     if (tree.exists(libraryScssPath)) {
-      context.logger.info(
-        `Skipping the creation of '${libraryScssPath}', as it already exists.`
-      );
-      return noop();
+      let content = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
+      if (!content.includes(toAdd)) {
+        content += `\n${toAdd}`;
+      }
+
+      tree.overwrite(libraryScssPath, content);
+      return tree;
     }
 
-    tree.create(libraryScssPath, `@import "${stylingConfig.importStyle}";`);
+    tree.create(libraryScssPath, toAdd);
 
     const { path, workspace: angularJson } = getWorkspace(tree);
-
     const architect = angularJson.projects[project].architect;
 
     // `build` architect section
@@ -575,10 +590,7 @@ export function addPackageJsonDependencies(
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     dependencies.forEach((dependency) => {
-      if (
-        !packageJson ||
-        !packageJson[dependency.type].hasOwnProperty(dependency.name)
-      ) {
+      if (shouldAddDependency(dependency, packageJson)) {
         addPackageJsonDependency(tree, dependency);
         context.logger.info(
           `✅️ Added '${dependency.name}' into ${dependency.type}`
@@ -587,6 +599,43 @@ export function addPackageJsonDependencies(
     });
     return tree;
   };
+}
+
+export function addPackageJsonDependenciesForLibrary<
+  OPTIONS extends LibraryOptions
+>(options: {
+  packageJson: any;
+  context: SchematicContext;
+  dependencies: Record<string, string>;
+  options: OPTIONS;
+}): Rule {
+  const spartacusLibraries = createSpartacusDependencies(options.dependencies);
+  const thirdPartyLibraries = createDependencies(options.dependencies);
+  const libraries = spartacusLibraries.concat(thirdPartyLibraries);
+
+  const dependencyRule = addPackageJsonDependencies(
+    libraries,
+    options.packageJson
+  );
+
+  const featureOptions = createSpartacusFeatureOptionsForLibrary(
+    spartacusLibraries.map((dependency) => dependency.name),
+    options.options
+  );
+  addSchematicsTasks(featureOptions, options.context);
+
+  const installationRule = installPackageJsonDependencies();
+  return chain([dependencyRule, installationRule]);
+}
+
+export function shouldAddDependency(
+  dependency: NodeDependency,
+  packageJson?: any
+): boolean {
+  return (
+    !packageJson ||
+    !packageJson[dependency.type].hasOwnProperty(dependency.name)
+  );
 }
 
 export function configureB2bFeatures<T extends LibraryOptions>(
@@ -642,4 +691,76 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
 
     return tree;
   };
+}
+
+/**
+ * A helper method that creates the default options for the given Spartacus' libraries.
+ *
+ * All `features` options will be set to an empty array, meaning that no features should be installed.
+ *
+ * @param spartacusLibraries
+ * @param options
+ * @returns
+ */
+function createSpartacusFeatureOptionsForLibrary<T extends LibraryOptions>(
+  spartacusLibraries: string[],
+  options: T
+): {
+  feature: string;
+  options: LibraryOptions;
+}[] {
+  return spartacusLibraries.map((spartacusLibrary) => ({
+    feature: spartacusLibrary,
+    options: {
+      ...options,
+      // an empty array means that no library features will be installed.
+      features: [],
+    },
+  }));
+}
+
+export function addSchematicsTasks(
+  featureOptions: {
+    feature: string;
+    options: LibraryOptions;
+  }[],
+  context: SchematicContext
+): void {
+  const installationTaskId = createNodePackageInstallationTask(context);
+
+  featureOptions.forEach((featureOption) => {
+    const runSchematicTaskOptions: RunSchematicTaskOptions<LibraryOptions> = {
+      collection: featureOption.feature,
+      name: 'add',
+      options: featureOption.options,
+    };
+
+    context.addTask(
+      new RunSchematicTask('add-spartacus-library', runSchematicTaskOptions),
+      [installationTaskId]
+    );
+  });
+}
+
+export function runExternalSpartacusLibrary(
+  taskOptions: RunSchematicTaskOptions<LibraryOptions>
+): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    if (!taskOptions.collection) {
+      throw new SchematicsException(
+        `Can't run the Spartacus library schematic, please specify the 'collection' argument.`
+      );
+    }
+    return chain([
+      externalSchematic(
+        taskOptions.collection,
+        taskOptions.name,
+        taskOptions.options
+      ),
+    ])(tree, context);
+  };
+}
+
+function createModuleFileName(config: FeatureConfig): string {
+  return `${dasherize(config.moduleName)}-feature.module.ts`;
 }
