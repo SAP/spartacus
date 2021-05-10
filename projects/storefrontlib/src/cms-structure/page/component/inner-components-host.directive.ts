@@ -37,7 +37,7 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
     protected cmsInjector: CmsInjectorService
   ) {}
 
-  wrappers: any[] = [];
+  protected componentWrappers: any[] = [];
 
   ngOnInit(): void {
     this.innerComponents$.subscribe((x) => {
@@ -46,7 +46,7 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.wrappers.forEach((wrapper) => wrapper.ngOnDestroy());
+    this.componentWrappers.forEach((wrapper) => wrapper.ngOnDestroy());
     this.sub?.unsubscribe();
   }
 
@@ -66,6 +66,6 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
     );
     componentWrapper.cxComponentWrapper = { flexType: component, uid: '' };
     componentWrapper.ngOnInit();
-    this.wrappers.push(componentWrapper);
+    this.componentWrappers.push(componentWrapper);
   }
 }

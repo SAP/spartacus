@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CmsService } from '@spartacus/core';
-import { defer, Observable } from 'rxjs';
+import { defer, EMPTY, Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { CmsComponentsService } from '../../../services/cms-components.service';
 
@@ -34,16 +34,20 @@ export class ComponentDataProvider {
         staticComponentData = this.componentsService.getStaticData<T>(type);
       }
 
-      if (staticComponentData) {
-        return this.cmsService.getComponentData<T>(uid).pipe(
-          map((data) => ({
-            ...staticComponentData,
-            ...data,
-          })),
-          startWith(staticComponentData)
-        );
+      if (uid) {
+        if (staticComponentData) {
+          return this.cmsService.getComponentData<T>(uid).pipe(
+            map((data) => ({
+              ...staticComponentData,
+              ...data,
+            })),
+            startWith(staticComponentData)
+          );
+        } else {
+          return this.cmsService.getComponentData<T>(uid);
+        }
       } else {
-        return this.cmsService.getComponentData<T>(uid);
+        return staticComponentData ? of(staticComponentData) : EMPTY;
       }
     });
   }
