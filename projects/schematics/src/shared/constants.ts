@@ -514,9 +514,6 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
-export const QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME =
-  'qualtrics-embedded-feedback.scss';
-
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 // export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
