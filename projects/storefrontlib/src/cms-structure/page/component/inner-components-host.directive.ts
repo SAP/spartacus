@@ -19,16 +19,17 @@ import { ComponentWrapperDirective } from './component-wrapper.directive';
   selector: '[cxInnerComponentsHost]',
 })
 export class InnerComponentsHostDirective implements OnInit, OnDestroy {
-  innerComponents$ = this.data.data$.pipe(
+  protected innerComponents$ = this.data.data$.pipe(
     map((data) => data?.composition?.inner ?? [])
   );
 
-  sub?: Subscription;
+  protected componentWrappers: any[] = [];
+  protected subscription?: Subscription;
 
   constructor(
     protected data: CmsComponentData<CmsComponent>,
     protected vcr: ViewContainerRef,
-
+    // dependencies required for ComponentWrapper directive
     protected cmsComponentsService: CmsComponentsService,
     protected injector: Injector,
     protected dynamicAttributeService: DynamicAttributeService,
@@ -37,20 +38,14 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
     protected cmsInjector: CmsInjectorService
   ) {}
 
-  protected componentWrappers: any[] = [];
-
   ngOnInit(): void {
     this.innerComponents$.subscribe((x) => {
       this.renderComponents(x);
     });
   }
 
-  ngOnDestroy(): void {
-    this.componentWrappers.forEach((wrapper) => wrapper.ngOnDestroy());
-    this.sub?.unsubscribe();
-  }
-
   protected renderComponents(components: string[]) {
+    this.clearComponents();
     components.forEach((component) => this.renderComponent(component));
   }
 
@@ -67,5 +62,15 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
     componentWrapper.cxComponentWrapper = { flexType: component, uid: '' };
     componentWrapper.ngOnInit();
     this.componentWrappers.push(componentWrapper);
+  }
+
+  protected clearComponents() {
+    this.componentWrappers.forEach((wrapper) => wrapper.ngOnDestroy());
+    this.componentWrappers = [];
+  }
+
+  ngOnDestroy(): void {
+    this.clearComponents();
+    this.subscription?.unsubscribe();
   }
 }
