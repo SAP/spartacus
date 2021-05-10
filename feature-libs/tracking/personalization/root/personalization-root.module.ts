@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import {
   CmsConfig,
-  provideConfigFactory,
   provideDefaultConfig,
+  provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { defaultPersonalizationConfig } from './config/default-personalization-config';
 import { PERSONALIZATION_FEATURE } from './feature-name';
@@ -25,7 +25,7 @@ export function defaultPersonalizationComponentsConfig(): CmsConfig {
   providers: [
     ...interceptors,
     provideDefaultConfig(defaultPersonalizationConfig),
-    provideConfigFactory(defaultPersonalizationComponentsConfig),
+    provideDefaultConfigFactory(defaultPersonalizationComponentsConfig),
   ],
 })
 export class PersonalizationRootModule {}
