@@ -7,7 +7,7 @@ import {
   SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
   SPARTACUS_CART_SAVED_CART_COMPONENTS,
   SPARTACUS_STOREFRONTLIB,
-} from '@spartacus/schematics';
+} from '../../../shared/constants';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
