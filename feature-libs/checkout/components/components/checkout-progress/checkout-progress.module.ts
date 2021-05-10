@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { defaultCheckoutConfig } from '@spartacus/checkout/root';
 import {
   CmsConfig,
   I18nModule,
@@ -20,7 +19,6 @@ import { MultiLinePipe } from './multiline-titles.pipe';
   entryComponents: [CheckoutProgressComponent],
   exports: [CheckoutProgressComponent],
   providers: [
-    provideDefaultConfig(defaultCheckoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutProgress: {
