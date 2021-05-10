@@ -1,46 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus product configurator schematics: ng-add Product config feature lazy loading with CPQ feature enabled should add b2b features by adding configuration module 1`] = `
-"import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bCheckoutConfig, defaultB2bOccConfig } from \\"@spartacus/setup\\";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+exports[`Spartacus Variants schematics: ng-add Variants feature styling should create a proper scss file 1`] = `"@import \\"@spartacus/product\\";"`;
 
-@NgModule({
-  declarations: [],
-  imports: [
-  ],
-  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
-    backend: {
-      occ: {
-        baseUrl: 'https://localhost:9002',
-      }
-    },
-  }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-    },
-  }), provideConfig(<I18nConfig>{
-    i18n: {
-      resources: translations,
-      chunks: translationChunksConfig,
-      fallbackLang: 'en'
-    },
-  }), provideConfig(<FeaturesConfig>{
-    features: {
-      level: '3.2'
-    }
-  }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
-})
-export class SpartacusConfigurationModule { }
-"
-`;
-
-exports[`Spartacus product configurator schematics: ng-add Product config feature styling should create a proper scss file 1`] = `"@import \\"@spartacus/product-configurator\\";"`;
-
-exports[`Spartacus product configurator schematics: ng-add Product config feature styling should update angular.json 1`] = `
+exports[`Spartacus Variants schematics: ng-add Variants feature styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,
@@ -72,7 +34,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
-              \\"src/styles/spartacus/product-configurator.scss\\"
+              \\"src/styles/spartacus/product.scss\\"
             ],
             \\"scripts\\": []
           },
@@ -137,7 +99,7 @@ exports[`Spartacus product configurator schematics: ng-add Product config featur
             ],
             \\"styles\\": [
               \\"src/styles.scss\\",
-              \\"src/styles/spartacus/product-configurator.scss\\"
+              \\"src/styles/spartacus/product.scss\\"
             ],
             \\"scripts\\": []
           }
