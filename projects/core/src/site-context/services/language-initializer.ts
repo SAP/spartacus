@@ -23,14 +23,16 @@ export class LanguageInitializer implements OnDestroy {
    */
   initialize(): void {
     this.subscription = concat(
-      defer(() => this.configInit.getStable('context')),
-      // TODO(#12351): plug here explicitly SiteContextRoutesHandler
-      defer(() => this.languageStatePersistenceService.initSync()),
-      defer(() => this.setFallbackValue())
+      this.configInit.getStable('context'),
+      // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
+      defer(() => this.languageStatePersistenceService.initSync()), // calling initSync() starts synchronization immediately; defer it until above observables complete
+      this.setFallbackValue()
     ).subscribe();
   }
 
   /**
+   * On subscription to the returned observable:
+   *
    * Sets the default value taken from config, unless the active language has been already initialized.
    */
   protected setFallbackValue(): Observable<unknown> {
