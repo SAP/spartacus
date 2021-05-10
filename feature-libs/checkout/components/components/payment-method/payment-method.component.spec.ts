@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-  CheckoutService,
-} from '@spartacus/checkout/core';
+  CheckoutDeliveryFacade,
+  CheckoutFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -129,10 +129,10 @@ describe('PaymentMethodComponent', () => {
   let component: PaymentMethodComponent;
   let fixture: ComponentFixture<PaymentMethodComponent>;
   let mockUserPaymentService: UserPaymentService;
-  let mockCheckoutPaymentService: CheckoutPaymentService;
+  let mockCheckoutPaymentService: CheckoutPaymentFacade;
   let mockActiveCartService: ActiveCartService;
   let mockGlobalMessageService: GlobalMessageService;
-  let mockCheckoutService: CheckoutService;
+  let mockCheckoutService: CheckoutFacade;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(
@@ -148,9 +148,9 @@ describe('PaymentMethodComponent', () => {
         ],
         providers: [
           { provide: UserPaymentService, useClass: MockUserPaymentService },
-          { provide: CheckoutService, useClass: MockCheckoutService },
+          { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
-            provide: CheckoutDeliveryService,
+            provide: CheckoutDeliveryFacade,
             useClass: MockCheckoutDeliveryService,
           },
           {
@@ -158,7 +158,7 @@ describe('PaymentMethodComponent', () => {
             useClass: MockActiveCartService,
           },
           {
-            provide: CheckoutPaymentService,
+            provide: CheckoutPaymentFacade,
             useClass: MockCheckoutPaymentService,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -168,10 +168,10 @@ describe('PaymentMethodComponent', () => {
       }).compileComponents();
 
       mockUserPaymentService = TestBed.inject(UserPaymentService);
-      mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentService);
+      mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
       mockActiveCartService = TestBed.inject(ActiveCartService);
       mockGlobalMessageService = TestBed.inject(GlobalMessageService);
-      mockCheckoutService = TestBed.inject(CheckoutService);
+      mockCheckoutService = TestBed.inject(CheckoutFacade);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );

@@ -1,43 +1,45 @@
 import { TestBed } from '@angular/core/testing';
-import { CheckoutDeliveryService } from '../facade/checkout-delivery.service';
-import { CheckoutPaymentService } from '../facade/checkout-payment.service';
+import {
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import { ClearCheckoutService } from './clear-checkout.service';
 
-class MockCheckoutDeliveryService implements Partial<CheckoutDeliveryService> {
+class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
   resetSetDeliveryAddressProcess() {}
   resetSetDeliveryModeProcess() {}
 }
 
-class MockCheckoutPaymentService implements Partial<CheckoutPaymentService> {
+class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   resetSetPaymentDetailsProcess() {}
 }
 
 describe('ClearCheckoutService', () => {
   let service: ClearCheckoutService;
-  let checkoutDeliveryService: CheckoutDeliveryService;
-  let checkoutPaymentService: CheckoutPaymentService;
+  let checkoutDeliveryFacade: CheckoutDeliveryFacade;
+  let checkoutPaymentService: CheckoutPaymentFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         ClearCheckoutService,
         {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
+          provide: CheckoutDeliveryFacade,
+          useClass: MockCheckoutDeliveryFacade,
         },
         {
-          provide: CheckoutPaymentService,
+          provide: CheckoutPaymentFacade,
           useClass: MockCheckoutPaymentService,
         },
       ],
     });
 
     service = TestBed.inject(ClearCheckoutService);
-    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
-    checkoutPaymentService = TestBed.inject(CheckoutPaymentService);
+    checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
+    checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
 
-    spyOn(checkoutDeliveryService, 'resetSetDeliveryAddressProcess');
-    spyOn(checkoutDeliveryService, 'resetSetDeliveryModeProcess');
+    spyOn(checkoutDeliveryFacade, 'resetSetDeliveryAddressProcess');
+    spyOn(checkoutDeliveryFacade, 'resetSetDeliveryModeProcess');
     spyOn(checkoutPaymentService, 'resetSetPaymentDetailsProcess');
   });
 
@@ -52,13 +54,13 @@ describe('ClearCheckoutService', () => {
 
     it('delivery address process', () => {
       expect(
-        checkoutDeliveryService.resetSetDeliveryAddressProcess
+        checkoutDeliveryFacade.resetSetDeliveryAddressProcess
       ).toHaveBeenCalled();
     });
 
     it('delivery mode process', () => {
       expect(
-        checkoutDeliveryService.resetSetDeliveryModeProcess
+        checkoutDeliveryFacade.resetSetDeliveryModeProcess
       ).toHaveBeenCalled();
     });
 

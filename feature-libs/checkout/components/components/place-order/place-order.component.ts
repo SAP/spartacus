@@ -7,7 +7,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CheckoutService } from '@spartacus/checkout/core';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
   ORDER_TYPE,
   recurrencePeriod,
@@ -41,7 +41,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    protected checkoutService: CheckoutService,
+    protected checkoutService: CheckoutFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,

@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-  CheckoutCostCenterService,
-  PaymentTypeService,
-} from '@spartacus/checkout/core';
+  CheckoutCostCenterFacade,
+  PaymentTypeFacade,
+} from '@spartacus/checkout/root';
 import {
   CostCenter,
   I18nTestingModule,
@@ -45,7 +45,7 @@ class MockUserCostCenterService {
 describe('CostCenterComponent', () => {
   let component: CostCenterComponent;
   let fixture: ComponentFixture<CostCenterComponent>;
-  let checkoutCostCenterService: CheckoutCostCenterService;
+  let checkoutCostCenterService: CheckoutCostCenterFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -57,11 +57,11 @@ describe('CostCenterComponent', () => {
           useClass: MockUserCostCenterService,
         },
         {
-          provide: CheckoutCostCenterService,
+          provide: CheckoutCostCenterFacade,
           useClass: MockCheckoutCostCenterService,
         },
         {
-          provide: PaymentTypeService,
+          provide: PaymentTypeFacade,
           useClass: MockPaymentTypeService,
         },
       ],
@@ -72,7 +72,7 @@ describe('CostCenterComponent', () => {
     fixture = TestBed.createComponent(CostCenterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    checkoutCostCenterService = TestBed.inject(CheckoutCostCenterService);
+    checkoutCostCenterService = TestBed.inject(CheckoutCostCenterFacade);
   });
 
   it('should create', () => {

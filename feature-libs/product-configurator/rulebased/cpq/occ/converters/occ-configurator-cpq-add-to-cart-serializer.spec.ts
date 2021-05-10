@@ -19,7 +19,7 @@ describe('OccConfiguratorCpqAddToCartSerializer', () => {
     productCode: PRODUCT_CODE,
     quantity: QUANTITY,
     configId: CONFIG_ID,
-    owner: {},
+    owner: { key: 'A' },
   };
 
   const targetParameters: OccCpqConfigurator.AddToCartParameters = {

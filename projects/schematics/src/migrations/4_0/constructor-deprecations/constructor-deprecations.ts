@@ -7,6 +7,7 @@ import {
 } from './data/cart-page-event.builder.migration';
 import { COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION } from './data/component-wrapper.directive.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
+import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/product-page-event.builder.migration';
 import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
@@ -23,6 +24,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION,
   SEARCH_BOX_COMPONENT_SERVICE_MIGRATION,
   COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
+  LOGIN_REGISTER_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {

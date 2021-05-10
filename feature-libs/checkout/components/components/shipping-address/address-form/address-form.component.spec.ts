@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CheckoutDeliveryService } from '@spartacus/checkout/core';
+import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
   Address,
   AddressValidation,
@@ -126,7 +126,7 @@ describe('AddressFormComponent', () => {
   let fixture: ComponentFixture<AddressFormComponent>;
   let controls: FormGroup['controls'];
 
-  let mockCheckoutDeliveryService: CheckoutDeliveryService;
+  let mockCheckoutDeliveryService: CheckoutDeliveryFacade;
   let userAddressService: UserAddressService;
   let userService: UserService;
   let mockGlobalMessageService: any;
@@ -153,7 +153,7 @@ describe('AddressFormComponent', () => {
         providers: [
           { provide: ModalService, useValue: { open: () => {} } },
           {
-            provide: CheckoutDeliveryService,
+            provide: CheckoutDeliveryFacade,
             useClass: MockCheckoutDeliveryService,
           },
           { provide: UserService, useClass: MockUserService },
@@ -169,7 +169,7 @@ describe('AddressFormComponent', () => {
 
       userService = TestBed.inject(UserService);
       userAddressService = TestBed.inject(UserAddressService);
-      mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+      mockCheckoutDeliveryService = TestBed.inject(CheckoutDeliveryFacade);
     })
   );
 

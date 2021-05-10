@@ -4,9 +4,9 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import {
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-} from '@spartacus/checkout/core';
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import {
   Address,
   AddressValidation,
@@ -219,11 +219,11 @@ describe('PaymentFormComponent', () => {
         providers: [
           { provide: ModalService, useClass: MockModalService },
           {
-            provide: CheckoutPaymentService,
+            provide: CheckoutPaymentFacade,
             useValue: mockCheckoutPaymentService,
           },
           {
-            provide: CheckoutDeliveryService,
+            provide: CheckoutDeliveryFacade,
             useValue: mockCheckoutDeliveryService,
           },
           { provide: UserPaymentService, useValue: mockUserPaymentService },

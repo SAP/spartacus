@@ -25,7 +25,7 @@ import {
 import { CheckoutSelectors } from '../store/selectors/index';
 
 /**
- * @deprecated since 4.0, use checkout feature lib instead.
+ * @deprecated since 4.0, use checkout feature lib instead.  Remplaced by CheckoutFacade from '@spartacus/checkout/root'.
  */
 @Injectable({
   providedIn: 'root',
