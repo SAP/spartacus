@@ -4,6 +4,7 @@ import { ComponentWrapperDirective } from './component-wrapper.directive';
 import { ComponentHandler } from './handlers/component-handler';
 import { DefaultComponentHandler } from './handlers/default-component.handler';
 import { LazyComponentHandler } from './handlers/lazy-component.handler';
+import { InnerComponentsHostDirective } from './inner-components-host.directive';
 
 @NgModule({
   imports: [CommonModule],
@@ -19,7 +20,7 @@ import { LazyComponentHandler } from './handlers/lazy-component.handler';
       multi: true,
     },
   ],
-  declarations: [ComponentWrapperDirective],
+  declarations: [ComponentWrapperDirective, InnerComponentsHostDirective],
   exports: [ComponentWrapperDirective],
 })
 export class PageComponentModule {}
