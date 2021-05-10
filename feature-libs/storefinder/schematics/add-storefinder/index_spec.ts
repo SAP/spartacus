@@ -182,7 +182,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
       it('should import StoreFinderRootModule and contain the lazy loading syntax', async () => {
         const storeFinderModule = appTree.readContent(storeFinderModulePath);
         expect(storeFinderModule).toContain(
-          `import { StoreFinderRootModule } from "@spartacus/storefinder/root";`
+          `import { StoreFinderRootModule, STORE_FINDER_FEATURE } from "@spartacus/storefinder/root";`
         );
         expect(storeFinderModule).toContain(
           `import('@spartacus/storefinder').then(`

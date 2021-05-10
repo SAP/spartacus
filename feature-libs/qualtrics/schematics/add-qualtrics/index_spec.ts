@@ -182,7 +182,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       it('should import QualtricsRootModule and contain the lazy loading syntax', async () => {
         const qualtricsModule = appTree.readContent(qualtricsModulePath);
         expect(qualtricsModule).toContain(
-          `import { QualtricsRootModule } from "@spartacus/qualtrics/root";`
+          `import { QualtricsRootModule, QUALTRICS_FEATURE } from "@spartacus/qualtrics/root";`
         );
         expect(qualtricsModule).toContain(
           `import('@spartacus/qualtrics').then(`

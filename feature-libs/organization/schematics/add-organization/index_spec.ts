@@ -189,7 +189,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
           administrationFeatureModulePath
         );
         expect(administrationModule).toContain(
-          `import { AdministrationRootModule } from "@spartacus/organization/administration/root";`
+          `import { AdministrationRootModule, ORGANIZATION_ADMINISTRATION_FEATURE } from "@spartacus/organization/administration/root";`
         );
         expect(administrationModule).toContain(
           `import('@spartacus/organization/administration').then(`
@@ -281,7 +281,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
           orderApprovalFeatureModulePath
         );
         expect(orderApprovalModule).toContain(
-          `import { OrderApprovalRootModule } from "@spartacus/organization/order-approval/root";`
+          `import { OrderApprovalRootModule, ORGANIZATION_ORDER_APPROVAL_FEATURE } from "@spartacus/organization/order-approval/root";`
         );
         expect(orderApprovalModule).toContain(
           `import('@spartacus/organization/order-approval').then(`

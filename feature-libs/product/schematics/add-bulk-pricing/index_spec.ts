@@ -123,7 +123,7 @@ describe('Spartacus BulkPricing schematics: ng-add', () => {
       it('should import BulkPricingRootModule and contain the lazy loading syntax', async () => {
         const bulkPricingModule = appTree.readContent(bulkPricingModulePath);
         expect(bulkPricingModule).toContain(
-          `import { BulkPricingRootModule } from "@spartacus/product/bulk-pricing/root";`
+          `import { BulkPricingRootModule, PRODUCT_BULK_PRICING_FEATURE } from "@spartacus/product/bulk-pricing/root";`
         );
         expect(bulkPricingModule).toContain(
           `import('@spartacus/product/bulk-pricing').then(`

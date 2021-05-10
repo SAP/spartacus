@@ -137,7 +137,7 @@ describe('Spartacus User schematics: ng-add', () => {
       it('should import UserAccountRootModule and contain the lazy loading syntax', async () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toContain(
-          `import { UserAccountRootModule } from "@spartacus/user/account/root";`
+          `import { UserAccountRootModule, USER_ACCOUNT_FEATURE } from "@spartacus/user/account/root";`
         );
         expect(module).toContain(`import('@spartacus/user/account').then(`);
       });
@@ -189,7 +189,7 @@ describe('Spartacus User schematics: ng-add', () => {
       it('should import UserProfileRootModule and contain the lazy loading syntax', async () => {
         const module = appTree.readContent(userFeatureModulePath);
         expect(module).toContain(
-          `import { UserProfileRootModule } from "@spartacus/user/profile/root";`
+          `import { UserProfileRootModule, USER_PROFILE_FEATURE } from "@spartacus/user/profile/root";`
         );
         expect(module).toContain(`import('@spartacus/user/profile').then(`);
       });

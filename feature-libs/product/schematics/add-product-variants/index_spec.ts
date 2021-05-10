@@ -12,7 +12,7 @@ import {
   SpartacusOptions,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { CLI_VARIANTS_FEATURE } from './../constants';
+import { CLI_VARIANTS_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const variantsFeatureModulePath =
@@ -122,7 +122,7 @@ describe('Spartacus Variants schematics: ng-add', () => {
       it('should import ProductVariantsRootModule and contain the lazy loading syntax', async () => {
         const variantsModule = appTree.readContent(variantsFeatureModulePath);
         expect(variantsModule).toContain(
-          `import { ProductVariantsRootModule } from "@spartacus/product/variants/root";`
+          `import { ProductVariantsRootModule, PRODUCT_VARIANTS_FEATURE } from "@spartacus/product/variants/root";`
         );
         expect(variantsModule).toContain(
           `import('@spartacus/product/variants').then(`
