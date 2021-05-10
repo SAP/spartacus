@@ -4,7 +4,6 @@ import {
   moveAnonymousUserToLoggedInUser,
   movingFromAnonymousToRegisteredUser,
   sessionLogin,
-  testAsAnonymousUser,
   testAsLoggedInUser,
 } from '../../../helpers/anonymous-consents';
 import {
@@ -13,29 +12,55 @@ import {
   stub,
 } from '../../../helpers/site-context-selector';
 
+const ANONYMOUS_BANNER = 'cx-anonymous-consent-management-banner';
+const ANONYMOUS_OPEN_DIALOG = 'cx-anonymous-consent-open-dialog';
+const ANONYMOUS_DIALOG = 'cx-anonymous-consent-dialog';
+
 context('Anonymous consents flow', () => {
-  describe('when anonymous user', () => {
+  describe('As anonymous user', () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
-      cy.reload();
       cy.visit('/');
     });
 
-    testAsAnonymousUser();
+    it('should accept anonymous consents', () => {
+      cy.get(ANONYMOUS_BANNER).find('.btn-primary').click();
+      cy.get(ANONYMOUS_BANNER).should('not.be.visible');
+
+      cy.get('cx-anonymous-consent-open-dialog').within(() => {
+        cy.get('button').click({ force: true });
+      });
+
+      cy.get('input[type="checkbox"]').each(($match) => {
+        cy.wrap($match).should('be.checked');
+      });
+
+      cy.get(`${ANONYMOUS_DIALOG} .cx-action-link`)
+        .first()
+        .click({ force: true });
+
+      cy.get(ANONYMOUS_OPEN_DIALOG).within(() => {
+        cy.get('button').click({ force: true });
+      });
+
+      cy.get('input[type="checkbox"]').each(($match) => {
+        cy.wrap($match).should('not.be.checked');
+      });
+    });
   });
 
-  describe('when registering a user and checking registration consent', () => {
+  describe.only('when registering a user and checking registration consent', () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
-      cy.reload();
       cy.visit('/');
     });
+
     giveRegistrationConsentTest();
   });
 

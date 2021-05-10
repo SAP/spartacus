@@ -192,15 +192,6 @@ export function registerUserAndCheckMyAccountConsent(
 }
 
 export function testAsAnonymousUser() {
-  it('should be able to see the banner', () => {
-    seeBannerAsAnonymous();
-  });
-
-  it('should close the banner and give all consents by clicking on "ALLOW ALL" in the banner', () => {
-    clickAllowAllFromBanner();
-    checkBannerHidden();
-  });
-
   it('should click the footer to check if all consents were accepted and withdraw all consents afterwards', () => {
     openDialogUsingFooterLink();
     checkAllInputConsentState(BE_CHECKED);
