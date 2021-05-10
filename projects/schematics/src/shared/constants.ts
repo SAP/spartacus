@@ -517,6 +517,8 @@ export const QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME =
 
 export const GET_OCC_ENDPOINT = 'getOccEndpoint';
 
+export const GET_URL = 'getUrl';
+
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 // export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';

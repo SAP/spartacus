@@ -36,9 +36,6 @@ const MockOccModuleConfig: OccConfig = {
 };
 
 class MockOccEndpointsService implements Partial<OccEndpointsService> {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
-    return this.getEndpoint(endpoint);
-  }
   getEndpoint(url: string) {
     return url;
   }
