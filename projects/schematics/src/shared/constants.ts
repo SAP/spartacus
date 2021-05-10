@@ -13,6 +13,7 @@ export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
 export const ANGULAR_OAUTH2_OIDC = 'angular-oauth2-oidc';
 
 export const SPARTACUS_SCOPE = '@spartacus/';
+export const SPARTACUS_SCHEMATICS = '@spartacus/schematics';
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_SETUP = '@spartacus/setup';
@@ -334,6 +335,7 @@ export const CURRENT_UNIT_SERVICE = 'CurrentUnitService';
 export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
+export const LOGIN_REGISTER_COMPONENT = 'LoginRegisterComponent';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
@@ -511,9 +513,6 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
-
-export const QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME =
-  'qualtrics-embedded-feedback.scss';
 
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';

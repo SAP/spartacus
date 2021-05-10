@@ -9,9 +9,9 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-} from '@spartacus/checkout/core';
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import {
   Address,
   AddressValidation,
@@ -94,8 +94,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    protected checkoutPaymentService: CheckoutPaymentService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutPaymentService: CheckoutPaymentFacade,
+    protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,

@@ -5,8 +5,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentTypeService } from '@spartacus/checkout/core';
-import { CheckoutStepType } from '@spartacus/checkout/root';
+import { CheckoutStepType, PaymentTypeFacade } from '@spartacus/checkout/root';
 import { B2BPaymentTypeEnum, PaymentType } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
@@ -53,7 +52,7 @@ export class PaymentTypeComponent {
     );
 
   constructor(
-    protected paymentTypeService: PaymentTypeService,
+    protected paymentTypeService: PaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected activatedRoute: ActivatedRoute
   ) {}

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { defaultCheckoutConfig } from '@spartacus/checkout/root';
 import {
   CmsConfig,
   I18nModule,
@@ -16,7 +15,6 @@ import { CheckoutProgressMobileBottomComponent } from './checkout-progress-mobil
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
   providers: [
-    provideDefaultConfig(defaultCheckoutConfig),
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutProgressMobileBottom: {

@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutDeliveryService } from '@spartacus/checkout/core';
+import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import { DeliveryMode } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import {
@@ -39,7 +39,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private checkoutDeliveryService: CheckoutDeliveryService,
+    private checkoutDeliveryService: CheckoutDeliveryFacade,
     private checkoutConfigService: CheckoutConfigService,
     private activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService

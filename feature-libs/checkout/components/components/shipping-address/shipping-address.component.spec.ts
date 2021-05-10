@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
-  CheckoutCostCenterService,
-  CheckoutDeliveryService,
-  PaymentTypeService,
-} from '@spartacus/checkout/core';
+  CheckoutCostCenterFacade,
+  CheckoutDeliveryFacade,
+  PaymentTypeFacade,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -36,7 +36,7 @@ class MockActiveCartService {
   }
 }
 
-class MockCheckoutDeliveryService {
+class MockCheckoutDeliveryFacade {
   createAndSetAddress = createSpy();
   setDeliveryAddress = createSpy();
   getDeliveryAddress(): Observable<Address> {
@@ -137,7 +137,7 @@ class MockCardComponent {
 describe('ShippingAddressComponent', () => {
   let component: ShippingAddressComponent;
   let fixture: ComponentFixture<ShippingAddressComponent>;
-  let checkoutDeliveryService: CheckoutDeliveryService;
+  let checkoutDeliveryFacade: CheckoutDeliveryFacade;
   let userAddressService: UserAddressService;
   let activeCartService: ActiveCartService;
   let checkoutStepService: CheckoutStepService;
@@ -157,18 +157,18 @@ describe('ShippingAddressComponent', () => {
           { provide: UserAddressService, useClass: MockUserAddressService },
           { provide: ActiveCartService, useClass: MockActiveCartService },
           {
-            provide: CheckoutDeliveryService,
-            useClass: MockCheckoutDeliveryService,
+            provide: CheckoutDeliveryFacade,
+            useClass: MockCheckoutDeliveryFacade,
           },
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          { provide: PaymentTypeService, useClass: MockPaymentTypeService },
+          { provide: PaymentTypeFacade, useClass: MockPaymentTypeService },
           {
             provide: UserCostCenterService,
             useClass: MockUserCostCenterService,
           },
           {
-            provide: CheckoutCostCenterService,
+            provide: CheckoutCostCenterFacade,
             useClass: MockCheckoutCostCenterService,
           },
         ],
@@ -178,7 +178,7 @@ describe('ShippingAddressComponent', () => {
         })
         .compileComponents();
 
-      checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
+      checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
       activeCartService = TestBed.inject(ActiveCartService);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
@@ -244,9 +244,7 @@ describe('ShippingAddressComponent', () => {
 
     it('should not invoke addAddress when address is undefined/ not modified.', () => {
       component.addAddress(undefined);
-      expect(
-        checkoutDeliveryService.createAndSetAddress
-      ).not.toHaveBeenCalled();
+      expect(checkoutDeliveryFacade.createAndSetAddress).not.toHaveBeenCalled();
     });
   });
 
@@ -280,15 +278,13 @@ describe('ShippingAddressComponent', () => {
 
   it('should be able to select address', () => {
     component.selectAddress({});
-    expect(checkoutDeliveryService.setDeliveryAddress).toHaveBeenCalledWith({});
+    expect(checkoutDeliveryFacade.setDeliveryAddress).toHaveBeenCalledWith({});
   });
 
   it('should be able to add address', () => {
     component.addAddress({});
     expect(component.forceLoader).toBeTruthy();
-    expect(checkoutDeliveryService.createAndSetAddress).toHaveBeenCalledWith(
-      {}
-    );
+    expect(checkoutDeliveryFacade.createAndSetAddress).toHaveBeenCalledWith({});
   });
 
   it('should be able to get card content', () => {

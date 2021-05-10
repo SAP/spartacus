@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { PaymentTypeFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   B2BPaymentTypeEnum,
@@ -26,7 +27,7 @@ import {
 import { CheckoutSelectors } from '../store/selectors/index';
 
 @Injectable()
-export class PaymentTypeService {
+export class PaymentTypeService implements PaymentTypeFacade {
   constructor(
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,

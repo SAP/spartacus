@@ -1,9 +1,9 @@
 import { Injectable, Optional } from '@angular/core';
+import { ClearCheckoutService } from '@spartacus/checkout/core';
 import {
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-  ClearCheckoutService,
-} from '@spartacus/checkout/core';
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import {
   Address,
   DeliveryMode,
@@ -28,8 +28,8 @@ export class ExpressCheckoutService {
   constructor(
     protected userAddressService: UserAddressService,
     protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
-    protected checkoutPaymentService: CheckoutPaymentService,
+    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutPaymentService: CheckoutPaymentFacade,
     protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService,
     @Optional() protected clearCheckoutService?: ClearCheckoutService

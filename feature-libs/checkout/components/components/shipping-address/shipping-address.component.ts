@@ -6,10 +6,10 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
-  CheckoutCostCenterService,
-  CheckoutDeliveryService,
-  PaymentTypeService,
-} from '@spartacus/checkout/core';
+  CheckoutCostCenterFacade,
+  CheckoutDeliveryFacade,
+  PaymentTypeFacade,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -43,14 +43,14 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
-    protected paymentTypeService?: PaymentTypeService,
+    protected paymentTypeService?: PaymentTypeFacade,
     protected userCostCenterService?: UserCostCenterService,
-    protected checkoutCostCenterService?: CheckoutCostCenterService
+    protected checkoutCostCenterService?: CheckoutCostCenterFacade
   ) {}
 
   get isGuestCheckout(): boolean {

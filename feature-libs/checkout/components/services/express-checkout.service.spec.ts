@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
-  CheckoutDeliveryService,
-  CheckoutDetails,
-  CheckoutPaymentService,
-} from '@spartacus/checkout/core';
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import {
   Address,
   DeliveryMode,
@@ -88,7 +88,7 @@ const mockLoadSupportedDeliveryModesResult = new BehaviorSubject({
   loading: false,
 });
 
-class MockCheckoutDeliveryService implements Partial<CheckoutDeliveryService> {
+class MockCheckoutDeliveryFacade implements Partial<CheckoutDeliveryFacade> {
   setDeliveryAddress() {}
   setDeliveryMode() {}
   resetSetDeliveryAddressProcess() {}
@@ -116,7 +116,7 @@ const mockSetPaymentDetailsResult = new BehaviorSubject({
   loading: false,
 });
 
-class MockCheckoutPaymentService implements Partial<CheckoutPaymentService> {
+class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   resetSetPaymentDetailsProcess() {}
   getSetPaymentDetailsResultProcess(): Observable<
     StateUtils.LoaderState<void>
@@ -137,7 +137,7 @@ describe('ExpressCheckoutService', () => {
   let service: ExpressCheckoutService;
   let userAddressService;
   let userPaymentService;
-  let checkoutDeliveryService;
+  let checkoutDeliveryFacade: CheckoutDeliveryFacade;
   let checkoutPaymentService;
 
   beforeEach(() => {
@@ -153,11 +153,11 @@ describe('ExpressCheckoutService', () => {
           useClass: MockUserPaymentService,
         },
         {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
+          provide: CheckoutDeliveryFacade,
+          useClass: MockCheckoutDeliveryFacade,
         },
         {
-          provide: CheckoutPaymentService,
+          provide: CheckoutPaymentFacade,
           useClass: MockCheckoutPaymentService,
         },
         {
@@ -206,8 +206,8 @@ describe('ExpressCheckoutService', () => {
     service = TestBed.inject(ExpressCheckoutService);
     userAddressService = TestBed.inject(UserAddressService);
     userPaymentService = TestBed.inject(UserPaymentService);
-    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
-    checkoutPaymentService = TestBed.inject(CheckoutPaymentService);
+    checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
+    checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
   });
 
   it('should be created', () => {
@@ -245,7 +245,7 @@ describe('ExpressCheckoutService', () => {
           error: false,
           loading: false,
         });
-        spyOn(checkoutDeliveryService, 'setDeliveryAddress').and.callFake(() =>
+        spyOn(checkoutDeliveryFacade, 'setDeliveryAddress').and.callFake(() =>
           mockSetDeliveryAddressResult.next({
             success: true,
             error: false,
@@ -256,7 +256,7 @@ describe('ExpressCheckoutService', () => {
           .trySetDefaultCheckoutDetails()
           .subscribe((data) => {
             expect(
-              checkoutDeliveryService.setDeliveryAddress
+              checkoutDeliveryFacade.setDeliveryAddress
             ).toHaveBeenCalledWith(mockDetails.deliveryAddress);
             expect(data).toBeTruthy();
             done();
@@ -269,7 +269,7 @@ describe('ExpressCheckoutService', () => {
           error: false,
           loading: false,
         });
-        spyOn(checkoutDeliveryService, 'setDeliveryAddress').and.callFake(() =>
+        spyOn(checkoutDeliveryFacade, 'setDeliveryAddress').and.callFake(() =>
           mockSetDeliveryAddressResult.next({
             success: false,
             error: true,
@@ -373,7 +373,7 @@ describe('ExpressCheckoutService', () => {
           error: false,
           loading: false,
         });
-        spyOn(checkoutDeliveryService, 'setDeliveryMode').and.callFake(() =>
+        spyOn(checkoutDeliveryFacade, 'setDeliveryMode').and.callFake(() =>
           mockSetDeliveryModeResult.next({
             success: true,
             error: false,
@@ -383,9 +383,9 @@ describe('ExpressCheckoutService', () => {
         subscription = service
           .trySetDefaultCheckoutDetails()
           .subscribe((data) => {
-            expect(
-              checkoutDeliveryService.setDeliveryMode
-            ).toHaveBeenCalledWith(mockDetails.deliveryMode.code);
+            expect(checkoutDeliveryFacade.setDeliveryMode).toHaveBeenCalledWith(
+              mockDetails.deliveryMode.code
+            );
             expect(data).toBeTruthy();
             done();
           });
@@ -397,7 +397,7 @@ describe('ExpressCheckoutService', () => {
           error: false,
           loading: false,
         });
-        spyOn(checkoutDeliveryService, 'setDeliveryMode').and.callFake(() =>
+        spyOn(checkoutDeliveryFacade, 'setDeliveryMode').and.callFake(() =>
           mockSetDeliveryModeResult.next({
             success: false,
             error: true,

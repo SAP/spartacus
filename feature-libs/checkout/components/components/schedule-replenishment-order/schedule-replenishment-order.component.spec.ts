@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CheckoutService } from '@spartacus/checkout/core';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
   DaysOfWeek,
   I18nTestingModule,
@@ -44,7 +44,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
   let component: ScheduleReplenishmentOrderComponent;
   let fixture: ComponentFixture<ScheduleReplenishmentOrderComponent>;
 
-  let checkoutService: CheckoutService;
+  let checkoutService: CheckoutFacade;
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
 
   beforeEach(
@@ -53,7 +53,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
         imports: [RouterTestingModule, I18nTestingModule, IconTestingModule],
         declarations: [ScheduleReplenishmentOrderComponent],
         providers: [
-          { provide: CheckoutService, useClass: MockCheckoutService },
+          { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
             provide: CheckoutReplenishmentFormService,
             useClass: MockCheckoutReplenishmentFormService,
@@ -67,7 +67,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     fixture = TestBed.createComponent(ScheduleReplenishmentOrderComponent);
     component = fixture.componentInstance;
 
-    checkoutService = TestBed.inject(CheckoutService);
+    checkoutService = TestBed.inject(CheckoutFacade);
     checkoutReplenishmentFormService = TestBed.inject(
       CheckoutReplenishmentFormService
     );
