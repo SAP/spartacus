@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
+import { OrderPlacedEvent } from '@spartacus/checkout/root';
 import { EventService, Order } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/index';
 import { CheckoutEventBuilder } from './checkout-event.builder';
-import { OrderPlacedEvent } from './checkout.events';
 
 interface ActionWithPayload extends Action {
   payload: any;
