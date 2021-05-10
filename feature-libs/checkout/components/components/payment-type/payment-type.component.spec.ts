@@ -1,8 +1,7 @@
 import { Component, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentTypeService } from '@spartacus/checkout/core';
-import { CheckoutStepType } from '@spartacus/checkout/root';
+import { CheckoutStepType, PaymentTypeFacade } from '@spartacus/checkout/root';
 import { I18nTestingModule, PaymentType } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -52,7 +51,7 @@ describe('PaymentTypeComponent', () => {
   let component: PaymentTypeComponent;
   let fixture: ComponentFixture<PaymentTypeComponent>;
 
-  let paymentTypeService: PaymentTypeService;
+  let paymentTypeService: PaymentTypeFacade;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(
@@ -62,7 +61,7 @@ describe('PaymentTypeComponent', () => {
         declarations: [PaymentTypeComponent, MockSpinnerComponent],
         providers: [
           {
-            provide: PaymentTypeService,
+            provide: PaymentTypeFacade,
             useClass: MockPaymentTypeService,
           },
           {
@@ -74,7 +73,7 @@ describe('PaymentTypeComponent', () => {
       }).compileComponents();
 
       paymentTypeService = TestBed.inject(
-        PaymentTypeService as Type<PaymentTypeService>
+        PaymentTypeFacade as Type<PaymentTypeFacade>
       );
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>

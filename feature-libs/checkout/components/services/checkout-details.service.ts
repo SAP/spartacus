@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-  CheckoutService,
-} from '@spartacus/checkout/core';
+  CheckoutDeliveryFacade,
+  CheckoutFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
@@ -29,9 +29,9 @@ export class CheckoutDetailsService {
   getCheckoutDetailsLoaded$: Observable<boolean>;
 
   constructor(
-    protected checkoutService: CheckoutService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
-    protected checkoutPaymentService: CheckoutPaymentService,
+    protected checkoutService: CheckoutFacade,
+    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutPaymentService: CheckoutPaymentFacade,
     protected activeCartService: ActiveCartService
   ) {
     this.cartId$ = this.activeCartService.getActive().pipe(

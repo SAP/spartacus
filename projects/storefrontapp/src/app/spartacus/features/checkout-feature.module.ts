@@ -12,7 +12,7 @@ import { provideConfig } from '@spartacus/core';
   providers: [
     provideConfig({
       // featureModules: {
-      //   checkout: {
+      //   [CHECKOUT_FEATURE]: {
       //     module: () =>
       //       import('@spartacus/checkout').then((m) => m.CheckoutModule),
       //   },

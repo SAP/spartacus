@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-  CheckoutCostCenterService,
-  PaymentTypeService,
-} from '@spartacus/checkout/core';
+  CheckoutCostCenterFacade,
+  PaymentTypeFacade,
+} from '@spartacus/checkout/root';
 import { CostCenter, UserCostCenterService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
@@ -17,8 +17,8 @@ export class CostCenterComponent {
 
   constructor(
     protected userCostCenterService: UserCostCenterService,
-    protected checkoutCostCenterService: CheckoutCostCenterService,
-    protected paymentTypeService: PaymentTypeService
+    protected checkoutCostCenterService: CheckoutCostCenterFacade,
+    protected paymentTypeService: PaymentTypeFacade
   ) {}
 
   get isAccountPayment$(): Observable<boolean> {
