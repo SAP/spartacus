@@ -19,7 +19,6 @@ export function defaultCheckoutComponentsConfig() {
           'CheckoutProgressMobileTop',
           'CheckoutCostCenterComponent',
           'CheckoutDeliveryMode',
-          'CheckoutReturningCustomerRegisterComponent',
           'CheckoutPaymentDetails',
           'CheckoutPaymentType',
           'CheckoutPlaceOrder',

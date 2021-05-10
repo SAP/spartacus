@@ -1,5 +1,3 @@
-export * from './checkout-login-register/checkout-login-register.component';
-export * from './checkout-login-register/checkout-login-register.module';
 export * from './checkout-login/checkout-login.component';
 export * from './checkout-login/checkout-login.module';
 export * from './checkout-orchestrator/checkout-orchestrator.component';
