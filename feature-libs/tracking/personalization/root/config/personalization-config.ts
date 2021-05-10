@@ -8,7 +8,7 @@ import { Config } from '@spartacus/core';
 export abstract class PersonalizationConfig {
   personalization: {
     enabled: boolean;
-    httpHeaderName: {
+    httpHeaderName?: {
       id: string;
       timestamp: string;
     };
