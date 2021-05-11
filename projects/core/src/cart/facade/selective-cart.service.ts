@@ -114,7 +114,7 @@ export class SelectiveCartService {
   }
 
   /**
-   * Load logged user's selective cart
+   * Loads logged user's selective cart
    */
   protected load() {
     if (this.isLoggedIn(this.userId) && this.cartId) {

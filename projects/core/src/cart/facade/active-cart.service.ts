@@ -222,7 +222,7 @@ export class ActiveCartService implements OnDestroy {
   }
 
   /**
-   * Load cart or upon login, whenever there's an existing cart, merge it into the current user cart
+   * Loads cart or upon login, whenever there's an existing cart, merge it into the current user cart
    * cartId will be defined (not '', null, undefined)
    */
   protected loadOrMerge(
@@ -269,7 +269,7 @@ export class ActiveCartService implements OnDestroy {
   }
 
   /**
-   * Load cart in every case apart from anonymous user and current cart combination
+   * Loads cart in every case apart from anonymous user and current cart combination
    */
   protected load(cartId: string, userId: string): void {
     if (!(userId === OCC_USER_ID_ANONYMOUS && cartId === OCC_CART_ID_CURRENT)) {
@@ -284,7 +284,7 @@ export class ActiveCartService implements OnDestroy {
   }
 
   /**
-   * Add entries from guest cart to user cart
+   * Adds entries from guest cart to user cart
    */
   protected addEntriesGuestMerge(cartEntries: OrderEntry[]) {
     const entriesToAdd = cartEntries.map((entry) => ({

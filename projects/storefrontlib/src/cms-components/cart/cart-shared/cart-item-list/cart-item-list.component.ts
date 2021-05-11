@@ -114,7 +114,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Resolves items passed to component input and updates `items` class field
+   * Resolves items passed to component input and updates 'items' field
    */
   protected resolveItems(items: OrderEntry[]): void {
     if (!items) {
