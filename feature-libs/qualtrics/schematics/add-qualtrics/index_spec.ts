@@ -19,6 +19,7 @@ import * as path from 'path';
 const collectionPath = path.join(__dirname, '../collection.json');
 const qualtricsModulePath =
   'src/app/spartacus/features/qualtrics/qualtrics-feature.module.ts';
+const scssFilePath = 'src/styles/spartacus/qualtrics-embedded-feedback.scss';
 
 // TODO: Improve tests after lib-util test update
 describe('Spartacus Qualtrics schematics: ng-add', () => {
@@ -116,30 +117,14 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should add style import to /src/styles/spartacus/qualtrics-embedded-feedback.scss', async () => {
-        const content = appTree.readContent(
-          '/src/styles/spartacus/qualtrics-embedded-feedback.scss'
-        );
-        expect(content).toEqual(`@import "@spartacus/qualtrics";`);
+      it('should create a proper scss file', () => {
+        const scssContent = appTree.readContent(scssFilePath);
+        expect(scssContent).toMatchSnapshot();
       });
 
-      it('should add update angular.json with spartacus/qualtrics-embedded-feedback.scss', async () => {
+      it('should update angular.json', async () => {
         const content = appTree.readContent('/angular.json');
-        const angularJson = JSON.parse(content);
-        const buildStyles: string[] =
-          angularJson.projects['schematics-test'].architect.build.options
-            .styles;
-        expect(buildStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/qualtrics-embedded-feedback.scss',
-        ]);
-
-        const testStyles: string[] =
-          angularJson.projects['schematics-test'].architect.test.options.styles;
-        expect(testStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/qualtrics-embedded-feedback.scss',
-        ]);
+        expect(content).toMatchSnapshot();
       });
     });
 
@@ -182,7 +167,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       it('should import QualtricsRootModule and contain the lazy loading syntax', async () => {
         const qualtricsModule = appTree.readContent(qualtricsModulePath);
         expect(qualtricsModule).toContain(
-          `import { QualtricsRootModule } from "@spartacus/qualtrics/root";`
+          `import { QualtricsRootModule, QUALTRICS_FEATURE } from "@spartacus/qualtrics/root";`
         );
         expect(qualtricsModule).toContain(
           `import('@spartacus/qualtrics').then(`

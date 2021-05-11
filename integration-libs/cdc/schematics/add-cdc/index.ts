@@ -8,6 +8,7 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CLI_CDC_FEATURE,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
   shouldAddFeature,
@@ -17,11 +18,11 @@ import {
 import { peerDependencies } from '../../package.json';
 import {
   CDC_CONFIG,
-  CDC_FEATURE,
+  CDC_FEATURE_CONSTANT,
   CDC_FOLDER_NAME,
   CDC_MODULE,
+  CDC_MODULE_NAME,
   CDC_ROOT_MODULE,
-  CLI_CDC_FEATURE,
   SPARTACUS_CDC_ROOT,
 } from '../constants';
 
@@ -38,7 +39,7 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
       addPackageJsonDependenciesForLibrary({
         packageJson,
         context,
-        libraryPeerDependencies: peerDependencies,
+        dependencies: peerDependencies,
         options,
       }),
     ]);
@@ -48,7 +49,7 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
 function addCdc(options: SpartacusCdcOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CDC_FOLDER_NAME,
-    name: CLI_CDC_FEATURE,
+    moduleName: CDC_MODULE_NAME,
     rootModule: {
       importPath: SPARTACUS_CDC_ROOT,
       name: CDC_ROOT_MODULE,
@@ -58,12 +59,15 @@ function addCdc(options: SpartacusCdcOptions): Rule {
       importPath: SPARTACUS_CDC,
       name: CDC_MODULE,
     },
-    lazyModuleName: `[CDC_FEATURE]`,
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_CDC_ROOT,
+      namedImports: [CDC_FEATURE_CONSTANT],
+    },
     customConfig: {
       import: [
         {
           moduleSpecifier: SPARTACUS_CDC_ROOT,
-          namedImports: [CDC_CONFIG, CDC_FEATURE],
+          namedImports: [CDC_CONFIG],
         },
       ],
       content: `<${CDC_CONFIG}>{
