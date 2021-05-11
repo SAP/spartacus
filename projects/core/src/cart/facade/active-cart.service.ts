@@ -231,7 +231,6 @@ export class ActiveCartService implements OnDestroy {
     previousUserId: string
   ): void {
     if (cartId === OCC_CART_ID_CURRENT) {
-      // Load cart if it is current
       this.multiCartService.loadCart({
         userId,
         cartId: OCC_CART_ID_CURRENT,
@@ -240,7 +239,6 @@ export class ActiveCartService implements OnDestroy {
         },
       });
     } else if (this.isGuestCart()) {
-      // If the cart is guest cart, merge it with user card
       this.guestCartMerge(cartId);
     } else if (
       userId !== previousUserId &&
