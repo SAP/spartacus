@@ -18,7 +18,7 @@ class MockUrlPipe implements PipeTransform {
   selector: '[cxModal]',
 })
 class MockModalDirective implements Partial<ModalDirective> {
-  @Input() cxModal;
+  @Input() cxModal: any;
 }
 
 describe('ConfigureCartEntryComponent', () => {

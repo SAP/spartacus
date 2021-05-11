@@ -25,6 +25,7 @@ const owner: CommonConfigurator.Owner = {
     CommonConfigurator.OwnerType.PRODUCT,
     productCode
   ),
+  configuratorType: ConfiguratorType.CPQ,
 };
 
 const productConfiguration: Configurator.Configuration = {
@@ -173,12 +174,17 @@ describe('CpqConfiguratorRestAdapter', () => {
   });
 
   it('should handle missing product code during create configuration', () => {
-    adapterUnderTest.createConfiguration({ key: owner.key }).subscribe(
-      () => {},
-      (error) => {
-        expect(error).toBeDefined();
-      }
-    );
+    adapterUnderTest
+      .createConfiguration({
+        key: owner.key,
+        configuratorType: ConfiguratorType.CPQ,
+      })
+      .subscribe(
+        () => {},
+        (error) => {
+          expect(error).toBeDefined();
+        }
+      );
   });
 
   it('should delegate read configuration to rest service and map owner', () => {
