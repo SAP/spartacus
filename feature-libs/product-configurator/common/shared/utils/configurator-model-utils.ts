@@ -33,7 +33,7 @@ export class ConfiguratorModelUtils {
    * @returns Initial owner
    */
   static createInitialOwner(): CommonConfigurator.Owner {
-    return { key: 'INITIAL' };
+    return { key: 'INITIAL', configuratorType: 'INITIAL' };
   }
 
   /**
