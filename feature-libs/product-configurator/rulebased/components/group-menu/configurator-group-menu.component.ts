@@ -10,6 +10,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
 
 @Component({
   selector: 'cx-configurator-group-menu',
@@ -81,7 +82,8 @@ export class ConfiguratorGroupMenuComponent {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected hamburgerMenuService: HamburgerMenuService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected configUtils: ConfiguratorStorefrontUtilsService
+    protected configUtils: ConfiguratorStorefrontUtilsService,
+    protected configGroupMenuService: ConfiguratorGroupMenuService
   ) {}
 
   /**
@@ -296,9 +298,9 @@ export class ConfiguratorGroupMenuComponent {
     group?: Configurator.Group
   ): void {
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
-      this.configUtils.switchTabOnArrowPress(event, groupIndex);
+      this.configGroupMenuService.switchTabOnArrowPress(event, groupIndex);
     } else if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
-      if (this.configUtils.isBackBtnFocused()) {
+      if (this.configGroupMenuService.isBackBtnFocused()) {
         this.navigateUp();
       } else if (this.hasSubGroups(group)) {
         this.click(group);
