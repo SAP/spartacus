@@ -89,7 +89,3 @@ export const cartWithCheapProduct: SampleCartProduct = {
   total: '$8.20',
   totalAndShipping: '$18.19',
 };
-
-export const delivery = {
-  mode: 'standard-net',
-};
