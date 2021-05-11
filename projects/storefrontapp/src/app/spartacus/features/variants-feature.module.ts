@@ -4,14 +4,17 @@ import {
   productVariantsTranslationChunksConfig,
   productVariantsTranslations,
 } from '@spartacus/product/variants/assets';
-import { ProductVariantsRootModule } from '@spartacus/product/variants/root';
+import {
+  ProductVariantsRootModule,
+  PRODUCT_VARIANTS_FEATURE,
+} from '@spartacus/product/variants/root';
 
 @NgModule({
   imports: [ProductVariantsRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
-        productVariants: {
+        [PRODUCT_VARIANTS_FEATURE]: {
           module: () =>
             import('@spartacus/product/variants').then(
               (m) => m.ProductVariantsModule

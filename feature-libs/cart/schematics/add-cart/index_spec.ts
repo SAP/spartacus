@@ -163,7 +163,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       it('should import SavedCartRootModule and contain the lazy loading syntax', async () => {
         const appModule = appTree.readContent(saveCartFeatureModulePath);
         expect(appModule).toContain(
-          `import { SavedCartRootModule } from "@spartacus/cart/saved-cart/root";`
+          `import { CART_SAVED_CART_FEATURE, SavedCartRootModule } from "@spartacus/cart/saved-cart/root";`
         );
         expect(appModule).toContain(
           `import('@spartacus/cart/saved-cart').then(`
