@@ -25,7 +25,7 @@
       for="orderType-{{ type.value }}"
     >
       <div class="order-type">
-        {{ 'checkoutReview.orderType' | cxTranslate: { context: type.value } }}
+        {{ 'checkoutReview.orderType_' + type?.value | cxTranslate }}
       </div>
     </label>
   </div>
@@ -84,10 +84,7 @@
             [value]="type"
             [selected]="type === scheduleReplenishmentFormData.recurrencePeriod"
           >
-            {{
-              'checkoutReview.recurrencePeriodType'
-                | cxTranslate: { context: type }
-            }}
+            {{ 'checkoutReview.recurrencePeriodType_' + type | cxTranslate }}
           </option>
         </select>
       </div>

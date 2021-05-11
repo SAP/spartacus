@@ -83,8 +83,8 @@
                   {{ 'returnRequestList.status' | cxTranslate }}
                 </div>
                 {{
-                  'returnRequestList.statusDisplay'
-                    | cxTranslate: { context: return?.status }
+                  'returnRequestList.statusDisplay_' + return?.status
+                    | cxTranslate
                 }}
               </td>
             </tr>
