@@ -135,7 +135,7 @@ export namespace Configurator {
     userId?: string;
     cartId: string;
     cartEntryNumber?: string;
-    configuration?: Configurator.Configuration;
+    configuration: Configurator.Configuration;
   }
 
   export interface Image {

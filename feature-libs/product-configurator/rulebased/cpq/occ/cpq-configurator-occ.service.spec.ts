@@ -13,6 +13,7 @@ import {
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import {
   Configurator,
@@ -46,6 +47,7 @@ describe('CpqConfigurationOccService', () => {
         CommonConfigurator.OwnerType.PRODUCT,
         productCode
       ),
+      configuratorType: ConfiguratorType.CPQ,
     },
     userId: userId,
     cartId: documentId,
@@ -62,6 +64,7 @@ describe('CpqConfigurationOccService', () => {
           CommonConfigurator.OwnerType.PRODUCT,
           entryNumber.toString()
         ),
+        configuratorType: ConfiguratorType.CPQ,
       }),
     },
   };
@@ -77,6 +80,7 @@ describe('CpqConfigurationOccService', () => {
         CommonConfigurator.OwnerType.CART_ENTRY,
         productCode
       ),
+      configuratorType: ConfiguratorType.CPQ,
     },
   };
 
@@ -91,6 +95,7 @@ describe('CpqConfigurationOccService', () => {
         CommonConfigurator.OwnerType.ORDER_ENTRY,
         productCode
       ),
+      configuratorType: ConfiguratorType.CPQ,
     },
   };
 

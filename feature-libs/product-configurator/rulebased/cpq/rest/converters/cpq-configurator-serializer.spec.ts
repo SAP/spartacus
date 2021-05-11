@@ -4,6 +4,7 @@ import {
   Configurator,
   ConfiguratorComponentTestUtilsService,
 } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorSerializer } from './cpq-configurator-serializer';
 
@@ -128,9 +129,10 @@ const groups: Configurator.Group[] = [
 ];
 
 const configuration: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(configId, {
-    key: 'A',
-  }),
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+    configId,
+    ConfiguratorModelUtils.createInitialOwner()
+  ),
   groups: groups,
 };
 

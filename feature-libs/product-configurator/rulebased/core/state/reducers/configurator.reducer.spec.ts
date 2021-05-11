@@ -1,6 +1,7 @@
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { ConfiguratorComponentTestUtilsService } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-component-test-utils.service';
 import { Configurator } from '../../model/configurator.model';
@@ -13,6 +14,7 @@ const owner: CommonConfigurator.Owner = {
   type: CommonConfigurator.OwnerType.PRODUCT,
   id: PRODUCT_CODE,
   key: CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
+  configuratorType: ConfiguratorType.VARIANT,
 };
 
 const interactionState: Configurator.InteractionState = {

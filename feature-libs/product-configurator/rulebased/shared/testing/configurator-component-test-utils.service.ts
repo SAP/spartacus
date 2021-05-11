@@ -2,7 +2,10 @@
  * Configurator component test utils service provides helper functions for the component tests.
  */
 
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model';
 
 export class ConfiguratorComponentTestUtilsService {
@@ -53,7 +56,7 @@ export class ConfiguratorComponentTestUtilsService {
 
   static createConfiguration(
     configId: string,
-    owner: CommonConfigurator.Owner
+    owner: CommonConfigurator.Owner = ConfiguratorModelUtils.createInitialOwner()
   ): Configurator.Configuration {
     const configuration: Configurator.Configuration = {
       configId: configId,

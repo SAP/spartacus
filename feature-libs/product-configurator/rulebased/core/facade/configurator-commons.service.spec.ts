@@ -67,10 +67,7 @@ const group2: Configurator.Group = {
 };
 
 let productConfiguration: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
-    CONFIG_ID,
-    ConfiguratorModelUtils.createInitialOwner()
-  ),
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(CONFIG_ID),
 };
 
 const productConfigurationProductBoundObsolete: Configurator.Configuration = {
@@ -82,10 +79,7 @@ const productConfigurationProductBoundObsolete: Configurator.Configuration = {
 };
 
 const productConfigurationChanged: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
-    CONFIG_ID,
-    ConfiguratorModelUtils.createInitialOwner()
-  ),
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(CONFIG_ID),
 };
 
 const configurationState: ConfiguratorState = {

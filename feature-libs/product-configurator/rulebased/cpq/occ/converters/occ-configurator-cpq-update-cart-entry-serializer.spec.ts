@@ -23,7 +23,6 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
         CONFIG_ID,
         ConfiguratorModelUtils.createInitialOwner()
       ),
-      configId: CONFIG_ID,
     },
     cartEntryNumber: ENTRY_NUMBER,
   };

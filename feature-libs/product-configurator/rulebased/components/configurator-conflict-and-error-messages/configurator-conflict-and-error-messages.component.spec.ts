@@ -43,8 +43,8 @@ const configWOMessages: Configurator.Configuration = {
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),
+    configuratorType: ConfiguratorType.VARIANT,
   }),
-  productCode: PRODUCT_CODE,
 };
 const configWithMessages: Configurator.Configuration = {
   ...ConfiguratorComponentTestUtilsService.createConfiguration(CONFIG_ID, {
@@ -54,8 +54,8 @@ const configWithMessages: Configurator.Configuration = {
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),
+    configuratorType: ConfiguratorType.VARIANT,
   }),
-  productCode: PRODUCT_CODE,
   errorMessages: ['test error message 1', 'test error message 2'],
   warningMessages: [
     'test warning message 1',
@@ -71,8 +71,8 @@ const configWithOnlyOneMessage: Configurator.Configuration = {
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),
+    configuratorType: ConfiguratorType.VARIANT,
   }),
-  productCode: PRODUCT_CODE,
   errorMessages: ['test error message 1'],
   warningMessages: ['test warning message 1'],
 };

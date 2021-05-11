@@ -14,9 +14,7 @@ const valueCode = 'abc';
 const groupIdOfChangedAttribute = '1';
 
 const configuration: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(configId, {
-    key: 'A',
-  }),
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(configId),
   groups: [
     {
       attributes: [

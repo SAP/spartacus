@@ -16,6 +16,7 @@ import {
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IconLoaderService } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
@@ -73,6 +74,7 @@ const orderEntryconfigWoOverview: Configurator.Configuration = {
       CommonConfigurator.OwnerType.ORDER_ENTRY,
       PRODUCT_CODE
     ),
+    configuratorType: ConfiguratorType.VARIANT,
   }),
 };
 
@@ -135,7 +137,7 @@ export class MockIconFontLoaderService {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type;
+  @Input() type: any;
 }
 
 describe('ConfigProductTitleComponent', () => {
