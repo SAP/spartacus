@@ -24,18 +24,16 @@ import { map, switchMap } from 'rxjs/operators';
 export class LogoutGuard implements CanActivate {
   constructor(
     protected auth: AuthService,
+    protected authRedirectService: AuthRedirectService,
     protected cms: CmsService,
-    protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
     protected router: Router,
-    // TODO(#11380): Make service required
-    protected authRedirectService?: AuthRedirectService
+    protected semanticPathService: SemanticPathService
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    // TODO(#11380): Remove the optional chaining
     // Logout route should never be remembered as a redirect url after login (that would cause logout right after login).
-    this.authRedirectService?.reportNotAuthGuard();
+    this.authRedirectService.reportNotAuthGuard();
     /**
      * First we want to complete logout process before redirecting to logout page
      * We want to avoid errors like `token is no longer valid`
