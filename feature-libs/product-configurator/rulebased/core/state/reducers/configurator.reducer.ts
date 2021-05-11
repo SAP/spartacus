@@ -7,6 +7,7 @@ import { ConfiguratorActions } from '../actions/index';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
+  groups: [],
   interactionState: {
     currentGroup: null,
     groupsVisited: {},

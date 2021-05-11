@@ -2,6 +2,7 @@
  * Configurator component test utils service provides helper functions for the component tests.
  */
 
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model';
 
 export class ConfiguratorComponentTestUtilsService {
@@ -48,6 +49,18 @@ export class ConfiguratorComponentTestUtilsService {
       this.freezePriceSummary(overview.priceSummary);
       overview.groups?.forEach((ovGroup) => this.freezeOvGroup(ovGroup));
     }
+  }
+
+  static createConfiguration(
+    configId: string,
+    owner: CommonConfigurator.Owner
+  ): Configurator.Configuration {
+    const configuration: Configurator.Configuration = {
+      configId: configId,
+      owner: owner,
+      groups: [],
+    };
+    return configuration;
   }
 
   protected static freezeOvGroup(overviewGroup: Configurator.GroupOverview) {

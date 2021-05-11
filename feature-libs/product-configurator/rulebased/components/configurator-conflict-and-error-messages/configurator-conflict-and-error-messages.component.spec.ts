@@ -16,6 +16,7 @@ import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorComponentTestUtilsService } from './../../shared/testing/configurator-component-test-utils.service';
 import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-conflict-and-error-messages.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -35,27 +36,25 @@ const mockRouterData: any = {
 };
 
 const configWOMessages: Configurator.Configuration = {
-  owner: {
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(CONFIG_ID, {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
     key: ConfiguratorModelUtils.getOwnerKey(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),
-  },
-  configId: CONFIG_ID,
+  }),
   productCode: PRODUCT_CODE,
 };
 const configWithMessages: Configurator.Configuration = {
-  owner: {
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(CONFIG_ID, {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
     key: ConfiguratorModelUtils.getOwnerKey(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),
-  },
-  configId: CONFIG_ID,
+  }),
   productCode: PRODUCT_CODE,
   errorMessages: ['test error message 1', 'test error message 2'],
   warningMessages: [
@@ -65,15 +64,14 @@ const configWithMessages: Configurator.Configuration = {
   ],
 };
 const configWithOnlyOneMessage: Configurator.Configuration = {
-  owner: {
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(CONFIG_ID, {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
     key: ConfiguratorModelUtils.getOwnerKey(
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),
-  },
-  configId: CONFIG_ID,
+  }),
   productCode: PRODUCT_CODE,
   errorMessages: ['test error message 1'],
   warningMessages: ['test warning message 1'],
