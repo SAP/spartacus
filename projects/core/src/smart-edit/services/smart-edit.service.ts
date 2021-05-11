@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Inject, Injectable, NgZone, Optional } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { filter, take, takeWhile } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
@@ -8,6 +8,7 @@ import { PageType } from '../../model/cms.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { WindowRef } from '../../window/window-ref';
+import { SMART_EDIT_MODULE_TOKEN } from '../smart-edit.token';
 
 /**
  * @deprecated since 3.2, use smartedit lib instead
@@ -29,7 +30,10 @@ export class SmartEditService {
     protected routingService: RoutingService,
     protected baseSiteService: BaseSiteService,
     protected zone: NgZone,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    @Optional()
+    @Inject(SMART_EDIT_MODULE_TOKEN)
+    private moduleToken?: boolean
   ) {
     this.getCmsTicket();
 
@@ -174,6 +178,6 @@ export class SmartEditService {
    * Whether the app launched in smart edit
    */
   isLaunchedInSmartEdit(): boolean {
-    return this._launchedInSmartEdit;
+    return this.moduleToken && this._launchedInSmartEdit;
   }
 }
