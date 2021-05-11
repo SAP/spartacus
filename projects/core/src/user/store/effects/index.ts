@@ -22,6 +22,7 @@ import { UpdateEmailEffects } from './update-email.effect';
 import { UpdatePasswordEffects } from './update-password.effect';
 import { ForgotPasswordEffects } from './forgot-password.effect';
 import { UserDetailsEffects } from './user-details.effect';
+import { UserAddressVerificationEffect } from './user-address-verification.effect';
 
 export const effects: any[] = [
   ClearMiscsDataEffect,
@@ -48,6 +49,7 @@ export const effects: any[] = [
   UserCostCenterEffects,
   ReplenishmentOrderDetailsEffect,
   UserReplenishmentOrdersEffect,
+  UserAddressVerificationEffect,
 ];
 
 export * from './billing-countries.effect';
@@ -70,3 +72,4 @@ export * from './user-details.effect';
 export * from './user-orders.effect';
 export * from './user-register.effect';
 export * from './user-replenishment-orders.effect';
+export * from './user-address-verification.effect';

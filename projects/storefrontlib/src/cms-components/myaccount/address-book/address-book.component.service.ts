@@ -26,7 +26,7 @@ export class AddressBookComponentService {
 
   updateUserAddress(addressId: string, address: Address) {
     this.userAddressService.updateUserAddress(addressId, address);
-    // TODO : Fire an event instead
+    // TODO GH-12192 : Fire an event instead
     // this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
   }
 }

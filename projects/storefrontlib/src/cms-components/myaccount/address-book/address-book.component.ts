@@ -113,13 +113,13 @@ export class AddressBookComponent implements OnInit {
 
   setAddressAsDefault(addressId: string): void {
     this.userAddressService.setAddressAsDefault(addressId);
-    // TODO : Fire an event instead
+    // TODO GH-12192: Fire an event instead
     // this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
   }
 
   deleteAddress(addressId: string): void {
     this.userAddressService.deleteUserAddress(addressId);
-    // TODO : Fire an event instead
+    // TODO GH-12192: Fire an event instead
     // this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
   }
 

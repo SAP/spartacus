@@ -10,6 +10,7 @@ import { UserPaymentMethodsEffects } from './payment-methods.effect';
 import { ProductInterestsEffect } from './product-interests.effect';
 import { RegionsEffects } from './regions.effect';
 import { ReplenishmentOrderDetailsEffect } from './replenishment-order-details.effect';
+import { UserAddressVerificationEffect } from './user-address-verification.effect';
 import { UserAddressesEffects } from './user-addresses.effect';
 import { UserConsentsEffect } from './user-consents.effect';
 import { UserCostCenterEffects } from './user-cost-center.effect';
@@ -34,4 +35,5 @@ export const effectsTransitional: any[] = [
   UserCostCenterEffects,
   ReplenishmentOrderDetailsEffect,
   UserReplenishmentOrdersEffect,
+  UserAddressVerificationEffect,
 ];
