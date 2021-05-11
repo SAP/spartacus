@@ -21,7 +21,7 @@
     "@angular/core": "^9.0.0",
     "@angular/router": "^9.0.0",
     "rxjs": "^6.5.4",
-    "@spartacus/core": "2.1.8",
-    "@spartacus/storefront": "2.1.8"
+    "@spartacus/core": "2.1.9",
+    "@spartacus/storefront": "2.1.9"
   }
 }
