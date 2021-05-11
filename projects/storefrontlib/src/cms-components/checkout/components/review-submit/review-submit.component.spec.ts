@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -435,9 +435,7 @@ describe('ReviewSubmitComponent', () => {
   it('should call getPaymentTypeCard(paymentType) to get payment type data', () => {
     component.getPaymentTypeCard(mockPaymentTypes[0].code).subscribe((card) => {
       expect(card.title).toEqual('checkoutProgress.methodOfPayment');
-      expect(card.textBold).toEqual(
-        'paymentTypes.paymentType context:test-account'
-      );
+      expect(card.textBold).toEqual('paymentTypes.paymentType_test-account');
     });
   });
 
