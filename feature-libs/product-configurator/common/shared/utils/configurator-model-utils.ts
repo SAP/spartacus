@@ -1,4 +1,7 @@
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+} from '../../core/model/common-configurator.model';
 
 export class ConfiguratorModelUtils {
   /**
@@ -46,7 +49,7 @@ export class ConfiguratorModelUtils {
   static createOwner(
     ownerType: CommonConfigurator.OwnerType,
     ownerId: string,
-    configuratorType: string | undefined = undefined
+    configuratorType: string = ConfiguratorType.VARIANT
   ): CommonConfigurator.Owner {
     return {
       type: ownerType,
