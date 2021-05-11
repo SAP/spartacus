@@ -63,23 +63,24 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
     of('getConfigurationOverview' + configId)
   );
 
-  readPriceSummary = createSpy().and.callFake((configId) =>
+  readPriceSummary = createSpy().and.callFake((configId: string) =>
     of('readPriceSummary' + configId)
   );
 
-  readConfiguration = createSpy().and.callFake((configId) =>
+  readConfiguration = createSpy().and.callFake((configId: string) =>
     of('readConfiguration' + configId)
   );
 
-  updateConfiguration = createSpy().and.callFake((configuration) =>
-    of('updateConfiguration' + configuration.configId)
+  updateConfiguration = createSpy().and.callFake(
+    (configuration: Configurator.Configuration) =>
+      of('updateConfiguration' + configuration.configId)
   );
 
-  createConfiguration = createSpy().and.callFake((owner) =>
-    of('createConfiguration' + owner)
+  createConfiguration = createSpy().and.callFake(
+    (owner: CommonConfigurator.Owner) => of('createConfiguration' + owner)
   );
 
-  addToCart = createSpy().and.callFake((configId) =>
+  addToCart = createSpy().and.callFake((configId: string) =>
     of('addToCart' + configId)
   );
   getConfiguratorType(): string {
