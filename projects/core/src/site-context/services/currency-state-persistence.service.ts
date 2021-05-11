@@ -5,8 +5,8 @@ import {
   getContextParameterValues,
 } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
+import { CurrencyService } from '../facade/currency.service';
 import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
-import { CurrencyService } from './currency.service';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyStatePersistenceService {

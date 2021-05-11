@@ -5,8 +5,8 @@ import {
   getContextParameterValues,
 } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
+import { LanguageService } from '../facade/language.service';
 import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
-import { LanguageService } from './language.service';
 
 @Injectable({ providedIn: 'root' })
 export class LanguageStatePersistenceService {

@@ -2,9 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
 import { SiteContextConfig } from '../config/site-context-config';
+import { CurrencyService } from '../facade/currency.service';
 import { CURRENCY_CONTEXT_ID } from '../providers';
 import { CurrencyStatePersistenceService } from './currency-state-persistence.service';
-import { CurrencyService } from './currency.service';
 import createSpy = jasmine.createSpy;
 
 class MockCurrencyService implements Partial<CurrencyService> {
