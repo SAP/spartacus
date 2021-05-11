@@ -152,7 +152,7 @@ export function siteContextChange(
   label: string
 ): void {
   if (pagePath !== null) {
-    const page = waitForPage(pagePath, 'pageForSitContextChange');
+    const page = waitForPage('', 'pageForSitContextChange');
     cy.visit(FULL_BASE_URL_EN_USD + pagePath);
     cy.wait(`@${page}`).its('status').should('eq', 200);
   }
