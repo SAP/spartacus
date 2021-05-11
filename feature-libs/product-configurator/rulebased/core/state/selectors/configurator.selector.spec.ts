@@ -26,10 +26,15 @@ describe('Configurator selectors', () => {
     owner
   );
 
-  const configurationWithInteractionState: Configurator.Configuration = ConfiguratorComponentTestUtilsService.createConfiguration(
-    'a',
-    owner
-  );
+  const configurationWithInteractionState: Configurator.Configuration = {
+    ...ConfiguratorComponentTestUtilsService.createConfiguration('a', owner),
+    interactionState: {
+      currentGroup: null,
+      groupsVisited: {},
+      menuParentGroup: null,
+      issueNavigationDone: true,
+    },
+  };
   const GROUP_ID = 'currentGroupId';
   const GROUP_ID2 = 'currentGroupId2';
 
