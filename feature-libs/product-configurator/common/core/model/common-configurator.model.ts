@@ -10,7 +10,7 @@ export namespace CommonConfigurator {
     /**
      * Specifies an owner uniquely, is used as key in the configuration store
      */
-    key?: string;
+    key: string;
     /**
      * Business identifier of the owner.
      * Can be a product code, a cart entry number, or an order code with order entry number
@@ -26,14 +26,14 @@ export namespace CommonConfigurator {
     userId?: string;
     cartId?: string;
     cartEntryNumber?: string;
-    owner?: CommonConfigurator.Owner;
+    owner: CommonConfigurator.Owner;
   }
 
   export interface ReadConfigurationFromOrderEntryParameters {
     userId?: string;
     orderId?: string;
     orderEntryNumber?: string;
-    owner?: CommonConfigurator.Owner;
+    owner: CommonConfigurator.Owner;
   }
   /**
    * Possible types of owners: Product, cart or order entry
@@ -44,6 +44,16 @@ export namespace CommonConfigurator {
     ORDER_ENTRY = 'orderEntry',
   }
 }
+
+/**
+ * Possible configurator types
+ */
+export const enum ConfiguratorType {
+  CPQ = 'CLOUDCPQCONFIGURATOR',
+  VARIANT = 'CPQCONFIGURATOR',
+  TEXTFIELD = 'TEXTFIELD',
+}
+
 /**
  * Statuses that can occur in the generic configuration
  * status summary

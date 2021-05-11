@@ -8,17 +8,17 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
-import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   NodeDependency,
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
+import collectedDependencies from '../dependencies.json';
 import {
   ANGULAR_HTTP,
-  ANGULAR_OAUTH2_OIDC,
   CLI_ASM_FEATURE,
   CLI_CART_FEATURE,
+  CLI_CDC_FEATURE,
+  CLI_CDS_FEATURE,
   CLI_ORGANIZATION_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
   CLI_PRODUCT_FEATURE,
@@ -26,14 +26,11 @@ import {
   CLI_SMARTEDIT_FEATURE,
   CLI_STOREFINDER_FEATURE,
   CLI_TRACKING_FEATURE,
-  DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
-  DEFAULT_NGRX_VERSION,
-  NGRX_EFFECTS,
-  NGRX_ROUTER_STORE,
-  NGRX_STORE,
   SPARTACUS_ASM,
   SPARTACUS_ASSETS,
   SPARTACUS_CART,
+  SPARTACUS_CDC,
+  SPARTACUS_CDS,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
@@ -55,7 +52,8 @@ import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
   addPackageJsonDependencies,
-  createNodePackageInstallationTask,
+  addSchematicsTasks,
+  LibraryOptions,
   shouldAddFeature,
 } from '../shared/utils/lib-utils';
 import {
@@ -63,9 +61,10 @@ import {
   ensureModuleExists,
 } from '../shared/utils/new-module-utils';
 import {
-  getAngularVersion,
+  createDependencies,
   getSpartacusCurrentFeatureLevel,
   getSpartacusSchematicsVersion,
+  mapPackageToNodeDependencies,
   readPackageJson,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
@@ -194,14 +193,10 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   };
 }
 
-function prepareDependencies(
-  tree: Tree,
-  options: SpartacusOptions
-): NodeDependency[] {
+function prepareDependencies(options: SpartacusOptions): NodeDependency[] {
   const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const angularVersion = getAngularVersion(tree);
 
-  const dependencies: NodeDependency[] = [
+  const spartacusDependencies: NodeDependency[] = [
     {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
@@ -222,70 +217,22 @@ function prepareDependencies(
       version: spartacusVersion,
       name: SPARTACUS_STYLES,
     },
-
-    {
-      type: NodeDependencyType.Default,
-      version: '^7.0.0',
-      name: '@ng-bootstrap/ng-bootstrap',
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: '^5.0.0',
-      name: '@ng-select/ng-select',
-    },
-
-    {
-      type: NodeDependencyType.Default,
-      version: DEFAULT_NGRX_VERSION,
-      name: NGRX_STORE,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: DEFAULT_NGRX_VERSION,
-      name: NGRX_EFFECTS,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: DEFAULT_NGRX_VERSION,
-      name: NGRX_ROUTER_STORE,
-    },
-
-    {
-      type: NodeDependencyType.Default,
-      version: '4.3.1',
-      name: 'bootstrap',
-    },
-    { type: NodeDependencyType.Default, version: '^19.3.4', name: 'i18next' },
-    {
-      type: NodeDependencyType.Default,
-      version: '^3.2.2',
-      name: 'i18next-xhr-backend',
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: angularVersion,
-      name: '@angular/service-worker',
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: '^8.0.0',
-      name: 'ngx-infinite-scroll',
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
-      name: ANGULAR_OAUTH2_OIDC,
-    },
   ];
   if (options.configuration === 'b2b') {
-    dependencies.push({
+    spartacusDependencies.push({
       type: NodeDependencyType.Default,
       version: spartacusVersion,
       name: SPARTACUS_SETUP,
     });
   }
 
-  return dependencies;
+  const thirdPartyDependencies = createDependencies({
+    ...collectedDependencies[SPARTACUS_CORE],
+    ...collectedDependencies[SPARTACUS_STOREFRONTLIB],
+    ...collectedDependencies[SPARTACUS_STYLES],
+    ...collectedDependencies[SPARTACUS_ASSETS],
+  });
+  return spartacusDependencies.concat(thirdPartyDependencies);
 }
 
 function updateAppModule(project: string): Rule {
@@ -328,7 +275,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     const project = getProjectFromWorkspace(tree, options);
 
     return chain([
-      addPackageJsonDependencies(prepareDependencies(tree, options)),
+      addPackageJsonDependencies(prepareDependencies(options)),
       ensureModuleExists({
         name: SPARTACUS_ROUTING_MODULE,
         path: 'app',
@@ -374,10 +321,32 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
 function addSpartacusFeatures(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const features = prepareSpartacusFeatures(options);
-    const rule = installSpartacusFeatures(features)(tree, context);
+    const featurePackages = prepareSpartacusFeatures(options);
 
-    addSchematicsTasks(features, context);
+    const packageJson = readPackageJson(tree);
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    const dependencies = featurePackages.map((feature) =>
+      mapPackageToNodeDependencies(feature, spartacusVersion)
+    );
+
+    const rule = addPackageJsonDependencies(dependencies, packageJson)(
+      tree,
+      context
+    );
+
+    const featureOptions = featurePackages.map((feature) => {
+      const libraryOptions: LibraryOptions = {
+        project: options.project,
+        lazy: options.lazy,
+        // when the `features` option is `undefined`, the "default" set of features will be installed (specified in the library's schema.json)
+        features: undefined,
+      };
+      return {
+        feature,
+        options: libraryOptions,
+      };
+    });
+    addSchematicsTasks(featureOptions, context);
 
     return rule;
   };
@@ -412,41 +381,12 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
     ...(shouldAddFeature(CLI_TRACKING_FEATURE, options.features)
       ? [SPARTACUS_TRACKING]
       : []),
+    ...(shouldAddFeature(CLI_CDC_FEATURE, options.features)
+      ? [SPARTACUS_CDC]
+      : []),
+    ...(shouldAddFeature(CLI_CDS_FEATURE, options.features)
+      ? [SPARTACUS_CDS]
+      : []),
     SPARTACUS_USER,
   ];
-}
-
-function installSpartacusFeatures(features: string[]): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const packageJson = readPackageJson(tree);
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-    const dependencies: NodeDependency[] = features.map((collectionName) => ({
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: collectionName,
-    }));
-
-    return addPackageJsonDependencies(dependencies, packageJson)(tree, context);
-  };
-}
-
-function addSchematicsTasks(
-  features: string[],
-  context: SchematicContext
-): void {
-  const installationTaskId = createNodePackageInstallationTask(context);
-
-  features.forEach((collectionName) => {
-    const runSchematicTaskOptions: RunSchematicTaskOptions<unknown> = {
-      collection: collectionName,
-      name: 'add',
-      // we don't delegate any options to the lib's schematics, for now.
-      options: {},
-    };
-
-    context.addTask(
-      new RunSchematicTask('add-spartacus-library', runSchematicTaskOptions),
-      [installationTaskId]
-    );
-  });
 }

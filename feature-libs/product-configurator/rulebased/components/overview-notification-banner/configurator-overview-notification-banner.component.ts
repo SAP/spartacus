@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -7,18 +7,14 @@ import {
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import {
-  distinctUntilKeyChanged,
-  filter,
-  map,
-  switchMap,
-} from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-configurator-overview-notification-banner',
   templateUrl: './configurator-overview-notification-banner.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorOverviewNotificationBannerComponent {
   routerData$: Observable<ConfiguratorRouter.Data> = this.configRouterExtractorService.extractRouterData();
@@ -32,8 +28,16 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     switchMap((routerData) =>
       this.configuratorCommonsService.getConfiguration(routerData.owner)
     ),
-    distinctUntilKeyChanged('configId'),
-    map((configuration) => configuration.totalNumberOfIssues)
+    map((configuration) => {
+      if (configuration.overview?.totalNumberOfIssues) {
+        return configuration.overview.totalNumberOfIssues;
+      } else if (configuration.totalNumberOfIssues) {
+        return configuration.totalNumberOfIssues;
+      } else {
+        //TODO fix before merging to develop. We can never reach that line
+        return 0;
+      }
+    })
   );
 
   iconTypes = ICON_TYPE;

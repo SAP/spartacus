@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -17,6 +19,7 @@ import { CLI_SAVED_CART_FEATURE } from '../constants';
 const collectionPath = path.join(__dirname, '../collection.json');
 const saveCartFeatureModulePath =
   'src/app/spartacus/features/cart/cart-saved-cart-feature.module.ts';
+const scssFilePath = 'src/styles/spartacus/cart.scss';
 
 describe('Spartacus Cart schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -38,17 +41,17 @@ describe('Spartacus Cart schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions: SpartacusCartOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [CLI_SAVED_CART_FEATURE],
-  };
-
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
     lazy: true,
     features: [],
+  };
+
+  const defaultFeatureOptions: SpartacusCartOptions = {
+    project: 'schematics-test',
+    lazy: true,
+    features: [CLI_SAVED_CART_FEATURE],
   };
 
   beforeEach(async () => {
@@ -91,7 +94,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',
-          { ...defaultOptions, features: [] },
+          { ...defaultFeatureOptions, features: [] },
           appTree
         )
         .toPromise();
@@ -106,32 +109,18 @@ describe('Spartacus Cart schematics: ng-add', () => {
     describe('styling', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should add style import to /src/styles/spartacus/cart.scss', async () => {
-        const content = appTree.readContent('/src/styles/spartacus/cart.scss');
-        expect(content).toEqual(`@import "@spartacus/cart";`);
+      it('should create a proper scss file', () => {
+        const scssContent = appTree.readContent(scssFilePath);
+        expect(scssContent).toMatchSnapshot();
       });
 
-      it('should update angular.json with spartacus/cart.scss', async () => {
+      it('should update angular.json', async () => {
         const content = appTree.readContent('/angular.json');
-        const angularJson = JSON.parse(content);
-        const buildStyles: string[] =
-          angularJson.projects['schematics-test'].architect.build.options
-            .styles;
-        expect(buildStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/cart.scss',
-        ]);
-
-        const testStyles: string[] =
-          angularJson.projects['schematics-test'].architect.test.options.styles;
-        expect(testStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/cart.scss',
-        ]);
+        expect(content).toMatchSnapshot();
       });
     });
 
@@ -140,7 +129,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultOptions, lazy: false },
+            { ...defaultFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
@@ -167,14 +156,14 @@ describe('Spartacus Cart schematics: ng-add', () => {
     describe('lazy loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
       it('should import SavedCartRootModule and contain the lazy loading syntax', async () => {
         const appModule = appTree.readContent(saveCartFeatureModulePath);
         expect(appModule).toContain(
-          `import { SavedCartRootModule } from "@spartacus/cart/saved-cart/root";`
+          `import { CART_SAVED_CART_FEATURE, SavedCartRootModule } from "@spartacus/cart/saved-cart/root";`
         );
         expect(appModule).toContain(
           `import('@spartacus/cart/saved-cart').then(`
@@ -192,7 +181,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
     describe('i18n', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
       });
 
