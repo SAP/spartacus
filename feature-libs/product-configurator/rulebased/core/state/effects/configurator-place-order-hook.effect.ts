@@ -20,7 +20,7 @@ export class ConfiguratorPlaceOrderHookEffects {
   placeOrder$: Observable<ConfiguratorActions.RemoveConfiguration> = this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map(() => {
-      const ownerKeys = [];
+      const ownerKeys: string[] = [];
       this.activeCartService
         .getEntries()
         .pipe(take(1))

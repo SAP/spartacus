@@ -597,7 +597,8 @@ describe('ConfiguratorEffect', () => {
           ],
         },
       ];
-      expect(configEffects.getGroupWithAttributes(groups)).toBeUndefined();
+      //TODO CHHI
+      expect(configEffects.getGroupWithAttributes(groups)).toBe('');
     });
   });
 });

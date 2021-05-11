@@ -9,9 +9,9 @@ export const initialState: Configurator.Configuration = {
   configId: '',
   groups: [],
   interactionState: {
-    currentGroup: null,
+    currentGroup: undefined,
     groupsVisited: {},
-    menuParentGroup: null,
+    menuParentGroup: undefined,
   },
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
@@ -147,7 +147,7 @@ function setInitialCurrentGroup(
   if (state.interactionState.currentGroup) {
     return state;
   }
-  let initialCurrentGroup = null;
+  let initialCurrentGroup = undefined;
 
   if (state?.flatGroups?.length > 0) {
     initialCurrentGroup = state?.flatGroups[0]?.id;

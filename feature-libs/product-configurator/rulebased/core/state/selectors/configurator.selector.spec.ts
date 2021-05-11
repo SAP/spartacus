@@ -29,9 +29,9 @@ describe('Configurator selectors', () => {
   const configurationWithInteractionState: Configurator.Configuration = {
     ...ConfiguratorComponentTestUtilsService.createConfiguration('a', owner),
     interactionState: {
-      currentGroup: null,
+      currentGroup: undefined,
       groupsVisited: {},
-      menuParentGroup: null,
+      menuParentGroup: undefined,
       issueNavigationDone: true,
     },
   };
@@ -75,9 +75,10 @@ describe('Configurator selectors', () => {
           ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
         )
       )
-      .subscribe((value) => (result = value));
-
-    expect(result).toEqual(undefined);
+      .subscribe((value) => {
+        result = value;
+        expect(result).toEqual(undefined);
+      });
   });
 
   it('should return configuration content when selecting with content selector when action was successful', () => {
@@ -96,9 +97,10 @@ describe('Configurator selectors', () => {
           )
         )
       )
-      .subscribe((value) => (result = value));
-
-    expect(result).toEqual(configurationWithInteractionState);
+      .subscribe((value) => {
+        result = value;
+        expect(result).toEqual(configurationWithInteractionState);
+      });
   });
 
   it('should return pending changes as false for an initial call', () => {
@@ -142,7 +144,7 @@ describe('Configurator selectors', () => {
           )
         )
       )
-      .subscribe((value) => expect(value).toEqual(undefined));
+      .subscribe((value) => expect(value).toEqual(false));
   });
 
   it('should get visited status for group', () => {

@@ -67,6 +67,7 @@ export class ConfiguratorBasicEffects {
       return this.configuratorCommonsConnector
         .readConfiguration(
           action.payload.configuration.configId,
+          //TODO CHHI is it correct to have group ID optional? Do we do calls w/o group?
           action.payload.groupId,
           action.payload.configuration.owner
         )
@@ -209,7 +210,7 @@ export class ConfiguratorBasicEffects {
                   payload.groups,
                   groupIdFromPayload
                 ),
-                null
+                undefined
               );
               return {
                 currentGroupId,
@@ -234,7 +235,10 @@ export class ConfiguratorBasicEffects {
                     new ConfiguratorActions.ChangeGroup({
                       configuration: payload,
                       groupId: container.groupIdFromPayload,
-                      parentGroupId: container.parentGroupFromPayload?.id,
+                      //TODO CHHI
+                      parentGroupId: container.parentGroupFromPayload?.id
+                        ? container.parentGroupFromPayload?.id
+                        : undefined,
                     }),
                   ];
             })
@@ -338,22 +342,31 @@ export class ConfiguratorBasicEffects {
   );
 
   getGroupWithAttributes(groups: Configurator.Group[]): string {
-    const groupWithAttributes: Configurator.Group = groups
-      .filter((currentGroup) => currentGroup.attributes.length > 0)
+    const groupWithAttributes: Configurator.Group | undefined = groups
+      .filter(
+        (currentGroup) =>
+          currentGroup.attributes && currentGroup.attributes.length > 0
+      )
       .pop();
-    let id: string;
+    let id: string | undefined;
     if (groupWithAttributes) {
       id = groupWithAttributes.id;
     } else {
       id = groups
-        .filter((currentGroup) => currentGroup.subGroups.length > 0)
+        .filter(
+          (currentGroup) =>
+            currentGroup.subGroups && currentGroup.subGroups.length > 0
+        )
         .flatMap((currentGroup) =>
-          this.getGroupWithAttributes(currentGroup.subGroups)
+          currentGroup.subGroups
+            ? this.getGroupWithAttributes(currentGroup.subGroups)
+            : []
         )
         .filter((groupId) => groupId) //Filter undefined strings
         .pop();
     }
-    return id;
+    //TODO CHHI
+    return id ? id : '';
   }
 
   constructor(

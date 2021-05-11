@@ -55,10 +55,11 @@ export const getConfigurationFactory = (
 export const getCurrentGroup = (
   ownerKey: string
 ): MemoizedSelector<StateWithConfigurator, string> => {
-  return createSelector(
-    getConfigurationFactory(ownerKey),
-    (configuration) =>
-      configuration?.interactionState?.currentGroup || undefined
+  return createSelector(getConfigurationFactory(ownerKey), (configuration) =>
+    //TODO CHHI what happens if current group is not available
+    configuration.interactionState.currentGroup
+      ? configuration.interactionState.currentGroup
+      : ''
   );
 };
 
@@ -66,11 +67,10 @@ export const isGroupVisited = (
   ownerKey: string,
   groupId: string
 ): MemoizedSelector<StateWithConfigurator, boolean> => {
-  return createSelector(
-    getConfigurationFactory(ownerKey),
-    (configuration) =>
-      configuration?.interactionState?.groupsVisited[groupId] || undefined
-  );
+  return createSelector(getConfigurationFactory(ownerKey), (configuration) => {
+    const groupsVisited = configuration?.interactionState?.groupsVisited;
+    return groupsVisited ? groupsVisited[groupId] : false;
+  });
 };
 
 export const areGroupsVisited = (

@@ -80,7 +80,7 @@ export class ReadConfiguration extends StateUtils.EntityLoadAction {
   constructor(
     public payload: {
       configuration: Configurator.Configuration;
-      groupId: string;
+      groupId: string | undefined;
     }
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);

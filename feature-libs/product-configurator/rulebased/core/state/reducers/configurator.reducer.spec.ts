@@ -224,7 +224,7 @@ describe('Configurator reducer', () => {
       expect(state.configId).toEqual('ds');
 
       const action2 = new ConfiguratorActions.RemoveConfiguration({
-        ownerKey: configuration.productCode,
+        ownerKey: PRODUCT_CODE,
       });
       state = StateReduce.configuratorReducer(undefined, action2);
 
@@ -411,7 +411,7 @@ describe('Configurator reducer', () => {
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.nextOwner).toBeDefined();
-      expect(state.nextOwner.type).toBe(
+      expect(state.nextOwner?.type).toBe(
         CommonConfigurator.OwnerType.CART_ENTRY
       );
     });
