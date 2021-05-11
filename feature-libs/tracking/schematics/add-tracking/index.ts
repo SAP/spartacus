@@ -17,10 +17,10 @@ import { peerDependencies } from '../../package.json';
 import {
   CLI_PERSONALIZATION_FEATURE,
   CLI_TMS_AEP_FEATURE,
-  CLI_TMS_FEATURE,
   CLI_TMS_GTM_FEATURE,
-  PERSONALIZATION_FEATURE_NAME,
+  PERSONALIZATION_FEATURE_NAME_CONSTANT,
   PERSONALIZATION_MODULE,
+  PERSONALIZATION_MODULE_NAME,
   PERSONALIZATION_ROOT_MODULE,
   SPARTACUS_PERSONALIZATION,
   SPARTACUS_PERSONALIZATION_ROOT,
@@ -31,6 +31,7 @@ import {
   TMS_BASE_MODULE,
   TMS_CONFIG,
   TMS_GTM_MODULE,
+  TMS_MODULE_NAME,
   TRACKING_FOLDER_NAME,
 } from '../constants';
 
@@ -55,7 +56,7 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
       addPackageJsonDependenciesForLibrary({
         packageJson,
         context,
-        libraryPeerDependencies: peerDependencies,
+        dependencies: peerDependencies,
         options,
       }),
     ]);
@@ -67,7 +68,7 @@ function addGtm(options: SpartacusTrackingOptions): Rule {
     { ...options, lazy: false }, // To add feature module in imports (not lazy)
     {
       folderName: TRACKING_FOLDER_NAME,
-      name: CLI_TMS_FEATURE,
+      moduleName: TMS_MODULE_NAME,
       rootModule: {
         importPath: SPARTACUS_TMS_CORE,
         name: TMS_BASE_MODULE,
@@ -102,7 +103,7 @@ function addAep(options: SpartacusTrackingOptions): Rule {
     { ...options, lazy: false }, // To add feature module in imports (not lazy)
     {
       folderName: TRACKING_FOLDER_NAME,
-      name: CLI_TMS_FEATURE,
+      moduleName: TMS_MODULE_NAME,
       rootModule: {
         importPath: SPARTACUS_TMS_CORE,
         name: TMS_BASE_MODULE,
@@ -135,7 +136,7 @@ function addAep(options: SpartacusTrackingOptions): Rule {
 function addPersonalizationFeature(options: SpartacusTrackingOptions): Rule {
   return addLibraryFeature(options, {
     folderName: TRACKING_FOLDER_NAME,
-    name: PERSONALIZATION_FEATURE_NAME,
+    moduleName: PERSONALIZATION_MODULE_NAME,
     featureModule: {
       name: PERSONALIZATION_MODULE,
       importPath: SPARTACUS_PERSONALIZATION,
@@ -143,6 +144,10 @@ function addPersonalizationFeature(options: SpartacusTrackingOptions): Rule {
     rootModule: {
       name: PERSONALIZATION_ROOT_MODULE,
       importPath: SPARTACUS_PERSONALIZATION_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_PERSONALIZATION_ROOT,
+      namedImports: [PERSONALIZATION_FEATURE_NAME_CONSTANT],
     },
   });
 }
