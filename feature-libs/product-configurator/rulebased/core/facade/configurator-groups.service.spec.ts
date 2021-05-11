@@ -4,6 +4,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
 import {
   GROUP_ID_1,
   GROUP_ID_2,
@@ -123,9 +124,11 @@ describe('ConfiguratorGroupsService', () => {
 
     it('should return null if no group exist', (done) => {
       const configNoGroups: Configurator.Configuration = {
-        configId: 'abc',
+        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+          'abc',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
         flatGroups: undefined,
-        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(configNoGroups)

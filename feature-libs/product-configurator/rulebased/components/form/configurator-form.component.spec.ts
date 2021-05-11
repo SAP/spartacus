@@ -19,6 +19,7 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
 import { ConfiguratorAttributeFooterComponent } from '../attribute/footer/configurator-attribute-footer.component';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
@@ -54,20 +55,18 @@ const owner = ConfiguratorModelUtils.createOwner(
 const groups = ConfigurationTestData.productConfiguration.groups;
 
 const configRead: Configurator.Configuration = {
-  configId: 'a',
+  ...ConfiguratorComponentTestUtilsService.createConfiguration('a', owner),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
-  owner: owner,
   groups: groups,
 };
 
 const configRead2: Configurator.Configuration = {
-  configId: 'b',
+  ...ConfiguratorComponentTestUtilsService.createConfiguration('b', owner),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
-  owner: owner,
   groups: groups,
 };
 

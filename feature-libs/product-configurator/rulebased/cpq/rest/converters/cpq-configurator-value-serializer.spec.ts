@@ -1,6 +1,9 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import {
+  Configurator,
+  ConfiguratorComponentTestUtilsService,
+} from '@spartacus/product-configurator/rulebased';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorValueSerializer } from './cpq-configurator-value-serializer';
 
@@ -11,8 +14,9 @@ const valueCode = 'abc';
 const groupIdOfChangedAttribute = '1';
 
 const configuration: Configurator.Configuration = {
-  configId: configId,
-  owner: { key: 'A' },
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(configId, {
+    key: 'A',
+  }),
   groups: [
     {
       attributes: [

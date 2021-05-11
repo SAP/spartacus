@@ -52,9 +52,8 @@ const groupWithSubGroup: Configurator.Group = {
   subGroups: [group],
 };
 const productConfiguration: Configurator.Configuration = {
-  configId: 'a',
+  ...ConfiguratorComponentTestUtilsService.createConfiguration('a', owner),
   productCode: productCode,
-  owner: owner,
   complete: true,
   consistent: true,
   overview: {
@@ -190,8 +189,10 @@ describe('ConfiguratorEffect', () => {
   describe('Effect readConfiguration', () => {
     it('should emit a success action with content in case connector call goes fine', () => {
       const payloadInput: Configurator.Configuration = {
-        configId: configId,
-        owner: owner,
+        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+          configId,
+          owner
+        ),
       };
       const action = new ConfiguratorActions.ReadConfiguration({
         configuration: payloadInput,
@@ -227,7 +228,12 @@ describe('ConfiguratorEffect', () => {
     });
 
     it('must not emit anything in case source action is not covered', () => {
-      const payloadInput = { configId: configId, owner: owner };
+      const payloadInput = {
+        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+          configId,
+          owner
+        ),
+      };
       const action = new ConfiguratorActions.ReadConfigurationSuccess(
         payloadInput
       );
@@ -240,8 +246,10 @@ describe('ConfiguratorEffect', () => {
   describe('Effect getOverview', () => {
     it('should emit a success action with content in case connector call goes well', () => {
       const payloadInput: Configurator.Configuration = {
-        configId: configId,
-        owner: owner,
+        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+          configId,
+          owner
+        ),
       };
       const action = new ConfiguratorActions.GetConfigurationOverview(
         payloadInput
@@ -454,9 +462,11 @@ describe('ConfiguratorEffect', () => {
   describe('Effect groupChange', () => {
     it('should emit ReadConfigurationSuccess and SetCurrentGroup/SetParentGroup on ChangeGroup in case no changes are pending', () => {
       const payloadInput: Configurator.Configuration = {
-        configId: configId,
+        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+          configId,
+          owner
+        ),
         productCode: productCode,
-        owner: owner,
       };
       const action = new ConfiguratorActions.ChangeGroup({
         configuration: payloadInput,
@@ -488,9 +498,11 @@ describe('ConfiguratorEffect', () => {
     it('should emit ReadConfigurationFail in case read call is not successful', () => {
       readMock.and.returnValue(throwError(errorResponse));
       const payloadInput: Configurator.Configuration = {
-        configId: configId,
+        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+          configId,
+          owner
+        ),
         productCode: productCode,
-        owner: owner,
       };
       const action = new ConfiguratorActions.ChangeGroup({
         configuration: payloadInput,

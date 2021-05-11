@@ -59,6 +59,7 @@ export class ConfiguratorComponentTestUtilsService {
       configId: configId,
       owner: owner,
       groups: [],
+      interactionState: {},
     };
     return configuration;
   }

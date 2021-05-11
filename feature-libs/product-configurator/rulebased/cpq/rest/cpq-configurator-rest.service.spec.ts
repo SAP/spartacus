@@ -4,7 +4,11 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
+import {
+  Configurator,
+  ConfiguratorComponentTestUtilsService,
+} from '@spartacus/product-configurator/rulebased';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
@@ -87,9 +91,11 @@ const configUpdateResponse = {};
 const attrCode = '111';
 const attrValueId = 'abc';
 const configuration: Configurator.Configuration = {
-  configId: configId,
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+    configId,
+    ConfiguratorModelUtils.createInitialOwner()
+  ),
   productCode: productCode,
-  owner: { key: 'A' },
 };
 const updateAttribute: Cpq.UpdateAttribute = {
   configurationId: configId,

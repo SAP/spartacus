@@ -14,7 +14,10 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import {
+  Configurator,
+  ConfiguratorComponentTestUtilsService,
+} from '@spartacus/product-configurator/rulebased';
 import {
   CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
@@ -52,15 +55,14 @@ describe('CpqConfigurationOccService', () => {
     cartId: documentId,
     cartEntryNumber: entryNumber.toString(),
     configuration: {
-      configId: configId,
-      owner: {
+      ...ConfiguratorComponentTestUtilsService.createConfiguration(configId, {
         type: CommonConfigurator.OwnerType.CART_ENTRY,
         id: entryNumber.toString(),
         key: ConfiguratorModelUtils.getOwnerKey(
           CommonConfigurator.OwnerType.PRODUCT,
           entryNumber.toString()
         ),
-      },
+      }),
     },
   };
 

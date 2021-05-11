@@ -198,6 +198,7 @@ export class VariantConfiguratorOccAdapter
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
           groups: [],
+          interactionState: {},
           overview: overview,
           owner: ConfiguratorModelUtils.createInitialOwner(),
         };
@@ -230,6 +231,7 @@ export class VariantConfiguratorOccAdapter
         const result: Configurator.Configuration = {
           configId: configuration.configId,
           groups: [],
+          interactionState: {},
           priceSummary: pricingResult,
           owner: ConfiguratorModelUtils.createInitialOwner(),
         };

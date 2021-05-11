@@ -10,6 +10,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
 import { productConfigurationWithConflicts } from '../../shared/testing/configurator-test-data';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
@@ -66,19 +67,25 @@ const group2: Configurator.Group = {
 };
 
 let productConfiguration: Configurator.Configuration = {
-  configId: CONFIG_ID,
-  owner: ConfiguratorModelUtils.createInitialOwner(),
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+    CONFIG_ID,
+    ConfiguratorModelUtils.createInitialOwner()
+  ),
 };
 
 const productConfigurationProductBoundObsolete: Configurator.Configuration = {
-  configId: CONFIG_ID,
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+    CONFIG_ID,
+    OWNER_PRODUCT
+  ),
   nextOwner: OWNER_CART_ENTRY,
-  owner: OWNER_PRODUCT,
 };
 
 const productConfigurationChanged: Configurator.Configuration = {
-  configId: CONFIG_ID,
-  owner: ConfiguratorModelUtils.createInitialOwner(),
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+    CONFIG_ID,
+    ConfiguratorModelUtils.createInitialOwner()
+  ),
 };
 
 const configurationState: ConfiguratorState = {
@@ -202,9 +209,11 @@ describe('ConfiguratorCommonsService', () => {
     );
 
     productConfiguration = {
-      configId: CONFIG_ID,
+      ...ConfiguratorComponentTestUtilsService.createConfiguration(
+        CONFIG_ID,
+        OWNER_PRODUCT
+      ),
       productCode: PRODUCT_CODE,
-      owner: OWNER_PRODUCT,
       groups: [group1, group2],
     };
 
@@ -382,9 +391,11 @@ describe('ConfiguratorCommonsService', () => {
 
     it('should not dispatch an action if overview is already present', (done) => {
       const configurationWithOverview: Configurator.Configuration = {
-        configId: CONFIG_ID,
+        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
         overview: {},
-        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(configurationWithOverview)

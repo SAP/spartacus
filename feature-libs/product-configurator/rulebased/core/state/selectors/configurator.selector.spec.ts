@@ -6,6 +6,7 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorComponentTestUtilsService } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-component-test-utils.service';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions';
 import {
@@ -20,19 +21,15 @@ describe('Configurator selectors', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   const productCode = 'CONF_LAPTOP';
   let owner = ConfiguratorModelUtils.createInitialOwner();
-  let configuration: Configurator.Configuration = {
-    configId: 'a',
-    owner: owner,
-  };
-  let configurationWithInteractionState: Configurator.Configuration = {
-    ...configuration,
-    interactionState: {
-      currentGroup: null,
-      groupsVisited: {},
-      menuParentGroup: null,
-      issueNavigationDone: true,
-    },
-  };
+  let configuration: Configurator.Configuration = ConfiguratorComponentTestUtilsService.createConfiguration(
+    'a',
+    owner
+  );
+
+  const configurationWithInteractionState: Configurator.Configuration = ConfiguratorComponentTestUtilsService.createConfiguration(
+    'a',
+    owner
+  );
   const GROUP_ID = 'currentGroupId';
   const GROUP_ID2 = 'currentGroupId2';
 
@@ -57,14 +54,10 @@ describe('Configurator selectors', () => {
     );
 
     configuration = {
-      configId: 'a',
+      ...ConfiguratorComponentTestUtilsService.createConfiguration('a', owner),
       productCode: productCode,
-      owner: owner,
     };
-    configurationWithInteractionState = {
-      ...configurationWithInteractionState,
-      ...configuration,
-    };
+
     configuratorUtils.setOwnerKey(owner);
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -85,13 +78,17 @@ describe('Configurator selectors', () => {
   it('should return configuration content when selecting with content selector when action was successful', () => {
     let result: Configurator.Configuration;
     store.dispatch(
-      new ConfiguratorActions.CreateConfigurationSuccess(configuration)
+      new ConfiguratorActions.CreateConfigurationSuccess(
+        configurationWithInteractionState
+      )
     );
 
     store
       .pipe(
         select(
-          ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
+          ConfiguratorSelectors.getConfigurationFactory(
+            configurationWithInteractionState.owner.key
+          )
         )
       )
       .subscribe((value) => (result = value));

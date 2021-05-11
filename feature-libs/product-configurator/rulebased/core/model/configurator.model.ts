@@ -65,7 +65,7 @@ export namespace Configurator {
     owner: CommonConfigurator.Owner;
     nextOwner?: CommonConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
-    interactionState?: InteractionState;
+    interactionState: InteractionState;
     updateType?: UpdateType;
     errorMessages?: string[];
     warningMessages?: string[];

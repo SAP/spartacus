@@ -2,6 +2,7 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorComponentTestUtilsService } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-component-test-utils.service';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import * as StateReduce from './configurator.reducer';
@@ -73,9 +74,11 @@ describe('Configurator reducer', () => {
     });
     it('should take current group from flatGroups if current group in interaction state is undefined', () => {
       const configurationWithoutCurrentGroup: Configurator.Configuration = {
-        owner: owner,
+        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+          'A',
+          owner
+        ),
         productCode: PRODUCT_CODE,
-        configId: 'A',
         overview: {},
         flatGroups: [
           {
@@ -181,9 +184,11 @@ describe('Configurator reducer', () => {
         configuration
       );
       const configurationWithOverview: Configurator.Configuration = {
-        configId: 'A',
+        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+          'A',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
         overview: {},
-        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       const state = StateReduce.configuratorReducer(
         configurationWithOverview,

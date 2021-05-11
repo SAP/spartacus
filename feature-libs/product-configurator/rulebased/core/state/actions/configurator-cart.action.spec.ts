@@ -2,6 +2,7 @@ import { MULTI_CART_DATA, StateUtils } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
+import { ConfiguratorComponentTestUtilsService } from './../../../shared/testing/configurator-component-test-utils.service';
 import * as ConfiguratorActions from './configurator-cart.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -15,9 +16,11 @@ const OWNER: CommonConfigurator.Owner = {
 };
 
 const CONFIGURATION: Configurator.Configuration = {
+  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+    CONFIG_ID,
+    OWNER
+  ),
   productCode: PRODUCT_CODE,
-  configId: CONFIG_ID,
-  owner: OWNER,
 };
 
 describe('ConfiguratorCartActions', () => {

@@ -44,9 +44,8 @@ const owner: CommonConfigurator.Owner = {
 };
 
 const productConfiguration: Configurator.Configuration = {
-  configId: 'a',
+  ...ConfiguratorComponentTestUtilsService.createConfiguration('a', owner),
   productCode: productCode,
-  owner: owner,
   complete: true,
   consistent: true,
   overview: {
