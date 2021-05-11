@@ -6,8 +6,8 @@ import { Observable, of } from 'rxjs';
 import { Address, AddressValidation } from '../../../model/address.model';
 import { UserAddressAdapter } from '../../connectors/address/user-address.adapter';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
-import { CheckoutActions } from '../actions/index';
-import { AddressVerificationEffect } from './user-address-verification.effect';
+import { UserActions } from '../actions/index';
+import { UserAddressVerificationEffect } from './user-address-verification.effect';
 
 const addressValidation: AddressValidation = {
   decision: 'test address validation',
@@ -15,20 +15,20 @@ const addressValidation: AddressValidation = {
 };
 
 describe('Address Verification effect', () => {
-  let effect: AddressVerificationEffect;
+  let effect: UserAddressVerificationEffect;
   let service: UserAddressConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        AddressVerificationEffect,
+        UserAddressVerificationEffect,
         { provide: UserAddressAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
-    effect = TestBed.inject(AddressVerificationEffect);
+    effect = TestBed.inject(UserAddressVerificationEffect);
     service = TestBed.inject(UserAddressConnector);
 
     spyOn(service, 'verify').and.returnValue(of(addressValidation));
@@ -43,8 +43,8 @@ describe('Address Verification effect', () => {
         userId: 'userId',
         address,
       };
-      const action = new CheckoutActions.VerifyAddress(payload);
-      const completion = new CheckoutActions.VerifyAddressSuccess(
+      const action = new UserActions.VerifyUserAddress(payload);
+      const completion = new UserActions.VerifyUserAddressSuccess(
         addressValidation
       );
 

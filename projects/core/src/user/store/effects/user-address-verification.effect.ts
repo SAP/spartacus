@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
 import { UserActions } from '../actions/index';
@@ -12,9 +12,6 @@ export class UserAddressVerificationEffect {
   verifyAddress$: Observable<
     UserActions.VerifyUserAddressSuccess | UserActions.VerifyUserAddressFail
   > = this.actions$.pipe(
-    tap((action) =>
-      console.log('UserAddressVerificationEffect called!', action)
-    ),
     ofType<UserActions.VerifyUserAddress>(UserActions.VERIFY_USER_ADDRESS),
     map((action) => action.payload),
     mergeMap((payload) =>

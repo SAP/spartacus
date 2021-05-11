@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   Address,
@@ -199,11 +199,10 @@ export class UserAddressService {
    * Get address verification results
    */
   getAddressVerificationResults(): Observable<AddressValidation | string> {
-    // return this.store.pipe(
-    //   select(CheckoutSelectors.getAddressVerificationResults),
-    //   filter((results) => Object.keys(results).length !== 0)
-    // );
-    return of('sdf');
+    return this.store.pipe(
+      select(UsersSelectors.getUserAddressVerificationResults),
+      filter((results) => Object.keys(results).length !== 0)
+    );
   }
   /**
    * Clear address verification results

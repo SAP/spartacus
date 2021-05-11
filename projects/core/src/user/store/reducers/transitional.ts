@@ -52,6 +52,7 @@ import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromCostCenterReducer from './user-cost-center.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
 import * as fromUserReplenishmentOrdersReducer from './user-replenishment-orders.reducer';
+import * as fromUserAddressVerificationReducer from './user-address-verification.reducer';
 import { reducerToken } from './index';
 
 export function getReducersTransitional(): ActionReducerMap<
@@ -111,6 +112,7 @@ export function getReducersTransitional(): ActionReducerMap<
       USER_REPLENISHMENT_ORDER_DETAILS,
       fromReplenishmentOrderDetailsReducer.reducer
     ),
+    addressVerification: fromUserAddressVerificationReducer.reducer,
   };
 }
 
