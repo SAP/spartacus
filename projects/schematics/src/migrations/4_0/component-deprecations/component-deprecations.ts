@@ -4,7 +4,7 @@ import { migrateComponentMigration } from '../../mechanism/component-deprecation
 import { OUTLET_DIRECTIVE_MIGRATION } from './data/outlet.directive.migration';
 
 export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
-  OUTLET_DIRECTIVE_MIGRATION
+  OUTLET_DIRECTIVE_MIGRATION,
 ];
 
 export function migrate(): Rule {
