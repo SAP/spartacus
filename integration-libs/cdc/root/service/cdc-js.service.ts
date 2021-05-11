@@ -9,9 +9,11 @@ import {
 import {
   AuthService,
   BaseSiteService,
+  EventService,
   LanguageService,
   ScriptLoader,
   User,
+  UserIdService,
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
@@ -19,6 +21,8 @@ import { take } from 'rxjs/operators';
 import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
+import { CdcUserProfileAdapter } from '../adapter/cdc-user-profile.adapter';
+import { UserAccountChangedEvent } from '@spartacus/user/account/root';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +34,8 @@ export class CdcJsService implements OnDestroy {
 
   constructor(
     protected cdcConfig: CdcConfig,
+    protected cdcUserProfileAdapter: CdcUserProfileAdapter,
+    protected eventService: EventService,
     protected baseSiteService: BaseSiteService,
     protected languageService: LanguageService,
     protected scriptLoader: ScriptLoader,
@@ -38,6 +44,7 @@ export class CdcJsService implements OnDestroy {
     protected auth: AuthService,
     protected zone: NgZone,
     protected userProfileFacade: UserProfileFacade,
+    protected userIdService: UserIdService,
     @Inject(PLATFORM_ID) protected platform: any
   ) {}
 
@@ -167,7 +174,21 @@ export class CdcJsService implements OnDestroy {
       const userDetails: User = {};
       userDetails.firstName = response.profile.firstName;
       userDetails.lastName = response.profile.lastName;
-      this.userProfileFacade.update(userDetails);
+      //this.userProfileFacade.update(userDetails);
+      this.userIdService.takeUserId(true).subscribe(
+        (userId) =>{
+          this.cdcUserProfileAdapter.update(userId,userDetails).subscribe(
+            () => {
+              this.eventService.dispatch(
+                { user: userDetails },
+                UserAccountChangedEvent
+              );
+            }
+          );   
+        }
+      );
+          
+
     }
   }
 
