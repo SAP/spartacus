@@ -89,7 +89,7 @@ export class CartVoucherService {
     this.store.dispatch(new CartActions.CartResetAddVoucher());
   }
 
-  private combineUserAndCartId(cartId?: string): Observable<[string, string]> {
+  private combineUserAndCartId(cartId: string): Observable<[string, string]> {
     if (cartId) {
       return this.userIdService.getUserId().pipe(
         take(1),
