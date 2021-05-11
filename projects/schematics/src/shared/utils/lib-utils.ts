@@ -65,14 +65,10 @@ export interface FeatureConfig {
    */
   folderName: string;
   /**
-   * The feature name corresponds to the configuration feature name which is used if the `lazyModuleName` is not provided.
-   * Also used as a name of the generated feature module file.
+   * Used as the generated feature module's file name.
+   * Also, used as the lazy loading's feature name if the `lazyLoadingChunk` config is not provided.
    */
-  name: string;
-  /**
-   * The configuration name of the lazy loaded feature.
-   */
-  lazyModuleName?: string;
+  moduleName: string;
   /**
    * The feature module configuration.
    */
@@ -81,6 +77,10 @@ export interface FeatureConfig {
    * The root module configuration.
    */
   rootModule?: Module;
+  /**
+   * The lazy loading chunk's name. It's usually a constant imported from a library.
+   */
+  lazyLoadingChunk?: Import;
   /**
    * Translation chunk configuration
    */
@@ -244,7 +244,7 @@ function handleFeature<T extends LibraryOptions>(
     for (const tsconfigPath of buildPaths) {
       rules.push(
         ensureModuleExists({
-          name: `${config.name}-feature`,
+          name: `${dasherize(config.moduleName)}-feature`,
           path: `app/spartacus/features/${config.folderName}`,
           module: SPARTACUS_FEATURES_MODULE,
           project: options.project,
@@ -263,7 +263,7 @@ function addRootModule(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     if (!config.rootModule) {
       return tree;
@@ -271,11 +271,7 @@ function addRootModule(
 
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     for (const sourceFile of appSourceFiles) {
-      if (
-        sourceFile
-          .getFilePath()
-          .includes(`${dasherize(config.name)}-feature.module.ts`)
-      ) {
+      if (sourceFile.getFilePath().includes(createModuleFileName(config))) {
         addModuleImport(sourceFile, {
           import: {
             moduleSpecifier: config.rootModule.importPath,
@@ -296,13 +292,20 @@ function addFeatureModule(
   basePath: string,
   config: FeatureConfig,
   options: LibraryOptions
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (options.lazy) {
+          let lazyLoadingChunkName = config.moduleName;
+          if (config.lazyLoadingChunk) {
+            const content = config.lazyLoadingChunk.namedImports[0];
+            lazyLoadingChunkName = `[${content}]`;
+            sourceFile.addImportDeclaration(config.lazyLoadingChunk);
+          }
+
           addModuleProvider(sourceFile, {
             import: [
               {
@@ -312,11 +315,9 @@ function addFeatureModule(
             ],
             content: `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
               featureModules: {
-                ${config.lazyModuleName || config.name}: {
+                ${lazyLoadingChunkName}: {
                   module: () =>
-                    import('${
-                      config.featureModule.importPath
-                    }').then((m) => m.${config.featureModule.name}),
+                    import('${config.featureModule.importPath}').then((m) => m.${config.featureModule.name}),
                 },
               }
             })`,
@@ -342,10 +343,10 @@ function addFeatureTranslations(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.i18n) {
@@ -380,10 +381,10 @@ function addCustomConfig(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.customConfig) {
@@ -605,19 +606,15 @@ export function addPackageJsonDependenciesForLibrary<
 >(options: {
   packageJson: any;
   context: SchematicContext;
-  libraryPeerDependencies: Record<string, string>;
+  dependencies: Record<string, string>;
   options: OPTIONS;
 }): Rule {
-  const spartacusLibraries = createSpartacusDependencies(
-    options.libraryPeerDependencies
-  );
-  const thirdPartyDependencies = createDependencies(
-    options.libraryPeerDependencies
-  );
-  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
+  const spartacusLibraries = createSpartacusDependencies(options.dependencies);
+  const thirdPartyLibraries = createDependencies(options.dependencies);
+  const libraries = spartacusLibraries.concat(thirdPartyLibraries);
 
   const dependencyRule = addPackageJsonDependencies(
-    dependencies,
+    libraries,
     options.packageJson
   );
 
@@ -762,4 +759,8 @@ export function runExternalSpartacusLibrary(
       ),
     ])(tree, context);
   };
+}
+
+function createModuleFileName(config: FeatureConfig): string {
+  return `${dasherize(config.moduleName)}-feature.module.ts`;
 }

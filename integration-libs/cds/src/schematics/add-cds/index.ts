@@ -18,7 +18,7 @@ import {
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../../package.json';
-import { CDS_FOLDER_NAME, CDS_MODULE } from '../constants';
+import { CDS_FOLDER_NAME, CDS_MODULE, CDS_MODULE_NAME } from '../constants';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 export function addCdsFeature(options: SpartacusCdsOptions): Rule {
@@ -34,7 +34,7 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
       addPackageJsonDependenciesForLibrary({
         packageJson,
         context,
-        libraryPeerDependencies: peerDependencies,
+        dependencies: peerDependencies,
         options,
       }),
     ]);
@@ -101,7 +101,7 @@ function addCds(options: SpartacusCdsOptions): Rule {
     { ...options, lazy: false },
     {
       folderName: CDS_FOLDER_NAME,
-      name: CLI_CDS_FEATURE,
+      moduleName: CDS_MODULE_NAME,
       featureModule: {
         importPath: SPARTACUS_CDS,
         name: CDS_MODULE,
