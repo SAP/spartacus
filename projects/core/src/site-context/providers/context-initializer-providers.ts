@@ -1,21 +1,24 @@
 import { APP_INITIALIZER, Provider } from '@angular/core';
-import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
-import { CurrencyStatePersistenceService } from '../services/currency-state-persistence.service';
+import { BaseSiteInitializer } from '../services/base-site-initializer';
+import { CurrencyInitializer } from '../services/currency-initializer';
 import { LanguageInitializer } from '../services/language-initializer';
 
-export function currencyStatePersistenceFactory(
-  currencyPersistenceService: CurrencyStatePersistenceService,
-  configInit: ConfigInitializerService
-) {
-  const result = () =>
-    configInit.getStableConfig('context').then(() => {
-      currencyPersistenceService.initSync();
-    });
+export function initializeCurrency(currencyInitializer: CurrencyInitializer) {
+  const result = () => {
+    currencyInitializer.initialize();
+  };
   return result;
 }
 export function initializeLanguage(languageInitializer: LanguageInitializer) {
   const result = () => {
     languageInitializer.initialize();
+  };
+  return result;
+}
+
+export function initializeBaseSite(baseSiteInitializer: BaseSiteInitializer) {
+  const result = () => {
+    baseSiteInitializer.initialize();
   };
   return result;
 }
@@ -29,8 +32,14 @@ export const contextInitializerProviders: Provider[] = [
   },
   {
     provide: APP_INITIALIZER,
-    useFactory: currencyStatePersistenceFactory,
-    deps: [CurrencyStatePersistenceService, ConfigInitializerService],
+    useFactory: initializeCurrency,
+    deps: [CurrencyInitializer],
+    multi: true,
+  },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: initializeBaseSite,
+    deps: [BaseSiteInitializer],
     multi: true,
   },
 ];

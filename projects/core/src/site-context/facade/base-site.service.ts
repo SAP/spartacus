@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { BaseSite } from '../../model/misc.model';
-import { getContextParameterDefault } from '../config/context-config-utils';
+import { getContextParameterValues } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { BASE_SITE_CONTEXT_ID } from '../providers/context-ids';
 import { SiteContextActions } from '../store/actions/index';
@@ -75,20 +75,28 @@ export class BaseSiteService implements SiteContext<BaseSite> {
   }
 
   /**
-   * Initializes the active baseSite.
+   * Tells whether the value of the base site has been already initialized
    */
-  initialize(): void {
-    let value;
+  isInitialized(): boolean {
+    let valueInitialized = false;
     this.getActive()
-      .subscribe((val) => (value = val))
+      .subscribe(() => (valueInitialized = true))
       .unsubscribe();
-    if (value) {
-      // don't initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)
-      return;
-    }
 
-    this.setActive(
-      getContextParameterDefault(this.config, BASE_SITE_CONTEXT_ID)
+    return valueInitialized;
+  }
+
+  /**
+   * Tells whether the given iso code is allowed.
+   *
+   * The list of allowed iso codes can be configured in the `context` config of Spartacus.
+   */
+  protected isValid(value: string): boolean {
+    return (
+      !!value &&
+      getContextParameterValues(this.config, BASE_SITE_CONTEXT_ID).includes(
+        value
+      )
     );
   }
 }

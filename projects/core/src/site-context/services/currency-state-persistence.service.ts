@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable, ReplaySubject } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
-import {
-  getContextParameterDefault,
-  getContextParameterValues,
-} from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { CurrencyService } from '../facade/currency.service';
 import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
@@ -16,36 +13,25 @@ export class CurrencyStatePersistenceService {
     protected config: SiteContextConfig
   ) {}
 
-  public initSync() {
+  protected initialized$ = new ReplaySubject<unknown>(1);
+
+  public initSync(): Observable<unknown> {
     this.statePersistenceService.syncWithStorage({
       key: CURRENCY_CONTEXT_ID,
       state$: this.currencyService.getActive(),
       onRead: (state) => this.onRead(state),
     });
+    return this.initialized$;
   }
 
-  protected onRead(state: string): void {
-    let value;
-    this.currencyService
-      .getActive()
-      .subscribe((val) => (value = val))
-      .unsubscribe();
-    if (value) {
-      // don't initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)
-      return;
+  protected onRead(valueFromStorage: string): void {
+    if (!this.currencyService.isInitialized() && valueFromStorage) {
+      this.currencyService.setActive(valueFromStorage);
     }
 
-    if (
-      state &&
-      getContextParameterValues(this.config, CURRENCY_CONTEXT_ID).includes(
-        state
-      )
-    ) {
-      this.currencyService.setActive(state);
-    } else {
-      this.currencyService.setActive(
-        getContextParameterDefault(this.config, CURRENCY_CONTEXT_ID)
-      );
+    if (!this.initialized$.closed) {
+      this.initialized$.next();
+      this.initialized$.complete();
     }
   }
 }

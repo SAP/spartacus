@@ -7,7 +7,6 @@ import { LanguageService } from '../facade/language.service';
 import { SiteContextRoutesHandler } from '../services/site-context-routes-handler';
 
 export function initializeContext(
-  baseSiteService: BaseSiteService,
   configInit: ConfigInitializerService,
   siteContextRoutesHandler: SiteContextRoutesHandler
 ) {
@@ -17,7 +16,6 @@ export function initializeContext(
       .pipe(
         tap(() => {
           siteContextRoutesHandler.init();
-          baseSiteService.initialize();
         })
       )
       .toPromise();
@@ -31,7 +29,7 @@ export const contextServiceProviders: Provider[] = [
   {
     provide: APP_INITIALIZER,
     useFactory: initializeContext,
-    deps: [BaseSiteService, ConfigInitializerService, SiteContextRoutesHandler],
+    deps: [ConfigInitializerService, SiteContextRoutesHandler],
     multi: true,
   },
 ];
