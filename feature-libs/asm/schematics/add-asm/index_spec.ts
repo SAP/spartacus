@@ -153,7 +153,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
       it('should import AsmRootModule and contain the lazy loading syntax', async () => {
         const asmModule = appTree.readContent(asmFeatureModulePath);
         expect(asmModule).toContain(
-          `import { AsmRootModule } from "@spartacus/asm/root";`
+          `import { AsmRootModule, ASM_FEATURE } from "@spartacus/asm/root";`
         );
         expect(asmModule).toContain(`import('@spartacus/asm').then(`);
       });
