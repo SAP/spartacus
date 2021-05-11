@@ -125,7 +125,7 @@ export class ConfiguratorBasicEffects {
   > = this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_PRICE_SUMMARY),
     map(
-      (action: { type: string; payload?: Configurator.Configuration }) =>
+      (action: { type: string; payload: Configurator.Configuration }) =>
         action.payload
     ),
     mergeMap((payload) => {

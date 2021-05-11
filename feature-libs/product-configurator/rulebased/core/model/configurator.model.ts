@@ -58,7 +58,7 @@ export namespace Configurator {
     complete?: boolean;
     totalNumberOfIssues?: number;
     productCode?: string;
-    groups?: Group[];
+    groups: Group[];
     flatGroups?: Group[];
     priceSummary?: PriceSummary;
     overview?: Overview;
