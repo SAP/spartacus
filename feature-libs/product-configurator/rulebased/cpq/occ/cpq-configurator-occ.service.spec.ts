@@ -17,7 +17,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import {
   Configurator,
-  ConfiguratorComponentTestUtilsService,
+  ConfiguratorTestUtils,
 } from '@spartacus/product-configurator/rulebased';
 import {
   CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
@@ -57,7 +57,7 @@ describe('CpqConfigurationOccService', () => {
     cartId: documentId,
     cartEntryNumber: entryNumber.toString(),
     configuration: {
-      ...ConfiguratorComponentTestUtilsService.createConfiguration(configId, {
+      ...ConfiguratorTestUtils.createConfiguration(configId, {
         type: CommonConfigurator.OwnerType.CART_ENTRY,
         id: entryNumber.toString(),
         key: ConfiguratorModelUtils.getOwnerKey(

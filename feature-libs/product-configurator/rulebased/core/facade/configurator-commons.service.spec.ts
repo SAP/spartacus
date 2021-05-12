@@ -10,8 +10,8 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
 import { productConfigurationWithConflicts } from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
@@ -67,19 +67,16 @@ const group2: Configurator.Group = {
 };
 
 let productConfiguration: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(CONFIG_ID),
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID),
 };
 
 const productConfigurationProductBoundObsolete: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
-    CONFIG_ID,
-    OWNER_PRODUCT
-  ),
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_PRODUCT),
   nextOwner: OWNER_CART_ENTRY,
 };
 
 const productConfigurationChanged: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(CONFIG_ID),
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID),
 };
 
 const configurationState: ConfiguratorState = {
@@ -203,10 +200,7 @@ describe('ConfiguratorCommonsService', () => {
     );
 
     productConfiguration = {
-      ...ConfiguratorComponentTestUtilsService.createConfiguration(
-        CONFIG_ID,
-        OWNER_PRODUCT
-      ),
+      ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_PRODUCT),
       productCode: PRODUCT_CODE,
       groups: [group1, group2],
     };
@@ -385,7 +379,7 @@ describe('ConfiguratorCommonsService', () => {
 
     it('should not dispatch an action if overview is already present', (done) => {
       const configurationWithOverview: Configurator.Configuration = {
-        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+        ...ConfiguratorTestUtils.createConfiguration(
           CONFIG_ID,
           ConfiguratorModelUtils.createInitialOwner()
         ),

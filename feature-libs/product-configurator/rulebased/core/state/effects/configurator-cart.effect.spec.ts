@@ -17,7 +17,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { ConfiguratorComponentTestUtilsService } from '../../../shared/testing/configurator-component-test-utils.service';
+import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
 import { Configurator } from '../../model/configurator.model';
@@ -46,7 +46,7 @@ const owner: CommonConfigurator.Owner = {
 };
 
 const productConfiguration: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration('a', owner),
+  ...ConfiguratorTestUtils.createConfiguration('a', owner),
   productCode: productCode,
   complete: true,
   consistent: true,
@@ -66,9 +66,7 @@ const productConfiguration: Configurator.Configuration = {
   },
   groups: [{ id: groupId, attributes: [{ name: 'attrName' }], subGroups: [] }],
 };
-ConfiguratorComponentTestUtilsService.freezeProductConfiguration(
-  productConfiguration
-);
+ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
 
 let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters;
 

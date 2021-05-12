@@ -4,7 +4,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../rulebased/core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from './configurator-component-test-utils.service';
+import { ConfiguratorTestUtils } from './configurator-test-utils';
 
 export const PRODUCT_CODE = 'CONF_LAPTOP';
 export const CONFIGURATOR_TYPE = ConfiguratorType.VARIANT;
@@ -54,7 +54,7 @@ const groupsWithoutIssues: Configurator.Group = {
   subGroups: [],
 };
 export const productConfigurationWithoutIssues: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+  ...ConfiguratorTestUtils.createConfiguration(
     CONFIG_ID,
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,

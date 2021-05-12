@@ -2,7 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   Configurator,
-  ConfiguratorComponentTestUtilsService,
+  ConfiguratorTestUtils,
 } from '@spartacus/product-configurator/rulebased';
 import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common';
 import { Cpq } from '../cpq.models';
@@ -129,7 +129,7 @@ const groups: Configurator.Group[] = [
 ];
 
 const configuration: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+  ...ConfiguratorTestUtils.createConfiguration(
     configId,
     ConfiguratorModelUtils.createInitialOwner()
   ),

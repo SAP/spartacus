@@ -17,12 +17,12 @@ import { TestScheduler } from 'rxjs/testing';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
 import {
   GROUP_ID_1,
   PRODUCT_CODE,
 } from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
@@ -58,7 +58,7 @@ const groups: Configurator.Group = {
 };
 
 const configWithoutGroups: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+  ...ConfiguratorTestUtils.createConfiguration(
     'CONFIG_ID',
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,

@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import {
   Configurator,
-  ConfiguratorComponentTestUtilsService,
+  ConfiguratorTestUtils,
 } from '@spartacus/product-configurator/rulebased';
 import { OccConfiguratorCpqUpdateCartEntrySerializer } from './occ-configurator-cpq-update-cart-entry-serializer';
 
@@ -19,7 +19,7 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
     userId: USER_ID,
     cartId: CART_ID,
     configuration: {
-      ...ConfiguratorComponentTestUtilsService.createConfiguration(
+      ...ConfiguratorTestUtils.createConfiguration(
         CONFIG_ID,
         ConfiguratorModelUtils.createInitialOwner()
       ),

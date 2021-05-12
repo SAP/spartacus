@@ -12,7 +12,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -29,7 +29,7 @@ const mockRouterState: any = {
 };
 
 const config: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+  ...ConfiguratorTestUtils.createConfiguration(
     '1234-56-7890',
     ConfiguratorModelUtils.createInitialOwner()
   ),

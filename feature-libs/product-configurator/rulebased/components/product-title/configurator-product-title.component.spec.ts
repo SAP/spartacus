@@ -23,7 +23,7 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -42,7 +42,7 @@ const mockRouterState: any = {
 };
 
 const config: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+  ...ConfiguratorTestUtils.createConfiguration(
     CONFIG_ID,
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
@@ -54,7 +54,7 @@ const config: Configurator.Configuration = {
 };
 
 const orderEntryconfig: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+  ...ConfiguratorTestUtils.createConfiguration(
     CONFIG_ID,
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.ORDER_ENTRY,
@@ -67,7 +67,7 @@ const orderEntryconfig: Configurator.Configuration = {
 };
 
 const orderEntryconfigWoOverview: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(CONFIG_ID, {
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.ORDER_ENTRY,
     key: ConfiguratorModelUtils.getOwnerKey(

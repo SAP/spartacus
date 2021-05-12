@@ -9,7 +9,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import {
   Configurator,
-  ConfiguratorComponentTestUtilsService,
+  ConfiguratorTestUtils,
 } from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
 import { CpqConfiguratorOccService } from './../occ/cpq-configurator-occ.service';
@@ -32,14 +32,14 @@ const owner: CommonConfigurator.Owner = {
 };
 
 const productConfiguration: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(configId, owner),
+  ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   productCode: productCode,
 };
 
 const groupId = '123';
 
 const inputForUpdateConfiguration: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(configId, owner),
+  ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   productCode: productCode,
 };
 
@@ -56,10 +56,7 @@ const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters =
   userId: userId,
   cartId: documentId,
   cartEntryNumber: '3',
-  configuration: ConfiguratorComponentTestUtilsService.createConfiguration(
-    configId,
-    owner
-  ),
+  configuration: ConfiguratorTestUtils.createConfiguration(configId, owner),
 };
 
 const cartResponse: CartModification = {

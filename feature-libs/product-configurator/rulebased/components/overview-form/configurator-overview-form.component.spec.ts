@@ -13,8 +13,8 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
@@ -24,18 +24,15 @@ const mockRouterState: any = ConfigurationTestData.mockRouterState;
 const configId = '1234-56-7890';
 
 const configCreate: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(configId, owner),
+  ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   overview: ConfigurationTestData.productConfiguration.overview,
 };
 const configCreate2: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
-    '1234-11111',
-    owner
-  ),
+  ...ConfiguratorTestUtils.createConfiguration('1234-11111', owner),
   overview: ConfigurationTestData.productConfiguration.overview,
 };
 const configInitial: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(configId, owner),
+  ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   overview: {
     groups: [],
   },
@@ -196,7 +193,7 @@ describe('ConfigurationOverviewFormComponent', () => {
   it('should detect that a configuration w/o groups has no attributes', () => {
     initialize();
     const configWOOverviewGroups: Configurator.Configuration = {
-      ...ConfiguratorComponentTestUtilsService.createConfiguration(
+      ...ConfiguratorTestUtils.createConfiguration(
         configId,
         ConfiguratorModelUtils.createInitialOwner()
       ),
@@ -208,7 +205,7 @@ describe('ConfigurationOverviewFormComponent', () => {
   it('should detect that a configuration w/o groups that carry attributes does not provide OV attributes', () => {
     initialize();
     const configWOOverviewAttributes: Configurator.Configuration = {
-      ...ConfiguratorComponentTestUtilsService.createConfiguration(
+      ...ConfiguratorTestUtils.createConfiguration(
         configId,
         ConfiguratorModelUtils.createInitialOwner()
       ),

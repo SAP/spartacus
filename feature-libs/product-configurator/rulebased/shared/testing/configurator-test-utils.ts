@@ -8,7 +8,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model';
 
-export class ConfiguratorComponentTestUtilsService {
+export class ConfiguratorTestUtils {
   /**
    * Deep freezes a product configuration, used for testing purposed to ensure test
    * data behaves read-only

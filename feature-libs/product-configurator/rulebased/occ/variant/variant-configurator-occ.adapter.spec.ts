@@ -20,7 +20,7 @@ import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
 import { VariantConfiguratorOccAdapter } from '.';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
 import { OccConfiguratorVariantOverviewNormalizer } from './converters/occ-configurator-variant-overview-normalizer';
 import { OccConfiguratorVariantPriceSummaryNormalizer } from './converters/occ-configurator-variant-price-summary-normalizer';
@@ -54,7 +54,7 @@ const userId = 'Anony';
 const documentId = '82736353';
 
 const productConfiguration: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+  ...ConfiguratorTestUtils.createConfiguration(
     configId,
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,
@@ -75,7 +75,7 @@ const pricesOcc: OccConfigurator.Prices = {
 };
 
 const productConfigurationForCartEntry: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+  ...ConfiguratorTestUtils.createConfiguration(
     configId,
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.CART_ENTRY,

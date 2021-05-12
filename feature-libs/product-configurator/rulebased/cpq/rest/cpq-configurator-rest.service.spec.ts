@@ -7,7 +7,7 @@ import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import {
   Configurator,
-  ConfiguratorComponentTestUtilsService,
+  ConfiguratorTestUtils,
 } from '@spartacus/product-configurator/rulebased';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import {
@@ -91,7 +91,7 @@ const configUpdateResponse = {};
 const attrCode = '111';
 const attrValueId = 'abc';
 const configuration: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+  ...ConfiguratorTestUtils.createConfiguration(
     configId,
     ConfiguratorModelUtils.createInitialOwner()
   ),

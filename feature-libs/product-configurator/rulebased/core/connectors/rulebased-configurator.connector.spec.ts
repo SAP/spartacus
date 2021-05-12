@@ -7,7 +7,7 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
-import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 import { RulebasedConfiguratorConnector } from './rulebased-configurator.connector';
@@ -21,7 +21,7 @@ const CART_ID = '98876';
 const CONFIGURATOR_TYPE = 'cpqconfig';
 
 const productConfiguration: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
+  ...ConfiguratorTestUtils.createConfiguration(
     CONFIG_ID,
     ConfiguratorModelUtils.createOwner(
       CommonConfigurator.OwnerType.PRODUCT,

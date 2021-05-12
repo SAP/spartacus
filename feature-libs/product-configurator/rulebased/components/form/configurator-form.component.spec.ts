@@ -19,8 +19,8 @@ import { EMPTY, Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from '../../shared/testing/configurator-component-test-utils.service';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorAttributeFooterComponent } from '../attribute/footer/configurator-attribute-footer.component';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.component';
@@ -55,7 +55,7 @@ const owner = ConfiguratorModelUtils.createOwner(
 const groups = ConfigurationTestData.productConfiguration.groups;
 
 const configRead: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration('a', owner),
+  ...ConfiguratorTestUtils.createConfiguration('a', owner),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
@@ -63,7 +63,7 @@ const configRead: Configurator.Configuration = {
 };
 
 const configRead2: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration('b', owner),
+  ...ConfiguratorTestUtils.createConfiguration('b', owner),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,

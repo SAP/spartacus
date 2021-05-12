@@ -6,7 +6,7 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { ConfiguratorComponentTestUtilsService } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-component-test-utils.service';
+import { ConfiguratorTestUtils } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions';
 import {
@@ -21,13 +21,13 @@ describe('Configurator selectors', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   const productCode = 'CONF_LAPTOP';
   let owner = ConfiguratorModelUtils.createInitialOwner();
-  let configuration: Configurator.Configuration = ConfiguratorComponentTestUtilsService.createConfiguration(
+  let configuration: Configurator.Configuration = ConfiguratorTestUtils.createConfiguration(
     'a',
     owner
   );
 
   const configurationWithInteractionState: Configurator.Configuration = {
-    ...ConfiguratorComponentTestUtilsService.createConfiguration('a', owner),
+    ...ConfiguratorTestUtils.createConfiguration('a', owner),
     interactionState: {
       currentGroup: undefined,
       groupsVisited: {},
@@ -59,7 +59,7 @@ describe('Configurator selectors', () => {
     );
 
     configuration = {
-      ...ConfiguratorComponentTestUtilsService.createConfiguration('a', owner),
+      ...ConfiguratorTestUtils.createConfiguration('a', owner),
       productCode: productCode,
     };
 

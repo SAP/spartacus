@@ -1,7 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
-import { ConfiguratorComponentTestUtilsService } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorTestUtils } from '@spartacus/product-configurator/rulebased';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 import { OccConfiguratorVariantSerializer } from './occ-configurator-variant-serializer';
@@ -20,7 +20,7 @@ describe('OccConfiguratorVariantSerializer', () => {
   };
 
   const sourceConfiguration: Configurator.Configuration = {
-    ...ConfiguratorComponentTestUtilsService.createConfiguration(
+    ...ConfiguratorTestUtils.createConfiguration(
       '1234-56-7890',
       ConfiguratorModelUtils.createInitialOwner()
     ),

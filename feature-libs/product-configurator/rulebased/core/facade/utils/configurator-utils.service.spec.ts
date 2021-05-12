@@ -7,8 +7,8 @@ import {
   GROUP_ID_2,
   productConfiguration,
 } from '../../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
-import { ConfiguratorComponentTestUtilsService } from './../../../shared/testing/configurator-component-test-utils.service';
 import { ConfiguratorUtilsService } from './configurator-utils.service';
 
 const CONFIG_ID = '1234-56-7890';
@@ -84,10 +84,7 @@ const group4: Configurator.Group = {
 };
 
 const productConfigurationMultiLevel: Configurator.Configuration = {
-  ...ConfiguratorComponentTestUtilsService.createConfiguration(
-    CONFIG_ID,
-    OWNER_PRODUCT
-  ),
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_PRODUCT),
   productCode: PRODUCT_CODE,
   groups: [group4],
 };
@@ -169,7 +166,7 @@ describe('ConfiguratorGroupUtilsService', () => {
     });
     it('should tell from config ID', () => {
       const configuration: Configurator.Configuration = {
-        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+        ...ConfiguratorTestUtils.createConfiguration(
           'a',
           ConfiguratorModelUtils.createInitialOwner()
         ),
@@ -179,7 +176,7 @@ describe('ConfiguratorGroupUtilsService', () => {
     });
     it('should tell from blank config ID', () => {
       const configuration: Configurator.Configuration = {
-        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+        ...ConfiguratorTestUtils.createConfiguration(
           '',
           ConfiguratorModelUtils.createInitialOwner()
         ),
@@ -189,7 +186,7 @@ describe('ConfiguratorGroupUtilsService', () => {
     });
     it('should know that config is not created in case the groups are not defined', () => {
       const configuration: Configurator.Configuration = {
-        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+        ...ConfiguratorTestUtils.createConfiguration(
           'a',
           ConfiguratorModelUtils.createInitialOwner()
         ),
@@ -198,7 +195,7 @@ describe('ConfiguratorGroupUtilsService', () => {
     });
     it('should know that config is created in case the groups are not defined but the overview aspect exists due to an order history read', () => {
       const configuration: Configurator.Configuration = {
-        ...ConfiguratorComponentTestUtilsService.createConfiguration(
+        ...ConfiguratorTestUtils.createConfiguration(
           'a',
           ConfiguratorModelUtils.createInitialOwner()
         ),
