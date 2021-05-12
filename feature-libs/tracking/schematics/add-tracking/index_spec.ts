@@ -107,6 +107,25 @@ describe('Spartacus Tracking schematics: ng-add', () => {
       expect(appTree.exists(personalizationModulePath)).toBeFalsy();
       expect(appTree.exists(tagManagementModulePath)).toBeFalsy();
     });
+
+    it('should install necessary Spartacus libraries', () => {
+      const packageJsonContent = appTree.readContent('package.json');
+      const dependencies = JSON.parse(packageJsonContent).dependencies;
+
+      for (const toAdd in peerDependencies) {
+        if (!dependencies.hasOwnProperty(toAdd)) {
+          continue;
+        }
+        // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+        // const expectedVersion = (peerDependencies as Record<
+        //   string,
+        //   string
+        // >)[toAdd];
+        const expectedDependency = dependencies[toAdd];
+        expect(expectedDependency).toBeTruthy();
+        // expect(expectedDependency).toEqual(expectedVersion);
+      }
+    });
   });
 
   describe('Personalization feature', () => {
@@ -115,25 +134,6 @@ describe('Spartacus Tracking schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
-      });
-
-      it('should install necessary Spartacus libraries', () => {
-        const packageJsonContent = appTree.readContent('package.json');
-        const dependencies = JSON.parse(packageJsonContent).dependencies;
-
-        for (const toAdd in peerDependencies) {
-          if (!dependencies.hasOwnProperty(toAdd)) {
-            continue;
-          }
-          // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
-          // const expectedVersion = (peerDependencies as Record<
-          //   string,
-          //   string
-          // >)[toAdd];
-          const expectedDependency = dependencies[toAdd];
-          expect(expectedDependency).toBeTruthy();
-          // expect(expectedDependency).toEqual(expectedVersion);
-        }
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
@@ -177,25 +177,6 @@ describe('Spartacus Tracking schematics: ng-add', () => {
           .toPromise();
       });
       describe('general setup', () => {
-        it('should install necessary Spartacus libraries', () => {
-          const packageJsonContent = appTree.readContent('package.json');
-          const dependencies = JSON.parse(packageJsonContent).dependencies;
-
-          for (const toAdd in peerDependencies) {
-            if (!dependencies.hasOwnProperty(toAdd)) {
-              continue;
-            }
-            // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
-            // const expectedVersion = (peerDependencies as Record<
-            //   string,
-            //   string
-            // >)[toAdd];
-            const expectedDependency = dependencies[toAdd];
-            expect(expectedDependency).toBeTruthy();
-            // expect(expectedDependency).toEqual(expectedVersion);
-          }
-        });
-
         it('should import appropriate modules (without lazy loaded syntax)', async () => {
           const tagManagementModule = appTree.readContent(
             tagManagementModulePath
@@ -220,25 +201,6 @@ describe('Spartacus Tracking schematics: ng-add', () => {
       });
 
       describe('general setup', () => {
-        it('should install necessary Spartacus libraries', () => {
-          const packageJsonContent = appTree.readContent('package.json');
-          const dependencies = JSON.parse(packageJsonContent).dependencies;
-
-          for (const toAdd in peerDependencies) {
-            if (!dependencies.hasOwnProperty(toAdd)) {
-              continue;
-            }
-            // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
-            // const expectedVersion = (peerDependencies as Record<
-            //   string,
-            //   string
-            // >)[toAdd];
-            const expectedDependency = dependencies[toAdd];
-            expect(expectedDependency).toBeTruthy();
-            // expect(expectedDependency).toEqual(expectedVersion);
-          }
-        });
-
         it('should import appropriate modules (without lazy loaded syntax)', async () => {
           const tagManagementModule = appTree.readContent(
             tagManagementModulePath
@@ -263,25 +225,6 @@ describe('Spartacus Tracking schematics: ng-add', () => {
       });
 
       describe('general setup', () => {
-        it('should install necessary Spartacus libraries', () => {
-          const packageJsonContent = appTree.readContent('package.json');
-          const dependencies = JSON.parse(packageJsonContent).dependencies;
-
-          for (const toAdd in peerDependencies) {
-            if (!dependencies.hasOwnProperty(toAdd)) {
-              continue;
-            }
-            // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
-            // const expectedVersion = (peerDependencies as Record<
-            //   string,
-            //   string
-            // >)[toAdd];
-            const expectedDependency = dependencies[toAdd];
-            expect(expectedDependency).toBeTruthy();
-            // expect(expectedDependency).toEqual(expectedVersion);
-          }
-        });
-
         it('should import appropriate modules (without lazy loaded syntax)', async () => {
           const tagManagementModule = appTree.readContent(
             tagManagementModulePath

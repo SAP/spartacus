@@ -100,6 +100,25 @@ describe('Spartacus Asm schematics: ng-add', () => {
     it('should not create any of the feature modules', () => {
       expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
+
+    it('should install necessary Spartacus libraries', () => {
+      const packageJsonContent = appTree.readContent('package.json');
+      const dependencies = JSON.parse(packageJsonContent).dependencies;
+
+      for (const toAdd in peerDependencies) {
+        if (!dependencies.hasOwnProperty(toAdd)) {
+          continue;
+        }
+        // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+        // const expectedVersion = (peerDependencies as Record<
+        //   string,
+        //   string
+        // >)[toAdd];
+        const expectedDependency = dependencies[toAdd];
+        expect(expectedDependency).toBeTruthy();
+        // expect(expectedDependency).toEqual(expectedVersion);
+      }
+    });
   });
 
   describe('Asm feature', () => {
@@ -108,25 +127,6 @@ describe('Spartacus Asm schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
           .toPromise();
-      });
-
-      it('should install necessary Spartacus libraries', () => {
-        const packageJsonContent = appTree.readContent('package.json');
-        const dependencies = JSON.parse(packageJsonContent).dependencies;
-
-        for (const toAdd in peerDependencies) {
-          if (!dependencies.hasOwnProperty(toAdd)) {
-            continue;
-          }
-          // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
-          // const expectedVersion = (peerDependencies as Record<
-          //   string,
-          //   string
-          // >)[toAdd];
-          const expectedDependency = dependencies[toAdd];
-          expect(expectedDependency).toBeTruthy();
-          // expect(expectedDependency).toEqual(expectedVersion);
-        }
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
