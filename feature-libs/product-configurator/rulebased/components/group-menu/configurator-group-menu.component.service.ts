@@ -10,7 +10,7 @@ export class ConfiguratorGroupMenuService {
     protected breakpointService?: BreakpointService
   ) {}
 
-  protected getTabs() {
+  protected getGroups(): NodeListOf<HTMLElement> {
     if (isPlatformBrowser(this.platformId)) {
       let selector = ' cx-configurator-group-menu button[role="tab"]';
       if (this.breakpointService?.isUp(BREAKPOINT.lg)) {
@@ -18,99 +18,89 @@ export class ConfiguratorGroupMenuService {
       } else {
         selector = '.navigation' + selector;
       }
-      return this.document.querySelectorAll(selector);
+      return document.querySelectorAll(selector);
     }
   }
 
-  protected getFocusedElementTabIndex(tabs): number {
+  protected getFocusedGroupIndex(groups): number | undefined {
     if (isPlatformBrowser(this.platformId)) {
-      let focusedElement = this.document.activeElement;
+      let focusedElement = document.activeElement;
       let focusedElementId = focusedElement.id;
-      for (let index = 0; index < tabs.length; index++) {
-        if (tabs[index].id === focusedElementId) {
-          return index;
+      if (groups) {
+        for (let index = 0; index < groups.length; index++) {
+          if (groups[index].id === focusedElementId) {
+            return index;
+          }
         }
       }
       return undefined;
     }
   }
 
-  protected updateCurrentTabIndex(
-    currentTabIndex: number,
-    tabIndex: number
+  protected updateCurrentGroupIndex(
+    currentGroupIndex: number,
+    groupIndex: number
   ): number {
-    return tabIndex !== currentTabIndex ? tabIndex : currentTabIndex;
+    return groupIndex !== currentGroupIndex ? groupIndex : currentGroupIndex;
   }
 
-  protected focusNextTab(currentTabIndex: number): void {
+  protected focusNextGroup(currentGroupIndex: number): void {
     if (isPlatformBrowser(this.platformId)) {
-      const tabs = this.getTabs();
-      const tabIndex = this.getFocusedElementTabIndex(tabs);
-      currentTabIndex = this.updateCurrentTabIndex(currentTabIndex, tabIndex);
+      const groups = this.getGroups();
+      const groupIndex = this.getFocusedGroupIndex(groups);
+      currentGroupIndex = this.updateCurrentGroupIndex(
+        currentGroupIndex,
+        groupIndex
+      );
 
-      if (
-        currentTabIndex === tabs.length - 1 ||
-        (tabIndex !== currentTabIndex && currentTabIndex === tabs.length - 2)
-      ) {
-        tabs[0].focus();
-      } else {
-        tabs[currentTabIndex + 1].focus();
+      if (groups) {
+        if (
+          currentGroupIndex === groups?.length - 1 ||
+          (groupIndex &&
+            groupIndex !== currentGroupIndex &&
+            currentGroupIndex === groups?.length - 2)
+        ) {
+          groups[0]?.focus();
+        } else {
+          groups[currentGroupIndex + 1]?.focus();
+        }
       }
     }
   }
 
-  protected focusPreviousTab(currentTabIndex: number): void {
+  protected focusPreviousGroup(currentGroupIndex: number): void {
     if (isPlatformBrowser(this.platformId)) {
-      const tabs = this.getTabs();
-      const tabIndex = this.getFocusedElementTabIndex(tabs);
-      currentTabIndex = this.updateCurrentTabIndex(currentTabIndex, tabIndex);
+      const groups = this.getGroups();
+      const groupIndex = this.getFocusedGroupIndex(groups);
+      currentGroupIndex = this.updateCurrentGroupIndex(
+        currentGroupIndex,
+        groupIndex
+      );
 
-      if (currentTabIndex === 0) {
-        tabs[tabs.length - 1].focus();
+      if (currentGroupIndex === 0) {
+        groups[groups?.length - 1]?.focus();
       } else {
-        tabs[currentTabIndex - 1].focus();
+        groups[currentGroupIndex - 1]?.focus();
       }
     }
   }
 
-  switchTabOnArrowPress(event: KeyboardEvent, groupIndex: number): void {
+  switchGroupOnArrowPress(event: KeyboardEvent, groupIndex: number): void {
     if (isPlatformBrowser(this.platformId)) {
       event.preventDefault();
-      if (event.key === 'ArrowUp') {
-        this.focusPreviousTab(groupIndex);
-      } else if (event.key == 'ArrowDown') {
-        this.focusNextTab(groupIndex);
+      if (event.code === 'ArrowUp') {
+        this.focusPreviousGroup(groupIndex);
+      } else if (event.code == 'ArrowDown') {
+        this.focusNextGroup(groupIndex);
       }
-    }
-  }
-
-  protected deactivateTabs(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const tabs = this.getTabs();
-      for (let t = 0; t < tabs.length; t++) {
-        tabs[t].setAttribute('tabindex', '-1');
-        tabs[t].setAttribute('aria-selected', 'false');
-      }
-    }
-  }
-
-  activateTab(tab: HTMLElement, elementId?: string): void {
-    if (isPlatformBrowser(this.platformId)) {
-      if (!tab) {
-        tab = document.querySelector(elementId);
-      }
-      this.deactivateTabs();
-      tab.setAttribute('tabindex', '0');
-      tab.setAttribute('aria-selected', 'true');
-      tab.focus();
     }
   }
 
   isBackBtnFocused(): boolean {
     if (isPlatformBrowser(this.platformId)) {
-      const tabs = this.getTabs();
+      const groups = this.getGroups();
       return (
-        tabs[0].id === 'back-button' && this.document.activeElement === tabs[0]
+        groups[0].id === 'back-button' && document.activeElement === groups[0]
       );
     }
   }

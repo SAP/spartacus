@@ -292,13 +292,13 @@ export class ConfiguratorGroupMenuComponent {
    *
    * @param {KeyboardEvent} event - Keyboard event
    */
-  switchTabOnArrowPress(
+  switchGroupOnArrowPress(
     event: KeyboardEvent,
     groupIndex: number,
     group?: Configurator.Group
   ): void {
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
-      this.configGroupMenuService.switchTabOnArrowPress(event, groupIndex);
+      this.configGroupMenuService.switchGroupOnArrowPress(event, groupIndex);
     } else if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
       if (this.configGroupMenuService.isBackBtnFocused()) {
         this.navigateUp();

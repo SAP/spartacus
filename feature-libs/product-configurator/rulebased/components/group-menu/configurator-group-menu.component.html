@@ -12,7 +12,7 @@
               [attr.aria-selected]="false"
               [cxFocus]="{ autofocus: true }"
               (click)="navigateUp()"
-              (keydown)="switchTabOnArrowPress($event, groupIndex, group)"
+              (keydown)="switchGroupOnArrowPress($event, groupIndex, group)"
             >
               <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
               {{ 'configurator.button.back' | cxTranslate }}
@@ -31,7 +31,7 @@
             [cxFocus]="{ key: group.id }"
             (click)="click(group)"
             [tabindex]="setTabIndex(currentGroup.id, group)"
-            (keydown)="switchTabOnArrowPress($event, groupIndex, group)"
+            (keydown)="switchGroupOnArrowPress($event, groupIndex, group)"
           >
             <span title="{{ group.description }}">{{ group.description }}</span>
             <div class="groupIndicators">
