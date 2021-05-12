@@ -187,12 +187,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.backToAddress.emit();
   }
 
-  /* TODO GH-12192: Undo this temporarry hack */
-  verifyAddress_(): void {
-    // emulate 100% verification success
-    this.submitAddress.emit(this.addressForm.value);
-  }
-
   verifyAddress(): void {
     if (this.addressForm.valid) {
       if (this.addressForm.get('region').value.isocode) {
