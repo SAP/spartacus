@@ -127,37 +127,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       })
     );
 
-    // verify the new added address
-    this.addressVerifySub = this.userAddressService
-      .getAddressVerificationResults()
-      .subscribe((results: AddressValidation) => {
-        if (results.decision === 'FAIL') {
-          this.userAddressService.clearAddressVerificationResults();
-        } else if (results.decision === 'ACCEPT') {
-          this.submitAddress.emit(this.addressForm.value);
-        } else if (results.decision === 'REJECT') {
-          // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
-          if (
-            results.errors.errors.some(
-              (error: ErrorModel) => error.subject === 'titleCode'
-            )
-          ) {
-            this.globalMessageService.add(
-              { key: 'addressForm.titleRequired' },
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-          } else {
-            this.globalMessageService.add(
-              { key: 'addressForm.invalidAddress' },
-              GlobalMessageType.MSG_TYPE_ERROR
-            );
-          }
-          this.userAddressService.clearAddressVerificationResults();
-        } else if (results.decision === 'REVIEW') {
-          this.openSuggestedAddress(results);
-        }
-      });
-
     if (this.addressData && Object.keys(this.addressData).length !== 0) {
       this.addressForm.patchValue(this.addressData);
 
@@ -168,6 +137,34 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     }
 
     this.addresses$ = this.userAddressService.getAddresses();
+  }
+
+  protected handleAddressVerificationResults(results: AddressValidation) {
+    if (results.decision === 'FAIL') {
+      this.userAddressService.clearAddressVerificationResults();
+    } else if (results.decision === 'ACCEPT') {
+      this.submitAddress.emit(this.addressForm.value);
+    } else if (results.decision === 'REJECT') {
+      // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
+      if (
+        results.errors.errors.some(
+          (error: ErrorModel) => error.subject === 'titleCode'
+        )
+      ) {
+        this.globalMessageService.add(
+          { key: 'addressForm.titleRequired' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      } else {
+        this.globalMessageService.add(
+          { key: 'addressForm.invalidAddress' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      }
+      this.userAddressService.clearAddressVerificationResults();
+    } else if (results.decision === 'REVIEW') {
+      this.openSuggestedAddress(results);
+    }
   }
 
   countrySelected(country: Country): void {
@@ -215,7 +212,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       }
 
       if (this.addressForm.dirty) {
-        this.userAddressService.verifyAddress(this.addressForm.value);
+        this.userAddressService
+          .verifyAddress(this.addressForm.value)
+          .pipe(take(1))
+          .subscribe((result) => {
+            this.handleAddressVerificationResults(result);
+          });
       } else {
         // address form value not changed
         // ignore duplicate address

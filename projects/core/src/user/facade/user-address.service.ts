@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   Address,
@@ -10,6 +10,11 @@ import {
   Region,
 } from '../../model/address.model';
 import { StateWithProcess } from '../../process/store/process-state';
+import {
+  Command,
+  CommandService,
+} from '../../util/command-query/command.service';
+import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
@@ -20,7 +25,9 @@ import { StateWithUser } from '../store/user-state';
 export class UserAddressService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected command: CommandService, //TODO GH-12192 - handle constructor deprecation
+    protected userAddressConnector: UserAddressConnector
   ) {}
 
   /**
@@ -180,20 +187,8 @@ export class UserAddressService {
    * Verifies the address
    * @param address : the address to be verified
    */
-  verifyAddress(address: Address): void {
-    let userId;
-    this.userIdService
-      .getUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
-    if (userId) {
-      this.store.dispatch(
-        new UserActions.VerifyUserAddress({
-          userId,
-          address,
-        })
-      );
-    }
+  verifyAddress(address: Address): Observable<AddressValidation> {
+    return this.userAddressVerificationCommand.execute({ address });
   }
   /**
    * Get address verification results
@@ -210,4 +205,19 @@ export class UserAddressService {
   clearAddressVerificationResults(): void {
     this.store.dispatch(new UserActions.ClearUserAddressVerificationResults());
   }
+
+  protected userAddressVerificationCommand: Command<
+    {
+      address: Address;
+    },
+    AddressValidation
+  > = this.command.create((payload) =>
+    this.userIdService
+      .takeUserId(false)
+      .pipe(
+        switchMap((userId) =>
+          this.userAddressConnector.verify(userId, payload.address)
+        )
+      )
+  );
 }
