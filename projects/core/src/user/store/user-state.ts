@@ -1,9 +1,4 @@
-import {
-  Address,
-  AddressValidation,
-  Country,
-  Region,
-} from '../../model/address.model';
+import { Address, Country, Region } from '../../model/address.model';
 import { PaymentDetails } from '../../model/cart.model';
 import { ConsentTemplate } from '../../model/consent.model';
 import { ConsignmentTracking } from '../../model/consignment-tracking.model';
@@ -89,7 +84,6 @@ export interface UserState {
   productInterests: StateUtils.LoaderState<ProductInterestSearchResult>;
   costCenters: StateUtils.LoaderState<CostCenter[]>;
   replenishmentOrder: StateUtils.LoaderState<ReplenishmentOrder>;
-  addressVerification: UserAddressVerificationState;
 }
 
 export interface RegionsState {
@@ -127,8 +121,4 @@ export interface UserDetailsState {
 
 export interface ConsignmentTrackingState {
   tracking?: ConsignmentTracking;
-}
-
-export interface UserAddressVerificationState {
-  results: AddressValidation | string;
 }

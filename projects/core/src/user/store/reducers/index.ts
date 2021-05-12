@@ -61,7 +61,6 @@ import * as fromCostCenterReducer from './user-cost-center.reducer';
 import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
 import * as fromUserReplenishmentOrdersReducer from './user-replenishment-orders.reducer';
-import * as fromUserAddressVerificationReducer from './user-address-verification.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
@@ -123,7 +122,6 @@ export function getReducers(): ActionReducerMap<UserState> {
       USER_REPLENISHMENT_ORDER_DETAILS,
       fromReplenishmentOrderDetailsReducer.reducer
     ),
-    addressVerification: fromUserAddressVerificationReducer.reducer,
   };
 }
 

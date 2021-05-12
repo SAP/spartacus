@@ -12,7 +12,6 @@ export * from './regions.selectors';
 export * from './replenishment-order-details.selectors';
 export * from './reset-password.selectors';
 export * from './titles.selectors';
-export * from './user-address-verification.selectors';
 export * from './user-addresses.selectors';
 export * from './user-consents.selectors';
 export * from './user-cost-center.selectors';
