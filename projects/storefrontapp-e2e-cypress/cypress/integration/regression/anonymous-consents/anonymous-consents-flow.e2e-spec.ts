@@ -1,7 +1,6 @@
 import {
   changeLanguageTest,
   giveRegistrationConsentTest,
-  moveAnonymousUserToLoggedInUser,
   movingFromAnonymousToRegisteredUser,
   sessionLogin,
   testAsLoggedInUser,
@@ -17,16 +16,17 @@ const ANONYMOUS_OPEN_DIALOG = 'cx-anonymous-consent-open-dialog';
 const ANONYMOUS_DIALOG = 'cx-anonymous-consent-dialog';
 
 context('Anonymous consents flow', () => {
-  describe('As anonymous user', () => {
-    before(() => {
-      cy.window().then((win) => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-      cy.visit('/');
+  beforeEach(() => {
+    cy.window().then((win) => {
+      win.sessionStorage.clear();
+      win.localStorage.clear();
     });
+  });
 
+  describe('As an anonymous user', () => {
     it('should accept anonymous consents', () => {
+      cy.visit('/');
+
       cy.get(ANONYMOUS_BANNER).find('.btn-primary').click();
       cy.get(ANONYMOUS_BANNER).should('not.be.visible');
 
@@ -52,64 +52,29 @@ context('Anonymous consents flow', () => {
     });
   });
 
-  describe('when registering a user and checking registration consent', () => {
-    before(() => {
-      cy.window().then((win) => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-    });
-
+  describe('Registering a user', () => {
     giveRegistrationConsentTest();
   });
 
-  describe('moving from the anonymous user to the registered user', () => {
+  describe('As a registered user', () => {
     before(() => {
-      cy.window().then((win) => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
       cy.visit('/');
     });
 
     movingFromAnonymousToRegisteredUser();
   });
 
-  describe('moving from anonymous user to the logged in user', () => {
+  describe('As a logged in user', () => {
     before(() => {
-      cy.window().then((win) => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
       sessionLogin();
-      cy.reload();
-      cy.visit('/');
-    });
-
-    moveAnonymousUserToLoggedInUser();
-  });
-
-  describe('when a user is logged in', () => {
-    before(() => {
-      cy.window().then((win) => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-      sessionLogin();
-      cy.reload();
       cy.visit('/');
     });
 
     testAsLoggedInUser();
   });
 
-  describe('when changing the language with consents', () => {
+  describe('On language change', () => {
     before(() => {
-      cy.window().then((win) => {
-        win.sessionStorage.clear();
-        win.localStorage.clear();
-      });
-      cy.reload();
       cy.visit('/');
     });
 

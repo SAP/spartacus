@@ -34,8 +34,8 @@ const userGiveConsentRegistrationTest: SampleUser = {
   password: 'Password123!',
 };
 const userTransferConsentTest: SampleUser = {
-  firstName: 'a',
-  lastName: 'b',
+  firstName: 'Cypress',
+  lastName: 'AnonymousUser',
   email: generateMail(randomString(), true),
   password: 'Password123!',
 };
@@ -109,7 +109,7 @@ export function clickViewDetailsFromBanner() {
   cy.get(ANONYMOUS_BANNER).find('.btn-action').click({ force: true });
 }
 
-export function openDialogUsingFooterLink() {
+export function openAnonymousConsentsDialog() {
   cy.get('cx-anonymous-consent-open-dialog').within(() => {
     const link = cy.get('button');
     link.should('exist');
@@ -125,7 +125,7 @@ export function checkDialogClosed() {
   cy.get(ANONYMOUS_DIALOG).should(NOT_EXIST);
 }
 
-export function closeDialog() {
+export function closeAnonymousConsentsDialog() {
   cy.get(`${ANONYMOUS_DIALOG} button.close`).click({ force: true });
 }
 
@@ -188,13 +188,13 @@ export function registerUserAndCheckMyAccountConsent(
 
 export function testAsAnonymousUser() {
   it('should click the footer to check if all consents were accepted and withdraw all consents afterwards', () => {
-    openDialogUsingFooterLink();
+    openAnonymousConsentsDialog();
     checkAllInputConsentState(BE_CHECKED);
     clearAllConsent();
   });
 
   it('should click the footer to check if all consents were rejected and accept all consents again', () => {
-    openDialogUsingFooterLink();
+    openAnonymousConsentsDialog();
 
     checkAllInputConsentState(NOT_BE_CHECKED);
 
@@ -213,46 +213,43 @@ export function giveRegistrationConsentTest() {
 }
 
 export function movingFromAnonymousToRegisteredUser() {
-  it('should transfer anonoymous consents when registered', () => {
-    openDialogUsingFooterLink();
+  it('should transfer anonoymous consents and load the previously given registered consents when registered', () => {
+    openAnonymousConsentsDialog();
+    cy.log('Giving second consent as anonymous user');
     toggleAnonymousConsent(2);
-    closeDialog();
+    closeAnonymousConsentsDialog();
 
     registerUserAndCheckMyAccountConsent(
       userTransferConsentTest,
       noRegistrationConsent,
       secondCheckBoxPosition
     );
-  });
-}
 
-export function moveAnonymousUserToLoggedInUser() {
-  it('should ignore the anonymous consents and load the previously given registered consents', () => {
-    navigateToConsentPage();
+    cy.log('Giving first consent as logged in user');
     giveConsent();
 
     cy.visit('/');
 
     checkBanner();
+    cy.log('Signing out logged in user');
     signOutUser();
 
     clickViewDetailsFromBanner();
+
+    cy.log('Toggling second consent as anonymous user');
     toggleAnonymousConsent(2);
-    closeDialog();
+    closeAnonymousConsentsDialog();
 
     const loginPage = waitForPage('/login', 'getLoginPage');
     cy.get('cx-login [role="link"]').click();
     cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
-    login(
-      standardUser.registrationData.email,
-      standardUser.registrationData.password
-    );
-    checkBanner();
+    login(userTransferConsentTest.email, userTransferConsentTest.password);
 
+    cy.log('Checking logged in user consents overriding anonymous consents');
     navigateToConsentPage();
     checkInputConsentState(0, BE_CHECKED);
-    checkInputConsentState(1, NOT_BE_CHECKED);
+    checkInputConsentState(1, BE_CHECKED);
   });
 }
 
@@ -272,7 +269,7 @@ export function testAsLoggedInUser() {
 
     clickViewDetailsFromBanner();
     toggleAnonymousConsent(2);
-    closeDialog();
+    closeAnonymousConsentsDialog();
 
     const loginPage = waitForPage('/login', 'getLoginPage');
     cy.get('cx-login [role="link"]').click();
@@ -286,7 +283,7 @@ export function testAsLoggedInUser() {
     checkBanner();
     signOutUser();
 
-    openDialogUsingFooterLink();
+    openAnonymousConsentsDialog();
     checkInputConsentState(1, BE_CHECKED);
   });
 }
@@ -296,15 +293,15 @@ export function changeLanguageTest() {
     clickViewDetailsFromBanner();
     selectAllConsent();
 
-    openDialogUsingFooterLink();
+    openAnonymousConsentsDialog();
     checkAllInputConsentState(BE_CHECKED);
-    closeDialog();
+    closeAnonymousConsentsDialog();
 
     cy.route('GET', `*${LANGUAGE_DE}*`).as('switchedContext');
     switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
     cy.wait('@switchedContext').its('status').should('eq', 200);
 
-    openDialogUsingFooterLink();
+    openAnonymousConsentsDialog();
     checkAllInputConsentState(BE_CHECKED);
   });
 }
@@ -320,15 +317,15 @@ export function showAnonymousConfigTest() {
   it('should not display the legal in the dialog', () => {
     clickViewDetailsFromBanner();
     checkDialogDescription();
-    closeDialog();
+    closeAnonymousConsentsDialog();
   });
 }
 
 export function anonymousConfigTestFlow() {
   it('should check if marketing consent in the dialog is disabled', () => {
-    openDialogUsingFooterLink();
+    openAnonymousConsentsDialog();
     checkInputConsentState(0, BE_DISABLED);
-    closeDialog();
+    closeAnonymousConsentsDialog();
   });
 
   it('should check new register consent and personalizing not visible in consent management page', () => {
