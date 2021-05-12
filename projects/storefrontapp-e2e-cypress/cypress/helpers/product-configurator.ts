@@ -60,7 +60,9 @@ export function checkCurrentGroupActive(currentGroup: string): void {
   cy.get(
     'cx-configurator-group-title:contains(' + `${currentGroup}` + ')'
   ).should('be.visible');
-  cy.get('a.active:contains(' + `${currentGroup}` + ')').should('be.visible');
+  cy.get('button.active:contains(' + `${currentGroup}` + ')').should(
+    'be.visible'
+  );
 }
 
 /**
@@ -101,7 +103,7 @@ export function clickOnPreviousBtn(previousGroup: string): void {
 }
 
 /**
- * Verifies whether 'show more' link is displayed in the product title component.
+ * Verifies whether 'show more' button is displayed in the product title component.
  */
 export function checkShowMoreLinkAtProductTitleDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
@@ -411,10 +413,9 @@ export function navigateToOverviewPage(): void {
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroupByGroupIndex(groupIndex: number): void {
-  cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
+  cy.get('cx-configurator-group-menu .cx-menu-item')
     .not('.cx-menu-conflict')
     .eq(groupIndex)
-    .children('a')
     .click({ force: true });
 }
 
