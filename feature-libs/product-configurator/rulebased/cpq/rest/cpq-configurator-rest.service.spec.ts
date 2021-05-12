@@ -5,6 +5,7 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorType } from 'feature-libs/product-configurator/common';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
@@ -89,7 +90,7 @@ const attrValueId = 'abc';
 const configuration: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
-  owner: { key: 'A' },
+  owner: { key: 'A', configuratorType: ConfiguratorType.CPQ },
 };
 const updateAttribute: Cpq.UpdateAttribute = {
   configurationId: configId,
