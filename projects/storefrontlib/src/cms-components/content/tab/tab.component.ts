@@ -5,9 +5,16 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
+import { BREAKPOINT } from 'projects/storefrontlib/src/layout';
+import { BreakpointService } from 'projects/storefrontlib/src/layout/breakpoint/breakpoint.service';
 import { Observable } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
-import { Tab } from './Tab';
+import { filter, map, take } from 'rxjs/operators';
+import { Tab, TabConfig } from './Tab';
+
+export enum TAB_TYPE {
+  TAB = 'TAB',
+  ACCORDIAN = 'ACCORDIAN',
+}
 
 @Component({
   selector: 'cx-tab',
@@ -17,11 +24,17 @@ import { Tab } from './Tab';
 export class TabComponent {
   @Input() tabs$: Observable<Tab[]>;
   @Input() openTabs: number[] = [0];
+  @Input() classes: string = '';
+  @Input() config: TabConfig;
+
+  mode$: Observable<TAB_TYPE> = this.breakpointService
+    .isUp(BREAKPOINT.md)
+    .pipe(map((isUp: boolean) => (isUp ? TAB_TYPE.TAB : TAB_TYPE.ACCORDIAN)));
 
   @ViewChildren('tabButton')
   tabButtons: QueryList<any>;
 
-  constructor() {}
+  constructor(protected breakpointService: BreakpointService) {}
 
   select(tabNum: number, event?: MouseEvent | KeyboardEvent): void {
     event?.preventDefault();

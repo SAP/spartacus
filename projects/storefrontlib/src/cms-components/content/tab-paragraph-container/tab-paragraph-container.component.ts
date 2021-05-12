@@ -18,7 +18,7 @@ import { ComponentWrapperDirective } from '../../../cms-structure/page/component
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
-import { Tab } from '../tab/Tab';
+import { defaultTabConfig, Tab } from '../tab/Tab';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -35,6 +35,8 @@ export class TabParagraphContainerComponent
   tabTitleParams: Observable<any>[] = [];
 
   subscription: Subscription;
+
+  tabConfig = defaultTabConfig;
 
   constructor(
     componentData: CmsComponentData<CMSTabParagraphContainer>,
