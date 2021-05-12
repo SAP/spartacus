@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/smartedit",
-  "version": "3.3.0-rc.1",
+  "version": "3.3.0",
   "description": "Smart Edit feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -23,8 +23,8 @@
     "@angular-devkit/schematics": "^10.1.0",
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
-    "@spartacus/core": "3.3.0-rc.1",
-    "@spartacus/schematics": "3.3.0-rc.1",
+    "@spartacus/core": "3.3.0",
+    "@spartacus/schematics": "3.3.0",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
