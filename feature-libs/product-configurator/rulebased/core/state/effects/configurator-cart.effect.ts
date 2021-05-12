@@ -39,19 +39,22 @@ export class ConfiguratorCartEffects {
           return [
             new ConfiguratorActions.AddNextOwner({
               ownerKey: payload.owner.key,
-              cartEntryNo: '' + entry.entry.entryNumber,
+              cartEntryNo: entry.entry?.entryNumber
+                ? entry.entry.entryNumber.toString()
+                : '0',
             }),
+            //TODO: Adapt conditions when core is strict mode compliant
             new CartActions.CartAddEntrySuccess({
               ...entry,
               userId: payload.userId,
               cartId: payload.cartId,
               productCode: payload.productCode,
-              quantity: entry.quantity,
-              deliveryModeChanged: entry.deliveryModeChanged,
-              entry: entry.entry,
-              quantityAdded: entry.quantityAdded,
-              statusCode: entry.statusCode,
-              statusMessage: entry.statusMessage,
+              quantity: entry.quantity || 1,
+              deliveryModeChanged: entry.deliveryModeChanged || false,
+              entry: entry.entry || {},
+              quantityAdded: entry.quantityAdded || 1,
+              statusCode: entry.statusCode || '',
+              statusMessage: entry.statusMessage || '',
             }),
           ];
         }),
@@ -85,19 +88,21 @@ export class ConfiguratorCartEffects {
               return [
                 new CartActions.CartUpdateEntrySuccess({
                   ...entry,
-                  userId: payload.userId,
+                  userId: payload.userId || '',
                   cartId: payload.cartId,
-                  entryNumber: entry.entry.entryNumber.toString(),
-                  quantity: entry.quantity,
+                  entryNumber: entry.entry?.entryNumber
+                    ? entry.entry.entryNumber.toString()
+                    : '0',
+                  quantity: entry?.quantity || 1,
                 }),
               ];
             }),
             catchError((error) =>
               of(
                 new CartActions.CartUpdateEntryFail({
-                  userId: payload.userId,
+                  userId: payload.userId || '',
                   cartId: payload.cartId,
-                  entryNumber: payload.cartEntryNumber,
+                  entryNumber: payload.cartEntryNumber || '0',
                   quantity: 1,
                   error: normalizeHttpError(error),
                 })

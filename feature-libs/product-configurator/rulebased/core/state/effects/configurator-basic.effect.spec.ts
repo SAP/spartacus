@@ -26,6 +26,7 @@ import * as fromEffects from './configurator-basic.effect';
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
 const groupId = 'GROUP-1';
+const groupIdA = 'a';
 
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
@@ -63,7 +64,7 @@ const productConfiguration: Configurator.Configuration = {
   overview: {
     groups: [
       {
-        id: 'a',
+        id: groupIdA,
         groupDescription: 'a',
         attributes: [
           {
@@ -251,7 +252,9 @@ describe('ConfiguratorEffect', () => {
       const overviewSuccessAction = new ConfiguratorActions.GetConfigurationOverviewSuccess(
         {
           ownerKey: owner.key,
-          overview: productConfiguration.overview,
+          overview: productConfiguration.overview
+            ? productConfiguration.overview
+            : {},
         }
       );
       actions$ = hot('-a', { a: action });
@@ -384,7 +387,7 @@ describe('ConfiguratorEffect', () => {
       store.dispatch(
         new ConfiguratorActions.SetCurrentGroup({
           entityKey: productConfiguration.owner.key,
-          currentGroup: productConfiguration.groups[0].id,
+          currentGroup: groupId,
         })
       );
       const payloadInput = productConfiguration;
@@ -445,7 +448,7 @@ describe('ConfiguratorEffect', () => {
       );
       const completion = new ConfiguratorActions.ReadConfiguration({
         configuration: productConfiguration,
-        groupId: undefined,
+        groupId: groupId,
       });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -461,7 +464,7 @@ describe('ConfiguratorEffect', () => {
       const action = new ConfiguratorActions.ChangeGroup({
         configuration: payloadInput,
         groupId: groupId,
-        parentGroupId: null,
+        parentGroupId: undefined,
       });
       const readConfigurationSuccess = new ConfiguratorActions.ReadConfigurationSuccess(
         productConfiguration
@@ -472,7 +475,7 @@ describe('ConfiguratorEffect', () => {
       });
       const setMenuParentGroup = new ConfiguratorActions.SetMenuParentGroup({
         entityKey: productConfiguration.owner.key,
-        menuParentGroup: null,
+        menuParentGroup: undefined,
       });
 
       actions$ = hot('-a', { a: action });
@@ -494,7 +497,7 @@ describe('ConfiguratorEffect', () => {
       const action = new ConfiguratorActions.ChangeGroup({
         configuration: payloadInput,
         groupId: groupId,
-        parentGroupId: null,
+        parentGroupId: undefined,
       });
       const readConfigurationFail = new ConfiguratorActions.ReadConfigurationFail(
         {

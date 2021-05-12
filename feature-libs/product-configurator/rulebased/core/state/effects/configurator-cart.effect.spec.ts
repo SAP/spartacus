@@ -34,6 +34,7 @@ const cartEntryNumber = '1';
 const userId = 'theUser';
 const quantity = 1;
 const entryNumber = 47;
+const emptyStatus = '';
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
   status: 404,
@@ -70,17 +71,19 @@ ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
 
 let payloadInputUpdateConfiguration: Configurator.UpdateConfigurationForCartEntryParameters;
 
+const entry = {
+  product: { code: productCode },
+  quantity: 1,
+  entryNumber: entryNumber,
+};
+
 const cartModification: CartModification = {
   quantity: 1,
   quantityAdded: 1,
   deliveryModeChanged: true,
-  entry: {
-    product: { code: productCode },
-    quantity: 1,
-    entryNumber: entryNumber,
-  },
-  statusCode: '',
-  statusMessage: '',
+  entry: entry,
+  statusCode: emptyStatus,
+  statusMessage: emptyStatus,
 };
 
 describe('ConfiguratorCartEffect', () => {
@@ -304,12 +307,12 @@ describe('ConfiguratorCartEffect', () => {
         userId: userId,
         cartId: cartId,
         productCode: payloadInput.productCode,
-        quantity: cartModification.quantity,
-        deliveryModeChanged: cartModification.deliveryModeChanged,
-        entry: cartModification.entry,
-        quantityAdded: cartModification.quantityAdded,
-        statusCode: cartModification.statusCode,
-        statusMessage: cartModification.statusMessage,
+        quantity: 1,
+        deliveryModeChanged: true,
+        entry: entry,
+        quantityAdded: 1,
+        statusCode: emptyStatus,
+        statusMessage: emptyStatus,
       });
 
       const addNextOwner = new ConfiguratorActions.AddNextOwner({
@@ -361,8 +364,8 @@ describe('ConfiguratorCartEffect', () => {
         ...cartModification,
         userId: userId,
         cartId: cartId,
-        entryNumber: cartModification.entry.entryNumber.toString(),
-        quantity: cartModification.quantity,
+        entryNumber: entryNumber.toString(),
+        quantity: 1,
       });
 
       actions$ = hot('-a', { a: action });

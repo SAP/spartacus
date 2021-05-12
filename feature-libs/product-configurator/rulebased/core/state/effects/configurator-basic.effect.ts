@@ -284,7 +284,7 @@ export class ConfiguratorBasicEffects {
       (payload) =>
         new ConfiguratorActions.ReadConfiguration({
           configuration: payload,
-          groupId: undefined,
+          groupId: this.getGroupWithAttributes(payload.groups),
         })
     )
   );

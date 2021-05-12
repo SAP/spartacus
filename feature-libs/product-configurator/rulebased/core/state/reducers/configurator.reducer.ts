@@ -102,7 +102,7 @@ export function configuratorReducer(
       };
     }
     case ConfiguratorActions.SET_MENU_PARENT_GROUP: {
-      const newMenuParentGroup: string = action.payload.menuParentGroup;
+      const newMenuParentGroup = action.payload.menuParentGroup;
 
       return {
         ...state,
@@ -120,13 +120,15 @@ export function configuratorReducer(
       };
 
       //Set Current state items
-      Object.keys(state.interactionState.groupsVisited).forEach(
-        (groupId) => (changedInteractionState.groupsVisited[groupId] = true)
-      );
+      if (state.interactionState.groupsVisited) {
+        Object.keys(state.interactionState.groupsVisited).forEach((groupId) =>
+          addGroupsVisited(changedInteractionState, groupId)
+        );
+      }
 
       //Add new Groups
-      groupIds.forEach(
-        (groupId) => (changedInteractionState.groupsVisited[groupId] = true)
+      groupIds.forEach((groupId) =>
+        addGroupsVisited(changedInteractionState, groupId)
       );
 
       return {
@@ -141,6 +143,16 @@ export function configuratorReducer(
   return state;
 }
 
+function addGroupsVisited(
+  changedInteractionState: Configurator.InteractionState,
+  groupId: string
+) {
+  const groupsVisited = changedInteractionState.groupsVisited;
+  if (groupsVisited) {
+    groupsVisited[groupId] = true;
+  }
+}
+
 function setInitialCurrentGroup(
   state: Configurator.Configuration
 ): Configurator.Configuration {
@@ -148,9 +160,9 @@ function setInitialCurrentGroup(
     return state;
   }
   let initialCurrentGroup = undefined;
-
-  if (state?.flatGroups?.length > 0) {
-    initialCurrentGroup = state?.flatGroups[0]?.id;
+  const flatGroups = state?.flatGroups;
+  if (flatGroups && flatGroups.length > 0) {
+    initialCurrentGroup = flatGroups[0]?.id;
   }
 
   const result = {
