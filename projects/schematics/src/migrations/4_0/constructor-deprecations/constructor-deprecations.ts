@@ -15,6 +15,7 @@ import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.compon
 import {
   CMS_COMPONENTS_SERVICE_MIGRATION_1,
   CMS_COMPONENTS_SERVICE_MIGRATION_2,
+  CMS_COMPONENTS_SERVICE_MIGRATION_3,
 } from './data/cms-components.service.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
@@ -29,6 +30,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
   CMS_COMPONENTS_SERVICE_MIGRATION_1,
   CMS_COMPONENTS_SERVICE_MIGRATION_2,
+  CMS_COMPONENTS_SERVICE_MIGRATION_3,
 ];
 
 export function migrate(): Rule {

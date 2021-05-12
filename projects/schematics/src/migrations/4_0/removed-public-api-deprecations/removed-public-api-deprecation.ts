@@ -2,6 +2,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 import {
+  CMS_FEATURES_SERVICE,
   FEATURE_MODULES_SERVICE,
   SPARTACUS_STOREFRONTLIB,
 } from '@spartacus/schematics';
@@ -41,7 +42,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: FEATURE_MODULES_SERVICE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${FEATURE_MODULES_SERVICE}' was removed. Use CmsFeaturesService instead.`,
+    comment: `'${FEATURE_MODULES_SERVICE}' was removed. Use '${CMS_FEATURES_SERVICE}' instead.`,
   },
 ];
 
