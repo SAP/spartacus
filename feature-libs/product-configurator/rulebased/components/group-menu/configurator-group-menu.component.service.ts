@@ -95,7 +95,7 @@ export class ConfiguratorGroupMenuService {
       event.preventDefault();
       if (event.code === 'ArrowUp') {
         this.focusPreviousGroup(groupIndex);
-      } else if (event.code == 'ArrowDown') {
+      } else if (event.code === 'ArrowDown') {
         this.focusNextGroup(groupIndex);
       }
     }
