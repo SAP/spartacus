@@ -89,10 +89,6 @@
                                             <span class="modifier">Optional</span>
                                         <a href="#price">price</a>
                                 </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#type">type</a>
-                                </li>
                             </ul>
                         </td>
                     </tr>
@@ -201,40 +197,6 @@
 
                         </tbody>
                     </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="type"></a>
-                                        <span class="name"><b>type</b><a href="#type"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>type:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
             </section>
     </div>
 
@@ -242,18 +204,19 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { standardUser } from &#x27;../sample-data/shared-users&#x27;;
 import { login, register } from &#x27;./auth-forms&#x27;;
-import { waitForPage } from &#x27;./checkout-flow&#x27;;
+import { clickHamburger, waitForPage } from &#x27;./checkout-flow&#x27;;
 import { PRODUCT_LISTING } from &#x27;./data-configuration&#x27;;
+import { waitForHomePage } from &#x27;./homepage&#x27;;
 import { createProductQuery, QUERY_ALIAS } from &#x27;./product-search&#x27;;
 import { generateMail, randomString } from &#x27;./user&#x27;;
 
 interface TestProduct {
   code: string;
-  type?: string;
   name?: string;
   price?: number;
 }
 
+//TODO check against product response and remove this afterwards
 const formatPrice &#x3D; (price: number, currency: string &#x3D; &#x27;USD&#x27;) &#x3D;&gt; {
   if (currency &#x3D;&#x3D;&#x3D; &#x27;USD&#x27;) {
     return new Intl.NumberFormat(&#x27;en-US&#x27;, {
@@ -273,19 +236,16 @@ const formatPrice &#x3D; (price: number, currency: string &#x3D; &#x27;USD&#x27;
 export const products: TestProduct[] &#x3D; [
   {
     code: &#x27;1934793&#x27;,
-    type: &#x27;camera&#x27;,
     name: &#x27;PowerShot A480&#x27;,
     price: 99.85,
   },
   {
     code: &#x27;300938&#x27;,
-    type: &#x27;camera&#x27;,
     name: &#x27;Photosmart E317 Digital Camera&#x27;,
     price: 114.12,
   },
   {
     code: &#x27;3470545&#x27;,
-    type: &#x27;camera&#x27;,
     name: &#x27;EASYSHARE M381&#x27;,
     price: 370.72,
   },
@@ -294,7 +254,6 @@ export const products: TestProduct[] &#x3D; [
   },
   {
     code: &#x27;932577&#x27;,
-    type: &#x27;camera&#x27;,
     name: &#x27;Digital Camera Tripod&#x27;,
     price: 24.47,
   },
@@ -350,6 +309,84 @@ function checkMiniCartCount(expectedCount) {
   });
 }
 
+export function clickAddToCart() {
+  cy.get(&#x27;cx-add-to-cart button[type&#x3D;submit]&#x27;).first().click({ force: true });
+}
+
+/**
+ * Adds product from PDP directly
+ * @param productCode
+ */
+export function addProductFromPdp(productCode: string &#x3D; products[0].code) {
+  const pdpUrl &#x3D; &#x60;${getBaseUrlPrefix()}/product/${productCode}&#x60;;
+
+  registerCartRefreshRoute();
+  registerCartPageRoute();
+
+  // Add product from PDP directly
+  cy.visit(pdpUrl);
+
+  clickAddToCart();
+
+  cy.wait(&#x27;@refresh_cart&#x27;);
+
+  closeAddedToCartDialog();
+
+  checkMiniCartCount(1);
+
+  cy.get(&#x27;cx-mini-cart &gt; a&#x27;).click({ force: true });
+
+  cy.wait(&#x27;@cart_page&#x27;);
+
+  checkProductInCart(products[0]);
+}
+
+export function checkBasicCart() {
+  const cartUrl &#x3D; &#x60;${getBaseUrlPrefix()}/cart&#x60;;
+  cy.visit(cartUrl);
+
+  validateEmptyCart();
+
+  addProductFromPdp(products[0].code);
+
+  cy.log(&#x60;Adding second product to cart via search page&#x60;);
+
+  cy.onMobile(() &#x3D;&gt; {
+    cy.get(&#x27;.search&#x27;).click();
+  });
+
+  cy.get(&#x27;cx-searchbox input&#x27;).clear().type(&#x60;cameras{enter}&#x60;);
+
+  cy.get(
+    &#x27;:nth-child(2) &gt; :nth-child(1) &gt; :nth-child(2) &gt; .row &gt; .col-md-4 &gt; cx-add-to-cart &gt; .ng-untouched &gt; .btn&#x27;
+  ).click();
+
+  cy.wait(&#x27;@refresh_cart&#x27;);
+
+  closeAddedToCartDialog();
+  checkMiniCartCount(2);
+  cy.get(&#x27;cx-mini-cart &gt; a&#x27;).click({ force: true });
+
+  cy.wait(&#x27;@cart_page&#x27;);
+
+  checkProductInCart(products[4]).within(() &#x3D;&gt; {
+    incrementQuantity();
+  });
+
+  checkMiniCartCount(3);
+
+  removeCartItem(products[0]);
+
+  cy.wait(&#x27;@refresh_cart&#x27;);
+  cy.get(&#x27;cx-cart-item&#x27;).should(&#x27;have.length&#x27;, 1);
+
+  removeCartItem(products[4]);
+
+  cy.wait(&#x27;@refresh_cart&#x27;);
+
+  validateEmptyCart();
+}
+
 export function validateEmptyCart() {
   cy.get(&#x27;cx-breadcrumb h1&#x27;).should(&#x27;contain&#x27;, &#x27;Your Shopping Cart&#x27;);
   cy.get(&#x27;.EmptyCartMiddleContent&#x27;).should(
@@ -358,48 +395,53 @@ export function validateEmptyCart() {
   );
 }
 
-export function addToCart() {
-  cy.get(&#x27;cx-add-to-cart button[type&#x3D;submit]&#x27;).first().click({ force: true });
+function getOccUrlPrefix() {
+  return &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(&#x27;BASE_SITE&#x27;)}&#x60;;
+}
+
+function getBaseUrlPrefix() {
+  return &#x60;/${Cypress.env(&#x27;BASE_SITE&#x27;)}/${Cypress.env(
+    &#x27;BASE_LANG&#x27;
+  )}/${Cypress.env(&#x27;BASE_CURRENCY&#x27;)}&#x60;;
 }
 
 export function registerCartPageRoute() {
   cy.intercept(
     &#x27;GET&#x27;,
-    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
-      &#x27;BASE_SITE&#x27;
-    )}/cms/pages?pageType&#x3D;ContentPage&amp;pageLabelOrId&#x3D;%2Fcart&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+    &#x60;${getOccUrlPrefix()}/cms/pages?pageType&#x3D;ContentPage&amp;pageLabelOrId&#x3D;%2Fcart&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
   ).as(&#x27;cart_page&#x27;);
 }
 
 export function registerCartRefreshRoute() {
   cy.intercept(
     &#x27;GET&#x27;,
-    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
-      &#x27;BASE_SITE&#x27;
-    )}/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+    &#x60;${getOccUrlPrefix()}/users/*/carts/*?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
   ).as(&#x27;refresh_cart&#x27;);
 }
 
 export function registerCreateCartRoute() {
   cy.intercept(
     &#x27;POST&#x27;,
-    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
-      &#x27;BASE_SITE&#x27;
-    )}/users/*/carts?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+    &#x60;${getOccUrlPrefix()}/users/*/carts?fields&#x3D;*&amp;lang&#x3D;en&amp;curr&#x3D;USD&#x60;
   ).as(&#x27;create_cart&#x27;);
+}
+
+export function registerDeleteCartItemRoute() {
+  cy.intercept(
+    &#x27;DELETE&#x27;,
+    &#x60;${getOccUrlPrefix()}/users/*/carts/*/entries/*?lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+  ).as(&#x27;delete_cart_item&#x27;);
 }
 
 export function registerSaveCartRoute() {
   cy.intercept(
     &#x27;PATCH&#x27;,
-    &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
-      &#x27;BASE_SITE&#x27;
-    )}/users/*/carts/*/save?lang&#x3D;en&amp;curr&#x3D;USD&#x60;
+    &#x60;${getOccUrlPrefix()}/users/*/carts/*/save?lang&#x3D;en&amp;curr&#x3D;USD&#x60;
   ).as(&#x27;save_cart&#x27;);
 }
 
 export function closeAddedToCartDialog() {
-  cy.get(&#x27;cx-added-to-cart-dialog [aria-label&#x3D;&quot;Close&quot;]&#x27;).click({ force: true });
+  cy.get(&#x27;span &gt; .cx-icon.fa-times&#x27;).click({ force: true });
 }
 
 export function checkProductInCart(product, qty &#x3D; 1, currency &#x3D; &#x27;USD&#x27;) {
@@ -424,52 +466,12 @@ export function checkAddedToCartDialog(itemsNumber &#x3D; 1) {
   );
 }
 
-export function addProductToCartViaAutoComplete(mobile: boolean) {
-  registerCartRefreshRoute();
-  registerCartPageRoute();
-  const product &#x3D; products[0];
-  goToFirstProductFromSearch(product.code, mobile);
-  addToCart();
-
-  cy.wait(&#x27;@refresh_cart&#x27;);
-
-  closeAddedToCartDialog();
-  checkMiniCartCount(1);
-  cy.get(&#x27;cx-mini-cart &gt; a&#x27;).click({ force: true });
-
-  cy.wait(&#x27;@cart_page&#x27;);
-
-  checkProductInCart(product);
-}
-
-export function addProductToCartViaSearchPage(mobile: boolean) {
-  registerCartRefreshRoute();
-  registerCartPageRoute();
-
-  const product &#x3D; products[4];
-
-  goToFirstProductFromSearch(product.code, mobile);
-
-  addToCart();
-
-  cy.wait(&#x27;@refresh_cart&#x27;);
-
-  closeAddedToCartDialog();
-
-  checkMiniCartCount(2).click({ force: true });
-  cy.get(&#x27;cx-mini-cart &gt; a&#x27;).click({ force: true });
-
-  cy.wait(&#x27;@cart_page&#x27;);
-
-  checkProductInCart(product);
-}
-
 export function removeAllItemsFromCart() {
   registerCartRefreshRoute();
 
   removeCartItem(products[0]);
 
-  cy.wait(&#x27;@refresh_cart&#x27;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x27;@refresh_cart&#x27;);
 
   removeCartItem(products[4]);
 
@@ -477,18 +479,15 @@ export function removeAllItemsFromCart() {
 }
 
 export function removeCartItem(product) {
-  getCartItem(product.name).within(() &#x3D;&gt; {
-    cy.findByText(&#x27;Remove&#x27;).click();
-  });
+  registerDeleteCartItemRoute();
+
+  getCartItem(product.name).findByText(&#x27;Remove&#x27;).click();
+
+  cy.wait(&#x27;@delete_cart_item&#x27;);
 }
 
 export function loginRegisteredUser() {
   standardUser.registrationData.email &#x3D; generateMail(randomString(), true);
-  // Hack to make it more stable
-  // cy.requireLoggedIn works thanks to rehydration.
-  // Unfortunately it is not always stable. Sometimes app could override localStorage data.
-  // Issue for proper fix: #4671
-  cy.wait(2000);
   cy.requireLoggedIn(standardUser);
   cy.reload();
 }
@@ -497,14 +496,10 @@ export function addProductWhenLoggedIn(mobile: boolean) {
   const product &#x3D; products[1];
 
   goToFirstProductFromSearch(product.code, mobile);
-  /**
-   * This waits is added here to delay Add to cart click until wishlist is created.
-   * Wishlist is created on first render of wishlist components.
-   * Without that there might be a race condition that active cart will use the same cart as wishlist.
-   */
+
+  clickAddToCart();
+
   cy.wait(&#x27;@create_cart&#x27;);
-  cy.wait(&#x27;@save_cart&#x27;);
-  addToCart();
   checkAddedToCartDialog();
   closeAddedToCartDialog();
 }
@@ -515,6 +510,8 @@ export function logOutAndNavigateToEmptyCart() {
     option: &#x27;Sign Out&#x27;,
   });
   cy.wait(&#x60;@${logoutPage}&#x60;);
+
+  clickHamburger();
 
   cy.get(&#x27;cx-login [role&#x3D;&quot;link&quot;]&#x27;).should(&#x27;contain&#x27;, &#x27;Sign In&#x27;);
 
@@ -528,6 +525,7 @@ export function logOutAndNavigateToEmptyCart() {
 export function addProductAsAnonymous() {
   const product &#x3D; products[2];
 
+  cy.server();
   createProductQuery(
     QUERY_ALIAS.PRODUCE_CODE,
     product.code,
@@ -543,7 +541,7 @@ export function addProductAsAnonymous() {
   cy.get(&#x27;cx-product-list&#x27;)
     .contains(&#x27;cx-product-list-item&#x27;, product.name)
     .within(() &#x3D;&gt; {
-      addToCart();
+      clickAddToCart();
     });
 
   checkAddedToCartDialog();
@@ -559,6 +557,9 @@ export function verifyMergedCartWhenLoggedIn() {
   const product1 &#x3D; products[2];
 
   const loginPage &#x3D; waitForPage(&#x27;/login&#x27;, &#x27;getLoginPage&#x27;);
+
+  clickHamburger();
+
   cy.get(&#x27;cx-login [role&#x3D;&quot;link&quot;]&#x27;).click();
   cy.wait(&#x60;@${loginPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 
@@ -569,7 +570,13 @@ export function verifyMergedCartWhenLoggedIn() {
 
   cy.get(&#x27;cx-breadcrumb h1&#x27;).should(&#x27;contain&#x27;, &#x27;1 result&#x27;);
 
-  checkMiniCartCount(2).click({ force: true });
+  const cartPage &#x3D; waitForPage(&#x27;/cart&#x27;, &#x27;getCartPage&#x27;);
+
+  checkMiniCartCount(2);
+
+  cy.get(&#x27;cx-mini-cart &gt; a&#x27;).click({ force: true });
+
+  cy.wait(&#x60;@${cartPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
 
   cy.get(&#x27;cx-breadcrumb h1&#x27;).should(&#x27;contain&#x27;, &#x27;Your Shopping Cart&#x27;);
 
@@ -584,9 +591,11 @@ export function logOutAndEmptyCart() {
   });
   cy.wait(&#x60;@${logoutPage}&#x60;);
 
+  waitForHomePage();
+
   const cartPage &#x3D; waitForPage(&#x27;/cart&#x27;, &#x27;getCartPage&#x27;);
   cy.visit(&#x27;/cart&#x27;);
-  cy.wait(&#x60;@${cartPage}&#x60;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x60;@${cartPage}&#x60;);
 
   validateEmptyCart();
 }
@@ -599,7 +608,7 @@ export function manipulateCartQuantity() {
 
   cy.visit(&#x60;/product/${product.code}&#x60;);
 
-  addToCart();
+  clickAddToCart();
 
   cy.wait(&#x27;@refresh_cart&#x27;);
 

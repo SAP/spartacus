@@ -71,18 +71,26 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
-import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import { CmsConfig, provideDefaultConfigFactory } from &#x27;@spartacus/core&#x27;;
+import { PRODUCT_BULK_PRICING_FEATURE } from &#x27;./feature-name&#x27;;
+
+// TODO: Inline this factory when we start releasing Ivy compiled libraries
+export function defaultProductBulkPricingComponentsConfig(): CmsConfig {
+  const config: CmsConfig &#x3D; {
+    featureModules: {
+      [PRODUCT_BULK_PRICING_FEATURE]: {
+        cmsComponents: [&#x27;BulkPricingTableComponent&#x27;],
+      },
+    },
+  };
+
+  return config;
+}
 
 @NgModule({
   imports: [],
   providers: [
-    provideDefaultConfig({
-      featureModules: {
-        productBulkPricing: {
-          cmsComponents: [&#x27;BulkPricingTableComponent&#x27;],
-        },
-      },
-    }),
+    provideDefaultConfigFactory(defaultProductBulkPricingComponentsConfig),
   ],
 })
 export class BulkPricingRootModule {}

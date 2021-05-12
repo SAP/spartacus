@@ -202,10 +202,7 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import * as cart from &#x27;./cart&#x27;;
-import * as cartCoupon from &#x27;./cart-coupon&#x27;;
-
-interface TestProduct {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">interface TestProduct {
   code: string;
   name?: string;
   price?: number;
@@ -260,7 +257,7 @@ export function getItem(product, position: ItemList) {
 
 export function stubForCartsRefresh() {
   stubForCartRefresh();
-  cy.route(
+  cy.intercept(
     &#x27;GET&#x27;,
     &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
       &#x27;BASE_SITE&#x27;
@@ -268,8 +265,7 @@ export function stubForCartsRefresh() {
   ).as(&#x27;refresh_selectivecart&#x27;);
 }
 export function stubForCartRefresh() {
-  cy.server();
-  cy.route(
+  cy.intercept(
     &#x27;GET&#x27;,
     &#x60;${Cypress.env(&#x27;OCC_PREFIX&#x27;)}/${Cypress.env(
       &#x27;BASE_SITE&#x27;
@@ -302,14 +298,16 @@ export function removeItem(product, position: ItemList) {
         cy.wrap(el).click();
       });
   });
-  cy.wait(&#x27;@refresh_cart&#x27;).its(&#x27;status&#x27;).should(&#x27;eq&#x27;, 200);
+  cy.wait(&#x27;@refresh_cart&#x27;).its(&#x27;response.statusCode&#x27;).should(&#x27;eq&#x27;, 200);
 }
 
 export function validateProduct(product, qty &#x3D; 1, position: ItemList) {
-  return getItem(product, position).within(() &#x3D;&gt; {
-    cy.get(&#x27;cx-item-counter input&#x27;).should(&#x27;have.value&#x27;, &#x60;${qty}&#x60;);
-    cy.get(&#x27;.cx-total .cx-value&#x27;).should(&#x27;exist&#x27;);
-  });
+  return getItem(product, position)
+    .wait(2000)
+    .within(() &#x3D;&gt; {
+      cy.get(&#x27;cx-item-counter input&#x27;).should(&#x27;have.value&#x27;, &#x60;${qty}&#x60;);
+      cy.get(&#x27;.cx-total .cx-value&#x27;).should(&#x27;exist&#x27;);
+    });
 }
 
 export function validateCartPromotion(hasPromotion: boolean) {
@@ -339,7 +337,7 @@ export function validateCart(qtyInCart: Number, qtyInSavedCart: Number) {
   }
 }
 
-function verifyMiniCartQty(qty: number) {
+export function verifyMiniCartQty(qty: number) {
   cy.get(&#x27;cx-mini-cart .count&#x27;).should(&#x27;contain&#x27;, qty);
 }
 
@@ -354,80 +352,6 @@ export function addProductToCart(product) {
     cy.findByText(/view cart/i).click();
   });
   validateProduct(product, 1, ItemList.Cart);
-}
-
-export function verifySaveForLaterAsAnonymous() {
-  addProductToCart(products[0]);
-  cy.visit(&#x27;/cart&#x27;);
-  moveItem(products[0], ItemList.SaveForLater, true);
-  cy.location(&#x27;pathname&#x27;).should(&#x27;contain&#x27;, &#x27;/login&#x27;);
-}
-
-export function verifySaveForLaterWhenRelogin() {
-  cart.registerCartUser();
-  cart.loginCartUser();
-  addProductToCart(products[2]);
-  moveItem(products[2], ItemList.SaveForLater);
-  cart.logOutAndEmptyCart();
-  cart.loginCartUser();
-  cy.visit(&#x27;/cart&#x27;);
-  validateProduct(products[2], 1, ItemList.SaveForLater);
-}
-
-export function verifySaveForLater() {
-  cy.visit(&#x27;/cart&#x27;);
-  validateCart(0, 0);
-  addProductToCart(products[0]);
-  moveItem(products[0], ItemList.SaveForLater);
-  validateCart(0, 1);
-  addProductToCart(products[1]);
-  addProductToCart(products[2]);
-  validateCart(2, 1);
-  validateCartPromotion(true);
-  moveItem(products[1], ItemList.SaveForLater);
-  validateCart(1, 2);
-  validateCartPromotion(true);
-  moveItem(products[1], ItemList.Cart);
-  validateCartPromotion(true);
-  validateCart(2, 1);
-  // validate merge
-  addProductToCart(products[0]);
-  validateCart(3, 1);
-  moveItem(products[0], ItemList.SaveForLater);
-  validateCart(2, 1);
-  addProductToCart(products[0]);
-  moveItem(products[0], ItemList.Cart);
-  validateCart(3, 0);
-  verifyMiniCartQty(5); //to avoid the cart item quatity is not updated yet
-  //remove
-  moveItem(products[0], ItemList.SaveForLater);
-  validateCart(2, 1);
-  removeItem(products[0], ItemList.SaveForLater);
-  validateCart(2, 0);
-}
-
-export function verifyGiftProduct() {
-  addProductToCart(products[0]);
-  addProductToCart(products[3]);
-  verifyMiniCartQty(3);
-  moveItem(products[3], ItemList.SaveForLater);
-  validateCart(1, 2);
-  moveItem(products[3], ItemList.Cart);
-  validateCart(3, 0);
-}
-
-export function verifyPlaceOrder() {
-  const stateAuth &#x3D; JSON.parse(localStorage.getItem(&#x27;spartacus-local-data&#x27;))
-    .auth;
-  addProductToCart(products[0]);
-  addProductToCart(products[1]);
-  moveItem(products[0], ItemList.SaveForLater);
-  validateCart(1, 1);
-  cy.wait(1000);
-  cartCoupon.placeOrder(stateAuth);
-  cy.reload();
-  validateCart(0, 1);
-  validateProduct(products[0], 1, ItemList.SaveForLater);
 }
 </code></pre>
     </div>

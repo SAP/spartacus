@@ -72,6 +72,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { APP_INITIALIZER, NgModule } from &#x27;@angular/core&#x27;;
 import {
+  CmsConfig,
   ConfigInitializerService,
   provideDefaultConfigFactory,
 } from &#x27;@spartacus/core&#x27;;
@@ -91,8 +92,8 @@ export function cdcJsFactory(
   return func;
 }
 
-export function defaultCdcComponentsConfig() {
-  const config &#x3D; {
+export function defaultCdcComponentsConfig(): CmsConfig {
+  const config: CmsConfig &#x3D; {
     featureModules: {
       [CDC_FEATURE]: {
         cmsComponents: [&#x27;GigyaRaasComponent&#x27;],

@@ -139,8 +139,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.service.ts:37</a></div>
                 </td>
             </tr>
 
@@ -211,8 +211,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.service.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -295,8 +295,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.service.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.service.ts:18</a></div>
                 </td>
             </tr>
 
@@ -371,7 +371,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.service.ts:10</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/src/cms-structure/outlet/outlet-renderer.service.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -385,6 +385,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { isNotNullable } from &#x27;@spartacus/core&#x27;;
 import { BehaviorSubject, Observable } from &#x27;rxjs&#x27;;
 import { filter, map } from &#x27;rxjs/operators&#x27;;
 import { OutletDirective } from &#x27;./outlet.directive&#x27;;
@@ -422,7 +423,7 @@ export class OutletRendererService {
   getOutletRef(outlet: string): Observable&lt;OutletDirective&gt; {
     return this.outletRefs.asObservable().pipe(
       map((val) &#x3D;&gt; val.get(outlet)),
-      filter((val) &#x3D;&gt; Boolean(val))
+      filter(isNotNullable)
     );
   }
 }

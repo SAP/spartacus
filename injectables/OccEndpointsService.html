@@ -1229,7 +1229,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpParams } from &#x27;@angular/common/http&#x27;;
 import { Injectable, isDevMode, Optional } from &#x27;@angular/core&#x27;;
-import { DynamicTemplate } from &#x27;../../config/utils/dynamic-template&#x27;;
+import { StringTemplate } from &#x27;../../config/utils/string-template&#x27;;
 import { getContextParameterDefault } from &#x27;../../site-context/config/context-config-utils&#x27;;
 import { BaseSiteService } from &#x27;../../site-context/facade/base-site.service&#x27;;
 import { BASE_SITE_CONTEXT_ID } from &#x27;../../site-context/providers/context-ids&#x27;;
@@ -1395,7 +1395,7 @@ export class OccEndpointsService {
       const { urlParams, queryParams } &#x3D; attributes;
 
       if (urlParams) {
-        url &#x3D; DynamicTemplate.resolve(url, attributes.urlParams, true);
+        url &#x3D; StringTemplate.resolve(url, attributes.urlParams, true);
       }
 
       if (queryParams) {
@@ -1453,7 +1453,7 @@ export class OccEndpointsService {
       Object.keys(urlParams).forEach((key) &#x3D;&gt; {
         urlParams[key] &#x3D; encodeURIComponent(urlParams[key]);
       });
-      endpoint &#x3D; DynamicTemplate.resolve(endpoint, urlParams);
+      endpoint &#x3D; StringTemplate.resolve(endpoint, urlParams);
     }
 
     if (queryParams) {

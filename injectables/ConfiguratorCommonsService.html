@@ -328,8 +328,8 @@ creation of the configuration in case it&#39;s not there</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="168"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:168</a></div>
                 </td>
             </tr>
 
@@ -493,8 +493,8 @@ available</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="228"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:228</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="233"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:233</a></div>
                 </td>
             </tr>
 
@@ -565,8 +565,8 @@ available</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="258"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:258</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="263"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:263</a></div>
                 </td>
             </tr>
 
@@ -635,8 +635,8 @@ available</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="200"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:200</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="205"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:205</a></div>
                 </td>
             </tr>
 
@@ -877,8 +877,8 @@ available</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="187"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:187</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="192"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:192</a></div>
                 </td>
             </tr>
 
@@ -958,8 +958,8 @@ available</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="210"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:210</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="215"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts:215</a></div>
                 </td>
             </tr>
 
@@ -1021,7 +1021,7 @@ available</p>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>updateConfiguration(ownerKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, changedAttribute: <a href="../s/Config.html">Configurator.Attribute</a>)</code>
+<code>updateConfiguration(ownerKey: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, changedAttribute: <a href="../s/Config.html">Configurator.Attribute</a>, updateType?: <a href="../s/Config.html">Configurator.UpdateType</a>)</code>
                 </td>
             </tr>
 
@@ -1085,6 +1085,20 @@ available</p>
 <li>Changes attribute</li>
 </ul>
 
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>updateType</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.UpdateType</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1224,8 +1238,12 @@ export class ConfiguratorCommonsService {
    */
   updateConfiguration(
     ownerKey: string,
-    changedAttribute: Configurator.Attribute
+    changedAttribute: Configurator.Attribute,
+    updateType?: Configurator.UpdateType
   ): void {
+    if (!updateType) {
+      updateType &#x3D; Configurator.UpdateType.ATTRIBUTE;
+    }
     // in case cart updates pending: Do nothing, because an addToCart might
     // be in progress. Can happen if on slow networks addToCart was hit and
     // afterwards an attribute was changed before the OV navigation has
@@ -1257,7 +1275,8 @@ export class ConfiguratorCommonsService {
           new ConfiguratorActions.UpdateConfiguration(
             this.configuratorUtils.createConfigurationExtract(
               changedAttribute,
-              configuration
+              configuration,
+              updateType
             )
           )
         );

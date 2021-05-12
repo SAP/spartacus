@@ -72,20 +72,21 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
 import {
+  CmsConfig,
   provideDefaultConfigFactory,
   UserProfileFacadeTransitionalToken,
   UserRegisterFacadeTransitionalToken,
 } from &#x27;@spartacus/core&#x27;;
+import { UserProfileFacade } from &#x27;./facade/user-profile.facade&#x27;;
+import { UserRegisterFacade } from &#x27;./facade/user-register.facade&#x27;;
 import {
   USER_PROFILE_CORE_FEATURE,
   USER_PROFILE_FEATURE,
 } from &#x27;./feature-name&#x27;;
-import { UserProfileFacade } from &#x27;./facade/user-profile.facade&#x27;;
-import { UserRegisterFacade } from &#x27;./facade/user-register.facade&#x27;;
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
-export function defaultUserProfileComponentsConfig() {
-  const config &#x3D; {
+export function defaultUserProfileComponentsConfig(): CmsConfig {
+  const config: CmsConfig &#x3D; {
     featureModules: {
       [USER_PROFILE_FEATURE]: {
         cmsComponents: [

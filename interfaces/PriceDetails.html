@@ -233,6 +233,7 @@ export namespace Configurator {
     negativeAllowed?: boolean;
     hasConflicts?: boolean;
     retractTriggered?: boolean;
+    attributePriceTotal?: PriceDetails;
   }
 
   export interface Value {
@@ -242,6 +243,8 @@ export namespace Configurator {
     description?: string;
     selected?: boolean;
     quantity?: number;
+    valuePrice?: PriceDetails;
+    valuePriceTotal?: PriceDetails;
     productSystemId?: string;
     isCommerceProduct?: boolean;
     images?: Image[];
@@ -273,6 +276,9 @@ export namespace Configurator {
     nextOwner?: CommonConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
     interactionState?: InteractionState;
+    updateType?: UpdateType;
+    errorMessages?: string[];
+    warningMessages?: string[];
   }
 
   export interface InteractionState {
@@ -301,6 +307,11 @@ export namespace Configurator {
   export interface AttributeOverview {
     attribute: string;
     value: string;
+    productCode?: string;
+    type?: AttributeOverviewType;
+    quantity?: number;
+    valuePrice?: PriceDetails;
+    valuePriceTotal?: PriceDetails;
   }
 
   export interface PriceSummary {
@@ -366,6 +377,12 @@ export namespace Configurator {
     AUTO_COMPLETE_CUSTOM &#x3D; &#x27;input_autocomplete&#x27;,
     MULTI_SELECTION_IMAGE &#x3D; &#x27;multi_selection_image&#x27;,
     SINGLE_SELECTION_IMAGE &#x3D; &#x27;single_selection_image&#x27;,
+
+    //introduced with CPQ
+
+    CHECKBOXLIST_PRODUCT &#x3D; &#x27;checkBoxListProduct&#x27;,
+    DROPDOWN_PRODUCT &#x3D; &#x27;dropdownProduct&#x27;,
+    RADIOBUTTON_PRODUCT &#x3D; &#x27;radioGroupProduct&#x27;,
   }
 
   export enum ImageFormatType {
@@ -385,6 +402,16 @@ export namespace Configurator {
     USER_SELECTION_QTY_VALUE_LEVEL &#x3D; &#x27;UserSelectionWithValueQuantity&#x27;,
     USER_SELECTION_NO_QTY &#x3D; &#x27;UserSelectionWithoutQuantity&#x27;,
     NOT_IMPLEMENTED &#x3D; &#x27;not_implemented&#x27;,
+  }
+  export enum UpdateType {
+    ATTRIBUTE &#x3D; &#x27;Attribute&#x27;,
+    ATTRIBUTE_QUANTITY &#x3D; &#x27;AttributeQuantity&#x27;,
+    VALUE_QUANTITY &#x3D; &#x27;ValueQuantity&#x27;,
+  }
+
+  export enum AttributeOverviewType {
+    GENERAL &#x3D; &#x27;general&#x27;,
+    BUNDLE &#x3D; &#x27;bundle&#x27;,
   }
 }
 </code></pre>

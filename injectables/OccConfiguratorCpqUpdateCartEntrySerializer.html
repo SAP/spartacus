@@ -27,7 +27,7 @@
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
-               <div class="content class">
+               <div class="content injectable">
                    <div class="content-data">
 
 
@@ -36,13 +36,9 @@
 
 
 
-
-
-
-
 <ol class="breadcrumb">
-  <li>Classes</li>
-  <li>DynamicTemplate</li>
+  <li>Injectables</li>
+  <li>OccConfiguratorCpqUpdateCartEntrySerializer</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -60,9 +56,8 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/config/utils/dynamic-template.ts</code>
+            <code>feature-libs/product-configurator/rulebased/cpq/occ/converters/occ-configurator-cpq-update-cart-entry-serializer.ts</code>
         </p>
-
 
 
 
@@ -81,8 +76,7 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Static</span>
-                                <a href="#resolve">resolve</a>
+                                <a href="#convert">convert</a>
                             </li>
                         </ul>
                     </td>
@@ -97,7 +91,6 @@
 </section>
 
 
-
             <section>
     
     <h3 id="methods">
@@ -107,36 +100,32 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="resolve"></a>
+                    <a name="convert"></a>
                     <span class="name">
                         <b>
-                            <span class="modifier">Static</span>
-                            resolve
+                            convert
                         </b>
-                        <a href="#resolve"><span class="icon ion-ios-link"></span></a>
+                        <a href="#convert"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>resolve(templateString: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, templateVariables: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, encodeVariable?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+<code>convert(source: <a href="../s/Config.html">Configurator.UpdateConfigurationForCartEntryParameters</a>, target?: <a href="../s/Config.html">OccCpqConfigurator.UpdateConfigurationForCartEntryParameters</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="9"
-                            class="link-to-prism">projects/core/src/config/utils/dynamic-template.ts:9</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="13"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/occ/converters/occ-configurator-cpq-update-cart-entry-serializer.ts:13</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Populates the given template with the variables provided</p>
-</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -146,14 +135,13 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
-                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>templateString</td>
+                                    <td>source</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.UpdateConfigurationForCartEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -161,31 +149,11 @@
                                     </td>
 
 
-                                    <td>
-                                        <p>template of the OCC endpoint</p>
-
-                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>templateVariables</td>
+                                    <td>target</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" >Object</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>variables to replace in the template</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>encodeVariable</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >OccCpqConfigurator.UpdateConfigurationForCartEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -193,10 +161,6 @@
                                     </td>
 
 
-                                    <td>
-                                        <p>encode variable before placing it in the template</p>
-
-                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -204,7 +168,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >OccCpqConfigurator.UpdateConfigurationForCartEntryParameters</a></code>
 
                     </div>
                     <div class="io-description">
@@ -216,43 +180,45 @@
     </table>
 </section>
 
-
-
-
-
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">export class DynamicTemplate {
-  /**
-   * Populates the given template with the variables provided
-   *
-   * @param templateString template of the OCC endpoint
-   * @param templateVariables variables to replace in the template
-   * @param encodeVariable encode variable before placing it in the template
-   */
-  static resolve(
-    templateString: string,
-    templateVariables: Object,
-    encodeVariable?: boolean
-  ): string {
-    for (const variableLabel of Object.keys(templateVariables)) {
-      const placeholder &#x3D; new RegExp(&#x27;\\${&#x27; + variableLabel + &#x27;}&#x27;, &#x27;g&#x27;);
-      templateString &#x3D; templateString.replace(
-        placeholder,
-        // TODO 4.0: default to encodeVariable &#x3D; true
-        encodeVariable
-          ? encodeURIComponent(templateVariables[variableLabel])
-          : templateVariables[variableLabel]
-      );
-    }
-    return templateString;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Converter } from &#x27;@spartacus/core&#x27;;
+import { Configurator } from &#x27;@spartacus/product-configurator/rulebased&#x27;;
+import { OccCpqConfigurator } from &#x27;../cpq-configurator-occ.models&#x27;;
+
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class OccConfiguratorCpqUpdateCartEntrySerializer
+  implements
+    Converter&lt;
+      Configurator.UpdateConfigurationForCartEntryParameters,
+      OccCpqConfigurator.UpdateConfigurationForCartEntryParameters
+    &gt; {
+  convert(
+    source: Configurator.UpdateConfigurationForCartEntryParameters,
+    target?: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters
+  ): OccCpqConfigurator.UpdateConfigurationForCartEntryParameters {
+    const resultTarget: OccCpqConfigurator.UpdateConfigurationForCartEntryParameters &#x3D; {
+      ...target,
+      userId: source.userId,
+      cartId: source.cartId,
+      entryNumber: source.cartEntryNumber,
+      configId: source.configuration.configId,
+    };
+
+    return resultTarget;
   }
 }
 </code></pre>
     </div>
+
 </div>
+
+
+
+
 
 
 
@@ -277,8 +243,8 @@
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
-            var COMPODOC_CURRENT_PAGE_URL = 'DynamicTemplate-1.html';
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'OccConfiguratorCpqUpdateCartEntrySerializer.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

@@ -127,6 +127,10 @@
                                 <a href="#decorate">decorate</a>
                             </li>
                             <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#dispatchEvent">dispatchEvent</a>
+                            </li>
+                            <li>
                                     <span class="modifier">Private</span>
                                 <a href="#launchComponent">launchComponent</a>
                             </li>
@@ -168,12 +172,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(vcr: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, cmsComponentsService: <a href="../injectables/CmsComponentsService.html">CmsComponentsService</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, dynamicAttributeService: <a href="../injectables/DynamicAttributeService.html">DynamicAttributeService</a>, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>, componentHandler: <a href="../injectables/ComponentHandlerService.html">ComponentHandlerService</a>, cmsInjector: <a href="../injectables/CmsInjectorService.html">CmsInjectorService</a>)</code>
+<code>constructor(vcr: <a href="https://angular.io/api/core/ViewContainerRef" target="_blank">ViewContainerRef</a>, cmsComponentsService: <a href="../injectables/CmsComponentsService.html">CmsComponentsService</a>, injector: <a href="https://angular.io/api/core/Injector" target="_blank">Injector</a>, dynamicAttributeService: <a href="../injectables/DynamicAttributeService.html">DynamicAttributeService</a>, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>, componentHandler: <a href="../injectables/ComponentHandlerService.html">ComponentHandlerService</a>, cmsInjector: <a href="../injectables/CmsInjectorService.html">CmsInjectorService</a>, eventService?: <a href="../injectables/EventService.html">EventService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:73</a></div>
                             </td>
                         </tr>
 
@@ -274,6 +278,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>eventService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/EventService.html" target="_self" >EventService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -301,7 +317,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:29</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:38</a></div>
                             </td>
                         </tr>
             </tbody>
@@ -339,8 +355,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="93"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:93</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="150"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:150</a></div>
                 </td>
             </tr>
 
@@ -391,6 +407,93 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="dispatchEvent"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            dispatchEvent
+                        </b>
+                        <a href="#dispatchEvent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>dispatchEvent(event: <a href="../interfaces/Component.html">Type<ComponentEvent></a>, elementRef?: <a href="https://angular.io/api/core/ElementRef" target="_blank">ElementRef</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="136"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:136</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Dispatch the component event.</p>
+<p>The event is dispatched during creation and removal of the component.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>event</td>
+                                    <td>
+                                                <code><a href="../interfaces/Component.html" target="_self" >Type&lt;ComponentEvent&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>elementRef</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/ElementRef" target="_blank" >ElementRef</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="launchComponent"></a>
                     <span class="name">
                         <b>
@@ -411,8 +514,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="66"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:66</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:99</a></div>
                 </td>
             </tr>
 
@@ -450,8 +553,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:109</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="166"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:166</a></div>
                 </td>
             </tr>
 
@@ -489,8 +592,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:85</a></div>
                 </td>
             </tr>
 
@@ -533,7 +636,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:38</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -562,7 +665,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">projects/storefrontlib/src/cms-structure/page/component/component-wrapper.directive.ts:49</a></div>
                             </td>
                         </tr>
 
@@ -585,15 +688,24 @@
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   Renderer2,
+  Type,
   ViewContainerRef,
 } from &#x27;@angular/core&#x27;;
 import {
   ContentSlotComponentData,
   DynamicAttributeService,
+  EventService,
 } from &#x27;@spartacus/core&#x27;;
 import { Subscription } from &#x27;rxjs&#x27;;
+import { finalize, tap } from &#x27;rxjs/operators&#x27;;
 import { CmsComponentsService } from &#x27;../../services/cms-components.service&#x27;;
+import {
+  ComponentCreateEvent,
+  ComponentDestroyEvent,
+  ComponentEvent,
+} from &#x27;./events/component.event&#x27;;
 import { CmsInjectorService } from &#x27;./services/cms-injector.service&#x27;;
 import { ComponentHandlerService } from &#x27;./services/component-handler.service&#x27;;
 
@@ -617,6 +729,29 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
 
   private launcherResource?: Subscription;
 
+  /**
+   * @deprecated since version 3.3
+   * Use the following constructor instead:
+   * &#x60;&#x60;&#x60;
+   * constructor( protected vcr: ViewContainerRef,
+   * protected cmsComponentsService: CmsComponentsService,
+   * protected injector: Injector,
+   * protected dynamicAttributeService: DynamicAttributeService,
+   * protected renderer: Renderer2,
+   * protected componentHandler: ComponentHandlerService,
+   * protected cmsInjector: CmsInjectorService,
+   * protected eventService: EventService) {}
+   * &#x60;&#x60;&#x60;
+   */
+  constructor(
+    vcr: ViewContainerRef,
+    cmsComponentsService: CmsComponentsService,
+    injector: Injector,
+    dynamicAttributeService: DynamicAttributeService,
+    renderer: Renderer2,
+    componentHandler: ComponentHandlerService,
+    cmsInjector: CmsInjectorService
+  );
   constructor(
     protected vcr: ViewContainerRef,
     protected cmsComponentsService: CmsComponentsService,
@@ -624,7 +759,8 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
-    protected cmsInjector: CmsInjectorService
+    protected cmsInjector: CmsInjectorService,
+    @Optional() protected eventService?: EventService
   ) {}
 
   ngOnInit() {
@@ -661,11 +797,35 @@ export class ComponentWrapperDirective implements OnInit, OnDestroy {
         ),
         this.cmsComponentsService.getModule(this.cxComponentWrapper.flexType)
       )
-      ?.subscribe(({ elementRef, componentRef }) &#x3D;&gt; {
-        this.cmpRef &#x3D; componentRef;
-        this.decorate(elementRef);
-        this.injector.get(ChangeDetectorRef).markForCheck();
-      });
+      .pipe(
+        tap(({ elementRef, componentRef }) &#x3D;&gt; {
+          this.cmpRef &#x3D; componentRef;
+          this.dispatchEvent(ComponentCreateEvent, elementRef);
+          this.decorate(elementRef);
+          this.injector.get(ChangeDetectorRef).markForCheck();
+        }),
+        finalize(() &#x3D;&gt; this.dispatchEvent(ComponentDestroyEvent))
+      )
+      .subscribe();
+  }
+
+  /**
+   * Dispatch the component event.
+   *
+   * The event is dispatched during creation and removal of the component.
+   */
+  protected dispatchEvent(
+    event: Type&lt;ComponentEvent&gt;,
+    elementRef?: ElementRef
+  ) {
+    const payload &#x3D; {
+      typeCode: this.cxComponentWrapper.typeCode,
+      id: this.cxComponentWrapper.uid,
+    } as ComponentEvent;
+    if (event &#x3D;&#x3D;&#x3D; ComponentCreateEvent) {
+      (payload as ComponentCreateEvent).host &#x3D; elementRef?.nativeElement;
+    }
+    this.eventService?.dispatch(payload, event);
   }
 
   private decorate(elementRef: ElementRef): void {

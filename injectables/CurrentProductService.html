@@ -121,7 +121,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -200,8 +200,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="46"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:46</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:47</a></div>
                 </td>
             </tr>
 
@@ -239,8 +239,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:30</a></div>
                 </td>
             </tr>
 
@@ -317,7 +317,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:20</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/storefrontlib/src/cms-components/product/current-product.service.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -332,6 +332,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import {
+  isNotUndefined,
   Product,
   ProductScope,
   ProductService,
@@ -371,7 +372,7 @@ export class CurrentProductService {
             )
           : of(null);
       }),
-      filter((product) &#x3D;&gt; product !&#x3D;&#x3D; undefined)
+      filter(isNotUndefined)
     );
   }
 

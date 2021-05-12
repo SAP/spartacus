@@ -91,7 +91,6 @@
                                         <a href="#isOwnerCartEntry">isOwnerCartEntry</a>
                                 </li>
                                 <li>
-                                            <span class="modifier">Optional</span>
                                         <a href="#owner">owner</a>
                                 </li>
                                 <li>
@@ -238,11 +237,6 @@
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
 
 
 
@@ -331,7 +325,7 @@ export namespace ConfiguratorRouter {
   export interface Data {
     pageType?: PageType;
     isOwnerCartEntry?: boolean;
-    owner?: CommonConfigurator.Owner;
+    owner: CommonConfigurator.Owner;
     displayOnly?: boolean;
     forceReload?: boolean;
     resolveIssues?: boolean;

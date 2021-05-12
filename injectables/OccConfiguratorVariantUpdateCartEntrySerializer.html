@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-update-cart-entry-serializer.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-update-cart-entry-serializer.ts:14</a></div>
                 </td>
             </tr>
 
@@ -186,6 +186,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Converter } from &#x27;@spartacus/core&#x27;;
+import { ConfiguratorType } from &#x27;@spartacus/product-configurator/common&#x27;;
 import { OccConfigurator } from &#x27;../variant-configurator-occ.models&#x27;;
 import { Configurator } from &#x27;./../../../core/model/configurator.model&#x27;;
 
@@ -207,7 +208,7 @@ export class OccConfiguratorVariantUpdateCartEntrySerializer
       product: { code: source.configuration.productCode },
       entryNumber: source.cartEntryNumber,
       configId: source.configuration.configId,
-      configurationInfos: [{ configuratorType: &#x27;CPQCONFIGURATOR&#x27; }],
+      configurationInfos: [{ configuratorType: ConfiguratorType.VARIANT }],
     };
 
     return resultTarget;

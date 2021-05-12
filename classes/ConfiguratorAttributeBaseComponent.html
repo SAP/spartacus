@@ -136,6 +136,9 @@
                                 <a href="#createAttributeValueIdForConfigurator">createAttributeValueIdForConfigurator</a>
                             </li>
                             <li>
+                                <a href="#createFocusId">createFocusId</a>
+                            </li>
+                            <li>
                                 <a href="#createValueUiKey">createValueUiKey</a>
                             </li>
                         </ul>
@@ -692,6 +695,91 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="createFocusId"></a>
+                    <span class="name">
+                        <b>
+                            createFocusId
+                        </b>
+                        <a href="#createFocusId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>createFocusId(attributeId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, valueCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-base.component.ts:129</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates a unique key for focus handling for the given attribute and value</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>attributeId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>valueCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <p>focus key</p>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="createValueUiKey"></a>
                     <span class="name">
                         <b>
@@ -923,6 +1011,16 @@ export class ConfiguratorAttributeBaseComponent {
       }
     }
     return attributeUiKey;
+  }
+
+  /**
+   * Creates a unique key for focus handling for the given attribute and value
+   * @param attributeId
+   * @param valueCode
+   * @returns focus key
+   */
+  createFocusId(attributeId: string, valueCode: string): string {
+    return &#x60;${attributeId}--${valueCode}--focus&#x60;;
   }
 }
 </code></pre>

@@ -319,8 +319,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart-entry.adapter.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart-entry.adapter.ts:90</a></div>
                 </td>
             </tr>
 
@@ -415,8 +415,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart-entry.adapter.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart-entry.adapter.ts:59</a></div>
                 </td>
             </tr>
 
@@ -540,21 +540,35 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     productCode: string,
     quantity: number &#x3D; 1
   ): Observable&lt;CartModification&gt; {
-    const toAdd &#x3D; JSON.stringify({});
-
-    const headers &#x3D; new HttpHeaders({
-      &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
+    const url &#x3D; this.occEndpointsService.getUrl(&#x27;addEntries&#x27;, {
+      userId,
+      cartId,
+      quantity,
     });
 
-    const url &#x3D; this.occEndpointsService.getUrl(
-      &#x27;addEntries&#x27;,
-      {
-        userId,
-        cartId,
-        quantity, // The &quot;quantity&quot; parameter is required for the b2b add to cart endpoint.
-      },
-      { code: productCode, qty: quantity } // The &quot;qty&quot; parameter is used for the base b2c add to cart endpoint.
-    );
+    // Handle b2b case where the x-www-form-urlencoded is still used
+    if (url.includes(&#x60;quantity&#x3D;${quantity}&#x60;)) {
+      const headers &#x3D; new HttpHeaders({
+        &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
+      });
+
+      return this.http
+        .post&lt;CartModification&gt;(
+          url,
+          {},
+          { headers, params: { code: productCode } }
+        )
+        .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
+    }
+
+    const toAdd &#x3D; {
+      quantity,
+      product: { code: productCode },
+    };
+
+    const headers &#x3D; new HttpHeaders({
+      &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
+    });
 
     return this.http
       .post&lt;CartModification&gt;(url, toAdd, { headers })
@@ -570,21 +584,25 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
   ): Observable&lt;CartModification&gt; {
     let params &#x3D; {};
     if (pickupStore) {
-      params &#x3D; { pickupStore };
+      params &#x3D; {
+        deliveryPointOfService: {
+          name: pickupStore,
+        },
+      };
     }
 
     const headers &#x3D; new HttpHeaders({
-      &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
+      &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
     });
 
-    const url &#x3D; this.occEndpointsService.getUrl(
-      &#x27;updateEntries&#x27;,
-      { userId, cartId, entryNumber },
-      { qty, ...params }
-    );
+    const url &#x3D; this.occEndpointsService.getUrl(&#x27;updateEntries&#x27;, {
+      userId,
+      cartId,
+      entryNumber,
+    });
 
     return this.http
-      .patch&lt;CartModification&gt;(url, {}, { headers })
+      .patch&lt;CartModification&gt;(url, { quantity: qty, ...params }, { headers })
       .pipe(this.converterService.pipeable(CART_MODIFICATION_NORMALIZER));
   }
 

@@ -71,30 +71,45 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
-import { HttpErrorHandler, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
-import { defaultOrganizationLayoutConfig } from &#x27;./config/default-organization-layout.config&#x27;;
+import {
+  CmsConfig,
+  HttpErrorHandler,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from &#x27;@spartacus/core&#x27;;
 import {
   OrganizationBadRequestHandler,
   OrganizationConflictHandler,
 } from &#x27;@spartacus/organization/administration/core&#x27;;
+import { defaultOrganizationLayoutConfig } from &#x27;./config/default-organization-layout.config&#x27;;
+import { ORGANIZATION_ADMINISTRATION_FEATURE } from &#x27;./feature-name&#x27;;
+
+// TODO: Inline this factory when we start releasing Ivy compiled libraries
+export function defaultOrganizationAdministrationComponentsConfig(): CmsConfig {
+  const config: CmsConfig &#x3D; {
+    featureModules: {
+      [ORGANIZATION_ADMINISTRATION_FEATURE]: {
+        cmsComponents: [
+          &#x27;ManageBudgetsListComponent&#x27;,
+          &#x27;ManageCostCentersListComponent&#x27;,
+          &#x27;ManagePermissionsListComponent&#x27;,
+          &#x27;ManageUnitsListComponent&#x27;,
+          &#x27;ManageUsersListComponent&#x27;,
+          &#x27;ManageUserGroupsListComponent&#x27;,
+        ],
+      },
+    },
+  };
+
+  return config;
+}
 
 @NgModule({
   providers: [
     provideDefaultConfig(defaultOrganizationLayoutConfig),
-    provideDefaultConfig({
-      featureModules: {
-        organizationAdministration: {
-          cmsComponents: [
-            &#x27;ManageBudgetsListComponent&#x27;,
-            &#x27;ManageCostCentersListComponent&#x27;,
-            &#x27;ManagePermissionsListComponent&#x27;,
-            &#x27;ManageUnitsListComponent&#x27;,
-            &#x27;ManageUsersListComponent&#x27;,
-            &#x27;ManageUserGroupsListComponent&#x27;,
-          ],
-        },
-      },
-    }),
+    provideDefaultConfigFactory(
+      defaultOrganizationAdministrationComponentsConfig
+    ),
     {
       provide: HttpErrorHandler,
       useExisting: OrganizationConflictHandler,

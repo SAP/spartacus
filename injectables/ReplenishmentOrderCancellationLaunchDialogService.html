@@ -61,6 +61,11 @@
 
 
 
+            <p class="comment">
+                <h3>Example</h3>
+            </p>
+            <div class="io-description">
+            </div>
 
             <section>
     <h3 id="index">Index</h3>
@@ -101,7 +106,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation-launch-dialog.service.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation-launch-dialog.service.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -166,8 +171,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation-launch-dialog.service.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation-launch-dialog.service.ts:20</a></div>
                 </td>
             </tr>
 
@@ -252,10 +257,17 @@ import {
   LAUNCH_CALLER,
 } from &#x27;../../../../../layout/launch-dialog/index&#x27;;
 
+// TODO(#12167): deprecations cleanup
+/**
+ * @deprecated since 3.3 - use &#x60;LaunchDialogService&#x60; instead
+ */
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class ReplenishmentOrderCancellationLaunchDialogService {
   constructor(protected launchDialogService: LaunchDialogService) {}
 
+  /**
+   * @deprecated since 3.3 - use &#x60;LaunchDialogService.openDialog&#x60; with LAUNCH_CALLER.REPLENISHMENT_ORDER instead
+   */
   openDialog(
     openElement?: ElementRef,
     vcr?: ViewContainerRef,

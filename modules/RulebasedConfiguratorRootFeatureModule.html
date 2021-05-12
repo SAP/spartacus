@@ -78,11 +78,16 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
-import { provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
+import {
+  CmsConfig,
+  provideDefaultConfig,
+  provideDefaultConfigFactory,
+} from &#x27;@spartacus/core&#x27;;
+import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE } from &#x27;./feature-name&#x27;;
 
 const cmsComponents: string[] &#x3D; [
   &#x27;ConfiguratorForm&#x27;,
-  &#x27;ConfiguratorOverview&#x27;,
+  &#x27;ConfiguratorOverviewForm&#x27;,
   &#x27;ConfiguratorUpdateMessage&#x27;,
   &#x27;ConfiguratorAddToCartButton&#x27;,
   &#x27;ConfiguratorMenu&#x27;,
@@ -90,9 +95,23 @@ const cmsComponents: string[] &#x3D; [
   &#x27;ConfiguratorOverviewBanner&#x27;,
   &#x27;ConfiguratorPrevNext&#x27;,
   &#x27;ConfiguratorPriceSummary&#x27;,
-  &#x27;ConfiguratorTitle&#x27;,
+  &#x27;ConfiguratorProductTitle&#x27;,
   &#x27;ConfiguratorTabBar&#x27;,
+  &#x27;CpqConfiguratorConflictAndErrorMessagesComponent&#x27;,
 ];
+
+// TODO: Inline this factory when we start releasing Ivy compiled libraries
+export function defaultProductConfiguratorRulebasedComponentsConfig(): CmsConfig {
+  const config: CmsConfig &#x3D; {
+    featureModules: {
+      [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
+        cmsComponents,
+      },
+    },
+  };
+
+  return config;
+}
 
 /**
  * Contains feature module configuration
@@ -111,9 +130,11 @@ const cmsComponents: string[] &#x3D; [
          * with undefined &#x60;config.featureModules[KEY].module&#x60; will be ignored.
          */
         rulebased: { cmsComponents },
-        productConfiguratorRulebased: { cmsComponents },
       },
     }),
+    provideDefaultConfigFactory(
+      defaultProductConfiguratorRulebasedComponentsConfig
+    ),
   ],
 })
 export class RulebasedConfiguratorRootFeatureModule {}

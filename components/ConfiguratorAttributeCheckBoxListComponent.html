@@ -66,7 +66,7 @@
         <h3>Extends</h3>
     </p>
     <p class="comment">
-                <code><a href="../classes/ConfiguratorAttributeBaseComponent.html" target="_self" >ConfiguratorAttributeBaseComponent</a></code>
+            <code>ConfiguratorAttributeMultiSelectionBaseComponent</code>
     </p>
 
     <p class="comment">
@@ -135,31 +135,6 @@
                             <li>
                                 <a href="#attributeCheckBoxForms">attributeCheckBoxForms</a>
                             </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                    <span class="modifier">Static</span>
-                                <a href="#PREFIX">PREFIX</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                    <span class="modifier">Static</span>
-                                <a href="#PREFIX_DDLB_OPTION_PRICE_VALUE">PREFIX_DDLB_OPTION_PRICE_VALUE</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                    <span class="modifier">Static</span>
-                                <a href="#PREFIX_LABEL">PREFIX_LABEL</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                    <span class="modifier">Static</span>
-                                <a href="#PREFIX_OPTION_PRICE_VALUE">PREFIX_OPTION_PRICE_VALUE</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                    <span class="modifier">Static</span>
-                                <a href="#SEPERATOR">SEPERATOR</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -176,22 +151,13 @@
                                 <a href="#ngOnInit">ngOnInit</a>
                             </li>
                             <li>
+                                <a href="#onChangeQuantity">onChangeQuantity</a>
+                            </li>
+                            <li>
+                                <a href="#onChangeValueQuantity">onChangeValueQuantity</a>
+                            </li>
+                            <li>
                                 <a href="#onSelect">onSelect</a>
-                            </li>
-                            <li>
-                                <a href="#createAriaLabelledBy">createAriaLabelledBy</a>
-                            </li>
-                            <li>
-                                <a href="#createAttributeIdForConfigurator">createAttributeIdForConfigurator</a>
-                            </li>
-                            <li>
-                                <a href="#createAttributeUiKey">createAttributeUiKey</a>
-                            </li>
-                            <li>
-                                <a href="#createAttributeValueIdForConfigurator">createAttributeValueIdForConfigurator</a>
-                            </li>
-                            <li>
-                                <a href="#createValueUiKey">createValueUiKey</a>
                             </li>
                         </ul>
                     </td>
@@ -206,35 +172,29 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                <a href="#attribute">attribute</a>
-                            </li>
-                            <li>
                                 <a href="#group">group</a>
                             </li>
-                            <li>
-                                <a href="#ownerKey">ownerKey</a>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="col-md-4">
-                        <h6><b>Outputs</b></h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <ul class="index-list">
-                            <li>
-                                <a href="#selectionChange">selectionChange</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
 
 
 
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#allowZeroValueQuantity">allowZeroValueQuantity</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
         </tbody>
     </table>
 </section>
@@ -245,12 +205,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(configUtilsService: <a href="../injectables/ConfiguratorStorefrontUtilsService.html">ConfiguratorStorefrontUtilsService</a>)</code>
+<code>constructor(configUtilsService: <a href="../injectables/ConfiguratorStorefrontUtilsService.html">ConfiguratorStorefrontUtilsService</a>, quantityService?: <a href="../injectables/ConfiguratorAttributeQuantityService.html">ConfiguratorAttributeQuantityService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:26</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="43" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:43</a></div>
                             </td>
                         </tr>
 
@@ -279,6 +239,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>quantityService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/ConfiguratorAttributeQuantityService.html" target="_self" >ConfiguratorAttributeQuantityService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -290,27 +262,6 @@
 
     <section>
     <h3 id="inputs">Inputs</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="attribute"></a>
-                        <b>attribute</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Attribute</a></code>
-
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:22</a></div>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
         <table class="table table-sm table-bordered">
             <tbody>
                 <tr>
@@ -327,57 +278,13 @@
                 </tr>
                         <tr>
                             <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:23</a></div>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="ownerKey"></a>
-                        <b>ownerKey</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:24</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:25</a></div>
                             </td>
                         </tr>
             </tbody>
         </table>
 </section>
-    <section>
-    <h3 id="outputs">Outputs</h3>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="selectionChange"></a>
-                        <b>selectionChange</b>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="https://angular.io/api/core/EventEmitter" target="_blank" >EventEmitter</a></code>
 
-                    </td>
-                </tr>
-                        <tr>
-                            <td class="col-md-2" colspan="2">
-                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:26</a></div>
-                            </td>
-                        </tr>
-            </tbody>
-        </table>
-</section>
 
 
     <section>
@@ -407,8 +314,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:52</a></div>
                 </td>
             </tr>
 
@@ -419,6 +326,170 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onChangeQuantity"></a>
+                    <span class="name">
+                        <b>
+                            onChangeQuantity
+                        </b>
+                        <a href="#onChangeQuantity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onChangeQuantity(eventObject: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="134"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:134</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>eventObject</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onChangeValueQuantity"></a>
+                    <span class="name">
+                        <b>
+                            onChangeValueQuantity
+                        </b>
+                        <a href="#onChangeValueQuantity"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onChangeValueQuantity(eventObject: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, valueCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, formIndex: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:94</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>eventObject</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>valueCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>formIndex</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -446,510 +517,18 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:76</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Triggered when a value is selected</p>
-</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createAriaLabelledBy"></a>
-                    <span class="name">
-                        <b>
-                            createAriaLabelledBy
-                        </b>
-                        <a href="#createAriaLabelledBy"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>createAriaLabelledBy(prefix: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, valueId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, hasQuantity?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html" target="_self" >ConfiguratorAttributeBaseComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html#source" target="_self" >ConfiguratorAttributeBaseComponent:85</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Creates unique key for attribute &#39;aria-labelledby&#39;</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>prefix</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>attributeId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>valueId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>hasQuantity</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createAttributeIdForConfigurator"></a>
-                    <span class="name">
-                        <b>
-                            createAttributeIdForConfigurator
-                        </b>
-                        <a href="#createAttributeIdForConfigurator"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>createAttributeIdForConfigurator(currentAttribute: <a href="../s/Config.html">Configurator.Attribute</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html" target="_self" >ConfiguratorAttributeBaseComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html#source" target="_self" >ConfiguratorAttributeBaseComponent:67</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Creates unique key for config attribute to be sent to configurator</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>currentAttribute</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Attribute</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createAttributeUiKey"></a>
-                    <span class="name">
-                        <b>
-                            createAttributeUiKey
-                        </b>
-                        <a href="#createAttributeUiKey"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>createAttributeUiKey(prefix: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html" target="_self" >ConfiguratorAttributeBaseComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html#source" target="_self" >ConfiguratorAttributeBaseComponent:53</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Creates unique key for config attribute on the UI</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>prefix</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>for key depending on usage (e.g. uiType, label)</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>attributeId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createAttributeValueIdForConfigurator"></a>
-                    <span class="name">
-                        <b>
-                            createAttributeValueIdForConfigurator
-                        </b>
-                        <a href="#createAttributeValueIdForConfigurator"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>createAttributeValueIdForConfigurator(currentAttribute: <a href="../s/Config.html">Configurator.Attribute</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html" target="_self" >ConfiguratorAttributeBaseComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html#source" target="_self" >ConfiguratorAttributeBaseComponent:37</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Creates unique key for config value to be sent to configurator</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>currentAttribute</td>
-                                    <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Attribute</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>value</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createValueUiKey"></a>
-                    <span class="name">
-                        <b>
-                            createValueUiKey
-                        </b>
-                        <a href="#createValueUiKey"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>createValueUiKey(prefix: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, attributeId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, valueId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Inherited from         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html" target="_self" >ConfiguratorAttributeBaseComponent</a></code>
-</div>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html#source" target="_self" >ConfiguratorAttributeBaseComponent:20</a></code>
-</div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Creates unique key for config value on the UI</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>prefix</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>for key depending on usage (e.g. uiType, label)</p>
-
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>attributeId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>valueId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -980,212 +559,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:34</a></div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="PREFIX"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                                <span class="modifier">Static</span>
-                            PREFIX</b>
-                            <a href="#PREFIX"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>&#x27;cx-configurator&#x27;</code>
-                        </td>
-                    </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Inherited from         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html" target="_self" >ConfiguratorAttributeBaseComponent</a></code>
-</div>
-                                </td>
-                            </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html#source" target="_self" >ConfiguratorAttributeBaseComponent:9</a></code>
-</div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="PREFIX_DDLB_OPTION_PRICE_VALUE"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                                <span class="modifier">Static</span>
-                            PREFIX_DDLB_OPTION_PRICE_VALUE</b>
-                            <a href="#PREFIX_DDLB_OPTION_PRICE_VALUE"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>&#x27;option--price&#x27;</code>
-                        </td>
-                    </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Inherited from         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html" target="_self" >ConfiguratorAttributeBaseComponent</a></code>
-</div>
-                                </td>
-                            </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html#source" target="_self" >ConfiguratorAttributeBaseComponent:12</a></code>
-</div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="PREFIX_LABEL"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                                <span class="modifier">Static</span>
-                            PREFIX_LABEL</b>
-                            <a href="#PREFIX_LABEL"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>&#x27;label&#x27;</code>
-                        </td>
-                    </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Inherited from         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html" target="_self" >ConfiguratorAttributeBaseComponent</a></code>
-</div>
-                                </td>
-                            </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html#source" target="_self" >ConfiguratorAttributeBaseComponent:10</a></code>
-</div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="PREFIX_OPTION_PRICE_VALUE"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                                <span class="modifier">Static</span>
-                            PREFIX_OPTION_PRICE_VALUE</b>
-                            <a href="#PREFIX_OPTION_PRICE_VALUE"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>&#x27;price--optionsPriceValue&#x27;</code>
-                        </td>
-                    </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Inherited from         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html" target="_self" >ConfiguratorAttributeBaseComponent</a></code>
-</div>
-                                </td>
-                            </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html#source" target="_self" >ConfiguratorAttributeBaseComponent:11</a></code>
-</div>
-                            </td>
-                        </tr>
-
-
-            </tbody>
-        </table>
-        <table class="table table-sm table-bordered">
-            <tbody>
-                <tr>
-                    <td class="col-md-4">
-                        <a name="SEPERATOR"></a>
-                        <span class="name">
-                            <b>
-                                <span class="modifier">Private</span>
-                                <span class="modifier">Static</span>
-                            SEPERATOR</b>
-                            <a href="#SEPERATOR"><span class="icon ion-ios-link"></span></a>
-                        </span>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <i>Default value : </i><code>&#x27;--&#x27;</code>
-                        </td>
-                    </tr>
-                            <tr>
-                                <td class="col-md-4">
-                                    <div class="io-line">Inherited from         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html" target="_self" >ConfiguratorAttributeBaseComponent</a></code>
-</div>
-                                </td>
-                            </tr>
-                        <tr>
-                            <td class="col-md-4">
-                                    <div class="io-line">Defined in         <code><a href="../classes/ConfiguratorAttributeBaseComponent.html#source" target="_self" >ConfiguratorAttributeBaseComponent:8</a></code>
-</div>
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:23</a></div>
                             </td>
                         </tr>
 
@@ -1194,6 +568,33 @@
         </table>
 </section>
 
+    <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="allowZeroValueQuantity"></a>
+                        <span class="name"><b>allowZeroValueQuantity</b><a href="#allowZeroValueQuantity"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>allowZeroValueQuantity()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts:70</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
 </div>
 
 
@@ -1201,43 +602,65 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
   ChangeDetectionStrategy,
   Component,
-  EventEmitter,
   Input,
+  isDevMode,
   OnInit,
-  Output,
 } from &#x27;@angular/core&#x27;;
 import { FormControl } from &#x27;@angular/forms&#x27;;
 import { Configurator } from &#x27;../../../../core/model/configurator.model&#x27;;
 import { ConfigFormUpdateEvent } from &#x27;../../../form/configurator-form.event&#x27;;
 import { ConfiguratorStorefrontUtilsService } from &#x27;../../../service/configurator-storefront-utils.service&#x27;;
-import { ConfiguratorAttributeBaseComponent } from &#x27;../base/configurator-attribute-base.component&#x27;;
+import { ConfiguratorAttributeQuantityService } from &#x27;../../quantity/configurator-attribute-quantity.service&#x27;;
+import { ConfiguratorAttributeMultiSelectionBaseComponent } from &#x27;../base/configurator-attribute-multi-selection-base.component&#x27;;
+
 @Component({
   selector: &#x27;cx-configurator-attribute-checkbox-list&#x27;,
   templateUrl: &#x27;./configurator-attribute-checkbox-list.component.html&#x27;,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeCheckBoxListComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorAttributeMultiSelectionBaseComponent
   implements OnInit {
-  @Input() attribute: Configurator.Attribute;
-  @Input() group: string;
-  @Input() ownerKey: string;
-
-  @Output() selectionChange &#x3D; new EventEmitter&lt;ConfigFormUpdateEvent&gt;();
-
-  constructor(
-    protected configUtilsService: ConfiguratorStorefrontUtilsService
-  ) {
-    super();
-  }
-
   attributeCheckBoxForms &#x3D; new Array&lt;FormControl&gt;();
 
-  ngOnInit() {
+  @Input() group: string;
+
+  // TODO(#11681): make quantityService a required dependency and remove deprecated constructor
+  /**
+   * default constructor
+   * @param {ConfiguratorStorefrontUtilsService} configUtilsService
+   * @param {ConfiguratorAttributeQuantityService} quantityService
+   */
+  constructor(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    configUtilsService: ConfiguratorStorefrontUtilsService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    quantityService: ConfiguratorAttributeQuantityService
+  );
+
+  /**
+   * @deprecated since 3.3
+   */
+  constructor(configUtilsService: ConfiguratorStorefrontUtilsService);
+
+  constructor(
+    protected configUtilsService: ConfiguratorStorefrontUtilsService,
+    protected quantityService?: ConfiguratorAttributeQuantityService
+  ) {
+    super(quantityService);
+  }
+
+  ngOnInit(): void {
+    const disabled &#x3D; !this.allowZeroValueQuantity;
+
     for (const value of this.attribute.values) {
       let attributeCheckBoxForm;
+
       if (value.selected &#x3D;&#x3D;&#x3D; true) {
-        attributeCheckBoxForm &#x3D; new FormControl(true);
+        attributeCheckBoxForm &#x3D; new FormControl({
+          value: true,
+          disabled: disabled,
+        });
       } else {
         attributeCheckBoxForm &#x3D; new FormControl(false);
       }
@@ -1245,9 +668,12 @@ export class ConfiguratorAttributeCheckBoxListComponent
     }
   }
 
-  /**
-   * Triggered when a value is selected
-   */
+  get allowZeroValueQuantity(): boolean {
+    return (
+      this.quantityService?.allowZeroValueQuantity(this.attribute) ?? false
+    );
+  }
+
   onSelect(): void {
     const selectedValues &#x3D; this.configUtilsService.assembleValuesForMultiSelectAttributes(
       this.attributeCheckBoxForms,
@@ -1255,16 +681,66 @@ export class ConfiguratorAttributeCheckBoxListComponent
     );
 
     const event: ConfigFormUpdateEvent &#x3D; {
-      ownerKey: this.ownerKey,
       changedAttribute: {
-        name: this.attribute.name,
+        ...this.attribute,
         values: selectedValues,
-        uiType: this.attribute.uiType,
-        groupId: this.attribute.groupId,
       },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.ATTRIBUTE,
     };
 
     this.selectionChange.emit(event);
+  }
+
+  onChangeValueQuantity(
+    eventObject: any,
+    valueCode: string,
+    formIndex: number
+  ): void {
+    if (eventObject &#x3D;&#x3D;&#x3D; 0) {
+      this.attributeCheckBoxForms[formIndex].setValue(false);
+      this.onSelect();
+      return;
+    }
+
+    const value: Configurator.Value &#x3D; this.configUtilsService
+      .assembleValuesForMultiSelectAttributes(
+        this.attributeCheckBoxForms,
+        this.attribute
+      )
+      .find((item) &#x3D;&gt; item.valueCode &#x3D;&#x3D;&#x3D; valueCode);
+
+    if (!value) {
+      if (isDevMode()) {
+        console.warn(&#x27;no value for event:&#x27;, eventObject);
+      }
+
+      return;
+    }
+
+    value.quantity &#x3D; eventObject;
+
+    const event: ConfigFormUpdateEvent &#x3D; {
+      changedAttribute: {
+        ...this.attribute,
+        values: [value],
+      },
+      ownerKey: this.ownerKey,
+      updateType: Configurator.UpdateType.VALUE_QUANTITY,
+    };
+
+    this.selectionChange.emit(event);
+  }
+
+  onChangeQuantity(eventObject: any): void {
+    if (!eventObject) {
+      this.attributeCheckBoxForms.forEach((_, index) &#x3D;&gt;
+        this.attributeCheckBoxForms[index].setValue(false)
+      );
+      this.onSelect();
+    } else {
+      this.onHandleAttributeQuantity(eventObject);
+    }
   }
 }
 </code></pre>
@@ -1272,28 +748,45 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
     <div class="tab-pane fade " id="c-templateData">
         <pre class="line-numbers"><code class="language-html">&lt;div id&#x3D;&quot;{{ createAttributeIdForConfigurator(attribute) }}&quot;&gt;
-  &lt;div class&#x3D;&quot;form-check&quot; *ngFor&#x3D;&quot;let value of attribute.values; let i &#x3D; index&quot;&gt;
-    &lt;input
-      id&#x3D;&quot;{{
-        createAttributeValueIdForConfigurator(attribute, value.valueCode)
-      }}&quot;
-      type&#x3D;&quot;checkbox&quot;
-      class&#x3D;&quot;form-check-input&quot;
-      [cxFocus]&#x3D;&quot;{ key: attribute.name + &#x27;-&#x27; + value.name }&quot;
-      [value]&#x3D;&quot;value.valueCode&quot;
-      (change)&#x3D;&quot;onSelect()&quot;
-      [formControl]&#x3D;&quot;attributeCheckBoxForms[i]&quot;
-      name&#x3D;&quot;{{ createAttributeIdForConfigurator(attribute) }}&quot;
-    /&gt;
-    &lt;label
-      id&#x3D;&quot;{{ createValueUiKey(&#x27;label&#x27;, attribute.name, value.valueCode) }}&quot;
-      for&#x3D;&quot;{{
-        createAttributeValueIdForConfigurator(attribute, value.valueCode)
-      }}&quot;
-      class&#x3D;&quot;cx-configurator-attribute-value-label form-check-label&quot;
-      &gt;{{ value.valueDisplay }}&lt;/label
-    &gt;
-  &lt;/div&gt;
+  &lt;cx-configurator-attribute-quantity
+    *ngIf&#x3D;&quot;withQuantityOnAttributeLevel&quot;
+    (changeQuantity)&#x3D;&quot;onChangeQuantity($event)&quot;
+    [quantityOptions]&#x3D;&quot;
+      extractQuantityParameters(attribute.quantity, !attribute.required)
+    &quot;
+  &gt;&lt;/cx-configurator-attribute-quantity&gt;
+
+  &lt;ng-container *ngFor&#x3D;&quot;let value of attribute.values; let i &#x3D; index&quot;&gt;
+    &lt;div class&#x3D;&quot;form-check&quot;&gt;
+      &lt;input
+        id&#x3D;&quot;{{
+          createAttributeValueIdForConfigurator(attribute, value.valueCode)
+        }}&quot;
+        type&#x3D;&quot;checkbox&quot;
+        class&#x3D;&quot;form-check-input&quot;
+        [cxFocus]&#x3D;&quot;{ key: attribute.name + &#x27;-&#x27; + value.name }&quot;
+        [value]&#x3D;&quot;value.valueCode&quot;
+        (change)&#x3D;&quot;onSelect()&quot;
+        [formControl]&#x3D;&quot;attributeCheckBoxForms[i]&quot;
+        name&#x3D;&quot;{{ createAttributeIdForConfigurator(attribute) }}&quot;
+      /&gt;
+      &lt;label
+        id&#x3D;&quot;{{ createValueUiKey(&#x27;label&#x27;, attribute.name, value.valueCode) }}&quot;
+        for&#x3D;&quot;{{
+          createAttributeValueIdForConfigurator(attribute, value.valueCode)
+        }}&quot;
+        class&#x3D;&quot;cx-configurator-attribute-value-label form-check-label&quot;
+        &gt;{{ value.valueDisplay }}&lt;/label
+      &gt;
+    &lt;/div&gt;
+    &lt;cx-configurator-attribute-quantity
+      *ngIf&#x3D;&quot;value.selected &amp;&amp; withQuantity &amp;&amp; !withQuantityOnAttributeLevel&quot;
+      (changeQuantity)&#x3D;&quot;onChangeValueQuantity($event, value.valueCode, i)&quot;
+      [quantityOptions]&#x3D;&quot;
+        extractQuantityParameters(value.quantity, allowZeroValueQuantity)
+      &quot;
+    &gt;&lt;/cx-configurator-attribute-quantity&gt;
+  &lt;/ng-container&gt;
 &lt;/div&gt;
 </code></pre>
     </div>
@@ -1324,8 +817,8 @@ export class ConfiguratorAttributeCheckBoxListComponent
 <script src="../js/libs/htmlparser.js"></script>
 <script src="../js/libs/deep-iterator.js"></script>
 <script>
-        var COMPONENT_TEMPLATE = '<div><div id="{{ createAttributeIdForConfigurator(attribute) }}">  <div class="form-check" *ngFor="let value of attribute.values; let i = index">    <input      id="{{        createAttributeValueIdForConfigurator(attribute, value.valueCode)      }}"      type="checkbox"      class="form-check-input"      [cxFocus]="{ key: attribute.name + \'-\' + value.name }"      [value]="value.valueCode"      (change)="onSelect()"      [formControl]="attributeCheckBoxForms[i]"      name="{{ createAttributeIdForConfigurator(attribute) }}"    />    <label      id="{{ createValueUiKey(\'label\', attribute.name, value.valueCode) }}"      for="{{        createAttributeValueIdForConfigurator(attribute, value.valueCode)      }}"      class="cx-configurator-attribute-value-label form-check-label"      >{{ value.valueDisplay }}</label    >  </div></div></div>'
-    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'ActiveLinkCellComponent', 'selector': 'cx-org-active-link-cell'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToSavedCartComponent', 'selector': 'cx-add-to-saved-cart'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmountCellComponent', 'selector': 'cx-org-amount-cell'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AssignCellComponent', 'selector': 'cx-org-assign-cell'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'BudgetCostCenterListComponent', 'selector': 'cx-org-budget-cost-center-list'},{'name': 'BudgetDetailsCellComponent', 'selector': 'cx-org-budget-details-cell'},{'name': 'BudgetDetailsComponent', 'selector': 'cx-org-budget-details'},{'name': 'BudgetFormComponent', 'selector': 'cx-org-budget-form'},{'name': 'BulkPricingTableComponent', 'selector': 'cx-bulk-pricing-table'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-org-card'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CellComponent', 'selector': 'cx-org-cell'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConfiguratorAddToCartButtonComponent', 'selector': 'cx-configurator-add-to-cart-button'},{'name': 'ConfiguratorAttributeCheckBoxComponent', 'selector': 'cx-configurator-attribute-checkbox'},{'name': 'ConfiguratorAttributeCheckBoxListComponent', 'selector': 'cx-configurator-attribute-checkbox-list'},{'name': 'ConfiguratorAttributeDropDownComponent', 'selector': 'cx-configurator-attribute-drop-down'},{'name': 'ConfiguratorAttributeFooterComponent', 'selector': 'cx-configurator-attribute-footer'},{'name': 'ConfiguratorAttributeHeaderComponent', 'selector': 'cx-configurator-attribute-header'},{'name': 'ConfiguratorAttributeInputFieldComponent', 'selector': 'cx-configurator-attribute-input-field'},{'name': 'ConfiguratorAttributeMultiSelectionImageComponent', 'selector': 'cx-configurator-attribute-multi-selection-image'},{'name': 'ConfiguratorAttributeNumericInputFieldComponent', 'selector': 'cx-configurator-attribute-numeric-input-field'},{'name': 'ConfiguratorAttributeRadioButtonComponent', 'selector': 'cx-configurator-attribute-radio-button'},{'name': 'ConfiguratorAttributeReadOnlyComponent', 'selector': 'cx-configurator-attribute-read-only'},{'name': 'ConfiguratorAttributeSingleSelectionImageComponent', 'selector': 'cx-configurator-attribute-single-selection-image'},{'name': 'ConfiguratorCartEntryInfoComponent', 'selector': 'cx-configurator-cart-entry-info'},{'name': 'ConfiguratorConflictDescriptionComponent', 'selector': 'cx-configurator-conflict-description'},{'name': 'ConfiguratorConflictSuggestionComponent', 'selector': 'cx-configurator-conflict-suggestion'},{'name': 'ConfiguratorFormComponent', 'selector': 'cx-configurator-form'},{'name': 'ConfiguratorGroupMenuComponent', 'selector': 'cx-configurator-group-menu'},{'name': 'ConfiguratorGroupTitleComponent', 'selector': 'cx-configurator-group-title'},{'name': 'ConfiguratorIssuesNotificationComponent', 'selector': 'cx-configurator-issues-notification'},{'name': 'ConfiguratorOverviewAttributeComponent', 'selector': 'cx-configurator-overview-attribute'},{'name': 'ConfiguratorOverviewFormComponent', 'selector': 'cx-configurator-overview-form'},{'name': 'ConfiguratorOverviewNotificationBannerComponent', 'selector': 'cx-configurator-overview-notification-banner'},{'name': 'ConfiguratorPreviousNextButtonsComponent', 'selector': 'cx-configurator-previous-next-buttons'},{'name': 'ConfiguratorPriceSummaryComponent', 'selector': 'cx-configurator-price-summary'},{'name': 'ConfiguratorProductTitleComponent', 'selector': 'cx-configurator-product-title'},{'name': 'ConfiguratorTabBarComponent', 'selector': 'cx-configurator-tab-bar'},{'name': 'ConfiguratorTextfieldAddToCartButtonComponent', 'selector': 'cx-configurator-textfield-add-to-cart-button'},{'name': 'ConfiguratorTextfieldFormComponent', 'selector': 'cx-configurator-textfield-form'},{'name': 'ConfiguratorTextfieldInputFieldComponent', 'selector': 'cx-configurator-textfield-input-field'},{'name': 'ConfiguratorUpdateMessageComponent', 'selector': 'cx-configurator-update-message'},{'name': 'ConfigureCartEntryComponent', 'selector': 'cx-configure-cart-entry'},{'name': 'ConfigureProductComponent', 'selector': 'cx-configure-product'},{'name': 'ConfirmationMessageComponent', 'selector': 'cx-org-confirmation'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CostCenterAssignedBudgetListComponent', 'selector': 'cx-org-cost-center-assigned-budget-list'},{'name': 'CostCenterBudgetListComponent', 'selector': 'cx-org-cost-center-budget-list'},{'name': 'CostCenterComponent', 'selector': 'cx-cost-center'},{'name': 'CostCenterDetailsCellComponent', 'selector': 'cx-org-cost-center-details-cell'},{'name': 'CostCenterDetailsComponent', 'selector': 'cx-org-cost-center-details'},{'name': 'CostCenterFormComponent', 'selector': 'cx-org-cost-center-form'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DatePickerComponent', 'selector': 'cx-date-picker'},{'name': 'DateRangeCellComponent', 'selector': 'cx-org-date-range-cell'},{'name': 'DeleteItemComponent', 'selector': 'cx-org-delete-item'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DisableInfoComponent', 'selector': 'cx-org-disable-info'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormComponent', 'selector': 'cx-org-form'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LimitCellComponent', 'selector': 'cx-org-limit-cell'},{'name': 'LinkCellComponent', 'selector': 'cx-org-link-cell'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'ListComponent', 'selector': 'cx-org-list'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MockCardComponent', 'selector': 'cx-org-card'},{'name': 'MockFormComponent', 'selector': 'cx-org-form'},{'name': 'MockIconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'MockSplitViewComponent', 'selector': 'cx-split-view'},{'name': 'MockSubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'MockViewComponent', 'selector': 'cx-view'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationMessageComponent', 'selector': 'cx-org-notification'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderApprovalDetailFormComponent', 'selector': 'cx-order-approval-detail-form'},{'name': 'OrderApprovalListComponent', 'selector': 'cx-order-approval-list'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailPermissionResultsComponent', 'selector': 'cx-order-detail-permission-results'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderOverviewComponent', 'selector': 'cx-order-overview'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PaymentTypeComponent', 'selector': 'cx-payment-type'},{'name': 'PermissionDetailsCellComponent', 'selector': 'cx-org-permission-details-cell'},{'name': 'PermissionDetailsComponent', 'selector': 'cx-org-permission-details'},{'name': 'PermissionFormComponent', 'selector': 'cx-org-permission-form'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'PopoverComponent', 'selector': 'cx-popover'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantColorSelectorComponent', 'selector': 'cx-product-variant-color-selector'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductVariantsContainerComponent', 'selector': 'cx-product-variants-container'},{'name': 'ProductVariantSizeSelectorComponent', 'selector': 'cx-product-variant-size-selector'},{'name': 'ProductVariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'ProductVariantStyleSelectorComponent', 'selector': 'cx-product-variant-style-selector'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsEmbeddedFeedbackComponent', 'selector': 'cx-qualtrics-embedded-feedback'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'RolesCellComponent', 'selector': 'cx-org-roles-cell'},{'name': 'SavedCartDetailsActionComponent', 'selector': 'cx-saved-cart-details-action'},{'name': 'SavedCartDetailsItemsComponent', 'selector': 'cx-saved-cart-details-items'},{'name': 'SavedCartDetailsOverviewComponent', 'selector': 'cx-saved-cart-details-overview'},{'name': 'SavedCartFormDialogComponent', 'selector': 'cx-saved-cart-form-dialog'},{'name': 'SavedCartListComponent', 'selector': 'cx-saved-cart-list'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'ScheduleReplenishmentOrderComponent', 'selector': 'cx-schedule-replenishment-order'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StatusCellComponent', 'selector': 'cx-org-status-cell'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TableComponent', 'selector': 'cx-table'},{'name': 'TableDataCellComponent', 'selector': 'cx-table-data-cell'},{'name': 'TableHeaderCellComponent', 'selector': 'cx-table-header-cell'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'ToggleLinkCellComponent', 'selector': 'cx-org-toggle-link-cell'},{'name': 'ToggleStatusComponent', 'selector': 'cx-org-toggle-status'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'TruncateTextPopoverComponent', 'selector': 'cx-truncate-text-popover'},{'name': 'UnitAddressDetailsComponent', 'selector': 'cx-org-unit-address-details'},{'name': 'UnitAddressFormComponent', 'selector': 'cx-org-unit-address-form'},{'name': 'UnitAddressListComponent', 'selector': 'cx-org-unit-address-list'},{'name': 'UnitApproverListComponent', 'selector': 'cx-org-unit-approver-list'},{'name': 'UnitAssignedApproverListComponent', 'selector': 'cx-org-unit-assigned-approver-list'},{'name': 'UnitCellComponent', 'selector': 'cx-org-unit-cell'},{'name': 'UnitChildCreateComponent', 'selector': 'cx-org-unit-child-create'},{'name': 'UnitChildrenComponent', 'selector': 'cx-org-unit-children'},{'name': 'UnitCostCenterCreateComponent', 'selector': 'cx-org-unit-cost-center-create'},{'name': 'UnitCostCenterListComponent', 'selector': 'cx-org-unit-cost-centers'},{'name': 'UnitDetailsCellComponent', 'selector': 'cx-org-unit-details-cell'},{'name': 'UnitDetailsComponent', 'selector': 'cx-org-unit-details'},{'name': 'UnitFormComponent', 'selector': 'cx-org-unit-form'},{'name': 'UnitListComponent', 'selector': 'cx-org-unit-list'},{'name': 'UnitUserCreateComponent', 'selector': 'cx-org-unit-user-create'},{'name': 'UnitUserListComponent', 'selector': 'cx-org-unit-user-list'},{'name': 'UnitUserRolesCellComponent', 'selector': 'cx-org-unit-user-link-cell'},{'name': 'UnitUserRolesFormComponent', 'selector': 'cx-org-unit-user-roles'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'UserApproverListComponent', 'selector': 'cx-org-user-approver-list'},{'name': 'UserAssignedApproverListComponent', 'selector': 'cx-org-user-assigned-approver-list'},{'name': 'UserAssignedPermissionListComponent', 'selector': 'cx-org-user-assigned-permission-list'},{'name': 'UserAssignedUserGroupListComponent', 'selector': 'cx-org-user-assigned-user-group-list'},{'name': 'UserChangePasswordFormComponent', 'selector': 'cx-org-user-change-password-form'},{'name': 'UserDetailsCellComponent', 'selector': 'cx-org-user-details-cell'},{'name': 'UserDetailsComponent', 'selector': 'cx-org-user-details'},{'name': 'UserFormComponent', 'selector': 'cx-org-user-form'},{'name': 'UserGroupAssignedPermissionListComponent', 'selector': 'cx-org-user-group-assigned-permission-list'},{'name': 'UserGroupAssignedUserListComponent', 'selector': 'cx-org-user-group-assigned-user-list'},{'name': 'UserGroupDetailsCellComponent', 'selector': 'cx-org-user-group-details-cell'},{'name': 'UserGroupDetailsComponent', 'selector': 'cx-org-user-group-details'},{'name': 'UserGroupFormComponent', 'selector': 'cx-org-user-group-form'},{'name': 'UserGroupPermissionListComponent', 'selector': 'cx-org-user-group-permission-list'},{'name': 'UserGroupUserListComponent', 'selector': 'cx-org-user-group-user-list'},{'name': 'UserPermissionListComponent', 'selector': 'cx-org-user-permission-list'},{'name': 'UserUserGroupListComponent', 'selector': 'cx-org-user-user-group-list'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
+        var COMPONENT_TEMPLATE = '<div><div id="{{ createAttributeIdForConfigurator(attribute) }}">  <cx-configurator-attribute-quantity    *ngIf="withQuantityOnAttributeLevel"    (changeQuantity)="onChangeQuantity($event)"    [quantityOptions]="      extractQuantityParameters(attribute.quantity, !attribute.required)    "  ></cx-configurator-attribute-quantity>  <ng-container *ngFor="let value of attribute.values; let i = index">    <div class="form-check">      <input        id="{{          createAttributeValueIdForConfigurator(attribute, value.valueCode)        }}"        type="checkbox"        class="form-check-input"        [cxFocus]="{ key: attribute.name + \'-\' + value.name }"        [value]="value.valueCode"        (change)="onSelect()"        [formControl]="attributeCheckBoxForms[i]"        name="{{ createAttributeIdForConfigurator(attribute) }}"      />      <label        id="{{ createValueUiKey(\'label\', attribute.name, value.valueCode) }}"        for="{{          createAttributeValueIdForConfigurator(attribute, value.valueCode)        }}"        class="cx-configurator-attribute-value-label form-check-label"        >{{ value.valueDisplay }}</label      >    </div>    <cx-configurator-attribute-quantity      *ngIf="value.selected && withQuantity && !withQuantityOnAttributeLevel"      (changeQuantity)="onChangeValueQuantity($event, value.valueCode, i)"      [quantityOptions]="        extractQuantityParameters(value.quantity, allowZeroValueQuantity)      "    ></cx-configurator-attribute-quantity>  </ng-container></div></div>'
+    var COMPONENTS = [{'name': 'ActiveFacetsComponent', 'selector': 'cx-active-facets'},{'name': 'ActiveLinkCellComponent', 'selector': 'cx-org-active-link-cell'},{'name': 'AddedToCartDialogComponent', 'selector': 'cx-added-to-cart-dialog'},{'name': 'AddressBookComponent', 'selector': 'cx-address-book'},{'name': 'AddressFormComponent', 'selector': 'cx-address-form'},{'name': 'AddToCartComponent', 'selector': 'cx-add-to-cart'},{'name': 'AddToHomeScreenBannerComponent', 'selector': 'cx-add-to-home-screen-banner'},{'name': 'AddToHomeScreenBtnComponent', 'selector': 'cx-add-to-home-screen-btn'},{'name': 'AddToSavedCartComponent', 'selector': 'cx-add-to-saved-cart'},{'name': 'AddToWishListComponent', 'selector': 'cx-add-to-wishlist'},{'name': 'AmendOrderActionsComponent', 'selector': 'cx-amend-order-actions'},{'name': 'AmountCellComponent', 'selector': 'cx-org-amount-cell'},{'name': 'AnonymousConsentDialogComponent', 'selector': 'cx-anonymous-consent-dialog'},{'name': 'AnonymousConsentManagementBannerComponent', 'selector': 'cx-anonymous-consent-management-banner'},{'name': 'AnonymousConsentOpenDialogComponent', 'selector': 'cx-anonymous-consent-open-dialog'},{'name': 'AppliedCouponsComponent', 'selector': 'cx-applied-coupons'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmMainUiComponent', 'selector': 'cx-asm-main-ui'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmSessionTimerComponent', 'selector': 'cx-asm-session-timer'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AsmToggleUiComponent', 'selector': 'cx-asm-toggle-ui'},{'name': 'AssignCellComponent', 'selector': 'cx-org-assign-cell'},{'name': 'BannerCarouselComponent', 'selector': 'cx-banner-carousel'},{'name': 'BannerComponent', 'selector': 'cx-banner'},{'name': 'BreadcrumbComponent', 'selector': 'cx-breadcrumb'},{'name': 'BudgetCostCenterListComponent', 'selector': 'cx-org-budget-cost-center-list'},{'name': 'BudgetDetailsCellComponent', 'selector': 'cx-org-budget-details-cell'},{'name': 'BudgetDetailsComponent', 'selector': 'cx-org-budget-details'},{'name': 'BudgetFormComponent', 'selector': 'cx-org-budget-form'},{'name': 'BulkPricingTableComponent', 'selector': 'cx-bulk-pricing-table'},{'name': 'CancelOrderComponent', 'selector': 'cx-cancel-order'},{'name': 'CancelOrderConfirmationComponent', 'selector': 'cx-cancel-order-confirmation'},{'name': 'CancelOrReturnItemsComponent', 'selector': 'cx-amend-order-items'},{'name': 'CardComponent', 'selector': 'cx-org-card'},{'name': 'CardComponent', 'selector': 'cx-card'},{'name': 'CarouselComponent', 'selector': 'cx-carousel'},{'name': 'CartCouponComponent', 'selector': 'cx-cart-coupon'},{'name': 'CartDetailsComponent', 'selector': 'cx-cart-details'},{'name': 'CartItemComponent', 'selector': 'cx-cart-item'},{'name': 'CartItemListComponent', 'selector': 'cx-cart-item-list'},{'name': 'CartTotalsComponent', 'selector': 'cx-cart-totals'},{'name': 'CategoryNavigationComponent', 'selector': 'cx-category-navigation'},{'name': 'CellComponent', 'selector': 'cx-org-cell'},{'name': 'CheckoutLoginComponent', 'selector': 'cx-checkout-login'},{'name': 'CheckoutOrchestratorComponent', 'selector': 'cx-checkout-orchestrator'},{'name': 'CheckoutOrderSummaryComponent', 'selector': 'cx-checkout-order-summary'},{'name': 'CheckoutProgressComponent', 'selector': 'cx-checkout-progress'},{'name': 'CheckoutProgressMobileBottomComponent', 'selector': 'cx-checkout-progress-mobile-bottom'},{'name': 'CheckoutProgressMobileTopComponent', 'selector': 'cx-checkout-progress-mobile-top'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountComponent', 'selector': 'cx-close-account'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'CloseAccountModalComponent', 'selector': 'cx-close-account-modal'},{'name': 'ConfiguratorAddToCartButtonComponent', 'selector': 'cx-configurator-add-to-cart-button'},{'name': 'ConfiguratorAttributeCheckBoxComponent', 'selector': 'cx-configurator-attribute-checkbox'},{'name': 'ConfiguratorAttributeCheckBoxListComponent', 'selector': 'cx-configurator-attribute-checkbox-list'},{'name': 'ConfiguratorAttributeDropDownComponent', 'selector': 'cx-configurator-attribute-drop-down'},{'name': 'ConfiguratorAttributeFooterComponent', 'selector': 'cx-configurator-attribute-footer'},{'name': 'ConfiguratorAttributeHeaderComponent', 'selector': 'cx-configurator-attribute-header'},{'name': 'ConfiguratorAttributeInputFieldComponent', 'selector': 'cx-configurator-attribute-input-field'},{'name': 'ConfiguratorAttributeMultiSelectionBundleComponent', 'selector': 'cx-configurator-attribute-multi-selection-bundle'},{'name': 'ConfiguratorAttributeMultiSelectionImageComponent', 'selector': 'cx-configurator-attribute-multi-selection-image'},{'name': 'ConfiguratorAttributeNumericInputFieldComponent', 'selector': 'cx-configurator-attribute-numeric-input-field'},{'name': 'ConfiguratorAttributeProductCardComponent', 'selector': 'cx-configurator-attribute-product-card'},{'name': 'ConfiguratorAttributeQuantityComponent', 'selector': 'cx-configurator-attribute-quantity'},{'name': 'ConfiguratorAttributeRadioButtonComponent', 'selector': 'cx-configurator-attribute-radio-button'},{'name': 'ConfiguratorAttributeReadOnlyComponent', 'selector': 'cx-configurator-attribute-read-only'},{'name': 'ConfiguratorAttributeSingleSelectionBundleComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle'},{'name': 'ConfiguratorAttributeSingleSelectionBundleDropdownComponent', 'selector': 'cx-configurator-attribute-single-selection-bundle-dropdown'},{'name': 'ConfiguratorAttributeSingleSelectionImageComponent', 'selector': 'cx-configurator-attribute-single-selection-image'},{'name': 'ConfiguratorCartEntryBundleInfoComponent', 'selector': 'cx-configurator-cart-entry-bundle-info'},{'name': 'ConfiguratorCartEntryInfoComponent', 'selector': 'cx-configurator-cart-entry-info'},{'name': 'ConfiguratorConflictAndErrorMessagesComponent', 'selector': 'cx-configuration-conflict-and-error-messages'},{'name': 'ConfiguratorConflictDescriptionComponent', 'selector': 'cx-configurator-conflict-description'},{'name': 'ConfiguratorConflictSuggestionComponent', 'selector': 'cx-configurator-conflict-suggestion'},{'name': 'ConfiguratorFormComponent', 'selector': 'cx-configurator-form'},{'name': 'ConfiguratorGroupMenuComponent', 'selector': 'cx-configurator-group-menu'},{'name': 'ConfiguratorGroupTitleComponent', 'selector': 'cx-configurator-group-title'},{'name': 'ConfiguratorIssuesNotificationComponent', 'selector': 'cx-configurator-issues-notification'},{'name': 'ConfiguratorOverviewAttributeComponent', 'selector': 'cx-configurator-overview-attribute'},{'name': 'ConfiguratorOverviewBundleAttributeComponent', 'selector': 'cx-configurator-cpq-overview-attribute'},{'name': 'ConfiguratorOverviewFormComponent', 'selector': 'cx-configurator-overview-form'},{'name': 'ConfiguratorOverviewNotificationBannerComponent', 'selector': 'cx-configurator-overview-notification-banner'},{'name': 'ConfiguratorPreviousNextButtonsComponent', 'selector': 'cx-configurator-previous-next-buttons'},{'name': 'ConfiguratorPriceComponent', 'selector': 'cx-configurator-price'},{'name': 'ConfiguratorPriceSummaryComponent', 'selector': 'cx-configurator-price-summary'},{'name': 'ConfiguratorProductTitleComponent', 'selector': 'cx-configurator-product-title'},{'name': 'ConfiguratorShowMoreComponent', 'selector': 'cx-configurator-show-more'},{'name': 'ConfiguratorTabBarComponent', 'selector': 'cx-configurator-tab-bar'},{'name': 'ConfiguratorTextfieldAddToCartButtonComponent', 'selector': 'cx-configurator-textfield-add-to-cart-button'},{'name': 'ConfiguratorTextfieldFormComponent', 'selector': 'cx-configurator-textfield-form'},{'name': 'ConfiguratorTextfieldInputFieldComponent', 'selector': 'cx-configurator-textfield-input-field'},{'name': 'ConfiguratorUpdateMessageComponent', 'selector': 'cx-configurator-update-message'},{'name': 'ConfigureCartEntryComponent', 'selector': 'cx-configure-cart-entry'},{'name': 'ConfigureProductComponent', 'selector': 'cx-configure-product'},{'name': 'ConfirmationMessageComponent', 'selector': 'cx-org-confirmation'},{'name': 'ConsentManagementComponent', 'selector': 'cx-consent-management'},{'name': 'ConsentManagementFormComponent', 'selector': 'cx-consent-management-form'},{'name': 'ConsignmentTrackingComponent', 'selector': 'cx-consignment-tracking'},{'name': 'CostCenterAssignedBudgetListComponent', 'selector': 'cx-org-cost-center-assigned-budget-list'},{'name': 'CostCenterBudgetListComponent', 'selector': 'cx-org-cost-center-budget-list'},{'name': 'CostCenterComponent', 'selector': 'cx-cost-center'},{'name': 'CostCenterDetailsCellComponent', 'selector': 'cx-org-cost-center-details-cell'},{'name': 'CostCenterDetailsComponent', 'selector': 'cx-org-cost-center-details'},{'name': 'CostCenterFormComponent', 'selector': 'cx-org-cost-center-form'},{'name': 'CouponCardComponent', 'selector': 'cx-coupon-card'},{'name': 'CouponClaimComponent', 'selector': 'cx-coupon-claim'},{'name': 'CouponDialogComponent', 'selector': 'cx-coupon-dialog'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CSAgentLoginFormComponent', 'selector': 'cx-csagent-login-form'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerEmulationComponent', 'selector': 'cx-customer-emulation'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'CustomerSelectionComponent', 'selector': 'cx-customer-selection'},{'name': 'DatePickerComponent', 'selector': 'cx-date-picker'},{'name': 'DateRangeCellComponent', 'selector': 'cx-org-date-range-cell'},{'name': 'DeleteItemComponent', 'selector': 'cx-org-delete-item'},{'name': 'DeliveryModeComponent', 'selector': 'cx-delivery-mode'},{'name': 'DisableInfoComponent', 'selector': 'cx-org-disable-info'},{'name': 'FacetComponent', 'selector': 'cx-facet'},{'name': 'FacetListComponent', 'selector': 'cx-facet-list'},{'name': 'FooterNavigationComponent', 'selector': 'cx-footer-navigation'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'ForgotPasswordComponent', 'selector': 'cx-forgot-password'},{'name': 'FormComponent', 'selector': 'cx-org-form'},{'name': 'FormErrorsComponent', 'selector': 'cx-form-errors'},{'name': 'GenericLinkComponent', 'selector': 'cx-generic-link'},{'name': 'GigyaRaasComponent', 'selector': 'cx-gigya-raas'},{'name': 'GlobalMessageComponent', 'selector': 'cx-global-message'},{'name': 'GuestRegisterFormComponent', 'selector': 'cx-guest-register-form'},{'name': 'HamburgerMenuComponent', 'selector': 'cx-hamburger-menu'},{'name': 'IconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'ItemCounterComponent', 'selector': 'cx-item-counter'},{'name': 'LanguageCurrencyComponent', 'selector': 'cx-language-currency-selector'},{'name': 'LimitCellComponent', 'selector': 'cx-org-limit-cell'},{'name': 'LinkCellComponent', 'selector': 'cx-org-link-cell'},{'name': 'LinkComponent', 'selector': 'cx-link'},{'name': 'ListComponent', 'selector': 'cx-org-list'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginComponent', 'selector': 'cx-login'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginFormComponent', 'selector': 'cx-login-form'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'LoginRegisterComponent', 'selector': 'cx-login-register'},{'name': 'MediaComponent', 'selector': 'cx-media'},{'name': 'MerchandisingCarouselComponent', 'selector': 'cx-merchandising-carousel'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MessageComponent', 'selector': 'cx-org-message'},{'name': 'MiniCartComponent', 'selector': 'cx-mini-cart'},{'name': 'MockCardComponent', 'selector': 'cx-org-card'},{'name': 'MockFormComponent', 'selector': 'cx-org-form'},{'name': 'MockIconComponent', 'selector': 'cx-icon,[cxIcon]'},{'name': 'MockSplitViewComponent', 'selector': 'cx-split-view'},{'name': 'MockSubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'MockViewComponent', 'selector': 'cx-view'},{'name': 'MyCouponsComponent', 'selector': 'cx-my-coupons'},{'name': 'MyInterestsComponent', 'selector': 'cx-my-interests'},{'name': 'NavigationComponent', 'selector': 'cx-navigation'},{'name': 'NavigationUIComponent', 'selector': 'cx-navigation-ui'},{'name': 'NotificationMessageComponent', 'selector': 'cx-org-notification'},{'name': 'NotificationPreferenceComponent', 'selector': 'cx-notification-preference'},{'name': 'OrderApprovalDetailFormComponent', 'selector': 'cx-order-approval-detail-form'},{'name': 'OrderApprovalListComponent', 'selector': 'cx-order-approval-list'},{'name': 'OrderConfirmationItemsComponent', 'selector': 'cx-order-confirmation-items'},{'name': 'OrderConfirmationOverviewComponent', 'selector': 'cx-order-confirmation-overview'},{'name': 'OrderConfirmationThankYouMessageComponent', 'selector': 'cx-order-confirmation-thank-you-message'},{'name': 'OrderConfirmationTotalsComponent', 'selector': 'cx-order-confirmation-totals'},{'name': 'OrderConsignedEntriesComponent', 'selector': 'cx-order-consigned-entries'},{'name': 'OrderDetailActionsComponent', 'selector': 'cx-order-details-actions'},{'name': 'OrderDetailItemsComponent', 'selector': 'cx-order-details-items'},{'name': 'OrderDetailPermissionResultsComponent', 'selector': 'cx-order-detail-permission-results'},{'name': 'OrderDetailShippingComponent', 'selector': 'cx-order-details-shipping'},{'name': 'OrderDetailTotalsComponent', 'selector': 'cx-order-details-totals'},{'name': 'OrderHistoryComponent', 'selector': 'cx-order-history'},{'name': 'OrderOverviewComponent', 'selector': 'cx-order-overview'},{'name': 'OrderReturnRequestListComponent', 'selector': 'cx-order-return-request-list'},{'name': 'OrderSummaryComponent', 'selector': 'cx-order-summary'},{'name': 'PageLayoutComponent', 'selector': 'cx-page-layout'},{'name': 'PageSlotComponent', 'selector': 'cx-page-slot,[cx-page-slot]'},{'name': 'PaginationComponent', 'selector': 'cx-pagination'},{'name': 'ParagraphComponent', 'selector': 'cx-paragraph'},{'name': 'PaymentFormComponent', 'selector': 'cx-payment-form'},{'name': 'PaymentMethodComponent', 'selector': 'cx-payment-method'},{'name': 'PaymentMethodsComponent', 'selector': 'cx-payment-methods'},{'name': 'PaymentTypeComponent', 'selector': 'cx-payment-type'},{'name': 'PermissionDetailsCellComponent', 'selector': 'cx-org-permission-details-cell'},{'name': 'PermissionDetailsComponent', 'selector': 'cx-org-permission-details'},{'name': 'PermissionFormComponent', 'selector': 'cx-org-permission-form'},{'name': 'PlaceOrderComponent', 'selector': 'cx-place-order'},{'name': 'PopoverComponent', 'selector': 'cx-popover'},{'name': 'ProductAttributesComponent', 'selector': 'cx-product-attributes'},{'name': 'ProductCarouselComponent', 'selector': 'cx-product-carousel'},{'name': 'ProductDetailsTabComponent', 'selector': 'cx-product-details-tab'},{'name': 'ProductFacetNavigationComponent', 'selector': 'cx-product-facet-navigation'},{'name': 'ProductGridItemComponent', 'selector': 'cx-product-grid-item'},{'name': 'ProductImagesComponent', 'selector': 'cx-product-images'},{'name': 'ProductIntroComponent', 'selector': 'cx-product-intro'},{'name': 'ProductListComponent', 'selector': 'cx-product-list'},{'name': 'ProductListItemComponent', 'selector': 'cx-product-list-item'},{'name': 'ProductReferencesComponent', 'selector': 'cx-product-references'},{'name': 'ProductReviewsComponent', 'selector': 'cx-product-reviews'},{'name': 'ProductScrollComponent', 'selector': 'cx-product-scroll'},{'name': 'ProductSummaryComponent', 'selector': 'cx-product-summary'},{'name': 'ProductVariantColorSelectorComponent', 'selector': 'cx-product-variant-color-selector'},{'name': 'ProductVariantsComponent', 'selector': 'cx-product-variants'},{'name': 'ProductVariantsContainerComponent', 'selector': 'cx-product-variants-container'},{'name': 'ProductVariantSizeSelectorComponent', 'selector': 'cx-product-variant-size-selector'},{'name': 'ProductVariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'ProductVariantStyleSelectorComponent', 'selector': 'cx-product-variant-style-selector'},{'name': 'ProductViewComponent', 'selector': 'cx-product-view'},{'name': 'ProfileTagComponent', 'selector': 'cx-profiletag'},{'name': 'PromotionsComponent', 'selector': 'cx-promotions'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsComponent', 'selector': 'cx-qualtrics'},{'name': 'QualtricsEmbeddedFeedbackComponent', 'selector': 'cx-qualtrics-embedded-feedback'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'RegisterComponent', 'selector': 'cx-register'},{'name': 'ReplenishmentOrderCancellationComponent', 'selector': 'cx-replenishment-order-cancellation'},{'name': 'ReplenishmentOrderCancellationDialogComponent', 'selector': 'cx-replenishment-order-cancellation-dialog'},{'name': 'ReplenishmentOrderHistoryComponent', 'selector': 'cx-replenishment-order-history'},{'name': 'ResetPasswordComponent', 'selector': 'cx-reset-password'},{'name': 'ResetPasswordFormComponent', 'selector': 'cx-reset-password-form'},{'name': 'ReturnOrderComponent', 'selector': 'cx-return-order'},{'name': 'ReturnOrderConfirmationComponent', 'selector': 'cx-return-order-confirmation'},{'name': 'ReturnRequestItemsComponent', 'selector': 'cx-return-request-items'},{'name': 'ReturnRequestOverviewComponent', 'selector': 'cx-return-request-overview'},{'name': 'ReturnRequestTotalsComponent', 'selector': 'cx-return-request-totals'},{'name': 'ReviewSubmitComponent', 'selector': 'cx-review-submit'},{'name': 'RolesCellComponent', 'selector': 'cx-org-roles-cell'},{'name': 'SavedCartDetailsActionComponent', 'selector': 'cx-saved-cart-details-action'},{'name': 'SavedCartDetailsItemsComponent', 'selector': 'cx-saved-cart-details-items'},{'name': 'SavedCartDetailsOverviewComponent', 'selector': 'cx-saved-cart-details-overview'},{'name': 'SavedCartFormDialogComponent', 'selector': 'cx-saved-cart-form-dialog'},{'name': 'SavedCartListComponent', 'selector': 'cx-saved-cart-list'},{'name': 'SaveForLaterComponent', 'selector': 'cx-save-for-later'},{'name': 'ScheduleComponent', 'selector': 'cx-schedule'},{'name': 'ScheduleReplenishmentOrderComponent', 'selector': 'cx-schedule-replenishment-order'},{'name': 'SearchBoxComponent', 'selector': 'cx-searchbox'},{'name': 'ShippingAddressComponent', 'selector': 'cx-shipping-address'},{'name': 'SiteContextSelectorComponent', 'selector': 'cx-site-context-selector'},{'name': 'SkipLinkComponent', 'selector': 'cx-skip-link'},{'name': 'SortingComponent', 'selector': 'cx-sorting'},{'name': 'SpinnerComponent', 'selector': 'cx-spinner'},{'name': 'SplitViewComponent', 'selector': 'cx-split-view'},{'name': 'StarRatingComponent', 'selector': 'cx-star-rating'},{'name': 'StatusCellComponent', 'selector': 'cx-org-status-cell'},{'name': 'StockNotificationComponent', 'selector': 'cx-stock-notification'},{'name': 'StockNotificationDialogComponent', 'selector': 'cx-stock-notification-dialog'},{'name': 'StoreFinderComponent', 'selector': 'cx-store-finder'},{'name': 'StoreFinderGridComponent', 'selector': 'cx-store-finder-grid'},{'name': 'StoreFinderHeaderComponent', 'selector': 'cx-store-finder-header'},{'name': 'StoreFinderListComponent', 'selector': 'cx-store-finder-list'},{'name': 'StoreFinderListItemComponent', 'selector': 'cx-store-finder-list-item'},{'name': 'StoreFinderMapComponent', 'selector': 'cx-store-finder-map'},{'name': 'StoreFinderPaginationDetailsComponent', 'selector': 'cx-store-finder-pagination-details'},{'name': 'StoreFinderSearchComponent', 'selector': 'cx-store-finder-search'},{'name': 'StoreFinderSearchResultComponent', 'selector': 'cx-store-finder-search-result'},{'name': 'StoreFinderStoreComponent', 'selector': 'cx-store-finder-store'},{'name': 'StoreFinderStoreDescriptionComponent', 'selector': 'cx-store-finder-store-description'},{'name': 'StoreFinderStoresCountComponent', 'selector': 'cx-store-finder-stores-count'},{'name': 'StorefrontComponent', 'selector': 'cx-storefront'},{'name': 'SubListComponent', 'selector': 'cx-org-sub-list'},{'name': 'SuggestedAddressDialogComponent', 'selector': 'cx-suggested-addresses-dialog'},{'name': 'TableComponent', 'selector': 'cx-table'},{'name': 'TableDataCellComponent', 'selector': 'cx-table-data-cell'},{'name': 'TableHeaderCellComponent', 'selector': 'cx-table-header-cell'},{'name': 'TabParagraphContainerComponent', 'selector': 'cx-tab-paragraph-container'},{'name': 'ToggleLinkCellComponent', 'selector': 'cx-org-toggle-link-cell'},{'name': 'ToggleStatusComponent', 'selector': 'cx-org-toggle-status'},{'name': 'TrackingEventsComponent', 'selector': 'cx-tracking-events'},{'name': 'TruncateTextPopoverComponent', 'selector': 'cx-truncate-text-popover'},{'name': 'UnitAddressDetailsComponent', 'selector': 'cx-org-unit-address-details'},{'name': 'UnitAddressFormComponent', 'selector': 'cx-org-unit-address-form'},{'name': 'UnitAddressListComponent', 'selector': 'cx-org-unit-address-list'},{'name': 'UnitApproverListComponent', 'selector': 'cx-org-unit-approver-list'},{'name': 'UnitAssignedApproverListComponent', 'selector': 'cx-org-unit-assigned-approver-list'},{'name': 'UnitCellComponent', 'selector': 'cx-org-unit-cell'},{'name': 'UnitChildCreateComponent', 'selector': 'cx-org-unit-child-create'},{'name': 'UnitChildrenComponent', 'selector': 'cx-org-unit-children'},{'name': 'UnitCostCenterCreateComponent', 'selector': 'cx-org-unit-cost-center-create'},{'name': 'UnitCostCenterListComponent', 'selector': 'cx-org-unit-cost-centers'},{'name': 'UnitDetailsCellComponent', 'selector': 'cx-org-unit-details-cell'},{'name': 'UnitDetailsComponent', 'selector': 'cx-org-unit-details'},{'name': 'UnitFormComponent', 'selector': 'cx-org-unit-form'},{'name': 'UnitListComponent', 'selector': 'cx-org-unit-list'},{'name': 'UnitUserCreateComponent', 'selector': 'cx-org-unit-user-create'},{'name': 'UnitUserListComponent', 'selector': 'cx-org-unit-user-list'},{'name': 'UnitUserRolesCellComponent', 'selector': 'cx-org-unit-user-link-cell'},{'name': 'UnitUserRolesFormComponent', 'selector': 'cx-org-unit-user-roles'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailComponent', 'selector': 'cx-update-email'},{'name': 'UpdateEmailFormComponent', 'selector': 'cx-update-email-form'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordComponent', 'selector': 'cx-update-password'},{'name': 'UpdatePasswordFormComponent', 'selector': 'cx-update-password-form'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileComponent', 'selector': 'cx-update-profile'},{'name': 'UpdateProfileFormComponent', 'selector': 'cx-update-profile-form'},{'name': 'UserApproverListComponent', 'selector': 'cx-org-user-approver-list'},{'name': 'UserAssignedApproverListComponent', 'selector': 'cx-org-user-assigned-approver-list'},{'name': 'UserAssignedPermissionListComponent', 'selector': 'cx-org-user-assigned-permission-list'},{'name': 'UserAssignedUserGroupListComponent', 'selector': 'cx-org-user-assigned-user-group-list'},{'name': 'UserChangePasswordFormComponent', 'selector': 'cx-org-user-change-password-form'},{'name': 'UserDetailsCellComponent', 'selector': 'cx-org-user-details-cell'},{'name': 'UserDetailsComponent', 'selector': 'cx-org-user-details'},{'name': 'UserFormComponent', 'selector': 'cx-org-user-form'},{'name': 'UserGroupAssignedPermissionListComponent', 'selector': 'cx-org-user-group-assigned-permission-list'},{'name': 'UserGroupAssignedUserListComponent', 'selector': 'cx-org-user-group-assigned-user-list'},{'name': 'UserGroupDetailsCellComponent', 'selector': 'cx-org-user-group-details-cell'},{'name': 'UserGroupDetailsComponent', 'selector': 'cx-org-user-group-details'},{'name': 'UserGroupFormComponent', 'selector': 'cx-org-user-group-form'},{'name': 'UserGroupPermissionListComponent', 'selector': 'cx-org-user-group-permission-list'},{'name': 'UserGroupUserListComponent', 'selector': 'cx-org-user-group-user-list'},{'name': 'UserPermissionListComponent', 'selector': 'cx-org-user-permission-list'},{'name': 'UserUserGroupListComponent', 'selector': 'cx-org-user-user-group-list'},{'name': 'VariantColorSelectorComponent', 'selector': 'cx-variant-color-selector'},{'name': 'VariantSizeSelectorComponent', 'selector': 'cx-variant-size-selector'},{'name': 'VariantStyleIconsComponent', 'selector': 'cx-variant-style-icons'},{'name': 'VariantStyleSelectorComponent', 'selector': 'cx-variant-style-selector'},{'name': 'ViewComponent', 'selector': 'cx-view'},{'name': 'WishListComponent', 'selector': 'cx-wish-list'},{'name': 'WishListItemComponent', 'selector': 'cx-wish-list-item'}];
     var DIRECTIVES = [{'name': 'AttributesDirective', 'selector': '[cxAttributes]'},{'name': 'ComponentWrapperDirective', 'selector': '[cxComponentWrapper]'},{'name': 'FeatureDirective', 'selector': '[cxFeature]'},{'name': 'FeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'FocusDirective', 'selector': '[cxFocus]'},{'name': 'ItemActiveDirective', 'selector': '[cxOrgItemActive]'},{'name': 'ItemExistsDirective', 'selector': '[cxOrgItemExists]'},{'name': 'JsonLdDirective', 'selector': '[cxJsonLd]'},{'name': 'MockFeatureDirective', 'selector': '[cxFeature]'},{'name': 'MockFeatureLevelDirective', 'selector': '[cxFeatureLevel]'},{'name': 'MockKeyboardFocusDirective', 'selector': '[cxFocus]'},{'name': 'ModalDirective', 'selector': '[cxModal]'},{'name': 'OutletDirective', 'selector': '[cxOutlet]'},{'name': 'OutletRefDirective', 'selector': '[cxOutletRef]'},{'name': 'PageTemplateDirective', 'selector': '[cxPageTemplateStyle]'},{'name': 'PopoverDirective', 'selector': '[cxPopover]'},{'name': 'SkipLinkDirective', 'selector': '[cxSkipLink]'}];
     var ACTUAL_COMPONENT = {'name': 'ConfiguratorAttributeCheckBoxListComponent'};
 </script>

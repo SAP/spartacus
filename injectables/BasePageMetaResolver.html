@@ -80,6 +80,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
+                                <a href="#description$">description$</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
                                 <a href="#homeBreadcrumb$">homeBreadcrumb$</a>
                             </li>
                             <li>
@@ -113,6 +117,9 @@
                                 <a href="#resolveCanonicalUrl">resolveCanonicalUrl</a>
                             </li>
                             <li>
+                                <a href="#resolveDescription">resolveDescription</a>
+                            </li>
+                            <li>
                                 <a href="#resolveRobots">resolveRobots</a>
                             </li>
                             <li>
@@ -141,7 +148,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:30</a></div>
                             </td>
                         </tr>
 
@@ -254,8 +261,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:86</a></div>
                 </td>
             </tr>
 
@@ -293,8 +300,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:94</a></div>
                 </td>
             </tr>
 
@@ -345,6 +352,45 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="resolveDescription"></a>
+                    <span class="name">
+                        <b>
+                            resolveDescription
+                        </b>
+                        <a href="#resolveDescription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveDescription()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="82"
+                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:82</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Observable&lt;string | undefined&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="resolveRobots"></a>
                     <span class="name">
                         <b>
@@ -363,8 +409,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="79"
-                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:79</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:90</a></div>
                 </td>
             </tr>
 
@@ -402,8 +448,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="78"
+                            class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:78</a></div>
                 </td>
             </tr>
 
@@ -457,7 +503,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:63</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="70" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:70</a></div>
                             </td>
                         </tr>
 
@@ -467,6 +513,41 @@
 </div>
                     </td>
                 </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="description$"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            description$</b>
+                            <a href="#description$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Observable&lt;string | undefined&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.page$.pipe(
+    map((p) &#x3D;&gt; p.description)
+  )</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:50</a></div>
+                            </td>
+                        </tr>
+
 
             </tbody>
         </table>
@@ -498,7 +579,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:54</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="61" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:61</a></div>
                             </td>
                         </tr>
 
@@ -539,7 +620,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:40</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:42</a></div>
                             </td>
                         </tr>
 
@@ -580,7 +661,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:47</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:54</a></div>
                             </td>
                         </tr>
 
@@ -615,7 +696,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/cms/page/base-page-meta.resolver.ts:46</a></div>
                             </td>
                         </tr>
 
@@ -639,6 +720,7 @@ import { CanonicalUrlOptions } from &#x27;./config/page-meta.config&#x27;;
 import {
   CanonicalPageResolver,
   PageBreadcrumbResolver,
+  PageDescriptionResolver,
   PageRobotsResolver,
   PageTitleResolver,
 } from &#x27;./page.resolvers&#x27;;
@@ -653,6 +735,7 @@ import { RoutingPageMetaResolver } from &#x27;./routing/routing-page-meta.resolv
 export class BasePageMetaResolver
   implements
     PageTitleResolver,
+    PageDescriptionResolver,
     PageBreadcrumbResolver,
     PageRobotsResolver,
     CanonicalPageResolver {
@@ -674,6 +757,11 @@ export class BasePageMetaResolver
   protected title$: Observable&lt;string | undefined&gt; &#x3D; this.page$.pipe(
     map((p) &#x3D;&gt; p.title)
   );
+
+  protected description$: Observable&lt;string | undefined&gt; &#x3D; this.page$.pipe(
+    map((p) &#x3D;&gt; p.description)
+  );
+
   protected robots$: Observable&lt;PageRobotsMeta[]&gt; &#x3D; this.page$.pipe(
     map((page) &#x3D;&gt; page.robots || [])
   );
@@ -700,6 +788,10 @@ export class BasePageMetaResolver
 
   resolveTitle(): Observable&lt;string | undefined&gt; {
     return this.title$;
+  }
+
+  resolveDescription(): Observable&lt;string | undefined&gt; {
+    return this.description$;
   }
 
   resolveBreadcrumbs(): Observable&lt;BreadcrumbMeta[] | undefined&gt; {

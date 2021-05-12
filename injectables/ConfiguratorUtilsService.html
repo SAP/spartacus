@@ -146,8 +146,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="131"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:131</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:142</a></div>
                 </td>
             </tr>
 
@@ -216,8 +216,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="106"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:106</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:117</a></div>
                 </td>
             </tr>
 
@@ -303,7 +303,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>createConfigurationExtract(changedAttribute: <a href="../s/Config.html">Configurator.Attribute</a>, configuration: <a href="../s/Config.html">Configurator.Configuration</a>)</code>
+<code>createConfigurationExtract(changedAttribute: <a href="../s/Config.html">Configurator.Attribute</a>, configuration: <a href="../s/Config.html">Configurator.Configuration</a>, updateType?: <a href="../s/Config.html">Configurator.UpdateType</a>)</code>
                 </td>
             </tr>
 
@@ -350,6 +350,18 @@
 
                                     <td>
                                         No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>updateType</td>
+                                    <td>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.UpdateType</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
                                     </td>
 
 
@@ -779,22 +791,30 @@ export class ConfiguratorUtilsService {
 
   createConfigurationExtract(
     changedAttribute: Configurator.Attribute,
-    configuration: Configurator.Configuration
+    configuration: Configurator.Configuration,
+    updateType?: Configurator.UpdateType
   ): Configurator.Configuration {
+    if (!updateType) {
+      updateType &#x3D; Configurator.UpdateType.ATTRIBUTE;
+    }
     const newConfiguration: Configurator.Configuration &#x3D; {
       configId: configuration.configId,
       groups: [],
       owner: configuration.owner,
       productCode: configuration.productCode,
+      updateType,
     };
 
     const groupPath: Configurator.Group[] &#x3D; [];
+
     this.buildGroupPath(
       changedAttribute.groupId,
       configuration.groups,
       groupPath
     );
+
     const groupPathLength &#x3D; groupPath.length;
+
     if (groupPathLength &#x3D;&#x3D;&#x3D; 0) {
       throw new Error(
         &#x27;At this point we expect that group is available in the configuration: &#x27; +
@@ -803,10 +823,13 @@ export class ConfiguratorUtilsService {
           JSON.stringify(configuration.groups.map((cGroup) &#x3D;&gt; cGroup.id))
       );
     }
+
     let currentGroupInExtract: Configurator.Group &#x3D; this.buildGroupForExtract(
       groupPath[groupPathLength - 1]
     );
+
     let currentLeafGroupInExtract: Configurator.Group &#x3D; currentGroupInExtract;
+
     newConfiguration.groups.push(currentGroupInExtract);
 
     for (let index &#x3D; groupPath.length - 1; index &gt; 0; index--) {

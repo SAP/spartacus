@@ -99,6 +99,10 @@
                                     <span class="modifier">Static</span>
                                 <a href="#expectElementToContainText">expectElementToContainText</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Static</span>
+                                <a href="#expectNumberOfElements">expectNumberOfElements</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -487,6 +491,141 @@
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="expectNumberOfElements"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Static</span>
+                            expectNumberOfElements
+                        </b>
+                        <a href="#expectNumberOfElements"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>expectNumberOfElements(expect: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, htmlElement: Element, querySelector: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, expectedNumber: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/testing/common-configurator-test-utils.service.ts:74</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Helper function for proving how many times the element comes in the DOM tree.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>expect</td>
+                                    <td>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>Expectation for a spec.</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>htmlElement</td>
+                                    <td>
+                                            <code>Element</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>HTML element.</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>querySelector</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>Query selector</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>expectedNumber</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>expected number of elements</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
 
@@ -554,6 +693,29 @@
       &quot;expected element identified by selector &#x27;&quot; +
         querySelector +
         &quot;&#x27; to be NOT present, but it is! innerHtml: &quot; +
+        htmlElement.innerHTML
+    );
+  }
+
+  /**
+   * Helper function for proving how many times the element comes in the DOM tree.
+   *
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector
+   * @param {number} expectedNumber- expected number of elements
+   */
+  static expectNumberOfElements(
+    expect: any,
+    htmlElement: Element,
+    querySelector: string,
+    expectedNumber: number
+  ) {
+    expect(htmlElement.querySelectorAll(querySelector).length).toBe(
+      expectedNumber,
+      &quot;expected elements identified by selector &#x27;&quot; +
+        querySelector +
+        &quot;&#x27; to be present times, but it is NOT! innerHtml: &quot; +
         htmlElement.innerHTML
     );
   }

@@ -66,6 +66,33 @@
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#reservedSlugCharacters">reservedSlugCharacters</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#sanitizeMultipleSlugChars">sanitizeMultipleSlugChars</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#slugChar">slugChar</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#slugRegex">slugRegex</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -81,6 +108,10 @@
                             <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#normalize">normalize</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#normalizeSlug">normalizeSlug</a>
                             </li>
                         </ul>
                     </td>
@@ -254,14 +285,92 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-name-normalizer.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-name-normalizer.ts:25</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Sanitizes the name so that the name doesn&#39;t contain html elements.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>name</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="normalizeSlug"></a>
+                    <span class="name">
+                        <b>
+                            <span class="modifier">Protected</span>
+                            normalizeSlug
+                        </b>
+                        <a href="#normalizeSlug"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>normalizeSlug(name: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-name-normalizer.ts:52</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Provides a title slug for the pretty URL.</p>
+<p>The name is sanitized from html, trimmed, converted to lowercase and special characters
+which are encoded are replaced by the slug char (dash by default).</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -303,34 +412,200 @@
         </tbody>
     </table>
 </section>
+            <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reservedSlugCharacters"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            reservedSlugCharacters</b>
+                            <a href="#reservedSlugCharacters"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x60; !*&#x27;();:@&amp;&#x3D;+$,/?%#[]&#x60;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-name-normalizer.ts:36</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>A pretty url should not have any encoded characters, which is why we replace
+the following character in the product title.</p>
+<p>See <a href="https://developers.google.com/maps/documentation/urls/url-encoding">https://developers.google.com/maps/documentation/urls/url-encoding</a> for more
+information on the characters.</p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="sanitizeMultipleSlugChars"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            sanitizeMultipleSlugChars</b>
+                            <a href="#sanitizeMultipleSlugChars"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new RegExp(&#x60;${this.slugChar}+&#x60;, &#x27;g&#x27;)</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-name-normalizer.ts:44</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="slugChar"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            slugChar</b>
+                            <a href="#slugChar"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>&#x27;-&#x27;</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-name-normalizer.ts:37</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="slugRegex"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            slugRegex</b>
+                            <a href="#slugRegex"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new RegExp(
+    &#x60;[${this.reservedSlugCharacters.split(&#x27;&#x27;).join(&#x27;\\&#x27;)}]&#x60;,
+    &#x27;g&#x27;
+  )</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-name-normalizer.ts:40</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
 
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Product } from &#x27;../../../../model/product.model&#x27;;
+import { Converter } from &#x27;../../../../util/converter.service&#x27;;
 import { OccConfig } from &#x27;../../../config/occ-config&#x27;;
 import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
-import { Converter } from &#x27;../../../../util/converter.service&#x27;;
-import { Product } from &#x27;../../../../model/product.model&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class ProductNameNormalizer implements Converter&lt;Occ.Product, Product&gt; {
   constructor(protected config: OccConfig) {}
 
   convert(source: Occ.Product, target?: Product): Product {
-    if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; { ...(source as any) };
-    }
+    target &#x3D; target ?? { ...((source as unknown) as Partial&lt;Product&gt;) };
+
     if (source.name) {
       target.name &#x3D; this.normalize(source.name);
+      target.slug &#x3D; this.normalizeSlug(source.name);
       target.nameHtml &#x3D; source.name;
     }
-    return target;
+    return target as Product;
   }
 
+  /**
+   * Sanitizes the name so that the name doesn&#x27;t contain html elements.
+   */
   protected normalize(name: string): string {
     return name.replace(/&lt;[^&gt;]*&gt;/g, &#x27;&#x27;);
+  }
+
+  /**
+   * A pretty url should not have any encoded characters, which is why we replace
+   * the following character in the product title.
+   *
+   * See https://developers.google.com/maps/documentation/urls/url-encoding for more
+   * information on the characters.
+   */
+  protected reservedSlugCharacters &#x3D; &#x60; !*&#x27;();:@&amp;&#x3D;+$,/?%#[]&#x60;;
+  protected slugChar &#x3D; &#x27;-&#x27;;
+
+  // created the regex only once
+  private slugRegex &#x3D; new RegExp(
+    &#x60;[${this.reservedSlugCharacters.split(&#x27;&#x27;).join(&#x27;\\&#x27;)}]&#x60;,
+    &#x27;g&#x27;
+  );
+  private sanitizeMultipleSlugChars &#x3D; new RegExp(&#x60;${this.slugChar}+&#x60;, &#x27;g&#x27;);
+
+  /**
+   * Provides a title slug for the pretty URL.
+   *
+   * The name is sanitized from html, trimmed, converted to lowercase and special characters
+   * which are encoded are replaced by the slug char (dash by default).
+   */
+  protected normalizeSlug(name: string): string {
+    return this.normalize(name)
+      .trim()
+      .toLowerCase()
+      .replace(this.slugRegex, this.slugChar)
+      .replace(this.sanitizeMultipleSlugChars, this.slugChar);
   }
 }
 </code></pre>

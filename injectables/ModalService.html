@@ -85,6 +85,11 @@
                                     <span class="modifier">Private</span>
                                 <a href="#modals">modals</a>
                             </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#rootComponent">rootComponent</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -131,12 +136,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(ngbModalService: NgbModal)</code>
+<code>constructor(ngbModalService: NgbModal, applicationRef?: <a href="https://angular.io/api/core/ApplicationRef" target="_blank">ApplicationRef</a>, featureConfigService?: <a href="../injectables/FeatureConfigService.html">FeatureConfigService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -162,6 +167,30 @@
                                                   
                                                     <td>
                                                             No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>applicationRef</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/core/ApplicationRef" target="_blank" >ApplicationRef</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>featureConfigService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/FeatureConfigService.html" target="_self" >FeatureConfigService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -201,8 +230,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="71"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:71</a></div>
                 </td>
             </tr>
 
@@ -271,8 +300,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:63</a></div>
                 </td>
             </tr>
 
@@ -341,8 +370,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="32"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:32</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="58"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:58</a></div>
                 </td>
             </tr>
 
@@ -382,8 +411,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="26"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:26</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:52</a></div>
                 </td>
             </tr>
 
@@ -452,8 +481,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:37</a></div>
                 </td>
             </tr>
 
@@ -544,7 +573,36 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:14</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="rootComponent"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                                <span class="modifier">Readonly</span>
+                            rootComponent</b>
+                            <a href="#rootComponent"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>this.applicationRef?.components?.[0]
+    .location?.nativeElement</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/shared/components/modal/modal.service.ts:34</a></div>
                             </td>
                         </tr>
 
@@ -557,8 +615,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ApplicationRef, Injectable } from &#x27;@angular/core&#x27;;
 import { NgbModal } from &#x27;@ng-bootstrap/ng-bootstrap&#x27;;
+import { FeatureConfigService } from &#x27;@spartacus/core&#x27;;
 import { ModalOptions } from &#x27;./modal-options&#x27;;
 import { ModalRef } from &#x27;./modal-ref&#x27;;
 
@@ -570,10 +629,35 @@ import { ModalRef } from &#x27;./modal-ref&#x27;;
 })
 export class ModalService {
   private modals: ModalRef[] &#x3D; [];
-  constructor(private ngbModalService: NgbModal) {}
+
+  constructor(
+    ngbModalService: NgbModal,
+    applicationRef?: ApplicationRef,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    featureConfigService?: FeatureConfigService
+  );
+  /**
+   * @deprecated since 3.3
+   */
+  constructor(ngbModalService: NgbModal);
+  constructor(
+    private ngbModalService: NgbModal,
+    // TODO: make this param required in 4.0
+    protected applicationRef?: ApplicationRef,
+    // TODO: drop this param in 4.0
+    protected featureConfigService?: FeatureConfigService
+  ) {}
+
+  protected readonly rootComponent &#x3D; this.applicationRef?.components?.[0]
+    .location?.nativeElement;
 
   open(content: any, options?: ModalOptions): ModalRef {
     let activeModal: ModalRef;
+
+    // TODO: make this logic default in 4.0
+    if (this.featureConfigService?.isLevel(&#x27;3.3&#x27;)) {
+      options &#x3D; { container: this.rootComponent, ...options };
+    }
 
     activeModal &#x3D; this.ngbModalService.open(content, options);
     this.modals.push(activeModal);

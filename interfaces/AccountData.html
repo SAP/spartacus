@@ -177,7 +177,7 @@ declare global {
       requireLoggedIn: (
         user?: AccountData,
         options?: RequireLoggedInDebugOptions
-      ) &#x3D;&gt; Cypress.Chainable&lt;{ username: string }&gt;;
+      ) &#x3D;&gt; Cypress.Chainable&lt;{ username: string; password: string }&gt;;
     }
   }
 }
@@ -286,7 +286,7 @@ Cypress.Commands.add(
       }
     });
 
-    return cy.wrap({ username });
+    return cy.wrap({ username, password: account.registrationData.password });
   }
 );
 </code></pre>

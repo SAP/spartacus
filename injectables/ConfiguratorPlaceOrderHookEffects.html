@@ -101,7 +101,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-place-order-hook.effect.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-place-order-hook.effect.ts:48</a></div>
                             </td>
                         </tr>
 
@@ -200,7 +200,7 @@
           entries.forEach((entry) &#x3D;&gt; {
             if (
               !entry.product?.configurable ||
-              entry.product?.configuratorType !&#x3D;&#x3D; &#x27;CPQCONFIGURATOR&#x27;
+              entry.product?.configuratorType !&#x3D;&#x3D; ConfiguratorType.VARIANT
             ) {
               return;
             }
@@ -232,7 +232,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-place-order-hook.effect.ts:18</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">feature-libs/product-configurator/rulebased/core/state/effects/configurator-place-order-hook.effect.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -251,6 +251,7 @@ import { ActiveCartService, CheckoutActions } from &#x27;@spartacus/core&#x27;;
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorType,
 } from &#x27;@spartacus/product-configurator/common&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { map, take } from &#x27;rxjs/operators&#x27;;
@@ -273,7 +274,7 @@ export class ConfiguratorPlaceOrderHookEffects {
           entries.forEach((entry) &#x3D;&gt; {
             if (
               !entry.product?.configurable ||
-              entry.product?.configuratorType !&#x3D;&#x3D; &#x27;CPQCONFIGURATOR&#x27;
+              entry.product?.configuratorType !&#x3D;&#x3D; ConfiguratorType.VARIANT
             ) {
               return;
             }

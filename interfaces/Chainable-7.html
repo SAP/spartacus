@@ -147,11 +147,12 @@ declare global {
         cy.requirePaymentDone(auth);
         &#x60;&#x60;&#x60;
        */
-      requirePaymentDone: (auth: {}) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
+      requirePaymentDone: (auth: {}, cartId?: string) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
     }
   }
 }
-Cypress.Commands.add(&#x27;requirePaymentDone&#x27;, (auth) &#x3D;&gt; {
+Cypress.Commands.add(&#x27;requirePaymentDone&#x27;, (auth, cartId) &#x3D;&gt; {
+  const cartQueryValue &#x3D; cartId || &#x27;current&#x27;;
   function getResponseUrl() {
     return cy.request({
       method: &#x27;GET&#x27;,
@@ -159,7 +160,7 @@ Cypress.Commands.add(&#x27;requirePaymentDone&#x27;, (auth) &#x3D;&gt; {
         &#x27;OCC_PREFIX&#x27;
       )}/${Cypress.env(
         &#x27;BASE_SITE&#x27;
-      )}/users/current/carts/current/payment/sop/request?responseUrl&#x3D;sampleUrl&#x60;,
+      )}/users/current/carts/${cartQueryValue}/payment/sop/request?responseUrl&#x3D;sampleUrl&#x60;,
       form: false,
       headers: {
         Authorization: &#x60;bearer ${auth.access_token}&#x60;,
@@ -196,7 +197,7 @@ Cypress.Commands.add(&#x27;requirePaymentDone&#x27;, (auth) &#x3D;&gt; {
         &#x27;OCC_PREFIX&#x27;
       )}/${Cypress.env(
         &#x27;BASE_SITE&#x27;
-      )}/users/current/carts/current/payment/sop/response&#x60;,
+      )}/users/current/carts/${cartQueryValue}/payment/sop/response&#x60;,
       body: data,
       form: true,
       headers: {

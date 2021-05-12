@@ -43,7 +43,7 @@
 
 <ol class="breadcrumb">
   <li>Interfaces</li>
-  <li>Schema</li>
+  <li>Configuration</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -61,16 +61,17 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>integration-libs/cds/src/schematics/add-cds/schema.ts</code>
+            <code>feature-libs/product-configurator/textfield/core/model/configurator-textfield.model.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>Textfield configuration. Consists of a list of attributes and the configuration owner</p>
 
-            <p class="comment">
-                <h3>Extends</h3>
             </p>
-            <p class="comment">
-                        <code><a href="../interfaces/LibraryOptions.html" target="_self" >LibraryOptions</a></code>
-            </p>
+
 
         <section>
             <h3 id="index">Index</h3>
@@ -85,18 +86,11 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#baseUrl">baseUrl</a>
+                                        <a href="#configurationInfos">configurationInfos</a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#profileTagConfigUrl">profileTagConfigUrl</a>
-                                </li>
-                                <li>
-                                            <span class="modifier">Optional</span>
-                                        <a href="#profileTagLoadUrl">profileTagLoadUrl</a>
-                                </li>
-                                <li>
-                                        <a href="#tenant">tenant</a>
+                                        <a href="#owner">owner</a>
                                 </li>
                             </ul>
                         </td>
@@ -113,13 +107,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="baseUrl"></a>
-                                        <span class="name"><b>baseUrl</b><a href="#baseUrl"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="configurationInfos"></a>
+                                        <span class="name"><b>configurationInfos</b><a href="#configurationInfos"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>baseUrl:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>configurationInfos:         <code><a href="../miscellaneous/variables.html#Config" target="_self" >ConfigurationInfo[]</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -127,7 +121,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >ConfigurationInfo[]</a></code>
 
                                         </td>
                                     </tr>
@@ -142,13 +136,13 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="profileTagConfigUrl"></a>
-                                        <span class="name"><b>profileTagConfigUrl</b><a href="#profileTagConfigUrl"><span class="icon ion-ios-link"></span></a></span>
+                                        <a name="owner"></a>
+                                        <span class="name"><b>owner</b><a href="#owner"><span class="icon ion-ios-link"></span></a></span>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>profileTagConfigUrl:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                        <code>owner:         <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -156,7 +150,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <i>Type : </i>        <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
 
                                         </td>
                                     </tr>
@@ -166,69 +160,6 @@
                                             <i>Optional</i>
                                         </td>
                                     </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="profileTagLoadUrl"></a>
-                                        <span class="name"><b>profileTagLoadUrl</b><a href="#profileTagLoadUrl"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>profileTagLoadUrl:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Optional</i>
-                                        </td>
-                                    </tr>
-
-
-
-
-                        </tbody>
-                    </table>
-                    <table class="table table-sm table-bordered">
-                        <tbody>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <a name="tenant"></a>
-                                        <span class="name"><b>tenant</b><a href="#tenant"><span class="icon ion-ios-link"></span></a></span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-4">
-                                        <code>tenant:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-</code>
-                                    </td>
-                                </tr>
-
-
-                                    <tr>
-                                        <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-
-                                        </td>
-                                    </tr>
-
 
 
 
@@ -240,13 +171,52 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { LibraryOptions } from &#x27;@spartacus/schematics&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonConfigurator } from &#x27;@spartacus/product-configurator/common&#x27;;
 
-export interface Schema extends LibraryOptions {
-  tenant: string;
-  baseUrl: string;
-  profileTagLoadUrl?: string;
-  profileTagConfigUrl?: string;
+export namespace ConfiguratorTextfield {
+  /**
+   * Textfield configuration. Consists of a list of attributes and the configuration owner
+   */
+  export interface Configuration {
+    configurationInfos: ConfigurationInfo[];
+    owner?: CommonConfigurator.Owner;
+  }
+  /**
+   * Represents a textfield configuration attribute. Carries a label, an alphanumeric value and a status
+   */
+  export interface ConfigurationInfo {
+    configurationLabel?: string;
+    configurationValue?: string;
+    status?: ConfigurationStatus;
+  }
+  /**
+   * Textfield configuration status
+   */
+  export enum ConfigurationStatus {
+    SUCCESS &#x3D; &#x27;SUCCESS&#x27;,
+    ERROR &#x3D; &#x27;ERROR&#x27;,
+  }
+
+  /**
+   * Collection of parameters needed to add a textfield product to the cart
+   */
+  export interface AddToCartParameters {
+    userId: string;
+    cartId: string;
+    productCode: string;
+    quantity: number;
+    configuration?: Configuration;
+  }
+  /**
+   * Collection of parameters needed to update the configuration that is attached
+   * to a cart entry
+   */
+  export interface UpdateCartEntryParameters {
+    userId: string;
+    cartId: string;
+    cartEntryNumber: string;
+    configuration?: Configuration;
+  }
 }
 </code></pre>
     </div>
@@ -275,7 +245,7 @@ export interface Schema extends LibraryOptions {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'Schema-2.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'Configuration-4.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

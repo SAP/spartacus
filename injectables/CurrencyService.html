@@ -479,7 +479,7 @@ export class CurrencyService implements SiteContext&lt;Currency&gt; {
           this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
       }),
-      filter((currenies) &#x3D;&gt; Boolean(currenies))
+      filter((currencies) &#x3D;&gt; Boolean(currencies))
     );
   }
 

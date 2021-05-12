@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -172,8 +172,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="37"
+                            class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:37</a></div>
                 </td>
             </tr>
 
@@ -281,8 +281,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:24</a></div>
                 </td>
             </tr>
 
@@ -322,8 +322,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="56"
-                            class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:56</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="57"
+                            class="link-to-prism">projects/core/src/global-message/facade/global-message.service.ts:57</a></div>
                 </td>
             </tr>
 
@@ -405,6 +405,7 @@ import { select, Store } from &#x27;@ngrx/store&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { filter } from &#x27;rxjs/operators&#x27;;
 import { Translatable } from &#x27;../../i18n/translatable&#x27;;
+import { isNotUndefined } from &#x27;../../util/type-guards&#x27;;
 import { GlobalMessageType } from &#x27;../models/global-message.model&#x27;;
 import { GlobalMessageActions } from &#x27;../store/actions/index&#x27;;
 import {
@@ -425,7 +426,7 @@ export class GlobalMessageService {
   get(): Observable&lt;GlobalMessageEntities&gt; {
     return this.store.pipe(
       select(GlobalMessageSelectors.getGlobalMessageEntities),
-      filter((data) &#x3D;&gt; data !&#x3D;&#x3D; undefined)
+      filter(isNotUndefined)
     );
   }
 

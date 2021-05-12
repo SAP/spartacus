@@ -115,7 +115,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="89" class="link-to-prism">projects/core/src/cms/store/effects/navigation-entry-item.effect.ts:89</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="90" class="link-to-prism">projects/core/src/cms/store/effects/navigation-entry-item.effect.ts:90</a></div>
                             </td>
                         </tr>
 
@@ -204,8 +204,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/core/src/cms/store/effects/navigation-entry-item.effect.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">projects/core/src/cms/store/effects/navigation-entry-item.effect.ts:73</a></div>
                 </td>
             </tr>
 
@@ -290,7 +290,7 @@
     mergeMap((data) &#x3D;&gt; {
       if (data.ids.componentIds.length &gt; 0) {
         return this.routingService.getRouterState().pipe(
-          filter((routerState) &#x3D;&gt; routerState !&#x3D;&#x3D; undefined),
+          filter(isNotUndefined),
           map((routerState) &#x3D;&gt; routerState.state.context),
           take(1),
           mergeMap((pageContext) &#x3D;&gt;
@@ -345,7 +345,7 @@
                     </tr>
                         <tr>
                             <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/cms/store/effects/navigation-entry-item.effect.ts:13</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/cms/store/effects/navigation-entry-item.effect.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -364,6 +364,7 @@ import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, filter, map, mergeMap, take } from &#x27;rxjs/operators&#x27;;
 import { RoutingService } from &#x27;../../../routing/index&#x27;;
 import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
+import { isNotUndefined } from &#x27;../../../util/type-guards&#x27;;
 import { CmsComponentConnector } from &#x27;../../connectors/component/cms-component.connector&#x27;;
 import { CmsActions } from &#x27;../actions/index&#x27;;
 
@@ -385,7 +386,7 @@ export class NavigationEntryItemEffects {
     mergeMap((data) &#x3D;&gt; {
       if (data.ids.componentIds.length &gt; 0) {
         return this.routingService.getRouterState().pipe(
-          filter((routerState) &#x3D;&gt; routerState !&#x3D;&#x3D; undefined),
+          filter(isNotUndefined),
           map((routerState) &#x3D;&gt; routerState.state.context),
           take(1),
           mergeMap((pageContext) &#x3D;&gt;
