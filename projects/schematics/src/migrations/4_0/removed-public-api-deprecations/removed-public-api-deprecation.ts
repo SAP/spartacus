@@ -4,6 +4,7 @@ import {
   ASM_AUTH_HTTP_HEADER_SERVICE,
   ASM_AUTH_SERVICE,
   ASM_AUTH_STORAGE_SERVICE,
+  ASM_CONFIG,
   ASM_CONNECTOR,
   ASM_FEATURE,
   ASM_MODULE,
@@ -80,13 +81,19 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: ASM_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${ASM_MODULE}' was moved to @spartacus/asm.`,
+    comment: `'${ASM_MODULE}' was moved to @spartacus/asm/components.`,
   },
   // projects/core/src/asm/asm.module.ts
   {
     node: ASM_MODULE,
     importPath: SPARTACUS_CORE,
     comment: `'${ASM_MODULE}' was moved to @spartacus/asm/core.`,
+  },
+  // projects/core/src/asm/config/asm-config.ts
+  {
+    node: ASM_CONFIG,
+    importPath: SPARTACUS_CORE,
+    comment: `'${ASM_CONFIG}' was moved to @spartacus/asm/core.`,
   },
   // projects/core/src/asm/connectors/asm.adapter.ts
   {
