@@ -5,7 +5,7 @@ import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorState, CONFIGURATOR_DATA } from '../configurator-state';
 import { configuratorReducer } from './configurator.reducer';
 
-export function getConfiguratorReducers(): ActionReducerMap<ConfiguratorState> {
+export function getConfiguratorReducers() {
   return {
     configurations: StateUtils.entityProcessesLoaderReducer<Configurator.Configuration>(
       CONFIGURATOR_DATA,
