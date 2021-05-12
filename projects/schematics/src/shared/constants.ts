@@ -95,6 +95,7 @@ export const USER_ADDRESS_SERVICE = 'UserAddressService';
 export const AUTH_SERVICE = 'AuthService';
 export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
 export const FEATURE_MODULES_SERVICE = 'FeatureModulesService';
+export const CMS_FEATURES_SERVICE = 'CmsFeaturesService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
@@ -586,6 +587,7 @@ export const INJECT_DECORATOR = 'Inject';
 export const PLATFORM = 'Platform';
 export const PLATFORM_ID_STRING = 'PLATFORM_ID';
 export const ANY_TYPE = 'any';
+export const OBJECT_TYPE = 'Object';
 /***** Properties end *****/
 
 /***** APIs start *****/
