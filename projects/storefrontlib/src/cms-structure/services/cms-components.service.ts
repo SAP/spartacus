@@ -16,7 +16,7 @@ import { mapTo, share, tap } from 'rxjs/operators';
 import { CmsFeaturesService } from './cms-features.service';
 
 /**
- * Ser`vice with logic related to resolving component from cms mapping
+ * Service with logic related to resolving component from cms mapping
  */
 @Injectable({
   providedIn: 'root',

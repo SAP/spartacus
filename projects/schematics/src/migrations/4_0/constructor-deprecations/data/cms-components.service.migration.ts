@@ -1,5 +1,4 @@
 import {
-  ACTION_SUBJECT,
   ANGULAR_CORE,
   CMS_COMPONENTS_SERVICE,
   CMS_FEATURES_SERVICE,
@@ -27,7 +26,7 @@ export const CMS_COMPONENTS_SERVICE_MIGRATION_1: ConstructorDeprecation = {
     },
   ],
   addParams: [
-    { className: ACTION_SUBJECT, importPath: SPARTACUS_STOREFRONTLIB },
+    { className: CMS_FEATURES_SERVICE, importPath: SPARTACUS_STOREFRONTLIB },
     { className: CONFIG_INITIALIZER_SERVICE, importPath: SPARTACUS_CORE },
   ],
 };
