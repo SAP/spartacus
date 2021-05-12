@@ -54,12 +54,11 @@ export const getConfigurationFactory = (
 
 export const getCurrentGroup = (
   ownerKey: string
-): MemoizedSelector<StateWithConfigurator, string> => {
+): MemoizedSelector<StateWithConfigurator, string | undefined> => {
   return createSelector(getConfigurationFactory(ownerKey), (configuration) =>
-    //TODO CHHI what happens if current group is not available
-    configuration.interactionState?.currentGroup
-      ? configuration.interactionState.currentGroup
-      : ''
+    configuration?.interactionState?.currentGroup
+      ? configuration?.interactionState.currentGroup
+      : undefined
   );
 };
 
