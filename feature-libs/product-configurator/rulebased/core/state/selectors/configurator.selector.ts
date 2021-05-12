@@ -57,7 +57,7 @@ export const getCurrentGroup = (
 ): MemoizedSelector<StateWithConfigurator, string> => {
   return createSelector(getConfigurationFactory(ownerKey), (configuration) =>
     //TODO CHHI what happens if current group is not available
-    configuration.interactionState.currentGroup
+    configuration.interactionState?.currentGroup
       ? configuration.interactionState.currentGroup
       : ''
   );
