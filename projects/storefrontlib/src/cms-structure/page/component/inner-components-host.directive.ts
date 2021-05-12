@@ -39,7 +39,7 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.innerComponents$.subscribe((x) => {
+    this.subscription = this.innerComponents$.subscribe((x) => {
       this.renderComponents(x);
     });
   }
@@ -70,7 +70,7 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.clearComponents();
     this.subscription?.unsubscribe();
+    this.clearComponents();
   }
 }
