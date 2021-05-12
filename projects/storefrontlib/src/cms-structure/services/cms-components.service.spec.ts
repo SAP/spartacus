@@ -99,7 +99,7 @@ describe('CmsComponentsService', () => {
       });
     });
     it('should resolve features before emitting values', () => {
-      const featureModulesService = TestBed.inject<MockCmsFeaturesService>(
+      const cmsFeaturesService = TestBed.inject<MockCmsFeaturesService>(
         CmsFeaturesService as any
       );
       const testTypes = ['feature'];
@@ -108,7 +108,7 @@ describe('CmsComponentsService', () => {
         isDone = true;
       });
       expect(isDone).toBeFalsy();
-      featureModulesService.resolveMappingsForTest();
+      cmsFeaturesService.resolveMappingsForTest();
       expect(isDone).toBeTruthy();
     });
   });
