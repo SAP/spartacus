@@ -182,7 +182,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.5.0",
     "karma-junit-reporter": "^1.2.0",
-    "ng-packagr": "^10.1.0",
+    "ng-packagr": "^10.1.1",
     "npm-package-versions": "^1.0.1",
     "postcss": "^8.2.10",
     "postcss-scss": "^3.0.4",
