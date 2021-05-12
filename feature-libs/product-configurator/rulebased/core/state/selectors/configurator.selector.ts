@@ -55,10 +55,9 @@ export const getConfigurationFactory = (
 export const getCurrentGroup = (
   ownerKey: string
 ): MemoizedSelector<StateWithConfigurator, string | undefined> => {
-  return createSelector(getConfigurationFactory(ownerKey), (configuration) =>
-    configuration?.interactionState?.currentGroup
-      ? configuration?.interactionState.currentGroup
-      : undefined
+  return createSelector(
+    getConfigurationFactory(ownerKey),
+    (configuration) => configuration?.interactionState?.currentGroup
   );
 };
 
