@@ -1,6 +1,7 @@
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
+import { take } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupMenuService {
@@ -13,11 +14,16 @@ export class ConfiguratorGroupMenuService {
   protected getGroups(): NodeListOf<HTMLElement> {
     if (isPlatformBrowser(this.platformId)) {
       let selector = ' cx-configurator-group-menu button[role="tab"]';
-      if (this.breakpointService?.isUp(BREAKPOINT.lg)) {
-        selector = 'main' + selector;
-      } else {
-        selector = '.navigation' + selector;
-      }
+      this.breakpointService
+        ?.isUp(BREAKPOINT.lg)
+        .pipe(take(1))
+        .subscribe((isDesktop) => {
+          if (isDesktop) {
+            selector = 'main' + selector;
+          } else {
+            selector = '.navigation' + selector;
+          }
+        });
       return document.querySelectorAll(selector);
     }
   }
@@ -39,27 +45,24 @@ export class ConfiguratorGroupMenuService {
 
   protected updateCurrentGroupIndex(
     currentGroupIndex: number,
-    groupIndex: number
+    focusedGroupIndex: number
   ): number {
-    return groupIndex !== currentGroupIndex ? groupIndex : currentGroupIndex;
+    return focusedGroupIndex !== currentGroupIndex
+      ? focusedGroupIndex
+      : currentGroupIndex;
   }
 
   protected focusNextGroup(currentGroupIndex: number): void {
     if (isPlatformBrowser(this.platformId)) {
       const groups = this.getGroups();
-      const groupIndex = this.getFocusedGroupIndex(groups);
+      const focusedGroupIndex = this.getFocusedGroupIndex(groups);
       currentGroupIndex = this.updateCurrentGroupIndex(
         currentGroupIndex,
-        groupIndex
+        focusedGroupIndex
       );
 
       if (groups) {
-        if (
-          currentGroupIndex === groups?.length - 1 ||
-          (groupIndex &&
-            groupIndex !== currentGroupIndex &&
-            currentGroupIndex === groups?.length - 2)
-        ) {
+        if (currentGroupIndex === groups?.length - 1) {
           groups[0]?.focus();
         } else {
           groups[currentGroupIndex + 1]?.focus();
@@ -71,16 +74,18 @@ export class ConfiguratorGroupMenuService {
   protected focusPreviousGroup(currentGroupIndex: number): void {
     if (isPlatformBrowser(this.platformId)) {
       const groups = this.getGroups();
-      const groupIndex = this.getFocusedGroupIndex(groups);
+      const focusedGroupIndex = this.getFocusedGroupIndex(groups);
       currentGroupIndex = this.updateCurrentGroupIndex(
         currentGroupIndex,
-        groupIndex
+        focusedGroupIndex
       );
 
-      if (currentGroupIndex === 0) {
-        groups[groups?.length - 1]?.focus();
-      } else {
-        groups[currentGroupIndex - 1]?.focus();
+      if (groups) {
+        if (currentGroupIndex === 0) {
+          groups[groups?.length - 1]?.focus();
+        } else {
+          groups[currentGroupIndex - 1]?.focus();
+        }
       }
     }
   }

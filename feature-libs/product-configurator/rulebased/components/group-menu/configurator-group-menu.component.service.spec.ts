@@ -73,6 +73,7 @@ describe('ConfiguratorGroupMenuService', () => {
     );
 
     spyOn(breakpointService, 'isUp').and.callThrough();
+    isDesktop = true;
   });
 
   afterEach(() => {
@@ -109,7 +110,7 @@ describe('ConfiguratorGroupMenuService', () => {
       });
     });
 
-    xdescribe('mobile widgets (screen size smaller than sm)', () => {
+    describe('mobile widgets (screen size smaller than sm)', () => {
       beforeEach(() => {
         isDesktop = false;
         const mainElement = document.body.querySelector('main');
