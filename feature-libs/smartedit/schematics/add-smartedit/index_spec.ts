@@ -185,7 +185,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       it('should import SmartEditRootModule and contain the lazy loading syntax', async () => {
         const smarteditModule = appTree.readContent(smartEditModulePath);
         expect(smarteditModule).toContain(
-          `import { SmartEditRootModule } from "@spartacus/smartedit/root";`
+          `import { SmartEditRootModule, SMART_EDIT_FEATURE } from "@spartacus/smartedit/root";`
         );
         expect(smarteditModule).toContain(
           `import('@spartacus/smartedit').then(`

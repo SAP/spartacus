@@ -218,7 +218,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
-          `import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
+          `import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
         );
         expect(productConfiguratorModule).toContain(
           `import('@spartacus/product-configurator/rulebased').then(`
@@ -252,7 +252,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
-          `import { RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
+          `import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule } from "@spartacus/product-configurator/rulebased/root";`
         );
         expect(productConfiguratorModule).toContain(
           `import('@spartacus/product-configurator/rulebased').then(`
@@ -264,7 +264,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
-          `import { TextfieldConfiguratorRootModule } from "@spartacus/product-configurator/textfield/root";`
+          `import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule } from "@spartacus/product-configurator/textfield/root";`
         );
         expect(productConfiguratorModule).toContain(
           `import('@spartacus/product-configurator/textfield').then(`
@@ -302,7 +302,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           productConfiguratorFeatureModulePath
         );
         expect(productConfiguratorModule).toContain(
-          `import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \"@spartacus/product-configurator/rulebased/root\";`
+          `import { CpqConfiguratorRootModule, PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule } from \"@spartacus/product-configurator/rulebased/root\";`
         );
       });
 
