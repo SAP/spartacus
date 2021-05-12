@@ -124,13 +124,6 @@ describe('Spartacus CDS schematics: ng-add', () => {
           expect(packageJson).toMatchSnapshot();
         });
 
-        it('should import feature module to SpartacusFeaturesModule', () => {
-          const spartacusFeaturesModule = appTree.readContent(
-            spartacusFeaturesModulePath
-          );
-          expect(spartacusFeaturesModule).toMatchSnapshot();
-        });
-
         it('should create the feature module', async () => {
           const module = appTree.readContent(featureModulePath);
           expect(module).toMatchSnapshot();
@@ -182,13 +175,6 @@ describe('Spartacus CDS schematics: ng-add', () => {
         it('should install necessary Spartacus libraries', async () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
-        });
-
-        it('should import feature module to SpartacusFeaturesModule', () => {
-          const spartacusFeaturesModule = appTree.readContent(
-            spartacusFeaturesModulePath
-          );
-          expect(spartacusFeaturesModule).toMatchSnapshot();
         });
 
         it('should create the feature module', async () => {

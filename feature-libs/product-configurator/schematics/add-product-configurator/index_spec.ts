@@ -16,8 +16,6 @@ import * as path from 'path';
 import { CLI_CPQ_FEATURE, CLI_TEXTFIELD_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const spartacusFeaturesModulePath =
-  'src/app/spartacus/spartacus-features.module.ts';
 const featureModulePath =
   'src/app/spartacus/features/product-configurator/product-configurator-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/product-configurator.scss';
@@ -103,13 +101,6 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           expect(packageJson).toMatchSnapshot();
         });
 
-        it('should import feature module to SpartacusFeaturesModule', () => {
-          const spartacusFeaturesModule = appTree.readContent(
-            spartacusFeaturesModulePath
-          );
-          expect(spartacusFeaturesModule).toMatchSnapshot();
-        });
-
         it('should add the feature using the lazy loading syntax', async () => {
           const module = appTree.readContent(featureModulePath);
           expect(module).toMatchSnapshot();
@@ -157,13 +148,6 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         it('should install necessary Spartacus libraries', async () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
-        });
-
-        it('should import feature module to SpartacusFeaturesModule', () => {
-          const spartacusFeaturesModule = appTree.readContent(
-            spartacusFeaturesModulePath
-          );
-          expect(spartacusFeaturesModule).toMatchSnapshot();
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
@@ -222,13 +206,6 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         it('should install necessary Spartacus libraries', async () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
-        });
-
-        it('should import feature module to SpartacusFeaturesModule', () => {
-          const spartacusFeaturesModule = appTree.readContent(
-            spartacusFeaturesModulePath
-          );
-          expect(spartacusFeaturesModule).toMatchSnapshot();
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
@@ -294,13 +271,6 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         it('should install necessary Spartacus libraries', async () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
-        });
-
-        it('should import feature module to SpartacusFeaturesModule', () => {
-          const spartacusFeaturesModule = appTree.readContent(
-            spartacusFeaturesModulePath
-          );
-          expect(spartacusFeaturesModule).toMatchSnapshot();
         });
 
         it('should add the feature using the lazy loading syntax', async () => {

@@ -122,13 +122,6 @@ describe('Spartacus Asm schematics: ng-add', () => {
         expect(packageJson).toMatchSnapshot();
       });
 
-      it('should import feature module to SpartacusFeaturesModule', () => {
-        const spartacusFeaturesModule = appTree.readContent(
-          spartacusFeaturesModulePath
-        );
-        expect(spartacusFeaturesModule).toMatchSnapshot();
-      });
-
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();

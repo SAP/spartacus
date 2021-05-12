@@ -129,13 +129,6 @@ describe('Spartacus Tracking schematics: ng-add', () => {
         expect(packageJson).toMatchSnapshot();
       });
 
-      it('should import feature module to SpartacusFeaturesModule', () => {
-        const spartacusFeaturesModule = appTree.readContent(
-          spartacusFeaturesModulePath
-        );
-        expect(spartacusFeaturesModule).toMatchSnapshot();
-      });
-
       it('should add the feature using the lazy loading syntax', async () => {
         const personalizationModule = appTree.readContent(
           personalizationModulePath
@@ -182,13 +175,6 @@ describe('Spartacus Tracking schematics: ng-add', () => {
           expect(packageJson).toMatchSnapshot();
         });
 
-        it('should import feature module to SpartacusFeaturesModule', () => {
-          const spartacusFeaturesModule = appTree.readContent(
-            spartacusFeaturesModulePath
-          );
-          expect(spartacusFeaturesModule).toMatchSnapshot();
-        });
-
         it('should import appropriate modules (without lazy loaded syntax)', async () => {
           const tagManagementModule = appTree.readContent(
             tagManagementModulePath
@@ -218,13 +204,6 @@ describe('Spartacus Tracking schematics: ng-add', () => {
           expect(packageJson).toMatchSnapshot();
         });
 
-        it('should import feature module to SpartacusFeaturesModule', () => {
-          const spartacusFeaturesModule = appTree.readContent(
-            spartacusFeaturesModulePath
-          );
-          expect(spartacusFeaturesModule).toMatchSnapshot();
-        });
-
         it('should import appropriate modules (without lazy loaded syntax)', async () => {
           const tagManagementModule = appTree.readContent(
             tagManagementModulePath
@@ -252,13 +231,6 @@ describe('Spartacus Tracking schematics: ng-add', () => {
         it('should install necessary Spartacus libraries', async () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
-        });
-
-        it('should import feature module to SpartacusFeaturesModule', () => {
-          const spartacusFeaturesModule = appTree.readContent(
-            spartacusFeaturesModulePath
-          );
-          expect(spartacusFeaturesModule).toMatchSnapshot();
         });
 
         it('should import appropriate modules (without lazy loaded syntax)', async () => {
