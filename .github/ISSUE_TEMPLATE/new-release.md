@@ -1,7 +1,7 @@
 ---
 name: New Release
 about: Checklist for new release
-title: 'New Release: x.y.z'
+title: 'New Release: *.*.*'
 labels: release-activities
 assignees: ''
 
@@ -10,25 +10,25 @@ assignees: ''
 ## General steps
 
 - [ ] Validate that all merged tickets were tested (QA column must be empty, except for tickets marked as `not-blocking-release`)
-- [ ] Create new maintenance branch `release/x.y.z`
+- [ ] Create new maintenance branch (`release/*.*.x`) if it doesn't exist yet
 - [ ] Announce new maintenance branch (Set topic in tribe channel)
-- [ ] Create release branch `release/x.y.z` from the corresponding branch (develop/maintenance)
+- [ ] Create release branch `release/*.*.*` from the corresponding branch (develop/maintenance)
 - [ ] Follow the steps to [release update schematics](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
 - [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
 
     ```bash
     BACKEND_URL="https://20.83.184.244:9002"
-    BRANCH='release/x.y.z'
-    SPARTACUS_VERSION='x.y.z'
+    BRANCH='release/*.*.*'
+    SPARTACUS_VERSION='*.*.*'
     ```
 
-    Finally, run the script:
+  Finally, run the script:
 
     ```bash
     cd scripts/install && ./run.sh install
     ```
 
-    Once finished, run `./run.sh start` to start the apps and check that they are working. You can also go to each app directory and run it with `yarn build`, `start`, `build:ssr`, etc.
+  Once finished, run `./run.sh start` to start the apps and check that they are working. You can also go to each app directory and run it with `yarn build`, `start`, `build:ssr`, etc.
 
 - [ ] Run all e2e tests on this latest build (Pro tip: run mobile, regression scripts in parallel to get all the results faster, after that retry failed tests in open mode)
 
@@ -55,17 +55,18 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
 
 - [ ] Tag sample data branches for each version (1905, 2005):
   - [ ] `git clone https://github.tools.sap/cx-commerce/spartacussampledata` (if already present `cd spartacussampledata && git fetch origin`)
-  - [ ] tag the final commit on release/1905/next branch: `git tag 1905-x.y.z HEAD-COMMIT-HASH`
-  - [ ] tag the final commit on release/2005/next branch: `git tag 2005-x.y.z HEAD-COMMIT-HASH`
+  - [ ] tag the final commit on [release/1905/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/1905/next) branch: `git tag 1905-*.*.* HEAD-COMMIT-HASH-FROM-release/1905/next`
+  - [ ] tag the final commit on [release/2005/next](https://github.tools.sap/cx-commerce/spartacussampledata/commits/release/2005/next) branch: `git tag 2005-*.*.* HEAD-COMMIT-HASH-FROM-release/2005/next`
   - [ ] push created tags: `git push origin --tags`
 
 ---
 
 - [ ] Before you release libraries, fetch all git tags from github with `git fetch origin --tags` (required to generate release notes)
-- [ ] Release libraries with `release-it` scripts
-  - Make sure your GITHUB_TOKEN env variable is set
+- [ ] Release libraries with release scripts:
+  - Make sure your GITHUB_TOKEN env variable is set and valid
   - Check if you are logged into npm with `npm whoami`
   - If you are not logged in, then login with `npm login`
+  - If there are any problems, setup 2FA for npm & `npm set @spartacus:registry https://registry.npmjs.org/`
   - For each package select/type version when prompted:
     - [ ] `npm run release:core:with-changelog`
     - [ ] `npm run release:storefront:with-changelog`
@@ -84,8 +85,9 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
     - [ ] `npm run release:smartedit:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)
     - [ ] `npm run release:product-configurator:with-changelog` (needed since `3.1.0-next.0`)
-    - [ ] `npm run release:cdc:with-changelog` (since 3.2.0 release like any other lib with the same version as everything else. For older versions since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
-      - [ ] before the script set the spartacus peerDependencies manually (only applies to <3.2.0 releases)
+    - [ ] (for <3.2.0 releases set the spartacus peerDependencies manually, then)  
+      `npm run release:cdc:with-changelog` (since 3.2.0 release like any other lib with the same version as everything else. For older versions since 2.1.0-next.0 - publish under `0.<packages-version>.0` eg. `0.201.0-next.0` for first `2.1.0-next.0` release)
+
 - [ ] Check that the release notes are populated on github (if they are not, update them)
 - [ ] Check tags on npm.
   - `next` tag should always reference the last non-stable version
@@ -97,7 +99,7 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
   - [ ] Change the `scripts/install/config.sh` to test npm tag (next/latest/rc) at the same time:
 
     ```bash
-    SPARTACUS_VERSION=`next` # or `latest`, `rc`; still, you can set it to a specific one, ie `x.y.z` (or leave the config file unchanged)
+    SPARTACUS_VERSION=`next` # or `latest`, `rc`; still, you can set it to a specific one, ie `*.*.*` (or leave the config file unchanged)
     ```
 
   - [ ] Run the installation script to make sure you can create a shell app with the latest imported libraries with no errors:
@@ -106,5 +108,5 @@ To keep track of spartacussampledata releases, we keep a `latest` branch on each
     cd scripts/install && ./run.sh install_npm
     ```
 
-- [ ] Merge release branch (PR from release/x.y.z) to the maintenance branch
+- [ ] Merge release branch (PR from release/*.*.*) to the maintenance branch
 - [ ] Announce the new release on tribe channel
