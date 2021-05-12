@@ -19,8 +19,6 @@ import { peerDependencies } from '../../../package.json';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const spartacusFeaturesModulePath =
-  'src/app/spartacus/spartacus-features.module.ts';
 const featureModulePath =
   'src/app/spartacus/features/cds/cds-feature.module.ts';
 
@@ -101,13 +99,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not add the feature to the feature module', () => {
-      const spartacusFeaturesModule = appTree.readContent(
-        spartacusFeaturesModulePath
-      );
-      expect(spartacusFeaturesModule).toMatchSnapshot();
-    });
-    it('should not add create any of the modules', () => {
+    it('should not create any of the feature modules', () => {
       expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
   });

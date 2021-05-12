@@ -106,12 +106,6 @@ describe('Spartacus Organization schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not add the feature to the feature module', () => {
-      const spartacusFeaturesModule = appTree.readContent(
-        spartacusFeaturesModulePath
-      );
-      expect(spartacusFeaturesModule).toMatchSnapshot();
-    });
     it('should not install administration nor order-approval features', () => {
       expect(appTree.exists(administrationFeatureModulePath)).toBeFalsy();
       expect(appTree.exists(orderApprovalFeatureModulePath)).toBeFalsy();

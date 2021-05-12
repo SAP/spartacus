@@ -23,8 +23,6 @@ import {
 } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const spartacusFeaturesModulePath =
-  'src/app/spartacus/spartacus-features.module.ts';
 const personalizationModulePath =
   'src/app/spartacus/features/tracking/personalization-feature.module.ts';
 const tagManagementModulePath =
@@ -105,13 +103,7 @@ describe('Spartacus Tracking schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not add the feature to the feature module', () => {
-      const spartacusFeaturesModule = appTree.readContent(
-        spartacusFeaturesModulePath
-      );
-      expect(spartacusFeaturesModule).toMatchSnapshot();
-    });
-    it('should not add create any of the modules', () => {
+    it('should not create any of the feature modules', () => {
       expect(appTree.exists(personalizationModulePath)).toBeFalsy();
       expect(appTree.exists(tagManagementModulePath)).toBeFalsy();
     });

@@ -19,8 +19,6 @@ import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const spartacusFeaturesModulePath =
-  'src/app/spartacus/spartacus-features.module.ts';
 const featureModulePath =
   'src/app/spartacus/features/cdc/cdc-feature.module.ts';
 
@@ -99,13 +97,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not add the feature to the feature module', () => {
-      const spartacusFeaturesModule = appTree.readContent(
-        spartacusFeaturesModulePath
-      );
-      expect(spartacusFeaturesModule).toMatchSnapshot();
-    });
-    it('should not add create any of the modules', () => {
+    it('should not create any of the feature modules', () => {
       expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
   });

@@ -19,8 +19,6 @@ import { peerDependencies } from '../../package.json';
 import { CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const spartacusFeaturesModulePath =
-  'src/app/spartacus/spartacus-features.module.ts';
 const bulkPricingModulePath =
   'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 const variantsFeatureModulePath =
@@ -102,13 +100,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         .toPromise();
     });
 
-    it('should not add the feature to the feature module', () => {
-      const spartacusFeaturesModule = appTree.readContent(
-        spartacusFeaturesModulePath
-      );
-      expect(spartacusFeaturesModule).toMatchSnapshot();
-    });
-    it('should not add create any of the modules', () => {
+    it('should not create any of the feature modules', () => {
       expect(appTree.exists(bulkPricingModulePath)).toBeFalsy();
       expect(appTree.exists(variantsFeatureModulePath)).toBeFalsy();
     });
