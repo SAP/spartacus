@@ -21,6 +21,6 @@ import { InnerComponentsHostDirective } from './inner-components-host.directive'
     },
   ],
   declarations: [ComponentWrapperDirective, InnerComponentsHostDirective],
-  exports: [ComponentWrapperDirective],
+  exports: [ComponentWrapperDirective, InnerComponentsHostDirective],
 })
 export class PageComponentModule {}
