@@ -4,7 +4,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -44,6 +43,8 @@ class MockComponentService {
   loadAddresses = jasmine.createSpy();
   addUserAddress = jasmine.createSpy();
   updateUserAddress = jasmine.createSpy();
+  deleteUserAddress = jasmine.createSpy();
+  setAddressAsDefault = jasmine.createSpy();
   getAddressesStateLoading(): Observable<boolean> {
     return isLoading.asObservable();
   }
@@ -94,7 +95,7 @@ describe('AddressBookComponent', () => {
   let component: AddressBookComponent;
   let fixture: ComponentFixture<AddressBookComponent>;
   let el: DebugElement;
-  let userAddressService: UserAddressService;
+  let addressBookComponentService: AddressBookComponentService;
 
   beforeEach(
     waitForAsync(() => {
@@ -117,9 +118,7 @@ describe('AddressBookComponent', () => {
     component = fixture.componentInstance;
     spyOn(component, 'addAddressButtonHandle');
     el = fixture.debugElement;
-    userAddressService = TestBed.inject(
-      UserAddressService as Type<UserAddressService>
-    );
+    addressBookComponentService = TestBed.inject(AddressBookComponentService);
 
     isLoading.next(false);
     component.ngOnInit();
@@ -215,26 +214,18 @@ describe('AddressBookComponent', () => {
   describe('setAddressAsDefault', () => {
     it('should set Address as default', () => {
       component.setAddressAsDefault(mockAddress[0]);
-      expect(userAddressService.setAddressAsDefault).toHaveBeenCalledWith(
-        mockAddress[0]
-      );
-    });
-
-    it('should clear checkout delivery details', () => {
-      component.setAddressAsDefault(mockAddress[0]);
-      // TODO Assert an event is fired
+      expect(
+        addressBookComponentService.setAddressAsDefault
+      ).toHaveBeenCalledWith(mockAddress[0]);
     });
   });
 
   describe('deleteAddress', () => {
     it('should set delete user Address', () => {
       component.deleteAddress('1');
-      expect(userAddressService.deleteUserAddress).toHaveBeenCalledWith('1');
-    });
-
-    it('should clear checkout delivery details', () => {
-      component.deleteAddress('1');
-      // TODO Assert an event is fired
+      expect(
+        addressBookComponentService.deleteUserAddress
+      ).toHaveBeenCalledWith('1');
     });
   });
 });

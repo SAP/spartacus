@@ -140,9 +140,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   protected handleAddressVerificationResults(results: AddressValidation) {
-    if (results.decision === 'FAIL') {
-      this.userAddressService.clearAddressVerificationResults();
-    } else if (results.decision === 'ACCEPT') {
+    if (results.decision === 'ACCEPT') {
       this.submitAddress.emit(this.addressForm.value);
     } else if (results.decision === 'REJECT') {
       // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
@@ -161,7 +159,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
           GlobalMessageType.MSG_TYPE_ERROR
         );
       }
-      this.userAddressService.clearAddressVerificationResults();
     } else if (results.decision === 'REVIEW') {
       this.openSuggestedAddress(results);
     }
@@ -239,7 +236,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result
         .then((address) => {
-          this.userAddressService.clearAddressVerificationResults();
           if (address) {
             address = Object.assign(
               {
@@ -255,7 +251,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         })
         .catch(() => {
           // this  callback is called when modal is closed with Esc key or clicking backdrop
-          this.userAddressService.clearAddressVerificationResults();
           const address = Object.assign(
             {
               selected: true,
@@ -269,8 +264,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.userAddressService.clearAddressVerificationResults();
-
     if (this.addressVerifySub) {
       this.addressVerifySub.unsubscribe();
     }

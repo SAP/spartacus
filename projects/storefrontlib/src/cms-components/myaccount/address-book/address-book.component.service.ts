@@ -54,7 +54,7 @@ export class AddressBookComponentService {
     );
   }
 
-  deleteAddress(addressId: string): void {
+  deleteUserAddress(addressId: string): void {
     this.userAddressService.deleteUserAddress(addressId);
     this.eventService.dispatch<UserAddressDeleteEvent>(
       {

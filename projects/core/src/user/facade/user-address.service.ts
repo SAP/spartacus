@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import {
   Address,
@@ -26,8 +26,8 @@ export class UserAddressService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected userIdService: UserIdService,
-    protected command: CommandService, //TODO GH-12192 - handle constructor deprecation
-    protected userAddressConnector: UserAddressConnector
+    protected userAddressConnector: UserAddressConnector,
+    protected command: CommandService //TODO GH-12192 - handle constructor deprecation
   ) {}
 
   /**
@@ -189,21 +189,6 @@ export class UserAddressService {
    */
   verifyAddress(address: Address): Observable<AddressValidation> {
     return this.userAddressVerificationCommand.execute({ address });
-  }
-  /**
-   * Get address verification results
-   */
-  getAddressVerificationResults(): Observable<AddressValidation | string> {
-    return this.store.pipe(
-      select(UsersSelectors.getUserAddressVerificationResults),
-      filter((results) => Object.keys(results).length !== 0)
-    );
-  }
-  /**
-   * Clear address verification results
-   */
-  clearAddressVerificationResults(): void {
-    this.store.dispatch(new UserActions.ClearUserAddressVerificationResults());
   }
 
   protected userAddressVerificationCommand: Command<

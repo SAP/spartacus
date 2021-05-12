@@ -1,22 +1,28 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Address, Country, Region } from '../../model/address.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
+import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
+import createSpy = jasmine.createSpy;
 
 class MockUserIdService implements Partial<UserIdService> {
   invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
     return new Subscription();
   }
+}
+
+class MockUserAddressConnector implements Partial<UserAddressConnector> {
+  verify = createSpy().and.returnValue(of(undefined));
 }
 
 describe('UserAddressService', () => {
@@ -36,6 +42,7 @@ describe('UserAddressService', () => {
       providers: [
         UserAddressService,
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: UserAddressConnector, useClass: MockUserAddressConnector },
       ],
     });
 

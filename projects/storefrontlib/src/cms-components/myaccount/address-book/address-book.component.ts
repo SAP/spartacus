@@ -116,7 +116,7 @@ export class AddressBookComponent implements OnInit {
   }
 
   deleteAddress(addressId: string): void {
-    this.service.deleteAddress(addressId);
+    this.service.deleteUserAddress(addressId);
   }
 
   setEdit(addressId: string): void {
