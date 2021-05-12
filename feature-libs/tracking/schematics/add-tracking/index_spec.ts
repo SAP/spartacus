@@ -15,6 +15,7 @@ import {
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
+import { peerDependencies } from '../../package.json';
 import {
   CLI_PERSONALIZATION_FEATURE,
   CLI_TMS_AEP_FEATURE,
@@ -125,8 +126,22 @@ describe('Spartacus Tracking schematics: ng-add', () => {
       });
 
       it('should install necessary Spartacus libraries', () => {
-        const packageJson = appTree.readContent('package.json');
-        expect(packageJson).toMatchSnapshot();
+        const packageJsonContent = appTree.readContent('package.json');
+        const dependencies = JSON.parse(packageJsonContent).dependencies;
+
+        for (const toAdd in peerDependencies) {
+          if (!dependencies.hasOwnProperty(toAdd)) {
+            continue;
+          }
+          // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+          // const expectedVersion = (peerDependencies as Record<
+          //   string,
+          //   string
+          // >)[toAdd];
+          const expectedDependency = dependencies[toAdd];
+          expect(expectedDependency).toBeTruthy();
+          // expect(expectedDependency).toEqual(expectedVersion);
+        }
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
