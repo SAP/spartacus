@@ -11,6 +11,9 @@ class MockCurrencyService implements Partial<CurrencyService> {
   getActive() {
     return of('');
   }
+  isInitialized() {
+    return false;
+  }
   setActive = createSpy('setActive');
 }
 
@@ -67,29 +70,26 @@ describe('CurrencyStatePersistenceService', () => {
   });
 
   describe('onRead', () => {
-    it('should update state after read', () => {
-      const currency = 'JPY';
-
-      service['onRead'](currency);
-
-      expect(currencyService.setActive).toHaveBeenCalledWith(currency);
-    });
-    it('should use default currency if state is empty', () => {
+    it('should NOT set active if no value is provided', () => {
+      spyOn(currencyService, 'isInitialized').and.returnValue(false);
       service['onRead']('');
 
-      expect(currencyService.setActive).toHaveBeenCalledWith(mockCurrencies[0]);
+      expect(currencyService.setActive).not.toHaveBeenCalled();
     });
-    it('should use default currency if it is not in the configurations', () => {
+    it('should NOT set active if the currency is initialized', () => {
+      spyOn(currencyService, 'isInitialized').and.returnValue(true);
+
+      service['onRead']('CAD');
+
+      expect(currencyService.setActive).not.toHaveBeenCalled();
+    });
+    it('should set active value if the currency is NOT initialized and a value is provided', () => {
+      spyOn(currencyService, 'isInitialized').and.returnValue(false);
       const currency = 'CAD';
 
       service['onRead'](currency);
 
-      expect(currencyService.setActive).toHaveBeenCalledWith(mockCurrencies[0]);
-    });
-    it('should ignore storage if the currency is already set', () => {
-      spyOn(currencyService, 'getActive').and.returnValue(of('JPY'));
-
-      expect(currencyService.setActive).not.toHaveBeenCalled();
+      expect(currencyService.setActive).toHaveBeenCalledWith(currency);
     });
   });
 });

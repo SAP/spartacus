@@ -20,7 +20,7 @@ const mockActiveCurr = 'USD';
 
 const mockSiteContextConfig: SiteContextConfig = {
   context: {
-    currency: ['USD'],
+    currency: ['USD', 'JPY'],
   },
 };
 
@@ -102,9 +102,9 @@ describe('CurrencyService', () => {
   describe('setActive(isocode)', () => {
     it('should be able to set active currency', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect2);
-      service.setActive('EUR');
+      service.setActive('JPY');
       expect(store.dispatch).toHaveBeenCalledWith(
-        new SiteContextActions.SetActiveCurrency('EUR')
+        new SiteContextActions.SetActiveCurrency('JPY')
       );
     });
 
@@ -114,6 +114,22 @@ describe('CurrencyService', () => {
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new SiteContextActions.SetActiveCurrency(mockActiveCurr)
       );
+    });
+  });
+
+  describe('isInitialized', () => {
+    it('should return TRUE if a currency is initialized', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+      expect(service.isInitialized()).toBeTruthy();
+    });
+  });
+
+  describe('isValid', () => {
+    it('should return TRUE if the iso is valid', () => {
+      expect(service['isValid'](mockActiveCurr)).toBeTruthy();
+    });
+    it('should return FALSE if the iso is not valid', () => {
+      expect(service['isValid']('EUR')).toBeFalsy();
     });
   });
 });

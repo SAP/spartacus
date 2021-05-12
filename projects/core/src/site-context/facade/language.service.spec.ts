@@ -97,4 +97,20 @@ describe('LanguageService', () => {
       );
     });
   });
+
+  describe('isInitialized', () => {
+    it('should return TRUE if a language is initialized', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValues(mockSelect1);
+      expect(service.isInitialized()).toBeTruthy();
+    });
+  });
+
+  describe('isValid', () => {
+    it('should return TRUE if the locale is valid', () => {
+      expect(service['isValid'](mockActiveLang)).toBeTruthy();
+    });
+    it('should return FALSE if the locale is not valid', () => {
+      expect(service['isValid']('zh')).toBeFalsy();
+    });
+  });
 });
