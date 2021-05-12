@@ -124,7 +124,7 @@ describe('Spartacus Tracking schematics: ng-add', () => {
           .toPromise();
       });
 
-      it('should install necessary Spartacus libraries', async () => {
+      it('should install necessary Spartacus libraries', () => {
         const packageJson = appTree.readContent('package.json');
         expect(packageJson).toMatchSnapshot();
       });
@@ -170,7 +170,7 @@ describe('Spartacus Tracking schematics: ng-add', () => {
           .toPromise();
       });
       describe('general setup', () => {
-        it('should install necessary Spartacus libraries', async () => {
+        it('should install necessary Spartacus libraries', () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
         });
@@ -199,7 +199,7 @@ describe('Spartacus Tracking schematics: ng-add', () => {
       });
 
       describe('general setup', () => {
-        it('should install necessary Spartacus libraries', async () => {
+        it('should install necessary Spartacus libraries', () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
         });
@@ -228,7 +228,7 @@ describe('Spartacus Tracking schematics: ng-add', () => {
       });
 
       describe('general setup', () => {
-        it('should install necessary Spartacus libraries', async () => {
+        it('should install necessary Spartacus libraries', () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
         });

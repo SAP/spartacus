@@ -119,7 +119,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
             .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
             .toPromise();
         });
-        it('should install necessary Spartacus libraries', async () => {
+        it('should install necessary Spartacus libraries', () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
         });
@@ -172,7 +172,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
       });
 
       describe('general setup', () => {
-        it('should install necessary Spartacus libraries', async () => {
+        it('should install necessary Spartacus libraries', () => {
           const packageJson = appTree.readContent('package.json');
           expect(packageJson).toMatchSnapshot();
         });
