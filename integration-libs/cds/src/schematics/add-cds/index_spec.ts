@@ -189,8 +189,22 @@ describe('Spartacus CDS schematics: ng-add', () => {
 
       describe('general setup', () => {
         it('should install necessary Spartacus libraries', () => {
-          const packageJson = appTree.readContent('package.json');
-          expect(packageJson).toMatchSnapshot();
+          const packageJsonContent = appTree.readContent('package.json');
+          const dependencies = JSON.parse(packageJsonContent).dependencies;
+
+          for (const toAdd in peerDependencies) {
+            if (!dependencies.hasOwnProperty(toAdd)) {
+              continue;
+            }
+            // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+            // const expectedVersion = (peerDependencies as Record<
+            //   string,
+            //   string
+            // >)[toAdd];
+            const expectedDependency = dependencies[toAdd];
+            expect(expectedDependency).toBeTruthy();
+            // expect(expectedDependency).toEqual(expectedVersion);
+          }
         });
 
         it('should create the feature module', async () => {
