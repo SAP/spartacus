@@ -1,9 +1,7 @@
 import { Component, OnDestroy, ViewContainerRef } from '@angular/core';
 import { AnonymousConsentsService } from '@spartacus/core';
-import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
-} from '../../../layout/launch-dialog';
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
+import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 

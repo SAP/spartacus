@@ -4,10 +4,8 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import {
-  LaunchDialogService,
-  LAUNCH_CALLER,
-} from '../../../layout/launch-dialog';
+import { LaunchDialogService } from '../../../layout/launch-dialog/services/launch-dialog.service';
+import { LAUNCH_CALLER } from '../../../layout/launch-dialog/config/launch-config';
 import { take } from 'rxjs/operators';
 
 @Component({

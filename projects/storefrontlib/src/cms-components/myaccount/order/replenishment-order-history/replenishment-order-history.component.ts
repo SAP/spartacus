@@ -15,10 +15,8 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import {
-  LAUNCH_CALLER,
-  LaunchDialogService,
-} from '../../../../layout/launch-dialog';
+import { LaunchDialogService } from '../../../../layout/launch-dialog/services/launch-dialog.service';
+import { LAUNCH_CALLER } from '../../../../layout/launch-dialog/config/launch-config';
 
 @Component({
   selector: 'cx-replenishment-order-history',
