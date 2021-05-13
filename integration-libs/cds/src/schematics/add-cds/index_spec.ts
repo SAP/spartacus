@@ -11,6 +11,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CLI_CDS_FEATURE,
+  CORE_SPARTACUS_SCOPES,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
@@ -105,11 +106,16 @@ describe('Spartacus CDS schematics: ng-add', () => {
     });
 
     it('should install necessary Spartacus libraries', () => {
-      const packageJsonContent = appTree.readContent('package.json');
-      const dependencies = JSON.parse(packageJsonContent).dependencies;
+      const packageJson = JSON.parse(appTree.readContent('package.json'));
+      let dependencies: Record<string, string> = {};
+      dependencies = { ...packageJson.dependencies };
+      dependencies = { ...packageJson.devDependencies };
 
       for (const toAdd in peerDependencies) {
-        if (!dependencies.hasOwnProperty(toAdd)) {
+        if (
+          !dependencies.hasOwnProperty(toAdd) ||
+          !CORE_SPARTACUS_SCOPES.includes(toAdd)
+        ) {
           continue;
         }
         // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
