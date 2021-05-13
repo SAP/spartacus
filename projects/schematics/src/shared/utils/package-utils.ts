@@ -63,6 +63,10 @@ export function getSpartacusSchematicsVersion(): string {
   return version;
 }
 
+export function getPrefixedSpartacusSchematicsVersion(): string {
+  return `~${getSpartacusSchematicsVersion()}`;
+}
+
 export function getSpartacusCurrentFeatureLevel(): string {
   return version.split('.').slice(0, 2).join('.');
 }

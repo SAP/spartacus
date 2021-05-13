@@ -12,7 +12,7 @@ import {
   addLibraryFeature,
   addPackageJsonDependencies,
   createDependencies,
-  getSpartacusSchematicsVersion,
+  getPrefixedSpartacusSchematicsVersion,
   installPackageJsonDependencies,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
@@ -47,7 +47,7 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
 }
 
 function addCdcPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
   const spartacusDependencies: NodeDependency[] = [
     {
       type: NodeDependencyType.Default,
