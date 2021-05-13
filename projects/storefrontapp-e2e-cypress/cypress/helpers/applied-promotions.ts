@@ -88,7 +88,7 @@ export function goToOrderHistoryDetailsFromSummary() {
 }
 
 export function checkAppliedPromotions() {
-  it.only('Should display promotions for product in cart and checkout', () => {
+  it('Should display promotions for product in cart and checkout', () => {
     addProductToCart();
     checkForAppliedPromotionsInCartModal(eosCameraProductName);
     goToCartDetailsViewFromCartDialog();
@@ -150,17 +150,11 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
     addProductToCart();
   });
 
-  it('Should display promotions in users cart view for added products', () => {
+  it('Should display promotions for cart quantities increase/decrease', () => {
     goToCartDetailsViewFromCartDialog();
     checkForAppliedCartPromotions(true);
-  });
 
-  it('Should not display promotions in users cart view after removing first product', () => {
     decreaseQuantityOfCartEntry();
     checkForAppliedCartPromotions(false);
-  });
-
-  after(() => {
-    removeCartEntry();
   });
 }
