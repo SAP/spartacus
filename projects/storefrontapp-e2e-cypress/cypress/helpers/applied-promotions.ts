@@ -1,5 +1,6 @@
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
+import { waitForPage } from './checkout-flow';
 
 export const eosCameraProductName = 'EOS450D';
 
@@ -56,15 +57,18 @@ export function selectShippingAddress() {
   cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
   cy.get('.card-header').should('contain', 'Selected');
   cy.get('button.btn-primary').click();
-  // TODO: make it more stable when JaloError happens
 }
 
 export function selectDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('#deliveryMode-standard-gross').should('be.checked');
+  cy.intercept(
+    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/paymentdetails*`
+  ).as('paymentDetails');
   cy.get('button.btn-primary').click();
-  // cannot use cy.visit here, as payment details are unavailable
-  cy.wait(1000);
+  cy.wait('@paymentDetails');
 }
 
 export function selectPaymentMethod() {
@@ -74,9 +78,9 @@ export function selectPaymentMethod() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', '✓ DEFAULT');
   cy.get('.card-header').should('contain', 'Selected');
+  waitForPage('/checkout/review-order', 'reviewOrder');
   cy.get('button.btn-primary').click();
-  // cannot use cy.visit here, as review order is unavailable
-  cy.wait(1000);
+  cy.wait('@reviewOrder');
 }
 
 export function goToOrderHistoryDetailsFromSummary() {
