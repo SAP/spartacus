@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { concat, defer, Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config';
@@ -9,7 +9,7 @@ import { CURRENCY_CONTEXT_ID } from '../providers';
 import { CurrencyStatePersistenceService } from './currency-state-persistence.service';
 
 @Injectable({ providedIn: 'root' })
-export class CurrencyInitializer {
+export class CurrencyInitializer implements OnDestroy {
   protected subscription: Subscription;
 
   constructor(
@@ -54,5 +54,9 @@ export class CurrencyInitializer {
         getContextParameterDefault(config, CURRENCY_CONTEXT_ID)
       );
     }
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 }
