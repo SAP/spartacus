@@ -16,6 +16,8 @@ import {
   imports: [
     RouterModule.forChild([
       {
+        // We can neither omit the path nor set to undefined
+        // @ts-ignore
         path: null,
         data: {
           cxRoute: 'configureCPQCONFIGURATOR',
@@ -48,6 +50,7 @@ import {
           },
 
           navigation: {
+            lg: { slots: [] },
             slots: [
               'SiteLogin',
               'SiteContext',

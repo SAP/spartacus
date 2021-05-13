@@ -7,12 +7,14 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   LibraryOptions as SpartacusUserOptions,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_USER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   CLI_ACCOUNT_FEATURE,
   CLI_PROFILE_FEATURE,
@@ -23,14 +25,14 @@ import {
   SPARTACUS_USER_PROFILE,
   SPARTACUS_USER_PROFILE_ASSETS,
   SPARTACUS_USER_PROFILE_ROOT,
-  USER_ACCOUNT_FEATURE_NAME,
+  USER_ACCOUNT_FEATURE_NAME_CONSTANT,
   USER_ACCOUNT_MODULE,
   USER_ACCOUNT_ROOT_MODULE,
   USER_ACCOUNT_TRANSLATIONS,
   USER_ACCOUNT_TRANSLATION_CHUNKS_CONFIG,
-  USER_FEATURE_NAME,
   USER_FOLDER_NAME,
-  USER_PROFILE_FEATURE_NAME,
+  USER_MODULE_NAME,
+  USER_PROFILE_FEATURE_NAME_CONSTANT,
   USER_PROFILE_MODULE,
   USER_PROFILE_ROOT_MODULE,
   USER_PROFILE_TRANSLATIONS,
@@ -38,7 +40,7 @@ import {
 } from '../constants';
 
 export function addUserFeatures(options: SpartacusUserOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -46,9 +48,17 @@ export function addUserFeatures(options: SpartacusUserOptions): Rule {
       shouldAddFeature(CLI_ACCOUNT_FEATURE, options.features)
         ? addAccountFeature(options)
         : noop(),
+
       shouldAddFeature(CLI_PROFILE_FEATURE, options.features)
         ? addProfileFeature(options)
         : noop(),
+
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        dependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
 }
@@ -56,8 +66,7 @@ export function addUserFeatures(options: SpartacusUserOptions): Rule {
 function addAccountFeature(options: SpartacusUserOptions): Rule {
   return addLibraryFeature(options, {
     folderName: USER_FOLDER_NAME,
-    name: USER_FEATURE_NAME,
-    lazyModuleName: USER_ACCOUNT_FEATURE_NAME,
+    moduleName: USER_MODULE_NAME,
     featureModule: {
       name: USER_ACCOUNT_MODULE,
       importPath: SPARTACUS_USER_ACCOUNT,
@@ -65,6 +74,10 @@ function addAccountFeature(options: SpartacusUserOptions): Rule {
     rootModule: {
       name: USER_ACCOUNT_ROOT_MODULE,
       importPath: SPARTACUS_USER_ACCOUNT_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_USER_ACCOUNT_ROOT,
+      namedImports: [USER_ACCOUNT_FEATURE_NAME_CONSTANT],
     },
     i18n: {
       resources: USER_ACCOUNT_TRANSLATIONS,
@@ -81,8 +94,7 @@ function addAccountFeature(options: SpartacusUserOptions): Rule {
 function addProfileFeature(options: SpartacusUserOptions): Rule {
   return addLibraryFeature(options, {
     folderName: USER_FOLDER_NAME,
-    name: USER_FEATURE_NAME,
-    lazyModuleName: USER_PROFILE_FEATURE_NAME,
+    moduleName: USER_MODULE_NAME,
     featureModule: {
       name: USER_PROFILE_MODULE,
       importPath: SPARTACUS_USER_PROFILE,
@@ -90,6 +102,10 @@ function addProfileFeature(options: SpartacusUserOptions): Rule {
     rootModule: {
       name: USER_PROFILE_ROOT_MODULE,
       importPath: SPARTACUS_USER_PROFILE_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_USER_PROFILE_ROOT,
+      namedImports: [USER_PROFILE_FEATURE_NAME_CONSTANT],
     },
     i18n: {
       resources: USER_PROFILE_TRANSLATIONS,

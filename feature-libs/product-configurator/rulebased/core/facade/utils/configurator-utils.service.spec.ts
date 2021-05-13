@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import {
   ATTRIBUTE_1_CHECKBOX,
   GROUP_ID_1,
@@ -25,7 +25,7 @@ const ATTRIBUTE_NAME_2 = 'Attribute_DropDown';
 const ATTRIBUTE_NAME_3_1 = 'Attribute_1';
 const ATTRIBUTE_NAME_3_2 = 'Attribute_DropDown';
 const PRODUCT_CODE = 'CONF_LAPTOP';
-const OWNER_PRODUCT: CommonConfigurator.Owner = {};
+const OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
 const group1: Configurator.Group = {
   id: GROUP_ID_1,
   name: GROUP_NAME,
@@ -89,6 +89,8 @@ const productConfigurationMultiLevel: Configurator.Configuration = {
   groups: [group4],
 };
 
+const updateType: Configurator.UpdateType = Configurator.UpdateType.ATTRIBUTE;
+
 function mergeChangesAndGetFirstGroup(
   serviceUnderTest: ConfiguratorUtilsService,
   changedAttribute: Configurator.Attribute,
@@ -96,8 +98,10 @@ function mergeChangesAndGetFirstGroup(
 ) {
   const configurationForSendingChanges = serviceUnderTest.createConfigurationExtract(
     changedAttribute,
-    configuration
+    configuration,
+    updateType
   );
+
   expect(configurationForSendingChanges).toBeDefined();
   const groups = configurationForSendingChanges.groups;
   expect(groups).toBeDefined();
@@ -164,6 +168,7 @@ describe('ConfiguratorGroupUtilsService', () => {
       const configuration: Configurator.Configuration = {
         configId: 'a',
         flatGroups: [],
+        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });
@@ -171,17 +176,22 @@ describe('ConfiguratorGroupUtilsService', () => {
       const configuration: Configurator.Configuration = {
         configId: '',
         flatGroups: [],
+        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(false);
     });
     it('should know that config is not created in case the groups are not defined', () => {
-      const configuration: Configurator.Configuration = { configId: 'a' };
+      const configuration: Configurator.Configuration = {
+        configId: 'a',
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(false);
     });
     it('should know that config is created in case the groups are not defined but the overview aspect exists due to an order history read', () => {
       const configuration: Configurator.Configuration = {
         configId: 'a',
         overview: {},
+        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });
@@ -307,9 +317,24 @@ describe('ConfiguratorGroupUtilsService', () => {
       expect(function () {
         classUnderTest.createConfigurationExtract(
           changedAttribute,
-          productConfiguration
+          productConfiguration,
+          updateType
         );
       }).toThrow();
+    });
+
+    it('should create a new configuration in case if no updateType parameter in the call', () => {
+      const changedAttribute: Configurator.Attribute = {
+        name: ATTRIBUTE_1_CHECKBOX,
+        groupId: GROUP_ID_1,
+      };
+      const configurationForSendingChanges = classUnderTest.createConfigurationExtract(
+        changedAttribute,
+        productConfiguration
+      );
+      expect(configurationForSendingChanges.updateType).toBe(
+        Configurator.UpdateType.ATTRIBUTE
+      );
     });
   });
 });

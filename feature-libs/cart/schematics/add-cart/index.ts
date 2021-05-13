@@ -7,16 +7,18 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  configureB2bFeatures,
+  addPackageJsonDependenciesForLibrary,
   LibraryOptions as SpartacusCartOptions,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CART,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   CART_FOLDER_NAME,
-  CART_SAVED_CART_FEATURE_NAME,
+  CART_SAVED_CART_FEATURE_NAME_CONSTANT,
+  CART_SAVED_CART_MODULE_NAME,
   CLI_SAVED_CART_FEATURE,
   SAVED_CART_MODULE,
   SAVED_CART_ROOT_MODULE,
@@ -29,17 +31,21 @@ import {
 } from '../constants';
 
 export function addCartFeatures(options: SpartacusCartOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
       shouldAddFeature(CLI_SAVED_CART_FEATURE, options.features)
-        ? chain([
-            addSavedCartFeature(options),
-            configureB2bFeatures(options, packageJson),
-          ])
+        ? addSavedCartFeature(options)
         : noop(),
+
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        dependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
 }
@@ -47,7 +53,7 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
 function addSavedCartFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CART_FOLDER_NAME,
-    name: CART_SAVED_CART_FEATURE_NAME,
+    moduleName: CART_SAVED_CART_MODULE_NAME,
     featureModule: {
       name: SAVED_CART_MODULE,
       importPath: SPARTACUS_SAVED_CART,
@@ -55,6 +61,10 @@ function addSavedCartFeature(options: SpartacusCartOptions): Rule {
     rootModule: {
       name: SAVED_CART_ROOT_MODULE,
       importPath: SPARTACUS_SAVED_CART_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_SAVED_CART_ROOT,
+      namedImports: [CART_SAVED_CART_FEATURE_NAME_CONSTANT],
     },
     i18n: {
       resources: SAVED_CART_TRANSLATIONS,
