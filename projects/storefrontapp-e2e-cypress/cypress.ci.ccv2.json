@@ -12,7 +12,7 @@
   "env": {
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
-    "API_URL": "https://spartacus-demo.eastus.cloudapp.azure.com:8443",
+    "API_URL": "https://spartacus-dev0.eastus.cloudapp.azure.com:9002",
     "OCC_PREFIX": "/rest/v2",
     "OCC_PREFIX_USER_ENDPOINT": "users",
     "OCC_PREFIX_ORDER_ENDPOINT": "orders",
