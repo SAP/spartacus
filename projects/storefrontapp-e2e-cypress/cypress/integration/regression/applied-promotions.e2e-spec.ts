@@ -1,34 +1,37 @@
 import * as appliedPromotions from '../../helpers/applied-promotions';
 import { waitForPage } from '../../helpers/checkout-flow';
+import { viewportContext } from '../../helpers/viewport-context';
 import { standardUser } from '../../sample-data/shared-users';
 
 context('Applied promotions', () => {
-  before(() => {
-    cy.window().then((win) => {
-      win.sessionStorage.clear();
-      win.localStorage.clear();
-    });
-    cy.requireLoggedIn(standardUser);
-  });
-
-  describe('As a logged in user', () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
-      const eosCameraProductCode = '1382080';
-      const productPage = waitForPage(eosCameraProductCode, 'getProductPage');
-      cy.visit(`/product/${eosCameraProductCode}`);
-      cy.wait(`@${productPage}`).its('status').should('eq', 200);
+      cy.window().then((win) => {
+        win.sessionStorage.clear();
+        win.localStorage.clear();
+      });
+      cy.requireLoggedIn(standardUser);
     });
 
-    beforeEach(() => {
-      cy.restoreLocalStorage();
-    });
+    describe('As a logged in user', () => {
+      before(() => {
+        const eosCameraProductCode = '1382080';
+        const productPage = waitForPage(eosCameraProductCode, 'getProductPage');
+        cy.visit(`/product/${eosCameraProductCode}`);
+        cy.wait(`@${productPage}`).its('status').should('eq', 200);
+      });
 
-    appliedPromotions.checkAppliedPromotions();
+      beforeEach(() => {
+        cy.restoreLocalStorage();
+      });
 
-    appliedPromotions.checkAppliedPromotionsFordifferentCartTotals();
+      appliedPromotions.checkAppliedPromotions();
 
-    afterEach(() => {
-      cy.saveLocalStorage();
+      appliedPromotions.checkAppliedPromotionsFordifferentCartTotals();
+
+      afterEach(() => {
+        cy.saveLocalStorage();
+      });
     });
   });
 });
