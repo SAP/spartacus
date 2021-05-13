@@ -1,11 +1,21 @@
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
-import {
-  addPaymentMethod,
-  addShippingAddress,
-  verifyAndPlaceOrder,
-} from './checkout-as-persistent-user';
+import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
 
 export const eosCameraProductName = 'EOS450D';
+
+const defaultAddress = {
+  defaultAddress: false,
+  titleCode: 'mr',
+  firstName: 'Cypress',
+  lastName: 'Customer',
+  line1: '10 Fifth Avenue',
+  line2: '',
+  city: 'New York',
+  region: { isocode: 'US-NY' },
+  country: { isocode: 'US' },
+  postal: '10001',
+  phone: '917-123-0000',
+};
 
 export function checkForAppliedPromotionsInCartModal(productName: string) {
   cy.get('.cx-promotions').should('contain', productName);
@@ -77,21 +87,29 @@ export function goToOrderHistoryDetailsFromSummary() {
   });
 }
 
-export function checkAppliedPromotionsForLoggedUser() {
-  it.only('Should display promotions for product in cart', () => {
+export function checkAppliedPromotions() {
+  it.only('Should display promotions for product in cart and checkout', () => {
     addProductToCart();
     checkForAppliedPromotionsInCartModal(eosCameraProductName);
     goToCartDetailsViewFromCartDialog();
     checkForAppliedPromotions();
-  });
 
-  it('Should go through checkout and display promotions for product in submit order', () => {
-    addShippingAddress();
-    addPaymentMethod();
-    selectShippingAddress();
-    selectDeliveryMethod();
-    selectPaymentMethod();
-    checkForAppliedPromotions();
+    cy.get('.cart-details-wrapper > :nth-child(1)').then(($cart) => {
+      const cartId = $cart.text().match(/[0-9]+/)[0];
+      cy.log(`CartId: ${cartId}`);
+      cy.window()
+        .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+        .then(({ token }) => {
+          const stateAuth = token;
+          cy.requireShippingAddressAdded(defaultAddress, stateAuth, cartId);
+          // cy.requirePaymentMethodAdded()
+        });
+      // addPaymentMethod();
+      // selectShippingAddress();
+      // selectDeliveryMethod();
+      // selectPaymentMethod();
+      // checkForAppliedPromotions();
+    });
   });
 
   it('Should verify and place order, then go to order in order history', () => {
