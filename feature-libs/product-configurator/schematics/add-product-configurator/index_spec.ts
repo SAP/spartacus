@@ -8,7 +8,6 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CORE_SPARTACUS_SCOPES,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
@@ -100,12 +99,13 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       const packageJson = JSON.parse(appTree.readContent('package.json'));
       let dependencies: Record<string, string> = {};
       dependencies = { ...packageJson.dependencies };
-      dependencies = { ...packageJson.devDependencies };
+      dependencies = { ...dependencies, ...packageJson.devDependencies };
 
       for (const toAdd in peerDependencies) {
+        // skip the SPARTACUS_SCHEMATICS, as those are added only when running by the Angular CLI, and not in the testing environment
         if (
-          !dependencies.hasOwnProperty(toAdd) ||
-          !CORE_SPARTACUS_SCOPES.includes(toAdd)
+          !peerDependencies.hasOwnProperty(toAdd) ||
+          toAdd === SPARTACUS_SCHEMATICS
         ) {
           continue;
         }
