@@ -450,7 +450,7 @@ export class ProductConfiguratorFeatureModule { }
 "
 `;
 
-exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with Textfield general setup b2b features configuration should be added 1`] = `
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with Textfield general setup b2b features configuration should not be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";

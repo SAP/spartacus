@@ -10,6 +10,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CORE_SPARTACUS_SCOPES,
   LibraryOptions as SpartacusCartOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
@@ -50,9 +51,14 @@ describe('Spartacus Cart schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusCartOptions = {
+  const libraryNoFeaturesOptions: SpartacusCartOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [],
+  };
+
+  const savedCartFeatureOptions: SpartacusCartOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_SAVED_CART_FEATURE],
   };
 
@@ -92,7 +98,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',
-          { ...defaultFeatureOptions, features: [] },
+          { ...libraryNoFeaturesOptions, features: [] },
           appTree
         )
         .toPromise();
@@ -103,11 +109,16 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
 
     it('should install necessary Spartacus libraries', () => {
-      const packageJsonContent = appTree.readContent('package.json');
-      const dependencies = JSON.parse(packageJsonContent).dependencies;
+      const packageJson = JSON.parse(appTree.readContent('package.json'));
+      let dependencies: Record<string, string> = {};
+      dependencies = { ...packageJson.dependencies };
+      dependencies = { ...packageJson.devDependencies };
 
       for (const toAdd in peerDependencies) {
-        if (!dependencies.hasOwnProperty(toAdd)) {
+        if (
+          !dependencies.hasOwnProperty(toAdd) ||
+          !CORE_SPARTACUS_SCOPES.includes(toAdd)
+        ) {
           continue;
         }
         // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
@@ -126,7 +137,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', savedCartFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -153,7 +164,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...savedCartFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();

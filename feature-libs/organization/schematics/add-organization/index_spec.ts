@@ -10,6 +10,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CORE_SPARTACUS_SCOPES,
   LibraryOptions as SpartacusOrganizationOptions,
   SpartacusOptions,
   SPARTACUS_CONFIGURATION_MODULE,
@@ -56,10 +57,20 @@ describe('Spartacus Organization schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusOrganizationOptions = {
+  const libraryNoFeaturesOptions: SpartacusOrganizationOptions = {
     project: 'schematics-test',
     lazy: true,
-    features: [CLI_ADMINISTRATION_FEATURE, CLI_ORDER_APPROVAL_FEATURE],
+    features: [],
+  };
+
+  const administrationFeatureOptions: SpartacusOrganizationOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_ADMINISTRATION_FEATURE],
+  };
+
+  const orderApprovalFeatureOptions: SpartacusOrganizationOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_ORDER_APPROVAL_FEATURE],
   };
 
   beforeEach(async () => {
@@ -96,11 +107,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultFeatureOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
@@ -110,11 +117,16 @@ describe('Spartacus Organization schematics: ng-add', () => {
     });
 
     it('should install necessary Spartacus libraries', () => {
-      const packageJsonContent = appTree.readContent('package.json');
-      const dependencies = JSON.parse(packageJsonContent).dependencies;
+      const packageJson = JSON.parse(appTree.readContent('package.json'));
+      let dependencies: Record<string, string> = {};
+      dependencies = { ...packageJson.dependencies };
+      dependencies = { ...packageJson.devDependencies };
 
       for (const toAdd in peerDependencies) {
-        if (!dependencies.hasOwnProperty(toAdd)) {
+        if (
+          !dependencies.hasOwnProperty(toAdd) ||
+          !CORE_SPARTACUS_SCOPES.includes(toAdd)
+        ) {
           continue;
         }
         // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
@@ -133,14 +145,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...defaultFeatureOptions,
-              features: [CLI_ADMINISTRATION_FEATURE],
-            },
-            appTree
-          )
+          .runSchematicAsync('ng-add', administrationFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -176,7 +181,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...administrationFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
@@ -193,14 +198,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...defaultFeatureOptions,
-              features: [CLI_ORDER_APPROVAL_FEATURE],
-            },
-            appTree
-          )
+          .runSchematicAsync('ng-add', orderApprovalFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -236,7 +234,7 @@ describe('Spartacus Organization schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...orderApprovalFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();

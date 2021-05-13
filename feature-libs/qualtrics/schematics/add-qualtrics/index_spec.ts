@@ -11,6 +11,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CLI_QUALTRICS_FEATURE,
+  CORE_SPARTACUS_SCOPES,
   LibraryOptions as SpartacusQualtricsOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
@@ -50,9 +51,14 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusQualtricsOptions = {
+  const libraryNoFeaturesOptions: SpartacusQualtricsOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [],
+  };
+
+  const qualtricsOptions: SpartacusQualtricsOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_QUALTRICS_FEATURE],
   };
 
@@ -79,7 +85,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -90,11 +96,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultFeatureOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
@@ -103,11 +105,16 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
     });
 
     it('should install necessary Spartacus libraries', () => {
-      const packageJsonContent = appTree.readContent('package.json');
-      const dependencies = JSON.parse(packageJsonContent).dependencies;
+      const packageJson = JSON.parse(appTree.readContent('package.json'));
+      let dependencies: Record<string, string> = {};
+      dependencies = { ...packageJson.dependencies };
+      dependencies = { ...packageJson.devDependencies };
 
       for (const toAdd in peerDependencies) {
-        if (!dependencies.hasOwnProperty(toAdd)) {
+        if (
+          !dependencies.hasOwnProperty(toAdd) ||
+          !CORE_SPARTACUS_SCOPES.includes(toAdd)
+        ) {
           continue;
         }
         // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
@@ -126,7 +133,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', qualtricsOptions, appTree)
           .toPromise();
       });
 
@@ -153,7 +160,7 @@ describe('Spartacus Qualtrics schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...qualtricsOptions, lazy: false },
             appTree
           )
           .toPromise();

@@ -10,6 +10,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CORE_SPARTACUS_SCOPES,
   LibraryOptions as SpartacusProductOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
@@ -52,10 +53,20 @@ describe('Spartacus Product schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusProductOptions = {
+  const libraryNoFeaturesOptions: SpartacusProductOptions = {
     project: 'schematics-test',
     lazy: true,
-    features: [CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE],
+    features: [],
+  };
+
+  const bulkPricingOptions: SpartacusProductOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_BULK_PRICING_FEATURE],
+  };
+
+  const variantsOptions: SpartacusProductOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_VARIANTS_FEATURE],
   };
 
   beforeEach(async () => {
@@ -92,11 +103,7 @@ describe('Spartacus Product schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultFeatureOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
@@ -106,11 +113,16 @@ describe('Spartacus Product schematics: ng-add', () => {
     });
 
     it('should install necessary Spartacus libraries', () => {
-      const packageJsonContent = appTree.readContent('package.json');
-      const dependencies = JSON.parse(packageJsonContent).dependencies;
+      const packageJson = JSON.parse(appTree.readContent('package.json'));
+      let dependencies: Record<string, string> = {};
+      dependencies = { ...packageJson.dependencies };
+      dependencies = { ...packageJson.devDependencies };
 
       for (const toAdd in peerDependencies) {
-        if (!dependencies.hasOwnProperty(toAdd)) {
+        if (
+          !dependencies.hasOwnProperty(toAdd) ||
+          !CORE_SPARTACUS_SCOPES.includes(toAdd)
+        ) {
           continue;
         }
         // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
@@ -129,14 +141,7 @@ describe('Spartacus Product schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...defaultFeatureOptions,
-              features: [CLI_BULK_PRICING_FEATURE],
-            },
-            appTree
-          )
+          .runSchematicAsync('ng-add', bulkPricingOptions, appTree)
           .toPromise();
       });
 
@@ -163,7 +168,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...bulkPricingOptions, lazy: false },
             appTree
           )
           .toPromise();
@@ -180,14 +185,7 @@ describe('Spartacus Product schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync(
-            'ng-add',
-            {
-              ...defaultFeatureOptions,
-              features: [CLI_VARIANTS_FEATURE],
-            },
-            appTree
-          )
+          .runSchematicAsync('ng-add', variantsOptions, appTree)
           .toPromise();
       });
 
@@ -214,7 +212,7 @@ describe('Spartacus Product schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...variantsOptions, lazy: false },
             appTree
           )
           .toPromise();

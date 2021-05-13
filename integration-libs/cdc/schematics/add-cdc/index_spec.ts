@@ -11,6 +11,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CLI_CDC_FEATURE,
+  CORE_SPARTACUS_SCOPES,
   LibraryOptions as SpartacusCdcOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
@@ -49,9 +50,14 @@ describe('Spartacus CDC schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusCdcOptions = {
+  const libraryNoFeaturesOptions: SpartacusCdcOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [],
+  };
+
+  const cdcFeatureOptions: SpartacusCdcOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_CDC_FEATURE],
   };
 
@@ -78,7 +84,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -89,11 +95,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultFeatureOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
@@ -106,16 +108,21 @@ describe('Spartacus CDC schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', cdcFeatureOptions, appTree)
           .toPromise();
       });
 
       it('should install necessary Spartacus libraries', () => {
-        const packageJsonContent = appTree.readContent('package.json');
-        const dependencies = JSON.parse(packageJsonContent).dependencies;
+        const packageJson = JSON.parse(appTree.readContent('package.json'));
+        let dependencies: Record<string, string> = {};
+        dependencies = { ...packageJson.dependencies };
+        dependencies = { ...packageJson.devDependencies };
 
         for (const toAdd in peerDependencies) {
-          if (!dependencies.hasOwnProperty(toAdd)) {
+          if (
+            !dependencies.hasOwnProperty(toAdd) ||
+            !CORE_SPARTACUS_SCOPES.includes(toAdd)
+          ) {
             continue;
           }
           // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
@@ -140,7 +147,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...cdcFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
