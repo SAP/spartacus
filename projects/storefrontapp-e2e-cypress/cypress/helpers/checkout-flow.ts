@@ -162,7 +162,7 @@ export function fillPaymentForm(
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
-    .should('contain', cart.totalAndShipping);
+    .should('not.be.empty')
   fillPaymentDetails(paymentDetailsData, billingAddress);
 }
 
@@ -191,10 +191,9 @@ export function placeOrder() {
     .should('contain', cart.total);
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(1)
-    .should('contain', cart.estimatedShipping);
+    .should('not.be.empty');
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
-    'contain',
-    cart.totalAndShipping
+    'not.be.empty'
   );
   cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
@@ -215,7 +214,7 @@ export function viewOrderHistory() {
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
-    .should('contain', cart.totalAndShipping);
+    .should('not.be.empty');
 }
 
 export function goToPaymentDetails() {
@@ -328,7 +327,8 @@ export function fillPaymentFormWithCheapProduct(
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
-    .should('contain', cartData.totalAndShipping);
+    .should('not.be.empty');
+
   const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
   cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
@@ -362,8 +362,7 @@ export function placeOrderWithCheapProduct(
     .eq(1)
     .should('contain', cartData.estimatedShipping);
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
-    'contain',
-    cartData.totalAndShipping
+   'not.be.empty'
   );
   cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
@@ -425,8 +424,7 @@ export function verifyOrderConfirmationPageWithCheapProduct(
       });
   }
   cy.get('cx-order-summary .cx-summary-amount').should(
-    'contain',
-    cartData.totalAndShipping
+    'not.be.empty'
   );
 }
 
@@ -445,5 +443,5 @@ export function viewOrderHistoryWithCheapProduct(
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
-    .should('contain', cartData.totalAndShipping);
+    .should('not.be.empty');
 }
