@@ -13,14 +13,15 @@ import {
   CLI_SMARTEDIT_FEATURE,
   LibraryOptions as SpartacusSmartEditOptions,
   SpartacusOptions,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
+import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const smartEditModulePath =
+const featureModulePath =
   'src/app/spartacus/features/smartedit/smart-edit-feature.module.ts';
 
-// TODO: Improve tests after lib-util test update
 describe('Spartacus SmartEdit schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -48,15 +49,20 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusSmartEditOptions = {
+  const libraryNoFeaturesOptions: SpartacusSmartEditOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [],
+  };
+
+  const smarteditFeatureOptions: SpartacusSmartEditOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_SMARTEDIT_FEATURE],
   };
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 
@@ -77,7 +83,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -85,64 +91,61 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('When no features are provided', () => {
+  describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultFeatureOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
-    it('should not create the feature module', () => {
-      const featureModule = appTree.readContent(smartEditModulePath);
-      expect(featureModule).toBeFalsy();
+    it('should not create any of the feature modules', () => {
+      expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
-    it('should not add the feature to the feature module', () => {
-      const spartacusFeaturesModulePath = appTree.readContent(
-        'src/app/spartacus/spartacus-features.module.ts'
-      );
-      expect(spartacusFeaturesModulePath).toMatchSnapshot();
+
+    it('should install necessary Spartacus libraries', () => {
+      const packageJson = JSON.parse(appTree.readContent('package.json'));
+      let dependencies: Record<string, string> = {};
+      dependencies = { ...packageJson.dependencies };
+      dependencies = { ...dependencies, ...packageJson.devDependencies };
+
+      for (const toAdd in peerDependencies) {
+        // skip the SPARTACUS_SCHEMATICS, as those are added only when running by the Angular CLI, and not in the testing environment
+        if (
+          !peerDependencies.hasOwnProperty(toAdd) ||
+          toAdd === SPARTACUS_SCHEMATICS
+        ) {
+          continue;
+        }
+        // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+        // const expectedVersion = (peerDependencies as Record<
+        //   string,
+        //   string
+        // >)[toAdd];
+        const expectedDependency = dependencies[toAdd];
+        expect(expectedDependency).toBeTruthy();
+        // expect(expectedDependency).toEqual(expectedVersion);
+      }
     });
   });
 
   describe('SmartEdit feature', () => {
-    describe('assets', () => {
+    describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', smarteditFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should add update angular.json with smartedit/assets', async () => {
-        const content = appTree.readContent('/angular.json');
-        const angularJson = JSON.parse(content);
-        const buildAssets: any[] =
-          angularJson.projects['schematics-test'].architect.build.options
-            .assets;
-        expect(buildAssets).toEqual([
-          'src/favicon.ico',
-          'src/assets',
-          {
-            glob: '**/*',
-            input: './node_modules/@spartacus/smartedit/assets',
-            output: 'assets/',
-          },
-        ]);
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
 
-        const testAssets: any[] =
-          angularJson.projects['schematics-test'].architect.test.options.assets;
-        expect(testAssets).toEqual([
-          'src/favicon.ico',
-          'src/assets',
-          {
-            glob: '**/*',
-            input: './node_modules/@spartacus/smartedit/assets',
-            output: 'assets/',
-          },
-        ]);
+      describe('assets', () => {
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
       });
     });
 
@@ -151,52 +154,15 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...smarteditFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
       });
 
       it('should import appropriate modules', async () => {
-        const smarteditModule = appTree.readContent(smartEditModulePath);
-        expect(smarteditModule).toContain(
-          `import { SmartEditRootModule } from "@spartacus/smartedit/root";`
-        );
-        expect(smarteditModule).toContain(
-          `import { SmartEditModule } from "@spartacus/smartedit";`
-        );
-      });
-
-      it('should not contain lazy loading syntax', async () => {
-        const smarteditModule = appTree.readContent(smartEditModulePath);
-        expect(smarteditModule).not.toContain(
-          `import('@spartacus/smartedit').then(`
-        );
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import SmartEditRootModule and contain the lazy loading syntax', async () => {
-        const smarteditModule = appTree.readContent(smartEditModulePath);
-        expect(smarteditModule).toContain(
-          `import { SmartEditRootModule, SMART_EDIT_FEATURE } from "@spartacus/smartedit/root";`
-        );
-        expect(smarteditModule).toContain(
-          `import('@spartacus/smartedit').then(`
-        );
-      });
-
-      it('should not contain the SmartEditModule import', () => {
-        const smarteditModule = appTree.readContent(smartEditModulePath);
-        expect(smarteditModule).not.toContain(
-          `import { SmartEditModule } from "@spartacus/smartedit";`
-        );
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
   });
