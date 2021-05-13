@@ -205,7 +205,6 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       if (this.addressForm.dirty) {
         this.userAddressService
           .verifyAddress(this.addressForm.value)
-          .pipe(take(1))
           .subscribe((result) => {
             this.handleAddressVerificationResults(result);
           });

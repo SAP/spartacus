@@ -28,12 +28,6 @@ import { AddressFormModule } from './address-form/address-form.module';
       cmsComponents: {
         AccountAddressBookComponent: {
           component: AddressBookComponent,
-          providers: [
-            {
-              provide: AddressBookComponentService,
-              useClass: AddressBookComponentService,
-            },
-          ],
           guards: [AuthGuard],
         },
       },

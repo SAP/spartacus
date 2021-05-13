@@ -10,7 +10,12 @@ export class CheckoutEventListener {
     protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
     protected eventService: EventService
   ) {
+    this.onUserAddressChange();
+  }
+
+  onUserAddressChange() {
     this.eventService.get(UserAddressChangeEvent).subscribe((_event) => {
+      console.log('CheckoutEventListener UserAddressChangeEvent recieved.');
       this.checkoutDeliveryFacade.clearCheckoutDeliveryDetails();
     });
   }
