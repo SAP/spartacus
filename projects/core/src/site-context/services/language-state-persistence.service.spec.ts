@@ -11,6 +11,9 @@ class MockLanguageService implements Partial<LanguageService> {
   getActive() {
     return of('');
   }
+  isInitialized() {
+    return false;
+  }
   setActive = createSpy('setActive');
 }
 
@@ -67,29 +70,26 @@ describe('LanguageStatePersistenceService', () => {
   });
 
   describe('onRead', () => {
-    it('should update state after read', () => {
-      const lang = 'de';
-
-      service['onRead'](lang);
-
-      expect(languageService.setActive).toHaveBeenCalledWith(lang);
-    });
-    it('should use default language if state is empty', () => {
+    it('should NOT set active if no value is provided', () => {
+      spyOn(languageService, 'isInitialized').and.returnValue(false);
       service['onRead']('');
 
-      expect(languageService.setActive).toHaveBeenCalledWith(mockLanguages[0]);
+      expect(languageService.setActive).not.toHaveBeenCalled();
     });
-    it('should use default language if it is not in the configurations', () => {
-      const lang = 'en';
+    it('should NOT set active if the language is initialized', () => {
+      spyOn(languageService, 'isInitialized').and.returnValue(true);
 
-      service['onRead'](lang);
-
-      expect(languageService.setActive).toHaveBeenCalledWith(mockLanguages[0]);
-    });
-    it('should ignore storage if the language is already set', () => {
-      spyOn(languageService, 'getActive').and.returnValue(of('zh'));
+      service['onRead']('ja');
 
       expect(languageService.setActive).not.toHaveBeenCalled();
+    });
+    it('should set active value if the currency is NOT initialized and a value is provided', () => {
+      spyOn(languageService, 'isInitialized').and.returnValue(false);
+      const language = 'ja';
+
+      service['onRead'](language);
+
+      expect(languageService.setActive).toHaveBeenCalledWith(language);
     });
   });
 });

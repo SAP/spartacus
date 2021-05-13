@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Observable, ReplaySubject } from 'rxjs';
 import { StatePersistenceService } from '../../state/services/state-persistence.service';
-import {
-  getContextParameterDefault,
-  getContextParameterValues,
-} from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { LanguageService } from '../facade/language.service';
 import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
@@ -16,36 +13,30 @@ export class LanguageStatePersistenceService {
     protected config: SiteContextConfig
   ) {}
 
-  public initSync() {
+  protected initialized$ = new ReplaySubject<unknown>(1);
+
+  /**
+   * Initializes the synchronization of the active language with the local storage.
+   *
+   * @returns Observable that emits and completes when the value is read from the storage.
+   */
+  public initSync(): Observable<unknown> {
     this.statePersistenceService.syncWithStorage({
       key: LANGUAGE_CONTEXT_ID,
       state$: this.languageService.getActive(),
       onRead: (state) => this.onRead(state),
     });
+    return this.initialized$;
   }
 
-  protected onRead(state: string): void {
-    let value;
-    this.languageService
-      .getActive()
-      .subscribe((val) => (value = val))
-      .unsubscribe();
-    if (value) {
-      // don't initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)
-      return;
+  protected onRead(valueFromStorage: string): void {
+    if (!this.languageService.isInitialized() && valueFromStorage) {
+      this.languageService.setActive(valueFromStorage);
     }
 
-    if (
-      state &&
-      getContextParameterValues(this.config, LANGUAGE_CONTEXT_ID).includes(
-        state
-      )
-    ) {
-      this.languageService.setActive(state);
-    } else {
-      this.languageService.setActive(
-        getContextParameterDefault(this.config, LANGUAGE_CONTEXT_ID)
-      );
+    if (!this.initialized$.closed) {
+      this.initialized$.next();
+      this.initialized$.complete();
     }
   }
 }

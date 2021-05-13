@@ -3,14 +3,16 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import { Currency } from '../../model/misc.model';
+import { getContextParameterValues } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
+import { CURRENCY_CONTEXT_ID } from '../providers/context-ids';
 import { SiteContextActions } from '../store/actions/index';
 import { SiteContextSelectors } from '../store/selectors/index';
 import { StateWithSiteContext } from '../store/state';
 import { SiteContext } from './site-context.interface';
 
 /**
- * Facade that provides easy access to curreny state, actions and selectors.
+ * Facade that provides easy access to currency state, actions and selectors.
  */
 @Injectable()
 export class CurrencyService implements SiteContext<Currency> {
@@ -51,11 +53,37 @@ export class CurrencyService implements SiteContext<Currency> {
     this.store
       .pipe(select(SiteContextSelectors.getActiveCurrency), take(1))
       .subscribe((activeCurrency) => {
-        if (activeCurrency !== isocode) {
+        if (activeCurrency !== isocode && this.isValid(isocode)) {
           this.store.dispatch(
             new SiteContextActions.SetActiveCurrency(isocode)
           );
         }
       });
+  }
+
+  /**
+   * Tells whether the value of the active currency has been already initialized
+   */
+  isInitialized(): boolean {
+    let valueInitialized = false;
+    this.getActive()
+      .subscribe(() => (valueInitialized = true))
+      .unsubscribe();
+
+    return valueInitialized;
+  }
+
+  /**
+   * Tells whether the given iso code is allowed.
+   *
+   * The list of allowed iso codes can be configured in the `context` config of Spartacus.
+   */
+  protected isValid(value: string): boolean {
+    return (
+      !!value &&
+      getContextParameterValues(this.config, CURRENCY_CONTEXT_ID).includes(
+        value
+      )
+    );
   }
 }
