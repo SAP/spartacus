@@ -514,8 +514,6 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
-export const SITE_CONTEXT_CONFIG = 'SiteContextConfig';
-
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 // export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
 // export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
