@@ -49,9 +49,14 @@ describe('Spartacus CDC schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusCdcOptions = {
+  const libraryNoFeaturesOptions: SpartacusCdcOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [],
+  };
+
+  const cdcFeatureOptions: SpartacusCdcOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_CDC_FEATURE],
   };
 
@@ -78,7 +83,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -89,11 +94,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultFeatureOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
@@ -106,7 +107,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', cdcFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -140,7 +141,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...cdcFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();

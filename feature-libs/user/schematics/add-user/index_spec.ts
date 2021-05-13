@@ -53,15 +53,15 @@ describe('Spartacus User schematics: ng-add', () => {
   const libraryNoFeaturesOptions: SpartacusUserOptions = {
     project: 'schematics-test',
     lazy: true,
-    features: [CLI_ACCOUNT_FEATURE, CLI_PROFILE_FEATURE],
+    features: [],
   };
 
-  const accountOptions: SpartacusUserOptions = {
+  const accountFeatureOptions: SpartacusUserOptions = {
     ...libraryNoFeaturesOptions,
     features: [CLI_ACCOUNT_FEATURE],
   };
 
-  const profileOptions: SpartacusUserOptions = {
+  const profileFeatureOptions: SpartacusUserOptions = {
     ...libraryNoFeaturesOptions,
     features: [CLI_PROFILE_FEATURE],
   };
@@ -89,7 +89,7 @@ describe('Spartacus User schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -100,11 +100,7 @@ describe('Spartacus User schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...libraryNoFeaturesOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
@@ -136,7 +132,7 @@ describe('Spartacus User schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', accountOptions, appTree)
+          .runSchematicAsync('ng-add', accountFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -163,7 +159,7 @@ describe('Spartacus User schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...accountOptions, lazy: false },
+            { ...accountFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
@@ -180,7 +176,7 @@ describe('Spartacus User schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', profileOptions, appTree)
+          .runSchematicAsync('ng-add', profileFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -207,7 +203,7 @@ describe('Spartacus User schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...profileOptions, lazy: false },
+            { ...profileFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();

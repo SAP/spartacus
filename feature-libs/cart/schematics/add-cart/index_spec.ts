@@ -50,9 +50,14 @@ describe('Spartacus Cart schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusCartOptions = {
+  const libraryNoFeaturesOptions: SpartacusCartOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [],
+  };
+
+  const savedCartFeatureOptions: SpartacusCartOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_SAVED_CART_FEATURE],
   };
 
@@ -92,7 +97,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',
-          { ...defaultFeatureOptions, features: [] },
+          { ...libraryNoFeaturesOptions, features: [] },
           appTree
         )
         .toPromise();
@@ -126,7 +131,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', savedCartFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -153,7 +158,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...savedCartFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();

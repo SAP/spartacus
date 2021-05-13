@@ -49,9 +49,14 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusSmartEditOptions = {
+  const libraryNoFeaturesOptions: SpartacusSmartEditOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [],
+  };
+
+  const smarteditFeatureOptions: SpartacusSmartEditOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_SMARTEDIT_FEATURE],
   };
 
@@ -78,7 +83,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -89,11 +94,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultFeatureOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
@@ -125,7 +126,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', smarteditFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -147,7 +148,7 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...smarteditFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();

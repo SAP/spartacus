@@ -41,19 +41,19 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultFeatureOptions: SpartacusProductConfiguratorOptions = {
+  const libraryNoFeaturesOptions: SpartacusProductConfiguratorOptions = {
     project: 'schematics-test',
     lazy: true,
     features: [],
   };
 
-  const optionsIncludingCpq: SpartacusProductConfiguratorOptions = {
-    ...defaultFeatureOptions,
+  const cpqOptions: SpartacusProductConfiguratorOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_CPQ_FEATURE],
   };
 
-  const optionsIncludingTextfield: SpartacusProductConfiguratorOptions = {
-    ...defaultFeatureOptions,
+  const textfieldOptions: SpartacusProductConfiguratorOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_TEXTFIELD_FEATURE],
   };
 
@@ -80,9 +80,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
-        { ...defaultFeatureOptions, name: 'schematics-test' },
+        { ...libraryNoFeaturesOptions, name: 'schematics-test' },
         appTree
       )
       .toPromise();
@@ -91,7 +91,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
@@ -120,7 +120,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner
-            .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+            .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
             .toPromise();
         });
 
@@ -147,7 +147,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',
-              { ...defaultFeatureOptions, lazy: false },
+              { ...libraryNoFeaturesOptions, lazy: false },
               appTree
             )
             .toPromise();
@@ -164,7 +164,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner
-            .runSchematicAsync('ng-add', optionsIncludingCpq, appTree)
+            .runSchematicAsync('ng-add', cpqOptions, appTree)
             .toPromise();
         });
 
@@ -200,7 +200,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',
-              { ...optionsIncludingCpq, lazy: false },
+              { ...cpqOptions, lazy: false },
               appTree
             )
             .toPromise();
@@ -217,7 +217,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner
-            .runSchematicAsync('ng-add', optionsIncludingTextfield, appTree)
+            .runSchematicAsync('ng-add', textfieldOptions, appTree)
             .toPromise();
         });
 
@@ -253,7 +253,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',
-              { ...optionsIncludingTextfield, lazy: false },
+              { ...textfieldOptions, lazy: false },
               appTree
             )
             .toPromise();
@@ -273,7 +273,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
             .runSchematicAsync(
               'ng-add',
               {
-                ...defaultFeatureOptions,
+                ...libraryNoFeaturesOptions,
                 features: [CLI_CPQ_FEATURE, CLI_TEXTFIELD_FEATURE],
               },
               appTree
@@ -314,7 +314,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
             .runSchematicAsync(
               'ng-add',
               {
-                ...defaultFeatureOptions,
+                ...libraryNoFeaturesOptions,
                 features: [CLI_CPQ_FEATURE, CLI_TEXTFIELD_FEATURE],
                 lazy: false,
               },

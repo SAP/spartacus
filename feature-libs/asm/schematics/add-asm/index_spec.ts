@@ -49,9 +49,14 @@ describe('Spartacus Asm schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusAsmOptions = {
+  const libraryNoFeaturesOptions: SpartacusAsmOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [],
+  };
+
+  const asmFeatureOptions: SpartacusAsmOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_ASM_FEATURE],
   };
 
@@ -89,11 +94,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultFeatureOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
@@ -125,7 +126,7 @@ describe('Spartacus Asm schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', asmFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -140,7 +141,10 @@ describe('Spartacus Asm schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            {
+              ...asmFeatureOptions,
+              lazy: false,
+            },
             appTree
           )
           .toPromise();

@@ -50,9 +50,14 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusStorefinderOptions = {
+  const libraryNoFeaturesOptions: SpartacusStorefinderOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [],
+  };
+
+  const storefinderFeatureOptions: SpartacusStorefinderOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_STOREFINDER_FEATURE],
   };
 
@@ -79,7 +84,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -90,11 +95,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultFeatureOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
@@ -126,7 +127,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', storefinderFeatureOptions, appTree)
           .toPromise();
       });
 
@@ -153,7 +154,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...storefinderFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
