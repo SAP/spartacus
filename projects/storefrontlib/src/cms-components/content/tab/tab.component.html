@@ -3,50 +3,64 @@
     {{ mode }}
     <ng-container *ngIf="tabs$ | async as tabs">
       <div role="tablist" [attr.aria-label]="config.label" [class]="mode">
-        <button
+        <ng-container *ngFor="let tab of tabs; let i = index">
+          <button
+            role="tab"
+            [class.active]="isOpen(i)"
+            (click)="select(i, $event)"
+            (keydown.ArrowLeft)="select(i - 1, $event)"
+            (keydown.ArrowUp)="select(i - 1, $event)"
+            (keydown.ArrowRight)="select(i + 1, $event)"
+            (keydown.ArrowDown)="select(i + 1, $event)"
+            (keydown.Home)="select(0, $event)"
+            (keydown.End)="select(tabs.length - 1, $event)"
+            [attr.aria-selected]="isOpen(i)"
+            [attr.aria-expanded]="isOpen(i)"
+            [attr.aria-controls]="'section-' + i"
+            [attr.tabindex]="isOpen(i) ? 0 : -1"
+            [attr.id]="tab.id"
+            #tabButton
+          >
+            {{ tab.title | cxTranslate }}
+          </button>
+
+          <ng-container
+            *ngIf="mode === 'ACCORDIAN' && isOpen(i)"
+            [ngTemplateOutlet]="tabPanels"
+          ></ng-container>
+        </ng-container>
+      </div>
+
+      <ng-container
+        *ngIf="mode === 'TAB'"
+        [ngTemplateOutlet]="tabPanels"
+      ></ng-container>
+
+      <ng-template #tabPanels>
+        <div
           *ngFor="let tab of tabs; let i = index"
           [class.active]="isOpen(i)"
-          (click)="select(i, $event)"
-          (keydown.ArrowLeft)="select(i - 1, $event)"
-          (keydown.ArrowUp)="select(i - 1, $event)"
-          (keydown.ArrowRight)="select(i + 1, $event)"
-          (keydown.ArrowDown)="select(i + 1, $event)"
-          (keydown.Home)="select(0, $event)"
-          (keydown.End)="select(tabs.length - 1, $event)"
-          [attr.aria-selected]="isOpen(i)"
-          [attr.aria-expanded]="isOpen(i)"
-          [attr.aria-controls]="'section-' + i"
+          role="tabpanel"
+          [attr.aria-labelledby]="tab.id"
+          [attr.id]="'section-' + i"
           [attr.tabindex]="isOpen(i) ? 0 : -1"
-          [attr.id]="tab.id"
-          #tabButton
+          [style.display]="isOpen(i) ? 'block' : 'none'"
         >
-          {{ tab.title | cxTranslate }}
-        </button>
-      </div>
+          <ng-container
+            *ngIf="tab.template"
+            [ngTemplateOutlet]="tab.template"
+          ></ng-container>
 
-      <div
-        *ngFor="let tab of tabs; let i = index"
-        [class.active]="isOpen(i)"
-        role="tabpanel"
-        [attr.aria-labelledby]="tab.id"
-        [attr.id]="'section-' + i"
-        [attr.tabindex]="isOpen(i) ? 0 : -1"
-        [style.display]="isOpen(i) ? 'block' : 'none'"
-      >
-        <ng-container
-          *ngIf="tab.template"
-          [ngTemplateOutlet]="tab.template"
-        ></ng-container>
-
-        <ng-template
-          *ngIf="tab.cxComponent as component"
-          [cxOutlet]="component.flexType"
-          [cxOutletContext]="{}"
-          #componentTemplate
-        >
-          <ng-container [cxComponentWrapper]="component"></ng-container>
-        </ng-template>
-      </div>
+          <ng-template
+            *ngIf="tab.cxComponent as component"
+            [cxOutlet]="component.flexType"
+            [cxOutletContext]="{}"
+            #componentTemplate
+          >
+            <ng-container [cxComponentWrapper]="component"></ng-container>
+          </ng-template>
+        </div>
+      </ng-template>
     </ng-container>
   </ng-container>
 </ng-container>
