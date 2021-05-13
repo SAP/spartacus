@@ -188,7 +188,7 @@ export const orgUnitAddress = {
   title: 'Shipping addresses',
   subtitle: 'Unit: {{item.name}}',
 
-  country: 'Country',
+  country: 'Country/Region',
   titles: 'Title',
   firstName: 'First name',
   lastName: 'Last name',

@@ -42,6 +42,7 @@ const configWOMessages: Configurator.Configuration = {
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),
+    configuratorType: ConfiguratorType.VARIANT,
   },
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -54,6 +55,7 @@ const configWithMessages: Configurator.Configuration = {
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),
+    configuratorType: ConfiguratorType.VARIANT,
   },
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -72,6 +74,7 @@ const configWithOnlyOneMessage: Configurator.Configuration = {
       CommonConfigurator.OwnerType.PRODUCT,
       PRODUCT_CODE
     ),
+    configuratorType: ConfiguratorType.VARIANT,
   },
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
