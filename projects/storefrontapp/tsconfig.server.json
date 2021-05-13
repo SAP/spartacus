@@ -211,7 +211,9 @@
       "@spartacus/cdc": ["../../integration-libs/cdc/public_api"],
       "@spartacus/cdc/root": ["../../integration-libs/cdc/root/public_api"],
       "@spartacus/cds": ["../../integration-libs/cds/public_api"],
-      "@spartacus/digital-payments": ["../../integration-libs/digital-payments/public_api"],
+      "@spartacus/digital-payments": [
+        "../../integration-libs/digital-payments/public_api"
+      ],
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/incubator": ["../../projects/incubator/public_api"],

@@ -1,7 +1,7 @@
 import { PaymentDetails } from '@spartacus/core';
 import { DigitalPaymentActions } from '../actions';
 
-export const initialState: PaymentDetails = undefined;
+export const initialState: PaymentDetails = {};
 
 export function reducer(
   state = initialState,
