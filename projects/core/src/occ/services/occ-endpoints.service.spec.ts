@@ -38,10 +38,6 @@ describe('OccEndpointsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return base endpoint', () => {
-    expect(service.getBaseUrl()).toEqual(baseEndpoint);
-  });
-
   it('should return base endpoint + added endpoint', () => {
     expect(service.getEndpoint('test-endpoint')).toEqual(
       baseEndpoint + '/test-endpoint'
