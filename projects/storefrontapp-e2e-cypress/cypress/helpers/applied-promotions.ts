@@ -2,8 +2,6 @@ import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import {
   addPaymentMethod,
   addShippingAddress,
-  deletePaymentCard,
-  deleteShippingAddress,
   verifyAndPlaceOrder,
 } from './checkout-as-persistent-user';
 
@@ -22,16 +20,15 @@ export function checkForAppliedPromotions() {
 }
 
 export function addProductToCart() {
-  cy.get('cx-add-to-cart')
-    .findByText(/Add To Cart/i)
-    .click();
-  cy.server();
-  cy.route(
+  cy.intercept(
     `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/current/carts/*`
-  ).as('cart');
-  cy.wait(`@cart`).its('status').should('eq', 200);
+  ).as('addToCart');
+  cy.get('cx-add-to-cart')
+    .findByText(/Add To Cart/i)
+    .click();
+  cy.wait(`@addToCart`);
 }
 
 export function goToCartDetailsViewFromCartDialog() {
@@ -81,12 +78,9 @@ export function goToOrderHistoryDetailsFromSummary() {
 }
 
 export function checkAppliedPromotionsForLoggedUser() {
-  it('Should display promotions for product in modal after adding to cart', () => {
+  it.only('Should display promotions for product in cart', () => {
     addProductToCart();
     checkForAppliedPromotionsInCartModal(eosCameraProductName);
-  });
-
-  it('Should display promotions in users cart view for added product', () => {
     goToCartDetailsViewFromCartDialog();
     checkForAppliedPromotions();
   });
@@ -108,11 +102,6 @@ export function checkAppliedPromotionsForLoggedUser() {
   it('Should verify promotions in order confirmation details', () => {
     goToOrderHistoryDetailsFromSummary();
     checkForAppliedPromotions();
-  });
-
-  after(() => {
-    deletePaymentCard();
-    deleteShippingAddress();
   });
 }
 
