@@ -520,6 +520,12 @@ export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 // export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
 // export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
 
+export const PERSONALIZATION_MODULE = 'PersonalizationModule';
+export const PERSONALIZATION_CONFIG = 'PersonalizationConfig';
+export const PERSONALIZATION_CONTEXT_SERVICE = 'PersonalizationContextService';
+export const PERSONALIZATION_ACTION = 'PersonalizationAction';
+export const PERSONALIZATION_CONTEXT = 'PersonalizationContext';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
