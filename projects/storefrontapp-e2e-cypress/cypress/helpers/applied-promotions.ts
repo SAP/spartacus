@@ -122,14 +122,6 @@ export function checkAppliedPromotions() {
   });
 }
 
-export function checkForAppliedCartPromotions(shouldContainPromotion) {
-  if (shouldContainPromotion) {
-    cy.get('.cx-promotions').should('contain', '200');
-  } else {
-    cy.get('.cx-promotions').should('not.contain', '200');
-  }
-}
-
 export function decreaseQuantityOfCartEntry() {
   cy.get('cx-item-counter button').first().click();
 }
@@ -152,9 +144,9 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
 
   it('Should display promotions for cart quantities increase/decrease', () => {
     goToCartDetailsViewFromCartDialog();
-    checkForAppliedCartPromotions(true);
+    cy.get('.cx-promotions').should('contain', '200');
 
     decreaseQuantityOfCartEntry();
-    checkForAppliedCartPromotions(false);
+    cy.get('.cx-promotions').should('not.contain', '200');
   });
 }
