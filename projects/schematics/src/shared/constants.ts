@@ -34,6 +34,8 @@ export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
 export const SPARTACUS_USER = '@spartacus/user';
+export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
+export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -512,6 +514,27 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
+
+export const TRANSLATION_CHUNKS_CONFIG = 'TranslationChunksConfig';
+export const MINI_LOGIN_TRANSLATION_CHUNK = 'miniLogin';
+export const UPDATE_EMAIL_FORM_TRANSLATION_CHUNK = 'updateEmailForm';
+export const FORGOTTEN_PASSWORD_TRANSLATION_CHUNK = 'forgottenPassword';
+export const LOGIN_FORM_TRANSLATION_CHUNK = 'loginForm';
+export const REGISTER_TRANSLATION_CHUNK = 'register';
+
+export const CMS_LIB_MODULE = 'CmsLibModule';
+export const CLOSE_ACCOUNT_MODULE = 'CloseAccountModule';
+export const FORGOT_PASSWORD_MODULE = 'ForgotPasswordModule';
+export const RESET_PASSWORD_MODULE = 'ResetPasswordModule';
+export const UPDATE_EMAIL_MODULE = 'UpdateEmailModule';
+export const UPDATE_PASSWORD_MODULE = 'UpdatePasswordModule';
+export const UPDATE_PROFILE_MODULE = 'UpdateProfileModule';
+export const USER_COMPONENT_MODULE = 'UserComponentModule';
+export const CLOSE_ACCOUNT_COMPONENT = 'CloseAccountComponent';
+export const UPDATE_EMAIL_FORM_COMPONENT = 'UpdateEmailFormComponent';
+export const UPDATE_PASSWORD_COMPONENT = 'UpdatePasswordComponent';
+export const UPDATE_PASSWORD_FORM_COMPONENT = 'UpdatePasswordFormComponent';
+export const UPDATE_PROFILE_COMPONENT = 'UpdateProfileComponent';
 
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
