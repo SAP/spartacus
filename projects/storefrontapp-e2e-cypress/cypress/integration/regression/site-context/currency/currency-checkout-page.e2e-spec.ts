@@ -57,11 +57,7 @@ describe('Currency switch - checkout page', () => {
     });
 
     it('should change currency in the checkoutDeliveryPath page', () => {
-      cy.get('cx-delivery-mode .cx-delivery-price:first').should(
-        'have.text',
-        ' ¥80 '
-      );
-
+      cy.get('cx-delivery-mode .cx-delivery-price:first').should( 'contain', '¥' );
       siteContextSelector.deliveryModeNextStep();
     });
 
@@ -81,10 +77,7 @@ describe('Currency switch - checkout page', () => {
     });
 
     it('should change currency in the checkoutReviewPath page', () => {
-      cy.get('cx-review-submit .cx-price .cx-value').should(
-        'have.text',
-        ' ¥9,782 '
-      );
+      cy.get('cx-review-submit .cx-price .cx-value').should('contain', '¥');
     });
   });
 });
