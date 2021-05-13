@@ -113,11 +113,11 @@ describe('Spartacus User schematics: ng-add', () => {
       const packageJson = JSON.parse(appTree.readContent('package.json'));
       let dependencies: Record<string, string> = {};
       dependencies = { ...packageJson.dependencies };
-      dependencies = { ...packageJson.devDependencies };
+      dependencies = { ...dependencies, ...packageJson.devDependencies };
 
       for (const toAdd in peerDependencies) {
         if (
-          !dependencies.hasOwnProperty(toAdd) ||
+          !peerDependencies.hasOwnProperty(toAdd) ||
           !CORE_SPARTACUS_SCOPES.includes(toAdd)
         ) {
           continue;
