@@ -239,7 +239,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
 
         describe('b2b features', () => {
-          it('configuration should be added', () => {
+          it('configuration should not be added', () => {
             const configurationModule = appTree.readContent(
               `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
             );
