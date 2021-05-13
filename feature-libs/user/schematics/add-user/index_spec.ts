@@ -10,7 +10,6 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CORE_SPARTACUS_SCOPES,
   LibraryOptions as SpartacusUserOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
@@ -116,9 +115,10 @@ describe('Spartacus User schematics: ng-add', () => {
       dependencies = { ...dependencies, ...packageJson.devDependencies };
 
       for (const toAdd in peerDependencies) {
+        // skip the SPARTACUS_SCHEMATICS, as those are added only when running by the Angular CLI, and not in the testing environment
         if (
           !peerDependencies.hasOwnProperty(toAdd) ||
-          !CORE_SPARTACUS_SCOPES.includes(toAdd)
+          toAdd === SPARTACUS_SCHEMATICS
         ) {
           continue;
         }
