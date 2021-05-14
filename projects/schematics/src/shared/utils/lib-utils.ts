@@ -43,7 +43,7 @@ import {
 import {
   createDependencies,
   createSpartacusDependencies,
-  getSpartacusSchematicsVersion,
+  getPrefixedSpartacusSchematicsVersion,
   readPackageJson,
 } from './package-utils';
 import { createProgram, saveAndFormat } from './program';
@@ -694,7 +694,7 @@ export function configureB2bFeatures<T extends LibraryOptions>(
   packageJson: any
 ): Rule {
   return (_tree: Tree, _context: SchematicContext): Rule => {
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
     return chain([
       addB2bProviders(options),
       addPackageJsonDependencies(

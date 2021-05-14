@@ -30,7 +30,7 @@ export const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
 export function createSpartacusDependencies(
   dependencyObject: Record<string, string>
 ): NodeDependency[] {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
   return createDependencies(dependencyObject, {
     skipScopes: CORE_SPARTACUS_SCOPES,
     onlyIncludeScopes: FEATURES_LIBS_SKIP_SCOPES,
@@ -123,6 +123,10 @@ export function getMajorVersionNumber(versionString: string): number {
 
 export function getSpartacusSchematicsVersion(): string {
   return version;
+}
+
+export function getPrefixedSpartacusSchematicsVersion(): string {
+  return `~${getSpartacusSchematicsVersion()}`;
 }
 
 export function getSpartacusCurrentFeatureLevel(): string {
