@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { concat, defer, Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config';
 import { getContextParameterDefault } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
@@ -22,13 +22,14 @@ export class CurrencyInitializer implements OnDestroy {
    * Initializes the value of the active currency.
    */
   initialize(): void {
-    this.subscription = concat(
-      this.configInit.getStable('context'),
-      // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
-      // calling initSync() starts synchronization immediately; defer it until above observables complete
-      defer(() => this.currencyStatePersistenceService.initSync()),
-      this.setFallbackValue()
-    ).subscribe();
+    this.subscription = this.configInit
+      .getStable('context')
+      .pipe(
+        // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
+        switchMap(() => this.currencyStatePersistenceService.initSync()),
+        switchMap(() => this.setFallbackValue())
+      )
+      .subscribe();
   }
 
   /**

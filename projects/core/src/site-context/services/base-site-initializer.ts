@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { switchMap, tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { getContextParameterDefault } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
@@ -20,7 +20,13 @@ export class BaseSiteInitializer implements OnDestroy {
    * Initializes the value of the base site
    */
   initialize(): void {
-    this.subscription = this.setFallbackValue().subscribe();
+    this.subscription = this.configInit
+      .getStable('context')
+      .pipe(
+        // TODO(#12351): <--- plug here explicitly SiteContextRoutesHandler
+        switchMap(() => this.setFallbackValue())
+      )
+      .subscribe();
   }
 
   /**
