@@ -8,7 +8,6 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
-  CLI_PRODUCT_CONFIGURATOR_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
@@ -21,13 +20,14 @@ import {
   CLI_CPQ_FEATURE,
   CLI_TEXTFIELD_FEATURE,
   PRODUCT_CONFIGURATOR_FOLDER_NAME,
+  PRODUCT_CONFIGURATOR_MODULE_NAME,
   PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE,
   PRODUCT_CONFIGURATOR_RULEBASED_CPQ_ROOT_MODULE,
-  PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME,
+  PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME_CONSTANT,
   PRODUCT_CONFIGURATOR_RULEBASED_MODULE,
   PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE,
   PRODUCT_CONFIGURATOR_SCSS_FILE_NAME,
-  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
+  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME_CONSTANT,
   PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE,
   PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE,
   PRODUCT_CONFIGURATOR_TRANSLATIONS,
@@ -51,11 +51,10 @@ export function addProductConfiguratorFeatures(
       addProductConfiguratorRulebasedFeature(options),
 
       shouldAddFeature(CLI_CPQ_FEATURE, options.features)
-        ? addCpqRulebasedRootModule(options)
-        : noop(),
-
-      shouldAddFeature(CLI_CPQ_FEATURE, options.features)
-        ? configureB2bFeatures(options, packageJson)
+        ? chain([
+            addCpqRulebasedRootModule(options),
+            configureB2bFeatures(options, packageJson),
+          ])
         : noop(),
 
       shouldAddFeature(CLI_TEXTFIELD_FEATURE, options.features)
@@ -65,7 +64,7 @@ export function addProductConfiguratorFeatures(
       addPackageJsonDependenciesForLibrary({
         packageJson,
         context,
-        libraryPeerDependencies: peerDependencies,
+        dependencies: peerDependencies,
         options,
       }),
     ]);
@@ -81,28 +80,27 @@ export function addProductConfiguratorFeatures(
 function addProductConfiguratorRulebasedFeature(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
-  let moduleName: string;
-  let moduleImportPath: string;
-
+  let featureModuleName = PRODUCT_CONFIGURATOR_RULEBASED_MODULE;
+  let featureModuleImportPath = SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED;
   if (shouldAddFeature(CLI_CPQ_FEATURE, options.features)) {
-    moduleName = PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE;
-    moduleImportPath = SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_CPQ;
-  } else {
-    moduleName = PRODUCT_CONFIGURATOR_RULEBASED_MODULE;
-    moduleImportPath = SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED;
+    featureModuleName = PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE;
+    featureModuleImportPath = SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_CPQ;
   }
 
   return addLibraryFeature(options, {
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
-    name: CLI_PRODUCT_CONFIGURATOR_FEATURE,
-    lazyModuleName: PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME,
+    moduleName: PRODUCT_CONFIGURATOR_MODULE_NAME,
     featureModule: {
-      name: moduleName,
-      importPath: moduleImportPath,
+      name: featureModuleName,
+      importPath: featureModuleImportPath,
     },
     rootModule: {
       name: PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT,
+      namedImports: [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME_CONSTANT],
     },
     i18n: {
       resources: PRODUCT_CONFIGURATOR_TRANSLATIONS,
@@ -127,8 +125,7 @@ function addCpqRulebasedRootModule(
 ): Rule {
   return addLibraryFeature(options, {
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
-    name: CLI_PRODUCT_CONFIGURATOR_FEATURE,
-    lazyModuleName: PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME,
+    moduleName: PRODUCT_CONFIGURATOR_MODULE_NAME,
     featureModule: {
       name: PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_CPQ,
@@ -136,6 +133,10 @@ function addCpqRulebasedRootModule(
     rootModule: {
       name: PRODUCT_CONFIGURATOR_RULEBASED_CPQ_ROOT_MODULE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT,
+      namedImports: [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME_CONSTANT],
     },
   });
 }
@@ -145,8 +146,7 @@ function addProductConfiguratorTextfieldFeature(
 ): Rule {
   return addLibraryFeature(options, {
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
-    name: CLI_PRODUCT_CONFIGURATOR_FEATURE,
-    lazyModuleName: PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME,
+    moduleName: PRODUCT_CONFIGURATOR_MODULE_NAME,
     featureModule: {
       name: PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD,
@@ -154,6 +154,10 @@ function addProductConfiguratorTextfieldFeature(
     rootModule: {
       name: PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT,
+      namedImports: [PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_NAME_CONSTANT],
     },
     i18n: {
       resources: PRODUCT_CONFIGURATOR_TRANSLATIONS,
