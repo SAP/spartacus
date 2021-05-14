@@ -62,10 +62,6 @@ export interface LibraryOptions {
 
 export interface FeatureConfig {
   /**
-   * The CLI feature name. Used for dependency management.
-   */
-  cliFeature: string;
-  /**
    * The folder in which we will generate the feature module. E.g. app/spartacus/features/__organization__ (__NOTE__: just the `organization` part should be provided.).
    */
   folderName: string;
@@ -113,14 +109,18 @@ export interface FeatureConfig {
  */
 export interface DependencyManagement {
   /**
+   * The name of the feature that's currently being installed.
+   */
+  featureName: string;
+  /**
    * Dependencies to install with the library.
    */
   dependencies: Record<string, string>;
   /**
-   * The key is a Spartacus scope, while the value is an array of features to install for it.
-   * Should be provided only when a specific feature needs to be installed. Otherwise, it defaults to an empty array.
+   * Contains the feature dependencies.
+   * The key is a Spartacus scope, while the value is an array of its features.
    */
-  cliFeatures?: Record<string, string[]>;
+  featureDependencies: Record<string, string[]>;
 }
 
 export interface CustomConfig {
@@ -178,7 +178,6 @@ export function addLibraryFeature<T extends LibraryOptions>(
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
       config.dependencyManagement
         ? installRequiredSpartacusFeatures({
-            cliFeature: config.cliFeature,
             dependencyManagement: config.dependencyManagement,
             options,
           })
@@ -641,16 +640,17 @@ export function addPackageJsonDependenciesForLibrary(
     const spartacusLibraries = createSpartacusDependencies(dependencies);
     const thirdPartyLibraries = createDependencies(dependencies);
     const libraries = spartacusLibraries.concat(thirdPartyLibraries);
-    const dependencyRule = addPackageJsonDependencies(libraries, packageJson);
 
-    return chain([dependencyRule, installPackageJsonDependencies()]);
+    return chain([
+      addPackageJsonDependencies(libraries, packageJson),
+      installPackageJsonDependencies(),
+    ]);
   };
 }
 
 function installRequiredSpartacusFeatures<
   OPTIONS extends LibraryOptions
 >(options: {
-  cliFeature: string;
   dependencyManagement: DependencyManagement;
   options: OPTIONS;
 }): Rule {
@@ -664,11 +664,11 @@ function installRequiredSpartacusFeatures<
       dependencyManagement.dependencies
     );
 
-    logFeatureInstallation(options.cliFeature, dependencyManagement, context);
+    logFeatureInstallation(dependencyManagement, context);
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
       options.options,
       spartacusLibraries.map((dependency) => dependency.name),
-      dependencyManagement.cliFeatures
+      dependencyManagement.featureDependencies
     );
     addSchematicsTasks(featureOptions, context);
 
@@ -677,11 +677,10 @@ function installRequiredSpartacusFeatures<
 }
 
 function logFeatureInstallation(
-  library: string,
   dependencyManagement: DependencyManagement,
   context: SchematicContext
 ): void {
-  const cliFeatures = dependencyManagement.cliFeatures ?? {};
+  const cliFeatures = dependencyManagement.featureDependencies;
   for (const spartacusScope in cliFeatures) {
     if (!cliFeatures.hasOwnProperty(spartacusScope)) {
       continue;
@@ -689,7 +688,7 @@ function logFeatureInstallation(
 
     const requiredFeatures = cliFeatures[spartacusScope].join(',');
     context.logger.info(
-      `⚙️  ${library} requires the following features from ${spartacusScope}: ${requiredFeatures}`
+      `⚙️  ${dependencyManagement.featureName} requires the following features from ${spartacusScope}: ${requiredFeatures}`
     );
   }
 }
@@ -773,7 +772,7 @@ function createSpartacusFeatureOptionsForLibrary<
 >(
   options: OPTIONS,
   spartacusLibraries: string[],
-  cliFeatures: Record<string, string[]> = {}
+  cliFeatures: Record<string, string[]>
 ): {
   feature: string;
   options: LibraryOptions;

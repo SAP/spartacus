@@ -8,7 +8,6 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
-  CLI_CART_FEATURE,
   CLI_CART_SAVED_CART_FEATURE,
   LibraryOptions as SpartacusCartOptions,
   readPackageJson,
@@ -48,7 +47,6 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
 
 function addSavedCartFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_CART_FEATURE,
     folderName: CART_FOLDER_NAME,
     moduleName: CART_SAVED_CART_MODULE_NAME,
     featureModule: {
@@ -71,9 +69,6 @@ function addSavedCartFeature(options: SpartacusCartOptions): Rule {
     styles: {
       scssFileName: SCSS_FILE_NAME,
       importStyle: SPARTACUS_CART,
-    },
-    dependencyManagement: {
-      dependencies: peerDependencies,
     },
   });
 }

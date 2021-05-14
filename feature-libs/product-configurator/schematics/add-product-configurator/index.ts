@@ -9,7 +9,6 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusProductConfiguratorOptions,
@@ -89,7 +88,6 @@ function addProductConfiguratorRulebasedFeature(
   }
 
   return addLibraryFeature(options, {
-    cliFeature: CLI_PRODUCT_CONFIGURATOR_FEATURE,
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
     moduleName: PRODUCT_CONFIGURATOR_MODULE_NAME,
     featureModule: {
@@ -113,9 +111,6 @@ function addProductConfiguratorRulebasedFeature(
       scssFileName: PRODUCT_CONFIGURATOR_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT_CONFIGURATOR,
     },
-    dependencyManagement: {
-      dependencies: peerDependencies,
-    },
   });
 }
 /**
@@ -129,7 +124,6 @@ function addCpqRulebasedRootModule(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_PRODUCT_CONFIGURATOR_FEATURE,
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
     moduleName: PRODUCT_CONFIGURATOR_MODULE_NAME,
     featureModule: {
@@ -144,9 +138,6 @@ function addCpqRulebasedRootModule(
       moduleSpecifier: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT,
       namedImports: [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_NAME_CONSTANT],
     },
-    dependencyManagement: {
-      dependencies: peerDependencies,
-    },
   });
 }
 
@@ -154,7 +145,6 @@ function addProductConfiguratorTextfieldFeature(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_PRODUCT_CONFIGURATOR_FEATURE,
     folderName: PRODUCT_CONFIGURATOR_FOLDER_NAME,
     moduleName: PRODUCT_CONFIGURATOR_MODULE_NAME,
     featureModule: {
@@ -177,9 +167,6 @@ function addProductConfiguratorTextfieldFeature(
     styles: {
       scssFileName: PRODUCT_CONFIGURATOR_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT_CONFIGURATOR,
-    },
-    dependencyManagement: {
-      dependencies: peerDependencies,
     },
   });
 }

@@ -8,7 +8,6 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
-  CLI_TRACKING_FEATURE,
   CLI_TRACKING_PERSONALIZATION_FEATURE,
   CLI_TRACKING_TMS_AEP_FEATURE,
   CLI_TRACKING_TMS_GTM_FEATURE,
@@ -63,7 +62,6 @@ function addGtm(options: SpartacusTrackingOptions): Rule {
   return addLibraryFeature(
     { ...options, lazy: false }, // To add feature module in imports (not lazy)
     {
-      cliFeature: CLI_TRACKING_FEATURE,
       folderName: TRACKING_FOLDER_NAME,
       moduleName: TMS_MODULE_NAME,
       rootModule: {
@@ -91,9 +89,6 @@ function addGtm(options: SpartacusTrackingOptions): Rule {
           },
         }`,
       },
-      dependencyManagement: {
-        dependencies: peerDependencies,
-      },
     }
   );
 }
@@ -102,7 +97,6 @@ function addAep(options: SpartacusTrackingOptions): Rule {
   return addLibraryFeature(
     { ...options, lazy: false }, // To add feature module in imports (not lazy)
     {
-      cliFeature: CLI_TRACKING_FEATURE,
       folderName: TRACKING_FOLDER_NAME,
       moduleName: TMS_MODULE_NAME,
       rootModule: {
@@ -130,16 +124,12 @@ function addAep(options: SpartacusTrackingOptions): Rule {
           },
         }`,
       },
-      dependencyManagement: {
-        dependencies: peerDependencies,
-      },
     }
   );
 }
 
 function addPersonalizationFeature(options: SpartacusTrackingOptions): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_TRACKING_FEATURE,
     folderName: TRACKING_FOLDER_NAME,
     moduleName: PERSONALIZATION_MODULE_NAME,
     featureModule: {
@@ -153,9 +143,6 @@ function addPersonalizationFeature(options: SpartacusTrackingOptions): Rule {
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_PERSONALIZATION_ROOT,
       namedImports: [PERSONALIZATION_FEATURE_NAME_CONSTANT],
-    },
-    dependencyManagement: {
-      dependencies: peerDependencies,
     },
   });
 }

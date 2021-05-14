@@ -9,7 +9,6 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
-  CLI_ORGANIZATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusOrganizationOptions,
@@ -77,7 +76,6 @@ export function addSpartacusOrganization(
 
 function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_ORGANIZATION_FEATURE,
     folderName: ORGANIZATION_FOLDER_NAME,
     moduleName: ORGANIZATION_ADMINISTRATION_MODULE_NAME,
     featureModule: {
@@ -101,15 +99,11 @@ function addAdministrationFeature(options: SpartacusOrganizationOptions): Rule {
       scssFileName: SCSS_FILE_NAME,
       importStyle: SPARTACUS_ORGANIZATION,
     },
-    dependencyManagement: {
-      dependencies: peerDependencies,
-    },
   });
 }
 
 function addOrderApprovalsFeature(options: SpartacusOrganizationOptions): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_ORGANIZATION_FEATURE,
     folderName: ORGANIZATION_FOLDER_NAME,
     moduleName: ORGANIZATION_ORDER_APPROVAL_MODULE_NAME,
     featureModule: {
@@ -132,9 +126,6 @@ function addOrderApprovalsFeature(options: SpartacusOrganizationOptions): Rule {
     styles: {
       scssFileName: SCSS_FILE_NAME,
       importStyle: SPARTACUS_ORGANIZATION,
-    },
-    dependencyManagement: {
-      dependencies: peerDependencies,
     },
   });
 }

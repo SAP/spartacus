@@ -9,7 +9,6 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CLI_USER_ACCOUNT_FEATURE,
-  CLI_USER_FEATURE,
   CLI_USER_PROFILE_FEATURE,
   LibraryOptions as SpartacusUserOptions,
   readPackageJson,
@@ -61,7 +60,6 @@ export function addUserFeatures(options: SpartacusUserOptions): Rule {
 
 function addAccountFeature(options: SpartacusUserOptions): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_USER_FEATURE,
     folderName: USER_FOLDER_NAME,
     moduleName: USER_MODULE_NAME,
     featureModule: {
@@ -85,15 +83,11 @@ function addAccountFeature(options: SpartacusUserOptions): Rule {
       scssFileName: SCSS_FILE_NAME,
       importStyle: SPARTACUS_USER,
     },
-    dependencyManagement: {
-      dependencies: peerDependencies,
-    },
   });
 }
 
 function addProfileFeature(options: SpartacusUserOptions): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_USER_FEATURE,
     folderName: USER_FOLDER_NAME,
     moduleName: USER_MODULE_NAME,
     featureModule: {
@@ -116,9 +110,6 @@ function addProfileFeature(options: SpartacusUserOptions): Rule {
     styles: {
       scssFileName: SCSS_FILE_NAME,
       importStyle: SPARTACUS_USER,
-    },
-    dependencyManagement: {
-      dependencies: peerDependencies,
     },
   });
 }

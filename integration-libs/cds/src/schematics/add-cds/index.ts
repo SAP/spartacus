@@ -86,7 +86,6 @@ function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
   return addLibraryFeature(
     { ...options, lazy: false },
     {
-      cliFeature: CLI_CDS_FEATURE,
       folderName: CDS_FOLDER_NAME,
       moduleName: CDS_MODULE_NAME,
       featureModule: {
@@ -95,9 +94,6 @@ function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
         content: `${CDS_MODULE}.forRoot()`,
       },
       customConfig,
-      dependencyManagement: {
-        dependencies: peerDependencies,
-      },
     }
   );
 }

@@ -36,7 +36,6 @@ const appModulePath = 'src/app/app.module.ts';
 const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
 
 const BASE_FEATURE_CONFIG: FeatureConfig = {
-  cliFeature: FEATURE_NAME,
   moduleName: FEATURE_NAME,
   folderName: FEATURE_FOLDER_NAME,
   featureModule: {

@@ -43,7 +43,6 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
 
 function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_QUALTRICS_FEATURE,
     folderName: QUALTRICS_FOLDER_NAME,
     moduleName: QUALTRICS_MODULE_NAME,
     featureModule: {
@@ -61,9 +60,6 @@ function addQualtricsFeature(options: SpartacusQualtricsOptions): Rule {
     styles: {
       scssFileName: QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME,
       importStyle: SPARTACUS_QUALTRICS,
-    },
-    dependencyManagement: {
-      dependencies: peerDependencies,
     },
   });
 }

@@ -48,7 +48,6 @@ export function addStorefinderFeatures(
 
 function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_STOREFINDER_FEATURE,
     folderName: STOREFINDER_FOLDER_NAME,
     moduleName: STOREFINDER_MODULE_NAME,
     featureModule: {
@@ -71,9 +70,6 @@ function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
     styles: {
       scssFileName: STORE_FINDER_SCSS_FILE_NAME,
       importStyle: SPARTACUS_STOREFINDER,
-    },
-    dependencyManagement: {
-      dependencies: peerDependencies,
     },
   });
 }

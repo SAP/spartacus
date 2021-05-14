@@ -43,7 +43,6 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
 
 function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_SMARTEDIT_FEATURE,
     folderName: SMARTEDIT_FOLDER_NAME,
     moduleName: SMARTEDIT_MODULE_NAME,
     featureModule: {
@@ -61,9 +60,6 @@ function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
     assets: {
       input: SPARTACUS_SMARTEDIT_ASSETS,
       glob: '**/*',
-    },
-    dependencyManagement: {
-      dependencies: peerDependencies,
     },
   });
 }

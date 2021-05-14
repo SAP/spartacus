@@ -9,7 +9,6 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CLI_PRODUCT_BULK_PRICING_FEATURE,
-  CLI_PRODUCT_FEATURE,
   CLI_PRODUCT_VARIANTS_FEATURE,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
@@ -62,7 +61,6 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
 
 export function addBulkPricingFeature(options: SpartacusProductOptions): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_PRODUCT_FEATURE,
     folderName: PRODUCT_FOLDER_NAME,
     moduleName: BULK_PRICING_MODULE_NAME,
     featureModule: {
@@ -86,15 +84,11 @@ export function addBulkPricingFeature(options: SpartacusProductOptions): Rule {
       scssFileName: PRODUCT_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT,
     },
-    dependencyManagement: {
-      dependencies: peerDependencies,
-    },
   });
 }
 
 export function addVariantsFeature(options: SpartacusProductOptions): Rule {
   return addLibraryFeature(options, {
-    cliFeature: CLI_PRODUCT_FEATURE,
     folderName: PRODUCT_FOLDER_NAME,
     moduleName: VARIANTS_MODULE_NAME,
     featureModule: {
@@ -117,9 +111,6 @@ export function addVariantsFeature(options: SpartacusProductOptions): Rule {
     styles: {
       scssFileName: PRODUCT_SCSS_FILE_NAME,
       importStyle: SPARTACUS_PRODUCT,
-    },
-    dependencyManagement: {
-      dependencies: peerDependencies,
     },
   });
 }
