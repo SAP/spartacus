@@ -24,7 +24,8 @@ module.exports = {
   },
 
   roots: ['<rootDir>/src'],
-  testMatch: ['**/+(*_)+(spec).+(ts)'],
+  testMatch: ['**/+(rename-symbol_)+(spec).+(ts)'],
+  // testMatch: ['**/+(*_)+(spec).+(ts)'],
   moduleFileExtensions: ['js', 'ts', 'json'],
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths || {}, {
     prefix: '<rootDir>/',

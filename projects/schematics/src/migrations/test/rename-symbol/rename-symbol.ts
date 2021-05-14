@@ -4,28 +4,26 @@ import { migrateRenamedSymbols } from '../../mechanism/rename-symbol/rename-symb
 
 export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   {
-    previousNode: 'StoreFinderMapComponent',
+    previousNode: 'OtherComponent1',
     previousImportPath: '@spartacus/storefront',
-    newNode: 'StoreFinderMapComponent', // optional when the name doesn't change
     newImportPath: '@spartacus/storefinder/components',
   },
   {
-    previousNode: 'OtherComponent',
+    previousNode: 'OtherComponent2',
     previousImportPath: '@spartacus/storefront',
-    newNode: 'OtherComponent', // optional when the name doesn't change
+    newNode: 'OtherComponentTest2',
     newImportPath: '@spartacus/storefinder/components',
-  },
-  {
-    previousNode: 'StoreFinderMapComponent3',
-    previousImportPath: '@spartacus/storefront3',
-    newNode: 'StoreFinderMapComponent3', // optional when the name doesn't change
-    newImportPath: '@spartacus/storefinder/components3',
   },
   {
     previousNode: 'OtherComponent3',
-    previousImportPath: '@spartacus/storefront3',
-    newNode: 'OtherComponent3', // optional when the name doesn't change
-    newImportPath: '@spartacus/storefinder/components3',
+    previousImportPath: '@spartacus/storefront',
+    newImportPath: '@spartacus/storefinder/components',
+  },
+  {
+    previousNode: 'OtherComponent4',
+    previousImportPath: '@spartacus/storefront',
+    newNode: 'OtherComponentTest4',
+    newImportPath: '@spartacus/storefinder/components',
   },
 ];
 

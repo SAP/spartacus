@@ -1,7 +1,6 @@
 import { Tree } from '@angular-devkit/schematics';
 import { ImportDeclarationStructure } from 'ts-morph';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
-// import { getSourceNodes } from '@schematics/angular/utility/ast-utils';
 import { createProgram } from '../../../shared/utils/program';
 import { getProjectTsConfigPaths } from '../../../shared/utils/project-tsconfig-paths';
 import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
@@ -10,7 +9,6 @@ export function migrateRenamedSymbols(
   tree: Tree,
   renamedSymbols: RenamedSymbol[]
 ): Tree {
-  console.log('wtf');
   const project = getDefaultProjectNameFromWorkspace(tree);
 
   const { buildPaths } = getProjectTsConfigPaths(tree, project);
@@ -18,9 +16,9 @@ export function migrateRenamedSymbols(
 
   for (const tsconfigPath of buildPaths) {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-
     appSourceFiles.map((sourceFile) => {
       const importDeclarationStructures: ImportDeclarationStructure[] = [];
+
       sourceFile.getImportDeclarations().forEach((id) => {
         id.getImportClause()
           ?.getNamedImports()
@@ -34,14 +32,27 @@ export function migrateRenamedSymbols(
                     .getText()
                     .substr(1, id.getModuleSpecifier().getText().length - 2)
             );
+
             if (renamedSymbol) {
+              const newNodeName = renamedSymbol.newNode
+                ? renamedSymbol.newNode
+                : namedImport.getName();
+
               importDeclarationStructures.push({
-                namedImports: [renamedSymbol.newNode],
+                namedImports: [
+                  {
+                    name: newNodeName,
+                    alias: namedImport.getAliasNode()?.getText(),
+                  },
+                ],
                 moduleSpecifier: renamedSymbol.newImportPath,
               } as ImportDeclarationStructure);
-              if (id.getImportClause()?.getNamedImports()?.length ?? 0 > 1) {
+
+              if ((id.getImportClause()?.getNamedImports()?.length || 0) > 1) {
+                console.log('1');
                 namedImport.remove();
               } else {
+                console.log('2');
                 id.remove();
               }
             }
@@ -49,8 +60,9 @@ export function migrateRenamedSymbols(
       });
 
       if (importDeclarationStructures.length) {
-        sourceFile.addImportDeclarations(importDeclarationStructures);
+        console.log('importDeclarationStructures', importDeclarationStructures);
 
+        sourceFile.addImportDeclarations(importDeclarationStructures);
         sourceFile.organizeImports();
         sourceFile.saveSync();
       }
