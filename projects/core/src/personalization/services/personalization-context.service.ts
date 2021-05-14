@@ -21,7 +21,7 @@ export class PersonalizationContextService {
   ) {}
 
   getPersonalizationContext(): Observable<PersonalizationContext> {
-    if (!this.config.personalization.context) {
+    if (!this.config.personalization?.context) {
       if (isDevMode()) {
         console.warn(`There is no context configured in Personalization`);
       }
