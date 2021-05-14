@@ -1,41 +1,44 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="hasAttributes(configuration); else noAttributes">
     <ng-container *ngFor="let group of configuration.overview.groups">
-      <div class="cx-group">
-        <h2>
-          <ng-container *cxFeatureLevel="'!3.3'">
-            {{ group.groupDescription }}
-          </ng-container>
-          <ng-container *cxFeatureLevel="'3.3'">
-            <span>{{ group.groupDescription }}</span>
-          </ng-container>
-        </h2>
-        <div
-          *ngFor="let attributeOverview of group.attributes; let i = index"
-          class="cx-attribute-value-pair"
-          [ngClass]="getStyleClasses(group.attributes, i)"
-        >
-          <ng-container [ngSwitch]="attributeOverview?.type">
-            <ng-container *ngSwitchCase="attributeOverviewType.GENERAL">
-              <cx-configurator-overview-attribute
-                [attributeOverview]="attributeOverview"
-              ></cx-configurator-overview-attribute>
+      <ng-container *ngFor="let subgroup of group.subGroups">
+        <div class="cx-group">
+          <h2>
+            <ng-container *cxFeatureLevel="'!3.3'">
+              {{ group.groupDescription }}
             </ng-container>
+            <ng-container *cxFeatureLevel="'3.3'">
+              <span>{{ group.groupDescription }}</span>
+            </ng-container>
+          </h2>
 
-            <ng-container *ngSwitchCase="attributeOverviewType.BUNDLE">
-              <cx-configurator-cpq-overview-attribute
-                [attributeOverview]="attributeOverview"
-              ></cx-configurator-cpq-overview-attribute>
-            </ng-container>
+          <div
+            *ngFor="let attributeOverview of group.attributes; let i = index"
+            class="cx-attribute-value-pair"
+            [ngClass]="getStyleClasses(group.attributes, i)"
+          >
+            <ng-container [ngSwitch]="attributeOverview?.type">
+              <ng-container *ngSwitchCase="attributeOverviewType.GENERAL">
+                <cx-configurator-overview-attribute
+                  [attributeOverview]="attributeOverview"
+                ></cx-configurator-overview-attribute>
+              </ng-container>
 
-            <ng-container *ngSwitchDefault>
-              <cx-configurator-overview-attribute
-                [attributeOverview]="attributeOverview"
-              ></cx-configurator-overview-attribute>
+              <ng-container *ngSwitchCase="attributeOverviewType.BUNDLE">
+                <cx-configurator-cpq-overview-attribute
+                  [attributeOverview]="attributeOverview"
+                ></cx-configurator-cpq-overview-attribute>
+              </ng-container>
+
+              <ng-container *ngSwitchDefault>
+                <cx-configurator-overview-attribute
+                  [attributeOverview]="attributeOverview"
+                ></cx-configurator-overview-attribute>
+              </ng-container>
             </ng-container>
-          </ng-container>
+          </div>
         </div>
-      </div>
+      </ng-container>
     </ng-container>
   </ng-container>
 </ng-container>
