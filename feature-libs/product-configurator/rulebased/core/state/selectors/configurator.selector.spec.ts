@@ -13,7 +13,7 @@ import {
   CONFIGURATOR_FEATURE,
   StateWithConfigurator,
 } from '../configurator-state';
-import * as fromReducers from '../reducers/index';
+import { getConfiguratorReducers } from '../reducers/index';
 import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
@@ -42,10 +42,7 @@ describe('Configurator selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          CONFIGURATOR_FEATURE,
-          fromReducers.getConfiguratorReducers()
-        ),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
       ],
     });
 

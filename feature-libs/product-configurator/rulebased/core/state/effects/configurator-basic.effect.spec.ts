@@ -20,7 +20,7 @@ import {
   CONFIGURATOR_FEATURE,
   StateWithConfigurator,
 } from '../configurator-state';
-import * as fromConfigurationReducers from '../reducers/index';
+import { getConfiguratorReducers } from './../reducers/index';
 import * as fromEffects from './configurator-basic.effect';
 
 const productCode = 'CONF_LAPTOP';
@@ -118,10 +118,7 @@ describe('ConfiguratorEffect', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          CONFIGURATOR_FEATURE,
-          fromConfigurationReducers.getConfiguratorReducers()
-        ),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
       ],
 
       providers: [

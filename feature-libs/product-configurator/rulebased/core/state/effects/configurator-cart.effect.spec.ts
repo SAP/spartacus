@@ -23,7 +23,7 @@ import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
-import * as fromConfigurationReducers from '../reducers/index';
+import { getConfiguratorReducers } from './../reducers/index';
 import * as fromEffects from './configurator-cart.effect';
 
 const productCode = 'CONF_LAPTOP';
@@ -117,10 +117,7 @@ describe('ConfiguratorCartEffect', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          CONFIGURATOR_FEATURE,
-          fromConfigurationReducers.getConfiguratorReducers()
-        ),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
       ],
 
       providers: [

@@ -198,11 +198,3 @@ function takeOverChanges(
   };
   return result;
 }
-
-export function configuratorReducerCHHI(
-  state = initialState,
-  action: ConfiguratorActions.CreateConfiguration
-): Configurator.Configuration {
-  console.log('CHHI ' + action);
-  return state;
-}
