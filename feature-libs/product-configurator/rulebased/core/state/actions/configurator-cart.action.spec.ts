@@ -1,5 +1,8 @@
 import { MULTI_CART_DATA, StateUtils } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 import * as ConfiguratorActions from './configurator-cart.action';
@@ -12,6 +15,7 @@ const OWNER: CommonConfigurator.Owner = {
   id: PRODUCT_CODE,
   type: CommonConfigurator.OwnerType.PRODUCT,
   key: OWNER_KEY,
+  configuratorType: ConfiguratorType.VARIANT,
 };
 
 const CONFIGURATION: Configurator.Configuration = {
