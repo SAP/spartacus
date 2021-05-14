@@ -17,6 +17,14 @@
       brightness(94%) contrast(96%);
   }
 
+  header .SiteLinks {
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  .btn-link:hover {
+    color: var(--cx-color-primary);
+  }
+
   cx-site-context-selector {
     select {
       background-color: var(--cx-color-background);
@@ -92,6 +100,24 @@
   }
 
   cx-breadcrumb nav span a {
+    color: var(--cx-color-primary);
+  }
+
+  cx-saved-cart-list {
+    .cx-saved-cart-list-cart-name {
+      .cx-saved-cart-list-value {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  cx-add-to-saved-cart-container {
+    .cx-action-link {
+      color: var(--cx-color-primary);
+    }
+  }
+
+  .cx-action-link {
     color: var(--cx-color-primary);
   }
 
@@ -225,6 +251,18 @@
     button {
       cx-icon {
         color: var(--cx-color-secondary);
+      }
+    }
+  }
+
+  cx-store-finder-stores-count {
+    .cx-title {
+      color: var(--cx-color-primary);
+    }
+
+    .cx-set {
+      .btn-link {
+        color: var(--cx-color-primary);
       }
     }
   }
