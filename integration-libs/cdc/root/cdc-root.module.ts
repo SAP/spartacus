@@ -1,6 +1,5 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import {
-  CmsConfig,
   ConfigInitializerService,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -20,8 +19,8 @@ export function cdcJsFactory(
   return func;
 }
 
-export function defaultCdcComponentsConfig(): CmsConfig {
-  const config: CmsConfig = {
+export function defaultCdcComponentsConfig() {
+  const config = {
     featureModules: {
       [CDC_FEATURE]: {
         cmsComponents: ['GigyaRaasComponent'],

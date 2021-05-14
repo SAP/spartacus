@@ -1,6 +1,5 @@
-import * as configurationVc from '../../helpers/product-configurator-vc';
-import * as configuration from '../../helpers/product-configurator';
-import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
+import * as configuration from '../../helpers/product-configurator-vc';
+import * as configurationOverview from '../../helpers/product-configurator-vc-overview';
 import * as productSearch from '../../helpers/product-search';
 
 /**
@@ -72,39 +71,39 @@ context('Product Configuration', () => {
       ).as('productSearch');
       productSearch.searchForProduct(testProduct);
       cy.wait('@productSearch');
-      configurationVc.clickOnConfigureBtnInCatalog();
+      configuration.clickOnConfigureBtnInCatalog();
     });
 
     it('should be able to navigate from the product details page', () => {
-      configurationVc.goToPDPage(electronicsShop, testProduct);
-      configurationVc.clickOnConfigureBtnInCatalog();
+      configuration.goToPDPage(electronicsShop, testProduct);
+      configuration.clickOnConfigureBtnInCatalog();
     });
 
     it('should be able to navigate from the overview page', () => {
-      configurationOverviewVc.goToConfigOverviewPage(
+      configurationOverview.goToConfigOverviewPage(
         electronicsShop,
         testProduct
       );
-      configurationOverviewVc.navigateToConfigurationPage();
-      configurationVc.checkConfigPageDisplayed();
+      configurationOverview.navigateToConfigurationPage();
+      configuration.checkConfigPageDisplayed();
     });
   });
 
   describe('Configure Product', () => {
     it('should support image attribute type - single selection', () => {
-      configurationVc.goToConfigurationPage(
+      configuration.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
       );
       configuration.checkAttributeDisplayed(ROOM_SIZE, radioGroup);
       configuration.selectAttribute(COLOUR_HT, single_selection_image, WHITE);
-      configurationVc.checkImageSelected(
+      configuration.checkImageSelected(
         single_selection_image,
         COLOUR_HT,
         WHITE
       );
       configuration.selectAttribute(COLOUR_HT, single_selection_image, TITAN);
-      configurationVc.checkImageSelected(
+      configuration.checkImageSelected(
         single_selection_image,
         COLOUR_HT,
         TITAN
@@ -119,7 +118,7 @@ context('Product Configuration', () => {
           'BASE_SITE'
         )}/ccpconfigurator/*`
       ).as('updateConfig');
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.selectAttribute(CAMERA_SD_CARD, checkBoxList, SDHC);
@@ -139,128 +138,128 @@ context('Product Configuration', () => {
           'BASE_SITE'
         )}/ccpconfigurator/*`
       ).as('updateConfig');
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkGroupMenuDisplayed();
 
       //is that no status is displayed initially
-      configurationVc.checkStatusIconNotDisplayed(BASICS);
-      configurationVc.checkStatusIconNotDisplayed(SPECIFICATION);
-      configurationVc.checkStatusIconNotDisplayed(DISPLAY);
-      configurationVc.checkStatusIconNotDisplayed(LENS);
-      configurationVc.checkStatusIconNotDisplayed(OPTIONS);
+      configuration.checkStatusIconNotDisplayed(BASICS);
+      configuration.checkStatusIconNotDisplayed(SPECIFICATION);
+      configuration.checkStatusIconNotDisplayed(DISPLAY);
+      configuration.checkStatusIconNotDisplayed(LENS);
+      configuration.checkStatusIconNotDisplayed(OPTIONS);
 
       // navigate to Specification, is that Basics status changes to Error
       configuration.clickOnNextBtn(SPECIFICATION);
-      configurationVc.checkStatusIconDisplayed(BASICS, ERROR);
-      configurationVc.checkStatusIconNotDisplayed(SPECIFICATION);
-      configurationVc.checkStatusIconNotDisplayed(DISPLAY);
-      configurationVc.checkStatusIconNotDisplayed(LENS);
-      configurationVc.checkStatusIconNotDisplayed(OPTIONS);
+      configuration.checkStatusIconDisplayed(BASICS, ERROR);
+      configuration.checkStatusIconNotDisplayed(SPECIFICATION);
+      configuration.checkStatusIconNotDisplayed(DISPLAY);
+      configuration.checkStatusIconNotDisplayed(LENS);
+      configuration.checkStatusIconNotDisplayed(OPTIONS);
 
       // navigate to Display, is that Specification status changes to Error
       configuration.clickOnNextBtn(DISPLAY);
-      configurationVc.checkStatusIconDisplayed(BASICS, ERROR);
-      configurationVc.checkStatusIconDisplayed(SPECIFICATION, ERROR);
-      configurationVc.checkStatusIconNotDisplayed(DISPLAY);
-      configurationVc.checkStatusIconNotDisplayed(LENS);
-      configurationVc.checkStatusIconNotDisplayed(OPTIONS);
+      configuration.checkStatusIconDisplayed(BASICS, ERROR);
+      configuration.checkStatusIconDisplayed(SPECIFICATION, ERROR);
+      configuration.checkStatusIconNotDisplayed(DISPLAY);
+      configuration.checkStatusIconNotDisplayed(LENS);
+      configuration.checkStatusIconNotDisplayed(OPTIONS);
 
       // complete group Display, navigate back, is status changes to Complete
       configuration.selectAttribute(CAMERA_DISPLAY, radioGroup, P5);
       cy.wait('@updateConfig');
       configuration.clickOnPreviousBtn(SPECIFICATION);
-      configurationVc.checkStatusIconDisplayed(BASICS, ERROR);
-      configurationVc.checkStatusIconDisplayed(SPECIFICATION, ERROR);
-      configurationVc.checkStatusIconDisplayed(DISPLAY, COMPLETE);
-      configurationVc.checkStatusIconNotDisplayed(LENS);
-      configurationVc.checkStatusIconNotDisplayed(OPTIONS);
+      configuration.checkStatusIconDisplayed(BASICS, ERROR);
+      configuration.checkStatusIconDisplayed(SPECIFICATION, ERROR);
+      configuration.checkStatusIconDisplayed(DISPLAY, COMPLETE);
+      configuration.checkStatusIconNotDisplayed(LENS);
+      configuration.checkStatusIconNotDisplayed(OPTIONS);
 
       // select mandatory field in group Specification
       // and check whether status changes to complete
       configuration.selectAttribute(CAMERA_FORMAT_PICTURES, radioGroup, JPEG);
       cy.wait('@updateConfig');
-      configurationVc.checkStatusIconDisplayed(BASICS, ERROR);
-      configurationVc.checkStatusIconDisplayed(SPECIFICATION, COMPLETE);
-      configurationVc.checkStatusIconDisplayed(DISPLAY, COMPLETE);
-      configurationVc.checkStatusIconNotDisplayed(LENS);
-      configurationVc.checkStatusIconNotDisplayed(OPTIONS);
+      configuration.checkStatusIconDisplayed(BASICS, ERROR);
+      configuration.checkStatusIconDisplayed(SPECIFICATION, COMPLETE);
+      configuration.checkStatusIconDisplayed(DISPLAY, COMPLETE);
+      configuration.checkStatusIconNotDisplayed(LENS);
+      configuration.checkStatusIconNotDisplayed(OPTIONS);
     });
 
     it('should set group status for multi level product', () => {
-      configurationVc.goToConfigurationPage(
+      configuration.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
       );
       configuration.checkGroupMenuDisplayed();
 
       // no status should be displayed initially
-      configurationVc.checkStatusIconNotDisplayed(GENERAL);
-      configurationVc.checkStatusIconNotDisplayed(VIDEO_SYSTEM);
-      configurationVc.checkStatusIconNotDisplayed(AUDIO_SYSTEM);
-      configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
+      configuration.checkStatusIconNotDisplayed(GENERAL);
+      configuration.checkStatusIconNotDisplayed(VIDEO_SYSTEM);
+      configuration.checkStatusIconNotDisplayed(AUDIO_SYSTEM);
+      configuration.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
 
       // navigate to video system subgroup, no status initially
       configuration.clickOnNextBtn(PROJECTOR);
-      configurationVc.checkStatusIconNotDisplayed(PROJECTOR);
-      configurationVc.checkStatusIconNotDisplayed(FLAT_PANEL);
+      configuration.checkStatusIconNotDisplayed(PROJECTOR);
+      configuration.checkStatusIconNotDisplayed(FLAT_PANEL);
 
       // navigate to flat-panel TV, group projector should be completed
       configuration.clickOnNextBtn(FLAT_PANEL);
-      configurationVc.checkStatusIconDisplayed(PROJECTOR, COMPLETE);
-      configurationVc.checkStatusIconNotDisplayed(FLAT_PANEL);
+      configuration.checkStatusIconDisplayed(PROJECTOR, COMPLETE);
+      configuration.checkStatusIconNotDisplayed(FLAT_PANEL);
 
       // navigate back to group projector, status should be completed
       configuration.clickOnPreviousBtn(PROJECTOR);
-      configurationVc.checkStatusIconDisplayed(PROJECTOR, COMPLETE);
-      configurationVc.checkStatusIconDisplayed(FLAT_PANEL, COMPLETE);
+      configuration.checkStatusIconDisplayed(PROJECTOR, COMPLETE);
+      configuration.checkStatusIconDisplayed(FLAT_PANEL, COMPLETE);
 
       // navigate back to General, check completed status
       configuration.clickOnPreviousBtn(GENERAL);
-      configurationVc.checkStatusIconDisplayed(GENERAL, COMPLETE);
-      configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
+      configuration.checkStatusIconDisplayed(GENERAL, COMPLETE);
+      configuration.checkStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
 
       // navigate to Audio System subgroup, is no status is displayed initially
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.clickOnNextBtn(FLAT_PANEL);
       configuration.clickOnNextBtn(FRONT_SPEAKERS);
-      configurationVc.checkStatusIconNotDisplayed(FRONT_SPEAKERS);
-      configurationVc.checkStatusIconNotDisplayed(CENTER_SPEAKER);
-      configurationVc.checkStatusIconNotDisplayed(REAR_SPEAKER);
-      configurationVc.checkStatusIconNotDisplayed(SUBWOOFER);
+      configuration.checkStatusIconNotDisplayed(FRONT_SPEAKERS);
+      configuration.checkStatusIconNotDisplayed(CENTER_SPEAKER);
+      configuration.checkStatusIconNotDisplayed(REAR_SPEAKER);
+      configuration.checkStatusIconNotDisplayed(SUBWOOFER);
 
       // navigate to Center Speaker
       configuration.clickOnNextBtn(CENTER_SPEAKER);
-      configurationVc.checkStatusIconDisplayed(FRONT_SPEAKERS, COMPLETE);
+      configuration.checkStatusIconDisplayed(FRONT_SPEAKERS, COMPLETE);
 
       // navigate back to Front Speaker, check completed status
       configuration.clickOnPreviousBtn(FRONT_SPEAKERS);
-      configurationVc.checkStatusIconDisplayed(FRONT_SPEAKERS, COMPLETE);
-      configurationVc.checkStatusIconDisplayed(CENTER_SPEAKER, COMPLETE);
-      configurationVc.checkStatusIconNotDisplayed(REAR_SPEAKER);
-      configurationVc.checkStatusIconNotDisplayed(SUBWOOFER);
+      configuration.checkStatusIconDisplayed(FRONT_SPEAKERS, COMPLETE);
+      configuration.checkStatusIconDisplayed(CENTER_SPEAKER, COMPLETE);
+      configuration.checkStatusIconNotDisplayed(REAR_SPEAKER);
+      configuration.checkStatusIconNotDisplayed(SUBWOOFER);
 
       // navigate back to General group, is that Audio system is not fully completed
       configuration.clickOnPreviousBtn(FLAT_PANEL);
       configuration.clickOnPreviousBtn(PROJECTOR);
       configuration.clickOnPreviousBtn(GENERAL);
 
-      configurationVc.checkStatusIconDisplayed(GENERAL, COMPLETE);
-      configurationVc.checkStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
-      configurationVc.checkStatusIconNotDisplayed(AUDIO_SYSTEM);
-      configurationVc.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
+      configuration.checkStatusIconDisplayed(GENERAL, COMPLETE);
+      configuration.checkStatusIconDisplayed(VIDEO_SYSTEM, COMPLETE);
+      configuration.checkStatusIconNotDisplayed(AUDIO_SYSTEM);
+      configuration.checkStatusIconNotDisplayed(SOURCE_COMPONENTS);
     });
   });
 
   describe('Group Handling', () => {
     it('should navigate between groups', () => {
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.clickOnNextBtn(DISPLAY);
       configuration.clickOnPreviousBtn(SPECIFICATION);
     });
 
     it('should check if group buttons are clickable', () => {
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkNextBtnEnabled();
       configuration.checkPreviousBtnDisabled();
 
@@ -273,17 +272,17 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the group menu', () => {
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
 
-      configurationVc.clickOnGroup(2);
+      configuration.clickOnGroup(2);
       configuration.checkAttributeDisplayed(CAMERA_DISPLAY, radioGroup);
-      configurationVc.clickOnGroup(1);
+      configuration.clickOnGroup(1);
       configuration.checkAttributeDisplayed(CAMERA_PIXELS, radioGroup);
     });
 
     it('should navigate using the previous and next button for multi level product', () => {
-      configurationVc.goToConfigurationPage(
+      configuration.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
       );
@@ -293,11 +292,11 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the group menu for multi level product', () => {
-      configurationVc.goToConfigurationPage(
+      configuration.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
       );
-      configurationVc.clickOnGroup(2);
+      configuration.clickOnGroup(2);
       configuration.checkAttributeDisplayed(SPEAKER_TYPE_FRONT, radioGroup);
     });
   });

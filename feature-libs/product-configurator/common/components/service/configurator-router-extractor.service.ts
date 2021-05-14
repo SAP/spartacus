@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
-import { ConfiguratorModelUtils } from '../../shared/utils/configurator-model-utils';
 import { ConfiguratorRouter } from './configurator-router-data';
 
 /**
@@ -52,7 +51,7 @@ export class ConfiguratorRouterExtractorService {
   createOwnerFromRouterState(
     routerState: RouterState
   ): CommonConfigurator.Owner {
-    const owner: CommonConfigurator.Owner = ConfiguratorModelUtils.createInitialOwner();
+    const owner: CommonConfigurator.Owner = {};
     const params = routerState.state.params;
     if (params.ownerType) {
       const entityKey = params.entityKey;

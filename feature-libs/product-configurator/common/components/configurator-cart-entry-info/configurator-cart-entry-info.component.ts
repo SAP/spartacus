@@ -1,9 +1,10 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry, PromotionLocation } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
-import { EMPTY, Observable, of } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configurator-cart-entry-info',
@@ -44,10 +45,15 @@ export class ConfiguratorCartEntryInfoComponent {
     this.cartItemContext?.readonly$ ?? EMPTY;
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
-  readonly shouldShowButton$: Observable<boolean> = this
-    .commonConfigUtilsService
-    ? this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext)
-    : of(true);
+  readonly shouldShowButton$: Observable<boolean> = (
+    this.cartItemContext?.location$ ?? EMPTY
+  ).pipe(
+    map(
+      (location) =>
+        location !== PromotionLocation.SaveForLater &&
+        location !== PromotionLocation.SavedCart
+    )
+  );
 
   /**
    * Verifies whether the configuration infos have any entries and the first entry has a status.
@@ -73,12 +79,10 @@ export class ConfiguratorCartEntryInfoComponent {
    */
   isAttributeBasedConfigurator(item: OrderEntry): boolean {
     const configurationInfos = item.configurationInfos;
-
-    const attributeBased = configurationInfos
+    return configurationInfos
       ? this.commonConfigUtilsService?.isAttributeBasedConfigurator(
           configurationInfos[0]?.configuratorType
         )
       : false;
-    return attributeBased ? attributeBased : false;
   }
 }

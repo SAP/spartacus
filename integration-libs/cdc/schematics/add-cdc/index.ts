@@ -1,55 +1,75 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
+  NodeDependency,
+  NodeDependencyType,
+} from '@schematics/angular/utility/dependencies';
+import {
   addLibraryFeature,
-  addPackageJsonDependenciesForLibrary,
-  CLI_CDC_FEATURE,
+  addPackageJsonDependencies,
+  createDependencies,
+  getSpartacusSchematicsVersion,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusCdcOptions,
   readPackageJson,
-  shouldAddFeature,
+  SPARTACUS_ASM,
   SPARTACUS_CDC,
+  SPARTACUS_USER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
   CDC_CONFIG,
-  CDC_FEATURE_CONSTANT,
+  CDC_FEATURE,
   CDC_FOLDER_NAME,
   CDC_MODULE,
-  CDC_MODULE_NAME,
   CDC_ROOT_MODULE,
+  CLI_CDC_FEATURE,
   SPARTACUS_CDC_ROOT,
 } from '../constants';
 
 export function addCdcFeature(options: SpartacusCdcOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      shouldAddFeature(CLI_CDC_FEATURE, options.features)
-        ? addCdc(options)
-        : noop(),
+      addCdc(options),
 
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
+      addCdcPackageJsonDependencies(packageJson),
+      installPackageJsonDependencies(),
     ]);
   };
+}
+
+function addCdcPackageJsonDependencies(packageJson: any): Rule {
+  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+  const spartacusDependencies: NodeDependency[] = [
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_ASM,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_USER,
+    },
+  ];
+  const thirdPartyDependencies = createDependencies(peerDependencies);
+
+  const dependencies = spartacusDependencies.concat(thirdPartyDependencies);
+  return addPackageJsonDependencies(dependencies, packageJson);
 }
 
 function addCdc(options: SpartacusCdcOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CDC_FOLDER_NAME,
-    moduleName: CDC_MODULE_NAME,
+    name: CLI_CDC_FEATURE,
     rootModule: {
       importPath: SPARTACUS_CDC_ROOT,
       name: CDC_ROOT_MODULE,
@@ -59,15 +79,12 @@ function addCdc(options: SpartacusCdcOptions): Rule {
       importPath: SPARTACUS_CDC,
       name: CDC_MODULE,
     },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_CDC_ROOT,
-      namedImports: [CDC_FEATURE_CONSTANT],
-    },
+    lazyModuleName: `[CDC_FEATURE]`,
     customConfig: {
       import: [
         {
           moduleSpecifier: SPARTACUS_CDC_ROOT,
-          namedImports: [CDC_CONFIG],
+          namedImports: [CDC_CONFIG, CDC_FEATURE],
         },
       ],
       content: `<${CDC_CONFIG}>{

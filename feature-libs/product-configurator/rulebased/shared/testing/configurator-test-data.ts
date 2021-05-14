@@ -1,6 +1,5 @@
 import {
   CommonConfigurator,
-  ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../../rulebased/core/model/configurator.model';
@@ -56,10 +55,10 @@ export const productConfigurationWithoutIssues: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
   totalNumberOfIssues: 0,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE
-  ),
+  owner: {
+    id: PRODUCT_CODE,
+    type: CommonConfigurator.OwnerType.PRODUCT,
+  },
   groups: [groupsWithoutIssues],
   flatGroups: [groupsWithoutIssues],
 };
@@ -218,12 +217,12 @@ export const productConfiguration: Configurator.Configuration = {
     { id: GROUP_ID_7 },
     { id: GROUP_ID_10 },
   ],
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE,
-    CONFIGURATOR_TYPE
-  ),
-  nextOwner: ConfiguratorModelUtils.createInitialOwner(),
+  owner: {
+    id: PRODUCT_CODE,
+    type: CommonConfigurator.OwnerType.PRODUCT,
+    configuratorType: CONFIGURATOR_TYPE,
+  },
+  nextOwner: {},
   interactionState: {
     currentGroup: GROUP_ID_2,
     menuParentGroup: GROUP_ID_3,
@@ -506,8 +505,6 @@ export const productConfigurationWithConflicts: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
-    key: CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
-    configuratorType: ConfiguratorType.VARIANT,
   },
   interactionState: {
     currentGroup: GROUP_ID_2,

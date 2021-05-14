@@ -3,10 +3,7 @@ import {
   savedCartTranslationChunksConfig,
   savedCartTranslations,
 } from '@spartacus/cart/saved-cart/assets';
-import {
-  CART_SAVED_CART_FEATURE,
-  SavedCartRootModule,
-} from '@spartacus/cart/saved-cart/root';
+import { SavedCartRootModule } from '@spartacus/cart/saved-cart/root';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
@@ -14,7 +11,7 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
-        [CART_SAVED_CART_FEATURE]: {
+        cartSavedCart: {
           module: () =>
             import('@spartacus/cart/saved-cart').then((m) => m.SavedCartModule),
         },

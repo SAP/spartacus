@@ -2,10 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
-  CmsConfig,
   provideDefaultConfig,
-  provideDefaultConfigFactory,
   RoutingConfig,
+  provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import {
@@ -14,8 +13,8 @@ import {
 } from './feature-name';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
-export function defaultCartSavedCartComponentsConfig(): CmsConfig {
-  const config: CmsConfig = {
+export function defaultCartSavedCartComponentsConfig() {
+  const config = {
     featureModules: {
       [CART_SAVED_CART_FEATURE]: {
         cmsComponents: [

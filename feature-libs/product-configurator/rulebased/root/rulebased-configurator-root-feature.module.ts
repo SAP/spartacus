@@ -1,10 +1,5 @@
 import { NgModule } from '@angular/core';
-import {
-  CmsConfig,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
-} from '@spartacus/core';
-import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE } from './feature-name';
+import { provideDefaultConfig } from '@spartacus/core';
 
 const cmsComponents: string[] = [
   'ConfiguratorForm',
@@ -20,19 +15,6 @@ const cmsComponents: string[] = [
   'ConfiguratorTabBar',
   'CpqConfiguratorConflictAndErrorMessagesComponent',
 ];
-
-// TODO: Inline this factory when we start releasing Ivy compiled libraries
-export function defaultProductConfiguratorRulebasedComponentsConfig(): CmsConfig {
-  const config: CmsConfig = {
-    featureModules: {
-      [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
-        cmsComponents,
-      },
-    },
-  };
-
-  return config;
-}
 
 /**
  * Contains feature module configuration
@@ -51,11 +33,9 @@ export function defaultProductConfiguratorRulebasedComponentsConfig(): CmsConfig
          * with undefined `config.featureModules[KEY].module` will be ignored.
          */
         rulebased: { cmsComponents },
+        productConfiguratorRulebased: { cmsComponents },
       },
     }),
-    provideDefaultConfigFactory(
-      defaultProductConfiguratorRulebasedComponentsConfig
-    ),
   ],
 })
 export class RulebasedConfiguratorRootFeatureModule {}

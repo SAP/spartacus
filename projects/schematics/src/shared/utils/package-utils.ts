@@ -4,56 +4,14 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { version } from '../../../package.json';
-import {
-  SPARTACUS_ASSETS,
-  SPARTACUS_CORE,
-  SPARTACUS_SCHEMATICS,
-  SPARTACUS_SCOPE,
-  SPARTACUS_SETUP,
-  SPARTACUS_STOREFRONTLIB,
-  SPARTACUS_STYLES,
-  UTF_8,
-} from '../constants';
+import { SPARTACUS_SCOPE, UTF_8 } from '../constants';
 import { getServerTsPath } from './file-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
 
-export const CORE_SPARTACUS_SCOPES = [
-  SPARTACUS_CORE,
-  SPARTACUS_ASSETS,
-  SPARTACUS_SCHEMATICS,
-  SPARTACUS_STOREFRONTLIB,
-  SPARTACUS_STYLES,
-  SPARTACUS_SETUP,
-];
-export const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
-
-export function createSpartacusDependencies(
-  dependencyObject: any
-): NodeDependency[] {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  return createDependencies(dependencyObject, {
-    skipScopes: CORE_SPARTACUS_SCOPES,
-    onlyIncludeScopes: FEATURES_LIBS_SKIP_SCOPES,
-    version: spartacusVersion,
-  });
-}
-
+const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
 export function createDependencies(
   dependencyObject: any,
-  options: {
-    /**
-     * skip the scopes that start with any of the given scopes
-     */
-    skipScopes: string[];
-    /**
-     * create and return dependencies only listed in the given array
-     */
-    onlyIncludeScopes?: string[];
-    /** dependency version which to set. If not provided, the one from the given `dependencyObject` will be used. */
-    version?: string;
-  } = {
-    skipScopes: FEATURES_LIBS_SKIP_SCOPES,
-  }
+  skipScopes: string[] = FEATURES_LIBS_SKIP_SCOPES
 ): NodeDependency[] {
   const dependencies: NodeDependency[] = [];
   for (const dependencyName in dependencyObject) {
@@ -61,41 +19,21 @@ export function createDependencies(
       continue;
     }
 
-    if (options.skipScopes.some((scope) => dependencyName.startsWith(scope))) {
+    if (skipScopes.some((scope) => dependencyName.startsWith(scope))) {
       continue;
     }
 
-    if (
-      // if `onlyIncludeScopes` is not defined, always include the dependency
-      !options.onlyIncludeScopes ||
-      // if defined, check if the current dependency is in the given array
-      options.onlyIncludeScopes.some((scope) =>
-        dependencyName.startsWith(scope)
-      )
-    ) {
-      dependencies.push(
-        mapPackageToNodeDependencies(
-          dependencyName,
-          options.version ?? dependencyObject[dependencyName]
-        )
-      );
-    }
+    const type = dependencyName.includes('schematics')
+      ? NodeDependencyType.Dev
+      : NodeDependencyType.Default;
+    dependencies.push({
+      type,
+      name: dependencyName,
+      version: dependencyObject[dependencyName],
+    });
   }
 
   return dependencies;
-}
-
-export function mapPackageToNodeDependencies(
-  packageName: string,
-  version: string
-): NodeDependency {
-  return {
-    type: packageName.includes('schematics')
-      ? NodeDependencyType.Dev
-      : NodeDependencyType.Default,
-    name: packageName,
-    version: version,
-  };
 }
 
 export function readPackageJson(tree: Tree): any {

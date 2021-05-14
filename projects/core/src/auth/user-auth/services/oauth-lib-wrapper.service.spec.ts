@@ -1,13 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
-import { WindowRef } from 'projects/core/src/window';
 import { AuthConfigService } from './auth-config.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
 class MockAuthConfigService implements Partial<AuthConfigService> {
-  getBaseUrl() {
-    return 'base';
-  }
   getTokenEndpoint() {
     return 'token';
   }
@@ -61,8 +57,6 @@ class MockOAuthService implements Partial<OAuthService> {
 describe('OAuthLibWrapperService', () => {
   let service: OAuthLibWrapperService;
   let oAuthService: OAuthService;
-  let winRef: WindowRef;
-  let authConfigService: AuthConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -74,8 +68,6 @@ describe('OAuthLibWrapperService', () => {
     });
     service = TestBed.inject(OAuthLibWrapperService);
     oAuthService = TestBed.inject(OAuthService);
-    winRef = TestBed.inject(WindowRef);
-    authConfigService = TestBed.inject(AuthConfigService);
   });
 
   describe('initialize()', () => {
@@ -96,47 +88,6 @@ describe('OAuthLibWrapperService', () => {
         redirectUri: 'redUri',
         clearHashAfterLogin: true,
       });
-    });
-
-    it('should use redirectUrl on SSR when passed', () => {
-      spyOn(oAuthService, 'configure').and.callThrough();
-      spyOn(winRef, 'isBrowser').and.returnValue(false);
-
-      (service as any)['initialize']();
-
-      expect(oAuthService.configure).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          redirectUri: 'redUri',
-        })
-      );
-    });
-
-    it('should use current location as a redirectUrl when not explicitly set in browser', () => {
-      spyOn(oAuthService, 'configure').and.callThrough();
-      spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
-
-      (service as any)['initialize']();
-
-      expect(oAuthService.configure).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          redirectUri: winRef.nativeWindow?.location.origin,
-          issuer: 'base',
-        })
-      );
-    });
-
-    it('should use "" as a redirectUrl when not explicitly set on SSR', () => {
-      spyOn(oAuthService, 'configure').and.callThrough();
-      spyOn(winRef, 'isBrowser').and.returnValue(false);
-      spyOn(authConfigService, 'getOAuthLibConfig').and.returnValue({});
-
-      (service as any)['initialize']();
-
-      expect(oAuthService.configure).toHaveBeenCalledWith(
-        jasmine.objectContaining({
-          redirectUri: '',
-        })
-      );
     });
   });
 

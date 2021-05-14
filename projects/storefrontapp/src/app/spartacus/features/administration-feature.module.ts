@@ -4,10 +4,7 @@ import {
   organizationTranslationChunksConfig,
   organizationTranslations,
 } from '@spartacus/organization/administration/assets';
-import {
-  AdministrationRootModule,
-  ORGANIZATION_ADMINISTRATION_FEATURE,
-} from '@spartacus/organization/administration/root';
+import { AdministrationRootModule } from '@spartacus/organization/administration/root';
 
 @NgModule({
   declarations: [],
@@ -15,7 +12,7 @@ import {
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
-        [ORGANIZATION_ADMINISTRATION_FEATURE]: {
+        organizationAdministration: {
           module: () =>
             import('@spartacus/organization/administration').then(
               (m) => m.AdministrationModule

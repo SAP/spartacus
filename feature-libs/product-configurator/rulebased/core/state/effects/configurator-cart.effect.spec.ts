@@ -12,8 +12,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ConfiguratorModelUtils,
-  ConfiguratorType,
+  CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
@@ -42,7 +41,6 @@ const owner: CommonConfigurator.Owner = {
   type: CommonConfigurator.OwnerType.PRODUCT,
   id: productCode,
   key: 'product/CONF_LAPTOP',
-  configuratorType: ConfiguratorType.VARIANT,
 };
 
 const productConfiguration: Configurator.Configuration = {
@@ -92,6 +90,7 @@ describe('ConfiguratorCartEffect', () => {
   let readConfigurationForCartEntryMock: jasmine.Spy;
   let readConfigurationForOrderEntryMock: jasmine.Spy;
   let configCartEffects: fromEffects.ConfiguratorCartEffects;
+  let configuratorUtils: CommonConfiguratorUtilsService;
 
   let actions$: Observable<any>;
 
@@ -140,6 +139,9 @@ describe('ConfiguratorCartEffect', () => {
     configCartEffects = TestBed.inject(
       fromEffects.ConfiguratorCartEffects as Type<fromEffects.ConfiguratorCartEffects>
     );
+    configuratorUtils = TestBed.inject(
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+    );
 
     payloadInputUpdateConfiguration = {
       userId: userId,
@@ -167,11 +169,11 @@ describe('ConfiguratorCartEffect', () => {
         configuration: productConfiguration,
         cartEntryNo: cartEntryNumber,
       });
-      const newCartEntryOwner = ConfiguratorModelUtils.createOwner(
-        CommonConfigurator.OwnerType.CART_ENTRY,
-        cartEntryNumber
-      );
-
+      const newCartEntryOwner: CommonConfigurator.Owner = {
+        type: CommonConfigurator.OwnerType.CART_ENTRY,
+        id: cartEntryNumber,
+      };
+      configuratorUtils.setOwnerKey(newCartEntryOwner);
       const setInteractionStateAction = new ConfiguratorActions.SetInteractionState(
         {
           entityKey: newCartEntryOwner.key,

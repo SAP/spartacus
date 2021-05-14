@@ -1,3 +1,4 @@
+import { isPlatformServer } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { OAuthService, TokenResponse } from 'angular-oauth2-oidc';
 import { WindowRef } from '../../../window/window-ref';
@@ -11,7 +12,6 @@ import { AuthConfigService } from './auth-config.service';
   providedIn: 'root',
 })
 export class OAuthLibWrapperService {
-  // TODO: Remove platformId dependency in 4.0
   constructor(
     protected oAuthService: OAuthService,
     protected authConfigService: AuthConfigService,
@@ -22,7 +22,7 @@ export class OAuthLibWrapperService {
   }
 
   protected initialize() {
-    const isSSR = !this.winRef.isBrowser();
+    const isSSR = isPlatformServer(this.platformId);
     this.oAuthService.configure({
       tokenEndpoint: this.authConfigService.getTokenEndpoint(),
       loginUrl: this.authConfigService.getLoginUrl(),
@@ -35,11 +35,10 @@ export class OAuthLibWrapperService {
         this.authConfigService.getOAuthLibConfig()?.issuer ??
         this.authConfigService.getBaseUrl(),
       redirectUri:
-        this.authConfigService.getOAuthLibConfig()?.redirectUri ??
-        (!isSSR
+        this.authConfigService.getOAuthLibConfig()?.redirectUri ?? !isSSR
           ? // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.winRef.nativeWindow!.location.origin
-          : ''),
+          : '',
       ...this.authConfigService.getOAuthLibConfig(),
     });
   }

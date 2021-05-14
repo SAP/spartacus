@@ -7,7 +7,6 @@ import {
   CommonConfigurator,
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
@@ -38,11 +37,6 @@ const configWOMessages: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
-    key: ConfiguratorModelUtils.getOwnerKey(
-      CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
-    ),
-    configuratorType: ConfiguratorType.VARIANT,
   },
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -51,11 +45,6 @@ const configWithMessages: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
-    key: ConfiguratorModelUtils.getOwnerKey(
-      CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
-    ),
-    configuratorType: ConfiguratorType.VARIANT,
   },
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
@@ -70,11 +59,6 @@ const configWithOnlyOneMessage: Configurator.Configuration = {
   owner: {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
-    key: ConfiguratorModelUtils.getOwnerKey(
-      CommonConfigurator.OwnerType.PRODUCT,
-      PRODUCT_CODE
-    ),
-    configuratorType: ConfiguratorType.VARIANT,
   },
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,

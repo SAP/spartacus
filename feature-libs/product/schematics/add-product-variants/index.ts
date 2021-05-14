@@ -10,9 +10,8 @@ import {
   SPARTACUS_VARIANTS,
   SPARTACUS_VARIANTS_ASSETS,
   SPARTACUS_VARIANTS_ROOT,
-  VARIANTS_FEATURE_NAME_CONSTANT,
+  VARIANTS_FEATURE_NAME,
   VARIANTS_MODULE,
-  VARIANTS_MODULE_NAME,
   VARIANTS_ROOT_MODULE,
   VARIANTS_TRANSLATIONS,
   VARIANTS_TRANSLATION_CHUNKS_CONFIG,
@@ -21,7 +20,7 @@ import {
 export function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
   return addLibraryFeature(options, {
     folderName: PRODUCT_FOLDER_NAME,
-    moduleName: VARIANTS_MODULE_NAME,
+    name: VARIANTS_FEATURE_NAME,
     featureModule: {
       name: VARIANTS_MODULE,
       importPath: SPARTACUS_VARIANTS,
@@ -29,10 +28,6 @@ export function addVariantsFeature(options: SpartacusVariantsOptions): Rule {
     rootModule: {
       name: VARIANTS_ROOT_MODULE,
       importPath: SPARTACUS_VARIANTS_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_VARIANTS_ROOT,
-      namedImports: [VARIANTS_FEATURE_NAME_CONSTANT],
     },
     i18n: {
       resources: VARIANTS_TRANSLATIONS,

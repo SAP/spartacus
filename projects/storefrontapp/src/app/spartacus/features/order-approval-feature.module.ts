@@ -4,17 +4,14 @@ import {
   orderApprovalTranslationChunksConfig,
   orderApprovalTranslations,
 } from '@spartacus/organization/order-approval/assets';
-import {
-  OrderApprovalRootModule,
-  ORGANIZATION_ORDER_APPROVAL_FEATURE,
-} from '@spartacus/organization/order-approval/root';
+import { OrderApprovalRootModule } from '@spartacus/organization/order-approval/root';
 
 @NgModule({
   imports: [OrderApprovalRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
-        [ORGANIZATION_ORDER_APPROVAL_FEATURE]: {
+        organizationOrderApproval: {
           module: () =>
             import('@spartacus/organization/order-approval').then(
               (m) => m.OrderApprovalModule

@@ -1,9 +1,8 @@
 import { DaysOfWeek, recurrencePeriod } from '../sample-data/b2b-checkout';
 
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      /**
+declare namespace Cypress {
+  interface Chainable {
+    /**
        * Make sure you have placed the order. Returns new order data.
        *
        * @memberof Cypress.Chainable
@@ -13,8 +12,7 @@ declare global {
         cy.requirePlacedOrder(auth, address);
         ```
        */
-      requirePlacedOrder: (token: {}, cartId: {}) => Cypress.Chainable<{}>;
-    }
+    requirePlacedOrder: (token: {}, cartId: {}) => Cypress.Chainable<{}>;
   }
 }
 

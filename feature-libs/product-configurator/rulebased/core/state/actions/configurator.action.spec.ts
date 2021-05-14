@@ -1,7 +1,9 @@
+import { Type } from '@angular/core';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ConfiguratorType,
+  CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
@@ -10,27 +12,34 @@ import * as ConfiguratorActions from './configurator.action';
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '15468-5464-9852-54682';
 const GROUP_ID = 'GROUP1';
-const OWNER_KEY = 'product/' + PRODUCT_CODE;
-const OWNER: CommonConfigurator.Owner = {
-  id: PRODUCT_CODE,
-  type: CommonConfigurator.OwnerType.PRODUCT,
-  key: OWNER_KEY,
-  configuratorType: ConfiguratorType.VARIANT,
-};
 const CONFIGURATION: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   configId: CONFIG_ID,
-  owner: OWNER,
+  owner: { id: PRODUCT_CODE, type: CommonConfigurator.OwnerType.PRODUCT },
 };
 
 describe('ConfiguratorActions', () => {
+  let configuratorUtils: CommonConfiguratorUtilsService;
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({}).compileComponents();
+      configuratorUtils = TestBed.inject(
+        CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+      );
+      configuratorUtils.setOwnerKey(CONFIGURATION.owner);
+    })
+  );
   it('should provide create action with proper type', () => {
-    const createAction = new ConfiguratorActions.CreateConfiguration(OWNER);
+    const createAction = new ConfiguratorActions.CreateConfiguration(
+      CONFIGURATION.owner
+    );
     expect(createAction.type).toBe(ConfiguratorActions.CREATE_CONFIGURATION);
   });
 
   it('should provide create action that carries productCode as a payload', () => {
-    const createAction = new ConfiguratorActions.CreateConfiguration(OWNER);
+    const createAction = new ConfiguratorActions.CreateConfiguration(
+      CONFIGURATION.owner
+    );
     expect(createAction.payload.id).toBe(PRODUCT_CODE);
   });
 
@@ -47,7 +56,10 @@ describe('ConfiguratorActions', () => {
             configuration: CONFIGURATION,
             groupId: GROUP_ID,
           },
-          meta: StateUtils.entityLoadMeta(CONFIGURATOR_DATA, OWNER_KEY),
+          meta: StateUtils.entityLoadMeta(
+            CONFIGURATOR_DATA,
+            CONFIGURATION.owner.key
+          ),
         });
       });
     });
@@ -82,7 +94,10 @@ describe('ConfiguratorActions', () => {
         expect({ ...action }).toEqual({
           type: ConfiguratorActions.READ_CONFIGURATION_SUCCESS,
           payload: CONFIGURATION,
-          meta: StateUtils.entitySuccessMeta(CONFIGURATOR_DATA, OWNER_KEY),
+          meta: StateUtils.entitySuccessMeta(
+            CONFIGURATOR_DATA,
+            CONFIGURATION.owner.key
+          ),
         });
       });
     });
@@ -100,7 +115,7 @@ describe('ConfiguratorActions', () => {
           payload: CONFIGURATION,
           meta: {
             entityType: CONFIGURATOR_DATA,
-            entityId: OWNER_KEY,
+            entityId: CONFIGURATION.owner.key,
             loader: { load: true },
             processesCountDiff: 1,
           },
@@ -124,7 +139,7 @@ describe('ConfiguratorActions', () => {
           },
           meta: {
             entityType: CONFIGURATOR_DATA,
-            entityId: OWNER_KEY,
+            entityId: CONFIGURATION.owner.key,
             loader: { error: error },
             processesCountDiff: -1,
           },
@@ -142,7 +157,7 @@ describe('ConfiguratorActions', () => {
           payload: CONFIGURATION,
           meta: StateUtils.entityProcessesDecrementMeta(
             CONFIGURATOR_DATA,
-            OWNER_KEY
+            CONFIGURATION.owner.key
           ),
         });
       });

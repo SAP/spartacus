@@ -33,7 +33,7 @@ class MockCurrentProductService implements Partial<CurrentProductService> {
 
 class MockCurrentProductServiceReturnsNull
   implements Partial<CurrentProductService> {
-  getProduct(): Observable<Product | null> {
+  getProduct(): Observable<Product> {
     return of(null);
   }
 }

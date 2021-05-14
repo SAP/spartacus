@@ -1,11 +1,10 @@
-import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { ConfiguratorTextfield } from '../../model/configurator-textfield.model';
 import { ConfiguratorActions } from '../actions/configurator-textfield.action';
 import { ConfiguratorTextfieldActions } from '../actions/index';
 
 export const initialState: ConfiguratorTextfield.Configuration = {
   configurationInfos: [],
-  owner: ConfiguratorModelUtils.createInitialOwner(),
+  owner: {},
 };
 
 export function reducer(

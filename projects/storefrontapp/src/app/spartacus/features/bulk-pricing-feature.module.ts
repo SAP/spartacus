@@ -4,17 +4,14 @@ import {
   bulkPricingTranslationChunksConfig,
   bulkPricingTranslations,
 } from '@spartacus/product/bulk-pricing/assets';
-import {
-  BulkPricingRootModule,
-  PRODUCT_BULK_PRICING_FEATURE,
-} from '@spartacus/product/bulk-pricing/root';
+import { BulkPricingRootModule } from '@spartacus/product/bulk-pricing/root';
 
 @NgModule({
   imports: [BulkPricingRootModule],
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
-        [PRODUCT_BULK_PRICING_FEATURE]: {
+        productBulkPricing: {
           module: () =>
             import('@spartacus/product/bulk-pricing').then(
               (m) => m.BulkPricingModule

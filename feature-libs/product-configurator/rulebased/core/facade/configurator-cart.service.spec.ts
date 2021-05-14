@@ -14,8 +14,6 @@ import {
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
-  ConfiguratorType,
   OrderEntryStatus,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
@@ -29,11 +27,10 @@ import {
 import { getConfiguratorReducers } from '../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';
 
-let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
-let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();
-let OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
+let OWNER_CART_ENTRY: CommonConfigurator.Owner = {};
+let OWNER_ORDER_ENTRY: CommonConfigurator.Owner = {};
+let OWNER_PRODUCT: CommonConfigurator.Owner = {};
 const CART_CODE = '0000009336';
-const CART_ENTRY_ID = '3';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const ORDER_ID = '0000011';
 const ORDER_ENTRY_NUMBER = 2;
@@ -136,22 +133,16 @@ describe('ConfiguratorCartService', () => {
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
     OWNER_CART_ENTRY = {
-      id: CART_ENTRY_ID,
+      id: '3',
       type: CommonConfigurator.OwnerType.CART_ENTRY,
-      key: CommonConfigurator.OwnerType.CART_ENTRY + '/' + CART_ENTRY_ID,
-      configuratorType: ConfiguratorType.VARIANT,
     };
     OWNER_ORDER_ENTRY = {
       id: configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER),
       type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-      key: CommonConfigurator.OwnerType.ORDER_ENTRY + '/1000+' + CART_ENTRY_ID,
-      configuratorType: ConfiguratorType.VARIANT,
     };
     OWNER_PRODUCT = {
       id: PRODUCT_CODE,
       type: CommonConfigurator.OwnerType.PRODUCT,
-      key: CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
-      configuratorType: ConfiguratorType.VARIANT,
     };
   });
 
@@ -186,10 +177,7 @@ describe('ConfiguratorCartService', () => {
         userId: OCC_USER_ID_ANONYMOUS,
       };
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
-        },
+        value: { configId: '' },
       };
 
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
@@ -217,10 +205,7 @@ describe('ConfiguratorCartService', () => {
       });
 
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
-        },
+        value: { configId: '' },
       };
 
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
@@ -242,10 +227,7 @@ describe('ConfiguratorCartService', () => {
       });
 
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
-        },
+        value: { configId: '' },
       };
 
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
@@ -285,10 +267,7 @@ describe('ConfiguratorCartService', () => {
         userId: OCC_USER_ID_CURRENT,
       };
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
-        },
+        value: { configId: '' },
       };
 
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>

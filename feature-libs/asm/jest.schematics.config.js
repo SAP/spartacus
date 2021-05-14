@@ -6,20 +6,16 @@ module.exports = {
   transform: {
     '^.+\\.ts?$': 'ts-jest',
   },
-  globals: {
-    'ts-jest': {
-      tsconfig: './tsconfig.schematics.json',
-    },
-  },
+
   collectCoverage: false,
   coverageReporters: ['json', 'lcov', 'text', 'clover'],
   coverageDirectory: '<rootDir>/../../coverage/asm/schematics',
   coverageThreshold: {
     global: {
-      statements: 90,
-      branches: 90,
-      functions: 90,
-      lines: 90,
+      branches: 70,
+      functions: 80,
+      lines: 80,
+      statements: 80,
     },
   },
 

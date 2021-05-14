@@ -99,7 +99,7 @@ export function addressBookNextStep() {
 }
 
 export function deliveryModeNextStep() {
-  cy.get('cx-delivery-mode input').first().click({
+  cy.get('cx-delivery-mode #deliveryMode-standard-net').click({
     force: true,
   });
 
@@ -152,15 +152,7 @@ export function siteContextChange(
   label: string
 ): void {
   if (pagePath !== null) {
-    let page = waitForPage(pagePath, 'pageForSitContextChange');
-    if (
-      pagePath.startsWith('/product') ||
-      pagePath.startsWith('/Open-Catalogue')
-    ) {
-      page = waitForPage('', 'pageForSitContextChange');
-    }
     cy.visit(FULL_BASE_URL_EN_USD + pagePath);
-    cy.wait(`@${page}`).its('status').should('eq', 200);
   }
 
   let contextParam: string;

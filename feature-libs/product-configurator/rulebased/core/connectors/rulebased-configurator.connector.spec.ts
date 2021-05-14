@@ -4,7 +4,6 @@ import { CartModification } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import { Configurator } from '../model/configurator.model';
@@ -22,11 +21,11 @@ const CONFIGURATOR_TYPE = 'cpqconfig';
 const productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
   productCode: PRODUCT_CODE,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE,
-    CONFIGURATOR_TYPE
-  ),
+  owner: {
+    id: PRODUCT_CODE,
+    type: CommonConfigurator.OwnerType.PRODUCT,
+    configuratorType: CONFIGURATOR_TYPE,
+  },
 };
 
 const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
@@ -63,24 +62,23 @@ class MockRulebasedConfiguratorAdapter implements RulebasedConfiguratorAdapter {
     of('getConfigurationOverview' + configId)
   );
 
-  readPriceSummary = createSpy().and.callFake((configId: string) =>
+  readPriceSummary = createSpy().and.callFake((configId) =>
     of('readPriceSummary' + configId)
   );
 
-  readConfiguration = createSpy().and.callFake((configId: string) =>
+  readConfiguration = createSpy().and.callFake((configId) =>
     of('readConfiguration' + configId)
   );
 
-  updateConfiguration = createSpy().and.callFake(
-    (configuration: Configurator.Configuration) =>
-      of('updateConfiguration' + configuration.configId)
+  updateConfiguration = createSpy().and.callFake((configuration) =>
+    of('updateConfiguration' + configuration.configId)
   );
 
-  createConfiguration = createSpy().and.callFake(
-    (owner: CommonConfigurator.Owner) => of('createConfiguration' + owner)
+  createConfiguration = createSpy().and.callFake((owner) =>
+    of('createConfiguration' + owner)
   );
 
-  addToCart = createSpy().and.callFake((configId: string) =>
+  addToCart = createSpy().and.callFake((configId) =>
     of('addToCart' + configId)
   );
   getConfiguratorType(): string {
@@ -141,22 +139,22 @@ describe('RulebasedConfiguratorConnector', () => {
 
   it('should throw an error in case no adapter present for configurator type', () => {
     expect(function () {
-      const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
-        CommonConfigurator.OwnerType.PRODUCT,
-        PRODUCT_CODE,
-        'unknown'
-      );
+      const ownerForUnknownConfigurator: CommonConfigurator.Owner = {
+        configuratorType: 'unknown',
+        type: CommonConfigurator.OwnerType.PRODUCT,
+        id: PRODUCT_CODE,
+      };
       service.createConfiguration(ownerForUnknownConfigurator);
     }).toThrow();
   });
 
   it('should not throw an error in case an adapter is present for owners configurator type', () => {
     expect(function () {
-      const ownerForUnknownConfigurator = ConfiguratorModelUtils.createOwner(
-        CommonConfigurator.OwnerType.PRODUCT,
-        PRODUCT_CODE,
-        CONFIGURATOR_TYPE
-      );
+      const ownerForUnknownConfigurator: CommonConfigurator.Owner = {
+        configuratorType: CONFIGURATOR_TYPE,
+        type: CommonConfigurator.OwnerType.PRODUCT,
+        id: PRODUCT_CODE,
+      };
       service.createConfiguration(ownerForUnknownConfigurator);
     }).toBeDefined();
   });

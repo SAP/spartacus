@@ -1,10 +1,7 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import {
   IconLoaderService,
   IconModule,
@@ -50,10 +47,10 @@ describe('ConfigAttributeFooterComponent', () => {
   };
   let htmlElem: HTMLElement;
 
-  const owner = ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.CART_ENTRY,
-    'PRODUCT_CODE'
-  );
+  const owner: CommonConfigurator.Owner = {
+    id: 'PRODUCT_CODE',
+    type: CommonConfigurator.OwnerType.CART_ENTRY,
+  };
 
   beforeEach(
     waitForAsync(() => {

@@ -15,11 +15,6 @@
       "type": "boolean",
       "description": "Lazy load the storefinder features.",
       "default": true
-    },
-    "features": {
-      "type": "array",
-      "uniqueItems": true,
-      "default": ["Store Finder"]
     }
   },
   "required": []

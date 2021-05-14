@@ -1,9 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-} from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldAdapter } from './configurator-textfield.adapter';
@@ -86,9 +83,7 @@ describe('ConfiguratorTextfieldConnector', () => {
       ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
     );
 
-    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: ConfiguratorModelUtils.createInitialOwner(),
-    };
+    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {};
     let result;
     service
       .readConfigurationForCartEntry(params)

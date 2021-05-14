@@ -9,7 +9,6 @@ import {
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -60,10 +59,10 @@ const configWithoutGroups: Configurator.Configuration = {
   configId: 'CONFIG_ID',
   productCode: PRODUCT_CODE,
   totalNumberOfIssues: 0,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE
-  ),
+  owner: {
+    id: PRODUCT_CODE,
+    type: CommonConfigurator.OwnerType.PRODUCT,
+  },
   groups: [groups],
   flatGroups: [groups],
 };

@@ -3,18 +3,13 @@ import {
   Cart,
   OCC_USER_ID_ANONYMOUS,
   OrderEntry,
-  PromotionLocation,
   UserIdService,
 } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
-import { EMPTY, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import {
   CommonConfigurator,
   ConfiguratorType,
   OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
-import { ConfiguratorModelUtils } from './configurator-model-utils';
 
 /**
  * Utilities for generic configuration
@@ -28,7 +23,22 @@ export class CommonConfiguratorUtilsService {
    * @param {CommonConfigurator.Owner }owner - Specifies the owner of a product configuration
    */
   setOwnerKey(owner: CommonConfigurator.Owner) {
-    owner.key = ConfiguratorModelUtils.getOwnerKey(owner.type, owner.id);
+    if (owner.type === CommonConfigurator.OwnerType.PRODUCT) {
+      if (!owner.id) {
+        throw new Error('We expect a product code!');
+      }
+    } else if (owner.type === CommonConfigurator.OwnerType.CART_ENTRY) {
+      if (!owner.id) {
+        throw new Error('We expect a document entry Id!');
+      }
+    } else if (owner.type === CommonConfigurator.OwnerType.ORDER_ENTRY) {
+      if (!owner.id) {
+        throw new Error('We expect a document entry Id!');
+      }
+    } else {
+      throw new Error('We expect an owner type!');
+    }
+    owner.key = owner.type + '/' + owner.id;
   }
 
   /**
@@ -124,22 +134,5 @@ export class CommonConfiguratorUtilsService {
       return configuratorType === ConfiguratorType.CPQ;
     }
     return false;
-  }
-
-  /**
-   * Determines whether we are in the context of an active cart
-   * @param cartItemContext Cart item context
-   * @returns Item part of an active cart?
-   */
-  isActiveCartContext(
-    cartItemContext: CartItemContext | undefined
-  ): Observable<boolean> {
-    return (cartItemContext?.location$ ?? EMPTY).pipe(
-      map(
-        (location) =>
-          location !== PromotionLocation.SaveForLater &&
-          location !== PromotionLocation.SavedCart
-      )
-    );
   }
 }

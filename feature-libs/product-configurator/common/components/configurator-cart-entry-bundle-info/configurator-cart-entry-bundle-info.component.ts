@@ -24,7 +24,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
-    protected breakpointService: BreakpointService,
+    protected breakpointService?: BreakpointService,
     // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
@@ -80,9 +80,4 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   isDesktop(): Observable<boolean> {
     return this.breakpointService?.isUp(BREAKPOINT.md);
   }
-
-  // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
-  readonly shouldShowButton$: Observable<boolean> = this.commonConfigUtilsService.isActiveCartContext(
-    this.cartItemContext
-  );
 }

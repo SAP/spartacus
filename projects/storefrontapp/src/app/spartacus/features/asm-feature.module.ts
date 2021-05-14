@@ -3,7 +3,7 @@ import {
   asmTranslationChunksConfig,
   asmTranslations,
 } from '@spartacus/asm/assets';
-import { AsmRootModule, ASM_FEATURE } from '@spartacus/asm/root';
+import { AsmRootModule } from '@spartacus/asm/root';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
@@ -11,7 +11,7 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
   providers: [
     provideConfig(<CmsConfig>{
       featureModules: {
-        [ASM_FEATURE]: {
+        asm: {
           module: () => import('@spartacus/asm').then((m) => m.AsmModule),
         },
       },

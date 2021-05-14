@@ -1,5 +1,5 @@
 import Chainable = Cypress.Chainable;
-import * as configurationOverview from './product-configurator-overview';
+import * as configurationOverviewCommon from './product-configuration-overview';
 
 const resolveIssuesLinkSelector =
   'cx-configurator-overview-notification-banner button.cx-action-link';
@@ -19,7 +19,7 @@ export function goToConfigOverviewPage(
   return cy.visit(location).then(() => {
     cy.location('pathname').should('contain', location);
     cy.get('.VariantConfigurationOverviewTemplate').should('be.visible');
-    configurationOverview.checkConfigOverviewPageDisplayed();
+    configurationOverviewCommon.checkConfigOverviewPageDisplayed();
   });
 }
 
@@ -84,16 +84,4 @@ export function verifyNotificationBannerOnOP(numberOfIssues?: number): void {
   } else {
     element.should('not.contain.html', 'div.cx-error-msg');
   }
-}
-
-/**
- * Registers OCC call for OV page in order to wait for it
- */
-export function registerConfigurationOvOCC() {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/ccpconfigurator/*/configurationOverview?lang=en&curr=USD`
-  ).as('configure_overview');
 }

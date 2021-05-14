@@ -6,7 +6,9 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addPackageJsonDependenciesForLibrary,
+  addPackageJsonDependencies,
+  createDependencies,
+  installPackageJsonDependencies,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
   shouldAddFeature,
@@ -18,7 +20,7 @@ import { addVariantsFeature } from '../add-product-variants';
 import { CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE } from '../constants';
 
 export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -31,12 +33,14 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
         ? addVariantsFeature(options)
         : noop(),
 
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
+      addProductPackageJsonDependencies(packageJson),
+      installPackageJsonDependencies(),
     ]);
   };
+}
+
+function addProductPackageJsonDependencies(packageJson: any): Rule {
+  const dependencies = createDependencies(peerDependencies);
+
+  return addPackageJsonDependencies(dependencies, packageJson);
 }

@@ -50,7 +50,6 @@ import {
           },
 
           navigation: {
-            lg: { slots: [] },
             slots: [
               'SiteLogin',
               'SiteContext',

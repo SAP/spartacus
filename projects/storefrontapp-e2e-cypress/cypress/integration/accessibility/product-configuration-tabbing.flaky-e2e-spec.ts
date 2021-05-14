@@ -1,8 +1,7 @@
 import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
 import { tabbingOrderConfig as tabConfig } from '../../helpers/accessibility/tabbing-order.config';
-import * as configurationOverview from '../../helpers/product-configurator-overview';
-import * as configurationVc from '../../helpers/product-configurator-vc';
-import * as configuration from '../../helpers/product-configurator';
+import * as configurationOverviewCommon from '../../helpers/product-configuration-overview';
+import * as configuration from '../../helpers/product-configurator-vc';
 /**
  * This suite is marked as flaky due to performance (synchronization) issues on
  * https://spartacus-devci767.eastus.cloudapp.azure.com:9002 that we analyze in
@@ -36,7 +35,7 @@ context('Product Configuration', () => {
 
   describe('Product Config Tabbing', () => {
     it('should allow to navigate with tab key', () => {
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
 
       verifyTabbingOrder(
         containerSelectorConfigForm,
@@ -50,9 +49,9 @@ context('Product Configuration', () => {
       );
       configuration.navigateToOverviewPage();
 
-      configurationVc.checkGlobalMessageNotDisplayed();
+      configuration.checkGlobalMessageNotDisplayed();
       configuration.checkUpdatingMessageNotDisplayed();
-      configurationOverview.checkConfigOverviewPageDisplayed();
+      configurationOverviewCommon.checkConfigOverviewPageDisplayed();
       verifyTabbingOrder(
         containerSelectorOverviewForm,
         tabConfig.productConfigurationOverview
@@ -78,7 +77,7 @@ context('Product Configuration', () => {
         )}/ccpconfigurator/*/pricing*`
       ).as('priceUpdate');
 
-      configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+      configuration.goToConfigurationPage(electronicsShop, testProduct);
 
       cy.wait('@priceUpdate');
 

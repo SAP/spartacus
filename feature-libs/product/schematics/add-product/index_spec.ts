@@ -1,5 +1,3 @@
-/// <reference types="jest" />
-
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -26,7 +24,6 @@ const bulkPricingModulePath =
   'src/app/spartacus/features/product/bulk-pricing-feature.module.ts';
 const variantsFeatureModulePath =
   'src/app/spartacus/features/product/product-variants-feature.module.ts';
-const scssFilePath = 'src/styles/spartacus/product.scss';
 
 describe('Spartacus Product schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -48,17 +45,17 @@ describe('Spartacus Product schematics: ng-add', () => {
     projectRoot: '',
   };
 
+  const defaultOptions: SpartacusProductOptions = {
+    project: 'schematics-test',
+    lazy: true,
+    features: [CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE],
+  };
+
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
     lazy: true,
     features: [],
-  };
-
-  const defaultFeatureOptions: SpartacusProductOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE],
   };
 
   beforeEach(async () => {
@@ -97,7 +94,7 @@ describe('Spartacus Product schematics: ng-add', () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',
-          { ...defaultFeatureOptions, features: [] },
+          { ...defaultOptions, features: [] },
           appTree
         )
         .toPromise();
@@ -111,23 +108,6 @@ describe('Spartacus Product schematics: ng-add', () => {
     it('should not install variants feature', () => {
       const variantsModule = appTree.readContent(variantsFeatureModulePath);
       expect(variantsModule).not.toContain(SPARTACUS_VARIANTS_ROOT);
-    });
-  });
-
-  describe('styling', () => {
-    beforeEach(async () => {
-      appTree = await schematicRunner
-        .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-        .toPromise();
-    });
-
-    it('should create the scss file', () => {
-      expect(appTree.exists(scssFilePath)).toBeTruthy();
-    });
-
-    it('should match the snapshot content', () => {
-      const scssContent = appTree.readContent(scssFilePath);
-      expect(scssContent).toMatchSnapshot();
     });
   });
 });
