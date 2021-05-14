@@ -68,6 +68,8 @@ import {
   USER_TOKEN,
   USER_TOKEN_STATE,
   VIEW_ALL_STORES_STATE,
+  OCC_ENDPOINTS,
+  BASE_SITES_FOR_CONFIG
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -450,6 +452,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: SPLIT_VIEW_DEACTIVATE_GUARD,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${SPLIT_VIEW_DEACTIVATE_GUARD} has been removed and is no longer part of the public API.`,
+  },
+  // projects/core/src/occ/occ-models/occ-endpoints.model.ts
+  {
+    node: OCC_ENDPOINTS,
+    importPath: SPARTACUS_CORE,
+    comment: `'${BASE_SITES_FOR_CONFIG} optional property has been removed and is no longer part of the public API.`,
   },
 ];
 

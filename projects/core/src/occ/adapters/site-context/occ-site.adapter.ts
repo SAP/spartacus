@@ -82,7 +82,7 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get<{ baseSites: BaseSite[] }>(
         this.occEndpointsService.buildUrl(
-          'baseSitesForConfig',
+          'baseSites',
           {},
           { baseSite: false }
         )
@@ -98,7 +98,7 @@ export class OccSiteAdapter implements SiteAdapter {
     return this.http
       .get<{ baseSites: BaseSite[] }>(
         this.occEndpointsService.buildUrl(
-          'baseSitesForConfig',
+          'baseSites',
           {},
           { baseSite: false }
         )

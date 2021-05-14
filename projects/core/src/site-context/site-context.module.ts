@@ -53,7 +53,6 @@ export class SiteContextModule {
           deps: [
             SiteContextConfigInitializer,
             SiteContextConfig,
-            FeatureConfigService,
           ],
           multi: true,
         },

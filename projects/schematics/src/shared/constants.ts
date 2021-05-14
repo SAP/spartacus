@@ -655,12 +655,6 @@ export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 
-export const SITE_CONTEXT_MODULE = 'SiteContextModule';
-export const INIT_SITE_CONTEXT_CONFIG = 'initSiteContextConfig';
-
-export const I18N_MODULE = 'I18nModule';
-export const INIT_I18N_CONFIG = 'initI18nConfig';
-
 export const OCC_ENDPOINT = 'OccEndpoints';
 export const BASE_SITES_FOR_CONFIG = 'baseSitesForConfig';
 
