@@ -1,6 +1,5 @@
 <ng-container *ngIf="config as config">
   <ng-container *ngIf="mode$ | async as mode">
-    {{ mode }}
     <ng-container *ngIf="tabs$ | async as tabs">
       <div role="tablist" [attr.aria-label]="config.label" [class]="mode">
         <ng-container *ngFor="let tab of tabs; let i = index">

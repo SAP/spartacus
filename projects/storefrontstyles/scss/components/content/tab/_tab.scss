@@ -1,30 +1,110 @@
 %cx-tab {
-  display: grid;
-
-  > button {
+  button {
     order: 0;
     transition: all 0.6s;
     font-size: 1.2rem;
     text-align: center;
     margin: 0;
+    border: 0;
 
     &:first-of-type {
       grid-column: 3;
     }
+
+    margin-bottom: 0;
+    &.active,
+    &:hover {
+      color: var(--cx-color-primary);
+    }
+    &:focus {
+      z-index: 1;
+    }
+    cursor: pointer;
+
+    &.active:after,
+    &:hover:after {
+      width: 100%;
+    }
+    &.active:after,
+    &.active:hover:after {
+      opacity: 1;
+    }
+    &:not(.active):hover:after {
+      opacity: 0.5;
+    }
+
+    // border effect
+    &:after {
+      content: '';
+      display: block;
+      margin-top: 15px;
+      margin-inline-end: auto;
+      margin-bottom: auto;
+      margin-inline-start: auto;
+      height: 5px;
+      background: var(--cx-color-primary);
+
+      // the tab hover effect uses a border in the :after pseudo
+      // that is animated from 0% to 100% width
+      width: 0;
+      opacity: 0;
+      transition: all 0.6s;
+    }
   }
 
-  // the div elements contain the content and will be rendered after the tabs
-  > div {
-    order: 2;
-    grid-column-start: 1;
-    grid-column-end: -1;
-    padding: 50px 0;
+  div[role='tabpanel'] {
     border-top: 1px var(--cx-color-light) solid;
+    padding: 50px 0;
+    background: var(--cx-color-background);
+  }
+
+  .TAB {
+    button {
+      width: 20%;
+    }
   }
 
   .ACCORDIAN {
     button {
       width: 100%;
+      border-top: 1px var(--cx-color-light) solid;
+      font-size: 18px;
+      padding-top: 15px;
+      padding-inline-end: 0;
+      padding-bottom: 0;
+      padding-inline-start: 4%;
+      width: 100%;
+      text-align: start;
+      height: 63px;
+
+      &:before {
+        content: '+';
+        margin: 0px 15px;
+        float: right;
+        font-size: 33px;
+        bottom: 12px;
+        position: relative;
+        color: var(--cx-color-text);
+      }
+      &:after {
+        margin-top: 15px;
+        margin-inline-end: auto;
+        margin-bottom: auto;
+        margin-inline-start: -4%;
+      }
+      &.active {
+        &:before {
+          content: '–';
+        }
+      }
+      &.active:after,
+      &:hover:after {
+        width: 104%;
+      }
+    }
+
+    div {
+      padding: 15px 5px;
     }
   }
 }
