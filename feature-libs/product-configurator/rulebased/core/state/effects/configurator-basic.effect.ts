@@ -12,7 +12,6 @@ import {
   switchMap,
   switchMapTo,
   take,
-  tap,
 } from 'rxjs/operators';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorGroupStatusService } from '../../facade/configurator-group-status.service';
@@ -68,7 +67,6 @@ export class ConfiguratorBasicEffects {
       return this.configuratorCommonsConnector
         .readConfiguration(
           action.payload.configuration.configId,
-          //TODO CHHI is it correct to have group ID optional? Do we do calls w/o group?
           action.payload.groupId,
           action.payload.configuration.owner
         )
@@ -196,14 +194,11 @@ export class ConfiguratorBasicEffects {
       return this.store.pipe(
         select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
         take(1),
-        tap((v) => console.log('CHHI 1' + v)),
         filter((hasPendingChanges) => hasPendingChanges === false),
-        tap((v) => console.log('CHHI 2' + v)),
         switchMapTo(
           this.store.pipe(
             select(ConfiguratorSelectors.getCurrentGroup(payload.owner.key)),
             take(1),
-            tap((v) => console.log('CHHI 3' + v)),
             map((currentGroupId) => {
               const groupIdFromPayload = this.getGroupWithAttributes(
                 payload.groups
@@ -239,10 +234,7 @@ export class ConfiguratorBasicEffects {
                     new ConfiguratorActions.ChangeGroup({
                       configuration: payload,
                       groupId: container.groupIdFromPayload,
-                      //TODO CHHI
-                      parentGroupId: container.parentGroupFromPayload?.id
-                        ? container.parentGroupFromPayload?.id
-                        : undefined,
+                      parentGroupId: container.parentGroupFromPayload?.id,
                     }),
                   ];
             })

@@ -42,7 +42,7 @@ describe('Configurator selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers()),
       ],
     });
 

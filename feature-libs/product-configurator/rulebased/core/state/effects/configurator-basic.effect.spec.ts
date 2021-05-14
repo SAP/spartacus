@@ -118,7 +118,7 @@ describe('ConfiguratorEffect', () => {
       imports: [
         HttpClientTestingModule,
         StoreModule.forRoot({}),
-        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers()),
       ],
 
       providers: [
@@ -375,7 +375,6 @@ describe('ConfiguratorEffect', () => {
         c: updatePrices,
         d: changeGroup,
       });
-      console.log('CHHI test start');
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected
       );

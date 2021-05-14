@@ -5,12 +5,12 @@ import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorState, CONFIGURATOR_DATA } from '../configurator-state';
 import { configuratorReducer } from './configurator.reducer';
 
-export function getConfiguratorReducers() {
+export function getConfiguratorReducers(): ActionReducerMap<ConfiguratorState> {
   return {
+    // @ts-ignore product-configurators
     configurations: StateUtils.entityProcessesLoaderReducer<Configurator.Configuration>(
       CONFIGURATOR_DATA,
-      // TODO TBD how to get rid of that
-      // @ts-ignore
+      // @ts-ignore product-configurators
       configuratorReducer
     ),
   };
