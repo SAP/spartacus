@@ -213,7 +213,7 @@ export function giveRegistrationConsentTest() {
 }
 
 export function movingFromAnonymousToRegisteredUser() {
-  it('should transfer anonoymous consents and load the previously given registered consents when registered', () => {
+  it('should transfer anonymous consents and load the previously given registered consents when registered', () => {
     openAnonymousConsentsDialog();
     cy.log('Giving second consent as anonymous user');
     toggleAnonymousConsent(2);
@@ -228,9 +228,6 @@ export function movingFromAnonymousToRegisteredUser() {
     cy.log('Giving first consent as logged in user');
     giveConsent();
 
-    cy.visit('/');
-
-    checkBanner();
     cy.log('Signing out logged in user');
     signOutUser();
 
