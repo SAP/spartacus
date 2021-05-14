@@ -3,7 +3,7 @@ export * from './connectors/index';
 export * from './events/index';
 export * from './facade/index';
 export * from './providers/index';
-export * from './services/site-context-params.service';
+export * from './services/index';
 export { SiteContextModule } from './site-context.module';
 export * from './store/actions/index';
 export * from './store/selectors/index';
