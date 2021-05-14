@@ -27,7 +27,7 @@ export class UserAddressService {
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected userIdService: UserIdService,
     protected userAddressConnector: UserAddressConnector,
-    protected command: CommandService //TODO GH-12192 - handle constructor deprecation
+    protected command: CommandService
   ) {}
 
   /**

@@ -10,7 +10,6 @@ import {
 import { CardModule } from '../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
-import { AddressBookComponentService } from './address-book.component.service';
 import { AddressFormModule } from './address-form/address-form.module';
 
 @NgModule({
