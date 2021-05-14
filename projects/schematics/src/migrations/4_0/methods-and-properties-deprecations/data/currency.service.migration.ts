@@ -12,6 +12,6 @@ export const CURRENCY_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
     class: CURRENCY_SERVICE,
     importPath: SPARTACUS_CORE,
     deprecatedNode: INITIALIZE,
-    comment: `// ${TODO_SPARTACUS} Method '${INITIALIZE}' was removed. The state initialization is done with the 'CurrencyStatePersistenceService' .`,
+    comment: `// ${TODO_SPARTACUS} Method '${INITIALIZE}' was removed. The state initialization is done with the 'CurrencyInitializer' .`,
   },
 ];
