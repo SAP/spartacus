@@ -35,7 +35,7 @@ export class PersonalizationContextService {
       ),
       filter(Boolean),
       map((slot: ContentSlotData) =>
-        slot.components.find(
+        slot.components?.find(
           (i) => i.uid === this.config.personalization.context.componentId
         )
       ),
