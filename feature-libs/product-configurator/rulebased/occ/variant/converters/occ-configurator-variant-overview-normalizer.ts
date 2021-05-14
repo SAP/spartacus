@@ -43,7 +43,7 @@ export class OccConfiguratorVariantOverviewNormalizer
     const characteristicValues: OccConfigurator.CharacteristicOverview[] =
       source.characteristicValues;
     const subGroups: OccConfigurator.GroupOverview[] = source.subGroups;
-    const group = (Configurator.GroupOverview = {
+    const group: Configurator.GroupOverview = {
       id: source.id,
       groupDescription: source.groupDescription,
       attributes: characteristicValues
@@ -54,7 +54,7 @@ export class OccConfiguratorVariantOverviewNormalizer
             };
           })
         : [],
-    });
+    };
 
     this.setGeneralDescription(result[0]);
     if (subGroups) {
