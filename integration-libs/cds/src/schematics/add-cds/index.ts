@@ -18,7 +18,7 @@ import {
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../../package.json';
-import { CDS_FOLDER_NAME, CDS_MODULE } from '../constants';
+import { CDS_FOLDER_NAME, CDS_MODULE, CDS_MODULE_NAME } from '../constants';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 export function addCdsFeature(options: SpartacusCdsOptions): Rule {
@@ -28,30 +28,21 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
 
     return chain([
       shouldAddFeature(CLI_CDS_FEATURE, options.features)
-        ? addCds(options)
+        ? addCds(options, context)
         : noop(),
 
       addPackageJsonDependenciesForLibrary({
         packageJson,
         context,
-        libraryPeerDependencies: peerDependencies,
+        dependencies: peerDependencies,
         options,
       }),
     ]);
   };
 }
 
-function validateCdsOptions({ tenant, baseUrl }: SpartacusCdsOptions): void {
-  if (!tenant) {
-    throw new SchematicsException(`Please specify tenant name.`);
-  }
-  if (!baseUrl) {
-    throw new SchematicsException(`Please specify the base URL.`);
-  }
-}
-
-function addCds(options: SpartacusCdsOptions): Rule {
-  validateCdsOptions(options);
+function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
+  validateCdsOptions(options, context);
 
   const customConfig: CustomConfig[] = [
     {
@@ -101,7 +92,7 @@ function addCds(options: SpartacusCdsOptions): Rule {
     { ...options, lazy: false },
     {
       folderName: CDS_FOLDER_NAME,
-      name: CLI_CDS_FEATURE,
+      moduleName: CDS_MODULE_NAME,
       featureModule: {
         importPath: SPARTACUS_CDS,
         name: CDS_MODULE,
@@ -110,4 +101,32 @@ function addCds(options: SpartacusCdsOptions): Rule {
       customConfig,
     }
   );
+}
+
+function validateCdsOptions(
+  {
+    tenant,
+    baseUrl,
+    profileTagConfigUrl,
+    profileTagLoadUrl,
+  }: SpartacusCdsOptions,
+  context: SchematicContext
+): void {
+  if (!tenant) {
+    throw new SchematicsException(`Please specify tenant name.`);
+  }
+  if (!baseUrl) {
+    throw new SchematicsException(`Please specify the base URL.`);
+  }
+
+  if (
+    !(
+      (profileTagConfigUrl && profileTagLoadUrl) ||
+      (!profileTagConfigUrl && !profileTagLoadUrl)
+    )
+  ) {
+    context.logger.warn(
+      `Profile tag will not be added. Please run the schematic again, and make sure you provide both profile tag options.`
+    );
+  }
 }
