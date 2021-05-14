@@ -12,6 +12,6 @@ export const LANGUAGE_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
     class: LANGUAGE_SERVICE,
     importPath: SPARTACUS_CORE,
     deprecatedNode: INITIALIZE,
-    comment: `// ${TODO_SPARTACUS} Method '${INITIALIZE}' was removed. The state initialization is done with the 'LanguageStatePersistenceService' .`,
+    comment: `// ${TODO_SPARTACUS} Method '${INITIALIZE}' was removed. The state initialization is done with the 'LanguageInitializer' .`,
   },
 ];
