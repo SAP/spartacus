@@ -37,7 +37,7 @@ export class OccUserAdapter implements UserAdapter {
   }
 
   update(userId: string, user: User): Observable<{}> {
-    const url = this.occEndpoints.getUrl('user', { userId });
+    const url = this.occEndpoints.getUrl('userUpdateProfile', { userId });
     user = this.converter.convert(user, USER_SERIALIZER);
     return this.http.patch(url, user);
   }
@@ -125,7 +125,7 @@ export class OccUserAdapter implements UserAdapter {
   }
 
   remove(userId: string): Observable<{}> {
-    const url = this.occEndpoints.getUrl('user', { userId });
+    const url = this.occEndpoints.getUrl('userCloseAccount', { userId });
     return this.http.delete<User>(url);
   }
 

@@ -11,6 +11,8 @@ export const defaultOccUserConfig: OccConfig = {
         userResetPassword: 'resetpassword',
         userUpdateLoginId: 'users/${userId}/login',
         userUpdatePassword: 'users/${userId}/password',
+        userUpdateProfile: 'users/${userId}',
+        userCloseAccount: 'users/${userId}',
         titles: 'titles',
         paymentDetailsAll: 'users/${userId}/paymentdetails',
         paymentDetail: 'users/${userId}/paymentdetails/${paymentDetailId}',

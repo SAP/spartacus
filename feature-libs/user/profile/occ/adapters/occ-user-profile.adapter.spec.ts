@@ -97,9 +97,12 @@ describe('OccUserProfileAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'PATCH';
       });
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('user', {
-        userId: user.customerId,
-      });
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
+        'userUpdateProfile',
+        {
+          userId: user.customerId,
+        }
+      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -241,9 +244,12 @@ describe('OccUserProfileAdapter', () => {
         return req.method === 'DELETE';
       });
 
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('user', {
-        userId: 'testUserId',
-      });
+      expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
+        'userCloseAccount',
+        {
+          userId: 'testUserId',
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });
