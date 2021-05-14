@@ -5,7 +5,6 @@ import {
 } from '../config/config-initializer/config-initializer';
 import { provideDefaultConfigFactory } from '../config/config-providers';
 import { provideConfigValidator } from '../config/config-validator/config-validator';
-import { FeatureConfigService } from '../features-config/services/feature-config.service';
 import { StateModule } from '../state/index';
 import { baseSiteConfigValidator } from './config/base-site-config-validator';
 import { SiteContextConfigInitializer } from './config/config-loader/site-context-config-initializer';
