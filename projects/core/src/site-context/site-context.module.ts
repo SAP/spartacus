@@ -50,10 +50,7 @@ export class SiteContextModule {
         {
           provide: CONFIG_INITIALIZER,
           useFactory: initSiteContextConfig,
-          deps: [
-            SiteContextConfigInitializer,
-            SiteContextConfig,
-          ],
+          deps: [SiteContextConfigInitializer, SiteContextConfig],
           multi: true,
         },
       ],
