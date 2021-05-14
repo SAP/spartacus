@@ -3,7 +3,7 @@ import { SampleUser } from '../sample-data/checkout-flow';
 import { standardUser } from '../sample-data/shared-users';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { login, register } from './auth-forms';
-import { waitForPage } from './checkout-flow';
+import { clickHamburger, waitForPage } from './checkout-flow';
 import { checkBanner } from './homepage';
 import { signOutUser } from './login';
 import { LANGUAGE_DE, LANGUAGE_LABEL } from './site-context-selector';
@@ -238,6 +238,9 @@ export function movingFromAnonymousToRegisteredUser() {
     closeAnonymousConsentsDialog();
 
     const loginPage = waitForPage('/login', 'getLoginPage');
+    cy.onMobile(() => {
+      clickHamburger();
+    });
     cy.get('cx-login [role="link"]').click();
     cy.wait(`@${loginPage}`).its('status').should('eq', 200);
 
