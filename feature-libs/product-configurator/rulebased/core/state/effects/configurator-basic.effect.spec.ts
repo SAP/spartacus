@@ -513,12 +513,6 @@ describe('ConfiguratorEffect', () => {
   });
 
   describe('getGroupWithAttributes', () => {
-    it('should find group in single level config', () => {
-      expect(
-        configEffects.getGroupWithAttributes(productConfiguration.groups)
-      ).toBe(groupId);
-    });
-
     it('should find group in multi level config', () => {
       const groups: Configurator.Group[] = [
         {
@@ -580,8 +574,24 @@ describe('ConfiguratorEffect', () => {
           ],
         },
       ];
-      //TODO CHHI
-      expect(configEffects.getGroupWithAttributes(groups)).toBe('');
+      expect(configEffects.getGroupWithAttributes(groups)).toBeUndefined();
+    });
+  });
+
+  describe('getGroupWithAttributesForConfiguration', () => {
+    it('should find group in single level config', () => {
+      expect(
+        configEffects.getGroupWithAttributesForConfiguration(
+          productConfiguration
+        )
+      ).toBe(groupId);
+    });
+    it('should throw error in case configuration has no attribute at all', () => {
+      expect(function () {
+        configEffects.getGroupWithAttributesForConfiguration(
+          ConfiguratorTestUtils.createConfiguration('a', owner)
+        );
+      }).toThrow();
     });
   });
 });
