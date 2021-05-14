@@ -219,6 +219,8 @@ export function movingFromAnonymousToRegisteredUser() {
     toggleAnonymousConsent(2);
     closeAnonymousConsentsDialog();
 
+    // a new email is needed for a fresh user (due to viewports)
+    userTransferConsentTest.email = generateMail(randomString(), true);
     registerUserAndCheckMyAccountConsent(
       userTransferConsentTest,
       noRegistrationConsent,
@@ -281,6 +283,9 @@ export function changeLanguageTest() {
     closeAnonymousConsentsDialog();
 
     cy.route('GET', `*${LANGUAGE_DE}*`).as('switchedContext');
+    cy.onMobile(() => {
+      clickHamburger();
+    });
     switchSiteContext(LANGUAGE_DE, LANGUAGE_LABEL);
     cy.wait('@switchedContext').its('status').should('eq', 200);
 
