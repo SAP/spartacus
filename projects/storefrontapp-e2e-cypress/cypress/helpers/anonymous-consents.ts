@@ -251,37 +251,20 @@ export function movingFromAnonymousToRegisteredUser() {
 }
 
 export function testAsLoggedInUser() {
-  it('should not render the banner', () => {
+  it('should not render the banner and footer link', () => {
+    cy.visit('/login');
+    login(userTransferConsentTest.email, userTransferConsentTest.password);
+
     checkBanner();
     loggedInUserBannerTest();
-  });
-
-  it('should not render the footer link', () => {
     loggedInUserFooterLinkTest();
-  });
 
-  it('should restore anonoymous consents when logging out', () => {
-    checkBanner();
-    signOutUser();
-
-    clickViewDetailsFromBanner();
-    toggleAnonymousConsent(2);
-    closeAnonymousConsentsDialog();
-
-    const loginPage = waitForPage('/login', 'getLoginPage');
-    cy.get('cx-login [role="link"]').click();
-    cy.wait(`@${loginPage}`).its('status').should('eq', 200);
-
-    login(
-      standardUser.registrationData.email,
-      standardUser.registrationData.password
-    );
-
-    checkBanner();
     signOutUser();
 
     openAnonymousConsentsDialog();
-    checkInputConsentState(1, BE_CHECKED);
+    checkInputConsentState(0, NOT_BE_CHECKED);
+    checkInputConsentState(1, NOT_BE_CHECKED);
+    checkInputConsentState(2, NOT_BE_CHECKED);
   });
 }
 

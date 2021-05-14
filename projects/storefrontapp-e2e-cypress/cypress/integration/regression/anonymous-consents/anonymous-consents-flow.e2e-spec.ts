@@ -2,7 +2,6 @@ import {
   changeLanguageTest,
   giveRegistrationConsentTest,
   movingFromAnonymousToRegisteredUser,
-  sessionLogin,
   testAsLoggedInUser,
 } from '../../../helpers/anonymous-consents';
 import {
@@ -65,11 +64,6 @@ context('Anonymous consents flow', () => {
   });
 
   describe('As a logged in user', () => {
-    before(() => {
-      sessionLogin();
-      cy.visit('/');
-    });
-
     testAsLoggedInUser();
   });
 
