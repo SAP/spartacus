@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   CLI_CART_FEATURE,
   LibraryOptions as SpartacusCartOptions,
   readPackageJson,
@@ -36,6 +37,8 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies),
+
       shouldAddFeature(CLI_SAVED_CART_FEATURE, options.features)
         ? addSavedCartFeature(options)
         : noop(),

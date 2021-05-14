@@ -8,6 +8,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   CDS_CONFIG,
   CLI_CDS_FEATURE,
   CustomConfig,
@@ -26,6 +27,8 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies),
+
       shouldAddFeature(CLI_CDS_FEATURE, options.features)
         ? addCds(options, context)
         : noop(),

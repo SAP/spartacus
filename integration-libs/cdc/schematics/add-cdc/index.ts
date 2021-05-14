@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   CLI_CDC_FEATURE,
   CLI_USER_PROFILE_FEATURE,
   LibraryOptions as SpartacusCdcOptions,
@@ -33,6 +34,8 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies),
+
       shouldAddFeature(CLI_CDC_FEATURE, options.features)
         ? addCdc(options)
         : noop(),

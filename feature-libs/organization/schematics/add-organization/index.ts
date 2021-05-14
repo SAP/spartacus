@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   CLI_ORGANIZATION_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusOrganizationOptions,
@@ -49,6 +50,8 @@ export function addSpartacusOrganization(
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies),
+
       shouldAddFeature(CLI_ADMINISTRATION_FEATURE, options.features)
         ? chain([
             addAdministrationFeature(options),

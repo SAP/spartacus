@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   CLI_PRODUCT_FEATURE,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
@@ -46,6 +47,8 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies),
+
       shouldAddFeature(CLI_BULK_PRICING_FEATURE, options.features)
         ? addBulkPricingFeature(options)
         : noop(),

@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   CLI_QUALTRICS_FEATURE,
   LibraryOptions as SpartacusQualtricsOptions,
   readPackageJson,
@@ -31,6 +32,8 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies),
+
       shouldAddFeature(CLI_QUALTRICS_FEATURE, options.features)
         ? addQualtricsFeature(options)
         : noop(),

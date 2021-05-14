@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   CLI_USER_ACCOUNT_FEATURE,
   CLI_USER_FEATURE,
   CLI_USER_PROFILE_FEATURE,
@@ -45,6 +46,8 @@ export function addUserFeatures(options: SpartacusUserOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies),
+
       shouldAddFeature(CLI_USER_ACCOUNT_FEATURE, options.features)
         ? addAccountFeature(options)
         : noop(),

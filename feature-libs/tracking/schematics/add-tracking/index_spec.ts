@@ -23,8 +23,6 @@ import {
 } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const spartacusFeaturesModulePath =
-  'src/app/spartacus/spartacus-features.module.ts';
 const personalizationModulePath =
   'src/app/spartacus/features/tracking/personalization-feature.module.ts';
 const tagManagementModulePath =
@@ -60,7 +58,7 @@ describe('Spartacus Tracking schematics: ng-add', () => {
   const libraryNoFeaturesOptions: SpartacusTrackingOptions = {
     project: 'schematics-test',
     lazy: true,
-    features: [CLI_PERSONALIZATION_FEATURE],
+    features: [],
   };
 
   const personalizationFeatureOptions: SpartacusTrackingOptions = {

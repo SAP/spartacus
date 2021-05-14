@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   CLI_STOREFINDER_FEATURE,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
@@ -36,6 +37,8 @@ export function addStorefinderFeatures(
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies),
+
       shouldAddFeature(CLI_STOREFINDER_FEATURE, options.features)
         ? addStorefinderFeature(options)
         : noop(),

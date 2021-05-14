@@ -177,7 +177,11 @@ export function addLibraryFeature<T extends LibraryOptions>(
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
       config.dependencyManagement
-        ? addPackageJsonDependenciesForLibrary(config, options)
+        ? installRequiredSpartacusFeatures({
+            cliFeature: config.cliFeature,
+            dependencyManagement: config.dependencyManagement,
+            options,
+          })
         : noop(),
     ]);
   };
@@ -629,35 +633,46 @@ export function addPackageJsonDependencies(
   };
 }
 
-function addPackageJsonDependenciesForLibrary<OPTIONS extends LibraryOptions>(
-  config: FeatureConfig,
-  options: OPTIONS
+export function addPackageJsonDependenciesForLibrary(
+  dependencies: Record<string, string>
 ): Rule {
-  return (tree: Tree, context: SchematicContext): Rule => {
-    const dependencyManagement = config.dependencyManagement;
+  return (tree: Tree, _context: SchematicContext): Rule => {
+    const packageJson = readPackageJson(tree);
+    const spartacusLibraries = createSpartacusDependencies(dependencies);
+    const thirdPartyLibraries = createDependencies(dependencies);
+    const libraries = spartacusLibraries.concat(thirdPartyLibraries);
+    const dependencyRule = addPackageJsonDependencies(libraries, packageJson);
+
+    return chain([dependencyRule, installPackageJsonDependencies()]);
+  };
+}
+
+function installRequiredSpartacusFeatures<
+  OPTIONS extends LibraryOptions
+>(options: {
+  cliFeature: string;
+  dependencyManagement: DependencyManagement;
+  options: OPTIONS;
+}): Rule {
+  return (_tree: Tree, context: SchematicContext): Rule => {
+    const dependencyManagement = options.dependencyManagement;
     if (!dependencyManagement) {
       return noop();
     }
 
-    const packageJson = readPackageJson(tree);
     const spartacusLibraries = createSpartacusDependencies(
       dependencyManagement.dependencies
     );
-    const thirdPartyLibraries = createDependencies(
-      dependencyManagement.dependencies
-    );
-    const libraries = spartacusLibraries.concat(thirdPartyLibraries);
-    const dependencyRule = addPackageJsonDependencies(libraries, packageJson);
 
-    logFeatureInstallation(config.cliFeature, dependencyManagement, context);
+    logFeatureInstallation(options.cliFeature, dependencyManagement, context);
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
-      options,
+      options.options,
       spartacusLibraries.map((dependency) => dependency.name),
       dependencyManagement.cliFeatures
     );
     addSchematicsTasks(featureOptions, context);
 
-    return chain([dependencyRule, installPackageJsonDependencies()]);
+    return installPackageJsonDependencies();
   };
 }
 

@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   CLI_ASM_FEATURE,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
@@ -33,6 +34,8 @@ export function addAsmFeatures(options: SpartacusAsmOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies),
+
       shouldAddFeature(CLI_ASM_FEATURE, options.features)
         ? addAsmFeature(options)
         : noop(),

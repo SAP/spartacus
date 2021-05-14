@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   CLI_TRACKING_FEATURE,
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
@@ -41,6 +42,8 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies),
+
       shouldAddFeature(CLI_TMS_GTM_FEATURE, options.features)
         ? addGtm(options)
         : noop(),

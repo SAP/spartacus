@@ -7,6 +7,7 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   CLI_PRODUCT_CONFIGURATOR_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusProductConfiguratorOptions,
@@ -48,6 +49,8 @@ export function addProductConfiguratorFeatures(
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies),
+
       addProductConfiguratorRulebasedFeature(options),
 
       shouldAddFeature(CLI_CPQ_FEATURE, options.features)
