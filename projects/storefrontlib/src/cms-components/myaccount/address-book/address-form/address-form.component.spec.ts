@@ -42,8 +42,6 @@ class MockUserAddressService {
   getAddresses(): Observable<Address[]> {
     return of([]);
   }
-
-  clearAddressVerificationResults = createSpy();
   verifyAddress(): Observable<AddressValidation> {
     return of({});
   }

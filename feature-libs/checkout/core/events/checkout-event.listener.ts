@@ -1,11 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import { EventService, UserAddressChangeEvent } from '@spartacus/core';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CheckoutEventListener {
+export class CheckoutEventListener implements OnDestroy {
+  protected subscription = new Subscription();
+
   constructor(
     protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
     protected eventService: EventService
@@ -13,10 +16,15 @@ export class CheckoutEventListener {
     this.onUserAddressChange();
   }
 
-  onUserAddressChange() {
-    this.eventService.get(UserAddressChangeEvent).subscribe((_event) => {
-      console.log('CheckoutEventListener UserAddressChangeEvent recieved.');
-      this.checkoutDeliveryFacade.clearCheckoutDeliveryDetails();
-    });
+  protected onUserAddressChange() {
+    this.subscription.add(
+      this.eventService.get(UserAddressChangeEvent).subscribe((_event) => {
+        this.checkoutDeliveryFacade.clearCheckoutDeliveryDetails();
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription?.unsubscribe();
   }
 }
