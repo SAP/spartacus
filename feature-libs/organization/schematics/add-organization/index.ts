@@ -8,7 +8,9 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_FEATURE,
+  CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusOrganizationOptions,
   readPackageJson,
@@ -20,8 +22,6 @@ import { peerDependencies } from '../../package.json';
 import {
   ADMINISTRATION_MODULE,
   ADMINISTRATION_ROOT_MODULE,
-  CLI_ADMINISTRATION_FEATURE,
-  CLI_ORDER_APPROVAL_FEATURE,
   ORDER_APPROVAL_MODULE,
   ORDER_APPROVAL_ROOT_MODULE,
   ORDER_APPROVAL_TRANSLATIONS,
@@ -52,14 +52,20 @@ export function addSpartacusOrganization(
     return chain([
       addPackageJsonDependenciesForLibrary(peerDependencies),
 
-      shouldAddFeature(CLI_ADMINISTRATION_FEATURE, options.features)
+      shouldAddFeature(
+        CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
+        options.features
+      )
         ? chain([
             addAdministrationFeature(options),
             configureB2bFeatures(options, packageJson),
           ])
         : noop(),
 
-      shouldAddFeature(CLI_ORDER_APPROVAL_FEATURE, options.features)
+      shouldAddFeature(
+        CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
+        options.features
+      )
         ? chain([
             addOrderApprovalsFeature(options),
             configureB2bFeatures(options, packageJson),

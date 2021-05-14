@@ -9,6 +9,9 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CLI_TRACKING_FEATURE,
+  CLI_TRACKING_PERSONALIZATION_FEATURE,
+  CLI_TRACKING_TMS_AEP_FEATURE,
+  CLI_TRACKING_TMS_GTM_FEATURE,
   LibraryOptions as SpartacusTrackingOptions,
   readPackageJson,
   shouldAddFeature,
@@ -16,9 +19,6 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
-  CLI_PERSONALIZATION_FEATURE,
-  CLI_TMS_AEP_FEATURE,
-  CLI_TMS_GTM_FEATURE,
   PERSONALIZATION_FEATURE_NAME_CONSTANT,
   PERSONALIZATION_MODULE,
   PERSONALIZATION_MODULE_NAME,
@@ -44,15 +44,15 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
     return chain([
       addPackageJsonDependenciesForLibrary(peerDependencies),
 
-      shouldAddFeature(CLI_TMS_GTM_FEATURE, options.features)
+      shouldAddFeature(CLI_TRACKING_TMS_GTM_FEATURE, options.features)
         ? addGtm(options)
         : noop(),
 
-      shouldAddFeature(CLI_TMS_AEP_FEATURE, options.features)
+      shouldAddFeature(CLI_TRACKING_TMS_AEP_FEATURE, options.features)
         ? addAep(options)
         : noop(),
 
-      shouldAddFeature(CLI_PERSONALIZATION_FEATURE, options.features)
+      shouldAddFeature(CLI_TRACKING_PERSONALIZATION_FEATURE, options.features)
         ? addPersonalizationFeature(options)
         : noop(),
     ]);
