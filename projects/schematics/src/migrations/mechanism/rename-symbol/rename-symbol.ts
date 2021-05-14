@@ -49,10 +49,10 @@ export function migrateRenamedSymbols(
               } as ImportDeclarationStructure);
 
               if ((id.getImportClause()?.getNamedImports()?.length || 0) > 1) {
-                console.log('1');
+                console.log('11111');
                 namedImport.remove();
               } else {
-                console.log('2');
+                console.log('22222');
                 id.remove();
               }
             }
@@ -60,7 +60,10 @@ export function migrateRenamedSymbols(
       });
 
       if (importDeclarationStructures.length) {
-        console.log('importDeclarationStructures', importDeclarationStructures);
+        console.log(
+          'importDeclarationStructures',
+          JSON.stringify(importDeclarationStructures)
+        );
 
         sourceFile.addImportDeclarations(importDeclarationStructures);
         sourceFile.organizeImports();

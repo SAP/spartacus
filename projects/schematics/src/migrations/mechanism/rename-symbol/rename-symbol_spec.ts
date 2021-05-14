@@ -12,21 +12,32 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v4-rename-symbol-01';
 
-const fileWithSimpleImport = `import { OtherComponent1 } from "@spartacus/storefront";
-const array = [OtherComponent1];`;
+// const fileWithSimpleImport = `import { OtherComponent1 } from "@spartacus/storefront";
+// const array = [test];`;
 
-const expectFileWithSimpleImport = `import { OtherComponent1 } from "@spartacus/storefinder/components";
+// const expectFileWithSimpleImport = `import { OtherComponent1 } from "@spartacus/storefinder/components";
 
-const array = [OtherComponent1];`;
+// const array = [test];`;
+
+// -----------------------------------------------------------------------
+
+const fileWithSimpleImportWithAlias = `import { OtherComponent1 as Test } from "@spartacus/storefront";
+const array = [test];`;
+
+const expectFileWithSimpleImportWithAlias = `import { OtherComponent1 as Test } from "@spartacus/storefinder/components";
+
+const array = [test];`;
 
 // -----------------------------------------------------------------------
 
 // const fileWithSimpleImportAndRename = `
 // import { OtherComponent2 } from "@spartacus/storefront";
+// const array = [test];
 // `;
 
 // const expectFileWithSimpleImportAndRename = `
 // import { OtherComponentTest2 } from "@spartacus/storefinder/components";
+// const array = [test];
 // `;
 
 // -----------------------------------------------------------------------
@@ -34,7 +45,7 @@ const array = [OtherComponent1];`;
 // const fileWithComplexImport = `import { OtherComponent3 as Test} from "@spartacus/storefront";
 // const array = [OtherComponent3];`;
 
-// const fileWithComplexImportAndRename = `import { OtherComponent4 as Test} from "@spartacus/storefront";export Test {
+// const fileWithComplexImportAndRename = `import { OtherComponent4 as Test} from "@spartacus/storefront";
 // const array = [OtherComponent4];`;
 
 describe('renamed symbols', () => {
@@ -91,17 +102,30 @@ describe('renamed symbols', () => {
   });
 
   describe('Previous import', () => {
-    it('should became new import', async () => {
-      writeFile(host, '/src/index.ts', fileWithSimpleImport);
+    // it('should became new import', async () => {
+    //   writeFile(host, '/src/index.ts', fileWithSimpleImport);
+
+    //   await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+    //   const content = appTree.readContent('/src/index.ts');
+
+    //   console.log(content);
+    //   console.log(expectFileWithSimpleImport);
+
+    //   expect(content).toEqual(expectFileWithSimpleImport);
+    // });
+
+    it('should became new import with aliases', async () => {
+      writeFile(host, '/src/index.ts', fileWithSimpleImportWithAlias);
 
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
 
       console.log(content);
-      console.log(expectFileWithSimpleImport);
+      console.log(expectFileWithSimpleImportWithAlias);
 
-      expect(content).toEqual(expectFileWithSimpleImport);
+      expect(content).toEqual(expectFileWithSimpleImportWithAlias);
     });
 
     // it('should became new import and new name', async () => {
@@ -115,7 +139,6 @@ describe('renamed symbols', () => {
     //   console.log(expectFileWithSimpleImportAndRename);
 
     //   expect(content).toEqual(expectFileWithSimpleImportAndRename);
-    //   // expect(content).toMatchSnapshot();
     // });
   });
 });
