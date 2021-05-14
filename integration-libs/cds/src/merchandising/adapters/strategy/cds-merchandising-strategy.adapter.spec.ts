@@ -154,7 +154,7 @@ describe('MerchandisingStrategyAdapter', () => {
         mockStrategyProductsRequest.request.headers.get('consent-reference')
       ).toBeFalsy();
 
-      expect(cdsEndpointsService.buildUrl).toHaveBeenCalledWith(
+      expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
         strategyIdObject,
         strategyRequest.queryParams
