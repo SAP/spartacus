@@ -63,7 +63,7 @@ export class OccFieldsService {
 
     const mergedUrls: OccOptimimalUrlGroups = {};
     for (const [url, group] of Object.entries(groupedByUrls)) {
-      const urlWithFields = this.buildUrlWithFields(
+      const urlWithFields = this.getUrlWithFields(
         url,
         Object.values(group).map((lo) => lo.fields)
       );
@@ -113,7 +113,7 @@ export class OccFieldsService {
    * @param url
    * @param fields
    */
-  private buildUrlWithFields(url: string, fields: (string | object)[]): string {
+  private getUrlWithFields(url: string, fields: (string | object)[]): string {
     const mergedFields = mergeFields(fields);
 
     if (mergedFields) {

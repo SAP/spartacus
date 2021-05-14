@@ -86,7 +86,7 @@ export class RoutingService {
    *
    * The absolute url can be resolved using `getFullUrl()`.
    */
-  buildUrl(commands: UrlCommands, extras?: NavigationExtras): string {
+  getUrl(commands: UrlCommands, extras?: NavigationExtras): string {
     // TODO(#10467): Remove the warning as soon as the router becomes mandatory
     if (!this.router) {
       console.warn('No router injected to create the url tree');
@@ -110,7 +110,7 @@ export class RoutingService {
    * The absolute url uses the origin of the current location.
    */
   getFullUrl(commands: UrlCommands, extras?: NavigationExtras) {
-    return `${this.winRef.document.location.origin}${this.buildUrl(
+    return `${this.winRef.document.location.origin}${this.getUrl(
       commands,
       extras
     )}`;

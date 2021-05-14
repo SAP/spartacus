@@ -5,7 +5,9 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
 import {
+  BaseOccUrlProperties,
   ConverterService,
+  DynamicAttributes,
   GeoPoint,
   Occ,
   OccEndpointsService,
@@ -37,7 +39,11 @@ const mockRadius = 50000;
 const storeId = 'test';
 
 class MockOccEndpointsService {
-  buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    attributes?: DynamicAttributes,
+    propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {

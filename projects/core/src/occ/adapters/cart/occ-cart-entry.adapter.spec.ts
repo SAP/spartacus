@@ -6,7 +6,11 @@ import { TestBed } from '@angular/core/testing';
 import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
 import { Cart, CartModification } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
-import { OccEndpointsService } from '../../services';
+import {
+  BaseOccUrlProperties,
+  DynamicAttributes,
+  OccEndpointsService,
+} from '../../services';
 import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
 
 const userId = '123';
@@ -20,7 +24,11 @@ const cartModified: CartModification = {
 };
 
 class MockOccEndpointsService {
-  buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    attributes?: DynamicAttributes,
+    propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {

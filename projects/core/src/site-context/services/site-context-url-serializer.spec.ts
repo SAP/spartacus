@@ -8,7 +8,7 @@ import {
 
 describe('SiteContextUrlSerializer', () => {
   const mockSiteContextParamsService = {
-    buildUrlEncodingParameters: () => ['language', 'currency'],
+    getUrlEncodingParameters: () => ['language', 'currency'],
     getParamValues: (param) =>
       ({ language: ['en', 'de'], currency: ['usd', 'pln'] }[param]),
     getValue: (param) => ({ language: 'de', currency: 'usd' }[param]),

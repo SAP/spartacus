@@ -45,7 +45,7 @@ const strategyRequestUndefinedConsentReference = {
 };
 
 class MockCdsEndpointsService {
-  buildUrl = createSpy('MockCdsEndpointsService.buildUrl').and.callFake(
+  getUrl = createSpy('MockCdsEndpointsService.getUrl').and.callFake(
     (endpoint) => endpoint
   );
 }
@@ -121,7 +121,7 @@ describe('MerchandisingStrategyAdapter', () => {
         );
       });
 
-      expect(cdsEndpointsService.buildUrl).toHaveBeenCalledWith(
+      expect(cdsEndpointsService.getUrl).toHaveBeenCalledWith(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
         strategyIdObject,
         strategyRequest.queryParams

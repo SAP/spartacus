@@ -4,7 +4,9 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
+  BaseOccUrlProperties,
   ConverterService,
+  DynamicAttributes,
   Occ,
   OccConfig,
   OccEndpointsService,
@@ -32,8 +34,12 @@ export const mockOccModuleConfig: OccConfig = {
 };
 
 export class MockOccEndpointsService {
-  buildUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
-    return this.getEndpoint(endpointKey);
+  buildUrl(
+    endpoint: string,
+    attributes?: DynamicAttributes,
+    propertiesToOmit?: BaseOccUrlProperties
+  ) {
+    return this.getEndpoint(endpoint);
   }
   getEndpoint(endpoint: string) {
     if (!endpoint.startsWith('/')) {

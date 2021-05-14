@@ -69,7 +69,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
               `Missing step with route '${currentRouteUrl}' in checkout configuration or this step is disabled.`
             );
           }
-          return of(this.buildUrl('checkout'));
+          return of(this.getUrl('checkout'));
         }
       })
     );
@@ -109,7 +109,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
         if (Boolean(paymentType)) {
           return true;
         } else {
-          return this.buildUrl(step.routeName);
+          return this.getUrl(step.routeName);
         }
       })
     );
@@ -132,7 +132,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
           ) {
             return true;
           } else {
-            return this.buildUrl(step.routeName);
+            return this.getUrl(step.routeName);
           }
         } else {
           if (
@@ -142,7 +142,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
           ) {
             return true;
           } else {
-            return this.buildUrl(step.routeName);
+            return this.getUrl(step.routeName);
           }
         }
       })
@@ -156,7 +156,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
       .getSelectedDeliveryModeCode()
       .pipe(
         map((mode: string) =>
-          mode && mode.length ? true : this.buildUrl(step.routeName)
+          mode && mode.length ? true : this.getUrl(step.routeName)
         )
       );
   }
@@ -170,12 +170,12 @@ export class CheckoutStepsSetGuard implements CanActivate {
         map((paymentDetails) =>
           paymentDetails && Object.keys(paymentDetails).length !== 0
             ? true
-            : this.buildUrl(step.routeName)
+            : this.getUrl(step.routeName)
         )
       );
   }
 
-  private buildUrl(routeName: string): UrlTree {
+  private getUrl(routeName: string): UrlTree {
     return this.router.parseUrl(
       this.routingConfigService.getRouteConfig(routeName).paths[0]
     );

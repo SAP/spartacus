@@ -5,8 +5,10 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  BaseOccUrlProperties,
   CART_MODIFICATION_NORMALIZER,
   ConverterService,
+  DynamicAttributes,
   OccEndpointsService,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -15,7 +17,11 @@ import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../core/connectors/converter
 import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';
 
 class MockOccEndpointsService {
-  buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    attributes?: DynamicAttributes,
+    propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {

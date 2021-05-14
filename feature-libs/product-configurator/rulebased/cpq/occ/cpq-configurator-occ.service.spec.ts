@@ -5,9 +5,11 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  BaseOccUrlProperties,
   CartModification,
   CART_MODIFICATION_NORMALIZER,
   ConverterService,
+  DynamicAttributes,
   OccEndpointsService,
 } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -69,7 +71,11 @@ describe('CpqConfigurationOccService', () => {
   };
 
   class MockOccEndpointsService {
-    buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+    buildUrl(
+      endpoint: string,
+      attributes?: DynamicAttributes,
+      propertiesToOmit?: BaseOccUrlProperties
+    ) {
       return this.getEndpoint(endpoint);
     }
     getEndpoint(url: string) {

@@ -9,7 +9,7 @@ import { DynamicTemplate } from '../utils/dynamic-template';
 export class CdsEndpointsService {
   constructor(private cdsConfig: CdsConfig) {}
 
-  buildUrl(
+  getUrl(
     endpoint: string,
     urlParams: object = {},
     queryParams?: object

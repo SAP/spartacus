@@ -17,7 +17,7 @@ export class ForbiddenHandler extends HttpErrorHandler {
     if (
       request.url.endsWith(
         this.occEndpoints.buildUrl('user', {
-          queryParams: { userId: 'current' },
+          urlParams: { userId: 'current' },
         })
       )
     ) {

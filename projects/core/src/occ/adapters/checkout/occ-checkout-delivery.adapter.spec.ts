@@ -12,7 +12,11 @@ import {
 } from '../../../user/connectors/address/converters';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
-import { OccEndpointsService } from '../../services';
+import {
+  BaseOccUrlProperties,
+  DynamicAttributes,
+  OccEndpointsService,
+} from '../../services';
 import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
 
 const userId = '123';
@@ -26,7 +30,11 @@ const usersEndpoint = 'users';
 const cartsEndpoint = '/carts/';
 
 class MockOccEndpointsService {
-  buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    attributes?: DynamicAttributes,
+    propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {

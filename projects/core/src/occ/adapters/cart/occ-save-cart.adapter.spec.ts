@@ -4,7 +4,11 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Occ } from '../../occ-models';
-import { OccEndpointsService } from '../../services';
+import {
+  BaseOccUrlProperties,
+  DynamicAttributes,
+  OccEndpointsService,
+} from '../../services';
 import { OccSaveCartAdapter } from './occ-save-cart.adapter';
 
 const userId = '123';
@@ -20,7 +24,11 @@ const saveCartData: Occ.SaveCartResult = {
 };
 
 class MockOccEndpointsService {
-  buildUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    attributes?: DynamicAttributes,
+    propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return endpoint;
   }
 }

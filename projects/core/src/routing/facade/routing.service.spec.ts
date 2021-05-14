@@ -85,10 +85,10 @@ describe('RoutingService', () => {
     });
   });
 
-  describe('buildUrl', () => {
+  describe('getUrl', () => {
     it('should resolve the relative url from the urlCommands', () => {
       spyOn(urlService, 'transform').and.returnValue(['product', '123']);
-      const url = service.buildUrl({
+      const url = service.getUrl({
         cxRoute: 'product',
         params: { code: '123' },
       });
@@ -102,7 +102,7 @@ describe('RoutingService', () => {
       ]);
 
       const queryParams = { sortBy: 'price-desc' };
-      const url = service.buildUrl(
+      const url = service.getUrl(
         { cxRoute: 'category', params: { code: 'SLR_CAMERAS' } },
         { queryParams }
       );

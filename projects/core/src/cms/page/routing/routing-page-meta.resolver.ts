@@ -70,7 +70,7 @@ export class RoutingPageMetaResolver {
 
         const resolver = this.getResolver(route) ?? parent.resolver; // fallback to parent's resolver
 
-        const urlPart = this.buildUrlPart(route);
+        const urlPart = this.getUrlPart(route);
         const url = parent.url + (urlPart ? `/${urlPart}` : ''); // don't add slash for a route with path '', to avoid double slash ...//...
 
         return results.concat({ route, resolver, url });
@@ -171,7 +171,7 @@ export class RoutingPageMetaResolver {
    * Returns the URL path for the given activated route in a string format.
    * (ActivatedRouteSnapshot#url contains an array of `UrlSegment`s, not a string)
    */
-  private buildUrlPart(route: ActivatedRouteSnapshot): string {
+  private getUrlPart(route: ActivatedRouteSnapshot): string {
     return route.url.map((urlSegment) => urlSegment.path).join('/');
   }
 

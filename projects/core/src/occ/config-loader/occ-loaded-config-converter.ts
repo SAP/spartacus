@@ -51,7 +51,7 @@ export class OccLoadedConfigConverter {
         baseStore.currencies,
         baseStore.defaultCurrency
       ),
-      urlParameters: this.buildUrlParams(baseSite.urlEncodingAttributes),
+      urlParameters: this.getUrlParams(baseSite.urlEncodingAttributes),
       theme: baseSite.theme,
     };
   }
@@ -96,7 +96,7 @@ export class OccLoadedConfigConverter {
    *
    * It maps the string "storefront" (used in OCC) to the "baseSite" (used in Spartacus)
    */
-  private buildUrlParams(params: string[]): string[] {
+  private getUrlParams(params: string[]): string[] {
     const STOREFRONT_PARAM = 'storefront';
 
     return (params || []).map((param) =>

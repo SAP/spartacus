@@ -28,7 +28,7 @@ export class CdsMerchandisingStrategyAdapter
       );
     }
     return this.http.get(
-      this.cdsEndpointsService.buildUrl(
+      this.cdsEndpointsService.getUrl(
         STRATEGY_PRODUCTS_ENDPOINT_KEY,
         {
           strategyId,
