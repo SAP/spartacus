@@ -76,19 +76,13 @@ export const areGroupsVisited = (
   groupIds: string[]
 ): MemoizedSelector<StateWithConfigurator, boolean> => {
   return createSelector(getConfigurationFactory(ownerKey), (configuration) => {
-    let isVisited = true;
-    groupIds.forEach((groupId) => {
-      if (!isVisited) {
-        return;
-      }
-
-      isVisited =
-        configuration?.interactionState?.groupsVisited[groupId] || undefined;
-      if (isVisited === undefined) {
-        isVisited = false;
-      }
-    });
-
-    return isVisited;
+    return (
+      groupIds
+        .map((id) => {
+          const groupsVisited = configuration?.interactionState?.groupsVisited;
+          return groupsVisited ? groupsVisited[id] : false;
+        })
+        .filter((visited) => !visited).length === 0
+    );
   });
 };

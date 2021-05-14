@@ -375,6 +375,7 @@ describe('ConfiguratorEffect', () => {
         c: updatePrices,
         d: changeGroup,
       });
+      console.log('CHHI test start');
       expect(configEffects.updateConfigurationSuccess$).toBeObservable(
         expected
       );

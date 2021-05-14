@@ -12,6 +12,7 @@ import {
   switchMap,
   switchMapTo,
   take,
+  tap,
 } from 'rxjs/operators';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorGroupStatusService } from '../../facade/configurator-group-status.service';
@@ -195,11 +196,14 @@ export class ConfiguratorBasicEffects {
       return this.store.pipe(
         select(ConfiguratorSelectors.hasPendingChanges(payload.owner.key)),
         take(1),
+        tap((v) => console.log('CHHI 1' + v)),
         filter((hasPendingChanges) => hasPendingChanges === false),
+        tap((v) => console.log('CHHI 2' + v)),
         switchMapTo(
           this.store.pipe(
             select(ConfiguratorSelectors.getCurrentGroup(payload.owner.key)),
             take(1),
+            tap((v) => console.log('CHHI 3' + v)),
             map((currentGroupId) => {
               const groupIdFromPayload = this.getGroupWithAttributes(
                 payload.groups
