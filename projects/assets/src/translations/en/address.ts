@@ -11,7 +11,7 @@ export const address = {
     },
     address1: 'Address 1',
     address2: 'Address 2 (optional)',
-    country: 'Country',
+    country: 'Country/Region',
     city: {
       label: 'City',
       placeholder: 'City',
