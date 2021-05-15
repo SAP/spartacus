@@ -15,6 +15,7 @@ export * from './src/i18n/index';
 export * from './src/model/index';
 export * from './src/cost-center/index';
 export * from './src/occ/index';
+export * from './src/personalization/index';
 export * from './src/process/index';
 export * from './src/product/index';
 export * from './src/routing/index';
