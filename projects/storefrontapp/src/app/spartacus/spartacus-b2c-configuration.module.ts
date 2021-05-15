@@ -13,7 +13,7 @@ import {
     provideConfig(mediaConfig),
     ...defaultCmsContentProviders,
     provideConfig(<SiteContextConfig>{
-      /*context: {
+      context: {
         urlParameters: ['baseSite', 'language', 'currency'],
         baseSite: [
           'electronics-spa',
@@ -22,7 +22,7 @@ import {
           'apparel-uk',
           'apparel-uk-spa',
         ],
-      },*/
+      },
     }),
     provideConfig(<PWAModuleConfig>{
       pwa: {
