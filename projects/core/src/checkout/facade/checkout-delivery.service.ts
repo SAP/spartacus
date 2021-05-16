@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -26,7 +27,7 @@ import {
 import { CheckoutSelectors } from '../store/selectors/index';
 
 /**
- * @deprecated since 4.0, use checkout feature lib instead. Remplaced by CheckoutDeliveryFacade from '@spartacus/checkout/root'.
+ * @deprecated since 4.0, use checkout feature lib instead. Replaced by CheckoutDeliveryFacade from '@spartacus/checkout/root'.  For address verification, use UserAddressSerrvice.verify from @spartacus/core.
  */
 @Injectable({
   providedIn: 'root',
@@ -153,6 +154,7 @@ export class CheckoutDeliveryService {
 
   /**
    * Get address verification results
+   * @deprecated since 4.0, Use instead UserAddressSerrvice.verify from @spartacus/core which returns the result directly.
    */
   getAddressVerificationResults(): Observable<AddressValidation | string> {
     return this.checkoutStore.pipe(
@@ -249,6 +251,7 @@ export class CheckoutDeliveryService {
   /**
    * Verifies the address
    * @param address : the address to be verified
+   * @deprecated since 4.0, Use instead UserAddressSerrvice.verify from @spartacus/core
    */
   verifyAddress(address: Address): void {
     if (this.actionAllowed()) {
@@ -299,6 +302,7 @@ export class CheckoutDeliveryService {
 
   /**
    * Clear address verification results
+   * @deprecated since 4.0, Use instead UserAddressSerrvice.verify from @spartacus/core which does not need to be cleared.
    */
   clearAddressVerificationResults(): void {
     this.checkoutStore.dispatch(
