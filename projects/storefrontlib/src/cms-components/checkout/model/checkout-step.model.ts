@@ -1,3 +1,6 @@
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export enum CheckoutStepType {
   SHIPPING_ADDRESS = 'shippingAddress',
   DELIVERY_MODE = 'deliveryMode',

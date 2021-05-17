@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ModuleWithProviders, NgModule } from '@angular/core';
+import { defaultB2bCheckoutConfig } from '@spartacus/checkout/root';
 import {
   CostCenterModule,
   provideConfig,
@@ -13,7 +14,6 @@ import {
   StorefrontConfig,
   StorefrontModule,
 } from '@spartacus/storefront';
-import { defaultB2bCheckoutConfig } from './config/default-b2b-checkout-config';
 import { defaultB2bOccConfig } from './config/default-b2b-occ-config';
 
 @NgModule({

@@ -1,7 +1,10 @@
-import { CheckoutStep } from '../model/checkout-step.model';
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+import { CheckoutStep } from '../model/checkout-step.model';
 
+/**
+ * @deprecated since 4.0, use checkout feature lib instead.
+ */
 export enum DeliveryModePreferences {
   FREE = 'FREE',
   LEAST_EXPENSIVE = 'LEAST_EXPENSIVE', // but not free

@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
+import { defaultB2bCheckoutConfig } from '@spartacus/checkout/root';
 import { provideConfig, SiteContextConfig } from '@spartacus/core';
-import {
-  defaultB2bCheckoutConfig,
-  defaultB2bOccConfig,
-} from '@spartacus/setup';
+import { defaultB2bOccConfig } from '@spartacus/setup';
 import {
   defaultCmsContentProviders,
   layoutConfig,

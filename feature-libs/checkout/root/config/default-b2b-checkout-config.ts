@@ -1,12 +1,6 @@
-import {
-  CheckoutConfig,
-  CheckoutStepType,
-  DeliveryModePreferences,
-} from '@spartacus/storefront';
+import { CheckoutStepType } from '../model/checkout-step.model';
+import { CheckoutConfig, DeliveryModePreferences } from './checkout-config';
 
-/**
- * @deprecated since 4.0, use checkout feature lib instead.
- */
 export const defaultB2bCheckoutConfig: CheckoutConfig = {
   checkout: {
     steps: [
