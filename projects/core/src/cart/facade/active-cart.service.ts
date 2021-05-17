@@ -43,11 +43,11 @@ import { MultiCartService } from './multi-cart.service';
   providedIn: 'root',
 })
 export class ActiveCartService implements OnDestroy {
-  private activeCart$: Observable<Cart>;
+  protected activeCart$: Observable<Cart>;
   protected subscription = new Subscription();
 
   // This stream is used for referencing carts in API calls.
-  private activeCartId$ = this.userIdService.getUserId().pipe(
+  protected activeCartId$ = this.userIdService.getUserId().pipe(
     // We want to wait with initialization of cartId until we have userId initialized
     // We have take(1) to not trigger this stream, when userId changes.
     take(1),
@@ -64,7 +64,8 @@ export class ActiveCartService implements OnDestroy {
     })
   );
 
-  private cartSelector$ = this.activeCartId$.pipe(
+  // Stream with active cart entity
+  protected cartSelector$ = this.activeCartId$.pipe(
     switchMap((cartId) => this.multiCartService.getCartEntity(cartId))
   );
 
@@ -220,14 +221,15 @@ export class ActiveCartService implements OnDestroy {
     );
   }
 
-  private loadOrMerge(
+  /**
+   * Loads cart or upon login, whenever there's an existing cart, merge it into the current user cart
+   * cartId will be defined (not '', null, undefined)
+   */
+  protected loadOrMerge(
     cartId: string,
     userId: string,
     previousUserId: string
   ): void {
-    // for login user, whenever there's an existing cart, we will load the user
-    // current cart and merge it into the existing cart
-    // cartId will be defined (not '', null, undefined)
     if (cartId === OCC_CART_ID_CURRENT) {
       this.multiCartService.loadCart({
         userId,
@@ -264,8 +266,10 @@ export class ActiveCartService implements OnDestroy {
     }
   }
 
-  private load(cartId: string, userId: string): void {
-    // We want to load cart in every case apart from anonymous user and current cart combination
+  /**
+   * Loads cart in every case apart from anonymous user and current cart combination
+   */
+  protected load(cartId: string, userId: string): void {
     if (!(userId === OCC_USER_ID_ANONYMOUS && cartId === OCC_CART_ID_CURRENT)) {
       this.multiCartService.loadCart({
         userId,
@@ -277,7 +281,10 @@ export class ActiveCartService implements OnDestroy {
     }
   }
 
-  private addEntriesGuestMerge(cartEntries: OrderEntry[]) {
+  /**
+   * Adds entries from guest cart to user cart
+   */
+  protected addEntriesGuestMerge(cartEntries: OrderEntry[]) {
     const entriesToAdd = cartEntries.map((entry) => ({
       productCode: entry.product.code,
       quantity: entry.quantity,
@@ -293,13 +300,17 @@ export class ActiveCartService implements OnDestroy {
       });
   }
 
-  private requireLoadedCartForGuestMerge() {
+  /**
+   * Helper method for requiring loaded cart that is not a guest cart (guest cart is filtered out).
+   * Used when merging guest cart with user cart.
+   */
+  protected requireLoadedCartForGuestMerge() {
     return this.requireLoadedCart(
       this.cartSelector$.pipe(filter(() => !this.isGuestCart()))
     );
   }
 
-  private isCartCreating(
+  protected isCartCreating(
     cartState: ProcessesLoaderState<Cart>,
     cartId: string
   ) {
@@ -487,7 +498,10 @@ export class ActiveCartService implements OnDestroy {
     });
   }
 
-  private isEmail(str: string): boolean {
+  /**
+   * Indicates if given string is matching email pattern
+   */
+  protected isEmail(str: string): boolean {
     if (str) {
       return str.match(EMAIL_PATTERN) ? true : false;
     }
@@ -499,7 +513,7 @@ export class ActiveCartService implements OnDestroy {
    * Temporary method to merge guest cart with user cart because of backend limitation
    * This is for an edge case
    */
-  private guestCartMerge(cartId: string): void {
+  protected guestCartMerge(cartId: string): void {
     let cartEntries: OrderEntry[];
     this.getEntries()
       .pipe(take(1))
@@ -510,13 +524,20 @@ export class ActiveCartService implements OnDestroy {
       });
   }
 
-  private isEmpty(cart: Cart): boolean {
+  /**
+   * Indicates if given cart is empty.
+   * Returns true is cart is undefined, null or is an empty object.
+   */
+  protected isEmpty(cart: Cart): boolean {
     return (
       !cart || (typeof cart === 'object' && Object.keys(cart).length === 0)
     );
   }
 
-  private isJustLoggedIn(userId: string, previousUserId: string): boolean {
+  /**
+   * Indicates if a given user is logged in on account different than preceding user account
+   */
+  protected isJustLoggedIn(userId: string, previousUserId: string): boolean {
     return (
       userId !== OCC_USER_ID_ANONYMOUS && // not logged out
       previousUserId !== userId // *just* logged in / switched to ASM emulation
