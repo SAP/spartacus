@@ -42,14 +42,6 @@ export class CartAddEntryFailEvent extends CartEvent {
   quantity: number;
 }
 
-export class CartRemoveEntryFailEvent extends CartEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CartRemoveEntryFailEvent';
-  entry: OrderEntry;
-}
-
 export class CartRemoveEntrySuccessEvent extends CartEvent {
   /**
    * Event's type
@@ -63,15 +55,6 @@ export class CartUpdateEntrySuccessEvent extends CartEvent {
    * Event's type
    */
   static readonly type = 'CartUpdateEntrySuccessEvent';
-  quantity: number;
-  entry: OrderEntry;
-}
-
-export class CartUpdateEntryFailEvent extends CartEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CartUpdateEntryFailEvent';
   quantity: number;
   entry: OrderEntry;
 }
