@@ -59,7 +59,7 @@ describe('ForbiddenHandler', () => {
     service.handleError({ url: '/user' });
 
     expect(occEndpoints.buildUrl).toHaveBeenCalledWith('user', {
-      queryParams: { userId: 'current' },
+      urlParams: { userId: 'current' },
     });
     expect(authService.logout).toHaveBeenCalledWith();
   });
