@@ -155,14 +155,16 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
 
   private getParamsForPaymentProvider(
     paymentDetails: PaymentDetails,
-    parameters: { key; value }[],
-    mappingLabels: any
+    parameters: { key: string; value: string }[],
+    mappingLabels: { [key: string]: string }
   ) {
     const params = this.convertToMap(parameters);
     params[mappingLabels['hybris_account_holder_name']] =
-      paymentDetails.accountHolderName;
-    params[mappingLabels['hybris_card_type']] = paymentDetails.cardType.code;
-    params[mappingLabels['hybris_card_number']] = paymentDetails.cardNumber;
+      paymentDetails.accountHolderName ?? '';
+    params[mappingLabels['hybris_card_type']] =
+      paymentDetails.cardType?.code ?? '';
+    params[mappingLabels['hybris_card_number']] =
+      paymentDetails.cardNumber ?? '';
     if (mappingLabels['hybris_combined_expiry_date'] === 'true') {
       params[mappingLabels['hybris_card_expiry_date']] =
         paymentDetails.expiryMonth +
@@ -170,42 +172,44 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         paymentDetails.expiryYear;
     } else {
       params[mappingLabels['hybris_card_expiration_month']] =
-        paymentDetails.expiryMonth;
+        paymentDetails.expiryMonth ?? '';
       params[mappingLabels['hybris_card_expiration_year']] =
-        paymentDetails.expiryYear;
+        paymentDetails.expiryYear ?? '';
     }
-    params[mappingLabels['hybris_card_cvn']] = paymentDetails.cvn;
+    params[mappingLabels['hybris_card_cvn']] = paymentDetails.cvn ?? '';
 
     // billing address
     params[mappingLabels['hybris_billTo_country']] =
-      paymentDetails.billingAddress.country.isocode;
+      paymentDetails.billingAddress?.country?.isocode ?? '';
     params[mappingLabels['hybris_billTo_firstname']] =
-      paymentDetails.billingAddress.firstName;
+      paymentDetails.billingAddress?.firstName ?? '';
     params[mappingLabels['hybris_billTo_lastname']] =
-      paymentDetails.billingAddress.lastName;
+      paymentDetails.billingAddress?.lastName ?? '';
     params[mappingLabels['hybris_billTo_street1']] =
-      paymentDetails.billingAddress.line1 +
+      paymentDetails.billingAddress?.line1 +
       ' ' +
-      paymentDetails.billingAddress.line2;
+      paymentDetails.billingAddress?.line2;
     params[mappingLabels['hybris_billTo_city']] =
-      paymentDetails.billingAddress.town;
-    if (paymentDetails.billingAddress.region) {
+      paymentDetails.billingAddress?.town ?? '';
+    if (paymentDetails.billingAddress?.region) {
       params[mappingLabels['hybris_billTo_region']] =
-        paymentDetails.billingAddress.region.isocodeShort;
+        paymentDetails.billingAddress.region.isocodeShort ?? '';
     } else {
       params[mappingLabels['hybris_billTo_region']] = '';
     }
     params[mappingLabels['hybris_billTo_postalcode']] =
-      paymentDetails.billingAddress.postalCode;
+      paymentDetails.billingAddress?.postalCode ?? '';
     return params;
   }
 
-  private extractPaymentDetailsFromHtml(html: string): any {
+  private extractPaymentDetailsFromHtml(
+    html: string
+  ): { [key: string]: string | boolean } {
     const domdoc = this.domparser.parseFromString(html, 'text/xml');
     const responseForm = domdoc.getElementsByTagName('form')[0];
     const inputs = responseForm.getElementsByTagName('input');
 
-    const values = {};
+    const values: { [key: string]: string | boolean } = {};
     for (let i = 0; inputs[i]; i++) {
       const input = inputs[i];
       if (
@@ -219,8 +223,10 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return values;
   }
 
-  private convertToMap(paramList: { key; value }[]) {
-    return paramList.reduce(function (result, item) {
+  private convertToMap(
+    paramList: { key: string; value: string }[]
+  ): { [key: string]: string } {
+    return paramList.reduce(function (result: { [key: string]: string }, item) {
       const key = item.key;
       result[key] = item.value;
       return result;

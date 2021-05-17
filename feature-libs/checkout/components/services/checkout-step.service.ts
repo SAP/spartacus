@@ -172,9 +172,12 @@ export class CheckoutStepService {
 
   private getCheckoutStepIndex(key: string, value: any): number | null {
     return key && value
-      ? this.allSteps.findIndex((step: CheckoutStep) =>
-          step[key].includes(value)
-        )
+      ? this.allSteps.findIndex((step: CheckoutStep) => {
+          const propertyVal = step[key as keyof CheckoutStep];
+          return propertyVal instanceof Array
+            ? propertyVal.includes(value)
+            : propertyVal === value;
+        })
       : null;
   }
 }

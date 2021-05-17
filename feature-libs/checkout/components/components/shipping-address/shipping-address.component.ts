@@ -94,7 +94,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         this.selectDefaultAddress(addresses, selected)
       ),
       map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-        (<any>addresses).map((address) => ({
+        (<any>addresses).map((address: Address) => ({
           address,
           card: this.getCardContent(
             address,
