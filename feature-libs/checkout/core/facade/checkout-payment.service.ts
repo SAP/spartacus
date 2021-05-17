@@ -122,7 +122,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
         this.checkoutStore.dispatch(
           new CheckoutActions.SetPaymentDetails({
             userId,
-            cartId: cart.code as string,
+            cartId: cart.code ?? '',
             paymentDetails: paymentDetails,
           })
         );
