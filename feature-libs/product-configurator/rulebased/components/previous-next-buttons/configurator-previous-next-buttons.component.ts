@@ -87,7 +87,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
                   .pipe(
                     filter((isLoading) => !isLoading),
                     take(1),
-                    delay(0) //we need to consider the re-rendering of the page
+                    delay(0) //we need to consider the rerendering of the page
                   )
               )
             )
