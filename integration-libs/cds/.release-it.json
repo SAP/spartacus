@@ -14,10 +14,7 @@
   },
   "github": {
     "release": true,
-    "assets": [
-      "../../docs.tar.gz",
-      "../../docs.zip"
-    ],
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
     "releaseName": "@spartacus/cds@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib cds --to cds-${version}"
   },
