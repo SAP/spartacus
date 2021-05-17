@@ -7,7 +7,11 @@ import { TestBed } from '@angular/core/testing';
 import { Cart } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
-import { OccEndpointsService } from '../../services';
+import {
+  BaseOccUrlProperties,
+  DynamicAttributes,
+  OccEndpointsService,
+} from '../../services';
 import {
   InterceptorUtil,
   USE_CLIENT_TOKEN,
@@ -36,8 +40,8 @@ const mergedCart: Cart = {
 class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
-    attributes?: DynamicAttributes,
-    propertiesToOmit?: BaseOccUrlProperties
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
   ) {
     return this.getEndpoint(endpoint);
   }

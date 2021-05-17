@@ -29,8 +29,8 @@ const usersEndpoint = 'users';
 class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
-    attributes?: DynamicAttributes,
-    propertiesToOmit?: BaseOccUrlProperties
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
   ) {
     return this.getEndpoint(endpoint);
   }
