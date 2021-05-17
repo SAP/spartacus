@@ -1,4 +1,4 @@
-import { SchematicsException } from '@angular-devkit/schematics';
+import { SchematicsException, Tree } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -16,8 +16,8 @@ import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import {
   buildDefaultPath,
+  getAngularJsonFile,
   getDefaultProjectNameFromWorkspace,
-  // getProject,
   getProjectFromWorkspace,
   getProjectTargets,
   getSourceRoot,
@@ -26,6 +26,7 @@ import {
   isWorkspaceSchema,
   validateSpartacusInstallation,
 } from './workspace-utils';
+import * as utils from './workspace-utils';
 import { SPARTACUS_CORE } from '../../shared/constants';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
@@ -79,6 +80,23 @@ describe('Workspace utils', () => {
       const sourceRoot = getSourceRoot(appTree, {});
       expect(sourceRoot).toEqual('src');
     });
+
+    xit('should throw an error for missing default project', async () => {
+      jest.spyOn(utils, 'getWorkspace').mockImplementationOnce(
+        jest.fn().mockReturnValue({
+          workspace: {
+            projects: {
+              projectKey: {},
+            },
+          },
+        })
+      );
+
+      const options = { project: 'projectKey' };
+      expect(() => getSourceRoot(appTree, options)).toThrowError(
+        new SchematicsException('No default project found')
+      );
+    });
   });
 
   describe('getWorkspace', () => {
@@ -86,6 +104,29 @@ describe('Workspace utils', () => {
       const workspaceInfo = getWorkspace(appTree);
       expect(workspaceInfo.path).toEqual('/angular.json');
       expect(workspaceInfo.workspace.defaultProject).toEqual(appOptions.name);
+    });
+  });
+
+  describe('getAngularJsonFile', () => {
+    it('should return workspace', async () => {
+      const workspace = getAngularJsonFile(appTree);
+      expect(workspace.defaultProject).toEqual(appOptions.name);
+    });
+
+    it('should throw an error if Angular not found', async () => {
+      expect(() => getAngularJsonFile(appTree, [])).toThrowError(
+        new SchematicsException(`Could not find Angular`)
+      );
+    });
+
+    it('should throw an error if not found path', async () => {
+      expect(() =>
+        getAngularJsonFile({
+          ...appTree,
+          read: (_path) => null,
+          exists: (_path) => true,
+        } as Tree)
+      ).toThrowError(new SchematicsException(`Could not find (/angular.json)`));
     });
   });
 
@@ -97,6 +138,45 @@ describe('Workspace utils', () => {
       );
       expect(workspaceProjectObject.projectType).toEqual('application');
       expect(workspaceProjectObject.sourceRoot).toEqual('src');
+    });
+
+    it('should throw an error if project is not passed', async () => {
+      expect(() =>
+        getProjectFromWorkspace(appTree as Tree, {} as SpartacusOptions)
+      ).toThrowError(new SchematicsException('Option "project" is required.'));
+    });
+
+    it('should throw an error if project is not defined in this workspace', async () => {
+      expect(() =>
+        getProjectFromWorkspace(appTree, {
+          project: 'projectKey',
+        } as SpartacusOptions)
+      ).toThrowError(
+        new SchematicsException(`Project is not defined in this workspace.`)
+      );
+    });
+
+    xit('should throw an error if wrong type of project', async () => {
+      jest.spyOn(utils, 'getWorkspace').mockImplementationOnce(
+        jest.fn().mockReturnValue({
+          workspace: {
+            projects: {
+              projectKey: {
+                projectType: 'other-than-application',
+              },
+            },
+          },
+        })
+      );
+      expect(() =>
+        getProjectFromWorkspace(appTree, {
+          project: 'projectKey',
+        } as SpartacusOptions)
+      ).toThrowError(
+        new SchematicsException(
+          `Spartacus requires a project type of "application".`
+        )
+      );
     });
   });
 
