@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { OrderPlacedEvent } from '@spartacus/checkout/root';
 import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
   Category,
   EventService,
-  OrderPlacedEvent,
 } from '@spartacus/core';
 import {
   CartPageEvent,
