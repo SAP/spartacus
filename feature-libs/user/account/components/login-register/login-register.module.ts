@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
+  CheckoutModule,
   CmsConfig,
   I18nModule,
   NotAuthGuard,
@@ -12,7 +13,14 @@ import { PageSlotModule } from '@spartacus/storefront';
 import { LoginRegisterComponent } from './login-register.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, UrlModule, PageSlotModule, I18nModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    UrlModule,
+    PageSlotModule,
+    I18nModule,
+    CheckoutModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
