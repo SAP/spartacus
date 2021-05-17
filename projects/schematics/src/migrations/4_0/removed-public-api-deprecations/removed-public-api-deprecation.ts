@@ -90,7 +90,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: CLOSE_ACCOUNT_MODAL_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${CLOSE_ACCOUNT_MODAL_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+    comment: `'${CLOSE_ACCOUNT_MODAL_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Also there were small changes in component's logic. For more details please look into 4.0 migration documentation.`,
   },
   // projects/storefrontlib/src/cms-components/myaccount/forgot-password/forgot-password.module.ts
   {
@@ -102,7 +102,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: FORGOT_PASSWORD_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${FORGOT_PASSWORD_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+    comment: `'${FORGOT_PASSWORD_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed and introduced in new 'ForgotPasswordService'. For more details please look into 4.0 migration documentation.`,
   },
   // projects/storefrontlib/src/cms-components/myaccount/update-email/update-email.module.ts
   {
@@ -120,7 +120,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: UPDATE_EMAIL_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${UPDATE_EMAIL_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+    comment: `'${UPDATE_EMAIL_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
   // projects/storefrontlib/src/cms-components/myaccount/update-password/update-password.module.ts
   {
@@ -138,7 +138,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: UPDATE_PASSWORD_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${UPDATE_PASSWORD_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+    comment: `'${UPDATE_PASSWORD_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
   // projects/storefrontlib/src/cms-components/myaccount/update-profile/update-profile.module.ts
   {
@@ -150,7 +150,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: UPDATE_PROFILE_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${UPDATE_PROFILE_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+    comment: `'${UPDATE_PROFILE_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
 ];
 
