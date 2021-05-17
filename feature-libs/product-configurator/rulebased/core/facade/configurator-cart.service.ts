@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
-  CheckoutService,
   OCC_USER_ID_CURRENT,
   StateUtils,
   StateWithMultiCart,
@@ -26,7 +26,7 @@ export class ConfiguratorCartService {
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected checkoutService: CheckoutService,
+    protected checkoutService: CheckoutFacade,
     protected userIdService: UserIdService
   ) {}
 

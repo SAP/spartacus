@@ -2,10 +2,10 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Cart,
-  CheckoutService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   StateUtils,
@@ -116,7 +116,7 @@ describe('ConfiguratorCartService', () => {
             useClass: MockActiveCartService,
           },
           {
-            provide: CheckoutService,
+            provide: CheckoutFacade,
             useClass: MockCheckoutService,
           },
           {
