@@ -286,12 +286,10 @@ export class OccEndpointsService {
     const endpointConfig = endpointsConfig[endpoint];
 
     if (scope) {
-      if (endpointConfig?.[scope]) {
-        return endpointConfig?.[scope];
-      }
       if (scope === DEFAULT_SCOPE && typeof endpointConfig === 'string') {
         return endpointConfig;
       }
+      return endpointConfig?.[scope];
     }
 
     return typeof endpointConfig === 'string'
