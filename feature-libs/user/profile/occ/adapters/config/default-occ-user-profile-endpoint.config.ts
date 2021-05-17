@@ -9,8 +9,6 @@ export const defaultOccUserProfileConfig: OccConfig = {
         userResetPassword: 'resetpassword',
         userUpdateLoginId: 'users/${userId}/login',
         userUpdatePassword: 'users/${userId}/password',
-        userUpdateProfile: 'users/${userId}',
-        userCloseAccount: 'users/${userId}',
         titles: 'titles',
       },
     },

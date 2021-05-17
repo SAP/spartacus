@@ -31,7 +31,7 @@ export const mockOccModuleConfig: OccConfig = {
   },
 };
 
-export class MockOccEndpointsService {
+export class MockOccEndpointsService implements Partial<OccEndpointsService> {
   getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
     return this.getEndpoint(endpointKey);
   }
@@ -43,6 +43,9 @@ export class MockOccEndpointsService {
   }
   getBaseEndpoint() {
     return '';
+  }
+  isConfigured() {
+    return true;
   }
 }
 
