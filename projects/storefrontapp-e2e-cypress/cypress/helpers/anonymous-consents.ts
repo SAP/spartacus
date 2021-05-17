@@ -295,7 +295,7 @@ export function changeLanguageTest() {
 }
 
 export function showAnonymousConfigTest() {
-  it('should not display the consents on the consents management page', () => {
+  it('should not display consents on the consents management page', () => {
     navigateToConsentPage();
     checkConsentsInConsentPage();
 
@@ -310,13 +310,13 @@ export function showAnonymousConfigTest() {
 }
 
 export function anonymousConfigTestFlow() {
-  it('should check if marketing consent in the dialog is disabled', () => {
+  it('should check new register consent and personalizing not visible in consent management page', () => {
+    //first, check that marketing consent in the dialog is disabled
     openAnonymousConsentsDialog();
     checkInputConsentState(0, BE_DISABLED);
     closeAnonymousConsentsDialog();
-  });
 
-  it('should check new register consent and personalizing not visible in consent management page', () => {
+    //then, register a user and check its consents
     registerUserAndCheckMyAccountConsent(
       userFromConfigTest,
       giveRegistrationConsentTest,
