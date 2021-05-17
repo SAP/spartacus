@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -17,12 +16,13 @@ class MockConfiguratorGroupsService {
 }
 
 class MockKeyboardFocusService {
-  findFocusable() {}
+  findFocusable(): HTMLElement[] {
+    return undefined;
+  }
 }
 
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
-  let keyboardFocusService: KeyboardFocusService;
 
   const owner: CommonConfigurator.Owner = {
     id: 'testProduct',
@@ -43,9 +43,6 @@ describe('ConfigUtilsService', () => {
       ],
     });
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
-    keyboardFocusService = TestBed.inject(
-      KeyboardFocusService as Type<KeyboardFocusService>
-    );
   });
 
   it('should be created', () => {
@@ -112,27 +109,5 @@ describe('ConfigUtilsService', () => {
     expect(values[0].selected).toBe(true);
     expect(values[1].name).toBe(attribute.values[1].name);
     expect(values[1].selected).toBe(false);
-  });
-
-  describe('focusFirstAttribute', () => {
-    it('should return no focused attribute because keyboardFocusService is undefined', () => {
-      classUnderTest['keyboardFocusService'] = undefined;
-      spyOn(keyboardFocusService, 'findFocusable').and.stub();
-      classUnderTest.focusFirstAttribute();
-      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
-    });
-
-    it('should return no focused attribute because keyboardFocusService is null', () => {
-      classUnderTest['keyboardFocusService'] = null;
-      spyOn(keyboardFocusService, 'findFocusable').and.stub();
-      classUnderTest.focusFirstAttribute();
-      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
-    });
-
-    it('should return no focused attribute because there is no found', () => {
-      spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
-      classUnderTest.focusFirstAttribute();
-      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
-    });
   });
 });
