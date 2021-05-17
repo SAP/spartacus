@@ -10,14 +10,17 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CLI_CDC_FEATURE,
   LibraryOptions as SpartacusCdcOptions,
   SpartacusOptions,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import featureLibPackageJson from '../../package.json';
+import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const cdcModulePath = 'src/app/spartacus/features/cdc/cdc-feature.module.ts';
+const featureModulePath =
+  'src/app/spartacus/features/cdc/cdc-feature.module.ts';
 
 describe('Spartacus CDC schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -39,11 +42,6 @@ describe('Spartacus CDC schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions: SpartacusCdcOptions = {
-    project: 'schematics-test',
-    lazy: true,
-  };
-
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
@@ -51,9 +49,20 @@ describe('Spartacus CDC schematics: ng-add', () => {
     features: [],
   };
 
+  const libraryNoFeaturesOptions: SpartacusCdcOptions = {
+    project: 'schematics-test',
+    lazy: true,
+    features: [],
+  };
+
+  const cdcFeatureOptions: SpartacusCdcOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_CDC_FEATURE],
+  };
+
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 
@@ -74,7 +83,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -82,29 +91,54 @@ describe('Spartacus CDC schematics: ng-add', () => {
       .toPromise();
   });
 
+  describe('Without features', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
+        .toPromise();
+    });
+
+    it('should not create any of the feature modules', () => {
+      expect(appTree.exists(featureModulePath)).toBeFalsy();
+    });
+  });
+
   describe('CDC feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', cdcFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should install @spartacus/asm and @spartacus/user', async () => {
+      it('should install necessary Spartacus libraries', () => {
         const packageJson = JSON.parse(appTree.readContent('package.json'));
-        expect(packageJson.dependencies['@spartacus/asm']).toEqual(
-          `^${featureLibPackageJson.peerDependencies['@spartacus/asm']}`
-        );
-        expect(packageJson.dependencies['@spartacus/user']).toEqual(
-          `^${featureLibPackageJson.peerDependencies['@spartacus/user']}`
-        );
+        let dependencies: Record<string, string> = {};
+        dependencies = { ...packageJson.dependencies };
+        dependencies = { ...dependencies, ...packageJson.devDependencies };
+
+        for (const toAdd in peerDependencies) {
+          // skip the SPARTACUS_SCHEMATICS, as those are added only when running by the Angular CLI, and not in the testing environment
+          if (
+            !peerDependencies.hasOwnProperty(toAdd) ||
+            toAdd === SPARTACUS_SCHEMATICS
+          ) {
+            continue;
+          }
+          // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+          // const expectedVersion = (peerDependencies as Record<
+          //   string,
+          //   string
+          // >)[toAdd];
+          const expectedDependency = dependencies[toAdd];
+          expect(expectedDependency).toBeTruthy();
+          // expect(expectedDependency).toEqual(expectedVersion);
+        }
       });
 
-      it('should import feature module in SpartacusFeaturesModule', () => {
-        const spartacusFeaturesModulePath = appTree.readContent(
-          'src/app/spartacus/spartacus-features.module.ts'
-        );
-        expect(spartacusFeaturesModulePath).toMatchSnapshot();
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
 
@@ -113,28 +147,15 @@ describe('Spartacus CDC schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultOptions, lazy: false },
+            { ...cdcFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
       });
 
-      it('should import correct modules (without lazy loaded syntax)', async () => {
-        const cdcModule = appTree.readContent(cdcModulePath);
-        expect(cdcModule).toMatchSnapshot();
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import correct modules (with lazy loaded syntax)', async () => {
-        const cdcModule = appTree.readContent(cdcModulePath);
-        expect(cdcModule).toMatchSnapshot();
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
   });

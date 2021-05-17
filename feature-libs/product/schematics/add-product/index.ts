@@ -6,21 +6,42 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addPackageJsonDependencies,
-  createDependencies,
-  installPackageJsonDependencies,
+  addLibraryFeature,
+  addPackageJsonDependenciesForLibrary,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
   shouldAddFeature,
+  SPARTACUS_PRODUCT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
-import { addBulkPricingFeature } from '../add-bulk-pricing';
-import { addVariantsFeature } from '../add-product-variants';
-import { CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE } from '../constants';
+import {
+  BULK_PRICING_FEATURE_NAME_CONSTANT,
+  BULK_PRICING_MODULE,
+  BULK_PRICING_MODULE_NAME,
+  BULK_PRICING_ROOT_MODULE,
+  BULK_PRICING_TRANSLATIONS,
+  BULK_PRICING_TRANSLATION_CHUNKS_CONFIG,
+  CLI_BULK_PRICING_FEATURE,
+  CLI_VARIANTS_FEATURE,
+  PRODUCT_FOLDER_NAME,
+  PRODUCT_SCSS_FILE_NAME,
+  SPARTACUS_BULK_PRICING,
+  SPARTACUS_BULK_PRICING_ASSETS,
+  SPARTACUS_BULK_PRICING_ROOT,
+  SPARTACUS_VARIANTS,
+  SPARTACUS_VARIANTS_ASSETS,
+  SPARTACUS_VARIANTS_ROOT,
+  VARIANTS_FEATURE_NAME_CONSTANT,
+  VARIANTS_MODULE,
+  VARIANTS_MODULE_NAME,
+  VARIANTS_ROOT_MODULE,
+  VARIANTS_TRANSLATIONS,
+  VARIANTS_TRANSLATION_CHUNKS_CONFIG,
+} from '../constants';
 
 export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, context: SchematicContext) => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
@@ -33,14 +54,68 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
         ? addVariantsFeature(options)
         : noop(),
 
-      addProductPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addPackageJsonDependenciesForLibrary({
+        packageJson,
+        context,
+        dependencies: peerDependencies,
+        options,
+      }),
     ]);
   };
 }
 
-function addProductPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
+export function addBulkPricingFeature(options: SpartacusProductOptions): Rule {
+  return addLibraryFeature(options, {
+    folderName: PRODUCT_FOLDER_NAME,
+    moduleName: BULK_PRICING_MODULE_NAME,
+    featureModule: {
+      name: BULK_PRICING_MODULE,
+      importPath: SPARTACUS_BULK_PRICING,
+    },
+    rootModule: {
+      name: BULK_PRICING_ROOT_MODULE,
+      importPath: SPARTACUS_BULK_PRICING_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_BULK_PRICING_ROOT,
+      namedImports: [BULK_PRICING_FEATURE_NAME_CONSTANT],
+    },
+    i18n: {
+      resources: BULK_PRICING_TRANSLATIONS,
+      chunks: BULK_PRICING_TRANSLATION_CHUNKS_CONFIG,
+      importPath: SPARTACUS_BULK_PRICING_ASSETS,
+    },
+    styles: {
+      scssFileName: PRODUCT_SCSS_FILE_NAME,
+      importStyle: SPARTACUS_PRODUCT,
+    },
+  });
+}
 
-  return addPackageJsonDependencies(dependencies, packageJson);
+export function addVariantsFeature(options: SpartacusProductOptions): Rule {
+  return addLibraryFeature(options, {
+    folderName: PRODUCT_FOLDER_NAME,
+    moduleName: VARIANTS_MODULE_NAME,
+    featureModule: {
+      name: VARIANTS_MODULE,
+      importPath: SPARTACUS_VARIANTS,
+    },
+    rootModule: {
+      name: VARIANTS_ROOT_MODULE,
+      importPath: SPARTACUS_VARIANTS_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_VARIANTS_ROOT,
+      namedImports: [VARIANTS_FEATURE_NAME_CONSTANT],
+    },
+    i18n: {
+      resources: VARIANTS_TRANSLATIONS,
+      chunks: VARIANTS_TRANSLATION_CHUNKS_CONFIG,
+      importPath: SPARTACUS_VARIANTS_ASSETS,
+    },
+    styles: {
+      scssFileName: PRODUCT_SCSS_FILE_NAME,
+      importStyle: SPARTACUS_PRODUCT,
+    },
+  });
 }

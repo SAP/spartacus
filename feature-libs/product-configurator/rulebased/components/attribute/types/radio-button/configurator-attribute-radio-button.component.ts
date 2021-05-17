@@ -1,15 +1,7 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Configurator } from '../../../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
-import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/configurator-attribute-single-selection-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-radio-button',
@@ -17,35 +9,38 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorAttributeRadioButtonComponent
-  extends ConfiguratorAttributeBaseComponent
+  extends ConfiguratorAttributeSingleSelectionBaseComponent
   implements OnInit {
   attributeRadioButtonForm = new FormControl('');
 
-  @Input() attribute: Configurator.Attribute;
-  @Input() ownerKey: string;
+  // TODO(#11681): make quantityService a required dependency
+  /**
+   * default constructor
+   * @param {ConfiguratorAttributeQuantityService} quantityService
+   */
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(quantityService: ConfiguratorAttributeQuantityService);
 
-  @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
+  /**
+   * @deprecated since 3.3
+   */
+  constructor();
+
+  constructor(
+    protected quantityService?: ConfiguratorAttributeQuantityService
+  ) {
+    super();
+  }
 
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
 
   /**
-   * Submits a value.
-   *
-   * @param {string} value - Selected value
+   * @deprecated since 3.3
+   * This method should be removed because there is no deselect possible for radio buttons
    */
-  onSelect(value: string): void {
-    const event: ConfigFormUpdateEvent = {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
-        name: this.attribute.name,
-        selectedSingleValue: value,
-        uiType: this.attribute.uiType,
-        groupId: this.attribute.groupId,
-      },
-    };
-
-    this.selectionChange.emit(event);
+  onDeselect(): void {
+    this.onSelect('');
   }
 }
