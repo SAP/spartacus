@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import {
   CARD_TYPE_NORMALIZER,
   CheckoutPaymentAdapter,
-  PAYMENT_DETAILS_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/core';
 import {
@@ -13,6 +12,7 @@ import {
   Occ,
   OccEndpointsService,
   PaymentDetails,
+  PAYMENT_DETAILS_NORMALIZER,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
