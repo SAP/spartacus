@@ -6,7 +6,6 @@ import {
   Category,
   EventService,
   OrderPlacedEvent,
-  PersonalizationContextService,
 } from '@spartacus/core';
 import {
   CartPageEvent,
@@ -16,6 +15,7 @@ import {
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from '@spartacus/storefront';
+import { PersonalizationContextService } from '@spartacus/tracking/personalization/core';
 import { merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
