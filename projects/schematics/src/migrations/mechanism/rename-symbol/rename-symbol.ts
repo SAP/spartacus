@@ -23,9 +23,11 @@ export function migrateRenamedSymbols(
         id.getImportClause()
           ?.getNamedImports()
           .forEach((namedImport) => {
+            const importName = namedImport.getName();
+
             const renamedSymbol = renamedSymbols.find(
               (_) =>
-                _.previousNode === namedImport.getName() &&
+                _.previousNode === importName &&
                 _.previousImportPath ===
                   id
                     .getModuleSpecifier()
@@ -36,23 +38,27 @@ export function migrateRenamedSymbols(
             if (renamedSymbol) {
               const newNodeName = renamedSymbol.newNode
                 ? renamedSymbol.newNode
-                : namedImport.getName();
+                : importName;
+
+              const oldAlias = namedImport.getAliasNode()?.getText();
+
+              if (!oldAlias && renamedSymbol.newNode) {
+                namedImport.renameAlias(newNodeName);
+              }
 
               importDeclarationStructures.push({
                 namedImports: [
                   {
                     name: newNodeName,
-                    alias: namedImport.getAliasNode()?.getText(),
+                    alias: oldAlias,
                   },
                 ],
                 moduleSpecifier: renamedSymbol.newImportPath,
               } as ImportDeclarationStructure);
 
               if ((id.getImportClause()?.getNamedImports()?.length || 0) > 1) {
-                console.log('11111');
                 namedImport.remove();
               } else {
-                console.log('22222');
                 id.remove();
               }
             }
@@ -60,13 +66,8 @@ export function migrateRenamedSymbols(
       });
 
       if (importDeclarationStructures.length) {
-        console.log(
-          'importDeclarationStructures',
-          JSON.stringify(importDeclarationStructures)
-        );
-
         sourceFile.addImportDeclarations(importDeclarationStructures);
-        sourceFile.organizeImports();
+        sourceFile.organizeImports(); // Will remove unused imports
         sourceFile.saveSync();
       }
     });

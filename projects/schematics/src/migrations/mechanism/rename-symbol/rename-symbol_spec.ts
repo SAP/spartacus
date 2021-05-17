@@ -12,40 +12,25 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
 const MIGRATION_SCRIPT_NAME = 'migration-v4-rename-symbol-01';
 
-const fileWithSimpleImport = `import { OtherComponent1 } from "@spartacus/storefront";
-const array = [test];`;
+const fileWithSimpleImport = `import { OtherComponent1, Test1Component } from "@spartacus/storefront";
+import { Test2Component } from "@spartacus/core";
 
-const expectFileWithSimpleImport = `import { OtherComponent1 } from "@spartacus/storefinder/components";
-const array = [test];`;
-
-// -----------------------------------------------------------------------
-
-// const fileWithSimpleImportWithAlias = `import { OtherComponent1 as Test } from "@spartacus/storefront";
-// const array = [test];`;
-
-// const expectFileWithSimpleImportWithAlias = `import { OtherComponent1 as Test } from "@spartacus/storefinder/components";
-
-// const array = [test];`;
+const array = [OtherComponent1, Test1Component, Test2Component];`;
 
 // -----------------------------------------------------------------------
 
-// const fileWithSimpleImportAndRename = `
-// import { OtherComponent2 } from "@spartacus/storefront";
-// const array = [test];
-// `;
+const fileWithSimpleImportWithAlias = `import { OtherComponent2 as Test, TestComponent } from "@spartacus/storefront";
+import { Test2Component } from "@spartacus/core";
 
-// const expectFileWithSimpleImportAndRename = `
-// import { OtherComponentTest2 } from "@spartacus/storefinder/components";
-// const array = [test];
-// `;
+const array = [Test, Test1Component, Test2Component];`;
 
 // -----------------------------------------------------------------------
 
-// const fileWithComplexImport = `import { OtherComponent3 as Test} from "@spartacus/storefront";
-// const array = [OtherComponent3];`;
+const fileWithSimpleImportAndRename = `import { OtherComponent3, TestComponent } from "@spartacus/storefront";
+import { Test2Component } from "@spartacus/core";
 
-// const fileWithComplexImportAndRename = `import { OtherComponent4 as Test} from "@spartacus/storefront";
-// const array = [OtherComponent4];`;
+const array = [OtherComponent3, Test1Component, Test2Component];`;
+// -----------------------------------------------------------------------
 
 describe('renamed symbols', () => {
   let host: TempScopedNodeJsSyncHost;
@@ -107,37 +92,25 @@ describe('renamed symbols', () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
       const content = appTree.readContent('/src/index.ts');
-
-      console.log('XXXXXXXXXX', content);
-      console.log('YYYYYYYYYY', expectFileWithSimpleImport);
-
-      expect(content).toEqual(expectFileWithSimpleImport);
+      expect(content).toMatchSnapshot();
     });
 
-    // it('should became new import with aliases', async () => {
-    //   writeFile(host, '/src/index.ts', fileWithSimpleImportWithAlias);
+    it('should became new import and name with aliases', async () => {
+      writeFile(host, '/src/index.ts', fileWithSimpleImportWithAlias);
 
-    //   await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-    //   const content = appTree.readContent('/src/index.ts');
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toMatchSnapshot();
+    });
 
-    // console.log('XXXXXXXXXX', content);
-    // console.log('YYYYYYYYYY', expectFileWithSimpleImportWithAlias);
+    it('should became new import and new name', async () => {
+      writeFile(host, '/src/index.ts', fileWithSimpleImportAndRename);
 
-    //   expect(content).toEqual(expectFileWithSimpleImportWithAlias);
-    // });
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
 
-    // it('should became new import and new name', async () => {
-    //   writeFile(host, '/src/index.ts', fileWithSimpleImportAndRename);
-
-    //   await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
-
-    //   const content = appTree.readContent('/src/index.ts');
-
-    //   console.log(content);
-    //   console.log(expectFileWithSimpleImportAndRename);
-
-    //   expect(content).toEqual(expectFileWithSimpleImportAndRename);
-    // });
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toMatchSnapshot();
+    });
   });
 });
