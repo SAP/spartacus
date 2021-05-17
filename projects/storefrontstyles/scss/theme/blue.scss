@@ -114,6 +114,7 @@
   cx-add-to-saved-cart-container {
     .cx-action-link {
       color: var(--cx-color-primary);
+      @include type('6');
     }
   }
 
