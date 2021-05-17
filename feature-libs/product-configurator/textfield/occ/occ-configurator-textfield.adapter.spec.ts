@@ -19,8 +19,8 @@ import { ConfiguratorTextfield } from '../core/model/configurator-textfield.mode
 class MockOccEndpointsService {
   buildUrl(
     endpoint: string,
-    attributes?: DynamicAttributes,
-    propertiesToOmit?: BaseOccUrlProperties
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
   ) {
     return this.getEndpoint(endpoint);
   }
