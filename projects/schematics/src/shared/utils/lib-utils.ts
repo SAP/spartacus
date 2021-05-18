@@ -628,14 +628,29 @@ export function addPackageJsonDependencies(
   };
 }
 
-export function addPackageJsonDependenciesForLibrary(
-  dependencies: Record<string, string>
-): Rule {
-  return (tree: Tree, _context: SchematicContext): Rule => {
+export function addPackageJsonDependenciesForLibrary<
+  OPTIONS extends LibraryOptions
+>(dependencies: Record<string, string>, options: OPTIONS): Rule {
+  return (tree: Tree, context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     const spartacusLibraries = createSpartacusDependencies(dependencies);
     const thirdPartyLibraries = createDependencies(dependencies);
     const libraries = spartacusLibraries.concat(thirdPartyLibraries);
+
+    const cliFeatures = spartacusLibraries
+      .map((dependency) => dependency.name)
+      .reduce((previous, current) => {
+        return {
+          ...previous,
+          // just install the Spartacus library, without any sub-features
+          [current]: [],
+        };
+      }, {} as Record<string, string[]>);
+    const featureOptions = createSpartacusFeatureOptionsForLibrary(
+      options,
+      cliFeatures
+    );
+    addSchematicsTasks(featureOptions, context);
 
     return chain([
       addPackageJsonDependencies(libraries, packageJson),

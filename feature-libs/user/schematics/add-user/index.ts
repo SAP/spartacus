@@ -45,7 +45,7 @@ export function addUserFeatures(options: SpartacusUserOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_USER_ACCOUNT_FEATURE, options.features)
         ? addAccountFeature(options)

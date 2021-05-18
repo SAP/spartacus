@@ -34,7 +34,7 @@ export function addCdcFeature(options: SpartacusCdcOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_CDC_FEATURE, options.features)
         ? addCdc(options)
@@ -79,7 +79,6 @@ function addCdc(options: SpartacusCdcOptions): Rule {
     },
     dependencyManagement: {
       featureName: CLI_CDC_FEATURE,
-      dependencies: peerDependencies,
       featureDependencies: {
         [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
       },

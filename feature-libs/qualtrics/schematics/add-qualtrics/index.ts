@@ -32,7 +32,7 @@ export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_QUALTRICS_FEATURE, options.features)
         ? addQualtricsFeature(options)

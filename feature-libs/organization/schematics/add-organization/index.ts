@@ -49,7 +49,7 @@ export function addSpartacusOrganization(
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(
         CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
