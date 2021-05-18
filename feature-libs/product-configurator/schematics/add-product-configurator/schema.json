@@ -20,7 +20,7 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["CPQ configurator", "Textfield configurator"],
+        "enum": ["CPQ-Configurator", "Textfield-Configurator"],
         "type": "string"
       },
       "x-prompt": "Which product configurator features besides variant configurator would you like to setup?"

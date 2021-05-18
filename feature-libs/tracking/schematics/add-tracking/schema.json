@@ -20,11 +20,7 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": [
-          "Personalization",
-          "Tag Management System - Google Tag Manager",
-          "Tag Management System - Adobe Experience Platform Launch"
-        ],
+        "enum": ["Personalization", "TMS-GTM", "TMS-AEPL"],
         "type": "string"
       },
       "default": ["Personalization"],

@@ -270,55 +270,6 @@ function updateAppModule(project: string): Rule {
   };
 }
 
-export function addSpartacus(options: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const project = getProjectFromWorkspace(tree, options);
-
-    return chain([
-      addPackageJsonDependencies(prepareDependencies(options)),
-      ensureModuleExists({
-        name: SPARTACUS_ROUTING_MODULE,
-        path: 'app',
-        module: 'app',
-        project: options.project,
-      }),
-      setupRouterModule(options.project),
-      setupStoreModules(options.project),
-
-      ensureModuleExists({
-        name: SPARTACUS_MODULE,
-        path: 'app/spartacus',
-        module: 'app',
-        project: options.project,
-      }),
-      setupSpartacusModule(options.project),
-
-      ensureModuleExists({
-        name: SPARTACUS_FEATURES_MODULE,
-        path: 'app/spartacus',
-        module: 'spartacus',
-        project: options.project,
-      }),
-      setupSpartacusFeaturesModule(options.project),
-
-      ensureModuleExists({
-        name: SPARTACUS_CONFIGURATION_MODULE,
-        path: 'app/spartacus',
-        module: 'spartacus',
-        project: options.project,
-      }),
-      addSpartacusConfiguration(options),
-
-      updateAppModule(options.project),
-      installStyles(options),
-      updateMainComponent(project, options),
-      options.useMetaTags ? updateIndexFile(tree, options) : noop(),
-
-      addSpartacusFeatures(options),
-    ])(tree, context);
-  };
-}
-
 function addSpartacusFeatures(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const featurePackages = prepareSpartacusFeatures(options);
@@ -389,4 +340,53 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
       : []),
     SPARTACUS_USER,
   ];
+}
+
+export function addSpartacus(options: SpartacusOptions): Rule {
+  return (tree: Tree, context: SchematicContext) => {
+    const project = getProjectFromWorkspace(tree, options);
+
+    return chain([
+      addPackageJsonDependencies(prepareDependencies(options)),
+      ensureModuleExists({
+        name: SPARTACUS_ROUTING_MODULE,
+        path: 'app',
+        module: 'app',
+        project: options.project,
+      }),
+      setupRouterModule(options.project),
+      setupStoreModules(options.project),
+
+      ensureModuleExists({
+        name: SPARTACUS_MODULE,
+        path: 'app/spartacus',
+        module: 'app',
+        project: options.project,
+      }),
+      setupSpartacusModule(options.project),
+
+      ensureModuleExists({
+        name: SPARTACUS_FEATURES_MODULE,
+        path: 'app/spartacus',
+        module: 'spartacus',
+        project: options.project,
+      }),
+      setupSpartacusFeaturesModule(options.project),
+
+      ensureModuleExists({
+        name: SPARTACUS_CONFIGURATION_MODULE,
+        path: 'app/spartacus',
+        module: 'spartacus',
+        project: options.project,
+      }),
+      addSpartacusConfiguration(options),
+
+      updateAppModule(options.project),
+      installStyles(options),
+      updateMainComponent(project, options),
+      options.useMetaTags ? updateIndexFile(tree, options) : noop(),
+
+      addSpartacusFeatures(options),
+    ])(tree, context);
+  };
 }

@@ -27,16 +27,16 @@
       "uniqueItems": true,
       "items": {
         "enum": [
-          "Assisted Services Module",
-          "Cart",
+          "Assisted-Services-Module",
+          "Saved-Cart",
           "CDC",
           "CDS",
-          "Organization (b2b feature)",
+          "Organization",
           "Product",
-          "Product Configurator",
+          "Product-Configurator",
           "Qualtrics",
           "SmartEdit",
-          "Store Finder",
+          "Store-Finder",
           "Tracking"
         ],
         "type": "string"
