@@ -656,6 +656,7 @@ export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 
 export const OCC_ENDPOINTS = 'OccEndpoints';
+export const OCC_ENDPOINT = 'OccEndpoint';
 export const BASE_SITES_FOR_CONFIG = 'baseSitesForConfig';
 
 export const OCC_CONFIG_LOADER_SERVICE = 'OccConfigLoaderService';

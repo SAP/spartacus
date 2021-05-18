@@ -44,12 +44,6 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   //   importPath: SPARTACUS_STOREFRONTLIB,
   //   comment: `'${VARIANT_STYLE_SELECTOR_COMPONENT}' was moved to @spartacus/product/variants.`,
   // },
-  // projects/core/src/occ/occ-models/occ-endpoints.model.ts
-  {
-    node: OCC_ENDPOINTS,
-    importPath: SPARTACUS_CORE,
-    comment: `'${BASE_SITES_FOR_CONFIG} optional property has been removed and is no longer part of the public API.`,
-  },
   //projects/core/src/occ/config-loader/occ-config-loader.module.ts
   {
     node: OCC_CONFIG_LOADER_MODULE,
