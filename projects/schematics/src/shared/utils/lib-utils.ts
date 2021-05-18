@@ -22,14 +22,29 @@ import {
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
+  CLI_CART_SAVED_CART_FEATURE,
+  CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
+  CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
+  CLI_PRODUCT_BULK_PRICING_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+  CLI_PRODUCT_VARIANTS_FEATURE,
+  CLI_TRACKING_PERSONALIZATION_FEATURE,
+  CLI_TRACKING_TMS_AEP_FEATURE,
+  CLI_TRACKING_TMS_GTM_FEATURE,
   CMS_CONFIG,
   I18N_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
+  SPARTACUS_CART,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
+  SPARTACUS_ORGANIZATION,
+  SPARTACUS_PRODUCT,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_SETUP,
+  SPARTACUS_TRACKING,
   UTF_8,
 } from '../constants';
 import { getB2bConfiguration } from './config-utils';
@@ -151,11 +166,50 @@ export interface AssetsConfig {
   glob: string;
 }
 
+export const packageSubFeaturesMapping: Record<string, string[]> = {
+  [SPARTACUS_CART]: [CLI_CART_SAVED_CART_FEATURE],
+  [SPARTACUS_ORGANIZATION]: [
+    CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
+    CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
+  ],
+  [SPARTACUS_PRODUCT]: [
+    CLI_PRODUCT_BULK_PRICING_FEATURE,
+    CLI_PRODUCT_VARIANTS_FEATURE,
+  ],
+  [SPARTACUS_PRODUCT_CONFIGURATOR]: [
+    CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+    CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
+  ],
+  [SPARTACUS_TRACKING]: [
+    CLI_TRACKING_PERSONALIZATION_FEATURE,
+    CLI_TRACKING_TMS_GTM_FEATURE,
+    CLI_TRACKING_TMS_AEP_FEATURE,
+  ],
+};
+
 export function shouldAddFeature(
   feature: string,
   features: string[] = []
 ): boolean {
   return features.includes(feature);
+}
+
+export function getPackageBySubFeature(subFeature: string): string {
+  for (const spartacusPackage in packageSubFeaturesMapping) {
+    if (!packageSubFeaturesMapping.hasOwnProperty(spartacusPackage)) {
+      continue;
+    }
+
+    const subFeatures = packageSubFeaturesMapping[spartacusPackage];
+    if (subFeatures.includes(subFeature)) {
+      return spartacusPackage;
+    }
+  }
+
+  throw new SchematicsException(
+    `The given '${subFeature}' doesn't contain a Spartacus package mapping.
+Please check 'packageSubFeaturesMapping' in 'projects/schematics/src/shared/utils/lib-utils.ts'`
+  );
 }
 
 export function addLibraryFeature<T extends LibraryOptions>(
