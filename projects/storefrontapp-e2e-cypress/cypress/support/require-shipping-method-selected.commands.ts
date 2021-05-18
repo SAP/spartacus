@@ -1,5 +1,3 @@
-import { delivery } from '../sample-data/checkout-flow';
-
 declare global {
   namespace Cypress {
     interface Chainable {
@@ -16,22 +14,33 @@ declare global {
        */
       requireShippingMethodSelected: (
         token: {},
-        cartId: 'current'
+        cartId?: string
       ) => Cypress.Chainable<{}>;
     }
   }
 }
+
 Cypress.Commands.add('requireShippingMethodSelected', (token, cartId) => {
-  function setShippingMethod() {
+  const cartQueryValue = cartId || 'current';
+
+  function getDeliveryModes() {
+    return cy.request({
+      method: 'GET',
+      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/carts/${cartQueryValue}/deliverymodes`,
+      headers: {
+        Authorization: `bearer ${token.access_token}`,
+      },
+    });
+  }
+
+  function setShippingMethod(deliveryMode) {
     return cy.request({
       method: 'PUT',
-      url: `${Cypress.env('API_URL')}/${Cypress.env(
-        'OCC_PREFIX'
-      )}/${Cypress.env(
+      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/${cartId}/deliverymode?deliveryModeId=${
-        delivery.mode
-      }`,
+      )}/users/current/carts/${cartQueryValue}/deliverymode?deliveryModeId=${deliveryMode}`,
       form: false,
       headers: {
         Authorization: `bearer ${token.access_token}`,
@@ -39,5 +48,10 @@ Cypress.Commands.add('requireShippingMethodSelected', (token, cartId) => {
     });
   }
 
-  setShippingMethod().then((resp) => cy.wrap(resp));
+  cy.server();
+  getDeliveryModes().then((resp) =>
+    setShippingMethod(resp.body.deliveryModes[0].code).then((resp) =>
+      cy.wrap(resp)
+    )
+  );
 });

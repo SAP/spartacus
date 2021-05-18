@@ -30,7 +30,7 @@ Cypress.Commands.add(
       displayName: 'requireShippingAddressAdded',
       message: [`Adding shipping address with token ${token.access_token}`],
     });
-    // format the request body
+
     const _address = {
       ...address,
       firstName: user.firstName,
