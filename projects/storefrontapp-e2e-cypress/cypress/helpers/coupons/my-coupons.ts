@@ -194,7 +194,7 @@ export function waitForClaimCoupon(couponCode: string): string {
   const aliasName = `claimCoupon_${couponCode}`;
   cy.intercept({
     method: 'POST',
-    url: `${pageUrl}/users/current/customercoupons/${couponCode}/claim`,
+    url: `${pageUrl}/users/current/customercoupons/${couponCode}/claim*`,
   }).as(aliasName);
   return `${aliasName}`;
 }
@@ -203,7 +203,7 @@ export function waitForGetCoupons(): string {
   const aliasName = 'getCoupons';
   cy.intercept({
     method: 'GET',
-    url: `${pageUrl}/users/current/customercoupons`,
+    url: `${pageUrl}/users/current/customercoupons*`,
   }).as(aliasName);
   return `${aliasName}`;
 }
