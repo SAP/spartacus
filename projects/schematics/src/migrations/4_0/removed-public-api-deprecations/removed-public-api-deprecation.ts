@@ -3,8 +3,6 @@ import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 import {
   SPARTACUS_CORE,
-  OCC_ENDPOINTS,
-  BASE_SITES_FOR_CONFIG,
   OCC_CONFIG_LOADER_SERVICE,
   OCC_LOADED_CONFIG_CONVERTER,
   OCC_LOADED_CONFIG,
