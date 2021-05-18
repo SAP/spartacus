@@ -10,7 +10,7 @@ import {
 import * as shx from 'shelljs';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v4-rename-symbol-01';
+const MIGRATION_SCRIPT_NAME = 'migration-v4-rename-symbol-02';
 
 const fileWithSimpleImport = `import { OtherComponent1, Test1Component } from "@spartacus/storefront";
 import { Test2Component } from "@spartacus/core";
@@ -19,20 +19,20 @@ const array = [OtherComponent1, Test1Component, Test2Component];`;
 
 // -----------------------------------------------------------------------
 
-const fileWithSimpleImportWithAlias = `import { OtherComponent2 as Test, TestComponent } from "@spartacus/storefront";
+const fileWithSimpleImportWithAlias = `import { OtherComponent2 as Test, Test1Component } from "@spartacus/storefront";
 import { Test2Component } from "@spartacus/core";
 
 const array = [Test, Test1Component, Test2Component];`;
 
 // -----------------------------------------------------------------------
 
-const fileWithSimpleImportAndRename = `import { OtherComponent3, TestComponent } from "@spartacus/storefront";
+const fileWithSimpleImportAndRename = `import { OtherComponent3, Test1Component } from "@spartacus/storefront";
 import { Test2Component } from "@spartacus/core";
 
 const array = [OtherComponent3, Test1Component, Test2Component];`;
 // -----------------------------------------------------------------------
 
-describe('renamed symbols', () => {
+fdescribe('renamed symbols', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;

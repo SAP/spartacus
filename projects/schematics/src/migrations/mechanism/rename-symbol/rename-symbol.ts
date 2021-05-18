@@ -1,7 +1,7 @@
 import { Tree } from '@angular-devkit/schematics';
 import { ImportDeclarationStructure } from 'ts-morph';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
-import { createProgram } from '../../../shared/utils/program';
+import { createProgram, saveAndFormat } from '../../../shared/utils/program';
 import { getProjectTsConfigPaths } from '../../../shared/utils/project-tsconfig-paths';
 import { getDefaultProjectNameFromWorkspace } from '../../../shared/utils/workspace-utils';
 
@@ -67,8 +67,9 @@ export function migrateRenamedSymbols(
 
       if (importDeclarationStructures.length) {
         sourceFile.addImportDeclarations(importDeclarationStructures);
-        sourceFile.organizeImports(); // Will remove unused imports
-        sourceFile.saveSync();
+
+        // organizeImports will remove unused imports
+        saveAndFormat(sourceFile);
       }
     });
   }

@@ -25,10 +25,10 @@
       "factory": "./config-deprecations/config-deprecation#migrate",
       "description": "Handle deprecated configuration properties"
     },
-    "migration-v4-rename-symbol-01": {
+    "migration-v4-rename-symbol-02": {
       "version": "4.0.0",
       "factory": "./rename-symbol/rename-symbol#migrate",
-      "description": "Rename symbols that were moved/changed in majors"
+      "description": "Rename import symbols that were moved/changed in majors"
     }
   }
 }
