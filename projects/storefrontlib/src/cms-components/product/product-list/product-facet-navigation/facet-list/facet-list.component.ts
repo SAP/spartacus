@@ -9,6 +9,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { Facet } from '@spartacus/core';
+import { Tab } from 'projects/storefrontlib/src/cms-components/content/tab/Tab';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
@@ -53,6 +54,15 @@ export class FacetListComponent {
     focusOnEscape: true,
     autofocus: 'cx-facet',
   };
+
+  tabs$: Observable<Tab[]> = this.facetList$.pipe(
+    map((facets) => {
+      console.log(facets);
+      return {
+        title: '',
+      };
+    })
+  );
 
   @HostListener('click') handleClick() {
     this.close();
