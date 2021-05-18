@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Tracking schematics: ng-add Personalization feature eager loading should import appropriate modules (no lazy loaded syntax) 1`] = `
+exports[`Spartacus Tracking schematics: ng-add Personalization feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { PersonalizationModule } from \\"@spartacus/tracking/personalization\\";
 import { PersonalizationRootModule } from \\"@spartacus/tracking/personalization/root\\";
@@ -16,99 +16,7 @@ export class PersonalizationFeatureModule { }
 "
 `;
 
-exports[`Spartacus Tracking schematics: ng-add Personalization feature general setup should import feature module in SpartacusFeaturesModule 1`] = `
-"import { NgModule } from '@angular/core';
-import { AnonymousConsentsModule, AuthModule, CartModule, CartOccModule, CheckoutModule, CheckoutOccModule, CostCenterOccModule, ProductModule, ProductOccModule, UserOccTransitionalModule, UserTransitionalModule } from \\"@spartacus/core\\";
-import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CartComponentModule, CartPageEventModule, CategoryNavigationModule, CheckoutComponentModule, CheckoutLoginModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, OrderCancellationModule, OrderConfirmationModule, OrderDetailsModule, OrderHistoryModule, OrderReturnModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ReplenishmentOrderConfirmationModule, ReplenishmentOrderDetailsModule, ReplenishmentOrderHistoryModule, ReturnRequestDetailModule, ReturnRequestListModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule, WishListModule } from \\"@spartacus/storefront\\";
-import { PersonalizationFeatureModule } from './features/tracking/personalization-feature.module';
-
-@NgModule({
-  declarations: [],
-  imports: [
-    // Auth Core
-    AuthModule.forRoot(),
-    LogoutModule,
-    LoginRouteModule,
-    // Basic Cms Components
-    HamburgerMenuModule,
-    SiteContextSelectorModule,
-    LinkModule,
-    BannerModule,
-    CmsParagraphModule,
-    TabParagraphContainerModule,
-    BannerCarouselModule,
-    CategoryNavigationModule,
-    NavigationModule,
-    FooterNavigationModule,
-    BreadcrumbModule,
-    // User Core,
-    UserTransitionalModule,
-    UserOccTransitionalModule,
-    // User UI,
-    AddressBookModule,
-    PaymentMethodsModule,
-    NotificationPreferenceModule,
-    MyInterestsModule,
-    StockNotificationModule,
-    ConsentManagementModule,
-    MyCouponsModule,
-    // Anonymous Consents Core,
-    AnonymousConsentsModule.forRoot(),
-    // Anonymous Consents UI,
-    AnonymousConsentsDialogModule,
-    AnonymousConsentManagementBannerModule,
-    // Product Core,
-    ProductModule.forRoot(),
-    ProductOccModule,
-    // Product UI,
-    ProductDetailsPageModule,
-    ProductListingPageModule,
-    ProductListModule,
-    SearchBoxModule,
-    ProductFacetNavigationModule,
-    ProductTabsModule,
-    ProductCarouselModule,
-    ProductReferencesModule,
-    ProductImagesModule,
-    ProductSummaryModule,
-    ProductIntroModule,
-    // Cart Core,
-    CartModule.forRoot(),
-    CartOccModule,
-    // Cart UI,
-    CartComponentModule,
-    WishListModule,
-    // Checkout Core,
-    CheckoutModule.forRoot(),
-    CheckoutOccModule,
-    CostCenterOccModule,
-    // Checkout UI,
-    CheckoutLoginModule,
-    CheckoutComponentModule,
-    OrderConfirmationModule,
-    // Order,
-    OrderHistoryModule,
-    OrderDetailsModule,
-    OrderCancellationModule,
-    OrderReturnModule,
-    ReturnRequestListModule,
-    ReturnRequestDetailModule,
-    ReplenishmentOrderHistoryModule,
-    ReplenishmentOrderDetailsModule,
-    ReplenishmentOrderConfirmationModule,
-    // Page Events,
-    NavigationEventModule,
-    HomePageEventModule,
-    CartPageEventModule,
-    ProductPageEventModule,
-    PersonalizationFeatureModule,
-  ]
-})
-export class SpartacusFeaturesModule { }
-"
-`;
-
-exports[`Spartacus Tracking schematics: ng-add Personalization feature lazy loading should import appropriate modules (with lazy loaded syntax) 1`] = `
+exports[`Spartacus Tracking schematics: ng-add Personalization feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
 import { PersonalizationRootModule, PERSONALIZATION_FEATURE } from \\"@spartacus/tracking/personalization/root\\";
@@ -131,7 +39,7 @@ export class PersonalizationFeatureModule { }
 "
 `;
 
-exports[`Spartacus Tracking schematics: ng-add Tag Management feature AEP should import appropriate modules (no lazy loaded syntax) 1`] = `
+exports[`Spartacus Tracking schematics: ng-add Tag Management feature AEP general setup should import appropriate modules (without lazy loaded syntax) 1`] = `
 "import { NgModule } from '@angular/core';
 import { provideConfig } from \\"@spartacus/core\\";
 import { AepModule } from \\"@spartacus/tracking/tms/aep\\";
@@ -155,7 +63,7 @@ export class TagManagementFeatureModule { }
 "
 `;
 
-exports[`Spartacus Tracking schematics: ng-add Tag Management feature GTM and AEP should import appropriate modules (no lazy loaded syntax) 1`] = `
+exports[`Spartacus Tracking schematics: ng-add Tag Management feature GTM and AEP general setup should import appropriate modules (without lazy loaded syntax) 1`] = `
 "import { NgModule } from '@angular/core';
 import { provideConfig } from \\"@spartacus/core\\";
 import { AepModule } from \\"@spartacus/tracking/tms/aep\\";
@@ -189,7 +97,7 @@ export class TagManagementFeatureModule { }
 "
 `;
 
-exports[`Spartacus Tracking schematics: ng-add Tag Management feature GTM should import appropriate modules (no lazy loaded syntax) 1`] = `
+exports[`Spartacus Tracking schematics: ng-add Tag Management feature GTM general setup should import appropriate modules (without lazy loaded syntax) 1`] = `
 "import { NgModule } from '@angular/core';
 import { provideConfig } from \\"@spartacus/core\\";
 import { BaseTmsModule, TmsConfig } from \\"@spartacus/tracking/tms/core\\";
@@ -210,97 +118,5 @@ import { GtmModule } from \\"@spartacus/tracking/tms/gtm\\";
   })]
 })
 export class TagManagementFeatureModule { }
-"
-`;
-
-exports[`Spartacus Tracking schematics: ng-add Tag Management feature general setup should import feature module in SpartacusFeaturesModule 1`] = `
-"import { NgModule } from '@angular/core';
-import { AnonymousConsentsModule, AuthModule, CartModule, CartOccModule, CheckoutModule, CheckoutOccModule, CostCenterOccModule, ProductModule, ProductOccModule, UserOccTransitionalModule, UserTransitionalModule } from \\"@spartacus/core\\";
-import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CartComponentModule, CartPageEventModule, CategoryNavigationModule, CheckoutComponentModule, CheckoutLoginModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, OrderCancellationModule, OrderConfirmationModule, OrderDetailsModule, OrderHistoryModule, OrderReturnModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ReplenishmentOrderConfirmationModule, ReplenishmentOrderDetailsModule, ReplenishmentOrderHistoryModule, ReturnRequestDetailModule, ReturnRequestListModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule, WishListModule } from \\"@spartacus/storefront\\";
-import { TagManagementFeatureModule } from './features/tracking/tag-management-feature.module';
-
-@NgModule({
-  declarations: [],
-  imports: [
-    // Auth Core
-    AuthModule.forRoot(),
-    LogoutModule,
-    LoginRouteModule,
-    // Basic Cms Components
-    HamburgerMenuModule,
-    SiteContextSelectorModule,
-    LinkModule,
-    BannerModule,
-    CmsParagraphModule,
-    TabParagraphContainerModule,
-    BannerCarouselModule,
-    CategoryNavigationModule,
-    NavigationModule,
-    FooterNavigationModule,
-    BreadcrumbModule,
-    // User Core,
-    UserTransitionalModule,
-    UserOccTransitionalModule,
-    // User UI,
-    AddressBookModule,
-    PaymentMethodsModule,
-    NotificationPreferenceModule,
-    MyInterestsModule,
-    StockNotificationModule,
-    ConsentManagementModule,
-    MyCouponsModule,
-    // Anonymous Consents Core,
-    AnonymousConsentsModule.forRoot(),
-    // Anonymous Consents UI,
-    AnonymousConsentsDialogModule,
-    AnonymousConsentManagementBannerModule,
-    // Product Core,
-    ProductModule.forRoot(),
-    ProductOccModule,
-    // Product UI,
-    ProductDetailsPageModule,
-    ProductListingPageModule,
-    ProductListModule,
-    SearchBoxModule,
-    ProductFacetNavigationModule,
-    ProductTabsModule,
-    ProductCarouselModule,
-    ProductReferencesModule,
-    ProductImagesModule,
-    ProductSummaryModule,
-    ProductIntroModule,
-    // Cart Core,
-    CartModule.forRoot(),
-    CartOccModule,
-    // Cart UI,
-    CartComponentModule,
-    WishListModule,
-    // Checkout Core,
-    CheckoutModule.forRoot(),
-    CheckoutOccModule,
-    CostCenterOccModule,
-    // Checkout UI,
-    CheckoutLoginModule,
-    CheckoutComponentModule,
-    OrderConfirmationModule,
-    // Order,
-    OrderHistoryModule,
-    OrderDetailsModule,
-    OrderCancellationModule,
-    OrderReturnModule,
-    ReturnRequestListModule,
-    ReturnRequestDetailModule,
-    ReplenishmentOrderHistoryModule,
-    ReplenishmentOrderDetailsModule,
-    ReplenishmentOrderConfirmationModule,
-    // Page Events,
-    NavigationEventModule,
-    HomePageEventModule,
-    CartPageEventModule,
-    ProductPageEventModule,
-    TagManagementFeatureModule,
-  ]
-})
-export class SpartacusFeaturesModule { }
 "
 `;

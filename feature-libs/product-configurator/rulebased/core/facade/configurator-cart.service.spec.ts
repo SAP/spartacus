@@ -15,6 +15,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
+  ConfiguratorType,
   OrderEntryStatus,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
@@ -138,16 +139,19 @@ describe('ConfiguratorCartService', () => {
       id: CART_ENTRY_ID,
       type: CommonConfigurator.OwnerType.CART_ENTRY,
       key: CommonConfigurator.OwnerType.CART_ENTRY + '/' + CART_ENTRY_ID,
+      configuratorType: ConfiguratorType.VARIANT,
     };
     OWNER_ORDER_ENTRY = {
       id: configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER),
       type: CommonConfigurator.OwnerType.ORDER_ENTRY,
       key: CommonConfigurator.OwnerType.ORDER_ENTRY + '/1000+' + CART_ENTRY_ID,
+      configuratorType: ConfiguratorType.VARIANT,
     };
     OWNER_PRODUCT = {
       id: PRODUCT_CODE,
       type: CommonConfigurator.OwnerType.PRODUCT,
       key: CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
+      configuratorType: ConfiguratorType.VARIANT,
     };
   });
 
