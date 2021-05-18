@@ -264,7 +264,7 @@ describe('Workspace utils', () => {
       expect(projectTargets).toEqual(expectedProject.architect);
     });
 
-    it('should throw an error', () => {
+    it('should throw an error if not found', () => {
       expect(() =>
         getProjectTargets({
           projectType: ProjectType.Application,
