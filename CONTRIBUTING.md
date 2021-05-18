@@ -123,12 +123,7 @@ To view a list of open issues that require analysis, see the [list of open issue
 
 We welcome contributions to the Spartacus codebase. Before you start your first contribution, here are some things you should know:
 
-1. You must be aware of the Apache License (which describes contributions), and you must agree to the [Contributors License Agreement](LICENSE.md). This is common practice for most open source projects.
-
-    Note: You do not need to sign the CLA until you submit your first pull request. If you have not signed the CLA before, a link to the CLA assistant is provided on the PR status page.
-
-    * To make this process as simple as possible, we use the *[CLA assistant](https://cla-assistant.io/)* for individual contributions. CLA assistant is an open source tool that integrates with GitHub very well and enables a one-click-experience for accepting the CLA.
-    * For company contributors, special rules apply. See the respective section below for details.
+1. You must be aware of the Apache License (which describes contributions). This is common practice for most open source projects.
 
 1. Contributions must be compliant with the project code style, quality, and standards. We also follow them :-) 
 
@@ -138,13 +133,7 @@ We welcome contributions to the Spartacus codebase. Before you start your first 
     * The code you are submitting must fit the overall vision and direction of Spartacus and really improve it. Bug fixes are simple cases, for example, but new features may work better as third-party extensions.
     * Major feature implementations should be discussed with the owner [Bill Marcotte](https://github.com/Xymmer). You can also float ideas in our Slack channel, and we'll connect you to the appropriate person for further discussion.
 
-### Contributor License Agreement
-
-When you contribute anything to Spartacus (code, documentation, analysis, anything), be aware that your contribution is covered by the same [Apache 2.0 License](http://www.apache.org/licenses/LICENSE-2.0) that is applied to Spartacus itself. In particular, you must agree to the [Individual Contributor License Agreement](https://gist.github.com/CLAassistant/bd1ea8ec8aa0357414e8).
-
-This applies to all contributors, including those contributing on behalf of a company. If you agree to its content, click on the link posted by the CLA assistant as a comment to the pull request. Click it to check the CLA, then accept it on the following screen if you agree to it. CLA assistant will save this decision for upcoming contributions and will notify you if there is any changes to the CLA in the meantime.
-
-#### Company Contributors
+### Company Contributors
 
 If employees of a company contribute code, in **addition** to the individual agreement above, there needs to be one company agreement submitted. This is mainly for the protection of the contributing employees.
 
@@ -174,9 +163,9 @@ The "guidelines and standards" requirement could fill entire books and still lac
 
 1. Make sure the change would be welcome, as described above.
 
-1. Create a fork of the Spartacus library sources. 
+1. Create a fork of the Spartacus library sources.
 
-1. Build and run the storefront from the library development workspace. 
+1. Build and run the storefront from the library development workspace.
 
     For more information, see [Contributor Setup](https://sap.github.io/spartacus-docs/contributor-setup/).
 
@@ -200,7 +189,6 @@ The "guidelines and standards" requirement could fill entire books and still lac
         ```Closes https://github.com/SAP/spartacus/pull/(pullRequestNumber)```
 
 1. Create a pull request so that we can review your change.
-1. Follow the link posted by the CLA assistant to your pull request and accept it, as described above.
 1. Wait for our code review and approval, possibly enhancing your change on request.
     
     Note: This may take time, depending on the required effort for reviewing, testing, and clarification. Spartacus developers are also working their regular duties.
