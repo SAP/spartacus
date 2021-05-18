@@ -18,6 +18,7 @@ import {
   buildDefaultPath,
   getAngularJsonFile,
   getDefaultProjectNameFromWorkspace,
+  getProject,
   getProjectFromWorkspace,
   getProjectTargets,
   getSourceRoot,
@@ -30,103 +31,114 @@ import { SPARTACUS_CORE } from '../../shared/constants';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
-const expectedProjectTargets = {
-  build: {
-    builder: '@angular-devkit/build-angular:browser',
-    configurations: {
-      production: {
-        budgets: [
-          {
-            maximumError: '5mb',
-            maximumWarning: '2mb',
-            type: 'initial',
-          },
-          {
-            maximumError: '10kb',
-            maximumWarning: '6kb',
-            type: 'anyComponentStyle',
-          },
+const expectedProject = {
+  architect: {
+    build: {
+      builder: '@angular-devkit/build-angular:browser',
+      configurations: {
+        production: {
+          budgets: [
+            {
+              maximumError: '5mb',
+              maximumWarning: '2mb',
+              type: 'initial',
+            },
+            {
+              maximumError: '10kb',
+              maximumWarning: '6kb',
+              type: 'anyComponentStyle',
+            },
+          ],
+          buildOptimizer: true,
+          extractCss: true,
+          extractLicenses: true,
+          fileReplacements: [
+            {
+              replace: 'src/environments/environment.ts',
+              with: 'src/environments/environment.prod.ts',
+            },
+          ],
+          namedChunks: false,
+          optimization: true,
+          outputHashing: 'all',
+          sourceMap: false,
+          vendorChunk: false,
+        },
+      },
+      options: {
+        aot: true,
+        assets: ['src/favicon.ico', 'src/assets'],
+        index: 'src/index.html',
+        main: 'src/main.ts',
+        outputPath: 'dist/schematics-test',
+        polyfills: 'src/polyfills.ts',
+        scripts: [],
+        styles: ['src/styles.scss'],
+        tsConfig: 'tsconfig.app.json',
+      },
+    },
+    e2e: {
+      builder: '@angular-devkit/build-angular:protractor',
+      configurations: {
+        production: {
+          devServerTarget: 'schematics-test:serve:production',
+        },
+      },
+      options: {
+        devServerTarget: 'schematics-test:serve',
+        protractorConfig: 'e2e/protractor.conf.js',
+      },
+    },
+    'extract-i18n': {
+      builder: '@angular-devkit/build-angular:extract-i18n',
+      options: {
+        browserTarget: 'schematics-test:build',
+      },
+    },
+    lint: {
+      builder: '@angular-devkit/build-angular:tslint',
+      options: {
+        exclude: ['**/node_modules/**'],
+        tsConfig: [
+          'tsconfig.app.json',
+          'tsconfig.spec.json',
+          'e2e/tsconfig.json',
         ],
-        buildOptimizer: true,
-        extractCss: true,
-        extractLicenses: true,
-        fileReplacements: [
-          {
-            replace: 'src/environments/environment.ts',
-            with: 'src/environments/environment.prod.ts',
-          },
-        ],
-        namedChunks: false,
-        optimization: true,
-        outputHashing: 'all',
-        sourceMap: false,
-        vendorChunk: false,
       },
     },
-    options: {
-      aot: true,
-      assets: ['src/favicon.ico', 'src/assets'],
-      index: 'src/index.html',
-      main: 'src/main.ts',
-      outputPath: 'dist/schematics-test',
-      polyfills: 'src/polyfills.ts',
-      scripts: [],
-      styles: ['src/styles.scss'],
-      tsConfig: 'tsconfig.app.json',
-    },
-  },
-  e2e: {
-    builder: '@angular-devkit/build-angular:protractor',
-    configurations: {
-      production: {
-        devServerTarget: 'schematics-test:serve:production',
+    serve: {
+      builder: '@angular-devkit/build-angular:dev-server',
+      configurations: {
+        production: {
+          browserTarget: 'schematics-test:build:production',
+        },
+      },
+      options: {
+        browserTarget: 'schematics-test:build',
       },
     },
-    options: {
-      devServerTarget: 'schematics-test:serve',
-      protractorConfig: 'e2e/protractor.conf.js',
-    },
-  },
-  'extract-i18n': {
-    builder: '@angular-devkit/build-angular:extract-i18n',
-    options: {
-      browserTarget: 'schematics-test:build',
-    },
-  },
-  lint: {
-    builder: '@angular-devkit/build-angular:tslint',
-    options: {
-      exclude: ['**/node_modules/**'],
-      tsConfig: [
-        'tsconfig.app.json',
-        'tsconfig.spec.json',
-        'e2e/tsconfig.json',
-      ],
-    },
-  },
-  serve: {
-    builder: '@angular-devkit/build-angular:dev-server',
-    configurations: {
-      production: {
-        browserTarget: 'schematics-test:build:production',
+    test: {
+      builder: '@angular-devkit/build-angular:karma',
+      options: {
+        assets: ['src/favicon.ico', 'src/assets'],
+        karmaConfig: 'karma.conf.js',
+        main: 'src/test.ts',
+        polyfills: 'src/polyfills.ts',
+        scripts: [],
+        styles: ['src/styles.scss'],
+        tsConfig: 'tsconfig.spec.json',
       },
     },
-    options: {
-      browserTarget: 'schematics-test:build',
+  },
+  prefix: 'app',
+  projectType: 'application',
+  root: '',
+  schematics: {
+    '@schematics/angular:component': {
+      style: 'scss',
     },
   },
-  test: {
-    builder: '@angular-devkit/build-angular:karma',
-    options: {
-      assets: ['src/favicon.ico', 'src/assets'],
-      karmaConfig: 'karma.conf.js',
-      main: 'src/test.ts',
-      polyfills: 'src/polyfills.ts',
-      scripts: [],
-      styles: ['src/styles.scss'],
-      tsConfig: 'tsconfig.spec.json',
-    },
-  },
+  sourceRoot: 'src',
 };
 
 describe('Workspace utils', () => {
@@ -249,7 +261,7 @@ describe('Workspace utils', () => {
       const projectTargets = getProjectTargets(
         getProjectFromWorkspace(appTree, defaultOptions)
       );
-      expect(projectTargets).toEqual(expectedProjectTargets);
+      expect(projectTargets).toEqual(expectedProject.architect);
     });
 
     it('should throw an error', () => {
@@ -293,15 +305,13 @@ describe('Workspace utils', () => {
 
   describe('getProject', () => {
     it('should return project', () => {
-      // const project = getProject(
-      //   {
-      //     projectType: ProjectType.Application,
-      //     root: {},
-      //     prefix: 'prefix',
-      //   },
-      //   'name'
-      // );
-      // expect(project).toEqual({});
+      const project = getProject(appTree, 'schematics-test');
+      expect(project).toEqual(expectedProject);
+    });
+
+    it('should return undefined for unknown name', () => {
+      const project = getProject(appTree, 'unknownName');
+      expect(project).toBeUndefined();
     });
   });
 
