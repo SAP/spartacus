@@ -316,7 +316,17 @@ describe('Workspace utils', () => {
   });
 
   describe('isWorkspaceSchema', () => {
-    it('should return boolean', () => {
+    it('should return true', () => {
+      const project = isWorkspaceSchema({
+        projectType: ProjectType.Application,
+        root: 'root',
+        prefix: 'prefix',
+        projects: {},
+      });
+      expect(project).toEqual(true);
+    });
+
+    it('should return false if it does not', () => {
       const project = isWorkspaceSchema({
         projectType: ProjectType.Application,
         root: 'root',
