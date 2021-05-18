@@ -8,7 +8,6 @@ import {
   UserIdService,
   WindowRef,
 } from '@spartacus/core';
-//import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CdcUserProfileAdapter } from '../adapter/cdc-user-profile.adapter';
@@ -100,7 +99,6 @@ describe('CdcJsService', () => {
   let baseSiteService: BaseSiteService;
   let languageService: LanguageService;
   let scriptLoader: ScriptLoader;
-  //let userProfileFacade: UserProfileFacade;
   let cdcAuth: CdcAuthFacade;
   let winRef: WindowRef;
   let authService: AuthService;
@@ -113,7 +111,6 @@ describe('CdcJsService', () => {
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: LanguageService, useClass: LanguageServiceStub },
         { provide: ScriptLoader, useClass: ScriptLoaderMock },
-        //{ provide: UserProfileFacade, useClass: MockUserProfileFacade },
         { provide: CdcAuthFacade, useClass: MockCdcAuthFacade },
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: Subscription, useValue: MockSubscription },
