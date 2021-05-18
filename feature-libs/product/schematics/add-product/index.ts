@@ -46,7 +46,7 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_PRODUCT_BULK_PRICING_FEATURE, options.features)
         ? addBulkPricingFeature(options)

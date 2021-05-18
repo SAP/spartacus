@@ -37,7 +37,7 @@ export function addStorefinderFeatures(
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_STOREFINDER_FEATURE, options.features)
         ? addStorefinderFeature(options)

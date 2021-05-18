@@ -36,7 +36,7 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_CART_SAVED_CART_FEATURE, options.features)
         ? addSavedCartFeature(options)

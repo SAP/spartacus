@@ -48,7 +48,7 @@ export function addProductConfiguratorFeatures(
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       addProductConfiguratorRulebasedFeature(options),
 

@@ -41,7 +41,7 @@ export function addTrackingFeatures(options: SpartacusTrackingOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_TRACKING_TMS_GTM_FEATURE, options.features)
         ? addGtm(options)
