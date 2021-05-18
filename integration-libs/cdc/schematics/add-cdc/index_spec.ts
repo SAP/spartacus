@@ -12,6 +12,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CLI_CDC_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
   LibraryOptions,
   LibraryOptions as SpartacusCdcOptions,
   SpartacusOptions,
@@ -160,7 +161,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
           .map(
             (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
           );
-        expect(tasks.length).toEqual(2);
+        expect(tasks.length).toEqual(3);
 
         const asmTask = tasks[0];
         expect(asmTask).toBeTruthy();
@@ -171,6 +172,17 @@ describe('Spartacus CDC schematics: ng-add', () => {
         expect(userTask).toBeTruthy();
         expect(userTask.name).toEqual('add-spartacus-library');
         expect(userTask.options).toHaveProperty('collection', SPARTACUS_USER);
+
+        const userTaskWithSubFeatures = tasks[2];
+        expect(userTaskWithSubFeatures).toBeTruthy();
+        expect(userTaskWithSubFeatures.name).toEqual('add-spartacus-library');
+        expect(userTaskWithSubFeatures.options).toHaveProperty(
+          'collection',
+          SPARTACUS_USER
+        );
+        expect(
+          userTaskWithSubFeatures.options.options
+        ).toHaveProperty('features', [CLI_USER_PROFILE_FEATURE]);
       });
 
       it('should add the feature using the lazy loading syntax', async () => {

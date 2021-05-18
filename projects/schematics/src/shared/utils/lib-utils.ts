@@ -58,6 +58,8 @@ export interface LibraryOptions {
   project: string;
   lazy: boolean;
   features?: string[];
+  // meta, when programmatically installing other Spartacus libraries as dependencies
+  options?: LibraryOptions;
 }
 
 export interface FeatureConfig {
