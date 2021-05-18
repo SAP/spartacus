@@ -211,6 +211,31 @@ describe('Configurator reducer', () => {
     });
   });
 
+  describe('UpdatePriceSummarySuccess action', () => {
+    it('should keep the existing groups altough it does not provide groups in its data', () => {
+      const actionProvidingState = new ConfiguratorActions.CreateConfigurationSuccess(
+        configuration
+      );
+      const firstState = StateReduce.configuratorReducer(
+        undefined,
+        actionProvidingState
+      );
+      const configurationWithPriceSummary: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(
+          'A',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        priceSummary: { basePrice: {} },
+      };
+      const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
+        configurationWithPriceSummary
+      );
+      const state = StateReduce.configuratorReducer(firstState, action);
+
+      expect(state.groups.length).toBe(2);
+    });
+  });
+
   describe('RemoveConfiguration action', () => {
     it('should set the initial state', () => {
       const action1 = new ConfiguratorActions.ReadConfigurationSuccess(
