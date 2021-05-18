@@ -5,4 +5,8 @@ export const formats = {
     width: 575,
     height: 640,
   },
+  desktop: {
+    width: 1000,
+    height: 660,
+  },
 };

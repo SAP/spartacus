@@ -1,6 +1,7 @@
 import {
   Compiler,
   Injectable,
+  InjectFlags,
   Injector,
   NgModuleFactory,
   NgModuleRef,
@@ -14,12 +15,23 @@ import {
   of,
   queueScheduler,
   Subscription,
+  throwError,
 } from 'rxjs';
-import { map, observeOn, publishReplay, switchMap, tap } from 'rxjs/operators';
-import { createFrom } from '../util/create-from';
-import { ModuleInitializedEvent } from './events/module-initialized-event';
+import {
+  catchError,
+  concatMap,
+  map,
+  observeOn,
+  publishReplay,
+  switchMap,
+  switchMapTo,
+  tap,
+} from 'rxjs/operators';
 import { EventService } from '../event/event.service';
 import { CombinedInjector } from '../util/combined-injector';
+import { createFrom } from '../util/create-from';
+import { ModuleInitializedEvent } from './events/module-initialized-event';
+import { MODULE_INITIALIZER } from './tokens';
 
 /**
  * Utility service for managing dynamic imports of Angular services
@@ -64,15 +76,22 @@ export class LazyModulesService implements OnDestroy {
     feature?: string,
     dependencyModuleRefs: NgModuleRef<any>[] = []
   ): Observable<NgModuleRef<any>> {
-    const parentInjector = dependencyModuleRefs.length
-      ? new CombinedInjector(
-          this.injector,
-          dependencyModuleRefs.map((moduleRef) => moduleRef.injector)
-        )
-      : this.injector;
+    let parentInjector: Injector;
+
+    if (!dependencyModuleRefs.length) {
+      parentInjector = this.injector;
+    } else if (dependencyModuleRefs.length === 1) {
+      parentInjector = dependencyModuleRefs[0].injector;
+    } else {
+      parentInjector = new CombinedInjector(
+        this.injector,
+        dependencyModuleRefs.map((moduleRef) => moduleRef.injector)
+      );
+    }
 
     return this.resolveModuleFactory(moduleFunc).pipe(
       map(([moduleFactory]) => moduleFactory.create(parentInjector)),
+      concatMap((moduleRef) => this.runModuleInitializersForModule(moduleRef)),
       tap((moduleRef) =>
         this.events.dispatch(
           createFrom(ModuleInitializedEvent, {
@@ -104,6 +123,7 @@ export class LazyModulesService implements OnDestroy {
 
         return this.dependencyModules.get(module);
       }),
+      concatMap((moduleRef) => this.runModuleInitializersForModule(moduleRef)),
       tap((moduleRef) =>
         this.events.dispatch(
           createFrom(ModuleInitializedEvent, {
@@ -112,6 +132,82 @@ export class LazyModulesService implements OnDestroy {
         )
       )
     );
+  }
+
+  /**
+   * The purpose of this function is to run MODULE_INITIALIZER logic that can be provided
+   * by a lazy loaded module.  The module is recieved as a function parameter.
+   * This function returns an Observable to the module reference passed as an argument.
+   *
+   * @param {NgModuleRef<any>} moduleRef
+   *
+   * @returns {Observable<NgModuleRef<any>>}
+   */
+  public runModuleInitializersForModule(
+    moduleRef: NgModuleRef<any>
+  ): Observable<NgModuleRef<any>> {
+    const moduleInits: any[] = moduleRef.injector.get<any[]>(
+      MODULE_INITIALIZER,
+      [],
+      InjectFlags.Self
+    );
+    const asyncInitPromises: Promise<any>[] = this.runModuleInitializerFunctions(
+      moduleInits
+    );
+    if (asyncInitPromises.length) {
+      return from(Promise.all(asyncInitPromises)).pipe(
+        catchError((error) => {
+          console.error(
+            'MODULE_INITIALIZER promise was rejected while lazy loading a module.',
+            error
+          );
+          return throwError(error);
+        }),
+        switchMapTo(of(moduleRef))
+      );
+    } else {
+      return of(moduleRef);
+    }
+  }
+
+  /**
+   * This function accepts an array of functions and runs them all. For each function that returns a promise,
+   * the resulting promise is stored in an array of promises.  That array of promises is returned.
+   * It is not required for the functions to return a Promise.  All functions are run.  The return values
+   * that are not a Promise are simply not stored and returned.
+   *
+   * @param {(() => any)[]} initFunctions An array of functions too be run.
+   *
+   * @return {Promise<any>[]} An array of Promise returned by the functions, if any,
+   */
+  public runModuleInitializerFunctions(
+    initFunctions: (() => any)[]
+  ): Promise<any>[] {
+    const initPromises: Promise<any>[] = [];
+    try {
+      if (initFunctions) {
+        for (let i = 0; i < initFunctions.length; i++) {
+          const initResult = initFunctions[i]();
+          if (this.isObjectPromise(initResult)) {
+            initPromises.push(initResult);
+          }
+        }
+      }
+      return initPromises;
+    } catch (error) {
+      console.error(
+        `MODULE_INITIALIZER init function throwed an error. `,
+        error
+      );
+      throw error;
+    }
+  }
+
+  /**
+   * Determine if the argument is shaped like a Promise
+   */
+  private isObjectPromise<T = any>(obj: any): obj is Promise<T> {
+    return !!obj && typeof obj.then === 'function';
   }
 
   /**

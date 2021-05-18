@@ -8,6 +8,17 @@
       "private": true,
       "hidden": true,
       "aliases": ["install"]
+    },
+    "add-spartacus-library": {
+      "description": "Install a spartacus library",
+      "factory": "./add-library/index#addSpartacusLibrary",
+      "private": true,
+      "hidden": true
+    },
+    "add": {
+      "factory": "./add-qualtrics/index#addQualtricsFeatures",
+      "description": "Add and configure Spartacus' qualtrics features",
+      "schema": "./add-qualtrics/schema.json"
     }
   }
 }

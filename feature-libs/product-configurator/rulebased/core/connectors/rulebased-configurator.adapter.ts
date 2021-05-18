@@ -37,7 +37,6 @@ export abstract class RulebasedConfiguratorAdapter {
   ): Observable<Configurator.Configuration>;
 
   /**
-
    * Abstract method to add a configuration to cart.
    *
    * @param parameters add to cart parameters object

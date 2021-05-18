@@ -6,9 +6,13 @@ import {
   ActiveCartService,
   Cart,
   OCC_USER_ID_ANONYMOUS,
+  UserIdService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { of } from 'rxjs';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
+import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import {
@@ -27,15 +31,16 @@ const CHANGED_VALUE = 'theNewValue';
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
 const CART_ENTRY_NUMBER = '2';
-const owner: CommonConfigurator.Owner = {
-  id: PRODUCT_CODE,
-  type: CommonConfigurator.OwnerType.PRODUCT,
-};
+const owner = ConfiguratorModelUtils.createOwner(
+  CommonConfigurator.OwnerType.PRODUCT,
+  PRODUCT_CODE
+);
 
-const ownerCartRelated: CommonConfigurator.Owner = {
-  id: CART_ENTRY_NUMBER,
-  type: CommonConfigurator.OwnerType.CART_ENTRY,
-};
+const ownerCartRelated = ConfiguratorModelUtils.createOwner(
+  CommonConfigurator.OwnerType.CART_ENTRY,
+  CART_ENTRY_NUMBER
+);
+
 const readFromCartEntryParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
   userId: 'anonymous',
   cartId: CART_GUID,
@@ -47,10 +52,10 @@ const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [
     { configurationLabel: ATTRIBUTE_NAME, configurationValue: ATTRIBUTE_VALUE },
   ],
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  },
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    PRODUCT_CODE
+  ),
 };
 
 const loaderState: ConfigurationTextfieldState = {
@@ -81,10 +86,10 @@ const changedProductConfiguration: ConfiguratorTextfield.Configuration = {
       status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
     },
   ],
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  },
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    PRODUCT_CODE
+  ),
 };
 
 const cart: Cart = {
@@ -100,6 +105,12 @@ const cartState: any = {
 class MockActiveCartService {
   requireLoadedCart(): any {
     return of(cartState);
+  }
+}
+
+class MockUserIdService {
+  getUserId(): Observable<string> {
+    return of(OCC_USER_ID_ANONYMOUS);
   }
 }
 
@@ -125,6 +136,10 @@ describe('ConfiguratorTextfieldService', () => {
           {
             provide: ActiveCartService,
             useClass: MockActiveCartService,
+          },
+          {
+            provide: UserIdService,
+            useClass: MockUserIdService,
           },
         ],
       }).compileComponents();

@@ -1,58 +1,54 @@
 import { Injectable } from '@angular/core';
-import { ofType } from '@ngrx/effects';
-import { RouterNavigatedAction, ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { ActionsSubject } from '@ngrx/store';
 import {
-  ActivatedRouterStateSnapshot,
   createFrom,
   EventService,
+  FeatureConfigService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { HomePageEvent, PageEvent } from './page.events';
+import { map } from 'rxjs/operators';
+import { NavigationEvent } from '../navigation/navigation.event';
+import { PageEvent } from './page.events';
 
 @Injectable({
   providedIn: 'root',
 })
+// TODO: #10896 - delete this whole file
+/**
+ * @deprecated @since 3.1 - this builder will be removed in 4.0. Please use NavigationEventBuilder and NavigationEvent instead.
+ */
 export class PageEventBuilder {
   constructor(
+    /** @deprecated @since 3.1 - this will be removed in 4.0 */
     protected actions: ActionsSubject,
-    protected eventService: EventService
+    protected eventService: EventService,
+    /** @deprecated @since 3.1 - this will be removed in 4.0 */ protected featureConfigService?: FeatureConfigService
   ) {
     this.register();
   }
 
   protected register(): void {
-    this.eventService.register(PageEvent, this.buildPageEvent());
-    this.eventService.register(HomePageEvent, this.buildHomePageEvent());
+    if (this.featureConfigService?.isLevel('!3.1')) {
+      this.eventService.register(PageEvent, this.buildPageEvent());
+    }
   }
 
+  /**
+   * @deprecated @since 3.1 - this will be removed in 4.0. Please use `NavigationEvent` instead.
+   */
   protected buildPageEvent(): Observable<PageEvent> {
-    return this.getNavigatedEvent().pipe(
-      map((state) =>
+    return this.eventService.get(NavigationEvent).pipe(
+      map((navigationEvent) =>
         createFrom(PageEvent, {
-          context: state.context,
-          semanticRoute: state.semanticRoute,
-          url: state.url,
-          params: state.params,
+          context: navigationEvent.context,
+          semanticRoute: navigationEvent.semanticRoute,
+          url: navigationEvent.url,
+          params: navigationEvent.params,
+          navigation: {
+            ...navigationEvent,
+          },
         })
       )
-    );
-  }
-
-  protected buildHomePageEvent(): Observable<HomePageEvent> {
-    return this.buildPageEvent().pipe(
-      filter((pageEvent) => pageEvent.semanticRoute === 'home'),
-      map((pageEvent) => createFrom(HomePageEvent, pageEvent))
-    );
-  }
-
-  private getNavigatedEvent(): Observable<ActivatedRouterStateSnapshot> {
-    return this.actions.pipe(
-      ofType<RouterNavigatedAction<ActivatedRouterStateSnapshot>>(
-        ROUTER_NAVIGATED
-      ),
-      map((event) => event.payload.routerState)
     );
   }
 }

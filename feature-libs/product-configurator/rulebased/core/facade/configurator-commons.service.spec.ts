@@ -6,6 +6,7 @@ import { ActiveCartService, Cart, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -23,9 +24,9 @@ import { ConfiguratorCommonsService } from './configurator-commons.service';
 import { ConfiguratorUtilsService } from './utils';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
-let OWNER_PRODUCT: CommonConfigurator.Owner = {};
-let OWNER_CART_ENTRY: CommonConfigurator.Owner = {};
-let OWNER_ORDER_ENTRY: CommonConfigurator.Owner = {};
+let OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
+let OWNER_CART_ENTRY = ConfiguratorModelUtils.createInitialOwner();
+let OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createInitialOwner();
 
 const CONFIG_ID = '1234-56-7890';
 const GROUP_ID_1 = '123ab';
@@ -66,10 +67,18 @@ const group2: Configurator.Group = {
 
 let productConfiguration: Configurator.Configuration = {
   configId: CONFIG_ID,
+  owner: ConfiguratorModelUtils.createInitialOwner(),
+};
+
+const productConfigurationProductBoundObsolete: Configurator.Configuration = {
+  configId: CONFIG_ID,
+  nextOwner: OWNER_CART_ENTRY,
+  owner: OWNER_PRODUCT,
 };
 
 const productConfigurationChanged: Configurator.Configuration = {
   configId: CONFIG_ID,
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 
 const configurationState: ConfiguratorState = {
@@ -179,21 +188,18 @@ describe('ConfiguratorCommonsService', () => {
     configuratorUtilsService = TestBed.inject(
       ConfiguratorUtilsService as Type<ConfiguratorUtilsService>
     );
-
-    OWNER_PRODUCT = {
-      id: PRODUCT_CODE,
-      type: CommonConfigurator.OwnerType.PRODUCT,
-    };
-
-    OWNER_CART_ENTRY = {
-      id: '3',
-      type: CommonConfigurator.OwnerType.CART_ENTRY,
-    };
-
-    OWNER_ORDER_ENTRY = {
-      id: configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER),
-      type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-    };
+    OWNER_PRODUCT = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    );
+    OWNER_CART_ENTRY = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.CART_ENTRY,
+      '3'
+    );
+    OWNER_ORDER_ENTRY = ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.ORDER_ENTRY,
+      configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER)
+    );
 
     productConfiguration = {
       configId: CONFIG_ID,
@@ -269,7 +275,15 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
 
     expect(
       configuratorUtilsService.createConfigurationExtract
@@ -284,7 +298,15 @@ describe('ConfiguratorCommonsService', () => {
       name: ATTRIBUTE_NAME_1,
       groupId: GROUP_ID_1,
     };
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
+
     expect(
       configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalledTimes(0);
@@ -303,11 +325,39 @@ describe('ConfiguratorCommonsService', () => {
       groupId: GROUP_ID_1,
     };
 
-    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(
+      OWNER_PRODUCT.key,
+      changedAttribute,
+      updateType
+    );
 
     expect(
       configuratorUtilsService.createConfigurationExtract
     ).toHaveBeenCalled();
+  });
+
+  it('should update a configuration in case if no updateType parameter in the call', () => {
+    cart.code = 'X';
+    cartObs = of(cart);
+    spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+      of(productConfiguration)
+    );
+    const changedAttribute: Configurator.Attribute = {
+      name: ATTRIBUTE_NAME_1,
+      groupId: GROUP_ID_1,
+    };
+
+    const updateType: Configurator.UpdateType =
+      Configurator.UpdateType.ATTRIBUTE;
+
+    serviceUnderTest.updateConfiguration(OWNER_PRODUCT.key, changedAttribute);
+
+    expect(
+      configuratorUtilsService.createConfigurationExtract
+    ).toHaveBeenCalledWith(changedAttribute, productConfiguration, updateType);
   });
 
   describe('getConfigurationWithOverview', () => {
@@ -334,6 +384,7 @@ describe('ConfiguratorCommonsService', () => {
       const configurationWithOverview: Configurator.Configuration = {
         configId: CONFIG_ID,
         overview: {},
+        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(configurationWithOverview)
@@ -511,6 +562,30 @@ describe('ConfiguratorCommonsService', () => {
           done();
         })
         .unsubscribe();
+    });
+  });
+
+  describe('removeObsoleteProductBoundConfiguration', () => {
+    it('should not dispatch any action if the configuration does not carry a next owner', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfiguration)
+      );
+      serviceUnderTest['removeObsoleteProductBoundConfiguration'](
+        OWNER_PRODUCT
+      );
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
+
+    it('should dispatch the remove action if the configuration carries a next owner', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
+        of(productConfigurationProductBoundObsolete)
+      );
+      serviceUnderTest['removeObsoleteProductBoundConfiguration'](
+        OWNER_PRODUCT
+      );
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });
 });

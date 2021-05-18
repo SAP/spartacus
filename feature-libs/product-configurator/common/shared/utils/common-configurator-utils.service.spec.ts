@@ -1,19 +1,33 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { Cart, OCC_USER_ID_ANONYMOUS, OrderEntry } from '@spartacus/core';
-import { CommonConfigurator } from '../../core/model/common-configurator.model';
-import { OrderEntryStatus } from './../../core/model/common-configurator.model';
+import { FormControl } from '@angular/forms';
+import {
+  Cart,
+  OCC_USER_ID_ANONYMOUS,
+  OrderEntry,
+  PromotionLocation,
+  UserIdService,
+} from '@spartacus/core';
+import { CartItemContext, CartItemContextSource } from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+  OrderEntryStatus,
+} from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
+import { ConfiguratorModelUtils } from './configurator-model-utils';
 
 const productCode = 'CONF_LAPTOP';
 const documentId = '12344';
 const entryNumber = 4;
-let owner: CommonConfigurator.Owner = null;
+let owner: CommonConfigurator.Owner;
 
 const CART_CODE = '0000009336';
 const CART_GUID = 'e767605d-7336-48fd-b156-ad50d004ca10';
+const NAMED_USER = 'NAMED_USER';
 
-const cart: Cart = {
+const cartAnonymous: Cart = {
   code: CART_CODE,
   guid: CART_GUID,
   user: { uid: OCC_USER_ID_ANONYMOUS },
@@ -21,19 +35,44 @@ const cart: Cart = {
 
 let cartItem: OrderEntry;
 
+class MockUserIdService {
+  getUserId(): Observable<string> {
+    return of(NAMED_USER);
+  }
+}
+
+class MockCartItemContext implements Partial<CartItemContext> {
+  item$ = new ReplaySubject<OrderEntry>(1);
+  readonly$ = new ReplaySubject<boolean>(1);
+  quantityControl$ = new ReplaySubject<FormControl>(1);
+  location$ = new BehaviorSubject<PromotionLocation>(
+    PromotionLocation.ActiveCart
+  );
+}
+
 describe('CommonConfiguratorUtilsService', () => {
   let classUnderTest: CommonConfiguratorUtilsService;
+  let mockCartItemContext: CartItemContextSource;
 
   beforeEach(
     waitForAsync(() => {
-      TestBed.configureTestingModule({}).compileComponents();
+      TestBed.configureTestingModule({
+        providers: [
+          {
+            provide: UserIdService,
+            useClass: MockUserIdService,
+          },
+          { provide: CartItemContext, useClass: MockCartItemContext },
+        ],
+      }).compileComponents();
     })
   );
   beforeEach(() => {
     classUnderTest = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    owner = {};
+    owner = ConfiguratorModelUtils.createInitialOwner();
+    mockCartItemContext = TestBed.inject(CartItemContext) as any;
     cartItem = {};
   });
 
@@ -108,7 +147,7 @@ describe('CommonConfiguratorUtilsService', () => {
 
   describe('getCartId', () => {
     it('should return cart guid if user is anonymous', () => {
-      expect(classUnderTest.getCartId(cart)).toBe(CART_GUID);
+      expect(classUnderTest.getCartId(cartAnonymous)).toBe(CART_GUID);
     });
 
     it('should return cart code if user is not anonymous', () => {
@@ -119,11 +158,10 @@ describe('CommonConfiguratorUtilsService', () => {
       };
       expect(classUnderTest.getCartId(namedCart)).toBe(CART_CODE);
     });
-  });
 
-  describe('getUserId', () => {
-    it('should return anonymous user id if user is anonymous', () => {
-      expect(classUnderTest.getUserId(cart)).toBe(OCC_USER_ID_ANONYMOUS);
+    it('throw error if cart Id cannot be found', () => {
+      const incompleteCart: Cart = {};
+      expect(() => classUnderTest.getCartId(incompleteCart)).toThrowError();
     });
   });
 
@@ -164,14 +202,86 @@ describe('CommonConfiguratorUtilsService', () => {
       cartItem.statusSummaryList = [
         { numberOfIssues: 2, status: OrderEntryStatus.Error },
       ];
-      expect(classUnderTest.hasIssues(cartItem)).toBeTrue();
+      expect(classUnderTest.hasIssues(cartItem)).toBe(true);
     });
 
     it('should return false if number of issues of ERROR status is = 0', () => {
       cartItem.statusSummaryList = [
         { numberOfIssues: 2, status: OrderEntryStatus.Success },
       ];
-      expect(classUnderTest.hasIssues(cartItem)).toBeFalse();
+      expect(classUnderTest.hasIssues(cartItem)).toBe(false);
+    });
+  });
+
+  describe('isAttributeBasedConfigurator', () => {
+    it('should return false, because the configurator type is undefined', () => {
+      expect(classUnderTest.isAttributeBasedConfigurator(undefined)).toBe(
+        false
+      );
+    });
+
+    it('should return false, because the configurator type is not an attribute based one', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator('ANYCONFIGURATOR')
+      ).toBe(false);
+    });
+
+    it('should return true for the variant configurator type', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.VARIANT)
+      ).toBe(true);
+    });
+
+    it('should return true for the textfield configurator type', () => {
+      expect(
+        classUnderTest.isAttributeBasedConfigurator(ConfiguratorType.TEXTFIELD)
+      ).toBe(true);
+    });
+  });
+
+  describe('isBundleBasedConfigurator', () => {
+    it('should return false, because the configurator type is undefined', () => {
+      expect(classUnderTest.isBundleBasedConfigurator(undefined)).toBe(false);
+    });
+
+    it('should return false, because the configurator type is not an attribute based one', () => {
+      expect(classUnderTest.isBundleBasedConfigurator('ANYCONFIGURATOR')).toBe(
+        false
+      );
+    });
+
+    it('should return true for the CPQ configurator type', () => {
+      expect(
+        classUnderTest.isBundleBasedConfigurator(ConfiguratorType.CPQ)
+      ).toBe(true);
+    });
+  });
+
+  describe('isActiveCartContext', () => {
+    it('should emit false if context is SaveForLater', () => {
+      mockCartItemContext.location$?.next(PromotionLocation.SaveForLater);
+
+      let result: boolean | undefined;
+
+      classUnderTest
+        .isActiveCartContext(mockCartItemContext)
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(false);
+    });
+
+    it('should emit true if context is active cart', () => {
+      mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
+
+      let result: boolean | undefined;
+
+      classUnderTest
+        .isActiveCartContext(mockCartItemContext)
+        .subscribe((data) => (result = data))
+        .unsubscribe();
+
+      expect(result).toEqual(true);
     });
   });
 });

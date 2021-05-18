@@ -6,15 +6,15 @@ import {
   HttpResponse,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { switchMap, take, tap } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import {
   AnonymousConsent,
   ANONYMOUS_CONSENTS_HEADER,
   ANONYMOUS_CONSENT_STATUS,
 } from '../../model/index';
-import { OccEndpointsService } from '../../occ/index';
+import { OccEndpointsService } from '../../occ/services/occ-endpoints.service';
 import { AnonymousConsentsConfig } from '../config/anonymous-consents-config';
 import { AnonymousConsentsService } from '../facade/anonymous-consents.service';
 
@@ -31,9 +31,11 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    return this.anonymousConsentsService.getConsents().pipe(
+    return combineLatest([
+      this.anonymousConsentsService.getConsents(),
+      this.authService.isUserLoggedIn(),
+    ]).pipe(
       take(1),
-      withLatestFrom(this.authService.isUserLoggedIn()),
       switchMap(([consents, isUserLoggedIn]) => {
         if (!this.isOccUrl(request.url)) {
           return next.handle(request);
@@ -44,7 +46,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
           tap((event) => {
             if (
               event instanceof HttpResponse &&
-              event.url.startsWith(
+              (event.url ?? '').startsWith(
                 this.occEndpoints.getUrl('anonymousConsentTemplates')
               )
             ) {

@@ -1,6 +1,8 @@
 import { Component, Optional } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import { CartItemContext, ICON_TYPE } from '@spartacus/storefront';
+import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
@@ -12,9 +14,23 @@ export class ConfiguratorIssuesNotificationComponent {
 
   constructor(
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    @Optional()
-    public cartItemContext?: CartItemContext
+    // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
+    @Optional() protected cartItemContext?: CartItemContext
   ) {}
+
+  readonly orderEntry$: Observable<OrderEntry> =
+    this.cartItemContext?.item$ ?? EMPTY;
+
+  readonly quantityControl$: Observable<FormControl> =
+    this.cartItemContext?.quantityControl$ ?? EMPTY;
+
+  readonly readonly$: Observable<boolean> =
+    this.cartItemContext?.readonly$ ?? EMPTY;
+
+  // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
+  readonly shouldShowButton$: Observable<boolean> = this.commonConfigUtilsService.isActiveCartContext(
+    this.cartItemContext
+  );
 
   /**
    * Verifies whether the item has any issues.

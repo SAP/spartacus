@@ -1,0 +1,28 @@
+%CpqConfigurationTemplate {
+  @include cx-configurator-template();
+
+  cx-page-slot.CpqConfigContent,
+  cx-page-slot.CpqConfigMenu {
+    height: fit-content;
+  }
+
+  @include media-breakpoint-up(lg) {
+    cx-page-slot.CpqConfigMenu {
+      max-inline-size: 30%;
+    }
+
+    cx-page-slot.CpqConfigContent {
+      max-inline-size: 70%;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    cx-page-slot.CpqConfigMenu {
+      max-inline-size: calc(1140px * 0.3);
+    }
+
+    cx-page-slot.CpqConfigContent {
+      max-inline-size: calc(1140px * 0.7);
+    }
+  }
+}

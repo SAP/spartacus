@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, isDevMode } from '@angular/core';
+import { EMPTY, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
 import { ContentSlotComponentData } from '../../cms/model/content-slot-component-data.model';
@@ -8,6 +8,9 @@ import { Page } from '../../cms/model/page.model';
 import { PersonalizationConfig } from '../config/personalization-config';
 import { PersonalizationContext } from '../model/personalization-context.model';
 
+/**
+ * @deprecated since 3.2, use @spartacus/tracking/personalization instead
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -18,6 +21,12 @@ export class PersonalizationContextService {
   ) {}
 
   getPersonalizationContext(): Observable<PersonalizationContext> {
+    if (!this.config.personalization?.context) {
+      if (isDevMode()) {
+        console.warn(`There is no context configured in Personalization`);
+      }
+      return EMPTY;
+    }
     return this.cmsService.getCurrentPage().pipe(
       filter(Boolean),
       map(
@@ -26,7 +35,7 @@ export class PersonalizationContextService {
       ),
       filter(Boolean),
       map((slot: ContentSlotData) =>
-        slot.components.find(
+        slot.components?.find(
           (i) => i.uid === this.config.personalization.context.componentId
         )
       ),

@@ -50,9 +50,7 @@ export class ProductListComponentService {
    * The `searchResults$` is _not_ concerned with querying, it only observes the
    * `productSearchService.getResults()`
    */
-  protected searchResults$: Observable<
-    ProductSearchPage
-  > = this.productSearchService
+  protected searchResults$: Observable<ProductSearchPage> = this.productSearchService
     .getResults()
     .pipe(filter((searchResult) => Object.keys(searchResult).length > 0));
 
@@ -62,18 +60,18 @@ export class ProductListComponentService {
    * Context changes, such as language and currencies are also taken
    * into account, so that the search is performed again.
    */
-  protected searchByRouting$: Observable<
-    ActivatedRouterStateSnapshot
-  > = combineLatest([
-    this.routing.getRouterState().pipe(
-      distinctUntilChanged((x, y) => {
-        // router emits new value also when the anticipated `nextState` changes
-        // but we want to perform search only when current url changes
-        return x.state.url === y.state.url;
-      })
-    ),
-    ...this.siteContext,
-  ]).pipe(
+  protected searchByRouting$: Observable<ActivatedRouterStateSnapshot> = combineLatest(
+    [
+      this.routing.getRouterState().pipe(
+        distinctUntilChanged((x, y) => {
+          // router emits new value also when the anticipated `nextState` changes
+          // but we want to perform search only when current url changes
+          return x.state.url === y.state.url;
+        })
+      ),
+      ...this.siteContext,
+    ]
+  ).pipe(
     debounceTime(0),
     map(([routerState, ..._context]) => (routerState as RouterState).state),
     tap((state: ActivatedRouterStateSnapshot) => {

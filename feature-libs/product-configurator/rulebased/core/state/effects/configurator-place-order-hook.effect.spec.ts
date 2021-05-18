@@ -7,7 +7,10 @@ import {
   CheckoutActions,
   OrderEntry,
 } from '@spartacus/core';
-import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
+import {
+  CommonConfiguratorUtilsService,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorActions } from '../actions/index';
@@ -35,7 +38,7 @@ const cartEntryWithconfiguration: OrderEntry[] = [
     entryNumber: 1,
     product: {
       configurable: true,
-      configuratorType: 'CPQCONFIGURATOR',
+      configuratorType: ConfiguratorType.VARIANT,
     },
   },
   {
@@ -48,7 +51,7 @@ const cartEntryWithconfiguration: OrderEntry[] = [
     entryNumber: 3,
     product: {
       configurable: true,
-      configuratorType: 'CPQCONFIGURATOR',
+      configuratorType: ConfiguratorType.VARIANT,
     },
   },
   {
@@ -90,9 +93,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
     });
 
     configPlaceOrderHookEffects = TestBed.inject(
-      fromEffects.ConfiguratorPlaceOrderHookEffects as Type<
-        fromEffects.ConfiguratorPlaceOrderHookEffects
-      >
+      fromEffects.ConfiguratorPlaceOrderHookEffects as Type<fromEffects.ConfiguratorPlaceOrderHookEffects>
     );
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>

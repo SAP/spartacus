@@ -11,7 +11,7 @@ export class CommonConfiguratorTestUtilsService {
    * @param querySelector - Query selector
    */
   static expectElementPresent(
-    expect,
+    expect: any,
     htmlElement: Element,
     querySelector: string
   ) {
@@ -33,14 +33,13 @@ export class CommonConfiguratorTestUtilsService {
    * @param expectedText - Expected text
    */
   static expectElementToContainText(
-    expect,
+    expect: any,
     htmlElement: Element,
     querySelector: string,
     expectedText: string
   ) {
-    expect(htmlElement.querySelector(querySelector).textContent.trim()).toBe(
-      expectedText
-    );
+    const text = htmlElement.querySelector(querySelector)?.textContent;
+    expect(text ? text.trim() : '').toBe(expectedText);
   }
 
   /**
@@ -51,7 +50,7 @@ export class CommonConfiguratorTestUtilsService {
    * @param querySelector - Query selector
    */
   static expectElementNotPresent(
-    expect,
+    expect: any,
     htmlElement: Element,
     querySelector: string
   ) {
@@ -60,6 +59,29 @@ export class CommonConfiguratorTestUtilsService {
       "expected element identified by selector '" +
         querySelector +
         "' to be NOT present, but it is! innerHtml: " +
+        htmlElement.innerHTML
+    );
+  }
+
+  /**
+   * Helper function for proving how many times the element comes in the DOM tree.
+   *
+   * @param {any} expect - Expectation for a spec.
+   * @param {Element} htmlElement - HTML element.
+   * @param {string} querySelector - Query selector
+   * @param {number} expectedNumber- expected number of elements
+   */
+  static expectNumberOfElements(
+    expect: any,
+    htmlElement: Element,
+    querySelector: string,
+    expectedNumber: number
+  ) {
+    expect(htmlElement.querySelectorAll(querySelector).length).toBe(
+      expectedNumber,
+      "expected elements identified by selector '" +
+        querySelector +
+        "' to be present times, but it is NOT! innerHtml: " +
         htmlElement.innerHTML
     );
   }

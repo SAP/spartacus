@@ -1,0 +1,81 @@
+{
+  "root": true,
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "parserOptions": {
+        "project": ["tsconfig.eslint.json"],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/ng-cli-compat",
+        "plugin:@angular-eslint/ng-cli-compat--formatting-add-on",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "plugins": ["deprecation"],
+      "rules": {
+        "@angular-eslint/no-host-metadata-property": "off",
+        "@typescript-eslint/no-empty-interface": "off",
+        "deprecation/deprecation": "warn",
+        "prefer-arrow/prefer-arrow-functions": "off",
+        "@typescript-eslint/no-inferrable-types": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "space-before-function-paren": "off",
+        "@angular-eslint/no-input-rename": "off",
+        "curly": "off",
+        "no-var": "off",
+        "@typescript-eslint/ban-types": "off",
+        "jsdoc/newline-after-description": "off",
+        "no-shadow": "off",
+        "@typescript-eslint/no-unused-expressions": "off",
+        "@typescript-eslint/member-ordering": "off",
+        "arrow-body-style": "off",
+        "object-shorthand": "off",
+        "@typescript-eslint/prefer-for-of": "off",
+        "jsdoc/no-types": "off",
+        "no-fallthrough": "off",
+        "prefer-const": "off",
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/consistent-type-assertions": "off",
+        "@angular-eslint/use-lifecycle-interface": "error",
+        "@typescript-eslint/quotes": "off",
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "cx",
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "cx",
+            "style": "camelCase"
+          }
+        ],
+        "@typescript-eslint/consistent-type-definitions": "off",
+        "@typescript-eslint/dot-notation": "off",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "off",
+          {
+            "accessibility": "explicit"
+          }
+        ],
+        "id-blacklist": "off",
+        "id-match": "off",
+        "max-len": "off",
+        "linebreak-style": ["error", "unix"],
+        "no-underscore-dangle": "off"
+      }
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"],
+      "rules": {
+        "@angular-eslint/template/no-negated-async": "off"
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PointOfService } from '@spartacus/core';
+import { PointOfService, WindowRef } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
@@ -17,11 +17,19 @@ export class StoreDataService {
   };
 
   /**
+   * @deprecated since version 3.1
+   * Use constructor(private winRef: WindowRef) {} instead
+   */
+  // TODO(#11093): Remove deprecated constructors
+  constructor(protected winRef?: WindowRef) {}
+
+  /**
    * Returns store latitude
    * @param location store location
    */
+  // TODO(#11411): Move getStoreLatitude and getStoreLongitude to StoreFinderService
   getStoreLatitude(location: PointOfService): number {
-    return location.geoPoint.latitude;
+    return location?.geoPoint?.latitude;
   }
 
   /**
@@ -29,14 +37,17 @@ export class StoreDataService {
    * @param location store location
    */
   getStoreLongitude(location: PointOfService): number {
-    return location.geoPoint.longitude;
+    return location?.geoPoint?.longitude;
   }
 
   /**
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
+   *
    * Returns store closing time
    * @param location store location
    * @param date date to compare
    */
+  // TODO(#11441): Remove all deprecated functions
   getStoreClosingTime(location: PointOfService, date: Date): string {
     const requestedDaySchedule = this.getSchedule(location, date);
 
@@ -52,6 +63,8 @@ export class StoreDataService {
   }
 
   /**
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
+   *
    * Returns store opening time
    * @param location store location
    * @param date date to compare
@@ -71,6 +84,8 @@ export class StoreDataService {
   }
 
   /**
+   * @deprecated since 3.1 use weekDayOpeningList from location instead
+   *
    * Extracts schedule from the given location for the given date
    * @param location location
    * @param date date
@@ -79,8 +94,20 @@ export class StoreDataService {
    */
   protected getSchedule(location: PointOfService, date: Date): any {
     const weekday = this.weekDays[date.getDay()];
+    const language = this.winRef?.sessionStorage?.getItem('language');
     return location.openingHours.weekDayOpeningList.find(
-      (weekDayOpeningListItem) => weekDayOpeningListItem.weekDay === weekday
+      (weekDayOpeningListItem) =>
+        Boolean(language)
+          ? weekDayOpeningListItem.weekDay ===
+              date.toLocaleString(language as string, {
+                weekday: 'short',
+              }) ||
+            weekDayOpeningListItem.weekDay ===
+              date.toLocaleString(language as string, {
+                weekday: 'long',
+              }) ||
+            weekDayOpeningListItem.weekDay === weekday
+          : weekDayOpeningListItem.weekDay === weekday
     );
   }
 }

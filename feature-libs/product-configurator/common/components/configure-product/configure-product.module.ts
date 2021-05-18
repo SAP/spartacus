@@ -9,6 +9,7 @@ import {
 } from '@spartacus/core';
 import {
   IconModule,
+  OutletPosition,
   ProductListOutlets,
   provideOutlet,
 } from '@spartacus/storefront';
@@ -31,11 +32,8 @@ import { ConfigureProductComponent } from './configure-product.component';
   ],
   providers: [
     provideOutlet({
-      id: ProductListOutlets.GRID_ITEM_END,
-      component: ConfigureProductComponent,
-    }),
-    provideOutlet({
-      id: ProductListOutlets.LIST_ITEM_END,
+      id: ProductListOutlets.ITEM_ACTIONS,
+      position: OutletPosition.AFTER,
       component: ConfigureProductComponent,
     }),
   ],

@@ -20,17 +20,50 @@ import {
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
 
-export const ELECTRONICS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
+export const ELECTRONICS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-gross';
 
+/**
+ * Clicks the main menu (on mobile only)
+ */
+export function clickHamburger() {
+  cy.onMobile(() => {
+    cy.get('cx-hamburger-menu [aria-label="Menu"]').click();
+  });
+}
+
+/**
+ * Creates a routing alias for a given page
+ * @param page Suffix of the url (page) to wait for
+ * @param alias Name of the routing alias to obtain
+ * @returns a Routing alias
+ */
+export function waitForPage(page: string, alias: string): string {
+  // TODO cy.intercept() doesn't work here (* is greedy, so all other expressions match it first.)
+  // homepage is not explicitly being asked as it's driven by the backend.
+  const endpoint = page === 'homepage' ? `*` : `*${page}*`;
+  cy.server();
+  cy.route(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages${endpoint}`
+  ).as(alias);
+  return alias;
+}
+
+/**
+ * Visits the homepage and waits for corresponding xhr call
+ * @param queryStringParams Query string params
+ */
 export function visitHomePage(queryStringParams?: string) {
-  const homePage = waitForPage('homepage', 'getHomePage');
+  const homePageAlias = waitForPage('homepage', 'getHomePage');
 
   if (queryStringParams) {
     cy.visit(`/?${queryStringParams}`);
   } else {
     cy.visit('/');
   }
-  cy.wait(`@${homePage}`).its('status').should('eq', 200);
+  cy.wait(`@${homePageAlias}`);
 }
 
 export function signOut() {
@@ -67,7 +100,7 @@ export function signOutUser(sampleUser: SampleUser = user) {
   const logoutPage = waitForPage('/logout', 'getLogoutPage');
   signOut();
   cy.wait(`@${logoutPage}`);
-  cy.get('.cx-login-greet').should('not.contain', sampleUser.fullName);
+  cy.get('.cx-login-greet').should('not.exist');
 }
 
 export function goToProductDetailsPage() {
@@ -96,7 +129,6 @@ export function addProductToCart() {
 }
 
 export function loginUser(sampleUser: SampleUser = user) {
-  // Verify the user is prompted to login
   login(sampleUser.email, sampleUser.password);
 }
 
@@ -112,6 +144,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
 export function verifyDeliveryMethod(
   deliveryMode: string = ELECTRONICS_DEFAULT_DELIVERY_MODE
 ) {
+  cy.log('🛒 Selecting delivery method');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get(`#${deliveryMode}`).should('be.checked');
   const paymentPage = waitForPage(
@@ -129,7 +162,7 @@ export function fillPaymentForm(
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
-    .should('contain', cart.totalAndShipping);
+    .should('not.be.empty');
   fillPaymentDetails(paymentDetailsData, billingAddress);
 }
 
@@ -158,10 +191,9 @@ export function placeOrder() {
     .should('contain', cart.total);
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(1)
-    .should('contain', cart.estimatedShipping);
+    .should('not.be.empty');
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
-    'contain',
-    cart.totalAndShipping
+    'not.be.empty'
   );
   cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
@@ -182,7 +214,7 @@ export function viewOrderHistory() {
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
-    .should('contain', cart.totalAndShipping);
+    .should('not.be.empty');
 }
 
 export function goToPaymentDetails() {
@@ -229,7 +261,10 @@ export function addCheapProductToCartAndLogin(
     'getShippingPage'
   );
   loginUser(sampleUser);
-  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  // Double timeout, because we have here a cascade of requests (login, load /checkout page, merge cart, load shipping page)
+  cy.wait(`@${shippingPage}`, { timeout: 30000 })
+    .its('status')
+    .should('eq', 200);
 }
 
 export function addCheapProductToCartAndProceedToCheckout(
@@ -268,6 +303,8 @@ export function fillAddressFormWithCheapProduct(
   shippingAddressData: AddressData = user,
   cartData: SampleCartProduct = cartWithCheapProduct
 ) {
+  cy.log('🛒 Filling shipping address form');
+
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
@@ -286,10 +323,12 @@ export function fillPaymentFormWithCheapProduct(
   billingAddress?: AddressData,
   cartData: SampleCartProduct = cartWithCheapProduct
 ) {
+  cy.log('🛒 Filling payment method form');
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
-    .should('contain', cartData.totalAndShipping);
+    .should('not.be.empty');
+
   const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
   cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
@@ -300,6 +339,7 @@ export function placeOrderWithCheapProduct(
   cartData: SampleCartProduct = cartWithCheapProduct,
   currency: string = 'USD'
 ) {
+  cy.log('🛒 Placing order');
   verifyReviewOrderPage();
   cy.get('.cx-review-summary-card')
     .contains('cx-card', 'Ship To')
@@ -322,8 +362,7 @@ export function placeOrderWithCheapProduct(
     .eq(1)
     .should('contain', cartData.estimatedShipping);
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
-    'contain',
-    cartData.totalAndShipping
+    'not.be.empty'
   );
   cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
@@ -384,10 +423,7 @@ export function verifyOrderConfirmationPageWithCheapProduct(
         cy.get('cx-cart-item .cx-code').should('contain', products[index].code);
       });
   }
-  cy.get('cx-order-summary .cx-summary-amount').should(
-    'contain',
-    cartData.totalAndShipping
-  );
+  cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 
 export function viewOrderHistoryWithCheapProduct(
@@ -405,18 +441,5 @@ export function viewOrderHistoryWithCheapProduct(
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
-    .should('contain', cartData.totalAndShipping);
-}
-
-export function waitForPage(page: string, alias: string): string {
-  // homepage is not explicitly being asked as it's driven by the backend.
-  const endpoint = page === 'homepage' ? `*` : `*${page}*`;
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/cms/pages${endpoint}`
-  ).as(alias);
-  return alias;
+    .should('not.be.empty');
 }

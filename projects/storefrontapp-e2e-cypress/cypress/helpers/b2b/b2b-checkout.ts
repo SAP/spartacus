@@ -37,7 +37,13 @@ export function loginB2bUser() {
 }
 
 export function addB2bProductToCartAndCheckout() {
-  cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${products[0].code}`);
+  const code = products[0].code;
+  const productCode = `ProductPage&code=${code}`;
+  const productPage = waitForPage(productCode, 'getProductPage');
+
+  cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
+  cy.wait(`@${productPage}`).its('status').should('eq', 200);
+
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[0].code);
   });
@@ -76,12 +82,20 @@ export function selectAccountPayment() {
     cy.findByText('Account').click({ force: true });
   });
 
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/carts/*?fields=DEFAULT*`
+  ).as('getCart');
+
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
   );
   cy.get('button.btn-primary').click({ force: true });
   cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  cy.wait('@getCart').its('response.statusCode').should('eq', 200);
 }
 
 export function selectCreditCardPayment() {
@@ -104,20 +118,19 @@ export function selectAccountShippingAddress() {
     .find('.cx-summary-amount')
     .should('not.be.empty');
 
-  cy.server();
-
-  cy.route(
-    'GET',
+  cy.intercept(
+    'PUT',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/carts/*`
-  ).as('getCart');
+    )}/orgUsers/current/carts/**/addresses/delivery?addressId=*`
+  ).as('updateAddress');
+
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
     cy.get('.cx-card-actions .cx-card-link').click({ force: true });
   });
 
-  cy.wait('@getCart');
+  cy.wait('@updateAddress').its('response.statusCode').should('eq', 200);
   cy.get('cx-card .card-header').should('contain', 'Selected');
 
   const deliveryPage = waitForPage(
@@ -131,13 +144,19 @@ export function selectAccountShippingAddress() {
     config.shippingAddressAccount
   );
 
-  cy.get('button.btn-primary').click({ force: true });
+  cy.get('button.btn-primary').click();
   cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
 
 export function selectAccountDeliveryMode(
   deliveryMode: string = POWERTOOLS_DEFAULT_DELIVERY_MODE
 ) {
+  cy.server();
+  cy.route(
+    'PUT',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/**/deliverymode?*`
+  ).as('putDeliveryMode');
+
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get(`#${deliveryMode}`).should('be.checked');
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
@@ -149,7 +168,11 @@ export function selectAccountDeliveryMode(
   );
 
   cy.get('.cx-checkout-btns button.btn-primary').click();
-  cy.wait(`@${orderReview}`).its('status').should('eq', 200);
+
+  cy.wait('@putDeliveryMode').its('status').should('eq', 200);
+  cy.wait(`@${orderReview}`, { timeout: 30000 })
+    .its('status')
+    .should('eq', 200);
 }
 
 export function reviewB2bReviewOrderPage(
@@ -276,8 +299,12 @@ export function placeOrder(orderUrl: string) {
     orderUrl,
     'getOrderConfirmationPage'
   );
+
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
+  // temporary solution for very slow backend response while placing order
+  cy.wait(`@${orderConfirmationPage}`, { timeout: 60000 })
+    .its('status')
+    .should('eq', 200);
 }
 
 export function reviewB2bOrderConfirmation(

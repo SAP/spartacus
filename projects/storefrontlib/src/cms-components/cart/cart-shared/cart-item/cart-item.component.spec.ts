@@ -2,6 +2,7 @@ import {
   Component,
   DebugElement,
   Directive,
+  Injector,
   Input,
   Pipe,
   PipeTransform,
@@ -15,12 +16,19 @@ import {
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import {
+  FeaturesConfigModule,
+  I18nTestingModule,
+  PromotionLocation,
+} from '@spartacus/core';
+import { OutletModule } from '@spartacus/storefront';
+import { OutletDirective } from 'projects/storefrontlib/src/cms-structure/outlet/outlet.directive';
 import { ModalDirective } from 'projects/storefrontlib/src/shared/components/modal/modal.directive';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { MockFeatureLevelDirective } from '../../../../shared/test/mock-feature-level-directive';
-import { CartItemContext } from './cart-item-component.model';
 import { CartItemComponent } from './cart-item.component';
+import { CartItemContextSource } from './model/cart-item-context-source.model';
+import { CartItemContext } from './model/cart-item-context.model';
 
 @Pipe({
   name: 'cxUrl',
@@ -34,6 +42,12 @@ class MockUrlPipe implements PipeTransform {
 })
 class MockModalDirective implements Partial<ModalDirective> {
   @Input() cxModal;
+}
+@Directive({
+  selector: '[cxOutlet]',
+})
+class MockOutletDirective implements Partial<OutletDirective> {
+  @Input() cxOutlet: string;
 }
 
 @Component({
@@ -96,6 +110,7 @@ class MockPromotionService {
 
 describe('CartItemComponent', () => {
   let cartItemComponent: CartItemComponent;
+  let componentInjector: Injector;
   let fixture: ComponentFixture<CartItemComponent>;
   let el: DebugElement;
 
@@ -112,6 +127,7 @@ describe('CartItemComponent', () => {
           ReactiveFormsModule,
           I18nTestingModule,
           FeaturesConfigModule,
+          OutletModule,
         ],
         declarations: [
           CartItemComponent,
@@ -121,6 +137,7 @@ describe('CartItemComponent', () => {
           MockUrlPipe,
           MockFeatureLevelDirective,
           MockModalDirective,
+          MockOutletDirective,
         ],
         providers: [
           {
@@ -138,6 +155,8 @@ describe('CartItemComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartItemComponent);
     cartItemComponent = fixture.componentInstance;
+    componentInjector = fixture.debugElement.injector;
+
     cartItemComponent.item = {
       product: mockProduct,
       updateable: true,
@@ -153,39 +172,92 @@ describe('CartItemComponent', () => {
     expect(cartItemComponent).toBeTruthy();
   });
 
-  it('should know initial empty item context', () => {
-    const cartItemContext: CartItemContext = cartItemComponent[
-      'cartItemContext'
-    ] as CartItemContext;
-    expect(cartItemContext).toBeDefined();
-
-    cartItemContext.context$
-      .subscribe((cartContextModel) => {
-        expect(cartContextModel).toEqual({});
-      })
-      .unsubscribe();
+  it('should provide locally CartItemContextSource', () => {
+    expect(componentInjector.get(CartItemContextSource)).toBeTruthy();
   });
-  it('should know item context content after onChanges fired', () => {
-    const cartItemContext: CartItemContext = cartItemComponent[
-      'cartItemContext'
-    ] as CartItemContext;
-    expect(cartItemContext).toBeDefined();
-    cartItemComponent.ngOnChanges({
-      item: new SimpleChange(
-        undefined,
-        {
-          product: mockProduct,
-          updateable: true,
-          statusSummaryList: [],
-        },
-        false
-      ),
+
+  it('should provide locally CartItemContext', () => {
+    expect(componentInjector.get(CartItemContext)).toBe(
+      componentInjector.get(CartItemContextSource)
+    );
+  });
+
+  describe('after onChanges fired', () => {
+    let cartItemContextSource: CartItemContextSource;
+
+    beforeEach(() => {
+      cartItemContextSource = componentInjector.get(CartItemContextSource);
     });
-    cartItemContext.context$
-      .subscribe((cartContextModel) => {
-        expect(cartContextModel.item.product).toEqual(mockProduct);
-      })
-      .unsubscribe();
+
+    it('should push change of input "compact" to context', () => {
+      spyOn(cartItemContextSource.compact$, 'next');
+      cartItemComponent.compact = true;
+      cartItemComponent.ngOnChanges({
+        compact: { currentValue: cartItemComponent.compact } as SimpleChange,
+      });
+      expect(cartItemContextSource.compact$.next).toHaveBeenCalledWith(
+        cartItemComponent.compact
+      );
+    });
+
+    it('should push change of input "readonly" to context', () => {
+      spyOn(cartItemContextSource.readonly$, 'next');
+      cartItemComponent.readonly = true;
+      cartItemComponent.ngOnChanges({
+        readonly: { currentValue: cartItemComponent.readonly } as SimpleChange,
+      });
+      expect(cartItemContextSource.readonly$.next).toHaveBeenCalledWith(
+        cartItemComponent.readonly
+      );
+    });
+
+    it('should push change of input "item" to context', () => {
+      spyOn(cartItemContextSource.item$, 'next');
+      cartItemComponent.item = { orderCode: '123' };
+      cartItemComponent.ngOnChanges({
+        item: { currentValue: cartItemComponent.item } as SimpleChange,
+      });
+      expect(cartItemContextSource.item$.next).toHaveBeenCalledWith(
+        cartItemComponent.item
+      );
+    });
+
+    it('should push change of input "quantityControl" to context', () => {
+      spyOn(cartItemContextSource.quantityControl$, 'next');
+      cartItemComponent.quantityControl = new FormControl(2);
+      cartItemComponent.ngOnChanges({
+        quantityControl: {
+          currentValue: cartItemComponent.quantityControl,
+        } as SimpleChange,
+      });
+      expect(cartItemContextSource.quantityControl$.next).toHaveBeenCalledWith(
+        cartItemComponent.quantityControl
+      );
+    });
+
+    it('should push change of input "promotionLocation" to context', () => {
+      spyOn(cartItemContextSource.promotionLocation$, 'next');
+      cartItemComponent.promotionLocation = PromotionLocation.Order;
+      cartItemComponent.ngOnChanges({
+        promotionLocation: {
+          currentValue: cartItemComponent.quantityControl,
+        } as SimpleChange,
+      });
+      expect(
+        cartItemContextSource.promotionLocation$.next
+      ).toHaveBeenCalledWith(cartItemComponent.promotionLocation);
+    });
+
+    it('should push change of input "options" to context', () => {
+      spyOn(cartItemContextSource.options$, 'next');
+      cartItemComponent.options = { isSaveForLater: true };
+      cartItemComponent.ngOnChanges({
+        options: { currentValue: cartItemComponent.options } as SimpleChange,
+      });
+      expect(cartItemContextSource.options$.next).toHaveBeenCalledWith(
+        cartItemComponent.options
+      );
+    });
   });
 
   it('should create cart details component', () => {
