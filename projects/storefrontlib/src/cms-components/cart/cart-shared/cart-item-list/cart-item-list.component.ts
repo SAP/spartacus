@@ -26,8 +26,8 @@ import { CartItemComponentOptions } from '../cart-item/cart-item.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartItemListComponent implements OnInit, OnDestroy {
-  private subscription = new Subscription();
-  private userId: string;
+  protected subscription = new Subscription();
+  protected userId: string;
 
   @Input() readonly: boolean = false;
 
@@ -114,15 +114,16 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * The items we're getting form the input do not have a consistent model.
-   * In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
+   * Resolves items passed to component input and updates 'items' field
    */
-  private resolveItems(items: OrderEntry[]): void {
+  protected resolveItems(items: OrderEntry[]): void {
     if (!items) {
       this._items = [];
       return;
     }
 
+    // The items we're getting from the input do not have a consistent model.
+    // In case of a `consignmentEntry`, we need to normalize the data from the orderEntry.
     if (items.every((item) => item.hasOwnProperty('orderEntry'))) {
       this._items = items.map((consignmentEntry) => {
         const entry = Object.assign(
@@ -138,10 +139,13 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       // So we update each array element to the new object only when it's any different to the previous one.
       if (this.featureConfigService?.isLevel('3.1')) {
         for (let i = 0; i < Math.max(items.length, this._items.length); i++) {
+          // Checking if previous item is different than new one
           if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
+            // Removing obsolete item's form control
             if (this._items[i] && this.form) {
               this.form.removeControl(this.getControlName(this._items[i]));
             }
+            // If given index does not exist in new items list, remove old element on this position. Otherwise, update array element with new item value.
             if (!items[i]) {
               this._items.splice(i, 1);
             } else {
@@ -155,7 +159,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
 
-  private createForm(): void {
+  /**
+   * Creates form models for list items
+   */
+  protected createForm(): void {
     if (!this.featureConfigService?.isLevel('3.1')) {
       this.form = new FormGroup({});
     }

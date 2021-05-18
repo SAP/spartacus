@@ -13,6 +13,8 @@ import {
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
@@ -53,10 +55,10 @@ const documentId = '82736353';
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
-  owner: {
-    type: CommonConfigurator.OwnerType.PRODUCT,
-    id: productCode,
-  },
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    productCode
+  ),
 };
 
 const productConfigurationOcc: OccConfigurator.Configuration = {
@@ -72,10 +74,10 @@ const pricesOcc: OccConfigurator.Prices = {
 const productConfigurationForCartEntry: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
-  owner: {
-    type: CommonConfigurator.OwnerType.CART_ENTRY,
-    id: cartEntryNo,
-  },
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.CART_ENTRY,
+    cartEntryNo
+  ),
 };
 
 const overviewOcc: OccConfigurator.Overview = { id: configId };
@@ -432,7 +434,7 @@ describe('OccConfigurationVariantAdapter', () => {
         const owner = result.owner;
         expect(owner).toBeDefined();
         expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
-        expect(owner.key).toBeUndefined();
+        expect(owner.id).toBe(cartEntryNo);
         done();
       });
   });
@@ -469,7 +471,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should return configurator type', () => {
     expect(occConfiguratorVariantAdapter.getConfiguratorType()).toEqual(
-      'CPQCONFIGURATOR'
+      ConfiguratorType.VARIANT
     );
   });
 });

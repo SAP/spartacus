@@ -1,6 +1,11 @@
 import { Node, SourceFile, ts as tsMorph } from 'ts-morph';
-import { PROVIDE_CONFIG_FUNCTION } from '../constants';
+import {
+  PROVIDE_CONFIG_FUNCTION,
+  SPARTACUS_CORE,
+  SPARTACUS_SETUP,
+} from '../constants';
 import { isImportedFromSpartacusLibs } from './import-utils';
+import { CustomConfig } from './lib-utils';
 import { getModule } from './new-module-utils';
 
 export function getSpartacusProviders(sourceFile: SourceFile): Node[] {
@@ -54,4 +59,35 @@ export function normalizeConfiguration(config: string | Node): string {
   newConfig = newConfig.replace(EMPTY_SPACE_REG_EXP, '');
 
   return newConfig;
+}
+
+export function getB2bConfiguration(): CustomConfig[] {
+  return [
+    {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_CORE,
+          namedImports: [PROVIDE_CONFIG_FUNCTION],
+        },
+        {
+          moduleSpecifier: SPARTACUS_SETUP,
+          namedImports: ['defaultB2bOccConfig'],
+        },
+      ],
+      content: `provideConfig(defaultB2bOccConfig)`,
+    },
+    {
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_CORE,
+          namedImports: [PROVIDE_CONFIG_FUNCTION],
+        },
+        {
+          moduleSpecifier: SPARTACUS_SETUP,
+          namedImports: ['defaultB2bCheckoutConfig'],
+        },
+      ],
+      content: `provideConfig(defaultB2bCheckoutConfig)`,
+    },
+  ];
 }
