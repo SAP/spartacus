@@ -113,10 +113,6 @@ export interface DependencyManagement {
    */
   featureName: string;
   /**
-   * Dependencies to install with the library.
-   */
-  dependencies: Record<string, string>;
-  /**
    * Contains the feature dependencies.
    * The key is a Spartacus scope, while the value is an array of its features.
    */
@@ -660,14 +656,9 @@ function installRequiredSpartacusFeatures<
       return noop();
     }
 
-    const spartacusLibraries = createSpartacusDependencies(
-      dependencyManagement.dependencies
-    );
-
     logFeatureInstallation(dependencyManagement, context);
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
       options.options,
-      spartacusLibraries.map((dependency) => dependency.name),
       dependencyManagement.featureDependencies
     );
     addSchematicsTasks(featureOptions, context);
@@ -771,13 +762,12 @@ function createSpartacusFeatureOptionsForLibrary<
   OPTIONS extends LibraryOptions
 >(
   options: OPTIONS,
-  spartacusLibraries: string[],
   cliFeatures: Record<string, string[]>
 ): {
   feature: string;
   options: LibraryOptions;
 }[] {
-  return spartacusLibraries.map((spartacusLibrary) => ({
+  return Object.keys(cliFeatures).map((spartacusLibrary) => ({
     feature: spartacusLibrary,
     options: {
       ...options,
