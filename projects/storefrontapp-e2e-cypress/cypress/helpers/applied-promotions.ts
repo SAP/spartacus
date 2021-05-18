@@ -78,9 +78,9 @@ export function selectPaymentMethod() {
     .should('not.be.empty');
   cy.get('.cx-card-title').should('contain', '✓ DEFAULT');
   cy.get('.card-header').should('contain', 'Selected');
-  waitForPage('/checkout/review-order', 'reviewOrder');
+  const reviewOrderAlias = waitForPage('/checkout/review-order', 'reviewOrder');
   cy.get('button.btn-primary').click();
-  cy.wait('@reviewOrder');
+  cy.wait(`@${reviewOrderAlias}`);
 }
 
 export function goToOrderHistoryDetailsFromSummary() {
