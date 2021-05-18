@@ -16,16 +16,13 @@ import collectedDependencies from '../dependencies.json';
 import {
   ANGULAR_HTTP,
   CLI_ASM_FEATURE,
-  CLI_CART_FEATURE,
+  CLI_CART_SAVED_CART_FEATURE,
   CLI_CDC_FEATURE,
   CLI_CDS_FEATURE,
-  CLI_ORGANIZATION_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_FEATURE,
-  CLI_PRODUCT_FEATURE,
+  CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_QUALTRICS_FEATURE,
   CLI_SMARTEDIT_FEATURE,
   CLI_STOREFINDER_FEATURE,
-  CLI_TRACKING_FEATURE,
   SPARTACUS_ASM,
   SPARTACUS_ASSETS,
   SPARTACUS_CART,
@@ -308,10 +305,13 @@ function prepareSpartacusFeatures(options: SpartacusOptions): string[] {
     ...(shouldAddFeature(CLI_ASM_FEATURE, options.features)
       ? [SPARTACUS_ASM]
       : []),
-    ...(shouldAddFeature(CLI_CART_FEATURE, options.features)
+    ...(shouldAddFeature(CLI_CART_SAVED_CART_FEATURE, options.features)
       ? [SPARTACUS_CART]
       : []),
-    ...(shouldAddFeature(CLI_ORGANIZATION_FEATURE, options.features)
+    ...(shouldAddFeature(
+      CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
+      options.features
+    )
       ? [SPARTACUS_ORGANIZATION]
       : []),
     ...(shouldAddFeature(CLI_PRODUCT_FEATURE, options.features)
