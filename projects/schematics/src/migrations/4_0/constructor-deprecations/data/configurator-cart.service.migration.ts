@@ -5,7 +5,7 @@ import {
   NGRX_STORE,
   PRODUCT_PAGE_EVENT_BUILDER,
   SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
   STORE,
   USER_ID_SERVICE,
 } from '../../../../shared/constants';
@@ -14,7 +14,7 @@ import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 export const CONFIGURATOR_CART_SERVICE_MIGRATION: ConstructorDeprecation = {
   // feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts
   class: PRODUCT_PAGE_EVENT_BUILDER,
-  importPath: SPARTACUS_STOREFRONTLIB,
+  importPath: SPARTACUS_PRODUCT_CONFIGURATOR,
   deprecatedParams: [
     { className: STORE, importPath: NGRX_STORE },
     { className: STORE, importPath: NGRX_STORE },
