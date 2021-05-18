@@ -22,20 +22,31 @@ import {
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
+  CLI_ASM_FEATURE,
   CLI_CART_SAVED_CART_FEATURE,
+  CLI_CDC_FEATURE,
+  CLI_CDS_FEATURE,
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   CLI_PRODUCT_BULK_PRICING_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
   CLI_PRODUCT_VARIANTS_FEATURE,
+  CLI_QUALTRICS_FEATURE,
+  CLI_SMARTEDIT_FEATURE,
+  CLI_STOREFINDER_FEATURE,
   CLI_TRACKING_PERSONALIZATION_FEATURE,
   CLI_TRACKING_TMS_AEP_FEATURE,
   CLI_TRACKING_TMS_GTM_FEATURE,
+  CLI_USER_ACCOUNT_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
   CMS_CONFIG,
   I18N_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
+  SPARTACUS_ASM,
   SPARTACUS_CART,
+  SPARTACUS_CDC,
+  SPARTACUS_CDS,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
@@ -43,8 +54,12 @@ import {
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PRODUCT,
   SPARTACUS_PRODUCT_CONFIGURATOR,
+  SPARTACUS_QUALTRICS,
   SPARTACUS_SETUP,
+  SPARTACUS_SMARTEDIT,
+  SPARTACUS_STOREFINDER,
   SPARTACUS_TRACKING,
+  SPARTACUS_USER,
   UTF_8,
 } from '../constants';
 import { getB2bConfiguration } from './config-utils';
@@ -165,11 +180,14 @@ export interface AssetsConfig {
 }
 
 export const packageSubFeaturesMapping: Record<string, string[]> = {
+  [SPARTACUS_ASM]: [CLI_ASM_FEATURE],
   [SPARTACUS_CART]: [CLI_CART_SAVED_CART_FEATURE],
   [SPARTACUS_ORGANIZATION]: [
     CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
     CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   ],
+  [SPARTACUS_CDC]: [CLI_CDC_FEATURE],
+  [SPARTACUS_CDS]: [CLI_CDS_FEATURE],
   [SPARTACUS_PRODUCT]: [
     CLI_PRODUCT_BULK_PRICING_FEATURE,
     CLI_PRODUCT_VARIANTS_FEATURE,
@@ -178,11 +196,15 @@ export const packageSubFeaturesMapping: Record<string, string[]> = {
     CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
     CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   ],
+  [SPARTACUS_QUALTRICS]: [CLI_QUALTRICS_FEATURE],
+  [SPARTACUS_SMARTEDIT]: [CLI_SMARTEDIT_FEATURE],
+  [SPARTACUS_STOREFINDER]: [CLI_STOREFINDER_FEATURE],
   [SPARTACUS_TRACKING]: [
     CLI_TRACKING_PERSONALIZATION_FEATURE,
     CLI_TRACKING_TMS_GTM_FEATURE,
     CLI_TRACKING_TMS_AEP_FEATURE,
   ],
+  [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE, CLI_USER_PROFILE_FEATURE],
 };
 
 export function shouldAddFeature(
@@ -190,6 +212,17 @@ export function shouldAddFeature(
   features: string[] = []
 ): boolean {
   return features.includes(feature);
+}
+
+export function prepareCliPackageAndSubFeature(
+  features: string[]
+): Record<string, string[]> {
+  return features.reduce((cliFeatures, subFeature) => {
+    const packageName = getPackageBySubFeature(subFeature);
+    const subFeatures = [...(cliFeatures[packageName] ?? []), subFeature];
+
+    return { ...cliFeatures, [packageName]: subFeatures };
+  }, {} as Record<string, string[]>);
 }
 
 export function getPackageBySubFeature(subFeature: string): string {
@@ -229,10 +262,7 @@ export function addLibraryFeature<T extends LibraryOptions>(
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
       config.dependencyManagement
-        ? installRequiredSpartacusFeatures({
-            dependencyManagement: config.dependencyManagement,
-            options,
-          })
+        ? installRequiredSpartacusFeatures(config.dependencyManagement, options)
         : noop(),
     ]);
   };
@@ -715,21 +745,14 @@ export function addPackageJsonDependenciesForLibrary<
   };
 }
 
-function installRequiredSpartacusFeatures<
-  OPTIONS extends LibraryOptions
->(options: {
-  dependencyManagement: DependencyManagement;
-  options: OPTIONS;
-}): Rule {
+function installRequiredSpartacusFeatures<OPTIONS extends LibraryOptions>(
+  dependencyManagement: DependencyManagement,
+  options: OPTIONS
+): Rule {
   return (_tree: Tree, context: SchematicContext): Rule => {
-    const dependencyManagement = options.dependencyManagement;
-    if (!dependencyManagement) {
-      return noop();
-    }
-
     logFeatureInstallation(dependencyManagement, context);
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
-      options.options,
+      options,
       dependencyManagement.featureDependencies
     );
     addSchematicsTasks(featureOptions, context);
@@ -829,7 +852,7 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
  * @param options
  * @returns
  */
-function createSpartacusFeatureOptionsForLibrary<
+export function createSpartacusFeatureOptionsForLibrary<
   OPTIONS extends LibraryOptions
 >(
   options: OPTIONS,

@@ -23,7 +23,20 @@
         "enum": ["CPQ-Configurator", "Textfield-Configurator"],
         "type": "string"
       },
-      "x-prompt": "Which product configurator features besides variant configurator would you like to setup?"
+      "x-prompt": {
+        "message": "Which product configurator features besides variant configurator would you like to set up?",
+        "type": "list",
+        "items": [
+          {
+            "value": "CPQ-Configurator",
+            "label": "CPQ Configurator (b2b feature)"
+          },
+          {
+            "value": "Textfield-Configurator",
+            "label": "Textfield Configurator"
+          }
+        ]
+      }
     }
   },
   "required": []

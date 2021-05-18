@@ -24,7 +24,17 @@
         "type": "string"
       },
       "default": ["Administration", "Order-Approval"],
-      "x-prompt": "Which Organization features would you like to setup?"
+      "x-prompt": {
+        "message": "Which Organization features would you like to set up?",
+        "type": "list",
+        "items": [
+          {
+            "value": "Administration",
+            "label": "Administration (b2b feature)"
+          },
+          { "value": "Order-Approval", "label": "Order Approval (b2b feature)" }
+        ]
+      }
     }
   },
   "required": []

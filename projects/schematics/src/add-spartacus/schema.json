@@ -111,11 +111,11 @@
           },
           {
             "value": "TMS-GTM",
-            "label": "Tracking - TMS Google Tag Manager"
+            "label": "Tracking - Tag Management System - Google Tag Manager"
           },
           {
             "value": "TMS-AEPL",
-            "label": "Tracking - TMS Adobe Experience Platform Launch"
+            "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
           },
           {
             "value": "Account",

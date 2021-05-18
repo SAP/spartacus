@@ -24,7 +24,11 @@
         "type": "string"
       },
       "default": ["Saved-Cart"],
-      "x-prompt": "Which Cart features would you like to setup?"
+      "x-prompt": {
+        "message": "Which Cart features would you like to set up?",
+        "type": "list",
+        "items": [{ "value": "Saved-Cart", "label": "Saved Cart" }]
+      }
     }
   },
   "required": []
