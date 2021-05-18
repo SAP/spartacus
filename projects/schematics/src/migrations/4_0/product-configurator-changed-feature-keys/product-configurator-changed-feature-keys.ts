@@ -1,40 +1,75 @@
-import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
-import { isImported } from '@schematics/angular/utility/ast-utils';
+import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
+import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
+import ts from 'typescript';
+import {
+  PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE,
+  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE,
+} from '../../../shared/constants';
+import { getDefaultProjectNameFromWorkspace } from '../../../shared/index';
 import {
   commitChanges,
-  getAllTsSourceFiles,
   getTsSourceFile,
   insertCommentAboveIdentifier,
   InsertDirection,
   MethodPropertyDeprecation,
 } from '../../../shared/utils/file-utils';
-import { getSourceRoot } from '../../../shared/utils/workspace-utils';
+import { getAngularJsonFile } from '../../../shared/utils/workspace-utils';
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [];
 
 export function migrate(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const project = getSourceRoot(tree, {});
-    const sourceFiles = getAllTsSourceFiles(tree, project);
-    for (const originalSource of sourceFiles) {
-      const sourcePath = originalSource.fileName;
-
-      for (const data of methodProperties) {
-        // 'source' has to be reloaded after each committed change
-        const source = getTsSourceFile(tree, sourcePath);
-        if (isImported(source, data.class, data.importPath)) {
-          const changes = insertCommentAboveIdentifier(
-            sourcePath,
-            source,
-            data.deprecatedNode,
-            data.comment
-              ? `${data.comment}\n`
-              : `${buildMethodComment(data.deprecatedNode, data.newNode)}\n`
-          );
-          commitChanges(tree, sourcePath, changes, InsertDirection.RIGHT);
-        }
-      }
+  return (tree: Tree) => {
+    const projectName = getDefaultProjectNameFromWorkspace(tree);
+    const angularJson = getAngularJsonFile(tree);
+    const mainPath = (angularJson.projects[projectName]?.architect?.build
+      ?.options as any)?.main;
+    if (!mainPath) {
+      throw new SchematicsException(`No main path specified in angular.json.`);
     }
-
-    return tree;
+    const appModulePath = getAppModulePath(tree, mainPath);
+    const appModuleSource = getTsSourceFile(tree, appModulePath);
+    checkAndApplyChanges(
+      appModuleSource,
+      appModulePath,
+      tree,
+      PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE,
+      'comment for textfield'
+    );
+    checkAndApplyChanges(
+      appModuleSource,
+      appModulePath,
+      tree,
+      PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE,
+      'comment for rulebased'
+    );
   };
+
+  function checkAndApplyChanges(
+    appModuleSource: ts.SourceFile,
+    appModulePath: string,
+    tree: Tree,
+    featureKey: string,
+    comment: string
+  ) {
+    if (
+      containsDeprecatedCode(
+        appModuleSource,
+        PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE
+      )
+    ) {
+      const changes = insertCommentAboveIdentifier(
+        appModulePath,
+        appModuleSource,
+        featureKey,
+        comment
+      );
+      commitChanges(tree, appModulePath, changes, InsertDirection.RIGHT);
+    }
+  }
+  function containsDeprecatedCode(
+    appModuleSource: ts.SourceFile,
+    identifier: string
+  ): boolean {
+    console.log('CHHI ' + appModuleSource + identifier);
+    return true;
+  }
 }
