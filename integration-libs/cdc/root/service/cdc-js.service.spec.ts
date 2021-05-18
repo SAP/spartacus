@@ -3,12 +3,15 @@ import {
   AuthService,
   BaseSiteService,
   LanguageService,
+  OCC_USER_ID_CURRENT,
   ScriptLoader,
+  UserIdService,
   WindowRef,
 } from '@spartacus/core';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
+//import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CdcUserProfileAdapter } from '../adapter/cdc-user-profile.adapter';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 import { CdcJsService } from './cdc-js.service';
@@ -60,8 +63,18 @@ class MockAuthService implements Partial<AuthService> {
   }
 }
 
-class MockUserProfileFacade implements Partial<UserProfileFacade> {
+/*class MockUserProfileFacade implements Partial<UserProfileFacade> {
   update = createSpy().and.returnValue(of(undefined));
+}*/
+
+class MockCdcUserProfileAdapter implements Partial<CdcUserProfileAdapter> {
+  update = createSpy().and.returnValue(of(undefined));
+}
+
+class MockUserIdService implements Partial<UserIdService> {
+  takeUserId(): Observable<string> {
+    return of(OCC_USER_ID_CURRENT);
+  }
 }
 
 class MockSubscription {
@@ -87,10 +100,11 @@ describe('CdcJsService', () => {
   let baseSiteService: BaseSiteService;
   let languageService: LanguageService;
   let scriptLoader: ScriptLoader;
-  let userProfileFacade: UserProfileFacade;
+  //let userProfileFacade: UserProfileFacade;
   let cdcAuth: CdcAuthFacade;
   let winRef: WindowRef;
   let authService: AuthService;
+  let cdcUserProfileAdapter: CdcUserProfileAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,11 +113,13 @@ describe('CdcJsService', () => {
         { provide: BaseSiteService, useClass: BaseSiteServiceStub },
         { provide: LanguageService, useClass: LanguageServiceStub },
         { provide: ScriptLoader, useClass: ScriptLoaderMock },
-        { provide: UserProfileFacade, useClass: MockUserProfileFacade },
+        //{ provide: UserProfileFacade, useClass: MockUserProfileFacade },
         { provide: CdcAuthFacade, useClass: MockCdcAuthFacade },
         { provide: WindowRef, useValue: mockedWindowRef },
         { provide: Subscription, useValue: MockSubscription },
         { provide: AuthService, useClass: MockAuthService },
+        { provide: CdcUserProfileAdapter, useClass: MockCdcUserProfileAdapter },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
@@ -111,7 +127,7 @@ describe('CdcJsService', () => {
     baseSiteService = TestBed.inject(BaseSiteService);
     languageService = TestBed.inject(LanguageService);
     scriptLoader = TestBed.inject(ScriptLoader);
-    userProfileFacade = TestBed.inject(UserProfileFacade);
+    cdcUserProfileAdapter = TestBed.inject(CdcUserProfileAdapter);
     cdcAuth = TestBed.inject(CdcAuthFacade);
     authService = TestBed.inject(AuthService);
     winRef = TestBed.inject(WindowRef);
@@ -288,7 +304,9 @@ describe('CdcJsService', () => {
 
       service.onProfileUpdateEventHandler(response);
 
-      expect(userProfileFacade.update).toHaveBeenCalledWith({
+      expect(cdcUserProfileAdapter.update).toHaveBeenCalledWith(
+        OCC_USER_ID_CURRENT,
+        {
         firstName: response.profile.firstName,
         lastName: response.profile.lastName,
       });
@@ -297,7 +315,7 @@ describe('CdcJsService', () => {
     it('should not update personal details when response is empty', () => {
       service.onProfileUpdateEventHandler();
 
-      expect(userProfileFacade.update).not.toHaveBeenCalled();
+      expect(cdcUserProfileAdapter.update).not.toHaveBeenCalled();
     });
   });
 
