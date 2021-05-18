@@ -38,7 +38,7 @@ export class OnNavigateFocusService {
 
     if (enable) {
       this.resetFocusOnNavigate = this.router.events
-        .pipe(filter((e): e is NavigationStart => e instanceof NavigationStart))
+        .pipe(filter((event) => event instanceof NavigationStart))
         .subscribe(() => {
           this.document.getElementsByTagName('cx-storefront')[0].focus();
         });
