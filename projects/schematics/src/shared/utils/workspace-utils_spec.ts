@@ -26,11 +26,108 @@ import {
   isWorkspaceSchema,
   validateSpartacusInstallation,
 } from './workspace-utils';
-import * as utils from './workspace-utils';
 import { SPARTACUS_CORE } from '../../shared/constants';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
+const expectedProjectTargets = {
+  build: {
+    builder: '@angular-devkit/build-angular:browser',
+    configurations: {
+      production: {
+        budgets: [
+          {
+            maximumError: '5mb',
+            maximumWarning: '2mb',
+            type: 'initial',
+          },
+          {
+            maximumError: '10kb',
+            maximumWarning: '6kb',
+            type: 'anyComponentStyle',
+          },
+        ],
+        buildOptimizer: true,
+        extractCss: true,
+        extractLicenses: true,
+        fileReplacements: [
+          {
+            replace: 'src/environments/environment.ts',
+            with: 'src/environments/environment.prod.ts',
+          },
+        ],
+        namedChunks: false,
+        optimization: true,
+        outputHashing: 'all',
+        sourceMap: false,
+        vendorChunk: false,
+      },
+    },
+    options: {
+      aot: true,
+      assets: ['src/favicon.ico', 'src/assets'],
+      index: 'src/index.html',
+      main: 'src/main.ts',
+      outputPath: 'dist/schematics-test',
+      polyfills: 'src/polyfills.ts',
+      scripts: [],
+      styles: ['src/styles.scss'],
+      tsConfig: 'tsconfig.app.json',
+    },
+  },
+  e2e: {
+    builder: '@angular-devkit/build-angular:protractor',
+    configurations: {
+      production: {
+        devServerTarget: 'schematics-test:serve:production',
+      },
+    },
+    options: {
+      devServerTarget: 'schematics-test:serve',
+      protractorConfig: 'e2e/protractor.conf.js',
+    },
+  },
+  'extract-i18n': {
+    builder: '@angular-devkit/build-angular:extract-i18n',
+    options: {
+      browserTarget: 'schematics-test:build',
+    },
+  },
+  lint: {
+    builder: '@angular-devkit/build-angular:tslint',
+    options: {
+      exclude: ['**/node_modules/**'],
+      tsConfig: [
+        'tsconfig.app.json',
+        'tsconfig.spec.json',
+        'e2e/tsconfig.json',
+      ],
+    },
+  },
+  serve: {
+    builder: '@angular-devkit/build-angular:dev-server',
+    configurations: {
+      production: {
+        browserTarget: 'schematics-test:build:production',
+      },
+    },
+    options: {
+      browserTarget: 'schematics-test:build',
+    },
+  },
+  test: {
+    builder: '@angular-devkit/build-angular:karma',
+    options: {
+      assets: ['src/favicon.ico', 'src/assets'],
+      karmaConfig: 'karma.conf.js',
+      main: 'src/test.ts',
+      polyfills: 'src/polyfills.ts',
+      scripts: [],
+      styles: ['src/styles.scss'],
+      tsConfig: 'tsconfig.spec.json',
+    },
+  },
+};
 
 describe('Workspace utils', () => {
   let appTree: UnitTestTree;
@@ -79,23 +176,6 @@ describe('Workspace utils', () => {
     it('should return the source root of the default project', async () => {
       const sourceRoot = getSourceRoot(appTree, {});
       expect(sourceRoot).toEqual('src');
-    });
-
-    xit('should throw an error for missing default project', async () => {
-      jest.spyOn(utils, 'getWorkspace').mockImplementationOnce(
-        jest.fn().mockReturnValue({
-          workspace: {
-            projects: {
-              projectKey: {},
-            },
-          },
-        })
-      );
-
-      const options = { project: 'projectKey' };
-      expect(() => getSourceRoot(appTree, options)).toThrowError(
-        new SchematicsException('No default project found')
-      );
     });
   });
 
@@ -155,29 +235,6 @@ describe('Workspace utils', () => {
         new SchematicsException(`Project is not defined in this workspace.`)
       );
     });
-
-    xit('should throw an error if wrong type of project', async () => {
-      jest.spyOn(utils, 'getWorkspace').mockImplementationOnce(
-        jest.fn().mockReturnValue({
-          workspace: {
-            projects: {
-              projectKey: {
-                projectType: 'other-than-application',
-              },
-            },
-          },
-        })
-      );
-      expect(() =>
-        getProjectFromWorkspace(appTree, {
-          project: 'projectKey',
-        } as SpartacusOptions)
-      ).toThrowError(
-        new SchematicsException(
-          `Spartacus requires a project type of "application".`
-        )
-      );
-    });
   });
 
   describe('getDefaultProjectNameFromWorkspace', () => {
@@ -188,6 +245,13 @@ describe('Workspace utils', () => {
   });
 
   describe('getProjectTargets', () => {
+    it('should return project targets', () => {
+      const projectTargets = getProjectTargets(
+        getProjectFromWorkspace(appTree, defaultOptions)
+      );
+      expect(projectTargets).toEqual(expectedProjectTargets);
+    });
+
     it('should throw an error', () => {
       expect(() =>
         getProjectTargets({
@@ -197,15 +261,6 @@ describe('Workspace utils', () => {
         })
       ).toThrowError(new Error('Project target not found.'));
     });
-
-    // it('should return project targets', () => {
-    //   const projectTargets = getProjectTargets({
-    //     projectType: ProjectType.Application,
-    //     root: 'root',
-    //     prefix: 'prefix',
-    //   });
-    //   expect(projectTargets).toEqual({});
-    // });
   });
 
   describe('buildDefaultPath', () => {
