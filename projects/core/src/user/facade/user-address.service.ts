@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import {
-  EventService,
-  UserAddressDeleteEvent,
-  UserAddressSetToDefaultEvent,
-  UserAddressUpdateEvent,
-} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
+import { EventService } from '../../event/event.service';
 import {
   Address,
   AddressValidation,
@@ -21,6 +16,11 @@ import {
   CommandService,
 } from '../../util/command-query/command.service';
 import { UserAddressConnector } from '../connectors/address/user-address.connector';
+import {
+  UserAddressDeleteEvent,
+  UserAddressSetToDefaultEvent,
+  UserAddressUpdateEvent,
+} from '../events/user.events';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
