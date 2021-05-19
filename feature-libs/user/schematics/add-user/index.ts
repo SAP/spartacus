@@ -9,6 +9,7 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CLI_USER_ACCOUNT_FEATURE,
+  CLI_USER_FEATURE,
   CLI_USER_PROFILE_FEATURE,
   LibraryOptions as SpartacusUserOptions,
   readPackageJson,
@@ -110,6 +111,12 @@ function addProfileFeature(options: SpartacusUserOptions): Rule {
     styles: {
       scssFileName: SCSS_FILE_NAME,
       importStyle: SPARTACUS_USER,
+    },
+    dependencyManagement: {
+      featureName: CLI_USER_FEATURE,
+      featureDependencies: {
+        [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE],
+      },
     },
   });
 }
