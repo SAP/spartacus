@@ -61,7 +61,6 @@ describe('Currency switch - checkout page', () => {
         'have.text',
         ' ¥60 '
       );
-
       siteContextSelector.deliveryModeNextStep();
     });
 

@@ -8,7 +8,27 @@ import { SPARTACUS_SCOPE, UTF_8 } from '../constants';
 import { getServerTsPath } from './file-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
 
-const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
+export const CORE_SPARTACUS_SCOPES = [
+  SPARTACUS_CORE,
+  SPARTACUS_ASSETS,
+  SPARTACUS_SCHEMATICS,
+  SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_STYLES,
+  SPARTACUS_SETUP,
+];
+export const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
+
+export function createSpartacusDependencies(
+  dependencyObject: any
+): NodeDependency[] {
+  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
+  return createDependencies(dependencyObject, {
+    skipScopes: CORE_SPARTACUS_SCOPES,
+    onlyIncludeScopes: FEATURES_LIBS_SKIP_SCOPES,
+    version: spartacusVersion,
+  });
+}
+
 export function createDependencies(
   dependencyObject: any,
   skipScopes: string[] = FEATURES_LIBS_SKIP_SCOPES
@@ -61,6 +81,10 @@ export function getMajorVersionNumber(versionString: string): number {
 
 export function getSpartacusSchematicsVersion(): string {
   return version;
+}
+
+export function getPrefixedSpartacusSchematicsVersion(): string {
+  return `~${getSpartacusSchematicsVersion()}`;
 }
 
 export function getSpartacusCurrentFeatureLevel(): string {

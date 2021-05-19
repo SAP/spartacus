@@ -11,7 +11,7 @@ import { ConsentReferenceInterceptor } from './consent-reference-interceptor';
 describe('consent reference interceptor', () => {
   let ProfileTagEventTrackerMock;
   const occEndPointsMock = {
-    getBaseEndpoint: () => '/occ',
+    getBaseUrl: () => '/occ',
   };
   beforeEach(() => {
     ProfileTagEventTrackerMock = {
