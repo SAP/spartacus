@@ -17,7 +17,7 @@ export class AppliedCouponsComponent {
 
   iconTypes = ICON_TYPE;
 
-  constructor(protected cartVoucherService: CartVoucherService) {}
+  constructor(private cartVoucherService: CartVoucherService) {}
 
   public get sortedVouchers(): Voucher[] {
     this.vouchers = this.vouchers || [];

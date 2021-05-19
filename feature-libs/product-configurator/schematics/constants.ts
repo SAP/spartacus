@@ -1,6 +1,5 @@
 import { SPARTACUS_PRODUCT_CONFIGURATOR } from '@spartacus/schematics';
 
-export const PRODUCT_CONFIGURATOR_MODULE_NAME = 'ProductConfigurator';
 export const PRODUCT_CONFIGURATOR_FOLDER_NAME = 'product-configurator';
 export const PRODUCT_CONFIGURATOR_SCSS_FILE_NAME = 'product-configurator.scss';
 export const PRODUCT_CONFIGURATOR_RULEBASED_MODULE =

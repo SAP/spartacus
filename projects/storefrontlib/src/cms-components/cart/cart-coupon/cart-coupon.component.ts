@@ -23,7 +23,7 @@ export class CartCouponComponent implements OnInit, OnDestroy {
   cartId: string;
   applicableCoupons: CustomerCoupon[];
 
-  protected ignoreCloseEvent = false;
+  private ignoreCloseEvent = false;
 
   private subscription = new Subscription();
 

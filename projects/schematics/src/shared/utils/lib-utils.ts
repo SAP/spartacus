@@ -34,11 +34,7 @@ import {
   ensureModuleExists,
   Import,
 } from './new-module-utils';
-import {
-  createDependencies,
-  createSpartacusDependencies,
-  getPrefixedSpartacusSchematicsVersion,
-} from './package-utils';
+import { getSpartacusSchematicsVersion } from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import {
@@ -598,7 +594,7 @@ export function configureB2bFeatures<T extends LibraryOptions>(
   packageJson: any
 ): Rule {
   return (_tree: Tree, _context: SchematicContext): Rule => {
-    const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
+    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
     return chain([
       addB2bProviders(options),
       addPackageJsonDependencies(

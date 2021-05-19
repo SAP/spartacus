@@ -8,18 +8,17 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  LibraryOptions as SpartacusUserOptions,
+  LibraryOptions as SpartacusPersonalizationOptions,
   SpartacusOptions,
-  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { peerDependencies } from '../../package.json';
 import { CLI_ACCOUNT_FEATURE, CLI_PROFILE_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
+const userFeatureModulePath =
   'src/app/spartacus/features/user/user-feature.module.ts';
 
+// TODO: Improve tests after lib-util test update
 describe('Spartacus User schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -46,26 +45,16 @@ describe('Spartacus User schematics: ng-add', () => {
     features: [CLI_ACCOUNT_FEATURE, CLI_PROFILE_FEATURE],
   };
 
-  const libraryNoFeaturesOptions: SpartacusUserOptions = {
+  const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
     lazy: true,
     features: [],
   };
 
-  const accountFeatureOptions: SpartacusUserOptions = {
-    ...libraryNoFeaturesOptions,
-    features: [CLI_ACCOUNT_FEATURE],
-  };
-
-  const profileFeatureOptions: SpartacusUserOptions = {
-    ...libraryNoFeaturesOptions,
-    features: [CLI_PROFILE_FEATURE],
-  };
-
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      SPARTACUS_SCHEMATICS,
+      '@spartacus/schematics',
       '../../projects/schematics/src/collection.json'
     );
 
@@ -86,7 +75,7 @@ describe('Spartacus User schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        SPARTACUS_SCHEMATICS,
+        '@spartacus/schematics',
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -97,124 +86,119 @@ describe('Spartacus User schematics: ng-add', () => {
   describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
+        .runSchematicAsync(
+          'ng-add',
+          { ...defaultOptions, lazy: false, features: [] },
+          appTree
+        )
         .toPromise();
     });
 
-    it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
-    });
-
-    it('should install necessary Spartacus libraries', () => {
-      const packageJson = JSON.parse(appTree.readContent('package.json'));
-      let dependencies: Record<string, string> = {};
-      dependencies = { ...packageJson.dependencies };
-      dependencies = { ...dependencies, ...packageJson.devDependencies };
-
-      for (const toAdd in peerDependencies) {
-        // skip the SPARTACUS_SCHEMATICS, as those are added only when running by the Angular CLI, and not in the testing environment
-        if (
-          !peerDependencies.hasOwnProperty(toAdd) ||
-          toAdd === SPARTACUS_SCHEMATICS
-        ) {
-          continue;
-        }
-        // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
-        // const expectedVersion = (peerDependencies as Record<
-        //   string,
-        //   string
-        // >)[toAdd];
-        const expectedDependency = dependencies[toAdd];
-        expect(expectedDependency).toBeTruthy();
-        // expect(expectedDependency).toEqual(expectedVersion);
-      }
+    it('should not add any modules', () => {
+      expect(appTree.exists(userFeatureModulePath)).toBeFalsy();
     });
   });
 
   describe('Account feature', () => {
-    describe('general setup', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', accountFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
-        expect(module).toMatchSnapshot();
-      });
-
-      describe('styling', () => {
-        it('should create a proper scss file', () => {
-          const scssContent = appTree.readContent(scssFilePath);
-          expect(scssContent).toMatchSnapshot();
-        });
-
-        it('should update angular.json', async () => {
-          const content = appTree.readContent('/angular.json');
-          expect(content).toMatchSnapshot();
-        });
-      });
-    });
-
     describe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...accountFeatureOptions, lazy: false },
+            { ...defaultOptions, lazy: false },
             appTree
           )
           .toPromise();
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
-        expect(module).toMatchSnapshot();
+        const module = appTree.readContent(userFeatureModulePath);
+        expect(module).toContain(
+          `import { UserAccountRootModule } from "@spartacus/user/account/root";`
+        );
+        expect(module).toContain(
+          `import { UserAccountModule } from "@spartacus/user/account";`
+        );
+      });
+
+      it('should not contain lazy loading syntax', async () => {
+        const module = appTree.readContent(userFeatureModulePath);
+        expect(module).not.toContain(`import('@spartacus/user/account').then(`);
+      });
+    });
+
+    describe('lazy loading', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .toPromise();
+      });
+
+      it('should import UserAccountRootModule and contain the lazy loading syntax', async () => {
+        const module = appTree.readContent(userFeatureModulePath);
+        expect(module).toContain(
+          `import { UserAccountRootModule } from "@spartacus/user/account/root";`
+        );
+        expect(module).toContain(`import('@spartacus/user/account').then(`);
+      });
+
+      it('should not contain the UserAccountModule import', () => {
+        const module = appTree.readContent(userFeatureModulePath);
+        expect(module).not.toContain(
+          `import { UserAccountModule } from "@spartacus/user/account";`
+        );
       });
     });
   });
 
   describe('Profile feature', () => {
-    describe('general setup', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', profileFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
-        expect(module).toMatchSnapshot();
-      });
-
-      describe('styling', () => {
-        it('should create a proper scss file', () => {
-          const scssContent = appTree.readContent(scssFilePath);
-          expect(scssContent).toMatchSnapshot();
-        });
-
-        it('should update angular.json', async () => {
-          const content = appTree.readContent('/angular.json');
-          expect(content).toMatchSnapshot();
-        });
-      });
-    });
-
     describe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...profileFeatureOptions, lazy: false },
+            { ...defaultOptions, lazy: false },
             appTree
           )
           .toPromise();
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
-        expect(module).toMatchSnapshot();
+        const module = appTree.readContent(userFeatureModulePath);
+        expect(module).toContain(
+          `import { UserProfileRootModule } from "@spartacus/user/profile/root";`
+        );
+        expect(module).toContain(
+          `import { UserProfileModule } from "@spartacus/user/profile";`
+        );
+      });
+
+      it('should not contain lazy loading syntax', async () => {
+        const module = appTree.readContent(userFeatureModulePath);
+        expect(module).not.toContain(`import('@spartacus/user/profile').then(`);
+      });
+    });
+
+    describe('lazy loading', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .toPromise();
+      });
+
+      it('should import UserProfileRootModule and contain the lazy loading syntax', async () => {
+        const module = appTree.readContent(userFeatureModulePath);
+        expect(module).toContain(
+          `import { UserProfileRootModule } from "@spartacus/user/profile/root";`
+        );
+        expect(module).toContain(`import('@spartacus/user/profile').then(`);
+      });
+
+      it('should not contain the UserAccountModule import', () => {
+        const module = appTree.readContent(userFeatureModulePath);
+        expect(module).not.toContain(
+          `import { UserAccountModule } from "@spartacus/user/profile";`
+        );
       });
     });
   });

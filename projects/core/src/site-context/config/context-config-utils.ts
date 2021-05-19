@@ -22,7 +22,7 @@ export function getContextParameterValues(
 export function getContextParameterDefault(
   config: SiteContextConfig,
   parameter: string
-): string | undefined {
+): string {
   const param = getContextParameterValues(config, parameter);
   return param && param.length ? param[0] : undefined;
 }

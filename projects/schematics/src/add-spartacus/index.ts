@@ -64,9 +64,8 @@ import {
 } from '../shared/utils/new-module-utils';
 import {
   createDependencies,
-  getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
-  mapPackageToNodeDependencies,
+  getSpartacusSchematicsVersion,
   readPackageJson,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
@@ -196,7 +195,7 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
 }
 
 function prepareDependencies(options: SpartacusOptions): NodeDependency[] {
-  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
+  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
 
   const spartacusDependencies: NodeDependency[] = [
     {
@@ -326,18 +325,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
 function addSpartacusFeatures(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    const featurePackages = prepareSpartacusFeatures(options);
-
-    const packageJson = readPackageJson(tree);
-    const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
-    const dependencies = featurePackages.map((feature) =>
-      mapPackageToNodeDependencies(feature, spartacusVersion)
-    );
-
-    const rule = addPackageJsonDependencies(dependencies, packageJson)(
-      tree,
-      context
-    );
+    const features = prepareSpartacusFeatures(options);
+    const rule = installSpartacusFeatures(features)(tree, context);
 
     addSchematicsTasks(features, context);
 

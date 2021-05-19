@@ -1,4 +1,4 @@
-import { PersonalizationAction } from '@spartacus/tracking/personalization/core';
+import { PersonalizationAction } from '@spartacus/core';
 
 export interface ProfileTagWindowObject extends Window {
   Y_TRACKING: {

@@ -1,9 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { CmsService, Page, PageType } from '@spartacus/core';
-import { PersonalizationConfig } from '@spartacus/tracking/personalization/root';
 import { Observable, of } from 'rxjs';
-import { PersonalizationContext } from '../model/personalization-context.model';
-import { PersonalizationContextService } from './personalization-context.service';
+import {
+  CmsService,
+  Page,
+  PageType,
+  PersonalizationConfig,
+  PersonalizationContext,
+  PersonalizationContextService,
+} from '@spartacus/core';
 
 const mockPersonalizationConfig: PersonalizationConfig = {
   personalization: {
@@ -69,7 +73,6 @@ class MockCmsService {
 
 describe('PersonalizationContextService', () => {
   let service: PersonalizationContextService;
-  let cmsService: CmsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -81,7 +84,6 @@ describe('PersonalizationContextService', () => {
     });
 
     service = TestBed.inject(PersonalizationContextService);
-    cmsService = TestBed.inject(CmsService);
   });
 
   it('should return personalization context if PersonalizationScriptComponent exists', () => {
@@ -101,24 +103,5 @@ describe('PersonalizationContextService', () => {
     expect(result.actions[0].variation_code).toEqual('variation_code1');
     expect(result.actions[0].action_name).toEqual('action_name1');
     expect(result.actions[0].action_type).toEqual('action_type1');
-  });
-
-  it('should return undefined if PersonalizationScriptComponent does not exists', () => {
-    spyOn(cmsService, 'getCurrentPage').and.returnValue(
-      of({
-        slots: {
-          PlaceholderContentSlot: {},
-        },
-      })
-    );
-    let result: PersonalizationContext;
-    service
-      .getPersonalizationContext()
-      .subscribe((value) => {
-        result = value;
-      })
-      .unsubscribe();
-
-    expect(result).toBeUndefined();
   });
 });

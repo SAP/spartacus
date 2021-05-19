@@ -104,7 +104,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
   }
 
   private isOccUrl(url: string): boolean {
-    return url.includes(this.occEndpoints.getBaseUrl());
+    return url.includes(this.occEndpoints.getBaseEndpoint());
   }
 
   private giveRequiredConsents(

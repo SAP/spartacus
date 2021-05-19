@@ -13,7 +13,6 @@ import { filter } from 'rxjs/operators';
 import { SiteContextParamsService } from './site-context-params.service';
 import { SiteContextUrlSerializer } from './site-context-url-serializer';
 
-// PRIVATE API
 @Injectable({
   providedIn: 'root',
 })

@@ -39,7 +39,7 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   getEndpoint(url: string) {
     return url;
   }
-  getBaseUrl() {
+  getBaseEndpoint() {
     return (
       MockOccModuleConfig.backend.occ.baseUrl +
       MockOccModuleConfig.backend.occ.prefix +

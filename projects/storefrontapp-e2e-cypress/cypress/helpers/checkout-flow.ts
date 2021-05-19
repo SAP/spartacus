@@ -20,7 +20,7 @@ import {
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
 
-export const ELECTRONICS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-gross';
+export const ELECTRONICS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
 
 /**
  * Clicks the main menu (on mobile only)
@@ -162,7 +162,7 @@ export function fillPaymentForm(
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
-    .should('not.be.empty');
+    .should('contain', cart.totalAndShipping);
   fillPaymentDetails(paymentDetailsData, billingAddress);
 }
 
@@ -191,9 +191,10 @@ export function placeOrder() {
     .should('contain', cart.total);
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(1)
-    .should('not.be.empty');
+    .should('contain', cart.estimatedShipping);
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
-    'not.be.empty'
+    'contain',
+    cart.totalAndShipping
   );
   cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
@@ -214,7 +215,7 @@ export function viewOrderHistory() {
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
-    .should('not.be.empty');
+    .should('contain', cart.totalAndShipping);
 }
 
 export function goToPaymentDetails() {
@@ -327,8 +328,7 @@ export function fillPaymentFormWithCheapProduct(
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
-    .should('not.be.empty');
-
+    .should('contain', cartData.totalAndShipping);
   const reivewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
   cy.wait(`@${reivewPage}`).its('status').should('eq', 200);
@@ -362,7 +362,8 @@ export function placeOrderWithCheapProduct(
     .eq(1)
     .should('contain', cartData.estimatedShipping);
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(
-    'not.be.empty'
+    'contain',
+    cartData.totalAndShipping
   );
   cy.findByText('Terms & Conditions')
     .should('have.attr', 'target', '_blank')
@@ -423,7 +424,10 @@ export function verifyOrderConfirmationPageWithCheapProduct(
         cy.get('cx-cart-item .cx-code').should('contain', products[index].code);
       });
   }
-  cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
+  cy.get('cx-order-summary .cx-summary-amount').should(
+    'contain',
+    cartData.totalAndShipping
+  );
 }
 
 export function viewOrderHistoryWithCheapProduct(
@@ -441,5 +445,5 @@ export function viewOrderHistoryWithCheapProduct(
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
-    .should('not.be.empty');
+    .should('contain', cartData.totalAndShipping);
 }

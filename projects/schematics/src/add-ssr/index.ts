@@ -42,7 +42,7 @@ import {
   addToModuleImportsAndCommitChanges,
 } from '../shared/utils/module-file-utils';
 import {
-  getPrefixedSpartacusSchematicsVersion,
+  getSpartacusSchematicsVersion,
   readPackageJson,
 } from '../shared/utils/package-utils';
 
@@ -153,7 +153,7 @@ function modifyAppModuleFile(): Rule {
 }
 
 function prepareDependencies(): NodeDependency[] {
-  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
+  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
 
   const spartacusDependencies: NodeDependency[] = [];
   spartacusDependencies.push({

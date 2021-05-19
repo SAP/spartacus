@@ -51,7 +51,7 @@ export class AuthHttpHeaderService {
   }
 
   protected isOccUrl(url: string): boolean {
-    return url.includes(this.occEndpoints.getBaseUrl());
+    return url.includes(this.occEndpoints.getBaseEndpoint());
   }
 
   protected getAuthorizationHeader(request: HttpRequest<any>): string {

@@ -14,7 +14,7 @@ export class OccBackendNotification implements CdsBackendNotificationAdapter {
   notifySuccessfulLogin(): Observable<void> {
     return this.http
       .post<{}>(
-        `${this.occEndpoints.getBaseUrl()}/users/current/loginnotification`,
+        `${this.occEndpoints.getBaseEndpoint()}/users/current/loginnotification`,
         {}
       )
       .pipe(switchMapTo(of()));

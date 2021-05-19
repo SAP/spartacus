@@ -5,8 +5,7 @@ import {
   SPARTACUS_SETUP,
 } from '../constants';
 import { isImportedFromSpartacusLibs } from './import-utils';
-import { CustomConfig } from './lib-utils';
-import { getModule } from './new-module-utils';
+import { getModule, Import } from './new-module-utils';
 
 export function getSpartacusProviders(sourceFile: SourceFile): Node[] {
   const module = getModule(sourceFile);
@@ -61,7 +60,7 @@ export function normalizeConfiguration(config: string | Node): string {
   return newConfig;
 }
 
-export function getB2bConfiguration(): CustomConfig[] {
+export function getB2bConfiguration(): { import: Import[]; content: string }[] {
   return [
     {
       import: [

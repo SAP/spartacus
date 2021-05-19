@@ -17,19 +17,19 @@ import { MultiCartService } from './multi-cart.service';
   providedIn: 'root',
 })
 export class SelectiveCartService {
-  protected customerId: string;
-  protected userId: string;
-  protected cartId: string;
-  protected selectiveCart$: Observable<Cart>;
-  protected cartId$: BehaviorSubject<string> = new BehaviorSubject<string>(
+  private customerId: string;
+  private userId: string;
+  private cartId: string;
+  private selectiveCart$: Observable<Cart>;
+  private cartId$: BehaviorSubject<string> = new BehaviorSubject<string>(
     undefined
   );
 
-  protected readonly PREVIOUS_USER_ID_INITIAL_VALUE =
+  private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
-  protected previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
+  private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
 
-  protected cartSelector$ = this.cartId$.pipe(
+  private cartSelector$ = this.cartId$.pipe(
     switchMap((cartId) => {
       this.cartId = cartId;
       return this.multiCartService.getCartEntity(cartId);
@@ -113,10 +113,7 @@ export class SelectiveCartService {
     );
   }
 
-  /**
-   * Loads logged user's selective cart
-   */
-  protected load() {
+  private load() {
     if (this.isLoggedIn(this.userId) && this.cartId) {
       this.multiCartService.loadCart({
         userId: this.userId,
@@ -177,20 +174,14 @@ export class SelectiveCartService {
   isEnabled(): boolean {
     return this.cartConfigService.isSelectiveCartEnabled();
   }
-  /**
-   * Indicates if given cart is empty.
-   * Returns true is cart is undefined, null or is an empty object.
-   */
-  protected isEmpty(cart: Cart): boolean {
+
+  private isEmpty(cart: Cart): boolean {
     return (
       !cart || (typeof cart === 'object' && Object.keys(cart).length === 0)
     );
   }
 
-  /**
-   * Indicates if a given user is logged in on account different than preceding user account
-   */
-  protected isJustLoggedIn(userId: string): boolean {
+  private isJustLoggedIn(userId: string): boolean {
     return (
       this.isLoggedIn(userId) &&
       this.previousUserId !== userId && // *just* logged in
@@ -198,10 +189,7 @@ export class SelectiveCartService {
     );
   }
 
-  /**
-   * Indicates if given user is logged in
-   */
-  protected isLoggedIn(userId: string): boolean {
+  private isLoggedIn(userId: string): boolean {
     return typeof userId !== 'undefined' && userId !== OCC_USER_ID_ANONYMOUS;
   }
 }

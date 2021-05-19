@@ -2,43 +2,23 @@ import { Injectable } from '@angular/core';
 import { DefaultUrlSerializer, UrlTree } from '@angular/router';
 import { SiteContextParamsService } from './site-context-params.service';
 
-/**
- * Values of the site context parameters encoded in the URL.
- */
-export interface SiteContextUrlParams {
+export interface ParamValuesMap {
   [name: string]: string;
 }
 
-/**
- * UrlTree decorated with a custom property `siteContext`
- * for storing the values of the site context parameters.
- */
 export interface UrlTreeWithSiteContext extends UrlTree {
-  siteContext?: SiteContextUrlParams;
+  siteContext?: ParamValuesMap;
 }
 
-/**
- * Angular URL Serializer aware of Spartacus site context parameters
- * encoded in the URL.
- */
+const UrlSplit = /(^[^#?]*)(.*)/; // used to split url into path and query/fragment parts
+
 @Injectable()
 export class SiteContextUrlSerializer extends DefaultUrlSerializer {
-  /**
-   * Splits the URL into 2 parts: path and the query/fragment part
-   */
-  protected readonly URL_SPLIT: RegExp = /(^[^#?]*)(.*)/;
-
-  /**
-   * Names of site context parameters encoded in the URL
-   */
-  protected get urlEncodingParameters(): string[] {
+  private get urlEncodingParameters(): string[] {
     return this.siteContextParams.getUrlEncodingParameters();
   }
 
-  /**
-   * Tells whether any site context parameters should be encoded in the URL
-   */
-  protected get hasContextInRoutes(): boolean {
+  get hasContextInRoutes() {
     return this.urlEncodingParameters.length > 0;
   }
 
@@ -46,13 +26,6 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     super();
   }
 
-  /**
-   * @override Recognizes the site context parameters encoded in the prefix segments
-   * of the given URL.
-   *
-   * It returns the UrlTree for the given URL shortened by the recognized params, but saves
-   * the params' values in the custom property of UrlTree: `siteContext`.
-   */
   parse(url: string): UrlTreeWithSiteContext {
     if (this.hasContextInRoutes) {
       const urlWithParams = this.urlExtractContextParameters(url);
@@ -64,16 +37,10 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     }
   }
 
-  /**
-   * Recognizes the site context parameters encoded in the prefix segments of the given URL.
-   *
-   * It returns the recognized site context params as well as the
-   * URL shortened by the recognized params.
-   */
   urlExtractContextParameters(
     url: string
-  ): { url: string; params: SiteContextUrlParams } {
-    const [, urlPart, queryPart] = url.match(this.URL_SPLIT);
+  ): { url: string; params: ParamValuesMap } {
+    const [, urlPart, queryPart] = url.match(UrlSplit);
 
     const segments = urlPart.split('/');
     if (segments[0] === '') {
@@ -97,25 +64,17 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
       paramId++;
     }
 
-    url = segments.slice(segmentId).join('/') + queryPart;
+    url = segments.slice(Object.keys(params).length).join('/') + queryPart;
     return { url, params };
   }
 
-  /**
-   * Saves the given site context parameters in the custom property
-   * of the given UrlTree: `siteContext`.
-   */
-  protected urlTreeIncludeContextParameters(
+  private urlTreeIncludeContextParameters(
     urlTree: UrlTreeWithSiteContext,
-    params: SiteContextUrlParams
-  ): void {
+    params: ParamValuesMap
+  ) {
     urlTree.siteContext = params;
   }
 
-  /**
-   * @override Serializes the given UrlTree to a string and prepends
-   *  to it the current values of the site context parameters.
-   */
   serialize(tree: UrlTreeWithSiteContext): string {
     const params = this.urlTreeExtractContextParameters(tree);
     const url = super.serialize(tree);
@@ -123,23 +82,13 @@ export class SiteContextUrlSerializer extends DefaultUrlSerializer {
     return serialized;
   }
 
-  /**
-   * Returns the site context parameters stored in the custom property
-   * of the UrlTree: `siteContext`.
-   */
   urlTreeExtractContextParameters(
     urlTree: UrlTreeWithSiteContext
-  ): SiteContextUrlParams {
+  ): ParamValuesMap {
     return urlTree.siteContext ? urlTree.siteContext : {};
   }
 
-  /**
-   * Prepends the current values of the site context parameters to the given URL.
-   */
-  protected urlIncludeContextParameters(
-    url: string,
-    params: SiteContextUrlParams
-  ): string {
+  private urlIncludeContextParameters(url: string, params: ParamValuesMap) {
     const contextRoutePart = this.urlEncodingParameters
       .map((param) => {
         return params[param]

@@ -77,6 +77,21 @@ export class OccEndpointsService {
   }
 
   /**
+   * @Deprecated since 3.2 - use "getBaseUrl" with the same parameters
+   *
+   * Returns base OCC endpoint (baseUrl + prefix + baseSite) by if no parameters are specified
+   *
+   * @param propertiesToOmit Specify properties to not add to the url (baseUrl, prefix, baseSite)
+   */
+  getBaseEndpoint(propertiesToOmit?: BaseOccUrlProperties): string {
+    if (!this.config?.backend?.occ) {
+      return '';
+    }
+
+    return this.getBaseUrl(propertiesToOmit);
+  }
+
+  /**
    * @Deprecated since 3.2 - use "buildUrl" with configurable endpoints instead
    *
    * Returns an OCC endpoint including baseUrl and baseSite
@@ -109,7 +124,7 @@ export class OccEndpointsService {
     const baseUrl =
       baseUrlProperties.baseUrl === false
         ? ''
-        : this.config?.backend?.occ?.baseUrl ?? '';
+        : this.config.backend.occ.baseUrl;
     const prefix = baseUrlProperties.prefix === false ? '' : this.getPrefix();
     const baseSite =
       baseUrlProperties.baseSite === false ? '' : this.activeBaseSite;
@@ -222,6 +237,6 @@ export class OccEndpointsService {
     ) {
       return '/' + this.config.backend.occ.prefix;
     }
-    return this.config?.backend?.occ?.prefix ?? '';
+    return this.config.backend.occ.prefix;
   }
 }
