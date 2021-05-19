@@ -287,20 +287,20 @@ const ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS = `
       }
     }
 `;
-const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `     
-import { CartItemContext } from '@spartacus/storefront';
-import { ConfiguratorCartEntryInfoComponent} from '@spartacus/product-configurator/common';
-import { CommonConfiguratorUtilsService} from '@spartacus/product-configurator/common';
 
-export class InheritingService extends ConfiguratorCartEntryInfoComponent {
-  constructor(         
-    @Optional() protected cartItemContext?: CartItemContext,
-    protected commonConfigUtilsService?: CommonConfiguratorUtilsService
-  ) {
-    super(cartItemContext,commonConfigUtilsService);
-  }
-}
+const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `       
+    import { CartItemContext } from '@spartacus/storefront';
+    import { ConfiguratorCartEntryInfoComponent, CommonConfiguratorUtilsService} from '@spartacus/product-configurator/common';
+    
+    export class InheritingService extends ConfiguratorCartEntryInfoComponent {
+      constructor(         
+        @Optional() protected cartItemContext?: CartItemContext, commonConfiguratorUtilsService: CommonConfiguratorUtilsService 
+      ) {
+        super(cartItemContext, commonConfiguratorUtilsService);
+      }
+    }
 `;
+
 const CART_PAGE_LAYOUT_HANDLER = `
     import { CartPageLayoutHandler } from '@spartacus/storefront';
     import { CartService } from '@spartacus/core';

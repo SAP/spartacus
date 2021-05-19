@@ -196,6 +196,7 @@ export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
 export const CART_ITEM_COMPONENT = 'CartItemComponent';
+export const CART_ITEM_CONTEXT = 'CartItemContext';
 export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
 export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
