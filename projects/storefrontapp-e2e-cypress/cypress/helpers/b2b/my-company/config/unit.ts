@@ -80,6 +80,10 @@ export const unitConfig: MyCompanyConfig = {
   apiEndpoint: '/orgUnits',
   objectType: 'children',
   verifyStatusInDetails: true,
+  selectOptionsEndpoint: [
+    '*availableOrgUnitNodes*',
+    '*orgUnitsAvailableApprovalProcesses*',
+  ],
   rows: [
     {
       label: 'Name',
