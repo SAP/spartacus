@@ -33,7 +33,7 @@ class OccEndpointsServiceMock {
   getEndpoint(): string {
     return endpoint;
   }
-  getUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
+  buildUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
     return '';
   }
 }
@@ -93,11 +93,10 @@ describe('OccCmsComponentAdapter', () => {
 
       const testRequest = mockHttpRequest('GET', spyOnLoadEndpoint);
 
-      expect(endpointsService.getUrl).toHaveBeenCalledWith(
-        'component',
-        { id: 'comp1' },
-        { productCode: '123' }
-      );
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('component', {
+        urlParams: { id: 'comp1' },
+        queryParams: { productCode: '123' },
+      });
 
       assertTestRequest(testRequest, component);
     });
@@ -121,7 +120,7 @@ describe('OccCmsComponentAdapter', () => {
 
       const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
 
-      assertGetRequestGetUrl('DEFAULT', '2');
+      assertGetRequestbuildUrl('DEFAULT', '2');
 
       assertTestRequest(testRequest, componentList);
     });
@@ -133,7 +132,7 @@ describe('OccCmsComponentAdapter', () => {
 
       const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
 
-      assertGetRequestGetUrl('FULL', '5');
+      assertGetRequestbuildUrl('FULL', '5');
 
       assertTestRequest(testRequest, componentList);
     });
@@ -149,7 +148,7 @@ describe('OccCmsComponentAdapter', () => {
   });
 
   function spyOnEndpoint(requestUrl: string): jasmine.Spy {
-    return spyOn(endpointsService, 'getUrl').and.returnValue(requestUrl);
+    return spyOn(endpointsService, 'buildUrl').and.returnValue(requestUrl);
   }
 
   function mockHttpRequest(
@@ -170,18 +169,16 @@ describe('OccCmsComponentAdapter', () => {
     testRequest.flush(componentObj);
   }
 
-  function assertGetRequestGetUrl(fields: string, pageSize: string) {
-    expect(endpointsService.getUrl).toHaveBeenCalledWith(
-      'components',
-      {},
-      {
+  function assertGetRequestbuildUrl(fields: string, pageSize: string) {
+    expect(endpointsService.buildUrl).toHaveBeenCalledWith('components', {
+      queryParams: {
         fields,
         componentIds: ids.toString(),
         productCode: '123',
         currentPage: '0',
         pageSize,
-      }
-    );
+      },
+    });
   }
 
   function assertConverterPipeableMany() {

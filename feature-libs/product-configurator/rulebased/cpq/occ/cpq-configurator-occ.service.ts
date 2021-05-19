@@ -26,9 +26,11 @@ export class CpqConfiguratorOccService {
   addToCart(
     parameters: Configurator.AddToCartParameters
   ): Observable<CartModification> {
-    const url = this.occEndpointsService.getUrl('addCpqConfigurationToCart', {
-      userId: parameters.userId,
-      cartId: parameters.cartId,
+    const url = this.occEndpointsService.buildUrl('addCpqConfigurationToCart', {
+      urlParams: {
+        userId: parameters.userId,
+        cartId: parameters.cartId,
+      },
     });
 
     const occAddToCartParameters = this.converterService.convert(
@@ -44,12 +46,14 @@ export class CpqConfiguratorOccService {
   updateCartEntry(
     parameters: Configurator.UpdateConfigurationForCartEntryParameters
   ): Observable<CartModification> {
-    const url = this.occEndpointsService.getUrl(
+    const url = this.occEndpointsService.buildUrl(
       'updateCpqConfigurationForCartEntry',
       {
-        userId: parameters.userId,
-        cartId: parameters.cartId,
-        cartEntryNumber: parameters.cartEntryNumber,
+        urlParams: {
+          userId: parameters.userId,
+          cartId: parameters.cartId,
+          cartEntryNumber: parameters.cartEntryNumber,
+        },
       }
     );
 
@@ -66,12 +70,14 @@ export class CpqConfiguratorOccService {
   getConfigIdForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<string> {
-    const url = this.occEndpointsService.getUrl(
+    const url = this.occEndpointsService.buildUrl(
       'readCpqConfigurationForCartEntry',
       {
-        userId: parameters.userId,
-        cartId: parameters.cartId,
-        cartEntryNumber: parameters.cartEntryNumber,
+        urlParams: {
+          userId: parameters.userId,
+          cartId: parameters.cartId,
+          cartEntryNumber: parameters.cartEntryNumber,
+        },
       }
     );
 
@@ -85,12 +91,14 @@ export class CpqConfiguratorOccService {
   getConfigIdForOrderEntry(
     parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
   ): Observable<string> {
-    const url = this.occEndpointsService.getUrl(
+    const url = this.occEndpointsService.buildUrl(
       'readCpqConfigurationForOrderEntry',
       {
-        userId: parameters.userId,
-        orderId: parameters.orderId,
-        orderEntryNumber: parameters.orderEntryNumber,
+        urlParams: {
+          userId: parameters.userId,
+          orderId: parameters.orderId,
+          orderEntryNumber: parameters.orderEntryNumber,
+        },
       }
     );
 

@@ -3,15 +3,6 @@ import { Occ, OccEndpointsService } from '@spartacus/core';
 import { B2BUnitNode } from '@spartacus/organization/administration/core';
 import { OccOrgUnitNodeNormalizer } from './occ-org-unit-node-normalizer';
 
-import createSpy = jasmine.createSpy;
-
-class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // eslint-disable-next-line no-shadow
-    (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
-  );
-}
-
 describe('OccOrgUnitNodeNormalizer', () => {
   let service: OccOrgUnitNodeNormalizer;
 
@@ -21,7 +12,6 @@ describe('OccOrgUnitNodeNormalizer', () => {
         OccOrgUnitNodeNormalizer,
         {
           provide: OccEndpointsService,
-          useClass: MockOccEndpointsService,
         },
       ],
     });

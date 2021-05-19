@@ -49,7 +49,7 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
 
     return this.http
       .post<Occ.Order>(
-        this.occEndpoints.getUrl('placeOrder', { userId }),
+        this.occEndpoints.buildUrl('placeOrder', { urlParams: { userId } }),
         {},
         { headers, params }
       )

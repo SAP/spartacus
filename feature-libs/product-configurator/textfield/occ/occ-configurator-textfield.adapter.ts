@@ -33,8 +33,10 @@ export class OccConfiguratorTextfieldAdapter
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.http
       .get<OccConfiguratorTextfield.Configuration>(
-        this.occEndpointsService.getUrl('createTextfieldConfiguration', {
-          productCode,
+        this.occEndpointsService.buildUrl('createTextfieldConfiguration', {
+          urlParams: {
+            productCode,
+          },
         })
       )
       .pipe(
@@ -53,11 +55,13 @@ export class OccConfiguratorTextfieldAdapter
   addToCart(
     parameters: ConfiguratorTextfield.AddToCartParameters
   ): Observable<CartModification> {
-    const url = this.occEndpointsService.getUrl(
+    const url = this.occEndpointsService.buildUrl(
       'addTextfieldConfigurationToCart',
       {
-        userId: parameters.userId,
-        cartId: parameters.cartId,
+        urlParams: {
+          userId: parameters.userId,
+          cartId: parameters.cartId,
+        },
       }
     );
 
@@ -74,12 +78,14 @@ export class OccConfiguratorTextfieldAdapter
   readConfigurationForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<ConfiguratorTextfield.Configuration> {
-    const url = this.occEndpointsService.getUrl(
+    const url = this.occEndpointsService.buildUrl(
       'readTextfieldConfigurationForCartEntry',
       {
-        userId: parameters.userId,
-        cartId: parameters.cartId,
-        cartEntryNumber: parameters.cartEntryNumber,
+        urlParams: {
+          userId: parameters.userId,
+          cartId: parameters.cartId,
+          cartEntryNumber: parameters.cartEntryNumber,
+        },
       }
     );
 
@@ -98,12 +104,14 @@ export class OccConfiguratorTextfieldAdapter
   updateConfigurationForCartEntry(
     parameters: ConfiguratorTextfield.UpdateCartEntryParameters
   ): Observable<CartModification> {
-    const url = this.occEndpointsService.getUrl(
+    const url = this.occEndpointsService.buildUrl(
       'updateTextfieldConfigurationForCartEntry',
       {
-        userId: parameters.userId,
-        cartId: parameters.cartId,
-        cartEntryNumber: parameters.cartEntryNumber,
+        urlParams: {
+          userId: parameters.userId,
+          cartId: parameters.cartId,
+          cartEntryNumber: parameters.cartEntryNumber,
+        },
       }
     );
 

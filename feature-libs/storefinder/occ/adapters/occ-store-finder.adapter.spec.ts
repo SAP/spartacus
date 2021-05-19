@@ -5,7 +5,9 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { OccStoreFinderAdapter } from './occ-store-finder.adapter';
 import {
+  BaseOccUrlProperties,
   ConverterService,
+  DynamicAttributes,
   GeoPoint,
   Occ,
   OccEndpointsService,
@@ -37,7 +39,11 @@ const mockRadius = 50000;
 const storeId = 'test';
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {
@@ -66,7 +72,7 @@ describe('OccStoreFinderAdapter', () => {
     occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeable').and.callThrough();
     spyOn(converterService, 'pipeableMany').and.callThrough();
-    spyOn(occEndpointsService, 'getUrl').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -86,11 +92,12 @@ describe('OccStoreFinderAdapter', () => {
           url: 'stores',
         });
 
-        expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
-          'stores',
-          undefined,
-          { query: queryText, pageSize: mockSearchConfig.pageSize.toString() }
-        );
+        expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('stores', {
+          queryParams: {
+            query: queryText,
+            pageSize: mockSearchConfig.pageSize.toString(),
+          },
+        });
       });
     });
 
@@ -106,16 +113,14 @@ describe('OccStoreFinderAdapter', () => {
           url: 'stores',
         });
 
-        expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
-          'stores',
-          undefined,
-          {
+        expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('stores', {
+          queryParams: {
             longitude: longitudeLatitude.longitude.toString(),
             latitude: longitudeLatitude.latitude.toString(),
             radius: mockRadius.toString(),
             pageSize: mockSearchConfig.pageSize.toString(),
-          }
-        );
+          },
+        });
       });
     });
 
@@ -141,7 +146,7 @@ describe('OccStoreFinderAdapter', () => {
         .expectOne({ method: 'GET', url: 'storescounts' })
         .flush(storeCountResponseBody);
 
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('storescounts');
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('storescounts');
     });
 
     it('should use converter', () => {
@@ -166,8 +171,8 @@ describe('OccStoreFinderAdapter', () => {
         })
         .flush(searchResults.stores[0]);
 
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('store', {
-        storeId,
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('store', {
+        urlParams: { storeId },
       });
     });
 

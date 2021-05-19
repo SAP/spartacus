@@ -5,15 +5,16 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  BaseOccUrlProperties,
   CartModification,
   ConverterService,
+  DynamicAttributes,
   OccEndpointsService,
   TranslationService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
@@ -32,7 +33,11 @@ import {
 import { OccConfigurator } from './variant-configurator-occ.models';
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {
@@ -55,10 +60,10 @@ const documentId = '82736353';
 const productConfiguration: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    productCode
-  ),
+  owner: {
+    type: CommonConfigurator.OwnerType.PRODUCT,
+    id: productCode,
+  },
 };
 
 const productConfigurationOcc: OccConfigurator.Configuration = {
@@ -74,10 +79,10 @@ const pricesOcc: OccConfigurator.Prices = {
 const productConfigurationForCartEntry: Configurator.Configuration = {
   configId: configId,
   productCode: productCode,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.CART_ENTRY,
-    cartEntryNo
-  ),
+  owner: {
+    type: CommonConfigurator.OwnerType.CART_ENTRY,
+    id: cartEntryNo,
+  },
 };
 
 const overviewOcc: OccConfigurator.Overview = { id: configId };
@@ -135,7 +140,7 @@ describe('OccConfigurationVariantAdapter', () => {
     configuratorUtils.setOwnerKey(productConfiguration.owner);
 
     spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -161,10 +166,12 @@ describe('OccConfigurationVariantAdapter', () => {
       return req.method === 'GET' && req.url === 'createVariantConfiguration';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'createVariantConfiguration',
       {
-        productCode,
+        urlParams: {
+          productCode,
+        },
       }
     );
 
@@ -186,10 +193,12 @@ describe('OccConfigurationVariantAdapter', () => {
       return req.method === 'GET' && req.url === 'readVariantConfiguration';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfiguration',
-      { configId },
-      { groupId }
+      {
+        urlParams: { configId },
+        queryParams: { groupId },
+      }
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -213,10 +222,10 @@ describe('OccConfigurationVariantAdapter', () => {
       return req.method === 'PATCH' && req.url === 'updateVariantConfiguration';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateVariantConfiguration',
       {
-        configId,
+        urlParams: { configId },
       }
     );
 
@@ -250,10 +259,12 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationPriceSummary',
       {
-        configId,
+        urlParams: {
+          configId,
+        },
       }
     );
 
@@ -288,12 +299,14 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationForCartEntry',
       {
-        userId,
-        cartId: documentId,
-        cartEntryNumber: documentEntryNumber,
+        urlParams: {
+          userId,
+          cartId: documentId,
+          cartEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -327,12 +340,14 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationOverviewForOrderEntry',
       {
-        userId,
-        orderId: documentId,
-        orderEntryNumber: documentEntryNumber,
+        urlParams: {
+          userId,
+          orderId: documentId,
+          orderEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -368,12 +383,14 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateVariantConfigurationForCartEntry',
       {
-        userId,
-        cartId: documentId,
-        cartEntryNumber: documentEntryNumber,
+        urlParams: {
+          userId,
+          cartId: documentId,
+          cartEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -434,7 +451,7 @@ describe('OccConfigurationVariantAdapter', () => {
         const owner = result.owner;
         expect(owner).toBeDefined();
         expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
-        expect(owner.id).toBe(cartEntryNo);
+        expect(owner.key).toBeUndefined();
         done();
       });
   });
@@ -454,10 +471,12 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'getVariantConfigurationOverview',
       {
-        configId,
+        urlParams: {
+          configId,
+        },
       }
     );
 

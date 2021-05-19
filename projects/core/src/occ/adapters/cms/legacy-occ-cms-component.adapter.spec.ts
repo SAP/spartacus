@@ -20,7 +20,7 @@ class OccEndpointsServiceMock {
   getEndpoint(): string {
     return '/cms';
   }
-  getUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
+  buildUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
     return '';
   }
 }
@@ -80,7 +80,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
     assertPostTestRequestBody(testRequest);
 
-    assertPostRequestGetUrl('DEFAULT', '2');
+    assertPostRequestbuildUrl('DEFAULT', '2');
 
     assertTestRequest(testRequest, componentList);
   });
@@ -94,7 +94,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
     assertPostTestRequestBody(testRequest);
 
-    assertPostRequestGetUrl('FULL', '5');
+    assertPostRequestbuildUrl('FULL', '5');
 
     assertTestRequest(testRequest, componentList);
   });
@@ -154,14 +154,16 @@ describe('LegacyOccCmsComponentAdapter', () => {
   }
 
   function spyOnEndpoint(requestUrl: string): jasmine.Spy {
-    return spyOn(endpointsService, 'getUrl').and.returnValue(requestUrl);
+    return spyOn(endpointsService, 'buildUrl').and.returnValue(requestUrl);
   }
 
-  function assertPostRequestGetUrl(fields: string, pageSize: string) {
-    expect(endpointsService.getUrl).toHaveBeenCalledWith(
+  function assertPostRequestbuildUrl(fields: string, pageSize: string) {
+    expect(endpointsService.buildUrl).toHaveBeenCalledWith(
       'components',
-      {},
-      { fields, productCode: '123', currentPage: '0', pageSize }
+
+      {
+        queryParams: { fields, productCode: '123', currentPage: '0', pageSize },
+      }
     );
   }
 });

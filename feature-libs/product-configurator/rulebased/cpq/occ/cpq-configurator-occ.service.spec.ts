@@ -5,16 +5,14 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  BaseOccUrlProperties,
   CartModification,
   CART_MODIFICATION_NORMALIZER,
   ConverterService,
+  DynamicAttributes,
   OccEndpointsService,
 } from '@spartacus/core';
-import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-  ConfiguratorType,
-} from '@spartacus/product-configurator/common';
+import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import {
   CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
@@ -26,11 +24,10 @@ describe('CpqConfigurationOccService', () => {
   const configId = '1234-56-7890';
   const userId = 'Anony';
   const documentId = '82736353';
-  const entryNumber = 3;
   const productCode = 'Product';
   const cartResponse: CartModification = {
     quantityAdded: 1,
-    entry: { entryNumber: entryNumber },
+    entry: { entryNumber: 3 },
     statusCode: '201',
   };
   const addToCartParams: Configurator.AddToCartParameters = {
@@ -40,11 +37,6 @@ describe('CpqConfigurationOccService', () => {
     owner: {
       type: CommonConfigurator.OwnerType.PRODUCT,
       id: productCode,
-      key: ConfiguratorModelUtils.getOwnerKey(
-        CommonConfigurator.OwnerType.PRODUCT,
-        productCode
-      ),
-      configuratorType: ConfiguratorType.CPQ,
     },
     userId: userId,
     cartId: documentId,
@@ -52,18 +44,9 @@ describe('CpqConfigurationOccService', () => {
   const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters = {
     userId: userId,
     cartId: documentId,
-    cartEntryNumber: entryNumber.toString(),
+    cartEntryNumber: '3',
     configuration: {
       configId: configId,
-      owner: {
-        type: CommonConfigurator.OwnerType.CART_ENTRY,
-        id: entryNumber.toString(),
-        key: ConfiguratorModelUtils.getOwnerKey(
-          CommonConfigurator.OwnerType.PRODUCT,
-          entryNumber.toString()
-        ),
-        configuratorType: ConfiguratorType.CPQ,
-      },
     },
   };
 
@@ -74,11 +57,6 @@ describe('CpqConfigurationOccService', () => {
     owner: {
       type: CommonConfigurator.OwnerType.CART_ENTRY,
       id: productCode,
-      key: ConfiguratorModelUtils.getOwnerKey(
-        CommonConfigurator.OwnerType.CART_ENTRY,
-        productCode
-      ),
-      configuratorType: ConfiguratorType.CPQ,
     },
   };
 
@@ -89,16 +67,15 @@ describe('CpqConfigurationOccService', () => {
     owner: {
       type: CommonConfigurator.OwnerType.ORDER_ENTRY,
       id: productCode,
-      key: ConfiguratorModelUtils.getOwnerKey(
-        CommonConfigurator.OwnerType.ORDER_ENTRY,
-        productCode
-      ),
-      configuratorType: ConfiguratorType.CPQ,
     },
   };
 
   class MockOccEndpointsService {
-    getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+    buildUrl(
+      endpoint: string,
+      _attributes?: DynamicAttributes,
+      _propertiesToOmit?: BaseOccUrlProperties
+    ) {
       return this.getEndpoint(endpoint);
     }
     getEndpoint(url: string) {
@@ -135,7 +112,7 @@ describe('CpqConfigurationOccService', () => {
     );
 
     spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
     spyOn(converterService, 'pipeable').and.callThrough();
   });
 
@@ -161,11 +138,13 @@ describe('CpqConfigurationOccService', () => {
       CART_MODIFICATION_NORMALIZER
     );
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'addCpqConfigurationToCart',
       {
-        userId: userId,
-        cartId: documentId,
+        urlParams: {
+          userId: userId,
+          cartId: documentId,
+        },
       }
     );
   });
@@ -184,12 +163,14 @@ describe('CpqConfigurationOccService', () => {
     });
     mockReq.flush({ configId: configId });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readCpqConfigurationForCartEntry',
       {
-        userId: userId,
-        cartId: documentId,
-        cartEntryNumber: '3',
+        urlParams: {
+          userId: userId,
+          cartId: documentId,
+          cartEntryNumber: '3',
+        },
       }
     );
   });
@@ -208,12 +189,14 @@ describe('CpqConfigurationOccService', () => {
     });
     mockReq.flush({ configId: configId });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readCpqConfigurationForOrderEntry',
       {
-        userId: userId,
-        orderId: documentId,
-        orderEntryNumber: '3',
+        urlParams: {
+          userId: userId,
+          orderId: documentId,
+          orderEntryNumber: '3',
+        },
       }
     );
   });
@@ -238,12 +221,14 @@ describe('CpqConfigurationOccService', () => {
       CART_MODIFICATION_NORMALIZER
     );
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateCpqConfigurationForCartEntry',
       {
-        userId: userId,
-        cartId: documentId,
-        cartEntryNumber: '3',
+        urlParams: {
+          userId: userId,
+          cartId: documentId,
+          cartEntryNumber: '3',
+        },
       }
     );
   });
