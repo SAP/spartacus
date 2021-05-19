@@ -8,9 +8,9 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common/shared/utils/configurator-model-utils';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
@@ -45,9 +45,7 @@ export class VariantConfiguratorOccAdapter
     return this.http
       .get<OccConfigurator.Configuration>(
         this.occEndpointsService.buildUrl('createVariantConfiguration', {
-          urlParams: {
-            productCode,
-          },
+          urlParams: { productCode },
         })
       )
       .pipe(
@@ -91,9 +89,7 @@ export class VariantConfiguratorOccAdapter
     const url = this.occEndpointsService.buildUrl(
       'updateVariantConfiguration',
       {
-        urlParams: {
-          configId,
-        },
+        urlParams: { configId },
       }
     );
     const occConfiguration = this.converterService.convert(
@@ -117,12 +113,7 @@ export class VariantConfiguratorOccAdapter
   ): Observable<CartModification> {
     const url = this.occEndpointsService.buildUrl(
       'addVariantConfigurationToCart',
-      {
-        urlParams: {
-          userId: parameters.userId,
-          cartId: parameters.cartId,
-        },
-      }
+      { urlParams: { userId: parameters.userId, cartId: parameters.cartId } }
     );
 
     const occAddToCartParameters = this.converterService.convert(
@@ -262,11 +253,7 @@ export class VariantConfiguratorOccAdapter
   ): Observable<Configurator.Overview> {
     const url = this.occEndpointsService.buildUrl(
       'getVariantConfigurationOverview',
-      {
-        urlParams: {
-          configId,
-        },
-      }
+      { urlParams: { configId } }
     );
 
     return this.http

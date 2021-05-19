@@ -7,12 +7,7 @@ describe('OccOrgUnitNormalizer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        OccOrgUnitNormalizer,
-        {
-          provide: OccEndpointsService,
-        },
-      ],
+      providers: [OccOrgUnitNormalizer, OccEndpointsService],
     });
 
     service = TestBed.inject(OccOrgUnitNormalizer);
