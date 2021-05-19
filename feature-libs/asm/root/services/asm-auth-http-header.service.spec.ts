@@ -47,7 +47,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 }
 
 class MockOccEndpointsService implements Partial<OccEndpointsService> {
-  getBaseEndpoint() {
+  getBaseUrl() {
     return 'some-server/occ';
   }
 }

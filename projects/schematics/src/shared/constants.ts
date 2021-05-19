@@ -516,6 +516,7 @@ export const QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME =
   'qualtrics-embedded-feedback.scss';
 
 export const GET_OCC_ENDPOINT = 'getOccEndpoint';
+export const GET_BASE_ENDPOINT = 'getBaseEndpoint';
 
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';

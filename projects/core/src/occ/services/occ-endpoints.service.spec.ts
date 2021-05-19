@@ -38,10 +38,6 @@ describe('OccEndpointsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return base endpoint', () => {
-    expect(service.getBaseEndpoint()).toEqual(baseEndpoint);
-  });
-
   it('should return base endpoint + added endpoint', () => {
     expect(service.getEndpoint('test-endpoint')).toEqual(
       baseEndpoint + '/test-endpoint'
@@ -64,10 +60,10 @@ describe('OccEndpointsService', () => {
 
   it('should be immune to late baseSite default value in config', () => {
     const config = TestBed.inject(OccConfig);
-    expect(service.getBaseEndpoint()).toEqual(baseEndpoint);
+    expect(service.getBaseUrl()).toEqual(baseEndpoint);
     // we are modifying config as it can happen before app initialization in config initializer
     config.context.baseSite = ['/final-baseSite'];
-    expect(service.getBaseEndpoint()).toEqual(
+    expect(service.getBaseUrl()).toEqual(
       'test-baseUrl/test-occPrefix/final-baseSite'
     );
   });
