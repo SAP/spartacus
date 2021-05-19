@@ -111,5 +111,11 @@ function addProfileFeature(options: SpartacusUserOptions): Rule {
       scssFileName: SCSS_FILE_NAME,
       importStyle: SPARTACUS_USER,
     },
+    dependencyManagement: {
+      featureName: CLI_USER_PROFILE_FEATURE,
+      featureDependencies: {
+        [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE],
+      },
+    },
   });
 }

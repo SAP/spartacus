@@ -749,15 +749,17 @@ function installRequiredSpartacusFeatures<OPTIONS extends LibraryOptions>(
   dependencyManagement: DependencyManagement,
   options: OPTIONS
 ): Rule {
-  return (_tree: Tree, context: SchematicContext): Rule => {
+  return (_tree: Tree, context: SchematicContext): void => {
+    if (!dependencyManagement) {
+      return;
+    }
+
     logFeatureInstallation(dependencyManagement, context);
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
       options,
       dependencyManagement.featureDependencies
     );
     addSchematicsTasks(featureOptions, context);
-
-    return installPackageJsonDependencies();
   };
 }
 
