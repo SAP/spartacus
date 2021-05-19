@@ -345,6 +345,17 @@ export const SEMANTIC_ROUTE = 'semanticRoute';
 export const URL = 'url';
 export const PARAMS = 'params';
 
+export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
+  'ConfiguratorAttributeSingleSelectionBaseComponent';
+export const CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT =
+  'ConfiguratorAttributeDropDownComponent';
+export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
+  'ConfiguratorAttributeNumericInputFieldComponent';
+export const CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT =
+  'ConfiguratorAttributeRadioButtonComponent';
+export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
+  'ConfiguratorProductTitleComponent';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -652,6 +663,14 @@ export const GET_META_RESOLVER = 'getMetaResolver';
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
+
+export const CREATE_EVENT_FROM_INPUT = 'createEventFromInput';
+export const ON_SELECT = 'onSelect';
+export const ON_DESELECT = 'onDeselect';
+export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
+export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
+export const CLICK_ON_ENTER = 'clickOnEnter';
+
 /***** APIs end *****/
 
 /***** Storefinder start *****/
