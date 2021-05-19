@@ -3,20 +3,19 @@ import {
   Rule,
   SchematicContext,
   SchematicsException,
-  Tree,
+  Tree
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  addPackageJsonDependencies,
+
   CDS_CONFIG,
-  createDependencies,
+
   CustomConfig,
   installPackageJsonDependencies,
   readPackageJson,
   SPARTACUS_CDS,
-  validateSpartacusInstallation,
+  validateSpartacusInstallation
 } from '@spartacus/schematics';
-import { peerDependencies } from '../../../package.json';
 import { CDS_FOLDER_NAME, CDS_MODULE, CLI_CDS_FEATURE } from '../constants';
 import { Schema as SpartacusCdsOptions } from './schema';
 
@@ -27,7 +26,9 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
     validateCdsOptions(options);
 
     return chain([
-      addCds(options),
+      shouldAddFeature(CLI_CDS_FEATURE, options.features)
+        ? addCds(options, context)
+        : noop(),
 
       addCdsPackageJsonDependencies(packageJson),
       installPackageJsonDependencies(),
@@ -35,19 +36,8 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
   };
 }
 
-function validateCdsOptions({ tenant, baseUrl }: SpartacusCdsOptions): void {
-  if (!tenant) {
-    throw new SchematicsException(`Please specify tenant name.`);
-  }
-  if (!baseUrl) {
-    throw new SchematicsException(`Please specify the base URL.`);
-  }
-}
-
-function addCdsPackageJsonDependencies(packageJson: any): Rule {
-  const dependencies = createDependencies(peerDependencies);
-  return addPackageJsonDependencies(dependencies, packageJson);
-}
+function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
+  validateCdsOptions(options, context);
 
 function addCds(options: SpartacusCdsOptions): Rule {
   const customConfig: CustomConfig[] = [
@@ -107,4 +97,32 @@ function addCds(options: SpartacusCdsOptions): Rule {
       customConfig,
     }
   );
+}
+
+function validateCdsOptions(
+  {
+    tenant,
+    baseUrl,
+    profileTagConfigUrl,
+    profileTagLoadUrl,
+  }: SpartacusCdsOptions,
+  context: SchematicContext
+): void {
+  if (!tenant) {
+    throw new SchematicsException(`Please specify tenant name.`);
+  }
+  if (!baseUrl) {
+    throw new SchematicsException(`Please specify the base URL.`);
+  }
+
+  if (
+    !(
+      (profileTagConfigUrl && profileTagLoadUrl) ||
+      (!profileTagConfigUrl && !profileTagLoadUrl)
+    )
+  ) {
+    context.logger.warn(
+      `Profile tag will not be added. Please run the schematic again, and make sure you provide both profile tag options.`
+    );
+  }
 }
