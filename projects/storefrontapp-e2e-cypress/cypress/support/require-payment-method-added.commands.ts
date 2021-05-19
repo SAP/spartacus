@@ -8,13 +8,10 @@ declare global {
        *
        * @example
         ```
-        cy.requirePaymentMethodAdded(auth, address);
+        cy.requirePaymentMethodAdded(cartId);
         ```
        */
-      requirePaymentMethodAdded: (
-        auth: {},
-        cartId?: string
-      ) => Cypress.Chainable<{}>;
+      requirePaymentMethodAdded: (cartId?: string) => Cypress.Chainable<{}>;
     }
   }
 }

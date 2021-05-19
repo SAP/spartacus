@@ -63,7 +63,6 @@ export function selectDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
-  cy.wait('@paymentDetails');
 }
 
 export function selectPaymentMethod() {
