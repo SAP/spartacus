@@ -7,6 +7,7 @@ export const userGroupConfig: MyCompanyConfig = {
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/user-groups`,
   apiEndpoint: '/users/current/orgUnitUserGroup',
   objectType: 'orgUnitUserGroups',
+  selectOptionsEndpoint: ['*availableOrgUnitNodes*'],
   rows: [
     {
       label: 'Name',

@@ -25,7 +25,9 @@ export function createTest(config: MyCompanyConfig) {
 
     it(`should create`, () => {
       if (config.selectOptionsEndpoint) {
-        cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
+        config.selectOptionsEndpoint.forEach((endpoint) => {
+          cy.route(endpoint).as(`getSelectOptionsFor${endpoint}`);
+        });
       }
 
       cy.get(`cx-org-list a`).contains('Add').click();
@@ -37,7 +39,9 @@ export function createTest(config: MyCompanyConfig) {
       );
 
       if (config.selectOptionsEndpoint) {
-        cy.wait('@getSelectOptions');
+        config.selectOptionsEndpoint.forEach((endpoint) => {
+          cy.wait(`@getSelectOptionsFor${endpoint}`);
+        });
       }
       completeForm(config.rows, FormType.CREATE);
 

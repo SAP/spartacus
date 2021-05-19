@@ -8,6 +8,7 @@ export const budgetConfig: MyCompanyConfig = {
   apiEndpoint: '/users/current/budgets',
   objectType: 'budgets',
   verifyStatusInDetails: true,
+  selectOptionsEndpoint: ['*availableOrgUnitNodes*'],
   rows: [
     {
       label: 'Name',

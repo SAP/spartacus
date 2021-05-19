@@ -9,7 +9,8 @@ export function nestedListTest(config: MyCompanyConfig): void {
       cy.server();
     });
 
-    it('should show expanded nested list', () => {
+    // TODO: Can be enabled when backend will sort the list (tree)
+    xit('should show expanded nested list', () => {
       cy.visit(`/organization`);
       testList(config, {
         trigger: () =>

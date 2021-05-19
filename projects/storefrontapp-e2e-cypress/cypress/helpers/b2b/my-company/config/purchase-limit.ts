@@ -8,7 +8,10 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     baseUrl: `${FULL_BASE_URL_EN_USD}/organization/purchase-limits`,
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
-    selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
+    selectOptionsEndpoint: [
+      '*orderApprovalPermissionTypes*',
+      '*availableOrgUnitNodes*',
+    ],
     verifyStatusInDetails: true,
     rows: [
       {
@@ -70,7 +73,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     baseUrl: `${FULL_BASE_URL_EN_USD}/organization/purchase-limits`,
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
-    selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
+    selectOptionsEndpoint: ['*orderApprovalPermissionTypes*'],
     rows: [
       {
         label: 'Code',
@@ -149,7 +152,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     baseUrl: `${FULL_BASE_URL_EN_USD}/organization/purchase-limits`,
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
-    selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
+    selectOptionsEndpoint: ['*orderApprovalPermissionTypes*'],
     rows: [
       {
         label: 'Code',

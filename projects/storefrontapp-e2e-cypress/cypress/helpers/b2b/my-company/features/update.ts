@@ -24,11 +24,14 @@ export function updateTest(config: MyCompanyConfig) {
         entityId = codeRow.createValue;
         cy.visit(`${config.baseUrl}/${entityId}`);
       }
+      cy.wait(`@getEntity`);
     });
 
     it(`should update`, () => {
       if (config.selectOptionsEndpoint) {
-        cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
+        config.selectOptionsEndpoint.forEach((endpoint) => {
+          cy.route(endpoint).as(`getSelectOptionsFor${endpoint}`);
+        });
       }
 
       cy.get(`cx-org-card a.link`).contains('Edit').click();
@@ -39,7 +42,9 @@ export function updateTest(config: MyCompanyConfig) {
       );
 
       if (config.selectOptionsEndpoint) {
-        cy.wait('@getSelectOptions');
+        config.selectOptionsEndpoint.forEach((endpoint) => {
+          cy.wait(`@getSelectOptionsFor${endpoint}`);
+        });
       }
 
       cy.route('PATCH', `**`).as('saveEntityData');
