@@ -32,7 +32,7 @@ import { Test2Component } from "@spartacus/core";
 const array = [OtherComponent3, Test1Component, Test2Component];`;
 // -----------------------------------------------------------------------
 
-fdescribe('renamed symbols', () => {
+describe('renamed symbols', () => {
   let host: TempScopedNodeJsSyncHost;
   let appTree = Tree.empty() as UnitTestTree;
   let schematicRunner: SchematicTestRunner;

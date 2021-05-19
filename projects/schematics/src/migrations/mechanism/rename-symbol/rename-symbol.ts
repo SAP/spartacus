@@ -16,7 +16,7 @@ export function migrateRenamedSymbols(
 
   for (const tsconfigPath of buildPaths) {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    appSourceFiles.map((sourceFile) => {
+    appSourceFiles.forEach((sourceFile) => {
       const importDeclarationStructures: ImportDeclarationStructure[] = [];
 
       sourceFile.getImportDeclarations().forEach((id) => {
@@ -26,9 +26,9 @@ export function migrateRenamedSymbols(
             const importName = namedImport.getName();
 
             const renamedSymbol = renamedSymbols.find(
-              (_) =>
-                _.previousNode === importName &&
-                _.previousImportPath ===
+              (symbol) =>
+                symbol.previousNode === importName &&
+                symbol.previousImportPath ===
                   id
                     .getModuleSpecifier()
                     .getText()
