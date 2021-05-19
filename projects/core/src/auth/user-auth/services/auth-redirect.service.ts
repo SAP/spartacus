@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Event, NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
+import { LoginFlowRoutesService } from './login-flow-routes.service';
 
 /**
  * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
@@ -10,7 +12,7 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthRedirectService {
+export class AuthRedirectService implements OnDestroy {
   /**
    * This service is responsible for redirecting to the last page before authorization. "The last page" can be:
    * 1. Just the previously opened page; or
@@ -26,14 +28,29 @@ export class AuthRedirectService {
   constructor(
     protected routing: RoutingService,
     protected router: Router,
-    protected authRedirectStorageService: AuthRedirectStorageService
-  ) {}
+    protected authRedirectStorageService: AuthRedirectStorageService,
+    protected loginFlowRoutesService: LoginFlowRoutesService
+  ) {
+    this.init();
+  }
 
-  private ignoredUrls = new Set<string>();
-  private lastAuthGuardNavigation: {
-    url: string;
-    navigationId: number;
-  };
+  protected subscription: Subscription;
+
+  protected init() {
+    this.subscription = this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        console.debug(event); // SPIKE TODO remove
+        const { url } = event;
+        if (!this.isIgnoredUrl(url)) {
+          this.setRedirectUrl(url);
+        }
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
 
   /**
    * Redirect to saved url (homepage if nothing is saved).
@@ -48,56 +65,20 @@ export class AuthRedirectService {
         } else {
           this.routing.goByUrl(redirectUrl);
         }
-        this.authRedirectStorageService.setRedirectUrl(undefined);
-
-        this.lastAuthGuardNavigation = undefined;
+        this.setRedirectUrl(undefined);
       });
   }
 
-  /**
-   * Saves url of a page that user wanted to access, but wasn't yet logged in.
-   */
-  reportAuthGuard() {
-    const { url, navigationId } = this.getCurrentNavigation();
-    this.lastAuthGuardNavigation = { url, navigationId };
+  // SPIKE TODO: deprecate those guys
+  reportAuthGuard() {}
+
+  reportNotAuthGuard() {}
+
+  protected isIgnoredUrl(url: string): boolean {
+    return this.loginFlowRoutesService.isLoginFlow(url);
+  }
+
+  protected setRedirectUrl(url: string | undefined): void {
     this.authRedirectStorageService.setRedirectUrl(url);
-  }
-
-  /**
-   * Saves url of a page that was accessed before entering a page only for not auth users.
-   */
-  reportNotAuthGuard() {
-    const { url, initialUrl, navigationId } = this.getCurrentNavigation();
-
-    this.ignoredUrls.add(url);
-
-    // Don't save redirect url if you've already come from page with NotAuthGuard (i.e. user has come from login to register)
-    if (!this.ignoredUrls.has(initialUrl)) {
-      // We compare the navigation id to find out if the url cancelled by AuthGuard (i.e. my-account) is more recent
-      // than the last opened page
-      if (
-        !this.lastAuthGuardNavigation ||
-        this.lastAuthGuardNavigation.navigationId < navigationId - 1
-      ) {
-        this.authRedirectStorageService.setRedirectUrl(initialUrl);
-
-        this.lastAuthGuardNavigation = undefined;
-      }
-    }
-  }
-
-  private getCurrentNavigation(): {
-    navigationId: number;
-    url: string;
-    initialUrl: string;
-  } {
-    const initialUrl = this.router.url;
-    const navigation = this.router.getCurrentNavigation();
-    const url = this.router.serializeUrl(navigation.finalUrl);
-    return {
-      navigationId: navigation.id,
-      url,
-      initialUrl,
-    };
   }
 }

@@ -39,6 +39,15 @@ export interface RouteConfig {
    * Other values (true, undefined) are ignored.
    */
   protected?: boolean;
+
+  /**
+   * When true, the page is considered as part of the user journey when logging in (for example:
+   * login, register, forgot password, etc.)
+   *
+   * When user is redirected back after successful login, he won't land on any page with `loginFlow: true`, but on other
+   * previously accessed page.
+   */
+  loginFlow?: boolean;
 }
 
 export interface ParamsMapping {
