@@ -29,7 +29,7 @@ import {
   ModalRef,
   ModalService,
   SuggestedAddressDialogComponent,
-} from '@spartacus/storefront'; // eslint-disable-line
+} from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 
