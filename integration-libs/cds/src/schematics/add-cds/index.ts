@@ -27,16 +27,11 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+
       shouldAddFeature(CLI_CDS_FEATURE, options.features)
         ? addCds(options, context)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }
