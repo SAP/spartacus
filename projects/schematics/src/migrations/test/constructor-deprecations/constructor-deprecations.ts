@@ -4,6 +4,7 @@ import { migrateConstructorDeprecation } from '../../mechanism/constructor-depre
 import { ADD_TO_CART_COMPONENT_MIGRATION } from './data/add-to-cart.component.migration';
 import { CART_PAGE_LAYOUT_HANDLER_MIGRATIONS } from './data/cart-page-layout-handler.migration';
 import { CHECKOUT_SERVICE_MIGRATION } from './data/checkout.service.migration';
+import { CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION } from './data/configurator-cart-entry-info.component.migration';
 import { CURRENT_PRODUCT_SERVICE_MIGRATION } from './data/current-product-service.migration';
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
 import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/page-resolvers/category-page-meta.resolver.migration';
@@ -27,6 +28,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ...PAGE_SLOT_COMPONENT_MIGRATION,
   DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
   SELECTIVE_CART_SERVICE_MIGRATION,
+  CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
