@@ -89,22 +89,22 @@ export class ReviewSubmitComponent {
   get countryName$(): Observable<string> {
     return this.deliveryAddress$.pipe(
       switchMap((address: Address) =>
-        this.userAddressService.getCountry(address?.country?.isocode)
+        this.userAddressService.getCountry(address?.country?.isocode as string)
       ),
       tap((country: Country) => {
         if (country === null) {
           this.userAddressService.loadDeliveryCountries();
         }
       }),
-      map((country: Country) => country && country.name)
+      map((country: Country) => (country && country.name) ?? '')
     );
   }
 
-  get poNumber$(): Observable<string> {
+  get poNumber$(): Observable<string | undefined> {
     return this.paymentTypeService.getPoNumber();
   }
 
-  get paymentType$(): Observable<string> {
+  get paymentType$(): Observable<string | undefined> {
     return this.paymentTypeService.getSelectedPaymentType();
   }
 
@@ -112,7 +112,7 @@ export class ReviewSubmitComponent {
     return this.paymentTypeService.isAccountPayment();
   }
 
-  get costCenter$(): Observable<CostCenter> {
+  get costCenter$(): Observable<CostCenter | undefined> {
     return this.userCostCenterService.getActiveCostCenters().pipe(
       filter((costCenters) => Boolean(costCenters)),
       switchMap((costCenters) => {
@@ -134,7 +134,7 @@ export class ReviewSubmitComponent {
     ]).pipe(
       map(([textTitle]) => {
         if (!countryName) {
-          countryName = deliveryAddress?.country?.isocode;
+          countryName = deliveryAddress?.country?.isocode as string;
         }
 
         let region = '';
@@ -156,12 +156,12 @@ export class ReviewSubmitComponent {
             deliveryAddress.postalCode,
             deliveryAddress.phone,
           ],
-        };
+        } as Card;
       })
     );
   }
 
-  getCostCenterCard(costCenter: CostCenter): Observable<Card> {
+  getCostCenterCard(costCenter?: CostCenter): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutPO.costCenter'),
     ]).pipe(
@@ -169,7 +169,7 @@ export class ReviewSubmitComponent {
         return {
           title: textTitle,
           textBold: costCenter?.name,
-          text: ['(' + costCenter?.unit.name + ')'],
+          text: ['(' + costCenter?.unit?.name + ')'],
         };
       })
     );
@@ -189,7 +189,7 @@ export class ReviewSubmitComponent {
               ? deliveryMode.deliveryCost?.formattedValue
               : '',
           ],
-        };
+        } as Card;
       })
     );
   }
@@ -227,12 +227,12 @@ export class ReviewSubmitComponent {
               ],
             },
           ],
-        };
+        } as Card;
       })
     );
   }
 
-  getPoNumberCard(poNumber: string): Observable<Card> {
+  getPoNumberCard(poNumber?: string): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutReview.poNumber'),
       this.translation.translate('checkoutPO.noPoNumber'),
@@ -246,7 +246,7 @@ export class ReviewSubmitComponent {
     );
   }
 
-  getPaymentTypeCard(paymentType: string): Observable<Card> {
+  getPaymentTypeCard(paymentType?: string): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutProgress.methodOfPayment'),
       this.translation.translate('paymentTypes.paymentType', {
@@ -262,7 +262,7 @@ export class ReviewSubmitComponent {
     );
   }
 
-  getCheckoutStepUrl(stepType: CheckoutStepType): string {
+  getCheckoutStepUrl(stepType: CheckoutStepType): string | undefined {
     const step = this.checkoutStepService.getCheckoutStep(stepType);
     return step && step.routeName;
   }

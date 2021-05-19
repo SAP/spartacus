@@ -53,7 +53,9 @@ export abstract class CheckoutDeliveryFacade {
   /**
    * Get selected delivery mode
    */
-  abstract getSelectedDeliveryMode(): Observable<DeliveryMode>;
+  abstract getSelectedDeliveryMode(): Observable<
+    DeliveryMode | undefined | null
+  >;
 
   /**
    * Get selected delivery mode code

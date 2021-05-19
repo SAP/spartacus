@@ -69,7 +69,7 @@ export function reducer(
         (modes: { [code: string]: DeliveryMode }, mode: DeliveryMode) => {
           return {
             ...modes,
-            [mode.code]: mode,
+            [mode.code as string]: mode,
           };
         },
         {
@@ -181,7 +181,8 @@ export function reducer(
         deliveryMode: {
           ...state.deliveryMode,
           selected:
-            action.payload.deliveryMode && action.payload.deliveryMode.code,
+            (action.payload.deliveryMode && action.payload.deliveryMode.code) ??
+            '',
         },
         paymentDetails: action.payload.paymentInfo,
       };

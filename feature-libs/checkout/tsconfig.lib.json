@@ -17,7 +17,6 @@
     "noImplicitAny": false,
     "alwaysStrict": false,
     "strictBindCallApply": false,
-    "strictNullChecks": false,
     "strictFunctionTypes": false,
     "paths": {
       "@spartacus/core": ["dist/core"],

@@ -64,8 +64,8 @@ export class CheckoutCartInterceptor implements HttpInterceptor {
    * checkoutLogin
    * @param semanticRoute
    */
-  protected isUserInCheckoutRoute(semanticRoute: string): boolean {
-    return semanticRoute?.toLowerCase().startsWith('checkout');
+  protected isUserInCheckoutRoute(semanticRoute?: string): boolean {
+    return semanticRoute?.toLowerCase().startsWith('checkout') ?? false;
   }
 
   /**

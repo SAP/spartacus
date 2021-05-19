@@ -9,10 +9,10 @@ import { DeliveryMode } from '@spartacus/core';
   providedIn: 'root',
 })
 export class CheckoutConfigService {
-  private express: boolean = this.checkoutConfig.checkout.express;
-  private guest: boolean = this.checkoutConfig.checkout.guest;
+  private express: boolean = this.checkoutConfig.checkout?.express ?? false;
+  private guest: boolean = this.checkoutConfig.checkout?.guest ?? false;
   private defaultDeliveryMode: Array<DeliveryModePreferences | string> =
-    this.checkoutConfig.checkout.defaultDeliveryMode || [];
+    this.checkoutConfig.checkout?.defaultDeliveryMode || [];
 
   constructor(private checkoutConfig: CheckoutConfig) {}
 
@@ -20,12 +20,17 @@ export class CheckoutConfigService {
     deliveryMode1: DeliveryMode,
     deliveryMode2: DeliveryMode
   ): number {
-    if (deliveryMode1.deliveryCost.value > deliveryMode2.deliveryCost.value) {
-      return 1;
-    } else if (
-      deliveryMode1.deliveryCost.value < deliveryMode2.deliveryCost.value
+    if (
+      deliveryMode1.deliveryCost?.value &&
+      deliveryMode2.deliveryCost?.value
     ) {
-      return -1;
+      if (deliveryMode1.deliveryCost.value > deliveryMode2.deliveryCost.value) {
+        return 1;
+      } else if (
+        deliveryMode1.deliveryCost.value < deliveryMode2.deliveryCost.value
+      ) {
+        return -1;
+      }
     }
     return 0;
   }
@@ -33,16 +38,16 @@ export class CheckoutConfigService {
   protected findMatchingDeliveryMode(
     deliveryModes: DeliveryMode[],
     index = 0
-  ): string {
+  ): string | undefined {
     switch (this.defaultDeliveryMode[index]) {
       case DeliveryModePreferences.FREE:
-        if (deliveryModes[0].deliveryCost.value === 0) {
+        if (deliveryModes[0].deliveryCost?.value === 0) {
           return deliveryModes[0].code;
         }
         break;
       case DeliveryModePreferences.LEAST_EXPENSIVE:
         const leastExpensiveFound = deliveryModes.find(
-          (deliveryMode) => deliveryMode.deliveryCost.value !== 0
+          (deliveryMode) => deliveryMode.deliveryCost?.value !== 0
         );
         if (leastExpensiveFound) {
           return leastExpensiveFound.code;
@@ -67,7 +72,7 @@ export class CheckoutConfigService {
 
   getPreferredDeliveryMode(deliveryModes: DeliveryMode[]): string {
     deliveryModes.sort(this.compareDeliveryCost);
-    return this.findMatchingDeliveryMode(deliveryModes);
+    return this.findMatchingDeliveryMode(deliveryModes) ?? '';
   }
 
   isExpressCheckout(): boolean {

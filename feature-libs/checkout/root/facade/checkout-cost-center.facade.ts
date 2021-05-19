@@ -25,5 +25,5 @@ export abstract class CheckoutCostCenterFacade {
   /**
    * Get cost center id from cart
    */
-  abstract getCostCenter(): Observable<string>;
+  abstract getCostCenter(): Observable<string | undefined>;
 }

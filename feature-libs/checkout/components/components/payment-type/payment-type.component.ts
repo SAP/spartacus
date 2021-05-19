@@ -30,7 +30,7 @@ export class PaymentTypeComponent {
   typeSelected$: Observable<string> = this.paymentTypeService
     .getSelectedPaymentType()
     .pipe(
-      filter((selected) => selected !== undefined),
+      filter((selected: any) => selected !== undefined),
       distinctUntilChanged(),
       tap((selected) => {
         this.typeSelected = selected;
@@ -45,7 +45,7 @@ export class PaymentTypeComponent {
   cartPoNumber$: Observable<string> = this.paymentTypeService
     .getPoNumber()
     .pipe(
-      filter((po) => po !== undefined),
+      filter((po: any) => po !== undefined),
       tap((po) => {
         return (this.cartPoNumber = po);
       })

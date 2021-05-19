@@ -38,7 +38,7 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
   private addressVerifySub: Subscription;
-  suggestedAddressModalRef: ModalRef;
+  suggestedAddressModalRef: ModalRef | null;
   months: string[] = [];
   years: number[] = [];
 
@@ -131,11 +131,12 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     ]).pipe(
       map(([countries, address]) => {
         return (
-          address?.country &&
-          !!countries.filter(
-            (country: Country): boolean =>
-              country.isocode === address.country.isocode
-          ).length
+          (address?.country &&
+            !!countries.filter(
+              (country: Country): boolean =>
+                country.isocode === address.country?.isocode
+            ).length) ??
+          false
         );
       }),
       tap((shouldShowCheckbox) => {
@@ -146,19 +147,20 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     // verify the new added address
     this.addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
-      .subscribe((results: AddressValidation) => {
-        if (results.decision === 'FAIL') {
+      .subscribe((results) => {
+        const decision = (results as AddressValidation).decision;
+        if (decision === 'FAIL') {
           this.checkoutDeliveryService.clearAddressVerificationResults();
-        } else if (results.decision === 'ACCEPT') {
+        } else if (decision === 'ACCEPT') {
           this.next();
-        } else if (results.decision === 'REJECT') {
+        } else if (decision === 'REJECT') {
           this.globalMessageService.add(
             { key: 'addressForm.invalidAddress' },
             GlobalMessageType.MSG_TYPE_ERROR
           );
           this.checkoutDeliveryService.clearAddressVerificationResults();
-        } else if (results.decision === 'REVIEW') {
-          this.openSuggestedAddress(results);
+        } else if (decision === 'REVIEW') {
+          this.openSuggestedAddress(results as AddressValidation);
         }
       });
 
@@ -169,9 +171,9 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
           'region.isocodeShort'
         );
         if (regions.length > 0) {
-          regionControl.enable();
+          regionControl?.enable();
         } else {
-          regionControl.disable();
+          regionControl?.disable();
         }
       })
     );
@@ -213,11 +215,11 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       text: [
         address.line1,
         address.line2,
-        address.town + ', ' + region + address.country.isocode,
+        address.town + ', ' + region + address.country?.isocode,
         address.postalCode,
         address.phone,
       ],
-    };
+    } as Card;
   }
 
   openSuggestedAddress(results: AddressValidation): void {
@@ -259,8 +261,8 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
   }
 
   countrySelected(country: Country): void {
-    this.billingAddressForm.get('country.isocode').setValue(country.isocode);
-    this.selectedCountry$.next(country.isocode);
+    this.billingAddressForm.get('country.isocode')?.setValue(country.isocode);
+    this.selectedCountry$.next(country.isocode as string);
   }
 
   next(): void {

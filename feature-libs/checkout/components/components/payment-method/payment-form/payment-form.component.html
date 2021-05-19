@@ -1,5 +1,5 @@
 <!-- FORM -->
-<ng-container *ngIf="!(loading$ | async).loading; else spinner">
+<ng-container *ngIf="!(loading$ | async)?.loading; else spinner">
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
     <div class="row">
       <div class="col-md-12 col-xl-10">
@@ -168,8 +168,8 @@
           <!-- BILLING INFO COMPONENT -->
           <ng-container
             *ngIf="
-              sameAsShippingAddress && shippingAddress$
-                | async as shippingAddress;
+              sameAsShippingAddress &&
+                (shippingAddress$ | async)! as shippingAddress;
               else billingAddress
             "
           >

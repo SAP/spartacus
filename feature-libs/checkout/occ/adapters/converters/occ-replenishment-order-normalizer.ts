@@ -18,7 +18,7 @@ export class OccReplenishmentOrderNormalizer
     target?: ReplenishmentOrder
   ): ReplenishmentOrder {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as ReplenishmentOrder;
     }
 
     if (source.entries) {

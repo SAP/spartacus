@@ -64,7 +64,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   addressVerifySub: Subscription;
   regionsSub: Subscription;
-  suggestedAddressModalRef: ModalRef;
+  suggestedAddressModalRef: ModalRef | null;
 
   addressForm: FormGroup = this.fb.group({
     country: this.fb.group({
@@ -118,9 +118,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
       tap((regions: Region[]) => {
         const regionControl = this.addressForm.get('region.isocode');
         if (regions && regions.length > 0) {
-          regionControl.enable();
+          regionControl?.enable();
         } else {
-          regionControl.disable();
+          regionControl?.disable();
         }
       })
     );
@@ -128,15 +128,16 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     // verify the new added address
     this.addressVerifySub = this.checkoutDeliveryService
       .getAddressVerificationResults()
-      .subscribe((results: AddressValidation) => {
-        if (results.decision === 'FAIL') {
+      .subscribe((results) => {
+        const decision = (results as AddressValidation).decision;
+        if (decision === 'FAIL') {
           this.checkoutDeliveryService.clearAddressVerificationResults();
-        } else if (results.decision === 'ACCEPT') {
+        } else if (decision === 'ACCEPT') {
           this.submitAddress.emit(this.addressForm.value);
-        } else if (results.decision === 'REJECT') {
+        } else if (decision === 'REJECT') {
           // TODO: Workaround: allow server for decide is titleCode mandatory (if yes, provide personalized message)
           if (
-            results.errors.errors.some(
+            (results as AddressValidation).errors?.errors.some(
               (error: ErrorModel) => error.subject === 'titleCode'
             )
           ) {
@@ -151,15 +152,15 @@ export class AddressFormComponent implements OnInit, OnDestroy {
             );
           }
           this.checkoutDeliveryService.clearAddressVerificationResults();
-        } else if (results.decision === 'REVIEW') {
-          this.openSuggestedAddress(results);
+        } else if (decision === 'REVIEW') {
+          this.openSuggestedAddress(results as AddressValidation);
         }
       });
 
     if (this.addressData && Object.keys(this.addressData).length !== 0) {
       this.addressForm.patchValue(this.addressData);
 
-      this.countrySelected(this.addressData.country);
+      this.countrySelected(this.addressData.country as Country);
       if (this.addressData.region) {
         this.regionSelected(this.addressData.region);
       }
@@ -172,7 +173,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.addressForm['controls'].country['controls'].isocode.setValue(
       country.isocode
     );
-    this.selectedCountry$.next(country.isocode);
+    this.selectedCountry$.next(country.isocode as string);
   }
 
   regionSelected(region: Region): void {
@@ -193,7 +194,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
 
   verifyAddress(): void {
     if (this.addressForm.valid) {
-      if (this.addressForm.get('region').value.isocode) {
+      if (this.addressForm.get('region')?.value.isocode) {
         this.regionsSub = this.regions$.pipe(take(1)).subscribe((regions) => {
           const obj = regions.find(
             (region) =>
@@ -201,7 +202,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
               this.addressForm.controls['region'].value.isocode
           );
           Object.assign(this.addressForm.value.region, {
-            isocodeShort: obj.isocodeShort,
+            isocodeShort: obj?.isocodeShort,
           });
         });
       }
