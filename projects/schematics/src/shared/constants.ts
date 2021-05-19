@@ -100,7 +100,8 @@ export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
 export const STORE_DATA_SERVICE = 'StoreDataService';
 export const SPLIT_VIEW_SERVICE = 'SplitViewService';
-export const COMMON_CONFIGURATOR_UTILS_SERVICE = 'CommonConfiguratorUtilsService';
+export const COMMON_CONFIGURATOR_UTILS_SERVICE =
+  'CommonConfiguratorUtilsService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -123,7 +124,8 @@ export const CART_SERVICE = 'CartService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
 export const USER_ORDER_SERVICE = 'UserOrderService';
 export const USER_ORDERS_EFFECT = 'UserOrdersEffect';
-export const CONFIGURATOR_PLACE_ORDER_HOOK_EFFECTS = 'ConfiguratorPlaceOrderHookEffects';
+export const CONFIGURATOR_PLACE_ORDER_HOOK_EFFECTS =
+  'ConfiguratorPlaceOrderHookEffects';
 export const PROMOTION_SERVICE = 'PromotionService';
 export const ORDER_DETAILS_SERVICE = 'OrderDetailsService';
 export const ORDER_RETURN_REQUEST_SERVICE = 'OrderReturnRequestService';
