@@ -1,6 +1,7 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   Consignment,
   FeaturesConfig,
@@ -150,6 +151,7 @@ describe('OrderDetailItemsComponent', () => {
           I18nTestingModule,
           PromotionsModule,
           FeaturesConfigModule,
+          RouterTestingModule,
         ],
         providers: [
           { provide: OrderDetailsService, useValue: mockOrderDetailsService },
