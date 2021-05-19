@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Address,
-  TranslationService,
-  UserAddressService,
-} from '@spartacus/core';
+import { Address, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card';
@@ -25,8 +21,7 @@ export class AddressBookComponent implements OnInit {
 
   constructor(
     public service: AddressBookComponentService,
-    protected translation: TranslationService,
-    protected userAddressService: UserAddressService
+    protected translation: TranslationService
   ) {}
 
   ngOnInit(): void {

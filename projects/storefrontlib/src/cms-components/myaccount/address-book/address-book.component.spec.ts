@@ -7,12 +7,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  Address,
-  I18nTestingModule,
-  User,
-  UserAddressService,
-} from '@spartacus/core';
+import { Address, I18nTestingModule, User } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CardModule } from '../../../shared/components/card';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
@@ -86,11 +81,6 @@ class MockAddressFormComponent {
   backToAddress = new EventEmitter<any>();
 }
 
-class MockUserAddressService {
-  deleteUserAddress = jasmine.createSpy();
-  setAddressAsDefault = jasmine.createSpy();
-}
-
 describe('AddressBookComponent', () => {
   let component: AddressBookComponent;
   let fixture: ComponentFixture<AddressBookComponent>;
@@ -106,7 +96,6 @@ describe('AddressBookComponent', () => {
             provide: AddressBookComponentService,
             useClass: MockComponentService,
           },
-          { provide: UserAddressService, useClass: MockUserAddressService },
         ],
         declarations: [AddressBookComponent, MockAddressFormComponent],
       }).compileComponents();
