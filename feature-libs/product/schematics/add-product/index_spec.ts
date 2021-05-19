@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -10,20 +12,18 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   LibraryOptions as SpartacusProductOptions,
   SpartacusOptions,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import {
-  CLI_BULK_PRICING_FEATURE,
-  CLI_VARIANTS_FEATURE,
-  SPARTACUS_BULK_PRICING_ROOT,
-  SPARTACUS_VARIANTS_ROOT,
-} from '../constants';
+import { peerDependencies } from '../../package.json';
+import { CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const bulkPricingModulePath =
-  'src/app/spartacus/features/product/bulk-pricing-feature.module.ts';
+  'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 const variantsFeatureModulePath =
   'src/app/spartacus/features/product/product-variants-feature.module.ts';
+const scssFilePath = 'src/styles/spartacus/product.scss';
 
 describe('Spartacus Product schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -45,12 +45,6 @@ describe('Spartacus Product schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions: SpartacusProductOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [CLI_BULK_PRICING_FEATURE, CLI_VARIANTS_FEATURE],
-  };
-
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
@@ -58,9 +52,25 @@ describe('Spartacus Product schematics: ng-add', () => {
     features: [],
   };
 
+  const libraryNoFeaturesOptions: SpartacusProductOptions = {
+    project: 'schematics-test',
+    lazy: true,
+    features: [],
+  };
+
+  const bulkPricingOptions: SpartacusProductOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_BULK_PRICING_FEATURE],
+  };
+
+  const variantsOptions: SpartacusProductOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_VARIANTS_FEATURE],
+  };
+
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 
@@ -81,7 +91,7 @@ describe('Spartacus Product schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -89,25 +99,129 @@ describe('Spartacus Product schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('when no features are selected', () => {
+  describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
-    it('should not install bulkPricing feature', () => {
-      const bulkPricingModule = appTree.readContent(bulkPricingModulePath);
-      expect(bulkPricingModule).not.toContain(SPARTACUS_BULK_PRICING_ROOT);
+    it('should not create any of the feature modules', () => {
+      expect(appTree.exists(bulkPricingModulePath)).toBeFalsy();
+      expect(appTree.exists(variantsFeatureModulePath)).toBeFalsy();
     });
 
-    it('should not install variants feature', () => {
-      const variantsModule = appTree.readContent(variantsFeatureModulePath);
-      expect(variantsModule).not.toContain(SPARTACUS_VARIANTS_ROOT);
+    it('should install necessary Spartacus libraries', () => {
+      const packageJson = JSON.parse(appTree.readContent('package.json'));
+      let dependencies: Record<string, string> = {};
+      dependencies = { ...packageJson.dependencies };
+      dependencies = { ...dependencies, ...packageJson.devDependencies };
+
+      for (const toAdd in peerDependencies) {
+        // skip the SPARTACUS_SCHEMATICS, as those are added only when running by the Angular CLI, and not in the testing environment
+        if (
+          !peerDependencies.hasOwnProperty(toAdd) ||
+          toAdd === SPARTACUS_SCHEMATICS
+        ) {
+          continue;
+        }
+        // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+        // const expectedVersion = (peerDependencies as Record<
+        //   string,
+        //   string
+        // >)[toAdd];
+        const expectedDependency = dependencies[toAdd];
+        expect(expectedDependency).toBeTruthy();
+        // expect(expectedDependency).toEqual(expectedVersion);
+      }
+    });
+  });
+
+  describe('BulkPricing feature', () => {
+    describe('general setup', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', bulkPricingOptions, appTree)
+          .toPromise();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(bulkPricingModulePath);
+        expect(module).toMatchSnapshot();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('eager loading', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...bulkPricingOptions, lazy: false },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(bulkPricingModulePath);
+        expect(module).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('Variants feature', () => {
+    describe('general setup', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', variantsOptions, appTree)
+          .toPromise();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(variantsFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('eager loading', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...variantsOptions, lazy: false },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(variantsFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
     });
   });
 });
