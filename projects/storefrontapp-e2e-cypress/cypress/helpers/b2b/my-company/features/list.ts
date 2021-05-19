@@ -6,7 +6,6 @@ export function listTest(config: MyCompanyConfig): void {
   describe(`${config.name} List`, () => {
     beforeEach(() => {
       loginAsMyCompanyAdmin();
-      cy.server();
     });
 
     it('should show and paginate list', () => {

@@ -6,7 +6,6 @@ export function nestedListTest(config: MyCompanyConfig): void {
   describe(`${config.name} Nested List`, () => {
     beforeEach(() => {
       loginAsMyCompanyAdmin();
-      cy.server();
     });
 
     // TODO: Can be enabled when backend will sort the list (tree)
