@@ -80,7 +80,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
     assertPostTestRequestBody(testRequest);
 
-    assertPostRequestbuildUrl('DEFAULT', '2');
+    assertPostRequestBuildUrl('DEFAULT', '2');
 
     assertTestRequest(testRequest, componentList);
   });
@@ -94,7 +94,7 @@ describe('LegacyOccCmsComponentAdapter', () => {
 
     assertPostTestRequestBody(testRequest);
 
-    assertPostRequestbuildUrl('FULL', '5');
+    assertPostRequestBuildUrl('FULL', '5');
 
     assertTestRequest(testRequest, componentList);
   });
@@ -157,13 +157,9 @@ describe('LegacyOccCmsComponentAdapter', () => {
     return spyOn(endpointsService, 'buildUrl').and.returnValue(requestUrl);
   }
 
-  function assertPostRequestbuildUrl(fields: string, pageSize: string) {
-    expect(endpointsService.buildUrl).toHaveBeenCalledWith(
-      'components',
-
-      {
-        queryParams: { fields, productCode: '123', currentPage: '0', pageSize },
-      }
-    );
+  function assertPostRequestBuildUrl(fields: string, pageSize: string) {
+    expect(endpointsService.buildUrl).toHaveBeenCalledWith('components', {
+      queryParams: { fields, productCode: '123', currentPage: '0', pageSize },
+    });
   }
 });
