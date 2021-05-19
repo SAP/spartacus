@@ -1,13 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  Address,
-  EventService,
-  User,
-  UserAddressDeleteEvent,
-  UserAddressService,
-  UserAddressSetToDefaultEvent,
-  UserAddressUpdateEvent,
-} from '@spartacus/core';
+import { Address, User, UserAddressService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddressBookComponentService } from './address-book.component.service';
@@ -29,9 +21,6 @@ const mockUser: User = {
   uid: '1234',
 };
 
-class MockEventService {
-  dispatch = jasmine.createSpy();
-}
 class MockUserAddressService {
   loadAddresses = jasmine.createSpy();
   addUserAddress = jasmine.createSpy();
@@ -53,7 +42,6 @@ class MockUserAddressService {
 describe('AddressBookComponentService', () => {
   let service: AddressBookComponentService;
   let userAddressService: UserAddressService;
-  let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -63,17 +51,11 @@ describe('AddressBookComponentService', () => {
           provide: UserAddressService,
           useClass: MockUserAddressService,
         },
-
-        {
-          provide: EventService,
-          useClass: MockEventService,
-        },
       ],
     });
 
     service = TestBed.inject(AddressBookComponentService);
     userAddressService = TestBed.inject(UserAddressService);
-    eventService = TestBed.inject(EventService);
   });
 
   it('should service be created', () => {
@@ -110,59 +92,25 @@ describe('AddressBookComponentService', () => {
     );
   });
 
-  it('should updateUserAddress() update the user address and emit an event', () => {
+  it('should updateUserAddress() update the user address', () => {
     service.updateUserAddress('addressId', mockAddresses[0]);
     expect(userAddressService.updateUserAddress).toHaveBeenCalledWith(
       'addressId',
       mockAddresses[0]
     );
-    expect(eventService.dispatch).toHaveBeenCalledWith(
-      {
-        addressId: 'addressId',
-        address: mockAddresses[0],
-      },
-      UserAddressUpdateEvent
-    );
   });
 
-  it('should updateUserAddress() update the user address and emit an event', () => {
-    service.updateUserAddress('addressId', mockAddresses[0]);
-    expect(userAddressService.updateUserAddress).toHaveBeenCalledWith(
-      'addressId',
-      mockAddresses[0]
-    );
-    expect(eventService.dispatch).toHaveBeenCalledWith(
-      {
-        addressId: 'addressId',
-        address: mockAddresses[0],
-      },
-      UserAddressUpdateEvent
-    );
-  });
-
-  it('should setAddressAsDefault() set address as default and emit an event', () => {
+  it('should setAddressAsDefault() set address as default', () => {
     service.setAddressAsDefault('addressId');
     expect(userAddressService.setAddressAsDefault).toHaveBeenCalledWith(
       'addressId'
     );
-    expect(eventService.dispatch).toHaveBeenCalledWith(
-      {
-        addressId: 'addressId',
-      },
-      UserAddressSetToDefaultEvent
-    );
   });
 
-  it('should deleteUserAddress() delete address and emit an event', () => {
+  it('should deleteUserAddress() delete address', () => {
     service.deleteUserAddress('addressId');
     expect(userAddressService.deleteUserAddress).toHaveBeenCalledWith(
       'addressId'
-    );
-    expect(eventService.dispatch).toHaveBeenCalledWith(
-      {
-        addressId: 'addressId',
-      },
-      UserAddressDeleteEvent
     );
   });
 });

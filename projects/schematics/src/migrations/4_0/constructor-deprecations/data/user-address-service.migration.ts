@@ -1,5 +1,6 @@
 import {
   COMMAND_SERVICE,
+  EVENT_SERVICE,
   NGRX_STORE,
   SPARTACUS_CORE,
   STORE,
@@ -20,5 +21,6 @@ export const USER_ADDRESS_SERVICE_MIGRATION: ConstructorDeprecation = {
   addParams: [
     { className: USER_ADDRESS_CONNECTOR, importPath: SPARTACUS_CORE },
     { className: COMMAND_SERVICE, importPath: SPARTACUS_CORE },
+    { className: EVENT_SERVICE, importPath: SPARTACUS_CORE },
   ],
 };

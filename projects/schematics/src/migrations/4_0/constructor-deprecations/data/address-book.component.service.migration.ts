@@ -1,7 +1,6 @@
 import {
   ADDRESS_BOOK_COMPONENT_SERVICE,
   CHECKOUT_DELIVERY_SERVICE,
-  EVENT_SERVICE,
   SPARTACUS_CORE,
   USER_ADDRESS_SERVICE,
 } from '../../../../shared/constants';
@@ -18,5 +17,4 @@ export const ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATION: ConstructorDeprecation = 
   removeParams: [
     { className: CHECKOUT_DELIVERY_SERVICE, importPath: SPARTACUS_CORE },
   ],
-  addParams: [{ className: EVENT_SERVICE, importPath: SPARTACUS_CORE }],
 };
