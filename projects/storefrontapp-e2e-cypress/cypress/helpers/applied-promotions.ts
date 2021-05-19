@@ -61,12 +61,7 @@ export function selectShippingAddress() {
 
 export function selectDeliveryMethod() {
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-gross').should('be.checked');
-  cy.intercept(
-    `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/current/paymentdetails*`
-  ).as('paymentDetails');
+  cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@paymentDetails');
 }
