@@ -84,11 +84,11 @@ export const budgetConfig: MyCompanyConfig = {
     {
       label: 'Unit',
       variableName: 'orgUnit.name',
-      link: `/organization/units/Custom%20Retail`,
+      link: `/organization/units/Rustic%20Retail`,
       updatedLink: `/organization/units/Rustic%20Retail`,
       sortLabel: 'unit',
       inputType: INPUT_TYPE.NG_SELECT,
-      createValue: 'Custom Retail',
+      createValue: 'Rustic Retail',
       updateValue: 'Rustic Retail',
       showInTable: true,
       formLabel: 'Unit',
