@@ -160,11 +160,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   ) {
     const params = this.convertToMap(parameters);
     params[mappingLabels['hybris_account_holder_name']] =
-      paymentDetails.accountHolderName ?? '';
-    params[mappingLabels['hybris_card_type']] =
-      paymentDetails.cardType?.code ?? '';
-    params[mappingLabels['hybris_card_number']] =
-      paymentDetails.cardNumber ?? '';
+      paymentDetails.accountHolderName;
+    params[mappingLabels['hybris_card_type']] = paymentDetails.cardType?.code;
+    params[mappingLabels['hybris_card_number']] = paymentDetails.cardNumber;
     if (mappingLabels['hybris_combined_expiry_date'] === 'true') {
       params[mappingLabels['hybris_card_expiry_date']] =
         paymentDetails.expiryMonth +
@@ -172,33 +170,33 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         paymentDetails.expiryYear;
     } else {
       params[mappingLabels['hybris_card_expiration_month']] =
-        paymentDetails.expiryMonth ?? '';
+        paymentDetails.expiryMonth;
       params[mappingLabels['hybris_card_expiration_year']] =
-        paymentDetails.expiryYear ?? '';
+        paymentDetails.expiryYear;
     }
-    params[mappingLabels['hybris_card_cvn']] = paymentDetails.cvn ?? '';
+    params[mappingLabels['hybris_card_cvn']] = paymentDetails.cvn;
 
     // billing address
     params[mappingLabels['hybris_billTo_country']] =
-      paymentDetails.billingAddress?.country?.isocode ?? '';
+      paymentDetails.billingAddress?.country?.isocode;
     params[mappingLabels['hybris_billTo_firstname']] =
-      paymentDetails.billingAddress?.firstName ?? '';
+      paymentDetails.billingAddress?.firstName;
     params[mappingLabels['hybris_billTo_lastname']] =
-      paymentDetails.billingAddress?.lastName ?? '';
+      paymentDetails.billingAddress?.lastName;
     params[mappingLabels['hybris_billTo_street1']] =
       paymentDetails.billingAddress?.line1 +
       ' ' +
       paymentDetails.billingAddress?.line2;
     params[mappingLabels['hybris_billTo_city']] =
-      paymentDetails.billingAddress?.town ?? '';
+      paymentDetails.billingAddress?.town;
     if (paymentDetails.billingAddress?.region) {
       params[mappingLabels['hybris_billTo_region']] =
-        paymentDetails.billingAddress.region.isocodeShort ?? '';
+        paymentDetails.billingAddress.region.isocodeShort;
     } else {
       params[mappingLabels['hybris_billTo_region']] = '';
     }
     params[mappingLabels['hybris_billTo_postalcode']] =
-      paymentDetails.billingAddress?.postalCode ?? '';
+      paymentDetails.billingAddress?.postalCode;
     return params;
   }
 
@@ -225,11 +223,15 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
 
   private convertToMap(
     paramList: { key: string; value: string }[]
-  ): { [key: string]: string } {
-    return paramList.reduce(function (result: { [key: string]: string }, item) {
+  ): { [key: string]: string | undefined } {
+    return paramList.reduce(function (
+      result: { [key: string]: string | undefined },
+      item
+    ) {
       const key = item.key;
       result[key] = item.value;
       return result;
-    }, {});
+    },
+    {});
   }
 }
