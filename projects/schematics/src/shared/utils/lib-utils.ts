@@ -667,10 +667,10 @@ function installRequiredSpartacusFeatures<
   dependencyManagement: DependencyManagement;
   options: OPTIONS;
 }): Rule {
-  return (_tree: Tree, context: SchematicContext): Rule => {
+  return (_tree: Tree, context: SchematicContext): void => {
     const dependencyManagement = options.dependencyManagement;
     if (!dependencyManagement) {
-      return noop();
+      return;
     }
 
     logFeatureInstallation(dependencyManagement, context);
@@ -679,8 +679,6 @@ function installRequiredSpartacusFeatures<
       dependencyManagement.featureDependencies
     );
     addSchematicsTasks(featureOptions, context);
-
-    return installPackageJsonDependencies();
   };
 }
 
