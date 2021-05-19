@@ -44,7 +44,7 @@ class MockUserIdService {
 }
 
 class MockOAuthLibWrapperService {
-  revokeAndLogout = jasmine.createSpy();
+  revokeAndLogout = jasmine.createSpy().and.returnValue(Promise.resolve());
   initLoginFlow = jasmine.createSpy();
 
   authorizeWithPasswordFlow = () => new Promise(() => {});
