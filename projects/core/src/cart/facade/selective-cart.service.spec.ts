@@ -368,7 +368,7 @@ describe('Selective Cart Service', () => {
     });
   });
 
-  describe('test private method', () => {
+  describe('test protected method', () => {
     it('should return true for undefined', () => {
       const result = service['isEmpty'](undefined);
       expect(result).toBe(true);

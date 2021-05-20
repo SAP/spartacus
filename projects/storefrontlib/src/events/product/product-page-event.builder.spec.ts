@@ -50,27 +50,28 @@ describe('ProductPageEventModule', () => {
         facets: [{ category: true }],
       };
 
-      let result: SearchPageResultsEvent | undefined;
+      let result: SearchPageResultsEvent;
       eventService
         .get(SearchPageResultsEvent)
         .pipe(take(1))
         .subscribe((value) => (result = value));
 
       const navigationEvent = createFrom(NavigationEvent, {
-        context: { id: 'xxx' },
+        context: undefined,
         semanticRoute: 'search',
         url: 'search url',
-        params: {},
+        params: undefined,
       });
       eventService.dispatch(navigationEvent);
       getResultsBehavior.next(searchResults);
 
-      const expected = createFrom(SearchPageResultsEvent, {
-        searchTerm: searchResults.freeTextSearch,
-        numberOfResults: searchResults.pagination.totalResults,
-        navigation: navigationEvent,
-      });
-      expect(result).toEqual(jasmine.objectContaining({ ...expected }));
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          searchTerm: searchResults.freeTextSearch,
+          numberOfResults: searchResults.pagination.totalResults,
+          navigation: { ...navigationEvent },
+        })
+      );
     });
 
     it('should fire again if the user is on the search page, and the search state changes', () => {
@@ -80,7 +81,7 @@ describe('ProductPageEventModule', () => {
         facets: [{ category: true }],
       };
 
-      let result: SearchPageResultsEvent | undefined;
+      let result: SearchPageResultsEvent;
       const sub = eventService
         .get(SearchPageResultsEvent)
         .subscribe((value) => (result = value));
@@ -94,25 +95,25 @@ describe('ProductPageEventModule', () => {
 
       eventService.dispatch(navigationEvent);
       getResultsBehavior.next(searchResults);
-
-      const expected1 = createFrom(SearchPageResultsEvent, {
-        searchTerm: searchResults.freeTextSearch,
-        numberOfResults: searchResults.pagination.totalResults,
-        navigation: navigationEvent,
-      });
-      expect(result).toEqual(jasmine.objectContaining({ ...expected1 }));
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          searchTerm: searchResults.freeTextSearch,
+          numberOfResults: searchResults.pagination.totalResults,
+          navigation: { ...navigationEvent },
+        })
+      );
 
       getResultsBehavior.next({
         ...searchResults,
         freeTextSearch: 'new',
       });
-
-      const expected2 = createFrom(SearchPageResultsEvent, {
-        searchTerm: 'new',
-        numberOfResults: searchResults.pagination.totalResults,
-        navigation: navigationEvent,
-      });
-      expect(result).toEqual(jasmine.objectContaining({ ...expected2 }));
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          searchTerm: 'new',
+          numberOfResults: searchResults.pagination.totalResults,
+          navigation: { ...navigationEvent },
+        })
+      );
       sub.unsubscribe();
     });
 
@@ -158,7 +159,7 @@ describe('ProductPageEventModule', () => {
 
     expect(result).toEqual(
       jasmine.objectContaining({
-        navigation: navigationEvent,
+        navigation: { ...navigationEvent },
         categoryCode: navigationEvent.context.id,
         categoryName: searchResults.breadcrumbs[0].facetValueName,
         numberOfResults: searchResults.pagination.totalResults,
@@ -175,7 +176,7 @@ describe('ProductPageEventModule', () => {
         price: { value: 100 },
       };
 
-      let result: ProductDetailsPageEvent | undefined;
+      let result: ProductDetailsPageEvent;
       eventService
         .get(ProductDetailsPageEvent)
         .pipe(take(1))
@@ -185,20 +186,21 @@ describe('ProductPageEventModule', () => {
         context: { id: product.code },
         semanticRoute: 'product',
         url: 'product url',
-        params: {},
+        params: undefined,
       });
       eventService.dispatch(productPageEvent);
       productGetBehavior.next(product);
 
       expect(result).toBeTruthy();
-      const expected = createFrom(ProductDetailsPageEvent, {
-        navigation: productPageEvent,
-        code: product.code,
-        categories: product.categories,
-        name: product.name,
-        price: product.price,
-      });
-      expect(result).toEqual(jasmine.objectContaining({ ...expected }));
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          navigation: { ...productPageEvent },
+          code: product.code,
+          categories: product.categories,
+          name: product.name,
+          price: product.price,
+        } as ProductDetailsPageEvent)
+      );
     });
 
     it('should not fire again if the product state changes', () => {
@@ -209,7 +211,7 @@ describe('ProductPageEventModule', () => {
         price: { value: 100 },
       };
 
-      let result: ProductDetailsPageEvent | undefined;
+      let result: ProductDetailsPageEvent;
       const sub = eventService
         .get(ProductDetailsPageEvent)
         .subscribe((value) => (result = value));
@@ -218,20 +220,20 @@ describe('ProductPageEventModule', () => {
         context: { id: product.code },
         semanticRoute: 'product',
         url: 'product url',
-        params: {},
+        params: undefined,
       });
 
       eventService.dispatch(productPageEvent);
       productGetBehavior.next(product);
-
-      const expected = createFrom(ProductDetailsPageEvent, {
-        navigation: productPageEvent,
-        code: product.code,
-        categories: product.categories,
-        name: product.name,
-        price: product.price,
-      });
-      expect(result).toEqual(jasmine.objectContaining({ ...expected }));
+      expect(result).toEqual(
+        jasmine.objectContaining({
+          navigation: { ...productPageEvent },
+          code: product.code,
+          categories: product.categories,
+          name: product.name,
+          price: product.price,
+        } as ProductDetailsPageEvent)
+      );
 
       productGetBehavior.next({ ...product, code: 'new' });
       expect(result).not.toEqual(jasmine.objectContaining({ code: 'new' }));
