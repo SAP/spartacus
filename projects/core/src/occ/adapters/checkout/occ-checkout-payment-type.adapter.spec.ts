@@ -17,6 +17,10 @@ const MockOccModuleConfig: OccConfig = {
     occ: {
       baseUrl: '',
       prefix: '',
+      endpoints: {
+        cartPaymentType:
+          'users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user',
+      },
     },
   },
   context: {
@@ -29,9 +33,6 @@ const cartData: Cart = {
   store: 'electronics',
   guid: '1212121',
 };
-
-const usersEndpoint = '/users';
-const cartsEndpoint = '/carts/';
 
 describe('OccCheckoutPaymentTypeAdapter', () => {
   let service: OccCheckoutPaymentTypeAdapter;
@@ -102,28 +103,23 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
 
   describe('setPaymentType', () => {
     it('should set payment type to cart', () => {
-      const typeCode = 'CARD';
+      const paymentType = 'CARD';
 
       let result;
       service
-        .setPaymentType(userId, cartId, typeCode)
+        .setPaymentType(userId, cartId, paymentType)
         .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/paymenttype'
+            `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT%2CpotentialProductPromotions%2CappliedProductPromotions%2CpotentialOrderPromotions%2CappliedOrderPromotions%2Centries(totalPrice(formattedValue)%2Cproduct(images(FULL)%2Cstock(FULL))%2CbasePrice(formattedValue%2Cvalue)%2Cupdateable)%2CtotalPrice(formattedValue)%2CtotalItems%2CtotalPriceWithTax(formattedValue)%2CtotalDiscounts(value%2CformattedValue)%2CsubTotal(formattedValue)%2CdeliveryItemsQuantity%2CdeliveryCost(formattedValue)%2CtotalTax(formattedValue%2C%20value)%2CpickupItemsQuantity%2Cnet%2CappliedVouchers%2CproductDiscounts(formattedValue)%2Cuser&paymentType=${paymentType}`
         );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('paymentType')).toEqual(typeCode);
       mockReq.flush(cartData);
       expect(result).toEqual(cartData);
     });
@@ -131,31 +127,23 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
 
   describe('setPaymentType (set po number to cart)', () => {
     it('should set payment type to cart', () => {
-      const typeCode = 'CARD';
+      const paymentType = 'CARD';
+      const purchaseOrderNumber = 'test-number';
 
       let result;
       service
-        .setPaymentType(userId, cartId, typeCode, 'test-number')
+        .setPaymentType(userId, cartId, paymentType, purchaseOrderNumber)
         .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/paymenttype'
+            `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT%2CpotentialProductPromotions%2CappliedProductPromotions%2CpotentialOrderPromotions%2CappliedOrderPromotions%2Centries(totalPrice(formattedValue)%2Cproduct(images(FULL)%2Cstock(FULL))%2CbasePrice(formattedValue%2Cvalue)%2Cupdateable)%2CtotalPrice(formattedValue)%2CtotalItems%2CtotalPriceWithTax(formattedValue)%2CtotalDiscounts(value%2CformattedValue)%2CsubTotal(formattedValue)%2CdeliveryItemsQuantity%2CdeliveryCost(formattedValue)%2CtotalTax(formattedValue%2C%20value)%2CpickupItemsQuantity%2Cnet%2CappliedVouchers%2CproductDiscounts(formattedValue)%2Cuser&paymentType=${paymentType}&purchaseOrderNumber=${purchaseOrderNumber}`
         );
       });
 
-      expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('paymentType')).toEqual(typeCode);
-      expect(mockReq.request.params.get('purchaseOrderNumber')).toEqual(
-        'test-number'
-      );
       mockReq.flush(cartData);
       expect(result).toEqual(cartData);
     });

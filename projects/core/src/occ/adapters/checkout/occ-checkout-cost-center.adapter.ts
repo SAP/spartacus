@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CART_NORMALIZER } from '../../../cart/connectors/cart/converters';
@@ -20,27 +20,20 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
     cartId: string,
     costCenterId: string
   ): Observable<Cart> {
-    let httpParams = new HttpParams().set('costCenterId', costCenterId);
-    /* eslint-disable max-len */
-    httpParams = httpParams.set(
-      'fields',
-      'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user'
-    );
-    // TODO(#8877): Should we improve configurable endpoints for this use case?
-
     return this.http
-      .put(
-        this.getCartEndpoint(userId) + cartId + '/costcenter',
-        {},
-        {
-          params: httpParams,
-        }
-      )
+      .put(this.getCartEndpoint(userId, cartId, costCenterId), {})
       .pipe(this.converter.pipeable(CART_NORMALIZER));
   }
 
-  protected getCartEndpoint(userId: string): string {
-    const cartEndpoint = 'users/' + userId + '/carts/';
-    return this.occEndpoints.getEndpoint(cartEndpoint);
+  protected getCartEndpoint(
+    userId: string,
+    cartId: string,
+    costCenterId: string
+  ): string {
+    return this.occEndpoints.getUrl(
+      'cartCostCenter',
+      { userId, cartId },
+      { costCenterId }
+    );
   }
 }

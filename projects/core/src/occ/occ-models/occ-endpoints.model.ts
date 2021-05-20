@@ -116,6 +116,18 @@ export interface OccEndpoints {
    */
   addEmail?: string | OccEndpoint;
   /**
+   * Sets the cost center for the checkout cart.
+   *
+   * @member {string} [cartCostCenter]
+   */
+  cartCostCenter?: string | OccEndpoint;
+  /**
+   * Sets the payment type for the checkout cart
+   *
+   * @member {string} [cartPaymentType]
+   */
+  cartPaymentType?: string | OccEndpoint;
+  /**
    * Get a list of available languages
    *
    * @member {string}
