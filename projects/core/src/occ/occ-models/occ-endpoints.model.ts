@@ -116,6 +116,12 @@ export interface OccEndpoints {
    */
   addEmail?: string | OccEndpoint;
   /**
+   * Returns a list of the available payment types.
+   *
+   * @member {string} [cartCostCenter]
+   */
+  paymentTypes?: string | OccEndpoint;
+  /**
    * Sets the cost center for the checkout cart.
    *
    * @member {string} [cartCostCenter]
@@ -412,6 +418,14 @@ export interface OccEndpoints {
    * Endpoint for set delivery address to cart
    */
   setDeliveryAddress?: string | OccEndpoint;
+  /**
+   * Endpoint for the delivery mode selected for the cart.
+   */
+  deliveryMode?: string | OccEndpoint;
+  /**
+   *Endpoint for get all delivery modes for the current store and delivery address.
+   */
+  deliveryModes?: string | OccEndpoint;
   /**
    * Endpoint for place order
    */
