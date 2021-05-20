@@ -24,6 +24,6 @@
       "version": "2.1.0-next.1",
       "factory": "./config-deprecations/config-deprecation#migrate",
       "description": "Handle deprecated configuration properties"
-    }     
+    }
   }
 }
