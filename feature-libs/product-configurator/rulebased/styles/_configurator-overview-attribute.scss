@@ -6,6 +6,7 @@
 
   .cx-attribute-value {
     width: 100%;
+    font-weight: 700;
 
     @include media-breakpoint-up(md) {
       width: 41.6666666667%;

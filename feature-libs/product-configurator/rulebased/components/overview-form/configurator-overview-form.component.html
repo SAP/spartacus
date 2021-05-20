@@ -1,45 +1,14 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="hasAttributes(configuration); else noAttributes">
-    <ng-container *ngFor="let group of configuration.overview.groups">
-      <ng-container *ngFor="let subgroup of group.subGroups">
-        <div class="cx-group">
-          <h2>
-            <ng-container *cxFeatureLevel="'!3.3'">
-              {{ group.groupDescription }}
-            </ng-container>
-            <ng-container *cxFeatureLevel="'3.3'">
-              <span>{{ group.groupDescription }}</span>
-            </ng-container>
-          </h2>
-
-          <div
-            *ngFor="let attributeOverview of group.attributes; let i = index"
-            class="cx-attribute-value-pair"
-            [ngClass]="getStyleClasses(group.attributes, i)"
-          >
-            <ng-container [ngSwitch]="attributeOverview?.type">
-              <ng-container *ngSwitchCase="attributeOverviewType.GENERAL">
-                <cx-configurator-overview-attribute
-                  [attributeOverview]="attributeOverview"
-                ></cx-configurator-overview-attribute>
-              </ng-container>
-
-              <ng-container *ngSwitchCase="attributeOverviewType.BUNDLE">
-                <cx-configurator-cpq-overview-attribute
-                  [attributeOverview]="attributeOverview"
-                ></cx-configurator-cpq-overview-attribute>
-              </ng-container>
-
-              <ng-container *ngSwitchDefault>
-                <cx-configurator-overview-attribute
-                  [attributeOverview]="attributeOverview"
-                ></cx-configurator-overview-attribute>
-              </ng-container>
-            </ng-container>
-          </div>
-        </div>
-      </ng-container>
-    </ng-container>
+    <ng-container
+      *ngTemplateOutlet="
+        groups;
+        context: {
+          overviewGroups: configuration.overview.groups,
+          level: 1
+        }
+      "
+    ></ng-container>
   </ng-container>
 </ng-container>
 
@@ -49,4 +18,60 @@
     <h2>{{ 'configurator.overviewForm.noAttributeHeader' | cxTranslate }}</h2>
     <p>{{ 'configurator.overviewForm.noAttributeText' | cxTranslate }}</p>
   </div>
+</ng-template>
+
+<ng-template #groups let-overviewGroups="overviewGroups" let-level="level">
+  <ng-container *ngFor="let group of overviewGroups">
+    <div
+      class="cx-group"
+      [class.topLevel]="level === 1"
+      [class.subgroupTopLevel]="level === 1 && group.subGroups?.length > 0"
+    >
+      <h2>
+        <ng-container *cxFeatureLevel="'!3.3'">
+          {{ group.groupDescription }}
+        </ng-container>
+        <ng-container *cxFeatureLevel="'3.3'">
+          <span>{{ group.groupDescription }}</span>
+        </ng-container>
+      </h2>
+
+      <div
+        *ngFor="let attributeOverview of group.attributes; let i = index"
+        class="cx-attribute-value-pair"
+        [ngClass]="getStyleClasses(group.attributes, i)"
+      >
+        <ng-container [ngSwitch]="attributeOverview?.type">
+          <ng-container *ngSwitchCase="attributeOverviewType.GENERAL">
+            <cx-configurator-overview-attribute
+              [attributeOverview]="attributeOverview"
+            >
+            </cx-configurator-overview-attribute>
+          </ng-container>
+
+          <ng-container *ngSwitchCase="attributeOverviewType.BUNDLE">
+            <cx-configurator-cpq-overview-attribute
+              [attributeOverview]="attributeOverview"
+            >
+            </cx-configurator-cpq-overview-attribute>
+          </ng-container>
+
+          <ng-container *ngSwitchDefault>
+            <cx-configurator-overview-attribute
+              [attributeOverview]="attributeOverview"
+            >
+            </cx-configurator-overview-attribute>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <ng-container *ngIf="group.subGroups?.length > 0">
+      <ng-container
+        *ngTemplateOutlet="
+          groups;
+          context: { overviewGroups: group.subGroups, level: level + 1 }
+        "
+      ></ng-container>
+    </ng-container>
+  </ng-container>
 </ng-template>

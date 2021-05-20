@@ -56,7 +56,7 @@ export class OccConfiguratorVariantOverviewNormalizer
         : [],
     };
 
-    this.setGeneralDescription(result[0]);
+    this.setGeneralDescription(group);
     if (subGroups) {
       group.subGroups = [];
       subGroups.forEach((subGroup) =>
@@ -65,7 +65,7 @@ export class OccConfiguratorVariantOverviewNormalizer
         )
       );
     }
-    result.push();
+    result.push(group);
     return result;
   }
 
