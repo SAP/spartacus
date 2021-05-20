@@ -29,6 +29,7 @@ export const SPARTACUS_ASM = '@spartacus/asm';
 export const SPARTACUS_CART = '@spartacus/cart';
 export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
+export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED = `${SPARTACUS_PRODUCT_CONFIGURATOR}/rulebased`;
 export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
