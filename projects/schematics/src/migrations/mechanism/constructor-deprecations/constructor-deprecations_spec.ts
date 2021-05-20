@@ -19,7 +19,7 @@ import {
   writeFile,
 } from '../../../shared/utils/test-utils';
 
-const MIGRATION_SCRIPT_NAME = 'migration-v4-constructor-deprecations-03';
+const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations-03';
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
     import { StateWithProcess, StateWithUser } from '@spartacus/core';
@@ -275,32 +275,24 @@ export class Test extends PageMetaService {
 }
 `;
 
-const ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS = `       
-    import { CartItemContext } from '@spartacus/storefront';
-    import { ConfiguratorCartEntryInfoComponent} from '@spartacus/product-configurator/common';
-    
-    export class InheritingService extends ConfiguratorCartEntryInfoComponent {
-      constructor(         
-        @Optional() protected cartItemContext?: CartItemContext 
-      ) {
-        super(cartItemContext);
+const ADD_AND_REMOVE_PARAMETER_VALID_TEST_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithCheckout, CheckoutService, CartDataService } from '@spartacus/core';
+    export class InheritingService extends CheckoutService {
+      constructor(store: Store<StateWithCheckout>, cartDataService: CartDataService) {
+        super(store, cartDataService);
       }
     }
 `;
-
-const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `       
-    import { CartItemContext } from '@spartacus/storefront';
-    import { ConfiguratorCartEntryInfoComponent, CommonConfiguratorUtilsService} from '@spartacus/product-configurator/common';
-    
-    export class InheritingService extends ConfiguratorCartEntryInfoComponent {
-      constructor(         
-        @Optional() protected cartItemContext?: CartItemContext, commonConfiguratorUtilsService: CommonConfiguratorUtilsService 
-      ) {
-        super(cartItemContext, commonConfiguratorUtilsService);
+const ADD_AND_REMOVE_PARAMETER_EXPECTED_CLASS = `
+    import { Store } from '@ngrx/store';
+    import { StateWithCheckout, CheckoutService,  AuthService, ActiveCartService } from '@spartacus/core';
+    export class InheritingService extends CheckoutService {
+      constructor(store: Store<StateWithCheckout> , authService: AuthService, activeCartService: ActiveCartService) {
+        super(store , authService, activeCartService);
       }
     }
 `;
-
 const CART_PAGE_LAYOUT_HANDLER = `
     import { CartPageLayoutHandler } from '@spartacus/storefront';
     import { CartService } from '@spartacus/core';
