@@ -343,6 +343,9 @@ export const COMMON_CONFIGURATOR_UTILS_SERVICE =
   'CommonConfiguratorUtilsService';
 export const CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE =
   'ConfiguratorAttributeQuantityService';
+export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE =
+  'ConfiguratorStorefrontUtilsService';
+
 export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
   'ConfiguratorCartEntryInfoComponent';
 export const CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT =
