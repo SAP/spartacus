@@ -6,4 +6,5 @@ export enum ProductDetailOutlets {
 }
 export enum ProductListOutlets {
   ITEM_ACTIONS = 'cx-product-list-item.actions',
+  ITEM_DETAILS = 'cx-product-list-item.details',
 }

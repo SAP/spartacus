@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { ProductVariantsContainerModule } from './product-variants-container/product-variants-container.module';
 import { ProductVariantColorSelectorModule } from './variant-color-selector/product-variant-color-selector.module';
 import { ProductVariantSizeSelectorModule } from './variant-size-selector/product-variant-size-selector.module';
-import { ProductVariantStyleIconsModule } from './variant-style-icons/product-variant-style-icons.module';
 import { ProductVariantStyleSelectorModule } from './variant-style-selector/product-variant-style-selector.module';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { ProductVariantsContainerComponent } from './product-variants-container/product-variants-container.component';
 import { ProductVariantsGuard } from './guards/product-variants.guard';
+import { ProductVariantStyleIconsModule } from '@spartacus/product/variants/root';
 
 @NgModule({
   imports: [

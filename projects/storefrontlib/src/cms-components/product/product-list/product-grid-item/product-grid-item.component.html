@@ -16,26 +16,22 @@
   [innerHTML]="product.nameHtml"
 ></a>
 
-<div class="cx-product-rating">
-  <cx-star-rating
-    *ngIf="product.averageRating"
-    [rating]="product?.averageRating"
-  ></cx-star-rating>
-  <div *ngIf="!product.averageRating">
-    {{ 'productDetails.noReviews' | cxTranslate }}
+<ng-template [cxOutlet]="ProductListOutlets.ITEM_DETAILS">
+  <div class="cx-product-rating">
+    <cx-star-rating
+      *ngIf="product.averageRating"
+      [rating]="product?.averageRating"
+    ></cx-star-rating>
+    <div *ngIf="!product.averageRating">
+      {{ 'productDetails.noReviews' | cxTranslate }}
+    </div>
   </div>
-</div>
-<div class="cx-product-price-container">
-  <div class="cx-product-price" aria-label="Product price">
-    {{ product.price?.formattedValue }}
+  <div class="cx-product-price-container">
+    <div class="cx-product-price" aria-label="Product price">
+      {{ product.price?.formattedValue }}
+    </div>
   </div>
-</div>
-
-<div class="cx-variant-style-icons" *ngIf="product.variantOptions">
-  <cx-variant-style-icons
-    [variants]="product.variantOptions"
-  ></cx-variant-style-icons>
-</div>
+</ng-template>
 
 <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
   <cx-add-to-cart

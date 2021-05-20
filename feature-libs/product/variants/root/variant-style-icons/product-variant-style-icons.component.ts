@@ -3,6 +3,7 @@ import {
   Input,
   OnInit,
   ChangeDetectionStrategy,
+  Optional,
 } from '@angular/core';
 
 import {
@@ -10,7 +11,13 @@ import {
   VariantOption,
   VariantOptionQualifier,
   VariantQualifier,
+  Product,
 } from '@spartacus/core';
+import {
+  ProductListItemContextSource,
+  ProductListOutlets,
+} from '@spartacus/storefront';
+import { EMPTY, Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-variant-style-icons',
@@ -19,7 +26,15 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductVariantStyleIconsComponent implements OnInit {
-  constructor(private config: OccConfig) {}
+  constructor(
+    private config: OccConfig,
+    @Optional()
+    protected productListItemContextSource?: ProductListItemContextSource
+  ) {}
+
+  readonly ProductListOutlets = ProductListOutlets;
+  readonly product$: Observable<Product> =
+    this.productListItemContextSource?.product$ ?? EMPTY;
 
   @Input()
   variants: VariantOption[];
@@ -31,6 +46,12 @@ export class ProductVariantStyleIconsComponent implements OnInit {
       if (variant.code && variant.variantOptionQualifiers) {
         this.variantNames[variant.code] =
           this.getVariantName(variant.variantOptionQualifiers) || '';
+      }
+    });
+
+    this.product$.subscribe((product: Product) => {
+      if (product.variantOptions && product.variantOptions.length) {
+        this.variants = product.variantOptions;
       }
     });
   }
