@@ -6,8 +6,8 @@ import {
   OutletPosition,
   provideOutlet,
 } from '@spartacus/storefront';
-import { ProductVariantStyleIconsComponent } from './variant-style-icons/product-variant-style-icons.component';
-import { ProductVariantStyleIconsModule } from './variant-style-icons/product-variant-style-icons.module';
+import { ProductVariantStyleIconsComponent } from './components/variant-style-icons/product-variant-style-icons.component';
+import { ProductVariantStyleIconsModule } from './components/variant-style-icons/product-variant-style-icons.module';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultProductVariantsComponentsConfig(): CmsConfig {
