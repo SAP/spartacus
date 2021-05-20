@@ -19,7 +19,7 @@ const MockOccModuleConfig: OccConfig = {
       prefix: '',
       endpoints: {
         cartPaymentType:
-          'users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user',
+          'users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT',
       },
     },
   },
@@ -114,7 +114,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT%2CpotentialProductPromotions%2CappliedProductPromotions%2CpotentialOrderPromotions%2CappliedOrderPromotions%2Centries(totalPrice(formattedValue)%2Cproduct(images(FULL)%2Cstock(FULL))%2CbasePrice(formattedValue%2Cvalue)%2Cupdateable)%2CtotalPrice(formattedValue)%2CtotalItems%2CtotalPriceWithTax(formattedValue)%2CtotalDiscounts(value%2CformattedValue)%2CsubTotal(formattedValue)%2CdeliveryItemsQuantity%2CdeliveryCost(formattedValue)%2CtotalTax(formattedValue%2C%20value)%2CpickupItemsQuantity%2Cnet%2CappliedVouchers%2CproductDiscounts(formattedValue)%2Cuser&paymentType=${paymentType}`
+            `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}`
         );
       });
 
@@ -139,7 +139,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT%2CpotentialProductPromotions%2CappliedProductPromotions%2CpotentialOrderPromotions%2CappliedOrderPromotions%2Centries(totalPrice(formattedValue)%2Cproduct(images(FULL)%2Cstock(FULL))%2CbasePrice(formattedValue%2Cvalue)%2Cupdateable)%2CtotalPrice(formattedValue)%2CtotalItems%2CtotalPriceWithTax(formattedValue)%2CtotalDiscounts(value%2CformattedValue)%2CsubTotal(formattedValue)%2CdeliveryItemsQuantity%2CdeliveryCost(formattedValue)%2CtotalTax(formattedValue%2C%20value)%2CpickupItemsQuantity%2Cnet%2CappliedVouchers%2CproductDiscounts(formattedValue)%2Cuser&paymentType=${paymentType}&purchaseOrderNumber=${purchaseOrderNumber}`
+            `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}&purchaseOrderNumber=${purchaseOrderNumber}`
         );
       });
 
