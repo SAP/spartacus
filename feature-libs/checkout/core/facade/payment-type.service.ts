@@ -74,7 +74,7 @@ export class PaymentTypeService implements PaymentTypeFacade {
    * @param poNumber : purchase order number
    */
   setPaymentType(typeCode: string, poNumber?: string): void {
-    let cartId;
+    let cartId: string;
     this.activeCartService
       .getActiveCartId()
       .pipe(take(1))
