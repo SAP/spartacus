@@ -63,7 +63,7 @@ else
 fi
 echo '-----'
 echo "Building Spartacus storefront (SSR PROD mode)"
-yarn build:ssr
+yarn build:ssr:ci
 
 yarn serve:ssr &
 
