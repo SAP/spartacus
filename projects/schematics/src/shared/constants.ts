@@ -660,6 +660,8 @@ export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
+export const CSS_V4_DOCS_URL =
+  'https://sap.github.io/spartacus-docs/css-changes-in-version-4/';
 /***** Storefinder end *****/
 
 /******* CLI start *******/
