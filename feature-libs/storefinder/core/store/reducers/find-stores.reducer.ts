@@ -3,7 +3,7 @@ import { FindStoresState } from '../store-finder-state';
 
 export const initialState: FindStoresState = {
   findStoresEntities: {},
-  findStoreEntitiesById: {},
+  findStoreEntityById: {},
 };
 
 export function findStoresReducer(
@@ -17,9 +17,9 @@ export function findStoresReducer(
       return { ...state, findStoresEntities };
     }
     case StoreFinderActions.FIND_STORE_BY_ID_SUCCESS: {
-      const findStoreEntitiesById = action.payload;
+      const findStoreEntityById = action.payload;
 
-      return { ...state, findStoreEntitiesById };
+      return { ...state, findStoreEntityById };
     }
   }
 
