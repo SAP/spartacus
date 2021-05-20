@@ -1,7 +1,13 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
-import { UserAddressChangeEvent } from '../../user/events/user.events';
+import {
+  UserAddressDeleteEvent,
+  UserAddressEvent,
+  UserAddressSetAsDefaultEvent,
+  UserAddressUpdateEvent,
+} from '../../user/events/user.events';
 import { CheckoutDeliveryService } from '../facade/checkout-delivery.service';
 
 /**
@@ -22,9 +28,20 @@ export class CheckoutEventListener implements OnDestroy {
 
   protected onUserAddressChange() {
     this.subscription.add(
-      this.eventService.get(UserAddressChangeEvent).subscribe((_event) => {
-        this.checkoutDeliverySerrvice.clearCheckoutDeliveryDetails();
-      })
+      this.eventService
+        .get(UserAddressEvent)
+        .pipe(
+          filter((event) => {
+            return (
+              event instanceof UserAddressUpdateEvent ||
+              event instanceof UserAddressDeleteEvent ||
+              event instanceof UserAddressSetAsDefaultEvent
+            );
+          })
+        )
+        .subscribe((_event) => {
+          this.checkoutDeliverySerrvice.clearCheckoutDeliveryDetails();
+        })
     );
   }
 

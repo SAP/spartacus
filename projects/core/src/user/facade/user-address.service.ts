@@ -17,8 +17,9 @@ import {
 } from '../../util/command-query/command.service';
 import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import {
+  UserAddressCreateEvent,
   UserAddressDeleteEvent,
-  UserAddressSetToDefaultEvent,
+  UserAddressSetAsDefaultEvent,
   UserAddressUpdateEvent,
 } from '../events/user.events';
 import { UserActions } from '../store/actions/index';
@@ -59,6 +60,13 @@ export class UserAddressService {
         })
       );
     });
+    this.eventService.dispatch<UserAddressCreateEvent>(
+      {
+        address,
+      },
+      UserAddressCreateEvent
+    );
+
   }
 
   /**
@@ -76,11 +84,11 @@ export class UserAddressService {
       );
     });
 
-    this.eventService.dispatch<UserAddressSetToDefaultEvent>(
+    this.eventService.dispatch<UserAddressSetAsDefaultEvent>(
       {
         addressId,
       },
-      UserAddressSetToDefaultEvent
+      UserAddressSetAsDefaultEvent
     );
   }
 

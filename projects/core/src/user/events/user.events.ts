@@ -1,18 +1,24 @@
 import { CxEvent } from '../../event/cx-event';
 import { Address } from '../../model/address.model';
 
-export abstract class UserAddressChangeEvent extends CxEvent {
+export abstract class UserAddressEvent extends CxEvent {}
+
+export class UserAddressUpdateEvent extends UserAddressEvent {
+  static readonly type = 'UserAddressUpdateEvent';
+  addressId: string;
+  address: Address;
+}
+export class UserAddressDeleteEvent extends UserAddressEvent {
+  static readonly type = 'UserAddressDeleteEvent';
   addressId: string;
 }
 
-export class UserAddressUpdateEvent extends UserAddressChangeEvent {
-  static readonly type = 'UserAddressUpdateEvent';
-  address: Address;
-}
-export class UserAddressDeleteEvent extends UserAddressChangeEvent {
-  static readonly type = 'UserAddressDeleteEvent';
+export class UserAddressSetAsDefaultEvent extends UserAddressEvent {
+  static readonly type = 'UserAddressSetAsDefaultEvent';
+  addressId: string;
 }
 
-export class UserAddressSetToDefaultEvent extends UserAddressChangeEvent {
-  static readonly type = 'UserAddressSetToDefaultEvent';
+export class UserAddressCreateEvent extends UserAddressEvent {
+  static readonly type = 'UserAddressCreateEvent';
+  address: Address;
 }

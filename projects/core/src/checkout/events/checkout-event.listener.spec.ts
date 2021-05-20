@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CxEvent } from '../../event/cx-event';
 import { EventService } from '../../event/event.service';
-import { UserAddressChangeEvent } from '../../user/events/user.events';
+import { UserAddressDeleteEvent, UserAddressSetAsDefaultEvent, UserAddressUpdateEvent } from '../../user/events';
 import { CheckoutDeliveryService } from '../facade/checkout-delivery.service';
 import { CheckoutEventListener } from './checkout-event.listener';
 
@@ -40,11 +40,35 @@ describe('CheckoutEventListener', () => {
     checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
   });
 
-  it('Should UserAddressChangeEvent trigger clearCheckoutDeliveryDetails', () => {
+  it('Should UserAddressUpdateEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(<UserAddressChangeEvent>{});
+    mockEventStream$.next(new UserAddressUpdateEvent());
     expect(
       checkoutDeliveryService.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();
+  });
+
+  it('Should UserAddressDeleteEvent trigger clearCheckoutDeliveryDetails', () => {
+    spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
+    mockEventStream$.next(new UserAddressDeleteEvent());
+    expect(
+      checkoutDeliveryService.clearCheckoutDeliveryDetails
+    ).toHaveBeenCalled();
+  });
+
+  it('Should UserAddressSetAsDefaultEvent trigger clearCheckoutDeliveryDetails', () => {
+    spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
+    mockEventStream$.next(new UserAddressSetAsDefaultEvent());
+    expect(
+      checkoutDeliveryService.clearCheckoutDeliveryDetails
+    ).toHaveBeenCalled();
+  });
+
+  it('Should other events not trigger clearCheckoutDeliveryDetails', () => {
+    spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
+    mockEventStream$.next({} as CxEvent);
+    expect(
+      checkoutDeliveryService.clearCheckoutDeliveryDetails
+    ).not.toHaveBeenCalled();
   });
 });

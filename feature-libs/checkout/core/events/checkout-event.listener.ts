@@ -1,7 +1,14 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
-import { EventService, UserAddressChangeEvent } from '@spartacus/core';
+import {
+  EventService,
+  UserAddressDeleteEvent,
+  UserAddressEvent,
+  UserAddressSetAsDefaultEvent,
+  UserAddressUpdateEvent,
+} from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -18,9 +25,20 @@ export class CheckoutEventListener implements OnDestroy {
 
   protected onUserAddressChange() {
     this.subscription.add(
-      this.eventService.get(UserAddressChangeEvent).subscribe((_event) => {
-        this.checkoutDeliveryFacade.clearCheckoutDeliveryDetails();
-      })
+      this.eventService
+        .get(UserAddressEvent)
+        .pipe(
+          filter((event) => {
+            return (
+              event instanceof UserAddressUpdateEvent ||
+              event instanceof UserAddressDeleteEvent ||
+              event instanceof UserAddressSetAsDefaultEvent
+            );
+          })
+        )
+        .subscribe((_event) => {
+          this.checkoutDeliveryFacade.clearCheckoutDeliveryDetails();
+        })
     );
   }
 

@@ -15,8 +15,9 @@ import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserAddressConnector } from '../connectors/address/user-address.connector';
 import {
+  UserAddressCreateEvent,
   UserAddressDeleteEvent,
-  UserAddressSetToDefaultEvent,
+  UserAddressSetAsDefaultEvent,
   UserAddressUpdateEvent,
 } from '../events/user.events';
 import { UserActions } from '../store/actions/index';
@@ -200,6 +201,12 @@ describe('UserAddressService', () => {
         address: mockAddress,
       })
     );
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      {
+        address: mockAddress,
+      },
+      UserAddressCreateEvent
+    );
   });
 
   it('should be able to update user address', () => {
@@ -255,7 +262,7 @@ describe('UserAddressService', () => {
       {
         addressId: '123',
       },
-      UserAddressSetToDefaultEvent
+      UserAddressSetAsDefaultEvent
     );
   });
 
