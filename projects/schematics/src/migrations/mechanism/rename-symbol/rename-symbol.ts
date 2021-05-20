@@ -24,15 +24,10 @@ export function migrateRenamedSymbols(
           ?.getNamedImports()
           .forEach((namedImport) => {
             const importName = namedImport.getName();
-
             const renamedSymbol = renamedSymbols.find(
               (symbol) =>
                 symbol.previousNode === importName &&
-                symbol.previousImportPath ===
-                  id
-                    .getModuleSpecifier()
-                    .getText()
-                    .substr(1, id.getModuleSpecifier().getText().length - 2)
+                symbol.previousImportPath === id.getModuleSpecifierValue()
             );
 
             if (renamedSymbol) {
