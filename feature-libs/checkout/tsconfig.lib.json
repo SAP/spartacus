@@ -14,7 +14,6 @@
     "types": [],
     "lib": ["dom", "esnext"],
     "strict": true,
-    "noImplicitAny": false,
     "alwaysStrict": false,
     "strictBindCallApply": false,
     "strictFunctionTypes": false,

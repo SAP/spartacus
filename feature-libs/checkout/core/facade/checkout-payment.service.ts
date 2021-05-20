@@ -4,6 +4,7 @@ import { CheckoutPaymentFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   CardType,
+  Cart,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
   ProcessSelectors,
@@ -106,13 +107,13 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
    */
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      let userId;
+      let userId: string | undefined;
       this.userIdService
         .getUserId()
         .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
-      let cart;
+      let cart: Cart | undefined;
       this.activeCartService
         .getActive()
         .subscribe((activeCart) => (cart = activeCart))
@@ -121,7 +122,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
         this.checkoutStore.dispatch(
           new CheckoutActions.SetPaymentDetails({
             userId,
-            cartId: cart.code,
+            cartId: cart.code as string,
             paymentDetails: paymentDetails,
           })
         );

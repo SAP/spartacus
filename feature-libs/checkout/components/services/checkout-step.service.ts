@@ -110,7 +110,7 @@ export class CheckoutStepService {
   getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string | null {
     const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
-    if (stepIndex && stepIndex >= 0) {
+    if (stepIndex !== null && stepIndex >= 0) {
       let i = 1;
       while (
         this.allSteps[stepIndex + i] &&
@@ -129,7 +129,7 @@ export class CheckoutStepService {
   getPreviousCheckoutStepUrl(activatedRoute: ActivatedRoute): string | null {
     const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
-    if (stepIndex && stepIndex >= 0) {
+    if (stepIndex !== null && stepIndex >= 0) {
       let i = 1;
       while (
         this.allSteps[stepIndex - i] &&
@@ -173,9 +173,12 @@ export class CheckoutStepService {
 
   private getCheckoutStepIndex(key: string, value: any): number | null {
     return key && value
-      ? this.allSteps.findIndex((step: CheckoutStep) =>
-          step[key].includes(value)
-        )
+      ? this.allSteps.findIndex((step: CheckoutStep) => {
+          const propertyVal = step[key as keyof CheckoutStep];
+          return propertyVal instanceof Array
+            ? propertyVal.includes(value)
+            : propertyVal === value;
+        })
       : null;
   }
 }

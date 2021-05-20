@@ -170,16 +170,12 @@ export class AddressFormComponent implements OnInit, OnDestroy {
   }
 
   countrySelected(country: Country): void {
-    this.addressForm['controls'].country['controls'].isocode.setValue(
-      country.isocode
-    );
+    this.addressForm.get('country')?.get('isocode')?.setValue(country.isocode);
     this.selectedCountry$.next(country.isocode as string);
   }
 
   regionSelected(region: Region): void {
-    this.addressForm['controls'].region['controls'].isocode.setValue(
-      region.isocode
-    );
+    this.addressForm.get('region')?.get('isocode')?.setValue(region.isocode);
   }
 
   toggleDefaultAddress(): void {
