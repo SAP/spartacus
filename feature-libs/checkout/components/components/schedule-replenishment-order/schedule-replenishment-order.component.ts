@@ -25,10 +25,8 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
 
   iconTypes = ICON_TYPE;
   orderTypes = ORDER_TYPE;
-  daysOfWeek = Object.keys(DaysOfWeek).map((key) => DaysOfWeek[key]);
-  recurrencePeriodType = Object.keys(recurrencePeriod).map(
-    (key) => recurrencePeriod[key]
-  );
+  daysOfWeek = Object.values(DaysOfWeek);
+  recurrencePeriodType = Object.values(recurrencePeriod);
 
   selectedOrderType$: Observable<ORDER_TYPE> = this.checkoutService.getCurrentOrderType();
 

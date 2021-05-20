@@ -78,7 +78,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
 
   protected isStepSet(
     step: CheckoutStep,
-    isAccountPayment
+    isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {
     if (step && !step.disabled) {
       switch (step.type[0]) {
