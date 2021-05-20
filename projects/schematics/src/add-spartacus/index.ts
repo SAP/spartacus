@@ -8,11 +8,7 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import collectedDependencies from '../dependencies.json';
+import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import {
   ANGULAR_HTTP,
   CLI_ASM_FEATURE,
@@ -27,12 +23,10 @@ import {
   CLI_STOREFINDER_FEATURE,
   CLI_TRACKING_FEATURE,
   SPARTACUS_ASM,
-  SPARTACUS_ASSETS,
   SPARTACUS_CART,
   SPARTACUS_CDC,
   SPARTACUS_CDS,
   SPARTACUS_CONFIGURATION_MODULE,
-  SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_MODULE,
   SPARTACUS_ORGANIZATION,
@@ -40,11 +34,8 @@ import {
   SPARTACUS_PRODUCT_CONFIGURATOR,
   SPARTACUS_QUALTRICS,
   SPARTACUS_ROUTING_MODULE,
-  SPARTACUS_SETUP,
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
-  SPARTACUS_STOREFRONTLIB,
-  SPARTACUS_STYLES,
   SPARTACUS_TRACKING,
   SPARTACUS_USER,
 } from '../shared/constants';
@@ -61,10 +52,11 @@ import {
   ensureModuleExists,
 } from '../shared/utils/new-module-utils';
 import {
-  createDependencies,
   getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
   mapPackageToNodeDependencies,
+  prepare3rdPartyDependencies,
+  prepareSpartacusDependencies,
   readPackageJson,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
@@ -193,46 +185,13 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   };
 }
 
-function prepareDependencies(options: SpartacusOptions): NodeDependency[] {
-  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
-
-  const spartacusDependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_CORE,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_STOREFRONTLIB,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_ASSETS,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_STYLES,
-    },
-  ];
-  if (options.configuration === 'b2b') {
-    spartacusDependencies.push({
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_SETUP,
-    });
-  }
-
-  const thirdPartyDependencies = createDependencies({
-    ...collectedDependencies[SPARTACUS_CORE],
-    ...collectedDependencies[SPARTACUS_STOREFRONTLIB],
-    ...collectedDependencies[SPARTACUS_STYLES],
-    ...collectedDependencies[SPARTACUS_ASSETS],
-  });
-  return spartacusDependencies.concat(thirdPartyDependencies);
+export function prepareDependencies(
+  options: SpartacusOptions
+): NodeDependency[] {
+  const spartacusDependencies = prepareSpartacusDependencies(
+    options.configuration === 'b2b'
+  );
+  return spartacusDependencies.concat(prepare3rdPartyDependencies());
 }
 
 function updateAppModule(project: string): Rule {

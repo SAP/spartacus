@@ -4,6 +4,7 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { version } from '../../../package.json';
+import collectedDependencies from '../../dependencies.json';
 import {
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
@@ -155,4 +156,50 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
   const isServerSideAvailable = serverFileBuffer && !!serverFileBuffer.length;
 
   return !!(isServerConfiguration && isServerSideAvailable);
+}
+
+export function prepareSpartacusDependencies(b2b: boolean): NodeDependency[] {
+  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
+
+  const spartacusDependencies: NodeDependency[] = [
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_CORE,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_STOREFRONTLIB,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_ASSETS,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_STYLES,
+    },
+  ];
+  if (b2b) {
+    spartacusDependencies.push({
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_SETUP,
+    });
+  }
+
+  return spartacusDependencies;
+}
+
+export function prepare3rdPartyDependencies(): NodeDependency[] {
+  const thirdPartyDependencies = createDependencies({
+    ...collectedDependencies[SPARTACUS_CORE],
+    ...collectedDependencies[SPARTACUS_STOREFRONTLIB],
+    ...collectedDependencies[SPARTACUS_STYLES],
+    ...collectedDependencies[SPARTACUS_ASSETS],
+  });
+  return thirdPartyDependencies;
 }
