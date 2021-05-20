@@ -20,7 +20,7 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
 
   loadPaymentTypes(): Observable<PaymentType[]> {
     return this.http
-      .get<Occ.PaymentTypeList>(this.occEndpoints.getEndpoint('paymenttypes'))
+      .get<Occ.PaymentTypeList>(this.getPaymentTypesEndpoint())
       .pipe(
         map((paymentTypeList) => paymentTypeList.paymentTypes),
         this.converter.pipeableMany(PAYMENT_TYPE_NORMALIZER)
@@ -35,13 +35,22 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
   ): Observable<Cart> {
     return this.http
       .put(
-        this.getCartEndpoint(userId, cartId, paymentType, purchaseOrderNumber),
+        this.getCartPaymentTypeEndpoint(
+          userId,
+          cartId,
+          paymentType,
+          purchaseOrderNumber
+        ),
         {}
       )
       .pipe(this.converter.pipeable(CART_NORMALIZER));
   }
 
-  protected getCartEndpoint(
+  protected getPaymentTypesEndpoint(): string {
+    return this.occEndpoints.getUrl('paymentTypes');
+  }
+
+  protected getCartPaymentTypeEndpoint(
     userId: string,
     cartId: string,
     paymentType: string,
