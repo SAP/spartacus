@@ -96,7 +96,9 @@ export class CheckoutStepService {
 
   getCheckoutStep(currentStepType: CheckoutStepType): CheckoutStep | undefined {
     const index = this.getCheckoutStepIndex('type', currentStepType);
-    if (index) return this.allSteps[index];
+    if (index !== null) {
+      return this.allSteps[index];
+    }
   }
 
   getCheckoutStepRoute(currentStepType: CheckoutStepType): string | undefined {

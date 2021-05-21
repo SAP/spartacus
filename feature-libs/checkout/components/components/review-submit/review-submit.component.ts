@@ -232,7 +232,7 @@ export class ReviewSubmitComponent {
     );
   }
 
-  getPoNumberCard(poNumber?: string): Observable<Card> {
+  getPoNumberCard(poNumber?: string | null): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutReview.poNumber'),
       this.translation.translate('checkoutPO.noPoNumber'),

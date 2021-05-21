@@ -42,10 +42,7 @@
   <!-- PO NUMBER SECTION -->
   <ng-template #poNumber>
     <div class="cx-review-summary-card">
-      <cx-card
-        *ngIf="poNumber$ | async as poNumber"
-        [content]="getPoNumberCard(poNumber) | async"
-      ></cx-card>
+      <cx-card [content]="getPoNumberCard(poNumber$ | async) | async"></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
           [routerLink]="
