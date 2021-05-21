@@ -14,7 +14,6 @@
     "types": [],
     "lib": ["dom", "esnext"],
     "strict": true,
-    "alwaysStrict": false,
     "strictNullChecks": false,
     "strictFunctionTypes": false,
     "paths": {
