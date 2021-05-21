@@ -255,9 +255,6 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
     const libraryOptions: LibraryOptions = {
       project: options.project,
       lazy: options.lazy,
-      // when the `features` option is `undefined`, the "default" set of features will be installed (specified in the library's schema.json)
-      // this will be overridden when creating feature options for a library
-      features: undefined,
     };
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
       libraryOptions,
