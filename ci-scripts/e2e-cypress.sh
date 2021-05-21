@@ -41,8 +41,6 @@ done
 
 set -- "${POSITIONAL[@]}"
 
-export NODE_TLS_REJECT_UNAUTHORIZED=0
-
 echo '-----'
 echo "Building Spartacus libraries"
 
@@ -68,7 +66,7 @@ yarn build
 echo "Building Spartacus storefrontapp (SSR PROD mode)"
 yarn build:ssr:ci
 
-yarn serve:ssr:dev &
+yarn serve:ssr &
 
 echo '-----'
 echo "Running Cypress end to end tests"
