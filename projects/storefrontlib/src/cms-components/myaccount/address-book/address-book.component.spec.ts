@@ -20,6 +20,7 @@ import { SpinnerModule } from '../../../shared/components/spinner/spinner.module
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
 import { CardModule } from '../../../shared/components/card';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const mockAddress: Address = {
   id: '123',
@@ -105,7 +106,12 @@ describe('AddressBookComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [SpinnerModule, I18nTestingModule, CardModule],
+        imports: [
+          SpinnerModule,
+          I18nTestingModule,
+          CardModule,
+          RouterTestingModule,
+        ],
         providers: [
           {
             provide: AddressBookComponentService,
