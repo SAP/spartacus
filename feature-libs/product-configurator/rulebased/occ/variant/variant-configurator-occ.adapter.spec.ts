@@ -90,7 +90,7 @@ const overviewOcc: OccConfigurator.Overview = { id: configId };
 
 const cartModification: CartModification = { quantity: 1 };
 
-fdescribe('OccConfigurationVariantAdapter', () => {
+describe('OccConfigurationVariantAdapter', () => {
   let occConfiguratorVariantAdapter: VariantConfiguratorOccAdapter;
   let httpMock: HttpTestingController;
   let converterService: ConverterService;

@@ -120,7 +120,7 @@ describe('OccCmsComponentAdapter', () => {
 
       const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
 
-      assertGetRequestbuildUrl('DEFAULT', '2');
+      assertGetRequestGetUrl('DEFAULT', '2');
 
       assertTestRequest(testRequest, componentList);
     });
@@ -132,7 +132,7 @@ describe('OccCmsComponentAdapter', () => {
 
       const testRequest = mockHttpRequest('GET', spyOnGetEndpoint);
 
-      assertGetRequestbuildUrl('FULL', '5');
+      assertGetRequestGetUrl('FULL', '5');
 
       assertTestRequest(testRequest, componentList);
     });
@@ -169,7 +169,7 @@ describe('OccCmsComponentAdapter', () => {
     testRequest.flush(componentObj);
   }
 
-  function assertGetRequestbuildUrl(fields: string, pageSize: string) {
+  function assertGetRequestGetUrl(fields: string, pageSize: string) {
     expect(endpointsService.buildUrl).toHaveBeenCalledWith('components', {
       queryParams: {
         fields,
