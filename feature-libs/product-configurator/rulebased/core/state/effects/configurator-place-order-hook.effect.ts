@@ -25,22 +25,22 @@ export class ConfiguratorPlaceOrderHookEffects {
         .getEntries()
         .pipe(take(1))
         .subscribe((entries) => {
-          entries.forEach((entry) => {
-            if (
-              !entry.product?.configurable ||
-              entry.product?.configuratorType === ConfiguratorType.TEXTFIELD
-            ) {
-              return;
-            }
-            const owner = ConfiguratorModelUtils.createOwner(
-              CommonConfigurator.OwnerType.CART_ENTRY,
-              String(entry.entryNumber)
-            );
+          entries
+            .filter(
+              (entry) =>
+                entry.product?.configurable &&
+                entry.product?.configuratorType !== ConfiguratorType.TEXTFIELD
+            )
+            .forEach((entry) => {
+              const owner = ConfiguratorModelUtils.createOwner(
+                CommonConfigurator.OwnerType.CART_ENTRY,
+                String(entry.entryNumber)
+              );
 
-            this.commonConfigUtilsService.setOwnerKey(owner);
+              this.commonConfigUtilsService.setOwnerKey(owner);
 
-            ownerKeys.push(owner.key);
-          });
+              ownerKeys.push(owner.key);
+            });
         });
       return new ConfiguratorActions.RemoveConfiguration({
         ownerKey: ownerKeys,
