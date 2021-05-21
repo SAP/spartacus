@@ -170,7 +170,7 @@ describe('CpqConfigurationOccService', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'addCpqConfigurationToCart',
       {
-        queryParams: {
+        urlParams: {
           userId: userId,
           cartId: documentId,
         },
@@ -195,7 +195,7 @@ describe('CpqConfigurationOccService', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readCpqConfigurationForCartEntry',
       {
-        queryParams: {
+        urlParams: {
           userId: userId,
           cartId: documentId,
           cartEntryNumber: '3',
@@ -221,7 +221,7 @@ describe('CpqConfigurationOccService', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'readCpqConfigurationForOrderEntry',
       {
-        queryParams: {
+        urlParams: {
           userId: userId,
           orderId: documentId,
           orderEntryNumber: '3',
@@ -253,7 +253,7 @@ describe('CpqConfigurationOccService', () => {
     expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
       'updateCpqConfigurationForCartEntry',
       {
-        queryParams: {
+        urlParams: {
           userId: userId,
           cartId: documentId,
           cartEntryNumber: '3',
