@@ -70,9 +70,9 @@ export class CheckoutConfigService {
       : this.findMatchingDeliveryMode(deliveryModes, index + 1);
   }
 
-  getPreferredDeliveryMode(deliveryModes: DeliveryMode[]): string {
+  getPreferredDeliveryMode(deliveryModes: DeliveryMode[]): string | undefined {
     deliveryModes.sort(this.compareDeliveryCost);
-    return this.findMatchingDeliveryMode(deliveryModes) ?? '';
+    return this.findMatchingDeliveryMode(deliveryModes);
   }
 
   isExpressCheckout(): boolean {
