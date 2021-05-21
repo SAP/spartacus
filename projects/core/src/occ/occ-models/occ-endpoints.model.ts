@@ -397,14 +397,6 @@ export interface OccEndpoints {
    */
   cancelReturn?: string | OccEndpoint;
   /**
-   * Endpoint for set delivery address to cart
-   */
-  setDeliveryAddress?: string | OccEndpoint;
-  /**
-   * Endpoint for place order
-   */
-  placeOrder?: string | OccEndpoint;
-  /**
    * Endpoint to schedule a replenishment order
    *
    * * @member {string}
