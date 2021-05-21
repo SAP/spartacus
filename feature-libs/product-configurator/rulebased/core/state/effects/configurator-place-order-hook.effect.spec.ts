@@ -18,7 +18,7 @@ import { CONFIGURATOR_FEATURE } from '../configurator-state';
 import * as fromConfigurationReducers from '../reducers/index';
 import * as fromEffects from './configurator-place-order-hook.effect';
 
-const cartEntryWOconfiguration: OrderEntry[] = [
+const cartEntriesWOconfiguration: OrderEntry[] = [
   {
     entryNumber: 1,
     product: {
@@ -33,7 +33,7 @@ const cartEntryWOconfiguration: OrderEntry[] = [
   },
 ];
 
-const cartEntryWithconfiguration: OrderEntry[] = [
+const cartEntries: OrderEntry[] = [
   {
     entryNumber: 1,
     product: {
@@ -58,7 +58,14 @@ const cartEntryWithconfiguration: OrderEntry[] = [
     entryNumber: 4,
     product: {
       configurable: true,
-      configuratorType: 'some other configurator',
+      configuratorType: ConfiguratorType.TEXTFIELD,
+    },
+  },
+  {
+    entryNumber: 5,
+    product: {
+      configurable: true,
+      configuratorType: ConfiguratorType.CPQ,
     },
   },
 ];
@@ -108,10 +115,8 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
     expect(configPlaceOrderHookEffects).toBeTruthy();
   });
 
-  it('should emit remove configuration when order is placed - cart contains configured products', () => {
-    spyOn(activeCartService, 'getEntries').and.returnValue(
-      of(cartEntryWithconfiguration)
-    );
+  it('should emit remove configuration when order is placed for non-textfield configurators', () => {
+    spyOn(activeCartService, 'getEntries').and.returnValue(of(cartEntries));
 
     const action = new CheckoutActions.PlaceOrder({
       cartId: '',
@@ -119,7 +124,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       termsChecked: true,
     });
     const completion = new ConfiguratorActions.RemoveConfiguration({
-      ownerKey: ['cartEntry/1', 'cartEntry/3'],
+      ownerKey: ['cartEntry/1', 'cartEntry/3', 'cartEntry/5'],
     });
 
     actions$ = hot('-a', { a: action });
@@ -130,7 +135,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
 
   it('should emit remove configuration when order is placed - cart contains no configured products', () => {
     spyOn(activeCartService, 'getEntries').and.returnValue(
-      of(cartEntryWOconfiguration)
+      of(cartEntriesWOconfiguration)
     );
 
     const action = new CheckoutActions.PlaceOrder({
