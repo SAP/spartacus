@@ -66,7 +66,6 @@ export class UserAddressService {
       },
       UserAddressCreateEvent
     );
-
   }
 
   /**

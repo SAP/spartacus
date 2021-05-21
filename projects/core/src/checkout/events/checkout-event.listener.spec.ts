@@ -2,7 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CxEvent } from '../../event/cx-event';
 import { EventService } from '../../event/event.service';
-import { UserAddressDeleteEvent, UserAddressSetAsDefaultEvent, UserAddressUpdateEvent } from '../../user/events';
+import {
+  UserAddressDeleteEvent,
+  UserAddressSetAsDefaultEvent,
+  UserAddressUpdateEvent,
+} from '../../user/events';
 import { CheckoutDeliveryService } from '../facade/checkout-delivery.service';
 import { CheckoutEventListener } from './checkout-event.listener';
 
