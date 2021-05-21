@@ -4,7 +4,8 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you have shipping address added. Returns address object.
+       * Adds a shipping address to the given cart of the current user.
+       * Returns address object.
        *
        * @memberof Cypress.Chainable
        *
@@ -55,6 +56,5 @@ Cypress.Commands.add('requireShippingAddressAdded', (address, auth, cartId) => {
     });
   }
 
-  cy.server();
   addAddress().then((resp) => cy.wrap(resp));
 });
