@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { ActiveCartService } from 'projects/core/src/cart/facade/active-cart.service';
 import { from, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -12,6 +11,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';

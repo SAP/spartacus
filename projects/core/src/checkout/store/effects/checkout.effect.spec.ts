@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { cold, hot } from 'jasmine-marbles';
-import { ActiveCartService } from 'projects/core/src/cart/facade/active-cart.service';
 import { Observable, of } from 'rxjs';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
+import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { CartActions } from '../../../cart/store/actions/index';
 import {
   CheckoutCostCenterConnector,
@@ -22,7 +22,6 @@ import { CheckoutDetails } from '../../models/checkout.model';
 import { CheckoutActions } from '../actions/index';
 import * as fromEffects from './checkout.effect';
 import createSpy = jasmine.createSpy;
-
 const userId = 'testUserId';
 const cartId = 'testCartId';
 const termsChecked = true;
