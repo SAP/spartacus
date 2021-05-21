@@ -4,7 +4,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Adds a shipping address to a cart of the current user
+       * Adds a shipping address to the given cart of the current user.
        * Returns address object.
        *
        * @memberof Cypress.Chainable
