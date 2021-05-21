@@ -1,14 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Address,
-  TranslationService,
-  UserAddressService,
-  CheckoutDeliveryService,
-} from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
-import { AddressBookComponentService } from './address-book.component.service';
-import { Card } from '../../../shared/components/card';
+import { Address, TranslationService } from '@spartacus/core';
+import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Card } from '../../../shared/components/card';
+import { AddressBookComponentService } from './address-book.component.service';
 
 @Component({
   selector: 'cx-address-book',
@@ -26,9 +21,7 @@ export class AddressBookComponent implements OnInit {
 
   constructor(
     public service: AddressBookComponentService,
-    protected translation: TranslationService,
-    protected userAddressService: UserAddressService,
-    protected checkoutDeliveryService: CheckoutDeliveryService
+    protected translation: TranslationService
   ) {}
 
   ngOnInit(): void {
@@ -114,13 +107,11 @@ export class AddressBookComponent implements OnInit {
   }
 
   setAddressAsDefault(addressId: string): void {
-    this.userAddressService.setAddressAsDefault(addressId);
-    this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    this.service.setAddressAsDefault(addressId);
   }
 
   deleteAddress(addressId: string): void {
-    this.userAddressService.deleteUserAddress(addressId);
-    this.checkoutDeliveryService.clearCheckoutDeliveryDetails();
+    this.service.deleteUserAddress(addressId);
   }
 
   setEdit(addressId: string): void {

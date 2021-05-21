@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
+  AddressFormModule,
   CardModule,
   CartNotEmptyGuard,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
-import { AddressFormModule } from './address-form/address-form.module';
 import { ShippingAddressComponent } from './shipping-address.component';
 
 @NgModule({
