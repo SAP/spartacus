@@ -101,7 +101,9 @@ describe('OccCmsPageAdapter', () => {
     it('should get cms home page by specific context', () => {
       spyOn(endpointsService, 'buildUrl');
       service.load(homePageContext);
-      expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages');
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
+        queryParams: {},
+      });
     });
 
     it('should get cms pages by page type and id for any page', () => {
@@ -118,7 +120,9 @@ describe('OccCmsPageAdapter', () => {
     it('should get cms pages by page type and id for any page', () => {
       spyOn(endpointsService, 'buildUrl');
       service.load(homePageContext);
-      expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages');
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
+        queryParams: {},
+      });
     });
 
     it('should get cms product page by product code and ProductPage type', () => {
@@ -164,7 +168,9 @@ describe('OccCmsPageAdapter', () => {
         return req.method === 'GET' && req.url === endpoint + `/pages`;
       });
 
-      expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages');
+      expect(endpointsService.buildUrl).toHaveBeenCalledWith('pages', {
+        queryParams: {},
+      });
       expect(testRequest.cancelled).toBeFalsy();
       expect(testRequest.request.responseType).toEqual('json');
       testRequest.flush(cmsPageData);

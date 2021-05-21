@@ -157,6 +157,7 @@ describe('OccCartAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       expect(occEndpointService.buildUrl).toHaveBeenCalledWith('createCart', {
         urlParams: { userId },
+        queryParams: {},
       });
       mockReq.flush(cartData);
       expect(result).toEqual(cartData);
