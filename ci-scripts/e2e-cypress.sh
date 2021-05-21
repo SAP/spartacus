@@ -65,7 +65,7 @@ echo '-----'
 echo "Building Spartacus storefront (SSR PROD mode)"
 yarn build:ssr:ci
 
-yarn serve:ssr &
+yarn serve:ssr:dev &
 
 echo '-----'
 echo "Running Cypress end to end tests"
