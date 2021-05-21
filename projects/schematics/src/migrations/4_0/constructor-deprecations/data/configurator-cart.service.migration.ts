@@ -2,6 +2,7 @@ import {
   ACTIVE_CART_SERVICE,
   CHECKOUT_FACADE,
   CHECKOUT_SERVICE,
+  COMMON_CONFIGURATOR_UTILS_SERVICE,
   CONFIGURATOR_CART_SERVICE,
   NGRX_STORE,
   SPARTACUS_CORE,
@@ -19,6 +20,10 @@ export const CONFIGURATOR_CART_SERVICE_MIGRATION: ConstructorDeprecation = {
     { className: STORE, importPath: NGRX_STORE },
     { className: STORE, importPath: NGRX_STORE },
     { className: ACTIVE_CART_SERVICE, importPath: SPARTACUS_CORE },
+    {
+      className: COMMON_CONFIGURATOR_UTILS_SERVICE,
+      importPath: SPARTACUS_PRODUCT_CONFIGURATOR,
+    },
     { className: CHECKOUT_SERVICE, importPath: SPARTACUS_CORE },
     { className: USER_ID_SERVICE, importPath: SPARTACUS_CORE },
   ],
