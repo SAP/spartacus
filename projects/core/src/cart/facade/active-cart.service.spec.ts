@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/index';
@@ -15,7 +15,11 @@ import {
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers/index';
 import { StateUtils } from '../../state';
-import { MULTI_CART_FEATURE } from '../store/multi-cart-state';
+import { CartActions } from '../store/actions';
+import {
+  MULTI_CART_FEATURE,
+  StateWithMultiCart,
+} from '../store/multi-cart-state';
 import { ActiveCartService } from './active-cart.service';
 import { MultiCartService } from './multi-cart.service';
 
@@ -61,6 +65,7 @@ const mockCartEntry: OrderEntry = {
 describe('ActiveCartService', () => {
   let service: ActiveCartService;
   let multiCartService: MultiCartService;
+  let store: Store<StateWithMultiCart>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -81,6 +86,8 @@ describe('ActiveCartService', () => {
         { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
+    store = TestBed.inject(Store);
+    spyOn(store, 'dispatch').and.callThrough();
     service = TestBed.inject(ActiveCartService);
     multiCartService = TestBed.inject(MultiCartService);
   });
@@ -703,6 +710,20 @@ describe('ActiveCartService', () => {
         });
         done();
       });
+    });
+
+    it('should refreshCart trigger the cart load', () => {
+      const userId = 'testUserId';
+      const cartId = 'testCartId';
+      const payload = {
+        userId,
+        cartId,
+      };
+      service.refreshCart(userId, cartId);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.LoadCart(payload)
+      );
     });
 
     it('should try to create cart for anonymous user', (done) => {

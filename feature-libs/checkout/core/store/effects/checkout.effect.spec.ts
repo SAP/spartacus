@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import {
+  ActiveCartService,
   Address,
   AuthActions,
   CartActions,
@@ -77,10 +78,15 @@ class MockCheckoutConnector {
   clearCheckoutDeliveryMode = () => of({});
 }
 
+class MockActiveCartService implements Partial<ActiveCartService> {
+  refreshCart = jasmine.createSpy();
+}
+
 describe('Checkout effect', () => {
   let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -99,6 +105,10 @@ describe('Checkout effect', () => {
           provide: CheckoutCostCenterConnector,
           useClass: MockCheckoutCostCenterConnector,
         },
+        {
+          provide: ActiveCartService,
+          useClass: MockActiveCartService,
+        },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
         fromEffects.CheckoutEffects,
         provideMockActions(() => actions$),
@@ -107,6 +117,7 @@ describe('Checkout effect', () => {
 
     entryEffects = TestBed.inject(fromEffects.CheckoutEffects);
     checkoutConnector = TestBed.inject(CheckoutConnector);
+    activeCartService = TestBed.inject(ActiveCartService);
 
     spyOn(checkoutConnector, 'placeOrder').and.returnValue(of(orderDetails));
   });
@@ -436,6 +447,7 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.clearCheckoutDeliveryMode$).toBeObservable(expected);
+      expect(activeCartService.refreshCart).toHaveBeenCalled();
     });
   });
 

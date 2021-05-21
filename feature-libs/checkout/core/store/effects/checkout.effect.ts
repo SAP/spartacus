@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import {
+  ActiveCartService,
   AuthActions,
   CartActions,
   GlobalMessageActions,
@@ -18,6 +19,7 @@ import {
   map,
   mergeMap,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';
@@ -384,6 +386,9 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
+          tap((_) => {
+            this.activeCartService.refreshCart(payload.userId, payload.cartId);
+          }),
           map(
             () =>
               new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
@@ -444,6 +449,7 @@ export class CheckoutEffects {
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
     private checkoutPaymentConnector: CheckoutPaymentConnector,
     private checkoutCostCenterConnector: CheckoutCostCenterConnector,
-    private checkoutConnector: CheckoutConnector
+    private checkoutConnector: CheckoutConnector,
+    protected activeCartService: ActiveCartService
   ) {}
 }
