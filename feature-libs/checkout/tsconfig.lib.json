@@ -15,7 +15,6 @@
     "lib": ["dom", "esnext"],
     "strict": true,
     "alwaysStrict": false,
-    "strictBindCallApply": false,
     "strictNullChecks": false,
     "strictFunctionTypes": false,
     "paths": {
