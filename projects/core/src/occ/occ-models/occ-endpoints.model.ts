@@ -161,6 +161,12 @@ export interface OccEndpoints {
    */
   paymentProviderResponse?: string | OccEndpoint;
   /**
+   *  [GET] Get a cart with a given identifier.
+   *
+   * @member {string} [loadCheckoutDetails]
+   */
+  loadCheckoutDetails?: string | OccEndpoint;
+  /**
    * Get a list of available languages
    *
    * @member {string}
@@ -448,7 +454,7 @@ export interface OccEndpoints {
   /**
    * Endpoint for delivery addresses
    */
-  deliveryAddress?: string | OccEndpoint;
+  deliveryAddresses?: string | OccEndpoint;
   /**
    * Endpoint for the delivery mode selected for the cart.
    */
