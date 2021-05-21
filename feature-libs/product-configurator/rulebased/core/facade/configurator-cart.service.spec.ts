@@ -81,7 +81,7 @@ class MockActiveCartService {
   }
 }
 
-class MockCheckoutService {
+class MockCheckoutFacade {
   isLoading(): Observable<boolean> {
     return checkoutLoadingObs;
   }
@@ -117,7 +117,7 @@ describe('ConfiguratorCartService', () => {
           },
           {
             provide: CheckoutFacade,
-            useClass: MockCheckoutService,
+            useClass: MockCheckoutFacade,
           },
           {
             provide: UserIdService,

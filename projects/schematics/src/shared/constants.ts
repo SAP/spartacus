@@ -100,6 +100,7 @@ export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
 export const STORE_DATA_SERVICE = 'StoreDataService';
 export const SPLIT_VIEW_SERVICE = 'SplitViewService';
+export const CONFIGURATOR_CART_SERVICE = 'ConfiguratorCartService';
 export const COMMON_CONFIGURATOR_UTILS_SERVICE =
   'CommonConfiguratorUtilsService';
 

@@ -26,7 +26,7 @@ export class ConfiguratorCartService {
     protected store: Store<StateWithConfigurator>,
     protected activeCartService: ActiveCartService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected checkoutService: CheckoutFacade,
+    protected checkoutFacade: CheckoutFacade,
     protected userIdService: UserIdService
   ) {}
 
@@ -50,7 +50,7 @@ export class ConfiguratorCartService {
         this.activeCartService.isStable().pipe(filter((stable) => stable))
       ),
       delayWhen(() =>
-        this.checkoutService.isLoading().pipe(filter((loading) => !loading))
+        this.checkoutFacade.isLoading().pipe(filter((loading) => !loading))
       ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {
