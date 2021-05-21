@@ -86,7 +86,7 @@ export class ReviewSubmitComponent {
     return this.promotionService.getOrderPromotions(this.promotionLocation);
   }
 
-  get countryName$(): Observable<string> {
+  get countryName$(): Observable<string | undefined> {
     return this.deliveryAddress$.pipe(
       switchMap((address: Address) =>
         this.userAddressService.getCountry(address?.country?.isocode as string)
@@ -96,7 +96,7 @@ export class ReviewSubmitComponent {
           this.userAddressService.loadDeliveryCountries();
         }
       }),
-      map((country: Country) => (country && country.name) ?? '')
+      map((country: Country) => country && country.name)
     );
   }
 

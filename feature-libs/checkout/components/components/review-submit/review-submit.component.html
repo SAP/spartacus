@@ -43,7 +43,8 @@
   <ng-template #poNumber>
     <div class="cx-review-summary-card">
       <cx-card
-        [content]="getPoNumberCard((poNumber$ | async)!) | async"
+        *ngIf="poNumber$ | async as poNumber"
+        [content]="getPoNumberCard(poNumber) | async"
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
@@ -62,7 +63,8 @@
   <ng-template #paymentType>
     <div class="cx-review-summary-card">
       <cx-card
-        [content]="getPaymentTypeCard((paymentType$ | async)!) | async"
+        *ngIf="paymentType$ | async as paymentType"
+        [content]="getPaymentTypeCard(paymentType) | async"
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
@@ -82,7 +84,8 @@
     <ng-container *ngIf="isAccountPayment$ | async">
       <div class="cx-review-summary-card">
         <cx-card
-          [content]="getCostCenterCard((costCenter$ | async)!) | async"
+          *ngIf="costCenter$ | async as costCenter"
+          [content]="getCostCenterCard(costCenter) | async"
         ></cx-card>
         <div class="cx-review-summary-edit-step">
           <a

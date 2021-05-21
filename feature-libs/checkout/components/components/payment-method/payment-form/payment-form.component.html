@@ -169,7 +169,7 @@
           <ng-container
             *ngIf="
               sameAsShippingAddress &&
-                (shippingAddress$ | async)! as shippingAddress;
+                (shippingAddress$ | async) as shippingAddress;
               else billingAddress
             "
           >

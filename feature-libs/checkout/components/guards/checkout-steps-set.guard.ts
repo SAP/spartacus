@@ -178,7 +178,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
 
   private getUrl(routeName: string): UrlTree {
     return this.router.parseUrl(
-      this.routingConfigService.getRouteConfig(routeName).paths?.[0] || ''
+      this.routingConfigService.getRouteConfig(routeName).paths?.[0] as string
     );
   }
 }
