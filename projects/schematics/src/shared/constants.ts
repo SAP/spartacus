@@ -657,6 +657,10 @@ export const STOREFINDER_MODULE = 'StoreFinderModule';
 /***** feature keys start *****/
 export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE = 'rulebased';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE = 'textfield';
+export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE =
+  'productConfiguratorRulebased';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
+  'productConfiguratorTextfield';
 /***** feature keys end *****/
 
 /***** Storefinder start *****/

@@ -43,23 +43,6 @@ import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator
         ),
         },
       },
-      backend: {
-        occ: {
-          baseUrl: 'https://spartacus-devci767.eastus.cloudapp.azure.com:9002'
-        }
-      },
-      context: {
-        currency: ['USD'],
-        language: ['en'],
-      },
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en'
-      },
-      features: {
-        level: '3.1'
-      }
     }),
     RulebasedConfiguratorRootModule,
     TextfieldConfiguratorRootModule
@@ -96,36 +79,19 @@ import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator
     BrowserModule,
     B2cStorefrontModule.withConfig({
       featureModules: {
-        //The comment
+// TODO:Spartacus - feature key textfield has been replaced with productConfiguratorTextfield
         textfield: {
         module: () => import('@spartacus/product-configurator/textfield').then(
           (m) => m.TextfieldConfiguratorModule
         ),
         },
-        //The comment
+// TODO:Spartacus - feature key rulebased has been replaced with productConfiguratorRulebased
         rulebased: {
           module: () => import('@spartacus/product-configurator/rulebased').then(
           (m) => m.RulebasedConfiguratorModule
         ),
         },
       },
-      backend: {
-        occ: {
-          baseUrl: 'https://spartacus-devci767.eastus.cloudapp.azure.com:9002'
-        }
-      },
-      context: {
-        currency: ['USD'],
-        language: ['en'],
-      },
-      i18n: {
-        resources: translations,
-        chunks: translationChunksConfig,
-        fallbackLang: 'en'
-      },
-      features: {
-        level: '3.1'
-      }
     }),
     RulebasedConfiguratorRootModule,
     TextfieldConfiguratorRootModule
@@ -139,7 +105,56 @@ import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator
     })],
   bootstrap: [AppComponent]
 })
-export class AppModule { }`;
+export class AppModule { }
+`;
+
+const APP_MODULE_BEFORE_MIGRATION_USING_NEW_KEYS = `
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+
+import { AppComponent } from './app.component';
+import { translations, translationChunksConfig } from '@spartacus/assets';
+import { B2cStorefrontModule } from '@spartacus/storefront';
+import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';
+import { provideConfig } from '@spartacus/core';
+import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
+import { configuratorTranslationChunksConfig } from '@spartacus/product-configurator/common/assets';
+import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';
+
+@NgModule({
+  declarations: [
+    AppComponent
+  ],
+  imports: [
+    BrowserModule,
+    B2cStorefrontModule.withConfig({
+      featureModules: {
+        productConfiguratorTextfield: {
+        module: () => import('@spartacus/product-configurator/textfield').then(
+          (m) => m.TextfieldConfiguratorModule
+        ),
+        },
+        productConfiguratorRulebased: {
+          module: () => import('@spartacus/product-configurator/rulebased').then(
+          (m) => m.RulebasedConfiguratorModule
+        ),
+        },
+      }, 
+    }),
+    RulebasedConfiguratorRootModule,
+    TextfieldConfiguratorRootModule
+  ],
+  providers: [
+    provideConfig({
+      i18n: {
+        resources: configuratorTranslations,
+        chunks: configuratorTranslationChunksConfig,
+      },
+    })],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+`;
 
 describe('Product configurator feature keys migration', () => {
   let host: TempScopedNodeJsSyncHost;
@@ -220,5 +235,18 @@ platformBrowserDynamic().bootstrapModule(AppModule)
 
     const content = appTree.readContent('/src/app/app.module.ts');
     expect(content).toEqual(APP_MODULE_AFTER_MIGRATION);
+  });
+
+  it('should not do any changes on case feature keys already have correct format', async () => {
+    writeFile(
+      host,
+      '/src/app/app.module.ts',
+      APP_MODULE_BEFORE_MIGRATION_USING_NEW_KEYS
+    );
+
+    await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+    const content = appTree.readContent('/src/app/app.module.ts');
+    expect(content).toEqual(APP_MODULE_BEFORE_MIGRATION_USING_NEW_KEYS);
   });
 });

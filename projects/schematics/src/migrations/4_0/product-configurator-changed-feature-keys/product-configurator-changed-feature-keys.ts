@@ -1,20 +1,25 @@
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import ts from 'typescript';
 import {
+  PRODUCT_CONFIGURATOR_RULEBASED_FEATURE,
   PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE,
+  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
   PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE,
 } from '../../../shared/constants';
-import { getDefaultProjectNameFromWorkspace } from '../../../shared/index';
+import {
+  getDefaultProjectNameFromWorkspace,
+  TODO_SPARTACUS,
+} from '../../../shared/index';
 import {
   commitChanges,
   getTsSourceFile,
-  insertCommentAboveIdentifier,
+  insertCommentAboveConfigProperty,
   InsertDirection,
-  MethodPropertyDeprecation,
 } from '../../../shared/utils/file-utils';
 import { getAngularJsonFile } from '../../../shared/utils/workspace-utils';
-export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [];
+
+const COMMENT_TEXTFIELD = `// ${TODO_SPARTACUS} feature key ${PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE} has been replaced with ${PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE}\n`;
+const COMMENT_RULEBASED = `// ${TODO_SPARTACUS} feature key ${PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE} has been replaced with ${PRODUCT_CONFIGURATOR_RULEBASED_FEATURE}\n`;
 
 export function migrate(): Rule {
   return (tree: Tree) => {
@@ -25,51 +30,34 @@ export function migrate(): Rule {
     if (!mainPath) {
       throw new SchematicsException(`No main path specified in angular.json.`);
     }
-    const appModulePath = getAppModulePath(tree, mainPath);
-    const appModuleSource = getTsSourceFile(tree, appModulePath);
-    checkAndApplyChanges(
-      appModuleSource,
-      appModulePath,
+    addCommentToFeatureKey(
       tree,
-      PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE,
-      'comment for textfield'
-    );
-    checkAndApplyChanges(
-      appModuleSource,
-      appModulePath,
-      tree,
+      mainPath,
       PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE,
-      'comment for rulebased'
+      COMMENT_RULEBASED
+    );
+    addCommentToFeatureKey(
+      tree,
+      mainPath,
+      PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE,
+      COMMENT_TEXTFIELD
     );
   };
 
-  function checkAndApplyChanges(
-    appModuleSource: ts.SourceFile,
-    appModulePath: string,
+  function addCommentToFeatureKey(
     tree: Tree,
-    featureKey: string,
+    mainPath: any,
+    obsoleteKey: string,
     comment: string
   ) {
-    if (
-      containsDeprecatedCode(
-        appModuleSource,
-        PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE
-      )
-    ) {
-      const changes = insertCommentAboveIdentifier(
-        appModulePath,
-        appModuleSource,
-        featureKey,
-        comment
-      );
-      commitChanges(tree, appModulePath, changes, InsertDirection.RIGHT);
-    }
-  }
-  function containsDeprecatedCode(
-    appModuleSource: ts.SourceFile,
-    identifier: string
-  ): boolean {
-    console.log('CHHI ' + appModuleSource + identifier);
-    return true;
+    const appModulePath = getAppModulePath(tree, mainPath);
+    const appModuleSource = getTsSourceFile(tree, appModulePath);
+    const changes = insertCommentAboveConfigProperty(
+      appModulePath,
+      appModuleSource,
+      obsoleteKey,
+      comment
+    );
+    commitChanges(tree, appModulePath, changes, InsertDirection.RIGHT);
   }
 }
