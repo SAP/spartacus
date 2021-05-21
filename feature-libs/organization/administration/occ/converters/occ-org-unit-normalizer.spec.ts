@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { B2BUnit, Occ, OccEndpointsService } from '@spartacus/core';
+import { B2BUnit, Occ } from '@spartacus/core';
 import { OccOrgUnitNormalizer } from './occ-org-unit-normalizer';
 
 describe('OccOrgUnitNormalizer', () => {
@@ -7,7 +7,7 @@ describe('OccOrgUnitNormalizer', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [OccOrgUnitNormalizer, OccEndpointsService],
+      providers: [OccOrgUnitNormalizer],
     });
 
     service = TestBed.inject(OccOrgUnitNormalizer);
