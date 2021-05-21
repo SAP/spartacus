@@ -22,8 +22,8 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getCartEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('setDeliveryAddress', { userId, cartId });
+  protected setDeliveryAddressEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.getUrl('deliveryAddress', { userId, cartId });
   }
 
   protected getDeliveryModeEndpoint(userId: string, cartId: string): string {
@@ -42,9 +42,13 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     address = this.converter.convert(address, ADDRESS_SERIALIZER);
 
     return this.http
-      .post<Occ.Address>(this.getCartEndpoint(userId, cartId), address, {
-        headers: new HttpHeaders().set('Content-Type', 'application/json'),
-      })
+      .post<Occ.Address>(
+        this.setDeliveryAddressEndpoint(userId, cartId),
+        address,
+        {
+          headers: new HttpHeaders().set('Content-Type', 'application/json'),
+        }
+      )
       .pipe(this.converter.pipeable(ADDRESS_NORMALIZER));
   }
 
@@ -54,7 +58,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     addressId: string
   ): Observable<any> {
     return this.http.put(
-      this.getCartEndpoint(userId, cartId),
+      this.setDeliveryAddressEndpoint(userId, cartId),
       {},
       {
         params: { addressId: addressId },

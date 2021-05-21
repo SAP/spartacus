@@ -419,6 +419,10 @@ export interface OccEndpoints {
    */
   setDeliveryAddress?: string | OccEndpoint;
   /**
+   * Endpoint for delivery addresses
+   */
+  deliveryAddress?: string | OccEndpoint;
+  /**
    * Endpoint for the delivery mode selected for the cart.
    */
   deliveryMode?: string | OccEndpoint;

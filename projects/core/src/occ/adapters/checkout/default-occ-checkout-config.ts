@@ -4,8 +4,7 @@ export const defaultOccCheckoutConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        setDeliveryAddress:
-          'users/${userId}/carts/${cartId}/addresses/delivery',
+        deliveryAddress: 'users/${userId}/carts/${cartId}/addresses/delivery',
         deliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         deliveryModes: 'users/${userId}/carts/${cartId}/deliverymodes',
         placeOrder: 'users/${userId}/orders?fields=FULL',
