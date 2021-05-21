@@ -103,13 +103,13 @@
 
   <!-- SHIPPING ADDRESS SECTION -->
   <ng-template #shippingAddress>
-    <div class="cx-review-summary-card cx-review-card-address">
+    <div
+      *ngIf="deliveryAddress$ | async as deliveryAddress"
+      class="cx-review-summary-card cx-review-card-address"
+    >
       <cx-card
-        *ngIf="deliveryAddress$ | async as deliveryAddress"
-        [content]="
-          getShippingAddressCard(deliveryAddress, (countryName$ | async)!)
-            | async
-        "
+        *ngIf="countryName$ | async as countryName"
+        [content]="getShippingAddressCard(deliveryAddress, countryName) | async"
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
