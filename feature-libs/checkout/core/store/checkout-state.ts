@@ -1,6 +1,5 @@
 import {
   Address,
-  AddressValidation,
   CardType,
   DeliveryMode,
   Order,
@@ -25,10 +24,6 @@ export const PLACED_ORDER_PROCESS_ID = 'placeOrder';
 
 export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
-}
-
-export interface AddressVerificationState {
-  results: AddressValidation | string;
 }
 
 export interface CardTypesState {
@@ -61,7 +56,6 @@ export interface OrderTypesState {
 export interface CheckoutState {
   steps: StateUtils.LoaderState<CheckoutStepsState>;
   cardTypes: CardTypesState;
-  addressVerification: AddressVerificationState;
   paymentTypes: PaymentTypesState;
   orderType: OrderTypesState;
 }

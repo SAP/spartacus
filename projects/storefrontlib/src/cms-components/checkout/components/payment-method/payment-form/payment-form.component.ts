@@ -30,7 +30,7 @@ import {
   ModalService,
 } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
-import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // eslint-disable-line
+import { SuggestedAddressDialogComponent } from '../../../../myaccount/address-book/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component';
 
 /**
  * @deprecated since 4.0, use checkout feature lib instead.

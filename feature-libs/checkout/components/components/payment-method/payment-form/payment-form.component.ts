@@ -3,7 +3,6 @@ import {
   Component,
   EventEmitter,
   Input,
-  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -24,20 +23,24 @@ import {
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
-import { Card, ICON_TYPE, ModalRef, ModalService } from '@spartacus/storefront'; // eslint-disable-line
-import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
+import {
+  Card,
+  ICON_TYPE,
+  ModalRef,
+  ModalService,
+  SuggestedAddressDialogComponent,
+} from '@spartacus/storefront';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // eslint-disable-line
 
 @Component({
   selector: 'cx-payment-form',
   templateUrl: './payment-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentFormComponent implements OnInit, OnDestroy {
+export class PaymentFormComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  private addressVerifySub: Subscription;
   suggestedAddressModalRef: ModalRef | null;
   months: string[] = [];
   years: number[] = [];
@@ -144,26 +147,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       })
     );
 
-    // verify the new added address
-    this.addressVerifySub = this.checkoutDeliveryService
-      .getAddressVerificationResults()
-      .subscribe((results) => {
-        const decision = (results as AddressValidation).decision;
-        if (decision === 'FAIL') {
-          this.checkoutDeliveryService.clearAddressVerificationResults();
-        } else if (decision === 'ACCEPT') {
-          this.next();
-        } else if (decision === 'REJECT') {
-          this.globalMessageService.add(
-            { key: 'addressForm.invalidAddress' },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-          this.checkoutDeliveryService.clearAddressVerificationResults();
-        } else if (decision === 'REVIEW') {
-          this.openSuggestedAddress(results as AddressValidation);
-        }
-      });
-
     this.regions$ = this.selectedCountry$.pipe(
       switchMap((country) => this.userAddressService.getRegions(country)),
       tap((regions) => {
@@ -233,12 +216,10 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result
         .then(() => {
-          this.checkoutDeliveryService.clearAddressVerificationResults();
           this.suggestedAddressModalRef = null;
         })
         .catch(() => {
           // this  callback is called when modal is closed with Esc key or clicking backdrop
-          this.checkoutDeliveryService.clearAddressVerificationResults();
           this.suggestedAddressModalRef = null;
         });
     }
@@ -256,7 +237,24 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
     if (this.sameAsShippingAddress) {
       this.next();
     } else {
-      this.checkoutDeliveryService.verifyAddress(this.billingAddressForm.value);
+      this.userAddressService
+        .verifyAddress(this.billingAddressForm.value)
+        .subscribe((result) => {
+          this.handleAddressVerificationResults(result);
+        });
+    }
+  }
+
+  protected handleAddressVerificationResults(results: AddressValidation) {
+    if (results.decision === 'ACCEPT') {
+      this.next();
+    } else if (results.decision === 'REJECT') {
+      this.globalMessageService.add(
+        { key: 'addressForm.invalidAddress' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    } else if (results.decision === 'REVIEW') {
+      this.openSuggestedAddress(results);
     }
   }
 
@@ -288,12 +286,6 @@ export class PaymentFormComponent implements OnInit, OnDestroy {
       if (!this.sameAsShippingAddress) {
         this.billingAddressForm.markAllAsTouched();
       }
-    }
-  }
-
-  ngOnDestroy() {
-    if (this.addressVerifySub) {
-      this.addressVerifySub.unsubscribe();
     }
   }
 }

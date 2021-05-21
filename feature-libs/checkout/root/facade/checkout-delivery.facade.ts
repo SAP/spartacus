@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   Address,
-  AddressValidation,
   DeliveryMode,
   facadeFactory,
   StateUtils,
@@ -25,13 +24,10 @@ export function checkoutDeliveryFacadeFactory() {
       'resetLoadSupportedDeliveryModesProcess',
       'getLoadSupportedDeliveryModeProcess',
       'clearCheckoutDeliveryModes',
-      'getAddressVerificationResults',
       'createAndSetAddress',
       'loadSupportedDeliveryModes',
       'setDeliveryMode',
-      'verifyAddress',
       'setDeliveryAddress',
-      'clearAddressVerificationResults',
       'clearCheckoutDeliveryAddress',
       'clearCheckoutDeliveryMode',
       'clearCheckoutDeliveryDetails',
@@ -109,13 +105,6 @@ export abstract class CheckoutDeliveryFacade {
   abstract clearCheckoutDeliveryModes(): void;
 
   /**
-   * Get address verification results
-   */
-  abstract getAddressVerificationResults(): Observable<
-    AddressValidation | string
-  >;
-
-  /**
    * Create and set a delivery address using the address param
    * @param address : the Address to be created and set
    */
@@ -133,21 +122,10 @@ export abstract class CheckoutDeliveryFacade {
   abstract setDeliveryMode(mode: string): void;
 
   /**
-   * Verifies the address
-   * @param address : the address to be verified
-   */
-  abstract verifyAddress(address: Address): void;
-
-  /**
    * Set delivery address
    * @param address : The address to be set
    */
   abstract setDeliveryAddress(address: Address): void;
-
-  /**
-   * Clear address verification results
-   */
-  abstract clearAddressVerificationResults(): void;
 
   /**
    * Clear address already setup in last checkout process

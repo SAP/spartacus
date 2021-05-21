@@ -8,6 +8,7 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CLI_CART_SAVED_CART_FEATURE,
   LibraryOptions as SpartacusCartOptions,
   readPackageJson,
   shouldAddFeature,
@@ -19,7 +20,6 @@ import {
   CART_FOLDER_NAME,
   CART_SAVED_CART_FEATURE_NAME_CONSTANT,
   CART_SAVED_CART_MODULE_NAME,
-  CLI_SAVED_CART_FEATURE,
   SAVED_CART_MODULE,
   SAVED_CART_ROOT_MODULE,
   SAVED_CART_TRANSLATIONS,
@@ -31,21 +31,16 @@ import {
 } from '../constants';
 
 export function addCartFeatures(options: SpartacusCartOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      shouldAddFeature(CLI_SAVED_CART_FEATURE, options.features)
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+
+      shouldAddFeature(CLI_CART_SAVED_CART_FEATURE, options.features)
         ? addSavedCartFeature(options)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }

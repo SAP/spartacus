@@ -171,12 +171,10 @@ class MockUserAddressService {
   getRegions(): Observable<Region[]> {
     return of([]);
   }
+  verifyAddress(): Observable<AddressValidation> {
+    return of({});
+  }
 }
-
-const mockAddressValidation: AddressValidation = {
-  decision: 'test address validation',
-  suggestedAddresses: [{ id: 'address1' }],
-};
 
 describe('PaymentFormComponent', () => {
   let component: PaymentFormComponent;
@@ -185,8 +183,7 @@ describe('PaymentFormComponent', () => {
   let mockCheckoutPaymentService: MockCheckoutPaymentService;
   let mockUserPaymentService: MockUserPaymentService;
   let mockGlobalMessageService: MockGlobalMessageService;
-  let mockModalService: MockModalService;
-  let mockUserAddressService: MockUserAddressService;
+  let userAddressService: UserAddressService;
 
   let controls: {
     payment: FormGroup['controls'];
@@ -199,8 +196,6 @@ describe('PaymentFormComponent', () => {
       mockCheckoutPaymentService = new MockCheckoutPaymentService();
       mockUserPaymentService = new MockUserPaymentService();
       mockGlobalMessageService = new MockGlobalMessageService();
-      mockModalService = new MockModalService();
-      mockUserAddressService = new MockUserAddressService();
 
       TestBed.configureTestingModule({
         imports: [
@@ -228,7 +223,7 @@ describe('PaymentFormComponent', () => {
           },
           { provide: UserPaymentService, useValue: mockUserPaymentService },
           { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-          { provide: UserAddressService, useValue: mockUserAddressService },
+          { provide: UserAddressService, useClass: MockUserAddressService },
         ],
       })
         .overrideComponent(PaymentFormComponent, {
@@ -245,7 +240,7 @@ describe('PaymentFormComponent', () => {
       payment: component.paymentForm.controls,
       billingAddress: component.billingAddressForm.controls,
     };
-
+    userAddressService = TestBed.inject(UserAddressService);
     spyOn(component.setPaymentDetails, 'emit').and.callThrough();
     spyOn(component.closeForm, 'emit').and.callThrough();
   });
@@ -312,54 +307,36 @@ describe('PaymentFormComponent', () => {
     });
   });
 
-  it('should clear address verification result with address verification result "fail"', () => {
-    const mockAddressVerificationResult: AddressValidation = {
-      decision: 'FAIL',
-    };
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getAddressVerificationResults'
-    ).and.returnValue(of(mockAddressVerificationResult));
-    spyOn(mockCheckoutDeliveryService, 'clearAddressVerificationResults');
-    component.ngOnInit();
-    expect(
-      mockCheckoutDeliveryService.clearAddressVerificationResults
-    ).toHaveBeenCalled();
-  });
-
   it('should add address with address verification result "accept"', () => {
     const mockAddressVerificationResult = { decision: 'ACCEPT' };
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getAddressVerificationResults'
-    ).and.returnValue(of(mockAddressVerificationResult));
-    spyOn(component, 'next');
     component.ngOnInit();
+    spyOn(component, 'next');
+    component['handleAddressVerificationResults'](
+      mockAddressVerificationResult
+    );
     expect(component.next).toHaveBeenCalled();
   });
 
-  it('should clear address verification result with address verification result "reject"', () => {
+  it('should display error message with address verification result "reject"', () => {
     const mockAddressVerificationResult: AddressValidation = {
       decision: 'REJECT',
     };
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getAddressVerificationResults'
-    ).and.returnValue(of(mockAddressVerificationResult));
     component.ngOnInit();
+    component['handleAddressVerificationResults'](
+      mockAddressVerificationResult
+    );
     expect(mockGlobalMessageService.add).toHaveBeenCalled();
   });
 
-  it('should clear address verification result with address verification result "review"', () => {
+  it('should open suggested address with address verification result "review"', () => {
     const mockAddressVerificationResult: AddressValidation = {
       decision: 'REVIEW',
     };
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getAddressVerificationResults'
-    ).and.returnValue(of(mockAddressVerificationResult));
     spyOn(component, 'openSuggestedAddress');
     component.ngOnInit();
+    component['handleAddressVerificationResults'](
+      mockAddressVerificationResult
+    );
     expect(component.openSuggestedAddress).toHaveBeenCalled();
   });
 
@@ -411,35 +388,23 @@ describe('PaymentFormComponent', () => {
     expect(component.sameAsShippingAddress).toBeFalsy();
   });
 
-  it('should call verifyAddress()', () => {
-    spyOn(component, 'verifyAddress').and.callThrough();
+  it('should call verifyAddress() when billing address not same as shipping', () => {
     spyOn(component, 'next');
-    spyOn(mockCheckoutDeliveryService, 'verifyAddress');
+    spyOn(userAddressService, 'verifyAddress').and.returnValue(
+      of({
+        decision: 'ACCEPT',
+      })
+    );
 
     component.sameAsShippingAddress = true;
 
     component.verifyAddress();
 
-    expect(component.verifyAddress).toHaveBeenCalledWith();
     expect(component.next).toHaveBeenCalled();
 
     component.sameAsShippingAddress = false;
     component.verifyAddress();
-    expect(mockCheckoutDeliveryService.verifyAddress).toHaveBeenCalled();
-  });
-
-  it('should call openSuggestedAddress', (done) => {
-    spyOn(component, 'openSuggestedAddress').and.callThrough();
-    spyOn(mockModalService, 'open').and.callThrough();
-    spyOn(mockCheckoutDeliveryService, 'clearAddressVerificationResults');
-
-    component.openSuggestedAddress(mockAddressValidation);
-    component.suggestedAddressModalRef.result.then(() => {
-      expect(
-        mockCheckoutDeliveryService.clearAddressVerificationResults
-      ).toHaveBeenCalled();
-      done();
-    });
+    expect(userAddressService.verifyAddress).toHaveBeenCalled();
   });
 
   describe('UI continue button', () => {
