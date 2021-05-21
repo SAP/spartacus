@@ -1,8 +1,9 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { OrderPlacedEvent } from '@spartacus/checkout/root';
-import { ActiveCartService, EventService, OrderEntry } from '@spartacus/core';
+import { CheckoutActions } from '@spartacus/checkout/core';
+import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import {
   CommonConfiguratorUtilsService,
   ConfiguratorType,
@@ -62,13 +63,8 @@ class MockActiveCartService {
   getEntries(): void {}
 }
 
-class MockEventService implements Partial<EventService> {
-  get(): Observable<any> {
-    return hot('-a', { a: <OrderPlacedEvent>{} });
-  }
-}
-
 describe('ConfiguratorPlaceOrderHookEffects', () => {
+  let actions$: Observable<any>;
   let configPlaceOrderHookEffects: fromEffects.ConfiguratorPlaceOrderHookEffects;
   let configuratorUtils: CommonConfiguratorUtilsService;
   let activeCartService: ActiveCartService;
@@ -85,13 +81,10 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
 
       providers: [
         fromEffects.ConfiguratorPlaceOrderHookEffects,
+        provideMockActions(() => actions$),
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
-        },
-        {
-          provide: EventService,
-          useClass: MockEventService,
         },
       ],
     });
@@ -116,9 +109,17 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
     spyOn(activeCartService, 'getEntries').and.returnValue(
       of(cartEntryWithconfiguration)
     );
+
+    const action = new CheckoutActions.PlaceOrder({
+      cartId: '',
+      userId: '',
+      termsChecked: true,
+    });
     const completion = new ConfiguratorActions.RemoveConfiguration({
       ownerKey: ['cartEntry/1', 'cartEntry/3'],
     });
+
+    actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
     expect(configPlaceOrderHookEffects.placeOrder$).toBeObservable(expected);
@@ -129,10 +130,16 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       of(cartEntryWOconfiguration)
     );
 
+    const action = new CheckoutActions.PlaceOrder({
+      cartId: '',
+      userId: '',
+      termsChecked: true,
+    });
     const completion = new ConfiguratorActions.RemoveConfiguration({
       ownerKey: [],
     });
 
+    actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
     expect(configPlaceOrderHookEffects.placeOrder$).toBeObservable(expected);

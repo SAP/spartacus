@@ -124,8 +124,6 @@ export const CART_SERVICE = 'CartService';
 export const ACTIVE_CART_SERVICE = 'ActiveCartService';
 export const USER_ORDER_SERVICE = 'UserOrderService';
 export const USER_ORDERS_EFFECT = 'UserOrdersEffect';
-export const CONFIGURATOR_PLACE_ORDER_HOOK_EFFECTS =
-  'ConfiguratorPlaceOrderHookEffects';
 export const PROMOTION_SERVICE = 'PromotionService';
 export const ORDER_DETAILS_SERVICE = 'OrderDetailsService';
 export const ORDER_RETURN_REQUEST_SERVICE = 'OrderReturnRequestService';
