@@ -160,7 +160,7 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     if (this.addressData && Object.keys(this.addressData).length !== 0) {
       this.addressForm.patchValue(this.addressData);
 
-      this.countrySelected(this.addressData.country as Country);
+      this.countrySelected(this.addressData.country);
       if (this.addressData.region) {
         this.regionSelected(this.addressData.region);
       }
@@ -169,9 +169,9 @@ export class AddressFormComponent implements OnInit, OnDestroy {
     this.addresses$ = this.userAddressService.getAddresses();
   }
 
-  countrySelected(country: Country): void {
-    this.addressForm.get('country')?.get('isocode')?.setValue(country.isocode);
-    this.selectedCountry$.next(country.isocode as string);
+  countrySelected(country?: Country): void {
+    this.addressForm.get('country')?.get('isocode')?.setValue(country?.isocode);
+    this.selectedCountry$.next(country?.isocode as string);
   }
 
   regionSelected(region: Region): void {

@@ -181,8 +181,8 @@ export function reducer(
         deliveryMode: {
           ...state.deliveryMode,
           selected:
-            (action.payload.deliveryMode && action.payload.deliveryMode.code) ??
-            '',
+            action.payload.deliveryMode &&
+            (action.payload.deliveryMode.code as string),
         },
         paymentDetails: action.payload.paymentInfo,
       };

@@ -40,9 +40,9 @@ export class CheckoutDetailsService {
           (cartData.user && cartData.user.uid === OCC_USER_ID_ANONYMOUS) ||
           this.activeCartService.isGuestCart()
         ) {
-          return cartData.guid ?? '';
+          return cartData.guid as string;
         }
-        return cartData.code ?? '';
+        return cartData.code as string;
       }),
       filter((cartId) => !!cartId)
     );

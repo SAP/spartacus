@@ -41,8 +41,7 @@ export class PaymentDetailsSetGuard implements CanActivate {
                 (checkoutStep &&
                   this.routingConfigService.getRouteConfig(
                     checkoutStep.routeName
-                  ).paths?.[0]) ??
-                  ''
+                  ).paths?.[0]) as string
               )
         )
       );

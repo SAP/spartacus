@@ -35,7 +35,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
   currentDaysOfWeek: DaysOfWeek[] = [];
   numberOfDays: string[];
   numberOfWeeks: string[];
-  currentDate: string;
+  currentDate: string | undefined;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
 
   constructor(
@@ -151,8 +151,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
 
     this.numberOfWeeks = this.createNumberStringArray(12);
 
-    this.currentDate = this.scheduleReplenishmentFormData
-      .replenishmentStartDate as string;
+    this.currentDate = this.scheduleReplenishmentFormData.replenishmentStartDate;
   }
 
   private createNumberStringArray(n: number): string[] {
