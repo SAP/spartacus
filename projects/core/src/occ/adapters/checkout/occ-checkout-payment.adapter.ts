@@ -14,8 +14,6 @@ import { Occ } from '../../occ-models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 import { HttpParamsURIEncoder } from '../../../util/http-params-uri.encoder';
 
-const ENDPOINT_CARD_TYPES = 'cardtypes';
-
 @Injectable()
 export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   constructor(
@@ -30,9 +28,40 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
 
   private domparser: DOMParser;
 
-  protected getCartEndpoint(userId: string): string {
-    const cartEndpoint = 'users/' + userId + '/carts/';
-    return this.occEndpoints.getEndpoint(cartEndpoint);
+  protected getPaymentDetailsEndpoint(
+    userId: string,
+    cartId: string,
+    paymentDetailsId: string
+  ): string {
+    return this.occEndpoints.getUrl(
+      'cartPaymentDetails',
+      { userId, cartId },
+      { paymentDetailsId }
+    );
+  }
+
+  protected getPaymentProviderRequestEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.getUrl('paymentProviderRequest', {
+      userId,
+      cartId,
+    });
+  }
+
+  protected getPaymentProviderResponseEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.getUrl('paymentProviderResponse', {
+      userId,
+      cartId,
+    });
+  }
+
+  protected getCardTypesEndpoint(): string {
+    return this.occEndpoints.getUrl('cardTypes');
   }
 
   public create(
@@ -82,21 +111,16 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     paymentDetailsId: string
   ): Observable<any> {
     return this.http.put(
-      this.getCartEndpoint(userId) + cartId + '/paymentdetails',
-      {},
-      {
-        params: { paymentDetailsId: paymentDetailsId },
-      }
+      this.getPaymentDetailsEndpoint(userId, cartId, paymentDetailsId),
+      {}
     );
   }
 
   loadCardTypes(): Observable<CardType[]> {
-    return this.http
-      .get<Occ.CardTypeList>(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
-      .pipe(
-        map((cardTypeList) => cardTypeList.cardTypes),
-        this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
-      );
+    return this.http.get<Occ.CardTypeList>(this.getCardTypesEndpoint()).pipe(
+      map((cardTypeList) => cardTypeList.cardTypes),
+      this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
+    );
   }
 
   protected getProviderSubInfo(
@@ -104,9 +128,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     cartId: string
   ): Observable<any> {
     return this.http.get(
-      this.getCartEndpoint(userId) +
-        cartId +
-        '/payment/sop/request?responseUrl=sampleUrl'
+      this.getPaymentProviderRequestEndpoint(userId, cartId)
     );
   }
 
@@ -144,7 +166,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     });
 
     return this.http.post<PaymentDetails>(
-      this.getCartEndpoint(userId) + cartId + '/payment/sop/response',
+      this.getPaymentProviderResponseEndpoint(userId, cartId),
       httpParams,
       { headers }
     );

@@ -134,6 +134,33 @@ export interface OccEndpoints {
    */
   cartPaymentType?: string | OccEndpoint;
   /**
+   * Get a list of supported payment card types.
+   *
+   * @member {string} [cardTypes]
+   */
+  cardTypes?: string | OccEndpoint;
+  /**
+   * [POST] Defines and assigns details of a new credit card payment to the cart.
+   * [PUT] Sets credit card payment details for the cart.
+   *
+   * @member {string} [cartPaymentDetails]
+   */
+  cartPaymentDetails?: string | OccEndpoint;
+  /**
+   *  Get information needed for create subscription
+   *
+   * @member {string} [paymentProviderRequest]
+   */
+  paymentProviderRequest?: string | OccEndpoint;
+  /**
+   *  [GET] Get information about create subscription request results
+   *  [POST] Handles response from payment provider and create payment details
+   *  [DELETE] Deletes payment provider response related to cart.
+   *
+   * @member {string} [paymentProviderResponse]
+   */
+  paymentProviderResponse?: string | OccEndpoint;
+  /**
    * Get a list of available languages
    *
    * @member {string}
