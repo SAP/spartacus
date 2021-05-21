@@ -6,8 +6,6 @@ import { RouterModule } from '@angular/router';
 import { ProductVariantStyleSelectorModule } from '../variant-style-selector/product-variant-style-selector.module';
 import { ProductVariantSizeSelectorModule } from '../variant-size-selector/product-variant-size-selector.module';
 import { ProductVariantColorSelectorModule } from '../variant-color-selector/product-variant-color-selector.module';
-import { ProductVariantStyleIconsModule } from '../../root/components/variant-style-icons/product-variant-style-icons.module';
-import { ProductVariantStyleIconsComponent } from '../../root/components/variant-style-icons/product-variant-style-icons.component';
 
 @NgModule({
   imports: [
@@ -18,10 +16,8 @@ import { ProductVariantStyleIconsComponent } from '../../root/components/variant
     ProductVariantStyleSelectorModule,
     ProductVariantSizeSelectorModule,
     ProductVariantColorSelectorModule,
-    ProductVariantStyleIconsModule,
   ],
   declarations: [ProductVariantsContainerComponent],
   entryComponents: [ProductVariantsContainerComponent],
-  exports: [ProductVariantStyleIconsComponent],
 })
 export class ProductVariantsContainerModule {}

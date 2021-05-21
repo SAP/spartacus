@@ -6,14 +6,12 @@ import { ProductVariantStyleSelectorModule } from './variant-style-selector/prod
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
 import { ProductVariantsContainerComponent } from './product-variants-container/product-variants-container.component';
 import { ProductVariantsGuard } from './guards/product-variants.guard';
-import { ProductVariantStyleIconsModule } from '@spartacus/product/variants/root';
 
 @NgModule({
   imports: [
     ProductVariantsContainerModule,
     ProductVariantColorSelectorModule,
     ProductVariantSizeSelectorModule,
-    ProductVariantStyleIconsModule,
     ProductVariantStyleSelectorModule,
   ],
   providers: [
