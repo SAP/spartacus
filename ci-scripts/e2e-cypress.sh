@@ -62,7 +62,10 @@ else
     exit 1
 fi
 echo '-----'
-echo "Building Spartacus storefront (SSR PROD mode)"
+echo "Building Spartacus storefrontapp"
+yarn build
+
+echo "Building Spartacus storefrontapp (SSR PROD mode)"
 yarn build:ssr:ci
 
 yarn serve:ssr:dev &
