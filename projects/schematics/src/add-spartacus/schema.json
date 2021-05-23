@@ -29,6 +29,8 @@
         "enum": [
           "Assisted Services Module",
           "Cart",
+          "CDC",
+          "CDS",
           "Organization (b2b feature)",
           "Product",
           "Product Configurator",

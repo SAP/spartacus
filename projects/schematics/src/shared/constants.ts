@@ -1,15 +1,5 @@
 export const UTF_8 = 'utf-8';
 
-/***** Libraries versions start *****/
-
-export const DEFAULT_ANGULAR_VERSION = '^10.2.0';
-export const ANGULAR_UNIVERSAL_EXPRESS_VERSION = '^10.1.0';
-export const ANGULAR_UNIVERSAL_BUILDERS = '^10.1.0';
-export const DEFAULT_NGRX_VERSION = '^10.0.0';
-export const DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION = '^10.0.0';
-
-/***** Libraries versions end *****/
-
 /***** Imports start *****/
 export const ANGULAR_SCHEMATICS = '@schematics/angular';
 export const ANGULAR_CORE = '@angular/core';
@@ -22,6 +12,8 @@ export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
 export const ANGULAR_OAUTH2_OIDC = 'angular-oauth2-oidc';
 
+export const SPARTACUS_SCOPE = '@spartacus/';
+export const SPARTACUS_SCHEMATICS = '@spartacus/schematics';
 export const SPARTACUS_CORE = '@spartacus/core';
 export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
 export const SPARTACUS_SETUP = '@spartacus/setup';
@@ -85,6 +77,10 @@ export const B2B_STOREFRONT_MODULE = 'B2bStorefrontModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
+export const SITE_CONTEXT_CONFIG = 'SiteContextConfig';
+export const I18N_CONFIG = 'I18nConfig';
+export const OCC_CONFIG = 'OccConfig';
+export const FEATURES_CONFIG = 'FeaturesConfig';
 export const PROVIDE_DEFAULT_CONFIG = 'provideDefaultConfig';
 export const DEFAULT_B2B_OCC_CONFIG = 'defaultB2bOccConfig';
 export const CMS_CONFIG = 'CmsConfig';
@@ -517,9 +513,6 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
-export const QUALTRICS_EMBEDDED_FEEDBACK_SCSS_FILE_NAME =
-  'qualtrics-embedded-feedback.scss';
-
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 // export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
@@ -677,12 +670,43 @@ export const SPARTACUS_FEATURES_NG_MODULE = 'SpartacusFeaturesModule';
 export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 
 export const CLI_ASM_FEATURE = 'Assisted Services Module';
+
 export const CLI_CART_FEATURE = 'Cart';
+export const CLI_CART_SAVED_CART_FEATURE = 'Saved Cart';
+
 export const CLI_ORGANIZATION_FEATURE = 'Organization (b2b feature)';
+export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE =
+  'Administration (b2b feature)';
+export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE =
+  'Order-approval (b2b feature)';
+
 export const CLI_PRODUCT_FEATURE = 'Product';
+export const CLI_PRODUCT_BULK_PRICING_FEATURE = 'Bulk-Pricing';
+export const CLI_PRODUCT_VARIANTS_FEATURE = 'Product-Variants';
+
 export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'Product Configurator';
+export const CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
+  'Textfield configurator';
+export const CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE = 'CPQ configurator';
+
 export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
+
 export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
+
 export const CLI_STOREFINDER_FEATURE = 'Store Finder';
+
 export const CLI_TRACKING_FEATURE = 'Tracking';
+export const CLI_TRACKING_PERSONALIZATION_FEATURE = 'Personalization';
+export const CLI_TRACKING_TMS_GTM_FEATURE =
+  'Tag Management System - Google Tag Manager';
+export const CLI_TRACKING_TMS_AEP_FEATURE =
+  'Tag Management System - Adobe Experience Platform Launch';
+
+export const CLI_USER_FEATURE = 'User';
+export const CLI_USER_ACCOUNT_FEATURE = 'Account';
+export const CLI_USER_PROFILE_FEATURE = 'Profile';
+
+export const CLI_CDC_FEATURE = 'CDC';
+
+export const CLI_CDS_FEATURE = 'CDS';
 /******* CLI end *******/

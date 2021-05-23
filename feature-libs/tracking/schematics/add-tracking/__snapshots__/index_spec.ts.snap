@@ -1,0 +1,122 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Tracking schematics: ng-add Personalization feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { PersonalizationModule } from \\"@spartacus/tracking/personalization\\";
+import { PersonalizationRootModule } from \\"@spartacus/tracking/personalization/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    PersonalizationRootModule,
+    PersonalizationModule
+  ]
+})
+export class PersonalizationFeatureModule { }
+"
+`;
+
+exports[`Spartacus Tracking schematics: ng-add Personalization feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { PersonalizationRootModule, PERSONALIZATION_FEATURE } from \\"@spartacus/tracking/personalization/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    PersonalizationRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PERSONALIZATION_FEATURE]: {
+        module: () =>
+          import('@spartacus/tracking/personalization').then((m) => m.PersonalizationModule),
+      },
+    }
+  })]
+})
+export class PersonalizationFeatureModule { }
+"
+`;
+
+exports[`Spartacus Tracking schematics: ng-add Tag Management feature AEP general setup should import appropriate modules (without lazy loaded syntax) 1`] = `
+"import { NgModule } from '@angular/core';
+import { provideConfig } from \\"@spartacus/core\\";
+import { AepModule } from \\"@spartacus/tracking/tms/aep\\";
+import { BaseTmsModule, TmsConfig } from \\"@spartacus/tracking/tms/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    BaseTmsModule.forRoot(),
+    AepModule
+  ],
+  providers: [provideConfig(<TmsConfig>{
+    tagManager: {
+      aep: {
+        events: [],
+      },
+    },
+  })]
+})
+export class TagManagementFeatureModule { }
+"
+`;
+
+exports[`Spartacus Tracking schematics: ng-add Tag Management feature GTM and AEP general setup should import appropriate modules (without lazy loaded syntax) 1`] = `
+"import { NgModule } from '@angular/core';
+import { provideConfig } from \\"@spartacus/core\\";
+import { AepModule } from \\"@spartacus/tracking/tms/aep\\";
+import { BaseTmsModule, TmsConfig } from \\"@spartacus/tracking/tms/core\\";
+import { GtmModule } from \\"@spartacus/tracking/tms/gtm\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    BaseTmsModule.forRoot(),
+    GtmModule,
+    AepModule
+  ],
+  providers: [provideConfig(<TmsConfig>{
+    tagManager: {
+      gtm: {
+        events: [],
+      },
+    },
+  }),
+  provideConfig(<TmsConfig>{
+    tagManager: {
+      aep: {
+        events: [],
+      },
+    },
+  })
+  ]
+})
+export class TagManagementFeatureModule { }
+"
+`;
+
+exports[`Spartacus Tracking schematics: ng-add Tag Management feature GTM general setup should import appropriate modules (without lazy loaded syntax) 1`] = `
+"import { NgModule } from '@angular/core';
+import { provideConfig } from \\"@spartacus/core\\";
+import { BaseTmsModule, TmsConfig } from \\"@spartacus/tracking/tms/core\\";
+import { GtmModule } from \\"@spartacus/tracking/tms/gtm\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    BaseTmsModule.forRoot(),
+    GtmModule
+  ],
+  providers: [provideConfig(<TmsConfig>{
+    tagManager: {
+      gtm: {
+        events: [],
+      },
+    },
+  })]
+})
+export class TagManagementFeatureModule { }
+"
+`;

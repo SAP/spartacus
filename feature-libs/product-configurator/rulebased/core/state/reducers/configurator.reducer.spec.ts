@@ -1,36 +1,55 @@
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import * as StateReduce from './configurator.reducer';
 
-const productCode = 'CONF_LAPTOP';
+const PRODUCT_CODE = 'CONF_LAPTOP';
+const CART_ID = '000000001';
 const owner: CommonConfigurator.Owner = {
   type: CommonConfigurator.OwnerType.PRODUCT,
-  id: productCode,
+  id: PRODUCT_CODE,
+  key: CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
+  configuratorType: ConfiguratorType.VARIANT,
 };
+
+const interactionState: Configurator.InteractionState = {
+  currentGroup: 'firstGroup',
+  groupsVisited: {},
+  menuParentGroup: undefined,
+  issueNavigationDone: true,
+};
+
+const groups: Configurator.Group[] = [
+  {
+    id: 'firstGroup',
+  },
+  {
+    id: 'secondGroup',
+  },
+];
+
 const configuration: Configurator.Configuration = {
   configId: 'ds',
-  productCode: productCode,
+  productCode: PRODUCT_CODE,
   owner: owner,
-  groups: [
-    {
-      id: 'firstGroup',
-    },
-    {
-      id: 'secondGroup',
-    },
-  ],
+  groups: groups,
   isCartEntryUpdateRequired: false,
-  interactionState: {
-    currentGroup: 'firstGroup',
-    groupsVisited: {},
-    menuParentGroup: null,
-    issueNavigationDone: true,
-  },
+  interactionState: interactionState,
+};
+const configurationWithoutOv: Configurator.Configuration = {
+  configId: 'ds',
+  productCode: PRODUCT_CODE,
+  owner: owner,
+  groups: groups,
+  isCartEntryUpdateRequired: false,
+  interactionState: interactionState,
 };
 const CURRENT_GROUP = 'currentGroupId';
 const PARENT_GROUP = 'parentGroupId';
-const PRODUCT_CODE = 'CONF_PRODUCT';
 
 describe('Configurator reducer', () => {
   describe('Undefined action', () => {
@@ -57,7 +76,7 @@ describe('Configurator reducer', () => {
     it('should take current group from flatGroups if current group in interaction state is undefined', () => {
       const configurationWithoutCurrentGroup: Configurator.Configuration = {
         owner: owner,
-        productCode: productCode,
+        productCode: PRODUCT_CODE,
         configId: 'A',
         overview: {},
         flatGroups: [
@@ -166,6 +185,7 @@ describe('Configurator reducer', () => {
       const configurationWithOverview: Configurator.Configuration = {
         configId: 'A',
         overview: {},
+        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       const state = StateReduce.configuratorReducer(
         configurationWithOverview,
@@ -180,6 +200,7 @@ describe('Configurator reducer', () => {
     it('should set attribute that states that a cart update is not required anymore but an backend update is pending', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {
         configuration: configuration,
+        cartId: CART_ID,
       };
       const action = new ConfiguratorActions.UpdateCartEntry(params);
       const state = StateReduce.configuratorReducer(undefined, action);
@@ -364,6 +385,15 @@ describe('Configurator reducer', () => {
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.priceSummary).toBe(priceSummary);
+    });
+
+    it('should not copy price summary from OV to configuration if not yet available', () => {
+      const action = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
+        configurationWithoutOv
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.priceSummary).toBeUndefined();
     });
   });
 

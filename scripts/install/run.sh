@@ -96,8 +96,23 @@ function create_shell_app {
 function add_b2b {
     if [ "${ADD_B2B_LIBS}" = true ] ; then
         ng add @spartacus/organization@${SPARTACUS_VERSION} --interactive false
-        ng add @spartacus/cart@${SPARTACUS_VERSION} --interactive false # Cart currently only contains b2b feature (saved cart)
     fi
+}
+
+function add_cdc {
+  if [ "$ADD_CDC" = true ] ; then
+        ng add @spartacus/cdc@${SPARTACUS_VERSION} --interactive false
+    fi
+}
+
+function add_product_configurator {
+    local FEATURES=(--features="Textfield configurator");
+
+    if [ "$ADD_CPQ" = true ] ; then
+        FEATURES+=(--features="CPQ configurator");
+    fi
+
+    ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false "${FEATURES[@]}"
 }
 
 # Don't install b2b features here (use add_b2b function for that)
@@ -108,6 +123,7 @@ function add_feature_libs {
   ng add @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="Personalization" --features="Tag Management System - Google Tag Manager" --features="Tag Management System - Adobe Experience Platform Launch"
   ng add @spartacus/product@${SPARTACUS_VERSION} --interactive false
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --interactive false
+  ng add @spartacus/cart@${SPARTACUS_VERSION} --interactive false
 }
 
 function add_spartacus_csr {
@@ -119,9 +135,8 @@ function add_spartacus_csr {
     fi
     add_feature_libs
     add_b2b
-    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi
+    add_cdc
+    add_product_configurator
     )
 }
 
@@ -134,9 +149,8 @@ function add_spartacus_ssr {
     fi
     add_feature_libs
     add_b2b
-    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi
+    add_cdc
+    add_product_configurator
     )
 }
 
@@ -149,9 +163,8 @@ function add_spartacus_ssr_pwa {
     fi
     add_feature_libs
     add_b2b
-    if [ "$ADD_PRODUCT_CONFIGURATOR" = true ] ; then
-        ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false
-    fi
+    add_cdc
+    add_product_configurator
     )
 }
 
@@ -221,6 +234,9 @@ function install_from_sources {
 
     printh "Creating cds npm package"
     ( cd ${CLONE_DIR}/dist/cds && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
+
+    printh "Creating cdc npm package"
+    ( cd ${CLONE_DIR}/dist/cdc && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 
     printh "Creating setup npm package"
     ( cd ${CLONE_DIR}/dist/setup && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )

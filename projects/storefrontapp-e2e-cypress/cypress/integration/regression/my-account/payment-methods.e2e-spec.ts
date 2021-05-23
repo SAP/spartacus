@@ -52,7 +52,7 @@ describe('Payment Methods', () => {
       });
 
       it('should render page with two payment methods', () => {
-        addProductFromPdp();
+        cy.get('cx-mini-cart > a').click({ force: true });
         addPaymentMethod(testPaymentDetail[1]);
         visitPaymentDetailsPage();
         verifyPaymentCard(2);

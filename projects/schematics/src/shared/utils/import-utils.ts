@@ -1,4 +1,5 @@
 import { Identifier, ts } from 'ts-morph';
+import { SPARTACUS_SCOPE } from '../constants';
 
 export function isImportedFrom(node: Identifier, importPath: string): boolean {
   const definitions = node.getDefinitions();
@@ -25,10 +26,9 @@ export function isImportedFromSpartacusLibs(node: Identifier): boolean {
       ts.SyntaxKind.ImportDeclaration
     );
     const moduleSpecifier = declaration?.getModuleSpecifier().getText();
-    const spartacusScope = '@spartacus/';
     if (
-      moduleSpecifier?.startsWith(`'${spartacusScope}`) ||
-      moduleSpecifier?.startsWith(`"${spartacusScope}`)
+      moduleSpecifier?.startsWith(`'${SPARTACUS_SCOPE}`) ||
+      moduleSpecifier?.startsWith(`"${SPARTACUS_SCOPE}`)
     ) {
       return true;
     }

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
-import { CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
-import { provideConfig } from '@spartacus/core';
+import { CdcConfig, CdcRootModule, CDC_FEATURE } from '@spartacus/cdc/root';
+import { CmsConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
   imports: [CdcRootModule],
   providers: [
-    provideConfig({
-      [CDC_FEATURE]: [
+    provideConfig(<CdcConfig>{
+      cdc: [
         {
           baseSite: 'electronics-cdc',
           javascriptUrl: '',
@@ -14,14 +14,15 @@ import { provideConfig } from '@spartacus/core';
         },
         {
           baseSite: 'electronics-spa',
-          javascriptUrl: '',
+          javascriptUrl:
+            'https://cdns.eu1.gigya.com/JS/gigya.js?apikey=3_k_wG-sllOhu2rjDEWHjG9-ncnnGAMHfkIcUKzl94weJU1Y18hITRgnTDp1LP8QdC',
           sessionExpiration: 3600,
         },
       ],
     }),
-    provideConfig({
+    provideConfig(<CmsConfig>{
       featureModules: {
-        cdc: {
+        [CDC_FEATURE]: {
           module: () => import('@spartacus/cdc').then((m) => m.CdcModule),
         },
       },
