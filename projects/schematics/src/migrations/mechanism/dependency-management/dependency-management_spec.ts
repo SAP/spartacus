@@ -73,7 +73,7 @@ describe('constructor migrations', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  describe.only('when the dependencies are outdated', () => {
+  describe('when the dependencies are outdated', () => {
     it('should update them', async () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
       await schematicRunner.engine.executePostTasks().toPromise();
