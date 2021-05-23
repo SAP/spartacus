@@ -8,7 +8,6 @@ import {
   order_type,
   poNumber,
   POWERTOOLS_BASESITE,
-  POWERTOOLS_DEFAULT_DELIVERY_MODE,
   products,
   recurrencePeriod,
   recurrencePeriodMap,
@@ -148,9 +147,7 @@ export function selectAccountShippingAddress() {
   cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
 
-export function selectAccountDeliveryMode(
-  deliveryMode: string = POWERTOOLS_DEFAULT_DELIVERY_MODE
-) {
+export function selectAccountDeliveryMode() {
   cy.server();
   cy.route(
     'PUT',
@@ -158,7 +155,7 @@ export function selectAccountDeliveryMode(
   ).as('putDeliveryMode');
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get(`#${deliveryMode}`).should('be.checked');
+  cy.get('cx-delivery-mode input').first().should('be.checked');
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
   // Accessibility
