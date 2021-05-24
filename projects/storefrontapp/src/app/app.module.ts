@@ -138,7 +138,7 @@ const ruleBasedFeatureConfiguration = environment.cpq
     }),
     provideConfig(<FeaturesConfig>{
       features: {
-        level: '3.2',
+        level: '3.3',
       },
     }),
   ],

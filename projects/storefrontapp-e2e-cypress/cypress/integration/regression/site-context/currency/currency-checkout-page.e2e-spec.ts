@@ -61,7 +61,6 @@ describe('Currency switch - checkout page', () => {
         'contain',
         '¥'
       );
-
       siteContextSelector.deliveryModeNextStep();
     });
 
