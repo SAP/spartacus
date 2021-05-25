@@ -37,7 +37,6 @@ export const LOGOUT_GUARD_CONSTRUCTOR_MIGRATION: ConstructorDeprecation = {
       className: ROUTER,
       importPath: ANGULAR_ROUTER,
     },
-    { className: AUTH_REDIRECT_SERVICE, importPath: SPARTACUS_CORE },
   ],
   addParams: [{ className: AUTH_REDIRECT_SERVICE, importPath: SPARTACUS_CORE }],
 };
