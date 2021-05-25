@@ -515,6 +515,7 @@ export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
 export const GET_OCC_ENDPOINT = 'getOccEndpoint';
 export const GET_BASE_ENDPOINT = 'getBaseEndpoint';
+export const GET_URL = 'getUrl';
 
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';

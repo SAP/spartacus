@@ -14,7 +14,7 @@ export const mockOccModuleConfig: OccConfig = {
 };
 
 export class MockOccEndpointsService {
-  getUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
     return this.getEndpoint(endpointKey);
   }
   getEndpoint(endpoint: string) {

@@ -27,7 +27,9 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   ) {}
 
   loadAll(userId: string): Observable<Address[]> {
-    const url = this.occEndpoints.getUrl('addresses', { userId });
+    const url = this.occEndpoints.buildUrl('addresses', {
+      urlParams: { userId },
+    });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -42,7 +44,9 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   add(userId: string, address: Address): Observable<{}> {
-    const url = this.occEndpoints.getUrl('addresses', { userId });
+    const url = this.occEndpoints.buildUrl('addresses', {
+      urlParams: { userId },
+    });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -54,9 +58,8 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   update(userId: string, addressId: string, address: Address): Observable<{}> {
-    const url = this.occEndpoints.getUrl('addressDetail', {
-      userId,
-      addressId,
+    const url = this.occEndpoints.buildUrl('addressDetail', {
+      urlParams: { userId, addressId },
     });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -69,7 +72,9 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   verify(userId: string, address: Address): Observable<AddressValidation> {
-    const url = this.occEndpoints.getUrl('addressVerification', { userId });
+    const url = this.occEndpoints.buildUrl('addressVerification', {
+      urlParams: { userId },
+    });
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -87,9 +92,8 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   delete(userId: string, addressId: string): Observable<{}> {
-    const url = this.occEndpoints.getUrl('addressDetail', {
-      userId,
-      addressId,
+    const url = this.occEndpoints.buildUrl('addressDetail', {
+      urlParams: { userId, addressId },
     });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

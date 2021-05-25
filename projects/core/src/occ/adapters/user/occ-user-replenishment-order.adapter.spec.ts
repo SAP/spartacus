@@ -72,7 +72,7 @@ describe('OccUserReplenishmentOrderAdapter', () => {
     occEndpointService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEndpointService, 'getUrl').and.callThrough();
+    spyOn(occEndpointService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -91,11 +91,13 @@ describe('OccUserReplenishmentOrderAdapter', () => {
         return req.method === 'GET' && req.url === '/replenishmentOrderDetails';
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
         'replenishmentOrderDetails',
         {
-          userId: mockUserId,
-          replenishmentOrderCode: mockReplenishmentOrderCode,
+          urlParams: {
+            userId: mockUserId,
+            replenishmentOrderCode: mockReplenishmentOrderCode,
+          },
         }
       );
 
@@ -141,16 +143,18 @@ describe('OccUserReplenishmentOrderAdapter', () => {
         );
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
         'replenishmentOrderDetailsHistory',
         {
-          userId: mockUserId,
-          replenishmentOrderCode: mockReplenishmentOrderCode,
-        },
-        {
-          pageSize: PAGE_SIZE.toString(),
-          currentPage: CURRENT_PAGE.toString(),
-          sort: SORT,
+          urlParams: {
+            userId: mockUserId,
+            replenishmentOrderCode: mockReplenishmentOrderCode,
+          },
+          queryParams: {
+            pageSize: PAGE_SIZE.toString(),
+            currentPage: CURRENT_PAGE.toString(),
+            sort: SORT,
+          },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -189,11 +193,13 @@ describe('OccUserReplenishmentOrderAdapter', () => {
         );
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
         'cancelReplenishmentOrder',
         {
-          userId: mockUserId,
-          replenishmentOrderCode: mockReplenishmentOrderCode,
+          urlParams: {
+            userId: mockUserId,
+            replenishmentOrderCode: mockReplenishmentOrderCode,
+          },
         }
       );
 
@@ -232,15 +238,15 @@ describe('OccUserReplenishmentOrderAdapter', () => {
         return req.method === 'GET' && req.url === '/replenishmentOrderHistory';
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
         'replenishmentOrderHistory',
         {
-          userId: mockUserId,
-        },
-        {
-          pageSize: PAGE_SIZE.toString(),
-          currentPage: CURRENT_PAGE.toString(),
-          sort: SORT,
+          urlParams: { userId: mockUserId },
+          queryParams: {
+            pageSize: PAGE_SIZE.toString(),
+            currentPage: CURRENT_PAGE.toString(),
+            sort: SORT,
+          },
         }
       );
 

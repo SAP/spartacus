@@ -67,10 +67,15 @@ export class OccBudgetAdapter implements BudgetAdapter {
   }
 
   protected getBudgetEndpoint(userId: string, budgetCode: string): string {
-    return this.occEndpoints.getUrl('budget', { userId, budgetCode });
+    return this.occEndpoints.buildUrl('budget', {
+      urlParams: { userId, budgetCode },
+    });
   }
 
   protected getBudgetsEndpoint(userId: string, params?: SearchConfig): string {
-    return this.occEndpoints.getUrl('budgets', { userId }, params);
+    return this.occEndpoints.buildUrl('budgets', {
+      urlParams: { userId },
+      queryParams: params,
+    });
   }
 }

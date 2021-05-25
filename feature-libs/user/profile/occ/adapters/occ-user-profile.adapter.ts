@@ -29,7 +29,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   ) {}
 
   update(userId: string, user: User): Observable<unknown> {
-    const url = this.occEndpoints.getUrl('user', { userId });
+    const url = this.occEndpoints.buildUrl('user', { urlParams: { userId } });
     user = this.converter.convert(user, USER_PROFILE_SERIALIZER);
     return this.http
       .patch(url, user)
@@ -37,7 +37,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   register(user: UserSignUp): Observable<User> {
-    const url: string = this.occEndpoints.getUrl('userRegister');
+    const url: string = this.occEndpoints.buildUrl('userRegister');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -53,7 +53,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   registerGuest(guid: string, password: string): Observable<User> {
-    const url: string = this.occEndpoints.getUrl('userRegister');
+    const url: string = this.occEndpoints.buildUrl('userRegister');
     let headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',
     });
@@ -72,7 +72,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   requestForgotPasswordEmail(userEmailAddress: string): Observable<unknown> {
-    const url = this.occEndpoints.getUrl('userForgotPassword');
+    const url = this.occEndpoints.buildUrl('userForgotPassword');
     const httpParams: HttpParams = new HttpParams().set(
       'userId',
       userEmailAddress
@@ -87,7 +87,7 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   resetPassword(token: string, newPassword: string): Observable<unknown> {
-    const url = this.occEndpoints.getUrl('userResetPassword');
+    const url = this.occEndpoints.buildUrl('userResetPassword');
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -103,7 +103,9 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     currentPassword: string,
     newUserId: string
   ): Observable<unknown> {
-    const url = this.occEndpoints.getUrl('userUpdateLoginId', { userId });
+    const url = this.occEndpoints.buildUrl('userUpdateLoginId', {
+      urlParams: { userId },
+    });
     const httpParams: HttpParams = new HttpParams()
       .set('password', currentPassword)
       .set('newLogin', newUserId);
@@ -120,7 +122,9 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
     oldPassword: string,
     newPassword: string
   ): Observable<unknown> {
-    const url = this.occEndpoints.getUrl('userUpdatePassword', { userId });
+    const url = this.occEndpoints.buildUrl('userUpdatePassword', {
+      urlParams: { userId },
+    });
     const httpParams: HttpParams = new HttpParams()
       .set('old', oldPassword)
       .set('new', newPassword);
@@ -133,14 +137,14 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   close(userId: string): Observable<unknown> {
-    const url = this.occEndpoints.getUrl('user', { userId });
+    const url = this.occEndpoints.buildUrl('user', { urlParams: { userId } });
     return this.http
       .delete<User>(url)
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   loadTitles(): Observable<Title[]> {
-    const url = this.occEndpoints.getUrl('titles');
+    const url = this.occEndpoints.buildUrl('titles');
     return this.http.get<Occ.TitleList>(url).pipe(
       catchError((error) => throwError(normalizeHttpError(error))),
       map((titleList) => titleList.titles ?? []),

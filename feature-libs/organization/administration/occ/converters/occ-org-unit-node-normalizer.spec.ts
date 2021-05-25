@@ -1,29 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { Occ, OccEndpointsService } from '@spartacus/core';
+import { Occ } from '@spartacus/core';
 import { B2BUnitNode } from '@spartacus/organization/administration/core';
 import { OccOrgUnitNodeNormalizer } from './occ-org-unit-node-normalizer';
-
-import createSpy = jasmine.createSpy;
-
-class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // eslint-disable-next-line no-shadow
-    (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
-  );
-}
 
 describe('OccOrgUnitNodeNormalizer', () => {
   let service: OccOrgUnitNodeNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        OccOrgUnitNodeNormalizer,
-        {
-          provide: OccEndpointsService,
-          useClass: MockOccEndpointsService,
-        },
-      ],
+      providers: [OccOrgUnitNodeNormalizer],
     });
 
     service = TestBed.inject(OccOrgUnitNodeNormalizer);

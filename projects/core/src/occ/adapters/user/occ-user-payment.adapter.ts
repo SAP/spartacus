@@ -19,7 +19,9 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
 
   loadAll(userId: string): Observable<PaymentDetails[]> {
     const url =
-      this.occEndpoints.getUrl('paymentDetailsAll', { userId }) + '?saved=true';
+      this.occEndpoints.buildUrl('paymentDetailsAll', {
+        urlParams: { userId },
+      }) + '?saved=true';
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -34,9 +36,8 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
   }
 
   delete(userId: string, paymentMethodID: string): Observable<{}> {
-    const url = this.occEndpoints.getUrl('paymentDetail', {
-      userId,
-      paymentDetailId: paymentMethodID,
+    const url = this.occEndpoints.buildUrl('paymentDetail', {
+      urlParams: { userId, paymentDetailId: paymentMethodID },
     });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -48,9 +49,8 @@ export class OccUserPaymentAdapter implements UserPaymentAdapter {
   }
 
   setDefault(userId: string, paymentMethodID: string): Observable<{}> {
-    const url = this.occEndpoints.getUrl('paymentDetail', {
-      userId,
-      paymentDetailId: paymentMethodID,
+    const url = this.occEndpoints.buildUrl('paymentDetail', {
+      urlParams: { userId, paymentDetailId: paymentMethodID },
     });
 
     const headers = new HttpHeaders({

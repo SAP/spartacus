@@ -47,7 +47,7 @@ export class AnonymousConsentsInterceptor implements HttpInterceptor {
             if (
               event instanceof HttpResponse &&
               (event.url ?? '').startsWith(
-                this.occEndpoints.getUrl('anonymousConsentTemplates')
+                this.occEndpoints.buildUrl('anonymousConsentTemplates')
               )
             ) {
               this.handleResponse(
