@@ -48,7 +48,7 @@ describe('OccCheckoutDeliveryAdapter', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OccCheckoutDeliveryAdapter,
-        { provide: OccConfig, useClass: MockOccModuleConfig },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
     service = TestBed.inject(OccCheckoutDeliveryAdapter);
@@ -98,11 +98,11 @@ describe('OccCheckoutDeliveryAdapter', () => {
 
   describe('set an address for cart', () => {
     it('should set address for cart for given user id, cart id and address id', () => {
-      const mockAddressId = 'mockAddressId';
+      const addressId = 'addressId';
 
       let result;
       service
-        .setAddress(userId, cartId, mockAddressId)
+        .setAddress(userId, cartId, addressId)
         .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne((req) => {
@@ -110,13 +110,12 @@ describe('OccCheckoutDeliveryAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            `/users/${userId}/carts/${cartId}/addresses/delivery?addressId=${mockAddressId}`
+            `/users/${userId}/carts/${cartId}/addresses/delivery?addressId=${addressId}`
         );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('addressId')).toEqual(mockAddressId);
       mockReq.flush(cartData);
       expect(result).toEqual(cartData);
     });
@@ -174,26 +173,24 @@ describe('OccCheckoutDeliveryAdapter', () => {
 
   describe('set delivery mode for cart', () => {
     it('should set modes for cart for given user id, cart id and delivery mode id', () => {
-      const mockDeliveryModeId = 'mockDeliveryModeId';
+      const deliveryModeId = 'deliveryModeId';
 
       let result;
       service
-        .setMode(userId, cartId, mockDeliveryModeId)
+        .setMode(userId, cartId, deliveryModeId)
         .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne((req) => {
         console.log('url3', req.url);
         return (
           req.method === 'PUT' &&
-          req.url === `/users/${userId}/carts/${cartId}/deliverymode`
+          req.url ===
+            `/users/${userId}/carts/${cartId}/deliverymode?deliveryModeId=${deliveryModeId}`
         );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('deliveryModeId')).toEqual(
-        mockDeliveryModeId
-      );
       mockReq.flush(cartData);
       expect(result).toEqual(cartData);
     });

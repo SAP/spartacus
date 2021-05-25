@@ -30,14 +30,19 @@ const mockPaymentDetails: PaymentDetails = {
   },
 };
 
-const usersEndpoint = '/users';
-const cartsEndpoint = '/carts/';
-
 const MockOccModuleConfig: OccConfig = {
   backend: {
     occ: {
       baseUrl: '',
       prefix: '',
+      endpoints: {
+        cartPaymentDetails: 'users/${userId}/carts/${cartId}/paymentdetails',
+        paymentProviderRequest:
+          'users/${userId}/carts/${cartId}/payment/sop/request?responseUrl=sampleUrl',
+        paymentProviderResponse:
+          'users/${userId}/carts/${cartId}/payment/sop/response',
+        cardTypes: 'cardtypes',
+      },
     },
   },
   context: {
@@ -196,26 +201,27 @@ describe('OccCheckoutPaymentAdapter', () => {
 
   describe('set payment details', () => {
     it('should set payment details for given user id, cart id and payment details id', () => {
-      service.set(userId, cartId, '123').subscribe((result) => {
-        expect(result).toEqual(cartData);
-      });
+      const paymentDetailsId = '999';
+
+      let result;
+      service
+        .set(userId, cartId, paymentDetailsId)
+        .subscribe((res) => (result = res));
 
       const mockReq = httpMock.expectOne((req) => {
+        console.log('xx1', req.url);
+
         return (
           req.method === 'PUT' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/paymentdetails'
+            `/users/${userId}/carts/${cartId}/paymentdetails?paymentDetailsId=${paymentDetailsId}`
         );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.params.get('paymentDetailsId')).toEqual('123');
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
+      expect(result).toEqual(cartData);
     });
   });
 
@@ -228,14 +234,12 @@ describe('OccCheckoutPaymentAdapter', () => {
 
       httpMock
         .expectOne((req) => {
+          console.log('xx4', req.url);
+
           return (
             req.method === 'GET' &&
             req.url ===
-              usersEndpoint +
-                `/${userId}` +
-                cartsEndpoint +
-                cartId +
-                '/payment/sop/request?responseUrl=sampleUrl'
+              `/users/${userId}/carts/${cartId}/payment/sop/request?responseUrl=sampleUrl`
           );
         })
         .flush(paymentProviderInfo);
@@ -252,7 +256,7 @@ describe('OccCheckoutPaymentAdapter', () => {
         .expectOne((req) => {
           return (
             req.method === 'POST' &&
-            req.url === '/users/123/carts/456/payment/sop/response'
+            req.url === `/users/${userId}/carts/${cartId}/payment/sop/response`
           );
         })
         .flush(mockPaymentDetails);
@@ -278,14 +282,12 @@ describe('OccCheckoutPaymentAdapter', () => {
         });
 
       const mockReq = httpMock.expectOne((req) => {
+        console.log('xx5', req.url);
+
         return (
           req.method === 'GET' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/payment/sop/request?responseUrl=sampleUrl'
+            `/users/${userId}/carts/${cartId}/payment/sop/request?responseUrl=sampleUrl`
         );
       });
 
@@ -371,14 +373,10 @@ describe('OccCheckoutPaymentAdapter', () => {
         });
 
       const mockReq = httpMock.expectOne((req) => {
+        console.log('xxx', req.url);
         return (
           req.method === 'POST' &&
-          req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/payment/sop/response'
+          req.url === `/users/${userId}/carts/${cartId}/payment/sop/response`
         );
       });
 
@@ -409,12 +407,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
-          req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/payment/sop/response'
+          req.url === `/users/${userId}/carts/${cartId}/payment/sop/response`
         );
       });
 

@@ -22,16 +22,35 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected setDeliveryAddressEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('deliveryAddress', { userId, cartId });
+  protected setDeliveryAddressEndpoint(
+    userId: string,
+    cartId: string,
+    addressId?: string
+  ): string {
+    return this.occEndpoints.getUrl(
+      'deliveryAddresses',
+      { userId, cartId },
+      addressId ? { addressId } : {}
+    );
   }
 
-  protected getDeliveryModeEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('deliverymode', { userId, cartId });
+  protected getDeliveryModeEndpoint(
+    userId: string,
+    cartId: string,
+    deliveryModeId?: string
+  ): string {
+    return this.occEndpoints.getUrl(
+      'deliveryMode',
+      {
+        userId,
+        cartId,
+      },
+      deliveryModeId ? { deliveryModeId } : {}
+    );
   }
 
   protected getDeliveryModesEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('deliverymodes', { userId, cartId });
+    return this.occEndpoints.getUrl('deliveryModes', { userId, cartId });
   }
 
   public createAddress(
@@ -58,11 +77,8 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     addressId: string
   ): Observable<any> {
     return this.http.put(
-      this.setDeliveryAddressEndpoint(userId, cartId),
-      {},
-      {
-        params: { addressId: addressId },
-      }
+      this.setDeliveryAddressEndpoint(userId, cartId, addressId),
+      {}
     );
   }
 
@@ -72,11 +88,8 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     deliveryModeId: string
   ): Observable<any> {
     return this.http.put(
-      this.getDeliveryModeEndpoint(userId, cartId),
-      {},
-      {
-        params: { deliveryModeId: deliveryModeId },
-      }
+      this.getDeliveryModeEndpoint(userId, cartId, deliveryModeId),
+      {}
     );
   }
 
