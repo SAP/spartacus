@@ -8,6 +8,8 @@
 <ng-template #login>
   <div class="headerLinks">
     <cx-page-slot position="HeaderLinks"></cx-page-slot>
+  </div>
+  <div class="login">
     <a role="link" [routerLink]="{ cxRoute: 'login' } | cxUrl">{{
       'miniLogin.signInRegister' | cxTranslate
     }}</a>
