@@ -10,7 +10,6 @@ import { CheckoutEventBuilder } from './events/checkout-event.builder';
 import { CheckoutEventModule } from './events/checkout-event.module';
 import { facadeProviders } from './facade/facade-providers';
 import { CheckoutPageMetaResolver } from './services/checkout-page-meta.resolver';
-import { ClearCheckoutService } from './services/clear-checkout.service';
 import { CheckoutStoreModule } from './store/checkout-store.module';
 
 @NgModule({
@@ -25,7 +24,6 @@ import { CheckoutStoreModule } from './store/checkout-store.module';
     CheckoutReplenishmentOrderConnector,
     CheckoutEventBuilder,
     CheckoutPageMetaResolver,
-    ClearCheckoutService,
     {
       provide: PageMetaResolver,
       useExisting: CheckoutPageMetaResolver,
