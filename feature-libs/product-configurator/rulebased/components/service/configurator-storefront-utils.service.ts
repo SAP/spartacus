@@ -12,11 +12,10 @@ import { Configurator } from '../../core/model/configurator.model';
   providedIn: 'root',
 })
 export class ConfiguratorStorefrontUtilsService {
-  // TODO(#11681): make keyboardFocusService a required dependency and remove deprecated constructor
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     @Inject(PLATFORM_ID) protected platformId: any,
-    protected keyboardFocusService?: KeyboardFocusService
+    protected keyboardFocusService: KeyboardFocusService
   ) {}
 
   /**
