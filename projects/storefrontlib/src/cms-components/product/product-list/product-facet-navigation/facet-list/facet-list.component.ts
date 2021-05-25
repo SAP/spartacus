@@ -7,6 +7,8 @@ import {
   Input,
   Output,
   Renderer2,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { Facet } from '@spartacus/core';
 import { Tab } from 'projects/storefrontlib/src/cms-components/content/tab/Tab';
@@ -40,6 +42,8 @@ export class FacetListComponent {
     return this._isDialog;
   }
 
+  @ViewChild('facetsRef') facetsRef: TemplateRef<any>;
+
   /** Emits when the list must close */
   @Output() closeList = new EventEmitter();
 
@@ -55,12 +59,16 @@ export class FacetListComponent {
     autofocus: 'cx-facet',
   };
 
+  tabConfig = { label: 'Product Information' };
   tabs$: Observable<Tab[]> = this.facetList$.pipe(
     map((facets) => {
-      console.log(facets);
-      return {
-        title: '',
-      };
+      console.log(facets, this.facetsRef);
+      return facets.facets.map((facet) => {
+        return {
+          title: facet.name ?? 'unnamed',
+          template: this.facetsRef,
+        };
+      });
     })
   );
 

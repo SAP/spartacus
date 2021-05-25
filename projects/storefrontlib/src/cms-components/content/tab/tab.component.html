@@ -45,10 +45,7 @@
           [attr.tabindex]="isOpen(i) ? 0 : -1"
           [style.display]="isOpen(i) ? 'block' : 'none'"
         >
-          <ng-container
-            *ngIf="tab.template"
-            [ngTemplateOutlet]="tab.template"
-          ></ng-container>
+          <ng-container [ngTemplateOutlet]="tab.template"></ng-container>
 
           <ng-template
             *ngIf="tab.cxComponent as component"

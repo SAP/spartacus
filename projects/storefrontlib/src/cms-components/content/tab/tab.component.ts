@@ -26,10 +26,13 @@ export class TabComponent {
   @Input() openTabs: number[] = [0];
   @Input() classes: string = '';
   @Input() config: TabConfig;
+  @Input() mode: TAB_TYPE;
 
-  mode$: Observable<TAB_TYPE> = this.breakpointService
-    .isUp(BREAKPOINT.md)
-    .pipe(map((isUp: boolean) => (isUp ? TAB_TYPE.TAB : TAB_TYPE.ACCORDIAN)));
+  mode$: Observable<TAB_TYPE> = this.breakpointService.isUp(BREAKPOINT.md).pipe(
+    map((isUp: boolean) => {
+      return this.mode ? this.mode : isUp ? TAB_TYPE.TAB : TAB_TYPE.ACCORDIAN;
+    })
+  );
 
   @ViewChildren('tabButton')
   tabButtons: QueryList<any>;

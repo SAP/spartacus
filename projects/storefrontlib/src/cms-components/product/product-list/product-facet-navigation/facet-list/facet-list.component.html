@@ -12,18 +12,18 @@
     </button>
   </h4>
 
-  <!-- <cx-tab
+  <cx-tab
     [tabs$]="tabs$"
     *cxFeatureLevel="'3.4'"
-    [classes]="'test-class some-otjer'"
     [config]="tabConfig"
-  ></cx-tab> -->
+    [mode]="'ACCORDIAN'"
+  ></cx-tab>
 
   <!-- 
       Here we'd like to introduce configurable facet components, 
       either by using specific configuration or generic sproutlets 
   -->
-  <cx-facet
+  <!-- <cx-facet
     *ngFor="let facet of facets"
     #facetRef
     [facet]="facet"
@@ -31,5 +31,59 @@
     (unlock)="expandFacetGroup(facet, facetRef)"
     [class.expanded]="isExpanded(facet) | async"
     [class.collapsed]="isCollapsed(facet) | async"
-  ></cx-facet>
+  ></cx-facet> -->
 </div>
+
+<ng-template #facetsRef>
+  <ng-container *ngIf="(facetList$ | async)?.facets as facets">
+    FACETS
+    <ng-container *ngIf="facets[0] as facet">
+      <a
+        *ngFor="let value of facet.values"
+        #facetValue
+        routerLink="./"
+        class="value"
+        [class.selected]="value.selected"
+        [cxFocus]="value.name"
+      >
+        <span>
+          <span class="label">{{ value.name }}</span>
+          <span class="count">{{ value.count }}</span>
+        </span>
+      </a>
+
+      <div class="more">
+        <a
+          *ngFor="let value of facet.values"
+          #facetValue
+          routerLink="./"
+          class="value"
+          [class.selected]="value.selected"
+          [cxFocus]="value.name"
+        >
+          <span
+            >{{ value.name }}<span class="count">{{ value.count }}</span></span
+          >
+        </a>
+
+        <!-- <button
+          *ngIf="state.maxVisible > state.topVisible"
+          (click)="decreaseVisibleValues()"
+          class="cx-action-link"
+          cxFocus="moreorless"
+        >
+          {{ 'productList.showLess' | cxTranslate }}
+        </button>
+
+        <button
+          *ngIf="state.maxVisible > 0 && state.maxVisible < facet.values.length"
+          (click)="increaseVisibleValues()"
+          class="cx-action-link"
+          cxFocus="moreorless"
+        >
+          {{ 'productList.showMore' | cxTranslate }}
+        </button> -->
+      </div>
+    </ng-container>
+  </ng-container>
+</ng-template>
