@@ -513,12 +513,12 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
-// uncomment product variants deprecation on 4.0 migration works (#11391)
 export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
 export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
 export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
 export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
+export const PRODUCT_VARIANTS_MODULE = 'ProductVariantsModule';
 
 /***** Removed public api end *****/
 

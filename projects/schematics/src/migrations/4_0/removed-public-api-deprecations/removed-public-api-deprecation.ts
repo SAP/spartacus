@@ -4,7 +4,9 @@ import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-
 import {
   PRODUCT_VARIANT_COMPONENT,
   PRODUCT_VARIANT_GUARD,
+  PRODUCT_VARIANTS_MODULE,
   SPARTACUS_STOREFRONTLIB,
+  STORE_FINDER_MODULE,
   VARIANT_COLOR_SELECTOR_COMPONENT,
   VARIANT_SIZE_SELECTOR_COMPONENT,
   VARIANT_STYLE_ICONS_COMPONENT,
@@ -12,6 +14,12 @@ import {
 } from '../../../shared/constants';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
+  // projects/storefrontlib/src/cms-components/storefinder/store-finder.module.ts
+  {
+    node: PRODUCT_VARIANTS_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${PRODUCT_VARIANTS_MODULE}' was moved to @spartacus/product/variants.`,
+  },
   // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.component.ts
   {
     node: PRODUCT_VARIANT_COMPONENT,
