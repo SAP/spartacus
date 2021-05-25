@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Cart, ConverterService } from '@spartacus/core';
 import { OccConfig } from '../../index';
@@ -43,13 +42,9 @@ describe('OccCheckoutCostCenterAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-    service = TestBed.inject(
-      OccCheckoutCostCenterAdapter as Type<OccCheckoutCostCenterAdapter>
-    );
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-    converter = TestBed.inject(ConverterService as Type<ConverterService>);
+    service = TestBed.inject(OccCheckoutCostCenterAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
 
     spyOn(converter, 'pipeableMany').and.callThrough();
   });
