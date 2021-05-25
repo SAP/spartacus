@@ -24,11 +24,11 @@ import { map, switchMap } from 'rxjs/operators';
 export class LogoutGuard implements CanActivate {
   constructor(
     protected auth: AuthService,
-    protected authRedirectService: AuthRedirectService,
     protected cms: CmsService,
+    protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
     protected router: Router,
-    protected semanticPathService: SemanticPathService
+    protected authRedirectService: AuthRedirectService
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
