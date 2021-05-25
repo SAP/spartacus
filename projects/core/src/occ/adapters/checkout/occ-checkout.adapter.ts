@@ -34,7 +34,10 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     );
   }
 
-  protected getDeliveryAddressesEndpoint(userId: string, cartId: string): string {
+  protected getDeliveryAddressesEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
     return this.occEndpoints.getUrl('deliveryAddresses', { userId, cartId });
   }
 
