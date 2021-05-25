@@ -51,10 +51,10 @@
       "factory": "./4_0/removed-public-api-deprecations/removed-public-api-deprecation#migrate",
       "description": "Comment about usage of removed public api"
     },
-    "migration-v4-product-configurator-changed-feature-keys": {
+    "migration-v4-config-deprecations-01": {
       "version": "4.0.0",
-      "factory": "./4_0/product-configurator-changed-feature-keys/product-configurator-changed-feature-keys#migrate",
-      "description": "Feature keys should be changed to globally unique ones"
-    }    
+      "factory": "./4_0/config-deprecations/config-deprecation#migrate",
+      "description": "Handle deprecated configuration properties"
+    }  
   }
 }
