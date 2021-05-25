@@ -8,6 +8,7 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CLI_CART_SAVED_CART_FEATURE,
   LibraryOptions as SpartacusCartOptions,
   readPackageJson,
   shouldAddFeature,
@@ -17,8 +18,8 @@ import {
 import { peerDependencies } from '../../package.json';
 import {
   CART_FOLDER_NAME,
-  CART_SAVED_CART_FEATURE_NAME,
-  CLI_SAVED_CART_FEATURE,
+  CART_SAVED_CART_FEATURE_NAME_CONSTANT,
+  CART_SAVED_CART_MODULE_NAME,
   SAVED_CART_MODULE,
   SAVED_CART_ROOT_MODULE,
   SAVED_CART_TRANSLATIONS,
@@ -30,21 +31,16 @@ import {
 } from '../constants';
 
 export function addCartFeatures(options: SpartacusCartOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      shouldAddFeature(CLI_SAVED_CART_FEATURE, options.features)
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+
+      shouldAddFeature(CLI_CART_SAVED_CART_FEATURE, options.features)
         ? addSavedCartFeature(options)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        libraryPeerDependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }
@@ -52,7 +48,7 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
 function addSavedCartFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CART_FOLDER_NAME,
-    name: CART_SAVED_CART_FEATURE_NAME,
+    moduleName: CART_SAVED_CART_MODULE_NAME,
     featureModule: {
       name: SAVED_CART_MODULE,
       importPath: SPARTACUS_SAVED_CART,
@@ -60,6 +56,10 @@ function addSavedCartFeature(options: SpartacusCartOptions): Rule {
     rootModule: {
       name: SAVED_CART_ROOT_MODULE,
       importPath: SPARTACUS_SAVED_CART_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_SAVED_CART_ROOT,
+      namedImports: [CART_SAVED_CART_FEATURE_NAME_CONSTANT],
     },
     i18n: {
       resources: SAVED_CART_TRANSLATIONS,

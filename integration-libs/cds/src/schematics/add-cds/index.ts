@@ -11,14 +11,16 @@ import {
   addPackageJsonDependenciesForLibrary,
   CDS_CONFIG,
   CLI_CDS_FEATURE,
+  CLI_TRACKING_PERSONALIZATION_FEATURE,
   CustomConfig,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CDS,
+  SPARTACUS_TRACKING,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../../package.json';
-import { CDS_FOLDER_NAME, CDS_MODULE } from '../constants';
+import { CDS_FOLDER_NAME, CDS_MODULE, CDS_MODULE_NAME } from '../constants';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 export function addCdsFeature(options: SpartacusCdsOptions): Rule {
@@ -27,31 +29,17 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      shouldAddFeature(CLI_CDS_FEATURE, options.features)
-        ? addCds(options)
-        : noop(),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        libraryPeerDependencies: peerDependencies,
-        options,
-      }),
+      shouldAddFeature(CLI_CDS_FEATURE, options.features)
+        ? addCds(options, context)
+        : noop(),
     ]);
   };
 }
 
-function validateCdsOptions({ tenant, baseUrl }: SpartacusCdsOptions): void {
-  if (!tenant) {
-    throw new SchematicsException(`Please specify tenant name.`);
-  }
-  if (!baseUrl) {
-    throw new SchematicsException(`Please specify the base URL.`);
-  }
-}
-
-function addCds(options: SpartacusCdsOptions): Rule {
-  validateCdsOptions(options);
+function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
+  validateCdsOptions(options, context);
 
   const customConfig: CustomConfig[] = [
     {
@@ -101,13 +89,47 @@ function addCds(options: SpartacusCdsOptions): Rule {
     { ...options, lazy: false },
     {
       folderName: CDS_FOLDER_NAME,
-      name: CLI_CDS_FEATURE,
+      moduleName: CDS_MODULE_NAME,
       featureModule: {
         importPath: SPARTACUS_CDS,
         name: CDS_MODULE,
         content: `${CDS_MODULE}.forRoot()`,
       },
       customConfig,
+      dependencyManagement: {
+        featureName: CLI_CDS_FEATURE,
+        featureDependencies: {
+          [SPARTACUS_TRACKING]: [CLI_TRACKING_PERSONALIZATION_FEATURE],
+        },
+      },
     }
   );
+}
+
+function validateCdsOptions(
+  {
+    tenant,
+    baseUrl,
+    profileTagConfigUrl,
+    profileTagLoadUrl,
+  }: SpartacusCdsOptions,
+  context: SchematicContext
+): void {
+  if (!tenant) {
+    throw new SchematicsException(`Please specify tenant name.`);
+  }
+  if (!baseUrl) {
+    throw new SchematicsException(`Please specify the base URL.`);
+  }
+
+  if (
+    !(
+      (profileTagConfigUrl && profileTagLoadUrl) ||
+      (!profileTagConfigUrl && !profileTagLoadUrl)
+    )
+  ) {
+    context.logger.warn(
+      `Profile tag will not be added. Please run the schematic again, and make sure you provide both profile tag options.`
+    );
+  }
 }

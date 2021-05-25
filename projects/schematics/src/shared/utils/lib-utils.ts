@@ -22,14 +22,44 @@ import {
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
+  CLI_ASM_FEATURE,
+  CLI_CART_SAVED_CART_FEATURE,
+  CLI_CDC_FEATURE,
+  CLI_CDS_FEATURE,
+  CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
+  CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
+  CLI_PRODUCT_BULK_PRICING_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+  CLI_PRODUCT_VARIANTS_FEATURE,
+  CLI_QUALTRICS_FEATURE,
+  CLI_SMARTEDIT_FEATURE,
+  CLI_STOREFINDER_FEATURE,
+  CLI_TRACKING_PERSONALIZATION_FEATURE,
+  CLI_TRACKING_TMS_AEP_FEATURE,
+  CLI_TRACKING_TMS_GTM_FEATURE,
+  CLI_USER_ACCOUNT_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
   CMS_CONFIG,
   I18N_CONFIG,
   PROVIDE_CONFIG_FUNCTION,
+  SPARTACUS_ASM,
+  SPARTACUS_CART,
+  SPARTACUS_CDC,
+  SPARTACUS_CDS,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
+  SPARTACUS_ORGANIZATION,
+  SPARTACUS_PRODUCT,
+  SPARTACUS_PRODUCT_CONFIGURATOR,
+  SPARTACUS_QUALTRICS,
   SPARTACUS_SETUP,
+  SPARTACUS_SMARTEDIT,
+  SPARTACUS_STOREFINDER,
+  SPARTACUS_TRACKING,
+  SPARTACUS_USER,
   UTF_8,
 } from '../constants';
 import { getB2bConfiguration } from './config-utils';
@@ -43,7 +73,8 @@ import {
 import {
   createDependencies,
   createSpartacusDependencies,
-  getSpartacusSchematicsVersion,
+  getPrefixedSpartacusSchematicsVersion,
+  readPackageJson,
 } from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
@@ -57,6 +88,8 @@ export interface LibraryOptions {
   project: string;
   lazy: boolean;
   features?: string[];
+  // meta, when programmatically installing other Spartacus libraries as dependencies
+  options?: LibraryOptions;
 }
 
 export interface FeatureConfig {
@@ -65,14 +98,10 @@ export interface FeatureConfig {
    */
   folderName: string;
   /**
-   * The feature name corresponds to the configuration feature name which is used if the `lazyModuleName` is not provided.
-   * Also used as a name of the generated feature module file.
+   * Used as the generated feature module's file name.
+   * Also, used as the lazy loading's feature name if the `lazyLoadingChunk` config is not provided.
    */
-  name: string;
-  /**
-   * The configuration name of the lazy loaded feature.
-   */
-  lazyModuleName?: string;
+  moduleName: string;
   /**
    * The feature module configuration.
    */
@@ -81,6 +110,10 @@ export interface FeatureConfig {
    * The root module configuration.
    */
   rootModule?: Module;
+  /**
+   * The lazy loading chunk's name. It's usually a constant imported from a library.
+   */
+  lazyLoadingChunk?: Import;
   /**
    * Translation chunk configuration
    */
@@ -97,6 +130,25 @@ export interface FeatureConfig {
    * An optional custom configuration to provide to the generated module.
    */
   customConfig?: CustomConfig | CustomConfig[];
+  /**
+   * Dependency management for the library
+   */
+  dependencyManagement?: DependencyManagement;
+}
+
+/**
+ * Dependency management for the library
+ */
+export interface DependencyManagement {
+  /**
+   * The name of the feature that's currently being installed.
+   */
+  featureName: string;
+  /**
+   * Contains the feature dependencies.
+   * The key is a Spartacus scope, while the value is an array of its features.
+   */
+  featureDependencies: Record<string, string[]>;
 }
 
 export interface CustomConfig {
@@ -127,11 +179,68 @@ export interface AssetsConfig {
   glob: string;
 }
 
+export const packageSubFeaturesMapping: Record<string, string[]> = {
+  [SPARTACUS_ASM]: [CLI_ASM_FEATURE],
+  [SPARTACUS_CART]: [CLI_CART_SAVED_CART_FEATURE],
+  [SPARTACUS_ORGANIZATION]: [
+    CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
+    CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
+  ],
+  [SPARTACUS_CDC]: [CLI_CDC_FEATURE],
+  [SPARTACUS_CDS]: [CLI_CDS_FEATURE],
+  [SPARTACUS_PRODUCT]: [
+    CLI_PRODUCT_BULK_PRICING_FEATURE,
+    CLI_PRODUCT_VARIANTS_FEATURE,
+  ],
+  [SPARTACUS_PRODUCT_CONFIGURATOR]: [
+    CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+    CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
+  ],
+  [SPARTACUS_QUALTRICS]: [CLI_QUALTRICS_FEATURE],
+  [SPARTACUS_SMARTEDIT]: [CLI_SMARTEDIT_FEATURE],
+  [SPARTACUS_STOREFINDER]: [CLI_STOREFINDER_FEATURE],
+  [SPARTACUS_TRACKING]: [
+    CLI_TRACKING_PERSONALIZATION_FEATURE,
+    CLI_TRACKING_TMS_GTM_FEATURE,
+    CLI_TRACKING_TMS_AEP_FEATURE,
+  ],
+  [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE, CLI_USER_PROFILE_FEATURE],
+};
+
 export function shouldAddFeature(
   feature: string,
   features: string[] = []
 ): boolean {
   return features.includes(feature);
+}
+
+export function prepareCliPackageAndSubFeature(
+  features: string[]
+): Record<string, string[]> {
+  return features.reduce((cliFeatures, subFeature) => {
+    const packageName = getPackageBySubFeature(subFeature);
+    const subFeatures = [...(cliFeatures[packageName] ?? []), subFeature];
+
+    return { ...cliFeatures, [packageName]: subFeatures };
+  }, {} as Record<string, string[]>);
+}
+
+export function getPackageBySubFeature(subFeature: string): string {
+  for (const spartacusPackage in packageSubFeaturesMapping) {
+    if (!packageSubFeaturesMapping.hasOwnProperty(spartacusPackage)) {
+      continue;
+    }
+
+    const subFeatures = packageSubFeaturesMapping[spartacusPackage];
+    if (subFeatures.includes(subFeature)) {
+      return spartacusPackage;
+    }
+  }
+
+  throw new SchematicsException(
+    `The given '${subFeature}' doesn't contain a Spartacus package mapping.
+Please check 'packageSubFeaturesMapping' in 'projects/schematics/src/shared/utils/lib-utils.ts'`
+  );
 }
 
 export function addLibraryFeature<T extends LibraryOptions>(
@@ -152,6 +261,9 @@ export function addLibraryFeature<T extends LibraryOptions>(
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
+      config.dependencyManagement
+        ? installRequiredSpartacusFeatures(config.dependencyManagement, options)
+        : noop(),
     ]);
   };
 }
@@ -244,7 +356,7 @@ function handleFeature<T extends LibraryOptions>(
     for (const tsconfigPath of buildPaths) {
       rules.push(
         ensureModuleExists({
-          name: `${config.name}-feature`,
+          name: `${dasherize(config.moduleName)}-feature`,
           path: `app/spartacus/features/${config.folderName}`,
           module: SPARTACUS_FEATURES_MODULE,
           project: options.project,
@@ -263,19 +375,16 @@ function addRootModule(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     if (!config.rootModule) {
       return tree;
     }
 
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+    const moduleName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (
-        sourceFile
-          .getFilePath()
-          .includes(`${dasherize(config.name)}-feature.module.ts`)
-      ) {
+      if (sourceFile.getFilePath().includes(moduleName)) {
         addModuleImport(sourceFile, {
           import: {
             moduleSpecifier: config.rootModule.importPath,
@@ -296,13 +405,20 @@ function addFeatureModule(
   basePath: string,
   config: FeatureConfig,
   options: LibraryOptions
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (options.lazy) {
+          let lazyLoadingChunkName = config.moduleName;
+          if (config.lazyLoadingChunk) {
+            const content = config.lazyLoadingChunk.namedImports[0];
+            lazyLoadingChunkName = `[${content}]`;
+            sourceFile.addImportDeclaration(config.lazyLoadingChunk);
+          }
+
           addModuleProvider(sourceFile, {
             import: [
               {
@@ -312,11 +428,9 @@ function addFeatureModule(
             ],
             content: `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
               featureModules: {
-                ${config.lazyModuleName || config.name}: {
+                ${lazyLoadingChunkName}: {
                   module: () =>
-                    import('${
-                      config.featureModule.importPath
-                    }').then((m) => m.${config.featureModule.name}),
+                    import('${config.featureModule.importPath}').then((m) => m.${config.featureModule.name}),
                 },
               }
             })`,
@@ -342,10 +456,10 @@ function addFeatureTranslations(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.i18n) {
@@ -380,10 +494,10 @@ function addCustomConfig(
   tsconfigPath: string,
   basePath: string,
   config: FeatureConfig
-) {
+): Rule {
   return (tree: Tree): Tree => {
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleFileName = `${dasherize(config.name)}-feature.module.ts`;
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().includes(moduleFileName)) {
         if (config.customConfig) {
@@ -602,33 +716,68 @@ export function addPackageJsonDependencies(
 
 export function addPackageJsonDependenciesForLibrary<
   OPTIONS extends LibraryOptions
->(options: {
-  packageJson: any;
-  context: SchematicContext;
-  libraryPeerDependencies: Record<string, string>;
-  options: OPTIONS;
-}): Rule {
-  const spartacusLibraries = createSpartacusDependencies(
-    options.libraryPeerDependencies
-  );
-  const thirdPartyDependencies = createDependencies(
-    options.libraryPeerDependencies
-  );
-  const dependencies = spartacusLibraries.concat(thirdPartyDependencies);
+>(dependencies: Record<string, string>, options: OPTIONS): Rule {
+  return (tree: Tree, context: SchematicContext): Rule => {
+    const packageJson = readPackageJson(tree);
+    const spartacusLibraries = createSpartacusDependencies(dependencies);
+    const thirdPartyLibraries = createDependencies(dependencies);
+    const libraries = spartacusLibraries.concat(thirdPartyLibraries);
 
-  const dependencyRule = addPackageJsonDependencies(
-    dependencies,
-    options.packageJson
-  );
+    const cliFeatures = spartacusLibraries
+      .map((dependency) => dependency.name)
+      .reduce((previous, current) => {
+        return {
+          ...previous,
+          // just install the Spartacus library, without any sub-features
+          [current]: [],
+        };
+      }, {} as Record<string, string[]>);
+    const featureOptions = createSpartacusFeatureOptionsForLibrary(
+      options,
+      cliFeatures
+    );
+    addSchematicsTasks(featureOptions, context);
 
-  const featureOptions = createSpartacusFeatureOptionsForLibrary(
-    spartacusLibraries.map((dependency) => dependency.name),
-    options.options
-  );
-  addSchematicsTasks(featureOptions, options.context);
+    return chain([
+      addPackageJsonDependencies(libraries, packageJson),
+      installPackageJsonDependencies(),
+    ]);
+  };
+}
 
-  const installationRule = installPackageJsonDependencies();
-  return chain([dependencyRule, installationRule]);
+function installRequiredSpartacusFeatures<OPTIONS extends LibraryOptions>(
+  dependencyManagement: DependencyManagement,
+  options: OPTIONS
+): Rule {
+  return (_tree: Tree, context: SchematicContext): void => {
+    if (!dependencyManagement) {
+      return;
+    }
+
+    logFeatureInstallation(dependencyManagement, context);
+    const featureOptions = createSpartacusFeatureOptionsForLibrary(
+      options,
+      dependencyManagement.featureDependencies
+    );
+    addSchematicsTasks(featureOptions, context);
+  };
+}
+
+function logFeatureInstallation(
+  dependencyManagement: DependencyManagement,
+  context: SchematicContext
+): void {
+  const cliFeatures = dependencyManagement.featureDependencies;
+  for (const spartacusScope in cliFeatures) {
+    if (!cliFeatures.hasOwnProperty(spartacusScope)) {
+      continue;
+    }
+
+    const requiredFeatures = cliFeatures[spartacusScope].join(',');
+    context.logger.info(
+      `⚙️  ${dependencyManagement.featureName} requires the following features from ${spartacusScope}: ${requiredFeatures}`
+    );
+  }
 }
 
 export function shouldAddDependency(
@@ -646,7 +795,7 @@ export function configureB2bFeatures<T extends LibraryOptions>(
   packageJson: any
 ): Rule {
   return (_tree: Tree, _context: SchematicContext): Rule => {
-    const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+    const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
     return chain([
       addB2bProviders(options),
       addPackageJsonDependencies(
@@ -705,19 +854,21 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
  * @param options
  * @returns
  */
-function createSpartacusFeatureOptionsForLibrary<T extends LibraryOptions>(
-  spartacusLibraries: string[],
-  options: T
+export function createSpartacusFeatureOptionsForLibrary<
+  OPTIONS extends LibraryOptions
+>(
+  options: OPTIONS,
+  cliFeatures: Record<string, string[]>
 ): {
   feature: string;
   options: LibraryOptions;
 }[] {
-  return spartacusLibraries.map((spartacusLibrary) => ({
+  return Object.keys(cliFeatures).map((spartacusLibrary) => ({
     feature: spartacusLibrary,
     options: {
       ...options,
       // an empty array means that no library features will be installed.
-      features: [],
+      features: cliFeatures[spartacusLibrary] ?? [],
     },
   }));
 }
@@ -762,4 +913,8 @@ export function runExternalSpartacusLibrary(
       ),
     ])(tree, context);
   };
+}
+
+function createModuleFileName(config: FeatureConfig): string {
+  return `${dasherize(config.moduleName)}-feature.module.ts`;
 }
