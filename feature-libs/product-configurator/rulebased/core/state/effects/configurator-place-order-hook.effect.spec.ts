@@ -115,7 +115,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
     expect(configPlaceOrderHookEffects).toBeTruthy();
   });
 
-  it('should emit remove configuration when order is placed for non-textfield configurators', () => {
+  it('should emit remove configuration for configurable entries when order is placed', () => {
     spyOn(activeCartService, 'getEntries').and.returnValue(of(cartEntries));
 
     const action = new CheckoutActions.PlaceOrder({
@@ -124,7 +124,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       termsChecked: true,
     });
     const completion = new ConfiguratorActions.RemoveConfiguration({
-      ownerKey: ['cartEntry/1', 'cartEntry/3', 'cartEntry/5'],
+      ownerKey: ['cartEntry/1', 'cartEntry/3', 'cartEntry/4', 'cartEntry/5'],
     });
 
     actions$ = hot('-a', { a: action });
@@ -133,7 +133,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
     expect(configPlaceOrderHookEffects.placeOrder$).toBeObservable(expected);
   });
 
-  it('should emit remove configuration when order is placed - cart contains no configured products', () => {
+  it('should not emit remove configuration when order is placed if cart contains no configured products', () => {
     spyOn(activeCartService, 'getEntries').and.returnValue(
       of(cartEntriesWOconfiguration)
     );

@@ -5,7 +5,6 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
-  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -26,11 +25,7 @@ export class ConfiguratorPlaceOrderHookEffects {
         .pipe(take(1))
         .subscribe((entries) => {
           entries
-            .filter(
-              (entry) =>
-                entry.product?.configurable &&
-                entry.product?.configuratorType !== ConfiguratorType.TEXTFIELD
-            )
+            .filter((entry) => entry.product?.configurable)
             .forEach((entry) => {
               const owner = ConfiguratorModelUtils.createOwner(
                 CommonConfigurator.OwnerType.CART_ENTRY,
