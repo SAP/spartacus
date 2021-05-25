@@ -1,10 +1,8 @@
 import {
   ANGULAR_CORE,
-  ANY_TYPE,
   CONFIGURATOR_GROUPS_SERVICE,
   CONFIGURATOR_STOREFRONT_UTILS_SERVICE,
   KEYBOARD_FOCUS_SERVICE,
-  PLATFORM,
   PLATFORM_ID_STRING,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   SPARTACUS_STOREFRONTLIB,
@@ -21,12 +19,8 @@ export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION: ConstructorDepreca
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
     },
     {
-      className: PLATFORM,
-      literalInference: ANY_TYPE,
-      injectionToken: {
-        token: PLATFORM_ID_STRING,
-        importPath: ANGULAR_CORE,
-      },
+      className: PLATFORM_ID_STRING,
+      importPath: ANGULAR_CORE,
     },
   ],
   addParams: [
