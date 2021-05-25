@@ -10,16 +10,11 @@ import {
 } from '../../../model/replenishment-order.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccConfig } from '../../config/occ-config';
-import { OccEndpointsService } from '../../services/occ-endpoints.service';
-import {
-  MockOccEndpointsService,
-  mockOccModuleConfig,
-} from '../user/unit-test.helper';
 import { OccCheckoutReplenishmentOrderAdapter } from './occ-checkout-replenishment-order.adapter';
 
-const mockCartId = 'test-cart';
-const mockTermsChecked = true;
-const mockUserId = 'test-user';
+const cartId = 'testCart';
+const termsChecked = true;
+const userId = 'testUser';
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: 'test-number-days',
@@ -32,11 +27,26 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
 };
 
+const MockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+      endpoints: {
+        scheduleReplenishmentOrder:
+          'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
+      },
+    },
+  },
+  context: {
+    baseSite: [''],
+  },
+};
+
 describe('OccCheckoutReplenishmentOrderAdapter', () => {
   let occAdapter: OccCheckoutReplenishmentOrderAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
-  let occEndpointService: OccEndpointsService;
 
   beforeEach(
     waitForAsync(() => {
@@ -44,8 +54,7 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
         imports: [HttpClientTestingModule],
         providers: [
           OccCheckoutReplenishmentOrderAdapter,
-          { provide: OccConfig, useValue: mockOccModuleConfig },
-          { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+          { provide: OccConfig, useValue: MockOccModuleConfig },
         ],
       });
     })
@@ -55,10 +64,8 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
     occAdapter = TestBed.inject(OccCheckoutReplenishmentOrderAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
-    occEndpointService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEndpointService, 'getUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -69,10 +76,10 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
     it('should schedule a replenishment order', () => {
       occAdapter
         .scheduleReplenishmentOrder(
-          mockCartId,
+          cartId,
           mockReplenishmentOrderFormData,
-          mockTermsChecked,
-          mockUserId
+          termsChecked,
+          userId
         )
         .subscribe((data) => {
           expect(data).toEqual(mockReplenishmentOrder);
@@ -81,45 +88,18 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
-          req.url === '/scheduleReplenishmentOrder' &&
+          req.url ===
+            `/orgUsers/${userId}/replenishmentOrders?fields=FULL%2CcostCenter(FULL)%2CpurchaseOrderNumber%2CpaymentType&cartId=${cartId}&termsChecked=${termsChecked}` &&
           req.body === mockReplenishmentOrderFormData
         );
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
-        'scheduleReplenishmentOrder',
-        {
-          userId: mockUserId,
-        }
-      );
-
       expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.params.get('termsChecked')).toBeTruthy();
-      expect(mockReq.request.params.get('cartId')).toEqual(mockCartId);
       expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(mockReplenishmentOrder);
-    });
-
-    it('should use converter', () => {
-      occAdapter
-        .scheduleReplenishmentOrder(
-          mockCartId,
-          mockReplenishmentOrderFormData,
-          mockTermsChecked,
-          mockUserId
-        )
-        .subscribe();
-      httpMock
-        .expectOne(
-          (req) =>
-            req.method === 'POST' &&
-            req.url === '/scheduleReplenishmentOrder' &&
-            req.body === mockReplenishmentOrderFormData
-        )
-        .flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(
         REPLENISHMENT_ORDER_NORMALIZER
       );
+      mockReq.flush(mockReplenishmentOrder);
     });
   });
 });
