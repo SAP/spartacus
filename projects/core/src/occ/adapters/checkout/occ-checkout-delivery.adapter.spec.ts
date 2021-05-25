@@ -71,13 +71,11 @@ describe('OccCheckoutDeliveryAdapter', () => {
         lastName: 'Address',
       };
 
-      let result;
-      service
-        .createAddress(userId, cartId, mockAddress)
-        .subscribe((res) => (result = res));
+      service.createAddress(userId, cartId, mockAddress).subscribe((result) => {
+        expect(result).toEqual(mockAddress);
+      });
 
       const mockReq = httpMock.expectOne((req) => {
-        console.log('url-1', req.url);
         return (
           req.method === 'POST' &&
           req.url === `/users/${userId}/carts/${cartId}/addresses/delivery`
@@ -87,7 +85,6 @@ describe('OccCheckoutDeliveryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockAddress);
-      expect(result).toEqual(mockAddress);
       expect(converter.pipeable).toHaveBeenCalledWith(ADDRESS_NORMALIZER);
       expect(converter.convert).toHaveBeenCalledWith(
         mockAddress,
@@ -100,13 +97,11 @@ describe('OccCheckoutDeliveryAdapter', () => {
     it('should set address for cart for given user id, cart id and address id', () => {
       const addressId = 'addressId';
 
-      let result;
-      service
-        .setAddress(userId, cartId, addressId)
-        .subscribe((res) => (result = res));
+      service.setAddress(userId, cartId, addressId).subscribe((result) => {
+        expect(result).toEqual(cartData);
+      });
 
       const mockReq = httpMock.expectOne((req) => {
-        console.log('url0', req.url);
         return (
           req.method === 'PUT' &&
           req.url ===
@@ -117,7 +112,6 @@ describe('OccCheckoutDeliveryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
     });
   });
 
@@ -126,13 +120,12 @@ describe('OccCheckoutDeliveryAdapter', () => {
       const mockDeliveryModes: Occ.DeliveryModeList = {
         deliveryModes: [{ name: 'mockDeliveryMode' }],
       };
-      let result;
-      service
-        .getSupportedModes(userId, cartId)
-        .subscribe((res) => (result = res));
+
+      service.getSupportedModes(userId, cartId).subscribe((result) => {
+        expect(result).toEqual(mockDeliveryModes.deliveryModes);
+      });
 
       const mockReq = httpMock.expectOne((req) => {
-        console.log('url1', req.url);
         return (
           req.method === 'GET' &&
           req.url === `/users/${userId}/carts/${cartId}/deliverymodes`
@@ -142,7 +135,6 @@ describe('OccCheckoutDeliveryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(mockDeliveryModes);
-      expect(result).toEqual(mockDeliveryModes.deliveryModes);
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         DELIVERY_MODE_NORMALIZER
       );
@@ -151,12 +143,11 @@ describe('OccCheckoutDeliveryAdapter', () => {
 
   describe('get delivery mode for cart', () => {
     it('should delivery modes for cart for given user id and cart id', () => {
-      let result;
-      service.getMode(userId, cartId).subscribe((res) => (result = res));
+      service.getMode(userId, cartId).subscribe((result) => {
+        expect(result).toEqual(cartData);
+      });
 
       const mockReq = httpMock.expectOne((req) => {
-        console.log('url2', req.url);
-
         return (
           req.method === 'GET' &&
           req.url === `/users/${userId}/carts/${cartId}/deliverymode`
@@ -166,7 +157,6 @@ describe('OccCheckoutDeliveryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
       expect(converter.pipeable).toHaveBeenCalledWith(DELIVERY_MODE_NORMALIZER);
     });
   });
@@ -175,13 +165,11 @@ describe('OccCheckoutDeliveryAdapter', () => {
     it('should set modes for cart for given user id, cart id and delivery mode id', () => {
       const deliveryModeId = 'deliveryModeId';
 
-      let result;
-      service
-        .setMode(userId, cartId, deliveryModeId)
-        .subscribe((res) => (result = res));
+      service.setMode(userId, cartId, deliveryModeId).subscribe((result) => {
+        expect(result).toEqual(cartData);
+      });
 
       const mockReq = httpMock.expectOne((req) => {
-        console.log('url3', req.url);
         return (
           req.method === 'PUT' &&
           req.url ===
@@ -192,7 +180,6 @@ describe('OccCheckoutDeliveryAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
     });
   });
 });

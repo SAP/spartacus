@@ -78,9 +78,8 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         ],
       };
 
-      let result;
-      service.loadPaymentTypes().subscribe((res) => {
-        result = res;
+      service.loadPaymentTypes().subscribe((result) => {
+        expect(result).toEqual(paymentTypesList.paymentTypes);
       });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -90,7 +89,6 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(paymentTypesList);
-      expect(result).toEqual(paymentTypesList.paymentTypes);
     });
 
     it('should use converter', () => {
@@ -106,10 +104,11 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
     it('should set payment type to cart', () => {
       const paymentType = 'CARD';
 
-      let result;
       service
         .setPaymentType(userId, cartId, paymentType)
-        .subscribe((res) => (result = res));
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -122,7 +121,6 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
     });
   });
 
@@ -131,10 +129,11 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       const paymentType = 'CARD';
       const purchaseOrderNumber = 'test-number';
 
-      let result;
       service
         .setPaymentType(userId, cartId, paymentType, purchaseOrderNumber)
-        .subscribe((res) => (result = res));
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -146,7 +145,6 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
 
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
     });
   });
 });

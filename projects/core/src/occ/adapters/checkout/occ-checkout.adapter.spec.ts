@@ -69,10 +69,9 @@ describe('OccCheckoutAdapter', () => {
 
   describe('place order', () => {
     it('should be able to place order for the cart', () => {
-      let result;
-      service
-        .placeOrder(userId, cartId, termsChecked)
-        .subscribe((res) => (result = res));
+      service.placeOrder(userId, cartId, termsChecked).subscribe((result) => {
+        expect(result).toEqual(orderData);
+      });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -85,7 +84,6 @@ describe('OccCheckoutAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orderData);
-      expect(result).toEqual(orderData);
     });
 
     it('should use converter', () => {

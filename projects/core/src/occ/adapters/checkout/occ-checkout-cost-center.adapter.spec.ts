@@ -57,10 +57,11 @@ describe('OccCheckoutCostCenterAdapter', () => {
     it('should set cost center cart', () => {
       const costCenterId = 'testCostCenterId';
 
-      let result;
       service
         .setCostCenter(userId, cartId, costCenterId)
-        .subscribe((res) => (result = res));
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
@@ -73,7 +74,6 @@ describe('OccCheckoutCostCenterAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
     });
   });
 });

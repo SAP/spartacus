@@ -203,14 +203,11 @@ describe('OccCheckoutPaymentAdapter', () => {
     it('should set payment details for given user id, cart id and payment details id', () => {
       const paymentDetailsId = '999';
 
-      let result;
-      service
-        .set(userId, cartId, paymentDetailsId)
-        .subscribe((res) => (result = res));
+      service.set(userId, cartId, paymentDetailsId).subscribe((result) => {
+        expect(result).toEqual(cartData);
+      });
 
       const mockReq = httpMock.expectOne((req) => {
-        console.log('xx1', req.url);
-
         return (
           req.method === 'PUT' &&
           req.url ===
@@ -221,21 +218,17 @@ describe('OccCheckoutPaymentAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
     });
   });
 
   describe('create payment', () => {
     it('should create payment', () => {
-      let result;
-      service.create(userId, cartId, mockPaymentDetails).subscribe((res) => {
-        result = res;
+      service.create(userId, cartId, mockPaymentDetails).subscribe((result) => {
+        expect(result).toEqual(mockPaymentDetails);
       });
 
       httpMock
         .expectOne((req) => {
-          console.log('xx4', req.url);
-
           return (
             req.method === 'GET' &&
             req.url ===
@@ -268,7 +261,6 @@ describe('OccCheckoutPaymentAdapter', () => {
         mockPaymentDetails,
         PAYMENT_DETAILS_SERIALIZER
       );
-      expect(result).toEqual(mockPaymentDetails);
     });
   });
 
@@ -282,8 +274,6 @@ describe('OccCheckoutPaymentAdapter', () => {
         });
 
       const mockReq = httpMock.expectOne((req) => {
-        console.log('xx5', req.url);
-
         return (
           req.method === 'GET' &&
           req.url ===
@@ -373,7 +363,6 @@ describe('OccCheckoutPaymentAdapter', () => {
         });
 
       const mockReq = httpMock.expectOne((req) => {
-        console.log('xxx', req.url);
         return (
           req.method === 'POST' &&
           req.url === `/users/${userId}/carts/${cartId}/payment/sop/response`
