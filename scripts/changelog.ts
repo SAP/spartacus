@@ -1,7 +1,6 @@
-// tslint:disable:no-implicit-dependencies
 import { JsonObject, logging } from '@angular-devkit/core';
 import chalk from 'chalk';
-import * as program from 'commander';
+import program from 'commander';
 import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -49,14 +48,14 @@ export default async function run(
   let fromToken: string;
   try {
     const packageVersions = await versionsHelper.fetchPackageVersions(
-      args.library
+      args.library!
     );
     const previousVersion = versionsHelper.extractPreviousVersionForChangelog(
       packageVersions,
-      newVersion.version
+      newVersion?.version!
     );
-    fromToken =
-      previousVersion && args.to.split(newVersion).join(previousVersion);
+    fromToken = (previousVersion &&
+      args.to.split(newVersion?.version!).join(previousVersion)) as string;
   } catch (err) {
     // package not found - assuming first release
     fromToken = '';
@@ -68,20 +67,34 @@ export default async function run(
     ''
   ).trim();
 
-  const libraryPaths = {
+  const libraryPaths: Record<string, string> = {
     '@spartacus/storefront': 'projects/storefrontlib',
     '@spartacus/core': 'projects/core',
     '@spartacus/styles': 'projects/storefrontstyles',
     '@spartacus/assets': 'projects/assets',
     '@spartacus/schematics': 'projects/schematics',
     '@spartacus/incubator': 'projects/incubator',
-    '@spartacus/cds': 'projects/cds',
-    '@spartacus/my-account': 'feature-libs/my-account',
+    '@spartacus/user': 'feature-libs/user',
+    '@spartacus/cds': 'integration-libs/cds',
+    '@spartacus/organization': 'feature-libs/organization',
     '@spartacus/product': 'feature-libs/product',
+    '@spartacus/product-configurator': 'feature-libs/product-configurator',
+    '@spartacus/storefinder': 'feature-libs/storefinder',
+    '@spartacus/asm': 'feature-libs/asm',
+    '@spartacus/smartedit': 'feature-libs/smartedit',
+    '@spartacus/tracking': 'feature-libs/tracking',
+    '@spartacus/qualtrics': 'feature-libs/qualtrics',
     '@spartacus/cdc': 'integration-libs/cdc',
+    '@spartacus/setup': 'core-libs/setup',
+    '@spartacus/cart': 'feature-libs/cart',
   };
 
-  const duplexUtil = through(function (chunk, _, callback) {
+  const duplexUtil = through(function (
+    this: NodeJS.ReadStream,
+    chunk: unknown,
+    _: unknown,
+    callback: () => {}
+  ) {
     this.push(chunk);
     callback();
   });
@@ -142,7 +155,6 @@ export default async function run(
               chunk.gitTags && (chunk.gitTags as string).match(/tag: (.*)/);
             const tags = maybeTag && maybeTag[1].split(/,/g);
             chunk['tags'] = tags;
-            // tslint:disable-next-line:triple-equals
             if (tags && tags.find((x) => x == args.to)) {
               toSha = chunk.hash as string;
             }
@@ -201,7 +213,6 @@ export default async function run(
     })
     .then(([body, markdown]) => {
       const json = body.body;
-      // tslint:disable-next-line:triple-equals
       const maybeRelease = json.find((x: JsonObject) => x.tag_name == args.to);
       const id = maybeRelease ? `/${maybeRelease.id}` : '';
 
@@ -283,15 +294,17 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/incubator':
       config.library = '@spartacus/incubator';
       break;
+    case 'user':
+    case '@spartacus/user':
+      config.library = '@spartacus/user';
+      break;
     case 'cds':
     case '@spartacus/cds':
       config.library = '@spartacus/cds';
       break;
-    case 'myaccount':
-    case 'my-account':
-    case '@spartacus/my-account':
-    case '@spartacus/myaccount':
-      config.library = '@spartacus/my-account';
+    case 'organization':
+    case '@spartacus/organization':
+      config.library = '@spartacus/organization';
       break;
     case 'product':
     case '@spartacus/product':
@@ -300,11 +313,40 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/product/configurators/cpq':
     case '@spartacus/product/configurators/variant':
     case '@spartacus/product/configurators/textfield':
+    case '@spartacus/product/variants':
       config.library = '@spartacus/product';
+      break;
+    case 'product-configurator':
+    case '@spartacus/product-configurator':
+      config.library = '@spartacus/product-configurator';
       break;
     case 'cdc':
     case '@spartacus/cdc':
       config.library = '@spartacus/cdc';
+      break;
+    case 'storefinder':
+    case '@spartacus/storefinder':
+      config.library = '@spartacus/storefinder';
+      break;
+    case 'tracking':
+    case '@spartacus/tracking':
+      config.library = '@spartacus/tracking';
+      break;
+    case 'qualtrics':
+    case '@spartacus/qualtrics':
+      config.library = '@spartacus/qualtrics';
+      break;
+    case 'smartedit':
+    case '@spartacus/smartedit':
+      config.library = '@spartacus/smartedit';
+      break;
+    case 'setup':
+    case '@spartacus/setup':
+      config.library = '@spartacus/setup';
+      break;
+    case 'cart':
+    case '@spartacus/cart':
+      config.library = '@spartacus/cart';
       break;
     default:
       config.library = undefined;

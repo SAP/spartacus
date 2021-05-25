@@ -9,13 +9,18 @@ class MockWindowRef {
     innerWidth: 1000,
   };
   get resize$(): Observable<any> {
-    return;
+    return of();
   }
 }
 const MockWindow = {
   target: {
     innerWidth: 0,
   },
+};
+
+// unordered config
+const mockConfig: LayoutConfig = {
+  breakpoints: {},
 };
 
 describe('BreakpointService', () => {
@@ -27,32 +32,134 @@ describe('BreakpointService', () => {
     TestBed.configureTestingModule({
       providers: [
         { provide: WindowRef, useClass: MockWindowRef },
-        { provide: LayoutConfig, useValue: {} },
+        { provide: LayoutConfig, useValue: mockConfig },
         BreakpointService,
       ],
     });
-    service = TestBed.inject(BreakpointService);
     config = TestBed.inject(LayoutConfig);
     windowRef = TestBed.inject(WindowRef);
   });
 
   it('should be created', () => {
+    service = TestBed.inject(BreakpointService);
     expect(service).toBeTruthy();
   });
 
-  it('should support 5 ordered breakpoints', () => {
-    expect(service.breakpoints).toEqual([
-      BREAKPOINT.xs,
-      BREAKPOINT.sm,
-      BREAKPOINT.md,
-      BREAKPOINT.lg,
-      BREAKPOINT.xl,
-    ]);
+  describe('resolve sorted breakpoints from config', () => {
+    it('should resolve [xs,sm,md,lg,xl] from config', () => {
+      config.breakpoints = {
+        xl: {
+          min: 1200,
+        },
+        sm: {
+          min: 576,
+          max: 768,
+        },
+        lg: {
+          max: 1200,
+        },
+        md: 992,
+        xs: 576,
+      };
+      service = TestBed.inject(BreakpointService);
+      expect(service.breakpoints).toEqual([
+        BREAKPOINT.xs,
+        BREAKPOINT.sm,
+        BREAKPOINT.md,
+        BREAKPOINT.lg,
+        BREAKPOINT.xl,
+      ]);
+    });
+
+    it('should resolve [sm,xl] by numeric values', () => {
+      config.breakpoints = {
+        xl: 1200,
+        sm: 768,
+      };
+      service = TestBed.inject(BreakpointService);
+      expect(service.breakpoints).toEqual([BREAKPOINT.sm, BREAKPOINT.xl]);
+    });
+
+    it('should resolve [sm,xl] by min values', () => {
+      config.breakpoints = {
+        xl: {
+          min: 1200,
+        },
+        sm: {
+          min: 576,
+        },
+      };
+      service = TestBed.inject(BreakpointService);
+      expect(service.breakpoints).toEqual([BREAKPOINT.sm, BREAKPOINT.xl]);
+    });
+
+    it('should resolve [sm,xl] by min and max', () => {
+      config.breakpoints = {
+        xl: {
+          min: 1200,
+        },
+        sm: {
+          max: 768,
+        },
+      };
+      service = TestBed.inject(BreakpointService);
+      expect(service.breakpoints).toEqual([BREAKPOINT.sm, BREAKPOINT.xl]);
+    });
+
+    it('should resolve [sm,xl] by min and numeric', () => {
+      config.breakpoints = {
+        xl: {
+          min: 1200,
+        },
+        sm: 768,
+      };
+      service = TestBed.inject(BreakpointService);
+      expect(service.breakpoints).toEqual([BREAKPOINT.sm, BREAKPOINT.xl]);
+    });
+
+    it('should resolve [xs,lg] by bin and default values', () => {
+      config.breakpoints = config.breakpoints = {
+        xs: 576,
+        lg: {
+          min: 992,
+        },
+      };
+      service = TestBed.inject(BreakpointService);
+      expect(service.breakpoints).toEqual(['xs', 'lg'] as any);
+    });
+
+    it('should resolve any screen', () => {
+      // type augmentation allows for this
+      config.breakpoints = {
+        screen: {
+          min: 1200,
+        },
+        any: 768,
+      } as any;
+      service = TestBed.inject(BreakpointService);
+      expect(service.breakpoints).toEqual(['any', 'screen'] as any);
+    });
   });
 
-  describe('with default sizes', () => {
+  describe('breakpoint size', () => {
     beforeEach(() => {
-      config.breakpoints = {};
+      config.breakpoints = {
+        xs: 576,
+        sm: {
+          max: 768,
+        },
+        md: {
+          min: 768,
+          max: 992,
+        },
+        lg: {
+          min: 992,
+        },
+        xl: {
+          min: 1200,
+        },
+      };
+      service = TestBed.inject(BreakpointService);
     });
 
     it('should return maximum 576 for XS', () => {
@@ -75,80 +182,61 @@ describe('BreakpointService', () => {
       expect(size).toEqual(1200);
     });
 
-    it('should not return a max size for XL', () => {
+    it('should return falsy for XL', () => {
       const size = service.getSize(BREAKPOINT.xl);
       expect(size).toBeFalsy();
     });
-  });
 
-  describe('with configured sizes', () => {
-    beforeEach(() => {
-      config.breakpoints = {
-        xs: 100,
-        sm: 200,
-        md: 300,
-        lg: 400,
-      };
-    });
-
-    it('should return the maximum configured size for XS', () => {
-      const size = service.getSize(BREAKPOINT.xs);
-      expect(size).toEqual(100);
-    });
-
-    it('should return the maximum configured size for SM', () => {
-      const size = service.getSize(BREAKPOINT.sm);
-      expect(size).toEqual(200);
-    });
-
-    it('should return the maximum configured size for MD', () => {
-      const size = service.getSize(BREAKPOINT.md);
-      expect(size).toEqual(300);
-    });
-
-    it('should return the maximum configured size for LG', () => {
-      const size = service.getSize(BREAKPOINT.lg);
-      expect(size).toEqual(400);
-    });
-
-    it('should not return a max size for XL', () => {
-      const size = service.getSize(BREAKPOINT.xl);
+    it('should return falsy for unknown screen', () => {
+      const size = service.getSize('unknown' as any);
       expect(size).toBeFalsy();
     });
   });
 
   describe('with current window size', () => {
     beforeEach(() => {
-      config.breakpoints = {};
+      config.breakpoints = {
+        xs: 576,
+        sm: 768,
+        md: 992,
+        lg: 1200,
+        xl: {
+          min: 1200,
+        },
+      };
     });
 
-    it('should return xs for <= 576', () => {
-      MockWindow.target.innerWidth = 576;
+    it('should return xs for < 576', () => {
+      MockWindow.target.innerWidth = 575;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+      service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.xs);
     });
 
-    it('should return sm for <= 768', () => {
-      MockWindow.target.innerWidth = 768;
+    it('should return sm for < 768', () => {
+      MockWindow.target.innerWidth = 767;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+      service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.sm);
     });
 
-    it('should return md for <= 992', () => {
-      MockWindow.target.innerWidth = 992;
+    it('should return md for < 992', () => {
+      MockWindow.target.innerWidth = 991;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+      service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.md);
     });
 
     it('should return lg for < 1200', () => {
-      MockWindow.target.innerWidth = 1200;
+      MockWindow.target.innerWidth = 1199;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+      service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.lg);
@@ -157,6 +245,7 @@ describe('BreakpointService', () => {
     it('should return xl for >= 1201', () => {
       MockWindow.target.innerWidth = 1201;
       spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+      service = TestBed.inject(BreakpointService);
       let result: BREAKPOINT;
       service.breakpoint$.subscribe((br) => (result = br)).unsubscribe();
       expect(result).toEqual(BREAKPOINT.xl);
@@ -170,7 +259,9 @@ describe('BreakpointService', () => {
         sm: 700, // sm = 501 - 700
         md: 900, // md = 701 - 900
         lg: 1200, // lg = 901 - 1200
-        // xl = > 1201
+        xl: {
+          min: 1200,
+        },
       };
     });
 
@@ -178,6 +269,7 @@ describe('BreakpointService', () => {
       const isEqual = (screenSize: number, breakpoint: BREAKPOINT): boolean => {
         MockWindow.target.innerWidth = screenSize;
         spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+        service = TestBed.inject(BreakpointService);
         let result: boolean;
         service
           .isEqual(breakpoint)
@@ -186,20 +278,24 @@ describe('BreakpointService', () => {
         return result;
       };
 
-      it('should return true if current screen size equals xs', () => {
-        expect(isEqual(500, BREAKPOINT.xs)).toBeTruthy();
+      it('should return true if current screen size is 0', () => {
+        expect(isEqual(0, BREAKPOINT.xs)).toBeTruthy();
+      });
+
+      it('should return equals for xs on largest size', () => {
+        expect(isEqual(500 - 1, BREAKPOINT.xs)).toBeTruthy();
       });
 
       it('should return true if current screen size equals sm', () => {
-        expect(isEqual(700, BREAKPOINT.sm)).toBeTruthy();
+        expect(isEqual(700 - 1, BREAKPOINT.sm)).toBeTruthy();
       });
 
       it('should return true if current screen size equals md', () => {
-        expect(isEqual(900, BREAKPOINT.md)).toBeTruthy();
+        expect(isEqual(900 - 1, BREAKPOINT.md)).toBeTruthy();
       });
 
       it('should return true if current screen size equals lg', () => {
-        expect(isEqual(1200, BREAKPOINT.lg)).toBeTruthy();
+        expect(isEqual(1200 - 1, BREAKPOINT.lg)).toBeTruthy();
       });
 
       it('should return true if current screen size equals xl', () => {
@@ -207,19 +303,19 @@ describe('BreakpointService', () => {
       });
 
       it('should return false if current screen is larger than xs', () => {
-        expect(isEqual(500 + 1, BREAKPOINT.xs)).toBeFalsy();
+        expect(isEqual(500, BREAKPOINT.xs)).toBeFalsy();
       });
 
       it('should return false if current screen is larger than sm', () => {
-        expect(isEqual(700 + 1, BREAKPOINT.sm)).toBeFalsy();
+        expect(isEqual(700, BREAKPOINT.sm)).toBeFalsy();
       });
 
       it('should return false if current screen is larger than md', () => {
-        expect(isEqual(900 + 1, BREAKPOINT.md)).toBeFalsy();
+        expect(isEqual(900, BREAKPOINT.md)).toBeFalsy();
       });
 
       it('should return false if current screen is larger than lg', () => {
-        expect(isEqual(1200 + 1, BREAKPOINT.lg)).toBeFalsy();
+        expect(isEqual(1200, BREAKPOINT.lg)).toBeFalsy();
       });
     });
 
@@ -227,6 +323,7 @@ describe('BreakpointService', () => {
       const isDown = (screenSize: number, breakpoint: BREAKPOINT): boolean => {
         MockWindow.target.innerWidth = screenSize;
         spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+        service = TestBed.inject(BreakpointService);
         let result: boolean;
         service
           .isDown(breakpoint)
@@ -235,36 +332,36 @@ describe('BreakpointService', () => {
         return result;
       };
 
-      it('should return true if window width <= xs', () => {
-        expect(isDown(500, BREAKPOINT.xs)).toBeTruthy();
+      it('should return true if window width < xs', () => {
+        expect(isDown(500 - 1, BREAKPOINT.xs)).toBeTruthy();
       });
 
-      it('should return true if window width <= sm', () => {
-        expect(isDown(700, BREAKPOINT.sm)).toBeTruthy();
+      it('should return true if window width < sm', () => {
+        expect(isDown(700 - 1, BREAKPOINT.sm)).toBeTruthy();
       });
 
-      it('should return true if window width <= md', () => {
-        expect(isDown(900, BREAKPOINT.md)).toBeTruthy();
+      it('should return true if window width < md', () => {
+        expect(isDown(900 - 1, BREAKPOINT.md)).toBeTruthy();
       });
 
-      it('should return true if window width <= lg', () => {
-        expect(isDown(1200, BREAKPOINT.lg)).toBeTruthy();
+      it('should return true if window width < lg', () => {
+        expect(isDown(1200 - 1, BREAKPOINT.lg)).toBeTruthy();
       });
 
-      it('should return false if window width > xs', () => {
-        expect(isDown(501, BREAKPOINT.xs)).toBeFalsy();
+      it('should return false if window width >= xs', () => {
+        expect(isDown(500, BREAKPOINT.xs)).toBeFalsy();
       });
 
-      it('should return false if window width > sm', () => {
-        expect(isDown(701, BREAKPOINT.sm)).toBeFalsy();
+      it('should return false if window width >= sm', () => {
+        expect(isDown(700, BREAKPOINT.sm)).toBeFalsy();
       });
 
-      it('should return false if window width > md', () => {
-        expect(isDown(901, BREAKPOINT.md)).toBeFalsy();
+      it('should return false if window width >= md', () => {
+        expect(isDown(900, BREAKPOINT.md)).toBeFalsy();
       });
 
-      it('should return false if window width > lg', () => {
-        expect(isDown(1201, BREAKPOINT.lg)).toBeFalsy();
+      it('should return falsy if window width >= lg', () => {
+        expect(isDown(1200, BREAKPOINT.lg)).toBeFalsy();
       });
     });
 
@@ -272,6 +369,7 @@ describe('BreakpointService', () => {
       const isUp = (screenSize: number, breakpoint: BREAKPOINT): boolean => {
         MockWindow.target.innerWidth = screenSize;
         spyOnProperty(windowRef, 'resize$').and.returnValue(of(MockWindow));
+        service = TestBed.inject(BreakpointService);
         let result: boolean;
         service
           .isUp(breakpoint)
@@ -284,20 +382,20 @@ describe('BreakpointService', () => {
         expect(isUp(1, BREAKPOINT.xs)).toBeTruthy();
       });
 
-      it('should return false if window width <= sm', () => {
-        expect(isUp(500, BREAKPOINT.sm)).toBeFalsy();
+      it('should return false if window width < sm', () => {
+        expect(isUp(500 - 1, BREAKPOINT.sm)).toBeFalsy();
       });
 
-      it('should return false if window width <= md', () => {
-        expect(isUp(700, BREAKPOINT.md)).toBeFalsy();
+      it('should return false if window width < md', () => {
+        expect(isUp(700 - 1, BREAKPOINT.md)).toBeFalsy();
       });
 
-      it('should return false if window width <= lg', () => {
-        expect(isUp(900, BREAKPOINT.lg)).toBeFalsy();
+      it('should return false if window width < lg', () => {
+        expect(isUp(900 - 1, BREAKPOINT.lg)).toBeFalsy();
       });
 
-      it('should return false if window width <= xl', () => {
-        expect(isUp(1200, BREAKPOINT.xl)).toBeFalsy();
+      it('should return false if window width < xl', () => {
+        expect(isUp(1200 - 1, BREAKPOINT.xl)).toBeFalsy();
       });
 
       it('should return true if window width > xs', () => {

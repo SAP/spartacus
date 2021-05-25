@@ -44,8 +44,9 @@ describe('FacetService', () => {
   const facet1 = { name: 'f1', values: mockFacetValues, topValueCount: 5 };
   const facet2 = { name: 'f2', values: mockFacetValues, topValueCount: 3 };
   const facet3 = { name: 'f3' };
-  const facet4 = { name: 'f4' };
+  const facet4 = { name: 'f4', values: [] };
   const facet5 = { name: 'f5' };
+  const facet6 = { name: 'f6', values: mockFacetValues, topValueCount: 0 };
 
   const breadcrumb1 = {
     name: 'b1',
@@ -107,7 +108,7 @@ describe('FacetService', () => {
       });
     });
 
-    it('should create initial UI state with default visible facet values', () => {
+    it('should create default state with no facet values', () => {
       let result: FacetCollapseState;
       service
         .getState(facet3)
@@ -118,6 +119,28 @@ describe('FacetService', () => {
         topVisible: 0,
         maxVisible: 0,
       });
+    });
+
+    it('should create default state with empty facet values', () => {
+      let result: FacetCollapseState;
+      service
+        .getState(facet4)
+        .subscribe((f) => (result = f))
+        .unsubscribe();
+
+      expect(result.topVisible).toEqual(0);
+      expect(result.maxVisible).toEqual(0);
+    });
+
+    it('should create initial UI state with max facet values if maxVisible is 0', () => {
+      let result: FacetCollapseState;
+      service
+        .getState(facet6)
+        .subscribe((f) => (result = f))
+        .unsubscribe();
+
+      expect(result.topVisible).toEqual(mockFacetValues.length);
+      expect(result.maxVisible).toEqual(mockFacetValues.length);
     });
 
     it('should not update maxVisible state if it is already initialized', () => {

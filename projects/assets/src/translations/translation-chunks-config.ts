@@ -1,4 +1,4 @@
-interface TranslationChunksConfig {
+export interface TranslationChunksConfig {
   [chunk: string]: string[];
 }
 
@@ -26,7 +26,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'saveForLaterItems',
   ],
   address: ['addressForm', 'addressBook', 'addressCard'],
-  payment: ['paymentForm', 'paymentMethods', 'paymentCard'],
+  payment: ['paymentForm', 'paymentMethods', 'paymentCard', 'paymentTypes'],
   myAccount: [
     'orderDetails',
     'orderHistory',
@@ -43,7 +43,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'returnRequestList',
     'returnRequest',
   ],
-  storeFinder: ['storeFinder'],
   pwa: ['pwa'],
   checkout: [
     'checkout',
@@ -52,6 +51,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'checkoutReview',
     'checkoutShipping',
     'checkoutProgress',
+    'checkoutPO',
   ],
   product: [
     'productDetails',
@@ -70,6 +70,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'anonymousConsents',
     'forgottenPassword',
     'loginForm',
+    'loginRegister',
     'register',
     'checkoutLogin',
   ],

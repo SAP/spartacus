@@ -1,0 +1,20 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/cds",
+  "lib": {
+    "entryFile": "./public_api.ts",
+    "umdModuleIds": {
+      "@spartacus/core": "core",
+      "@spartacus/storefront": "storefront",
+      "@spartacus/tracking/personalization/core": "personalization",
+      "@ngrx/store": "store",
+      "rxjs": "rxjs"
+    }
+  },
+  "assets": [
+    "**/*.scss",
+    "src/migrations/**/*.json",
+    "src/schematics/**/*.json",
+    "src/schematics/**/*.js"
+  ]
+}

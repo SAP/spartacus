@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
-import { ActiveCartService, Cart, RoutingService } from '@spartacus/core';
+import { CanActivate, Router, UrlTree } from '@angular/router';
+import { ActiveCartService, Cart, SemanticPathService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
@@ -9,11 +9,12 @@ import { filter, map } from 'rxjs/operators';
 })
 export class CartNotEmptyGuard implements CanActivate {
   constructor(
-    protected routingService: RoutingService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartService,
+    protected semanticPathService: SemanticPathService,
+    protected router: Router
   ) {}
 
-  canActivate(): Observable<boolean> {
+  canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([
       this.activeCartService.getActive(),
       this.activeCartService.isStable(),
@@ -21,8 +22,7 @@ export class CartNotEmptyGuard implements CanActivate {
       filter(([_, loaded]) => loaded),
       map(([cart]) => {
         if (this.isEmpty(cart)) {
-          this.routingService.go({ cxRoute: 'home' });
-          return false;
+          return this.router.parseUrl(this.semanticPathService.get('home'));
         }
         return true;
       })

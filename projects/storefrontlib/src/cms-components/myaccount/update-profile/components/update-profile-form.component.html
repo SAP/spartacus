@@ -7,9 +7,9 @@
         }}</span>
         <select formControlName="titleCode" class="form-control">
           <option value="">{{ 'updateProfileForm.none' | cxTranslate }}</option>
-          <option *ngFor="let title of titles" [value]="title.code">{{
-            title.name
-          }}</option>
+          <option *ngFor="let title of titles" [value]="title.code">
+            {{ title.name }}
+          </option>
         </select>
       </label>
     </div>
@@ -49,6 +49,27 @@
             'updateProfileForm.lastName.placeholder' | cxTranslate
           }}"
           formControlName="lastName"
+        />
+        <cx-form-errors
+          [control]="updateProfileForm.get('lastName')"
+        ></cx-form-errors>
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <div class="col-md-12">
+      <label>
+        <span class="label-content">{{
+          'updateProfileForm.customerId' | cxTranslate
+        }}</span>
+        <input
+          type="text"
+          class="form-control"
+          name="customerId"
+          formControlName="customerId"
+          id="customerId"
+          readonly
         />
         <cx-form-errors
           [control]="updateProfileForm.get('lastName')"

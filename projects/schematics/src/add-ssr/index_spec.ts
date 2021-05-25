@@ -2,11 +2,14 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
-import { Style } from '@angular/cli/lib/config/schema';
-import { Schema as ApplicationOptions } from '@schematics/angular/application/schema';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
-import { UTF_8 } from '../shared/constants';
+import { NGUNIVERSAL_EXPRESS_ENGINE, UTF_8 } from '../shared/constants';
 import { getPathResultsForFile } from '../shared/utils/file-utils';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -16,7 +19,7 @@ describe('add-ssr', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
@@ -35,6 +38,9 @@ describe('add-ssr', () => {
     project: 'schematics-test',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
+    configuration: 'b2c',
+    lazy: true,
+    features: [],
   };
 
   beforeEach(async () => {
@@ -76,7 +82,8 @@ describe('add-ssr', () => {
       const depPackageList = Object.keys(packageObj.dependencies);
 
       expect(depPackageList.includes('@angular/platform-server')).toBe(true);
-      expect(depPackageList.includes('@nguniversal/express-engine')).toBe(true);
+      expect(depPackageList.includes(NGUNIVERSAL_EXPRESS_ENGINE)).toBe(true);
+      expect(depPackageList.includes('@spartacus/setup')).toBe(true);
     });
 
     it('should contain additional build scripts', async () => {

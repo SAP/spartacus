@@ -1,7 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CheckoutService, I18nTestingModule, Order } from '@spartacus/core';
+import {
+  CheckoutService,
+  I18nTestingModule,
+  Order,
+  ORDER_TYPE,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
 import createSpy = jasmine.createSpy;
@@ -23,7 +28,12 @@ class MockCheckoutService {
       guid: 'guid',
       guestCustomer: true,
       paymentInfo: { billingAddress: { email: 'test@test.com' } },
+      replenishmentOrderCode: 'test-repl-code',
     });
+  }
+
+  getCurrentOrderType(): Observable<ORDER_TYPE> {
+    return of(ORDER_TYPE.PLACE_ORDER);
   }
 }
 
@@ -33,17 +43,21 @@ describe('OrderConfirmationComponent', () => {
 
   let checkoutService: CheckoutService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        OrderConfirmationThankYouMessageComponent,
-        MockAddtoHomeScreenBannerComponent,
-        MockGuestRegisterFormComponent,
-      ],
-      providers: [{ provide: CheckoutService, useClass: MockCheckoutService }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          OrderConfirmationThankYouMessageComponent,
+          MockAddtoHomeScreenBannerComponent,
+          MockGuestRegisterFormComponent,
+        ],
+        providers: [
+          { provide: CheckoutService, useClass: MockCheckoutService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
@@ -65,6 +79,19 @@ describe('OrderConfirmationComponent', () => {
       fixture.debugElement.query(By.css('.cx-page-title')).nativeElement
         .innerHTML
     ).toContain('test-code-412');
+  });
+
+  it('should display replenishment order code', () => {
+    spyOn(checkoutService, 'getCurrentOrderType').and.returnValue(
+      of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER)
+    );
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.query(By.css('.cx-page-title')).nativeElement
+        .innerHTML
+    ).toContain('test-repl-code');
   });
 
   it('should display guest register form for guest user', () => {

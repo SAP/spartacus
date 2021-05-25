@@ -1,0 +1,69 @@
+<cx-org-form i18nRoot="orgCostCenter">
+  <ng-container *ngIf="form" [formGroup]="form" main>
+    <label>
+      <span class="label-content required">{{
+        'orgCostCenter.name' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'orgCostCenter.name' | cxTranslate }}"
+        formControlName="name"
+        (blur)="createCodeWithName(form.get('name'), form.get('code'))"
+      />
+      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'orgCostCenter.code' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'orgCostCenter.code' | cxTranslate }}"
+        formControlName="code"
+      />
+      <cx-form-errors [control]="form.get('code')"></cx-form-errors>
+    </label>
+
+    <label aria-required="true" formGroupName="currency">
+      <span class="label-content required">{{
+        'orgCostCenter.currency' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="isocode"
+        [searchable]="false"
+        [clearable]="false"
+        [items]="currencies$ | async"
+        bindLabel="name"
+        bindValue="isocode"
+        [class.invalid]="form.get('currency.isocode').invalid"
+        appendTo="cx-org-list"
+      >
+      </ng-select>
+      <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
+    </label>
+
+    <label aria-required="true" [formGroup]="form.get('unit')">
+      <span class="label-content required">{{
+        'orgCostCenter.unit' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="uid"
+        [searchable]="true"
+        [clearable]="false"
+        [items]="units$ | async"
+        bindLabel="name"
+        bindValue="id"
+        [readonly]="form.get('unit.uid').disabled"
+        appendTo="cx-org-list"
+        [placeholder]="'orgCostCenter.unit' | cxTranslate"
+      >
+      </ng-select>
+      <cx-form-errors [control]="form.get('unit.uid')"></cx-form-errors>
+    </label>
+  </ng-container>
+</cx-org-form>

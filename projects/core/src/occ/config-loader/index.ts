@@ -1,4 +1,3 @@
-export * from './java-reg-exp-converter';
 export { OccConfigLoaderModule } from './occ-config-loader.module';
 export * from './occ-config-loader.service';
 export * from './occ-loaded-config';

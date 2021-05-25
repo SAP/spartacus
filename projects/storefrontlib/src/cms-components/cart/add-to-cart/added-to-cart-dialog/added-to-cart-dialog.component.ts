@@ -1,14 +1,22 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  Cart,
   ActiveCartService,
+  Cart,
   OrderEntry,
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  shareReplay,
+  startWith,
+  switchMap,
+  switchMapTo,
+  tap,
+} from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
@@ -23,7 +31,12 @@ export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<OrderEntry>;
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
+  addedEntryWasMerged$: Observable<boolean>;
+  /**
+   * @deprecated since 3.0, set numberOfEntriesBeforeAdd instead
+   */
   increment: boolean;
+  numberOfEntriesBeforeAdd: number;
   orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
@@ -35,7 +48,7 @@ export class AddedToCartDialogComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
 
-  private quantityControl$: Observable<FormControl>;
+  protected quantityControl$: Observable<FormControl>;
 
   constructor(
     protected modalService: ModalService,
@@ -51,10 +64,10 @@ export class AddedToCartDialogComponent implements OnInit {
     if (!this.quantityControl$) {
       this.quantityControl$ = this.entry$.pipe(
         filter((e) => !!e),
-        map((entry) => this.getFormControl(entry)),
+        map((entry) => this.getQuantityFormControl(entry)),
         switchMap(() =>
           this.form.valueChanges.pipe(
-            // tslint:disable-next-line:deprecation
+            // eslint-disable-next-line import/no-deprecated
             startWith(null),
             tap((valueChange) => {
               if (valueChange) {
@@ -71,7 +84,8 @@ export class AddedToCartDialogComponent implements OnInit {
             })
           )
         ),
-        map(() => <FormControl>this.form.get('quantity'))
+        map(() => <FormControl>this.form.get('quantity')),
+        shareReplay({ bufferSize: 1, refCount: true })
       );
     }
     return this.quantityControl$;
@@ -81,9 +95,18 @@ export class AddedToCartDialogComponent implements OnInit {
     this.orderPromotions$ = this.promotionService.getOrderPromotions(
       this.promotionLocation
     );
+    this.addedEntryWasMerged$ = this.loaded$.pipe(
+      filter((loaded) => loaded),
+      switchMapTo(this.cartService.getEntries()),
+      map((entries) => entries.length === this.numberOfEntriesBeforeAdd)
+    );
   }
 
-  private getFormControl(entry: OrderEntry): FormControl {
+  /**
+   * Adds quantity and entryNumber form controls to the FormGroup.
+   * Returns quantity form control.
+   */
+  protected getQuantityFormControl(entry: OrderEntry): FormControl {
     if (!this.form.get('quantity')) {
       const quantity = new FormControl(entry.quantity, { updateOn: 'blur' });
       this.form.addControl('quantity', quantity);

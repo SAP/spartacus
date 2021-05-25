@@ -1,0 +1,36 @@
+<cx-org-card
+  [previous]="previous"
+  [i18nRoot]="viewType"
+  [showHint]="showHint"
+  [cxFocus]="{ autofocus: true }"
+>
+  <ng-content select="[actions]" ngProjectAs="[actions]"></ng-content>
+  <ng-content select="[main]" ngProjectAs="[main]"></ng-content>
+  <ng-content select="[info]" ngProjectAs="[info]"></ng-content>
+
+  <ng-container main *ngIf="dataStructure$ | async as structure">
+    <ng-container *ngIf="listData$ | async as data">
+      <section>
+        <cx-table
+          *ngIf="data.values?.length > 0; else emptyList"
+          [structure]="structure"
+          [data]="data.values"
+          [i18nRoot]="domainType"
+          [currentItem]="{ property: key, value: subKey$ | async }"
+        >
+        </cx-table>
+      </section>
+
+      <div class="footer" *ngIf="data.pagination?.totalPages > 1">
+        <cx-pagination
+          [pagination]="data.pagination"
+          (viewPageEvent)="browse(data.pagination, $event)"
+        ></cx-pagination>
+      </div>
+    </ng-container>
+  </ng-container>
+</cx-org-card>
+
+<ng-template #emptyList>
+  <p class="is-empty">{{ 'organization.messages.emptyList' | cxTranslate }}</p>
+</ng-template>

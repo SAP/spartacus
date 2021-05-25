@@ -32,6 +32,16 @@ export abstract class LaunchRenderStrategy implements Applicable {
    */
   protected popoverClasses = ['cx-dialog-popover'];
   /**
+   * Classes to apply to the component when the dialog is a POPOVER_CENTER
+   */
+  protected popoverCenterClasses = ['cx-dialog-popover-center'];
+  /**
+   * Classes to apply to the component when the dialog is a POPOVER_CENTER with a backdrop
+   */
+  protected popoverCenterBackdropClasses = [
+    'cx-dialog-popover-center-backdrop',
+  ];
+  /**
    * Classes to apply to the component when the dialog is a SIDEBAR_END
    */
   protected sidebarEndClasses = ['cx-sidebar-end'];
@@ -99,6 +109,12 @@ export abstract class LaunchRenderStrategy implements Applicable {
         break;
       case DIALOG_TYPE.POPOVER:
         classes = this.popoverClasses;
+        break;
+      case DIALOG_TYPE.POPOVER_CENTER:
+        classes = this.popoverCenterClasses;
+        break;
+      case DIALOG_TYPE.POPOVER_CENTER_BACKDROP:
+        classes = this.popoverCenterBackdropClasses;
         break;
       case DIALOG_TYPE.SIDEBAR_END:
         classes = this.sidebarEndClasses;

@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SmartEditSchematics",
+  "title": "SmartEdit Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the smartedit features.",
+      "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "default": ["SmartEdit"]
+    }
+  },
+  "required": []
+}

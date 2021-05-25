@@ -1,9 +1,7 @@
 @import '../../../theme';
 
-/**
- * To control visual effects while searching the searchbox requries
- * some CSS rules to the outer elements.
- */
+// To control visual effects while searching the searchbox requries
+// some CSS rules to the outer elements.
 %cx-searchbox__body {
   // when there are results and the searchbox is active
   // we display the searchbox
@@ -60,6 +58,7 @@
     // we position the parent relative to ensure the result panel
     // is aligned to the left of searchbox
     position: relative;
+    z-index: 0;
   }
 
   z-index: 10;
@@ -84,10 +83,14 @@
     display: flex;
     align-content: stretch;
     margin: 0;
-    padding: 6px 6px 6px 10px;
+    padding-top: 6px;
+    padding-inline-end: 6px;
+    padding-bottom: 6px;
+    padding-inline-start: 10px;
     @include media-breakpoint-up(md) {
       width: 27vw;
       min-width: 300px;
+      max-width: 550px;
       // hide search icon when the input is dirty
       &.dirty cx-icon.search {
         display: none;
@@ -214,7 +217,7 @@
           font-size: inherit;
           font-weight: inherit;
 
-          /* Required for text-overflow to do anything */
+          // Required for text-overflow to do anything
           white-space: nowrap;
           overflow: hidden;
         }

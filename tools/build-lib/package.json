@@ -1,0 +1,21 @@
+{
+  "name": "@spartacus/build-lib",
+  "version": "0.1.0",
+  "description": "Angular Build Architect for Spartacus libraries",
+  "main": "augmented-types/index.js",
+  "builders": "builders.json",
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "@types/node": "^12.12.27",
+    "ts-node": "^8.3.0",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "@angular-devkit/architect": "0.1001.0"
+  }
+}

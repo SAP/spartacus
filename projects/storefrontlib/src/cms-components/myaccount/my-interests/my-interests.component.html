@@ -58,7 +58,10 @@
                       { cxRoute: 'product', params: product } | cxUrl
                     "
                   >
-                    <cx-media [container]="product.images?.PRIMARY"></cx-media>
+                    <cx-media
+                      [container]="product.images?.PRIMARY"
+                      format="thumbnail"
+                    ></cx-media>
                   </a>
                 </div>
               </td>

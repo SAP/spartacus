@@ -1,0 +1,29 @@
+<form *ngIf="form$ | async as form" (submit)="save(form)">
+  <cx-org-card
+    #card
+    [previous]="false"
+    i18nRoot="orgUnitUserRoles"
+    [cxFocus]="{ autofocus: 'input', refreshFocus: form }"
+  >
+    <a actions routerLink="../../">
+      <span (click)="card.closeView($event)">
+        {{ 'organization.done' | cxTranslate }}
+      </span>
+    </a>
+
+    <section main class="details" [formGroup]="form">
+      <fieldset class="full-width">
+        <label class="form-check" *ngFor="let role of availableRoles">
+          <input
+            type="checkbox"
+            [formControlName]="role"
+            (change)="save(form)"
+          />
+          <span class="form-check-label">
+            {{ 'organization.userRoles.' + role | cxTranslate }}
+          </span>
+        </label>
+      </fieldset>
+    </section>
+  </cx-org-card>
+</form>

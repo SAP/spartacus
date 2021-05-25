@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { filter, tap } from 'rxjs/operators';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Title, User, UserSignUp } from '../../model/misc.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/index';
+import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -20,20 +20,40 @@ import {
   UPDATE_EMAIL_PROCESS_ID,
   UPDATE_PASSWORD_PROCESS_ID,
   UPDATE_USER_DETAILS_PROCESS_ID,
+  USER_FEATURE,
 } from '../store/user-state';
+import {
+  UserAccountFacadeTransitionalToken,
+  UserProfileFacadeTransitionalToken,
+  UserRegisterFacadeTransitionalToken,
+} from '../user-transitional-tokens';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService,
+    // TODO: Remove transitional tokens in 4.0 with #11607
+    @Optional()
+    protected userAccountFacade?: UserAccountFacadeTransitionalToken,
+    @Optional()
+    protected userProfileFacade?: UserProfileFacadeTransitionalToken,
+    @Optional()
+    protected userRegisterFacade?: UserRegisterFacadeTransitionalToken
   ) {}
 
   /**
-   * Returns a user
+   * Returns a user.
+   *
+   * @deprecated since 3.2, use `UserAccountFacade.get()` from `@spartacus/user` package.
    */
   get(): Observable<User> {
+    if (this.userAccountFacade) {
+      return this.userAccountFacade.get();
+    }
     return this.store.pipe(
+      // workaround for using lazy loaded user/account library
+      filter((state) => state[USER_FEATURE]),
       select(UsersSelectors.getDetails),
       tap((details) => {
         if (Object.keys(details).length === 0) {
@@ -44,10 +64,12 @@ export class UserService {
   }
 
   /**
-   * Loads the user's details
+   * Loads the user's details.
+   *
+   * @deprecated since 3.2, use `UserAccountFacade.get()` from `@spartacus/user` package.
    */
   load(): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       if (userId !== OCC_USER_ID_ANONYMOUS) {
         this.store.dispatch(new UserActions.LoadUserDetails(userId));
       }
@@ -55,26 +77,35 @@ export class UserService {
   }
 
   /**
-   * Register a new user
+   * Register a new user.
    *
    * @param submitFormData as UserRegisterFormData
+   *
+   * @deprecated since 3.2, use `UserRegisterFacade.register()` from `@spartacus/user` package.
    */
   register(userRegisterFormData: UserSignUp): void {
     this.store.dispatch(new UserActions.RegisterUser(userRegisterFormData));
   }
 
   /**
-   * Register a new user from guest
+   * Register a new user from guest.
    *
    * @param guid
    * @param password
    */
   registerGuest(guid: string, password: string): void {
-    this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
+    if (this.userRegisterFacade) {
+      this.userRegisterFacade.registerGuest(guid, password);
+    } else {
+      this.store.dispatch(new UserActions.RegisterGuest({ guid, password }));
+    }
   }
 
   /**
-   * Returns the register user process loading flag
+   * Returns the register user process loading flag.
+   *
+   * @deprecated since 3.2, subscribe to `UserRegisterFacade.register()` from `@spartacus/user` package
+   * to get the loading state.
    */
   getRegisterUserResultLoading(): Observable<boolean> {
     return this.store.pipe(
@@ -83,7 +114,10 @@ export class UserService {
   }
 
   /**
-   * Returns the register user process success flag
+   * Returns the register user process success flag.
+   *
+   * @deprecated since 3.2, subscribe to `UserRegisterFacade.register()` from `@spartacus/user` package
+   * to get the success state.
    */
   getRegisterUserResultSuccess(): Observable<boolean> {
     return this.store.pipe(
@@ -93,6 +127,9 @@ export class UserService {
 
   /**
    * Returns the register user process error flag
+   *
+   * @deprecated since 3.2, subscribe to `UserRegisterFacade.register()` from `@spartacus/user` package
+   * to get the error state.
    */
   getRegisterUserResultError(): Observable<boolean> {
     return this.store.pipe(
@@ -102,22 +139,30 @@ export class UserService {
 
   /**
    * Resets the register user process flags
+   *
+   * @deprecated since 3.2, no longer needed when you use `UserRegisterFacade.register()`
+   * from `@spartacus/user` package.
    */
   resetRegisterUserProcessState(): void {
     return this.store.dispatch(new UserActions.ResetRegisterUserProcess());
   }
 
   /**
-   * Remove user account, that's also called close user's account
+   * Remove user account, that's also called close user's account.
+   *
+   * @deprecated since 3.2, use `UserProfileFacade.close()` from `@spartacus/user` package.
    */
   remove(): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(new UserActions.RemoveUser(userId));
     });
   }
 
   /**
-   * Returns the remove user loading flag
+   * Returns the remove user loading flag.
+   *
+   * @deprecated since 3.2, subscribe to `UserProfileFacade.close()` from `@spartacus/user` package
+   * to get the loading state.
    */
   getRemoveUserResultLoading(): Observable<boolean> {
     return this.store.pipe(
@@ -127,6 +172,9 @@ export class UserService {
 
   /**
    * Returns the remove user failure outcome.
+   *
+   * @deprecated since 3.2, subscribe to `UserProfileFacade.close()` from `@spartacus/user` package
+   * to get the error state.
    */
   getRemoveUserResultError(): Observable<boolean> {
     return this.store.pipe(
@@ -136,6 +184,9 @@ export class UserService {
 
   /**
    * Returns the remove user process success outcome.
+   *
+   * @deprecated since 3.2, subscribe to `UserProfileFacade.close()` from `@spartacus/user` package
+   * to get the success state.
    */
   getRemoveUserResultSuccess(): Observable<boolean> {
     return this.store.pipe(
@@ -146,38 +197,69 @@ export class UserService {
   /**
    * Resets the remove user process state. The state needs to be reset after the process
    * concludes, regardless if it's a success or an error
+   *
+   * @deprecated since 3.2, no longer needed when you use `UserProfileFacade.close()`
+   * from `@spartacus/user` package.
+   *
    */
   resetRemoveUserProcessState(): void {
     this.store.dispatch(new UserActions.RemoveUserReset());
   }
 
   /**
-   * Returns titles
+   * Returns titles.
+   *
+   * @deprecated since 3.2, use `UserProfileFacade.getTitles()` from `@spartacus/user` package.
    */
   getTitles(): Observable<Title[]> {
-    return this.store.pipe(select(UsersSelectors.getAllTitles));
+    if (this.userProfileFacade) {
+      return this.userProfileFacade.getTitles();
+    }
+    return this.store.pipe(
+      // workaround for using lazy loaded user/account library
+      filter((state) => state[USER_FEATURE]),
+      select(UsersSelectors.getAllTitles),
+      tap((titles: Title[]) => {
+        if (Object.keys(titles).length === 0) {
+          this.loadTitles();
+        }
+      })
+    );
   }
 
   /**
-   * Retrieves titles
+   * Retrieves titles.
+   *
+   * @deprecated since 3.2, use `UserProfileFacade.getTitles()` from `@spartacus/user` package.
    */
   loadTitles(): void {
     this.store.dispatch(new UserActions.LoadTitles());
   }
 
   /**
-   * Return whether user's password is successfully reset
+   * Return whether user's password is successfully reset.
+   *
+   * @deprecated since 3.2, subscribe to `UserPasswordFacade.reset()` from `@spartacus/user` package
+   * to get the success state.
+   *
    */
   isPasswordReset(): Observable<boolean> {
-    return this.store.pipe(select(UsersSelectors.getResetPassword));
+    return this.store.pipe(
+      // workaround for using lazy loaded user/account library
+      filter((state) => state[USER_FEATURE]),
+      select(UsersSelectors.getResetPassword)
+    );
   }
 
   /**
-   * Updates the user's details
+   * Updates the user's details.
+   *
    * @param userDetails to be updated
+   *
+   * @deprecated since 3.2, use `UserProfileFacade.update()` from `@spartacus/user` package.
    */
   updatePersonalDetails(userDetails: User): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateUserDetails({
           username: userId,
@@ -188,7 +270,10 @@ export class UserService {
   }
 
   /**
-   * Returns the update user's personal details loading flag
+   * Returns the update user's personal details loading flag.
+   *
+   * @deprecated since 3.2, subscribe to `UserProfileFacade.update()` from `@spartacus/user` package
+   * to get the loading state.
    */
   getUpdatePersonalDetailsResultLoading(): Observable<boolean> {
     return this.store.pipe(
@@ -197,7 +282,10 @@ export class UserService {
   }
 
   /**
-   * Returns the update user's personal details error flag
+   * Returns the update user's personal details error flag.
+   *
+   * @deprecated since 3.2, subscribe to `UserProfileFacade.update()` from `@spartacus/user` package
+   * to get the error state.
    */
   getUpdatePersonalDetailsResultError(): Observable<boolean> {
     return this.store.pipe(
@@ -206,7 +294,10 @@ export class UserService {
   }
 
   /**
-   * Returns the update user's personal details success flag
+   * Returns the update user's personal details success flag.
+   *
+   * @deprecated since 3.2, subscribe to `UserProfileFacade.update()` from `@spartacus/user` package
+   * to get the success state.
    */
   getUpdatePersonalDetailsResultSuccess(): Observable<boolean> {
     return this.store.pipe(
@@ -215,7 +306,10 @@ export class UserService {
   }
 
   /**
-   * Resets the update user details processing state
+   * Resets the update user details processing state.
+   *
+   * @deprecated since 3.2, no longer needed when you use `UserProfileFacade.update()`
+   * from `@spartacus/user` package.
    */
   resetUpdatePersonalDetailsProcessingState(): void {
     this.store.dispatch(new UserActions.ResetUpdateUserDetails());
@@ -223,15 +317,21 @@ export class UserService {
 
   /**
    * Reset new password.  Part of the forgot password flow.
+   *
    * @param token
    * @param password
+   *
+   * @deprecated since 3.2, use `UserPasswordFacade.reset()` from `@spartacus/user` package.
    */
   resetPassword(token: string, password: string): void {
     this.store.dispatch(new UserActions.ResetPassword({ token, password }));
   }
 
-  /*
+  /**
    * Request an email to reset a forgotten password.
+   *
+   * @deprecated since 3.2, use `UserPasswordFacade.requestForgotPasswordEmail()`
+   * from `@spartacus/user` package.
    */
   requestForgotPasswordEmail(userEmailAddress: string): void {
     this.store.dispatch(
@@ -240,10 +340,12 @@ export class UserService {
   }
 
   /**
-   * Updates the user's email
+   * Updates the user's email.
+   *
+   * @deprecated since 3.2, use `UserEmailFacade.update()` from `@spartacus/user` package.
    */
   updateEmail(password: string, newUid: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdateEmailAction({
           uid: userId,
@@ -255,7 +357,10 @@ export class UserService {
   }
 
   /**
-   * Returns the update user's email success flag
+   * Returns the update user's email success flag.
+   *
+   * @deprecated since 3.2, subscribe to `UserEmailFacade.update()` from `@spartacus/user` package
+   * to get the success state.
    */
   getUpdateEmailResultSuccess(): Observable<boolean> {
     return this.store.pipe(
@@ -264,7 +369,10 @@ export class UserService {
   }
 
   /**
-   * Returns the update user's email error flag
+   * Returns the update user's email error flag.
+   *
+   * @deprecated since 3.2, subscribe to `UserEmailFacade.update()` from `@spartacus/user` package
+   * to get the error state.
    */
   getUpdateEmailResultError(): Observable<boolean> {
     return this.store.pipe(
@@ -273,7 +381,10 @@ export class UserService {
   }
 
   /**
-   * Returns the update user's email loading flag
+   * Returns the update user's email loading flag.
+   *
+   * @deprecated since 3.2, subscribe to `UserEmailFacade.update()` from `@spartacus/user` package
+   * to get the loading state.
    */
   getUpdateEmailResultLoading(): Observable<boolean> {
     return this.store.pipe(
@@ -282,19 +393,25 @@ export class UserService {
   }
 
   /**
-   * Resets the update user's email processing state
+   * Resets the update user's email processing state.
+   *
+   * @deprecated since 3.2, no longer needed when you use `UserEmailFacade.update()`
+   * from `@spartacus/user` package.
    */
   resetUpdateEmailResultState(): void {
     this.store.dispatch(new UserActions.ResetUpdateEmailAction());
   }
 
   /**
-   * Updates the password for the user
+   * Updates the password for the user.
+   *
    * @param oldPassword the current password that will be changed
    * @param newPassword the new password
+   *
+   * @deprecated since 3.2, use `UserPasswordFacade.update()` from `@spartacus/user` package.
    */
   updatePassword(oldPassword: string, newPassword: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UpdatePassword({
           userId,
@@ -306,7 +423,10 @@ export class UserService {
   }
 
   /**
-   * Returns the update password loading flag
+   * Returns the update password loading flag.
+   *
+   * @deprecated since 3.2, subscribe to `UserPasswordFacade.update()` from `@spartacus/user` package
+   * to get the loading state.
    */
   getUpdatePasswordResultLoading(): Observable<boolean> {
     return this.store.pipe(
@@ -316,6 +436,9 @@ export class UserService {
 
   /**
    * Returns the update password failure outcome.
+   *
+   * @deprecated since 3.2, subscribe to `UserPasswordFacade.update()` from `@spartacus/user` package
+   * to get the error state.
    */
   getUpdatePasswordResultError(): Observable<boolean> {
     return this.store.pipe(
@@ -325,6 +448,9 @@ export class UserService {
 
   /**
    * Returns the update password process success outcome.
+   *
+   * @deprecated since 3.2, subscribe to `UserPasswordFacade.update()` from `@spartacus/user` package
+   * to get the success state.
    */
   getUpdatePasswordResultSuccess(): Observable<boolean> {
     return this.store.pipe(
@@ -335,6 +461,9 @@ export class UserService {
   /**
    * Resets the update password process state. The state needs to be reset after the process
    * concludes, regardless if it's a success or an error
+   *
+   * @deprecated since 3.2, no longer needed when you use `UserPasswordFacade.update()`
+   * from `@spartacus/user` package.
    */
   resetUpdatePasswordProcessState(): void {
     this.store.dispatch(new UserActions.UpdatePasswordReset());

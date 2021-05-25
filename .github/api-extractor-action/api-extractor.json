@@ -61,8 +61,9 @@
      *
      * SUPPORTED TOKENS: <projectFolder>, <packageName>, <unscopedPackageName>
      * DEFAULT VALUE: "<projectFolder>/tsconfig.json"
+     * TODO: Remove this configuration when everything will support strict mode
      */
-    // "tsconfigFilePath": "<projectFolder>/tsconfig.json",
+    "tsconfigFilePath": "<projectFolder>/tsconfig.api-extractor.json"
     /**
      * Provides a compiler configuration that will be used instead of reading the tsconfig.json file from disk.
      * The object must conform to the TypeScript tsconfig schema:
@@ -145,7 +146,7 @@
     /**
      * (REQUIRED) Whether to generate a doc model file.
      */
-    "enabled": true
+    "enabled": false
 
     /**
      * The output path for the doc model file.  The file extension should be ".api.json".
@@ -166,7 +167,7 @@
     /**
      * (REQUIRED) Whether to generate the .d.ts rollup file.
      */
-    "enabled": true
+    "enabled": false
 
     /**
      * Specifies the output path for a .d.ts rollup file to be generated without any trimming.
@@ -227,7 +228,7 @@
      *
      * DEFAULT VALUE: true
      */
-    // "enabled": true,
+    "enabled": false
     /**
      * Specifies where the TSDoc metadata file should be written.
      *

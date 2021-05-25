@@ -24,7 +24,7 @@ export function pwaFactory(addToHomeScreenService): any {
 @NgModule({
   imports: [
     CommonModule,
-    ServiceWorkerModule.register('/ngsw-worker.js'),
+    ServiceWorkerModule.register('ngsw-worker.js'),
     I18nModule,
   ],
   providers: [

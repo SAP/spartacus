@@ -2,34 +2,41 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 
-// tslint:disable:max-line-length
 describe('Spartacus Schematics: add-pwa', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     newProjectRoot: 'projects',
     version: '0.5.0',
   };
 
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
   };
 
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
+    configuration: 'b2c',
+    lazy: true,
+    features: [],
   };
 
   beforeEach(async () => {

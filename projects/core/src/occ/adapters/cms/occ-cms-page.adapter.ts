@@ -5,76 +5,82 @@ import { CmsPageAdapter } from '../../../cms/connectors/page/cms-page.adapter';
 import { CMS_PAGE_NORMALIZER } from '../../../cms/connectors/page/converters';
 import { CmsStructureModel } from '../../../cms/model/page.model';
 import { PageType } from '../../../model/cms.model';
-import { PageContext } from '../../../routing';
+import {
+  HOME_PAGE_CONTEXT,
+  PageContext,
+  SMART_EDIT_CONTEXT,
+} from '../../../routing/models/page-context.model';
 import { ConverterService } from '../../../util/converter.service';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
-@Injectable()
+export interface OccCmsPageRequest {
+  pageLabelOrId?: string;
+  pageType?: PageType;
+  code?: string;
+  fields?: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
 export class OccCmsPageAdapter implements CmsPageAdapter {
   protected headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(
-    private http: HttpClient,
-    private occEndpoints: OccEndpointsService,
+    protected http: HttpClient,
+    protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
 
-  load(
-    pageContext: PageContext,
-    fields?: string
-  ): Observable<CmsStructureModel> {
-    // load page by Id
-    if (pageContext.type === undefined) {
-      return this.http
-        .get(
-          this.occEndpoints.getUrl(
-            'page',
-            {
-              id: pageContext.id,
-            },
-            { fields: fields ? fields : 'DEFAULT' }
-          ),
-          {
-            headers: this.headers,
-          }
-        )
-        .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
-    }
+  /**
+   * @override returns the OCC CMS page data for the given context and converts
+   * the data by any configured `CMS_PAGE_NORMALIZER`.
+   */
+  load(pageContext: PageContext): Observable<CmsStructureModel> {
+    const params = this.getPagesRequestParams(pageContext);
 
-    // load page by PageContext
-    const httpParams = this.getPagesRequestParams(pageContext);
+    const endpoint = !pageContext.type
+      ? this.occEndpoints.getUrl('page', { id: pageContext.id })
+      : this.occEndpoints.getUrl('pages', undefined, params);
+
     return this.http
-      .get(this.getPagesEndpoint(httpParams, fields), {
-        headers: this.headers,
-      })
+      .get(endpoint, { headers: this.headers })
       .pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
   }
 
-  private getPagesEndpoint(
-    params: {
-      [key: string]: string;
-    },
-    fields?: string
-  ): string {
-    fields = fields ? fields : 'DEFAULT';
-    return this.occEndpoints.getUrl('pages', {}, { fields, ...params });
-  }
-
-  private getPagesRequestParams(
-    pageContext: PageContext
-  ): { [key: string]: any } {
-    let httpParams = {};
-
-    // smartedit preview page is loaded by previewToken which added by interceptor
-    if (pageContext.id !== 'smartedit-preview') {
-      httpParams = { pageType: pageContext.type };
-
-      if (pageContext.type === PageType.CONTENT_PAGE) {
-        httpParams['pageLabelOrId'] = pageContext.id;
-      } else {
-        httpParams['code'] = pageContext.id;
-      }
+  /**
+   * The OCC CMS API allows to query pages by a combination of pageType, label and code.
+   *
+   * When a `ContentPage` is requested, we use the `pageLabelOrId`:
+   *
+   * ```
+   * "/pages?pageLabelOrId=/my-page&pageType=ContentPage"
+   * ```
+   *
+   * Other pages are queried by code:
+   *
+   * ```
+   * "/pages?code=1234&pageType=ProductPage"
+   * ```
+   *
+   * The page context is ignored for a home page request or in case of a
+   * `smartedit-preview` request.
+   */
+  protected getPagesRequestParams(context: PageContext): OccCmsPageRequest {
+    if (context.id === HOME_PAGE_CONTEXT || context.id === SMART_EDIT_CONTEXT) {
+      return {};
     }
+
+    const httpParams: OccCmsPageRequest = {};
+    if (context.type) {
+      httpParams.pageType = context.type;
+    }
+    if (context.type === PageType.CONTENT_PAGE) {
+      httpParams.pageLabelOrId = context.id;
+    } else {
+      httpParams.code = context.id;
+    }
+
     return httpParams;
   }
 }

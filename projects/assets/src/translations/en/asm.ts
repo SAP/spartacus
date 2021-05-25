@@ -1,3 +1,6 @@
+/**
+ * @deprecated since 3.2, use asm lib instead
+ */
 export const asm = {
   asm: {
     mainLogoLabel: 'SAP',
@@ -34,5 +37,13 @@ export const asm = {
       reset: 'Reset',
     },
     standardSessionInProgress: 'Standard customer session in progress.',
+    auth: {
+      agentLoggedInError:
+        'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.',
+    },
+    error: {
+      noCustomerId:
+        'No customerId found for selected user. Session cannot be started.',
+    },
   },
 };

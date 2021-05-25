@@ -10,6 +10,8 @@ import { CartVoucherConnector } from '../../connectors/voucher/cart-voucher.conn
 import { CartActions } from '../actions/index';
 import * as fromEffects from './cart-voucher.effect';
 import createSpy = jasmine.createSpy;
+import { HttpErrorResponse } from '@angular/common/http';
+import { normalizeHttpError } from '@spartacus/core';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -77,7 +79,7 @@ describe('Cart Voucher effect', () => {
     });
 
     it('should fail', () => {
-      const error = 'error';
+      const error = new HttpErrorResponse({ error: 'error' });
       cartVoucherConnector.add = createSpy().and.returnValue(throwError(error));
       const action = new CartActions.CartAddVoucher({
         userId,
@@ -88,7 +90,7 @@ describe('Cart Voucher effect', () => {
         userId,
         cartId,
         voucherId,
-        error,
+        error: normalizeHttpError(error),
       });
       const completion2 = new CartActions.CartProcessesDecrement(cartId);
       const completion3 = new CartActions.LoadCart({

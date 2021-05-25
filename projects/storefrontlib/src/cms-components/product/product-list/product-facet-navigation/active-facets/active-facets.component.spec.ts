@@ -4,11 +4,11 @@ import {
   DebugElement,
   Input,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Breadcrumb, I18nTestingModule } from '@spartacus/core';
-import { KeyboardFocusModule } from 'projects/storefrontlib/src/layout';
+import { KeyboardFocusModule } from '../../../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 import { of } from 'rxjs';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetList } from '../facet.model';
@@ -36,17 +36,19 @@ describe('ActiveFacetsComponent', () => {
   let fixture: ComponentFixture<ActiveFacetsComponent>;
   let element: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule, KeyboardFocusModule],
-      declarations: [ActiveFacetsComponent, MockCxIconComponent],
-      providers: [{ provide: FacetService, useClass: MockFacetService }],
-    })
-      .overrideComponent(ActiveFacetsComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule, KeyboardFocusModule],
+        declarations: [ActiveFacetsComponent, MockCxIconComponent],
+        providers: [{ provide: FacetService, useClass: MockFacetService }],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(ActiveFacetsComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ActiveFacetsComponent);

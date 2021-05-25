@@ -5,11 +5,11 @@ import {
   CmsParagraphComponent,
   CmsService,
   OrderEntry,
+  PromotionLocation,
   SelectiveCartService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { Item } from '../cart-shared/cart-item/cart-item.component';
 
 @Component({
   selector: 'cx-save-for-later',
@@ -22,6 +22,7 @@ export class SaveForLaterComponent implements OnInit {
   cartLoaded$: Observable<boolean>;
   data$: Observable<CmsParagraphComponent>;
   isCartEmpty$: Observable<boolean>;
+  CartLocation = PromotionLocation;
 
   constructor(
     protected cmsService: CmsService,
@@ -37,6 +38,7 @@ export class SaveForLaterComponent implements OnInit {
     this.entries$ = this.selectiveCartService
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
+    // TODO(#10547): Switch in 4.0 `selectiveCartService.getLoaded` to `selectiveCartService.isStable` method
     this.cartLoaded$ = combineLatest([
       this.cartService.isStable(),
       this.selectiveCartService.getLoaded(),
@@ -46,7 +48,7 @@ export class SaveForLaterComponent implements OnInit {
     );
   }
 
-  moveToCart(item: Item) {
+  moveToCart(item: OrderEntry) {
     this.selectiveCartService.removeEntry(item);
     this.cartService.addEntry(item.product.code, item.quantity);
   }

@@ -6,6 +6,7 @@ import {
   PickupOrderEntryGroup,
   PromotionOrderEntryConsumed,
 } from './order.model';
+import { CostCenter } from './org-unit.model';
 import { Price, Promotion } from './product.model';
 
 export interface PromotionResult {
@@ -18,6 +19,13 @@ export enum PromotionLocation {
   ActiveCart = 'CART',
   Checkout = 'CHECKOUT',
   Order = 'ORDER',
+  SaveForLater = 'SAVE_FOR_LATER',
+  SavedCart = 'SAVED_CART',
+}
+
+export enum B2BPaymentTypeEnum {
+  ACCOUNT_PAYMENT = 'ACCOUNT',
+  CARD_PAYMENT = 'CARD',
 }
 
 export interface Voucher {
@@ -50,6 +58,11 @@ export interface CardType {
   name?: string;
 }
 
+export interface PaymentType {
+  code?: string;
+  displayName?: string;
+}
+
 export interface PaymentDetails {
   accountHolderName?: string;
   billingAddress?: Address;
@@ -77,6 +90,7 @@ export interface Cart {
   appliedVouchers?: Voucher[];
   calculated?: boolean;
   code?: string;
+  costCenter?: CostCenter;
   deliveryAddress?: Address;
   deliveryCost?: Price;
   deliveryItemsQuantity?: number;
@@ -90,11 +104,13 @@ export interface Cart {
   net?: boolean;
   orderDiscounts?: Price;
   paymentInfo?: PaymentDetails;
+  paymentType?: PaymentType;
   pickupItemsQuantity?: number;
   pickupOrderGroups?: PickupOrderEntryGroup[];
   potentialOrderPromotions?: PromotionResult[];
   potentialProductPromotions?: PromotionResult[];
   productDiscounts?: Price;
+  purchaseOrderNumber?: string;
   saveTime?: Date;
   savedBy?: Principal;
   site?: string;

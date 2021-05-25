@@ -1,5 +1,5 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   Product,
@@ -88,28 +88,30 @@ describe('ProductVariantSelectorComponent', () => {
   let component: ProductVariantsComponent;
   let fixture: ComponentFixture<ProductVariantsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        ProductVariantsComponent,
-        MockUrlPipe,
-        MockCxStyleSelectorComponent,
-        MockCxSizeSelectorComponent,
-        MockCxColorSelectorComponent,
-      ],
-      imports: [RouterTestingModule, I18nTestingModule],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          ProductVariantsComponent,
+          MockUrlPipe,
+          MockCxStyleSelectorComponent,
+          MockCxSizeSelectorComponent,
+          MockCxColorSelectorComponent,
+        ],
+        imports: [RouterTestingModule, I18nTestingModule],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductVariantsComponent);

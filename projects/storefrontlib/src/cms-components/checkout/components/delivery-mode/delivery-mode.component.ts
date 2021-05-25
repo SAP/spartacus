@@ -6,14 +6,17 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import {
-  CheckoutDeliveryService,
-  DeliveryMode,
-  RoutingService,
-} from '@spartacus/core';
+import { CheckoutDeliveryService, DeliveryMode } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map, withLatestFrom } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  takeWhile,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
   selector: 'cx-delivery-mode',
@@ -23,10 +26,9 @@ import { CheckoutConfigService } from '../../services/checkout-config.service';
 export class DeliveryModeComponent implements OnInit, OnDestroy {
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
   selectedDeliveryMode$: Observable<DeliveryMode>;
-  currentDeliveryModeId: string;
-  checkoutStepUrlNext: string;
-  checkoutStepUrlPrevious: string;
-  private allowRedirect = false;
+  continueButtonPressed = false;
+
+  backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
   deliveryModeSub: Subscription;
 
@@ -37,20 +39,32 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private checkoutDeliveryService: CheckoutDeliveryService,
-    private routingService: RoutingService,
     private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    protected checkoutStepService: CheckoutStepService
   ) {}
 
   ngOnInit() {
-    this.checkoutStepUrlNext = this.checkoutConfigService.getNextCheckoutStepUrl(
-      this.activatedRoute
-    );
-    this.checkoutStepUrlPrevious = this.checkoutConfigService.getPreviousCheckoutStepUrl(
-      this.activatedRoute
-    );
+    this.supportedDeliveryModes$ = this.checkoutDeliveryService
+      .getSupportedDeliveryModes()
+      .pipe(
+        filter((deliveryModes: DeliveryMode[]) => !!deliveryModes?.length),
+        distinctUntilChanged(
+          (current: DeliveryMode[], previous: DeliveryMode[]) => {
+            return JSON.stringify(current) === JSON.stringify(previous);
+          }
+        )
+      );
 
-    this.supportedDeliveryModes$ = this.checkoutDeliveryService.getSupportedDeliveryModes();
+    // Reload delivery modes on error
+    this.checkoutDeliveryService
+      .getLoadSupportedDeliveryModeProcess()
+      .pipe(takeWhile((state) => state?.success === false))
+      .subscribe((state) => {
+        if (state.error && !state.loading) {
+          this.checkoutDeliveryService.loadSupportedDeliveryModes();
+        }
+      });
 
     this.deliveryModeSub = this.supportedDeliveryModes$
       .pipe(
@@ -65,47 +79,34 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
         )
       )
       .subscribe(([deliveryModes, code]: [DeliveryMode[], string]) => {
-        if (!code && deliveryModes && deliveryModes.length) {
+        if (
+          !(
+            code &&
+            !!deliveryModes.find((deliveryMode) => deliveryMode.code === code)
+          )
+        ) {
           code = this.checkoutConfigService.getPreferredDeliveryMode(
             deliveryModes
           );
         }
-        if (
-          this.allowRedirect &&
-          !!code &&
-          code === this.currentDeliveryModeId
-        ) {
-          this.routingService.go(this.checkoutStepUrlNext);
-        }
-        if (code) {
-          this.mode.controls['deliveryModeId'].setValue(code);
-          if (code !== this.currentDeliveryModeId) {
-            this.checkoutDeliveryService.setDeliveryMode(code);
-          }
-        }
-        this.currentDeliveryModeId = code;
+        this.mode.controls['deliveryModeId'].setValue(code);
+        this.checkoutDeliveryService.setDeliveryMode(code);
       });
   }
 
   changeMode(code: string): void {
-    if (code !== this.currentDeliveryModeId) {
-      this.checkoutDeliveryService.setDeliveryMode(code);
-      this.currentDeliveryModeId = code;
-    }
+    this.checkoutDeliveryService.setDeliveryMode(code);
   }
 
   next(): void {
-    this.allowRedirect = true;
     if (this.mode.valid && this.mode.value) {
-      if (!this.currentDeliveryModeId) {
-        this.currentDeliveryModeId = this.mode.value.deliveryModeId;
-      }
-      this.checkoutDeliveryService.setDeliveryMode(this.currentDeliveryModeId);
+      this.continueButtonPressed = true;
+      this.checkoutStepService.next(this.activatedRoute);
     }
   }
 
   back(): void {
-    this.routingService.go(this.checkoutStepUrlPrevious);
+    this.checkoutStepService.back(this.activatedRoute);
   }
 
   get deliveryModeInvalid(): boolean {

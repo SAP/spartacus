@@ -1,0 +1,72 @@
+<cx-org-card
+  *ngIf="model$ | async as model"
+  i18nRoot="orgUserGroup.details"
+  [cxFocus]="{ refreshFocus: model }"
+>
+  <a
+    actions
+    class="link edit"
+    [routerLink]="{ cxRoute: 'orgUserGroupEdit', params: model } | cxUrl"
+    [class.disabled]="isInEditMode$ | async"
+  >
+    {{ 'organization.edit' | cxTranslate }}
+  </a>
+
+  <cx-org-delete-item
+    actions
+    key="uid"
+    i18nRoot="orgUserGroup"
+  ></cx-org-delete-item>
+
+  <section main class="details" cxOrgItemExists>
+    <div class="property">
+      <label>{{ 'orgUserGroup.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgUserGroup.uid' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.uid }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgUserGroup.orgUnit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.orgUnit?.name }}
+      </a>
+    </div>
+  </section>
+
+  <section main class="link-list">
+    <ng-container *ngIf="model.uid">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUserGroupUsers', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUserGroup.links.user' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="
+          { cxRoute: 'orgUserGroupPermissions', params: model } | cxUrl
+        "
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUserGroup.links.permission' | cxTranslate }}
+      </a>
+    </ng-container>
+  </section>
+</cx-org-card>

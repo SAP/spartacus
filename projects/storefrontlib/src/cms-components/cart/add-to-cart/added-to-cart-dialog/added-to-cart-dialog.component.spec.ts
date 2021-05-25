@@ -1,11 +1,12 @@
 import {
   Component,
   DebugElement,
+  Directive,
   Input,
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,14 +17,25 @@ import {
   I18nTestingModule,
   OrderEntry,
   PromotionLocation,
+  RouterState,
+  RoutingService,
 } from '@spartacus/core';
+import { ModalService } from 'projects/storefrontlib/src/shared/components/modal/modal.service';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components';
-import { ModalService } from '../../../../shared/components/modal/index';
+import { ModalDirective } from '../../../../shared/components/modal/modal.directive';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../../checkout/components/promotions/promotions.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
+
+@Directive({
+  selector: '[cxModal]',
+})
+class MockModalDirective implements Partial<ModalDirective> {
+  @Input() cxModal;
+}
 
 class MockActiveCartService {
   isStable(): Observable<boolean> {
@@ -33,6 +45,10 @@ class MockActiveCartService {
   updateEntry(_entryNumber: string, _updatedQuantity: number): void {}
 
   removeEntry(_entry: OrderEntry): void {}
+
+  getEntries(): Observable<OrderEntry[]> {
+    return of([]);
+  }
 }
 
 const mockOrderEntry: OrderEntry[] = [
@@ -62,6 +78,10 @@ class MockCxIconComponent {
 
 class MockModalService {
   dismissActiveModal(): void {}
+}
+
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState = () => of({ nextState: undefined } as RouterState);
 }
 
 @Component({
@@ -98,45 +118,52 @@ describe('AddedToCartDialogComponent', () => {
   let activeCartService: ActiveCartService;
   let mockModalService: MockModalService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        RouterTestingModule,
-        SpinnerModule,
-        I18nTestingModule,
-        PromotionsModule,
-        FeaturesConfigModule,
-      ],
-      declarations: [
-        AddedToCartDialogComponent,
-        MockCartItemComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-      ],
-      providers: [
-        {
-          provide: ModalService,
-          useClass: MockModalService,
-        },
-        {
-          provide: ActiveCartService,
-          useClass: MockActiveCartService,
-        },
-        {
-          provide: PromotionService,
-          useClass: MockPromotionService,
-        },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.3' },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          FormsModule,
+          ReactiveFormsModule,
+          RouterTestingModule,
+          SpinnerModule,
+          I18nTestingModule,
+          PromotionsModule,
+          FeaturesConfigModule,
+        ],
+        declarations: [
+          AddedToCartDialogComponent,
+          MockCartItemComponent,
+          MockUrlPipe,
+          MockCxIconComponent,
+          MockModalDirective,
+        ],
+        providers: [
+          {
+            provide: ModalService,
+            useClass: MockModalService,
           },
-        },
-      ],
-    }).compileComponents();
-  }));
+          {
+            provide: ActiveCartService,
+            useClass: MockActiveCartService,
+          },
+          {
+            provide: PromotionService,
+            useClass: MockPromotionService,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '1.3' },
+            },
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddedToCartDialogComponent);
@@ -194,18 +221,27 @@ describe('AddedToCartDialogComponent', () => {
     expect(cartTotalEl.children[1].textContent).toEqual('$100.00');
   });
 
-  it('should return formControl with order entry quantity', () => {
+  it('should return formControl with order entry quantity', (done) => {
     component.entry$ = of({
       quantity: 5,
       entryNumber: 0,
     } as OrderEntry);
 
-    component.getQuantityControl().subscribe((control) => {
-      expect(control.value).toEqual(5);
-    });
+    component
+      .getQuantityControl()
+      .pipe(take(1))
+      .subscribe((control) => {
+        expect(control.value).toEqual(5);
+        done();
+      });
   });
 
-  it('should show added dialog title message', () => {
+  it('should show added dialog title message in case new entry appears in cart', () => {
+    component.entry$ = of(mockOrderEntry[0]);
+    component.loaded$ = of(true);
+    component.numberOfEntriesBeforeAdd = 1;
+    spyOn(activeCartService, 'getEntries').and.returnValue(of(mockOrderEntry));
+    component.ngOnInit();
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(
@@ -213,9 +249,12 @@ describe('AddedToCartDialogComponent', () => {
     );
   });
 
-  it('should show increment dialog title message', () => {
+  it('should show increment dialog title message in case no new entry appears in cart', () => {
     component.entry$ = of(mockOrderEntry[0]);
-    component.increment = true;
+    component.loaded$ = of(true);
+    component.numberOfEntriesBeforeAdd = 2;
+    spyOn(activeCartService, 'getEntries').and.returnValue(of(mockOrderEntry));
+    component.ngOnInit();
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(
@@ -242,5 +281,17 @@ describe('AddedToCartDialogComponent', () => {
     component.loaded$ = of(false);
     component.modalIsOpen = true;
     expect(el.query(By.css('cx-cart-item'))).toBeDefined();
+  });
+
+  it('should close modal after removing cart item', (done) => {
+    fixture.detectChanges();
+    component
+      .getQuantityControl()
+      .pipe(take(1))
+      .subscribe((control) => {
+        control.setValue(0);
+        expect(mockModalService.dismissActiveModal).toHaveBeenCalled();
+        done();
+      });
   });
 });

@@ -1,0 +1,91 @@
+<cx-org-card
+  *ngIf="model$ | async as model"
+  i18nRoot="orgBudget.details"
+  [cxFocus]="{ refreshFocus: model }"
+>
+  <a
+    actions
+    class="link edit"
+    [class.disabled]="!model.active || (isInEditMode$ | async)"
+    [routerLink]="{ cxRoute: 'orgBudgetEdit', params: model } | cxUrl"
+  >
+    {{ 'organization.edit' | cxTranslate }}
+  </a>
+
+  <cx-org-toggle-status actions i18nRoot="orgBudget"></cx-org-toggle-status>
+
+  <cx-org-disable-info info i18nRoot="orgBudget"> </cx-org-disable-info>
+
+  <section main class="details" cxOrgItemExists>
+    <div class="property">
+      <label>{{ 'orgBudget.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.code' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.code }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.startDate' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.startDate | cxDate }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.endDate' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.endDate | cxDate }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.active' | cxTranslate }}</label>
+      <span class="value" [class.is-active]="model.active">
+        {{
+          (model.active ? 'organization.enabled' : 'organization.disabled')
+            | cxTranslate
+        }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.amount' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.budget }} {{ model.currency?.isocode }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.unit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.orgUnit?.name }}
+      </a>
+    </div>
+  </section>
+
+  <section main class="link-list">
+    <a
+      *ngIf="model.code"
+      class="link"
+      [routerLink]="{ cxRoute: 'orgBudgetCostCenters', params: model } | cxUrl"
+      routerLinkActive="is-current"
+    >
+      {{ 'orgBudget.links.costCenters' | cxTranslate }}
+    </a>
+  </section>
+</cx-org-card>

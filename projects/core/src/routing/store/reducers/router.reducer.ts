@@ -5,7 +5,12 @@ import { ActionReducerMap } from '@ngrx/store';
 import { PageType } from '../../../model/cms.model';
 import { RoutingConfigService } from '../../configurable-routes/routing-config.service';
 import { CmsActivatedRouteSnapshot } from '../../models/cms-route';
-import { PageContext } from '../../models/page-context.model';
+import {
+  HOME_PAGE_CONTEXT,
+  PageContext,
+  SMART_EDIT_CONTEXT,
+} from '../../models/page-context.model';
+import { CHANGE_NEXT_PAGE_CONTEXT } from '../actions/router.action';
 import {
   ActivatedRouterStateSnapshot,
   RouterState,
@@ -54,9 +59,24 @@ export function reducer(
       };
     }
 
+    case CHANGE_NEXT_PAGE_CONTEXT: {
+      return state.nextState
+        ? {
+            ...state,
+            nextState: { ...state.nextState, context: action.payload },
+          }
+        : state;
+    }
+
     case fromNgrxRouter.ROUTER_NAVIGATED: {
       return {
-        state: action.payload.routerState,
+        state: {
+          ...action.payload.routerState,
+          context:
+            // we want to preserve already resolved context,
+            // in case it was changed while navigating
+            state.nextState?.context ?? action.payload.routerState.context,
+        },
         navigationId: action.payload.event.id,
         nextState: undefined,
       };
@@ -68,9 +88,9 @@ export function reducer(
   }
 }
 
-export const reducerToken: InjectionToken<ActionReducerMap<
-  State
->> = new InjectionToken<ActionReducerMap<State>>('RouterReducers');
+export const reducerToken: InjectionToken<
+  ActionReducerMap<State>
+> = new InjectionToken<ActionReducerMap<State>>('RouterReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
@@ -130,7 +150,7 @@ export class CustomSerializer
     // we give smartedit preview page a PageContext
     if (state.url.length > 0 && state.url[0].path === 'cx-preview') {
       context = {
-        id: 'smartedit-preview',
+        id: SMART_EDIT_CONTEXT,
         type: PageType.CONTENT_PAGE,
       };
     } else {
@@ -152,7 +172,12 @@ export class CustomSerializer
           };
         } else {
           context = {
-            id: 'homepage',
+            // We like URLs to be driven by the backend, the CMS actually returns the homepage
+            // if no page label is given. Our logic however requires an id. undefined doesn't work.
+            id: HOME_PAGE_CONTEXT,
+
+            // We currently need to support a hardcoded page type, since the internal store uses the page
+            // type to store the content.
             type: PageType.CONTENT_PAGE,
           };
         }

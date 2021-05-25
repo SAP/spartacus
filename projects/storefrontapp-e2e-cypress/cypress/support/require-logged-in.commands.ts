@@ -17,7 +17,7 @@ declare global {
       requireLoggedIn: (
         user?: AccountData,
         options?: RequireLoggedInDebugOptions
-      ) => Cypress.Chainable<{ username: string }>;
+      ) => Cypress.Chainable<{ username: string; password: string }>;
     }
   }
 }
@@ -78,8 +78,8 @@ Cypress.Commands.add(
     const defaultAccount: AccountData = {
       user: randomString(),
       registrationData: {
-        firstName: 'Winston',
-        lastName: 'Rumfoord',
+        firstName: 'Cypress',
+        lastName: 'User',
         password: 'Password123.',
         titleCode: 'mr',
       },
@@ -111,9 +111,21 @@ Cypress.Commands.add(
           .then(() => login(username, account.registrationData.password))
           .then((response) => {
             setSessionData(response.body);
+            Cypress.log({
+              name: 'requireLoggedIn',
+              displayName: 'New user auth',
+              message: [`🔒 Authenticated new generated user | ${username}`],
+              consoleProps: () => {
+                return {
+                  'User name': username,
+                  'Session data': response.body,
+                };
+              },
+            });
           });
       }
     });
-    return cy.wrap({ username });
+
+    return cy.wrap({ username, password: account.registrationData.password });
   }
 );

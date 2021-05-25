@@ -10,6 +10,9 @@ export const common = {
     save: 'Save',
     done: 'Done',
     home: 'Home',
+    noData: 'No data.',
+    confirm: 'Confirm',
+    more: 'more',
   },
   pageMetaResolver: {
     category: {
@@ -51,16 +54,22 @@ export const common = {
     date: 'Date',
     orderNumber: 'Order Number',
     rma: 'Return Number',
+    replenishmentNumber: 'Replenishment Number',
+    nextOrderDate: 'Next Order Date',
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
     badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
-    conflict: 'Already exists',
-    forbidden: 'You are not authorized to perform this action.',
+    badRequestGuestDuplicateEmail:
+      '{{ errorMessage }} email already exist. Please checkout with a different email to register using a guest account.',
+    conflict: 'Already exists.',
+    forbidden:
+      'You are not authorized to perform this action. Please contact your administrator if you think this is a mistake.',
     gatewayTimeout: 'The server did not respond, please try again later.',
     internalServerError:
       'An Internal Server Error occurred. Please try again later.',
+    sessionExpired: 'Your session has expired. Please login again.',
     unknownError: 'An unknown error occurred',
     unauthorized: {
       common: 'An unknown authorization error occured',
@@ -84,11 +93,11 @@ export const common = {
         billTo_state:
           'The state/province entered is not valid for this credit card.',
         billTo_country:
-          'The country entered is not valid for this credit card.',
+          'The country/region entered is not valid for this credit card.',
         billTo_postalCode:
           'The zip/postal code is not valid for this credit card.',
         country: {
-          isocode: 'Missing country',
+          isocode: 'Missing country/region',
         },
       },
       invalid: {
@@ -98,6 +107,8 @@ export const common = {
         lastName: 'Last Name entered is not valid.',
         password: 'Password entered is not valid.',
         uid: 'UID is not valid.',
+        code: 'Code is not valid.',
+        email: 'Email is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',
@@ -109,6 +120,7 @@ export const common = {
     total: '{{total}}',
     count: '{{count}}',
   },
+  // deprecated since 3.2, moved to @spartacus/user/account/assets
   miniLogin: {
     userGreeting: 'Hi, {{name}}',
     signInRegister: 'Sign In / Register',
@@ -131,7 +143,16 @@ export const common = {
     cxPasswordsMustMatch: 'Password fields must match',
     cxEmailsMustMatch: 'Email fields must match',
     cxStarRatingEmpty: 'Rating field is required',
-    cxNoSelectedItemToCancel: 'Select at least one item to cancel',
+    cxNoSelectedItemToCancel: 'Select at least one item',
+    cxNegativeAmount: 'Amount must be equal or greater than zero',
+    cxContainsSpecialCharacters: 'Field cannot contain special characters',
+    date: {
+      required: 'This field is required',
+      min: 'Date cannot be before {{min}}',
+      max: 'Date cannot be after {{max}}',
+      pattern: 'Use dateformat yyyy-mm-dd',
+      invalid: 'Use a valid date',
+    },
   },
   errorHandlers: {
     scriptFailedToLoad: 'Failed to load the script.',

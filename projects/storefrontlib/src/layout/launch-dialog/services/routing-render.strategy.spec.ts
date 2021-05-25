@@ -36,8 +36,8 @@ describe('RoutingRenderStrategy', () => {
       ],
     });
 
-    service = TestBed.get(RoutingRenderStrategy);
-    routingService = TestBed.get(RoutingService);
+    service = TestBed.inject(RoutingRenderStrategy);
+    routingService = TestBed.inject(RoutingService);
 
     spyOn(routingService, 'go');
   });

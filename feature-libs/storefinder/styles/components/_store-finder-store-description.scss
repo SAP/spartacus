@@ -1,0 +1,62 @@
+%cx-store-finder-store-description {
+  .container {
+    margin-bottom: 1rem;
+  }
+
+  .cx-store {
+    text-align: start;
+  }
+
+  .cx-store-description-address {
+    margin-bottom: 1.5rem;
+  }
+
+  .cx-contact {
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    text-decoration: underline;
+  }
+
+  .cx-list {
+    padding: 0;
+    list-style: none;
+  }
+
+  .cx-link {
+    color: var(--cx-color-text);
+  }
+
+  .cx-schedule {
+    margin-bottom: 1.5rem;
+  }
+
+  .cx-store-hours {
+    padding: 0;
+  }
+
+  .cx-hours {
+    text-align: end;
+    &.closed {
+      color: var(--cx-color-primary);
+    }
+  }
+
+  .cx-features {
+    margin-bottom: 10px;
+  }
+
+  .cx-features-header {
+    text-align: start;
+  }
+
+  .cx-feature-value {
+    color: var(--cx-color-primary);
+  }
+
+  .cx-feature-item {
+    text-align: start;
+  }
+  .cx-storeMap {
+    height: 70vh;
+  }
+}

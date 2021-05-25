@@ -1,0 +1,20 @@
+<cx-org-sub-list [showHint]="true">
+  <a
+    actions
+    class="link"
+    routerLink="create"
+    [class.disabled]="!(unit$ | async)?.active"
+  >
+    {{ 'organization.create' | cxTranslate }}
+  </a>
+  <cx-org-disable-info
+    info
+    i18nRoot="orgUnitChildren"
+    [displayInfoConfig]="{
+      disabledCreate: true,
+      disabledEnable: false,
+      disabledEdit: false
+    }"
+  >
+  </cx-org-disable-info>
+</cx-org-sub-list>

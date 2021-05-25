@@ -1,22 +1,37 @@
-import { Inject, Injectable, Injector, PLATFORM_ID } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
 import {
+  Inject,
+  Injectable,
+  isDevMode,
+  NgModuleRef,
+  PLATFORM_ID,
+} from '@angular/core';
+import { Route } from '@angular/router';
+import {
+  CmsComponent,
+  CmsComponentChildRoutesConfig,
+  CMSComponentConfig,
   CmsComponentMapping,
   CmsConfig,
+  ConfigInitializerService,
   deepMerge,
   DeferLoadingStrategy,
 } from '@spartacus/core';
-import { Route } from '@angular/router';
-import { isPlatformServer } from '@angular/common';
 import { defer, forkJoin, Observable, of } from 'rxjs';
 import { mapTo, share, tap } from 'rxjs/operators';
 import { FeatureModulesService } from './feature-modules.service';
 
+/**
+ * Service with logic related to resolving component from cms mapping
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class CmsComponentsService {
   private missingComponents: string[] = [];
   private mappings: { [componentType: string]: CmsComponentMapping } = {};
+  // Copy of initial/static cms mapping configuration unaffected by lazy-loaded modules
+  private staticCmsConfig: CMSComponentConfig | undefined;
 
   // contains
   private mappingResolvers: Map<
@@ -24,15 +39,21 @@ export class CmsComponentsService {
     Observable<CmsComponentMapping>
   > = new Map();
 
-  /**
-   * @deprecated since 2.1
-   * constructor(config: CmsConfig, platformId: Object);
-   */
   constructor(
     protected config: CmsConfig,
     @Inject(PLATFORM_ID) protected platformId: Object,
-    protected featureModules?: FeatureModulesService
-  ) {}
+    protected featureModules?: FeatureModulesService,
+    protected configInitializer?: ConfigInitializerService
+  ) {
+    this.configInitializer
+      ?.getStable('cmsComponents')
+      .subscribe((cmsConfig: CmsConfig) => {
+        // we want to grab cms configuration available at config initialization phase
+        // as lazy-loaded modules can affect global configuration resulting in
+        // non-deterministic state
+        this.staticCmsConfig = { ...cmsConfig.cmsComponents };
+      });
+  }
 
   /**
    * Should be called to make sure all component mappings are determined,
@@ -51,7 +72,8 @@ export class CmsComponentsService {
 
       for (const componentType of componentTypes) {
         if (!this.mappings[componentType]) {
-          const staticConfig = this.config.cmsComponents[componentType];
+          const staticConfig = (this.staticCmsConfig ??
+            this.config.cmsComponents)?.[componentType];
 
           // check if this component type is managed by feature module
           if (this.featureModules.hasFeatureFor(componentType)) {
@@ -99,11 +121,16 @@ export class CmsComponentsService {
     return this.mappingResolvers.get(componentType);
   }
 
-  getInjectors(componentType: string): Injector[] {
+  /**
+   * Returns the feature module for a cms component.
+   * It will only work for cms components provided by feature modules.
+   *
+   * @param componentType
+   */
+  getModule(componentType: string): NgModuleRef<any> | undefined {
     return (
-      (this.featureModules.hasFeatureFor(componentType) &&
-        this.featureModules.getInjectors(componentType)) ??
-      []
+      this.featureModules.hasFeatureFor(componentType) &&
+      this.featureModules.getModule(componentType)
     );
   }
 
@@ -120,9 +147,9 @@ export class CmsComponentsService {
   getMapping(componentType: string): CmsComponentMapping {
     const componentConfig =
       this.mappings[componentType] ??
-      this.config.cmsComponents?.[componentType];
+      (this.staticCmsConfig ?? this.config.cmsComponents)?.[componentType];
 
-    if (!componentConfig) {
+    if (isDevMode() && !componentConfig) {
       if (!this.missingComponents.includes(componentType)) {
         this.missingComponents.push(componentType);
         console.warn(
@@ -147,21 +174,59 @@ export class CmsComponentsService {
   /**
    * Return DeferLoadingStrategy for component type.
    */
-  getDeferLoadingStrategy(componentType: string): DeferLoadingStrategy {
-    return this.config.cmsComponents?.[componentType]?.deferLoading;
+  getDeferLoadingStrategy(
+    componentType: string
+  ): DeferLoadingStrategy | undefined {
+    return (this.staticCmsConfig ?? this.config.cmsComponents)?.[componentType]
+      ?.deferLoading;
   }
 
   /**
    * Get cms driven child routes for components
    */
-  getChildRoutes(componentTypes: string[]): Route[] {
-    const routes = [];
+  getChildRoutes(componentTypes: string[]): CmsComponentChildRoutesConfig {
+    const configs = [];
     for (const componentType of componentTypes) {
       if (this.shouldRender(componentType)) {
-        routes.push(...(this.getMapping(componentType)?.childRoutes ?? []));
+        configs.push(this.getMapping(componentType)?.childRoutes ?? []);
       }
     }
-    return routes;
+
+    return this.standardizeChildRoutes(configs);
+  }
+
+  /**
+   * Returns the static data for the component type.
+   */
+  getStaticData<T extends CmsComponent = CmsComponent>(
+    componentType: string
+  ): T | undefined {
+    return this.getMapping(componentType)?.data as T;
+  }
+
+  /**
+   * Standardizes the format of `childRoutes` config.
+   *
+   * Some `childRoutes` configs are simple arrays of Routes (without the notion of the parent route).
+   * But some configs can be an object with children routes and their parent defined in separate property.
+   */
+  protected standardizeChildRoutes(
+    childRoutesConfigs: (Route[] | CmsComponentChildRoutesConfig)[]
+  ): CmsComponentChildRoutesConfig {
+    const result: CmsComponentChildRoutesConfig = { children: [] };
+
+    (childRoutesConfigs || []).forEach((config) => {
+      if (Array.isArray(config)) {
+        result.children.push(...config);
+      } else {
+        result.children.push(...(config.children || []));
+        if (config.parent) {
+          result.parent = config.parent;
+        }
+      }
+    });
+
+    return result;
   }
 
   /**

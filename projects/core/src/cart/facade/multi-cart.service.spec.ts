@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { take } from 'rxjs/operators';
+import { UserIdService } from '../../auth';
 import * as fromReducers from '../../cart/store/reducers/index';
 import { Cart } from '../../model/cart.model';
 import { CartActions } from '../store/actions';
@@ -9,12 +10,16 @@ import {
   StateWithMultiCart,
 } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
+import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
   code: 'xxx',
   guid: 'xxx',
   totalItems: 0,
-  entries: [{ entryNumber: 0, product: { code: '1234' } }],
+  entries: [
+    { entryNumber: 0, product: { code: '1234' } },
+    { entryNumber: 1, product: { code: '1234' } },
+  ],
   totalPrice: {
     currencyIso: 'USD',
     value: 0,
@@ -25,6 +30,31 @@ const testCart: Cart = {
   },
   user: { uid: 'test' },
 };
+
+const testCart2: Cart = {
+  code: 'xxx-x',
+  guid: 'xxx',
+  totalItems: 0,
+  entries: [
+    { entryNumber: 0, product: { code: '1234' } },
+    { entryNumber: 1, product: { code: '1234' } },
+  ],
+  totalPrice: {
+    currencyIso: 'USD',
+    value: 0,
+  },
+  totalPriceWithTax: {
+    currencyIso: 'USD',
+    value: 0,
+  },
+  user: { uid: 'test' },
+};
+const mockCarts: Cart[] = [testCart, testCart2];
+
+const userId = 'currentUserId';
+class MockUserIdService implements Partial<UserIdService> {
+  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
+}
 
 describe('MultiCartService', () => {
   let service: MultiCartService;
@@ -39,7 +69,10 @@ describe('MultiCartService', () => {
           fromReducers.getMultiCartReducers()
         ),
       ],
-      providers: [MultiCartService],
+      providers: [
+        MultiCartService,
+        { provide: UserIdService, useClass: MockUserIdService },
+      ],
     });
 
     store = TestBed.inject(Store);
@@ -69,6 +102,21 @@ describe('MultiCartService', () => {
       );
 
       expect(result).toEqual(testCart);
+    });
+  });
+
+  describe('getCarts', () => {
+    it('should return cart list of carts', () => {
+      let result: Cart[] | undefined;
+
+      service.getCarts().subscribe((carts) => {
+        result = carts;
+      });
+
+      expect(result?.length).toEqual(0);
+
+      store.dispatch(new CartActions.LoadCartsSuccess(mockCarts));
+      expect(result?.length).toEqual(2);
     });
   });
 
@@ -105,6 +153,52 @@ describe('MultiCartService', () => {
         value: testCart,
         processesCount: 0,
       });
+    });
+  });
+
+  describe('getLastEntry', () => {
+    it('should return last cart entry', () => {
+      let result;
+      service.getLastEntry('xxx', '1234').subscribe((cart) => {
+        result = cart;
+      });
+
+      expect(result).toEqual(undefined);
+
+      store.dispatch(
+        new CartActions.LoadCartSuccess({
+          userId: 'userId',
+          extraData: {
+            active: true,
+          },
+          cart: testCart,
+          cartId: testCart.code,
+        })
+      );
+
+      expect(result).toEqual(testCart.entries[1]);
+    });
+
+    it('should return undefined in case product is not available in cart', () => {
+      let result;
+      service.getLastEntry('xxx', 'notAvailable').subscribe((cart) => {
+        result = cart;
+      });
+
+      expect(result).toEqual(undefined);
+
+      store.dispatch(
+        new CartActions.LoadCartSuccess({
+          userId: 'userId',
+          extraData: {
+            active: true,
+          },
+          cart: testCart,
+          cartId: testCart.code,
+        })
+      );
+
+      expect(result).toBeUndefined();
     });
   });
 
@@ -362,6 +456,30 @@ describe('MultiCartService', () => {
     });
   });
 
+  describe('getLastEntry', () => {
+    it('should return last cart entry', () => {
+      let result;
+      service.getLastEntry('xxx', '1234').subscribe((cart) => {
+        result = cart;
+      });
+
+      expect(result).toEqual(undefined);
+
+      store.dispatch(
+        new CartActions.LoadCartSuccess({
+          userId: 'userId',
+          extraData: {
+            active: true,
+          },
+          cart: testCart,
+          cartId: testCart.code,
+        })
+      );
+
+      expect(result).toEqual(testCart.entries[1]);
+    });
+  });
+
   describe('assignEmail', () => {
     it('should dispatch AddEmailToCart action', () => {
       service.assignEmail('cartId', 'userId', 'test@email.com');
@@ -384,6 +502,24 @@ describe('MultiCartService', () => {
         new CartActions.DeleteCart({
           userId: 'userId',
           cartId: 'cartId',
+        })
+      );
+    });
+  });
+
+  describe('reloadCart', () => {
+    it('should dispatch load cart action', () => {
+      service.reloadCart('cartId', {
+        active: true,
+      });
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new CartActions.LoadCart({
+          cartId: 'cartId',
+          userId,
+          extraData: {
+            active: true,
+          },
         })
       );
     });

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsBannerCarouselComponent,
@@ -6,7 +6,7 @@ import {
   CmsComponent,
   CmsService,
 } from '@spartacus/core';
-import { CarouselComponent } from 'projects/storefrontlib/src/shared';
+import { CarouselComponent } from '../../../shared/components/carousel/carousel.component';
 import { of } from 'rxjs';
 import {
   CmsComponentData,
@@ -34,21 +34,23 @@ describe('CreateComponent', () => {
   let bannerCarouselComponent: BannerCarouselComponent;
   let fixture: ComponentFixture<BannerCarouselComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [
-        BannerCarouselComponent,
-        CarouselComponent,
-        ComponentWrapperDirective,
-        IconComponent,
-      ],
-      providers: [
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CmsService, useClass: MockCmsService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [
+          BannerCarouselComponent,
+          CarouselComponent,
+          ComponentWrapperDirective,
+          IconComponent,
+        ],
+        providers: [
+          { provide: CmsComponentData, useValue: MockCmsComponentData },
+          { provide: CmsService, useClass: MockCmsService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BannerCarouselComponent);

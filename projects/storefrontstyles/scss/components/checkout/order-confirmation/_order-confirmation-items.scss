@@ -26,12 +26,12 @@
     @include media-breakpoint-down(md) {
       max-width: 100%;
       min-width: 100%;
-      padding-left: 2.5rem;
+      padding-inline-start: 2.5rem;
     }
     @include media-breakpoint-down(sm) {
       max-width: 100%;
       min-width: 100%;
-      padding-left: 1rem;
+      padding-inline-start: 1rem;
     }
   }
 }

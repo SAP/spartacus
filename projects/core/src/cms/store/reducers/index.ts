@@ -6,7 +6,7 @@ import {
   combineReducers,
   MetaReducer,
 } from '@ngrx/store';
-import { AuthActions } from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { PageType } from '../../../model/cms.model';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { entityLoaderReducer } from '../../../state/utils/entity-loader/entity-loader.reducer';
@@ -54,9 +54,9 @@ export function getReducers(): ActionReducerMap<CmsState> {
   };
 }
 
-export const reducerToken: InjectionToken<ActionReducerMap<
-  CmsState
->> = new InjectionToken<ActionReducerMap<CmsState>>('CmsReducers');
+export const reducerToken: InjectionToken<
+  ActionReducerMap<CmsState>
+> = new InjectionToken<ActionReducerMap<CmsState>>('CmsReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

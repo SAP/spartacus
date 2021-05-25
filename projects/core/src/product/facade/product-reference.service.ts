@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ProductReference } from '../../model/product.model';
+import { ProductSelectors } from '../store';
 import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
-import { ProductSelectors } from '../store/selectors/index';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +12,23 @@ import { ProductSelectors } from '../store/selectors/index';
 export class ProductReferenceService {
   constructor(protected store: Store<StateWithProduct>) {}
 
-  get(
+  loadProductReferences(
     productCode: string,
     referenceType?: string,
     pageSize?: number
+  ): void {
+    this.store.dispatch(
+      new ProductActions.LoadProductReferences({
+        productCode,
+        referenceType,
+        pageSize,
+      })
+    );
+  }
+
+  getProductReferences(
+    productCode: string,
+    referenceType: string
   ): Observable<ProductReference[]> {
     return this.store.pipe(
       select(
@@ -24,18 +36,7 @@ export class ProductReferenceService {
           productCode,
           referenceType
         )
-      ),
-      tap((references) => {
-        if (references === undefined && productCode !== undefined) {
-          this.store.dispatch(
-            new ProductActions.LoadProductReferences({
-              productCode,
-              referenceType,
-              pageSize,
-            })
-          );
-        }
-      })
+      )
     );
   }
 

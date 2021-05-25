@@ -167,6 +167,22 @@ describe('StatePersistenceService', () => {
     });
   });
 
+  describe('readStateFromStorage', () => {
+    it('should read state from localStorage', () => {
+      spyOn(localStorageMock, 'getItem').and.returnValue('5');
+
+      const stateFromStorage = service.readStateFromStorage({
+        key: 'test',
+        context: ['ctx'],
+      });
+
+      expect(localStorageMock.getItem).toHaveBeenCalledWith(
+        'spartacus⚿ctx⚿test'
+      );
+      expect(stateFromStorage).toEqual(5);
+    });
+  });
+
   describe('generateKeyWithContext', () => {
     it('should work with context as an array', () => {
       expect(service['generateKeyWithContext'](['ala', 'ma'], 'kota')).toEqual(

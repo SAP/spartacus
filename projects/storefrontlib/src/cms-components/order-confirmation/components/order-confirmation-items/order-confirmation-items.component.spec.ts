@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CheckoutService,
@@ -7,11 +7,11 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
+  OrderEntry,
   PromotionLocation,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
-import { Item } from '../../../cart/cart-shared/cart-item/cart-item.component';
 import { PromotionsModule } from '../../../checkout';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 
@@ -19,7 +19,7 @@ import createSpy = jasmine.createSpy;
 
 @Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
-  @Input() items: Item[];
+  @Input() items: OrderEntry[];
   @Input() readonly: boolean;
   @Input() promotionLocation: PromotionLocation = PromotionLocation.Checkout;
 }
@@ -51,25 +51,27 @@ describe('OrderConfirmationItemsComponent', () => {
   let component: OrderConfirmationItemsComponent;
   let fixture: ComponentFixture<OrderConfirmationItemsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, PromotionsModule, FeaturesConfigModule],
-      declarations: [
-        OrderConfirmationItemsComponent,
-        MockReviewSubmitComponent,
-      ],
-      providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService },
-        { provide: PromotionService, useClass: MockPromotionService },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.3' },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, PromotionsModule, FeaturesConfigModule],
+        declarations: [
+          OrderConfirmationItemsComponent,
+          MockReviewSubmitComponent,
+        ],
+        providers: [
+          { provide: CheckoutService, useClass: MockCheckoutService },
+          { provide: PromotionService, useClass: MockPromotionService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '1.3' },
+            },
           },
-        },
-      ],
-    }).compileComponents();
-  }));
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConfirmationItemsComponent);

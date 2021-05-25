@@ -7,9 +7,9 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartService, OrderEntry, Product } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { ActiveCartService, isNotNullable, Product } from '@spartacus/core';
+import { Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { ModalRef } from '../../../shared/components/modal/modal-ref';
 import { ModalService } from '../../../shared/components/modal/modal.service';
 import { CurrentProductService } from '../../product/current-product.service';
@@ -35,8 +35,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   hasStock = false;
   quantity = 1;
-  increment = false;
-  cartEntry$: Observable<OrderEntry>;
+  protected numberOfEntriesBeforeAdd = 0;
 
   subscription: Subscription;
 
@@ -47,18 +46,16 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   constructor(
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
-    private cd: ChangeDetectorRef,
+    protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartService
   ) {}
 
   ngOnInit() {
     if (this.product) {
       this.productCode = this.product.code;
-      this.cartEntry$ = this.activeCartService.getEntry(this.productCode);
       this.setStockInfo(this.product);
       this.cd.markForCheck();
     } else if (this.productCode) {
-      this.cartEntry$ = this.activeCartService.getEntry(this.productCode);
       // force hasStock and quantity for the time being, as we do not have more info:
       this.quantity = 1;
       this.hasStock = true;
@@ -66,21 +63,21 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     } else {
       this.subscription = this.currentProductService
         .getProduct()
-        .pipe(filter(Boolean))
-        .subscribe((product: Product) => {
+        .pipe(filter(isNotNullable))
+        .subscribe((product) => {
           this.productCode = product.code;
           this.setStockInfo(product);
-          this.cartEntry$ = this.activeCartService.getEntry(this.productCode);
           this.cd.markForCheck();
         });
     }
   }
 
-  private setStockInfo(product: Product): void {
+  protected setStockInfo(product: Product): void {
     this.quantity = 1;
-    this.hasStock =
-      product.stock && product.stock.stockLevelStatus !== 'outOfStock';
-    if (this.hasStock && product.stock.stockLevel) {
+    this.hasStock = Boolean(
+      product.stock && product.stock.stockLevelStatus !== 'outOfStock'
+    );
+    if (this.hasStock && product.stock?.stockLevel) {
       this.maxQuantity = product.stock.stockLevel;
     }
   }
@@ -94,22 +91,20 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (!this.productCode || quantity <= 0) {
       return;
     }
-    // check item is already present in the cart
-    // so modal will have proper header text displayed
     this.activeCartService
-      .getEntry(this.productCode)
-      .subscribe((entry) => {
-        if (entry) {
-          this.increment = true;
-        }
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        this.numberOfEntriesBeforeAdd = entries.length;
         this.openModal();
         this.activeCartService.addEntry(this.productCode, quantity);
-        this.increment = false;
-      })
-      .unsubscribe();
+      });
   }
 
-  private openModal() {
+  /**
+   * Provides required data and opens AddedToCartDialogComponent modal
+   */
+  protected openModal() {
     let modalInstance: any;
     this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
       centered: true,
@@ -117,11 +112,15 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     });
 
     modalInstance = this.modalRef.componentInstance;
-    modalInstance.entry$ = this.cartEntry$;
+    // Display last entry for new product code. This always corresponds to
+    // our new item, independently of whether merging occured or not
+    modalInstance.entry$ = this.activeCartService.getLastEntry(
+      this.productCode
+    );
     modalInstance.cart$ = this.activeCartService.getActive();
     modalInstance.loaded$ = this.activeCartService.isStable();
     modalInstance.quantity = this.quantity;
-    modalInstance.increment = this.increment;
+    modalInstance.numberOfEntriesBeforeAdd = this.numberOfEntriesBeforeAdd;
   }
 
   ngOnDestroy() {

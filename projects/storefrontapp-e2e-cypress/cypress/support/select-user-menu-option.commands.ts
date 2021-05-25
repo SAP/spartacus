@@ -1,7 +1,8 @@
 declare namespace Cypress {
   interface Chainable {
     /**
-       * Select user menu option
+       * Selects an option from the user menu (top navigation)
+       * This command is Viewport aware (desktop and mobile)
        *
        * @memberof Cypress.Chainable
        *
@@ -22,6 +23,8 @@ declare namespace Cypress {
   }
 }
 
+// test
+
 Cypress.Commands.add(
   'selectUserMenuOption',
   ({ isMobile, option }: { option: string; isMobile?: boolean }) => {
@@ -30,9 +33,10 @@ Cypress.Commands.add(
       cy.get('cx-hamburger-menu [aria-label="Menu"]').click({ force: true });
     }
 
-    cy.get('nav a')
-      .getAllByText(new RegExp(option, 'i'))
-      .first()
+    cy.get(
+      'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > div > div'
+    )
+      .findByText(new RegExp(option, 'i'))
       .click({ force: true });
   }
 );

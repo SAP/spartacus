@@ -12,6 +12,8 @@ import { StateUtils } from '../../../state/utils/index';
 import { CheckoutDetails } from '../../models/checkout.model';
 import {
   CHECKOUT_DETAILS,
+  PLACED_ORDER_PROCESS_ID,
+  SET_COST_CENTER_PROCESS_ID,
   SET_DELIVERY_ADDRESS_PROCESS_ID,
   SET_DELIVERY_MODE_PROCESS_ID,
   SET_PAYMENT_DETAILS_PROCESS_ID,
@@ -84,6 +86,7 @@ export const RESET_SET_PAYMENT_DETAILS_PROCESS =
 export const PLACE_ORDER = '[Checkout] Place Order';
 export const PLACE_ORDER_FAIL = '[Checkout] Place Order Fail';
 export const PLACE_ORDER_SUCCESS = '[Checkout] Place Order Success';
+export const CLEAR_PLACE_ORDER = '[Checkout] Clear Place Order';
 
 export const CLEAR_CHECKOUT_STEP = '[Checkout] Clear One Checkout Step';
 export const CLEAR_CHECKOUT_DATA = '[Checkout] Clear Checkout Data';
@@ -96,6 +99,12 @@ export const LOAD_CHECKOUT_DETAILS_SUCCESS =
 
 export const CHECKOUT_CLEAR_MISCS_DATA = '[Checkout] Clear Miscs Data';
 export const PAYMENT_PROCESS_SUCCESS = '[Checkout] Payment Process Success';
+
+export const SET_COST_CENTER = '[Checkout] Set Cost Center';
+export const SET_COST_CENTER_FAIL = '[Checkout] Set Cost Center Fail';
+export const SET_COST_CENTER_SUCCESS = '[Checkout] Set Cost Center Success';
+export const RESET_SET_COST_CENTER_PROCESS =
+  '[Checkout] Reset Set Cost Center Process';
 
 export class AddDeliveryAddress implements Action {
   readonly type = ADD_DELIVERY_ADDRESS;
@@ -268,19 +277,34 @@ export class ResetSetPaymentDetailsProcess extends StateUtils.EntityLoaderResetA
   }
 }
 
-export class PlaceOrder implements Action {
+export class PlaceOrder extends StateUtils.EntityLoadAction {
   readonly type = PLACE_ORDER;
-  constructor(public payload: { userId: string; cartId: string }) {}
+  constructor(
+    public payload: { userId: string; cartId: string; termsChecked: boolean }
+  ) {
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
+  }
 }
 
-export class PlaceOrderFail implements Action {
+export class PlaceOrderFail extends StateUtils.EntityFailAction {
   readonly type = PLACE_ORDER_FAIL;
-  constructor(public payload: any) {}
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID, payload);
+  }
 }
 
-export class PlaceOrderSuccess implements Action {
+export class PlaceOrderSuccess extends StateUtils.EntitySuccessAction {
   readonly type = PLACE_ORDER_SUCCESS;
-  constructor(public payload: Order) {}
+  constructor(public payload: Order) {
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
+  }
+}
+
+export class ClearPlaceOrder extends StateUtils.EntityLoaderResetAction {
+  readonly type = CLEAR_PLACE_ORDER;
+  constructor() {
+    super(PROCESS_FEATURE, PLACED_ORDER_PROCESS_ID);
+  }
 }
 
 export class ClearSupportedDeliveryModes implements Action {
@@ -357,6 +381,36 @@ export class ClearCheckoutDeliveryModeFail extends EntityProcessesDecrementActio
   }
 }
 
+export class SetCostCenter extends StateUtils.EntityLoadAction {
+  readonly type = SET_COST_CENTER;
+  constructor(
+    public payload: { userId: string; cartId: string; costCenterId: string }
+  ) {
+    super(PROCESS_FEATURE, SET_COST_CENTER_PROCESS_ID);
+  }
+}
+
+export class SetCostCenterFail extends StateUtils.EntityFailAction {
+  readonly type = SET_COST_CENTER_FAIL;
+  constructor(public payload: any) {
+    super(PROCESS_FEATURE, SET_COST_CENTER_PROCESS_ID, payload);
+  }
+}
+
+export class SetCostCenterSuccess extends StateUtils.EntitySuccessAction {
+  readonly type = SET_COST_CENTER_SUCCESS;
+  constructor(public payload: string) {
+    super(PROCESS_FEATURE, SET_COST_CENTER_PROCESS_ID);
+  }
+}
+
+export class ResetSetCostCenterProcess extends StateUtils.EntityLoaderResetAction {
+  readonly type = RESET_SET_COST_CENTER_PROCESS;
+  constructor() {
+    super(PROCESS_FEATURE, SET_COST_CENTER_PROCESS_ID);
+  }
+}
+
 export type CheckoutAction =
   | AddDeliveryAddress
   | AddDeliveryAddressFail
@@ -394,4 +448,8 @@ export type CheckoutAction =
   | LoadCheckoutDetails
   | LoadCheckoutDetailsFail
   | LoadCheckoutDetailsSuccess
-  | CheckoutClearMiscsData;
+  | CheckoutClearMiscsData
+  | SetCostCenter
+  | SetCostCenterFail
+  | SetCostCenterSuccess
+  | ResetSetCostCenterProcess;

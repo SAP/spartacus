@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { BreadcrumbMeta, PageRobotsMeta } from '../../cms/model/page.model';
+import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
   PageBreadcrumbResolver,
@@ -11,9 +12,10 @@ import {
   PageRobotsResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
+import { PageLinkService } from '../../cms/page/routing/page-link.service';
 import { TranslationService } from '../../i18n/translation.service';
 import { PageType } from '../../model/cms.model';
-import { Product } from '../../model/product.model';
+import { Category, Product } from '../../model/product.model';
 import { RoutingService } from '../../routing/facade/routing.service';
 import { ProductService } from '../facade/product.service';
 import { ProductScope } from '../model/product-scope';
@@ -28,7 +30,8 @@ import { ProductScope } from '../model/product-scope';
 @Injectable({
   providedIn: 'root',
 })
-export class ProductPageMetaResolver extends PageMetaResolver
+export class ProductPageMetaResolver
+  extends PageMetaResolver
   implements
     PageHeadingResolver,
     PageTitleResolver,
@@ -37,17 +40,49 @@ export class ProductPageMetaResolver extends PageMetaResolver
     PageImageResolver,
     PageRobotsResolver {
   // reusable observable for product data based on the current page
-  protected product$ = this.routingService.getRouterState().pipe(
-    map((state) => state.state.params['productCode']),
-    filter((code) => !!code),
-    switchMap((code) => this.productService.get(code, ProductScope.DETAILS)),
-    filter(Boolean)
-  );
+  protected product$: Observable<Product> = this.routingService
+    .getRouterState()
+    .pipe(
+      map((state) => state.state.params['productCode']),
+      filter((code) => !!code),
+      switchMap((code) => this.productService.get(code, ProductScope.DETAILS)),
+      filter((p) => Boolean(p))
+    );
 
+  // TODO(#10467): Remove deprecated constructors
+  constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    translation: TranslationService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    pageLinkService?: PageLinkService
+  );
+  /**
+   * @deprecated since 3.2, we'll use the PageLinkService in future versions
+   */
+  constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    translation: TranslationService,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    basePageMetaResolver?: BasePageMetaResolver
+  );
+  /**
+   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
+   */
+  constructor(
+    routingService: RoutingService,
+    productService: ProductService,
+    translation: TranslationService
+  );
   constructor(
     protected routingService: RoutingService,
     protected productService: ProductService,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected basePageMetaResolver?: BasePageMetaResolver,
+    protected pageLinkService?: PageLinkService
   ) {
     super();
     this.pageType = PageType.PRODUCT_PAGE;
@@ -70,15 +105,15 @@ export class ProductPageMetaResolver extends PageMetaResolver
 
   /**
    * Resolves the page title for the Product Detail Page. The page title
-   * is resolved with the product name, the first category and the manufactorer.
+   * is resolved with the product name, the first category and the manufacturer.
    * The page title used by the browser (history, tabs) and crawlers.
    */
   resolveTitle(): Observable<string> {
     return this.product$.pipe(
-      switchMap((p: Product) => {
-        let title = p.name;
-        title += this.resolveFirstCategory(p);
-        title += this.resolveManufacturer(p);
+      switchMap((product) => {
+        let title = product.name;
+        title += this.resolveFirstCategory(product);
+        title += this.resolveManufacturer(product);
         return this.translation.translate('pageMetaResolver.product.title', {
           title: title,
         });
@@ -92,9 +127,9 @@ export class ProductPageMetaResolver extends PageMetaResolver
    */
   resolveDescription(): Observable<string> {
     return this.product$.pipe(
-      switchMap((p: Product) =>
+      switchMap((product) =>
         this.translation.translate('pageMetaResolver.product.description', {
-          description: p.summary,
+          description: product.summary,
         })
       )
     );
@@ -102,21 +137,21 @@ export class ProductPageMetaResolver extends PageMetaResolver
 
   /**
    * Resolves breadcrumbs for the Product Detail Page. The breadcrumbs are driven by
-   * a static home page crum and a crumb for each category.
+   * a static home page crumb and a crumb for each category.
    */
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
     return combineLatest([
       this.product$.pipe(),
       this.translation.translate('common.home'),
     ]).pipe(
-      map(([p, label]: [Product, string]) => {
+      map(([product, label]) => {
         const breadcrumbs = [];
-        breadcrumbs.push({ label: label, link: '/' });
-        for (const { name, code, url } of p.categories || []) {
+        breadcrumbs.push({ label, link: '/' });
+        for (const { name, code, url } of product.categories || []) {
           breadcrumbs.push({
             label: name || code,
             link: url,
-          });
+          } as BreadcrumbMeta);
         }
         return breadcrumbs;
       })
@@ -129,19 +164,13 @@ export class ProductPageMetaResolver extends PageMetaResolver
    */
   resolveImage(): Observable<string> {
     return this.product$.pipe(
-      map((p: Product) =>
-        (<any>p.images?.PRIMARY)?.zoom?.url
-          ? (<any>p.images.PRIMARY).zoom.url
-          : null
-      )
+      map((product) => (<any>product.images?.PRIMARY)?.zoom?.url ?? null)
     );
   }
 
   protected resolveFirstCategory(product: Product): string {
-    let firstCategory;
-    if (product.categories?.length > 0) {
-      firstCategory = product.categories[0];
-    }
+    const firstCategory: Category | undefined = product?.categories?.[0];
+
     return firstCategory
       ? ` | ${firstCategory.name || firstCategory.code}`
       : '';
@@ -156,7 +185,53 @@ export class ProductPageMetaResolver extends PageMetaResolver
    * robot instruction defaults to FOLLOW and INDEX for all product pages,
    * regardless of whether they're purchasable or not.
    */
+  // TODO(#10467): resolve robots from `BasePageMetaResolver` instead
   resolveRobots(): Observable<PageRobotsMeta[]> {
     return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
+  }
+
+  /**
+   * Resolves the canonical url for the product page using the default canonical url
+   * configuration.
+   *
+   * In case of a variant product, the baseProduct code is used to resolve the url. It's important
+   * to know that this has a few limitations:
+   * - We're not always able to get the super baseProduct, in case of multi-level variants.
+   *   OCC only exposes the direct baseProduct, which might still not resolve in the correct
+   *   canonical URL. This is business driven and subject to change in a customization.
+   * - The url resolved for the variant doesn't contain any content other then the product code.
+   *   This means that we do not provide any product data to resolve pretty URLs (for example
+   *   the product title).
+   */
+  resolveCanonicalUrl(): Observable<string> {
+    return this.product$.pipe(
+      switchMap((product) => this.findBaseProduct(product)),
+      map((product) => {
+        const url = this.routingService.getFullUrl({
+          cxRoute: 'product',
+          params: product,
+        });
+        // TODO (#10467): remove optional pageLinkService and undefined assertion when we pageLinkService becomes default
+        return this.pageLinkService?.getCanonicalUrl({}, url) ?? '';
+      })
+    );
+  }
+
+  /**
+   * Resolves the base product whenever the given product is a variant product.
+   *
+   * Since product variants can be multi-layered, we recursively try to find the base product
+   * this might be too opinionated for your business though.
+   */
+  protected findBaseProduct(product: Product): Observable<Product> {
+    if (product?.baseProduct) {
+      return this.productService
+        .get(product.baseProduct, ProductScope.LIST)
+        .pipe(
+          filter((product) => Boolean(product)),
+          switchMap((baseProduct) => this.findBaseProduct(baseProduct))
+        );
+    }
+    return of(product);
   }
 }

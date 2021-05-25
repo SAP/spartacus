@@ -1,19 +1,26 @@
 import {
   ComponentRef,
+  ElementRef,
   Inject,
   Injectable,
   isDevMode,
   ViewContainerRef,
 } from '@angular/core';
 import { resolveApplicable } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { LayoutConfig } from '../../config/layout-config';
 import { LaunchOptions, LAUNCH_CALLER } from '../config/launch-config';
 import { LaunchRenderStrategy } from './launch-render.strategy';
+import { filter, map, tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class LaunchDialogService {
   private _dialogClose = new BehaviorSubject<string>(undefined);
+  private _dataSubject = new BehaviorSubject<any>(undefined);
+
+  get data$(): Observable<any> {
+    return this._dataSubject.asObservable();
+  }
 
   constructor(
     @Inject(LaunchRenderStrategy)
@@ -24,6 +31,34 @@ export class LaunchDialogService {
   }
 
   /**
+   * Open the dialog
+   *
+   * @param caller LAUNCH_CALLER
+   * @param openElement button's Element ref
+   * @param vcr View Container Ref of the container for inline rendering
+   * @param data optional data which could be passed to dialog
+   */
+  openDialog(
+    caller: LAUNCH_CALLER | string,
+    openElement?: ElementRef,
+    vcr?: ViewContainerRef,
+    data?: any
+  ): Observable<any> | undefined {
+    const component = this.launch(caller, vcr, data);
+
+    if (component) {
+      return combineLatest([component, this.dialogClose]).pipe(
+        filter(([, close]) => close !== undefined),
+        tap(([comp]) => {
+          openElement?.nativeElement.focus();
+          this.clear(caller);
+          comp.destroy();
+        }),
+        map(([comp]) => comp)
+      );
+    }
+  }
+  /**
    * Render the element based on the strategy from the launch configuration
    *
    * @param caller LAUNCH_CALLER
@@ -31,7 +66,8 @@ export class LaunchDialogService {
    */
   launch(
     caller: LAUNCH_CALLER | string,
-    vcr?: ViewContainerRef
+    vcr?: ViewContainerRef,
+    data?: any
   ): void | Observable<ComponentRef<any>> {
     const config = this.findConfiguration(caller);
     if (config) {
@@ -40,6 +76,8 @@ export class LaunchDialogService {
       // Render if the strategy exists
       if (renderer) {
         this._dialogClose.next(undefined);
+        this._dataSubject.next(data);
+
         return renderer.render(config, caller, vcr);
       }
     } else if (isDevMode()) {

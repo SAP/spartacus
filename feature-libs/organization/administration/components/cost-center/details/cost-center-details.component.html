@@ -1,0 +1,82 @@
+<cx-org-card
+  *ngIf="model$ | async as model"
+  i18nRoot="orgCostCenter.details"
+  [cxFocus]="{ refreshFocus: model }"
+>
+  <a
+    actions
+    class="link edit"
+    [class.disabled]="!model.active || (isInEditMode$ | async)"
+    [routerLink]="{ cxRoute: 'orgCostCenterEdit', params: model } | cxUrl"
+  >
+    {{ 'organization.edit' | cxTranslate }}
+  </a>
+
+  <cx-org-toggle-status actions i18nRoot="orgCostCenter"></cx-org-toggle-status>
+
+  <cx-org-disable-info info i18nRoot="orgCostCenter"> </cx-org-disable-info>
+
+  <section main class="details" cxOrgItemExists>
+    <div class="property">
+      <label>{{ 'orgCostCenter.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgCostCenter.code' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.code }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgCostCenter.active' | cxTranslate }}</label>
+      <span
+        class="value"
+        [class.is-active]="model.active"
+        [class.is-inactive]="!model.active"
+      >
+        {{
+          (model.active ? 'organization.enabled' : 'organization.disabled')
+            | cxTranslate
+        }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgCostCenter.currency' | cxTranslate }}</label>
+
+      <span class="value">
+        {{ model.currency?.isocode }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgCostCenter.unit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.unit
+          } | cxUrl
+        "
+      >
+        {{ model.unit?.name }}
+      </a>
+    </div>
+  </section>
+
+  <section main class="link-list">
+    <a
+      *ngIf="model.code"
+      class="link"
+      [routerLink]="{ cxRoute: 'orgCostCenterBudgets', params: model } | cxUrl"
+      routerLinkActive="is-current"
+    >
+      {{ 'orgCostCenter.budget.link' | cxTranslate }}
+    </a>
+  </section>
+</cx-org-card>

@@ -1,0 +1,15 @@
+%cx-configurator-attribute-radio-button {
+  @include cx-configurator-attribute-type();
+
+  .form-check {
+    &:last-child {
+      margin-block-end: 9px;
+    }
+  }
+
+  @include forVersion(3.3) {
+    .cx-quantity {
+      padding-block-end: 1rem;
+    }
+  }
+}

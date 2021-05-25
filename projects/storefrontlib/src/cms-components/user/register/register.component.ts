@@ -9,18 +9,20 @@ import {
   AnonymousConsent,
   AnonymousConsentsConfig,
   AnonymousConsentsService,
+  AuthConfigService,
   ConsentTemplate,
   GlobalMessageEntities,
   GlobalMessageService,
   GlobalMessageType,
+  OAuthFlow,
   RoutingService,
   Title,
   UserService,
   UserSignUp,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
-import { sortTitles, CustomFormValidators } from '../../../shared/index';
+import { filter, map } from 'rxjs/operators';
+import { CustomFormValidators, sortTitles } from '../../../shared/index';
 
 @Component({
   selector: 'cx-register',
@@ -67,16 +69,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
     protected fb: FormBuilder,
     protected router: RoutingService,
     protected anonymousConsentsService: AnonymousConsentsService,
-    protected anonymousConsentsConfig: AnonymousConsentsConfig
+    protected anonymousConsentsConfig: AnonymousConsentsConfig,
+    protected authConfigService: AuthConfigService
   ) {}
 
   ngOnInit() {
     this.titles$ = this.userService.getTitles().pipe(
-      tap((titles) => {
-        if (Object.keys(titles).length === 0) {
-          this.userService.loadTitles();
-        }
-      }),
       map((titles) => {
         return titles.sort(sortTitles);
       })
@@ -178,7 +176,12 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   private onRegisterUserSuccess(success: boolean): void {
     if (success) {
-      this.router.go('login');
+      if (
+        this.authConfigService.getOAuthFlow() ===
+        OAuthFlow.ResourceOwnerPasswordFlow
+      ) {
+        this.router.go('login');
+      }
       this.globalMessageService.add(
         { key: 'register.postRegisterMessage' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION

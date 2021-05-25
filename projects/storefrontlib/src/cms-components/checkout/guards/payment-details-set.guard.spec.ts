@@ -5,8 +5,8 @@ import { Observable, of } from 'rxjs';
 import { defaultStorefrontRoutesConfig } from '../../../cms-structure/routing/default-routing-config';
 import { CheckoutConfig } from '../config/checkout-config';
 import { defaultCheckoutConfig } from '../config/default-checkout-config';
-import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { PaymentDetailsSetGuard } from './payment-details-set.guard';
 
 // deep copy to avoid issues with mutating imported symbols
@@ -29,7 +29,7 @@ class MockRoutingConfigService {
   }
 }
 
-class MockCheckoutConfigService {
+class MockCheckoutStepService {
   getCheckoutStep() {}
 }
 
@@ -38,7 +38,7 @@ describe(`PaymentDetailsSetGuard`, () => {
   let mockCheckoutDetailsService: CheckoutDetailsService;
   let mockCheckoutConfig: CheckoutConfig;
   let mockRoutingConfigService: RoutingConfigService;
-  let mockCheckoutConfigService: CheckoutConfigService;
+  let mockCheckoutStepService: CheckoutStepService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,7 +49,7 @@ describe(`PaymentDetailsSetGuard`, () => {
         },
         { provide: CheckoutConfig, useValue: MockCheckoutConfig },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
-        { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
+        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
       ],
       imports: [RouterTestingModule],
     });
@@ -58,7 +58,10 @@ describe(`PaymentDetailsSetGuard`, () => {
     mockCheckoutDetailsService = TestBed.inject(CheckoutDetailsService);
     mockCheckoutConfig = TestBed.inject(CheckoutConfig);
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
-    mockCheckoutConfigService = TestBed.inject(CheckoutConfigService);
+    mockCheckoutStepService = TestBed.inject(CheckoutStepService);
+
+    // suppress warnings in test console
+    spyOn(console, 'warn');
   });
 
   describe(`when there is NO payment details present`, () => {
@@ -67,7 +70,7 @@ describe(`PaymentDetailsSetGuard`, () => {
         of({})
       );
 
-      spyOn(mockCheckoutConfigService, 'getCheckoutStep').and.returnValue(
+      spyOn(mockCheckoutStepService, 'getCheckoutStep').and.returnValue(
         MockCheckoutConfig.checkout.steps[2]
       );
 
@@ -87,7 +90,6 @@ describe(`PaymentDetailsSetGuard`, () => {
       spyOn(mockCheckoutDetailsService, 'getPaymentDetails').and.returnValue(
         of({})
       );
-      spyOn(console, 'warn');
       mockCheckoutConfig.checkout.steps = [];
 
       guard.canActivate().subscribe((result) => {

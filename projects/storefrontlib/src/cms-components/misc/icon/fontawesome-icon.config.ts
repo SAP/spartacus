@@ -9,6 +9,7 @@ export const fontawesomeIconConfig: IconConfig = {
       STAR: 'fas fa-star',
       GRID: 'fas fa-th-large',
       LIST: 'fas fa-bars',
+      CARET_UP: 'fas fa-angle-up',
       CARET_DOWN: 'fas fa-angle-down',
       CARET_RIGHT: 'fas fa-angle-right',
       CARET_LEFT: 'fas fa-angle-left',
@@ -29,6 +30,15 @@ export const fontawesomeIconConfig: IconConfig = {
       EMPTY_HEART: 'far fa-heart',
       FILTER: 'fas fa-filter',
       EXPAND_ARROWS: 'fas fa-expand-arrows-alt',
+      PENCIL: 'fas fa-pencil-alt',
+      CLOCK: 'far fa-clock',
+      TRASH: 'fas fa-trash',
+      ACTIVE: 'fas fa-check',
+      ON: 'fas fa-toggle-on',
+      OFF: 'fas fa-toggle-off',
+      LINK_OUT: 'fas fa-external-link-alt',
+      SORT_DOWN: 'fas fa-sort-down',
+      SORT: 'fas fa-sort',
     },
     resources: [
       {

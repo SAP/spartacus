@@ -1,23 +1,38 @@
+import { waitForPage } from '../../../checkout-flow';
 import { checkoutNextStep, verifyTabbingOrder } from '../../tabbing-order';
-import { user } from '../../../../sample-data/checkout-flow';
 import { TabElement } from '../../tabbing-order.model';
 
-const containerSelector = '.MultiStepCheckoutSummaryPageTemplate';
+const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
 export function checkoutDeliveryModeTabbingOrder(config: TabElement[]) {
-  cy.window().then((win) => {
-    const { auth } = JSON.parse(
-      win.localStorage.getItem('spartacus-local-data')
-    );
-    cy.requireProductAddedToCart(auth).then(() => {
-      cy.requireShippingAddressAdded(user.address, auth);
-    });
-  });
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
 
   cy.visit('/checkout/delivery-mode');
 
-  cy.get('cx-delivery-mode input');
+  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+
+  cy.get('cx-delivery-mode input').should('exist');
 
   verifyTabbingOrder(containerSelector, config);
+
   checkoutNextStep('/checkout/payment-details');
+}
+
+export function checkoutDeliveryModeTabbingOrderAccount(config: TabElement[]) {
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
+
+  cy.visit('/checkout/delivery-mode');
+  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+
+  cy.get('cx-delivery-mode input').should('exist');
+
+  verifyTabbingOrder(containerSelector, config);
+
+  checkoutNextStep('/checkout/review-order');
 }

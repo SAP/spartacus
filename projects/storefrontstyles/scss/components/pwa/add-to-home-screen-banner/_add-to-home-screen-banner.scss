@@ -8,7 +8,10 @@
     margin: 0 0 2.5rem;
 
     @include media-breakpoint-down(sm) {
-      margin: 0 1.25rem 2rem;
+      margin-top: 0;
+      margin-inline-end: 1.25rem;
+      margin-bottom: 2rem;
+      margin-inline-start: 1.25rem;
     }
 
     ul {
@@ -19,20 +22,29 @@
 
       @include media-breakpoint-down(sm) {
         flex-direction: column;
-        margin: 0 auto 0 auto;
+        margin-top: 0;
+        margin-inline-end: auto;
+        margin-bottom: 0;
+        margin-inline-start: auto;
         max-width: 280px;
-        padding: 0 20px 20px 50px;
+        padding-inline-start: 50px;
+        padding-inline-end: 20px;
+        padding-bottom: 20px;
+        padding-top: 0;
       }
 
       li {
         min-width: 35%;
-        text-align: left;
+        text-align: start;
       }
     }
   }
 
   .cx-add-to-home-screen-banner-inner {
     max-width: 600px;
-    margin: 0 auto;
+    margin-top: 0;
+    margin-inline-end: auto;
+    margin-bottom: 0;
+    margin-inline-start: auto;
   }
 }

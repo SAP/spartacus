@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { UserSignUp } from '@spartacus/core';
-import { of } from 'rxjs/internal/observable/of';
+import { of } from 'rxjs';
 import { UserAdapter } from './user.adapter';
 import { UserConnector } from './user.connector';
 import createSpy = jasmine.createSpy;

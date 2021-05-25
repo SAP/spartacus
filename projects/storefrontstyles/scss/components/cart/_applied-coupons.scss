@@ -20,7 +20,10 @@
     align-items: flex-start;
     padding: var(--cx-padding, 0.25rem 0.25rem);
     word-break: break-all;
-    margin: var(--cx-margin, 0.25rem 0.25rem 0 0);
+    margin-top: 0.25rem;
+    margin-inline-end: 0.25rem;
+    margin-bottom: 0;
+    margin-inline-start: 0;
   }
 
   .cx-coupon-card {
@@ -36,7 +39,7 @@
     }
 
     @include media-breakpoint-up(md) {
-      padding-right: 0;
+      padding-inline-end: 0;
     }
   }
 
@@ -57,7 +60,7 @@
     }
 
     .close {
-      padding-left: 0.7rem;
+      padding-inline-start: 0.7rem;
     }
   }
 }

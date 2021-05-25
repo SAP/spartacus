@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
   ActiveCartService,
@@ -35,19 +35,21 @@ describe('CheckoutLoginComponent', () => {
   let email: AbstractControl;
   let emailConfirmation: AbstractControl;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [CheckoutLoginComponent],
-      providers: [
-        { provide: ActiveCartService, useClass: MockActiveCartService },
-        {
-          provide: AuthRedirectService,
-          useClass: MockRedirectAfterAuthService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+        declarations: [CheckoutLoginComponent],
+        providers: [
+          { provide: ActiveCartService, useClass: MockActiveCartService },
+          {
+            provide: AuthRedirectService,
+            useClass: MockRedirectAfterAuthService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutLoginComponent);

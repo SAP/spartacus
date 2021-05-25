@@ -4,6 +4,9 @@
 yarn.lock
 .release-it.*
 *_spec.ts
-*_spec.js
-*_spec.js.map
-tsconfig.json
+*_spec.ts.snap
+jest.ts
+jest.schematics.config.js
+tsconfig.schematics.json
+src/migrations/test/**/*
+.eslintrc.json

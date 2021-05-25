@@ -10,7 +10,7 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Cart, OrderEntry } from '../../model/index';
 import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { UserService } from '../../user/facade/user.service';
@@ -26,9 +26,9 @@ import { MultiCartService } from './multi-cart.service';
 export class WishListService {
   constructor(
     protected store: Store<StateWithMultiCart>,
-    protected authService: AuthService,
     protected userService: UserService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartService,
+    protected userIdService: UserIdService
   ) {}
 
   createWishList(userId: string, name?: string, description?: string): void {
@@ -41,7 +41,7 @@ export class WishListService {
     return combineLatest([
       this.getWishListId(),
       this.userService.get(),
-      this.authService.getOccUserId(),
+      this.userIdService.getUserId(),
     ]).pipe(
       distinctUntilChanged(),
       tap(([wishListId, user, userId]) => {
@@ -73,7 +73,7 @@ export class WishListService {
     this.getWishListId()
       .pipe(
         distinctUntilChanged(),
-        withLatestFrom(this.authService.getOccUserId(), this.userService.get()),
+        withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
         tap(([wishListId, userId, user]) => {
           if (
             !Boolean(wishListId) &&
@@ -95,7 +95,7 @@ export class WishListService {
     this.getWishListId()
       .pipe(
         distinctUntilChanged(),
-        withLatestFrom(this.authService.getOccUserId(), this.userService.get()),
+        withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
         tap(([wishListId, userId, user]) => {
           if (
             !Boolean(wishListId) &&

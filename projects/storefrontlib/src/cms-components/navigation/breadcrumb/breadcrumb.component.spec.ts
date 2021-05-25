@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, PageMeta, PageMetaService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
@@ -18,21 +18,23 @@ describe('BreadcrumbComponent', () => {
   let component: BreadcrumbComponent;
   let fixture: ComponentFixture<BreadcrumbComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [BreadcrumbComponent],
-      providers: [
-        { provide: PageMetaService, useClass: MockPageMetaService },
-        {
-          provide: CmsComponentData,
-          useValue: {
-            data$: of({}),
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [BreadcrumbComponent],
+        providers: [
+          { provide: PageMetaService, useClass: MockPageMetaService },
+          {
+            provide: CmsComponentData,
+            useValue: {
+              data$: of({}),
+            },
           },
-        },
-      ],
-    }).compileComponents();
-  }));
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BreadcrumbComponent);

@@ -5,9 +5,9 @@
 Spartacus is a lean, Angular-based JavaScript storefront for SAP Commerce Cloud. Spartacus talks to SAP Commerce Cloud exclusively through the Commerce REST API.
 
 - Documentation is hosted on our dedicated [Spartacus Documentation site](https://sap.github.io/spartacus-docs/).
-- Try out a [sample Spartacus storefront](https://spartacus.c39j2-walkersde1-d4-public.model-t.cc.commerce.ondemand.com/) on our public demo site.
+- Try out a [sample Spartacus storefront](https://spartacus-demo.eastus.cloudapp.azure.com/) on our public demo site.
 - Technical questions? Get in touch with us on [Stack Overflow](https://stackoverflow.com/questions/tagged/spartacus-storefront).
-- Non-technical questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU).
+- Non-technical questions? Join our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ).
 - For details on the 2.0 launch, see the [Release Information page](https://sap.github.io/spartacus-docs/release-information/) on our Spartacus documentation site.
 
 Spartacus is...
@@ -35,6 +35,12 @@ See the [Release documentation](https://sap.github.io/spartacus-docs/release-inf
 
 # Requirements
 
+If you are working with Spartacus 3.x, your Angular development environment should include the following:
+
+- [Angular CLI](https://angular.io/): **10.1** or later.
+- node.js: 12.16.1 or later, < 13.0. The most recent 12.x version is recommended.
+- yarn: v1.15 or later
+
 If you are working with Spartacus 2.x, your Angular development environment should include the following:
 
 - [Angular CLI](https://angular.io/): **9.1** or later.
@@ -47,13 +53,17 @@ If you are working with Spartacus 1.x, your Angular development environment shou
 - node.js: v10 or later, < v12
 - yarn: v1.15 or later
 
-For the back end, SAP Commerce Cloud version 1905 or higher is required, and SAP Commerce Cloud version 2005 is recommended.
+For the back end, SAP Commerce Cloud version 1905 or higher is required, and SAP Commerce Cloud version 2005 or newer is recommended.
+
+**Note:** Some Spartacus features require API endpoints that are only available in newer versions of SAP Commerce Cloud. For more information, see [Feature Compatibility](https://sap.github.io/spartacus-docs/feature-release-versions/) in the Spartacus documentation.
 
 # Download and Installation
 
 To get up and running with Spartacus, the recommended approach is to build your storefront application from ready-made libraries. You can also clone and build from source, but upgrading is not as simple.
 
 Spartacus currently can only be used with a SAP Commerce Cloud instance through Commerce APIs.
+
+To quickly add Spartacus libraries to an Angular application, you can use Spartacus schematics: `ng add @spartacus/schematics`. This will setup and install Spartacus libraries to your Angular project. Please check the [official Spartacus schematics documentation](https://sap.github.io/spartacus-docs/schematics/) for all the prerequisites and instruction on how to use Spartacus schematics.
 
 For complete setup instructions, see [Building the Spartacus Storefront from Libraries](https://sap.github.io/spartacus-docs/building-the-spartacus-storefront-from-libraries/).
 
@@ -95,26 +105,22 @@ Spartacus is provided "as-is" with no official lines of support.
 
 To get help from the Spartacus community:
 
-- For more general questions, post a question in the Help chat of our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU).
+- For more general questions, post a question in the Help chat of our [Slack workspace](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ).
 - For developer questions, post a question to [Stack Overflow with the 'spartacus' tag](https://stackoverflow.com/questions/tagged/spartacus).
 
 # Contributing
 
 Team Spartacus welcomes feedback, ideas, requests, and especially code contributions.
 
-- Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/enQtNDM1OTI3OTMwNjU5LTg1NGVjZmFkZjQzODc1MzFhMjc3OTZmMzIzYzg0YjMwODJiY2YxYjA5MTE5NjVmN2E5NjMxNjEzMGNlMDRjMjU) channel.
+- Post comments to our Feedback chat in our [Slack](https://join.slack.com/t/spartacus-storefront/shared_invite/zt-jekftqo0-HP6xt6IF~ffVB2cGG66fcQ) channel.
 - Read the [Contributing document](CONTRIBUTING.md) and learn how to:
   - Help others
   - Report an issue
   - Contribute code to Spartacus
 
-
-
 # To Do
 
 Many improvements are coming! All tasks will be posted to our GitHub issue tracking system. As mentioned, some of the improvements will mean breaking changes. While we strive to avoid doing so, we cannot guarantee this will not happen before the first release.
-
-
 
 # License
 

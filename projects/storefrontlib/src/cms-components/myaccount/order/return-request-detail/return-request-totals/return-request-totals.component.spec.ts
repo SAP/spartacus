@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, ReturnRequest } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { ReturnRequestService } from '../return-request.service';
@@ -8,25 +8,29 @@ const mockReturnRequest: ReturnRequest = {
   rma: 'test',
   returnEntries: [],
 };
-class MockCheckoutService {
+
+class MockReturnRequestService {
   getReturnRequest(): Observable<ReturnRequest> {
     return of(mockReturnRequest);
   }
+  clearReturnRequest() {}
 }
 
 describe('ReturnRequestTotalsComponent', () => {
   let component: ReturnRequestTotalsComponent;
   let fixture: ComponentFixture<ReturnRequestTotalsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [ReturnRequestTotalsComponent],
-      providers: [
-        { provide: ReturnRequestService, useClass: MockCheckoutService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [ReturnRequestTotalsComponent],
+        providers: [
+          { provide: ReturnRequestService, useClass: MockReturnRequestService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReturnRequestTotalsComponent);

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Product } from '@spartacus/core';
@@ -37,17 +37,21 @@ describe('Carousel Component', () => {
 
   let templateFixture: ComponentFixture<MockTemplateComponent>;
   let template;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [
-        CarouselComponent,
-        MockCxIconComponent,
-        MockTemplateComponent,
-      ],
-      providers: [{ provide: CarouselService, useClass: MockCarouselService }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [
+          CarouselComponent,
+          MockCxIconComponent,
+          MockTemplateComponent,
+        ],
+        providers: [
+          { provide: CarouselService, useClass: MockCarouselService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CarouselComponent);

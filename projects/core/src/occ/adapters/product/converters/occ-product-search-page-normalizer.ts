@@ -47,26 +47,28 @@ export class OccProductSearchPageNormalizer
   /**
    * The (current) backend returns facets with values that do not contribute
    * to the facet navigation much, as the number in the result list will not get
-   * behaviour, see https://jira.hybris.com/browse/CS-427.
+   * behavior, see https://jira.hybris.com/browse/CS-427.
    *
    * As long as this is not in place, we manually filter the facet from the list;
    * any facet that does not have a count < the total results will be dropped from
    * the facets.
    */
   private normalizeUselessFacets(target: ProductSearchPage): void {
-    target.facets = target.facets.filter((facet) => {
-      return (
-        !target.pagination ||
-        !target.pagination.totalResults ||
-        ((!facet.hasOwnProperty('visible') || facet.visible) &&
-          facet.values &&
-          facet.values.find((value) => {
-            return (
-              value.selected || value.count < target.pagination.totalResults
-            );
-          }))
-      );
-    });
+    if (target.facets) {
+      target.facets = target.facets.filter((facet) => {
+        return (
+          !target.pagination ||
+          !target.pagination.totalResults ||
+          ((!facet.hasOwnProperty('visible') || facet.visible) &&
+            facet.values &&
+            facet.values.find((value) => {
+              return (
+                value.selected || value.count < target.pagination.totalResults
+              );
+            }))
+        );
+      });
+    }
   }
 
   /*
@@ -82,9 +84,8 @@ export class OccProductSearchPageNormalizer
     if (target.facets) {
       target.facets = target.facets.map((facetSource: Facet) => {
         const { topValues, ...facetTarget } = facetSource;
-        facetTarget.topValueCount = topValues
-          ? topValues.length
-          : this.DEFAULT_TOP_VALUES;
+        facetTarget.topValueCount =
+          topValues?.length > 0 ? topValues.length : this.DEFAULT_TOP_VALUES;
         return facetTarget;
       });
     }

@@ -1,11 +1,11 @@
-<div *ngIf="routerState$ | async as routerState">
+<div *ngIf="(activeStepIndex$ | async) !== undefined">
   <div *ngIf="cart$ | async as cart">
     <div class="cx-media">
       <div class="cx-list-media" *ngIf="cart?.totalItems && cart?.subTotal">
         {{ 'cartItems.cartTotal' | cxTranslate: { count: cart.totalItems } }}:
         {{ cart.subTotal.formattedValue }}
       </div>
-      <div *ngFor="let step of steps; let i = index">
+      <div *ngFor="let step of steps$ | async; let i = index">
         <div class="cx-list-media" *ngIf="i < activeStepIndex">
           <div>{{ i + 1 }}. {{ step.name | cxTranslate }}</div>
           <button

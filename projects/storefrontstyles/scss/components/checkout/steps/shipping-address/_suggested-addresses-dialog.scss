@@ -2,7 +2,10 @@
 
 %cx-suggested-addresses-dialog {
   .cx-dialog-header {
-    padding: 1rem 1rem 1rem 2rem;
+    padding-top: 1rem;
+    padding-inline-end: 1rem;
+    padding-bottom: 1rem;
+    padding-inline-start: 2rem;
     border-color: var(--cx-color-light);
   }
   .cx-dialog-title {
@@ -17,7 +20,7 @@
   .cx-dialog-suggested,
   .cx-dialog-entered {
     @include type('7');
-    margin: 0 0 0 0.75rem;
+    margin-inline-start: 0.75rem;
   }
   .cx-dialog-label {
     @include type('5');
@@ -32,6 +35,6 @@
   }
 
   .cx-dialog-buttons + .cx-dialog-buttons {
-    margin: 0 0 0 0.5rem;
+    margin-inline-start: 0.5rem;
   }
 }

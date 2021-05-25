@@ -1,101 +1,83 @@
 import { CheckoutConfig } from '@spartacus/storefront';
 import * as checkout from '../../../helpers/checkout-flow';
+import { viewportContext } from '../../../helpers/viewport-context';
+import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 context('Express checkout', () => {
-  before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
-    cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
-    cy.visit('/');
-  });
+  viewportContext(['mobile', 'desktop'], () => {
+    let user;
 
-  describe('should redirect to first step if there are missing address and payment', () => {
-    it('go to checkout', () => {
-      checkout.registerUser();
-      checkout.goToCheapProductDetailsPage();
-      checkout.addCheapProductToCartAndLogin();
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
+      user = getSampleUser();
+      Cypress.log({
+        name: 'expressCheckoutLog',
+        displayName: 'expressCheckoutLog',
+        message: [`Creating/setting test user: ${user.email}`],
+      });
+
+      checkout.visitHomePage();
     });
 
-    it('should verify Shipping Address page', () => {
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-    });
-  });
-
-  describe('should redirect to last step if there are address and payment', () => {
-    it('fill address form', () => {
-      checkout.fillAddressFormWithCheapProduct();
+    beforeEach(() => {
+      cy.restoreLocalStorage();
     });
 
-    it('choose delivery', () => {
-      checkout.verifyDeliveryMethod();
-    });
-
-    it('fill in payment form with billing address same as shipping address', () => {
-      checkout.fillPaymentFormWithCheapProduct();
-    });
-
-    it('should redirect to review order page', () => {
-      checkout.verifyReviewOrderPage();
-    });
-
-    it('open cart', () => {
-      cy.get('cx-mini-cart').click();
-    });
-
-    it('click proceed to checkout', () => {
-      cy.getByText(/proceed to checkout/i).click();
-    });
-
-    it('should redirect to review order page with Standard Delivery', () => {
-      checkout.verifyReviewOrderPage();
-      cy.get('.cx-review-card-shipping').should('contain', 'Standard Delivery');
+    afterEach(() => {
       cy.saveLocalStorage();
     });
-  });
 
-  describe('should setup express checkout with another preferred delivery mode', () => {
-    it('setup most expensive delivery mode in config', () => {
+    it('should go to first step of checkout when there is no default address/payment', () => {
+      checkout.clickHamburger();
+
+      checkout.registerUser(false, user);
+      checkout.goToCheapProductDetailsPage();
+      checkout.addCheapProductToCartAndLogin(user);
+
+      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+    });
+
+    it('should skip address and payment checkout steps once address and payment are set', () => {
+      checkout.fillAddressFormWithCheapProduct();
+      checkout.verifyDeliveryMethod();
+      checkout.fillPaymentFormWithCheapProduct();
+      checkout.verifyReviewOrderPage();
+
+      cy.get('cx-mini-cart').click();
+
+      cy.findByText(/proceed to checkout/i).click();
+
+      checkout.verifyReviewOrderPage();
+      cy.get('.cx-review-card-shipping').should('contain', 'Standard Delivery');
+    });
+
+    it('should setup express checkout with another preferred delivery mode', () => {
       cy.cxConfig({
         checkout: {
           express: true,
           defaultDeliveryMode: ['MOST_EXPENSIVE'],
         },
       } as CheckoutConfig);
-      cy.restoreLocalStorage();
       cy.visit('/');
-    });
 
-    it('open cart', () => {
       cy.get('cx-mini-cart').click();
-    });
 
-    it('click proceed to checkout', () => {
-      cy.getByText(/proceed to checkout/i).click();
-    });
+      cy.findByText(/proceed to checkout/i).click();
 
-    it('should redirect to review order page with Premium Delivery', () => {
       checkout.verifyReviewOrderPage();
       cy.get('.cx-review-card-shipping').should('contain', 'Premium Delivery');
     });
-  });
 
-  describe('should redirect to first step if there is missing payment', () => {
-    it('delete payment', () => {
+    it('should redirect to first step if payment method is not set', () => {
       cy.selectUserMenuOption({
         option: 'Payment Details',
       });
-      cy.getAllByText('Delete').first().click({ force: true });
+      cy.findAllByText('Delete').first().click({ force: true });
       cy.get('.btn-primary').click({ force: true });
-    });
 
-    it('open cart', () => {
       cy.get('cx-mini-cart').click();
-    });
-
-    it('click proceed to checkout', () => {
-      cy.getByText(/proceed to checkout/i).click();
-    });
-
-    it('should verify Shipping Address page', () => {
+      cy.findByText(/proceed to checkout/i).click();
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
     });
   });

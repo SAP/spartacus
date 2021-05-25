@@ -1,13 +1,15 @@
-import { Component, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import {
+  isNotUndefined,
   Order,
   OrderHistoryList,
   RoutingService,
   TranslationService,
   UserOrderService,
+  UserReplenishmentOrderService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, tap, filter, take } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-history',
@@ -16,35 +18,38 @@ import { map, tap, filter, take } from 'rxjs/operators';
 })
 export class OrderHistoryComponent implements OnDestroy {
   constructor(
-    private routing: RoutingService,
-    private userOrderService: UserOrderService,
-    private translation: TranslationService
+    protected routing: RoutingService,
+    protected userOrderService: UserOrderService,
+    protected translation: TranslationService,
+    protected userReplenishmentOrderService: UserReplenishmentOrderService
   ) {}
 
   private PAGE_SIZE = 5;
   sortType: string;
 
-  orders$: Observable<
-    OrderHistoryList
-  > = this.userOrderService.getOrderHistoryList(this.PAGE_SIZE).pipe(
-    tap((orders: OrderHistoryList) => {
-      if (orders.pagination) {
-        this.sortType = orders.pagination.sort;
-      }
-    })
-  );
+  orders$: Observable<OrderHistoryList> = this.userOrderService
+    .getOrderHistoryList(this.PAGE_SIZE)
+    .pipe(
+      tap((orders: OrderHistoryList) => {
+        if (orders.pagination) {
+          this.sortType = orders.pagination.sort;
+        }
+      })
+    );
 
-  isLoaded$: Observable<
-    boolean
-  > = this.userOrderService.getOrderHistoryListLoaded();
+  hasReplenishmentOrder$: Observable<boolean> = this.userReplenishmentOrderService
+    .getReplenishmentOrderDetails()
+    .pipe(map((order) => order && Object.keys(order).length !== 0));
+
+  isLoaded$: Observable<boolean> = this.userOrderService.getOrderHistoryListLoaded();
 
   /**
    * When "Order Return" feature is enabled, this component becomes one tab in
    * TabParagraphContainerComponent. This can be read from TabParagraphContainer.
    */
   tabTitleParam$: Observable<number> = this.orders$.pipe(
-    map((order) => order.pagination.totalResults),
-    filter((totalResults) => totalResults !== undefined),
+    map((order) => order.pagination?.totalResults),
+    filter(isNotUndefined),
     take(1)
   );
 

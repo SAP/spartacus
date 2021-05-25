@@ -1,7 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Observable, of } from 'rxjs';
-import { AuthService } from '../../auth/facade/auth.service';
+import { Observable, of, Subscription } from 'rxjs';
+import { AuthService } from '../../auth/user-auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Consent, ConsentTemplate } from '../../model/consent.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
@@ -11,12 +12,16 @@ import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserConsentService } from './user-consent.service';
 
-class MockAuthService {
-  invokeWithUserId(cb) {
-    cb(OCC_USER_ID_CURRENT);
-  }
+class MockAuthService implements Partial<AuthService> {
   isUserLoggedIn(): Observable<boolean> {
     return of(true);
+  }
+}
+
+class MockUserIdService implements Partial<UserIdService> {
+  invokeWithUserId(cb) {
+    cb(OCC_USER_ID_CURRENT);
+    return new Subscription();
   }
 }
 
@@ -38,6 +43,7 @@ describe('UserConsentService', () => {
       providers: [
         UserConsentService,
         { provide: AuthService, useClass: MockAuthService },
+        { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 

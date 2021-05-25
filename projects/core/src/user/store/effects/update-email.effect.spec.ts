@@ -60,7 +60,7 @@ describe('Update Email Effect', () => {
         password,
         newUid,
       });
-      const completion = new UserActions.UpdateEmailErrorAction(error);
+      const completion = new UserActions.UpdateEmailErrorAction(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

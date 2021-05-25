@@ -5,14 +5,12 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
 import { CustomerCouponConnector } from '../../connectors/customer-coupon/customer-coupon.connector';
 import { CustomerCouponSearchResult } from '../../../model/customer-coupon.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 
 @Injectable()
 export class CustomerCouponEffects {
   @Effect()
-  loadCustomerCoupons$: Observable<
-    fromCustomerCouponsAction.CustomerCouponAction
-  > = this.actions$.pipe(
+  loadCustomerCoupons$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = this.actions$.pipe(
     ofType(fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS),
     map(
       (action: fromCustomerCouponsAction.LoadCustomerCoupons) => action.payload
@@ -34,7 +32,7 @@ export class CustomerCouponEffects {
           catchError((error) =>
             of(
               new fromCustomerCouponsAction.LoadCustomerCouponsFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -43,9 +41,7 @@ export class CustomerCouponEffects {
   );
 
   @Effect()
-  subscribeCustomerCoupon$: Observable<
-    fromCustomerCouponsAction.CustomerCouponAction
-  > = this.actions$.pipe(
+  subscribeCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = this.actions$.pipe(
     ofType(fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON),
     map(
       (action: fromCustomerCouponsAction.SubscribeCustomerCoupon) =>
@@ -63,7 +59,7 @@ export class CustomerCouponEffects {
           catchError((error) =>
             of(
               new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -72,9 +68,7 @@ export class CustomerCouponEffects {
   );
 
   @Effect()
-  unsubscribeCustomerCoupon$: Observable<
-    fromCustomerCouponsAction.CustomerCouponAction
-  > = this.actions$.pipe(
+  unsubscribeCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = this.actions$.pipe(
     ofType(fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON),
     map(
       (action: fromCustomerCouponsAction.UnsubscribeCustomerCoupon) =>
@@ -92,7 +86,7 @@ export class CustomerCouponEffects {
           catchError((error) =>
             of(
               new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )
@@ -101,9 +95,7 @@ export class CustomerCouponEffects {
   );
 
   @Effect()
-  claimCustomerCoupon$: Observable<
-    fromCustomerCouponsAction.CustomerCouponAction
-  > = this.actions$.pipe(
+  claimCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = this.actions$.pipe(
     ofType(fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON),
     map(
       (action: fromCustomerCouponsAction.ClaimCustomerCoupon) => action.payload
@@ -120,7 +112,7 @@ export class CustomerCouponEffects {
           catchError((error) =>
             of(
               new fromCustomerCouponsAction.ClaimCustomerCouponFail(
-                makeErrorSerializable(error)
+                normalizeHttpError(error)
               )
             )
           )

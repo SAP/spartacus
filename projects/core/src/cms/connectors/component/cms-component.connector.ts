@@ -13,7 +13,7 @@ import { CmsComponentAdapter } from './cms-component.adapter';
 export class CmsComponentConnector {
   constructor(
     protected cmsStructureConfigService: CmsStructureConfigService,
-    protected adapter: CmsComponentAdapter,
+    protected cmsComponentAdapter: CmsComponentAdapter,
     protected config: OccConfig
   ) {}
 
@@ -27,7 +27,7 @@ export class CmsComponentConnector {
         switchMap((configuredComponent) =>
           configuredComponent
             ? of(configuredComponent)
-            : this.adapter.load(id, pageContext)
+            : this.cmsComponentAdapter.load(id, pageContext)
         )
       );
   }
@@ -47,15 +47,14 @@ export class CmsComponentConnector {
         );
 
         if (missingIds.length > 0) {
-          return (this.config.backend.occ.legacy
-            ? this.adapter.findComponentsByIdsLegacy(missingIds, pageContext)
-            : this.adapter.findComponentsByIds(missingIds, pageContext)
-          ).pipe(
-            map((loadedComponents) => [
-              ...configuredComponents.filter(Boolean),
-              ...loadedComponents,
-            ])
-          );
+          return this.cmsComponentAdapter
+            .findComponentsByIds(missingIds, pageContext)
+            .pipe(
+              map((loadedComponents) => [
+                ...configuredComponents.filter(Boolean),
+                ...loadedComponents,
+              ])
+            );
         } else {
           return of(configuredComponents);
         }

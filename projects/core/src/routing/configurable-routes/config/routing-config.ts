@@ -1,6 +1,6 @@
 import { RoutesConfig } from '../routes-config';
 import { Injectable } from '@angular/core';
-import { Config } from '../../../config/config.module';
+import { Config } from '../../../config/config-tokens';
 
 export const enum RouteLoadStrategy {
   /**

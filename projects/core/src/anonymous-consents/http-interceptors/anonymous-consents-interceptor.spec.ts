@@ -8,8 +8,9 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { inject, TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { AuthService } from '../../auth/index';
 import {
   AnonymousConsent,
@@ -262,33 +263,59 @@ describe('AnonymousConsentsInterceptor', () => {
   });
 
   describe('intercept', () => {
+    let http: HttpClient;
+
+    beforeEach(() => {
+      http = TestBed.inject(HttpClient);
+    });
+
     afterEach(() => {
       httpMock.verify();
     });
 
     describe('when sending a request', () => {
-      it(`should call ${handleRequestMethod}`, inject(
-        [HttpClient],
-        (http: HttpClient) => {
-          spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
-            of(mockAnonymousConsents)
-          );
-          spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-          spyOn<any>(interceptor, handleRequestMethod).and.callThrough();
+      it(`should handle http call even when 'isUserLoggedIn' emits with a delay`, fakeAsync(() => {
+        const DELAY_TIME = 1;
+        spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
+          of(mockAnonymousConsents)
+        );
+        spyOn(authService, 'isUserLoggedIn').and.returnValue(
+          of(false).pipe(delay(DELAY_TIME))
+        );
 
-          http
-            .get('/xxx')
-            .subscribe((result) => {
-              expect(result).toBeTruthy();
-            })
-            .unsubscribe();
+        http.get('/xxx').subscribe();
+        tick(DELAY_TIME);
+        httpMock.expectOne((req) => req.method === 'GET', 'GET');
+        expect(anonymousConsentsService.getConsents).toHaveBeenCalled();
+        expect(authService.isUserLoggedIn).toHaveBeenCalled();
+      }));
 
-          httpMock.expectOne((req) => {
-            return req.method === 'GET';
-          });
-          expect(interceptor[handleRequestMethod]).toHaveBeenCalled();
-        }
-      ));
+      it(`should handle http call even when 'getConsents' emits with a delay`, fakeAsync(() => {
+        const DELAY_TIME = 1;
+        spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
+          of(mockAnonymousConsents).pipe(delay(DELAY_TIME))
+        );
+        spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+
+        http.get('/xxx').subscribe();
+        tick(DELAY_TIME);
+        httpMock.expectOne((req) => req.method === 'GET', 'GET');
+        expect(anonymousConsentsService.getConsents).toHaveBeenCalled();
+        expect(authService.isUserLoggedIn).toHaveBeenCalled();
+      }));
+
+      it(`should call ${handleRequestMethod}`, () => {
+        spyOn(anonymousConsentsService, 'getConsents').and.returnValue(
+          of(mockAnonymousConsents)
+        );
+        spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+        spyOn<any>(interceptor, handleRequestMethod).and.callThrough();
+
+        http.get('/xxx').subscribe();
+
+        httpMock.expectOne((req) => req.method === 'GET', 'GET');
+        expect(interceptor[handleRequestMethod]).toHaveBeenCalled();
+      });
     });
   });
 });

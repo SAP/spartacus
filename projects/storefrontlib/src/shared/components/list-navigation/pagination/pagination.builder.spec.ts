@@ -67,6 +67,17 @@ describe('PaginationBuilder', () => {
       expect(service).toBeTruthy();
     });
 
+    describe('undefined', () => {
+      let pages: PaginationItem[];
+      beforeEach(() => {
+        pages = service.paginate(undefined, undefined);
+      });
+
+      it('should have no items', () => {
+        expect(pages.length).toEqual(0);
+      });
+    });
+
     describe('(no pages)', () => {
       let pages: PaginationItem[];
       beforeEach(() => {

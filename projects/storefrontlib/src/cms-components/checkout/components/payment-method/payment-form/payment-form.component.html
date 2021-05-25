@@ -11,7 +11,7 @@
                   'paymentForm.paymentType' | cxTranslate
                 }}</span>
                 <ng-select
-                  [searchable]="false"
+                  [searchable]="true"
                   [clearable]="false"
                   [items]="cardTypes"
                   bindLabel="name"
@@ -72,7 +72,7 @@
               <div class="cx-payment-form-exp-date">
                 <div class="cx-payment-form-exp-date-wrapper">
                   <ng-select
-                    [searchable]="false"
+                    [searchable]="true"
                     [clearable]="false"
                     [items]="months"
                     placeholder="{{ 'paymentForm.monthMask' | cxTranslate }}"
@@ -85,7 +85,7 @@
                 </div>
                 <div class="cx-payment-form-exp-date-wrapper">
                   <ng-select
-                    [searchable]="false"
+                    [searchable]="true"
                     [clearable]="false"
                     [items]="years"
                     placeholder="{{ 'paymentForm.yearMask' | cxTranslate }}"

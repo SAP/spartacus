@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Storefront config utils ts-morph config utils getSpartacusProviders should return all providers from spartacus in file 1`] = `"...defaultCmsContentProviders"`;
+
+exports[`Storefront config utils ts-morph config utils getSpartacusProviders should return all providers from spartacus in file 2`] = `
+"provideConfig(<TmsConfig>{
+  tagManager: {
+    gtm: {
+      events: [NavigationEvent, CartAddEntrySuccessEvent],
+    },
+    aep: {
+      events: [NavigationEvent, CartRemoveEntrySuccessEvent],
+    },
+  },
+})"
+`;
+
+exports[`Storefront config utils ts-morph config utils getSpartacusProviders should return all providers from spartacus in file 3`] = `
+"provideConfig({
+  featureModules: {
+    personalization: {
+      module: () =>
+        import('@spartacus/tracking/personalization').then(
+          (m) => m.PersonalizationModule
+        ),
+    },
+  },
+})"
+`;

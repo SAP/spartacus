@@ -1,9 +1,11 @@
-import { Component, DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { OutletDirective } from '../../cms-structure';
 import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
+import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontComponent } from './storefront.component';
 
 @Component({
@@ -21,7 +23,7 @@ class MockHeaderComponent {}
   selector: 'cx-global-message',
   template: '',
 })
-class MockGlobalMessagerComponent {}
+class MockGlobalMessageComponent {}
 
 @Component({
   selector: 'cx-page-slot',
@@ -53,34 +55,52 @@ class MockSchemaComponent {}
 })
 class MockPageLayoutComponent {}
 
+class MockHamburgerMenuService {
+  toggle(_forceCollapse?: boolean): void {}
+}
+
+@Directive({
+  selector: '[cxOutlet]',
+})
+class MockOutletDirective implements Partial<OutletDirective> {
+  @Input() cxOutlet: string;
+}
+
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
   let el: DebugElement;
   let routingService: RoutingService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [
-        StorefrontComponent,
-        MockHeaderComponent,
-        MockGlobalMessagerComponent,
-        MockFooterComponent,
-        DynamicSlotComponent,
-        MockPageLayoutComponent,
-        MockAsmRootComponent,
-        MockFeatureDirective,
-        MockSchemaComponent,
-      ],
-      providers: [
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [
+          StorefrontComponent,
+          MockHeaderComponent,
+          MockGlobalMessageComponent,
+          MockFooterComponent,
+          DynamicSlotComponent,
+          MockPageLayoutComponent,
+          MockAsmRootComponent,
+          MockFeatureDirective,
+          MockSchemaComponent,
+          MockOutletDirective,
+        ],
+        providers: [
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: HamburgerMenuService,
+            useClass: MockHamburgerMenuService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(StorefrontComponent);
@@ -106,5 +126,33 @@ describe('StorefrontComponent', () => {
     fixture.detectChanges();
     expect(el.nativeElement.classList.contains('stop-navigating')).toBeTruthy();
     expect(el.nativeElement.classList.contains('start-navigating')).toBeFalsy();
+  });
+
+  it('should collapse menu when header is expanded', () => {
+    spyOn(component, 'collapseMenu').and.callThrough();
+
+    const mockTarget = {};
+    mockTarget['className'] = 'is-expanded';
+    mockTarget['nodeName'] = 'HEADER';
+
+    const mockEvent = {
+      target: mockTarget,
+    };
+
+    component.collapseMenuIfClickOutside(mockEvent);
+    expect(component.collapseMenu).toHaveBeenCalled();
+  });
+
+  it('should NOT collapse menu when header is NOT expanded', () => {
+    spyOn(component, 'collapseMenu').and.callThrough();
+
+    const mockTarget = {};
+    mockTarget['nodeName'] = 'DIV';
+
+    const mockEvent = {
+      target: mockTarget,
+    };
+    component.collapseMenuIfClickOutside(mockEvent);
+    expect(component.collapseMenu).not.toHaveBeenCalled();
   });
 });

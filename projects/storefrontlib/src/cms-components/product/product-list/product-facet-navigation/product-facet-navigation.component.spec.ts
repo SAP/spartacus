@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -47,23 +47,25 @@ describe('ProductFacetNavigationComponent', () => {
   let fixture: ComponentFixture<ProductFacetNavigationComponent>;
   let element: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        ProductFacetNavigationComponent,
-        MockActiveFacetsComponent,
-        MockFacetListComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
-        {
-          provide: BreakpointService,
-          useClass: MockBreakpointService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          ProductFacetNavigationComponent,
+          MockActiveFacetsComponent,
+          MockFacetListComponent,
+          MockCxIconComponent,
+        ],
+        providers: [
+          {
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductFacetNavigationComponent);
@@ -76,13 +78,16 @@ describe('ProductFacetNavigationComponent', () => {
   });
 
   describe('mobile', () => {
-    it('should not have facet list when trigger button is visible', async(async () => {
-      await fixture.whenStable();
-      fixture.detectChanges();
+    it(
+      'should not have facet list when trigger button is visible',
+      waitForAsync(async () => {
+        await fixture.whenStable();
+        fixture.detectChanges();
 
-      const facetList = element.query(By.css('cx-facet-list'));
-      expect(facetList).toBeNull();
-    }));
+        const facetList = element.query(By.css('cx-facet-list'));
+        expect(facetList).toBeNull();
+      })
+    );
 
     it('should invoke launch when trigger button is clicked', () => {
       spyOn(component, 'launch');
@@ -92,46 +97,58 @@ describe('ProductFacetNavigationComponent', () => {
       expect(component.launch).toHaveBeenCalled();
     });
 
-    it('should have facet list after trigger button is clicked', async(async () => {
-      fixture.detectChanges();
-      const button: HTMLElement = element.query(By.css('button')).nativeElement;
-      button.click();
+    it(
+      'should have facet list after trigger button is clicked',
+      waitForAsync(async () => {
+        fixture.detectChanges();
+        const button: HTMLElement = element.query(By.css('button'))
+          .nativeElement;
+        button.click();
 
-      await fixture.whenStable();
-      fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
 
-      const facetList = element.query(By.css('cx-facet-list')).nativeElement;
-      expect(facetList).toBeTruthy();
-    }));
+        const facetList = element.query(By.css('cx-facet-list')).nativeElement;
+        expect(facetList).toBeTruthy();
+      })
+    );
 
-    it('should invoke close when closeList is emitted', async(async () => {
-      spyOn(component, 'close');
-      fixture.detectChanges();
-      const button: HTMLElement = element.query(By.css('button')).nativeElement;
-      button.click();
+    it(
+      'should invoke close when closeList is emitted',
+      waitForAsync(async () => {
+        spyOn(component, 'close');
+        fixture.detectChanges();
+        const button: HTMLElement = element.query(By.css('button'))
+          .nativeElement;
+        button.click();
 
-      await fixture.whenStable();
-      fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
 
-      const facetList = element.query(By.css('cx-facet-list')).nativeElement;
-      facetList.dispatchEvent(new Event('closeList'));
+        const facetList = element.query(By.css('cx-facet-list')).nativeElement;
+        facetList.dispatchEvent(new Event('closeList'));
 
-      expect(component.close).toHaveBeenCalled();
-    }));
+        expect(component.close).toHaveBeenCalled();
+      })
+    );
   });
 
   describe('desktop', () => {
-    it('should have facet list when trigger button is hidden', async(async () => {
-      fixture.detectChanges();
+    it(
+      'should have facet list when trigger button is hidden',
+      waitForAsync(async () => {
+        fixture.detectChanges();
 
-      const button: HTMLElement = element.query(By.css('button')).nativeElement;
-      button.style.display = 'none';
+        const button: HTMLElement = element.query(By.css('button'))
+          .nativeElement;
+        button.style.display = 'none';
 
-      await fixture.whenStable();
-      fixture.detectChanges();
+        await fixture.whenStable();
+        fixture.detectChanges();
 
-      const facetList = element.query(By.css('cx-facet-list')).nativeElement;
-      expect(facetList).toBeTruthy();
-    }));
+        const facetList = element.query(By.css('cx-facet-list')).nativeElement;
+        expect(facetList).toBeTruthy();
+      })
+    );
   });
 });

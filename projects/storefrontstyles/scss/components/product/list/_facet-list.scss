@@ -4,7 +4,8 @@ body.modal-open {
 
 %cx-dialog {
   z-index: 11;
-  position: fixed; /* could also be absolute */
+  // could also be absolute
+  position: fixed;
 
   > .inner {
     background-color: var(--cx-color-background);
@@ -56,7 +57,10 @@ body.modal-open {
       overflow: scroll;
     }
 
-    padding: 0 10px 10px 10px;
+    padding-top: 0;
+    padding-inline-end: 10px;
+    padding-bottom: 10px;
+    padding-inline-start: 10px;
 
     h4 {
       position: sticky;
@@ -85,7 +89,7 @@ body.modal-open {
     @extend %cx-modal;
     > .inner {
       width: 95vw;
-      height: 95vh;
+      height: 95%;
     }
   }
 }

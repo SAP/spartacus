@@ -1,12 +1,7 @@
 /* Use this methods if you need to test UI for login/register (eg. form validation).
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
-export interface RegisterUser {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-}
+import { SampleUser } from '../sample-data/checkout-flow';
 
 export interface LoginUser {
   username: string;
@@ -14,10 +9,11 @@ export interface LoginUser {
 }
 
 export function fillRegistrationForm(
-  { firstName, lastName, email, password }: RegisterUser,
+  { firstName, lastName, email, password }: SampleUser,
   giveRegistrationConsent,
   hiddenConsent?
 ) {
+  cy.log(`🛒 Registering user ${email} from the registration page`);
   cy.get('cx-register form').within(() => {
     cy.get('[formcontrolname="titleCode"]').select('mr');
     cy.get('[formcontrolname="firstName"]').type(firstName);
@@ -38,6 +34,7 @@ export function fillRegistrationForm(
 }
 
 export function fillLoginForm({ username, password }: LoginUser) {
+  cy.log(`🛒 Logging in user ${username} from the login form`);
   cy.get('cx-login-form form').within(() => {
     cy.get('[formcontrolname="userId"]').clear().type(username);
     cy.get('[formcontrolname="password"]').clear().type(password);
@@ -46,7 +43,7 @@ export function fillLoginForm({ username, password }: LoginUser) {
 }
 
 export function register(
-  user: RegisterUser,
+  user: SampleUser,
   giveRegistrationConsent = false,
   hiddenConsent?
 ) {

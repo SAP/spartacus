@@ -1,6 +1,7 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   Consignment,
   FeaturesConfig,
@@ -136,41 +137,44 @@ describe('OrderDetailItemsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    mockOrderDetailsService = <OrderDetailsService>{
-      getOrderDetails() {
-        return of(mockOrder);
-      },
-    };
+  beforeEach(
+    waitForAsync(() => {
+      mockOrderDetailsService = <OrderDetailsService>{
+        getOrderDetails() {
+          return of(mockOrder);
+        },
+      };
 
-    TestBed.configureTestingModule({
-      imports: [
-        CardModule,
-        I18nTestingModule,
-        PromotionsModule,
-        FeaturesConfigModule,
-      ],
-      providers: [
-        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.4', consignmentTracking: true },
+      TestBed.configureTestingModule({
+        imports: [
+          CardModule,
+          I18nTestingModule,
+          PromotionsModule,
+          FeaturesConfigModule,
+          RouterTestingModule,
+        ],
+        providers: [
+          { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '1.4', consignmentTracking: true },
+            },
           },
-        },
-        {
-          provide: PromotionService,
-          useClass: MockPromotionService,
-        },
-      ],
-      declarations: [
-        OrderDetailItemsComponent,
-        MockCartItemListComponent,
-        MockConsignmentTrackingComponent,
-        OrderConsignedEntriesComponent,
-      ],
-    }).compileComponents();
-  }));
+          {
+            provide: PromotionService,
+            useClass: MockPromotionService,
+          },
+        ],
+        declarations: [
+          OrderDetailItemsComponent,
+          MockCartItemListComponent,
+          MockConsignmentTrackingComponent,
+          OrderConsignedEntriesComponent,
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailItemsComponent);

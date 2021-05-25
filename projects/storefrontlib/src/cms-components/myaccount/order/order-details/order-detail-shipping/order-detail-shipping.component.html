@@ -1,32 +1,3 @@
 <ng-container *ngIf="order$ | async as order">
-  <div class="cx-account-summary row">
-    <div
-      *ngIf="order.deliveryAddress"
-      class="cx-summary-card col-sm-12 col-md-4"
-    >
-      <cx-card
-        [content]="getAddressCardContent(order.deliveryAddress) | async"
-      ></cx-card>
-    </div>
-    <div
-      *ngIf="order.paymentInfo?.billingAddress"
-      class="cx-summary-card col-sm-12 col-md-4"
-    >
-      <cx-card
-        [content]="
-          getBillingAddressCardContent(order.paymentInfo.billingAddress) | async
-        "
-      ></cx-card>
-    </div>
-    <div *ngIf="order.paymentInfo" class="cx-summary-card col-sm-12 col-md-4">
-      <cx-card
-        [content]="getPaymentCardContent(order.paymentInfo) | async"
-      ></cx-card>
-    </div>
-    <div *ngIf="order.deliveryMode" class="cx-summary-card col-sm-12 col-md-4">
-      <cx-card
-        [content]="getShippingMethodCardContent(order.deliveryMode) | async"
-      ></cx-card>
-    </div>
-  </div>
+  <cx-order-overview [order]="order"></cx-order-overview>
 </ng-container>

@@ -16,6 +16,7 @@ export interface Card {
   title?: string;
   textBold?: string;
   text?: Array<string>;
+  paragraphs?: Array<{ title?: string; text?: Array<string> }>;
   img?: string;
   actions?: Array<CardAction | CardLinkAction>;
   deleteMsg?: string;
@@ -50,8 +51,15 @@ export class CardComponent implements OnInit {
 
   @Input()
   content: Card;
+
   @Input()
   fitToContainer = false;
+
+  @Input()
+  truncateText = false;
+
+  @Input()
+  charactersLimit = 100;
 
   // ACTIONS
 

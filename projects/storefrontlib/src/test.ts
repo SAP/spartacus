@@ -7,7 +7,6 @@ import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing';
-import '@angular/localize/init';
 
 declare const require: any;
 

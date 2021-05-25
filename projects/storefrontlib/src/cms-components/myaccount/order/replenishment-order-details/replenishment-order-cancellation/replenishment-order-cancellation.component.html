@@ -1,0 +1,22 @@
+<div class="cx-cancel-replenishment-btns row">
+  <div class="col-xs-12 col-md-5 col-lg-4">
+    <a
+      class="btn btn-block btn-action"
+      [routerLink]="
+        {
+          cxRoute: 'replenishmentOrders'
+        } | cxUrl
+      "
+    >
+      {{ 'common.back' | cxTranslate }}
+    </a>
+  </div>
+  <div
+    *ngIf="(replenishmentOrder$ | async).active"
+    class="col-xs-12 col-md-5 col-lg-4"
+  >
+    <button #element class="btn btn-block btn-action" (click)="openDialog()">
+      {{ 'orderDetails.cancelReplenishment.title' | cxTranslate }}
+    </button>
+  </div>
+</div>

@@ -34,7 +34,7 @@ export class NavigationService {
 
   /**
    * returns an observable with the `NavigationNode` for the given `CmsNavigationComponent`.
-   * This function will load the navigation underlying entries and childs if they haven't been
+   * This function will load the navigation underlying entries and children if they haven't been
    * loaded so far.
    */
   public getNavigationNode(
@@ -121,11 +121,20 @@ export class NavigationService {
       node.title = nodeData.title;
     }
 
+    // populate style classes to apply CMS driven styling
+    if (nodeData.styleClasses) {
+      node.styleClasses = nodeData.styleClasses;
+    }
+    // populate style attributes to apply CMS driven styling
+    if (nodeData.styleAttributes) {
+      node.styleAttributes = nodeData.styleAttributes;
+    }
+
     if (nodeData.entries && nodeData.entries.length > 0) {
       this.populateLink(node, nodeData.entries[0], items);
     }
 
-    if (nodeData.children && nodeData.children.length > 0) {
+    if (nodeData.children?.length > 0) {
       const children = nodeData.children
         .map((child) => this.populateNavigationNode(child, items))
         .filter(Boolean);
@@ -155,7 +164,17 @@ export class NavigationService {
         node.url = url;
         // the backend provide boolean value for the target
         // in case the link should be opened in a new window
-        node.target = !!item.target ? '_blank' : '';
+        if (item.target === 'true' || item.target === true) {
+          node.target = '_blank';
+        }
+      }
+      // populate style classes to apply CMS driven styling
+      if (item.styleClasses) {
+        node.styleClasses = item.styleClasses;
+      }
+      // populate style attributes to apply CMS driven styling
+      if (item.styleAttributes) {
+        node.styleAttributes = item.styleAttributes;
       }
     }
   }

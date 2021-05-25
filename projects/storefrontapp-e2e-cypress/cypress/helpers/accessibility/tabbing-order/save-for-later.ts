@@ -1,4 +1,4 @@
-import { verifyTabbingOrder, addProduct } from '../tabbing-order';
+import { addProduct, verifyTabbingOrder } from '../tabbing-order';
 import { TabElement } from '../tabbing-order.model';
 
 const containerSelector = '.CartPageTemplate';
@@ -12,7 +12,7 @@ function addCartItemsAndLoadCart() {
   addProduct();
 
   cy.get('cx-cart-item').within(() => {
-    cy.getAllByText(/Save For Later/i)
+    cy.findAllByText(/Save For Later/i)
       .first()
       .click();
   });

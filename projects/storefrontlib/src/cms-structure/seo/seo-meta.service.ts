@@ -1,8 +1,14 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Meta, MetaDefinition, Title } from '@angular/platform-browser';
-import { PageMeta, PageMetaService, PageRobotsMeta } from '@spartacus/core';
-import { filter } from 'rxjs/operators';
+import {
+  isNotNullable,
+  PageMeta,
+  PageMetaService,
+  PageRobotsMeta,
+} from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { PageMetaLinkService } from './page-meta-link.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +17,8 @@ export class SeoMetaService implements OnDestroy {
   constructor(
     protected ngTitle: Title,
     protected ngMeta: Meta,
-    protected pageMetaService: PageMetaService
+    protected pageMetaService: PageMetaService,
+    protected pageMetaLinkService?: PageMetaLinkService
   ) {}
 
   private subscription: Subscription;
@@ -19,35 +26,54 @@ export class SeoMetaService implements OnDestroy {
   init() {
     this.subscription = this.pageMetaService
       .getMeta()
-      .pipe(filter(Boolean))
-      .subscribe((meta: PageMeta) => (this.meta = meta));
+      .pipe(filter(isNotNullable))
+      .subscribe((meta) => (this.meta = meta));
   }
 
   protected set meta(meta: PageMeta) {
     this.title = meta.title;
     this.description = meta.description;
     this.image = meta.image;
+    // TODO(#10467): since we only resolve robots on SSR, we should consider to drop the defaults
+    // with next major, as it's confusing to get the wrong defaults while navigating in CSR.
     this.robots = meta.robots || [PageRobotsMeta.INDEX, PageRobotsMeta.FOLLOW];
+    this.canonicalUrl = meta.canonicalUrl;
   }
 
-  protected set title(title: string) {
+  protected set title(title: string | undefined) {
     this.ngTitle.setTitle(title || '');
   }
 
-  protected set description(value: string) {
-    this.addTag({ name: 'description', content: value });
+  protected set description(value: string | undefined) {
+    if (value) {
+      this.addTag({ name: 'description', content: value || '' });
+    } else {
+      this.ngMeta.removeTag('name="description"');
+    }
   }
 
-  protected set image(imageUrl: string) {
+  protected set image(imageUrl: string | undefined) {
     if (imageUrl) {
       this.addTag({ name: 'og:image', content: imageUrl });
+    } else {
+      this.ngMeta.removeTag('name="og:image"');
     }
   }
 
   protected set robots(value: PageRobotsMeta[]) {
-    if (value) {
+    if (value && value.length > 0) {
       this.addTag({ name: 'robots', content: value.join(', ') });
     }
+  }
+
+  /**
+   * Add the canonical Url to the head of the page.
+   *
+   * If the canonical url already exists the link is removed. This is quite
+   * unlikely though, since canonical links are (typically) only added in SSR.
+   */
+  protected set canonicalUrl(url: string | undefined) {
+    this.pageMetaLinkService?.setCanonicalLink(url);
   }
 
   protected addTag(meta: MetaDefinition) {

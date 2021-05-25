@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Order, RoutingService, UserOrderService } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -14,9 +20,10 @@ export class OrderDetailsService {
     private userOrderService: UserOrderService,
     private routingService: RoutingService
   ) {
-    this.orderCode$ = this.routingService
-      .getRouterState()
-      .pipe(map((routingData) => routingData.state.params.orderCode));
+    this.orderCode$ = this.routingService.getRouterState().pipe(
+      map((routingData) => routingData.state.params.orderCode),
+      distinctUntilChanged()
+    );
 
     this.orderLoad$ = this.orderCode$.pipe(
       tap((orderCode) => {

@@ -4,7 +4,7 @@
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">
         {{
-          (increment
+          (increment || (addedEntryWasMerged$ | async)
             ? 'addToCart.itemsIncrementedInYourCart'
             : 'addToCart.itemsAddedToYourCart'
           ) | cxTranslate
@@ -14,7 +14,8 @@
         type="button"
         class="close"
         aria-label="Close"
-        (click)="dismissModal('Cross click')"
+        cxModal="dismiss"
+        cxModalReason="Cross click"
       >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
@@ -30,7 +31,6 @@
             [compact]="true"
             [quantityControl]="getQuantityControl() | async"
             [promotionLocation]="promotionLocation"
-            (view)="dismissModal('Product selected')"
           ></cx-cart-item>
         </div>
         <!-- Separator -->
@@ -63,16 +63,18 @@
             <a
               [class.disabled]="form.dirty"
               [routerLink]="{ cxRoute: 'cart' } | cxUrl"
+              cxModal="dismiss"
+              cxModalReason="View Cart click"
               class="btn btn-primary"
               autofocus
-              (click)="!form.dirty && dismissModal('View Cart click')"
               >{{ 'addToCart.viewCart' | cxTranslate }}</a
             >
             <a
               [class.disabled]="form.dirty"
               [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+              cxModal="dismiss"
+              cxModalReason="Proceed To Checkout click"
               class="btn btn-secondary"
-              (click)="!form.dirty && dismissModal('Proceed To Checkout click')"
               >{{ 'addToCart.proceedToCheckout' | cxTranslate }}</a
             >
           </div>
@@ -90,7 +92,8 @@
         type="button"
         class="close"
         aria-label="Close"
-        (click)="dismissModal('Cross click')"
+        cxModal="dismiss"
+        cxModalReason="Cross click"
       >
         <span aria-hidden="true">
           <cx-icon [type]="iconTypes.CLOSE"></cx-icon>

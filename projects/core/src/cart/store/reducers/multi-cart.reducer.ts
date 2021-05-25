@@ -2,11 +2,12 @@ import { Cart } from '../../../model/cart.model';
 import { LoaderAction } from '../../../state/utils/loader/loader.action';
 import { CartActions } from '../actions/index';
 
-export const activeCartInitialState = '';
+export const activeCartInitialState = null;
+export const activeCartDefaultState = '';
 export const wishListInitialState = '';
 
 export function activeCartReducer(
-  state = activeCartInitialState,
+  state = activeCartDefaultState,
   action: CartActions.CartAction | CartActions.MultiCartActions
 ): string {
   switch (action.type) {
@@ -24,11 +25,13 @@ export function activeCartReducer(
     case CartActions.REMOVE_CART:
     case CartActions.DELETE_CART_SUCCESS:
       if (action.payload?.cartId === state) {
-        return activeCartInitialState;
+        return activeCartDefaultState;
       }
       return state;
     case CartActions.CLEAR_CART_STATE:
-      return activeCartInitialState;
+      return state === activeCartInitialState
+        ? activeCartInitialState
+        : activeCartDefaultState;
   }
   return state;
 }
@@ -40,6 +43,9 @@ export function cartEntitiesReducer(
   action: LoaderAction
 ): Cart {
   switch (action.type) {
+    case CartActions.LOAD_CARTS_SUCCESS:
+      return action.payload;
+
     case CartActions.LOAD_CART_SUCCESS:
     case CartActions.CREATE_CART_SUCCESS:
     case CartActions.CREATE_WISH_LIST_SUCCESS:

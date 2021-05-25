@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
@@ -16,12 +16,14 @@ describe('UpdatePasswordFormComponent', () => {
   let newPasswordConfirm: AbstractControl;
   const validPassword = 'testPass123!';
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [UpdatePasswordFormComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+        declarations: [UpdatePasswordFormComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(UpdatePasswordFormComponent);

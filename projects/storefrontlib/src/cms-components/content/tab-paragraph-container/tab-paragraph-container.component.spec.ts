@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CmsConfig,
   CmsService,
@@ -82,31 +82,35 @@ describe('TabParagraphContainerComponent', () => {
   let cmsService: CmsService;
   let windowRef: WindowRef;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        TestComponent,
-        TabParagraphContainerComponent,
-        ComponentWrapperDirective,
-        OutletDirective,
-      ],
-      providers: [
-        WindowRef,
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsConfig, useValue: MockCmsModuleConfig },
-        { provide: LayoutConfig, useValue: MockLayoutConfig },
-        { provide: SmartEditService, useClass: MockSmartEditService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          TestComponent,
+          TabParagraphContainerComponent,
+          ComponentWrapperDirective,
+          OutletDirective,
+        ],
+        providers: [
+          WindowRef,
+          { provide: CmsComponentData, useValue: MockCmsComponentData },
+          { provide: CmsService, useValue: MockCmsService },
+          { provide: CmsConfig, useValue: MockCmsModuleConfig },
+          { provide: LayoutConfig, useValue: MockLayoutConfig },
+          { provide: SmartEditService, useClass: MockSmartEditService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TabParagraphContainerComponent);
     component = fixture.componentInstance;
     cmsService = TestBed.inject(CmsService);
     windowRef = TestBed.inject(WindowRef);
+
+    spyOn(console, 'warn');
   });
 
   it('should create', () => {

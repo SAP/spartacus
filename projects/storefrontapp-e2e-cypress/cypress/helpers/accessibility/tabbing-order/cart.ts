@@ -16,7 +16,7 @@ export function cartTabbingOrder(config: TabElement[]) {
 function addCartItemsAndLoadCart() {
   // Add Two Items to cart
   cy.visit(testProductUrl);
-  cy.getAllByText(/Add to cart/i)
+  cy.findAllByText(/Add to cart/i)
     .first()
     .click();
 

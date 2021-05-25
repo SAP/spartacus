@@ -2,6 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Title, User } from '@spartacus/core';
 
+/**
+ * @deprecated since 3.2, use @spartacus/user package instead.
+ */
 @Component({
   selector: 'cx-update-profile-form',
   templateUrl: './update-profile-form.component.html',
@@ -23,6 +26,7 @@ export class UpdateProfileFormComponent implements OnInit {
     titleCode: [''],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
+    customerId: [''],
   });
 
   constructor(private fb: FormBuilder) {}

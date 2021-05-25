@@ -1,6 +1,6 @@
 import { Component, Directive, Input } from '@angular/core';
 import {
-  async,
+  waitForAsync,
   ComponentFixture,
   fakeAsync,
   TestBed,
@@ -79,20 +79,22 @@ class MockLockFocusService {
 describe('LockFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
   let service: LockFocusService;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MockComponent, CustomFocusDirective],
-      providers: [
-        {
-          provide: LockFocusService,
-          useClass: MockLockFocusService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MockComponent, CustomFocusDirective],
+        providers: [
+          {
+            provide: LockFocusService,
+            useClass: MockLockFocusService,
+          },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(MockComponent);
-    service = TestBed.inject(LockFocusService);
-  }));
+      fixture = TestBed.createComponent(MockComponent);
+      service = TestBed.inject(LockFocusService);
+    })
+  );
 
   beforeEach(() => {
     const children = fixture.debugElement.queryAll(

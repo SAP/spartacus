@@ -60,7 +60,7 @@ describe('Update Password Effect', () => {
         oldPassword,
         newPassword,
       });
-      const completion = new UserActions.UpdatePasswordFail(error);
+      const completion = new UserActions.UpdatePasswordFail(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

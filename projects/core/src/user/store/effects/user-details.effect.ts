@@ -3,16 +3,14 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map, mergeMap } from 'rxjs/operators';
 import { User } from '../../../model/misc.model';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserConnector } from '../../connectors/user/user.connector';
 import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserDetailsEffects {
   @Effect()
-  loadUserDetails$: Observable<
-    UserActions.UserDetailsAction
-  > = this.actions$.pipe(
+  loadUserDetails$: Observable<UserActions.UserDetailsAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_DETAILS),
     map((action: UserActions.LoadUserDetails) => action.payload),
     mergeMap((userId) => {
@@ -21,7 +19,7 @@ export class UserDetailsEffects {
           return new UserActions.LoadUserDetailsSuccess(user);
         }),
         catchError((error) =>
-          of(new UserActions.LoadUserDetailsFail(makeErrorSerializable(error)))
+          of(new UserActions.LoadUserDetailsFail(normalizeHttpError(error)))
         )
       );
     })
@@ -39,9 +37,7 @@ export class UserDetailsEffects {
           () => new UserActions.UpdateUserDetailsSuccess(payload.userDetails)
         ),
         catchError((error) =>
-          of(
-            new UserActions.UpdateUserDetailsFail(makeErrorSerializable(error))
-          )
+          of(new UserActions.UpdateUserDetailsFail(normalizeHttpError(error)))
         )
       )
     )

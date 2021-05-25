@@ -146,7 +146,7 @@ export class ConfigurableRoutesService {
       // - routeConfig with defined `matchers` is valid, even if `paths` are undefined
       if (
         routeConfig === null ||
-        routeConfig.paths === null ||
+        routeConfig?.paths === null ||
         routeConfig?.matchers
       ) {
         return;

@@ -1,0 +1,4 @@
+export enum TREE_TOGGLE {
+  EXPANDED,
+  COLLAPSED,
+}

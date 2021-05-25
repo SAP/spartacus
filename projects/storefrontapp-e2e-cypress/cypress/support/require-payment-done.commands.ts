@@ -13,11 +13,12 @@ declare global {
         cy.requirePaymentDone(auth);
         ```
        */
-      requirePaymentDone: (auth: {}) => Cypress.Chainable<{}>;
+      requirePaymentDone: (auth: {}, cartId?: string) => Cypress.Chainable<{}>;
     }
   }
 }
-Cypress.Commands.add('requirePaymentDone', (auth) => {
+Cypress.Commands.add('requirePaymentDone', (auth, cartId) => {
+  const cartQueryValue = cartId || 'current';
   function getResponseUrl() {
     return cy.request({
       method: 'GET',
@@ -25,10 +26,10 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
         'OCC_PREFIX'
       )}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/current/payment/sop/request?responseUrl=sampleUrl`,
+      )}/users/current/carts/${cartQueryValue}/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
     });
   }
@@ -41,7 +42,7 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
       body: data,
       form: true,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
     });
   }
@@ -62,11 +63,11 @@ Cypress.Commands.add('requirePaymentDone', (auth) => {
         'OCC_PREFIX'
       )}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/current/payment/sop/response`,
+      )}/users/current/carts/${cartQueryValue}/payment/sop/response`,
       body: data,
       form: true,
       headers: {
-        Authorization: `bearer ${auth.userToken.token.access_token}`,
+        Authorization: `bearer ${auth.access_token}`,
       },
     });
   }

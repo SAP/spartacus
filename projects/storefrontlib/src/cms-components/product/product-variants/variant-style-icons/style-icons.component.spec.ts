@@ -1,8 +1,8 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { VariantStyleIconsComponent } from './variant-style-icons.component';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { OccConfig, VariantOption, VariantQualifier } from '@spartacus/core';
+import { VariantStyleIconsComponent } from './variant-style-icons.component';
 
-const mockOccBackendUrl = 'abc';
+const mockOccBackendUrl = 'https://';
 const mockVariants: VariantOption[] = [
   {
     code: 'code_1',
@@ -12,14 +12,14 @@ const mockVariants: VariantOption[] = [
         name: 'test2',
         qualifier: VariantQualifier.ROLLUP_PROPERTY,
         image: {
-          url: 'http://test1-rollup.com',
+          url: '/test1-rollup.jpg',
         },
       },
       {
         name: 'test1',
         qualifier: VariantQualifier.THUMBNAIL,
         image: {
-          url: 'http://test1-thumbnail.com',
+          url: '/test1-thumbnail.jpg',
         },
       },
     ],
@@ -40,17 +40,19 @@ describe('VariantStyleIconsComponent', () => {
   let component: VariantStyleIconsComponent;
   let fixture: ComponentFixture<VariantStyleIconsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [VariantStyleIconsComponent],
-      providers: [
-        {
-          provide: OccConfig,
-          useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [VariantStyleIconsComponent],
+        providers: [
+          {
+            provide: OccConfig,
+            useValue: { backend: { occ: { baseUrl: mockOccBackendUrl } } },
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(VariantStyleIconsComponent);

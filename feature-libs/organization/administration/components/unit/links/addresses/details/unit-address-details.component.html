@@ -1,0 +1,56 @@
+<ng-container *ngIf="unit$ | async as unit">
+  <cx-org-card
+    *ngIf="model$ | async as model"
+    i18nRoot="orgUnitAddress.details"
+    [subtitle]="'orgUnitAddress.details.subtitle' | cxTranslate: { item: unit }"
+    [cxFocus]="{ refreshFocus: model }"
+  >
+    <a class="link" actions routerLink="edit">
+      {{ 'organization.edit' | cxTranslate }}
+    </a>
+
+    <cx-org-delete-item
+      actions
+      key="id"
+      [additionalParam]="unit.uid"
+      i18nRoot="orgUnitAddress"
+    ></cx-org-delete-item>
+
+    <section main class="details">
+      <div class="property">
+        <label>{{ 'orgUnit.name' | cxTranslate }}</label>
+        <span class="value"> {{ model.firstName }} {{ model.lastName }} </span>
+      </div>
+
+      <div class="property">
+        <label>{{ 'orgUnit.unit' | cxTranslate }}</label>
+        <span class="value">
+          <a
+            [routerLink]="
+              {
+                cxRoute: 'orgUnitDetails',
+                params: unit
+              } | cxUrl
+            "
+          >
+            {{ unit.name }}
+          </a>
+        </span>
+      </div>
+
+      <div class="property full-width">
+        <label>{{ 'orgUnitAddress.formattedAddress' | cxTranslate }}</label>
+        <span class="value">
+          {{ model.formattedAddress }}
+        </span>
+      </div>
+
+      <div class="property">
+        <label>{{ 'orgUnitAddress.country' | cxTranslate }}</label>
+        <span class="value">
+          {{ (getCountry(model.country.isocode) | async)?.name }}
+        </span>
+      </div>
+    </section>
+  </cx-org-card>
+</ng-container>

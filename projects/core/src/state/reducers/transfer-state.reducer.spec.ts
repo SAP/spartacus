@@ -33,7 +33,10 @@ describe('TransferStateReducer', () => {
   });
 
   describe('getServerTransferStateReducer', () => {
-    let transferStateMock, subReducer, metaReducer, reducer;
+    let transferStateMock;
+    let subReducer;
+    let metaReducer;
+    let reducer;
 
     beforeEach(() => {
       transferStateMock = {
@@ -71,7 +74,11 @@ describe('TransferStateReducer', () => {
   });
 
   describe('getBrowserTransferStateReducer', () => {
-    let transferStateMock, subReducer, metaReducer, reducer, serverState;
+    let transferStateMock;
+    let subReducer;
+    let metaReducer;
+    let reducer;
+    let serverState;
 
     beforeEach(() => {
       serverState = { test: 'state' };
@@ -80,9 +87,13 @@ describe('TransferStateReducer', () => {
         hasKey: jasmine.createSpy().and.returnValue(true),
       } as any;
       subReducer = (state, action) => (action.payload ? action.payload : state);
-      metaReducer = getBrowserTransferStateReducer(transferStateMock, {
-        test: StateTransferType.TRANSFER_STATE,
-      });
+      metaReducer = getBrowserTransferStateReducer(
+        transferStateMock,
+        {
+          test: StateTransferType.TRANSFER_STATE,
+        },
+        false
+      );
       reducer = metaReducer(subReducer);
     });
 

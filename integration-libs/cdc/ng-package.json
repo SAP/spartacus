@@ -6,9 +6,13 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
-      "rxjs": "rxjs",
-      "@ngrx/store": "store",
-      "@ngrx/effects": "effects"
+      "@spartacus/user/profile/root": "profile"
     }
-  }
+  },
+  "assets": [
+    "**/*.scss",
+    "migrations/**/*.json",
+    "schematics/**/*.json",
+    "schematics/**/*.js"
+  ]
 }

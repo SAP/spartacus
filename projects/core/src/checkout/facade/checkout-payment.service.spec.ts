@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { of } from 'rxjs';
-import { AuthService } from '../../auth';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ActiveCartService } from '../../cart';
 import { CardType, Cart, PaymentDetails } from '../../model/cart.model';
 import { CheckoutActions } from '../store/actions/index';
@@ -11,7 +11,7 @@ import { CheckoutPaymentService } from './checkout-payment.service';
 
 describe('CheckoutPaymentService', () => {
   let service: CheckoutPaymentService;
-  let authService: AuthService;
+  let userIdService: UserIdService;
   let activeCartService: ActiveCartService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
@@ -36,9 +36,9 @@ describe('CheckoutPaymentService', () => {
     }
   }
 
-  class AuthServiceStub {
+  class UserIdServiceStub {
     userId;
-    getOccUserId() {
+    getUserId() {
       return of(userId);
     }
   }
@@ -52,16 +52,16 @@ describe('CheckoutPaymentService', () => {
       providers: [
         CheckoutPaymentService,
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
-        { provide: AuthService, useClass: AuthServiceStub },
+        { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutPaymentService);
-    authService = TestBed.inject(AuthService);
+    userIdService = TestBed.inject(UserIdService);
     activeCartService = TestBed.inject(ActiveCartService);
     store = TestBed.inject(Store);
 
-    authService['userId'] = userId;
+    userIdService['userId'] = userId;
     activeCartService['cart'] = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -139,7 +139,7 @@ describe('CheckoutPaymentService', () => {
   });
 
   it('should allow actions for login user or guest user', () => {
-    authService['userId'] = 'anonymous';
+    userIdService['userId'] = 'anonymous';
     expect(service['actionAllowed']()).toBeTruthy();
   });
 });

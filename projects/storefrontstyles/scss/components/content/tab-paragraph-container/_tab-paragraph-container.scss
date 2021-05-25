@@ -49,7 +49,10 @@ $useTabsOnPDP: false !default;
     &:after {
       content: '';
       display: block;
-      margin: 15px auto auto auto;
+      margin-top: 15px;
+      margin-inline-end: auto;
+      margin-bottom: auto;
+      margin-inline-start: auto;
       height: 5px;
       background: var(--cx-color-primary);
 
@@ -77,9 +80,12 @@ $useTabsOnPDP: false !default;
     > button {
       border-top: 1px var(--cx-color-light) solid;
       font-size: 18px;
-      padding: 15px 0 0 4%;
+      padding-top: 15px;
+      padding-inline-end: 0;
+      padding-bottom: 0;
+      padding-inline-start: 4%;
       width: 100%;
-      text-align: left;
+      text-align: start;
       height: 63px;
 
       &:before {
@@ -92,7 +98,10 @@ $useTabsOnPDP: false !default;
         color: var(--cx-color-text);
       }
       &:after {
-        margin: 15px auto auto -4%;
+        margin-top: 15px;
+        margin-inline-end: auto;
+        margin-bottom: auto;
+        margin-inline-start: -4%;
       }
       &.active {
         &:before {
@@ -152,7 +161,7 @@ $useTabsOnPDP: false !default;
   margin: auto;
 
   @include media-breakpoint-down(xl) {
-    max-width: 1140px;
+    max-width: var(--cx-page-width-max);
   }
   // make a small header with links
   display: grid;

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  EventService,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
@@ -8,6 +9,10 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import {
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
@@ -17,10 +22,30 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 })
 export class SearchBoxComponentService {
   constructor(
+    searchService: SearchboxService,
+    routingService: RoutingService,
+    translationService: TranslationService,
+    winRef: WindowRef
+  );
+  /**
+   * @deprecated since version 3.1
+   * Use constructor(searchService: SearchboxService, routingService: RoutingService, translationService: TranslationService, winRef: WindowRef, eventService?: EventService) instead
+   */
+  // TODO(#10988): Remove deprecated constructors
+  constructor(
+    searchService: SearchboxService,
+    routingService: RoutingService,
+    translationService: TranslationService,
+    winRef: WindowRef,
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
+    eventService?: EventService
+  );
+  constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected eventService?: EventService
   ) {}
 
   /**
@@ -101,7 +126,54 @@ export class SearchBoxComponentService {
     }
   }
 
-  private hasResults(results: SearchResults): boolean {
+  /**
+   * Dispatches a searchbox event for product selected
+   *
+   * @param eventData data for the "SearchBoxProductSelectedEvent"
+   */
+  dispatchProductSelectedEvent(eventData: SearchBoxProductSelectedEvent): void {
+    // TODO(#10988): for 4.0 remove "eventService" check
+    if (this.eventService) {
+      this.eventService.dispatch<SearchBoxProductSelectedEvent>(
+        {
+          freeText: eventData.freeText,
+          productCode: eventData.productCode,
+        },
+        SearchBoxProductSelectedEvent
+      );
+    }
+  }
+
+  /**
+   * Dispatches a searchbox event for suggestion selected
+   *
+   * @param eventData data for the "SearchBoxSuggestionSelectedEvent"
+   */
+  dispatchSuggestionSelectedEvent(
+    eventData: SearchBoxSuggestionSelectedEvent
+  ): void {
+    // TODO(#10988): for 4.0 remove "eventService" check
+    if (this.eventService) {
+      this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
+        {
+          freeText: eventData.freeText,
+          selectedSuggestion: eventData.selectedSuggestion,
+          searchSuggestions: eventData.searchSuggestions,
+        },
+        SearchBoxSuggestionSelectedEvent
+      );
+    }
+  }
+
+  /**
+   * For search results model, it returns true when:
+   * * there is any product OR
+   * * the is any search suggestion OR
+   * * there is a message.
+   *
+   * Otherwise it returns false.
+   */
+  protected hasResults(results: SearchResults): boolean {
     return (
       (!!results.products && results.products.length > 0) ||
       (!!results.suggestions && results.suggestions.length > 0) ||
@@ -109,7 +181,11 @@ export class SearchBoxComponentService {
     );
   }
 
-  private getProductResults(
+  /**
+   * Emits product search results in case when the config property `displayProducts` is true.
+   * Otherwise it emits an empty object.
+   */
+  protected getProductResults(
     config: SearchBoxConfig
   ): Observable<ProductSearchPage> {
     if (config.displayProducts) {
@@ -123,7 +199,9 @@ export class SearchBoxComponentService {
    * Loads suggestions from the backend. In case there's no suggestion
    * available, we try to get an exact match suggestion.
    */
-  private getProductSuggestions(config: SearchBoxConfig): Observable<string[]> {
+  protected getProductSuggestions(
+    config: SearchBoxConfig
+  ): Observable<string[]> {
     if (!config.displaySuggestions) {
       return of([]);
     } else {
@@ -143,10 +221,10 @@ export class SearchBoxComponentService {
   }
 
   /**
-   * whenever there is at least 1 product, we simulate
+   * Whenever there is at least 1 product, we simulate
    * a suggestion to provide easy access to the search result page
    */
-  private getExactSuggestion(config: SearchBoxConfig): Observable<string> {
+  protected getExactSuggestion(config: SearchBoxConfig): Observable<string> {
     return this.getProductResults(config).pipe(
       switchMap((productResult) => {
         return productResult.products && productResult.products.length > 0
@@ -158,7 +236,11 @@ export class SearchBoxComponentService {
     );
   }
 
-  private getSearchMessage(config: SearchBoxConfig): Observable<string> {
+  /**
+   * Emits a 'no match' message, in case the product search results and search suggestions are empty.
+   * Otherwise it emits null.
+   */
+  protected getSearchMessage(config: SearchBoxConfig): Observable<string> {
     return combineLatest([
       this.getProductResults(config),
       this.getProductSuggestions(config),
@@ -182,7 +264,7 @@ export class SearchBoxComponentService {
   /**
    * Navigates to the search result page with a given query
    */
-  public launchSearchPage(query: string): void {
+  launchSearchPage(query: string): void {
     this.routingService.go({
       cxRoute: 'search',
       params: { query },

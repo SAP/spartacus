@@ -72,6 +72,10 @@ export const product = {
       deliveryTab: 'Shipping',
     },
   },
+  /**
+   * @deprecated since 3.2
+   * Use feature-library @spartacus/product/variants/assets instead
+   */
   variant: {
     style: 'Style',
     selectedStyle: 'Selected style',

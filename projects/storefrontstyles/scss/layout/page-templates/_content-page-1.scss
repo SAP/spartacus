@@ -1,8 +1,11 @@
 %ContentPage1Template {
   // @extend %pageBody !optional;
 
-  max-width: 1140px;
-  padding: 2rem 1.5rem 0 1.5rem;
+  max-width: var(--cx-page-width-max);
+  padding-top: 2rem;
+  padding-inline-end: 1.5rem;
+  padding-bottom: 0;
+  padding-inline-start: 1.5rem;
   margin: auto;
   cx-page-slot {
     &.Section2A,
@@ -35,7 +38,7 @@
       vertical-align: baseline;
 
       &:first-child {
-        padding-right: 10px;
+        padding-inline-end: 10px;
       }
     }
   }

@@ -6,7 +6,7 @@ import {
   Input,
   Renderer2,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
@@ -64,22 +64,24 @@ describe('FacetListComponent', () => {
   let service: FacetService;
   let renderer: Renderer2;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [
-        FacetListComponent,
-        MockIconComponent,
-        MockFacetComponent,
-        MockKeyboadFocusDirective,
-      ],
-      providers: [{ provide: FacetService, useClass: MockFacetService }],
-    })
-      .overrideComponent(FacetListComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule],
+        declarations: [
+          FacetListComponent,
+          MockIconComponent,
+          MockFacetComponent,
+          MockKeyboadFocusDirective,
+        ],
+        providers: [{ provide: FacetService, useClass: MockFacetService }],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(FacetListComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FacetListComponent);

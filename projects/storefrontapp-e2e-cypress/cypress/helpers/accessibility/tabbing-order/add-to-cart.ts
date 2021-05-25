@@ -6,7 +6,7 @@ const containerSelector = 'cx-added-to-cart-dialog';
 export function addToCartTabbingOrder(config: TabElement[]) {
   cy.visit(testProductUrl);
 
-  cy.getAllByText(/Add to cart/i)
+  cy.findAllByText(/Add to cart/i)
     .first()
     .click();
   cy.get('cx-added-to-cart-dialog cx-item-counter button')

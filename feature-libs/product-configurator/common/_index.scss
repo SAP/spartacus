@@ -1,0 +1,18 @@
+@import './styles/index';
+
+$configurator-common-components: cx-configurator-issues-notification,
+  cx-configure-product, cx-configure-cart-entry,
+  cx-configurator-cart-entry-bundle-info, cx-configurator-cart-entry-info !default;
+
+@each $selector in $configurator-common-components {
+  #{$selector} {
+    @extend %#{$selector} !optional;
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $configurator-common-components {
+    @extend %#{$selector}__body !optional;
+  }
+}

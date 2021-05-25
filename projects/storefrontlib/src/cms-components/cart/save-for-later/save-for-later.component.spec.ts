@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   ActiveCartService,
@@ -11,10 +11,7 @@ import {
   SelectiveCartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import {
-  CartItemComponentOptions,
-  Item,
-} from '../cart-shared/cart-item/cart-item.component';
+import { CartItemComponentOptions } from '../cart-shared/cart-item/cart-item.component';
 import { SaveForLaterComponent } from './save-for-later.component';
 
 @Component({
@@ -23,7 +20,7 @@ import { SaveForLaterComponent } from './save-for-later.component';
 })
 class MockCartItemListComponent {
   @Input() readonly = false;
-  @Input() items: Item[];
+  @Input() items: OrderEntry[];
   @Input() cartIsLoading: Observable<boolean>;
   @Input() options: CartItemComponentOptions = {
     isSaveForLater: false,
@@ -50,17 +47,19 @@ describe('SaveForLaterComponent', () => {
     'getComponentData',
   ]);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [SaveForLaterComponent, MockCartItemListComponent],
-      imports: [FeaturesConfigModule, I18nTestingModule],
-      providers: [
-        { provide: CmsService, useValue: mockCmsService },
-        { provide: ActiveCartService, useValue: mockCartService },
-        { provide: SelectiveCartService, useValue: mockSelectiveCartService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [SaveForLaterComponent, MockCartItemListComponent],
+        imports: [FeaturesConfigModule, I18nTestingModule],
+        providers: [
+          { provide: CmsService, useValue: mockCmsService },
+          { provide: ActiveCartService, useValue: mockCartService },
+          { provide: SelectiveCartService, useValue: mockSelectiveCartService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SaveForLaterComponent);

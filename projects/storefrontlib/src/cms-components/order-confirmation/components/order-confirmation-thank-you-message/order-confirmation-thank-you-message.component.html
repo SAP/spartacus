@@ -2,7 +2,11 @@
   <div class="cx-page-header">
     <h1 class="cx-page-title">
       {{ 'checkoutOrderConfirmation.confirmationOfOrder' | cxTranslate }}
-      {{ order.code }}
+      {{
+        (isReplenishmentOrderType$ | async)
+          ? order.replenishmentOrderCode
+          : order.code
+      }}
     </h1>
   </div>
 
@@ -11,7 +15,6 @@
     <p>
       {{ 'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate }}
     </p>
-    <!-- <a href="#" class="btn-link">Print Page</a> -->
   </div>
 
   <div *ngIf="isGuestCustomer">

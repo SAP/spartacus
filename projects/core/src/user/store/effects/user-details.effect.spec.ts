@@ -86,7 +86,7 @@ describe('User Details effect', () => {
         username,
         userDetails,
       });
-      const completion = new UserActions.UpdateUserDetailsFail(error);
+      const completion = new UserActions.UpdateUserDetailsFail(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

@@ -18,7 +18,8 @@ import { EscapeFocusService } from './escape-focus.service';
  *
  */
 @Directive() // selector: '[cxEscFocus]',
-export class EscapeFocusDirective extends PersistFocusDirective
+export class EscapeFocusDirective
+  extends PersistFocusDirective
   implements OnInit {
   protected defaultConfig: EscapeFocusConfig = { focusOnEscape: true };
 

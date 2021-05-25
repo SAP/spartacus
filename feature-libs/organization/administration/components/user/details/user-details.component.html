@@ -1,0 +1,103 @@
+<cx-org-card
+  *ngIf="model$ | async as model"
+  i18nRoot="orgUser.details"
+  [cxFocus]="{ refreshFocus: model }"
+>
+  <a
+    actions
+    class="link edit"
+    [class.disabled]="!model.active || (isInEditMode$ | async)"
+    [routerLink]="{ cxRoute: 'orgUserEdit', params: model } | cxUrl"
+  >
+    {{ 'organization.edit' | cxTranslate }}
+  </a>
+
+  <cx-org-toggle-status
+    actions
+    key="customerId"
+    i18nRoot="orgUser"
+  ></cx-org-toggle-status>
+
+  <cx-org-disable-info info i18nRoot="orgUser"> </cx-org-disable-info>
+
+  <section main class="details" cxOrgItemExists>
+    <div class="property">
+      <label>{{ 'orgUser.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
+
+    <div class="property full-width">
+      <label>{{ 'orgUser.uid' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.uid }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgUser.roles' | cxTranslate }}</label>
+      <ul class="value">
+        <li
+          *ngFor="let role of model.roles; let isLast = last"
+          [innerText]="'organization.userRoles.' + role | cxTranslate"
+        ></li>
+        <li *ngIf="model.roles?.length === 0">-</li>
+      </ul>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgUser.orgUnit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.orgUnit?.name }}
+      </a>
+    </div>
+    <div class="property full-width">
+      <a
+        *ngIf="model.customerId"
+        class="link"
+        [class.disabled]="!model.active"
+        [routerLink]="
+          { cxRoute: 'orgUserChangePassword', params: model } | cxUrl
+        "
+      >
+        {{ 'orgUser.links.password' | cxTranslate }}
+      </a>
+    </div>
+  </section>
+
+  <section main class="link-list">
+    <ng-container *ngIf="model.customerId">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUserApprovers', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUser.links.approvers' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUserUserGroups', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUser.links.userGroup' | cxTranslate }}
+      </a>
+
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUserPermissions', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUser.links.permission' | cxTranslate }}
+      </a>
+    </ng-container>
+  </section>
+</cx-org-card>

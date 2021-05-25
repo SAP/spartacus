@@ -12,14 +12,15 @@
                 'register.title' | cxTranslate
               }}</span>
               <select formControlName="titleCode" class="form-control">
-                <option selected value="" disabled>{{
-                  'register.selectTitle' | cxTranslate
-                }}</option>
+                <option selected value="" disabled>
+                  {{ 'register.selectTitle' | cxTranslate }}
+                </option>
                 <option
                   *ngFor="let title of titles$ | async"
                   [value]="title.code"
-                  >{{ title.name }}</option
                 >
+                  {{ title.name }}
+                </option>
               </select>
             </label>
           </div>

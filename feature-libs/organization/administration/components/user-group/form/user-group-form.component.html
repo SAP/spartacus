@@ -1,0 +1,51 @@
+<cx-org-form i18nRoot="orgUserGroup">
+  <ng-container *ngIf="form" [formGroup]="form" main>
+    <label>
+      <span class="label-content required">{{
+        'orgUserGroup.name' | cxTranslate
+      }}</span>
+      <input
+        type="text"
+        class="form-control"
+        required
+        placeholder="{{ 'orgUserGroup.name' | cxTranslate }}"
+        formControlName="name"
+        (blur)="createUidWithName(form.get('name'), form.get('uid'))"
+      />
+      <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+    </label>
+
+    <label>
+      <span class="label-content required">{{
+        'orgUserGroup.uid' | cxTranslate
+      }}</span>
+      <input
+        class="form-control"
+        type="text"
+        required
+        placeholder="{{ 'orgUserGroup.uid' | cxTranslate }}"
+        formControlName="uid"
+      />
+      <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
+    </label>
+
+    <label aria-required="true" [formGroup]="form.get('orgUnit')">
+      <span class="label-content required">{{
+        'orgUserGroup.orgUnit' | cxTranslate
+      }}</span>
+      <ng-select
+        formControlName="uid"
+        [searchable]="true"
+        [clearable]="false"
+        [items]="units$ | async"
+        bindLabel="name"
+        bindValue="id"
+        [readonly]="form.get('orgUnit.uid').disabled"
+        appendTo="cx-org-list"
+        [placeholder]="'orgUserGroup.orgUnit' | cxTranslate"
+      >
+      </ng-select>
+      <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
+    </label>
+  </ng-container>
+</cx-org-form>

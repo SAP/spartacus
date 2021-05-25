@@ -1,4 +1,9 @@
-import { AbstractControl, ValidationErrors, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+} from '@angular/forms';
 import { EMAIL_PATTERN, PASSWORD_PATTERN } from '@spartacus/core';
 
 export class CustomFormValidators {
@@ -15,7 +20,7 @@ export class CustomFormValidators {
   static emailValidator(control: AbstractControl): ValidationErrors | null {
     const email = control.value as string;
 
-    return !email.length || email.match(EMAIL_PATTERN)
+    return email && (!email.length || email.match(EMAIL_PATTERN))
       ? null
       : { cxInvalidEmail: true };
   }
@@ -33,7 +38,7 @@ export class CustomFormValidators {
   static passwordValidator(control: AbstractControl): ValidationErrors | null {
     const password = control.value as string;
 
-    return !password.length || password.match(PASSWORD_PATTERN)
+    return password && (!password.length || password.match(PASSWORD_PATTERN))
       ? null
       : { cxInvalidPassword: true };
   }
@@ -100,6 +105,108 @@ export class CustomFormValidators {
         'cxEmailsMustMatch'
       );
 
+    return validator;
+  }
+
+  /**
+   * Checks if control's value is euqal or greater than 0
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxNegativeAmount' validator error
+   * @memberof CustomFormValidators
+   */
+  static mustBePositive(control: AbstractControl): ValidationErrors | null {
+    const amount = control.value as number;
+
+    return amount >= 0 ? null : { cxNegativeAmount: true };
+  }
+
+  /**
+   * Checks if control's value does not contain any special characters
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {AbstractControl} control
+   * @returns {(ValidationErrors | null)} Uses 'cxContainsSpecialCharacters' validator error
+   * @memberof CustomFormValidators
+   */
+  static noSpecialCharacters(
+    control: AbstractControl
+  ): ValidationErrors | null {
+    const forbiddenChars = ['/'];
+    const str = String(control.value);
+    const containsSpecialChars = forbiddenChars.some((char) =>
+      str.includes(char)
+    );
+
+    return !containsSpecialChars ? null : { cxContainsSpecialCharacters: true };
+  }
+
+  /**
+   * Checks if control's value passes pattern
+   *
+   * NOTE: Use it as a control validator
+   *
+   * @static
+   * @param {(date: string) => boolean} isValidFormat Pattern verification function
+   * @returns {(control: AbstractControl): ValidationErrors | null} Uses 'pattern' validator error
+   * @memberof CustomFormValidators
+   */
+  static patternValidation(
+    isValidFormat: (date: string) => boolean
+  ): ValidatorFn {
+    const validator = (control: AbstractControl): ValidationErrors | null => {
+      const errors: ValidationErrors = {};
+      if (
+        control.value &&
+        control.value !== '' &&
+        !isValidFormat(control.value)
+      ) {
+        errors.pattern = true;
+      }
+      return Object.keys(errors).length === 0 ? null : errors;
+    };
+    return validator;
+  }
+
+  /**
+   * Checks if two email controls match
+   *
+   * NOTE: Use it as a form validator and pass dates for range
+   *
+   * @static
+   * @param {string} startDateKey First date control name
+   * @param {string} endDateKey Second date control name
+   * @param {(value: string) => Date} getDate Converting function
+   * @returns Uses 'min' and 'max validator error
+   * @memberof CustomFormValidators
+   */
+  static dateRange(
+    startDateKey: string,
+    endDateKey: string,
+    getDate: (value: string) => Date
+  ): (FormGroup) => any {
+    const validator = (formGroup: FormGroup): ValidationErrors | null => {
+      const startDateControl = formGroup.controls[startDateKey];
+      const endDateControl = formGroup.controls[endDateKey];
+      const startDate = getDate(startDateControl.value);
+      const endDate = getDate(endDateControl.value);
+      if (!startDateControl.errors?.pattern) {
+        if (startDate > endDate) {
+          startDateControl.setErrors({ max: true });
+        }
+      }
+      if (!endDateControl.errors?.pattern) {
+        if (endDate < startDate) {
+          endDateControl.setErrors({ min: true });
+        }
+      }
+      return null;
+    };
     return validator;
   }
 }

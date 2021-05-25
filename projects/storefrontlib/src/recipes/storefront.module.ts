@@ -17,18 +17,20 @@ import { MainModule } from '../layout/main/main.module';
 import { StorefrontConfig } from '../storefront-config';
 import { StorefrontFoundationModule } from './storefront-foundation.module';
 
+/**
+ * @deprecated since 3.1, see https://sap.github.io/spartacus-docs/reference-app-structure
+ */
 @NgModule({
   imports: [
     RouterModule.forRoot([], {
-      scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
+      relativeLinkResolution: 'corrected',
+      initialNavigation: 'enabled',
     }),
 
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
 
-    // ASM module must be imported before the `AuthModule (which is imported in `StorefrontFoundationModule`)
-    // since we might have conflicting interceptor logic. See #5461.
     AsmModule,
 
     StorefrontFoundationModule,

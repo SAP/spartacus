@@ -1,8 +1,9 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "esnext",
+    "module": "es2020",
     "outDir": "../../out-tsc/app",
+    "strict": false, // TODO: Fix strict errors and remove this option
     "types": [],
     "target": "es2015"
   },

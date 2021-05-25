@@ -11,7 +11,7 @@ import {
   switchMapTo,
   tap,
 } from 'rxjs/operators';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { WindowRef } from '../../../window/window-ref';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
@@ -34,9 +34,7 @@ export class CurrenciesEffects {
         ),
         catchError((error) =>
           of(
-            new SiteContextActions.LoadCurrenciesFail(
-              makeErrorSerializable(error)
-            )
+            new SiteContextActions.LoadCurrenciesFail(normalizeHttpError(error))
           )
         )
       );
@@ -55,18 +53,18 @@ export class CurrenciesEffects {
   );
 
   @Effect()
-  activateCurrency$: Observable<
-    SiteContextActions.CurrencyChange
-  > = this.state.select(getActiveCurrency).pipe(
-    bufferCount(2, 1),
+  activateCurrency$: Observable<SiteContextActions.CurrencyChange> = this.state
+    .select(getActiveCurrency)
+    .pipe(
+      bufferCount(2, 1),
 
-    // avoid dispatching `change` action when we're just setting the initial value:
-    filter(([previous]) => !!previous),
-    map(
-      ([previous, current]) =>
-        new SiteContextActions.CurrencyChange({ previous, current })
-    )
-  );
+      // avoid dispatching `change` action when we're just setting the initial value:
+      filter(([previous]) => !!previous),
+      map(
+        ([previous, current]) =>
+          new SiteContextActions.CurrencyChange({ previous, current })
+      )
+    );
 
   constructor(
     private actions$: Actions,

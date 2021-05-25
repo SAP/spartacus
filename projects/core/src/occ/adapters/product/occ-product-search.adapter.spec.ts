@@ -17,7 +17,7 @@ import createSpy = jasmine.createSpy;
 
 class MockOccEndpointsService {
   getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line no-shadow
     (url) => url
   );
 }
@@ -81,8 +81,6 @@ describe('OccProductSearchAdapter', () => {
         {
           query: queryText,
           pageSize: mockSearchConfig.pageSize,
-          currentPage: undefined,
-          sort: undefined,
         }
       );
       mockReq.flush(searchResults);

@@ -18,14 +18,17 @@ export function waitForOrderToBePlacedRequest(
   contentCatalog: string = Cypress.env('BASE_SITE'),
   currency: string = 'USD'
 ) {
-  const { userId, access_token } = JSON.parse(
-    localStorage.getItem('spartacus-local-data')
-  ).auth.userToken.token;
+  const {
+    userId,
+    token: { access_token },
+  } = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
   cy.request({
     method: 'GET',
     url: `${Cypress.env('API_URL')}${Cypress.env(
       'OCC_PREFIX'
-    )}/${contentCatalog}/users/${userId}/orders?pageSize=5&lang=en&curr=${currency}`,
+    )}/${contentCatalog}/users/${userId}/${Cypress.env(
+      'OCC_PREFIX_ORDER_ENDPOINT'
+    )}?pageSize=5&lang=en&curr=${currency}`,
     headers: {
       Authorization: `bearer ${access_token}`,
     },
@@ -40,7 +43,15 @@ export function waitForOrderToBePlacedRequest(
           res.body.orders &&
           res.body.orders.length &&
           (!orderNumber ||
-            res.body.orders.filter((order) => order.code === orderNumber)))
+            res.body.orders.filter((order) => order.code === orderNumber)
+              .length > 0)) ||
+        (res.status === 200 &&
+          res.body.replenishmentOrders &&
+          res.body.replenishmentOrders.length &&
+          (!orderNumber ||
+            res.body.replenishmentOrders.filter(
+              (order) => order.replenishmentOrderCode === orderNumber
+            ).length > 0))
       ) {
         startTime = 0;
         return;
@@ -56,9 +67,10 @@ export function waitForOrderWithConsignmentToBePlacedRequest(
   contentCatalog: string = Cypress.env('BASE_SITE'),
   elapsedTime = 0
 ) {
-  const { userId, access_token } = JSON.parse(
-    localStorage.getItem('spartacus-local-data')
-  ).auth.userToken.token;
+  const {
+    userId,
+    token: { access_token },
+  } = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
   cy.request({
     method: 'GET',
     url: `${Cypress.env('API_URL')}${Cypress.env(

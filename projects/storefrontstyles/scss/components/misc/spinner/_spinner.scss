@@ -1,8 +1,6 @@
-/* IDEAS TO EXTEND
-  - sizing (variants: small, medium, big)
-  - theme (variants: primary, secondary)
-*/
-
+// IDEAS TO EXTEND
+//   - sizing (variants: small, medium, big)
+// - theme (variants: primary, secondary)
 :root {
   --cx-spinner-radius: 120px;
   --cx-spinner-border-width: 15px;
@@ -14,7 +12,10 @@
 %cx-spinner {
   .loader-container {
     position: relative;
-    margin: 30px auto;
+    margin-top: 30px;
+    margin-inline-end: auto;
+    margin-bottom: 30px;
+    margin-inline-start: auto;
     width: var(--cx-spinner-radius);
     height: var(--cx-spinner-radius);
   }
@@ -25,6 +26,7 @@
     overflow: hidden;
     animation: load8 var(--cx-spinner-animation-time) infinite linear;
 
+    // @TODO consider merging with the %spinner from the _animation scss
     &::before,
     &:before {
       content: '';
@@ -39,6 +41,13 @@
       border-right-color: var(--cx-spinner-secondary-color);
       border-left-color: var(--cx-spinner-primary-color);
       border-radius: 50%;
+
+      // We prevent pointer events on this pseudo class to avoid any direct mouse
+      // interaction. Mouse interaction with the spinner class affects developer
+      // experience badly, as you can't inspect the actual elements. Also, users
+      // would be blocked to use the context menu to open a link or image in a
+      // new tab.
+      pointer-events: none;
     }
   }
   @keyframes load8 {
@@ -48,5 +57,16 @@
     100% {
       transform: rotate(360deg);
     }
+  }
+
+  &.overlay {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    background: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    z-index: 10;
   }
 }

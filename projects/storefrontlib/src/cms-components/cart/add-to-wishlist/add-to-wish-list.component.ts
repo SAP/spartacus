@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   AuthService,
+  isNotNullable,
   OrderEntry,
   Product,
   WishListService,
@@ -17,7 +18,7 @@ import { CurrentProductService } from '../../product/current-product.service';
 })
 export class AddToWishListComponent {
   product$: Observable<Product> = this.currentProductService.getProduct().pipe(
-    filter((product) => Boolean(product)),
+    filter(isNotNullable),
     tap((product) => this.setStockInfo(product))
   );
 
@@ -53,8 +54,9 @@ export class AddToWishListComponent {
     return item;
   }
 
-  private setStockInfo(product: Product): void {
-    this.hasStock =
-      product.stock && product.stock.stockLevelStatus !== 'outOfStock';
+  protected setStockInfo(product: Product): void {
+    this.hasStock = Boolean(
+      product.stock && product.stock.stockLevelStatus !== 'outOfStock'
+    );
   }
 }

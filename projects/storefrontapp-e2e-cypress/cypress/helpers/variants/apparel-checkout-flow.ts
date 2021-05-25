@@ -3,7 +3,6 @@ import { addCheapProductToCart } from '../checkout-flow';
 
 export const APPAREL_BASESITE = 'apparel-uk-spa';
 export const APPAREL_CURRENCY = 'GBP';
-export const APPAREL_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-gross';
 
 export function configureProductWithVariants() {
   cy.cxConfig({
@@ -41,9 +40,9 @@ export function visitProductWithoutVariantPage() {
 }
 
 export function addMutipleProductWithoutVariantToCart() {
-  cy.get('cx-item-counter').getByText('+').click();
+  cy.get('cx-item-counter').findByText('+').click();
   cy.get('cx-add-to-cart')
-    .getByText(/Add To Cart/i)
+    .findByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', products[2].name);

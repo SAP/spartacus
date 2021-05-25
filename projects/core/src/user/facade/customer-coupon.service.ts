@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { AuthService } from '../../auth/facade/auth.service';
+import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { CustomerCouponSearchResult } from '../../model/customer-coupon.model';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
@@ -25,7 +25,7 @@ import {
 export class CustomerCouponService {
   constructor(
     protected store: Store<StateWithUser | StateWithProcess<void>>,
-    protected authService: AuthService
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -39,7 +39,7 @@ export class CustomerCouponService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.LoadCustomerCoupons({
           userId,
@@ -93,7 +93,7 @@ export class CustomerCouponService {
    * @param couponCode a customer coupon code
    */
   subscribeCustomerCoupon(couponCode: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.SubscribeCustomerCoupon({
           userId,
@@ -135,7 +135,7 @@ export class CustomerCouponService {
    * @param couponCode a customer coupon code
    */
   unsubscribeCustomerCoupon(couponCode: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.UnsubscribeCustomerCoupon({
           userId,
@@ -177,7 +177,7 @@ export class CustomerCouponService {
    * @param couponCode a customer coupon code
    */
   claimCustomerCoupon(couponCode: string): void {
-    this.authService.invokeWithUserId((userId) => {
+    this.userIdService.invokeWithUserId((userId) => {
       this.store.dispatch(
         new UserActions.ClaimCustomerCoupon({
           userId,

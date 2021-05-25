@@ -11,13 +11,15 @@ import {
   RoutingService,
   TranslationService,
   UserService,
-  UserToken,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../../cms-components/misc/icon/icon.model';
 import { ModalService } from '../../../../../shared/components/modal/modal.service';
 
+/**
+ * @deprecated since 3.2, moved to @spartacus/user package.
+ */
 @Component({
   selector: 'cx-close-account-modal',
   templateUrl: './close-account-modal.component.html',
@@ -27,7 +29,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
 
   private subscription = new Subscription();
-  userToken$: Observable<UserToken>;
+  isLoggedIn$: Observable<boolean>;
   isLoading$: Observable<boolean>;
 
   constructor(
@@ -40,7 +42,7 @@ export class CloseAccountModalComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    this.userToken$ = this.authService.getUserToken();
+    this.isLoggedIn$ = this.authService.isUserLoggedIn();
     this.userService.resetRemoveUserProcessState();
     this.subscription.add(
       this.userService

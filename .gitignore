@@ -15,6 +15,7 @@ docs.zip
 
 # spartacussampledataaddon
 spartacussampledataaddon.*
+spartacussampledata.*
 
 # dependencies
 node_modules/
@@ -22,6 +23,7 @@ package-lock.json
 
 # verdaccio storage
 scripts/install/storage
+scripts/install/htpasswd
 # Environment config file
 scripts/install/config.sh
 
@@ -51,7 +53,10 @@ scripts/install/config.sh
 npm-debug.log
 yarn-error.log
 testem.log
+debug.log
 
 # System Files
 .DS_Store
 Thumbs.db
+
+**/git-ignore

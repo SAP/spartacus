@@ -1,0 +1,116 @@
+<cx-org-card
+  *ngIf="model$ | async as model"
+  i18nRoot="orgUnit.details"
+  [cxFocus]="{ refreshFocus: model }"
+  [showHint]="true"
+>
+  <a
+    actions
+    class="link edit"
+    [class.disabled]="!model.active || (isInEditMode$ | async)"
+    [routerLink]="{ cxRoute: 'orgUnitEdit', params: model } | cxUrl"
+  >
+    {{ 'organization.edit' | cxTranslate }}
+  </a>
+
+  <cx-org-toggle-status
+    actions
+    key="uid"
+    i18nRoot="orgUnit"
+  ></cx-org-toggle-status>
+
+  <cx-org-disable-info
+    info
+    i18nRoot="orgUnit"
+    [displayInfoConfig]="{ disabledDisable: true }"
+  >
+  </cx-org-disable-info>
+
+  <section main class="details" cxOrgItemExists>
+    <div class="property">
+      <label>{{ 'orgUnit.name' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.name }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgUnit.uid' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.uid }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgUnit.active' | cxTranslate }}</label>
+      <span class="value" [class.is-active]="model.active">
+        {{
+          (model.active ? 'organization.enabled' : 'organization.disabled')
+            | cxTranslate
+        }}
+      </span>
+    </div>
+
+    <div class="property" *ngIf="model.approvalProcess?.name">
+      <label>{{ 'orgUnit.approvalProcess' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.approvalProcess?.name }}
+      </span>
+    </div>
+
+    <div class="property" *ngIf="model.parentOrgUnit">
+      <label>{{ 'orgUnit.parentUnit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.parentOrgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.parentOrgUnit?.name }}
+      </a>
+    </div>
+  </section>
+
+  <section main class="link-list">
+    <ng-container *ngIf="model.uid">
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitChildren', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUnit.links.units' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitUserList', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUnit.links.users' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitApprovers', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUnit.links.approvers' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitAddressList', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUnit.links.shippingAddresses' | cxTranslate }}
+      </a>
+      <a
+        class="link"
+        [routerLink]="{ cxRoute: 'orgUnitCostCenters', params: model } | cxUrl"
+        routerLinkActive="is-current"
+      >
+        {{ 'orgUnit.links.costCenters' | cxTranslate }}
+      </a>
+    </ng-container>
+  </section>
+</cx-org-card>

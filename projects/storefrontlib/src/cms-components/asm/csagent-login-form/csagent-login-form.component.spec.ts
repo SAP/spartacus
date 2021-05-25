@@ -1,11 +1,11 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
+import { FormErrorsModule } from '../../../shared/index';
 import * as testUtils from '../../../shared/utils/forms/form-test-utils';
 import { CSAgentLoginFormComponent } from './csagent-login-form.component';
-import { FormErrorsModule } from '../../../shared/index';
 
 describe('CSAgentLoginFormComponent', () => {
   let component: CSAgentLoginFormComponent;
@@ -17,12 +17,14 @@ describe('CSAgentLoginFormComponent', () => {
   const validUserId = 'asagent';
   const validPassword = 'testPass123!';
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
-      declarations: [CSAgentLoginFormComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
+        declarations: [CSAgentLoginFormComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CSAgentLoginFormComponent);

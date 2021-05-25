@@ -1,6 +1,6 @@
 %cx-coupon-dialog {
   .cx-dialog-item {
-    padding: 0 1rem 0 0;
+    padding-inline-end: 1rem;
   }
 
   .cx-coupon-description {
@@ -35,7 +35,10 @@
   }
 
   .cx-dialog-header {
-    padding: 2rem 1.75rem 0.85rem;
+    padding-top: 2rem;
+    padding-inline-end: 1.75rem;
+    padding-bottom: 0.85rem;
+    padding-inline-start: 1.75rem;
     border-width: 0;
   }
 
@@ -44,7 +47,10 @@
   }
 
   .cx-dialog-body {
-    padding: 1rem 1rem 0 1rem;
+    padding-top: 1rem;
+    padding-inline-end: 1rem;
+    padding-bottom: 0;
+    padding-inline-start: 1rem;
     @include media-breakpoint-down(sm) {
       padding: 0;
     }

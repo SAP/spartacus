@@ -38,6 +38,20 @@ export interface User {
   title?: string;
   titleCode?: string;
   uid?: string;
+  roles?: string[];
+}
+
+export interface ListModel {
+  ids: string[];
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
+}
+
+// TODO(#8875): Do we need it here?
+export interface EntitiesModel<T> {
+  values: T[];
+  pagination?: PaginationModel;
+  sorts?: SortModel[];
 }
 
 export interface PaginationModel {
@@ -100,8 +114,11 @@ export interface BaseSite {
   stores?: BaseStore[];
   urlPatterns?: string[];
   urlEncodingAttributes?: string[];
+  baseStore?: BaseStore;
 }
-
+/**
+ * @deprecated moved to user lib
+ */
 export interface UserSignUp {
   firstName?: string;
   lastName?: string;

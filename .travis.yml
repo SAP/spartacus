@@ -1,30 +1,38 @@
 dist: bionic
 language: node_js
 node_js:
-  - 12.13.1
+  - 12.16.1
 cache: yarn
 git:
   depth: false
 branches:
   only:
     - develop
-    - master
-    - "/^feature\\/.*$/"
-    - "/^hotfix\\/.*$/"
-    - "/^release\\/.*$/"
-    - "/^doc\\/.*$/"
     - "/^epic\\/.*$/"
-script: ./build.sh sonar
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: bash scripts/publish-builds.sh
-  on:
-    branch: develop
-notifications:
-  email:
-    on_failure: always
-    on_success: change
+    - "/^release\\/.*$/"
+defaults: &defaults
+  script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
+jobs:
+  - script: "./ci-scripts/unit-tests-sonar.sh sonar"
+    name: "Unit tests / Sonar"
+  - script: "./ci-scripts/validate-lint.sh"
+    name: "Validation checks"
+  - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json && export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
+    name: E2E regression tests for B2B
+  - script:
+    name: "E2E tests for B2C, 1st job"
+    <<: *defaults
+  - script:
+    name: "E2E tests for B2C, 2st job"
+    <<: *defaults
+  - script:
+    name: "E2E tests for B2C, 3rd job"
+    <<: *defaults
+  - script:
+    name: "E2E tests for B2C, 4th job"
+    <<: *defaults
+  - script: "export CYPRESS_CONFIG=cypress.ci.cdc.json && export SPA_ENV='cdc' && ./ci-scripts/e2e-cypress.sh -s cdc || exit 0"
+    name: "E2E tests for CDC"
 addons:
   chrome: stable
   sonarcloud:

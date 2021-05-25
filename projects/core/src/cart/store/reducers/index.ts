@@ -1,6 +1,6 @@
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
-import { AuthActions } from '../../../auth/store/actions/index';
+import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { Cart } from '../../../model/cart.model';
 import { entityProcessesLoaderReducer } from '../../../state/utils/entity-processes-loader/entity-processes-loader.reducer';
 import { MultiCartState, MULTI_CART_DATA } from '../multi-cart-state';
@@ -23,9 +23,9 @@ export function clearMultiCartState(
 
 export const multiCartMetaReducers: MetaReducer<any>[] = [clearMultiCartState];
 
-export const multiCartReducerToken: InjectionToken<ActionReducerMap<
-  MultiCartState
->> = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
+export const multiCartReducerToken: InjectionToken<
+  ActionReducerMap<MultiCartState>
+> = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
 
 export function getMultiCartReducers(): ActionReducerMap<MultiCartState> {
   return {

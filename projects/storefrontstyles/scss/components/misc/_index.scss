@@ -3,6 +3,8 @@
 @import './spinner/index';
 @import './icons';
 @import './table/table';
+@import './order-overview/index';
+@import './popover/index';
 
 $misc-components-whitelist: cx-table, cx-icon, cx-spinner, cx-card,
-  cx-pagination !default;
+  cx-pagination, cx-order-overview, cx-popover !default;

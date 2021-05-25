@@ -1,0 +1,36 @@
+%cx-search {
+  display: block;
+  margin: 0 0 1rem;
+
+  .cx-search-links {
+    button {
+      @include media-breakpoint-down(sm) {
+        padding: 6px;
+        height: initial;
+        max-height: initial;
+        min-height: 48px;
+      }
+    }
+  }
+
+  .search-wrapper {
+    position: relative;
+
+    input {
+      padding-inline-end: 46px;
+    }
+
+    cx-icon {
+      position: absolute;
+      top: 17px;
+      right: 17px;
+      cursor: pointer;
+      outline: none;
+    }
+  }
+
+  .disabled-action {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+}

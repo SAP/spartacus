@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { WindowRef } from '../../window/window-ref';
@@ -9,6 +9,7 @@ import { PageContext } from '../models/page-context.model';
 import { RoutingActions } from '../store/actions/index';
 import { RouterState } from '../store/routing-state';
 import { RoutingSelector } from '../store/selectors/index';
+import { RoutingParamsService } from './routing-params.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +18,19 @@ export class RoutingService {
   constructor(
     protected store: Store<RouterState>,
     protected winRef: WindowRef,
-    protected semanticPathService: SemanticPathService
+    protected semanticPathService: SemanticPathService,
+    protected routingParamsService: RoutingParamsService,
+    // TODO(#10467): Consider making router mandatory in next major
+    protected router?: Router
   ) {}
+
+  /**
+   * Get the list of all parameters of the full route. This includes
+   * active child routes.
+   */
+  getParams(): Observable<{ [key: string]: string }> {
+    return this.routingParamsService?.getParams();
+  }
 
   /**
    * Get the current router state
@@ -42,6 +54,15 @@ export class RoutingService {
   }
 
   /**
+   * Allow to change next page context for the ongoing navigation
+   *
+   * @param pageContext
+   */
+  changeNextPageContext(pageContext: PageContext) {
+    this.store.dispatch(new RoutingActions.ChangeNextPageContext(pageContext));
+  }
+
+  /**
    * Get the `isNavigating` info from the state
    */
   isNavigating(): Observable<boolean> {
@@ -58,6 +79,41 @@ export class RoutingService {
     const path = this.semanticPathService.transform(commands);
 
     return this.navigate(path, query, extras);
+  }
+
+  /**
+   * Resolves the relative url for the given `UrlCommands` and `NavigationExtras`.
+   *
+   * The absolute url can be resolved using `getFullUrl()`.
+   */
+  getUrl(commands: UrlCommands, extras?: NavigationExtras): string {
+    // TODO(#10467): Remove the warning as soon as the router becomes mandatory
+    if (!this.router) {
+      console.warn('No router injected to create the url tree');
+      return '';
+    }
+    let url = this.router.serializeUrl(
+      this.router.createUrlTree(
+        this.semanticPathService.transform(commands),
+        extras
+      )
+    );
+    if (!url.startsWith('/')) {
+      url = `/${url}`;
+    }
+    return url;
+  }
+
+  /**
+   * Returns the absolute url for the given `UrlCommands` and `NavigationExtras`.
+   *
+   * The absolute url uses the origin of the current location.
+   */
+  getFullUrl(commands: UrlCommands, extras?: NavigationExtras) {
+    return `${this.winRef.document.location.origin}${this.getUrl(
+      commands,
+      extras
+    )}`;
   }
 
   /**

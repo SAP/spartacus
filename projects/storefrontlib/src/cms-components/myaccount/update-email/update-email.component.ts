@@ -7,7 +7,9 @@ import {
   UserService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-
+/**
+ * @deprecated since 3.2, moved to @spartacus/user package.
+ */
 @Component({
   selector: 'cx-update-email',
   templateUrl: './update-email.component.html',
@@ -43,7 +45,7 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
     this.userService.updateEmail(password, newUid);
   }
 
-  onSuccess(success: boolean): void {
+  async onSuccess(success: boolean): Promise<void> {
     if (success) {
       this.globalMessageService.add(
         {
@@ -52,7 +54,8 @@ export class UpdateEmailComponent implements OnInit, OnDestroy {
         },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
-      this.authService.logout();
+      // TODO(#9638): Use logout route when it will support passing redirect url
+      await this.authService.coreLogout();
       this.routingService.go({ cxRoute: 'login' }, null, {
         state: {
           newUid: this.newUid,

@@ -4,3 +4,6 @@ export enum ProductDetailOutlets {
   SHARE = 'PDP.SHARE',
   SUMMARY = 'PDP.SUMMARY',
 }
+export enum ProductListOutlets {
+  ITEM_ACTIONS = 'cx-product-list-item.actions',
+}

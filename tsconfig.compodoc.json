@@ -9,34 +9,235 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
-    "typeRoots": ["node_modules/@types"],
-    "lib": ["esnext", "dom"],
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "strictPropertyInitialization": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "paths": {
-      "@spartacus/core": ["projects/core/public_api"],
-      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"],
-      "@spartacus/cds": ["projects/cds/public_api"],
-      "@spartacus/schematics": ["projects/schematics/src/public_api"],
-      "@spartacus/my-account": ["feature-libs/my-account/public_api"],
+      "@spartacus/schematics": ["projects/schematics/index"],
+      "@spartacus/setup": ["core-libs/setup/public_api"],
+      "@spartacus/setup/ssr": ["core-libs/setup/ssr/public_api"],
+      "@spartacus/asm/assets": ["feature-libs/asm/assets/public_api"],
+      "@spartacus/asm/components": ["feature-libs/asm/components/public_api"],
+      "@spartacus/asm/core": ["feature-libs/asm/core/public_api"],
+      "@spartacus/asm": ["feature-libs/asm/public_api"],
+      "@spartacus/asm/occ": ["feature-libs/asm/occ/public_api"],
+      "@spartacus/asm/root": ["feature-libs/asm/root/public_api"],
+      "@spartacus/cart": ["feature-libs/cart/public_api"],
+      "@spartacus/cart/saved-cart/assets": [
+        "feature-libs/cart/saved-cart/assets/public_api"
+      ],
+      "@spartacus/cart/saved-cart/components": [
+        "feature-libs/cart/saved-cart/components/public_api"
+      ],
+      "@spartacus/cart/saved-cart/core": [
+        "feature-libs/cart/saved-cart/core/public_api"
+      ],
+      "@spartacus/cart/saved-cart": [
+        "feature-libs/cart/saved-cart/public_api"
+      ],
+      "@spartacus/cart/saved-cart/occ": [
+        "feature-libs/cart/saved-cart/occ/public_api"
+      ],
+      "@spartacus/cart/saved-cart/root": [
+        "feature-libs/cart/saved-cart/root/public_api"
+      ],
+      "@spartacus/organization/administration/assets": [
+        "feature-libs/organization/administration/assets/public_api"
+      ],
+      "@spartacus/organization/administration/components": [
+        "feature-libs/organization/administration/components/public_api"
+      ],
+      "@spartacus/organization/administration/core": [
+        "feature-libs/organization/administration/core/public_api"
+      ],
+      "@spartacus/organization/administration": [
+        "feature-libs/organization/administration/public_api"
+      ],
+      "@spartacus/organization/administration/occ": [
+        "feature-libs/organization/administration/occ/public_api"
+      ],
+      "@spartacus/organization/administration/root": [
+        "feature-libs/organization/administration/root/public_api"
+      ],
+      "@spartacus/organization": [
+        "feature-libs/organization/public_api"
+      ],
+      "@spartacus/organization/order-approval/assets": [
+        "feature-libs/organization/order-approval/assets/public_api"
+      ],
+      "@spartacus/organization/order-approval": [
+        "feature-libs/organization/order-approval/public_api"
+      ],
+      "@spartacus/organization/order-approval/root": [
+        "feature-libs/organization/order-approval/root/public_api"
+      ],
+      "@spartacus/product-configurator/common/assets": [
+        "feature-libs/product-configurator/common/assets/public_api"
+      ],
+      "@spartacus/product-configurator/common": [
+        "feature-libs/product-configurator/common/public_api"
+      ],
+      "@spartacus/product-configurator": [
+        "feature-libs/product-configurator/public_api"
+      ],
+      "@spartacus/product-configurator/rulebased": [
+        "feature-libs/product-configurator/rulebased/public_api"
+      ],
+      "@spartacus/product-configurator/rulebased/root": [
+        "feature-libs/product-configurator/rulebased/root/public_api"
+      ],
+      "@spartacus/product-configurator/rulebased/cpq": [
+        "feature-libs/product-configurator/rulebased/cpq/public_api"
+      ],      
+      "@spartacus/product-configurator/textfield": [
+        "feature-libs/product-configurator/textfield/public_api"
+      ],
+      "@spartacus/product-configurator/textfield/root": [
+        "feature-libs/product-configurator/textfield/root/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/assets": [
+        "feature-libs/product/bulk-pricing/assets/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/components": [
+        "feature-libs/product/bulk-pricing/components/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/core": [
+        "feature-libs/product/bulk-pricing/core/public_api"
+      ],
+      "@spartacus/product/bulk-pricing": [
+        "feature-libs/product/bulk-pricing/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/occ": [
+        "feature-libs/product/bulk-pricing/occ/public_api"
+      ],
+      "@spartacus/product/bulk-pricing/root": [
+        "feature-libs/product/bulk-pricing/root/public_api"
+      ],
       "@spartacus/product": ["feature-libs/product/public_api"],
-      "@spartacus/product/configurators": [
-        "feature-libs/product/configurators/public_api"
+      "@spartacus/product/variants/assets": [
+        "feature-libs/product/variants/assets/public_api"
       ],
-      "@spartacus/product/configurators/common": [
-        "feature-libs/product/configurators/common/public_api"
+      "@spartacus/product/variants/components": [
+        "feature-libs/product/variants/components/public_api"
       ],
-      "@spartacus/product/configurators/cpq": [
-        "feature-libs/product/configurators/cpq/public_api"
+      "@spartacus/product/variants": [
+        "feature-libs/product/variants/public_api"
       ],
-      "@spartacus/product/configurators/variant": [
-        "feature-libs/product/configurators/variant/public_api"
+      "@spartacus/product/variants/occ": [
+        "feature-libs/product/variants/occ/public_api"
       ],
-      "@spartacus/product/configurators/textfield": [
-        "feature-libs/product/configurators/textfield/public_api"
+      "@spartacus/product/variants/root": [
+        "feature-libs/product/variants/root/public_api"
       ],
-      "@spartacus/cdc": ["integration-libs/cdc/public_api"]
+      "@spartacus/qualtrics/components": [
+        "feature-libs/qualtrics/components/public_api"
+      ],
+      "@spartacus/qualtrics": [
+        "feature-libs/qualtrics/public_api"
+      ],
+      "@spartacus/qualtrics/root": [
+        "feature-libs/qualtrics/root/public_api"
+      ],
+      "@spartacus/smartedit/core": [
+        "feature-libs/smartedit/core/public_api"
+      ],
+      "@spartacus/smartedit": [
+        "feature-libs/smartedit/public_api"
+      ],
+      "@spartacus/smartedit/root": [
+        "feature-libs/smartedit/root/public_api"
+      ],
+      "@spartacus/storefinder/assets": [
+        "feature-libs/storefinder/assets/public_api"
+      ],
+      "@spartacus/storefinder/components": [
+        "feature-libs/storefinder/components/public_api"
+      ],
+      "@spartacus/storefinder/core": [
+        "feature-libs/storefinder/core/public_api"
+      ],
+      "@spartacus/storefinder": [
+        "feature-libs/storefinder/public_api"
+      ],
+      "@spartacus/storefinder/occ": [
+        "feature-libs/storefinder/occ/public_api"
+      ],
+      "@spartacus/storefinder/root": [
+        "feature-libs/storefinder/root/public_api"
+      ],
+      "@spartacus/tracking": [
+        "feature-libs/tracking/public_api"
+      ],
+      "@spartacus/tracking/personalization/core": [
+        "feature-libs/tracking/personalization/core/public_api"
+      ],
+      "@spartacus/tracking/personalization": [
+        "feature-libs/tracking/personalization/public_api"
+      ],
+      "@spartacus/tracking/personalization/root": [
+        "feature-libs/tracking/personalization/root/public_api"
+      ],
+      "@spartacus/tracking/tms/aep": [
+        "feature-libs/tracking/tms/aep/public_api"
+      ],
+      "@spartacus/tracking/tms/core": [
+        "feature-libs/tracking/tms/core/public_api"
+      ],
+      "@spartacus/tracking/tms/gtm": [
+        "feature-libs/tracking/tms/gtm/public_api"
+      ],
+      "@spartacus/tracking/tms": ["feature-libs/tracking/tms/public_api"],
+      "@spartacus/user/account/assets": [
+        "feature-libs/user/account/assets/public_api"
+      ],
+      "@spartacus/user/account/components": [
+        "feature-libs/user/account/components/public_api"
+      ],
+      "@spartacus/user/account/core": [
+        "feature-libs/user/account/core/public_api"
+      ],
+      "@spartacus/user/account": ["feature-libs/user/account/public_api"],
+      "@spartacus/user/account/occ": [
+        "feature-libs/user/account/occ/public_api"
+      ],
+      "@spartacus/user/account/root": [
+        "feature-libs/user/account/root/public_api"
+      ],
+      "@spartacus/user": ["feature-libs/user/public_api"],
+      "@spartacus/user/profile/assets": [
+        "feature-libs/user/profile/assets/public_api"
+      ],
+      "@spartacus/user/profile/components": [
+        "feature-libs/user/profile/components/public_api"
+      ],
+      "@spartacus/user/profile/core": [
+        "feature-libs/user/profile/core/public_api"
+      ],
+      "@spartacus/user/profile": ["feature-libs/user/profile/public_api"],
+      "@spartacus/user/profile/occ": [
+        "feature-libs/user/profile/occ/public_api"
+      ],
+      "@spartacus/user/profile/root": [
+        "feature-libs/user/profile/root/public_api"
+      ],
+      "@spartacus/cdc/components": [
+        "integration-libs/cdc/components/public_api"
+      ],
+      "@spartacus/cdc/core": ["integration-libs/cdc/core/public_api"],
+      "@spartacus/cdc": ["integration-libs/cdc/public_api"],
+      "@spartacus/cdc/root": ["integration-libs/cdc/root/public_api"],
+      "@spartacus/cds": ["integration-libs/cds/public_api"],
+      "@spartacus/assets": ["projects/assets/src/public_api"],
+      "@spartacus/core": ["projects/core/public_api"],
+      "@spartacus/incubator": ["projects/incubator/public_api"],
+      "@spartacus/storefront": ["projects/storefrontlib/src/public_api"]
     }
   },
   "exclude": [

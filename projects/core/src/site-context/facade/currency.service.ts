@@ -41,7 +41,7 @@ export class CurrencyService implements SiteContext<Currency> {
           this.store.dispatch(new SiteContextActions.LoadCurrencies());
         }
       }),
-      filter((currenies) => Boolean(currenies))
+      filter((currencies) => Boolean(currencies))
     );
   }
 
@@ -58,8 +58,8 @@ export class CurrencyService implements SiteContext<Currency> {
   /**
    * Sets the active language.
    */
-  setActive(isocode: string) {
-    return this.store
+  setActive(isocode: string): void {
+    this.store
       .pipe(select(SiteContextSelectors.getActiveCurrency), take(1))
       .subscribe((activeCurrency) => {
         if (activeCurrency !== isocode) {
@@ -75,7 +75,7 @@ export class CurrencyService implements SiteContext<Currency> {
    * by the last visit (stored in session storage) or by the
    * default session currency of the store.
    */
-  initialize() {
+  initialize(): void {
     let value;
     this.getActive()
       .subscribe((val) => (value = val))

@@ -13,19 +13,27 @@ import {
 } from '@angular/platform-browser';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Config } from '../../config/config.module';
+import { Config } from '../../config/config-tokens';
 import { deepMerge } from '../../config/utils/deep-merge';
 import { I18nConfig } from '../../i18n/config/i18n-config';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
-import { SERVER_REQUEST_URL } from '../../ssr/ssr.providers';
+import { SERVER_REQUEST_URL } from '../../util/ssr.tokens';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 import { OccSitesConfigLoader } from './occ-sites-config-loader';
 
-export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<
-  string
->('cx-external-config');
+/**
+ * @deprecated since 3.2, no replacement - the standard ngrx transfer state of basesites is used instead
+ */
+// TODO(#11515): drop it in 4.0
+export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey<string> = makeStateKey<string>(
+  'cx-external-config'
+);
 
+/**
+ * @deprecated since 3.2 - use `SiteContextConfigInitializer` instead
+ */
+// TODO(#11515): drop it in 4.0
 @Injectable({ providedIn: 'root' })
 export class OccConfigLoaderService {
   constructor(

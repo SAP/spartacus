@@ -74,7 +74,7 @@ describe('Order Details effect', () => {
 
       const action = new UserActions.LoadOrderDetails(mockOrderDetailsParams);
 
-      const completion = new UserActions.LoadOrderDetailsFail('Error');
+      const completion = new UserActions.LoadOrderDetailsFail(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
@@ -102,7 +102,7 @@ describe('Order Details effect', () => {
 
       const action = new UserActions.CancelOrder(mockCancelOrderParams);
 
-      const completion = new UserActions.CancelOrderFail('Error');
+      const completion = new UserActions.CancelOrderFail(undefined);
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });

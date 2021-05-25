@@ -51,7 +51,10 @@ export class PaginationComponent {
     private activatedRoute: ActivatedRoute
   ) {}
 
-  private render(pagination: PaginationModel) {
+  protected render(pagination: PaginationModel): void {
+    if (!pagination) {
+      return;
+    }
     this.pages = this.paginationBuilder.paginate(
       pagination.totalPages,
       pagination.currentPage
@@ -59,7 +62,7 @@ export class PaginationComponent {
   }
 
   /**
-   * Inidicates whether the given item is the current item.
+   * Indicates whether the given item is the current item.
    *
    * @param item PaginationItem
    * @returns boolean

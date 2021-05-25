@@ -1,0 +1,27 @@
+<ng-container *ngIf="orderEntry$ | async as orderEntry">
+  <ng-container *ngIf="isAttributeBasedConfigurator(orderEntry)">
+    <ng-container *ngIf="hasStatus(orderEntry)">
+      <div
+        class="cx-configuration-info"
+        *ngFor="let info of orderEntry.configurationInfos"
+      >
+        <div class="cx-label">{{ info?.configurationLabel }}:</div>
+        <div class="cx-value">
+          {{ info?.configurationValue }}
+        </div>
+      </div>
+    </ng-container>
+
+    <cx-configure-cart-entry
+      *ngIf="
+        (shouldShowButton$ | async) &&
+          orderEntry?.product?.configurable &&
+          quantityControl$ | async as quantityControl
+      "
+      [cartEntry]="orderEntry"
+      [readOnly]="readonly$ | async"
+      [msgBanner]="false"
+      [disabled]="quantityControl.disabled"
+    ></cx-configure-cart-entry>
+  </ng-container>
+</ng-container>

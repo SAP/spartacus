@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormErrorsComponent } from './form-errors.component';
 import { FormControl } from '@angular/forms';
@@ -12,12 +12,14 @@ describe('FormErrors', () => {
   let fixture: ComponentFixture<FormErrorsComponent>;
   let control: FormControl;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [FormErrorsComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [FormErrorsComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FormErrorsComponent);

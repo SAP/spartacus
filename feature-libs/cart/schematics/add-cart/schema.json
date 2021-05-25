@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "CartSchematics",
+  "title": "Cart Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the Saved cart feature.",
+      "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["Saved-Cart"],
+        "type": "string"
+      },
+      "default": ["Saved-Cart"],
+      "x-prompt": {
+        "message": "Which Cart features would you like to set up?",
+        "type": "list",
+        "items": [{ "value": "Saved-Cart", "label": "Saved Cart" }]
+      }
+    }
+  },
+  "required": []
+}

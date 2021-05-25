@@ -24,7 +24,8 @@ const UNLOCK_HIDDEN_ELEMENTS = true;
  * detection kicks in because of new data set from the backend.
  */
 @Directive() // selector: '[cxLockFocus]'
-export class LockFocusDirective extends TrapFocusDirective
+export class LockFocusDirective
+  extends TrapFocusDirective
   implements OnInit, AfterViewInit {
   protected defaultConfig: LockFocusConfig = { lock: true };
 

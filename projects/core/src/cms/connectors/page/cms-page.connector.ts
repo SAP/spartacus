@@ -1,11 +1,11 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
-import { HttpErrorResponse } from '@angular/common/http';
-import { CmsPageAdapter } from './cms-page.adapter';
-import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
 import { PageContext } from '../../../routing/models/page-context.model';
 import { CmsStructureModel } from '../../model/page.model';
+import { CmsStructureConfigService } from '../../services/cms-structure-config.service';
+import { CmsPageAdapter } from './cms-page.adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -49,9 +49,9 @@ export class CmsPageConnector {
 
   /**
    *
-   * Merge default page structure inot the given `CmsStructureModel`.
-   * This is benefitial for a fast setup of the UI without necessary
-   * finegrained CMS setup.
+   * Merge default page structure to the given `CmsStructureModel`.
+   * This is beneficial for a fast setup of the UI without necessary
+   * fine-grained CMS setup.
    */
   private mergeDefaultPageStructure(
     pageContext: PageContext,

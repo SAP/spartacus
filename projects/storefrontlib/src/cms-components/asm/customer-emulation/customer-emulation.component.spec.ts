@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule, User, UserService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -26,16 +26,18 @@ describe('CustomerEmulationComponent', () => {
   let asmComponentService: AsmComponentService;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CustomerEmulationComponent],
-      providers: [
-        { provide: UserService, useClass: MockUserService },
-        { provide: AsmComponentService, useClass: MockAsmComponentService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [CustomerEmulationComponent],
+        providers: [
+          { provide: UserService, useClass: MockUserService },
+          { provide: AsmComponentService, useClass: MockAsmComponentService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerEmulationComponent);

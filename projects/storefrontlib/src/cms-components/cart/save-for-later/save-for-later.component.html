@@ -19,6 +19,7 @@
         [items]="entries"
         [readonly]="false"
         [cartIsLoading]="!(cartLoaded$ | async)"
+        [promotionLocation]="CartLocation.SaveForLater"
         [options]="{
           isSaveForLater: true,
           optionalBtn: moveToCartBtn

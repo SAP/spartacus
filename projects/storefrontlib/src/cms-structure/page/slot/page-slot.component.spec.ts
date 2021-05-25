@@ -1,4 +1,4 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, Directive, Input, Renderer2 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
@@ -10,8 +10,8 @@ import { Observable, of } from 'rxjs';
 import { SkipLinkDirective } from '../../../layout/a11y/index';
 import { DeferLoaderService } from '../../../layout/loading/defer-loader.service';
 import { OutletDirective } from '../../outlet/index';
-import { CmsComponentsService } from '../../services/cms-components.service';
 import { PageSlotComponent } from './page-slot.component';
+import { PageSlotService } from './page-slot.service';
 
 const slotWithOneComp = {
   components: [
@@ -46,14 +46,7 @@ class MockCmsService {
 }
 
 class MockDynamicAttributeService {
-  addDynamicAttributes() {}
-}
-
-class MockCmsMappingService {
-  isComponentEnabled() {
-    return true;
-  }
-  getComponentMapping() {}
+  addAttributesToSlot() {}
 }
 
 @Component({
@@ -79,19 +72,20 @@ class MockDeferLoaderService {
   }
 }
 
-class MockCmsComponentsService {
-  getDeferLoadingStrategy = () => {};
+class MockPageSlotService implements Partial<PageSlotService> {
+  getComponentDeferOptions = () => undefined;
 }
-
+@Directive({
+  selector: '[cxComponentWrapper]',
+})
+class MockComponentWrapperDirective {
+  @Input() cxComponentWrapper;
+}
 const providers = [
   Renderer2,
   {
     provide: CmsService,
     useClass: MockCmsService,
-  },
-  {
-    provide: CmsComponentsService,
-    useClass: MockCmsMappingService,
   },
   {
     provide: DynamicAttributeService,
@@ -102,8 +96,8 @@ const providers = [
     useClass: MockDeferLoaderService,
   },
   {
-    provide: CmsComponentsService,
-    useClass: MockCmsComponentsService,
+    provide: PageSlotService,
+    useClass: MockPageSlotService,
   },
 ];
 
@@ -113,7 +107,7 @@ describe('PageSlotComponent', () => {
   let cmsService: CmsService;
   let dynamicAttributeService;
   let renderer;
-  let cmsComponentsService: CmsComponentsService;
+  let pageSlotService: PageSlotService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -123,13 +117,14 @@ describe('PageSlotComponent', () => {
         SkipLinkDirective,
         MockHostComponent,
         MockHostWithDivComponent,
+        MockComponentWrapperDirective,
       ],
       providers,
     }).compileComponents();
 
     cmsService = TestBed.inject(CmsService);
-    cmsComponentsService = TestBed.inject(CmsComponentsService);
-    spyOn(cmsComponentsService, 'getDeferLoadingStrategy').and.callThrough();
+    pageSlotService = TestBed.inject(PageSlotService);
+    spyOn(pageSlotService, 'getComponentDeferOptions').and.callThrough();
 
     fixture = TestBed.createComponent(PageSlotComponent);
     pageSlotComponent = fixture.componentInstance;
@@ -333,10 +328,11 @@ describe('PageSlotComponent', () => {
   });
 
   describe('Component Defer Options', () => {
-    it('should call CmsComponentsService.getDeferLoadingStrategy', () => {
+    it('should call pageSlotService.getComponentDeferOptions', () => {
       fixture.detectChanges();
       pageSlotComponent.getComponentDeferOptions('CMSTestComponent');
-      expect(cmsComponentsService.getDeferLoadingStrategy).toHaveBeenCalledWith(
+      expect(pageSlotService.getComponentDeferOptions).toHaveBeenCalledWith(
+        undefined,
         'CMSTestComponent'
       );
     });
@@ -344,20 +340,18 @@ describe('PageSlotComponent', () => {
 
   describe('SmartEdit integration', () => {
     it('should add page slot contract', () => {
-      spyOn(dynamicAttributeService, 'addDynamicAttributes').and.callThrough();
+      spyOn(dynamicAttributeService, 'addAttributesToSlot').and.callThrough();
 
       fixture.detectChanges();
 
       const native = fixture.debugElement.nativeElement;
-      expect(dynamicAttributeService.addDynamicAttributes).toHaveBeenCalledWith(
+      expect(dynamicAttributeService.addAttributesToSlot).toHaveBeenCalledWith(
         native,
         renderer,
         {
-          slotData: {
-            properties: {
-              smartedit: {
-                test: 'test',
-              },
+          properties: {
+            smartedit: {
+              test: 'test',
             },
           },
         }

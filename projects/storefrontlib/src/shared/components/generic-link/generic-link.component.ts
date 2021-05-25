@@ -44,8 +44,8 @@ export class GenericLinkComponent implements OnChanges {
 
   @Input() url: string | any[];
   @Input() target: string;
-  @Input() class: string;
   @Input() id: string;
+  @Input() class: string;
   @Input() style: string;
   @Input() title: string;
 

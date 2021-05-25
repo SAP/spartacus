@@ -1,19 +1,24 @@
-import { user } from '../sample-data/checkout-flow';
+import { SampleUser, user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
-import { checkBanner } from './homepage';
+import {
+  replenishmentOrderHistoryHeaderValue,
+  replenishmentOrderHistoryUrl,
+} from './b2b/b2b-replenishment-order-history';
+import { waitForPage } from './checkout-flow';
+import { checkBanner, clickHamburger } from './homepage';
 import { switchLanguage } from './language';
 
 const orderHistoryLink = '/my-account/orders';
 
-export function doPlaceOrder() {
+export function doPlaceOrder(productData?: any) {
   let stateAuth: any;
 
   return cy
     .window()
-    .then((win) => JSON.parse(win.localStorage.getItem('spartacus-local-data')))
-    .then(({ auth }) => {
-      stateAuth = auth;
-      return cy.requireProductAddedToCart(stateAuth);
+    .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
+    .then(({ token }) => {
+      stateAuth = token;
+      return cy.requireProductAddedToCart(stateAuth, productData);
     })
     .then(({ cartId }) => {
       cy.requireShippingAddressAdded(user.address, stateAuth);
@@ -26,26 +31,42 @@ export function doPlaceOrder() {
 
 export const orderHistoryTest = {
   // no orders flow
-  checkRedirectNotLoggedInUser() {
+  checkRedirectNotLoggedInUser(url: string = orderHistoryLink) {
     it('should redirect to login page if user is not logged in', () => {
-      cy.visit(orderHistoryLink);
+      cy.visit(url);
       cy.url().should('contain', '/login');
       cy.get('cx-login').should('contain', 'Sign In / Register');
     });
   },
-  checkRedirectLoggedInUser() {
+  checkRedirectLoggedInUser(
+    sampleUser: SampleUser = user,
+    url: string = orderHistoryLink
+  ) {
     it('should go to Order History once user has logged in', () => {
-      login(user.email, user.password);
-      cy.url().should('contain', orderHistoryLink);
-      cy.get('.cx-order-history-header h3').should('contain', 'Order history');
+      login(sampleUser.email, sampleUser.password);
+      cy.url().should('contain', url);
+      if (url === replenishmentOrderHistoryUrl) {
+        cy.get('.cx-replenishment-order-history-header h3').should(
+          'contain',
+          replenishmentOrderHistoryHeaderValue
+        );
+      } else {
+        cy.get('.cx-order-history-header h3').should(
+          'contain',
+          'Order history'
+        );
+      }
     });
   },
   checkStartShoppingButton() {
     it('should be able to start shopping from an empty Order History', () => {
+      const homePage = waitForPage('homepage', 'getHomePage');
+
       cy.get('.btn.btn-primary.btn-block.active')
-        .getByText('Start Shopping')
+        .findByText('Start Shopping')
         .click();
 
+      cy.wait(`@${homePage}`).its('status').should('eq', 200);
       checkBanner();
     });
   },
@@ -75,11 +96,10 @@ export const orderHistoryTest = {
   },
   checkSortingByCode() {
     it('should sort the orders table by given code', () => {
-      cy.server();
-      cy.route('GET', /sort=byOrderNumber/).as('query_order_asc');
+      cy.intercept('GET', /sort=byOrderNumber/).as('query_order_asc');
       cy.visit('/my-account/orders');
       cy.get('.top cx-sorting .ng-select').ngSelect('Order Number');
-      cy.wait('@query_order_asc').its('status').should('eq', 200);
+      cy.wait('@query_order_asc').its('response.statusCode').should('eq', 200);
       cy.get('.cx-order-history-code > .cx-order-history-value').then(
         ($orders) => {
           expect(parseInt($orders[0].textContent, 10)).to.be.lessThan(
@@ -89,15 +109,11 @@ export const orderHistoryTest = {
       );
     });
   },
-  checkCorrectDateFormat(isMobile?: boolean) {
+  checkCorrectDateFormat() {
     it('should show correct date format', () => {
-      cy.server();
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/cms/pages?*/my-account/orders*`
-      ).as('getOrderHistoryPage');
+      cy.intercept('GET', /users\/current\/orders/).as('getOrderHistoryPage');
+
+      cy.visit('/my-account/orders');
 
       // to compare two dates (EN and DE) we have to compare day numbers
       // EN: "June 15, 2019"
@@ -106,9 +122,15 @@ export const orderHistoryTest = {
       const getDayNumber = (element: any) =>
         element.text().replace(',', '').replace('.', '').split(' ');
       let dayNumberEN: string;
-      cy.visit('/my-account/orders');
-      cy.wait('@getOrderHistoryPage').its('status').should('eq', 200);
-      switchLanguage('en', isMobile);
+
+      cy.wait('@getOrderHistoryPage')
+        .its('response.statusCode')
+        .should('eq', 200);
+
+      cy.onMobile(() => {
+        clickHamburger();
+      });
+      switchLanguage('en');
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
@@ -116,7 +138,10 @@ export const orderHistoryTest = {
           dayNumberEN = getDayNumber(element)[1];
         });
 
-      switchLanguage('de', isMobile);
+      cy.onMobile(() => {
+        clickHamburger();
+      });
+      switchLanguage('de');
 
       cy.get('.cx-order-history-placed > .cx-order-history-value')
         .first()
@@ -124,7 +149,10 @@ export const orderHistoryTest = {
           expect(getDayNumber(element)[0]).to.eq(dayNumberEN);
         });
 
-      switchLanguage('en', isMobile); // switch language back
+      cy.onMobile(() => {
+        clickHamburger();
+      });
+      switchLanguage('en'); // switch language back
     });
   },
 };

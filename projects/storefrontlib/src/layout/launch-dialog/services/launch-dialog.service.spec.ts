@@ -1,4 +1,9 @@
-import { Component, Injectable, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  ComponentRef,
+  Injectable,
+  ViewContainerRef,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LayoutConfig } from '../../config/layout-config';
 import {
@@ -9,6 +14,7 @@ import {
 } from '../config/launch-config';
 import { LaunchDialogService } from './launch-dialog.service';
 import { LaunchRenderStrategy } from './launch-render.strategy';
+import { of } from 'rxjs';
 
 const mockLaunchConfig: LayoutConfig = {
   launch: {
@@ -21,6 +27,9 @@ const mockLaunchConfig: LayoutConfig = {
     },
   },
 };
+
+const urlConfig = mockLaunchConfig.launch['TEST_URL'];
+const inlineConfig = mockLaunchConfig.launch['TEST_INLINE'];
 
 @Injectable({
   providedIn: 'root',
@@ -68,6 +77,7 @@ describe('LaunchDialogService', () => {
   let routingRenderStrategy: MockRoutingRenderStrategy;
   let inlineRenderStrategy: MockInlineRenderStrategy;
   let component: TestContainerComponent;
+  let componentRef: ComponentRef<TestContainerComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -91,6 +101,7 @@ describe('LaunchDialogService', () => {
     service = TestBed.inject(LaunchDialogService);
     component = TestBed.createComponent(TestContainerComponent)
       .componentInstance;
+    componentRef = TestBed.createComponent(TestContainerComponent).componentRef;
     routingRenderStrategy = TestBed.inject(MockRoutingRenderStrategy);
     inlineRenderStrategy = TestBed.inject(MockInlineRenderStrategy);
 
@@ -106,7 +117,6 @@ describe('LaunchDialogService', () => {
 
   describe('launch', () => {
     it('should call the proper renderer', () => {
-      const urlConfig = mockLaunchConfig.launch['TEST_URL'];
       service.launch('TEST_URL' as LAUNCH_CALLER);
       expect(routingRenderStrategy.render).toHaveBeenCalledWith(
         urlConfig as LaunchRoute,
@@ -114,7 +124,6 @@ describe('LaunchDialogService', () => {
         undefined
       );
 
-      const inlineConfig = mockLaunchConfig.launch['TEST_INLINE'];
       service.launch('TEST_INLINE', component.vcr);
       expect(inlineRenderStrategy.render).toHaveBeenCalledWith(
         inlineConfig as LaunchInlineDialog,
@@ -122,14 +131,20 @@ describe('LaunchDialogService', () => {
         component.vcr
       );
     });
+
+    it('should get any data from the launcher when data is passed', () => {
+      service.launch('TEST_INLINE', component.vcr, 'test-data');
+
+      let result: any;
+
+      service.data$.subscribe((data) => (result = data)).unsubscribe();
+
+      expect(result).toEqual('test-data');
+    });
   });
 
   describe('clear', () => {
     it('should call the proper remove', () => {
-      const urlConfig = mockLaunchConfig.launch['TEST_URL'];
-      const inlineConfig =
-        mockLaunchConfig.launch['TEST_INLINE' as LAUNCH_CALLER];
-
       service.clear('TEST_URL' as LAUNCH_CALLER);
       expect(routingRenderStrategy.remove).toHaveBeenCalledWith(
         'TEST_URL',
@@ -146,11 +161,51 @@ describe('LaunchDialogService', () => {
 
   describe('findConfiguration', () => {
     it('should return configuration for caller', () => {
-      const inlineConfig = mockLaunchConfig.launch['TEST_INLINE'];
       expect(service['findConfiguration']('TEST_INLINE')).toEqual(inlineConfig);
 
-      const urlConfig = mockLaunchConfig.launch['TEST_URL'];
       expect(service['findConfiguration']('TEST_URL')).toEqual(urlConfig);
+    });
+  });
+
+  describe('openDialog', () => {
+    beforeEach(() => {
+      spyOn(service, 'launch').and.returnValue(of(componentRef));
+    });
+
+    it('should call LaunchDialogService launch', () => {
+      service.openDialog(
+        LAUNCH_CALLER.REPLENISHMENT_ORDER,
+        null,
+        component.vcr,
+        { test: 123 }
+      );
+
+      expect(service.launch).toHaveBeenCalledWith(
+        LAUNCH_CALLER.REPLENISHMENT_ORDER,
+        component.vcr,
+        {
+          test: 123,
+        }
+      );
+    });
+
+    it('should call LaunchDialogService clear on close and destriy', () => {
+      spyOn(service, 'clear');
+      spyOn(componentRef, 'destroy');
+      service['_dialogClose'].next('close');
+
+      const comp = service.openDialog(
+        LAUNCH_CALLER.REPLENISHMENT_ORDER,
+        null,
+        component.vcr
+      );
+
+      comp.subscribe();
+
+      expect(service.clear).toHaveBeenCalledWith(
+        LAUNCH_CALLER.REPLENISHMENT_ORDER
+      );
+      expect(componentRef.destroy).toHaveBeenCalled();
     });
   });
 });

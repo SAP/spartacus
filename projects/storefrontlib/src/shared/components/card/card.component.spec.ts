@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '../../../cms-components/misc/index';
@@ -18,12 +18,14 @@ describe('CardComponent', () => {
   let fixture: ComponentFixture<CardComponent>;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [CardComponent, MockCxIconComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [CardComponent, MockCxIconComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CardComponent);
@@ -117,6 +119,45 @@ describe('CardComponent', () => {
     const lineNodes = getText(el);
     expect(lineNodes[0].nativeElement.textContent).toContain(mockCard.text[0]);
     expect(lineNodes[1].nativeElement.textContent).toContain(mockCard.text[1]);
+  });
+
+  it('should render passed paragraph', () => {
+    function getParagraph(elem: DebugElement) {
+      return elem.queryAll(By.css('.cx-card-paragraph'));
+    }
+
+    function getParagraphText(elem: DebugElement) {
+      return elem.queryAll(By.css('.cx-card-paragraph-text'));
+    }
+    const mockCard: Card = {
+      paragraphs: [
+        { title: 'paragraph1', text: ['text1', 'text2'] },
+        { title: 'paragraph2', text: ['text3', 'text4'] },
+      ],
+    };
+    component.content = mockCard;
+    fixture.detectChanges();
+    const paragraphNodes = getParagraph(el);
+    const text1Nodes = getParagraphText(paragraphNodes[0]);
+    const text2Nodes = getParagraphText(paragraphNodes[1]);
+    expect(paragraphNodes[0].nativeElement.firstChild.textContent).toContain(
+      mockCard.paragraphs[0].title
+    );
+    expect(paragraphNodes[1].nativeElement.firstChild.textContent).toContain(
+      mockCard.paragraphs[1].title
+    );
+    expect(text1Nodes[0].nativeElement.textContent).toContain(
+      mockCard.paragraphs[0].text[0]
+    );
+    expect(text1Nodes[1].nativeElement.textContent).toContain(
+      mockCard.paragraphs[0].text[1]
+    );
+    expect(text2Nodes[0].nativeElement.textContent).toContain(
+      mockCard.paragraphs[1].text[0]
+    );
+    expect(text2Nodes[1].nativeElement.textContent).toContain(
+      mockCard.paragraphs[1].text[1]
+    );
   });
 
   it('should render passed img', () => {

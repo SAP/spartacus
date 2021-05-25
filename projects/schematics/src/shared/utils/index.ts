@@ -1,7 +1,9 @@
-export { InsertDirection, getTsSourceFile, commitChanges } from './file-utils';
-export {
-  addImport,
-  addToModuleImportsAndCommitChanges,
-  addToModuleImports,
-  addToMetadata,
-} from './module-file-utils';
+export * from './config-utils';
+export * from './file-utils';
+export * from './lib-utils';
+export * from './module-file-utils';
+export * from './new-module-utils';
+export * from './package-utils';
+export * from './program';
+export * from './project-tsconfig-paths';
+export * from './workspace-utils';

@@ -3,7 +3,8 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/index';
-import { makeErrorSerializable } from '../../../util/serialization-utils';
+import { normalizeHttpError } from '../../../util/normalize-http-error';
+import { isNotUndefined } from '../../../util/type-guards';
 import { CmsComponentConnector } from '../../connectors/component/cms-component.connector';
 import { CmsActions } from '../actions/index';
 
@@ -25,7 +26,7 @@ export class NavigationEntryItemEffects {
     mergeMap((data) => {
       if (data.ids.componentIds.length > 0) {
         return this.routingService.getRouterState().pipe(
-          filter((routerState) => routerState !== undefined),
+          filter(isNotUndefined),
           map((routerState) => routerState.state.context),
           take(1),
           mergeMap((pageContext) =>
@@ -44,7 +45,7 @@ export class NavigationEntryItemEffects {
                   of(
                     new CmsActions.LoadCmsNavigationItemsFail(
                       data.nodeId,
-                      makeErrorSerializable(error)
+                      normalizeHttpError(error)
                     )
                   )
                 )

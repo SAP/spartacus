@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-
-import { UserInterestsConnector } from './user-interests.connector';
-import { of } from 'rxjs/internal/observable/of';
-import { UserInterestsAdapter } from './user-interests.adapter';
+import { of } from 'rxjs';
 import {
   NotificationType,
   ProductInterestEntryRelation,
 } from '../../../model/product-interest.model';
+import { UserInterestsAdapter } from './user-interests.adapter';
+import { UserInterestsConnector } from './user-interests.connector';
+
 import createSpy = jasmine.createSpy;
 
 class MockUserInterestsAdapter implements UserInterestsAdapter {

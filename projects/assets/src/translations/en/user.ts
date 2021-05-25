@@ -29,11 +29,13 @@ export const user = {
       'An email has been sent to you with information on how to reset your password.',
     passwordResetSuccess: 'Success! You can now login using your new password.',
   },
+  // deprecated
   loginForm: {
     forgotPassword: 'Forgot password?',
     signIn: 'Sign In',
     register: 'Register',
     dontHaveAccount: 'Don’t have an account?',
+    guestCheckout: 'Guest Checkout',
     emailAddress: {
       label: 'Email address',
       placeholder: 'Enter email',
@@ -43,15 +45,15 @@ export const user = {
       placeholder: 'Password',
     },
     wrongEmailFormat: 'This is not a valid email format.',
-    guestCheckout: 'Guest Checkout',
   },
+  // deprecated
   register: {
     confirmPassword: {
       action: 'Confirm password',
       label: 'Confirm password',
       placeholder: 'Confirm Password',
     },
-    managmentInMyAccount: 'Management in My Account.',
+    managementInMyAccount: 'Management in My Account.',
     termsAndConditions: 'Terms & Conditions',
     signIn: 'I already have an account. Sign In',
     register: 'Register',

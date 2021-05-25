@@ -1,30 +1,47 @@
-import { Inject, Injectable, Optional } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { debounceTime, filter, map, switchMap } from 'rxjs/operators';
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
+import { defer, Observable, of } from 'rxjs';
+import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
+import { UnifiedInjector } from '../../lazy-loading/unified-injector';
 import { resolveApplicable } from '../../util/applicable';
+import { uniteLatest } from '../../util/rxjs/unite-latest';
 import { Page, PageMeta } from '../model/page.model';
+import { PageMetaConfig } from '../page/config/page-meta.config';
 import { PageMetaResolver } from '../page/page-meta.resolver';
 import { CmsService } from './cms.service';
 
+/**
+ * Service that collects the page meta data by using injected page resolvers.
+ *
+ * Deprecation note: with version 4.0, we'll make the optional constructor arguments mandatory.
+ */
+// TODO(#10467): Remove and deprecated note.
 @Injectable({
   providedIn: 'root',
 })
 export class PageMetaService {
+  private resolvers$: Observable<PageMetaResolver[]> = this.unifiedInjector
+    ? (this.unifiedInjector
+        .getMulti(PageMetaResolver)
+        .pipe(shareReplay({ bufferSize: 1, refCount: true })) as Observable<
+        PageMetaResolver[]
+      >)
+    : of();
+
+  // TODO(#10467): Drop optional constructor arguments.
   constructor(
-    @Optional()
-    @Inject(PageMetaResolver)
-    protected resolvers: PageMetaResolver[],
-    protected cms: CmsService
-  ) {
-    this.resolvers = this.resolvers || [];
-  }
+    protected cms: CmsService,
+    protected unifiedInjector?: UnifiedInjector,
+    protected pageMetaConfig?: PageMetaConfig,
+    @Inject(PLATFORM_ID) protected platformId?: string
+  ) {}
+
   /**
    * The list of resolver interfaces will be evaluated for the pageResolvers.
    *
-   * TOOD: optimize browser vs SSR resolvers; image, robots and description
-   *       aren't needed during browsing.
-   * TODO: we can make the list of resolver types configurable
+   * @deprecated since 3.1, use the configured resolvers instead from `PageMetaConfig.resolvers`.
    */
+  // TODO(#10467): Remove and migrate property
   protected resolverMethods: { [key: string]: string } = {
     title: 'resolveTitle',
     heading: 'resolveHeading',
@@ -34,20 +51,24 @@ export class PageMetaService {
     robots: 'resolveRobots',
   };
 
-  getMeta(): Observable<PageMeta> {
-    return this.cms.getCurrentPage().pipe(
-      filter(Boolean),
-      switchMap((page: Page) => {
-        const metaResolver = this.getMetaResolver(page);
+  protected meta$: Observable<PageMeta | null> = defer(() =>
+    this.cms.getCurrentPage()
+  ).pipe(
+    filter((page) => Boolean(page)),
+    switchMap((page: Page) => this.getMetaResolver(page)),
+    switchMap((metaResolver: PageMetaResolver) =>
+      metaResolver ? this.resolve(metaResolver) : of(null)
+    ),
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
 
-        if (metaResolver) {
-          return this.resolve(metaResolver);
-        } else {
-          // we do not have a page resolver
-          return of(null);
-        }
-      })
-    );
+  /**
+   * Returns the observed page meta data for the current page.
+   *
+   * The data is resolved by various PageResolvers, which are configurable.
+   */
+  getMeta(): Observable<PageMeta | null> {
+    return this.meta$;
   }
 
   /**
@@ -56,22 +77,56 @@ export class PageMetaService {
    * @param metaResolver
    */
   protected resolve(metaResolver: PageMetaResolver): Observable<PageMeta> {
-    const resolveMethods: Observable<PageMeta>[] = Object.keys(
-      this.resolverMethods
-    )
-      .filter((key) => metaResolver[this.resolverMethods[key]])
-      .map((key) =>
-        metaResolver[this.resolverMethods[key]]().pipe(
-          map((data) => ({
-            [key]: data,
-          }))
-        )
-      );
+    const resolverMethods = this.getResolverMethods();
+    const resolvedData: Observable<PageMeta>[] = Object.keys(resolverMethods)
+      .filter((key) => metaResolver[resolverMethods[key]])
+      .map((key) => {
+        return metaResolver[resolverMethods[key]]().pipe(
+          map((data) => ({ [key]: data }))
+        );
+      });
 
-    return combineLatest(resolveMethods).pipe(
-      debounceTime(0), // avoid partial data emissions when all methods resolve at the same time
+    return uniteLatest(resolvedData).pipe(
       map((data) => Object.assign({}, ...data))
     );
+  }
+
+  /**
+   * Returns an object with resolvers. The object properties represent the `PageMeta` property, i.e.:
+   *
+   * ```
+   * {
+   *   title: 'resolveTitle',
+   *   robots: 'resolveRobots'
+   * }
+   * ```
+   *
+   * This list of resolvers is filtered for CSR vs SSR processing since not all resolvers are
+   * relevant during browsing.
+   */
+  protected getResolverMethods(): { [property: string]: string } {
+    let resolverMethods = {};
+    const configured = this.pageMetaConfig?.pageMeta?.resolvers;
+    if (configured) {
+      configured
+        // filter the resolvers to avoid unnecessary processing in CSR
+        .filter((resolver) => {
+          return (
+            // always resolve in SSR
+            !isPlatformBrowser(this.platformId ?? '') ||
+            // resolve in CSR when it's not disabled
+            !resolver.disabledInCsr ||
+            // resolve in CSR when resolver is enabled in devMode
+            (isDevMode() && this.pageMetaConfig?.pageMeta?.enableInDevMode)
+          );
+        })
+        .forEach(
+          (resolver) => (resolverMethods[resolver.property] = resolver.method)
+        );
+    } else {
+      resolverMethods = this.resolverMethods;
+    }
+    return resolverMethods;
   }
 
   /**
@@ -80,7 +135,11 @@ export class PageMetaService {
    *
    * Resolvers match by default on `PageType` and `page.template`.
    */
-  protected getMetaResolver(page: Page): PageMetaResolver {
-    return resolveApplicable(this.resolvers, [page], [page]);
+  protected getMetaResolver(
+    page: Page
+  ): Observable<PageMetaResolver | undefined> {
+    return this.resolvers$.pipe(
+      map((resolvers) => resolveApplicable(resolvers, [page], [page]))
+    );
   }
 }
