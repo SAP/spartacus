@@ -71,6 +71,4 @@ yarn serve:ssr &
 echo '-----'
 echo "Running SSR Cypress smoke tests"
 
-yarn e2e:run:ci"${SUITE}"
-
-echo "Running Cypress end to end tests finished"
+yarn e2e:run:ci:ssr
