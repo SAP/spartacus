@@ -4,12 +4,14 @@ export * from './focus.directive';
 export { FocusConfig, TrapFocus, TrapFocusType } from './keyboard-focus.model';
 export * from './keyboard-focus.module';
 export * from './services/index';
+export * from './config/index';
 
 // export * from './autofocus/index';
 // export * from './base/index';
 // export * from './block/index';
 // export * from './escape/index';
 // export * from './lock/index';
+// export * from './on-navigate/index';
 // export * from './persist/index';
 // export * from './tab/index';
 // export * from './trap/index';
