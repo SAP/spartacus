@@ -95,8 +95,8 @@ export class ProfileTagPushEventsService {
       ),
       map(([item, personalizationContext]) => {
         item.data = item.data ? item.data : {};
-        item.data.segments = personalizationContext.segments;
-        item.data.actions = personalizationContext.actions;
+        item.data.segments = personalizationContext?.segments;
+        item.data.actions = personalizationContext?.actions;
         return item;
       })
     );

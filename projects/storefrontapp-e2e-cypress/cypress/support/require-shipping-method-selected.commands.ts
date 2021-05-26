@@ -1,6 +1,9 @@
-declare namespace Cypress {
-  interface Chainable {
-    /**
+import { getDefaultDeliveryModeCode } from './utils/delivery-modes';
+
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      /**
        * Make sure you have shipping method selected. Returns shipping method object.
        *
        * @memberof Cypress.Chainable
@@ -10,27 +13,16 @@ declare namespace Cypress {
         cy.requireShippingMethodSelected(auth);
         ```
        */
-    requireShippingMethodSelected: (
-      auth: {},
-      cartId?: string
-    ) => Cypress.Chainable<{}>;
+      requireShippingMethodSelected: (
+        auth: {},
+        cartId?: string
+      ) => Cypress.Chainable<{}>;
+    }
   }
 }
 
 Cypress.Commands.add('requireShippingMethodSelected', (auth, cartId) => {
   const cartQueryValue = cartId || 'current';
-
-  function getDeliveryModes() {
-    return cy.request({
-      method: 'GET',
-      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
-      )}/users/current/carts/${cartQueryValue}/deliverymodes`,
-      headers: {
-        Authorization: `bearer ${auth.access_token}`,
-      },
-    });
-  }
 
   function setShippingMethod(deliveryMode) {
     return cy.request({
@@ -46,9 +38,7 @@ Cypress.Commands.add('requireShippingMethodSelected', (auth, cartId) => {
   }
 
   cy.server();
-  getDeliveryModes().then((resp) =>
-    setShippingMethod(resp.body.deliveryModes[0].code).then((resp) =>
-      cy.wrap(resp)
-    )
+  getDefaultDeliveryModeCode(auth.access_token, cartId).then((code) =>
+    setShippingMethod(code).then((resp) => cy.wrap(resp))
   );
 });

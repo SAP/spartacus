@@ -19,7 +19,9 @@ export class PaymentDetailsSetGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    const checkoutStep: CheckoutStep = this.checkoutStepService.getCheckoutStep(
+    const checkoutStep:
+      | CheckoutStep
+      | undefined = this.checkoutStepService.getCheckoutStep(
       CheckoutStepType.PAYMENT_DETAILS
     );
 
@@ -36,10 +38,10 @@ export class PaymentDetailsSetGuard implements CanActivate {
           paymentDetails && Object.keys(paymentDetails).length !== 0
             ? true
             : this.router.parseUrl(
-                checkoutStep &&
+                (checkoutStep &&
                   this.routingConfigService.getRouteConfig(
                     checkoutStep.routeName
-                  ).paths[0]
+                  ).paths?.[0]) as string
               )
         )
       );

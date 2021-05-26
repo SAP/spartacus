@@ -44,6 +44,8 @@ const orderDetails: Order = { entries: [] };
 
 const details: CheckoutDetails = {
   deliveryAddress: address,
+  deliveryMode: {},
+  paymentInfo: {},
 };
 
 const paymentDetails: PaymentDetails = {

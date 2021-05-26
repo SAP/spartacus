@@ -4,22 +4,16 @@ import {
   EventEmitter,
   Input,
   Output,
-  Type,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import {
-  Address,
-  I18nTestingModule,
-  User,
-  UserAddressService,
-  CheckoutDeliveryService,
-} from '@spartacus/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Address, I18nTestingModule, User } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CardModule } from '../../../shared/components/card';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
-import { CardModule } from '../../../shared/components/card';
 
 const mockAddress: Address = {
   id: '123',
@@ -45,6 +39,8 @@ class MockComponentService {
   loadAddresses = jasmine.createSpy();
   addUserAddress = jasmine.createSpy();
   updateUserAddress = jasmine.createSpy();
+  deleteUserAddress = jasmine.createSpy();
+  setAddressAsDefault = jasmine.createSpy();
   getAddressesStateLoading(): Observable<boolean> {
     return isLoading.asObservable();
   }
@@ -86,35 +82,25 @@ class MockAddressFormComponent {
   backToAddress = new EventEmitter<any>();
 }
 
-class MockCheckoutDeliveryService {
-  clearCheckoutDeliveryDetails = jasmine.createSpy();
-}
-
-class MockUserAddressService {
-  deleteUserAddress = jasmine.createSpy();
-  setAddressAsDefault = jasmine.createSpy();
-}
-
 describe('AddressBookComponent', () => {
   let component: AddressBookComponent;
   let fixture: ComponentFixture<AddressBookComponent>;
   let el: DebugElement;
-  let userAddressService: UserAddressService;
-  let checkoutDeliveryService: CheckoutDeliveryService;
+  let addressBookComponentService: AddressBookComponentService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [SpinnerModule, I18nTestingModule, CardModule],
+        imports: [
+          SpinnerModule,
+          I18nTestingModule,
+          CardModule,
+          RouterTestingModule,
+        ],
         providers: [
           {
             provide: AddressBookComponentService,
             useClass: MockComponentService,
-          },
-          { provide: UserAddressService, useClass: MockUserAddressService },
-          {
-            provide: CheckoutDeliveryService,
-            useClass: MockCheckoutDeliveryService,
           },
         ],
         declarations: [AddressBookComponent, MockAddressFormComponent],
@@ -127,12 +113,7 @@ describe('AddressBookComponent', () => {
     component = fixture.componentInstance;
     spyOn(component, 'addAddressButtonHandle');
     el = fixture.debugElement;
-    userAddressService = TestBed.inject(
-      UserAddressService as Type<UserAddressService>
-    );
-    checkoutDeliveryService = TestBed.inject(
-      CheckoutDeliveryService as Type<CheckoutDeliveryService>
-    );
+    addressBookComponentService = TestBed.inject(AddressBookComponentService);
 
     isLoading.next(false);
     component.ngOnInit();
@@ -228,30 +209,18 @@ describe('AddressBookComponent', () => {
   describe('setAddressAsDefault', () => {
     it('should set Address as default', () => {
       component.setAddressAsDefault(mockAddress[0]);
-      expect(userAddressService.setAddressAsDefault).toHaveBeenCalledWith(
-        mockAddress[0]
-      );
-    });
-
-    it('should clear checkout delivery details', () => {
-      component.setAddressAsDefault(mockAddress[0]);
       expect(
-        checkoutDeliveryService.clearCheckoutDeliveryDetails
-      ).toHaveBeenCalled();
+        addressBookComponentService.setAddressAsDefault
+      ).toHaveBeenCalledWith(mockAddress[0]);
     });
   });
 
   describe('deleteAddress', () => {
     it('should set delete user Address', () => {
       component.deleteAddress('1');
-      expect(userAddressService.deleteUserAddress).toHaveBeenCalledWith('1');
-    });
-
-    it('should clear checkout delivery details', () => {
-      component.deleteAddress('1');
       expect(
-        checkoutDeliveryService.clearCheckoutDeliveryDetails
-      ).toHaveBeenCalled();
+        addressBookComponentService.deleteUserAddress
+      ).toHaveBeenCalledWith('1');
     });
   });
 });

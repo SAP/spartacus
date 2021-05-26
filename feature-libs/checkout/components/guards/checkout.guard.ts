@@ -26,7 +26,7 @@ export class CheckoutGuard implements CanActivate {
       this.router.parseUrl(
         this.routingConfigService.getRouteConfig(
           this.checkoutStepService.getFirstCheckoutStepRoute()
-        ).paths[0]
+        ).paths?.[0] as string
       )
     );
   }
@@ -38,14 +38,14 @@ export class CheckoutGuard implements CanActivate {
     ) {
       return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
         switchMap((expressCheckoutPossible: boolean) => {
-          return expressCheckoutPossible
+          const reviewOrderRoute = this.checkoutStepService.getCheckoutStepRoute(
+            CheckoutStepType.REVIEW_ORDER
+          );
+          return expressCheckoutPossible && reviewOrderRoute
             ? of(
                 this.router.parseUrl(
-                  this.routingConfigService.getRouteConfig(
-                    this.checkoutStepService.getCheckoutStepRoute(
-                      CheckoutStepType.REVIEW_ORDER
-                    )
-                  ).paths[0]
+                  this.routingConfigService.getRouteConfig(reviewOrderRoute)
+                    .paths?.[0] as string
                 )
               )
             : this.firstStep$;
