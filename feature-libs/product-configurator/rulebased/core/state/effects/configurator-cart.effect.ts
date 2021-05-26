@@ -39,10 +39,7 @@ export class ConfiguratorCartEffects {
           return [
             new ConfiguratorActions.AddNextOwner({
               ownerKey: payload.owner.key,
-              cartEntryNo:
-                //TODO: Resolve ts.ignore when core is strict mode compliant
-                // @ts-ignore product-configurators
-                entry.entry.entryNumber.toString(),
+              cartEntryNo: entry.entry.entryNumber.toString(),
             }),
 
             new CartActions.CartAddEntrySuccess({
@@ -50,17 +47,11 @@ export class ConfiguratorCartEffects {
               userId: payload.userId,
               cartId: payload.cartId,
               productCode: payload.productCode,
-              // @ts-ignore product-configurators
               quantity: entry.quantity,
-              // @ts-ignore product-configurators
               deliveryModeChanged: entry.deliveryModeChanged,
-              // @ts-ignore product-configurators
               entry: entry.entry,
-              // @ts-ignore product-configurators
               quantityAdded: entry.quantityAdded,
-              // @ts-ignore product-configurators
               statusCode: entry.statusCode,
-              // @ts-ignore product-configurators
               statusMessage: entry.statusMessage,
             }),
           ];
