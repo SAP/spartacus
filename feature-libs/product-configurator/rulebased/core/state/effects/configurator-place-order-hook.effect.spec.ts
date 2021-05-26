@@ -11,7 +11,7 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { cold, hot } from 'jasmine-marbles';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
@@ -127,7 +127,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       ownerKey: ['cartEntry/1', 'cartEntry/3', 'cartEntry/4', 'cartEntry/5'],
     });
 
-    actions$ = hot('-a', { a: action });
+    actions$ = cold('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
     expect(configPlaceOrderHookEffects.placeOrder$).toBeObservable(expected);
@@ -147,7 +147,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       ownerKey: [],
     });
 
-    actions$ = hot('-a', { a: action });
+    actions$ = cold('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
     expect(configPlaceOrderHookEffects.placeOrder$).toBeObservable(expected);
