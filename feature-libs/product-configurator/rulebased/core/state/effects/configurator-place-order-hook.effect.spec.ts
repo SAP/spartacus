@@ -11,14 +11,14 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { cold, hot } from 'jasmine-marbles';
+import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
 import * as fromConfigurationReducers from '../reducers/index';
 import * as fromEffects from './configurator-place-order-hook.effect';
 
-const cartEntryWOconfiguration: OrderEntry[] = [
+const cartEntriesWOconfiguration: OrderEntry[] = [
   {
     entryNumber: 1,
     product: {
@@ -33,7 +33,7 @@ const cartEntryWOconfiguration: OrderEntry[] = [
   },
 ];
 
-const cartEntryWithconfiguration: OrderEntry[] = [
+const cartEntries: OrderEntry[] = [
   {
     entryNumber: 1,
     product: {
@@ -58,7 +58,14 @@ const cartEntryWithconfiguration: OrderEntry[] = [
     entryNumber: 4,
     product: {
       configurable: true,
-      configuratorType: 'some other configurator',
+      configuratorType: ConfiguratorType.TEXTFIELD,
+    },
+  },
+  {
+    entryNumber: 5,
+    product: {
+      configurable: true,
+      configuratorType: ConfiguratorType.CPQ,
     },
   },
 ];
@@ -108,10 +115,8 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
     expect(configPlaceOrderHookEffects).toBeTruthy();
   });
 
-  it('should emit remove configuration when order is placed - cart contains configured products', () => {
-    spyOn(activeCartService, 'getEntries').and.returnValue(
-      of(cartEntryWithconfiguration)
-    );
+  it('should emit remove configuration for configurable entries when order is placed', () => {
+    spyOn(activeCartService, 'getEntries').and.returnValue(of(cartEntries));
 
     const action = new CheckoutActions.PlaceOrder({
       cartId: '',
@@ -119,18 +124,18 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       termsChecked: true,
     });
     const completion = new ConfiguratorActions.RemoveConfiguration({
-      ownerKey: ['cartEntry/1', 'cartEntry/3'],
+      ownerKey: ['cartEntry/1', 'cartEntry/3', 'cartEntry/4', 'cartEntry/5'],
     });
 
-    actions$ = hot('-a', { a: action });
+    actions$ = cold('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
     expect(configPlaceOrderHookEffects.placeOrder$).toBeObservable(expected);
   });
 
-  it('should emit remove configuration when order is placed - cart contains no configured products', () => {
+  it('should not emit remove configuration when order is placed if cart contains no configured products', () => {
     spyOn(activeCartService, 'getEntries').and.returnValue(
-      of(cartEntryWOconfiguration)
+      of(cartEntriesWOconfiguration)
     );
 
     const action = new CheckoutActions.PlaceOrder({
@@ -142,7 +147,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
       ownerKey: [],
     });
 
-    actions$ = hot('-a', { a: action });
+    actions$ = cold('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
     expect(configPlaceOrderHookEffects.placeOrder$).toBeObservable(expected);
