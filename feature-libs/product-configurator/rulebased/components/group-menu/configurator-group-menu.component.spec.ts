@@ -966,4 +966,18 @@ describe('ConfigurationGroupMenuComponent', () => {
       expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
     });
   });
+
+  describe('createAriaControls', () => {
+    it('should return empty string because groupID is null', () => {
+      expect(component.createAriaControls(null)).toBeUndefined();
+    });
+
+    it('should return empty string because groupID is undefined', () => {
+      expect(component.createAriaControls(undefined)).toBeUndefined();
+    });
+
+    it('should return aria-controls string', () => {
+      expect(component.createAriaControls('1234')).toBe('1234-group');
+    });
+  });
 });

@@ -1,6 +1,6 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="currentGroup$ | async as currentGroup">
-    <div id="{{ currentGroup.id }}" role="tabpanel">
+    <div id="{{ createGroupId(currentGroup.id) }}" role="tabpanel">
       <ng-container *ngIf="isConflictGroupType(currentGroup.groupType)">
         <cx-configurator-conflict-description
           [currentGroup]="currentGroup"

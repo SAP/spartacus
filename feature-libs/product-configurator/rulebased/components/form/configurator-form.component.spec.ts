@@ -397,4 +397,18 @@ describe('ConfigurationFormComponent', () => {
 
     expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
   });
+
+  describe('createGroupId', () => {
+    it('should return empty string because groupID is null', () => {
+      expect(createComponent().createGroupId(null)).toBeUndefined();
+    });
+
+    it('should return empty string because groupID is undefined', () => {
+      expect(createComponent().createGroupId(undefined)).toBeUndefined();
+    });
+
+    it('should return group ID string', () => {
+      expect(createComponent().createGroupId('1234')).toBe('1234-group');
+    });
+  });
 });

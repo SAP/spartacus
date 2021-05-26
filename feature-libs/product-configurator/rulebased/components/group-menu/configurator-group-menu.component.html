@@ -7,7 +7,6 @@
             <button
               *ngIf="parentGroup !== null && groupIndex === 0"
               class="cx-menu-back"
-              id="back-button"
               role="tab"
               [attr.aria-selected]="false"
               [cxFocus]="{ autofocus: true }"
@@ -27,7 +26,7 @@
             [class.active]="isGroupSelected(currentGroup.id, group.id)"
             [class.disable]="!group.configurable"
             [attr.aria-selected]="isGroupSelected(currentGroup.id, group.id)"
-            [attr.aria-controls]="group.id"
+            [attr.aria-controls]="createAriaControls(group.id)"
             [cxFocus]="{ key: group.id }"
             (click)="click(group)"
             [tabindex]="setTabIndex(currentGroup.id, group)"

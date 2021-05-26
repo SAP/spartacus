@@ -337,4 +337,10 @@ export class ConfiguratorGroupMenuComponent {
   isGroupSelected(currentGroupId: string, groupId: string): boolean {
     return currentGroupId === groupId;
   }
+
+  createAriaControls(groupId: string): string {
+    if (groupId) {
+      return groupId + '-group';
+    }
+  }
 }

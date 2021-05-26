@@ -42,7 +42,7 @@ function createGroupMenuForMobile(amount: number) {
 
 function createBackButton() {
   const backButton = document.createElement('button');
-  backButton.id = 'back-button';
+  backButton.setAttribute('class', 'cx-menu-back');
   backButton.setAttribute('role', 'tab');
   return backButton;
 }
@@ -193,7 +193,7 @@ describe('ConfiguratorGroupMenuService', () => {
       groupMenu.prepend(backButton);
       backButton.focus();
       let focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('back-button');
+      expect(focusedElement.classList.value).toBe('cx-menu-back');
 
       classUnderTest['focusNextGroup'](0);
       focusedElement = document.activeElement;
@@ -201,7 +201,7 @@ describe('ConfiguratorGroupMenuService', () => {
 
       classUnderTest['focusPreviousGroup'](0);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('back-button');
+      expect(focusedElement.classList.value).toBe('cx-menu-back');
     });
   });
 
@@ -284,12 +284,12 @@ describe('ConfiguratorGroupMenuService', () => {
   });
 
   describe('isBackBtnFocused', () => {
-    it('should return `false` because there is no `back-button` in the group menu', () => {
+    it('should return `false` because there is no `cx-menu-back` in the group menu', () => {
       groups[2].focus();
       expect(classUnderTest['isBackBtnFocused']()).toBe(false);
     });
 
-    it('should return `true` because there is a `back-button` in the group menu', () => {
+    it('should return `true` because there is a `cx-menu-back` in the group menu', () => {
       const backButton = createBackButton();
       let groupMenu = document.querySelector('main cx-configurator-group-menu');
       groupMenu.prepend(backButton);

@@ -96,4 +96,10 @@ export class ConfiguratorFormComponent implements OnInit {
   isConflictGroupType(groupType: Configurator.GroupType): boolean {
     return this.configuratorGroupsService.isConflictGroupType(groupType);
   }
+
+  createGroupId(groupId: string): string {
+    if (groupId) {
+      return groupId + '-group';
+    }
+  }
 }

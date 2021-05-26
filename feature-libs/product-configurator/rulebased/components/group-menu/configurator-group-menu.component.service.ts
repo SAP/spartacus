@@ -8,7 +8,7 @@ export class ConfiguratorGroupMenuService {
   constructor(
     @Inject(PLATFORM_ID) protected platformId: any,
     @Inject(DOCUMENT) protected document,
-    protected breakpointService?: BreakpointService
+    protected breakpointService: BreakpointService
   ) {}
 
   protected getGroups(): NodeListOf<HTMLElement> {
@@ -28,7 +28,9 @@ export class ConfiguratorGroupMenuService {
     }
   }
 
-  protected getFocusedGroupIndex(groups): number | undefined {
+  protected getFocusedGroupIndex(
+    groups: NodeListOf<HTMLElement>
+  ): number | undefined {
     if (isPlatformBrowser(this.platformId)) {
       let focusedElement = document.activeElement;
       let focusedElementId = focusedElement.id;
@@ -105,7 +107,8 @@ export class ConfiguratorGroupMenuService {
     if (isPlatformBrowser(this.platformId)) {
       const groups = this.getGroups();
       return (
-        groups[0].id === 'back-button' && document.activeElement === groups[0]
+        groups[0].classList.value.indexOf('cx-menu-back') !== -1 &&
+        document.activeElement === groups[0]
       );
     }
   }
