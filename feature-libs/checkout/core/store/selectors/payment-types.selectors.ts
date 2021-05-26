@@ -30,5 +30,5 @@ export const getAllPaymentTypes: MemoizedSelector<
 
 export const getSelectedPaymentType: MemoizedSelector<
   StateWithCheckout,
-  string
+  string | undefined
 > = createSelector(getPaymentTypesState, fromReducer.getSelectedPaymentType);

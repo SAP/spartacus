@@ -1,6 +1,5 @@
 import {
   Address,
-  AddressValidation,
   CardType,
   DeliveryMode,
   Order,
@@ -27,18 +26,14 @@ export interface StateWithCheckout {
   [CHECKOUT_FEATURE]: CheckoutState;
 }
 
-export interface AddressVerificationState {
-  results: AddressValidation | string;
-}
-
 export interface CardTypesState {
   entities: { [code: string]: CardType };
 }
 
 export interface CheckoutStepsState {
   poNumber: {
-    po: string;
-    costCenter: string;
+    po?: string;
+    costCenter?: string;
   };
   address: Address;
   deliveryMode: {
@@ -51,22 +46,16 @@ export interface CheckoutStepsState {
 
 export interface PaymentTypesState {
   entities: { [code: string]: PaymentType };
-  selected: string;
+  selected?: string;
 }
 
 export interface OrderTypesState {
   selected: ORDER_TYPE;
 }
 
-export interface PaymentTypesState {
-  entities: { [code: string]: PaymentType };
-  selected: string;
-}
-
 export interface CheckoutState {
   steps: StateUtils.LoaderState<CheckoutStepsState>;
   cardTypes: CardTypesState;
-  addressVerification: AddressVerificationState;
   paymentTypes: PaymentTypesState;
   orderType: OrderTypesState;
 }

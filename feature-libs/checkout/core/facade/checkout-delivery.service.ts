@@ -4,7 +4,6 @@ import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   Address,
-  AddressValidation,
   DeliveryMode,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,
@@ -13,13 +12,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import {
-  filter,
-  pluck,
-  shareReplay,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_DELIVERY_ADDRESS_PROCESS_ID,
@@ -67,7 +60,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   /**
    * Get selected delivery mode
    */
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+  getSelectedDeliveryMode(): Observable<DeliveryMode | undefined | null> {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getSelectedDeliveryMode)
     );
@@ -165,16 +158,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   }
 
   /**
-   * Get address verification results
-   */
-  getAddressVerificationResults(): Observable<AddressValidation | string> {
-    return this.checkoutStore.pipe(
-      select(CheckoutSelectors.getAddressVerificationResults),
-      filter((results) => Object.keys(results).length !== 0)
-    );
-  }
-
-  /**
    * Create and set a delivery address using the address param
    * @param address : the Address to be created and set
    */
@@ -260,28 +243,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   }
 
   /**
-   * Verifies the address
-   * @param address : the address to be verified
-   */
-  verifyAddress(address: Address): void {
-    if (this.actionAllowed()) {
-      let userId;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
-      if (userId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.VerifyAddress({
-            userId,
-            address,
-          })
-        );
-      }
-    }
-  }
-
-  /**
    * Set delivery address
    * @param address : The address to be set
    */
@@ -308,15 +269,6 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         );
       }
     }
-  }
-
-  /**
-   * Clear address verification results
-   */
-  clearAddressVerificationResults(): void {
-    this.checkoutStore.dispatch(
-      new CheckoutActions.ClearAddressVerificationResults()
-    );
   }
 
   /**

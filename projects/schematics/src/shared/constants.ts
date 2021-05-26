@@ -92,9 +92,14 @@ export const LOAD_CMS_COMPONENT_FAIL_CLASS = 'LoadCmsComponentFail';
 export const LOAD_CMS_COMPONENT_SUCCESS_CLASS = 'LoadCmsComponentSuccess';
 export const CMS_GET_COMPONENT_FROM_PAGE = 'CmsGetComponentFromPage';
 export const USER_ADDRESS_SERVICE = 'UserAddressService';
+export const USER_ADDRESS_CONNECTOR = 'UserAddressConnector';
+export const COMMAND_SERVICE = 'CommandService';
 export const AUTH_SERVICE = 'AuthService';
 export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
 export const FEATURE_MODULES_SERVICE = 'FeatureModulesService';
+export const CHECKOUT_EVENT_MODULE = 'CheckoutEventModule';
+export const CHECKOUT_EVENT_BUILDER = 'CheckoutEventBuilder';
+export const CHECKOUT_EVENT_LISTENER = 'CheckoutEventListener';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
@@ -233,6 +238,7 @@ export const USER_NOTIFICATION_PREFERENCE_SERVICE =
 export const PRODUCT_REVIEWS_COMPONENT = `ProductReviewsComponent`;
 export const SEARCH_BOX_COMPONENT = `SearchBoxComponent`;
 export const ADDRESS_BOOK_COMPONENT = `AddressBookComponent`;
+export const ADDRESS_FORM_COMPONENT = `AddressFormComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
@@ -673,15 +679,34 @@ export const SPARTACUS_FEATURES_MODULE = 'spartacus-features';
 export const SPARTACUS_FEATURES_NG_MODULE = 'SpartacusFeaturesModule';
 export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 
-export const CLI_ASM_FEATURE = 'Assisted Services Module';
-export const CLI_CART_FEATURE = 'Cart';
-export const CLI_ORGANIZATION_FEATURE = 'Organization (b2b feature)';
-export const CLI_PRODUCT_FEATURE = 'Product';
-export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'Product Configurator';
-export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
-export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
-export const CLI_STOREFINDER_FEATURE = 'Store Finder';
-export const CLI_TRACKING_FEATURE = 'Tracking';
+export const CLI_ASM_FEATURE = 'ASM';
+
+export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
+
 export const CLI_CDC_FEATURE = 'CDC';
+
 export const CLI_CDS_FEATURE = 'CDS';
+
+export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE = 'Administration';
+export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';
+
+export const CLI_PRODUCT_BULK_PRICING_FEATURE = 'Bulk-Pricing';
+export const CLI_PRODUCT_VARIANTS_FEATURE = 'Product-Variants';
+
+export const CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
+  'Textfield-Configurator';
+export const CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE = 'CPQ-Configurator';
+
+export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
+
+export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
+
+export const CLI_STOREFINDER_FEATURE = 'Store-Finder';
+
+export const CLI_TRACKING_PERSONALIZATION_FEATURE = 'Personalization';
+export const CLI_TRACKING_TMS_GTM_FEATURE = 'TMS-GTM';
+export const CLI_TRACKING_TMS_AEP_FEATURE = 'TMS-AEPL';
+
+export const CLI_USER_ACCOUNT_FEATURE = 'Account';
+export const CLI_USER_PROFILE_FEATURE = 'Profile';
 /******* CLI end *******/

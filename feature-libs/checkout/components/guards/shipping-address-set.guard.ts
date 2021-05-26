@@ -18,7 +18,9 @@ export class ShippingAddressSetGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    const checkoutStep: CheckoutStep = this.checkoutStepService.getCheckoutStep(
+    const checkoutStep:
+      | CheckoutStep
+      | undefined = this.checkoutStepService.getCheckoutStep(
       CheckoutStepType.SHIPPING_ADDRESS
     );
 
@@ -39,10 +41,10 @@ export class ShippingAddressSetGuard implements CanActivate {
           deliveryAddress && Object.keys(deliveryAddress).length
             ? true
             : this.router.parseUrl(
-                checkoutStep &&
+                (checkoutStep &&
                   this.routingConfigService.getRouteConfig(
                     checkoutStep.routeName
-                  ).paths[0]
+                  ).paths?.[0]) as string
               )
         )
       );

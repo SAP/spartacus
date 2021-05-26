@@ -75,7 +75,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
 
     this.selectedMethod$ = this.checkoutPaymentService.getPaymentDetails().pipe(
-      tap((paymentInfo) => {
+      tap((paymentInfo: any) => {
         if (paymentInfo && !!Object.keys(paymentInfo).length) {
           if (paymentInfo['hasError']) {
             Object.keys(paymentInfo).forEach((key) => {
@@ -228,8 +228,8 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         ? cardLabels.textDefaultPaymentMethod
         : '',
       textBold: paymentDetails.accountHolderName,
-      text: [paymentDetails.cardNumber, cardLabels.textExpires],
-      img: this.getCardIcon(paymentDetails.cardType.code),
+      text: [paymentDetails.cardNumber ?? '', cardLabels.textExpires],
+      img: this.getCardIcon(paymentDetails.cardType?.code as string),
       actions: [{ name: cardLabels.textUseThisPayment, event: 'send' }],
       header:
         selected?.id === paymentDetails.id
