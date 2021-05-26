@@ -74,6 +74,7 @@ export const BASE_STOREFRONT_MODULE = 'BaseStorefrontModule';
 export const STOREFRONT_MODULE = 'StorefrontModule';
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const B2B_STOREFRONT_MODULE = 'B2bStorefrontModule';
+export const CMS_LIB_MODULE = 'CmsLibModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
