@@ -23,7 +23,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: PRODUCT_VARIANT_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${PRODUCT_VARIANT_COMPONENT}' was moved to @spartacus/product/variants.`,
+    comment: `'${PRODUCT_VARIANT_COMPONENT}' was moved to @spartacus/product/variants and renamed to ProductVariantsContainerComponent.`,
   },
   // projects/storefrontlib/src/cms-components/product/product-variants/variant-color-selector/variant-color-selector.component.ts
   {
