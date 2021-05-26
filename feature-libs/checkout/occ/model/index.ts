@@ -1,1 +1,2 @@
-export * from './occ-checkout-endpoints.model';
+// Imported for side effects (module augmentation)
+import './occ-checkout-endpoints.model';
