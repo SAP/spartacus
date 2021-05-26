@@ -11,6 +11,12 @@ export class ConfiguratorGroupMenuService {
     protected breakpointService: BreakpointService
   ) {}
 
+  /**
+   * Retrieves the list of the group depending on the screen size.
+   *
+   * @returns {NodeListOf<HTMLElement>} - list of the groups.
+   * @protected
+   */
   protected getGroups(): NodeListOf<HTMLElement> {
     if (isPlatformBrowser(this.platformId)) {
       let selector = ' cx-configurator-group-menu button[role="tab"]';
@@ -28,6 +34,13 @@ export class ConfiguratorGroupMenuService {
     }
   }
 
+  /**
+   * Retrieves the focused group index.
+   *
+   * @param {NodeListOf<HTMLElement>} groups - List of the groups
+   * @returns {number | undefined} - focused group index
+   * @protected
+   */
   protected getFocusedGroupIndex(
     groups: NodeListOf<HTMLElement>
   ): number | undefined {
@@ -45,6 +58,15 @@ export class ConfiguratorGroupMenuService {
     }
   }
 
+  /**
+   * Updates the current group index, if the current group index is not equal focused group index.
+   * Otherwise the current group index stays unchanged.
+   *
+   * @param {number} currentGroupIndex - Current group index
+   * @param {number} focusedGroupIndex - Focused group index
+   * @returns {number} - updated group index
+   * @protected
+   */
   protected updateCurrentGroupIndex(
     currentGroupIndex: number,
     focusedGroupIndex: number
@@ -54,6 +76,12 @@ export class ConfiguratorGroupMenuService {
       : currentGroupIndex;
   }
 
+  /**
+   * Focuses the next group.
+   *
+   * @param {number} currentGroupIndex - Current group index
+   * @protected
+   */
   protected focusNextGroup(currentGroupIndex: number): void {
     if (isPlatformBrowser(this.platformId)) {
       const groups = this.getGroups();
@@ -73,6 +101,12 @@ export class ConfiguratorGroupMenuService {
     }
   }
 
+  /**
+   * Focuses the previous group.
+   *
+   * @param {number} currentGroupIndex - Current group index
+   * @protected
+   */
   protected focusPreviousGroup(currentGroupIndex: number): void {
     if (isPlatformBrowser(this.platformId)) {
       const groups = this.getGroups();
@@ -92,6 +126,12 @@ export class ConfiguratorGroupMenuService {
     }
   }
 
+  /**
+   * Switches the group on pressing arrow key.
+   *
+   * @param {KeyboardEvent} event - keyboard event
+   * @param {number} groupIndex - Group index
+   */
   switchGroupOnArrowPress(event: KeyboardEvent, groupIndex: number): void {
     if (isPlatformBrowser(this.platformId)) {
       event.preventDefault();
@@ -103,6 +143,11 @@ export class ConfiguratorGroupMenuService {
     }
   }
 
+  /**
+   * Verifies whether the first group in the group list is `Back` button.
+   *
+   * @returns {boolean} - returns `true` if the first group in the group list is `Back` button, otherwise `false`
+   */
   isBackBtnFocused(): boolean {
     if (isPlatformBrowser(this.platformId)) {
       const groups = this.getGroups();

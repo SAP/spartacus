@@ -11,7 +11,12 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  DirectionMode,
+  DirectionService,
+  HamburgerMenuService,
+  ICON_TYPE,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -22,14 +27,15 @@ import {
   CONFIGURATOR_ROUTE,
   GROUP_ID_1,
   mockRouterState,
-  productConfiguration,
   PRODUCT_CODE,
+  productConfiguration,
 } from '../../shared/testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
 
 let mockGroupVisited = false;
+let mockDirection = DirectionMode.LTR;
 const mockProductConfiguration: Configurator.Configuration = productConfiguration;
 
 class MockRoutingService {
@@ -154,6 +160,12 @@ class MockConfiguratorCommonsService {
   }
 }
 
+class MockDirectionService {
+  getDirection() {
+    return direction;
+  }
+}
+
 @Directive({
   selector: '[cxFocus]',
 })
@@ -180,9 +192,12 @@ let routerStateObservable;
 let groupVisitedObservable;
 let productConfigurationObservable;
 let isConflictGroupType;
+let directionService: DirectionService;
+let direction: DirectionMode;
 
 function initialize() {
   groupVisitedObservable = of(mockGroupVisited);
+  direction = mockDirection;
   fixture = TestBed.createComponent(ConfiguratorGroupMenuComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
@@ -222,6 +237,10 @@ describe('ConfigurationGroupMenuComponent', () => {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: ConfiguratorStorefrontUtilsService,
           },
+          {
+            provide: DirectionService,
+            useClass: MockDirectionService,
+          },
         ],
       });
     })
@@ -253,6 +272,11 @@ describe('ConfigurationGroupMenuComponent', () => {
       ConfiguratorGroupMenuService as Type<ConfiguratorGroupMenuService>
     );
     spyOn(configGroupMenuService, 'switchGroupOnArrowPress').and.stub();
+
+    directionService = TestBed.inject(
+      DirectionService as Type<DirectionService>
+    );
+    spyOn(directionService, 'getDirection').and.callThrough();
   });
 
   it('should create component', () => {
@@ -921,49 +945,88 @@ describe('ConfigurationGroupMenuComponent', () => {
       expect(configGroupMenuService.switchGroupOnArrowPress).toHaveBeenCalled();
     });
 
-    it('should navigate back to parent group', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      initialize();
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
-      spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+    describe('LTR direction', () => {
+      it('should navigate back to parent group', () => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        mockDirection = DirectionMode.LTR;
+        initialize();
+        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
+        spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
 
-      let event = new KeyboardEvent('keydown', {
-        code: 'ArrowRight',
+        let event = new KeyboardEvent('keydown', {
+          code: 'ArrowLeft',
+        });
+
+        component.switchGroupOnArrowPress(event, 0);
+        expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
+        expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
       });
 
-      component.switchGroupOnArrowPress(event, 0);
-      expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
-      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      it('should navigate to subgroups', () => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        mockDirection = DirectionMode.LTR;
+        initialize();
+        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(
+          false
+        );
 
-      event = new KeyboardEvent('keydown', {
-        code: 'ArrowLeft',
+        let event = new KeyboardEvent('keydown', {
+          code: 'ArrowRight',
+        });
+
+        component.switchGroupOnArrowPress(
+          event,
+          0,
+          mockProductConfiguration.groups[2]
+        );
+
+        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
       });
-
-      component.switchGroupOnArrowPress(event, 0);
-      expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
-      expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
     });
 
-    it('should navigate to subgroups', () => {
-      productConfigurationObservable = of(mockProductConfiguration);
-      routerStateObservable = of(mockRouterState);
-      initialize();
-      spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(false);
+    describe('RTL direction', () => {
+      it('should navigate back to parent group', () => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        mockDirection = DirectionMode.RTL;
+        initialize();
+        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
+        spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
 
-      let event = new KeyboardEvent('keydown', {
-        code: 'ArrowLeft',
+        let event = new KeyboardEvent('keydown', {
+          code: 'ArrowRight',
+        });
+
+        component.switchGroupOnArrowPress(event, 0);
+        expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
+        expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
       });
 
-      component.switchGroupOnArrowPress(
-        event,
-        0,
-        mockProductConfiguration.groups[2]
-      );
-      expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
-      expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      it('should navigate to subgroups', () => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        mockDirection = DirectionMode.RTL;
+        initialize();
+        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(
+          false
+        );
+
+        let event = new KeyboardEvent('keydown', {
+          code: 'ArrowLeft',
+        });
+
+        component.switchGroupOnArrowPress(
+          event,
+          0,
+          mockProductConfiguration.groups[2]
+        );
+
+        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      });
     });
   });
 

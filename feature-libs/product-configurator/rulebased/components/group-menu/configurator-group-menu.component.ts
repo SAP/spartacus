@@ -3,7 +3,12 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  HamburgerMenuService,
+  ICON_TYPE,
+  DirectionMode,
+  DirectionService,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -83,7 +88,8 @@ export class ConfiguratorGroupMenuComponent {
     protected hamburgerMenuService: HamburgerMenuService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
-    protected configGroupMenuService: ConfiguratorGroupMenuService
+    protected configGroupMenuService: ConfiguratorGroupMenuService,
+    protected directionService: DirectionService
   ) {}
 
   /**
@@ -299,11 +305,23 @@ export class ConfiguratorGroupMenuComponent {
   ): void {
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
       this.configGroupMenuService.switchGroupOnArrowPress(event, groupIndex);
-    } else if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+    } else if (
+      (event.code === 'ArrowRight' &&
+        this.directionService.getDirection() === DirectionMode.LTR) ||
+      (event.code === 'ArrowLeft' &&
+        this.directionService.getDirection() === DirectionMode.RTL)
+    ) {
+      if (this.hasSubGroups(group)) {
+        this.click(group);
+      }
+    } else if (
+      (event.code === 'ArrowLeft' &&
+        this.directionService.getDirection() === DirectionMode.LTR) ||
+      (event.code === 'ArrowRight' &&
+        this.directionService.getDirection() === DirectionMode.RTL)
+    ) {
       if (this.configGroupMenuService.isBackBtnFocused()) {
         this.navigateUp();
-      } else if (this.hasSubGroups(group)) {
-        this.click(group);
       }
     }
   }
@@ -323,7 +341,7 @@ export class ConfiguratorGroupMenuComponent {
     return isCurrentGroupFound;
   }
 
-  setTabIndex(currentGroupId: string, group: Configurator.Group): number {
+  getTabIndex(currentGroupId: string, group: Configurator.Group): number {
     if (
       !this.isGroupSelected(currentGroupId, group.id) &&
       !this.containsSelectedGroup(currentGroupId, group)

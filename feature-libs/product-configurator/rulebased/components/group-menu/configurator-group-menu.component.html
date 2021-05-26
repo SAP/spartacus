@@ -34,7 +34,7 @@
                 containsSelectedGroup(currentGroup.id, group)
             }"
             (click)="click(group)"
-            [tabindex]="setTabIndex(currentGroup.id, group)"
+            [tabindex]="getTabIndex(currentGroup.id, group)"
             (keydown)="switchGroupOnArrowPress($event, groupIndex, group)"
           >
             <span title="{{ group.description }}">{{ group.description }}</span>
