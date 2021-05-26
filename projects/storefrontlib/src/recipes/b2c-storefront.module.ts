@@ -5,12 +5,9 @@ import { CmsLibModule } from '../cms-components/cms-lib.module';
 import { StorefrontConfig } from '../storefront-config';
 import { layoutConfig, mediaConfig } from './config/index';
 import { defaultCmsContentProviders } from './config/static-cms-structure';
-import { StorefrontModule } from './storefront.module';
-
 @NgModule({
   imports: [
     HttpClientModule,
-    StorefrontModule,
 
     // the cms lib module contains all components that added in the bundle
     CmsLibModule,
@@ -26,7 +23,7 @@ import { StorefrontModule } from './storefront.module';
     provideDefaultConfig(mediaConfig),
     ...defaultCmsContentProviders,
   ],
-  exports: [StorefrontModule],
+  exports: [],
 })
 export class B2cStorefrontModule {
   static withConfig(

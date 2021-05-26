@@ -1,8 +1,30 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import {
+  B2B_STOREFRONT_MODULE,
+  B2C_STOREFRONT_MODULE,
+  SPARTACUS_SETUP,
+  SPARTACUS_STOREFRONTLIB,
+  STOREFRONT_MODULE,
+} from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
+  {
+    node: B2C_STOREFRONT_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `${B2C_STOREFRONT_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
+  },
+  {
+    node: B2B_STOREFRONT_MODULE,
+    importPath: SPARTACUS_SETUP,
+    comment: `${B2B_STOREFRONT_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
+  },
+  {
+    node: STOREFRONT_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `${STOREFRONT_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
+  },
   // uncomment product variants deprecation on 4.0 migration works (#11391)
   // // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.component.ts
   // {
