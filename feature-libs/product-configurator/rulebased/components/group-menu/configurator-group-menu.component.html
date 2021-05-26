@@ -27,7 +27,12 @@
             [class.disable]="!group.configurable"
             [attr.aria-selected]="isGroupSelected(currentGroup.id, group.id)"
             [attr.aria-controls]="createAriaControls(group.id)"
-            [cxFocus]="{ key: group.id }"
+            [cxFocus]="{
+              key: group.id,
+              autofocus:
+                isGroupSelected(currentGroup.id, group.id) ||
+                containsSelectedGroup(currentGroup.id, group)
+            }"
             (click)="click(group)"
             [tabindex]="setTabIndex(currentGroup.id, group)"
             (keydown)="switchGroupOnArrowPress($event, groupIndex, group)"
