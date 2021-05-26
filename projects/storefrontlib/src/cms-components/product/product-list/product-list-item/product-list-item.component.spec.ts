@@ -62,14 +62,6 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
-@Component({
-  selector: 'cx-variant-style-icons',
-  template: 'test',
-})
-class MockStyleIconsComponent {
-  @Input() variants: any[];
-}
-
 class MockRoutingService {}
 class MockProductService {}
 
@@ -113,7 +105,6 @@ describe('ProductListItemComponent in product-list', () => {
           MockStarRatingComponent,
           MockUrlPipe,
           MockCxIconComponent,
-          MockStyleIconsComponent,
           MockFeatureLevelDirective,
           MockOutletDirective,
         ],
