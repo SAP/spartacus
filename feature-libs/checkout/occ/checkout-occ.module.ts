@@ -17,7 +17,7 @@ import {
   OccReplenishmentOrderFormSerializer,
   OccReplenishmentOrderNormalizer,
 } from './adapters/converters/index';
-import { defaultOccCheckoutConfig } from './adapters/default-occ-checkout-config';
+import { defaultOccCheckoutConfig } from './config/default-occ-checkout-config';
 import { OccCheckoutCostCenterAdapter } from './adapters/occ-checkout-cost-center.adapter';
 import { OccCheckoutDeliveryAdapter } from './adapters/occ-checkout-delivery.adapter';
 import { OccCheckoutPaymentTypeAdapter } from './adapters/occ-checkout-payment-type.adapter';
