@@ -4,6 +4,8 @@ import {
   B2C_STOREFRONT_MODULE,
   CMS_LIB_MODULE,
   MAIN_MODULE,
+  OCC_MODULE,
+  SPARTACUS_CORE,
   SPARTACUS_SETUP,
   SPARTACUS_STOREFRONTLIB,
   STOREFRONT_FOUNDATION_MODULE,
@@ -48,6 +50,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: VIEW_CONFIG_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `${VIEW_CONFIG_MODULE} was removed as it was only providing empty config, which is not needed.`,
+  },
+  {
+    node: OCC_MODULE,
+    importPath: SPARTACUS_CORE,
+    comment: `${OCC_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
   },
   // uncomment product variants deprecation on 4.0 migration works (#11391)
   // // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.component.ts
