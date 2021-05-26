@@ -3,8 +3,10 @@ import {
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
   CMS_LIB_MODULE,
+  MAIN_MODULE,
   SPARTACUS_SETUP,
   SPARTACUS_STOREFRONTLIB,
+  STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
@@ -30,6 +32,16 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: CMS_LIB_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `${CMS_LIB_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
+  },
+  {
+    node: MAIN_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `${MAIN_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
+  },
+  {
+    node: STOREFRONT_FOUNDATION_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `${STOREFRONT_FOUNDATION_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
   },
   // uncomment product variants deprecation on 4.0 migration works (#11391)
   // // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.component.ts
