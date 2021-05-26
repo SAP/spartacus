@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renamed symbols Previous import should became new import 1`] = `
+"import { Test2Component } from \\"@spartacus/core\\";
+import { OtherComponent1 } from \\"@spartacus/storefinder/components\\";
+import { Test1Component } from \\"@spartacus/storefront\\";
+
+const array = [OtherComponent1, Test1Component, Test2Component];
+"
+`;
+
+exports[`renamed symbols Previous import should became new import and name with aliases 1`] = `
+"import { Test2Component } from \\"@spartacus/core\\";
+import { OtherComponentTest2 as Test } from \\"@spartacus/storefinder/components\\";
+import { Test1Component } from \\"@spartacus/storefront\\";
+
+const array = [Test, Test1Component, Test2Component];
+"
+`;
+
+exports[`renamed symbols Previous import should became new import and new name 1`] = `
+"import { Test2Component } from \\"@spartacus/core\\";
+import { OtherComponentTest3 } from \\"@spartacus/storefinder/components\\";
+import { Test1Component } from \\"@spartacus/storefront\\";
+
+const array = [OtherComponentTest3, Test1Component, Test2Component];
+"
+`;
