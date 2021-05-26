@@ -14,7 +14,6 @@
     "types": [],
     "lib": ["dom", "esnext"],
     "strict": true,
-    "strictNullChecks": false,
     "strictFunctionTypes": false,
     "paths": {
       "@spartacus/core": ["dist/core"],

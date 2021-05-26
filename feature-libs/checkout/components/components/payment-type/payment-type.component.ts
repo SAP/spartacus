@@ -6,7 +6,11 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutStepType, PaymentTypeFacade } from '@spartacus/checkout/root';
-import { B2BPaymentTypeEnum, PaymentType } from '@spartacus/core';
+import {
+  B2BPaymentTypeEnum,
+  isNotUndefined,
+  PaymentType,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -30,7 +34,7 @@ export class PaymentTypeComponent {
   typeSelected$: Observable<string> = this.paymentTypeService
     .getSelectedPaymentType()
     .pipe(
-      filter((selected) => selected !== undefined),
+      filter(isNotUndefined),
       distinctUntilChanged(),
       tap((selected) => {
         this.typeSelected = selected;
@@ -45,7 +49,7 @@ export class PaymentTypeComponent {
   cartPoNumber$: Observable<string> = this.paymentTypeService
     .getPoNumber()
     .pipe(
-      filter((po) => po !== undefined),
+      filter(isNotUndefined),
       tap((po) => {
         return (this.cartPoNumber = po);
       })

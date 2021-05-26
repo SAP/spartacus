@@ -32,8 +32,8 @@ export interface CardTypesState {
 
 export interface CheckoutStepsState {
   poNumber: {
-    po: string;
-    costCenter: string;
+    po?: string;
+    costCenter?: string;
   };
   address: Address;
   deliveryMode: {
@@ -46,16 +46,11 @@ export interface CheckoutStepsState {
 
 export interface PaymentTypesState {
   entities: { [code: string]: PaymentType };
-  selected: string;
+  selected?: string;
 }
 
 export interface OrderTypesState {
   selected: ORDER_TYPE;
-}
-
-export interface PaymentTypesState {
-  entities: { [code: string]: PaymentType };
-  selected: string;
 }
 
 export interface CheckoutState {

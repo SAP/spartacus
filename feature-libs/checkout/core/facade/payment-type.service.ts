@@ -97,7 +97,7 @@ export class PaymentTypeService implements PaymentTypeFacade {
   /**
    * Get the selected payment type
    */
-  getSelectedPaymentType(): Observable<string> {
+  getSelectedPaymentType(): Observable<string | undefined> {
     return combineLatest([
       this.activeCartService.getActive(),
       this.checkoutStore.pipe(select(CheckoutSelectors.getSelectedPaymentType)),
@@ -128,7 +128,7 @@ export class PaymentTypeService implements PaymentTypeFacade {
   /**
    * Get PO Number
    */
-  getPoNumber(): Observable<string> {
+  getPoNumber(): Observable<string | undefined> {
     return combineLatest([
       this.activeCartService.getActive(),
       this.checkoutStore.pipe(select(CheckoutSelectors.getPoNumer)),
