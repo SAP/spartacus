@@ -8,6 +8,7 @@ import {
   SPARTACUS_STOREFRONTLIB,
   STOREFRONT_FOUNDATION_MODULE,
   STOREFRONT_MODULE,
+  VIEW_CONFIG_MODULE,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -42,6 +43,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: STOREFRONT_FOUNDATION_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `${STOREFRONT_FOUNDATION_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
+  },
+  {
+    node: VIEW_CONFIG_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `${VIEW_CONFIG_MODULE} was removed as it was only providing empty config, which is not needed.`,
   },
   // uncomment product variants deprecation on 4.0 migration works (#11391)
   // // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.component.ts
