@@ -15,7 +15,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { cold, hot } from 'jasmine-marbles';
+import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
@@ -85,6 +85,8 @@ const cartModification: CartModification = {
   statusCode: emptyStatus,
   statusMessage: emptyStatus,
 };
+
+const cartModificationWithoutEntry: CartModification = {};
 
 describe('ConfiguratorCartEffect', () => {
   let addToCartMock: jasmine.Spy;
@@ -175,7 +177,7 @@ describe('ConfiguratorCartEffect', () => {
           interactionState: productConfiguration.interactionState,
         }
       );
-      actions$ = hot('-a', { a: addOwnerAction });
+      actions$ = cold('-a', { a: addOwnerAction });
       const expected = cold('-(bc)', {
         b: setNextOwnerAction,
         c: setInteractionStateAction,
@@ -202,7 +204,7 @@ describe('ConfiguratorCartEffect', () => {
         productConfiguration
       );
 
-      actions$ = hot('-a', { a: action });
+      actions$ = cold('-a', { a: action });
       const expected = cold('-(bc)', {
         b: readCartEntrySuccessAction,
         c: updatePriceAction,
@@ -230,7 +232,7 @@ describe('ConfiguratorCartEffect', () => {
           error: normalizeHttpError(errorResponse),
         }
       );
-      actions$ = hot('-a', { a: action });
+      actions$ = cold('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(configCartEffects.readConfigurationForCartEntry$).toBeObservable(
@@ -252,7 +254,7 @@ describe('ConfiguratorCartEffect', () => {
         productConfiguration
       );
 
-      actions$ = hot('-a', { a: action });
+      actions$ = cold('-a', { a: action });
       const expected = cold('-b', {
         b: readOrderEntrySuccessAction,
       });
@@ -279,7 +281,7 @@ describe('ConfiguratorCartEffect', () => {
           error: normalizeHttpError(errorResponse),
         }
       );
-      actions$ = hot('-a', { a: action });
+      actions$ = cold('-a', { a: action });
       const expected = cold('-b', { b: completion });
 
       expect(configCartEffects.readConfigurationForOrderEntry$).toBeObservable(
@@ -316,7 +318,7 @@ describe('ConfiguratorCartEffect', () => {
         ownerKey: owner.key,
         cartEntryNo: '' + entryNumber,
       });
-      actions$ = hot('-a', { a: action });
+      actions$ = cold('-a', { a: action });
       const expected = cold('-(cd)', {
         c: addNextOwner,
         d: cartAddEntrySuccess,
@@ -324,7 +326,35 @@ describe('ConfiguratorCartEffect', () => {
       expect(configCartEffects.addToCart$).toBeObservable(expected);
     });
 
-    it('should emit AddToCartFail in case add to cart call is not successful', () => {
+    it('should emit CartAddEntryFail in case add to cart call does not return entry', () => {
+      addToCartMock.and.returnValue(of(cartModificationWithoutEntry));
+      const payloadInput: Configurator.AddToCartParameters = {
+        userId: userId,
+        cartId: cartId,
+        productCode: productCode,
+        quantity: quantity,
+        configId: configId,
+        owner: owner,
+      };
+      const action = new ConfiguratorActions.AddToCart(payloadInput);
+
+      actions$ = cold('-a', { a: action });
+      const cartAddEntryFail = new CartActions.CartAddEntryFail({
+        userId,
+        cartId,
+        productCode,
+        quantity,
+        error: Error(fromEffects.ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND),
+      });
+
+      actions$ = cold('-a', { a: action });
+      const expected = cold('-b', {
+        b: cartAddEntryFail,
+      });
+      expect(configCartEffects.addToCart$).toBeObservable(expected);
+    });
+
+    it('should emit CartAddEntryFail in case add to cart call is not successful', () => {
       addToCartMock.and.returnValue(throwError(errorResponse));
       const payloadInput: Configurator.AddToCartParameters = {
         userId: userId,
@@ -343,7 +373,7 @@ describe('ConfiguratorCartEffect', () => {
         error: normalizeHttpError(errorResponse),
       });
 
-      actions$ = hot('-a', { a: action });
+      actions$ = cold('-a', { a: action });
 
       const expected = cold('-b', {
         b: cartAddEntryFail,
@@ -365,7 +395,7 @@ describe('ConfiguratorCartEffect', () => {
         quantity: 1,
       });
 
-      actions$ = hot('-a', { a: action });
+      actions$ = cold('-a', { a: action });
       const expected = cold('-d)', {
         d: cartUpdateEntrySuccess,
       });
@@ -386,7 +416,7 @@ describe('ConfiguratorCartEffect', () => {
         error: normalizeHttpError(errorResponse),
       });
 
-      actions$ = hot('-a', { a: action });
+      actions$ = cold('-a', { a: action });
 
       const expected = cold('-b', {
         b: cartAddEntryFail,

@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
@@ -20,6 +21,8 @@ import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
 
+export const ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND =
+  'Entry number is required in addToCart response';
 @Injectable()
 /**
  * Common configurator effects related to cart handling
@@ -36,25 +39,30 @@ export class ConfiguratorCartEffects {
     switchMap((payload: Configurator.AddToCartParameters) => {
       return this.configuratorCommonsConnector.addToCart(payload).pipe(
         switchMap((entry: CartModification) => {
-          return [
-            new ConfiguratorActions.AddNextOwner({
-              ownerKey: payload.owner.key,
-              cartEntryNo: entry.entry.entryNumber.toString(),
-            }),
+          const entryNumber = entry.entry?.entryNumber;
+          if (!entryNumber) {
+            throw Error(ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND);
+          } else {
+            return [
+              new ConfiguratorActions.AddNextOwner({
+                ownerKey: payload.owner.key,
+                cartEntryNo: entryNumber.toString(),
+              }),
 
-            new CartActions.CartAddEntrySuccess({
-              ...entry,
-              userId: payload.userId,
-              cartId: payload.cartId,
-              productCode: payload.productCode,
-              quantity: entry.quantity,
-              deliveryModeChanged: entry.deliveryModeChanged,
-              entry: entry.entry,
-              quantityAdded: entry.quantityAdded,
-              statusCode: entry.statusCode,
-              statusMessage: entry.statusMessage,
-            }),
-          ];
+              new CartActions.CartAddEntrySuccess({
+                ...entry,
+                userId: payload.userId,
+                cartId: payload.cartId,
+                productCode: payload.productCode,
+                quantity: entry.quantity,
+                deliveryModeChanged: entry.deliveryModeChanged,
+                entry: entry.entry,
+                quantityAdded: entry.quantityAdded,
+                statusCode: entry.statusCode,
+                statusMessage: entry.statusMessage,
+              }),
+            ];
+          }
         }),
         catchError((error) =>
           of(
@@ -63,7 +71,10 @@ export class ConfiguratorCartEffects {
               cartId: payload.cartId,
               productCode: payload.productCode,
               quantity: payload.quantity,
-              error: normalizeHttpError(error),
+              error:
+                error instanceof HttpErrorResponse
+                  ? normalizeHttpError(error)
+                  : error,
             })
           )
         )
