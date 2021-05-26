@@ -63,10 +63,13 @@ echo '-----'
 echo "Building Spartacus storefrontapp"
 yarn build
 
-yarn start:pwa &
+echo "Building Spartacus storefrontapp (SSR PROD mode)"
+yarn build:ssr:ci
+
+yarn serve:ssr &
 
 echo '-----'
-echo "Running Cypress end to end tests"
+echo "Running SSR Cypress smoke tests"
 
 yarn e2e:run:ci"${SUITE}"
 
