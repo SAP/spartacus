@@ -63,10 +63,13 @@ export const addToSavedCart = {
   saveCartForLater: 'Save cart for later',
 };
 
+export const breadcrumb = 'Saved Carts List';
+
 export const savedCart = {
   savedCartDetails,
   savedCartList,
   savedCartCartPage,
   savedCartDialog,
   addToSavedCart,
+  breadcrumb,
 };
