@@ -35,12 +35,4 @@ export class ConfiguratorAttributeRadioButtonComponent
   ngOnInit(): void {
     this.attributeRadioButtonForm.setValue(this.attribute.selectedSingleValue);
   }
-
-  /**
-   * @deprecated since 3.3
-   * This method should be removed because there is no deselect possible for radio buttons
-   */
-  onDeselect(): void {
-    this.onSelect('');
-  }
 }
