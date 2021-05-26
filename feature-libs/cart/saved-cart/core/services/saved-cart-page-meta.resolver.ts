@@ -69,7 +69,6 @@ export class SavedCartPageMetaResolver
     map((routerState) => routerState?.state?.semanticRoute),
     distinctUntilChanged(),
     switchMap((semanticRoute) => {
-      console.log('semanticRoute', semanticRoute);
       return semanticRoute === this.SAVED_CART_SEMANTIC_ROUTE
         ? of([])
         : this.translation.translate(this.SAVED_CART_TRANSLATION_KEY).pipe(
