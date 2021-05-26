@@ -17,7 +17,7 @@ declare global {
       requireShippingAddressAdded: (
         address: {},
         token: {},
-        cartCode: 'current'
+        cartId?: string
       ) => Cypress.Chainable<{}>;
     }
   }
@@ -25,7 +25,7 @@ declare global {
 
 Cypress.Commands.add(
   'requireShippingAddressAdded',
-  (address, token, cartCode) => {
+  (address, token, cartId) => {
     Cypress.log({
       displayName: 'requireShippingAddressAdded',
       message: [`Adding shipping address with token ${token.access_token}`],
@@ -44,6 +44,7 @@ Cypress.Commands.add(
       },
       defaultAddress: false,
     };
+    const cartCode = cartId || 'current';
 
     function addAddress() {
       return cy.request({
