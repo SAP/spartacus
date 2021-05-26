@@ -6,15 +6,20 @@ import {
   ComponentHandler,
   ComponentHandlerService,
   ComponentWrapperDirective,
-  PageComponentModule
+  PageComponentModule,
 } from '@spartacus/storefront';
-import { Component, Injector, Renderer2, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  Injector,
+  Renderer2,
+  ViewContainerRef,
+} from '@angular/core';
 import {
   CmsComponent,
   CmsConfig,
   CmsService,
   ConfigInitializerService,
-  DynamicAttributeService
+  DynamicAttributeService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
