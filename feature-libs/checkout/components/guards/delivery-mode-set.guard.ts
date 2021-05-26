@@ -19,7 +19,9 @@ export class DeliveryModeSetGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    const checkoutStep: CheckoutStep = this.checkoutStepService.getCheckoutStep(
+    const checkoutStep:
+      | CheckoutStep
+      | undefined = this.checkoutStepService.getCheckoutStep(
       CheckoutStepType.DELIVERY_MODE
     );
 
@@ -40,10 +42,10 @@ export class DeliveryModeSetGuard implements CanActivate {
           mode && mode.length
             ? true
             : this.router.parseUrl(
-                checkoutStep &&
+                (checkoutStep &&
                   this.routingConfigService.getRouteConfig(
                     checkoutStep.routeName
-                  ).paths[0]
+                  ).paths?.[0]) as string
               )
         )
       );

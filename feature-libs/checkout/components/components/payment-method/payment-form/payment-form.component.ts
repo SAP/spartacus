@@ -41,7 +41,7 @@ import { map, switchMap, tap } from 'rxjs/operators';
 export class PaymentFormComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
-  suggestedAddressModalRef: ModalRef;
+  suggestedAddressModalRef: ModalRef | null;
   months: string[] = [];
   years: number[] = [];
 
@@ -134,11 +134,12 @@ export class PaymentFormComponent implements OnInit {
     ]).pipe(
       map(([countries, address]) => {
         return (
-          address?.country &&
-          !!countries.filter(
-            (country: Country): boolean =>
-              country.isocode === address.country.isocode
-          ).length
+          (address?.country &&
+            !!countries.filter(
+              (country: Country): boolean =>
+                country.isocode === address.country?.isocode
+            ).length) ??
+          false
         );
       }),
       tap((shouldShowCheckbox) => {
@@ -153,9 +154,9 @@ export class PaymentFormComponent implements OnInit {
           'region.isocodeShort'
         );
         if (regions.length > 0) {
-          regionControl.enable();
+          regionControl?.enable();
         } else {
-          regionControl.disable();
+          regionControl?.disable();
         }
       })
     );
@@ -197,11 +198,11 @@ export class PaymentFormComponent implements OnInit {
       text: [
         address.line1,
         address.line2,
-        address.town + ', ' + region + address.country.isocode,
+        address.town + ', ' + region + address.country?.isocode,
         address.postalCode,
         address.phone,
       ],
-    };
+    } as Card;
   }
 
   openSuggestedAddress(results: AddressValidation): void {
@@ -258,8 +259,8 @@ export class PaymentFormComponent implements OnInit {
   }
 
   countrySelected(country: Country): void {
-    this.billingAddressForm.get('country.isocode').setValue(country.isocode);
-    this.selectedCountry$.next(country.isocode);
+    this.billingAddressForm.get('country.isocode')?.setValue(country.isocode);
+    this.selectedCountry$.next(country.isocode as string);
   }
 
   next(): void {

@@ -5,7 +5,7 @@
   </h3>
 
   <div class="cx-review-summary row">
-    <ng-container *ngIf="(steps$ | async).slice(0, -1) as steps">
+    <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
       <div class="col-md-12 col-lg-6 col-xl-6 cx-review-payment-col">
         <ng-container *ngFor="let step of paymentSteps(steps)">
           <ng-container [ngSwitch]="step.type[0]">
@@ -60,7 +60,8 @@
   <ng-template #paymentType>
     <div class="cx-review-summary-card">
       <cx-card
-        [content]="getPaymentTypeCard(paymentType$ | async) | async"
+        *ngIf="paymentType$ | async as paymentType"
+        [content]="getPaymentTypeCard(paymentType) | async"
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
@@ -80,7 +81,8 @@
     <ng-container *ngIf="isAccountPayment$ | async">
       <div class="cx-review-summary-card">
         <cx-card
-          [content]="getCostCenterCard(costCenter$ | async) | async"
+          *ngIf="costCenter$ | async as costCenter"
+          [content]="getCostCenterCard(costCenter) | async"
         ></cx-card>
         <div class="cx-review-summary-edit-step">
           <a
@@ -98,12 +100,13 @@
 
   <!-- SHIPPING ADDRESS SECTION -->
   <ng-template #shippingAddress>
-    <div class="cx-review-summary-card cx-review-card-address">
+    <div
+      *ngIf="deliveryAddress$ | async as deliveryAddress"
+      class="cx-review-summary-card cx-review-card-address"
+    >
       <cx-card
-        *ngIf="deliveryAddress$ | async as deliveryAddress"
-        [content]="
-          getShippingAddressCard(deliveryAddress, countryName$ | async) | async
-        "
+        *ngIf="countryName$ | async as countryName"
+        [content]="getShippingAddressCard(deliveryAddress, countryName) | async"
       ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
