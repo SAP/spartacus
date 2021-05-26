@@ -3,6 +3,7 @@ import {
   B2B_STOREFRONT_MODULE,
   B2C_STOREFRONT_MODULE,
   CMS_LIB_MODULE,
+  EVENTS_MODULE,
   MAIN_MODULE,
   OCC_MODULE,
   SPARTACUS_CORE,
@@ -55,6 +56,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: OCC_MODULE,
     importPath: SPARTACUS_CORE,
     comment: `${OCC_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
+  },
+  {
+    node: EVENTS_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `${EVENTS_MODULE} was removed. Check "Migrating to new, reference app structure" section in the migration docs on how to replace it.`,
   },
   // uncomment product variants deprecation on 4.0 migration works (#11391)
   // // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.component.ts
