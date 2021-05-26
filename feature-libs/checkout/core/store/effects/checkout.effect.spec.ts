@@ -42,8 +42,10 @@ const address: Address = {
 const modes: DeliveryMode[] = [{ code: 'code1' }, { code: 'code2' }];
 const orderDetails: Order = { entries: [] };
 
-const details: Partial<CheckoutDetails> = {
+const details: CheckoutDetails = {
   deliveryAddress: address,
+  deliveryMode: {},
+  paymentInfo: {},
 };
 
 const paymentDetails: PaymentDetails = {

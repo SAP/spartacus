@@ -29,10 +29,12 @@ class MockOccEndpointsService {
   }
 }
 
-const checkoutData: Partial<CheckoutDetails> = {
+const checkoutData: CheckoutDetails = {
   deliveryAddress: {
     firstName: 'Janusz',
   },
+  deliveryMode: {},
+  paymentInfo: {},
 };
 const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 const cartsEndpoint = 'carts';
