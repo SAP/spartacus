@@ -105,6 +105,9 @@ export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
 export const STORE_DATA_SERVICE = 'StoreDataService';
 export const SPLIT_VIEW_SERVICE = 'SplitViewService';
+export const CONFIGURATOR_CART_SERVICE = 'ConfiguratorCartService';
+export const COMMON_CONFIGURATOR_UTILS_SERVICE =
+  'CommonConfiguratorUtilsService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -113,6 +116,7 @@ export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
+export const CHECKOUT_FACADE = 'CheckoutFacade';
 export const CHECKOUT_CONNECTOR = 'CheckoutConnector';
 export const USER_ORDER_CONNECTOR = 'UserOrderConnector';
 export const REPLENISHMENT_ORDER_CONNECTOR = 'ReplenishmentOrderConnector';

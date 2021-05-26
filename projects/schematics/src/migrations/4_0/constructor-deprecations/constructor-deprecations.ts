@@ -10,6 +10,7 @@ import {
 } from './data/cart-page-event.builder.migration';
 import { CHECKOUT_EVENT_MODULE_MIGRATION } from './data/checkout-event.module.migration';
 import { COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION } from './data/component-wrapper.directive.migration';
+import { CONFIGURATOR_CART_SERVICE_MIGRATION } from './data/configurator-cart.service.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
 import { PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/product-page-event.builder.migration';
 import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
@@ -28,6 +29,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION,
   SEARCH_BOX_COMPONENT_SERVICE_MIGRATION,
   COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
+  CONFIGURATOR_CART_SERVICE_MIGRATION,
   ADDRESS_BOOK_COMPONENT_SERVICE_MIGRATION,
   ADDRESS_BOOK_COMPONENT_MIGRATION,
   ADDRESS_FORM_COMPONENT_MIGRATION,
