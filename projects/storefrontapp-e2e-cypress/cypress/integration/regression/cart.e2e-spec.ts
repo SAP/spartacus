@@ -91,7 +91,7 @@ describe('Cart', () => {
         cy.intercept(
           `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/users/current/carts?fields`
+          )}/users/current/carts?fields*`
         ).as('carts');
         cart.loginCartUser();
         cy.wait('@carts');
@@ -113,9 +113,9 @@ describe('Cart', () => {
         cy.intercept(
           `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
             'BASE_SITE'
-          )}/users/current/carts`
-        ).as('cart');
-        cy.wait('@cart');
+          )}/users/current/carts*`
+        ).as('carts');
+        cy.wait('@carts');
         cy.visit('/cart');
         cart.checkProductInCart(cart.products[0]);
 

@@ -102,6 +102,13 @@ export interface ConfigDeprecation {
   comment: string;
 }
 
+export interface RenamedSymbol {
+  previousNode: string;
+  previousImportPath: string;
+  newNode?: string;
+  newImportPath: string;
+}
+
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
   if (!buffer) {
