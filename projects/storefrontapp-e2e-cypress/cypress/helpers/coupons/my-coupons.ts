@@ -20,7 +20,7 @@ export const pageUrl = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
 
 export function verifyPagingAndSorting() {
   const firstCouponStartDateAscending = 'customerCoupon1';
-  const firstCouponStartDateDescending = 'customerCoupon11';
+  const firstCouponStartDateDescending = 'customerCoupon2';
   const firstCouponEndDateAscending = 'customerCoupon1';
   const firstCouponEndDateDescending = 'customerCoupon11';
   const firstCouponCodeSelector =
