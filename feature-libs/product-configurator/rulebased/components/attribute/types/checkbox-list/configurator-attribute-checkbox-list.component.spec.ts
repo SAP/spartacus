@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -12,6 +12,13 @@ import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attri
 
 class MockGroupService {}
 
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: any;
+}
+
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxListComponent>;
@@ -20,7 +27,10 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ConfiguratorAttributeCheckBoxListComponent],
+        declarations: [
+          ConfiguratorAttributeCheckBoxListComponent,
+          MockFocusDirective,
+        ],
         imports: [ReactiveFormsModule, NgSelectModule],
         providers: [
           ConfiguratorStorefrontUtilsService,

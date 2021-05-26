@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  Input,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -17,6 +22,13 @@ import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './c
   template: '',
 })
 class MockProductCardComponent {}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: any;
+}
 
 describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleDropdownComponent;
@@ -65,6 +77,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
           ConfiguratorShowMoreComponent,
           MockProductCardComponent,
+          MockFocusDirective,
         ],
         imports: [
           ReactiveFormsModule,

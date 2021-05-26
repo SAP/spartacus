@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { OrderEntry, PromotionLocation } from '@spartacus/core';
@@ -17,6 +17,14 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: any;
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -55,6 +63,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
         declarations: [
           ConfiguratorIssuesNotificationComponent,
           MockTranslatePipe,
+          MockCxIconComponent,
         ],
         providers: [
           { provide: CartItemContext, useClass: MockCartItemContext },

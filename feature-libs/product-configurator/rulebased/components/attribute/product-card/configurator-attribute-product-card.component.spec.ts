@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  Input,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -65,6 +70,13 @@ class MockConfiguratorPriceComponent {
   @Input() productPrice: number;
   @Input() quantity = 1;
   @Input() totalPrice: number;
+}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: any;
 }
 
 function setProductBoundValueAttributes(
@@ -143,6 +155,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           ConfiguratorShowMoreComponent,
           ItemCounterComponent,
           MockConfiguratorPriceComponent,
+          MockFocusDirective,
         ],
         providers: [
           {

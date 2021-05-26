@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -12,6 +12,13 @@ function createValue(code: string, name: string, isSelected: boolean) {
     selected: isSelected,
   };
   return value;
+}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: any;
 }
 
 describe('ConfigAttributeDropDownComponent', () => {
@@ -32,7 +39,10 @@ describe('ConfigAttributeDropDownComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ConfiguratorAttributeDropDownComponent],
+        declarations: [
+          ConfiguratorAttributeDropDownComponent,
+          MockFocusDirective,
+        ],
         imports: [ReactiveFormsModule, NgSelectModule],
       })
         .overrideComponent(ConfiguratorAttributeDropDownComponent, {
