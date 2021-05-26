@@ -25,7 +25,8 @@ import { CheckoutSelectors } from '../store/selectors/index';
 @Injectable()
 export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   constructor(
-    protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
+    protected checkoutStore: Store<StateWithCheckout>,
+    protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService
   ) {}
@@ -37,7 +38,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getSupportedDeliveryModes),
       withLatestFrom(
-        this.checkoutStore.pipe(
+        this.processStateStore.pipe(
           select(
             ProcessSelectors.getProcessStateFactory(
               SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
@@ -88,7 +89,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    * Get status about successfully set Delivery Address
    */
   getSetDeliveryAddressProcess(): Observable<StateUtils.LoaderState<void>> {
-    return this.checkoutStore.pipe(
+    return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessStateFactory(SET_DELIVERY_ADDRESS_PROCESS_ID)
       )
@@ -108,7 +109,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    * Get status about of set Delivery Mode process
    */
   getSetDeliveryModeProcess(): Observable<StateUtils.LoaderState<void>> {
-    return this.checkoutStore.pipe(
+    return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessStateFactory(SET_DELIVERY_MODE_PROCESS_ID)
       )
@@ -139,7 +140,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   getLoadSupportedDeliveryModeProcess(): Observable<
     StateUtils.LoaderState<void>
   > {
-    return this.checkoutStore.pipe(
+    return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessStateFactory(
           SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID

@@ -26,8 +26,9 @@ export class OrderConfirmationThankYouMessageComponent
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails().pipe(
       tap((order) => {
-        this.isGuestCustomer = order.guestCustomer;
-        this.orderGuid = order.guid;
+        this.isGuestCustomer =
+          'guestCustomer' in order ? order.guestCustomer ?? false : false;
+        this.orderGuid = order.guid as string;
       })
     );
 
