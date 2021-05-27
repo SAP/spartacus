@@ -2,6 +2,7 @@ export const storeFinder = {
   storeFinder: {
     openUntil: 'Open until',
     closed: 'Closed',
+    clickBack: 'Back',
     call: 'Call',
     getDirections: 'Get Directions',
     listView: 'List View',
