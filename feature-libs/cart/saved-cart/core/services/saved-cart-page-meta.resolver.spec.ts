@@ -29,7 +29,7 @@ class MockBasePageMetaResolver {
 }
 
 const savedCartUrl = '/my-account/saved-carts';
-const savedCartTranslationKey = 'breadcrumb';
+const savedCartTranslationKey = 'savedCartList.breadcrumb';
 const savedCartBreadcrumb: BreadcrumbMeta = {
   label: savedCartTranslationKey,
   link: savedCartUrl,
@@ -86,29 +86,20 @@ describe('SavedCartPageMetaResolver', () => {
     });
 
     describe('when being on Saved Cart Details page', () => {
-      const testDetailsBreadcrumb: BreadcrumbMeta = {
-        link: '/my-account/saved-carts',
-        label: 'savedCartList.breadcrumb',
-      };
-
       beforeEach(() => {
         spyOn(routingService, 'getRouterState').and.returnValue(
           of({ state: { semanticRoute: 'savedCartsDetails' } } as any)
         );
 
         spyOn(basePageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
-          of([testHomeBreadcrumb, testDetailsBreadcrumb])
+          of([testHomeBreadcrumb, savedCartBreadcrumb])
         );
       });
 
       it('should insert breadcrumb for the Saved Cart page right after the Homepage breadcrumb', async () => {
         expect(
           await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
-        ).toEqual([
-          testHomeBreadcrumb,
-          savedCartBreadcrumb,
-          testDetailsBreadcrumb,
-        ]);
+        ).toEqual([testHomeBreadcrumb, savedCartBreadcrumb]);
       });
     });
   });

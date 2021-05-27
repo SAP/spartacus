@@ -7,6 +7,7 @@ import {
   PageTitleResolver,
   PageType,
   RoutingService,
+  SemanticPathService,
   TranslationService,
 } from '@spartacus/core';
 import { combineLatest, defer, Observable, of } from 'rxjs';
@@ -46,11 +47,12 @@ export class SavedCartPageMetaResolver
   /**
    * Default path for Saved Cart home page
    */
-  protected readonly SAVED_CART_HOME_PATH = '/my-account/saved-carts';
+  protected readonly SAVED_CART_HOME_PATH = 'savedCarts';
 
   constructor(
     protected basePageMetaResolver: BasePageMetaResolver,
     protected routingService: RoutingService,
+    protected semanticPath: SemanticPathService,
     protected translation: TranslationService
   ) {
     super();
@@ -73,7 +75,7 @@ export class SavedCartPageMetaResolver
             map((label) => [
               {
                 label,
-                link: this.SAVED_CART_HOME_PATH,
+                link: this.semanticPath.get(this.SAVED_CART_HOME_PATH),
               },
             ])
           );
