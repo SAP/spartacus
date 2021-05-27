@@ -140,8 +140,7 @@ export interface OccEndpoints {
    */
   cardTypes?: string | OccEndpoint;
   /**
-   * [POST] Defines and assigns details of a new credit card payment to the cart.
-   * [PUT] Sets credit card payment details for the cart.
+   * Sets credit card payment details for the cart.
    *
    * @member {string} [cartPaymentDetails]
    */
@@ -153,15 +152,13 @@ export interface OccEndpoints {
    */
   paymentProviderRequest?: string | OccEndpoint;
   /**
-   *  [GET] Get information about create subscription request results
-   *  [POST] Handles response from payment provider and create payment details
-   *  [DELETE] Deletes payment provider response related to cart.
+   * Handles response from payment provider and create payment details
    *
    * @member {string} [paymentProviderResponse]
    */
   paymentProviderResponse?: string | OccEndpoint;
   /**
-   *  [GET] Get a cart with a given identifier.
+   *  Get a cart with a given identifier.
    *
    * @member {string} [loadCheckoutDetails]
    */
