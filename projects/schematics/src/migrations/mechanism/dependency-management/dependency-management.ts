@@ -26,12 +26,18 @@ export function migrateDependencies(
 ): Rule {
   context.logger.info('Updating dependencies...');
 
+  const packageJson = readPackageJson(tree);
   const installedSpartacusLibs = collectSpartacusLibraryDependencies(
-    readPackageJson(tree)
+    packageJson
   );
 
   const thirdPartyDependencies = prepare3rdPartyDependencies();
   const libraryDependencies = createSpartacusLibraryDependencies(
+    installedSpartacusLibs
+  );
+
+  checkAndLogRemovedDependencies(
+    packageJson,
     installedSpartacusLibs,
     removedDependencies,
     context.logger
@@ -46,16 +52,14 @@ export function migrateDependencies(
 
 function collectSpartacusLibraryDependencies(packageJson: any): string[] {
   const dependencies =
-    (packageJson.dependencies as Record<string, string>) ?? [];
+    (packageJson.dependencies as Record<string, string>) ?? {};
   return Object.keys(dependencies)
     .filter((d) => d.startsWith(SPARTACUS_SCOPE))
     .filter((d) => !CORE_SPARTACUS_SCOPES.includes(d));
 }
 
 function createSpartacusLibraryDependencies(
-  installedSpartacusLibs: string[],
-  removedDependencies: string[],
-  logger: logging.LoggerApi
+  installedSpartacusLibs: string[]
 ): NodeDependency[] {
   const dependenciesToAdd: NodeDependency[] = [];
 
@@ -68,21 +72,22 @@ function createSpartacusLibraryDependencies(
     dependenciesToAdd.push(...createDependencies(spartacusLibrary));
   }
 
-  checkAndLogRemovedDependencies(
-    installedSpartacusLibs,
-    removedDependencies,
-    logger
-  );
-
   return dependenciesToAdd;
 }
 
 function checkAndLogRemovedDependencies(
+  packageJson: any,
   installedSpartacusLibs: string[],
   removedDependencies: string[],
   logger: logging.LoggerApi
 ): void {
+  let dependencies = (packageJson.dependencies as Record<string, string>) ?? {};
+
   for (const removedDependency of removedDependencies) {
+    if (!dependencies[removedDependency]) {
+      continue;
+    }
+
     for (const libraryName of installedSpartacusLibs) {
       const spartacusLibrary = (collectedDependencies as Record<
         string,
