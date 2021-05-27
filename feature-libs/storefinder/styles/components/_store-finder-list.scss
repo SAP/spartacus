@@ -104,12 +104,10 @@
   }
 
   .cx-back {
-    margin-top: 0.5rem;
-    cursor: pointer;
     font-weight: 600;
-
-    &:hover {
-      color: var(--cx-color-primary);
-    }
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-width: 85vw;
   }
 }
