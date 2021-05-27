@@ -9,12 +9,12 @@ import { BREAKPOINT } from '../../../config';
 export abstract class KeyboardFocusConfig {
   keyboardFocus?: {
     /**
-     *  Resets the focus back to the root `<cx-storefront>` element when a navigation is started.
+     * Resets the focus back to the root `<cx-storefront>` element when a navigation is started.
      */
     enableResetFocusOnNavigate?: boolean;
 
     /**
-     *  Resets the view back to the root `<cx-storefront>` element when a navigation is started. This can also be set to a BREAKPOINT value to only reset the view up to the provided value.
+     * Resets the view back to the root `<cx-storefront>` element when a navigation is started. This can also be set to a BREAKPOINT value to only reset the view up to the provided value.
      */
     enableResetViewOnNavigate?: boolean | BREAKPOINT;
   };
