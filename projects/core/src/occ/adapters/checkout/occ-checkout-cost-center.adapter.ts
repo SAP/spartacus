@@ -31,7 +31,7 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
     costCenterId: string
   ): string {
     return this.occEndpoints.getUrl(
-      'cartCostCenter',
+      'setCartCostCenter',
       { userId, cartId },
       { costCenterId }
     );

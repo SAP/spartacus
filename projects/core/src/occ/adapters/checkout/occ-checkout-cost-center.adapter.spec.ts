@@ -13,7 +13,7 @@ const MockOccModuleConfig: OccConfig = {
       baseUrl: '',
       prefix: '',
       endpoints: {
-        cartCostCenter:
+        setCartCostCenter:
           'users/${userId}/carts/${cartId}/costcenter?fields=DEFAULT',
       },
     },

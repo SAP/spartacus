@@ -122,7 +122,7 @@ export interface OccEndpoints {
   /**
    * Sets the cost center for the checkout cart.
    */
-  cartCostCenter?: string | OccEndpoint;
+  setCartCostCenter?: string | OccEndpoint;
   /**
    * Sets the payment type for the checkout cart
    */
