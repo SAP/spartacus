@@ -1,5 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import { RestoreSavedCartSuccessEvent, SaveCartSuccessEvent } from '@spartacus/cart/saved-cart/root';
+import {
+  RestoreSavedCartSuccessEvent,
+  SaveCartSuccessEvent,
+} from '@spartacus/cart/saved-cart/root';
 import { ClearCheckoutFacade } from '@spartacus/checkout/root';
 import {
   CxEvent,
