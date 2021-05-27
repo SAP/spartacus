@@ -2,7 +2,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   Directive,
+  EventEmitter,
   Input,
+  Output,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -19,7 +21,9 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeProductCardComponent } from './configurator-attribute-product-card.component';
 
 const product: Product = {
@@ -67,9 +71,16 @@ let focusService: KeyboardFocusService;
   template: '',
 })
 class MockConfiguratorPriceComponent {
-  @Input() productPrice: number;
-  @Input() quantity = 1;
-  @Input() totalPrice: number;
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  @Output() changeQuantity = new EventEmitter<number>();
 }
 
 @Directive({
@@ -156,6 +167,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
           ItemCounterComponent,
           MockConfiguratorPriceComponent,
           MockFocusDirective,
+          MockConfiguratorAttributeQuantityComponent,
         ],
         providers: [
           {

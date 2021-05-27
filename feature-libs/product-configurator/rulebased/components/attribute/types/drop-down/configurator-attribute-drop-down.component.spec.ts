@@ -1,8 +1,16 @@
-import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
 function createValue(code: string, name: string, isSelected: boolean) {
@@ -19,6 +27,15 @@ function createValue(code: string, name: string, isSelected: boolean) {
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  @Output() changeQuantity = new EventEmitter<number>();
 }
 
 describe('ConfigAttributeDropDownComponent', () => {
@@ -42,6 +59,7 @@ describe('ConfigAttributeDropDownComponent', () => {
         declarations: [
           ConfiguratorAttributeDropDownComponent,
           MockFocusDirective,
+          MockConfiguratorAttributeQuantityComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule],
       })

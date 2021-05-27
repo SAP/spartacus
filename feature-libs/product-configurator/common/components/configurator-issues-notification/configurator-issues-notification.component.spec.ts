@@ -27,6 +27,17 @@ class MockCxIconComponent {
   @Input() type: any;
 }
 
+@Component({
+  selector: 'cx-configure-cart-entry',
+  template: '',
+})
+class MockConfigureCartEntryComponent {
+  @Input() cartEntry: OrderEntry;
+  @Input() readOnly: boolean;
+  @Input() msgBanner: boolean;
+  @Input() disabled: boolean;
+}
+
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
@@ -64,6 +75,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
           ConfiguratorIssuesNotificationComponent,
           MockTranslatePipe,
           MockCxIconComponent,
+          MockConfigureCartEntryComponent,
         ],
         providers: [
           { provide: CartItemContext, useClass: MockCartItemContext },

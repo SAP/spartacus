@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,7 +14,10 @@ import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configura
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeQuantityService } from '../../quantity';
+import {
+  ConfiguratorAttributeQuantityComponentOptions,
+  ConfiguratorAttributeQuantityService,
+} from '../../quantity';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
@@ -17,6 +27,15 @@ class MockGroupService {}
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  @Output() changeQuantity = new EventEmitter<number>();
 }
 
 describe('ConfigAttributeCheckBoxListComponent', () => {
@@ -30,6 +49,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         declarations: [
           ConfiguratorAttributeCheckBoxListComponent,
           MockFocusDirective,
+          MockConfiguratorAttributeQuantityComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule],
         providers: [
