@@ -7,7 +7,6 @@ import {
   PageTitleResolver,
   PageType,
   RoutingService,
-  SemanticPathService,
   TranslationService,
 } from '@spartacus/core';
 import { combineLatest, defer, Observable, of } from 'rxjs';
@@ -19,7 +18,7 @@ import {
 } from 'rxjs/operators';
 
 /**
- * Resolves the page data for Organization Pages.
+ * Resolves the page data for Saved Cart Pages.
  *
  * Breadcrumbs are built in this implementation only.
  *
@@ -34,9 +33,9 @@ export class SavedCartPageMetaResolver
   extends PageMetaResolver
   implements PageBreadcrumbResolver, PageTitleResolver {
   /**
-   * Translation key for the breadcrumb of Organization home page
+   * Translation key for the breadcrumb of Saved Cart home page
    */
-  protected readonly SAVED_CART_TRANSLATION_KEY = 'breadcrumb';
+  protected readonly SAVED_CART_TRANSLATION_KEY = 'savedCartList.breadcrumb';
 
   /**
    * The semantic route of the saved cart landing page. It's used to recognize whether
@@ -52,7 +51,6 @@ export class SavedCartPageMetaResolver
   constructor(
     protected basePageMetaResolver: BasePageMetaResolver,
     protected routingService: RoutingService,
-    protected semanticPath: SemanticPathService,
     protected translation: TranslationService
   ) {
     super();
@@ -61,7 +59,7 @@ export class SavedCartPageMetaResolver
 
   /**
    * Breadcrumb of the Saved Cart page.
-   * It's empty when the current page is the SAved Cart page.
+   * It's empty when the current page is the Saved Cart page.
    */
   protected savedCartPageBreadcrumb$: Observable<BreadcrumbMeta[]> = defer(() =>
     this.routingService.getRouterState()

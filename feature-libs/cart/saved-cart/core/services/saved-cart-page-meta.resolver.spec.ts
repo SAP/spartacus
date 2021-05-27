@@ -88,7 +88,7 @@ describe('SavedCartPageMetaResolver', () => {
     describe('when being on Saved Cart Details page', () => {
       const testDetailsBreadcrumb: BreadcrumbMeta = {
         link: '/my-account/saved-carts',
-        label: 'breadcrumb',
+        label: 'savedCartList.breadcrumb',
       };
 
       beforeEach(() => {

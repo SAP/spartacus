@@ -14,6 +14,7 @@ export const savedCartDetails = {
 
 export const savedCartList = {
   savedCarts: 'Saved Carts ({{count}})',
+  breadcrumb: 'Saved Carts List',
   cartName: 'Name',
   cartId: 'Id',
   dateSaved: 'Date Saved',
@@ -63,13 +64,10 @@ export const addToSavedCart = {
   saveCartForLater: 'Save cart for later',
 };
 
-export const breadcrumb = 'Saved Carts List';
-
 export const savedCart = {
-  savedCartDetails,
-  savedCartList,
-  savedCartCartPage,
-  savedCartDialog,
   addToSavedCart,
-  breadcrumb,
+  savedCartCartPage,
+  savedCartDetails,
+  savedCartDialog,
+  savedCartList,
 };
