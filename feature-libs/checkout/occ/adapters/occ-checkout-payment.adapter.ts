@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import {
   CARD_TYPE_NORMALIZER,
   CheckoutPaymentAdapter,
-  PAYMENT_DETAILS_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/core';
 import {
@@ -13,6 +12,7 @@ import {
   Occ,
   OccEndpointsService,
   PaymentDetails,
+  PAYMENT_DETAILS_NORMALIZER,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
@@ -49,7 +49,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     );
     return this.getProviderSubInfo(userId, cartId).pipe(
       map((data) => {
-        const labelsMap = this.convertToMap(data.mappingLabels.entry);
+        const labelsMap = this.convertToMap(data.mappingLabels.entry) as {
+          [key: string]: string;
+        };
         return {
           url: data.postUrl,
           parameters: this.getParamsForPaymentProvider(
@@ -66,7 +68,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
           map((response) => this.extractPaymentDetailsFromHtml(response)),
           mergeMap((fromPaymentProvider) => {
             fromPaymentProvider['defaultPayment'] =
-              paymentDetails.defaultPayment;
+              paymentDetails.defaultPayment ?? false;
             fromPaymentProvider['savePaymentInfo'] = true;
             return this.createDetailsWithParameters(
               userId,
@@ -97,7 +99,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return this.http
       .get<Occ.CardTypeList>(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(
-        map((cardTypeList) => cardTypeList.cardTypes),
+        map((cardTypeList) => cardTypeList.cardTypes ?? []),
         this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
       );
   }
@@ -210,11 +212,10 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     const values: { [key: string]: string | boolean } = {};
     for (let i = 0; inputs[i]; i++) {
       const input = inputs[i];
-      if (
-        input.getAttribute('name') !== '{}' &&
-        input.getAttribute('value') !== ''
-      ) {
-        values[input.getAttribute('name')] = input.getAttribute('value');
+      const name = input.getAttribute('name');
+      const value = input.getAttribute('value');
+      if (name && name !== '{}' && value && value !== '') {
+        values[name] = value;
       }
     }
 

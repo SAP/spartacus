@@ -48,7 +48,7 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
   /**
    * Get cost center id from cart
    */
-  getCostCenter(): Observable<string> {
+  getCostCenter(): Observable<string | undefined> {
     return combineLatest([
       this.activeCartService.getActive(),
       this.checkoutStore.pipe(select(CheckoutSelectors.getCostCenter)),
@@ -58,7 +58,9 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
         if (costCenterId === undefined && cart.costCenter) {
           costCenterId = cart.costCenter.code;
           this.checkoutStore.dispatch(
-            new CheckoutActions.SetCostCenterSuccess(cart.costCenter.code)
+            new CheckoutActions.SetCostCenterSuccess(
+              cart.costCenter.code as string
+            )
           );
         }
         return costCenterId;

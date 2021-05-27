@@ -44,7 +44,7 @@ export abstract class PaymentTypeFacade {
   /**
    * Get the selected payment type
    */
-  abstract getSelectedPaymentType(): Observable<string>;
+  abstract getSelectedPaymentType(): Observable<string | undefined>;
 
   /**
    * Get whether the selected payment type is "ACCOUNT" payment
@@ -54,5 +54,5 @@ export abstract class PaymentTypeFacade {
   /**
    * Get PO Number
    */
-  abstract getPoNumber(): Observable<string>;
+  abstract getPoNumber(): Observable<string | undefined>;
 }

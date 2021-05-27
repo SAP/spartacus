@@ -34,6 +34,7 @@ export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
 export const SPARTACUS_USER = '@spartacus/user';
+export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -108,6 +109,9 @@ export const SPLIT_VIEW_SERVICE = 'SplitViewService';
 export const SAVED_CART_FACADE = 'SavedCartFacade';
 export const SAVED_CART_LIST_COMPONENT = 'SavedCartListComponent';
 export const SAVED_CART_FORM_DIALOG_COMPONENT = 'SavedCartFormDialogComponent';
+export const CONFIGURATOR_CART_SERVICE = 'ConfiguratorCartService';
+export const COMMON_CONFIGURATOR_UTILS_SERVICE =
+  'CommonConfiguratorUtilsService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
@@ -117,6 +121,7 @@ export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
 export const CLEAR_CHECKOUT_SERVICE = 'ClearCheckoutService';
+export const CHECKOUT_FACADE = 'CheckoutFacade';
 export const CHECKOUT_CONNECTOR = 'CheckoutConnector';
 export const USER_ORDER_CONNECTOR = 'UserOrderConnector';
 export const REPLENISHMENT_ORDER_CONNECTOR = 'ReplenishmentOrderConnector';

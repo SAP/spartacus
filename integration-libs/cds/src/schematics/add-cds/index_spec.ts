@@ -15,6 +15,7 @@ import {
   CLI_TRACKING_PERSONALIZATION_FEATURE,
   LibraryOptions,
   SpartacusOptions,
+  SPARTACUS_CHECKOUT,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_TRACKING,
 } from '@spartacus/schematics';
@@ -154,9 +155,18 @@ describe('Spartacus CDS schematics: ng-add', () => {
             .map(
               (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
             );
-          expect(tasks.length).toEqual(2);
+          expect(tasks.length).toEqual(3);
 
-          const trackingTask = tasks[0];
+          const chexckoutTask = tasks[0];
+          expect(chexckoutTask).toBeTruthy();
+          expect(chexckoutTask.name).toEqual('add-spartacus-library');
+          expect(chexckoutTask.options).toHaveProperty(
+            'collection',
+            SPARTACUS_CHECKOUT
+          );
+          expect(chexckoutTask.options.options?.features).toEqual([]);
+
+          const trackingTask = tasks[1];
           expect(trackingTask).toBeTruthy();
           expect(trackingTask.name).toEqual('add-spartacus-library');
           expect(trackingTask.options).toHaveProperty(
@@ -165,7 +175,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
           );
           expect(trackingTask.options.options?.features).toEqual([]);
 
-          const trackingTaskWithSubFeatures = tasks[1];
+          const trackingTaskWithSubFeatures = tasks[2];
           expect(trackingTaskWithSubFeatures).toBeTruthy();
           expect(trackingTaskWithSubFeatures.name).toEqual(
             'add-spartacus-library'

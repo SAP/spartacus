@@ -31,7 +31,7 @@ export class CheckoutLoginComponent implements OnDestroy {
 
   onSubmit() {
     if (this.checkoutLoginForm.valid) {
-      const email = this.checkoutLoginForm.get('email').value;
+      const email = this.checkoutLoginForm.get('email')?.value;
       this.activeCartService.addEmail(email);
 
       if (!this.sub) {

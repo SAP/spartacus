@@ -24,7 +24,7 @@ export function reducer(
         ) => {
           return {
             ...paymentTypesEntities,
-            [name.code]: name,
+            [name.code as string]: name,
           };
         },
         {
@@ -41,7 +41,7 @@ export function reducer(
     case CheckoutActions.SET_PAYMENT_TYPE_SUCCESS: {
       return {
         ...state,
-        selected: action.payload.paymentType.code,
+        selected: action.payload.paymentType?.code,
       };
     }
 

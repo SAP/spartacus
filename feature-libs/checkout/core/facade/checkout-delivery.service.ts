@@ -60,7 +60,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   /**
    * Get selected delivery mode
    */
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
+  getSelectedDeliveryMode(): Observable<DeliveryMode | undefined | null> {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getSelectedDeliveryMode)
     );

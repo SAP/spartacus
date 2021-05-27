@@ -80,7 +80,7 @@ export const getSelectedDeliveryModeCode: MemoizedSelector<
 
 export const getSelectedDeliveryMode: MemoizedSelector<
   StateWithCheckout,
-  DeliveryMode
+  DeliveryMode | undefined | null
 > = createSelector(getDeliveryMode, (deliveryMode) => {
   if (deliveryMode.selected !== '') {
     if (Object.keys(deliveryMode.supported).length === 0) {
@@ -119,7 +119,7 @@ export const getCheckoutLoading: MemoizedSelector<
 
 export const getPoNumer: MemoizedSelector<
   StateWithCheckout,
-  string
+  string | undefined
 > = createSelector(
   getCheckoutSteps,
   (state: CheckoutStepsState) => state.poNumber.po
@@ -127,7 +127,7 @@ export const getPoNumer: MemoizedSelector<
 
 export const getCostCenter: MemoizedSelector<
   StateWithCheckout,
-  string
+  string | undefined
 > = createSelector(
   getCheckoutSteps,
   (state: CheckoutStepsState) => state.poNumber.costCenter
