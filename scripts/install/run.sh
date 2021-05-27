@@ -106,10 +106,10 @@ function add_cdc {
 }
 
 function add_product_configurator {
-    local FEATURES=(--features="Textfield configurator");
+    local FEATURES=(--features="Textfield-Configurator");
 
     if [ "$ADD_CPQ" = true ] ; then
-        FEATURES+=(--features="CPQ configurator");
+        FEATURES+=(--features="CPQ-Configurator");
     fi
 
     ng add @spartacus/product-configurator@${SPARTACUS_VERSION} --interactive false "${FEATURES[@]}"
@@ -121,7 +121,7 @@ function add_feature_libs {
   ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
   ng add @spartacus/smartedit@${SPARTACUS_VERSION} --interactive false
   ng add @spartacus/asm@${SPARTACUS_VERSION} --interactive false
-  ng add @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="Personalization" --features="Tag Management System - Google Tag Manager" --features="Tag Management System - Adobe Experience Platform Launch"
+  ng add @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="Personalization" --features="TMS-GTM" --features="TMS-AEPL"
   ng add @spartacus/product@${SPARTACUS_VERSION} --interactive false
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --interactive false
   ng add @spartacus/cart@${SPARTACUS_VERSION} --interactive false

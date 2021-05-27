@@ -18,7 +18,7 @@ export class CheckoutStepService {
 
   readonly steps$: BehaviorSubject<CheckoutStep[]> = new BehaviorSubject<
     CheckoutStep[]
-  >(undefined);
+  >([]);
 
   readonly activeStepIndex$: Observable<number> = this.routingService
     .getRouterState()
@@ -27,11 +27,11 @@ export class CheckoutStepService {
         const activeStepUrl = router.state.context.id;
         return this.steps$.pipe(
           map((steps) => {
-            let activeIndex;
+            let activeIndex: number = 0;
             steps.forEach((step, index) => {
               const routeUrl = `/${
                 this.routingConfigService.getRouteConfig(step.routeName)
-                  .paths[0]
+                  .paths?.[0]
               }`;
               if (routeUrl === activeStepUrl) {
                 activeIndex = index;
@@ -75,7 +75,7 @@ export class CheckoutStepService {
   }
 
   resetSteps(): void {
-    this.allSteps = this.checkoutConfig.checkout.steps
+    this.allSteps = (this.checkoutConfig.checkout?.steps ?? [])
       .filter((step) => !step.disabled)
       .map((x) => Object.assign({}, x));
     this.steps$.next(this.allSteps);
@@ -94,22 +94,25 @@ export class CheckoutStepService {
     }
   }
 
-  getCheckoutStep(currentStepType: CheckoutStepType): CheckoutStep {
-    return this.allSteps[this.getCheckoutStepIndex('type', currentStepType)];
+  getCheckoutStep(currentStepType: CheckoutStepType): CheckoutStep | undefined {
+    const index = this.getCheckoutStepIndex('type', currentStepType);
+    if (index !== null) {
+      return this.allSteps[index];
+    }
   }
 
-  getCheckoutStepRoute(currentStepType: CheckoutStepType): string {
-    return this.getCheckoutStep(currentStepType).routeName;
+  getCheckoutStepRoute(currentStepType: CheckoutStepType): string | undefined {
+    return this.getCheckoutStep(currentStepType)?.routeName;
   }
 
   getFirstCheckoutStepRoute(): string {
     return this.allSteps[0].routeName;
   }
 
-  getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
+  getNextCheckoutStepUrl(activatedRoute: ActivatedRoute): string | null {
     const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
-    if (stepIndex >= 0) {
+    if (stepIndex !== null && stepIndex >= 0) {
       let i = 1;
       while (
         this.allSteps[stepIndex + i] &&
@@ -125,10 +128,10 @@ export class CheckoutStepService {
     return null;
   }
 
-  getPreviousCheckoutStepUrl(activatedRoute: ActivatedRoute): string {
+  getPreviousCheckoutStepUrl(activatedRoute: ActivatedRoute): string | null {
     const stepIndex = this.getCurrentStepIndex(activatedRoute);
 
-    if (stepIndex >= 0) {
+    if (stepIndex !== null && stepIndex >= 0) {
       let i = 1;
       while (
         this.allSteps[stepIndex - i] &&
@@ -144,10 +147,8 @@ export class CheckoutStepService {
     return null;
   }
 
-  getCurrentStepIndex(activatedRoute: ActivatedRoute): number {
-    const currentStepUrl: string = this.getStepUrlFromActivatedRoute(
-      activatedRoute
-    );
+  getCurrentStepIndex(activatedRoute: ActivatedRoute): number | null {
+    const currentStepUrl = this.getStepUrlFromActivatedRoute(activatedRoute);
 
     const stepIndex = this.allSteps.findIndex(
       (step) =>
@@ -166,8 +167,10 @@ export class CheckoutStepService {
       : null;
   }
 
-  private getStepUrlFromStepRoute(stepRoute: string): string {
-    return this.routingConfigService.getRouteConfig(stepRoute).paths[0];
+  private getStepUrlFromStepRoute(stepRoute: string): string | null {
+    return (
+      this.routingConfigService.getRouteConfig(stepRoute).paths?.[0] ?? null
+    );
   }
 
   private getCheckoutStepIndex(key: string, value: any): number | null {

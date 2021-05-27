@@ -15,7 +15,7 @@ export class OccReplenishmentOrderFormSerializer
     target?: ScheduleReplenishmentForm
   ): ScheduleReplenishmentForm {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as ScheduleReplenishmentForm;
     }
 
     if (source.replenishmentStartDate) {

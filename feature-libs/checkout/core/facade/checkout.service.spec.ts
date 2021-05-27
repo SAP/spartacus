@@ -1,6 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import {
   ActiveCartService,
   Cart,
@@ -13,6 +12,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, of, Subscription } from 'rxjs';
+import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
 import { CHECKOUT_FEATURE, StateWithCheckout } from '../store/checkout-state';
 import * as CheckoutActionsReducers from '../store/reducers/index';
@@ -118,6 +118,8 @@ describe('CheckoutService', () => {
         store.dispatch(
           new CheckoutActions.LoadCheckoutDetailsSuccess({
             deliveryAddress: {},
+            deliveryMode: {},
+            paymentInfo: {},
           })
         );
 

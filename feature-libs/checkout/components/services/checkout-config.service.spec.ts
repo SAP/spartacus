@@ -77,8 +77,8 @@ describe('CheckoutConfigService', () => {
 
       service.getPreferredDeliveryMode([standardMode, freeMode, premiumMode]);
       expect(findMatchingDeliveryMode).toHaveBeenCalledWith([
-        freeMode,
         standardMode,
+        freeMode,
         premiumMode,
       ]);
 

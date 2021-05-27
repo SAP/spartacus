@@ -228,8 +228,8 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         ? cardLabels.textDefaultPaymentMethod
         : '',
       textBold: paymentDetails.accountHolderName,
-      text: [paymentDetails.cardNumber, cardLabels.textExpires],
-      img: this.getCardIcon(paymentDetails.cardType.code),
+      text: [paymentDetails.cardNumber ?? '', cardLabels.textExpires],
+      img: this.getCardIcon(paymentDetails.cardType?.code as string),
       actions: [{ name: cardLabels.textUseThisPayment, event: 'send' }],
       header:
         selected?.id === paymentDetails.id

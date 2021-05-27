@@ -6,18 +6,20 @@ import {
   CheckoutDeliveryAdapter,
   CheckoutPaymentAdapter,
   CheckoutReplenishmentOrderAdapter,
-  ORDER_NORMALIZER,
   PaymentTypeAdapter,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
-  REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/checkout/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import {
+  ORDER_NORMALIZER,
+  provideDefaultConfig,
+  REPLENISHMENT_ORDER_NORMALIZER,
+} from '@spartacus/core';
 import {
   OccOrderNormalizer,
   OccReplenishmentOrderFormSerializer,
   OccReplenishmentOrderNormalizer,
 } from './adapters/converters/index';
-import { defaultOccCheckoutConfig } from './adapters/default-occ-checkout-config';
+import { defaultOccCheckoutConfig } from './config/default-occ-checkout-config';
 import { OccCheckoutCostCenterAdapter } from './adapters/occ-checkout-cost-center.adapter';
 import { OccCheckoutDeliveryAdapter } from './adapters/occ-checkout-delivery.adapter';
 import { OccCheckoutPaymentTypeAdapter } from './adapters/occ-checkout-payment-type.adapter';

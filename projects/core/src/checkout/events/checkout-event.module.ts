@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CheckoutEventListener } from './checkout-event.listener';
 import { CheckoutEventBuilder } from './checkout-event.builder';
 
 /**
@@ -6,5 +7,8 @@ import { CheckoutEventBuilder } from './checkout-event.builder';
  */
 @NgModule({})
 export class CheckoutEventModule {
-  constructor(_checkoutEventBuilder: CheckoutEventBuilder) {}
+  constructor(
+    _checkoutEventBuilder: CheckoutEventBuilder,
+    _checkoutEventListener: CheckoutEventListener
+  ) {}
 }

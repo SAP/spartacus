@@ -6,3 +6,4 @@ export * from './store/user-state';
 export * from './user.module';
 export * from './user-transitional.module';
 export * from './user-transitional-tokens';
+export * from './events/index';

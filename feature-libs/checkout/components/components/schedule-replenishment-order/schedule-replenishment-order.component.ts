@@ -35,7 +35,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
   currentDaysOfWeek: DaysOfWeek[] = [];
   numberOfDays: string[];
   numberOfWeeks: string[];
-  currentDate: string;
+  currentDate: string | undefined;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
 
   constructor(
@@ -141,7 +141,9 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
       this.scheduleReplenishmentFormData.recurrencePeriod ===
       recurrencePeriod.WEEKLY;
 
-    this.currentDaysOfWeek = [...this.scheduleReplenishmentFormData.daysOfWeek];
+    this.currentDaysOfWeek = [
+      ...(this.scheduleReplenishmentFormData.daysOfWeek ?? []),
+    ];
 
     this.numberOfDays = this.isMonthly
       ? this.createNumberStringArray(31)
