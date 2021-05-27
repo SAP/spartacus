@@ -4,6 +4,8 @@ import {
   BreadcrumbMeta,
   PageBreadcrumbResolver,
   PageMetaResolver,
+  PageRobotsMeta,
+  PageRobotsResolver,
   PageTitleResolver,
   PageType,
   RoutingService,
@@ -25,14 +27,13 @@ import {
  *
  * @property {string} SAVED_CART_SEMANTIC_ROUTE the default root path for saved cart pages.
  * @property {string} SAVED_CART_TRANSLATION_KEY the default i18n key for the saved cart breadcrumb label.
- * @property {string} SAVED_CART_HOME_PATH the default path for Saved Cart home poge.
  */
 @Injectable({
   providedIn: 'root',
 })
 export class SavedCartPageMetaResolver
   extends PageMetaResolver
-  implements PageBreadcrumbResolver, PageTitleResolver {
+  implements PageBreadcrumbResolver, PageTitleResolver, PageRobotsResolver {
   /**
    * Translation key for the breadcrumb of Saved Cart home page
    */
@@ -107,5 +108,9 @@ export class SavedCartPageMetaResolver
 
   resolveTitle(): Observable<string | undefined> {
     return this.basePageMetaResolver.resolveTitle();
+  }
+
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    return this.basePageMetaResolver.resolveRobots();
   }
 }

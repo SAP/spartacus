@@ -3,6 +3,7 @@ import {
   BasePageMetaResolver,
   BreadcrumbMeta,
   I18nTestingModule,
+  PageRobotsMeta,
   RouterState,
   RoutingService,
   SemanticPathService,
@@ -25,6 +26,9 @@ class MockBasePageMetaResolver {
   }
   resolveBreadcrumbs() {
     return of([testHomeBreadcrumb]);
+  }
+  resolveRobots() {
+    return of([]);
   }
 }
 
@@ -101,6 +105,21 @@ describe('SavedCartPageMetaResolver', () => {
           await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
         ).toEqual([testHomeBreadcrumb, savedCartBreadcrumb]);
       });
+    });
+  });
+
+  describe('resolveRobots', () => {
+    it('should resolve title from the BasePageMetaResolver', async () => {
+      spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
+        of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX])
+      );
+      let result;
+      resolver
+        .resolveRobots()
+        .subscribe((robots) => (result = robots))
+        .unsubscribe();
+      expect(result).toContain(PageRobotsMeta.FOLLOW);
+      expect(result).toContain(PageRobotsMeta.INDEX);
     });
   });
 });
