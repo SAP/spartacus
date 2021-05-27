@@ -151,6 +151,7 @@ export interface CmsNavigationComponent extends CmsComponent {
   notice?: string;
   showLanguageCurrency?: string;
   navigationNode?: CmsNavigationNode;
+  resetMenuOnCollapse?: boolean;
 }
 
 export interface CmsProductFacetNavigationComponent extends CmsComponent {
@@ -158,4 +159,9 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
   activeFacetValueCode?: string;
   searchResult?: string;
   minPerFacet?: string;
+}
+
+//configuration controlled through static files
+export interface CmsNavigationUIComponent extends CmsComponent {
+  resetMenuOnCollapse?: string;
 }

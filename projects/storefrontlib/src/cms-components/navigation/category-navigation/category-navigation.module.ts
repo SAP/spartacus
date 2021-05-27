@@ -11,6 +11,9 @@ import { CategoryNavigationComponent } from './category-navigation.component';
       cmsComponents: {
         CategoryNavigationComponent: {
           component: CategoryNavigationComponent,
+          data: {
+            resetMenuOnCollapse: false,
+          },
         },
       },
     }),

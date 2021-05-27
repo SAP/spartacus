@@ -8,6 +8,7 @@ import {
   Input,
   OnDestroy,
   Renderer2,
+  OnInit,
 } from '@angular/core';
 
 import { NavigationEnd, Router } from '@angular/router';
@@ -23,7 +24,7 @@ import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/ha
   templateUrl: './navigation-ui.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class NavigationUIComponent implements OnDestroy {
+export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
    * The navigation node to render.
    */
@@ -38,6 +39,11 @@ export class NavigationUIComponent implements OnDestroy {
    * with children.
    */
   iconType = ICON_TYPE;
+
+  /**
+   * Reset menu when collapsed
+   */
+  @Input() resetMenu: boolean;
 
   /**
    * Indicates whether the navigation should support flyout.
@@ -73,9 +79,10 @@ export class NavigationUIComponent implements OnDestroy {
         this.alignWrappersToRightIfStickOut();
       })
     );
+  }
 
-    //check configuration
-    //this.resetOnMenuCollapse();
+  ngOnInit() {
+    if (this.resetMenu) this.resetOnMenuCollapse();
   }
 
   resetOnMenuCollapse() {
