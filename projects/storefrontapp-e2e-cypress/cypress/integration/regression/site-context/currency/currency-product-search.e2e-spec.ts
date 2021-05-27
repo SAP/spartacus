@@ -2,7 +2,7 @@ import * as siteContextSelector from '../../../../helpers/site-context-selector'
 
 describe('Currency switch - product-search page', () => {
   const productSearchPath = siteContextSelector.PRODUCT_SEARCH_PATH;
-  const jpCurrency = '¥290';
+  const jpCurrency = '¥';
 
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
