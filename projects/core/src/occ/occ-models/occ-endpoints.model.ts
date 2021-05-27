@@ -117,50 +117,34 @@ export interface OccEndpoints {
   addEmail?: string | OccEndpoint;
   /**
    * Returns a list of the available payment types.
-   *
-   * @member {string} [cartCostCenter]
    */
   paymentTypes?: string | OccEndpoint;
   /**
    * Sets the cost center for the checkout cart.
-   *
-   * @member {string} [cartCostCenter]
    */
   cartCostCenter?: string | OccEndpoint;
   /**
    * Sets the payment type for the checkout cart
-   *
-   * @member {string} [cartPaymentType]
    */
   cartPaymentType?: string | OccEndpoint;
   /**
    * Get a list of supported payment card types.
-   *
-   * @member {string} [cardTypes]
    */
   cardTypes?: string | OccEndpoint;
   /**
    * Sets credit card payment details for the cart.
-   *
-   * @member {string} [cartPaymentDetails]
    */
   cartPaymentDetails?: string | OccEndpoint;
   /**
    *  Get information needed for create subscription
-   *
-   * @member {string} [paymentProviderRequest]
    */
   paymentProviderRequest?: string | OccEndpoint;
   /**
    * Handles response from payment provider and create payment details
-   *
-   * @member {string} [paymentProviderResponse]
    */
   paymentProviderResponse?: string | OccEndpoint;
   /**
    *  Get a cart with a given identifier.
-   *
-   * @member {string} [loadCheckoutDetails]
    */
   loadCheckoutDetails?: string | OccEndpoint;
   /**
@@ -450,20 +434,14 @@ export interface OccEndpoints {
   setDeliveryAddress?: string | OccEndpoint;
   /**
    * Endpoint for delivery addresses
-   *
-   * @member {string} [deliveryAddresses]
    */
   deliveryAddresses?: string | OccEndpoint;
   /**
    * Endpoint for the delivery mode selected for the cart.
-   *
-   * @member {string} [deliveryMode]
    */
   deliveryMode?: string | OccEndpoint;
   /**
    *Endpoint for get all delivery modes for the current store and delivery address.
-   *
-   * @member {string} [deliveryModes]
    */
   deliveryModes?: string | OccEndpoint;
   /**
