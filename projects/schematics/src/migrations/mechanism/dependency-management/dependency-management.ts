@@ -13,9 +13,7 @@ import {
   installPackageJsonDependencies,
 } from '../../../shared/utils/lib-utils';
 import {
-  CORE_SPARTACUS_SCOPES,
   createDependencies,
-  prepare3rdPartyDependencies,
   readPackageJson,
 } from '../../../shared/utils/package-utils';
 
@@ -31,8 +29,7 @@ export function migrateDependencies(
     packageJson
   );
 
-  const thirdPartyDependencies = prepare3rdPartyDependencies();
-  const libraryDependencies = createSpartacusLibraryDependencies(
+  const dependencies = createSpartacusLibraryDependencies(
     installedSpartacusLibs
   );
 
@@ -43,7 +40,6 @@ export function migrateDependencies(
     context.logger
   );
 
-  const dependencies = thirdPartyDependencies.concat(libraryDependencies);
   return chain([
     addPackageJsonDependencies(dependencies),
     installPackageJsonDependencies(),
@@ -53,9 +49,7 @@ export function migrateDependencies(
 function collectSpartacusLibraryDependencies(packageJson: any): string[] {
   const dependencies =
     (packageJson.dependencies as Record<string, string>) ?? {};
-  return Object.keys(dependencies)
-    .filter((d) => d.startsWith(SPARTACUS_SCOPE))
-    .filter((d) => !CORE_SPARTACUS_SCOPES.includes(d));
+  return Object.keys(dependencies).filter((d) => d.startsWith(SPARTACUS_SCOPE));
 }
 
 function createSpartacusLibraryDependencies(
