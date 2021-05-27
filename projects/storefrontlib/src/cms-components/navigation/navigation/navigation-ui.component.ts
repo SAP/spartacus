@@ -7,7 +7,7 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  Renderer2
+  Renderer2,
 } from '@angular/core';
 
 import { NavigationEnd, Router } from '@angular/router';
@@ -73,41 +73,34 @@ export class NavigationUIComponent implements OnDestroy {
         this.alignWrappersToRightIfStickOut();
       })
     );
+
     //check configuration
-    this.attachListener();
+    //this.resetOnMenuCollapse();
   }
 
-  attachListener(){
-
-    
+  resetOnMenuCollapse() {
     this.subscriptions.add(
-      this.hamMenuService.isExpanded.pipe(distinctUntilChanged()).subscribe((isExpanded: boolean) => {
-        
-        if(isExpanded && this.node.children?.length > 6){
-        
-          //if you expand the view, and theres an expanded sub node, close the menus and show main options.
-          if(this.openNodes?.length > 0){
-            this.closeSubMenus();
-            this.reinitalizeMenu(this.node.children);
+      this.hamMenuService.isExpanded
+        .pipe(distinctUntilChanged())
+        .subscribe((isExpanded: boolean) => {
+          //only react when expanded and proper number of nav node are present.
+          if (isExpanded && this.node.children?.length > 6) {
+            if (this.openNodes?.length > 0) {
+              this.reinitalizeMenu();
+            }
           }
-        }
-      })
+        })
     );
   }
-  closeSubMenus(){
+  reinitalizeMenu() {
+    this.closeOpenedSubMenus();
+    this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
+  }
+  closeOpenedSubMenus() {
     let allClosed = false;
-    while(!allClosed){
+    while (!allClosed) {
       this.back();
       allClosed = this.openNodes?.length == 0;
-    }  
-  }
-
-  reinitalizeMenu(mainNodes: NavigationNode){
-    if(mainNodes){ 
-      //force a refresh on the nav node
-      this.flyout = false;
-      this.node = null;
-      this.node = mainNodes;
     }
   }
 
