@@ -44,7 +44,6 @@ export class AuthRedirectService implements OnDestroy {
   protected init() {
     this.subscription = this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
-        console.debug(event); // SPIKE TODO remove
         const { url } = event;
         if (!this.isIgnoredUrl(url)) {
           this.setRedirectUrl(url);
@@ -84,10 +83,16 @@ export class AuthRedirectService implements OnDestroy {
    */
   reportNotAuthGuard() {}
 
+  /**
+   * Tells whether the url is a part of the user login flow.
+   */
   protected isIgnoredUrl(url: string): boolean {
     return this.loginFlowRoutesService.isLoginFlow(url);
   }
 
+  /**
+   * Save the url as the redirect url, unless it's a part of the user login flow.
+   */
   protected setRedirectUrl(url: string | undefined): void {
     this.authRedirectStorageService.setRedirectUrl(url);
   }
