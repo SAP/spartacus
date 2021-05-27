@@ -15,7 +15,7 @@ defaults: &defaults
 jobs:
   - script: "./ci-scripts/unit-tests-sonar.sh sonar"
     name: "Unit tests / Sonar"
-  - script: "./ci-scripts/build-ssr-smoke-test.sh"
+  - script: "./ci-scripts/e2e-cypress.sh --ssr"
     name: "SSR build / smoke test"
   - script: "./ci-scripts/validate-lint.sh"
     name: "Validation checks"
