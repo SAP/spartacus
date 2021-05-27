@@ -85,7 +85,7 @@ export class NavigationUIComponent implements OnDestroy {
         
         if(isExpanded && this.node.children?.length > 6){
         
-          //if you expand the view, and theres a expanded sub node, reset it before client can do anything
+          //if you expand the view, and theres an expanded sub node, close the menus and show main options.
           if(this.openNodes?.length > 0){
             this.closeSubMenus();
             this.reinitalizeMenu(this.node.children);
