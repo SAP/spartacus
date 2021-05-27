@@ -4,7 +4,8 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CheckoutService, ORDER_TYPE } from '@spartacus/core';
+import { CheckoutFacade } from '@spartacus/checkout/root';
+import { ORDER_TYPE } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
@@ -21,7 +22,7 @@ export class OrderConfirmationThankYouMessageComponent
   isGuestCustomer = false;
   orderGuid: string;
 
-  constructor(protected checkoutService: CheckoutService) {}
+  constructor(protected checkoutService: CheckoutFacade) {}
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails().pipe(

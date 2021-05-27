@@ -1,10 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  CheckoutService,
-  I18nTestingModule,
-  Order,
-  ReplenishmentOrder,
-} from '@spartacus/core';
+import { CheckoutFacade } from '@spartacus/checkout/root';
+import { I18nTestingModule, Order, ReplenishmentOrder } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationOverviewComponent } from './order-confirmation-overview.component';
 import createSpy = jasmine.createSpy;
@@ -55,16 +51,14 @@ class MockCheckoutService {
 describe('OrderConfirmationOverviewComponent', () => {
   let component: OrderConfirmationOverviewComponent;
   let fixture: ComponentFixture<OrderConfirmationOverviewComponent>;
-  let checkoutService: CheckoutService;
+  let checkoutService: CheckoutFacade;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [OrderConfirmationOverviewComponent],
-        providers: [
-          { provide: CheckoutService, useClass: MockCheckoutService },
-        ],
+        providers: [{ provide: CheckoutFacade, useClass: MockCheckoutService }],
       }).compileComponents();
     })
   );
@@ -72,7 +66,7 @@ describe('OrderConfirmationOverviewComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConfirmationOverviewComponent);
     component = fixture.componentInstance;
-    checkoutService = TestBed.inject(CheckoutService);
+    checkoutService = TestBed.inject(CheckoutFacade);
   });
 
   it('should create', () => {
