@@ -453,14 +453,20 @@ export interface OccEndpoints {
   setDeliveryAddress?: string | OccEndpoint;
   /**
    * Endpoint for delivery addresses
+   *
+   * @member {string} [deliveryAddresses]
    */
   deliveryAddresses?: string | OccEndpoint;
   /**
    * Endpoint for the delivery mode selected for the cart.
+   *
+   * @member {string} [deliveryMode]
    */
   deliveryMode?: string | OccEndpoint;
   /**
    *Endpoint for get all delivery modes for the current store and delivery address.
+   *
+   * @member {string} [deliveryModes]
    */
   deliveryModes?: string | OccEndpoint;
   /**
