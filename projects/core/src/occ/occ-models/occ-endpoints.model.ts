@@ -448,7 +448,11 @@ export interface OccEndpoints {
    */
   cancelReturn?: string | OccEndpoint;
   /**
-   * Endpoint for cart delivery addresses
+   * Endpoint for set delivery address to cart
+   */
+  setDeliveryAddress?: string | OccEndpoint;
+  /**
+   * Endpoint for delivery addresses
    */
   deliveryAddresses?: string | OccEndpoint;
   /**
