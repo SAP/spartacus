@@ -7,6 +7,8 @@ export const defaultOccCheckoutConfig: OccConfig = {
         cardTypes: 'cardtypes',
         paymentTypes: 'paymenttypes',
         /* eslint-disable max-len */
+        setDeliveryAddress:
+          'users/${userId}/carts/${cartId}/addresses/delivery',
         deliveryAddresses: 'users/${userId}/carts/${cartId}/addresses/delivery',
         deliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         deliveryModes: 'users/${userId}/carts/${cartId}/deliverymodes',
