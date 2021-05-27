@@ -43,21 +43,20 @@ export class OnNavigateFocusService {
 
   /**
    * Resets focus back to root element `<cx-storefront>` in the DOM tree when a navigation is started.
-   * @param enable Enable or disable this feature. Set this to a BREAKPOINT value string to enable only up to the specified screen width.
+   * @param enable Enable or disable this feature. Set this to an array of BREAKPOINTS to enable for specified screen widths.
    */
-  setResetFocusOnNavigate(enable: boolean | BREAKPOINT): void {
+  setResetFocusOnNavigate(enable: boolean | BREAKPOINT[]): void {
     this.resetFocusOnNavigate?.unsubscribe();
 
     if (enable) {
       this.resetFocusOnNavigate = this.router.events
         .pipe(filter((event) => event instanceof NavigationStart))
         .subscribe(() => {
-          if (typeof enable === 'string') {
-            this.breakpointService
-              .isDown(<BREAKPOINT>enable)
+          if (Array.isArray(enable)) {
+            this.breakpointService.breakpoint$
               .pipe(take(1))
-              .subscribe((isDown: boolean) => {
-                if (isDown) {
+              .subscribe((breakpoint: BREAKPOINT) => {
+                if (enable.includes(breakpoint)) {
                   this.getStorefrontElement().focus();
                 }
               });
@@ -70,21 +69,20 @@ export class OnNavigateFocusService {
 
   /**
    * Resets view back to root element `<cx-storefront>` in the DOM tree when a navigation is started.
-   * @param enable Enable or disable this feature. Set this to a BREAKPOINT value string to enable only up to the specified screen width.
+   * @param enable Enable or disable this feature. Set this to an array of BREAKPOINTS to enable for specified screen widths.
    */
-  setResetViewOnNavigate(enable: boolean | BREAKPOINT): void {
+  setResetViewOnNavigate(enable: boolean | BREAKPOINT[]): void {
     this.resetViewOnNavigate?.unsubscribe();
 
     if (enable) {
       this.resetViewOnNavigate = this.router.events
         .pipe(filter((event) => event instanceof NavigationStart))
         .subscribe(() => {
-          if (typeof enable === 'string') {
-            this.breakpointService
-              .isDown(<BREAKPOINT>enable)
+          if (Array.isArray(enable)) {
+            this.breakpointService.breakpoint$
               .pipe(take(1))
-              .subscribe((isDown: boolean) => {
-                if (isDown) {
+              .subscribe((breakpoint: BREAKPOINT) => {
+                if (enable.includes(breakpoint)) {
                   this.getStorefrontElement().scrollIntoView();
                 }
               });

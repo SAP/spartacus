@@ -11,11 +11,11 @@ export abstract class KeyboardFocusConfig {
     /**
      * Resets the focus back to the root `<cx-storefront>` element when a navigation is started.
      */
-    enableResetFocusOnNavigate?: boolean;
+    enableResetFocusOnNavigate?: boolean | BREAKPOINT[];
 
     /**
      * Resets the view back to the root `<cx-storefront>` element when a navigation is started. This can also be set to a BREAKPOINT value to only reset the view up to the provided value.
      */
-    enableResetViewOnNavigate?: boolean | BREAKPOINT;
+    enableResetViewOnNavigate?: boolean | BREAKPOINT[];
   };
 }

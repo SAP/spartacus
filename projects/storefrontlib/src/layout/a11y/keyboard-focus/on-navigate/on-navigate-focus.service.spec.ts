@@ -2,7 +2,7 @@ import { NgZone } from '@angular/core';
 import { waitForAsync, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { BreakpointService } from '../../../breakpoint/breakpoint.service';
 import { BREAKPOINT } from '../../../config';
 import { KeyboardFocusConfig } from '../config/index';
@@ -16,6 +16,12 @@ const MockKeyboardFocusConfig: KeyboardFocusConfig = {
 };
 
 const STOREFRONT_EL = 'cx-storefront';
+
+class MockBreakpointService {
+  get breakpoint$(): Observable<BREAKPOINT> {
+    return of(BREAKPOINT.md);
+  }
+}
 
 describe('OnNavigateFocusService', () => {
   let service: OnNavigateFocusService;
@@ -31,6 +37,10 @@ describe('OnNavigateFocusService', () => {
           {
             provide: KeyboardFocusConfig,
             useValue: MockKeyboardFocusConfig,
+          },
+          {
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
           },
         ],
       }).compileComponents();
@@ -131,10 +141,7 @@ describe('OnNavigateFocusService', () => {
     });
 
     it('should focus cx-storefront element given breakpoint value', async () => {
-      const breakpointService = TestBed.inject(BreakpointService);
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-
-      service.setResetFocusOnNavigate(BREAKPOINT.sm);
+      service.setResetFocusOnNavigate([BREAKPOINT.md, BREAKPOINT.lg]);
       await zone.run(() => router.navigateByUrl('/'));
 
       expect(spyDoc).toHaveBeenCalledWith(STOREFRONT_EL);
@@ -142,10 +149,7 @@ describe('OnNavigateFocusService', () => {
     });
 
     it('should NOT focus cx-storefront element given breakpoint value is not met', async () => {
-      const breakpointService = TestBed.inject(BreakpointService);
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
-
-      service.setResetFocusOnNavigate(BREAKPOINT.sm);
+      service.setResetFocusOnNavigate([BREAKPOINT.sm, BREAKPOINT.lg]);
       await zone.run(() => router.navigateByUrl('/'));
 
       expect(spyDoc).not.toHaveBeenCalledWith(STOREFRONT_EL);
@@ -187,10 +191,7 @@ describe('OnNavigateFocusService', () => {
     });
 
     it('should scrollIntoView cx-storefront element given breakpoint value', async () => {
-      const breakpointService = TestBed.inject(BreakpointService);
-      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
-
-      service.setResetViewOnNavigate(BREAKPOINT.sm);
+      service.setResetViewOnNavigate([BREAKPOINT.md, BREAKPOINT.lg]);
       await zone.run(() => router.navigateByUrl('/'));
 
       expect(spyDoc).toHaveBeenCalledWith(STOREFRONT_EL);
@@ -198,10 +199,7 @@ describe('OnNavigateFocusService', () => {
     });
 
     it('should NOT scrollIntoView cx-storefront element given breakpoint value is not met', async () => {
-      const breakpointService = TestBed.inject(BreakpointService);
-      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
-
-      service.setResetViewOnNavigate(BREAKPOINT.sm);
+      service.setResetViewOnNavigate([BREAKPOINT.sm, BREAKPOINT.lg]);
       await zone.run(() => router.navigateByUrl('/'));
 
       expect(spyDoc).not.toHaveBeenCalledWith(STOREFRONT_EL);
