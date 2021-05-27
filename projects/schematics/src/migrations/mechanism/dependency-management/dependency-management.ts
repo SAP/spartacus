@@ -90,7 +90,7 @@ function checkAndLogRemovedDependencies(
         Record<string, string>
       >)[libraryName];
 
-      if (!spartacusLibrary[removedDependency]) {
+      if (spartacusLibrary[removedDependency]) {
         removed.push(removedDependency);
         break;
       }
