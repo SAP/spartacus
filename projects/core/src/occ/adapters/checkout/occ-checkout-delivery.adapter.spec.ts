@@ -27,6 +27,8 @@ const MockOccModuleConfig: OccConfig = {
       baseUrl: '',
       prefix: '',
       endpoints: {
+        setDeliveryAddress:
+          'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
         deliveryAddresses: 'users/${userId}/carts/${cartId}/addresses/delivery',
         deliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         deliveryModes: 'users/${userId}/carts/${cartId}/deliverymodes',
@@ -105,7 +107,7 @@ describe('OccCheckoutDeliveryAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            `/users/${userId}/carts/${cartId}/addresses/delivery?addressId=${addressId}`
+            `/orgUsers/${userId}/carts/${cartId}/addresses/delivery?addressId=${addressId}`
         );
       });
 
