@@ -15,6 +15,8 @@ const MockKeyboardFocusConfig: KeyboardFocusConfig = {
   },
 };
 
+const STOREFRONT_EL = 'cx-storefront';
+
 describe('OnNavigateFocusService', () => {
   let service: OnNavigateFocusService;
   let zone: NgZone;
@@ -97,7 +99,7 @@ describe('OnNavigateFocusService', () => {
       router = TestBed.inject(Router);
       zone = TestBed.inject(NgZone);
 
-      element = document.createElement('cx-storefront');
+      element = document.createElement(STOREFRONT_EL);
       spyDoc = spyOn(document, 'getElementsByTagName').and.returnValue([
         element,
       ] as any);
@@ -108,7 +110,7 @@ describe('OnNavigateFocusService', () => {
       service.setResetFocusOnNavigate(true);
       await zone.run(() => router.navigateByUrl('/'));
 
-      expect(spyDoc).toHaveBeenCalledWith('cx-storefront');
+      expect(spyDoc).toHaveBeenCalledWith(STOREFRONT_EL);
       expect(spyEl).toHaveBeenCalledTimes(1);
     });
 
@@ -116,7 +118,7 @@ describe('OnNavigateFocusService', () => {
       service.setResetFocusOnNavigate(false);
       await zone.run(() => router.navigateByUrl('/'));
 
-      expect(spyDoc).not.toHaveBeenCalledWith('cx-storefront');
+      expect(spyDoc).not.toHaveBeenCalledWith(STOREFRONT_EL);
       expect(spyEl).not.toHaveBeenCalledTimes(1);
     });
 
@@ -124,7 +126,7 @@ describe('OnNavigateFocusService', () => {
       service.setResetFocusOnNavigate(true);
       await zone.run(() => router.navigateByUrl('/'));
 
-      expect(spyDoc).toHaveBeenCalledWith('cx-storefront');
+      expect(spyDoc).toHaveBeenCalledWith(STOREFRONT_EL);
       expect(spyEl).toHaveBeenCalledTimes(1);
     });
 
@@ -135,7 +137,7 @@ describe('OnNavigateFocusService', () => {
       service.setResetFocusOnNavigate(BREAKPOINT.sm);
       await zone.run(() => router.navigateByUrl('/'));
 
-      expect(spyDoc).toHaveBeenCalledWith('cx-storefront');
+      expect(spyDoc).toHaveBeenCalledWith(STOREFRONT_EL);
       expect(spyEl).toHaveBeenCalledTimes(1);
     });
 
@@ -146,7 +148,7 @@ describe('OnNavigateFocusService', () => {
       service.setResetFocusOnNavigate(BREAKPOINT.sm);
       await zone.run(() => router.navigateByUrl('/'));
 
-      expect(spyDoc).not.toHaveBeenCalledWith('cx-storefront');
+      expect(spyDoc).not.toHaveBeenCalledWith(STOREFRONT_EL);
       expect(spyEl).not.toHaveBeenCalledTimes(1);
     });
   });
@@ -161,7 +163,7 @@ describe('OnNavigateFocusService', () => {
       router = TestBed.inject(Router);
       zone = TestBed.inject(NgZone);
 
-      element = document.createElement('cx-storefront');
+      element = document.createElement(STOREFRONT_EL);
       spyDoc = spyOn(document, 'getElementsByTagName').and.returnValue([
         element,
       ] as any);
@@ -172,7 +174,7 @@ describe('OnNavigateFocusService', () => {
       service.setResetViewOnNavigate(true);
       await zone.run(() => router.navigateByUrl('/'));
 
-      expect(spyDoc).toHaveBeenCalledWith('cx-storefront');
+      expect(spyDoc).toHaveBeenCalledWith(STOREFRONT_EL);
       expect(spyEl).toHaveBeenCalledTimes(1);
     });
 
@@ -180,7 +182,7 @@ describe('OnNavigateFocusService', () => {
       service.setResetViewOnNavigate(false);
       await zone.run(() => router.navigateByUrl('/'));
 
-      expect(spyDoc).not.toHaveBeenCalledWith('cx-storefront');
+      expect(spyDoc).not.toHaveBeenCalledWith(STOREFRONT_EL);
       expect(spyEl).not.toHaveBeenCalledTimes(1);
     });
 
@@ -191,7 +193,7 @@ describe('OnNavigateFocusService', () => {
       service.setResetViewOnNavigate(BREAKPOINT.sm);
       await zone.run(() => router.navigateByUrl('/'));
 
-      expect(spyDoc).toHaveBeenCalledWith('cx-storefront');
+      expect(spyDoc).toHaveBeenCalledWith(STOREFRONT_EL);
       expect(spyEl).toHaveBeenCalledTimes(1);
     });
 
@@ -202,7 +204,7 @@ describe('OnNavigateFocusService', () => {
       service.setResetViewOnNavigate(BREAKPOINT.sm);
       await zone.run(() => router.navigateByUrl('/'));
 
-      expect(spyDoc).not.toHaveBeenCalledWith('cx-storefront');
+      expect(spyDoc).not.toHaveBeenCalledWith(STOREFRONT_EL);
       expect(spyEl).not.toHaveBeenCalledTimes(1);
     });
   });
