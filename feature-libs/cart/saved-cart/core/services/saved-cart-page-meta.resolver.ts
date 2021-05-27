@@ -88,8 +88,12 @@ export class SavedCartPageMetaResolver
     defer(() => this.basePageMetaResolver.resolveBreadcrumbs()),
   ]).pipe(
     map(([savedCartPageBreadcrumb, breadcrumbs]) => {
-      const [home, ...restBreadcrumbs] = breadcrumbs;
-      return [home, ...savedCartPageBreadcrumb, ...restBreadcrumbs];
+      if (breadcrumbs) {
+        const [home] = breadcrumbs;
+        return [home, ...savedCartPageBreadcrumb];
+      } else {
+        return [...savedCartPageBreadcrumb];
+      }
     }),
     shareReplay({ bufferSize: 1, refCount: true })
   );
