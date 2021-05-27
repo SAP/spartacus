@@ -515,9 +515,13 @@ export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
 export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
+export const VARIANT_COLOR_SELECTOR_MODULE = 'VariantColorSelectorModule';
 export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
+export const VARIANT_SIZE_SELECTOR_MODULE = 'VariantSizeSelectorModule';
 export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
+export const VARIANT_STYLE_ICONS_MODULE = 'VariantStyleIconsModule';
 export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
+export const VARIANT_STYLE_SELECTOR_MODULE = 'VariantStyleSelectorModule';
 export const PRODUCT_VARIANTS_MODULE = 'ProductVariantsModule';
 
 /***** Removed public api end *****/
