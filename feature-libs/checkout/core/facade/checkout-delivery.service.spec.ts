@@ -1,10 +1,8 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import {
   ActiveCartService,
   Address,
-  AddressValidation,
   Cart,
   DeliveryMode,
   PROCESS_FEATURE,
@@ -12,6 +10,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
+import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
@@ -305,21 +304,6 @@ describe('CheckoutDeliveryService', () => {
     );
   });
 
-  it('should be able to get the address verification result', () => {
-    store.dispatch(
-      new CheckoutActions.VerifyAddressSuccess({ decision: 'DECLINE' })
-    );
-
-    let result: AddressValidation | string;
-    service
-      .getAddressVerificationResults()
-      .subscribe((data) => {
-        result = data;
-      })
-      .unsubscribe();
-    expect(result).toEqual({ decision: 'DECLINE' });
-  });
-
   it('should be able to create and set address to cart', () => {
     service.createAndSetAddress(address);
 
@@ -356,17 +340,6 @@ describe('CheckoutDeliveryService', () => {
     );
   });
 
-  it('should load address verification results', () => {
-    service.verifyAddress(address);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.VerifyAddress({
-        userId: userId,
-        address,
-      })
-    );
-  });
-
   it('should set delivery address', () => {
     service.setDeliveryAddress(address);
 
@@ -376,13 +349,6 @@ describe('CheckoutDeliveryService', () => {
         cartId: cart.code,
         address: address,
       })
-    );
-  });
-
-  it('should be able to clear address verification result', () => {
-    service.clearAddressVerificationResults();
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CheckoutActions.ClearAddressVerificationResults()
     );
   });
 

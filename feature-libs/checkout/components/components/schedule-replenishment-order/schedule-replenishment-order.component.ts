@@ -25,10 +25,8 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
 
   iconTypes = ICON_TYPE;
   orderTypes = ORDER_TYPE;
-  daysOfWeek = Object.keys(DaysOfWeek).map((key) => DaysOfWeek[key]);
-  recurrencePeriodType = Object.keys(recurrencePeriod).map(
-    (key) => recurrencePeriod[key]
-  );
+  daysOfWeek = Object.values(DaysOfWeek);
+  recurrencePeriodType = Object.values(recurrencePeriod);
 
   selectedOrderType$: Observable<ORDER_TYPE> = this.checkoutService.getCurrentOrderType();
 
@@ -37,7 +35,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
   currentDaysOfWeek: DaysOfWeek[] = [];
   numberOfDays: string[];
   numberOfWeeks: string[];
-  currentDate: string;
+  currentDate: string | undefined;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
 
   constructor(
@@ -143,7 +141,9 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
       this.scheduleReplenishmentFormData.recurrencePeriod ===
       recurrencePeriod.WEEKLY;
 
-    this.currentDaysOfWeek = [...this.scheduleReplenishmentFormData.daysOfWeek];
+    this.currentDaysOfWeek = [
+      ...(this.scheduleReplenishmentFormData.daysOfWeek ?? []),
+    ];
 
     this.numberOfDays = this.isMonthly
       ? this.createNumberStringArray(31)

@@ -117,7 +117,7 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
           this.scheduleReplenishmentFormData = data;
 
           this.daysOfWeekNotChecked$.next(
-            data.daysOfWeek.length === 0 &&
+            data.daysOfWeek?.length === 0 &&
               data.recurrencePeriod === recurrencePeriod.WEEKLY
           );
         })

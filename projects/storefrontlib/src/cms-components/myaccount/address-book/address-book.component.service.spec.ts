@@ -1,13 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { Address, User, UserAddressService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-
-import {
-  Address,
-  CheckoutDeliveryService,
-  User,
-  UserAddressService,
-} from '@spartacus/core';
 import { AddressBookComponentService } from './address-book.component.service';
 
 const mockAddresses: Address[] = [
@@ -31,6 +25,8 @@ class MockUserAddressService {
   loadAddresses = jasmine.createSpy();
   addUserAddress = jasmine.createSpy();
   updateUserAddress = jasmine.createSpy();
+  setAddressAsDefault = jasmine.createSpy();
+  deleteUserAddress = jasmine.createSpy();
 
   getAddresses(): Observable<Address[]> {
     return of(mockAddresses);
@@ -43,14 +39,9 @@ class MockUserAddressService {
   }
 }
 
-class MockCheckoutDeliveryService {
-  clearCheckoutDeliveryDetails() {}
-}
-
 describe('AddressBookComponentService', () => {
   let service: AddressBookComponentService;
   let userAddressService: UserAddressService;
-  let checkoutDeliveryService: CheckoutDeliveryService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -60,16 +51,11 @@ describe('AddressBookComponentService', () => {
           provide: UserAddressService,
           useClass: MockUserAddressService,
         },
-        {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
-        },
       ],
     });
 
     service = TestBed.inject(AddressBookComponentService);
     userAddressService = TestBed.inject(UserAddressService);
-    checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
   });
 
   it('should service be created', () => {
@@ -106,21 +92,25 @@ describe('AddressBookComponentService', () => {
     );
   });
 
-  describe('updateUserAddress', () => {
-    it('should run update user address', () => {
-      service.updateUserAddress('addressId', mockAddresses[0]);
-      expect(userAddressService.updateUserAddress).toHaveBeenCalledWith(
-        'addressId',
-        mockAddresses[0]
-      );
-    });
+  it('should updateUserAddress() update the user address', () => {
+    service.updateUserAddress('addressId', mockAddresses[0]);
+    expect(userAddressService.updateUserAddress).toHaveBeenCalledWith(
+      'addressId',
+      mockAddresses[0]
+    );
+  });
 
-    it('should clear checkout delivery details', () => {
-      spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
-      service.updateUserAddress('addressId', mockAddresses[0]);
-      expect(
-        checkoutDeliveryService.clearCheckoutDeliveryDetails
-      ).toHaveBeenCalled();
-    });
+  it('should setAddressAsDefault() set address as default', () => {
+    service.setAddressAsDefault('addressId');
+    expect(userAddressService.setAddressAsDefault).toHaveBeenCalledWith(
+      'addressId'
+    );
+  });
+
+  it('should deleteUserAddress() delete address', () => {
+    service.deleteUserAddress('addressId');
+    expect(userAddressService.deleteUserAddress).toHaveBeenCalledWith(
+      'addressId'
+    );
   });
 });

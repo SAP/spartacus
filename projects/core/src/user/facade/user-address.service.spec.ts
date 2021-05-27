@@ -1,27 +1,74 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { Address, Country, Region } from '../../model/address.model';
+import { EventService } from '../../event/event.service';
+import {
+  Address,
+  AddressValidation,
+  Country,
+  Region,
+} from '../../model/address.model';
 import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
+import { UserAddressConnector } from '../connectors/address/user-address.connector';
+import {
+  UserAddressCreateEvent,
+  UserAddressDeleteEvent,
+  UserAddressSetAsDefaultEvent,
+  UserAddressUpdateEvent,
+} from '../events/user.events';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
 import { UserAddressService } from './user-address.service';
+import createSpy = jasmine.createSpy;
 
+const mockUserId = 'testuserid';
 class MockUserIdService implements Partial<UserIdService> {
   invokeWithUserId(cb) {
     cb(OCC_USER_ID_CURRENT);
     return new Subscription();
   }
+  public takeUserId(): Observable<string> {
+    return of(mockUserId);
+  }
+}
+
+const mockAddressVerificationResult: AddressValidation = {
+  decision: 'ACCEPT',
+};
+
+class MockUserAddressConnector implements Partial<UserAddressConnector> {
+  verify = createSpy('MockUserAddressConnector.verify Spy').and.returnValue(
+    of(mockAddressVerificationResult)
+  );
+}
+
+const mockAddress: Address = {
+  id: 'mock address id',
+  firstName: 'John',
+  lastName: 'Doe',
+  titleCode: 'mr',
+  line1: 'Toyosaki 2',
+  line2: 'line2',
+  town: 'town',
+  region: { isocode: 'JP-27' },
+  postalCode: 'zip',
+  country: { isocode: 'JP' },
+};
+
+class MockEventService {
+  dispatch = jasmine.createSpy();
 }
 
 describe('UserAddressService', () => {
   let service: UserAddressService;
   let store: Store<StateWithUser>;
+  let userAddressConnector: UserAddressConnector;
+  let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,12 +83,19 @@ describe('UserAddressService', () => {
       providers: [
         UserAddressService,
         { provide: UserIdService, useClass: MockUserIdService },
+        { provide: UserAddressConnector, useClass: MockUserAddressConnector },
+        {
+          provide: EventService,
+          useClass: MockEventService,
+        },
       ],
     });
 
     store = TestBed.inject(Store);
     spyOn(store, 'dispatch').and.callThrough();
     service = TestBed.inject(UserAddressService);
+    userAddressConnector = TestBed.inject(UserAddressConnector);
+    eventService = TestBed.inject(EventService);
   });
 
   it('should UserAddressService is injected', inject(
@@ -147,6 +201,12 @@ describe('UserAddressService', () => {
         address: mockAddress,
       })
     );
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      {
+        address: mockAddress,
+      },
+      UserAddressCreateEvent
+    );
   });
 
   it('should be able to update user address', () => {
@@ -162,6 +222,13 @@ describe('UserAddressService', () => {
         address: mockAddressUpdate,
       })
     );
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      {
+        addressId: '123',
+        address: mockAddressUpdate,
+      },
+      UserAddressUpdateEvent
+    );
   });
 
   it('should be able to delete user address', () => {
@@ -171,6 +238,12 @@ describe('UserAddressService', () => {
         userId: OCC_USER_ID_CURRENT,
         addressId: '123',
       })
+    );
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      {
+        addressId: '123',
+      },
+      UserAddressDeleteEvent
     );
   });
 
@@ -184,6 +257,12 @@ describe('UserAddressService', () => {
           defaultAddress: true,
         },
       })
+    );
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      {
+        addressId: '123',
+      },
+      UserAddressSetAsDefaultEvent
     );
   });
 
@@ -303,6 +382,19 @@ describe('UserAddressService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.ClearRegions()
       );
+    });
+  });
+
+  describe('verifyAddress', () => {
+    it('should call the corresponding command', (done) => {
+      service.verifyAddress(mockAddress).subscribe((result) => {
+        expect(result).toBe(mockAddressVerificationResult);
+        expect(userAddressConnector.verify).toHaveBeenCalledWith(
+          mockUserId,
+          mockAddress
+        );
+        done();
+      });
     });
   });
 });

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { OrderPlacedEvent } from '@spartacus/checkout/root';
 import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
   Category,
   EventService,
-  OrderPlacedEvent,
 } from '@spartacus/core';
 import {
   CartPageEvent,
@@ -95,8 +95,8 @@ export class ProfileTagPushEventsService {
       ),
       map(([item, personalizationContext]) => {
         item.data = item.data ? item.data : {};
-        item.data.segments = personalizationContext.segments;
-        item.data.actions = personalizationContext.actions;
+        item.data.segments = personalizationContext?.segments;
+        item.data.actions = personalizationContext?.actions;
         return item;
       })
     );

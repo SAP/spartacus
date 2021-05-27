@@ -13,7 +13,7 @@ import { filter, map, tap, withLatestFrom } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CostCenterComponent {
-  costCenterId: string;
+  costCenterId: string | undefined;
 
   constructor(
     protected userCostCenterService: UserCostCenterService,
@@ -31,7 +31,7 @@ export class CostCenterComponent {
       filter(([costCenters]) => Boolean(costCenters)),
       tap(([costCenters, cartCostCenter]) => {
         if (!Boolean(cartCostCenter)) {
-          this.setCostCenter(costCenters[0].code);
+          this.setCostCenter(costCenters[0].code as string);
         } else {
           this.costCenterId = cartCostCenter;
         }

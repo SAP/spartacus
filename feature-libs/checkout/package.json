@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/checkout",
-  "version": "3.0.0",
+  "version": "3.2.0-next.2",
   "description": "Checkout feature library for Spartacus",
   "keywords": [
     "spartacus",
