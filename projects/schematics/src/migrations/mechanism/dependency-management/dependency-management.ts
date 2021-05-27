@@ -1,3 +1,4 @@
+import { logging } from '@angular-devkit/core';
 import {
   chain,
   Rule,
@@ -18,38 +19,47 @@ import {
   readPackageJson,
 } from '../../../shared/utils/package-utils';
 
-export function migrate(): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    const spartacusDependencies = collectSpartacusLibraryDependencies(
-      readPackageJson(tree)
-    );
+export function migrateDependencies(
+  tree: Tree,
+  context: SchematicContext,
+  removedDependencies: string[]
+): Rule {
+  context.logger.info('Updating dependencies...');
 
-    const thirdPartyDependencies = prepare3rdPartyDependencies();
-    const libraryDependencies = createSpartacusLibraryDependencies(
-      spartacusDependencies
-    );
+  const installedSpartacusLibs = collectSpartacusLibraryDependencies(
+    readPackageJson(tree)
+  );
 
-    const dependencies = thirdPartyDependencies.concat(libraryDependencies);
-    return chain([
-      addPackageJsonDependencies(dependencies),
-      installPackageJsonDependencies(),
-    ]);
-  };
+  const thirdPartyDependencies = prepare3rdPartyDependencies();
+  const libraryDependencies = createSpartacusLibraryDependencies(
+    installedSpartacusLibs,
+    removedDependencies,
+    context.logger
+  );
+
+  const dependencies = thirdPartyDependencies.concat(libraryDependencies);
+  return chain([
+    addPackageJsonDependencies(dependencies),
+    installPackageJsonDependencies(),
+  ]);
 }
 
 function collectSpartacusLibraryDependencies(packageJson: any): string[] {
-  const dependencies = packageJson.dependencies as Record<string, string>;
+  const dependencies =
+    (packageJson.dependencies as Record<string, string>) ?? [];
   return Object.keys(dependencies)
     .filter((d) => d.startsWith(SPARTACUS_SCOPE))
     .filter((d) => !CORE_SPARTACUS_SCOPES.includes(d));
 }
 
 function createSpartacusLibraryDependencies(
-  spartacusDependencies: string[]
+  installedSpartacusLibs: string[],
+  removedDependencies: string[],
+  logger: logging.LoggerApi
 ): NodeDependency[] {
   const dependenciesToAdd: NodeDependency[] = [];
 
-  for (const libraryName of spartacusDependencies) {
+  for (const libraryName of installedSpartacusLibs) {
     const spartacusLibrary = (collectedDependencies as Record<
       string,
       Record<string, string>
@@ -58,5 +68,31 @@ function createSpartacusLibraryDependencies(
     dependenciesToAdd.push(...createDependencies(spartacusLibrary));
   }
 
+  checkAndLogRemovedDependencies(
+    installedSpartacusLibs,
+    removedDependencies,
+    logger
+  );
+
   return dependenciesToAdd;
+}
+
+function checkAndLogRemovedDependencies(
+  installedSpartacusLibs: string[],
+  removedDependencies: string[],
+  logger: logging.LoggerApi
+): void {
+  for (const removedDependency of removedDependencies) {
+    for (const libraryName of installedSpartacusLibs) {
+      const spartacusLibrary = (collectedDependencies as Record<
+        string,
+        Record<string, string>
+      >)[libraryName];
+
+      if (!spartacusLibrary[removedDependency]) {
+        logger.warn(`Spartacus no longer requires ${removedDependency}.`);
+        break;
+      }
+    }
+  }
 }
