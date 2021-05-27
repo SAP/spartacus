@@ -81,7 +81,8 @@ function checkAndLogRemovedDependencies(
   removedDependencies: string[],
   logger: logging.LoggerApi
 ): void {
-  let dependencies = (packageJson.dependencies as Record<string, string>) ?? {};
+  const dependencies =
+    (packageJson.dependencies as Record<string, string>) ?? {};
 
   for (const removedDependency of removedDependencies) {
     if (!dependencies[removedDependency]) {
