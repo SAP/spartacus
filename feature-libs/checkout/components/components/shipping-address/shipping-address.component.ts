@@ -94,7 +94,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
         this.selectDefaultAddress(addresses, selected)
       ),
       map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-        (<any>addresses).map((address) => ({
+        (<any>addresses).map((address: Address) => ({
           address,
           card: this.getCardContent(
             address,
@@ -109,19 +109,27 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   getSupportedAddresses(): Observable<Address[]> {
-    if (this.isAccountPayment) {
+    if (
+      this.isAccountPayment &&
+      this.checkoutCostCenterService &&
+      this.userCostCenterService
+    ) {
       return this.checkoutCostCenterService.getCostCenter().pipe(
         distinctUntilChanged(),
         switchMap((selected) => {
           this.doneAutoSelect = false;
-          return this.userCostCenterService.getCostCenterAddresses(selected);
+          return (
+            this.userCostCenterService?.getCostCenterAddresses(
+              selected as string
+            ) ?? []
+          );
         })
       );
     }
     return this.userAddressService.getAddresses();
   }
 
-  selectDefaultAddress(addresses: Address[], selected: Address) {
+  selectDefaultAddress(addresses: Address[], selected: Address | undefined) {
     if (
       !this.doneAutoSelect &&
       addresses &&
@@ -179,13 +187,13 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       text: [
         address.line1,
         address.line2,
-        address.town + ', ' + region + address.country.isocode,
+        address.town + ', ' + region + address.country?.isocode,
         address.postalCode,
         address.phone,
       ],
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',
-    };
+    } as Card;
   }
 
   selectAddress(address: Address): void {

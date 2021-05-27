@@ -8,6 +8,8 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
@@ -17,8 +19,6 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
-  CLI_CPQ_FEATURE,
-  CLI_TEXTFIELD_FEATURE,
   PRODUCT_CONFIGURATOR_FOLDER_NAME,
   PRODUCT_CONFIGURATOR_MODULE_NAME,
   PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE,
@@ -43,30 +43,28 @@ import {
 export function addProductConfiguratorFeatures(
   options: SpartacusProductConfiguratorOptions
 ): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+
       addProductConfiguratorRulebasedFeature(options),
 
-      shouldAddFeature(CLI_CPQ_FEATURE, options.features)
+      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE, options.features)
         ? chain([
             addCpqRulebasedRootModule(options),
             configureB2bFeatures(options, packageJson),
           ])
         : noop(),
 
-      shouldAddFeature(CLI_TEXTFIELD_FEATURE, options.features)
+      shouldAddFeature(
+        CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+        options.features
+      )
         ? addProductConfiguratorTextfieldFeature(options)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }
@@ -82,7 +80,9 @@ function addProductConfiguratorRulebasedFeature(
 ): Rule {
   let featureModuleName = PRODUCT_CONFIGURATOR_RULEBASED_MODULE;
   let featureModuleImportPath = SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED;
-  if (shouldAddFeature(CLI_CPQ_FEATURE, options.features)) {
+  if (
+    shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE, options.features)
+  ) {
     featureModuleName = PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE;
     featureModuleImportPath = SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_CPQ;
   }

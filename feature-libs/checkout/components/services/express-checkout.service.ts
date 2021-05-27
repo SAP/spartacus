@@ -88,9 +88,10 @@ export class ExpressCheckoutService {
                   setDeliveryAddressProcessState: StateUtils.LoaderState<void>
                 ) => {
                   return (
-                    (setDeliveryAddressProcessState.success ||
+                    ((setDeliveryAddressProcessState.success ||
                       setDeliveryAddressProcessState.error) &&
-                    !setDeliveryAddressProcessState.loading
+                      !setDeliveryAddressProcessState.loading) ??
+                    false
                   );
                 }
               ),
@@ -162,9 +163,10 @@ export class ExpressCheckoutService {
                   setPaymentDetailsProcessState: StateUtils.LoaderState<void>
                 ) => {
                   return (
-                    (setPaymentDetailsProcessState.success ||
+                    ((setPaymentDetailsProcessState.success ||
                       setPaymentDetailsProcessState.error) &&
-                    !setPaymentDetailsProcessState.loading
+                      !setPaymentDetailsProcessState.loading) ??
+                    false
                   );
                 }
               ),
@@ -218,7 +220,7 @@ export class ExpressCheckoutService {
                   DeliveryMode[],
                   StateUtils.LoaderState<void>,
                   StateUtils.LoaderState<void>
-                ]) => supportedDeliveryModeStatus.success
+                ]) => supportedDeliveryModeStatus.success ?? false
               ),
               switchMap(
                 ([deliveryModes, setDeliveryModeStatus, ,]: [
@@ -259,9 +261,10 @@ export class ExpressCheckoutService {
                           StateUtils.LoaderState<void>
                         ]) => {
                           return (
-                            (deliveryModeLoadingStatus.success ||
+                            ((deliveryModeLoadingStatus.success ||
                               deliveryModeLoadingStatus.error) &&
-                            !deliveryModeLoadingStatus.loading
+                              !deliveryModeLoadingStatus.loading) ??
+                            false
                           );
                         }
                       ),

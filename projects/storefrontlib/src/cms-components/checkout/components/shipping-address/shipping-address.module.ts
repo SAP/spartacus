@@ -4,9 +4,9 @@ import { RouterModule } from '@angular/router';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { CardModule } from '../../../../shared/components/card/card.module';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
+import { AddressFormModule } from '../../../myaccount/address-book/address-form/address-form.module';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CartNotEmptyGuard } from './../../../../cms-components/cart/cart-not-empty.guard';
-import { AddressFormModule } from './address-form/address-form.module';
 import { ShippingAddressComponent } from './shipping-address.component';
 
 /**

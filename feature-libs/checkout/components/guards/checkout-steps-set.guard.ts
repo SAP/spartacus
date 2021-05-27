@@ -53,12 +53,12 @@ export class CheckoutStepsSetGuard implements CanActivate {
       switchMap(([steps, isAccount]) => {
         currentIndex = steps.findIndex((step) => {
           const stepRouteUrl = `/${
-            this.routingConfigService.getRouteConfig(step.routeName).paths[0]
+            this.routingConfigService.getRouteConfig(step.routeName).paths?.[0]
           }`;
           return stepRouteUrl === currentRouteUrl;
         });
         // get current step
-        let currentStep: CheckoutStep;
+        let currentStep;
         if (currentIndex >= 0) {
           currentStep = steps[currentIndex];
         }
@@ -78,7 +78,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
 
   protected isStepSet(
     step: CheckoutStep,
-    isAccountPayment
+    isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {
     if (step && !step.disabled) {
       switch (step.type[0]) {
@@ -106,7 +106,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
     return this.paymentTypeService.getSelectedPaymentType().pipe(
-      map((paymentType: string) => {
+      map((paymentType) => {
         if (Boolean(paymentType)) {
           return true;
         } else {
@@ -178,7 +178,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
 
   private getUrl(routeName: string): UrlTree {
     return this.router.parseUrl(
-      this.routingConfigService.getRouteConfig(routeName).paths[0]
+      this.routingConfigService.getRouteConfig(routeName).paths?.[0] as string
     );
   }
 }

@@ -19,7 +19,7 @@ export function reducer(
         (cardTypesEntities: { [code: string]: CardType }, name: CardType) => {
           return {
             ...cardTypesEntities,
-            [name.code]: name,
+            [name.code as string]: name,
           };
         },
         {

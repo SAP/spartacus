@@ -65,7 +65,7 @@ export class CheckoutService implements CheckoutFacade {
     scheduleReplenishmentForm: ScheduleReplenishmentForm,
     termsChecked: boolean
   ): void {
-    let cartId;
+    let cartId: string;
 
     this.activeCartService
       .getActiveCartId()

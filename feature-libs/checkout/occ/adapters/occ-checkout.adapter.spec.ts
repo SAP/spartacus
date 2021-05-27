@@ -4,8 +4,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
-  CheckoutDetails,
   ConverterService,
   OccEndpointsService,
   Order,
@@ -38,6 +38,8 @@ const checkoutData: CheckoutDetails = {
   deliveryAddress: {
     firstName: 'Janusz',
   },
+  deliveryMode: {},
+  paymentInfo: {},
 };
 const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
 const cartsEndpoint = 'carts';

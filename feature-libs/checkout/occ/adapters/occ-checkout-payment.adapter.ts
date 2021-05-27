@@ -49,7 +49,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     );
     return this.getProviderSubInfo(userId, cartId).pipe(
       map((data) => {
-        const labelsMap = this.convertToMap(data.mappingLabels.entry);
+        const labelsMap = this.convertToMap(data.mappingLabels.entry) as {
+          [key: string]: string;
+        };
         return {
           url: data.postUrl,
           parameters: this.getParamsForPaymentProvider(
@@ -66,7 +68,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
           map((response) => this.extractPaymentDetailsFromHtml(response)),
           mergeMap((fromPaymentProvider) => {
             fromPaymentProvider['defaultPayment'] =
-              paymentDetails.defaultPayment;
+              paymentDetails.defaultPayment ?? false;
             fromPaymentProvider['savePaymentInfo'] = true;
             return this.createDetailsWithParameters(
               userId,
@@ -97,7 +99,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return this.http
       .get<Occ.CardTypeList>(this.occEndpoints.getEndpoint(ENDPOINT_CARD_TYPES))
       .pipe(
-        map((cardTypeList) => cardTypeList.cardTypes),
+        map((cardTypeList) => cardTypeList.cardTypes ?? []),
         this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
       );
   }
@@ -155,13 +157,13 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
 
   private getParamsForPaymentProvider(
     paymentDetails: PaymentDetails,
-    parameters: { key; value }[],
-    mappingLabels: any
+    parameters: { key: string; value: string }[],
+    mappingLabels: { [key: string]: string }
   ) {
     const params = this.convertToMap(parameters);
     params[mappingLabels['hybris_account_holder_name']] =
       paymentDetails.accountHolderName;
-    params[mappingLabels['hybris_card_type']] = paymentDetails.cardType.code;
+    params[mappingLabels['hybris_card_type']] = paymentDetails.cardType?.code;
     params[mappingLabels['hybris_card_number']] = paymentDetails.cardNumber;
     if (mappingLabels['hybris_combined_expiry_date'] === 'true') {
       params[mappingLabels['hybris_card_expiry_date']] =
@@ -178,52 +180,59 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
 
     // billing address
     params[mappingLabels['hybris_billTo_country']] =
-      paymentDetails.billingAddress.country.isocode;
+      paymentDetails.billingAddress?.country?.isocode;
     params[mappingLabels['hybris_billTo_firstname']] =
-      paymentDetails.billingAddress.firstName;
+      paymentDetails.billingAddress?.firstName;
     params[mappingLabels['hybris_billTo_lastname']] =
-      paymentDetails.billingAddress.lastName;
+      paymentDetails.billingAddress?.lastName;
     params[mappingLabels['hybris_billTo_street1']] =
-      paymentDetails.billingAddress.line1 +
+      paymentDetails.billingAddress?.line1 +
       ' ' +
-      paymentDetails.billingAddress.line2;
+      paymentDetails.billingAddress?.line2;
     params[mappingLabels['hybris_billTo_city']] =
-      paymentDetails.billingAddress.town;
-    if (paymentDetails.billingAddress.region) {
+      paymentDetails.billingAddress?.town;
+    if (paymentDetails.billingAddress?.region) {
       params[mappingLabels['hybris_billTo_region']] =
         paymentDetails.billingAddress.region.isocodeShort;
     } else {
       params[mappingLabels['hybris_billTo_region']] = '';
     }
     params[mappingLabels['hybris_billTo_postalcode']] =
-      paymentDetails.billingAddress.postalCode;
+      paymentDetails.billingAddress?.postalCode;
     return params;
   }
 
-  private extractPaymentDetailsFromHtml(html: string): any {
+  private extractPaymentDetailsFromHtml(
+    html: string
+  ): { [key: string]: string | boolean } {
     const domdoc = this.domparser.parseFromString(html, 'text/xml');
     const responseForm = domdoc.getElementsByTagName('form')[0];
     const inputs = responseForm.getElementsByTagName('input');
 
-    const values = {};
+    const values: { [key: string]: string | boolean } = {};
     for (let i = 0; inputs[i]; i++) {
       const input = inputs[i];
-      if (
-        input.getAttribute('name') !== '{}' &&
-        input.getAttribute('value') !== ''
-      ) {
-        values[input.getAttribute('name')] = input.getAttribute('value');
+      const name = input.getAttribute('name');
+      const value = input.getAttribute('value');
+      if (name && name !== '{}' && value && value !== '') {
+        values[name] = value;
       }
     }
 
     return values;
   }
 
-  private convertToMap(paramList: { key; value }[]) {
-    return paramList.reduce(function (result, item) {
+  private convertToMap(
+    paramList: { key: string; value: string }[]
+  ): { [key: string]: string | undefined } {
+    return paramList.reduce(function (
+      result: { [key: string]: string | undefined },
+      item
+    ) {
       const key = item.key;
       result[key] = item.value;
       return result;
-    }, {});
+    },
+    {});
   }
 }
