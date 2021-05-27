@@ -1,5 +1,12 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
+import {
+  RestoreSavedCartSuccessEvent,
+  SaveCartSuccessEvent,
+} from '@spartacus/cart/saved-cart/root';
+import {
+  CheckoutDeliveryFacade,
+  ClearCheckoutFacade,
+} from '@spartacus/checkout/root';
 import {
   EventService,
   UserAddressDeleteEvent,
@@ -18,9 +25,12 @@ export class CheckoutEventListener implements OnDestroy {
 
   constructor(
     protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
+    protected clearCheckoutFacade: ClearCheckoutFacade,
     protected eventService: EventService
   ) {
     this.onUserAddressChange();
+    this.onSaveCartSuccess();
+    this.onRestoreSavedCartSuccess();
   }
 
   protected onUserAddressChange() {
@@ -38,6 +48,24 @@ export class CheckoutEventListener implements OnDestroy {
         )
         .subscribe((_event) => {
           this.checkoutDeliveryFacade.clearCheckoutDeliveryDetails();
+        })
+    );
+  }
+
+  protected onSaveCartSuccess() {
+    this.subscription.add(
+      this.eventService.get(SaveCartSuccessEvent).subscribe((_event) => {
+        this.clearCheckoutFacade.resetCheckoutProcesses();
+      })
+    );
+  }
+
+  protected onRestoreSavedCartSuccess() {
+    this.subscription.add(
+      this.eventService
+        .get(RestoreSavedCartSuccessEvent)
+        .subscribe((_event) => {
+          this.clearCheckoutFacade.resetCheckoutProcesses();
         })
     );
   }

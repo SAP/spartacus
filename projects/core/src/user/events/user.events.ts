@@ -22,3 +22,12 @@ export class UserAddressCreateEvent extends UserAddressEvent {
   static readonly type = 'UserAddressCreateEvent';
   address: Address;
 }
+
+export class UserCartSavedEvent extends CxEvent {
+  static readonly type = 'UserSavedCartEvent';
+  address: Address;
+}
+export class UserCartRestoredEvent extends CxEvent {
+  static readonly type = 'UserRestoredCartEvent';
+  address: Address;
+}
