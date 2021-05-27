@@ -14,7 +14,7 @@ export const savedCartDetails = {
 
 export const savedCartList = {
   savedCarts: 'Saved Carts ({{count}})',
-  breadcrumb: 'Saved Carts List',
+  breadcrumb: 'Saved Carts',
   cartName: 'Name',
   cartId: 'Id',
   dateSaved: 'Date Saved',
