@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import {
   CheckoutReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
-  REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/checkout/core';
 import {
   ConverterService,
   OccEndpointsService,
   ReplenishmentOrder,
+  REPLENISHMENT_ORDER_NORMALIZER,
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';

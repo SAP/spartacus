@@ -4,8 +4,13 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CheckoutDetails, ORDER_NORMALIZER } from '@spartacus/checkout/core';
-import { ConverterService, OccEndpointsService, Order } from '@spartacus/core';
+import { CheckoutDetails } from '@spartacus/checkout/core';
+import {
+  ConverterService,
+  OccEndpointsService,
+  Order,
+  ORDER_NORMALIZER,
+} from '@spartacus/core';
 import { OccCheckoutAdapter } from './occ-checkout.adapter';
 
 const userId = '123';

@@ -1,10 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { CardType, PaymentDetails } from '@spartacus/core';
-import { Converter } from '@spartacus/core';
-
-export const PAYMENT_DETAILS_NORMALIZER = new InjectionToken<
-  Converter<any, PaymentDetails>
->('PaymentDetailsNormalizer');
+import { CardType, Converter, PaymentDetails } from '@spartacus/core';
 
 export const PAYMENT_DETAILS_SERIALIZER = new InjectionToken<
   Converter<PaymentDetails, any>

@@ -1,10 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  CheckoutAdapter,
-  CheckoutDetails,
-  ORDER_NORMALIZER,
-} from '@spartacus/checkout/core';
+import { CheckoutAdapter, CheckoutDetails } from '@spartacus/checkout/core';
 import {
   ConverterService,
   InterceptorUtil,
@@ -12,6 +8,7 @@ import {
   OccEndpointsService,
   OCC_USER_ID_ANONYMOUS,
   Order,
+  ORDER_NORMALIZER,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';

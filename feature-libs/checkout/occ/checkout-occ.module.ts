@@ -6,12 +6,14 @@ import {
   CheckoutDeliveryAdapter,
   CheckoutPaymentAdapter,
   CheckoutReplenishmentOrderAdapter,
-  ORDER_NORMALIZER,
   PaymentTypeAdapter,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
-  REPLENISHMENT_ORDER_NORMALIZER,
 } from '@spartacus/checkout/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import {
+  ORDER_NORMALIZER,
+  provideDefaultConfig,
+  REPLENISHMENT_ORDER_NORMALIZER,
+} from '@spartacus/core';
 import {
   OccOrderNormalizer,
   OccReplenishmentOrderFormSerializer,
