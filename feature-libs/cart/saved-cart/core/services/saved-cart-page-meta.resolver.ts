@@ -44,11 +44,6 @@ export class SavedCartPageMetaResolver
    */
   protected readonly SAVED_CART_SEMANTIC_ROUTE = 'savedCarts';
 
-  /**
-   * Default path for Saved Cart home page
-   */
-  protected readonly SAVED_CART_HOME_PATH = 'savedCarts';
-
   constructor(
     protected basePageMetaResolver: BasePageMetaResolver,
     protected routingService: RoutingService,
@@ -75,7 +70,7 @@ export class SavedCartPageMetaResolver
             map((label) => [
               {
                 label,
-                link: this.semanticPath.get(this.SAVED_CART_HOME_PATH),
+                link: this.semanticPath.get(this.SAVED_CART_SEMANTIC_ROUTE),
               },
             ])
           );
