@@ -69,9 +69,14 @@ export class AuthRedirectService implements OnDestroy {
       });
   }
 
-  // SPIKE TODO: deprecate those guys
+  /**
+   * @deprecated since 4.0 - method not needed anymore
+   */
   reportAuthGuard() {}
 
+  /**
+   * @deprecated since 4.0 - method not needed anymore
+   */
   reportNotAuthGuard() {}
 
   protected isIgnoredUrl(url: string): boolean {
