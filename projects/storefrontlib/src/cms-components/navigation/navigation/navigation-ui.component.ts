@@ -7,13 +7,16 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  Renderer2,
+  Renderer2
 } from '@angular/core';
+
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { debounceTime, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
+import { distinctUntilChanged } from 'rxjs/operators';
+import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 
 @Component({
   selector: 'cx-navigation-ui',
@@ -57,7 +60,8 @@ export class NavigationUIComponent implements OnDestroy {
   constructor(
     private router: Router,
     private renderer: Renderer2,
-    private elemRef: ElementRef
+    private elemRef: ElementRef,
+    private hamMenuService: HamburgerMenuService
   ) {
     this.subscriptions.add(
       this.router.events
@@ -69,6 +73,42 @@ export class NavigationUIComponent implements OnDestroy {
         this.alignWrappersToRightIfStickOut();
       })
     );
+    //check configuration
+    this.attachListener();
+  }
+
+  attachListener(){
+
+    
+    this.subscriptions.add(
+      this.hamMenuService.isExpanded.pipe(distinctUntilChanged()).subscribe((isExpanded: boolean) => {
+        
+        if(isExpanded && this.node.children?.length > 6){
+        
+          //if you expand the view, and theres a expanded sub node, reset it before client can do anything
+          if(this.openNodes?.length > 0){
+            this.closeSubMenus();
+            this.reinitalizeMenu(this.node.children);
+          }
+        }
+      })
+    );
+  }
+  closeSubMenus(){
+    let allClosed = false;
+    while(!allClosed){
+      this.back();
+      allClosed = this.openNodes?.length == 0;
+    }  
+  }
+
+  reinitalizeMenu(mainNodes: NavigationNode){
+    if(mainNodes){ 
+      //force a refresh on the nav node
+      this.flyout = false;
+      this.node = null;
+      this.node = mainNodes;
+    }
   }
 
   toggleOpen(event: UIEvent): void {
