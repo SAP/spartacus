@@ -1,6 +1,6 @@
 import { HttpParams } from '@angular/common/http';
 import { Injectable, isDevMode, Optional } from '@angular/core';
-import { DynamicTemplate } from '../../config/utils/dynamic-template';
+import { StringTemplate } from '../../config/utils/string-template';
 import { getContextParameterDefault } from '../../site-context/config/context-config-utils';
 import { BaseSiteService } from '../../site-context/facade/base-site.service';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
@@ -166,7 +166,7 @@ export class OccEndpointsService {
       const { urlParams, queryParams } = attributes;
 
       if (urlParams) {
-        url = DynamicTemplate.resolve(url, attributes.urlParams, true);
+        url = StringTemplate.resolve(url, attributes.urlParams, true);
       }
 
       if (queryParams) {
@@ -224,7 +224,7 @@ export class OccEndpointsService {
       Object.keys(urlParams).forEach((key) => {
         urlParams[key] = encodeURIComponent(urlParams[key]);
       });
-      endpoint = DynamicTemplate.resolve(endpoint, urlParams);
+      endpoint = StringTemplate.resolve(endpoint, urlParams);
     }
 
     if (queryParams) {
