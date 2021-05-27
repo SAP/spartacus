@@ -22,15 +22,19 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected deliveryAddressesEndpoint(
+  protected deliveryAddressesEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.getUrl('deliveryAddresses', { userId, cartId });
+  }
+
+  protected setDeliveryAddressEndpoint(
     userId: string,
     cartId: string,
     addressId?: string
   ): string {
     return this.occEndpoints.getUrl(
-      'deliveryAddresses',
+      'setDeliveryAddress',
       { userId, cartId },
-      addressId ? { addressId } : {}
+      { addressId }
     );
   }
 
@@ -77,7 +81,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     addressId: string
   ): Observable<any> {
     return this.http.put(
-      this.deliveryAddressesEndpoint(userId, cartId, addressId),
+      this.setDeliveryAddressEndpoint(userId, cartId, addressId),
       {}
     );
   }
