@@ -7,7 +7,7 @@ export const defaultB2bOccConfig: OccConfig = {
         user: 'orgUsers/${userId}',
         addEntries:
           'orgUsers/${userId}/carts/${cartId}/entries?quantity=${quantity}',
-        setDeliveryAddress:
+        deliveryAddresses:
           'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
         placeOrder: 'orgUsers/${userId}/orders?fields=FULL',
         scheduleReplenishmentOrder:
