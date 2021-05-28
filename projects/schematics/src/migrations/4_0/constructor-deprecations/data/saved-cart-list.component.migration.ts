@@ -12,7 +12,7 @@ import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 export const SAVED_CART_LIST_COMPONENT_MIGRATION: ConstructorDeprecation = {
   // feature-libs/cart/saved-cart/components/list/saved-cart-list.component.ts
   class: SAVED_CART_LIST_COMPONENT,
-  importPath: SPARTACUS_CORE,
+  importPath: SPARTACUS_CART,
   deprecatedParams: [
     { className: ROUTING_SERVICE, importPath: SPARTACUS_CORE },
     { className: TRANSLATION_SERVICE, importPath: SPARTACUS_CORE },
