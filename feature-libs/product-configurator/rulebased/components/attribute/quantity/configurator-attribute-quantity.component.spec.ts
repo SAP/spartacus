@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   ComponentFixture,
   discardPeriodicTasks,
@@ -9,7 +9,6 @@ import {
 } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { I18nTestingModule } from '@spartacus/core';
-import { ItemCounterComponent } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ConfiguratorUISettingsConfig } from '../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeQuantityComponent } from './configurator-attribute-quantity.component';
@@ -45,6 +44,17 @@ function initializeWithObs(disableObs: Observable<boolean>) {
   spyOn(component.changeQuantity, 'emit').and.callThrough();
   fixture.detectChanges();
 }
+@Component({
+  template: '',
+  selector: 'cx-item-counter',
+})
+class MockItemCounterComponent {
+  @Input() min: number;
+  @Input() max: number;
+  @Input() step: any;
+  @Input() control: any;
+  @Input() allowZero: boolean;
+}
 
 describe(' ConfiguratorAttributeQuantityComponent', () => {
   beforeEach(
@@ -52,7 +62,7 @@ describe(' ConfiguratorAttributeQuantityComponent', () => {
       TestBed.configureTestingModule({
         declarations: [
           ConfiguratorAttributeQuantityComponent,
-          ItemCounterComponent,
+          MockItemCounterComponent,
         ],
         imports: [I18nTestingModule],
         providers: [
