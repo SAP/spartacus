@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Cart, ConverterService, OccConfig } from '@spartacus/core';
+import { Cart, ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
 
 const MockOccModuleConfig: OccConfig = {
@@ -14,7 +14,7 @@ const MockOccModuleConfig: OccConfig = {
       endpoints: {
         setCartCostCenter:
           'users/${userId}/carts/${cartId}/costcenter?fields=DEFAULT',
-      },
+      } as OccEndpoints,
     },
   },
   context: {

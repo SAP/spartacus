@@ -9,6 +9,7 @@ import {
   ReplenishmentOrder,
   REPLENISHMENT_ORDER_NORMALIZER,
   ScheduleReplenishmentForm,
+  OccEndpoints,
 } from '@spartacus/core';
 import { OccCheckoutReplenishmentOrderAdapter } from './occ-checkout-replenishment-order.adapter';
 
@@ -35,7 +36,7 @@ const MockOccModuleConfig: OccConfig = {
       endpoints: {
         scheduleReplenishmentOrder:
           'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
-      },
+      } as OccEndpoints,
     },
   },
   context: {

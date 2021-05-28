@@ -10,6 +10,7 @@ import {
   OccConfig,
   PaymentDetails,
   PAYMENT_DETAILS_NORMALIZER,
+  OccEndpoints,
 } from '@spartacus/core';
 import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
 import {
@@ -46,7 +47,7 @@ const MockOccModuleConfig: OccConfig = {
         paymentProviderResponse:
           'users/${userId}/carts/${cartId}/payment/sop/response',
         cardTypes: 'cardtypes',
-      },
+      } as OccEndpoints,
     },
   },
   context: {

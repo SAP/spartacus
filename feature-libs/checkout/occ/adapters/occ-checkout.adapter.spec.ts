@@ -7,6 +7,7 @@ import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
   ConverterService,
   OccConfig,
+  OccEndpoints,
   Order,
   ORDER_NORMALIZER,
 } from '@spartacus/core';
@@ -23,7 +24,7 @@ const MockOccModuleConfig: OccConfig = {
         deliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         loadCheckoutDetails:
           'users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)',
-      },
+      } as OccEndpoints,
     },
   },
   context: {

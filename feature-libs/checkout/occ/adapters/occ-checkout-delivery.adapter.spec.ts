@@ -11,6 +11,7 @@ import {
   ConverterService,
   Occ,
   OccConfig,
+  OccEndpoints,
 } from '@spartacus/core';
 import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
 import { DELIVERY_MODE_NORMALIZER } from '@spartacus/checkout/core';
@@ -33,7 +34,7 @@ const MockOccModuleConfig: OccConfig = {
         deliveryAddresses: 'users/${userId}/carts/${cartId}/addresses/delivery',
         deliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         deliveryModes: 'users/${userId}/carts/${cartId}/deliverymodes',
-      },
+      } as OccEndpoints,
     },
   },
   context: {
