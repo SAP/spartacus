@@ -6,7 +6,7 @@ import { BehaviorSubject, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfigModule } from '../../../config/config.module';
 import { Language } from '../../../model/misc.model';
-import { OccModule } from '../../../occ/occ.module';
+import { BaseOccModule } from '../../../occ/base-occ.module';
 import { WindowRef } from '../../../window';
 import { SiteAdapter } from '../../connectors/site.adapter';
 import { SiteConnector } from '../../connectors/site.connector';
@@ -31,7 +31,7 @@ describe('Languages Effects', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [ConfigModule.forRoot(), HttpClientTestingModule, OccModule],
+      imports: [ConfigModule.forRoot(), HttpClientTestingModule, BaseOccModule],
       providers: [
         fromEffects.LanguagesEffects,
         { provide: SiteAdapter, useValue: {} },
