@@ -4,12 +4,12 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { PAYMENT_TYPE_NORMALIZER } from '@spartacus/checkout/core';
 import {
   Cart,
   ConverterService,
   Occ,
   OccConfig,
-  PAYMENT_TYPE_NORMALIZER,
 } from '@spartacus/core';
 import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
 
@@ -18,6 +18,11 @@ const MockOccModuleConfig: OccConfig = {
     occ: {
       baseUrl: '',
       prefix: '',
+      endpoints: {
+        cartPaymentType:
+          'users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT',
+        paymentTypes: 'paymenttypes',
+      },
     },
   },
   context: {
@@ -30,9 +35,6 @@ const cartData: Cart = {
   store: 'electronics',
   guid: '1212121',
 };
-
-const usersEndpoint = '/users';
-const cartsEndpoint = '/carts/';
 
 describe('OccCheckoutPaymentTypeAdapter', () => {
   let service: OccCheckoutPaymentTypeAdapter;
@@ -77,9 +79,8 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         ],
       };
 
-      let result;
-      service.loadPaymentTypes().subscribe((res) => {
-        result = res;
+      service.loadPaymentTypes().subscribe((result) => {
+        expect(result).toEqual(paymentTypesList.paymentTypes);
       });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -89,7 +90,6 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(paymentTypesList);
-      expect(result).toEqual(paymentTypesList.paymentTypes);
     });
 
     it('should use converter', () => {
@@ -103,62 +103,49 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
 
   describe('setPaymentType', () => {
     it('should set payment type to cart', () => {
-      const typeCode = 'CARD';
+      const paymentType = 'CARD';
 
-      let result;
       service
-        .setPaymentType(userId, cartId, typeCode)
-        .subscribe((res) => (result = res));
+        .setPaymentType(userId, cartId, paymentType)
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/paymenttype'
+          `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}`
         );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('paymentType')).toEqual(typeCode);
       mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
     });
   });
 
   describe('setPaymentType (set po number to cart)', () => {
     it('should set payment type to cart', () => {
-      const typeCode = 'CARD';
+      const paymentType = 'CARD';
+      const purchaseOrderNumber = 'test-number';
 
-      let result;
       service
-        .setPaymentType(userId, cartId, typeCode, 'test-number')
-        .subscribe((res) => (result = res));
+        .setPaymentType(userId, cartId, paymentType, purchaseOrderNumber)
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/paymenttype'
+          `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}&purchaseOrderNumber=${purchaseOrderNumber}`
         );
       });
 
-      expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('paymentType')).toEqual(typeCode);
-      expect(mockReq.request.params.get('purchaseOrderNumber')).toEqual(
-        'test-number'
-      );
       mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
     });
   });
 });

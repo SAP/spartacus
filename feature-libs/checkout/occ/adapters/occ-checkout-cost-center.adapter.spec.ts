@@ -2,7 +2,6 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Cart, ConverterService, OccConfig } from '@spartacus/core';
 import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
@@ -12,6 +11,10 @@ const MockOccModuleConfig: OccConfig = {
     occ: {
       baseUrl: '',
       prefix: '',
+      endpoints: {
+        setCartCostCenter:
+          'users/${userId}/carts/${cartId}/costcenter?fields=DEFAULT',
+      },
     },
   },
   context: {
@@ -24,9 +27,6 @@ const cartData: Cart = {
   store: 'electronics',
   guid: '1212121',
 };
-
-const usersEndpoint = '/users';
-const cartsEndpoint = '/carts/';
 
 describe('OccCheckoutCostCenterAdapter', () => {
   let service: OccCheckoutCostCenterAdapter;
@@ -41,13 +41,9 @@ describe('OccCheckoutCostCenterAdapter', () => {
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-    service = TestBed.inject(
-      OccCheckoutCostCenterAdapter as Type<OccCheckoutCostCenterAdapter>
-    );
-    httpMock = TestBed.inject(
-      HttpTestingController as Type<HttpTestingController>
-    );
-    converter = TestBed.inject(ConverterService as Type<ConverterService>);
+    service = TestBed.inject(OccCheckoutCostCenterAdapter);
+    httpMock = TestBed.inject(HttpTestingController);
+    converter = TestBed.inject(ConverterService);
 
     spyOn(converter, 'pipeableMany').and.callThrough();
   });
@@ -60,28 +56,23 @@ describe('OccCheckoutCostCenterAdapter', () => {
     it('should set cost center cart', () => {
       const costCenterId = 'testCostCenterId';
 
-      let result;
       service
         .setCostCenter(userId, cartId, costCenterId)
-        .subscribe((res) => (result = res));
+        .subscribe((result) => {
+          expect(result).toEqual(cartData);
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            usersEndpoint +
-              `/${userId}` +
-              cartsEndpoint +
-              cartId +
-              '/costcenter'
+          `/users/${userId}/carts/${cartId}/costcenter?fields=DEFAULT&costCenterId=${costCenterId}`
         );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('costCenterId')).toEqual(costCenterId);
       mockReq.flush(cartData);
-      expect(result).toEqual(cartData);
     });
   });
 });
