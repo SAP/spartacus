@@ -160,8 +160,3 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
   searchResult?: string;
   minPerFacet?: string;
 }
-
-//configuration controlled through static files
-export interface CmsNavigationUIComponent extends CmsComponent {
-  resetMenuOnCollapse?: string;
-}
