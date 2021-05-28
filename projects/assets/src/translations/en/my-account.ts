@@ -1,5 +1,6 @@
 export const myAccount = {
   orderDetails: {
+    breadcrumb: 'Order History',
     orderId: 'Order #',
     replenishmentId: 'Replenishment #',
     purchaseOrderId: 'Purchase Order #',

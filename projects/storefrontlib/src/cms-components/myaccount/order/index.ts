@@ -1,3 +1,4 @@
+export * from './order-page-meta/index';
 export * from './amend-order/index';
 export * from './order-details/index';
 export * from './order-history/order-history.component';
