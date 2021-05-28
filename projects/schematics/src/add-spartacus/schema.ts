@@ -7,6 +7,7 @@ export interface Schema extends LibraryOptions {
   baseSite?: string;
   currency?: string;
   language?: string;
+  urlParameters?: string;
   useMetaTags?: boolean;
   featureLevel?: string;
   overwriteAppComponent?: boolean;

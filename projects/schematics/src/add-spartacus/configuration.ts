@@ -119,6 +119,11 @@ function createSiteContextConfig(options: SpartacusOptions): string {
     contextConfig += `\nbaseSite: [${baseSites}]`;
   }
 
+  if (options.urlParameters) {
+    const urlParameters = parseCSV(options.urlParameters);
+    contextConfig += `\nurlParameters: [${urlParameters}]`;
+  }
+
   contextConfig += `},`;
 
   return `provideConfig(<${SITE_CONTEXT_CONFIG}>{${contextConfig}})`;

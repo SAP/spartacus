@@ -156,6 +156,10 @@
       "description": "A comma-separated list of languages to use in Spartacus",
       "default": "en"
     },
+    "urlParameters": {
+      "type": "string",
+      "description": "A comma-separated list that represents the order of site-context parameters. E.g.: ['baseSite', 'language', 'currency']"
+    },
     "useMetaTags": {
       "type": "boolean",
       "description": "Configure baseUrl via meta tag in index.html"
