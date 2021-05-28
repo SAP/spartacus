@@ -128,11 +128,7 @@ function add_feature_libs {
 
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR}/${1}
-    if [ "${ADD_B2B_LIBS}" = true ] ; then
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --configuration b2b --interactive false
-    else
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --configuration b2c --interactive false
-    fi
+    ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --interactive false
     add_feature_libs
     add_b2b
     add_cdc
@@ -142,11 +138,7 @@ function add_spartacus_csr {
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
-    if [ "${ADD_B2B_LIBS}" = true ] ; then
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --configuration b2b --interactive false
-    else
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --configuration b2c --interactive false
-    fi
+    ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --interactive false
     add_feature_libs
     add_b2b
     add_cdc
@@ -156,11 +148,7 @@ function add_spartacus_ssr {
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
-    if [ "${ADD_B2B_LIBS}" = true ] ; then
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --configuration b2b --interactive false
-    else
-      ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --configuration b2c --interactive false
-    fi
+    ng add @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --interactive false
     add_feature_libs
     add_b2b
     add_cdc
