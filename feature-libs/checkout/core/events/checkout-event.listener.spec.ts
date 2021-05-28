@@ -30,7 +30,7 @@ class MockEventService implements Partial<EventService> {
 class MockClearCheckoutFacade implements Partial<ClearCheckoutFacade> {
   resetCheckoutProcesses(): void {}
 }
-fdescribe('CheckoutEventListener', () => {
+describe('CheckoutEventListener', () => {
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
   let clearCheckoutFacade: ClearCheckoutFacade;
 
