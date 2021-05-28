@@ -180,3 +180,61 @@ import { SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/
 export class SmartEditFeatureModule { }
 "
 `;
+
+exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature with allowOrigin config should configure the allowOrigin 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    SmartEditRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [SMART_EDIT_FEATURE]: {
+        module: () =>
+          import('@spartacus/smartedit').then((m) => m.SmartEditModule),
+      },
+    }
+  }),
+  provideConfig(<SmartEditConfig>{
+    smartEdit: {
+      allowOrigin: 'localhost:9002',
+    },
+  })
+  ]
+})
+export class SmartEditFeatureModule { }
+"
+`;
+
+exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature with storefrontPreviewRoute config should configure the storefrontPreviewRoute 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    SmartEditRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [SMART_EDIT_FEATURE]: {
+        module: () =>
+          import('@spartacus/smartedit').then((m) => m.SmartEditModule),
+      },
+    }
+  }),
+  provideConfig(<SmartEditConfig>{
+    smartEdit: {
+      storefrontPreviewRoute: 'cx-preview',
+    },
+  })
+  ]
+})
+export class SmartEditFeatureModule { }
+"
+`;

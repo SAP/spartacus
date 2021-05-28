@@ -11,12 +11,12 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CLI_SMARTEDIT_FEATURE,
-  LibraryOptions as SpartacusSmartEditOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
+import { Schema as SpartacusSmartEditOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
@@ -161,6 +161,46 @@ describe('Spartacus SmartEdit schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+    });
+
+    describe('with storefrontPreviewRoute config', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...smarteditFeatureOptions,
+              storefrontPreviewRoute: 'cx-preview',
+            },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should configure the storefrontPreviewRoute', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+    });
+
+    describe('with allowOrigin config', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...smarteditFeatureOptions,
+              allowOrigin: 'localhost:9002',
+            },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should configure the allowOrigin', async () => {
         const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();
       });
