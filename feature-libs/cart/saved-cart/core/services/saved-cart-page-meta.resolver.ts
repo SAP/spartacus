@@ -40,8 +40,13 @@ export class SavedCartPageMetaResolver
   protected readonly SAVED_CART_TRANSLATION_KEY = 'savedCartList.breadcrumb';
 
   /**
-   * The semantic route of the saved cart landing page. It's used to recognize whether
-   * we are on this page. In such a case we avoid showing the breadcrumb for this page.
+   * The semantic route of the saved cart details page. It's used to recognize whether
+   * we are on this page. In such a case we are adding additional breadcrumb element.
+   */
+  protected readonly SAVED_CART_DETAILS_SEMANTIC_ROUTE = 'savedCartsDetails';
+
+  /**
+   * The semantic route of the saved cart landing page.
    */
   protected readonly SAVED_CART_SEMANTIC_ROUTE = 'savedCarts';
 
@@ -53,6 +58,7 @@ export class SavedCartPageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
+    this.pageTemplate = 'AccountPageTemplate';
   }
 
   /**
@@ -65,16 +71,16 @@ export class SavedCartPageMetaResolver
     map((routerState) => routerState?.state?.semanticRoute),
     distinctUntilChanged(),
     switchMap((semanticRoute) => {
-      return semanticRoute === this.SAVED_CART_SEMANTIC_ROUTE
-        ? of([])
-        : this.translation.translate(this.SAVED_CART_TRANSLATION_KEY).pipe(
+      return semanticRoute === this.SAVED_CART_DETAILS_SEMANTIC_ROUTE
+        ? this.translation.translate(this.SAVED_CART_TRANSLATION_KEY).pipe(
             map((label) => [
               {
                 label,
                 link: this.semanticPath.get(this.SAVED_CART_SEMANTIC_ROUTE),
               },
             ])
-          );
+          )
+        : of([]);
     })
   );
 
