@@ -23,8 +23,6 @@ export function migrateDependencies(
   context: SchematicContext,
   removedDependencies: string[]
 ): Rule {
-  context.logger.info('Updating dependencies...');
-
   const packageJson = readPackageJson(tree);
   const installedSpartacusLibs = collectSpartacusLibraryDependencies(
     packageJson
