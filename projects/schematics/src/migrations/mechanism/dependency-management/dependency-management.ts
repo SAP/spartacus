@@ -14,6 +14,7 @@ import {
 } from '../../../shared/utils/lib-utils';
 import {
   createDependencies,
+  FEATURES_LIBS_SKIP_SCOPES,
   readPackageJson,
 } from '../../../shared/utils/package-utils';
 
@@ -28,7 +29,6 @@ export function migrateDependencies(
   const installedSpartacusLibs = collectSpartacusLibraryDependencies(
     packageJson
   );
-
   const dependencies = createSpartacusLibraryDependencies(
     installedSpartacusLibs
   );
@@ -63,7 +63,12 @@ function createSpartacusLibraryDependencies(
       Record<string, string>
     >)[libraryName];
 
-    dependenciesToAdd.push(...createDependencies(spartacusLibrary));
+    dependenciesToAdd.push(
+      ...createDependencies(spartacusLibrary, {
+        skipScopes: FEATURES_LIBS_SKIP_SCOPES,
+        overwrite: true,
+      })
+    );
   }
 
   return dependenciesToAdd;

@@ -28,14 +28,6 @@ describe('dependency management migrations', () => {
 
     writeFile(
       host,
-      '/package.json',
-      JSON.stringify({
-        name: 'xxx',
-        version: '3.0.0',
-      })
-    );
-    writeFile(
-      host,
       '/tsconfig.json',
       JSON.stringify({
         compilerOptions: {
@@ -73,7 +65,20 @@ describe('dependency management migrations', () => {
     shx.rm('-r', tmpDirPath);
   });
 
-  describe('when the dependencies are outdated', () => {
+  describe('when the present dependencies are lower', () => {
+    beforeEach(() => {
+      writeFile(
+        host,
+        '/package.json',
+        JSON.stringify({
+          name: 'xxx',
+          version: '3.0.0',
+          dependencies: {
+            '@spartacus/core': '3.0.0',
+          },
+        })
+      );
+    });
     it('should update them', async () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
       await schematicRunner.engine.executePostTasks().toPromise();
@@ -82,6 +87,34 @@ describe('dependency management migrations', () => {
       const updatedVersion: string = JSON.parse(packageJson).dependencies.rxjs;
       expect(updatedVersion).toEqual(
         collectedDependencies['@spartacus/core'].rxjs
+      );
+    });
+  });
+
+  describe('when the present dependencies are higher', () => {
+    beforeEach(() => {
+      writeFile(
+        host,
+        '/package.json',
+        JSON.stringify({
+          name: 'xxx',
+          version: '3.0.0',
+          dependencies: {
+            '@spartacus/styles': '3.0.0',
+            bootstrap: '^5.0.0',
+          },
+        })
+      );
+    });
+    it('should downgrade them', async () => {
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+      await schematicRunner.engine.executePostTasks().toPromise();
+
+      const packageJson = appTree.readContent('/package.json');
+      const updatedVersion: string = JSON.parse(packageJson).dependencies
+        .bootstrap;
+      expect(updatedVersion).toEqual(
+        collectedDependencies['@spartacus/styles'].bootstrap
       );
     });
   });

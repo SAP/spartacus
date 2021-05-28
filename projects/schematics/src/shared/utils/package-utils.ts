@@ -52,6 +52,8 @@ export function createDependencies(
     onlyIncludeScopes?: string[];
     /** dependency version which to set. If not provided, the one from the given `dependencyObject` will be used. */
     version?: string;
+    /** Overwrite the dependencies */
+    overwrite?: boolean;
   } = {
     skipScopes: FEATURES_LIBS_SKIP_SCOPES,
   }
@@ -77,7 +79,8 @@ export function createDependencies(
       dependencies.push(
         mapPackageToNodeDependencies(
           dependencyName,
-          options.version ?? dependencyObject[dependencyName]
+          options.version ?? dependencyObject[dependencyName],
+          options.overwrite
         )
       );
     }
@@ -88,14 +91,16 @@ export function createDependencies(
 
 export function mapPackageToNodeDependencies(
   packageName: string,
-  version: string
+  version: string,
+  overwrite = false
 ): NodeDependency {
   return {
     type: packageName.includes('schematics')
       ? NodeDependencyType.Dev
       : NodeDependencyType.Default,
     name: packageName,
-    version: version,
+    version,
+    overwrite,
   };
 }
 
