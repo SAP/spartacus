@@ -1,16 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import {
-  Cart,
-  CheckoutService,
-  I18nTestingModule,
-  Order,
-} from '@spartacus/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { CheckoutFacade } from '@spartacus/checkout/root';
+import { Cart, I18nTestingModule, Order } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationTotalsComponent } from './order-confirmation-totals.component';
 
 import createSpy = jasmine.createSpy;
-import { By } from '@angular/platform-browser';
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
@@ -40,9 +36,7 @@ describe('OrderConfirmationComponent', () => {
           OrderConfirmationTotalsComponent,
           MockOrderSummaryComponent,
         ],
-        providers: [
-          { provide: CheckoutService, useClass: MockCheckoutService },
-        ],
+        providers: [{ provide: CheckoutFacade, useClass: MockCheckoutService }],
       }).compileComponents();
     })
   );
