@@ -9,6 +9,7 @@ import {
   OnDestroy,
   Renderer2,
   OnInit,
+  Optional,
 } from '@angular/core';
 
 import { NavigationEnd, Router } from '@angular/router';
@@ -63,11 +64,24 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     this.resize.next();
   }
 
+  // TODO(#12573): deprecate constructor.
+  /**
+   * @deprecated since 3.4
+   */
+  constructor(router: Router, renderer: Renderer2, elemRef: ElementRef);
+
+  constructor(
+    router: Router,
+    renderer: Renderer2,
+    elemRef: ElementRef,
+    hamMenuService: HamburgerMenuService
+  );
+
   constructor(
     private router: Router,
     private renderer: Renderer2,
     private elemRef: ElementRef,
-    private hamMenuService: HamburgerMenuService
+    @Optional() private hamMenuService?: HamburgerMenuService
   ) {
     this.subscriptions.add(
       this.router.events

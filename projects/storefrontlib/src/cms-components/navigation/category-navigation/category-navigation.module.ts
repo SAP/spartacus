@@ -12,7 +12,7 @@ import { CategoryNavigationComponent } from './category-navigation.component';
         CategoryNavigationComponent: {
           component: CategoryNavigationComponent,
           data: {
-            resetMenuOnCollapse: false,
+            resetMenuOnCollapse: true,
           },
         },
       },
