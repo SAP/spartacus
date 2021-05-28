@@ -13,6 +13,5 @@ export const savedCartTranslationChunksConfig: TranslationChunksConfig = {
     'savedCartCartPage',
     'savedCartDialog',
     'addToSavedCart',
-    'breadcrumb',
   ],
 };
