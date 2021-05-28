@@ -21,7 +21,6 @@ import {
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_MODULE,
   SPARTACUS_ROUTING_MODULE,
-  SPARTACUS_SETUP,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
 } from '../shared/constants';
@@ -172,7 +171,7 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   };
 }
 
-function prepareDependencies(options: SpartacusOptions): NodeDependency[] {
+function prepareDependencies(): NodeDependency[] {
   const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
 
   const spartacusDependencies: NodeDependency[] = [
@@ -197,13 +196,6 @@ function prepareDependencies(options: SpartacusOptions): NodeDependency[] {
       name: SPARTACUS_STYLES,
     },
   ];
-  if (options.configuration === 'b2b') {
-    spartacusDependencies.push({
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_SETUP,
-    });
-  }
 
   const thirdPartyDependencies = createDependencies({
     ...collectedDependencies[SPARTACUS_CORE],
@@ -276,7 +268,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     const project = getProjectFromWorkspace(tree, options);
 
     return chain([
-      addPackageJsonDependencies(prepareDependencies(options)),
+      addPackageJsonDependencies(prepareDependencies()),
       ensureModuleExists({
         name: SPARTACUS_ROUTING_MODULE,
         path: 'app',

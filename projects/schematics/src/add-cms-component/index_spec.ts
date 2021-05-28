@@ -1,10 +1,10 @@
 import {
   SchematicTestRunner,
-  UnitTestTree,
+  UnitTestTree
 } from '@angular-devkit/schematics/testing';
 import {
   Schema as ApplicationOptions,
-  Style,
+  Style
 } from '@schematics/angular/application/schema';
 import { addSymbolToNgModuleMetadata } from '@schematics/angular/utility/ast-utils';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
@@ -14,12 +14,12 @@ import {
   ANGULAR_SCHEMATICS,
   CMS_CONFIG,
   CONFIG_MODULE_CLASS,
-  UTF_8,
+  UTF_8
 } from '../shared/constants';
 import {
   commitChanges,
   getTsSourceFile,
-  InsertDirection,
+  InsertDirection
 } from '../shared/utils/file-utils';
 import { CxCmsComponentSchema } from './schema';
 
@@ -101,7 +101,6 @@ describe('add-cms-component', () => {
     project: 'schematics-test',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };

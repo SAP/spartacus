@@ -43,7 +43,6 @@ describe('add-spartacus', () => {
     occPrefix: 'xxx',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
