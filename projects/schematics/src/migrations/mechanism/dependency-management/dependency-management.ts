@@ -83,30 +83,30 @@ function checkAndLogRemovedDependencies(
   const dependencies =
     (packageJson.dependencies as Record<string, string>) ?? {};
 
+  let allSpartacusDeps: string[] = [];
+  for (const libraryName of installedSpartacusLibs) {
+    const spartacusLibrary = (collectedDependencies as Record<
+      string,
+      Record<string, string>
+    >)[libraryName];
+    allSpartacusDeps = allSpartacusDeps.concat(Object.keys(spartacusLibrary));
+  }
+
   const removed: string[] = [];
   for (const removedDependency of removedDependencies) {
     if (!dependencies[removedDependency]) {
       continue;
     }
-
-    for (const libraryName of installedSpartacusLibs) {
-      const spartacusLibrary = (collectedDependencies as Record<
-        string,
-        Record<string, string>
-      >)[libraryName];
-
-      if (spartacusLibrary[removedDependency]) {
-        removed.push(removedDependency);
-        break;
-      }
+    if (!allSpartacusDeps.includes(removedDependency)) {
+      removed.push(removedDependency);
     }
+  }
 
-    if (removed.length) {
-      logger.warn(
-        `Spartacus libraries no longer require the following dependencies: ${removed.join(
-          ','
-        )}. If you don't use these dependencies in your application, you might want to consider removing them from your dependencies list.`
-      );
-    }
+  if (removed.length) {
+    logger.warn(
+      `Spartacus libraries no longer require the following dependencies: ${removed.join(
+        ','
+      )}. If you don't use these dependencies in your application, you might want to consider removing them from your dependencies list.`
+    );
   }
 }
