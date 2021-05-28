@@ -41,7 +41,7 @@ const orderData: Order = {
   code: '00001004',
 };
 
-const checkoutData: CheckoutDetails = {
+const checkoutData: Partial<CheckoutDetails> = {
   deliveryAddress: {
     firstName: 'Janusz',
   },
@@ -107,7 +107,7 @@ describe('OccCheckoutAdapter', () => {
   describe('load checkout details', () => {
     it('should load checkout details data for given userId, cartId', () => {
       service.loadCheckoutDetails(userId, cartId).subscribe((result) => {
-        expect(result).toEqual(checkoutData);
+        expect(result).toEqual(checkoutData as CheckoutDetails);
       });
 
       const mockReq = httpMock.expectOne((req) => {
