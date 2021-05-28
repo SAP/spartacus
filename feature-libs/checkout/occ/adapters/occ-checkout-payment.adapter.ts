@@ -254,6 +254,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       const key = item.key;
       result[key] = item.value;
       return result;
-    }, {});
+    },
+    {});
   }
 }

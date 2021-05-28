@@ -89,7 +89,7 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
         return (
           req.method === 'POST' &&
           req.url ===
-          `/orgUsers/${userId}/replenishmentOrders?fields=FULL%2CcostCenter(FULL)%2CpurchaseOrderNumber%2CpaymentType&cartId=${cartId}&termsChecked=${termsChecked}` &&
+            `/orgUsers/${userId}/replenishmentOrders?fields=FULL%2CcostCenter(FULL)%2CpurchaseOrderNumber%2CpaymentType&cartId=${cartId}&termsChecked=${termsChecked}` &&
           req.body === mockReplenishmentOrderFormData
         );
       });

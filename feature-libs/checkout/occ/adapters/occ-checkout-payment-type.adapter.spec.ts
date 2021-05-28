@@ -5,12 +5,7 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { PAYMENT_TYPE_NORMALIZER } from '@spartacus/checkout/core';
-import {
-  Cart,
-  ConverterService,
-  Occ,
-  OccConfig,
-} from '@spartacus/core';
+import { Cart, ConverterService, Occ, OccConfig } from '@spartacus/core';
 import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
 
 const MockOccModuleConfig: OccConfig = {
@@ -115,7 +110,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-          `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}`
+            `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}`
         );
       });
 
@@ -140,7 +135,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-          `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}&purchaseOrderNumber=${purchaseOrderNumber}`
+            `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}&purchaseOrderNumber=${purchaseOrderNumber}`
         );
       });
 
