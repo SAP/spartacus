@@ -1,6 +1,6 @@
 {
   "defaultCommandTimeout": 15000,
-  "baseUrl": "http://localhost:4200",
+  "baseUrl": "https://gilberto-alvarado-spartacus31-default.layer0.link",
   "requestTimeout": 15000,
   "projectId": "k3nmep",
   "numTestsKeptInMemory": 1,
@@ -11,7 +11,7 @@
   },
   "videoUploadOnPasses": false,
   "env": {
-    "API_URL": "https://20.83.184.244:9002",
+    "API_URL": "https://gilberto-alvarado-spartacus31-default.layer0.link",
     "BASE_SITE": "electronics-spa",
     "BASE_LANG": "en",
     "BASE_CURRENCY": "USD",
