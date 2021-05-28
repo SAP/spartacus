@@ -44,4 +44,5 @@ If the new feature requires new or updated sample data for a specific Commerce b
 - [ ] New sample data has been loaded and tested in our CI server
 
 ## Documentation
+
 - [ ] Documentation input is provided for it to be published on the doc site.
