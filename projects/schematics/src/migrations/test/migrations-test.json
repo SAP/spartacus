@@ -29,6 +29,11 @@
       "version": "4.0.0",
       "factory": "./rename-symbol/rename-symbol#migrate",
       "description": "Rename import symbols that were moved/changed in majors"
+    },
+    "migration-v4-dependency-management-03": {
+      "version": "4.0.0",
+      "factory": "./dependency-management/dependency-management#migrate",
+      "description": "Update dependencies"
     }
   }
 }
