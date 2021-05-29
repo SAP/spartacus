@@ -73,7 +73,7 @@ export class ProductFacetService {
     }
     if (state.context.type === PageType.CATEGORY_PAGE) {
       return (
-        page.currentQuery?.query?.value?.indexOf(
+        page.currentQuery.query.value.indexOf(
           `allCategories:${state.context.id}`
         ) > -1
       );
@@ -83,9 +83,7 @@ export class ProductFacetService {
       state.context.type === PageType.CONTENT_PAGE &&
       state.context.id === 'search'
     ) {
-      return page.currentQuery?.query?.value?.startsWith(
-        `${state.params.query}:`
-      );
+      return page.currentQuery.query.value.startsWith(`${state.params.query}:`);
     }
     return false;
   }
