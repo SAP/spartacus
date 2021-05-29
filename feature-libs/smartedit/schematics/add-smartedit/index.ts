@@ -1,53 +1,50 @@
 import {
   chain,
+  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import {
   addLibraryFeature,
-  addPackageJsonDependencies,
-  getAppModule,
-  getSpartacusSchematicsVersion,
-  installPackageJsonDependencies,
+  addPackageJsonDependenciesForLibrary,
+  CLI_SMARTEDIT_FEATURE,
   LibraryOptions as SpartacusSmartEditOptions,
   readPackageJson,
+  shouldAddFeature,
+  SPARTACUS_SMARTEDIT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
-  SMARTEDIT_FEATURE_NAME,
+  SMARTEDIT_FEATURE_NAME_CONSTANT,
+  SMARTEDIT_FOLDER_NAME,
   SMARTEDIT_MODULE,
+  SMARTEDIT_MODULE_NAME,
   SMARTEDIT_ROOT_MODULE,
-  SPARTACUS_SMARTEDIT,
   SPARTACUS_SMARTEDIT_ASSETS,
   SPARTACUS_SMARTEDIT_ROOT,
 } from '../constants';
 
 export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    const appModulePath = getAppModule(tree, options.project);
-
     return chain([
-      addSmartEditFeature(appModulePath, options),
-      addSmartEditPackageJsonDependencies(packageJson),
-      installPackageJsonDependencies(),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+
+      shouldAddFeature(CLI_SMARTEDIT_FEATURE, options.features)
+        ? addSmartEditFeature(options)
+        : noop(),
     ]);
   };
 }
 
-function addSmartEditFeature(
-  appModulePath: string,
-  options: SpartacusSmartEditOptions
-): Rule {
-  return addLibraryFeature(appModulePath, options, {
-    name: SMARTEDIT_FEATURE_NAME,
+function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
+  return addLibraryFeature(options, {
+    folderName: SMARTEDIT_FOLDER_NAME,
+    moduleName: SMARTEDIT_MODULE_NAME,
     featureModule: {
       name: SMARTEDIT_MODULE,
       importPath: SPARTACUS_SMARTEDIT,
@@ -56,21 +53,13 @@ function addSmartEditFeature(
       name: SMARTEDIT_ROOT_MODULE,
       importPath: SPARTACUS_SMARTEDIT_ROOT,
     },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_SMARTEDIT_ROOT,
+      namedImports: [SMARTEDIT_FEATURE_NAME_CONSTANT],
+    },
     assets: {
       input: SPARTACUS_SMARTEDIT_ASSETS,
       glob: '**/*',
     },
   });
-}
-
-function addSmartEditPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
-  const dependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_SMARTEDIT,
-    },
-  ];
-  return addPackageJsonDependencies(dependencies, packageJson);
 }

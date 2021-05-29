@@ -3,12 +3,16 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { Subscription, timer } from 'rxjs';
+import { debounce } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
@@ -19,14 +23,39 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 })
 export class ConfiguratorAttributeInputFieldComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit, OnDestroy {
   attributeInputForm = new FormControl('');
+  protected sub: Subscription;
+
   @Input() ownerType: CommonConfigurator.OwnerType;
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
 
   @Output() inputChange = new EventEmitter<ConfigFormUpdateEvent>();
+
+  /**
+   * In case no config is injected, or when the debounce time is not configured at all,
+   * this value will be used as fallback.
+   */
+  protected readonly FALLBACK_DEBOUNCE_TIME = 500;
+
+  // TODO(#11681): make config a required dependency
+  /**
+   * @param {ConfiguratorUISettingsConfig} config Optional configuration for debounce time,
+   * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
+   */
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  constructor(config: ConfiguratorUISettingsConfig);
+
+  /**
+   * @deprecated  since 3.3
+   */
+  constructor();
+
+  constructor(protected config?: ConfiguratorUISettingsConfig) {
+    super();
+  }
 
   ngOnInit() {
     this.attributeInputForm.setValue(this.attribute.userInput);
@@ -38,22 +67,35 @@ export class ConfiguratorAttributeInputFieldComponent
     ) {
       this.attributeInputForm.markAsTouched();
     }
+    this.sub = this.attributeInputForm.valueChanges
+      .pipe(
+        debounce(() =>
+          timer(
+            this.config?.productConfigurator?.updateDebounceTime?.input ??
+              this.FALLBACK_DEBOUNCE_TIME
+          )
+        )
+      )
+      .subscribe(() => this.onChange());
   }
 
-  /**
-   * Triggered when the user input has been changed
-   */
   onChange(): void {
     const event: ConfigFormUpdateEvent = {
       ownerKey: this.ownerKey,
       changedAttribute: {
-        name: this.attribute.name,
+        ...this.attribute,
         userInput: this.attributeInputForm.value,
-        uiType: this.attribute.uiType,
-        groupId: this.attribute.groupId,
       },
     };
 
-    this.inputChange.emit(event);
+    if (!this.attributeInputForm.invalid) {
+      this.inputChange.emit(event);
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.sub) {
+      this.sub.unsubscribe();
+    }
   }
 }

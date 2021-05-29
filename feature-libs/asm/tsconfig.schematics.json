@@ -21,7 +21,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "paths": {
-      "@spartacus/schematics": ["../../projects/schematics/src/public_api"]
+      "@spartacus/schematics": ["../../projects/schematics/index"]
     }
   },
   "include": ["schematics/**/*.ts"],

@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "PersonalizationSchematics",
-  "title": "Personalization Schematics",
+  "id": "TrackingSchematics",
+  "title": "Tracking Schematics",
   "type": "object",
   "properties": {
     "project": {
@@ -13,8 +13,32 @@
     },
     "lazy": {
       "type": "boolean",
-      "description": "Lazy load the personalization features.",
+      "description": "Lazy load the tracking features.",
       "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["Personalization", "TMS-GTM", "TMS-AEPL"],
+        "type": "string"
+      },
+      "default": ["Personalization"],
+      "x-prompt": {
+        "message": "Which Tracking features would you like to set up?",
+        "type": "list",
+        "items": [
+          { "value": "Personalization", "label": "Personalization" },
+          {
+            "value": "TMS-GTM",
+            "label": "Tag Management System - Google Tag Manager"
+          },
+          {
+            "value": "TMS-AEPL",
+            "label": "Tag Management System - Adobe Experience Platform Launch"
+          }
+        ]
+      }
     }
   },
   "required": []

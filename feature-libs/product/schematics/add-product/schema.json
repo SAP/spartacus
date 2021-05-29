@@ -20,11 +20,18 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Bulk-Pricing", "Variants"],
+        "enum": ["Bulk-Pricing", "Product-Variants"],
         "type": "string"
       },
-      "default": ["Bulk-Pricing", "Variants"],
-      "x-prompt": "Which features would you like to setup?"
+      "default": ["Bulk-Pricing", "Product-Variants"],
+      "x-prompt": {
+        "message": "Which Product features would you like to set up?",
+        "type": "list",
+        "items": [
+          { "value": "Bulk-Pricing", "label": "Bulk Pricing" },
+          { "value": "Product-Variants", "label": "Product Variants" }
+        ]
+      }
     }
   },
   "required": []
