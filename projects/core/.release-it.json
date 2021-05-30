@@ -21,7 +21,7 @@
       "../../spartacussampledataaddon.1905.tar.gz",
       "../../spartacussampledata.2005.zip",
       "../../spartacussampledata.2005.tar.gz",
-      "../../spartacussampledata.2011.tar.gz",
+      "../../spartacussampledata.2011.zip",
       "../../spartacussampledata.2011.tar.gz"
     ],
     "releaseName": "@spartacus/core@${version}",
