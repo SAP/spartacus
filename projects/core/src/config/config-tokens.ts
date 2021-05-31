@@ -1,30 +1,48 @@
-import { inject, InjectFlags, InjectionToken } from '@angular/core';
+import { inject, Injectable, InjectFlags, InjectionToken } from '@angular/core';
 import { deepMerge } from './utils/deep-merge';
 
 /**
  * Global Configuration injection token, can be used to inject configuration to any part of the app
  */
-export const Config = new InjectionToken('Configuration', {
-  providedIn: 'root',
-  factory: () => deepMerge({}, inject(DefaultConfig), inject(RootConfig)),
-});
+// export const Config = new InjectionToken('Configuration', {
+//   providedIn: 'root',
+//   factory: () => deepMerge({}, inject(DefaultConfig), inject(RootConfig)),
+// });
 
+export function factory() {
+  return deepMerge({}, inject(DefaultConfig), inject(RootConfig));
+}
+
+@Injectable({
+  providedIn: 'root',
+  useFactory: factory,
+})
+export abstract class Config {}
+
+export function defaultFactory() {
+  return deepMerge(
+    {},
+    ...(inject(DefaultConfigChunk, InjectFlags.Optional) ?? [])
+  );
+}
 /**
  * Default Configuration token, used to build Global Configuration, built from DefaultConfigChunks
  */
 export const DefaultConfig = new InjectionToken('DefaultConfiguration', {
   providedIn: 'root',
-  factory: () =>
-    deepMerge({}, ...(inject(DefaultConfigChunk, InjectFlags.Optional) ?? [])),
+  factory: defaultFactory,
 });
+
+export function rootFactory() {
+  return deepMerge({}, ...(inject(ConfigChunk, InjectFlags.Optional) ?? []));
+}
 
 /**
  * Root Configuration token, used to build Global Configuration, built from ConfigChunks
  */
 export const RootConfig = new InjectionToken('RootConfiguration', {
   providedIn: 'root',
-  factory: () =>
-    deepMerge({}, ...(inject(ConfigChunk, InjectFlags.Optional) ?? [])),
+  factory: rootFactory,
 });
 
 /**

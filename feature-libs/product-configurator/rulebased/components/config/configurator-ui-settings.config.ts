@@ -6,10 +6,14 @@ import { Config } from '@spartacus/core';
   useExisting: Config,
 })
 export abstract class ConfiguratorUISettingsConfig {
-  productConfigurator: {
-    updateDebounceTime: {
+  productConfigurator?: {
+    updateDebounceTime?: {
       quantity?: number;
       input?: number;
     };
   };
+}
+
+declare module '@spartacus/core' {
+  interface Config extends ConfiguratorUISettingsConfig {}
 }

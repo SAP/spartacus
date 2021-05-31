@@ -10,3 +10,7 @@ export abstract class FeaturesConfig {
     [featureToggle: string]: string | boolean;
   };
 }
+
+declare module '../../config/config-tokens' {
+  interface Config extends FeaturesConfig {}
+}

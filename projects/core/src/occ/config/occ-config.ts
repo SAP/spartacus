@@ -32,3 +32,7 @@ export abstract class OccConfig extends SiteContextConfig {
     loadingScopes?: LoadingScopes;
   };
 }
+
+declare module '../../config/config-tokens' {
+  interface Config extends OccConfig {}
+}

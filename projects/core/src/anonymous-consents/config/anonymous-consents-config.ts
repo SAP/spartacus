@@ -1,6 +1,6 @@
-import { OccConfig } from '../../occ/config/occ-config';
 import { Injectable } from '@angular/core';
 import { Config } from '../../config/config-tokens';
+import { OccConfig } from '../../occ/config/occ-config';
 
 @Injectable({
   providedIn: 'root',
@@ -34,4 +34,8 @@ export abstract class AnonymousConsentsConfig extends OccConfig {
       hideConsents?: string[];
     };
   };
+}
+
+declare module '../../config/config-tokens' {
+  interface Config extends AnonymousConsentsConfig {}
 }

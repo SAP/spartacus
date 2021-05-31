@@ -13,6 +13,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
+  Config,
   ConfigModule,
   FeatureModuleConfig,
   FeaturesConfig,
@@ -40,6 +41,9 @@ import { SpartacusModule } from './spartacus/spartacus.module';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
+
+const a: Config = {};
+console.log(a.asm, a.authentication);
 
 const devImports = [];
 if (!environment.production) {

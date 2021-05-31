@@ -1,6 +1,6 @@
-import { AsmConfig } from './asm-config';
+import { Config } from '@spartacus/core';
 
-export const defaultAsmConfig: AsmConfig = {
+export const defaultAsmConfig: Config = {
   asm: {
     agentSessionTimer: {
       startingDelayInSeconds: 600,

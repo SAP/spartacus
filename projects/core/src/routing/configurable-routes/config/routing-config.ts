@@ -1,6 +1,6 @@
-import { RoutesConfig } from '../routes-config';
 import { Injectable } from '@angular/core';
 import { Config } from '../../../config/config-tokens';
+import { RoutesConfig } from '../routes-config';
 
 export const enum RouteLoadStrategy {
   /**
@@ -34,4 +34,8 @@ export abstract class RoutingConfig {
      */
     loadStrategy?: RouteLoadStrategy;
   };
+}
+
+declare module '../../../config/config-tokens' {
+  interface Config extends RoutingConfig {}
 }

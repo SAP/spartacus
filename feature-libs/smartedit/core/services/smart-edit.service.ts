@@ -83,7 +83,7 @@ export class SmartEditService {
       params: undefined,
       attributes: {
         id: 'text/smartedit-injector',
-        'data-smartedit-allow-origin': this.config.smartEdit.allowOrigin,
+        'data-smartedit-allow-origin': this.config.smartEdit?.allowOrigin,
       },
     });
   }

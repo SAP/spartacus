@@ -1,6 +1,6 @@
-import { CheckoutStep } from '../model/checkout-step.model';
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+import { CheckoutStep } from '../model/checkout-step.model';
 
 export enum DeliveryModePreferences {
   FREE = 'FREE',
@@ -31,4 +31,8 @@ export abstract class CheckoutConfig {
      */
     guest?: boolean;
   };
+}
+
+declare module '@spartacus/core' {
+  interface Config extends CheckoutConfig {}
 }

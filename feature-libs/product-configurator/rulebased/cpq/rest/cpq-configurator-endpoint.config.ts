@@ -18,3 +18,7 @@ export abstract class CpqConfiguratorEndpointConfig {
     };
   };
 }
+
+declare module '@spartacus/core' {
+  interface Config extends CpqConfiguratorEndpointConfig {}
+}

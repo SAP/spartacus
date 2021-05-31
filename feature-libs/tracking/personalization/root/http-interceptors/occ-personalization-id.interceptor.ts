@@ -26,16 +26,16 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
   ) {
     if (this.winRef.isBrowser()) {
       this.enabled =
-        (this.winRef.localStorage && this.config.personalization.enabled) ||
+        (this.winRef.localStorage && this.config.personalization?.enabled) ||
         false;
 
       if (this.enabled) {
-        if (!this.config.personalization.httpHeaderName && isDevMode()) {
+        if (!this.config.personalization?.httpHeaderName && isDevMode()) {
           console.warn(
             `There is no httpHeaderName configured in Personalization`
           );
         }
-        this.requestHeader = this.config.personalization.httpHeaderName?.id.toLowerCase();
+        this.requestHeader = this.config.personalization?.httpHeaderName?.id.toLowerCase();
         this.personalizationId = this.winRef.localStorage?.getItem(
           PERSONALIZATION_ID_KEY
         );

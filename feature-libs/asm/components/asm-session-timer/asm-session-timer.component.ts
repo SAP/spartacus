@@ -5,8 +5,7 @@ import {
   OnInit,
   ViewEncapsulation,
 } from '@angular/core';
-import { AsmConfig } from '@spartacus/asm/core';
-import { RoutingService, UserIdService } from '@spartacus/core';
+import { Config, RoutingService, UserIdService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { AsmComponentService } from '../services/asm-component.service';
@@ -24,7 +23,7 @@ export class AsmSessionTimerComponent implements OnInit, OnDestroy {
   timeLeft: number;
 
   constructor(
-    protected config: AsmConfig,
+    protected config: Config,
     protected asmComponentService: AsmComponentService,
     protected routingService: RoutingService,
     protected changeDetectorRef: ChangeDetectorRef,

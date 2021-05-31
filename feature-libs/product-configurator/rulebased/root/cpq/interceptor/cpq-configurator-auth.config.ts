@@ -6,7 +6,7 @@ import { Config } from '@spartacus/core';
   useExisting: Config,
 })
 export abstract class CpqConfiguratorAuthConfig {
-  productConfigurator: {
+  productConfigurator?: {
     cpq: {
       authentication: {
         /** We should stop using/sending a token shortly before expiration,
@@ -21,4 +21,8 @@ export abstract class CpqConfiguratorAuthConfig {
       };
     };
   };
+}
+
+declare module '@spartacus/core' {
+  interface Config extends CpqConfiguratorAuthConfig {}
 }
