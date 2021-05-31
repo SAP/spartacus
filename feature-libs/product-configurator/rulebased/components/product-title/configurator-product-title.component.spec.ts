@@ -135,6 +135,15 @@ class MockCxIconComponent {
   @Input() type: any;
 }
 
+@Component({
+  template: '',
+  selector: 'cx-media',
+})
+class MockMediaComponent {
+  @Input() container: any;
+  @Input() format: any;
+}
+
 describe('ConfigProductTitleComponent', () => {
   let component: ConfiguratorProductTitleComponent;
   let fixture: ComponentFixture<ConfiguratorProductTitleComponent>;
@@ -151,7 +160,11 @@ describe('ConfigProductTitleComponent', () => {
           NgSelectModule,
           FeaturesConfigModule,
         ],
-        declarations: [ConfiguratorProductTitleComponent, MockCxIconComponent],
+        declarations: [
+          ConfiguratorProductTitleComponent,
+          MockCxIconComponent,
+          MockMediaComponent,
+        ],
         providers: [
           {
             provide: Router,
