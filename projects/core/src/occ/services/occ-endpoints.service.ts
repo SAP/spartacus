@@ -89,6 +89,8 @@ export class OccEndpointsService {
   }
 
   /**
+   * @Deprecated since 3.1 - use "buildUrl" instead
+   *
    * Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
    * Most OCC endpoints are related to a baseSite context and are therefor prefixed
    * with the baseSite. The `/basesites` endpoint does not relate to a specific baseSite
