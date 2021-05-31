@@ -249,9 +249,7 @@ describe('ConfiguratorEffect', () => {
       const overviewSuccessAction = new ConfiguratorActions.GetConfigurationOverviewSuccess(
         {
           ownerKey: owner.key,
-          overview: productConfiguration.overview
-            ? productConfiguration.overview
-            : {},
+          overview: productConfiguration.overview ?? {},
         }
       );
       actions$ = hot('-a', { a: action });
