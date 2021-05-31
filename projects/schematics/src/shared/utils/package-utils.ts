@@ -4,6 +4,7 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { version } from '../../../package.json';
+import collectedDependencies from '../../dependencies.json';
 import {
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
@@ -51,6 +52,8 @@ export function createDependencies(
     onlyIncludeScopes?: string[];
     /** dependency version which to set. If not provided, the one from the given `dependencyObject` will be used. */
     version?: string;
+    /** Overwrite the dependencies */
+    overwrite?: boolean;
   } = {
     skipScopes: FEATURES_LIBS_SKIP_SCOPES,
   }
@@ -76,7 +79,8 @@ export function createDependencies(
       dependencies.push(
         mapPackageToNodeDependencies(
           dependencyName,
-          options.version ?? dependencyObject[dependencyName]
+          options.version ?? dependencyObject[dependencyName],
+          options.overwrite
         )
       );
     }
@@ -87,14 +91,16 @@ export function createDependencies(
 
 export function mapPackageToNodeDependencies(
   packageName: string,
-  version: string
+  version: string,
+  overwrite = false
 ): NodeDependency {
   return {
     type: packageName.includes('schematics')
       ? NodeDependencyType.Dev
       : NodeDependencyType.Default,
     name: packageName,
-    version: version,
+    version,
+    overwrite,
   };
 }
 
@@ -155,4 +161,50 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
   const isServerSideAvailable = serverFileBuffer && !!serverFileBuffer.length;
 
   return !!(isServerConfiguration && isServerSideAvailable);
+}
+
+export function prepareSpartacusDependencies(b2b: boolean): NodeDependency[] {
+  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
+
+  const spartacusDependencies: NodeDependency[] = [
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_CORE,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_STOREFRONTLIB,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_ASSETS,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_STYLES,
+    },
+  ];
+  if (b2b) {
+    spartacusDependencies.push({
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_SETUP,
+    });
+  }
+
+  return spartacusDependencies;
+}
+
+export function prepare3rdPartyDependencies(): NodeDependency[] {
+  const thirdPartyDependencies = createDependencies({
+    ...collectedDependencies[SPARTACUS_CORE],
+    ...collectedDependencies[SPARTACUS_STOREFRONTLIB],
+    ...collectedDependencies[SPARTACUS_STYLES],
+    ...collectedDependencies[SPARTACUS_ASSETS],
+  });
+  return thirdPartyDependencies;
 }
