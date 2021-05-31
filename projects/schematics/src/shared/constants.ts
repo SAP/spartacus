@@ -356,6 +356,8 @@ export const CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT =
   'ConfiguratorAttributeRadioButtonComponent';
 export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
   'ConfiguratorProductTitleComponent';
+export const CONFIGURATOR_GROUP_MENU_COMPONENT =
+  'ConfiguratorGroupMenuComponent';
 
 /***** Classes end *****/
 
@@ -671,6 +673,7 @@ export const ON_DESELECT = 'onDeselect';
 export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
 export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
 export const CLICK_ON_ENTER = 'clickOnEnter';
+export const NAVIGATE_UP_ON_ENTER = 'navigateUpOnEnter';
 
 /***** APIs end *****/
 

@@ -92,20 +92,6 @@ export class ConfiguratorGroupMenuComponent {
     protected directionService: DirectionService
   ) {}
 
-  /**
-   * @deprecated since 4.0
-   *
-   * Fired on key board events, checks for 'enter' or 'space' and delegates to click.
-   *
-   * @param {KeyboardEvent} event - Keyboard event
-   * @param {Configurator.Group} group - Entered group
-   */
-  clickOnEnter(event: KeyboardEvent, group: Configurator.Group): void {
-    if (event.code === 'Enter' || event.code === 'Space') {
-      this.click(group);
-    }
-  }
-
   click(group: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
       if (configuration.interactionState?.currentGroup === group.id) {
@@ -125,19 +111,6 @@ export class ConfiguratorGroupMenuComponent {
         );
       }
     });
-  }
-
-  /**
-   * @deprecated since 4.0
-   *
-   * Fired on key board events, checks for 'enter' or 'space' and delegates to navigateUp.
-   *
-   * @param {KeyboardEvent} event - Keyboard event
-   */
-  navigateUpOnEnter(event: KeyboardEvent): void {
-    if (event.code === 'Space' || event.code === 'Enter') {
-      this.navigateUp();
-    }
   }
 
   navigateUp(): void {
