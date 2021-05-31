@@ -35,11 +35,13 @@ const convertedOverview: Configurator.Overview = {
           value: 'V1',
         },
       ],
-    },
-    {
-      id: '11',
-      groupDescription: undefined,
-      attributes: [],
+      subGroups: [
+        {
+          id: '11',
+          groupDescription: undefined,
+          attributes: [],
+        },
+      ],
     },
     {
       id: '2',
@@ -74,16 +76,17 @@ Object.freeze(group3);
 const subGroups: OccConfigurator.GroupOverview[] = [group3];
 Object.freeze(subGroups);
 
+const subgroup: OccConfigurator.GroupOverview = { id: '11' };
 const group1: OccConfigurator.GroupOverview = {
   id: '1',
   groupDescription: groupDescription,
-  subGroups: [{ id: '11' }],
   characteristicValues: [
     {
       characteristic: 'C1',
       value: 'V1',
     },
   ],
+  subGroups: [subgroup],
 };
 Object.freeze(group1);
 
@@ -158,7 +161,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should cover sub groups', () => {
     const result = occConfiguratorVariantOverviewNormalizer.convert(overview);
-    expect(result.groups.length).toBe(3);
+    expect(result.groups?.length).toBe(2);
   });
 
   it('should be able to handle groups without attributes', () => {
@@ -181,7 +184,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
       groupWithSubgroups
     );
-    expect(result.length).toBe(5);
+    expect(result.length).toBe(1);
   });
   it('should set description for a general group', () => {
     const generalTargetGroup: Configurator.GroupOverview = {

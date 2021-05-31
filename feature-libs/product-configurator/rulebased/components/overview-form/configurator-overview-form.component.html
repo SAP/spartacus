@@ -28,10 +28,10 @@
       [class.subgroupTopLevel]="level === 1 && group.subGroups?.length > 0"
     >
       <h2>
-        <ng-container *cxFeatureLevel="'!3.3'">
+        <ng-container>
           {{ group.groupDescription }}
         </ng-container>
-        <ng-container *cxFeatureLevel="'3.3'">
+        <ng-container>
           <span>{{ group.groupDescription }}</span>
         </ng-container>
       </h2>
