@@ -55,6 +55,16 @@
       "version": "4.0.0",
       "factory": "./4_0/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
-    }    
+    },    
+    "migration-v4-rename-symbol-02": {
+      "version": "4.0.0",
+      "factory": "./4_0/rename-symbol/rename-symbol#migrate",
+      "description": "Rename import symbols that were moved/changed in majors"
+    },
+    "migration-v4-dependency-management-03": {
+      "version": "4.0.0",
+      "factory": "./4_0/dependency-management/dependency-management#migrate",
+      "description": "Update dependencies"
+    }
   }
 }
