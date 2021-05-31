@@ -3,12 +3,7 @@
     <ng-container *ngFor="let group of configuration.overview.groups">
       <div class="cx-group">
         <h2>
-          <ng-container *cxFeatureLevel="'!3.3'">
-            {{ group.groupDescription }}
-          </ng-container>
-          <ng-container *cxFeatureLevel="'3.3'">
-            <span>{{ group.groupDescription }}</span>
-          </ng-container>
+          <span>{{ group.groupDescription }}</span>
         </h2>
         <div
           *ngFor="let attributeOverview of group.attributes; let i = index"

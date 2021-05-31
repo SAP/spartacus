@@ -11,7 +11,6 @@ import { FormControl } from '@angular/forms';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 
@@ -103,20 +102,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   ngOnDestroy() {
     super.ngOnDestroy();
-  }
-
-  /**
-   * @deprecated since 3.3
-   * This method should be removed because there is no use for this method.
-   */
-  protected createEventFromInput(): ConfigFormUpdateEvent {
-    return {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
-        ...this.attribute,
-        userInput: this.attributeInputForm.value,
-      },
-    };
   }
 
   protected getInstalledLocale(locale: string): string {
