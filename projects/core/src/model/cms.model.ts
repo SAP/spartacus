@@ -6,6 +6,16 @@ export interface CmsComponent {
   uid?: string;
 
   /**
+   * Defines detailed CMS component composition
+   */
+  composition?: {
+    /**
+     * List of inner component mappings
+     */
+    inner?: string[];
+  };
+
+  /**
    * Style classes can be added to the CMS banner component to enhance the UX.
    * The style classes are typically derived from the (CMS) backend and should
    * match an existing CSS selector.
