@@ -6,7 +6,7 @@ import {
   QUALTRICS_LOADER_SERVICE,
   QUALTRICS_MODULE,
   SPARTACUS_STOREFRONTLIB,
-} from 'projects/schematics/src/shared';
+} from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
