@@ -23,7 +23,8 @@ import { CheckoutSelectors } from '../store/selectors/index';
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
   constructor(
-    protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
+    protected checkoutStore: Store<StateWithCheckout>,
+    protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService
   ) {}
@@ -48,7 +49,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   getSetPaymentDetailsResultProcess(): Observable<
     StateUtils.LoaderState<void>
   > {
-    return this.checkoutStore.pipe(
+    return this.processStateStore.pipe(
       select(
         ProcessSelectors.getProcessStateFactory(SET_PAYMENT_DETAILS_PROCESS_ID)
       )

@@ -216,11 +216,8 @@ export class ExpressCheckoutService {
               loadSupportedDeliveryModeStatus,
             ]).pipe(
               filter(
-                ([, , supportedDeliveryModeStatus]: [
-                  DeliveryMode[],
-                  StateUtils.LoaderState<void>,
-                  StateUtils.LoaderState<void>
-                ]) => supportedDeliveryModeStatus.success ?? false
+                ([, , supportedDeliveryModeStatus]: any) =>
+                  supportedDeliveryModeStatus.success ?? false
               ),
               switchMap(
                 ([deliveryModes, setDeliveryModeStatus, ,]: [
@@ -236,25 +233,20 @@ export class ExpressCheckoutService {
                       preferredDeliveryMode,
                       setDeliveryModeStatus,
                     ]).pipe(
-                      tap(
-                        ([deliveryMode, deliveryModeLoadingStatus]: [
-                          string,
-                          StateUtils.LoaderState<void>
-                        ]) => {
-                          if (
-                            deliveryMode &&
-                            !(
-                              deliveryModeLoadingStatus.success ||
-                              deliveryModeLoadingStatus.error ||
-                              deliveryModeLoadingStatus.loading
-                            )
-                          ) {
-                            this.checkoutDeliveryService.setDeliveryMode(
-                              deliveryMode
-                            );
-                          }
+                      tap(([deliveryMode, deliveryModeLoadingStatus]: any) => {
+                        if (
+                          deliveryMode &&
+                          !(
+                            deliveryModeLoadingStatus.success ||
+                            deliveryModeLoadingStatus.error ||
+                            deliveryModeLoadingStatus.loading
+                          )
+                        ) {
+                          this.checkoutDeliveryService.setDeliveryMode(
+                            deliveryMode
+                          );
                         }
-                      ),
+                      }),
                       filter(
                         ([, deliveryModeLoadingStatus]: [
                           string,

@@ -24,7 +24,8 @@ import { CheckoutSelectors } from '../store/selectors/index';
 @Injectable()
 export class CheckoutService implements CheckoutFacade {
   constructor(
-    protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
+    protected checkoutStore: Store<StateWithCheckout>,
+    protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService
   ) {}
@@ -94,7 +95,7 @@ export class CheckoutService implements CheckoutFacade {
    * Returns the place or schedule replenishment order's loading flag
    */
   getPlaceOrderLoading(): Observable<boolean> {
-    return this.checkoutStore.pipe(
+    return this.processStateStore.pipe(
       select(ProcessSelectors.getProcessLoadingFactory(PLACED_ORDER_PROCESS_ID))
     );
   }
@@ -103,7 +104,7 @@ export class CheckoutService implements CheckoutFacade {
    * Returns the place or schedule replenishment order's success flag
    */
   getPlaceOrderSuccess(): Observable<boolean> {
-    return this.checkoutStore.pipe(
+    return this.processStateStore.pipe(
       select(ProcessSelectors.getProcessSuccessFactory(PLACED_ORDER_PROCESS_ID))
     );
   }
@@ -112,7 +113,7 @@ export class CheckoutService implements CheckoutFacade {
    * Returns the place or schedule replenishment order's error flag
    */
   getPlaceOrderError(): Observable<boolean> {
-    return this.checkoutStore.pipe(
+    return this.processStateStore.pipe(
       select(ProcessSelectors.getProcessErrorFactory(PLACED_ORDER_PROCESS_ID))
     );
   }
