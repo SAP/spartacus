@@ -284,7 +284,7 @@ export class ConfiguratorGroupMenuComponent {
       (event.code === 'ArrowLeft' &&
         this.directionService.getDirection() === DirectionMode.RTL)
     ) {
-      if (this.hasSubGroups(group)) {
+      if (group && this.hasSubGroups(group)) {
         this.click(group);
       }
     } else if (
@@ -305,7 +305,7 @@ export class ConfiguratorGroupMenuComponent {
   ): boolean {
     let isCurrentGroupFound = false;
     if (this.hasSubGroups(group)) {
-      group.subGroups.forEach((subGroup) => {
+      group?.subGroups?.forEach((subGroup) => {
         if (this.isGroupSelected(subGroup.id, currentGroupId)) {
           isCurrentGroupFound = true;
         }
@@ -325,11 +325,11 @@ export class ConfiguratorGroupMenuComponent {
     }
   }
 
-  isGroupSelected(currentGroupId: string, groupId: string): boolean {
+  isGroupSelected(currentGroupId?: string, groupId?: string): boolean {
     return currentGroupId === groupId;
   }
 
-  createAriaControls(groupId: string): string {
+  createAriaControls(groupId?: string): string | undefined {
     if (groupId) {
       return groupId + '-group';
     }

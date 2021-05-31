@@ -17,7 +17,7 @@ export class ConfiguratorGroupMenuService {
    * @returns {NodeListOf<HTMLElement>} - list of the groups.
    * @protected
    */
-  protected getGroups(): NodeListOf<HTMLElement> {
+  protected getGroups(): NodeListOf<HTMLElement> | undefined {
     if (isPlatformBrowser(this.platformId)) {
       let selector = ' cx-configurator-group-menu button[role="tab"]';
       this.breakpointService
@@ -41,20 +41,17 @@ export class ConfiguratorGroupMenuService {
    * @returns {number | undefined} - focused group index
    * @protected
    */
-  protected getFocusedGroupIndex(
-    groups: NodeListOf<HTMLElement>
-  ): number | undefined {
+  protected getFocusedGroupIndex(groups: NodeListOf<HTMLElement>): number {
     if (isPlatformBrowser(this.platformId)) {
       let focusedElement = document.activeElement;
-      let focusedElementId = focusedElement.id;
+      let focusedElementId = focusedElement?.id;
       if (groups) {
-        for (let index = 0; index < groups.length; index++) {
-          if (groups[index].id === focusedElementId) {
+        for (let index = 0; index < groups?.length; index++) {
+          if (groups[index]?.id === focusedElementId) {
             return index;
           }
         }
       }
-      return undefined;
     }
   }
 
@@ -148,13 +145,16 @@ export class ConfiguratorGroupMenuService {
    *
    * @returns {boolean} - returns `true` if the first group in the group list is `Back` button, otherwise `false`
    */
-  isBackBtnFocused(): boolean {
+  isBackBtnFocused(): boolean | undefined {
     if (isPlatformBrowser(this.platformId)) {
       const groups = this.getGroups();
-      return (
-        groups[0].classList.value.indexOf('cx-menu-back') !== -1 &&
-        document.activeElement === groups[0]
-      );
+      if (groups) {
+        return (
+          groups[0].classList?.value?.indexOf('cx-menu-back') !== -1 &&
+          document.activeElement === groups[0]
+        );
+      }
+      return undefined;
     }
   }
 }

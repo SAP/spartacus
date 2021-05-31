@@ -164,7 +164,7 @@ describe('ConfiguratorGroupMenuService', () => {
     });
   });
 
-  describe('focusNextTab', () => {
+  describe('focusNextGroup', () => {
     it('should focus next group items', () => {
       groups[0].focus();
       let focusedElement = document.activeElement;

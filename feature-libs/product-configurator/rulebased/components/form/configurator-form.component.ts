@@ -97,7 +97,7 @@ export class ConfiguratorFormComponent implements OnInit {
     return this.configuratorGroupsService.isConflictGroupType(groupType);
   }
 
-  createGroupId(groupId: string): string {
+  createGroupId(groupId?: string): string | undefined {
     if (groupId) {
       return groupId + '-group';
     }
