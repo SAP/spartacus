@@ -1,16 +1,4 @@
 import { Injectable } from '@angular/core';
-import {
-  BasePageMetaResolver,
-  BreadcrumbMeta,
-  PageBreadcrumbResolver,
-  PageMetaResolver,
-  PageRobotsMeta,
-  PageRobotsResolver,
-  PageTitleResolver,
-  PageType,
-  RoutingService,
-  TranslationService,
-} from '@spartacus/core';
 import { combineLatest, defer, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -18,6 +6,17 @@ import {
   shareReplay,
   switchMap,
 } from 'rxjs/operators';
+import { BreadcrumbMeta, PageRobotsMeta } from '../../cms/model/page.model';
+import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
+import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
+import {
+  PageBreadcrumbResolver,
+  PageRobotsResolver,
+  PageTitleResolver,
+} from '../../cms/page/page.resolvers';
+import { TranslationService } from '../../i18n/translation.service';
+import { PageType } from '../../model/cms.model';
+import { RoutingService } from '../../routing/facade/routing.service';
 
 /**
  * Resolves the page data for Order Pages.

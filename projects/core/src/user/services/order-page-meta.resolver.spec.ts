@@ -32,14 +32,14 @@ class MockBasePageMetaResolver {
   }
 }
 
-const savedCartUrl = '/my-account/saved-carts';
-const savedCartTranslationKey = 'breadcrumb';
-const savedCartBreadcrumb: BreadcrumbMeta = {
-  label: savedCartTranslationKey,
-  link: savedCartUrl,
+const orderCartUrl = '/my-account/orders';
+const orderTranslationKey = 'breadcrumb';
+const orderBreadcrumb: BreadcrumbMeta = {
+  label: orderTranslationKey,
+  link: orderCartUrl,
 };
 class MockSemanticPathService implements Partial<SemanticPathService> {
-  get = jasmine.createSpy('get').and.returnValue(savedCartUrl);
+  get = jasmine.createSpy('get').and.returnValue(orderCartUrl);
 }
 
 describe('OrderPageMetaResolver', () => {
@@ -75,44 +75,35 @@ describe('OrderPageMetaResolver', () => {
   });
 
   describe('resolveBreadcrumbs', () => {
-    describe('when being on the Saved Cart page', () => {
+    describe('when being on the Order page', () => {
       beforeEach(() => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of({ state: { semanticRoute: 'savedCarts' } } as any)
+          of({ state: { semanticRoute: 'orders' } } as any)
         );
       });
 
-      it('should NOT return breadcrumb for the Saved Cart page', async () => {
+      it('should NOT return breadcrumb for the Order page', async () => {
         expect(
           await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
         ).toEqual([testHomeBreadcrumb]);
       });
     });
 
-    describe('when being on Saved Cart Details page', () => {
-      const testDetailsBreadcrumb: BreadcrumbMeta = {
-        link: '/my-account/saved-carts',
-        label: 'savedCartList.breadcrumb',
-      };
-
+    describe('when being on Order Details page', () => {
       beforeEach(() => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of({ state: { semanticRoute: 'savedCartsDetails' } } as any)
+          of({ state: { semanticRoute: 'orderDetails' } } as any)
         );
 
         spyOn(basePageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
-          of([testHomeBreadcrumb, testDetailsBreadcrumb])
+          of([testHomeBreadcrumb, orderBreadcrumb])
         );
       });
 
-      it('should insert breadcrumb for the Saved Cart page right after the Homepage breadcrumb', async () => {
+      it('should insert breadcrumb for the Order page right after the Homepage breadcrumb', async () => {
         expect(
           await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
-        ).toEqual([
-          testHomeBreadcrumb,
-          savedCartBreadcrumb,
-          testDetailsBreadcrumb,
-        ]);
+        ).toEqual([testHomeBreadcrumb, orderBreadcrumb]);
       });
     });
   });
