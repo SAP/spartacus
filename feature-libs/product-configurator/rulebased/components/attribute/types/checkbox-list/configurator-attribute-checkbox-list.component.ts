@@ -24,27 +24,9 @@ export class ConfiguratorAttributeCheckBoxListComponent
 
   @Input() group: string;
 
-  // TODO(#11681): make quantityService a required dependency and remove deprecated constructor
-  /**
-   * default constructor
-   * @param {ConfiguratorStorefrontUtilsService} configUtilsService
-   * @param {ConfiguratorAttributeQuantityService} quantityService
-   */
-  constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configUtilsService: ConfiguratorStorefrontUtilsService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    quantityService: ConfiguratorAttributeQuantityService
-  );
-
-  /**
-   * @deprecated since 3.3
-   */
-  constructor(configUtilsService: ConfiguratorStorefrontUtilsService);
-
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
-    protected quantityService?: ConfiguratorAttributeQuantityService
+    protected quantityService: ConfiguratorAttributeQuantityService
   ) {
     super(quantityService);
   }
