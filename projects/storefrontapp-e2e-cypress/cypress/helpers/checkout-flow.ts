@@ -164,9 +164,17 @@ export function fillAddressFormNoProduct(
   cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
 
-export function verifyDeliveryMethod(
-  deliveryMode: string = ELECTRONICS_DEFAULT_DELIVERY_MODE
+export function fillPaymentFormNoProduct
+(  paymentDetailsData: PaymentDetails = user,
+  billingAddress?: AddressData
 ) {
+  cy.log('🛒 Filling payment method form');
+  cy.get('.cx-checkout-title').should('contain', 'Payment');
+  const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
+  fillPaymentDetails(paymentDetailsData, billingAddress);
+  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
+}
+
 export function verifyDeliveryMethod() {
   cy.log('🛒 Selecting delivery method');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
@@ -210,9 +218,15 @@ export function placeOrder(verifyProductData: boolean = true) {
     .within(() => {
       cy.findByText('Standard Delivery');
     });
-  cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
+  if (verifyProductData){  
+    cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(0)
     .should('contain', cart.total);
+  } else{
+    cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
+    .eq(0)
+    .should('not.be.empty');
+  }
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(1)
     .should('not.be.empty');
@@ -450,7 +464,9 @@ export function verifyOrderConfirmationPageWithCheapProduct(
 }
 
 export function verifyOrder(
-  sampleUser: SampleUser = user
+  sampleUser: SampleUser = user,
+  sampleProduct: SampleProduct = cheapProduct,
+  isApparel: boolean = false, 
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
   cy.get('h2').should('contain', 'Thank you for your order!');
@@ -479,16 +495,6 @@ export function verifyOrder(
       cy.contains(sampleUser.address.line1);
     });
   });
-  if (!isApparel) {
-    cy.get('cx-cart-item .cx-code').should('contain', sampleProduct.code);
-  } else {
-    cy.get('cx-cart-item .cx-code')
-      .should('have.length', products.length)
-      .each((_, index) => {
-        console.log('products', products[index]);
-        cy.get('cx-cart-item .cx-code').should('contain', products[index].code);
-      });
-  }
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 

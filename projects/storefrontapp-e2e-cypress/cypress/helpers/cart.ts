@@ -431,6 +431,56 @@ export function manipulateCartQuantity() {
   checkProductInCart(product, 3);
 }
 
+export function randomModifyCartSkuQuantities(){
+
+  // SKU quantity
+  // cy.get(':nth-child(3) > .cx-item-list-items > cx-cart-item > [ng-reflect-ng-class="row"] > .cx-info > .cx-info-container > .cx-quantity > .cx-value > cx-item-counter > .ng-untouched')
+  // Minus Sign
+  // cy.get(':nth-child(3) > .cx-item-list-items > cx-cart-item > [ng-reflect-ng-class="row"] > .cx-info > .cx-info-container > .cx-quantity > .cx-value > cx-item-counter > :nth-child(1)')
+  // Plus sign
+  // cy.get(':nth-child(3) > .cx-item-list-items > cx-cart-item > [ng-reflect-ng-class="row"] > .cx-info > .cx-info-container > .cx-quantity > .cx-value > cx-item-counter > :nth-child(3)')
+
+  // if val > 1, decrease by 1. 
+  // if val == 1, increase by 1. 
+
+  registerCartRefreshRoute();  // doesn't work
+  registerCartPageRoute();    // doesn't work.
+
+    // Find a better way to do this. Should be by result row. 
+    for ( let i = 2; i < 15; i++ ){
+
+      let skuQuantityLoc = ':nth-child(' + i + ') > .cx-item-list-items > cx-cart-item > [ng-reflect-ng-class="row"] > .cx-info > .cx-info-container > .cx-quantity > .cx-value > cx-item-counter > .ng-untouched';
+
+      let minusSignLoc = ':nth-child(' + i + ') > .cx-item-list-items > cx-cart-item > [ng-reflect-ng-class="row"] > .cx-info > .cx-info-container > .cx-quantity > .cx-value > cx-item-counter > :nth-child(1)';
+      
+      let plusSignLoc = ':nth-child(' + i + ') > .cx-item-list-items > cx-cart-item > [ng-reflect-ng-class="row"] > .cx-info > .cx-info-container > .cx-quantity > .cx-value > cx-item-counter > :nth-child(3)';
+      
+      cy.get(skuQuantityLoc)
+        .scrollIntoView()
+        .then(($qty) => {
+
+        const skuQty = $qty.text(); 
+        if (skuQty == '1') {
+            cy.get(plusSignLoc).click({ force: true });
+            cy.log("qty = 1. Increasing... ")
+        }
+        else{
+          cy.log("qty > 1. Decreasing ... ")
+          cy.get(minusSignLoc).click({ force: true });
+        }
+
+        // Brian
+        // May 31. Pending issues: 
+        // 1. Increase, decrease quantity button click is not seen to be working. 
+        // 2. Unable to wait for cart page update. 
+
+        //cy.wait('@refresh_cart');
+        //cy.wait('@cart_page');
+        //cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+      })
+    }
+}
+
 export function outOfStock() {
   const product = products[3];
 

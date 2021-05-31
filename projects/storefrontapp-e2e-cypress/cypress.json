@@ -1,7 +1,6 @@
 {
   "defaultCommandTimeout": 10000,
-  "baseUrlLocal": "http://localhost:4200",
-  "baseUrl" : "http://spartacus-devci767.eastus.cloudapp.azure.com:4100/electronics-spa/en/USD",
+  "baseUrl": "http://localhost:4200",
   "requestTimeout": 15000,
   "retries": {
     "runMode": 2
