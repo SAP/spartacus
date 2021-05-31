@@ -41,6 +41,11 @@ export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
 
+export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS =
+  '@spartacus/product/variants/components';
+export const SPARTACUS_PRODUCT_VARIANTS_ROOT =
+  '@spartacus/product/variants/root';
+
 /***** Imports end *****/
 
 /***** Classes start *****/
@@ -523,6 +528,11 @@ export const VARIANT_STYLE_ICONS_MODULE = 'VariantStyleIconsModule';
 export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
 export const VARIANT_STYLE_SELECTOR_MODULE = 'VariantStyleSelectorModule';
 export const PRODUCT_VARIANTS_MODULE = 'ProductVariantsModule';
+
+export const PRODUCT_VARIANT_STYLE_ICONS_COMPONENT =
+  'ProductVariantStyleIconsComponent';
+export const PRODUCT_VARIANT_STYLE_ICONS_MODULE =
+  'ProductVariantStyleIconsModule';
 
 /***** Removed public api end *****/
 

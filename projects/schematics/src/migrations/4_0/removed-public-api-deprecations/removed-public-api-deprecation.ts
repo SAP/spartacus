@@ -4,7 +4,10 @@ import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-
 import {
   PRODUCT_VARIANT_COMPONENT,
   PRODUCT_VARIANT_GUARD,
+  PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
+  PRODUCT_VARIANT_STYLE_ICONS_MODULE,
   PRODUCT_VARIANTS_MODULE,
+  SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
   SPARTACUS_STOREFRONTLIB,
   VARIANT_COLOR_SELECTOR_COMPONENT,
   VARIANT_COLOR_SELECTOR_MODULE,
@@ -81,7 +84,17 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: PRODUCT_VARIANT_GUARD,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${PRODUCT_VARIANT_GUARD}' was moved to @spartacus/product/variants.`,
+    comment: `'${PRODUCT_VARIANT_GUARD}' was removed from @spartacus/storefront. Use ProductVariantsGuard from @spartacus/product/variants/components instead. Additionally method: findVariant was renamed to findPurchasableProductCode.`,
+  },
+  {
+    node: PRODUCT_VARIANT_STYLE_ICONS_MODULE,
+    importPath: SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
+    comment: `'${PRODUCT_VARIANT_STYLE_ICONS_MODULE}' was removed from ${SPARTACUS_PRODUCT_VARIANTS_COMPONENTS}. Use @spartacus/product/variants/root instead.`,
+  },
+  {
+    node: PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
+    importPath: SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
+    comment: `'${PRODUCT_VARIANT_STYLE_ICONS_COMPONENT}' was removed from ${SPARTACUS_PRODUCT_VARIANTS_COMPONENTS}. Use @spartacus/product/variants/root instead.`,
   },
 ];
 
