@@ -202,12 +202,10 @@ export interface OccEndpoints {
   /**
    * Update the user's profile
    */
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userUpdateProfile?: string | OccEndpoint;
   /**
    * Close user account
    */
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   userCloseAccount?: string | OccEndpoint;
   /**
    * Payment details root endpoint.

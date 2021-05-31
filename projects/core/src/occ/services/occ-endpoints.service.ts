@@ -50,18 +50,6 @@ export class OccEndpointsService {
   }
 
   /**
-   * Returns the value configured for a specific endpoint
-   *
-   * @param endpointKey the configuration key for the endpoint to return
-   * @param scope endpoint configuration scope
-   */
-  getRawEndpointValue(endpoint: string, scope?: string): string {
-    const endpointValue = this.getEndpointForScope(endpoint, scope);
-
-    return endpointValue;
-  }
-
-  /**
    * Returns true when the endpoint is configured
    *
    * @param endpointKey the configuration key for the endpoint to return
@@ -74,8 +62,6 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.2 - use "buildUrl" instead
-   *
    * Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
    * Most OCC endpoints are related to a baseSite context and are therefor prefixed
    * with the baseSite. The `/basesites` endpoint does not relate to a specific baseSite
