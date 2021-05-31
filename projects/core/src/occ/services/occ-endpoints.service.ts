@@ -77,8 +77,18 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.1 - use "buildUrl" instead
+   * Returns true when the endpoint is configured
    *
+   * @param endpointKey the configuration key for the endpoint to return
+   * @param scope endpoint configuration scope
+   */
+  isConfigured(endpoint: string, scope?: string): boolean {
+    return !(
+      typeof this.getEndpointFromConfig(endpoint, scope) === 'undefined'
+    );
+  }
+
+  /**
    * Returns an endpoint starting from the OCC prefix (no baseSite), i.e. /occ/v2/{endpoint}
    * Most OCC endpoints are related to a baseSite context and are therefor prefixed
    * with the baseSite. The `/basesites` endpoint does not relate to a specific baseSite
@@ -262,6 +272,31 @@ export class OccEndpointsService {
     return this.getEndpoint(endpoint);
   }
 
+  private getEndpointFromConfig(
+    endpoint: string,
+    scope?: string
+  ): string | undefined {
+    const endpointsConfig = this.config.backend?.occ?.endpoints;
+
+    if (!endpointsConfig) {
+      return undefined;
+    }
+
+    const endpointConfig = endpointsConfig[endpoint];
+
+    if (scope) {
+      if (scope === DEFAULT_SCOPE && typeof endpointConfig === 'string') {
+        return endpointConfig;
+      }
+      return endpointConfig?.[scope];
+    }
+
+    return typeof endpointConfig === 'string'
+      ? endpointConfig
+      : endpointConfig?.[DEFAULT_SCOPE];
+  }
+
+  // TODO: Can we reuse getEndpointFromConfig in this method? Should we change behavior of this function?
   private getEndpointForScope(endpoint: string, scope?: string): string {
     const endpointsConfig = this.config.backend?.occ?.endpoints;
 
