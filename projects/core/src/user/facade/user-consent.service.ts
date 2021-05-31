@@ -116,6 +116,20 @@ export class UserConsentService {
     );
   }
 
+  getConsentTemplateByConsentCode(
+    consentCode: string
+  ): Observable<ConsentTemplate | undefined> {
+    return this.authService.isUserLoggedIn().pipe(
+      filter(Boolean),
+      tap(() => this.getConsents(true)),
+      switchMap(() =>
+        this.store.pipe(
+          select(UsersSelectors.getConsentTemplateByConsentCode(consentCode))
+        )
+      )
+    );
+  }
+
   /**
    * Returns `true` if the consent is truthy and if `consentWithdrawnDate` doesn't exist.
    * Otherwise, `false` is returned.

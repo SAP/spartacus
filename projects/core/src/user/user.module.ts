@@ -1,4 +1,8 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { UserIdService } from '../auth';
+import { StateWithUser } from './store';
+import { LoadUserConsents } from './store/actions/user-consents.action';
 import { UserStoreModule } from './store/user-store.module';
 
 /**
@@ -6,6 +10,24 @@ import { UserStoreModule } from './store/user-store.module';
  */
 @NgModule({
   imports: [UserStoreModule],
+  providers: [
+    // TODO Cleanup and move to user root
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (
+        store: Store<StateWithUser>,
+        userIdService: UserIdService
+      ) => {
+        return () => {
+          userIdService.invokeWithUserId((userId) =>
+            store.dispatch(new LoadUserConsents(userId))
+          );
+        };
+      },
+      multi: true,
+      deps: [Store, UserIdService],
+    },
+  ],
 })
 export class UserModule {
   static forRoot(): ModuleWithProviders<UserModule> {
