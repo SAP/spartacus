@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {
   ActiveCartService,
   Cart,
-  CheckoutService,
   Order,
   OrderEntry,
   PromotionLocation,
@@ -18,7 +17,6 @@ import { OrderDetailsService } from '../../../cms-components/myaccount/order/ord
 export class PromotionService {
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected checkoutService: CheckoutService,
     protected activeCartService: ActiveCartService
   ) {}
 
@@ -28,8 +26,6 @@ export class PromotionService {
     switch (promotionLocation) {
       case PromotionLocation.ActiveCart:
         return this.getOrderPromotionsFromCart();
-      case PromotionLocation.Checkout:
-        return this.getOrderPromotionsFromCheckout();
       case PromotionLocation.Order:
         return this.getOrderPromotionsFromOrder();
       default:
@@ -51,12 +47,6 @@ export class PromotionService {
     appliedPromotions.push(...(cart.appliedOrderPromotions || []));
 
     return [...potentialPromotions, ...appliedPromotions];
-  }
-
-  getOrderPromotionsFromCheckout(): Observable<PromotionResult[]> {
-    return this.checkoutService
-      .getOrderDetails()
-      .pipe(map((order) => this.getOrderPromotionsFromOrderHelper(order)));
   }
 
   getOrderPromotionsFromOrder(): Observable<PromotionResult[]> {
@@ -85,17 +75,6 @@ export class PromotionService {
               this.getProductPromotion(
                 item,
                 cart.appliedProductPromotions || []
-              )
-            )
-          );
-      case PromotionLocation.Checkout:
-        return this.checkoutService
-          .getOrderDetails()
-          .pipe(
-            map((order) =>
-              this.getProductPromotion(
-                item,
-                order.appliedProductPromotions || []
               )
             )
           );

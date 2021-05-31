@@ -1,66 +1,17 @@
 import { Injectable } from '@angular/core';
-import {
-  ActiveCartService,
-  Cart,
-  CheckoutService,
-  Order,
-  OrderEntry,
-  PromotionLocation,
-  PromotionResult,
-} from '@spartacus/core';
-import { OrderDetailsService } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { CheckoutFacade } from '@spartacus/checkout/root';
+import { Order, OrderEntry, PromotionResult } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class PromotionService {
-  constructor(
-    protected orderDetailsService: OrderDetailsService,
-    protected checkoutService: CheckoutService,
-    protected activeCartService: ActiveCartService
-  ) {}
+export class CheckoutPromotionService {
+  constructor(protected checkoutFacade: CheckoutFacade) {}
 
-  getOrderPromotions(
-    promotionLocation: PromotionLocation
-  ): Observable<PromotionResult[]> {
-    switch (promotionLocation) {
-      case PromotionLocation.ActiveCart:
-        return this.getOrderPromotionsFromCart();
-      case PromotionLocation.Checkout:
-        return this.getOrderPromotionsFromCheckout();
-      case PromotionLocation.Order:
-        return this.getOrderPromotionsFromOrder();
-      default:
-        return of([]);
-    }
-  }
-
-  getOrderPromotionsFromCart(): Observable<PromotionResult[]> {
-    return this.activeCartService
-      .getActive()
-      .pipe(map((cart) => this.getOrderPromotionsFromCartHelper(cart)));
-  }
-
-  private getOrderPromotionsFromCartHelper(cart: Cart): PromotionResult[] {
-    const potentialPromotions = [];
-    potentialPromotions.push(...(cart.potentialOrderPromotions || []));
-
-    const appliedPromotions = [];
-    appliedPromotions.push(...(cart.appliedOrderPromotions || []));
-
-    return [...potentialPromotions, ...appliedPromotions];
-  }
-
-  getOrderPromotionsFromCheckout(): Observable<PromotionResult[]> {
-    return this.checkoutService
-      .getOrderDetails()
-      .pipe(map((order) => this.getOrderPromotionsFromOrderHelper(order)));
-  }
-
-  getOrderPromotionsFromOrder(): Observable<PromotionResult[]> {
-    return this.orderDetailsService
+  getOrderPromotions(): Observable<PromotionResult[]> {
+    return this.checkoutFacade
       .getOrderDetails()
       .pipe(map((order) => this.getOrderPromotionsFromOrderHelper(order)));
   }
@@ -72,45 +23,28 @@ export class PromotionService {
     return appliedOrderPromotions;
   }
 
-  getProductPromotionForEntry(
-    item: OrderEntry,
-    promotionLocation: PromotionLocation
-  ): Observable<PromotionResult[]> {
-    switch (promotionLocation) {
-      case PromotionLocation.ActiveCart:
-        return this.activeCartService
-          .getActive()
-          .pipe(
-            map((cart) =>
-              this.getProductPromotion(
-                item,
-                cart.appliedProductPromotions || []
-              )
-            )
-          );
-      case PromotionLocation.Checkout:
-        return this.checkoutService
-          .getOrderDetails()
-          .pipe(
-            map((order) =>
-              this.getProductPromotion(
-                item,
-                order.appliedProductPromotions || []
-              )
-            )
-          );
-      case PromotionLocation.Order:
-        return this.orderDetailsService
-          .getOrderDetails()
-          .pipe(
-            map((order) =>
-              this.getProductPromotion(
-                item,
-                order.appliedProductPromotions || []
-              )
-            )
-          );
-    }
+  getProductPromotionForEnties(
+    order: Order
+  ): { [key: string]: PromotionResult[] } {
+    const allEntryPromotions: { [key: string]: PromotionResult[] } = {};
+    order.entries?.forEach((entry) => {
+      if (entry.entryNumber !== undefined)
+        allEntryPromotions[entry.entryNumber] = this.getProductPromotion(
+          entry,
+          order.appliedProductPromotions || []
+        );
+    });
+    return allEntryPromotions;
+  }
+
+  getProductPromotionForEntry(item: OrderEntry): Observable<PromotionResult[]> {
+    return this.checkoutFacade
+      .getOrderDetails()
+      .pipe(
+        map((order) =>
+          this.getProductPromotion(item, order.appliedProductPromotions || [])
+        )
+      );
   }
 
   private getProductPromotion(

@@ -2,13 +2,12 @@ import { TestBed } from '@angular/core/testing';
 import {
   ActiveCartService,
   Cart,
-  CheckoutService,
   Order,
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
-import { OrderDetailsService } from '../../../cms-components/myaccount/order/order-details/order-details.service';
 import { Observable, of } from 'rxjs';
+import { OrderDetailsService } from '../../../cms-components/myaccount/order/order-details/order-details.service';
 import { PromotionService } from './promotion.service';
 
 const mockAppliedProductPromotions: PromotionResult[] = [
@@ -36,17 +35,6 @@ const mockAppliedOrderPromotionsForCart: PromotionResult[] = [
       },
     ],
     description: 'test applied order promotion for cart',
-  },
-];
-
-const mockAppliedOrderPromotionsForCheckout: PromotionResult[] = [
-  {
-    consumedEntries: [
-      {
-        orderEntryNumber: 2,
-      },
-    ],
-    description: 'test applied order promotion for checkout',
   },
 ];
 
@@ -115,60 +103,9 @@ const mockOrder: Order = {
   appliedProductPromotions: mockAppliedProductPromotions,
 };
 
-const mockCheckoutDetails: Order = {
-  code: '1',
-  statusDisplay: 'orderDetails.statusDisplay context:Shipped',
-  deliveryAddress: {
-    firstName: 'John',
-    lastName: 'Smith',
-    line1: 'Buckingham Street 5',
-    line2: '1A',
-    phone: '(+11) 111 111 111',
-    postalCode: 'MA8902',
-    town: 'London',
-    country: {
-      isocode: 'UK',
-    },
-  },
-  deliveryMode: {
-    name: 'Standard order-detail-shipping',
-    description: '3-5 days',
-  },
-  paymentInfo: {
-    accountHolderName: 'John Smith',
-    cardNumber: '************6206',
-    expiryMonth: '12',
-    expiryYear: '2026',
-    cardType: {
-      name: 'Visa',
-    },
-    billingAddress: {
-      firstName: 'John',
-      lastName: 'Smith',
-      line1: 'Buckingham Street 5',
-      line2: '1A',
-      phone: '(+11) 111 111 111',
-      postalCode: 'MA8902',
-      town: 'London',
-      country: {
-        isocode: 'UK',
-      },
-    },
-  },
-  created: new Date('2019-02-11T13:02:58+0000'),
-  appliedOrderPromotions: mockAppliedOrderPromotionsForCheckout,
-  appliedProductPromotions: mockAppliedProductPromotions,
-};
-
 class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of(mockCart);
-  }
-}
-
-class MockCheckoutService {
-  getOrderDetails(): Observable<Order> {
-    return of(mockCheckoutDetails);
   }
 }
 
@@ -178,7 +115,7 @@ class MockOrderDetailsService {
   }
 }
 
-describe('PromotionService', () => {
+fdescribe('PromotionService', () => {
   let promotionService: PromotionService;
 
   beforeEach(() => {
@@ -188,10 +125,6 @@ describe('PromotionService', () => {
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
-        },
-        {
-          provide: CheckoutService,
-          useClass: MockCheckoutService,
         },
         {
           provide: OrderDetailsService,
@@ -223,29 +156,6 @@ describe('PromotionService', () => {
       let appliedOrderPromotions: PromotionResult[];
 
       it('should return appropriate applied order promotions for cart', () => {
-        promotionService
-          .getOrderPromotions(promotionLocation)
-          .subscribe((promotions) => (appliedOrderPromotions = promotions))
-          .unsubscribe();
-        expect(appliedOrderPromotions).toEqual(expectedAppliedOrderPromotions);
-      });
-    });
-
-    describe('for checkout', () => {
-      const expectedAppliedOrderPromotions = [
-        {
-          consumedEntries: [
-            {
-              orderEntryNumber: 2,
-            },
-          ],
-          description: 'test applied order promotion for checkout',
-        },
-      ];
-      const promotionLocation: PromotionLocation = PromotionLocation.Checkout;
-      let appliedOrderPromotions: PromotionResult[];
-
-      it('should return appropriate applied order promotions for checkout', () => {
         promotionService
           .getOrderPromotions(promotionLocation)
           .subscribe((promotions) => (appliedOrderPromotions = promotions))
