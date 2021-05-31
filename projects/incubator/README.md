@@ -1,6 +1,6 @@
 # Spartacus Incubator
 
-Spartacus Incubator is a package that include features still in development. The features included in the library can be used but are likelly to evolve in future releases and might even get refactored over time. 
+Spartacus Incubator is a package that include features still in development. The features included in the library can be used but are likely to evolve in future releases and might even get refactored over time. 
 
 The incubator package might contain core and storefront related code. The incubator package might contain any code which later will be moved to other libraries, such as the core or storefront libraries.
 

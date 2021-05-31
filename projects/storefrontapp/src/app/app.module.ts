@@ -22,6 +22,7 @@ import {
   RoutingConfig,
   TestConfigModule,
 } from '@spartacus/core';
+import { ProductImagesModule } from '@spartacus/incubator';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
 import {
   PRODUCT_CONFIGURATOR_RULEBASED_FEATURE,
@@ -107,6 +108,7 @@ const ruleBasedFeatureConfiguration = environment.cpq
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
 
     ...devImports,
+    ProductImagesModule,
   ],
   providers: [
     provideConfig(<OccConfig>{

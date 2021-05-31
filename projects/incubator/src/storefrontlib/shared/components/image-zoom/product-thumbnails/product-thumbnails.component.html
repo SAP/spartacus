@@ -1,0 +1,20 @@
+<ng-container *ngIf="thumbs$ | async as thumbs">
+  <cx-carousel
+    *ngIf="thumbs.length"
+    class="thumbs"
+    [items]="thumbs"
+    itemWidth="70px"
+    [hideIndicators]="false"
+    [template]="thumb"
+  ></cx-carousel>
+</ng-container>
+
+<ng-template #thumb let-item="item">
+  <cx-media
+    [container]="item.container"
+    tabindex="0"
+    (focus)="openImage(item.container)"
+    [class.is-active]="isActive(item.container) | async"
+  >
+  </cx-media>
+</ng-template>
