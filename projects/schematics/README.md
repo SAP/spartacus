@@ -147,6 +147,7 @@ The migration scripts that are listed here should be executed each time customer
 - `migration-v*-component-deprecations-05`
 - `migration-v*-css-06`
 - `migration-v*-config-deprecations-09`
+- `migration-v*-dependency-management-03`
 
 The `v*` refers _only_ to the _latest major_ Spartacus version (v3 as of this moment).
 
