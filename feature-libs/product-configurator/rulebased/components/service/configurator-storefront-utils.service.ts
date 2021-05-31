@@ -15,7 +15,7 @@ export class ConfiguratorStorefrontUtilsService {
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
     @Inject(PLATFORM_ID) protected platformId: any,
-    @Inject(DOCUMENT) protected document,
+    @Inject(DOCUMENT) protected document: any,
     protected keyboardFocusService: KeyboardFocusService
   ) {}
 

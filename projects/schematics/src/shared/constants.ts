@@ -611,6 +611,7 @@ export const LEGACY_FLAG = 'legacy';
 export const INJECT_DECORATOR = 'Inject';
 export const PLATFORM = 'Platform';
 export const PLATFORM_ID_STRING = 'PLATFORM_ID';
+export const DOCUMENT = 'DOCUMENT';
 export const ANY_TYPE = 'any';
 /***** Properties end *****/
 

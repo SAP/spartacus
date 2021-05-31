@@ -7,7 +7,7 @@ import { take } from 'rxjs/operators';
 export class ConfiguratorGroupMenuService {
   constructor(
     @Inject(PLATFORM_ID) protected platformId: any,
-    @Inject(DOCUMENT) protected document,
+    @Inject(DOCUMENT) protected document: any,
     protected breakpointService: BreakpointService
   ) {}
 
