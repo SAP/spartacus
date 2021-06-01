@@ -1,57 +1,29 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
-import { take } from 'rxjs/operators';
+import { ElementRef, Injectable, QueryList } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class ConfiguratorGroupMenuService {
-  constructor(
-    @Inject(PLATFORM_ID) protected platformId: any,
-    @Inject(DOCUMENT) protected document: any,
-    protected breakpointService: BreakpointService
-  ) {}
-
-  /**
-   * Retrieves the list of the group depending on the screen size.
-   *
-   * @returns {NodeListOf<HTMLElement>} - list of the groups.
-   * @protected
-   */
-  protected getGroups(): NodeListOf<HTMLElement> {
-    let selector = ' cx-configurator-group-menu button[role="tab"]';
-    this.breakpointService
-      ?.isUp(BREAKPOINT.lg)
-      .pipe(take(1))
-      .subscribe((isDesktop) => {
-        if (isDesktop) {
-          selector = 'main' + selector;
-        } else {
-          selector = '.navigation' + selector;
-        }
-      });
-    return document.querySelectorAll(selector);
-  }
+  constructor(protected windowRef: WindowRef) {}
 
   /**
    * Retrieves the focused group index.
    *
-   * @param {NodeListOf<HTMLElement>} groups - List of the groups
+   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
    * @returns {number | undefined} - focused group index
+   * @protected
    */
   protected getFocusedGroupIndex(
-    groups: NodeListOf<HTMLElement>
+    groups: QueryList<ElementRef<HTMLElement>>
   ): number | undefined {
-    if (isPlatformBrowser(this.platformId)) {
-      let focusedElement = document.activeElement;
-      let focusedElementId = focusedElement?.id;
-      if (groups) {
-        for (let index = 0; index < groups?.length; index++) {
-          if (groups[index]?.id === focusedElementId) {
-            return index;
-          }
-        }
-      }
+    if (groups) {
+      const group = groups.find(
+        (group) =>
+          group?.nativeElement?.id ===
+          this.windowRef?.document?.activeElement?.id
+      );
+      return groups.toArray().indexOf(group);
     }
+    return undefined;
   }
 
   /**
@@ -61,6 +33,7 @@ export class ConfiguratorGroupMenuService {
    * @param {number} currentGroupIndex - Current group index
    * @param {number} focusedGroupIndex - Focused group index
    * @returns {number} - updated group index
+   * @protected
    */
   protected updateCurrentGroupIndex(
     currentGroupIndex: number,
@@ -77,22 +50,24 @@ export class ConfiguratorGroupMenuService {
    * Focuses the next group.
    *
    * @param {number} currentGroupIndex - Current group index
+   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
+   * @protected
    */
-  protected focusNextGroup(currentGroupIndex: number): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const groups = this.getGroups();
-      const focusedGroupIndex = this.getFocusedGroupIndex(groups);
-      currentGroupIndex = this.updateCurrentGroupIndex(
-        currentGroupIndex,
-        focusedGroupIndex
-      );
+  protected focusNextGroup(
+    currentGroupIndex: number,
+    groups: QueryList<ElementRef<HTMLElement>>
+  ): void {
+    const focusedGroupIndex = this.getFocusedGroupIndex(groups);
+    currentGroupIndex = this.updateCurrentGroupIndex(
+      currentGroupIndex,
+      focusedGroupIndex
+    );
 
-      if (groups) {
-        if (currentGroupIndex === groups?.length - 1) {
-          groups[0]?.focus();
-        } else {
-          groups[currentGroupIndex + 1]?.focus();
-        }
+    if (groups) {
+      if (currentGroupIndex === groups?.length - 1) {
+        groups?.first?.nativeElement?.focus();
+      } else {
+        groups?.toArray()[currentGroupIndex + 1]?.nativeElement.focus();
       }
     }
   }
@@ -101,23 +76,24 @@ export class ConfiguratorGroupMenuService {
    * Focuses the previous group.
    *
    * @param {number} currentGroupIndex - Current group index
+   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
    * @protected
    */
-  protected focusPreviousGroup(currentGroupIndex: number): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const groups = this.getGroups();
-      const focusedGroupIndex = this.getFocusedGroupIndex(groups);
-      currentGroupIndex = this.updateCurrentGroupIndex(
-        currentGroupIndex,
-        focusedGroupIndex
-      );
+  protected focusPreviousGroup(
+    currentGroupIndex: number,
+    groups: QueryList<ElementRef<HTMLElement>>
+  ): void {
+    const focusedGroupIndex = this.getFocusedGroupIndex(groups);
+    currentGroupIndex = this.updateCurrentGroupIndex(
+      currentGroupIndex,
+      focusedGroupIndex
+    );
 
-      if (groups) {
-        if (currentGroupIndex === 0) {
-          groups[groups?.length - 1]?.focus();
-        } else {
-          groups[currentGroupIndex - 1]?.focus();
-        }
+    if (groups) {
+      if (currentGroupIndex === 0) {
+        groups?.last?.nativeElement?.focus();
+      } else {
+        groups?.toArray()[currentGroupIndex - 1]?.nativeElement?.focus();
       }
     }
   }
@@ -127,33 +103,38 @@ export class ConfiguratorGroupMenuService {
    *
    * @param {KeyboardEvent} event - keyboard event
    * @param {number} groupIndex - Group index
+   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
    */
-  switchGroupOnArrowPress(event: KeyboardEvent, groupIndex: number): void {
-    if (isPlatformBrowser(this.platformId)) {
-      event.preventDefault();
-      if (event.code === 'ArrowUp') {
-        this.focusPreviousGroup(groupIndex);
-      } else if (event.code === 'ArrowDown') {
-        this.focusNextGroup(groupIndex);
-      }
+  switchGroupOnArrowPress(
+    event: KeyboardEvent,
+    groupIndex: number,
+    groups: QueryList<ElementRef<HTMLElement>>
+  ): void {
+    event.preventDefault();
+    if (event.code === 'ArrowUp') {
+      this.focusPreviousGroup(groupIndex, groups);
+    } else if (event.code === 'ArrowDown') {
+      this.focusNextGroup(groupIndex, groups);
     }
   }
 
   /**
    * Verifies whether the first group in the group list is `Back` button.
    *
+   * @param {QueryList<ElementRef<HTMLElement>>} groups - List of the groups
    * @returns {boolean} - returns `true` if the first group in the group list is `Back` button, otherwise `false`
    */
-  isBackBtnFocused(): boolean | undefined {
-    if (isPlatformBrowser(this.platformId)) {
-      const groups = this.getGroups();
-      if (groups) {
-        return (
-          groups[0].classList?.value?.indexOf('cx-menu-back') !== -1 &&
-          document.activeElement === groups[0]
-        );
-      }
-      return undefined;
+  isBackBtnFocused(
+    groups: QueryList<ElementRef<HTMLElement>>
+  ): boolean | undefined {
+    if (groups) {
+      return (
+        groups?.first?.nativeElement?.classList?.value?.indexOf(
+          'cx-menu-back'
+        ) !== -1 &&
+        this.windowRef?.document?.activeElement === groups?.first?.nativeElement
+      );
     }
+    return undefined;
   }
 }

@@ -6,6 +6,7 @@
           <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
             <button
               *ngIf="parentGroup !== null && groupIndex === 0"
+              #groupItem
               class="cx-menu-back"
               role="tab"
               [attr.aria-selected]="false"
@@ -18,6 +19,7 @@
             </button>
           </ng-container>
           <button
+            #groupItem
             id="{{ group.id }}"
             ngClass="{{ getGroupStatusStyles(group, configuration) | async }}"
             role="tab"

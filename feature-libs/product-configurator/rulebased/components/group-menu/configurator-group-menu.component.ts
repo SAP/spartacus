@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  QueryList,
+  ElementRef,
+  ViewChildren,
+} from '@angular/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -23,6 +29,8 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorGroupMenuComponent {
+  @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;
+
   routerData$: Observable<ConfiguratorRouter.Data> = this.configRouterExtractorService.extractRouterData();
 
   configuration$: Observable<Configurator.Configuration> = this.routerData$.pipe(
@@ -277,7 +285,11 @@ export class ConfiguratorGroupMenuComponent {
     group?: Configurator.Group
   ): void {
     if (event.code === 'ArrowUp' || event.code === 'ArrowDown') {
-      this.configGroupMenuService.switchGroupOnArrowPress(event, groupIndex);
+      this.configGroupMenuService.switchGroupOnArrowPress(
+        event,
+        groupIndex,
+        this.groups
+      );
     } else if (
       (event.code === 'ArrowRight' &&
         this.directionService.getDirection() === DirectionMode.LTR) ||
@@ -293,7 +305,7 @@ export class ConfiguratorGroupMenuComponent {
       (event.code === 'ArrowRight' &&
         this.directionService.getDirection() === DirectionMode.RTL)
     ) {
-      if (this.configGroupMenuService.isBackBtnFocused()) {
+      if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
         this.navigateUp();
       }
     }
