@@ -30,6 +30,7 @@ export const SPARTACUS_CART = '@spartacus/cart';
 export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
+export const SPARTACUS_QUALTRICS_COMPONENTS = `${SPARTACUS_QUALTRICS}/components`;
 export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
@@ -346,6 +347,7 @@ export const CONTEXT = 'context';
 export const SEMANTIC_ROUTE = 'semanticRoute';
 export const URL = 'url';
 export const PARAMS = 'params';
+export const SCRIPT_LOADER_SERVICE = 'ScriptLoader';
 
 /***** Classes end *****/
 
