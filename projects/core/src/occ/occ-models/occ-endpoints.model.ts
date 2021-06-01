@@ -200,6 +200,14 @@ export interface OccEndpoints {
    */
   userUpdatePassword?: string | OccEndpoint;
   /**
+   * Update the user's profile
+   */
+  userUpdateProfile?: string | OccEndpoint;
+  /**
+   * Close user account
+   */
+  userCloseAccount?: string | OccEndpoint;
+  /**
    * Payment details root endpoint.
    *
    * @member {string}
