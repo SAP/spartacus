@@ -1,4 +1,5 @@
 import { TemplateRef } from '@angular/core';
+import { TAB_TYPE } from './tab.component';
 
 export interface Tab {
   title: string;
@@ -9,6 +10,7 @@ export interface Tab {
 
 export interface TabConfig {
   label: string;
+  mode?: TAB_TYPE;
 }
 
 export const defaultTabConfig: TabConfig = {

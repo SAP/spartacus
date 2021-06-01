@@ -1,9 +1,9 @@
 <ng-container *ngIf="state$ | async as state">
-  <button class="heading" (click)="toggleGroup($event)">
+  <!-- <button class="heading" (click)="toggleGroup($event)">
     {{ facet.name }}
     <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
     <cx-icon class="expand-icon" [type]="expandIcon"></cx-icon>
-  </button>
+  </button> -->
 
   <a
     *ngFor="let value of facet.values | slice: 0:state.topVisible"

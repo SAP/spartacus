@@ -1,18 +1,25 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
   HostListener,
   Input,
   Output,
+  QueryList,
   Renderer2,
   TemplateRef,
-  ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { Facet } from '@spartacus/core';
-import { Tab } from 'projects/storefrontlib/src/cms-components/content/tab/Tab';
-import { Observable } from 'rxjs';
+import {
+  Tab,
+  TabConfig,
+} from 'projects/storefrontlib/src/cms-components/content/tab/Tab';
+import { TAB_TYPE } from 'projects/storefrontlib/src/cms-components/content/tab/tab.component';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
@@ -25,7 +32,7 @@ import { FacetService } from '../services/facet.service';
   templateUrl: './facet-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FacetListComponent {
+export class FacetListComponent implements AfterViewInit {
   private _isDialog: boolean;
   /**
    * Indicates that the facet navigation is rendered in dialog.
@@ -42,7 +49,7 @@ export class FacetListComponent {
     return this._isDialog;
   }
 
-  @ViewChild('facetsRef') facetsRef: TemplateRef<any>;
+  @ViewChildren('facetsRef') facetsRef: QueryList<TemplateRef<any>>;
 
   /** Emits when the list must close */
   @Output() closeList = new EventEmitter();
@@ -59,18 +66,11 @@ export class FacetListComponent {
     autofocus: 'cx-facet',
   };
 
-  tabConfig = { label: 'Product Information' };
-  tabs$: Observable<Tab[]> = this.facetList$.pipe(
-    map((facets) => {
-      console.log(facets, this.facetsRef);
-      return facets.facets.map((facet) => {
-        return {
-          title: facet.name ?? 'unnamed',
-          template: this.facetsRef,
-        };
-      });
-    })
-  );
+  tabConfig: TabConfig = {
+    label: 'Product Information',
+    mode: TAB_TYPE.ACCORDIAN,
+  };
+  tabs$: BehaviorSubject<Tab[]> = new BehaviorSubject<Tab[]>([]);
 
   @HostListener('click') handleClick() {
     this.close();
@@ -79,8 +79,27 @@ export class FacetListComponent {
   constructor(
     protected facetService: FacetService,
     protected elementRef: ElementRef,
-    protected renderer: Renderer2
+    protected renderer: Renderer2,
+    protected changeDetectorRef: ChangeDetectorRef
   ) {}
+
+  ngAfterViewInit(): void {
+    combineLatest([this.facetsRef.changes, this.facetList$]).subscribe(
+      ([templates, list]) => {
+        const facets = list.facets;
+        const tabs = [];
+        for (let i = 0; i < facets?.length; i++) {
+          tabs.push({
+            title: facets[i].name ?? 'unnamed',
+            template: templates?._results[i],
+          });
+        }
+
+        this.tabs$.next(tabs);
+        this.changeDetectorRef.detectChanges();
+      }
+    );
+  }
 
   /**
    * Toggles the facet group in case it is not expanded.
