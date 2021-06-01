@@ -132,9 +132,9 @@ export namespace Configurator {
   }
 
   export interface UpdateConfigurationForCartEntryParameters {
-    userId?: string;
+    userId: string;
     cartId: string;
-    cartEntryNumber?: string;
+    cartEntryNumber: string;
     configuration: Configurator.Configuration;
   }
 

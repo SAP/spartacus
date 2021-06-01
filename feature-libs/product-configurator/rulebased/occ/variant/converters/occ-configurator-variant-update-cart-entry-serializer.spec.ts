@@ -30,6 +30,7 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
       ),
       productCode: PRODUCT_CODE,
     },
+    cartEntryNumber: ENTRY_NUMBER,
   };
 
   const targetParameters: OccConfigurator.UpdateConfigurationForCartEntryParameters = {

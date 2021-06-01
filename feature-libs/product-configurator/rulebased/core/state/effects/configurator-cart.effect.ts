@@ -54,7 +54,7 @@ export class ConfiguratorCartEffects {
                 userId: payload.userId,
                 cartId: payload.cartId,
                 productCode: payload.productCode,
-                quantity: entry.quantity,
+                quantity: payload.quantity,
                 deliveryModeChanged: entry.deliveryModeChanged,
                 entry: entry.entry,
                 quantityAdded: entry.quantityAdded,
@@ -97,22 +97,19 @@ export class ConfiguratorCartEffects {
               return [
                 new CartActions.CartUpdateEntrySuccess({
                   ...entry,
-                  userId: payload.userId || '',
+                  userId: payload.userId,
                   cartId: payload.cartId,
-                  entryNumber: entry.entry?.entryNumber
-                    ? entry.entry.entryNumber.toString()
-                    : '0',
-                  quantity: entry?.quantity || 1,
+                  entryNumber: payload.cartEntryNumber,
+                  quantity: entry?.quantity,
                 }),
               ];
             }),
             catchError((error) =>
               of(
                 new CartActions.CartUpdateEntryFail({
-                  userId: payload.userId || '',
+                  userId: payload.userId,
                   cartId: payload.cartId,
-                  entryNumber: payload.cartEntryNumber || '0',
-                  quantity: 1,
+                  entryNumber: payload.cartEntryNumber,
                   error: normalizeHttpError(error),
                 })
               )

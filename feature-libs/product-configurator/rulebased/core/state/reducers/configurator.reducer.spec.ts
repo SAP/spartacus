@@ -10,6 +10,8 @@ import * as StateReduce from './configurator.reducer';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ID = '000000001';
+const ENTRY_NUMBER = '0';
+const USER_ID = 'user';
 const owner: CommonConfigurator.Owner = {
   type: CommonConfigurator.OwnerType.PRODUCT,
   id: PRODUCT_CODE,
@@ -203,6 +205,8 @@ describe('Configurator reducer', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {
         configuration: configuration,
         cartId: CART_ID,
+        userId: USER_ID,
+        cartEntryNumber: ENTRY_NUMBER,
       };
       const action = new ConfiguratorActions.UpdateCartEntry(params);
       const state = StateReduce.configuratorReducer(undefined, action);

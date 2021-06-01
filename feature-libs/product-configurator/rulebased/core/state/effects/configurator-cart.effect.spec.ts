@@ -412,7 +412,6 @@ describe('ConfiguratorCartEffect', () => {
         userId,
         cartId,
         entryNumber: entryNumber.toString(),
-        quantity: 1,
         error: normalizeHttpError(errorResponse),
       });
 

@@ -36,8 +36,8 @@ export class CartAddEntrySuccess extends EntityProcessesDecrementAction {
     public payload: {
       userId: string;
       cartId: string;
-      productCode?: string;
-      quantity?: number;
+      productCode: string;
+      quantity: number;
       deliveryModeChanged?: boolean;
       entry?: OrderEntry;
       quantityAdded?: number;
@@ -117,7 +117,7 @@ export class CartUpdateEntrySuccess extends EntityProcessesDecrementAction {
       userId: string;
       cartId: string;
       entryNumber: string;
-      quantity: number;
+      quantity?: number;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);
@@ -132,7 +132,7 @@ export class CartUpdateEntryFail extends EntityProcessesDecrementAction {
       userId: string;
       cartId: string;
       entryNumber: string;
-      quantity: number;
+      quantity?: number;
     }
   ) {
     super(MULTI_CART_DATA, payload.cartId);

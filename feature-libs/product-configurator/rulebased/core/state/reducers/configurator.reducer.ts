@@ -122,13 +122,13 @@ export function configuratorReducer(
       //Set Current state items
       if (state.interactionState.groupsVisited) {
         Object.keys(state.interactionState.groupsVisited).forEach((groupId) =>
-          addGroupsVisited(changedInteractionState, groupId)
+          setGroupsVisited(changedInteractionState, groupId)
         );
       }
 
       //Add new Groups
       groupIds.forEach((groupId) =>
-        addGroupsVisited(changedInteractionState, groupId)
+        setGroupsVisited(changedInteractionState, groupId)
       );
 
       return {
@@ -143,7 +143,7 @@ export function configuratorReducer(
   return state;
 }
 
-function addGroupsVisited(
+function setGroupsVisited(
   changedInteractionState: Configurator.InteractionState,
   groupId: string
 ) {

@@ -48,6 +48,7 @@ const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntr
   userId: USER_ID,
   cartId: CART_ID,
   configuration: productConfiguration,
+  cartEntryNumber: '0',
 };
 
 const cartModification: CartModification = {};
