@@ -11,14 +11,16 @@ import {
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorAttributeFooterComponent } from '../attribute/footer/configurator-attribute-footer.component';
 import { ConfiguratorAttributeHeaderComponent } from '../attribute/header/configurator-attribute-header.component';
 import { ConfiguratorAttributeCheckBoxListComponent } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.component';
@@ -45,28 +47,26 @@ const mockRouterState: any = {
   },
 };
 
-const owner: CommonConfigurator.Owner = {
-  id: PRODUCT_CODE,
-  type: CommonConfigurator.OwnerType.PRODUCT,
-};
-const groups: Configurator.Group[] =
-  ConfigurationTestData.productConfiguration.groups;
+const owner = ConfiguratorModelUtils.createOwner(
+  CommonConfigurator.OwnerType.PRODUCT,
+  PRODUCT_CODE
+);
+
+const groups = ConfigurationTestData.productConfiguration.groups;
 
 const configRead: Configurator.Configuration = {
-  configId: 'a',
+  ...ConfiguratorTestUtils.createConfiguration('a', owner),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
-  owner: owner,
   groups: groups,
 };
 
 const configRead2: Configurator.Configuration = {
-  configId: 'b',
+  ...ConfiguratorTestUtils.createConfiguration('b', owner),
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,
-  owner: owner,
   groups: groups,
 };
 
@@ -78,11 +78,11 @@ class MockCxIconComponent {
   @Input() type: ICON_TYPE;
 }
 
-let routerStateObservable = null;
-let configurationCreateObservable = null;
-let currentGroupObservable = null;
-let isConfigurationLoadingObservable = null;
-let hasConfigurationConflictsObservable = null;
+let routerStateObservable: Observable<RouterState> = EMPTY;
+let configurationCreateObservable: Observable<Configurator.Configuration> = EMPTY;
+let currentGroupObservable: Observable<string> = EMPTY;
+let isConfigurationLoadingObservable: Observable<boolean> = EMPTY;
+let hasConfigurationConflictsObservable: Observable<boolean> = EMPTY;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -160,17 +160,19 @@ function checkCurrentGroupObs(
     })
   );
 }
+
 describe('ConfigurationFormComponent', () => {
-  let configuratorCommonsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
-  let configurationCommonsService: ConfiguratorCommonsService;
+  let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let mockLanguageService;
+
   beforeEach(async(() => {
     mockLanguageService = {
       getAll: () => of([]),
       getActive: jasmine.createSpy().and.returnValue(of('en')),
     };
+
     TestBed.configureTestingModule({
       imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
       declarations: [
@@ -203,6 +205,7 @@ describe('ConfigurationFormComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
         },
+
         { provide: LanguageService, useValue: mockLanguageService },
       ],
     })
@@ -213,18 +216,19 @@ describe('ConfigurationFormComponent', () => {
       })
       .compileComponents();
   }));
+
   beforeEach(() => {
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    configurationCommonsService = TestBed.inject(
+    configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
     spyOn(
-      configurationCommonsService,
+      configuratorCommonsService,
       'isConfigurationLoading'
     ).and.callThrough();
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
@@ -237,13 +241,15 @@ describe('ConfigurationFormComponent', () => {
     hasConfigurationConflictsObservable = of(false);
   });
 
+  function createComponent(): ConfiguratorFormComponent {
+    return TestBed.createComponent(ConfiguratorFormComponent).componentInstance;
+  }
+
   it('should not enforce a reload of the configuration per default', () => {
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
     mockRouterState.state.queryParams = { forceReload: 'false' };
     routerStateObservable = of(mockRouterState);
-    const fixture = TestBed.createComponent(ConfiguratorFormComponent);
-    const component = fixture.componentInstance;
-    component.ngOnInit();
+    createComponent().ngOnInit();
     expect(
       configuratorCommonsService.removeConfiguration
     ).toHaveBeenCalledTimes(0);
@@ -258,10 +264,7 @@ describe('ConfigurationFormComponent', () => {
         queryParams: { forceReload: 'true' },
       },
     });
-    const fixture = TestBed.createComponent(ConfiguratorFormComponent);
-    const component = fixture.componentInstance;
-    component.ngOnInit();
-
+    createComponent().ngOnInit();
     expect(
       configuratorCommonsService.removeConfiguration
     ).toHaveBeenCalledTimes(1);
@@ -270,9 +273,9 @@ describe('ConfigurationFormComponent', () => {
   it('should call configurator group service to check group type', () => {
     routerStateObservable = of(mockRouterState);
     spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
-    const fixture = TestBed.createComponent(ConfiguratorFormComponent);
-    const component = fixture.componentInstance;
-    component.isConflictGroupType(Configurator.GroupType.CONFLICT_GROUP);
+    createComponent().isConflictGroupType(
+      Configurator.GroupType.CONFLICT_GROUP
+    );
     expect(configuratorGroupsService.isConflictGroupType).toHaveBeenCalledWith(
       Configurator.GroupType.CONFLICT_GROUP
     );
@@ -292,9 +295,7 @@ describe('ConfigurationFormComponent', () => {
         ...mockRouterState,
       });
 
-      const fixture = TestBed.createComponent(ConfiguratorFormComponent);
-      const component = fixture.componentInstance;
-      component.ngOnInit();
+      createComponent().ngOnInit();
 
       expect(
         configuratorGroupsService.navigateToConflictSolver
@@ -321,10 +322,7 @@ describe('ConfigurationFormComponent', () => {
         },
       });
       hasConfigurationConflictsObservable = of(true);
-      const fixture = TestBed.createComponent(ConfiguratorFormComponent);
-      const component = fixture.componentInstance;
-      component.ngOnInit();
-
+      createComponent().ngOnInit();
       expect(
         configuratorGroupsService.navigateToConflictSolver
       ).toHaveBeenCalledTimes(1);
@@ -349,9 +347,7 @@ describe('ConfigurationFormComponent', () => {
           queryParams: { resolveIssues: 'true' },
         },
       });
-      const fixture = TestBed.createComponent(ConfiguratorFormComponent);
-      const component = fixture.componentInstance;
-      component.ngOnInit();
+      createComponent().ngOnInit();
 
       expect(
         configuratorGroupsService.navigateToConflictSolver
@@ -393,13 +389,11 @@ describe('ConfigurationFormComponent', () => {
       y: false,
     });
     routerStateObservable = of(mockRouterState);
-    const fixture = TestBed.createComponent(ConfiguratorFormComponent);
-    const component = fixture.componentInstance;
-    component.updateConfiguration({
-      changedAttribute: configRead.groups[0].attributes[0],
+    createComponent().updateConfiguration({
       ownerKey: owner.key,
+      changedAttribute: configRead.groups[0].attributes[0],
     });
 
-    expect(configurationCommonsService.updateConfiguration).toHaveBeenCalled();
+    expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
   });
 });

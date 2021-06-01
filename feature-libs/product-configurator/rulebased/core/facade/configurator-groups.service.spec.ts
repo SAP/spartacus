@@ -2,6 +2,7 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartService } from '@spartacus/core';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import {
   GROUP_ID_1,
@@ -10,6 +11,7 @@ import {
   productConfiguration,
   productConfigurationWithConflicts,
 } from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { Configurator } from './../model/configurator.model';
@@ -122,7 +124,10 @@ describe('ConfiguratorGroupsService', () => {
 
     it('should return null if no group exist', (done) => {
       const configNoGroups: Configurator.Configuration = {
-        configId: 'abc',
+        ...ConfiguratorTestUtils.createConfiguration(
+          'abc',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
         flatGroups: undefined,
       };
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(

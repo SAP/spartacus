@@ -13,11 +13,14 @@ import {
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
 import { VariantConfiguratorOccAdapter } from '.';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
 import { OccConfiguratorVariantOverviewNormalizer } from './converters/occ-configurator-variant-overview-normalizer';
 import { OccConfiguratorVariantPriceSummaryNormalizer } from './converters/occ-configurator-variant-price-summary-normalizer';
@@ -51,12 +54,14 @@ const userId = 'Anony';
 const documentId = '82736353';
 
 const productConfiguration: Configurator.Configuration = {
-  configId: configId,
+  ...ConfiguratorTestUtils.createConfiguration(
+    configId,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      productCode
+    )
+  ),
   productCode: productCode,
-  owner: {
-    type: CommonConfigurator.OwnerType.PRODUCT,
-    id: productCode,
-  },
 };
 
 const productConfigurationOcc: OccConfigurator.Configuration = {
@@ -70,12 +75,14 @@ const pricesOcc: OccConfigurator.Prices = {
 };
 
 const productConfigurationForCartEntry: Configurator.Configuration = {
-  configId: configId,
+  ...ConfiguratorTestUtils.createConfiguration(
+    configId,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.CART_ENTRY,
+      cartEntryNo
+    )
+  ),
   productCode: productCode,
-  owner: {
-    type: CommonConfigurator.OwnerType.CART_ENTRY,
-    id: cartEntryNo,
-  },
 };
 
 const overviewOcc: OccConfigurator.Overview = { id: configId };
@@ -432,7 +439,7 @@ describe('OccConfigurationVariantAdapter', () => {
         const owner = result.owner;
         expect(owner).toBeDefined();
         expect(owner.type).toBe(CommonConfigurator.OwnerType.CART_ENTRY);
-        expect(owner.key).toBeUndefined();
+        expect(owner.id).toBe(cartEntryNo);
         done();
       });
   });
@@ -469,7 +476,7 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should return configurator type', () => {
     expect(occConfiguratorVariantAdapter.getConfiguratorType()).toEqual(
-      'CPQCONFIGURATOR'
+      ConfiguratorType.VARIANT
     );
   });
 });

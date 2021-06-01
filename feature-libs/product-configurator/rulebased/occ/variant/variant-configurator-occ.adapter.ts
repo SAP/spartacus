@@ -6,7 +6,11 @@ import {
   ConverterService,
   OccEndpointsService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
@@ -31,7 +35,7 @@ export class VariantConfiguratorOccAdapter
   ) {}
 
   getConfiguratorType(): string {
-    return 'CPQCONFIGURATOR';
+    return ConfiguratorType.VARIANT;
   }
 
   createConfiguration(
@@ -193,7 +197,10 @@ export class VariantConfiguratorOccAdapter
       map((overview) => {
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
+          groups: [],
+          interactionState: {},
           overview: overview,
+          owner: ConfiguratorModelUtils.createInitialOwner(),
         };
         return configuration;
       }),
@@ -223,7 +230,10 @@ export class VariantConfiguratorOccAdapter
       map((pricingResult) => {
         const result: Configurator.Configuration = {
           configId: configuration.configId,
+          groups: [],
+          interactionState: {},
           priceSummary: pricingResult,
+          owner: ConfiguratorModelUtils.createInitialOwner(),
         };
         return result;
       }),

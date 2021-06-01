@@ -5,10 +5,14 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -25,7 +29,11 @@ const mockRouterState: any = {
 };
 
 const config: Configurator.Configuration = {
-  configId: '1234-56-7890',
+  ...ConfiguratorTestUtils.createConfiguration(
+    '1234-56-7890',
+    ConfiguratorModelUtils.createInitialOwner()
+  ),
+
   consistent: true,
   complete: true,
   productCode: PRODUCT_CODE,

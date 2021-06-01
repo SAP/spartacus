@@ -83,7 +83,7 @@ export class AuthStatePersistenceService implements OnDestroy {
    * Function called on each browser storage read.
    * Used to update state from browser -> state.
    */
-  protected onRead(state: SyncedAuthState) {
+  protected onRead(state: SyncedAuthState | undefined) {
     if (state?.token) {
       this.authStorageService.setToken(state.token);
     }

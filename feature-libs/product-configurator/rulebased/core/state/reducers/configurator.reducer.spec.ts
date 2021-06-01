@@ -1,36 +1,58 @@
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
+import { ConfiguratorTestUtils } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import * as StateReduce from './configurator.reducer';
 
-const productCode = 'CONF_LAPTOP';
+const PRODUCT_CODE = 'CONF_LAPTOP';
+const CART_ID = '000000001';
+const ENTRY_NUMBER = '0';
+const USER_ID = 'user';
 const owner: CommonConfigurator.Owner = {
   type: CommonConfigurator.OwnerType.PRODUCT,
-  id: productCode,
+  id: PRODUCT_CODE,
+  key: CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
+  configuratorType: ConfiguratorType.VARIANT,
 };
+
+const interactionState: Configurator.InteractionState = {
+  currentGroup: 'firstGroup',
+  groupsVisited: {},
+  menuParentGroup: undefined,
+  issueNavigationDone: true,
+};
+
+const groups: Configurator.Group[] = [
+  {
+    id: 'firstGroup',
+  },
+  {
+    id: 'secondGroup',
+  },
+];
+
 const configuration: Configurator.Configuration = {
   configId: 'ds',
-  productCode: productCode,
+  productCode: PRODUCT_CODE,
   owner: owner,
-  groups: [
-    {
-      id: 'firstGroup',
-    },
-    {
-      id: 'secondGroup',
-    },
-  ],
+  groups: groups,
   isCartEntryUpdateRequired: false,
-  interactionState: {
-    currentGroup: 'firstGroup',
-    groupsVisited: {},
-    menuParentGroup: null,
-    issueNavigationDone: true,
-  },
+  interactionState: interactionState,
+};
+const configurationWithoutOv: Configurator.Configuration = {
+  configId: 'ds',
+  productCode: PRODUCT_CODE,
+  owner: owner,
+  groups: groups,
+  isCartEntryUpdateRequired: false,
+  interactionState: interactionState,
 };
 const CURRENT_GROUP = 'currentGroupId';
 const PARENT_GROUP = 'parentGroupId';
-const PRODUCT_CODE = 'CONF_PRODUCT';
 
 describe('Configurator reducer', () => {
   describe('Undefined action', () => {
@@ -56,9 +78,8 @@ describe('Configurator reducer', () => {
     });
     it('should take current group from flatGroups if current group in interaction state is undefined', () => {
       const configurationWithoutCurrentGroup: Configurator.Configuration = {
-        owner: owner,
-        productCode: productCode,
-        configId: 'A',
+        ...ConfiguratorTestUtils.createConfiguration('A', owner),
+        productCode: PRODUCT_CODE,
         overview: {},
         flatGroups: [
           {
@@ -164,7 +185,10 @@ describe('Configurator reducer', () => {
         configuration
       );
       const configurationWithOverview: Configurator.Configuration = {
-        configId: 'A',
+        ...ConfiguratorTestUtils.createConfiguration(
+          'A',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
         overview: {},
       };
       const state = StateReduce.configuratorReducer(
@@ -180,11 +204,39 @@ describe('Configurator reducer', () => {
     it('should set attribute that states that a cart update is not required anymore but an backend update is pending', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {
         configuration: configuration,
+        cartId: CART_ID,
+        userId: USER_ID,
+        cartEntryNumber: ENTRY_NUMBER,
       };
       const action = new ConfiguratorActions.UpdateCartEntry(params);
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.isCartEntryUpdateRequired).toEqual(false);
+    });
+  });
+
+  describe('UpdatePriceSummarySuccess action', () => {
+    it('should keep the existing groups altough it does not provide groups in its data', () => {
+      const actionProvidingState = new ConfiguratorActions.CreateConfigurationSuccess(
+        configuration
+      );
+      const firstState = StateReduce.configuratorReducer(
+        undefined,
+        actionProvidingState
+      );
+      const configurationWithPriceSummary: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(
+          'A',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        priceSummary: { basePrice: {} },
+      };
+      const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
+        configurationWithPriceSummary
+      );
+      const state = StateReduce.configuratorReducer(firstState, action);
+
+      expect(state.groups.length).toBe(2);
     });
   });
 
@@ -198,7 +250,7 @@ describe('Configurator reducer', () => {
       expect(state.configId).toEqual('ds');
 
       const action2 = new ConfiguratorActions.RemoveConfiguration({
-        ownerKey: configuration.productCode,
+        ownerKey: PRODUCT_CODE,
       });
       state = StateReduce.configuratorReducer(undefined, action2);
 
@@ -365,6 +417,15 @@ describe('Configurator reducer', () => {
 
       expect(state.priceSummary).toBe(priceSummary);
     });
+
+    it('should not copy price summary from OV to configuration if not yet available', () => {
+      const action = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
+        configurationWithoutOv
+      );
+      const state = StateReduce.configuratorReducer(undefined, action);
+
+      expect(state.priceSummary).toBeUndefined();
+    });
   });
 
   describe('SetNextOwnerCartEntry action', () => {
@@ -376,7 +437,7 @@ describe('Configurator reducer', () => {
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.nextOwner).toBeDefined();
-      expect(state.nextOwner.type).toBe(
+      expect(state.nextOwner?.type).toBe(
         CommonConfigurator.OwnerType.CART_ENTRY
       );
     });

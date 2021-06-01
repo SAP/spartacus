@@ -23,6 +23,7 @@ export namespace Configurator {
     negativeAllowed?: boolean;
     hasConflicts?: boolean;
     retractTriggered?: boolean;
+    attributePriceTotal?: PriceDetails;
   }
 
   export interface Value {
@@ -32,6 +33,8 @@ export namespace Configurator {
     description?: string;
     selected?: boolean;
     quantity?: number;
+    valuePrice?: PriceDetails;
+    valuePriceTotal?: PriceDetails;
     productSystemId?: string;
     isCommerceProduct?: boolean;
     images?: Image[];
@@ -55,14 +58,17 @@ export namespace Configurator {
     complete?: boolean;
     totalNumberOfIssues?: number;
     productCode?: string;
-    groups?: Group[];
+    groups: Group[];
     flatGroups?: Group[];
     priceSummary?: PriceSummary;
     overview?: Overview;
-    owner?: CommonConfigurator.Owner;
+    owner: CommonConfigurator.Owner;
     nextOwner?: CommonConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
-    interactionState?: InteractionState;
+    interactionState: InteractionState;
+    updateType?: UpdateType;
+    errorMessages?: string[];
+    warningMessages?: string[];
   }
 
   export interface InteractionState {
@@ -91,6 +97,11 @@ export namespace Configurator {
   export interface AttributeOverview {
     attribute: string;
     value: string;
+    productCode?: string;
+    type?: AttributeOverviewType;
+    quantity?: number;
+    valuePrice?: PriceDetails;
+    valuePriceTotal?: PriceDetails;
   }
 
   export interface PriceSummary {
@@ -121,10 +132,10 @@ export namespace Configurator {
   }
 
   export interface UpdateConfigurationForCartEntryParameters {
-    userId?: string;
-    cartId?: string;
-    cartEntryNumber?: string;
-    configuration?: Configurator.Configuration;
+    userId: string;
+    cartId: string;
+    cartEntryNumber: string;
+    configuration: Configurator.Configuration;
   }
 
   export interface Image {
@@ -156,6 +167,12 @@ export namespace Configurator {
     AUTO_COMPLETE_CUSTOM = 'input_autocomplete',
     MULTI_SELECTION_IMAGE = 'multi_selection_image',
     SINGLE_SELECTION_IMAGE = 'single_selection_image',
+
+    //introduced with CPQ
+
+    CHECKBOXLIST_PRODUCT = 'checkBoxListProduct',
+    DROPDOWN_PRODUCT = 'dropdownProduct',
+    RADIOBUTTON_PRODUCT = 'radioGroupProduct',
   }
 
   export enum ImageFormatType {
@@ -175,5 +192,15 @@ export namespace Configurator {
     USER_SELECTION_QTY_VALUE_LEVEL = 'UserSelectionWithValueQuantity',
     USER_SELECTION_NO_QTY = 'UserSelectionWithoutQuantity',
     NOT_IMPLEMENTED = 'not_implemented',
+  }
+  export enum UpdateType {
+    ATTRIBUTE = 'Attribute',
+    ATTRIBUTE_QUANTITY = 'AttributeQuantity',
+    VALUE_QUANTITY = 'ValueQuantity',
+  }
+
+  export enum AttributeOverviewType {
+    GENERAL = 'general',
+    BUNDLE = 'bundle',
   }
 }
