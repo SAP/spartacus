@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import {
   RestoreSavedCartSuccessEvent,
   SaveCartSuccessEvent,
+  SavedCartEvent,
 } from '@spartacus/cart/saved-cart/root';
 import {
   CheckoutDeliveryFacade,
@@ -29,10 +30,15 @@ export class CheckoutEventListener implements OnDestroy {
     protected eventService: EventService
   ) {
     this.onUserAddressChange();
-    this.onSaveCartSuccess();
-    this.onRestoreSavedCartSuccess();
+    this.onSavedCartChange();
   }
 
+  /**
+   * Clears the checkout delivery info when an address in the address book is
+   * changed ( updated, set as default or deleted )
+   *
+   * Listens for UserAddressUpdateEvent or UserAddressDeleteEvent or UserAddressSetAsDefaultEvent
+   */
   protected onUserAddressChange() {
     this.subscription.add(
       this.eventService
@@ -52,18 +58,24 @@ export class CheckoutEventListener implements OnDestroy {
     );
   }
 
-  protected onSaveCartSuccess() {
-    this.subscription.add(
-      this.eventService.get(SaveCartSuccessEvent).subscribe((_event) => {
-        this.clearCheckoutFacade.resetCheckoutProcesses();
-      })
-    );
-  }
-
-  protected onRestoreSavedCartSuccess() {
+  /**
+   * What te active cart is saved for later or when a saved card is restored,
+   * the whole checkout state is reset.
+   *
+   * Listens for SaveCartSuccessEvent or RestoreSavedCartSuccessEvent
+   */
+  protected onSavedCartChange() {
     this.subscription.add(
       this.eventService
-        .get(RestoreSavedCartSuccessEvent)
+        .get(SavedCartEvent)
+        .pipe(
+          filter((event) => {
+            return (
+              event instanceof SaveCartSuccessEvent ||
+              event instanceof RestoreSavedCartSuccessEvent
+            );
+          })
+        )
         .subscribe((_event) => {
           this.clearCheckoutFacade.resetCheckoutProcesses();
         })
