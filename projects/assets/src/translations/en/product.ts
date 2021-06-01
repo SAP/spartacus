@@ -9,7 +9,7 @@ export const product = {
     share: 'Share',
     showReviews: 'Show reviews',
     noReviews: 'No reviews yet',
-    ariaCase: {
+    ariaLabel: {
       productPrice: 'Product price',
     },
   },
@@ -24,7 +24,7 @@ export const product = {
     sortByRelevance: 'Sort by Relevance',
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
-    ariaCase: {
+    ariaLabel: {
       productSearchPagination: 'Product search pagination',
     },
   },
@@ -42,7 +42,7 @@ export const product = {
     id: 'ID',
     showReviews: 'Show reviews',
     share: 'Share',
-    ariaCase: {
+    ariaLabel: {
       newItemPrice: 'New item price',
     },
   },

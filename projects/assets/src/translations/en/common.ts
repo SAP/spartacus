@@ -13,7 +13,7 @@ export const common = {
     noData: 'No data.',
     confirm: 'Confirm',
     more: 'more',
-    ariaCase: {
+    ariaLabel: {
       close: 'Close',
       delete: 'Delete',
       loading: 'Loading',
