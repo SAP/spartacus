@@ -1,41 +1,48 @@
 <div id="{{ createAttributeIdForConfigurator(attribute) }}">
-  <cx-configurator-attribute-quantity
+  <div
     *ngIf="withQuantityOnAttributeLevel"
-    (changeQuantity)="onChangeQuantity($event)"
-    [quantityOptions]="
-      extractQuantityParameters(attribute.quantity, !attribute.required)
-    "
-  ></cx-configurator-attribute-quantity>
-
-  <ng-container *ngFor="let value of attribute.values; let i = index">
-    <div class="form-check">
-      <input
-        id="{{
-          createAttributeValueIdForConfigurator(attribute, value.valueCode)
-        }}"
-        type="checkbox"
-        class="form-check-input"
-        [cxFocus]="{ key: attribute.name + '-' + value.name }"
-        [value]="value.valueCode"
-        (change)="onSelect()"
-        [formControl]="attributeCheckBoxForms[i]"
-        name="{{ createAttributeIdForConfigurator(attribute) }}"
-      />
-      <label
-        id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
-        for="{{
-          createAttributeValueIdForConfigurator(attribute, value.valueCode)
-        }}"
-        class="cx-configurator-attribute-value-label form-check-label"
-        >{{ value.valueDisplay }}</label
-      >
-    </div>
+    class="cx-attribute-level-quantity-price"
+  >
     <cx-configurator-attribute-quantity
-      *ngIf="value.selected && withQuantity && !withQuantityOnAttributeLevel"
-      (changeQuantity)="onChangeValueQuantity($event, value.valueCode, i)"
+      (changeQuantity)="onChangeQuantity($event)"
       [quantityOptions]="
-        extractQuantityParameters(value.quantity, allowZeroValueQuantity)
+        extractQuantityParameters(attribute.quantity, !attribute.required)
       "
     ></cx-configurator-attribute-quantity>
-  </ng-container>
+    <cx-configurator-price
+      [formula]="extractPriceFormulaParameters()"
+    ></cx-configurator-price>
+
+    <ng-container *ngFor="let value of attribute.values; let i = index">
+      <div class="form-check">
+        <input
+          id="{{
+            createAttributeValueIdForConfigurator(attribute, value.valueCode)
+          }}"
+          type="checkbox"
+          class="form-check-input"
+          [cxFocus]="{ key: attribute.name + '-' + value.name }"
+          [value]="value.valueCode"
+          (change)="onSelect()"
+          [formControl]="attributeCheckBoxForms[i]"
+          name="{{ createAttributeIdForConfigurator(attribute) }}"
+        />
+        <label
+          id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
+          for="{{
+            createAttributeValueIdForConfigurator(attribute, value.valueCode)
+          }}"
+          class="cx-configurator-attribute-value-label form-check-label"
+          >{{ value.valueDisplay }}</label
+        >
+      </div>
+      <cx-configurator-attribute-quantity
+        *ngIf="value.selected && withQuantity && !withQuantityOnAttributeLevel"
+        (changeQuantity)="onChangeValueQuantity($event, value.valueCode, i)"
+        [quantityOptions]="
+          extractQuantityParameters(value.quantity, allowZeroValueQuantity)
+        "
+      ></cx-configurator-attribute-quantity>
+    </ng-container>
+  </div>
 </div>

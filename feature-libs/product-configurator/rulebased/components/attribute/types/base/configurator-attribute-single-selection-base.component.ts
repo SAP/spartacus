@@ -131,6 +131,15 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
+    console.warn('Attribute: ' + this.attribute?.label);
+    console.warn('Attribute quantity: ' + this.attribute?.quantity);
+    console.warn(
+      'Selected value price: ' + this.getSelectedValuePrice()?.formattedValue
+    );
+    console.warn(
+      'Total price: ' + this.attribute?.attributePriceTotal?.formattedValue
+    );
+    console.error('#######################################');
     return {
       quantity: this.attribute?.quantity,
       price: this.getSelectedValuePrice(),

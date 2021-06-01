@@ -6,6 +6,7 @@ import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/co
 import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
+import { ConfiguratorPriceComponentOptions } from '../../../price';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -101,5 +102,27 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     };
 
     this.selectionChange.emit(event);
+  }
+
+  /**
+   * Extract corresponding price formula parameters
+   *
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
+    console.warn('Attribute: ' + this.attribute?.label);
+    console.warn('Attribute quantity: ' + this.attribute?.quantity);
+    console.warn(
+      'Total price: ' + this.attribute?.attributePriceTotal?.formattedValue
+    );
+    console.error('#######################################');
+    return {
+      quantity: 0,
+      price: {
+        value: 0,
+      },
+      priceTotal: this.attribute?.attributePriceTotal,
+      isLightedUp: true,
+    };
   }
 }
