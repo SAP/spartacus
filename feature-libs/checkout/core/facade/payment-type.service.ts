@@ -29,7 +29,8 @@ import { CheckoutSelectors } from '../store/selectors/index';
 @Injectable()
 export class PaymentTypeService implements PaymentTypeFacade {
   constructor(
-    protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
+    protected checkoutStore: Store<StateWithCheckout>,
+    protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService
   ) {}
@@ -41,7 +42,7 @@ export class PaymentTypeService implements PaymentTypeFacade {
     return this.checkoutStore.pipe(
       select(CheckoutSelectors.getAllPaymentTypes),
       withLatestFrom(
-        this.checkoutStore.pipe(
+        this.processStateStore.pipe(
           select(
             ProcessSelectors.getProcessStateFactory(
               GET_PAYMENT_TYPES_PROCESS_ID

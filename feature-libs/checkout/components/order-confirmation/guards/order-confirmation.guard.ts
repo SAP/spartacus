@@ -1,17 +1,16 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, UrlTree, Router } from '@angular/router';
-
+import { CanActivate, Router, UrlTree } from '@angular/router';
+import { CheckoutFacade } from '@spartacus/checkout/root';
+import { SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
-import { CheckoutService, SemanticPathService } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrderConfirmationGuard implements CanActivate {
   constructor(
-    private checkoutService: CheckoutService,
+    private checkoutService: CheckoutFacade,
     private router: Router,
     private semanticPathService: SemanticPathService
   ) {}

@@ -11,9 +11,9 @@ import * as fromCheckout from './checkout.reducer';
 import * as fromOrderTypes from './order-types.reducer';
 import * as fromPaymentTypes from './payment-types.reducer';
 
-export function getReducers(): ActionReducerMap<CheckoutState> {
+export function getReducers(): ActionReducerMap<CheckoutState, any> {
   return {
-    steps: StateUtils.loaderReducer<CheckoutStepsState>(
+    steps: StateUtils.loaderReducer<CheckoutStepsState, any>(
       CHECKOUT_DETAILS,
       fromCheckout.reducer
     ),
