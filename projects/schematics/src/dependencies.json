@@ -78,6 +78,21 @@
     "bootstrap": "^4.0",
     "rxjs": "^6.6.0"
   },
+  "@spartacus/checkout": {
+    "@angular-devkit/schematics": "^10.2.1",
+    "@angular/common": "^10.2.4",
+    "@angular/core": "^10.2.4",
+    "@angular/forms": "^10.2.4",
+    "@angular/router": "^10.2.4",
+    "@ng-select/ng-select": "^5.0.9",
+    "@ngrx/effects": "^10.0.0",
+    "@ngrx/store": "^10.0.0",
+    "@spartacus/core": "3.2.0-next.2",
+    "@spartacus/storefront": "3.2.0-next.2",
+    "@spartacus/styles": "3.2.0-next.2",
+    "bootstrap": "^4.0",
+    "rxjs": "^6.6.0"
+  },
   "@spartacus/organization": {
     "@angular-devkit/schematics": "^10.1.0",
     "@angular/common": "^10.1.0",

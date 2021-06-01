@@ -55,6 +55,9 @@ if [[ -n "$coverage" ]]; then
     echo "Error: Tests did not meet coverage expectations"
     exit 1
 fi
+echo "Running schematics unit tests and code coverage for checkout library"
+exec 5>&1
+output=$(yarn --cwd feature-libs/checkout run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for product library"
 exec 5>&1
