@@ -125,7 +125,7 @@ export class ConfiguratorBasicEffects {
   > = this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_PRICE_SUMMARY),
     map(
-      (action: { type: string; payload?: Configurator.Configuration }) =>
+      (action: { type: string; payload: Configurator.Configuration }) =>
         action.payload
     ),
     mergeMap((payload) => {
@@ -200,8 +200,8 @@ export class ConfiguratorBasicEffects {
             select(ConfiguratorSelectors.getCurrentGroup(payload.owner.key)),
             take(1),
             map((currentGroupId) => {
-              const groupIdFromPayload = this.getGroupWithAttributes(
-                payload.groups
+              const groupIdFromPayload = this.getGroupWithAttributesForConfiguration(
+                payload
               );
               const parentGroupFromPayload = this.configuratorGroupUtilsService.getParentGroup(
                 payload.groups,
@@ -209,7 +209,7 @@ export class ConfiguratorBasicEffects {
                   payload.groups,
                   groupIdFromPayload
                 ),
-                null
+                undefined
               );
               return {
                 currentGroupId,
@@ -280,7 +280,7 @@ export class ConfiguratorBasicEffects {
       (payload) =>
         new ConfiguratorActions.ReadConfiguration({
           configuration: payload,
-          groupId: undefined,
+          groupId: this.getGroupWithAttributesForConfiguration(payload),
         })
     )
   );
@@ -337,18 +337,47 @@ export class ConfiguratorBasicEffects {
     })
   );
 
-  getGroupWithAttributes(groups: Configurator.Group[]): string {
-    const groupWithAttributes: Configurator.Group = groups
-      .filter((currentGroup) => currentGroup.attributes.length > 0)
+  /**
+   * Finds first group with attributes for a configuration. Throws error if such a group does not exist,
+   * as this is an illegal state
+   * @param configuration
+   * @returns Group id
+   */
+  getGroupWithAttributesForConfiguration(
+    configuration: Configurator.Configuration
+  ): string {
+    const id = this.getGroupWithAttributes(configuration.groups);
+    if (id) {
+      return id;
+    } else {
+      throw new Error('Configuration does not have any attributes');
+    }
+  }
+  /**
+   * Finds first group with attributes in a list of groups
+   * @param groups
+   * @returns Group or undefined if such a group does not exist
+   */
+  getGroupWithAttributes(groups: Configurator.Group[]): string | undefined {
+    const groupWithAttributes: Configurator.Group | undefined = groups
+      .filter(
+        (currentGroup) =>
+          currentGroup.attributes && currentGroup.attributes.length > 0
+      )
       .pop();
-    let id: string;
+    let id: string | undefined;
     if (groupWithAttributes) {
       id = groupWithAttributes.id;
     } else {
       id = groups
-        .filter((currentGroup) => currentGroup.subGroups.length > 0)
+        .filter(
+          (currentGroup) =>
+            currentGroup.subGroups && currentGroup.subGroups.length > 0
+        )
         .flatMap((currentGroup) =>
-          this.getGroupWithAttributes(currentGroup.subGroups)
+          currentGroup.subGroups
+            ? this.getGroupWithAttributes(currentGroup.subGroups)
+            : []
         )
         .filter((groupId) => groupId) //Filter undefined strings
         .pop();
