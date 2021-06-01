@@ -7,7 +7,7 @@
     class="form-control"
     [formControl]="attributeDropDownForm"
     [cxFocus]="{ key: attribute.name }"
-    (change)="onSelect()"
+    (change)="onSelect(attributeDropDownForm.value)"
   >
     <option
       *ngFor="let item of attribute.values"
