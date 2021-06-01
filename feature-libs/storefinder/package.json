@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/storefinder",
-  "version": "3.0.3",
+  "version": "3.0.4",
   "description": "Store finder feature library for Spartacus",
   "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
@@ -27,9 +27,9 @@
     "@angular-devkit/schematics": "^10.1.0",
     "@angular/router": "^10.1.0",
     "rxjs": "^6.6.0",
-    "@spartacus/core": "3.0.3",
-    "@spartacus/storefront": "3.0.3",
-    "@spartacus/schematics": "3.0.3",
+    "@spartacus/core": "3.0.4",
+    "@spartacus/storefront": "3.0.4",
+    "@spartacus/schematics": "3.0.4",
     "@ng-bootstrap/ng-bootstrap": "^7.0.0"
   },
   "devDependencies": {
