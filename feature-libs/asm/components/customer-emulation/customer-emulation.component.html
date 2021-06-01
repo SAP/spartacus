@@ -1,9 +1,4 @@
-<ng-container
-  *ngIf="
-    isCustomerEmulationSessionInProgress$ | async;
-    else realCustomerSession
-  "
->
+<ng-container *ngIf="isCustomerEmulationSessionInProgress$ | async">
   <input
     formcontrolname="customer"
     type="text"
@@ -14,9 +9,3 @@
     {{ 'asm.endSession' | cxTranslate }}
   </button>
 </ng-container>
-
-<ng-template #realCustomerSession>
-  <div class="asm-alert" role="alert">
-    {{ 'asm.standardSessionInProgress' | cxTranslate }}
-  </div>
-</ng-template>
