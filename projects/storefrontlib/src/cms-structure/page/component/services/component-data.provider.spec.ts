@@ -49,6 +49,12 @@ describe('ComponentDataProvider', () => {
     expect(cmsService.getComponentData).toHaveBeenCalledWith('123');
   });
 
+  it('should not load data from cms service if uid is not probvided', () => {
+    spyOn(cmsService, 'getComponentData');
+    service.get('', 'BannerComponent').subscribe().unsubscribe();
+    expect(cmsService.getComponentData).not.toHaveBeenCalled();
+  });
+
   it('should return component data', () => {
     spyOn(cmsService, 'getComponentData').and.returnValue(
       of({ foo: 'bar' } as any)
@@ -64,6 +70,14 @@ describe('ComponentDataProvider', () => {
   it('should load static data for component type', () => {
     spyOn(cmsComponentsService, 'getStaticData');
     service.get('123', 'BannerComponent').subscribe().unsubscribe();
+    expect(cmsComponentsService.getStaticData).toHaveBeenCalledWith(
+      'BannerComponent'
+    );
+  });
+
+  it('should load static data for component type when uid is not provided', () => {
+    spyOn(cmsComponentsService, 'getStaticData');
+    service.get('', 'BannerComponent').subscribe().unsubscribe();
     expect(cmsComponentsService.getStaticData).toHaveBeenCalledWith(
       'BannerComponent'
     );
@@ -85,6 +99,22 @@ describe('ComponentDataProvider', () => {
       .subscribe((data) => (result = data))
       .unsubscribe();
     expect(result.foo).toEqual('bar');
+  });
+
+  it('should complete the stream if uid and static data is not provided', () => {
+    spyOn(cmsComponentsService, 'getStaticData').and.returnValue(undefined);
+    let result;
+    let complete = false;
+    service
+      .get('', 'BannerComponent')
+      .subscribe(
+        (data) => (result = data),
+        undefined,
+        () => (complete = true)
+      )
+      .unsubscribe();
+    expect(result).toEqual(undefined);
+    expect(complete).toEqual(true);
   });
 
   it('should merge static and component data', () => {

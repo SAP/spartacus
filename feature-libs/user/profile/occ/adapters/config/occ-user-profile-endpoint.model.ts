@@ -43,5 +43,15 @@ declare module '@spartacus/core' {
      * @member {string}
      */
     userUpdatePassword?: string | OccEndpoint;
+
+    /**
+     * Update the user's profile
+     */
+    userUpdateProfile?: string | OccEndpoint;
+
+    /**
+     * Close user account
+     */
+    userCloseAccount?: string | OccEndpoint;
   }
 }

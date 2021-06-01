@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
@@ -25,6 +26,17 @@ class MockCartItemContext implements Partial<CartItemContext> {
     PromotionLocation.SaveForLater
   );
 }
+
+@Component({
+  selector: 'cx-configure-cart-entry',
+  template: '',
+})
+class MockConfigureCartEntryComponent {
+  @Input() cartEntry: OrderEntry;
+  @Input() readOnly: boolean;
+  @Input() msgBanner: boolean;
+  @Input() disabled: boolean;
+}
 describe('ConfiguratorCartEntryInfoComponent', () => {
   let component: ConfiguratorCartEntryInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
@@ -39,7 +51,10 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           I18nTestingModule,
           FeaturesConfigModule,
         ],
-        declarations: [ConfiguratorCartEntryInfoComponent],
+        declarations: [
+          ConfiguratorCartEntryInfoComponent,
+          MockConfigureCartEntryComponent,
+        ],
         providers: [
           { provide: CartItemContext, useClass: MockCartItemContext },
           {
