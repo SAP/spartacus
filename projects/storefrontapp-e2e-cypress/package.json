@@ -8,7 +8,7 @@
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "cy:run:ci": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2011,b2c,all,parallel\" --parallel --group B2C --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
-    "cy:run:ci:ssr": "cypress run --config-file cypress.json --config baseUrl=http://localhost:4000 --spec \"cypress/integration/regression/homepage.e2e-spec.ts,cypress/integration/regression/ssr.e2e-spec.ts\"",
+    "cy:run:ci:ssr": "cypress run --config-file cypress.json --config baseUrl=http://localhost:4000 --spec \"cypress/integration/regression/ssr.e2e-spec.ts\"",
     "cy:run:ci:b2b": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2011,b2b,all\" --group B2B --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/b2b/**/*.e2e-spec.ts\"",
     "cy:run:ci:cds": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2011,b2c,all-cds\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts,cypress/integration/vendor/cds/**/*.e2e-spec.ts\"",
     "cy:run:product-configuration": "cypress run --spec \"cypress/integration/**/*-configuration*.*e2e-spec.ts\"",
