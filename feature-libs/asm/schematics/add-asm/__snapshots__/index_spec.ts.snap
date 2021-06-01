@@ -1,91 +1,56 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Asm schematics: ng-add When no features are provided should not add the feature to the feature module 1`] = `
+exports[`Spartacus Asm schematics: ng-add Asm feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { AnonymousConsentsModule, AuthModule, CartModule, CartOccModule, CheckoutModule, CheckoutOccModule, CostCenterOccModule, ProductModule, ProductOccModule, UserOccTransitionalModule, UserTransitionalModule } from \\"@spartacus/core\\";
-import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CartComponentModule, CartPageEventModule, CategoryNavigationModule, CheckoutComponentModule, CheckoutLoginModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, OrderCancellationModule, OrderConfirmationModule, OrderDetailsModule, OrderHistoryModule, OrderReturnModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ReplenishmentOrderConfirmationModule, ReplenishmentOrderDetailsModule, ReplenishmentOrderHistoryModule, ReturnRequestDetailModule, ReturnRequestListModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule, WishListModule } from \\"@spartacus/storefront\\";
+import { AsmModule } from \\"@spartacus/asm\\";
+import { asmTranslationChunksConfig, asmTranslations } from \\"@spartacus/asm/assets\\";
+import { AsmRootModule } from \\"@spartacus/asm/root\\";
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    // Auth Core
-    AuthModule.forRoot(),
-    LogoutModule,
-    LoginRouteModule,
-    // Basic Cms Components
-    HamburgerMenuModule,
-    SiteContextSelectorModule,
-    LinkModule,
-    BannerModule,
-    CmsParagraphModule,
-    TabParagraphContainerModule,
-    BannerCarouselModule,
-    CategoryNavigationModule,
-    NavigationModule,
-    FooterNavigationModule,
-    BreadcrumbModule,
-    // User Core,
-    UserTransitionalModule,
-    UserOccTransitionalModule,
-    // User UI,
-    AddressBookModule,
-    PaymentMethodsModule,
-    NotificationPreferenceModule,
-    MyInterestsModule,
-    StockNotificationModule,
-    ConsentManagementModule,
-    MyCouponsModule,
-    // Anonymous Consents Core,
-    AnonymousConsentsModule.forRoot(),
-    // Anonymous Consents UI,
-    AnonymousConsentsDialogModule,
-    AnonymousConsentManagementBannerModule,
-    // Product Core,
-    ProductModule.forRoot(),
-    ProductOccModule,
-    // Product UI,
-    ProductDetailsPageModule,
-    ProductListingPageModule,
-    ProductListModule,
-    SearchBoxModule,
-    ProductFacetNavigationModule,
-    ProductTabsModule,
-    ProductCarouselModule,
-    ProductReferencesModule,
-    ProductImagesModule,
-    ProductSummaryModule,
-    ProductIntroModule,
-    // Cart Core,
-    CartModule.forRoot(),
-    CartOccModule,
-    // Cart UI,
-    CartComponentModule,
-    WishListModule,
-    // Checkout Core,
-    CheckoutModule.forRoot(),
-    CheckoutOccModule,
-    CostCenterOccModule,
-    // Checkout UI,
-    CheckoutLoginModule,
-    CheckoutComponentModule,
-    OrderConfirmationModule,
-    // Order,
-    OrderHistoryModule,
-    OrderDetailsModule,
-    OrderCancellationModule,
-    OrderReturnModule,
-    ReturnRequestListModule,
-    ReturnRequestDetailModule,
-    ReplenishmentOrderHistoryModule,
-    ReplenishmentOrderDetailsModule,
-    ReplenishmentOrderConfirmationModule,
-    // Page Events,
-    NavigationEventModule,
-    HomePageEventModule,
-    CartPageEventModule,
-    ProductPageEventModule,
+    AsmRootModule,
+    AsmModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: asmTranslations,
+      chunks: asmTranslationChunksConfig,
+    },
+  })]
+})
+export class AsmFeatureModule { }
+"
+`;
+
+exports[`Spartacus Asm schematics: ng-add Asm feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { asmTranslationChunksConfig, asmTranslations } from \\"@spartacus/asm/assets\\";
+import { AsmRootModule, ASM_FEATURE } from \\"@spartacus/asm/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    AsmRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [ASM_FEATURE]: {
+        module: () =>
+          import('@spartacus/asm').then((m) => m.AsmModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: asmTranslations,
+      chunks: asmTranslationChunksConfig,
+    },
+  })
   ]
 })
-export class SpartacusFeaturesModule { }
+export class AsmFeatureModule { }
 "
 `;

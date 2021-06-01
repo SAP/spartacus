@@ -113,7 +113,7 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGE_LABEL
       );
 
-      cy.get('cx-update-profile-form select')
+      cy.get('cx-update-profile form select')
         .select(deutschName)
         .should('have.value', 'mr');
     });

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { AuthHttpHeaderService } from '../../auth/user-auth/services/auth-http-header.service';
+import { AuthRedirectService } from '../../auth/user-auth/services/auth-redirect.service';
 import { AuthStorageService } from '../../auth/user-auth/services/auth-storage.service';
 import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
 import { GlobalMessageService } from '../../global-message/facade/global-message.service';
@@ -32,7 +33,8 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected occEndpointsService: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService,
+    protected authRedirectService: AuthRedirectService
   ) {
     super(
       authService,
@@ -40,7 +42,8 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
       oAuthLibWrapperService,
       routingService,
       occEndpointsService,
-      globalMessageService
+      globalMessageService,
+      authRedirectService
     );
   }
 

@@ -1,9 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Event, NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
+import { LoginFlowRoutesService } from './login-flow-routes.service';
 
 /**
  * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
@@ -29,17 +30,25 @@ export class AuthRedirectService implements OnDestroy {
   constructor(
     protected routing: RoutingService,
     protected router: Router,
-    protected authRedirectStorageService: AuthRedirectStorageService
+    protected authRedirectStorageService: AuthRedirectStorageService,
+    protected loginFlowRoutesService: LoginFlowRoutesService
   ) {
     this.init();
   }
 
-  private subscription: Subscription;
+  protected subscription: Subscription;
 
-  /**
-   * Array of candidates for being the redirect URL.
-   */
-  private redirectUrlCandidates: string[] = [];
+  protected init() {
+    this.subscription = this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        this.setRedirectUrl(event.urlAfterRedirects);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
 
   /**
    * Redirect to saved url (homepage if nothing is saved).
@@ -54,78 +63,52 @@ export class AuthRedirectService implements OnDestroy {
         } else {
           this.routing.goByUrl(redirectUrl);
         }
-        this.authRedirectStorageService.setRedirectUrl(undefined);
+        this.clearRedirectUrl();
       });
   }
 
   /**
-   * Initializes the subscription to the NavigationStart Router events. Based on those events,
-   * we remember possible redirect URL candidates.
+   * Saves url of a page that user wanted to access, but wasn't yet logged in.
    *
-   * During the phase of evaluating guards the candidate being might be abandoned,
-   * when some guard calls the method `reportNotAuthGuard()`.
+   * @deprecated since 4.0 - use `saveCurrentNavigationUrl` method instead
    */
-  protected init() {
-    if (this.subscription) {
-      return; // prevent calling init() twice
-    }
-
-    this.subscription = this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        this.redirectUrlCandidates.push(event.url); // current candidate
-      }
-
-      if (event instanceof NavigationEnd) {
-        // drop the history of old candidates, when navigation ends. Leave only the last one:
-        this.redirectUrlCandidates = this.redirectUrlCandidates.slice(-1);
-      }
-    });
+  reportAuthGuard(): void {
+    this.saveCurrentNavigationUrl();
   }
 
   /**
-   * @deprecated since 4.0, the method is not needed anymore
+   * Saves the url of the current navigation as the redirect url, unless
+   * the url is a part of the user login flow.
    */
-  reportAuthGuard() {}
-
-  /**
-   * Saves the last redirect URL candidate as the actual redirect URL.
-   *
-   * It doesn't treat the current navigation URL as a candidate.
-   */
-  reportNotAuthGuard() {
-    this.excludeCurrentNavigationCandidate();
-    this.saveRedirectUrl();
-  }
-
-  /**
-   * Removes the the current navigation URL from the candidates array
-   */
-  private excludeCurrentNavigationCandidate() {
+  saveCurrentNavigationUrl(): void {
     const navigation = this.router.getCurrentNavigation();
     if (!navigation?.finalUrl) {
-      throw new Error(
-        'AuthRedirectService.reportNotAuthGuard method can be called only during the router navigation phase.'
-      );
+      return;
     }
-    const currentNavigationUrl = this.router.serializeUrl(navigation.finalUrl);
-    this.redirectUrlCandidates = this.redirectUrlCandidates.filter(
-      (url) => url !== currentNavigationUrl
-    );
+
+    const url = this.router.serializeUrl(navigation.finalUrl);
+    this.setRedirectUrl(url);
   }
 
   /**
-   * Saves the last redirect URL candidate as the actual redirect URL.
+   * @deprecated since 4.0 - method not needed anymore. Every visited URL is now
+   *                         remembered automatically as redirect URL on NavigationEnd event.
    */
-  private saveRedirectUrl() {
-    const [lastCandidate] = this.redirectUrlCandidates.slice(-1);
+  reportNotAuthGuard() {}
 
-    // there might be no last candidate URL, especially when it's the initial navigation
-    if (lastCandidate) {
-      this.authRedirectStorageService.setRedirectUrl(lastCandidate);
+  /**
+   * Save the url as the redirect url, unless it's a part of the user login flow.
+   */
+  protected setRedirectUrl(url: string): void {
+    if (!this.loginFlowRoutesService.isLoginFlow(url)) {
+      this.authRedirectStorageService.setRedirectUrl(url);
     }
   }
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
+  /**
+   * Sets the redirect URL to undefined.
+   */
+  protected clearRedirectUrl(): void {
+    this.authRedirectStorageService.setRedirectUrl(undefined);
   }
 }
