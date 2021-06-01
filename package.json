@@ -3,7 +3,7 @@
   "version": "3.0.0",
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=10 <14"
+    "node": ">=10 <17"
   },
   "scripts": {
     "build": "ng build storefrontapp --prod",
