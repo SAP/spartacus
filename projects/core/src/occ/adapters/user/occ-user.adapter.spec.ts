@@ -8,10 +8,10 @@ import {
   Occ,
   TITLE_NORMALIZER,
   User,
+  UserSignUp,
   USER_NORMALIZER,
   USER_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
-  UserSignUp,
 } from '@spartacus/core';
 import { OccConfig } from '../../config/occ-config';
 import { OccEndpointsService } from '../../services';
@@ -101,9 +101,12 @@ describe('OccUserAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'PATCH';
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
-        userId: user.customerId,
-      });
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'userUpdateProfile',
+        {
+          userId: user.customerId,
+        }
+      );
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -245,9 +248,12 @@ describe('OccUserAdapter', () => {
         return req.method === 'DELETE';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('user', {
-        userId: 'testUserId',
-      });
+      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+        'userCloseAccount',
+        {
+          userId: 'testUserId',
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });

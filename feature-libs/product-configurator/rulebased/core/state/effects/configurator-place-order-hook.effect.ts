@@ -5,7 +5,6 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
-  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -20,27 +19,23 @@ export class ConfiguratorPlaceOrderHookEffects {
   placeOrder$: Observable<ConfiguratorActions.RemoveConfiguration> = this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map(() => {
-      const ownerKeys = [];
+      const ownerKeys: string[] = [];
       this.activeCartService
         .getEntries()
         .pipe(take(1))
         .subscribe((entries) => {
-          entries.forEach((entry) => {
-            if (
-              !entry.product?.configurable ||
-              entry.product?.configuratorType !== ConfiguratorType.VARIANT
-            ) {
-              return;
-            }
-            const owner = ConfiguratorModelUtils.createOwner(
-              CommonConfigurator.OwnerType.CART_ENTRY,
-              String(entry.entryNumber)
-            );
+          entries
+            .filter((entry) => entry.product?.configurable)
+            .forEach((entry) => {
+              const owner = ConfiguratorModelUtils.createOwner(
+                CommonConfigurator.OwnerType.CART_ENTRY,
+                String(entry.entryNumber)
+              );
 
-            this.commonConfigUtilsService.setOwnerKey(owner);
+              this.commonConfigUtilsService.setOwnerKey(owner);
 
-            ownerKeys.push(owner.key);
-          });
+              ownerKeys.push(owner.key);
+            });
         });
       return new ConfiguratorActions.RemoveConfiguration({
         ownerKey: ownerKeys,

@@ -3,6 +3,7 @@ import {
   CommonConfigurator,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 import * as ConfiguratorActions from './configurator-cart.action';
@@ -11,6 +12,8 @@ const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '15468-5464-9852-54682';
 const OWNER_KEY = 'product/' + PRODUCT_CODE;
 const CART_ID = '00000001';
+const ENTRY_NUMBER = '0';
+const USER_ID = 'user';
 const OWNER: CommonConfigurator.Owner = {
   id: PRODUCT_CODE,
   type: CommonConfigurator.OwnerType.PRODUCT,
@@ -19,9 +22,8 @@ const OWNER: CommonConfigurator.Owner = {
 };
 
 const CONFIGURATION: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER),
   productCode: PRODUCT_CODE,
-  configId: CONFIG_ID,
-  owner: OWNER,
 };
 
 describe('ConfiguratorCartActions', () => {
@@ -45,6 +47,8 @@ describe('ConfiguratorCartActions', () => {
     const params: Configurator.UpdateConfigurationForCartEntryParameters = {
       configuration: CONFIGURATION,
       cartId: CART_ID,
+      userId: USER_ID,
+      cartEntryNumber: ENTRY_NUMBER,
     };
     it('should carry expected meta data', () => {
       const action = new ConfiguratorActions.UpdateCartEntry(params);
