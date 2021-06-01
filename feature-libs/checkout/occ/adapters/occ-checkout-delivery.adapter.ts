@@ -24,11 +24,11 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected deliveryAddressesEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('deliveryAddresses', { userId, cartId });
+  protected getCreateDeliveryAddressEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.getUrl('createDeliveryAddress', { userId, cartId });
   }
 
-  protected setDeliveryAddressEndpoint(
+  protected getSetDeliveryAddressEndpoint(
     userId: string,
     cartId: string,
     addressId?: string
@@ -43,7 +43,6 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
   protected getDeliveryModeEndpoint(
     userId: string,
     cartId: string,
-    deliveryModeId?: string
   ): string {
     return this.occEndpoints.getUrl(
       'deliveryMode',
@@ -51,7 +50,21 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
         userId,
         cartId,
       },
-      deliveryModeId ? { deliveryModeId } : {}
+    );
+  }
+
+  protected getSetDeliveryModeEndpoint(
+    userId: string,
+    cartId: string,
+    deliveryModeId?: string
+  ): string {
+    return this.occEndpoints.getUrl(
+      'setDeliveryMode',
+      {
+        userId,
+        cartId,
+      },
+      { deliveryModeId }
     );
   }
 
@@ -68,7 +81,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
 
     return this.http
       .post<Occ.Address>(
-        this.deliveryAddressesEndpoint(userId, cartId),
+        this.getCreateDeliveryAddressEndpoint(userId, cartId),
         address,
         {
           headers: new HttpHeaders().set('Content-Type', 'application/json'),
@@ -83,7 +96,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     addressId: string
   ): Observable<any> {
     return this.http.put(
-      this.setDeliveryAddressEndpoint(userId, cartId, addressId),
+      this.getSetDeliveryAddressEndpoint(userId, cartId, addressId),
       {}
     );
   }
@@ -94,7 +107,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     deliveryModeId: string
   ): Observable<any> {
     return this.http.put(
-      this.getDeliveryModeEndpoint(userId, cartId, deliveryModeId),
+      this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId),
       {}
     );
   }

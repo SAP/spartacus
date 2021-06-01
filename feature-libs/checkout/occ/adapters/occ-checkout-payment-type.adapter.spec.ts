@@ -20,7 +20,7 @@ const MockOccModuleConfig: OccConfig = {
       baseUrl: '',
       prefix: '',
       endpoints: {
-        cartPaymentType:
+        setCartPaymentType:
           'users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT',
         paymentTypes: 'paymenttypes',
       } as OccEndpoints,

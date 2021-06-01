@@ -23,11 +23,11 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
     costCenterId: string
   ): Observable<Cart> {
     return this.http
-      .put(this.getCartCostCenterEndpoint(userId, cartId, costCenterId), {})
+      .put(this.getSetCartCostCenterEndpoint(userId, cartId, costCenterId), {})
       .pipe(this.converter.pipeable(CART_NORMALIZER));
   }
 
-  protected getCartCostCenterEndpoint(
+  protected getSetCartCostCenterEndpoint(
     userId: string,
     cartId: string,
     costCenterId: string

@@ -31,33 +31,33 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
 
   private domparser: DOMParser;
 
-  protected getPaymentDetailsEndpoint(
+  protected getSetPaymentDetailsEndpoint(
     userId: string,
     cartId: string,
     paymentDetailsId: string
   ): string {
     return this.occEndpoints.getUrl(
-      'cartPaymentDetails',
+      'setCartPaymentDetails',
       { userId, cartId },
       { paymentDetailsId }
     );
   }
 
-  protected getPaymentProviderRequestEndpoint(
+  protected getPaymentProviderSubInfoEndpoint(
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.getUrl('paymentProviderRequest', {
+    return this.occEndpoints.getUrl('paymentProviderSubInfo', {
       userId,
       cartId,
     });
   }
 
-  protected getPaymentProviderResponseEndpoint(
+  protected getCreatePaymentDetailsEndpoint(
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.getUrl('paymentProviderResponse', {
+    return this.occEndpoints.getUrl('createPaymentDetails', {
       userId,
       cartId,
     });
@@ -116,7 +116,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     paymentDetailsId: string
   ): Observable<any> {
     return this.http.put(
-      this.getPaymentDetailsEndpoint(userId, cartId, paymentDetailsId),
+      this.getSetPaymentDetailsEndpoint(userId, cartId, paymentDetailsId),
       {}
     );
   }
@@ -133,7 +133,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     cartId: string
   ): Observable<any> {
     return this.http.get(
-      this.getPaymentProviderRequestEndpoint(userId, cartId)
+      this.getPaymentProviderSubInfoEndpoint(userId, cartId)
     );
   }
 
@@ -171,7 +171,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     });
 
     return this.http.post<PaymentDetails>(
-      this.getPaymentProviderResponseEndpoint(userId, cartId),
+      this.getCreatePaymentDetailsEndpoint(userId, cartId),
       httpParams,
       { headers }
     );

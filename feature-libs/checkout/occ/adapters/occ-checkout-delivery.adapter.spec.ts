@@ -31,8 +31,9 @@ const MockOccModuleConfig: OccConfig = {
       endpoints: {
         setDeliveryAddress:
           'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
-        deliveryAddresses: 'users/${userId}/carts/${cartId}/addresses/delivery',
+        createDeliveryAddress: 'users/${userId}/carts/${cartId}/addresses/delivery',
         deliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
+        setDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         deliveryModes: 'users/${userId}/carts/${cartId}/deliverymodes',
       } as OccEndpoints,
     },

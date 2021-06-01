@@ -21,7 +21,7 @@ declare module '@spartacus/core' {
     /**
      * Sets the payment type for the checkout cart
      */
-    cartPaymentType?: string | OccEndpoint;
+    setCartPaymentType?: string | OccEndpoint;
     /**
      * Get a list of supported payment card types.
      */
@@ -29,27 +29,39 @@ declare module '@spartacus/core' {
     /**
      * Sets credit card payment details for the cart.
      */
-    cartPaymentDetails?: string | OccEndpoint;
+    setCartPaymentDetails?: string | OccEndpoint;
     /**
      *  Get information needed for create subscription
      */
-    paymentProviderRequest?: string | OccEndpoint;
+    paymentProviderSubInfo?: string | OccEndpoint;
     /**
      * Handles response from payment provider and create payment details
      */
-    paymentProviderResponse?: string | OccEndpoint;
+    createPaymentDetails?: string | OccEndpoint;
     /**
      *  Get a cart with a given identifier.
      */
     loadCheckoutDetails?: string | OccEndpoint;
     /**
-     * Endpoint for delivery addresses
+     * Endpoint for create delivery address
      */
-    deliveryAddresses?: string | OccEndpoint;
+    createDeliveryAddress?: string | OccEndpoint;
+    /**
+     * Endpoint for delete deliver address
+     */
+    removeDeliveryAddress?: string | OccEndpoint;
     /**
      * Endpoint for the delivery mode selected for the cart.
      */
     deliveryMode?: string | OccEndpoint;
+    /**
+     * Endpoint for the delivery mode selected for the cart.
+     */
+    setDeliveryMode?: string | OccEndpoint;
+    /**
+     * Endpoint for the delivery mode selected for the cart.
+     */
+    clearDeliveryMode?: string | OccEndpoint;
     /**
      *Endpoint for get all delivery modes for the current store and delivery address.
      */

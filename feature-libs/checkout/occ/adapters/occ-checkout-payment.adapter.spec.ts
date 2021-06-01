@@ -41,10 +41,10 @@ const MockOccModuleConfig: OccConfig = {
       baseUrl: '',
       prefix: '',
       endpoints: {
-        cartPaymentDetails: 'users/${userId}/carts/${cartId}/paymentdetails',
-        paymentProviderRequest:
+        setCartPaymentDetails: 'users/${userId}/carts/${cartId}/paymentdetails',
+        paymentProviderSubInfo:
           'users/${userId}/carts/${cartId}/payment/sop/request?responseUrl=sampleUrl',
-        paymentProviderResponse:
+        createPaymentDetails:
           'users/${userId}/carts/${cartId}/payment/sop/response',
         cardTypes: 'cardtypes',
       } as OccEndpoints,

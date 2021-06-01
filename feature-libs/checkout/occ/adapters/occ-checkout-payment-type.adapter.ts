@@ -40,7 +40,7 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
   ): Observable<Cart> {
     return this.http
       .put(
-        this.getCartPaymentTypeEndpoint(
+        this.getSetCartPaymentTypeEndpoint(
           userId,
           cartId,
           paymentType,
@@ -55,14 +55,14 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
     return this.occEndpoints.getUrl('paymentTypes');
   }
 
-  protected getCartPaymentTypeEndpoint(
+  protected getSetCartPaymentTypeEndpoint(
     userId: string,
     cartId: string,
     paymentType: string,
     purchaseOrderNumber?: string
   ): string {
     return this.occEndpoints.getUrl(
-      'cartPaymentType',
+      'setCartPaymentType',
       { userId, cartId },
       purchaseOrderNumber
         ? { paymentType, purchaseOrderNumber }
