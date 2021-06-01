@@ -31,7 +31,7 @@
   *ngIf="csAgentTokenLoading"
   class="spinner"
   aria-hidden="false"
-  aria-label="Loading"
+  [attr.aria-label]="'common.ariaCase.search' | cxTranslate"
 >
   <div></div>
   <div></div>

@@ -13,6 +13,15 @@ export const common = {
     noData: 'No data.',
     confirm: 'Confirm',
     more: 'more',
+    ariaCase: {
+      close: 'Close',
+      delete: 'Delete',
+      loading: 'Loading',
+      menu: 'Menu',
+      reset: 'Reset',
+      save: 'Save',
+      search: 'Search',
+    },
   },
   pageMetaResolver: {
     category: {

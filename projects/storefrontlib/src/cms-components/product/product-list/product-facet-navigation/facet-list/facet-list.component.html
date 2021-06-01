@@ -7,7 +7,12 @@
 >
   <h4>
     {{ 'productList.filterBy.label' | cxTranslate }}
-    <button type="button" class="close" aria-label="Close" (click)="close()">
+    <button
+      type="button"
+      class="close"
+      [attr.aria-label]="'common.ariaCase.close' | cxTranslate"
+      (click)="close()"
+    >
       <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
     </button>
   </h4>

@@ -2,7 +2,7 @@
   <input
     #searchInput
     [placeholder]="'searchBox.placeholder' | cxTranslate"
-    aria-label="search"
+    [attr.aria-label]="'common.ariaCase.search' | cxTranslate"
     (focus)="open()"
     (click)="open()"
     (input)="search(searchInput.value)"
@@ -20,7 +20,7 @@
 
   <cx-icon
     [type]="iconTypes.RESET"
-    aria-label="reset"
+    [attr.aria-label]="'common.ariaCase.reset' | cxTranslate"
     (mousedown)="clear(searchInput)"
     (keydown.enter)="clear(searchInput)"
     class="reset"
@@ -29,7 +29,7 @@
 
   <cx-icon
     [type]="iconTypes.SEARCH"
-    aria-label="search"
+    [attr.aria-label]="'common.ariaCase.search' | cxTranslate"
     class="search"
     (mousedown)="avoidReopen($event)"
     (keydown.enter)="avoidReopen($event)"

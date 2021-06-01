@@ -3,7 +3,10 @@
     [cxOutlet]="outlets.PRICE"
     [cxOutletContext]="{ product: product }"
   >
-    <div class="price" aria-label="new item price">
+    <div
+      [attr.aria-label]="'productSummary.ariaCase.newItemPrice' | cxTranslate"
+      class="price"
+    >
       {{ product?.price?.formattedValue }}
     </div>
   </ng-template>

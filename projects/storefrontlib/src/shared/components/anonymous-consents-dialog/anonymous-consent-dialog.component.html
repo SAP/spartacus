@@ -15,7 +15,7 @@
         <button
           type="button"
           class="close"
-          aria-label="Close"
+          [attr.aria-label]="'common.ariaCase.close' | cxTranslate"
           (click)="close('Cross click')"
         >
           <span aria-hidden="true">

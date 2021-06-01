@@ -26,7 +26,10 @@
   </div>
 </div>
 <div class="cx-product-price-container">
-  <div class="cx-product-price" aria-label="Product price">
+  <div
+    [attr.aria-label]="'productDetails.ariaCase.productPrice' | cxTranslate"
+    class="cx-product-price"
+  >
     {{ product.price?.formattedValue }}
   </div>
 </div>

@@ -24,7 +24,7 @@
         <button
           (click)="close('Close Save Cart Dialog')"
           [disabled]="isLoading$ | async"
-          aria-label="Close"
+          [attr.aria-label]="'common.ariaCase.close' | cxTranslate"
           class="cx-saved-cart-form-close close"
           type="button"
         >
@@ -97,7 +97,7 @@
           <div class="cx-saved-cart-form-footer">
             <button
               (click)="close('Close Save Cart Dialog')"
-              aria-label="Close"
+              [attr.aria-label]="'common.ariaCase.close' | cxTranslate"
               class="mr-2 btn btn-action"
               type="button"
             >
@@ -107,8 +107,8 @@
             <button
               *ngIf="cart.code"
               (click)="deleteCart(cart.code)"
+              [attr.aria-label]="'common.ariaCase.delete' | cxTranslate"
               [disabled]="isDisableDeleteButton$ | async"
-              aria-label="delete"
               class="ml-2 btn btn-primary"
               type="button"
             >
@@ -173,8 +173,8 @@
           <div class="cx-saved-cart-form-footer">
             <button
               (click)="close('Close Save Cart Dialog')"
+              [attr.aria-label]="'common.ariaCase.close' | cxTranslate"
               [disabled]="isLoading$ | async"
-              aria-label="Close"
               class="btn btn-action"
               type="button"
             >
@@ -182,8 +182,8 @@
             </button>
             <button
               (click)="saveOrEditCart(cart?.code)"
+              [attr.aria-label]="'common.ariaCase.save' | cxTranslate"
               [disabled]="form.invalid || (isLoading$ | async)"
-              aria-label="Save"
               class="btn btn-primary"
               type="button"
             >

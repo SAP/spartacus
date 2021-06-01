@@ -20,7 +20,9 @@
               <div *ngIf="!isInfiniteScroll" class="col-auto">
                 <div
                   class="cx-pagination"
-                  aria-label="product search pagination"
+                  [attr.aria-label]="
+                    'productList.ariaCase.productSearchPagination' | cxTranslate
+                  "
                 >
                   <cx-pagination
                     [pagination]="model.pagination"
@@ -85,7 +87,9 @@
               <div
                 *ngIf="!isInfiniteScroll"
                 class="col-auto"
-                aria-label="product search pagination"
+                [attr.aria-label]="
+                  'productList.ariaCase.productSearchPagination' | cxTranslate
+                "
               >
                 <div class="cx-pagination">
                   <cx-pagination

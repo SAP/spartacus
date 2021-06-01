@@ -6,7 +6,7 @@
     <button
       type="button"
       class="close"
-      aria-label="Close"
+      [attr.aria-label]="'common.ariaCase.close' | cxTranslate"
       (click)="dismissModal()"
     >
       <span aria-hidden="true">
