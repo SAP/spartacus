@@ -1,10 +1,10 @@
-import { StorefrontConfig } from '@spartacus/storefront';
+import { Config } from '@spartacus/core';
 
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Provides dynamically a chunk of the `StorefrontConfig`.
+       * Provides dynamically a chunk of the `Config`.
        *
        * @memberof Cypress.Chainable
        *
@@ -13,7 +13,7 @@ declare global {
         cy.cxConfig(config)
         ```
        */
-      cxConfig: (config: StorefrontConfig) => void;
+      cxConfig: (config: Config) => void;
     }
   }
 }

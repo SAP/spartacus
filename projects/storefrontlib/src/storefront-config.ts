@@ -28,6 +28,7 @@ import { PaginationConfig } from './shared/components/list-navigation/pagination
 import { MediaConfig } from './shared/components/media/media.config';
 import { ViewConfig } from './shared/config/view-config';
 
+// TODO: Remove when we merge it to branch without B2cStorefrontModule, StorefrontModule, etc.
 export type StorefrontConfig =
   | AnonymousConsentsConfig
   | AuthConfig

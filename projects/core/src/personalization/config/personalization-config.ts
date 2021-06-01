@@ -9,15 +9,15 @@ import { Config } from '../../config/config-tokens';
   useExisting: Config,
 })
 export abstract class PersonalizationConfig {
-  personalization: {
+  personalization?: {
     enabled?: boolean;
     httpHeaderName?: {
       id: string;
       timestamp: string;
     };
     context?: {
-      slotPosition?: string;
-      componentId?: string;
+      slotPosition: string;
+      componentId: string;
     };
   };
 }

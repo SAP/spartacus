@@ -1,5 +1,5 @@
 import { FactoryProvider, ValueProvider } from '@angular/core';
-import { ConfigChunk, DefaultConfigChunk } from './config-tokens';
+import { Config, ConfigChunk, DefaultConfigChunk } from './config-tokens';
 
 /**
  * Helper function to provide configuration chunk using ConfigChunk token
@@ -9,7 +9,7 @@ import { ConfigChunk, DefaultConfigChunk } from './config-tokens';
  * @param config Config object to merge with the global configuration
  */
 export function provideConfig(
-  config: any = {},
+  config: Config = {},
   defaultConfig = false
 ): ValueProvider {
   return {
@@ -45,7 +45,7 @@ export function provideConfigFactory(
  *
  * @param config Config object to merge with the default configuration
  */
-export function provideDefaultConfig(config: any = {}): ValueProvider {
+export function provideDefaultConfig(config: Config = {}): ValueProvider {
   return {
     provide: DefaultConfigChunk,
     useValue: config,

@@ -1,7 +1,6 @@
-import { Inject, Injectable } from '@angular/core';
-import { Config, Image, OccConfig } from '@spartacus/core';
+import { Injectable } from '@angular/core';
+import { Config, Image } from '@spartacus/core';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
-import { StorefrontConfig } from '../../../storefront-config';
 import { MediaConfig } from './media.config';
 import {
   ImageLoadingStrategy,
@@ -34,7 +33,7 @@ export class MediaService {
   private _reversedFormats: { code: string; size: MediaFormatSize }[];
 
   constructor(
-    @Inject(Config) protected config: StorefrontConfig,
+    protected config: Config,
     /**
      * The BreakpointService is no longer used in version 2.0 as the different size formats are
      * driven by configuration only. There's however a change that this service will play a role
@@ -53,7 +52,7 @@ export class MediaService {
     mediaContainer: MediaContainer | Image,
     format?: string,
     alt?: string
-  ): Media {
+  ): Media | undefined {
     if (!mediaContainer) {
       return;
     }
@@ -87,13 +86,11 @@ export class MediaService {
    * benefits.
    */
   protected get sortedFormats(): { code: string; size: MediaFormatSize }[] {
-    if (!this._sortedFormats && (this.config as MediaConfig)?.mediaFormats) {
-      this._sortedFormats = Object.keys(
-        (this.config as MediaConfig).mediaFormats
-      )
+    if (!this._sortedFormats && this.config?.mediaFormats) {
+      this._sortedFormats = Object.keys(this.config.mediaFormats)
         .map((key) => ({
           code: key,
-          size: (this.config as MediaConfig).mediaFormats[key],
+          size: this.config.mediaFormats[key],
         }))
         .sort((a, b) => (a.size.width > b.size.width ? 1 : -1));
     }
@@ -153,7 +150,7 @@ export class MediaService {
   protected resolveSrcSet(
     media: MediaContainer | Image,
     maxFormat?: string
-  ): string {
+  ): string | undefined {
     if (!media) {
       return undefined;
     }
@@ -205,8 +202,8 @@ export class MediaService {
    */
   protected getBaseUrl(): string {
     return (
-      (this.config as OccConfig).backend?.media?.baseUrl ??
-      (this.config as OccConfig).backend?.occ?.baseUrl ??
+      this.config.backend?.media?.baseUrl ??
+      this.config.backend?.occ?.baseUrl ??
       ''
     );
   }

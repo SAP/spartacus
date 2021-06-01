@@ -1,4 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
+import { Config } from '../config-tokens';
 
 export const ConfigValidatorToken = new InjectionToken(
   'ConfigurationValidator'
@@ -9,7 +10,7 @@ export const ConfigValidatorToken = new InjectionToken(
  *
  * In case of failed validation, should return a string with error message.
  */
-export type ConfigValidator = (config: any) => string | void;
+export type ConfigValidator = (config: Config) => string | void;
 
 /**
  * Use to probide config validation at app bootstrap (when all config chunks are merged)
@@ -27,7 +28,7 @@ export function provideConfigValidator(
 }
 
 export function validateConfig(
-  config: any,
+  config: Config,
   configValidators: ConfigValidator[]
 ) {
   for (const validate of configValidators) {

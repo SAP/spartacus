@@ -1,12 +1,12 @@
 import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
-import {
-  CONFIG_INITIALIZER_FORROOT_GUARD,
-  ConfigInitializer,
-} from './config-initializer';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { filter, mapTo, take } from 'rxjs/operators';
-import { deepMerge } from '../utils/deep-merge';
 import { Config, RootConfig } from '../config-tokens';
+import { deepMerge } from '../utils/deep-merge';
+import {
+  ConfigInitializer,
+  CONFIG_INITIALIZER_FORROOT_GUARD,
+} from './config-initializer';
 
 /**
  * Provides support for CONFIG_INITIALIZERS
@@ -16,23 +16,20 @@ import { Config, RootConfig } from '../config-tokens';
 })
 export class ConfigInitializerService {
   constructor(
-    @Inject(Config) protected config: any,
+    protected config: Config,
     @Optional()
     @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
-    protected initializerGuard,
-    @Inject(RootConfig) protected rootConfig: any
+    protected initializerGuard: any,
+    @Inject(RootConfig) protected rootConfig: Config
   ) {}
 
-  protected ongoingScopes$ = new BehaviorSubject<string[]>(undefined);
+  protected ongoingScopes$ = new BehaviorSubject<string[]>([]);
 
   /**
    * Returns true if config is stable, i.e. all CONFIG_INITIALIZERS resolved correctly
    */
   get isStable(): boolean {
-    return (
-      !this.initializerGuard ||
-      (this.ongoingScopes$.value && this.ongoingScopes$.value.length === 0)
-    );
+    return !this.initializerGuard || this.ongoingScopes$.value?.length === 0;
   }
 
   /**
@@ -47,14 +44,12 @@ export class ConfigInitializerService {
    *
    * @param scopes String describing parts of the config we want to be sure are stable
    */
-  getStable(...scopes: string[]): Observable<any> {
+  getStable(...scopes: string[]): Observable<Config> {
     if (this.isStable) {
       return of(this.config);
     }
     return this.ongoingScopes$.pipe(
-      filter(
-        (ongoingScopes) => ongoingScopes && this.areReady(scopes, ongoingScopes)
-      ),
+      filter((ongoingScopes) => this.areReady(scopes, ongoingScopes)),
       take(1),
       mapTo(this.config)
     );
@@ -63,7 +58,7 @@ export class ConfigInitializerService {
   /**
    * @deprecated since 3.0, use getStable() instead
    */
-  async getStableConfig(...scopes: string[]): Promise<any> {
+  async getStableConfig(...scopes: string[]): Promise<Config> {
     return this.getStable(...scopes).toPromise();
   }
 
@@ -155,9 +150,12 @@ export class ConfigInitializerService {
         (async () => {
           const initializerConfig = await initializer.configFactory();
           // contribute configuration to rootConfig
-          deepMerge(this.rootConfig, initializerConfig);
+          deepMerge(
+            this.rootConfig as Record<string, unknown>,
+            initializerConfig
+          );
           // contribute configuration to global config
-          deepMerge(this.config, initializerConfig);
+          deepMerge(this.config as Record<string, unknown>, initializerConfig);
           this.finishScopes(initializer.scopes);
         })()
       );
