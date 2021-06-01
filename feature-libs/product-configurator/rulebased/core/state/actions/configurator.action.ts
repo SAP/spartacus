@@ -170,7 +170,10 @@ export class ChangeGroup extends StateUtils.EntityLoadAction {
     public payload: {
       configuration: Configurator.Configuration;
       groupId: string;
-      parentGroupId: string;
+      /**
+       * Id of parent group. Can be undefined for groups on root level
+       */
+      parentGroupId?: string;
     }
   ) {
     super(CONFIGURATOR_DATA, payload.configuration.owner.key);
@@ -241,7 +244,13 @@ export class SetMenuParentGroup extends StateUtils.EntitySuccessAction {
   readonly type = SET_MENU_PARENT_GROUP;
 
   constructor(
-    public payload: { entityKey: string | string[]; menuParentGroup: string }
+    public payload: {
+      entityKey: string | string[];
+      /**
+       * Id of parent group. Can be undefined for groups on root level
+       */
+      menuParentGroup?: string;
+    }
   ) {
     super(CONFIGURATOR_DATA, payload.entityKey, payload.menuParentGroup);
   }
