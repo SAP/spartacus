@@ -82,7 +82,7 @@ title: Changes to Styles in 4.0
 
 * `padding` set to 20px on `%cx-configurator-overview-form` for `cx-no-attribute-value-pair` selector to align spacing between the configuration overview no attribute value pairs.
 
-* `font-size` set to 1.75rem on `%cx-configurator-overview-form` for `topLevel` selector to adjust the attribute header according to the new styling requirement 
+* `font-size` set to 1.25rem on `%cx-configurator-overview-form` for `topLevel` selector to adjust the attribute header according to the new styling requirement 
 
 * `font-weight` set to 700 on `%cx-configurator-overview-form` for `topLevel` selector to adjust the attribute header according to the new styling requirement 
 
@@ -102,7 +102,7 @@ title: Changes to Styles in 4.0
 
 * `background-color` set to var(--cx-color-background) on `%cx-configurator-overview-form` for `cx-group h2` to set the background color of the subgroup headers 
 
-* `font-size` set to 16px on `%cx-configurator-overview-form` for `cx-group h2` to specify the font size of the subgroup headers 
+* `font-size` set to 1rem on `%cx-configurator-overview-form` for `cx-group h2` to specify the font size of the subgroup headers 
 
 * `text-transform` set to uppercase on `%cx-configurator-overview-form` for `cx-group h2` to transform the subgroup header into uppercase
 
@@ -112,4 +112,4 @@ title: Changes to Styles in 4.0
 
 * `width` set to 60% on `%cx-configurator-overview-attribute` for `cx-attribute-label` selector to use only 60% of the width for the small widgets.
 
-* `font-weight` set to 700 on `%cx-configurator-overview-attribute` for `cx-attribute-value` to make the attribute values bold
+* `font-weight` set to 600 on `%cx-configurator-overview-attribute` for `cx-attribute-value` to make the attribute values bold
