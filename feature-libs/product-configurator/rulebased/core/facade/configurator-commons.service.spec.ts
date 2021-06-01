@@ -11,6 +11,7 @@ import {
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { productConfigurationWithConflicts } from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
@@ -66,19 +67,16 @@ const group2: Configurator.Group = {
 };
 
 let productConfiguration: Configurator.Configuration = {
-  configId: CONFIG_ID,
-  owner: ConfiguratorModelUtils.createInitialOwner(),
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID),
 };
 
 const productConfigurationProductBoundObsolete: Configurator.Configuration = {
-  configId: CONFIG_ID,
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_PRODUCT),
   nextOwner: OWNER_CART_ENTRY,
-  owner: OWNER_PRODUCT,
 };
 
 const productConfigurationChanged: Configurator.Configuration = {
-  configId: CONFIG_ID,
-  owner: ConfiguratorModelUtils.createInitialOwner(),
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID),
 };
 
 const configurationState: ConfiguratorState = {
@@ -202,9 +200,8 @@ describe('ConfiguratorCommonsService', () => {
     );
 
     productConfiguration = {
-      configId: CONFIG_ID,
+      ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_PRODUCT),
       productCode: PRODUCT_CODE,
-      owner: OWNER_PRODUCT,
       groups: [group1, group2],
     };
 
@@ -382,9 +379,11 @@ describe('ConfiguratorCommonsService', () => {
 
     it('should not dispatch an action if overview is already present', (done) => {
       const configurationWithOverview: Configurator.Configuration = {
-        configId: CONFIG_ID,
+        ...ConfiguratorTestUtils.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
         overview: {},
-        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
         of(configurationWithOverview)

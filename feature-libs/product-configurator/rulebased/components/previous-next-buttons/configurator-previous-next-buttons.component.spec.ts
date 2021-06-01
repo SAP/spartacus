@@ -22,6 +22,7 @@ import {
   GROUP_ID_1,
   PRODUCT_CODE,
 } from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
@@ -57,13 +58,15 @@ const groups: Configurator.Group = {
 };
 
 const configWithoutGroups: Configurator.Configuration = {
-  configId: 'CONFIG_ID',
+  ...ConfiguratorTestUtils.createConfiguration(
+    'CONFIG_ID',
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
+  ),
   productCode: PRODUCT_CODE,
   totalNumberOfIssues: 0,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE
-  ),
   groups: [groups],
   flatGroups: [groups],
 };

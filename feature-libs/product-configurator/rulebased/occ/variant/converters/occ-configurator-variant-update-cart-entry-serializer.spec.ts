@@ -4,6 +4,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorTestUtils } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 import { OccConfiguratorVariantUpdateCartEntrySerializer } from './occ-configurator-variant-update-cart-entry-serializer';
@@ -23,10 +24,13 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
     userId: USER_ID,
     cartId: CART_ID,
     configuration: {
+      ...ConfiguratorTestUtils.createConfiguration(
+        CONFIG_ID,
+        ConfiguratorModelUtils.createInitialOwner()
+      ),
       productCode: PRODUCT_CODE,
-      configId: CONFIG_ID,
-      owner: ConfiguratorModelUtils.createInitialOwner(),
     },
+    cartEntryNumber: ENTRY_NUMBER,
   };
 
   const targetParameters: OccConfigurator.UpdateConfigurationForCartEntryParameters = {
