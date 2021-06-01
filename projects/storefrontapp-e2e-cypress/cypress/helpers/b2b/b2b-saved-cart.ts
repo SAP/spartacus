@@ -457,7 +457,7 @@ export function updateSavedCartAndDelete(
               sampleData.savedActiveCartForm[4].description
             );
 
-            cy.get('button[aria-label="delete"]').click();
+            cy.get('button[aria-label="Delete"]').click();
           });
         }
 

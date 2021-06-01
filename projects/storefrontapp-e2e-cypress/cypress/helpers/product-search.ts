@@ -34,11 +34,11 @@ export const QUERY_ALIAS = {
 };
 
 export function enterProduct() {
-  cy.get('cx-searchbox input[aria-label="search"]').type('camera{enter}');
+  cy.get('cx-searchbox input[aria-label="Search"]').type('camera{enter}');
 }
 
 export function clickSearchIcon() {
-  cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
+  cy.get('cx-searchbox cx-icon[aria-label="Search"]').click({ force: true });
 }
 
 export function searchForProduct(product: string) {

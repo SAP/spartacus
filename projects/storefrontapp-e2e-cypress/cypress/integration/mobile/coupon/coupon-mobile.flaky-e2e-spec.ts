@@ -7,7 +7,7 @@ describe('Cart Coupon', () => {
     cy.viewport(formats.mobile.width, formats.mobile.height);
     cy.requireLoggedIn();
     cy.visit('/');
-    cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
+    cy.get('cx-searchbox cx-icon[aria-label="Search"]').click({ force: true });
   });
 
   it('should show the promotion for cart, discount in price and success message when applied a coupon with cart total action successfully.', () => {
@@ -55,7 +55,7 @@ describe('Cart Coupon', () => {
       .auth;
     cartCoupon.addProductToCart(cartCoupon.productCode3);
     cartCoupon.applyCoupon(cartCoupon.couponCode3);
-    cy.get('cx-searchbox cx-icon[aria-label="search"]').click({ force: true });
+    cy.get('cx-searchbox cx-icon[aria-label="Search"]').click({ force: true });
     cartCoupon.verifyGiftProductCoupon(cartCoupon.giftProductCode);
     cartCoupon.verifyCouponAndPromotion(
       cartCoupon.couponCode3,

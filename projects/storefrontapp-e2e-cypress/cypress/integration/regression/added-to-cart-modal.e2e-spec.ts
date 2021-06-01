@@ -82,11 +82,11 @@ describe('Added to cart modal', () => {
 
     it('adding different products to cart', () => {
       cy.onMobile(() => {
-        cy.get('cx-searchbox cx-icon[aria-label="search"]').click();
+        cy.get('cx-searchbox cx-icon[aria-label="Search"]').click();
       });
 
       // search for new product and select it, and add to cart
-      cy.get('cx-searchbox input[aria-label="search"]').type(productId2, {
+      cy.get('cx-searchbox input[aria-label="Search"]').type(productId2, {
         force: true,
       });
       cy.onDesktop(() => {
@@ -97,7 +97,7 @@ describe('Added to cart modal', () => {
       cy.onMobile(() => {
         // we don't show product in search suggestions on mobile
         // instead search and click first result
-        cy.get('cx-searchbox input[aria-label="search"]').type('{enter}');
+        cy.get('cx-searchbox input[aria-label="Search"]').type('{enter}');
         cy.get('cx-product-list-item').first().get('.cx-product-name').click();
       });
       cy.get('cx-breadcrumb h1').contains(productName2);

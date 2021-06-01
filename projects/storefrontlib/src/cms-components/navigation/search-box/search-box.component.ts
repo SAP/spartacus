@@ -197,7 +197,7 @@ export class SearchBoxComponent implements OnInit, OnDestroy {
   private isSearchBoxFocused(): boolean {
     return (
       this.getResultElements().includes(this.getFocusedElement()) ||
-      this.winRef.document.querySelector('input[aria-label="search"]') ===
+      this.winRef.document.querySelector('input[aria-label="Search"]') ===
         this.getFocusedElement()
     );
   }
