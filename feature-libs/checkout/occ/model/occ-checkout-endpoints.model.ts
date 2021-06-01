@@ -51,15 +51,15 @@ declare module '@spartacus/core' {
      */
     removeDeliveryAddress?: string | OccEndpoint;
     /**
-     * Endpoint for the delivery mode selected for the cart.
+     * Endpoint for get the delivery mode selected for the cart.
      */
     deliveryMode?: string | OccEndpoint;
     /**
-     * Endpoint for the delivery mode selected for the cart.
+     * Endpoint for sets the delivery mode for a cart.
      */
     setDeliveryMode?: string | OccEndpoint;
     /**
-     * Endpoint for the delivery mode selected for the cart.
+     * Endpoint for deletes the delivery mode from the cart.
      */
     clearDeliveryMode?: string | OccEndpoint;
     /**

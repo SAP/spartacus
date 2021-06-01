@@ -13,6 +13,7 @@ export const defaultOccCheckoutConfig: OccConfig = {
         createDeliveryAddress: 'users/${userId}/carts/${cartId}/addresses/delivery',
         removeDeliveryAddress: 'users/${userId}/carts/${cartId}/addresses/delivery',
         deliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
+        setDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         clearDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         deliveryModes: 'users/${userId}/carts/${cartId}/deliverymodes',
         setCartCostCenter:
