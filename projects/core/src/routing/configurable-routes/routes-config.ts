@@ -41,10 +41,10 @@ export interface RouteConfig {
   protected?: boolean;
 
   /**
-   * When true, the page is considered as part of the user journey when logging in (for example:
-   * login, register, forgot password, etc.)
+   * When true, the page is considered as part of the user journey related to authorization (for example:
+   * login, register, forgot password, logout, etc.)
    *
-   * When user is redirected back after successful login, he won't land on any page with `loginFlow: true`, but on other
+   * When user is redirected back after successful login, he won't land on any page marked as the auth flow, but on other
    * previously accessed page.
    */
   authFlow?: boolean;
