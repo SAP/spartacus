@@ -24,8 +24,14 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getCreateDeliveryAddressEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('createDeliveryAddress', { userId, cartId });
+  protected getCreateDeliveryAddressEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.getUrl('createDeliveryAddress', {
+      userId,
+      cartId,
+    });
   }
 
   protected getSetDeliveryAddressEndpoint(
@@ -40,17 +46,11 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     );
   }
 
-  protected getDeliveryModeEndpoint(
-    userId: string,
-    cartId: string,
-  ): string {
-    return this.occEndpoints.getUrl(
-      'deliveryMode',
-      {
-        userId,
-        cartId,
-      },
-    );
+  protected getDeliveryModeEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.getUrl('deliveryMode', {
+      userId,
+      cartId,
+    });
   }
 
   protected getSetDeliveryModeEndpoint(

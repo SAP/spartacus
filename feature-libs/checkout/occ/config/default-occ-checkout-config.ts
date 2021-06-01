@@ -10,8 +10,10 @@ export const defaultOccCheckoutConfig: OccConfig = {
         placeOrder: 'users/${userId}/orders?fields=FULL',
         cardTypes: 'cardtypes',
         paymentTypes: 'paymenttypes',
-        createDeliveryAddress: 'users/${userId}/carts/${cartId}/addresses/delivery',
-        removeDeliveryAddress: 'users/${userId}/carts/${cartId}/addresses/delivery',
+        createDeliveryAddress:
+          'users/${userId}/carts/${cartId}/addresses/delivery',
+        removeDeliveryAddress:
+          'users/${userId}/carts/${cartId}/addresses/delivery',
         deliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         setDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
         clearDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
