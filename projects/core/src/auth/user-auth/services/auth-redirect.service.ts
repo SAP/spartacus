@@ -3,8 +3,8 @@ import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
-import { LoginFlowRoutesService } from './login-flow-routes.service';
 
 /**
  * Responsible for saving last accessed page (or attempted) before login and for redirecting to that page after login.
@@ -31,7 +31,7 @@ export class AuthRedirectService implements OnDestroy {
     protected routing: RoutingService,
     protected router: Router,
     protected authRedirectStorageService: AuthRedirectStorageService,
-    protected loginFlowRoutesService: LoginFlowRoutesService
+    protected authFlowRoutesService: AuthFlowRoutesService
   ) {
     this.init();
   }
@@ -100,7 +100,7 @@ export class AuthRedirectService implements OnDestroy {
    * Save the url as the redirect url, unless it's a part of the user login flow.
    */
   protected setRedirectUrl(url: string): void {
-    if (!this.loginFlowRoutesService.isLoginFlow(url)) {
+    if (!this.authFlowRoutesService.isAuthFlow(url)) {
       this.authRedirectStorageService.setRedirectUrl(url);
     }
   }

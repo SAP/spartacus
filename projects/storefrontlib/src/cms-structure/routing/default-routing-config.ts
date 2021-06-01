@@ -9,25 +9,25 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   login: {
     paths: ['login'],
     protected: false,
-    loginFlow: true,
+    authFlow: true,
   },
   register: {
     paths: ['login/register'],
     protected: false,
-    loginFlow: true,
+    authFlow: true,
   },
   forgotPassword: {
     paths: ['login/forgot-password'],
     protected: false,
-    loginFlow: true,
+    authFlow: true,
   },
   resetPassword: {
     paths: ['login/pw/change'],
     protected: false,
-    loginFlow: true,
+    authFlow: true,
   },
-  logout: { paths: ['logout'], protected: false, loginFlow: true },
-  checkoutLogin: { paths: ['checkout-login'], loginFlow: true },
+  logout: { paths: ['logout'], protected: false, authFlow: true },
+  checkoutLogin: { paths: ['checkout-login'], authFlow: true },
 
   checkout: { paths: ['checkout'] },
   checkoutPaymentType: { paths: ['checkout/payment-type'] },

@@ -47,7 +47,7 @@ export interface RouteConfig {
    * When user is redirected back after successful login, he won't land on any page with `loginFlow: true`, but on other
    * previously accessed page.
    */
-  loginFlow?: boolean;
+  authFlow?: boolean;
 }
 
 export interface ParamsMapping {
