@@ -8,6 +8,7 @@ import { OccEndpointsService } from '../../../occ/services/occ-endpoints.service
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
+import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
@@ -24,7 +25,8 @@ export class AuthHttpHeaderService {
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected routingService: RoutingService,
     protected occEndpoints: OccEndpointsService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected authRedirectService: AuthRedirectService
   ) {}
 
   /**
@@ -95,7 +97,18 @@ export class AuthHttpHeaderService {
     // Logout user
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout();
+
+    // There might be 2 cases:
+    // 1. when user is already on some page (router is stable) and performs an UI action
+    // that triggers http call (i.e. button click to save data in backend)
+    // 2. when user is navigating to some page and a route guard triggers the http call
+    // (i.e. guard loading cms page data)
+    //
+    // In the second case, we want to remember the anticipated url before we navigate to
+    // the login page, so we can redirect back to that URL after user authenticates.
+    this.authRedirectService.saveCurrentNavigationUrl();
     this.routingService.go({ cxRoute: 'login' });
+
     this.globalMessageService.add(
       {
         key: 'httpHandlers.sessionExpired',

@@ -2,6 +2,7 @@ import { HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   AuthHttpHeaderService,
+  AuthRedirectService,
   AuthService,
   AuthStorageService,
   GlobalMessageService,
@@ -30,7 +31,8 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected occEndpointsService: OccEndpointsService
+    protected occEndpointsService: OccEndpointsService,
+    protected authRedirectService: AuthRedirectService
   ) {
     super(
       authService,
@@ -38,7 +40,8 @@ export class AsmAuthHttpHeaderService extends AuthHttpHeaderService {
       oAuthLibWrapperService,
       routingService,
       occEndpointsService,
-      globalMessageService
+      globalMessageService,
+      authRedirectService
     );
   }
 
