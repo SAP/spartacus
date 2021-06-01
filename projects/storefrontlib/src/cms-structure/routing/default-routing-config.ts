@@ -26,7 +26,7 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     protected: false,
     loginFlow: true,
   },
-  logout: { paths: ['logout'], protected: false },
+  logout: { paths: ['logout'], protected: false, loginFlow: true },
   checkoutLogin: { paths: ['checkout-login'], loginFlow: true },
 
   checkout: { paths: ['checkout'] },
