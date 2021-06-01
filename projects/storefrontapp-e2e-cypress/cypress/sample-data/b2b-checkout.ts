@@ -7,7 +7,6 @@ import {
 } from './checkout-flow';
 
 export const POWERTOOLS_BASESITE = 'powertools-spa';
-export const POWERTOOLS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
 export const USER_REQUEST_ENDPOINT = 'orgUsers';
 export const ORDER_REQUEST_ENDPOINT = 'replenishmentOrders';
 export const poNumber = '123';

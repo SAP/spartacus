@@ -1,1 +1,1 @@
-export * from './configurator-component-test-utils.service';
+export * from './configurator-test-utils';
