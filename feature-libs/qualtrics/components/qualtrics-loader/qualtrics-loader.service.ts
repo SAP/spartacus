@@ -5,10 +5,8 @@ import {
   isDevMode,
   OnDestroy,
   PLATFORM_ID,
-  Renderer2,
-  RendererFactory2,
 } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
+import { ScriptLoader, WindowRef } from '@spartacus/core';
 import { EMPTY, fromEvent, Observable, of, Subscription } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 
@@ -69,7 +67,7 @@ export class QualtricsLoaderService implements OnDestroy {
 
   constructor(
     protected winRef: WindowRef,
-    protected rendererFactory: RendererFactory2,
+    protected scriptLoader: ScriptLoader,
     @Inject(PLATFORM_ID) protected platformId: any
   ) {
     this.initialize();
@@ -85,11 +83,9 @@ export class QualtricsLoaderService implements OnDestroy {
     if (this.hasScript(scriptSource)) {
       this.run(true);
     } else {
-      const script: HTMLScriptElement = this.renderer.createElement('script');
-      script.type = 'text/javascript';
-      script.defer = true;
-      script.src = scriptSource;
-      this.renderer.appendChild(this.winRef.document.body, script);
+      this.scriptLoader.embedScript({
+        src: scriptSource,
+      });
     }
   }
 
@@ -141,10 +137,6 @@ export class QualtricsLoaderService implements OnDestroy {
    */
   protected isDataLoaded(): Observable<boolean> {
     return of(true);
-  }
-
-  protected get renderer(): Renderer2 {
-    return this.rendererFactory.createRenderer(null, null);
   }
 
   ngOnDestroy(): void {
