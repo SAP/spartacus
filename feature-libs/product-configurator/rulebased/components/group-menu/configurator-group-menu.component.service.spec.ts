@@ -93,7 +93,7 @@ describe('ConfiguratorGroupMenuService', () => {
   });
 
   describe('getGroups', () => {
-    describe('desktop widgets (screen size larger than lg)', () => {
+    describe('in case screen size larger than lg', () => {
       it('should return no groups', () => {
         const element = document.body.querySelector('main');
         if (element) {
@@ -114,7 +114,7 @@ describe('ConfiguratorGroupMenuService', () => {
       });
     });
 
-    describe('mobile widgets (screen size smaller than sm)', () => {
+    describe('in case screen size smaller than lg', () => {
       beforeEach(() => {
         isDesktop = false;
         const mainElement = document.body.querySelector('main');
