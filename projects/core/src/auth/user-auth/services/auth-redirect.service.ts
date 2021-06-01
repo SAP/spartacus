@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Event, NavigationStart, Router } from '@angular/router';
+import { Event, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
@@ -36,18 +36,10 @@ export class AuthRedirectService implements OnDestroy {
 
   protected subscription: Subscription;
 
-  /**
-   * Fallback redirect url. It's used when there was no saved redirect URL.
-   */
-  protected readonly FALLBACK_REDIRECT_URL: string = '/';
-
   protected init() {
     this.subscription = this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
-        const { url } = event;
-        if (!this.isIgnoredUrl(url)) {
-          this.setRedirectUrl(url);
-        }
+      if (event instanceof NavigationEnd) {
+        this.setRedirectUrl(event.urlAfterRedirects);
       }
     });
   }
@@ -65,35 +57,56 @@ export class AuthRedirectService implements OnDestroy {
       .pipe(take(1))
       .subscribe((redirectUrl) => {
         if (redirectUrl === undefined) {
-          this.routing.go(this.FALLBACK_REDIRECT_URL);
+          this.routing.go('/');
         } else {
           this.routing.goByUrl(redirectUrl);
         }
-        this.setRedirectUrl(undefined);
+        this.clearRedirectUrl();
       });
   }
 
   /**
-   * @deprecated since 4.0 - method not needed anymore
+   * Saves url of a page that user wanted to access, but wasn't yet logged in.
+   *
+   * @deprecated since 4.0 - use `saveCurrentNavigationUrl` method instead
    */
-  reportAuthGuard() {}
+  reportAuthGuard(): void {
+    this.saveCurrentNavigationUrl();
+  }
 
   /**
-   * @deprecated since 4.0 - method not needed anymore
+   * Saves the url of the current navigation as the redirect url, unless
+   * the url is a part of the user login flow.
+   */
+  saveCurrentNavigationUrl(): void {
+    const navigation = this.router.getCurrentNavigation();
+    if (!navigation?.finalUrl) {
+      return;
+    }
+
+    const url = this.router.serializeUrl(navigation.finalUrl);
+    this.setRedirectUrl(url);
+  }
+
+  /**
+   * @deprecated since 4.0 - method not needed anymore. Every visited URL is now
+   *                         remembered automatically as redirect URL on NavigationEnd event.
    */
   reportNotAuthGuard() {}
 
   /**
-   * Tells whether the url is a part of the user login flow.
+   * Save the url as the redirect url, unless it's a part of the user login flow.
    */
-  protected isIgnoredUrl(url: string): boolean {
-    return this.loginFlowRoutesService.isLoginFlow(url);
+  protected setRedirectUrl(url: string): void {
+    if (!this.loginFlowRoutesService.isLoginFlow(url)) {
+      this.authRedirectStorageService.setRedirectUrl(url);
+    }
   }
 
   /**
-   * Save the url as the redirect url, unless it's a part of the user login flow.
+   * Sets the redirect URL to undefined.
    */
-  protected setRedirectUrl(url: string | undefined): void {
-    this.authRedirectStorageService.setRedirectUrl(url);
+  protected clearRedirectUrl(): void {
+    this.authRedirectStorageService.setRedirectUrl(undefined);
   }
 }
