@@ -32,7 +32,11 @@ export class MyCouponsComponentService {
         cxRoute: 'search',
         params: { query: this.buildSearchParam(coupon) },
       },
-      { couponcode: coupon.couponId }
+      {
+        state: {
+          couponcode: coupon.couponId,
+        },
+      }
     );
   }
 

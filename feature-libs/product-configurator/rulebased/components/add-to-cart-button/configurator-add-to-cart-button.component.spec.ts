@@ -31,7 +31,6 @@ const navParamsOverview: any = {
   params: { ownerType: 'cartEntry', entityKey: CART_ENTRY_KEY },
 };
 
-const attributes = {};
 const mockOwner = mockProductConfiguration.owner;
 
 const mockRouterData: ConfiguratorRouter.Data = {
@@ -249,10 +248,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('should navigate to OV in case configuration is cart bound and we are on product config page', () => {
       mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
       performUpdateCart();
-      expect(routingService.go).toHaveBeenCalledWith(
-        navParamsOverview,
-        attributes
-      );
+      expect(routingService.go).toHaveBeenCalledWith(navParamsOverview);
 
       expect(
         configuratorGroupsService.setGroupStatusVisited
@@ -298,10 +294,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('should navigate to overview in case configuration has not been added yet and we are on configuration page', () => {
       ensureProductBound();
       component.onAddToCart(mockProductConfiguration, mockRouterData);
-      expect(routingService.go).toHaveBeenCalledWith(
-        navParamsOverview,
-        attributes
-      );
+      expect(routingService.go).toHaveBeenCalledWith(navParamsOverview);
     });
 
     it('should remove one configuration (cart bound) in case configuration has not yet been added and we are on configuration page', () => {

@@ -64,13 +64,10 @@ export class ConfiguratorAddToCartButtonComponent {
     configuratorType: string,
     owner: CommonConfigurator.Owner
   ): void {
-    this.routingService.go(
-      {
-        cxRoute: 'configureOverview' + configuratorType,
-        params: { ownerType: 'cartEntry', entityKey: owner.id },
-      },
-      {}
-    );
+    this.routingService.go({
+      cxRoute: 'configureOverview' + configuratorType,
+      params: { ownerType: 'cartEntry', entityKey: owner.id },
+    });
   }
 
   protected displayConfirmationMessage(key: string): void {

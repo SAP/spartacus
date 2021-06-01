@@ -75,10 +75,9 @@ export class RoutingService {
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
-  go(commands: UrlCommands, query?: object, extras?: NavigationExtras): void {
+  go(commands: UrlCommands, extras?: NavigationExtras): void {
     const path = this.semanticPathService.transform(commands);
-
-    return this.navigate(path, query, extras);
+    return this.navigate(path, extras);
   }
 
   /**
@@ -152,15 +151,10 @@ export class RoutingService {
    * @param query
    * @param extras: Represents the extra options used during navigation.
    */
-  protected navigate(
-    path: any[],
-    query?: object,
-    extras?: NavigationExtras
-  ): void {
+  protected navigate(path: any[], extras?: NavigationExtras): void {
     this.store.dispatch(
       new RoutingActions.RouteGoAction({
         path,
-        query,
         extras,
       })
     );
