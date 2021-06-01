@@ -13,6 +13,8 @@ import { COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION } from './data/component-wrappe
 import { CONFIGURATOR_CART_SERVICE_MIGRATION } from './data/configurator-cart.service.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
 import { PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/product-page-event.builder.migration';
+import { SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION } from './data/saved-cart-form-dialog.component.migration';
+import { SAVED_CART_LIST_COMPONENT_MIGRATION } from './data/saved-cart-list.component.migration';
 import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
@@ -35,6 +37,8 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ADDRESS_FORM_COMPONENT_MIGRATION,
   USER_ADDRESS_SERVICE_MIGRATION,
   CHECKOUT_EVENT_MODULE_MIGRATION,
+  SAVED_CART_LIST_COMPONENT_MIGRATION,
+  SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {

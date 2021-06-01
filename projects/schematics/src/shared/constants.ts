@@ -106,6 +106,9 @@ export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
 export const STORE_DATA_SERVICE = 'StoreDataService';
 export const SPLIT_VIEW_SERVICE = 'SplitViewService';
+export const SAVED_CART_FACADE = 'SavedCartFacade';
+export const SAVED_CART_LIST_COMPONENT = 'SavedCartListComponent';
+export const SAVED_CART_FORM_DIALOG_COMPONENT = 'SavedCartFormDialogComponent';
 export const CONFIGURATOR_CART_SERVICE = 'ConfiguratorCartService';
 export const COMMON_CONFIGURATOR_UTILS_SERVICE =
   'CommonConfiguratorUtilsService';
@@ -117,6 +120,7 @@ export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
 
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
+export const CLEAR_CHECKOUT_SERVICE = 'ClearCheckoutService';
 export const CHECKOUT_FACADE = 'CheckoutFacade';
 export const CHECKOUT_CONNECTOR = 'CheckoutConnector';
 export const USER_ORDER_CONNECTOR = 'UserOrderConnector';
@@ -231,7 +235,8 @@ export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
 export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
-export const LAUNCH_DIALOG_SERVICE = 'LaunchComponentService';
+export const LAUNCH_COMPONENT_SERVICE = 'LaunchComponentService';
+export const LAUNCH_DIALOG_SERVICE = 'LaunchDialogService';
 export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =

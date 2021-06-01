@@ -6,6 +6,7 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
+      "@spartacus/cart": "cart",
       "@ng-bootstrap/ng-bootstrap": "ng-bootstrap",
       "rxjs": "rxjs"
     }
