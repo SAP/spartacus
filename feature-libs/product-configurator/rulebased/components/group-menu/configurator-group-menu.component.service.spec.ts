@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
-import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { BreakpointService } from '@spartacus/storefront';
 import { Type } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { BreakpointService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
 
 function createElement(id: string): HTMLElement {
   const element = document.createElement('button');
@@ -92,13 +92,17 @@ describe('ConfiguratorGroupMenuService', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  describe('getTabs', () => {
+  describe('getGroups', () => {
     describe('desktop widgets (screen size larger than lg)', () => {
       it('should return no groups', () => {
         const element = document.body.querySelector('main');
-        document.body.removeChild(element);
-        const result = classUnderTest['getGroups']();
-        expect(result.length).toBe(0);
+        if (element) {
+          document.body.removeChild(element);
+          const result = classUnderTest['getGroups']();
+          expect(result.length).toBe(0);
+        } else {
+          fail('Main element not found');
+        }
       });
 
       it('should return a number of groups for large size widgets', () => {
@@ -168,40 +172,44 @@ describe('ConfiguratorGroupMenuService', () => {
     it('should focus next group items', () => {
       groups[0].focus();
       let focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-0');
+      expect(focusedElement?.id).toBe('groupId-0');
 
       classUnderTest['focusNextGroup'](0);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-1');
+      expect(focusedElement?.id).toBe('groupId-1');
 
       classUnderTest['focusNextGroup'](1);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-2');
+      expect(focusedElement?.id).toBe('groupId-2');
 
       classUnderTest['focusNextGroup'](2);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-0');
+      expect(focusedElement?.id).toBe('groupId-0');
 
       classUnderTest['focusNextGroup'](0);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-1');
+      expect(focusedElement?.id).toBe('groupId-1');
     });
 
     it('should take `back-button` into account by navigation through group items', () => {
       const backButton = createBackButton();
       let groupMenu = document.querySelector('main cx-configurator-group-menu');
-      groupMenu.prepend(backButton);
-      backButton.focus();
-      let focusedElement = document.activeElement;
-      expect(focusedElement.classList.value).toBe('cx-menu-back');
+      if (groupMenu) {
+        groupMenu.prepend(backButton);
+        backButton.focus();
+        let focusedElement = document.activeElement;
+        expect(focusedElement?.classList.value).toBe('cx-menu-back');
 
-      classUnderTest['focusNextGroup'](0);
-      focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-0');
+        classUnderTest['focusNextGroup'](0);
+        focusedElement = document.activeElement;
+        expect(focusedElement?.id).toBe('groupId-0');
 
-      classUnderTest['focusPreviousGroup'](0);
-      focusedElement = document.activeElement;
-      expect(focusedElement.classList.value).toBe('cx-menu-back');
+        classUnderTest['focusPreviousGroup'](0);
+        focusedElement = document.activeElement;
+        expect(focusedElement?.classList.value).toBe('cx-menu-back');
+      } else {
+        fail('Group menu not available');
+      }
     });
   });
 
@@ -209,23 +217,23 @@ describe('ConfiguratorGroupMenuService', () => {
     it('should focus previous group items', () => {
       groups[0].focus();
       let focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-0');
+      expect(focusedElement?.id).toBe('groupId-0');
 
       classUnderTest['focusPreviousGroup'](0);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-2');
+      expect(focusedElement?.id).toBe('groupId-2');
 
       classUnderTest['focusPreviousGroup'](2);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-1');
+      expect(focusedElement?.id).toBe('groupId-1');
 
       classUnderTest['focusPreviousGroup'](1);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-0');
+      expect(focusedElement?.id).toBe('groupId-0');
 
       classUnderTest['focusPreviousGroup'](0);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-2');
+      expect(focusedElement?.id).toBe('groupId-2');
     });
   });
 
@@ -237,23 +245,23 @@ describe('ConfiguratorGroupMenuService', () => {
 
       groups[0].focus();
       let focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-0');
+      expect(focusedElement?.id).toBe('groupId-0');
 
       classUnderTest['switchGroupOnArrowPress'](event, 0);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-2');
+      expect(focusedElement?.id).toBe('groupId-2');
 
       classUnderTest['switchGroupOnArrowPress'](event, 2);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-1');
+      expect(focusedElement?.id).toBe('groupId-1');
 
       classUnderTest['switchGroupOnArrowPress'](event, 1);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-0');
+      expect(focusedElement?.id).toBe('groupId-0');
 
       classUnderTest['switchGroupOnArrowPress'](event, 0);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-2');
+      expect(focusedElement?.id).toBe('groupId-2');
     });
 
     it('should focus previous group items', () => {
@@ -263,23 +271,23 @@ describe('ConfiguratorGroupMenuService', () => {
 
       groups[0].focus();
       let focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-0');
+      expect(focusedElement?.id).toBe('groupId-0');
 
       classUnderTest['switchGroupOnArrowPress'](event, 0);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-1');
+      expect(focusedElement?.id).toBe('groupId-1');
 
       classUnderTest['switchGroupOnArrowPress'](event, 1);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-2');
+      expect(focusedElement?.id).toBe('groupId-2');
 
       classUnderTest['switchGroupOnArrowPress'](event, 2);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-0');
+      expect(focusedElement?.id).toBe('groupId-0');
 
       classUnderTest['switchGroupOnArrowPress'](event, 0);
       focusedElement = document.activeElement;
-      expect(focusedElement.id).toBe('groupId-1');
+      expect(focusedElement?.id).toBe('groupId-1');
     });
   });
 
@@ -292,9 +300,13 @@ describe('ConfiguratorGroupMenuService', () => {
     it('should return `true` because there is a `cx-menu-back` in the group menu', () => {
       const backButton = createBackButton();
       let groupMenu = document.querySelector('main cx-configurator-group-menu');
-      groupMenu.prepend(backButton);
-      backButton.focus();
-      expect(classUnderTest['isBackBtnFocused']()).toBe(true);
+      if (groupMenu) {
+        groupMenu.prepend(backButton);
+        backButton.focus();
+        expect(classUnderTest['isBackBtnFocused']()).toBe(true);
+      } else {
+        fail('Group menu not available');
+      }
     });
   });
 });

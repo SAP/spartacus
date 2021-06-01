@@ -1,5 +1,5 @@
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';
 
@@ -17,21 +17,19 @@ export class ConfiguratorGroupMenuService {
    * @returns {NodeListOf<HTMLElement>} - list of the groups.
    * @protected
    */
-  protected getGroups(): NodeListOf<HTMLElement> | undefined {
-    if (isPlatformBrowser(this.platformId)) {
-      let selector = ' cx-configurator-group-menu button[role="tab"]';
-      this.breakpointService
-        ?.isUp(BREAKPOINT.lg)
-        .pipe(take(1))
-        .subscribe((isDesktop) => {
-          if (isDesktop) {
-            selector = 'main' + selector;
-          } else {
-            selector = '.navigation' + selector;
-          }
-        });
-      return document.querySelectorAll(selector);
-    }
+  protected getGroups(): NodeListOf<HTMLElement> {
+    let selector = ' cx-configurator-group-menu button[role="tab"]';
+    this.breakpointService
+      ?.isUp(BREAKPOINT.lg)
+      .pipe(take(1))
+      .subscribe((isDesktop) => {
+        if (isDesktop) {
+          selector = 'main' + selector;
+        } else {
+          selector = '.navigation' + selector;
+        }
+      });
+    return document.querySelectorAll(selector);
   }
 
   /**
@@ -39,9 +37,10 @@ export class ConfiguratorGroupMenuService {
    *
    * @param {NodeListOf<HTMLElement>} groups - List of the groups
    * @returns {number | undefined} - focused group index
-   * @protected
    */
-  protected getFocusedGroupIndex(groups: NodeListOf<HTMLElement>): number {
+  protected getFocusedGroupIndex(
+    groups: NodeListOf<HTMLElement>
+  ): number | undefined {
     if (isPlatformBrowser(this.platformId)) {
       let focusedElement = document.activeElement;
       let focusedElementId = focusedElement?.id;
@@ -62,14 +61,15 @@ export class ConfiguratorGroupMenuService {
    * @param {number} currentGroupIndex - Current group index
    * @param {number} focusedGroupIndex - Focused group index
    * @returns {number} - updated group index
-   * @protected
    */
   protected updateCurrentGroupIndex(
     currentGroupIndex: number,
-    focusedGroupIndex: number
+    focusedGroupIndex?: number
   ): number {
-    return focusedGroupIndex !== currentGroupIndex
-      ? focusedGroupIndex
+    return focusedGroupIndex
+      ? focusedGroupIndex !== currentGroupIndex
+        ? focusedGroupIndex
+        : currentGroupIndex
       : currentGroupIndex;
   }
 
@@ -77,7 +77,6 @@ export class ConfiguratorGroupMenuService {
    * Focuses the next group.
    *
    * @param {number} currentGroupIndex - Current group index
-   * @protected
    */
   protected focusNextGroup(currentGroupIndex: number): void {
     if (isPlatformBrowser(this.platformId)) {
