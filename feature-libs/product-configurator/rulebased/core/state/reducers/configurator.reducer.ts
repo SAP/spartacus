@@ -159,7 +159,7 @@ function setInitialCurrentGroup(
   if (state.interactionState.currentGroup) {
     return state;
   }
-  let initialCurrentGroup = undefined;
+  let initialCurrentGroup;
   const flatGroups = state?.flatGroups;
   if (flatGroups && flatGroups.length > 0) {
     initialCurrentGroup = flatGroups[0]?.id;
