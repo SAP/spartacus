@@ -710,4 +710,6 @@ export const CLI_TRACKING_TMS_AEP_FEATURE = 'TMS-AEPL';
 
 export const CLI_USER_ACCOUNT_FEATURE = 'Account';
 export const CLI_USER_PROFILE_FEATURE = 'Profile';
+
+export const CLI_CHECKOUT_FEATURE = 'Checkout';
 /******* CLI end *******/
