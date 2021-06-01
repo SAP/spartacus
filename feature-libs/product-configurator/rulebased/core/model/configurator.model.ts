@@ -58,14 +58,14 @@ export namespace Configurator {
     complete?: boolean;
     totalNumberOfIssues?: number;
     productCode?: string;
-    groups?: Group[];
+    groups: Group[];
     flatGroups?: Group[];
     priceSummary?: PriceSummary;
     overview?: Overview;
     owner: CommonConfigurator.Owner;
     nextOwner?: CommonConfigurator.Owner;
     isCartEntryUpdateRequired?: boolean;
-    interactionState?: InteractionState;
+    interactionState: InteractionState;
     updateType?: UpdateType;
     errorMessages?: string[];
     warningMessages?: string[];
@@ -132,9 +132,9 @@ export namespace Configurator {
   }
 
   export interface UpdateConfigurationForCartEntryParameters {
-    userId?: string;
+    userId: string;
     cartId: string;
-    cartEntryNumber?: string;
+    cartEntryNumber: string;
     configuration: Configurator.Configuration;
   }
 
