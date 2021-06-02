@@ -24,7 +24,14 @@
         "type": "string"
       },
       "default": ["Bulk-Pricing", "Product-Variants"],
-      "x-prompt": "Which Product features would you like to setup?"
+      "x-prompt": {
+        "message": "Which Product features would you like to set up?",
+        "type": "list",
+        "items": [
+          { "value": "Bulk-Pricing", "label": "Bulk Pricing" },
+          { "value": "Product-Variants", "label": "Product Variants" }
+        ]
+      }
     }
   },
   "required": []

@@ -38,6 +38,5 @@
       "description": "Configuration URL for ProfileTag. (e.g. https://tag.static.stage.context.cloud.sap/config/my-config123)",
       "x-prompt": "[CDS] What is the ProfileTag configuration URL? (optional)"
     }
-  },
-  "required": ["tenant", "baseUrl"]
+  }
 }
