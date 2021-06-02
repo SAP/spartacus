@@ -1,6 +1,11 @@
 ---
 title: Changes to Styles in 4.0
 ---
+
+## Changes in Checkout Components
+
+* `cx-product-variants` selector has been moved to corresponding feature-lib `@spartacus/product`.
+
 ## Changes in Configurator Overview Form Component
 
 * `font-size` set to 1.25rem on `%cx-configurator-overview-form` for `topLevel` selector to adjust the attribute header according to the new styling requirement 
