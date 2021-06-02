@@ -62,7 +62,6 @@ describe('RoutingService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new RoutingActions.RouteGoAction({
           path: ['generated', 'path'],
-          query: undefined,
           extras: undefined,
         })
       );
@@ -138,7 +137,6 @@ describe('RoutingService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new RoutingActions.RouteGoAction({
           path: ['/'],
-          query: undefined,
           extras: undefined,
         })
       );
