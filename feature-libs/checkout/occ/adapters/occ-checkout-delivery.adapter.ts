@@ -14,7 +14,7 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
@@ -91,6 +91,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
       )
       .pipe(
         pluck('deliveryModes'),
+        map((modes) => modes ?? []),
         this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)
       );
   }

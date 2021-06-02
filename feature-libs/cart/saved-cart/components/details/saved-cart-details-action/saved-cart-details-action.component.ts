@@ -7,12 +7,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import {
-  Cart,
-  ClearCheckoutService,
-  GlobalMessageService,
-  RoutingService,
-} from '@spartacus/core';
+import { Cart, GlobalMessageService, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -31,43 +26,6 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
     Cart | undefined
   > = this.savedCartDetailsService.getCartDetails();
 
-  // TODO(#12167): make launchDialogService a required dependency instead of savedCartFormLaunchDialogService and remove deprecated constructors
-  /**
-   * Default constructor will be
-   *
-   * @param {SavedCartDetailsService} savedCartDetailsService
-   * @param {SavedCartFacade} savedCartService
-   * @param {RoutingService} routingService
-   * @param {GlobalMessageService} globalMessageService
-   * @param {ViewContainerRef} vcr
-   * @param {ClearCheckoutService} clearCheckoutService
-   * @param {LaunchDialogService} launchDialogService
-   */
-  constructor(
-    savedCartDetailsService: SavedCartDetailsService,
-    savedCartService: SavedCartFacade,
-    routingService: RoutingService,
-    globalMessageService: GlobalMessageService,
-    savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
-    vcr: ViewContainerRef,
-    clearCheckoutService: ClearCheckoutService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    launchDialogService: LaunchDialogService
-  );
-
-  /**
-   * @deprecated since 3.3
-   */
-  constructor(
-    savedCartDetailsService: SavedCartDetailsService,
-    savedCartService: SavedCartFacade,
-    routingService: RoutingService,
-    globalMessageService: GlobalMessageService,
-    savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
-    vcr: ViewContainerRef,
-    clearCheckoutService: ClearCheckoutService
-  );
-
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,
     protected savedCartService: SavedCartFacade,
@@ -75,7 +33,6 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
     protected vcr: ViewContainerRef,
-    protected clearCheckoutService: ClearCheckoutService,
     protected launchDialogService?: LaunchDialogService
   ) {}
 
@@ -96,7 +53,6 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
       this.routingService.go({ cxRoute: 'savedCarts' });
       this.savedCartService.clearRestoreSavedCart();
       this.savedCartService.clearSaveCart();
-      this.clearCheckoutService.resetCheckoutProcesses();
     }
   }
 

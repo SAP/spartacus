@@ -11,10 +11,10 @@ import {
 import { User } from '@spartacus/user/account/root';
 import {
   TITLE_NORMALIZER,
+  UserProfileAdapter,
   USER_PROFILE_NORMALIZER,
   USER_PROFILE_SERIALIZER,
   USER_SIGN_UP_SERIALIZER,
-  UserProfileAdapter,
 } from '@spartacus/user/profile/core';
 import { Title, UserSignUp } from '@spartacus/user/profile/root';
 import { Observable, throwError } from 'rxjs';
@@ -29,7 +29,10 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   ) {}
 
   update(userId: string, user: User): Observable<unknown> {
-    const url = this.occEndpoints.getUrl('user', { userId });
+    const endpoint = this.occEndpoints.isConfigured('userUpdateProfile')
+      ? 'userUpdateProfile'
+      : 'user';
+    const url = this.occEndpoints.getUrl(endpoint, { userId });
     user = this.converter.convert(user, USER_PROFILE_SERIALIZER);
     return this.http
       .patch(url, user)
@@ -133,7 +136,10 @@ export class OccUserProfileAdapter implements UserProfileAdapter {
   }
 
   close(userId: string): Observable<unknown> {
-    const url = this.occEndpoints.getUrl('user', { userId });
+    const endpoint = this.occEndpoints.isConfigured('userCloseAccount')
+      ? 'userCloseAccount'
+      : 'user';
+    const url = this.occEndpoints.getUrl(endpoint, { userId });
     return this.http
       .delete<User>(url)
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
