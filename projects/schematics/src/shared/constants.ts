@@ -29,6 +29,8 @@ export const SPARTACUS_ASM = '@spartacus/asm';
 export const SPARTACUS_CART = '@spartacus/cart';
 export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
+export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `${SPARTACUS_PRODUCT_CONFIGURATOR}/common`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED = `${SPARTACUS_PRODUCT_CONFIGURATOR}/rulebased`;
 export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
@@ -40,6 +42,11 @@ export const NGRX_EFFECTS = '@ngrx/effects';
 export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
+
+export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS =
+  '@spartacus/product/variants/components';
+export const SPARTACUS_PRODUCT_VARIANTS_ROOT =
+  '@spartacus/product/variants/root';
 
 /***** Imports end *****/
 
@@ -194,6 +201,7 @@ export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
 export const CART_ITEM_COMPONENT = 'CartItemComponent';
+export const CART_ITEM_CONTEXT = 'CartItemContext';
 export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
 export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
@@ -335,6 +343,23 @@ export const CURRENT_UNIT_SERVICE = 'CurrentUnitService';
 export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
+
+export const COMMON_CONFIGURATOR_UTILS_SERVICE =
+  'CommonConfiguratorUtilsService';
+export const CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE =
+  'ConfiguratorAttributeQuantityService';
+export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE =
+  'ConfiguratorStorefrontUtilsService';
+export const CONFIGURATOR_GROUPS_SERVICE = 'ConfiguratorGroupsService';
+
+export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
+  'ConfiguratorCartEntryInfoComponent';
+export const CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT =
+  'ConfiguratorAttributeCheckBoxListComponent';
+export const CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT =
+  'ConfiguratorAttributeDropDownComponent';
+export const CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT =
+  'ConfiguratorAttributeRadioButtonComponent';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
@@ -513,16 +538,24 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
+export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
+export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
+export const VARIANT_COLOR_SELECTOR_MODULE = 'VariantColorSelectorModule';
+export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
+export const VARIANT_SIZE_SELECTOR_MODULE = 'VariantSizeSelectorModule';
+export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
+export const VARIANT_STYLE_ICONS_MODULE = 'VariantStyleIconsModule';
+export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
+export const VARIANT_STYLE_SELECTOR_MODULE = 'VariantStyleSelectorModule';
+export const PRODUCT_VARIANTS_MODULE = 'ProductVariantsModule';
+
+export const PRODUCT_VARIANT_STYLE_ICONS_COMPONENT =
+  'ProductVariantStyleIconsComponent';
+export const PRODUCT_VARIANT_STYLE_ICONS_MODULE =
+  'ProductVariantStyleIconsModule';
 export const DEFAULT_STATE_CONFIG = 'defaultStateConfig';
 export const DEFAULT_LOCAL_STORAGE_KEY = 'DEFAULT_LOCAL_STORAGE_KEY';
 export const DEFAULT_SESSION_STORAGE_KEY = 'DEFAULT_SESSION_STORAGE_KEY';
-
-// uncomment product variants deprecation on 4.0 migration works (#11391)
-// export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
-// export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
-// export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
-// export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
-// export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
 
 /***** Removed public api end *****/
 
@@ -673,6 +706,8 @@ export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
+export const CSS_V4_DOCS_URL =
+  'https://sap.github.io/spartacus-docs/css-changes-in-version-4/';
 /***** Storefinder end *****/
 
 /******* CLI start *******/
