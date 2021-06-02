@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { ConfigInitializerService } from '../../config';
 import { SiteContextConfig } from '../config/site-context-config';
 import { CurrencyService } from '../facade/currency.service';
@@ -22,7 +22,7 @@ class MockCurrencyService implements Partial<CurrencyService> {
 
 class MockCurrencyStatePersistenceService
   implements Partial<CurrencyStatePersistenceService> {
-  initSync = createSpy().and.stub();
+  initSync = createSpy().and.returnValue(of(EMPTY));
 }
 
 class MockConfigInitializerService

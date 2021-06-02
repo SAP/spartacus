@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { ConfigInitializerService } from '../../config';
 import { SiteContextConfig } from '../config/site-context-config';
 import { LanguageService } from '../facade/language.service';
@@ -22,7 +22,7 @@ class MockLanguageService implements Partial<LanguageService> {
 
 class MockLanguageStatePersistenceService
   implements Partial<LanguageStatePersistenceService> {
-  initSync = createSpy().and.stub();
+  initSync = createSpy().and.returnValue(of(EMPTY));
 }
 
 class MockConfigInitializerService
