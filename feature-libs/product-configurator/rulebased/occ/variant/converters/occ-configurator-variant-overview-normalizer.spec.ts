@@ -186,6 +186,30 @@ describe('OccConfiguratorVariantNormalizer', () => {
     );
     expect(result.length).toBe(1);
   });
+
+  it('should fill subgroups in the target model accross 3 levels', () => {
+    const thirdLevelGroup: OccConfigurator.GroupOverview = {};
+    const secondLevelGroup: OccConfigurator.GroupOverview = {
+      subGroups: [thirdLevelGroup],
+    };
+    const groupWithSubgroups: OccConfigurator.GroupOverview = {
+      subGroups: [group1, group3, secondLevelGroup],
+    };
+
+    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
+      groupWithSubgroups
+    );
+    const rootGroup = result[0];
+    expect(rootGroup).toBeDefined();
+    const subGroups = rootGroup.subGroups;
+    if (subGroups) {
+      expect(subGroups.length).toBe(3);
+      const secondLevelGroupInResult = subGroups[2];
+      expect(secondLevelGroupInResult.subGroups?.length).toBe(1);
+    } else {
+      fail();
+    }
+  });
   it('should set description for a general group', () => {
     const generalTargetGroup: Configurator.GroupOverview = {
       id: generalGroupName,
