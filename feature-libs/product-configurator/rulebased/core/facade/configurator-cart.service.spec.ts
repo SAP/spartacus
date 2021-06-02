@@ -20,6 +20,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
@@ -62,8 +63,7 @@ const cart: Cart = {
 };
 
 const productConfiguration: Configurator.Configuration = {
-  configId: CONFIG_ID,
-  owner: OWNER_CART_ENTRY,
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_CART_ENTRY),
 };
 
 const cartState: StateUtils.ProcessesLoaderState<Cart> = {
@@ -187,8 +187,10 @@ describe('ConfiguratorCartService', () => {
       };
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
+          ...ConfiguratorTestUtils.createConfiguration(
+            '',
+            ConfiguratorModelUtils.createInitialOwner()
+          ),
         },
       };
 
@@ -218,8 +220,10 @@ describe('ConfiguratorCartService', () => {
 
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
+          ...ConfiguratorTestUtils.createConfiguration(
+            '',
+            ConfiguratorModelUtils.createInitialOwner()
+          ),
         },
       };
 
@@ -243,8 +247,10 @@ describe('ConfiguratorCartService', () => {
 
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
+          ...ConfiguratorTestUtils.createConfiguration(
+            '',
+            ConfiguratorModelUtils.createInitialOwner()
+          ),
         },
       };
 
@@ -286,8 +292,10 @@ describe('ConfiguratorCartService', () => {
       };
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
+          ...ConfiguratorTestUtils.createConfiguration(
+            '',
+            ConfiguratorModelUtils.createInitialOwner()
+          ),
         },
       };
 

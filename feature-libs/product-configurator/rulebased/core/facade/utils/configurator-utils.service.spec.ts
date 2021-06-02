@@ -7,6 +7,7 @@ import {
   GROUP_ID_2,
   productConfiguration,
 } from '../../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorUtilsService } from './configurator-utils.service';
 
@@ -83,9 +84,8 @@ const group4: Configurator.Group = {
 };
 
 const productConfigurationMultiLevel: Configurator.Configuration = {
-  configId: CONFIG_ID,
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_PRODUCT),
   productCode: PRODUCT_CODE,
-  owner: OWNER_PRODUCT,
   groups: [group4],
 };
 
@@ -166,32 +166,40 @@ describe('ConfiguratorGroupUtilsService', () => {
     });
     it('should tell from config ID', () => {
       const configuration: Configurator.Configuration = {
-        configId: 'a',
+        ...ConfiguratorTestUtils.createConfiguration(
+          'a',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
         flatGroups: [],
-        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });
     it('should tell from blank config ID', () => {
       const configuration: Configurator.Configuration = {
-        configId: '',
+        ...ConfiguratorTestUtils.createConfiguration(
+          '',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
         flatGroups: [],
-        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(false);
     });
     it('should know that config is not created in case the groups are not defined', () => {
       const configuration: Configurator.Configuration = {
-        configId: 'a',
-        owner: ConfiguratorModelUtils.createInitialOwner(),
+        ...ConfiguratorTestUtils.createConfiguration(
+          'a',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(false);
     });
     it('should know that config is created in case the groups are not defined but the overview aspect exists due to an order history read', () => {
       const configuration: Configurator.Configuration = {
-        configId: 'a',
+        ...ConfiguratorTestUtils.createConfiguration(
+          'a',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
         overview: {},
-        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });
