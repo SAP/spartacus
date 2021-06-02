@@ -79,6 +79,28 @@ describe('OccEndpointsService', () => {
     );
   });
 
+  describe('isConfigured', () => {
+    it('should return true when the endpoint is configured', () => {
+      expect(service.isConfigured('asmCustomerSearch')).toBe(true);
+    });
+
+    it('should return false when endpoint is not configured', () => {
+      expect(service.isConfigured('unknown')).toBe(false);
+    });
+
+    it('should return true if endpoint with scope is configured', () => {
+      expect(service.isConfigured('product', 'test')).toBe(true);
+    });
+
+    it('should return true when endpoint have default scope', () => {
+      expect(service.isConfigured('product')).toBe(true);
+    });
+
+    it('should return false for not configured scope', () => {
+      expect(service.isConfigured('product', 'unknown')).toBe(false);
+    });
+  });
+
   describe('getUrl', () => {
     it('should return endpoint from config', () => {
       const url = service.getUrl('product');
