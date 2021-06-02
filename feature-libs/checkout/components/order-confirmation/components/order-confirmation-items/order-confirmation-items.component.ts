@@ -30,10 +30,9 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
   getAllOrderEntryPromotions(
     order: Order
   ): { [key: number]: Observable<PromotionResult[]> } {
-    const allOrderEntryPromotions = this.promotionService.getProductPromotionForOrderEntries(
+    const allOrderEntryPromotions = this.promotionService.getProductPromotionForAllEntries(
       order
     );
-    console.log('getAllOrderEntryPromotions', allOrderEntryPromotions);
     return allOrderEntryPromotions;
   }
 

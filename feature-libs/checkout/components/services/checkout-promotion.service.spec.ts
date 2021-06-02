@@ -1,21 +1,22 @@
 import { TestBed } from '@angular/core/testing';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { Order, PromotionResult } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { CheckoutPromotionService } from './checkout-promotion.service';
 
 const mockAppliedProductPromotions: PromotionResult[] = [
   {
     consumedEntries: [
       {
-        adjustedUnitPrice: 517.4,
-        orderEntryNumber: 0,
+        adjustedUnitPrice: 0.0,
+        orderEntryNumber: 1,
         quantity: 1,
       },
     ],
-    description: '10% off on products EOS450D + 18-55 IS Kit',
+    description: 'Buy over $500.00 get 1 free gift',
     promotion: {
-      code: 'product_percentage_discount',
+      code: 'free_gift',
+      description: 'A free gift',
       promotionType: 'Rule Based Promotion',
     },
   },
@@ -75,6 +76,24 @@ const mockCheckoutDetails: Order = {
   created: new Date('2019-02-11T13:02:58+0000'),
   appliedOrderPromotions: mockAppliedOrderPromotionsForCheckout,
   appliedProductPromotions: mockAppliedProductPromotions,
+  entries: [
+    {
+      entryNumber: 0,
+      product: {
+        code: '1446509',
+        name: 'testitem',
+      },
+      quantity: 3,
+    },
+    {
+      entryNumber: 1,
+      product: {
+        code: '1687508',
+        name: 'Remote Control Tripod VCT-80AV',
+      },
+      quantity: 1,
+    },
+  ],
 };
 
 class MockCheckoutService {
@@ -84,7 +103,7 @@ class MockCheckoutService {
 }
 
 fdescribe('CheckoutPromotionService', () => {
-  let promotionService: CheckoutPromotionService;
+  let checkoutPromotionService: CheckoutPromotionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -97,11 +116,11 @@ fdescribe('CheckoutPromotionService', () => {
       ],
     });
 
-    promotionService = TestBed.inject(CheckoutPromotionService);
+    checkoutPromotionService = TestBed.inject(CheckoutPromotionService);
   });
 
   it('should inject service', () => {
-    expect(promotionService).toBeTruthy();
+    expect(checkoutPromotionService).toBeTruthy();
   });
 
   describe('getOrderPromotions', () => {
@@ -118,11 +137,31 @@ fdescribe('CheckoutPromotionService', () => {
     let appliedOrderPromotions: PromotionResult[];
 
     it('should return appropriate applied order promotions for checkout', () => {
-      promotionService
+      checkoutPromotionService
         .getOrderPromotions()
         .subscribe((promotions) => (appliedOrderPromotions = promotions))
         .unsubscribe();
       expect(appliedOrderPromotions).toEqual(expectedAppliedOrderPromotions);
+    });
+  });
+
+  describe('getOrderPromotions', () => {
+    it('should return appropriate applied product promotions for all entries', (done) => {
+      const productPromotionForAllEntries = checkoutPromotionService.getProductPromotionForAllEntries(
+        mockCheckoutDetails
+      );
+      expect(productPromotionForAllEntries).toBeTruthy();
+      expect(Object.keys(productPromotionForAllEntries)).toEqual(['0', '1']);
+
+      combineLatest([
+        productPromotionForAllEntries[0],
+        productPromotionForAllEntries[1],
+      ]).subscribe(([promotionsForEntry0, promotionsForEntry1]) => {
+        expect(promotionsForEntry0.length).toEqual(0);
+        expect(promotionsForEntry1.length).toEqual(1);
+        expect(promotionsForEntry1[0]).toEqual(mockAppliedProductPromotions[0]);
+        done();
+      });
     });
   });
 });
