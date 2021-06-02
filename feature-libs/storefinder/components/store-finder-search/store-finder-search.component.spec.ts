@@ -81,7 +81,7 @@ describe('StoreFinderSearchComponent', () => {
   });
 
   it('should dispatch new query', () => {
-    component.searchBox.setValue(query);
+    component.searchBox.setValue(query.state.query);
     component.findStores(component.searchBox.value);
     expect(routingService.go).toHaveBeenCalledWith(
       ['store-finder/find'],
@@ -90,7 +90,7 @@ describe('StoreFinderSearchComponent', () => {
   });
 
   it('should call onKey and dispatch query', () => {
-    component.searchBox.setValue(query);
+    component.searchBox.setValue(query.state.query);
     component.onKey(keyEvent);
     expect(routingService.go).toHaveBeenCalledWith(
       ['store-finder/find'],
@@ -116,6 +116,6 @@ describe('StoreFinderSearchComponent', () => {
     spyOn(component, 'findStores');
     component.searchBox.setValue(query.state.query);
     component.onKey(keyEvent);
-    expect(component.findStores).toHaveBeenCalledWith(query);
+    expect(component.findStores).toHaveBeenCalledWith(query.state.query);
   });
 });
