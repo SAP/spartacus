@@ -149,4 +149,18 @@ describe('ConfigUtilsService', () => {
       expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
     });
   });
+
+  describe('createGroupId', () => {
+    it('should return empty string because group ID is null', () => {
+      expect(classUnderTest.createGroupId(null)).toBeUndefined();
+    });
+
+    it('should return empty string because group ID is undefined', () => {
+      expect(classUnderTest.createGroupId(undefined)).toBeUndefined();
+    });
+
+    it('should return group ID string', () => {
+      expect(classUnderTest.createGroupId('1234')).toBe('1234-group');
+    });
+  });
 });

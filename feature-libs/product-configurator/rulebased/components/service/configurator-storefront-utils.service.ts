@@ -130,4 +130,16 @@ export class ConfiguratorStorefrontUtilsService {
       }
     }
   }
+
+  /**
+   * Generates a group ID.
+   *
+   * @param {string} groupId - group ID
+   * @returns {string | undefined} - generated group ID
+   */
+  createGroupId(groupId?: string): string | undefined {
+    if (groupId) {
+      return groupId + '-group';
+    }
+  }
 }

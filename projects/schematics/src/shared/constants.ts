@@ -373,6 +373,7 @@ export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
   'ConfiguratorProductTitleComponent';
 export const CONFIGURATOR_GROUP_MENU_COMPONENT =
   'ConfiguratorGroupMenuComponent';
+export const CONFIGURATOR_FORM_COMPONENT = 'ConfiguratorFormComponent';
 
 /***** Classes end *****/
 

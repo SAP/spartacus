@@ -17,6 +17,7 @@ import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-compon
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
+import { CONFIGURATOR_FORM_COMPONENT_MIGRATION } from './data/configurator-form.component.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   UNIT_CHILDREN_COMPONENT_MIGRATION,
@@ -33,6 +34,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION,
   CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION,
+  CONFIGURATOR_FORM_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {

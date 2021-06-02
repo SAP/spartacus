@@ -1,0 +1,448 @@
+
+{
+  "header": {
+    "reportVersion": 1,
+    "event": "Allocation failed - JavaScript heap out of memory",
+    "trigger": "FatalError",
+    "filename": "report.20210602.075427.14104.0.001.json",
+    "dumpEventTime": "2021-06-02T07:54:27Z",
+    "dumpEventTimeStamp": "1622613267927",
+    "processId": 14104,
+    "cwd": "C:\\SAP\\team-tiger\\spartacus",
+    "commandLine": [
+      "C:\\SAP\\node-v12.9.1\\node.exe",
+      "C:\\Program Files\\JetBrains\\WebStorm 2020.2\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\js-language-service.js",
+      "-id=1622606972407",
+      "-debug-name=typescript"
+    ],
+    "nodejsVersion": "v12.9.1",
+    "wordSize": 64,
+    "arch": "x64",
+    "platform": "win32",
+    "componentVersions": {
+      "node": "12.9.1",
+      "v8": "7.6.303.29-node.15",
+      "uv": "1.31.0",
+      "zlib": "1.2.11",
+      "brotli": "1.0.7",
+      "ares": "1.15.0",
+      "modules": "72",
+      "nghttp2": "1.39.2",
+      "napi": "4",
+      "llhttp": "1.1.4",
+      "http_parser": "2.8.0",
+      "openssl": "1.1.1c",
+      "cldr": "35.1",
+      "icu": "64.2",
+      "tz": "2019a",
+      "unicode": "12.1"
+    },
+    "release": {
+      "name": "node",
+      "headersUrl": "https://nodejs.org/download/release/v12.9.1/node-v12.9.1-headers.tar.gz",
+      "sourceUrl": "https://nodejs.org/download/release/v12.9.1/node-v12.9.1.tar.gz",
+      "libUrl": "https://nodejs.org/download/release/v12.9.1/win-x64/node.lib"
+    },
+    "osName": "Windows_NT",
+    "osRelease": "10.0.18363",
+    "osVersion": "Windows 10 Enterprise",
+    "osMachine": "x86_64",
+    "cpus": [
+      {
+        "model": "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+        "speed": 2112,
+        "user": 1952359,
+        "nice": 0,
+        "sys": 1844750,
+        "idle": 3426921,
+        "irq": 119078
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+        "speed": 2112,
+        "user": 1603062,
+        "nice": 0,
+        "sys": 1120109,
+        "idle": 4500406,
+        "irq": 94859
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+        "speed": 2112,
+        "user": 2469750,
+        "nice": 0,
+        "sys": 1314703,
+        "idle": 3439125,
+        "irq": 25578
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+        "speed": 2112,
+        "user": 1914812,
+        "nice": 0,
+        "sys": 1066609,
+        "idle": 4242156,
+        "irq": 11796
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+        "speed": 2112,
+        "user": 2239015,
+        "nice": 0,
+        "sys": 1232125,
+        "idle": 3752421,
+        "irq": 20328
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+        "speed": 2112,
+        "user": 1779671,
+        "nice": 0,
+        "sys": 929453,
+        "idle": 4514437,
+        "irq": 13593
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+        "speed": 2112,
+        "user": 2193125,
+        "nice": 0,
+        "sys": 1128703,
+        "idle": 3901734,
+        "irq": 15187
+      },
+      {
+        "model": "Intel(R) Core(TM) i7-8650U CPU @ 1.90GHz",
+        "speed": 2112,
+        "user": 2096906,
+        "nice": 0,
+        "sys": 1009109,
+        "idle": 4117546,
+        "irq": 11375
+      }
+    ],
+    "networkInterfaces": [
+      {
+        "name": "_Common_Full-Network-Access - connectwdf.sap.com",
+        "internal": false,
+        "mac": "00:00:00:00:00:00",
+        "address": "10.177.102.193",
+        "netmask": "255.255.255.255",
+        "family": "IPv4"
+      },
+      {
+        "name": "Ethernet 4",
+        "internal": false,
+        "mac": "9c:eb:e8:bd:bb:2c",
+        "address": "2a02:8071:aa6:ce00:1177:7ae0:4778:5b4a",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Ethernet 4",
+        "internal": false,
+        "mac": "9c:eb:e8:bd:bb:2c",
+        "address": "2a02:8071:aa6:ce00:c099:e194:914c:f355",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Ethernet 4",
+        "internal": false,
+        "mac": "9c:eb:e8:bd:bb:2c",
+        "address": "fe80::1177:7ae0:4778:5b4a",
+        "netmask": "ffff:ffff:ffff:ffff::",
+        "family": "IPv6",
+        "scopeid": 38
+      },
+      {
+        "name": "Ethernet 4",
+        "internal": false,
+        "mac": "9c:eb:e8:bd:bb:2c",
+        "address": "192.168.0.151",
+        "netmask": "255.255.255.0",
+        "family": "IPv4"
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "::1",
+        "netmask": "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff",
+        "family": "IPv6",
+        "scopeid": 0
+      },
+      {
+        "name": "Loopback Pseudo-Interface 1",
+        "internal": true,
+        "mac": "00:00:00:00:00:00",
+        "address": "127.0.0.1",
+        "netmask": "255.0.0.0",
+        "family": "IPv4"
+      }
+    ],
+    "host": "WDFN34422448A"
+  },
+  "javascriptStack": {
+    "message": "No stack.",
+    "stack": [
+      "Unavailable."
+    ]
+  },
+  "nativeStack": [
+    {
+      "pc": "0x00007ff74b306ed9",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+10873"
+    },
+    {
+      "pc": "0x00007ff74b30b26c",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+28172"
+    },
+    {
+      "pc": "0x00007ff74b30a218",
+      "symbol": "std::basic_ostream<char,std::char_traits<char> >::operator<<+23992"
+    },
+    {
+      "pc": "0x00007ff74b3f5e6b",
+      "symbol": "v8::base::CPU::has_sse+37691"
+    },
+    {
+      "pc": "0x00007ff74bbe89ae",
+      "symbol": "v8::Isolate::ReportExternalAllocationLimitReached+94"
+    },
+    {
+      "pc": "0x00007ff74bbd0951",
+      "symbol": "v8::SharedArrayBuffer::Externalize+833"
+    },
+    {
+      "pc": "0x00007ff74ba9ec8c",
+      "symbol": "v8::internal::Heap::EphemeronKeyWriteBarrierFromCode+1436"
+    },
+    {
+      "pc": "0x00007ff74baa812f",
+      "symbol": "v8::internal::Heap::ProtectUnprotectedMemoryChunks+1279"
+    },
+    {
+      "pc": "0x00007ff74baa6614",
+      "symbol": "v8::internal::Heap::PageFlagsAreConsistent+3204"
+    },
+    {
+      "pc": "0x00007ff74ba9c263",
+      "symbol": "v8::internal::Heap::CollectGarbage+1235"
+    },
+    {
+      "pc": "0x00007ff74ba9ab04",
+      "symbol": "v8::internal::Heap::AddRetainedMap+2356"
+    },
+    {
+      "pc": "0x00007ff74baba315",
+      "symbol": "v8::internal::Factory::NewFillerObject+53"
+    },
+    {
+      "pc": "0x00007ff74b828fad",
+      "symbol": "v8::internal::interpreter::JumpTableTargetOffsets::iterator::operator=+3981"
+    },
+    {
+      "pc": "0x00007ff74c00224d",
+      "symbol": "v8::internal::SetupIsolateDelegate::SetupHeap+575565"
+    },
+    {
+      "pc": "0x00007ff74c003315",
+      "symbol": "v8::internal::SetupIsolateDelegate::SetupHeap+579861"
+    },
+    {
+      "pc": "0x000000792ba61228",
+      "symbol": ""
+    }
+  ],
+  "javascriptHeap": {
+    "totalMemory": 2171392000,
+    "totalCommittedMemory": 2171392000,
+    "usedMemory": 2088897496,
+    "availableMemory": 59612008,
+    "memoryLimit": 2197815296,
+    "heapSpaces": {
+      "read_only_space": {
+        "memorySize": 262144,
+        "committedMemory": 262144,
+        "capacity": 261832,
+        "used": 31432,
+        "available": 230400
+      },
+      "new_space": {
+        "memorySize": 33554432,
+        "committedMemory": 33554432,
+        "capacity": 16757248,
+        "used": 827296,
+        "available": 15929952
+      },
+      "old_space": {
+        "memorySize": 2015997952,
+        "committedMemory": 2015997952,
+        "capacity": 1968872832,
+        "used": 1968601720,
+        "available": 271112
+      },
+      "code_space": {
+        "memorySize": 13008896,
+        "committedMemory": 13008896,
+        "capacity": 11485536,
+        "used": 11485536,
+        "available": 0
+      },
+      "map_space": {
+        "memorySize": 1052672,
+        "committedMemory": 1052672,
+        "capacity": 763040,
+        "used": 763040,
+        "available": 0
+      },
+      "large_object_space": {
+        "memorySize": 107106304,
+        "committedMemory": 107106304,
+        "capacity": 106840824,
+        "used": 106840824,
+        "available": 0
+      },
+      "code_large_object_space": {
+        "memorySize": 409600,
+        "committedMemory": 409600,
+        "capacity": 347648,
+        "used": 347648,
+        "available": 0
+      },
+      "new_large_object_space": {
+        "memorySize": 0,
+        "committedMemory": 0,
+        "capacity": 16757248,
+        "used": 0,
+        "available": 16757248
+      }
+    }
+  },
+  "resourceUsage": {
+    "userCpuSeconds": 3238.16,
+    "kernelCpuSeconds": 570.078,
+    "cpuConsumptionPercent": 60.5058,
+    "maxRss": 2303131648,
+    "pageFaults": {
+      "IORequired": 5855602,
+      "IONotRequired": 0
+    },
+    "fsActivity": {
+      "reads": 26121,
+      "writes": 2041500
+    }
+  },
+  "libuv": [
+  ],
+  "environmentVariables": {
+    "": "::=::\\",
+    "ALLUSERSPROFILE": "C:\\ProgramData",
+    "APPDATA": "C:\\Users\\d062682\\AppData\\Roaming",
+    "CommonProgramFiles": "C:\\Program Files\\Common Files",
+    "CommonProgramFiles(x86)": "C:\\Program Files (x86)\\Common Files",
+    "CommonProgramW6432": "C:\\Program Files\\Common Files",
+    "COMPUTERNAME": "WDFN34422448A",
+    "ComSpec": "C:\\WINDOWS\\system32\\cmd.exe",
+    "DEFLOGDIR": "C:\\ProgramData\\McAfee\\Endpoint Security\\Logs",
+    "DriverData": "C:\\Windows\\System32\\Drivers\\DriverData",
+    "FPS_BROWSER_APP_PROFILE_STRING": "Internet Explorer",
+    "FPS_BROWSER_USER_PROFILE_STRING": "Default",
+    "HOMEDRIVE": "C:",
+    "homeloc": "D_WDF",
+    "HOMEPATH": "\\Users\\d062682",
+    "IDEA_INITIAL_DIRECTORY": "C:\\Program Files\\JetBrains\\WebStorm 2020.2\\bin",
+    "JAVA_HOME": "C:\\Program Files\\SapMachine\\JDK\\11\\",
+    "LOCALAPPDATA": "C:\\Users\\d062682\\AppData\\Local",
+    "LOGONSERVER": "\\\\DS2WDF0004",
+    "LSFORCEHOST": "pvs9035.wdf.sap.corp",
+    "MAVEN_HOME": "C:\\SAP\\apache-maven-3.6.3",
+    "MAVEN_OPTS": "-Dhttp.proxyHost=proxy.wdf.sap.corp -Dhttp.proxyPort=8080 -Dhttps.proxyHost=proxy.wdf.sap.corp -Dhttps.proxyPort=8080 -Dhttp.nonProxyHosts=\"localhost|127.0.0.1|*.sap.corp|nexus\"",
+    "NEXTHINK": "C:\\Program Files\\Nexthink\\Collector",
+    "NUMBER_OF_PROCESSORS": "8",
+    "OneDrive": "C:\\Users\\d062682\\OneDrive - SAP SE",
+    "OneDriveCommercial": "C:\\Users\\d062682\\OneDrive - SAP SE",
+    "OS": "Windows_NT",
+    "Path": "C:\\Program Files\\SapMachine\\JDK\\11\\bin;c:\\windows\\system32;c:\\windows;c:\\windows\\system32\\wbem;C:\\Program Files\\SapMachine\\JDK\\11\\\\bin;c:\\program files (x86)\\common files\\oracle\\java\\javapath;c:\\windows\\system32\\windowspowershell\\v1.0\\;c:\\windows\\system32\\openssh\\;c:\\program files (x86)\\yarn\\bin\\;C:\\SAP\\apache-maven-3.6.3\\bin;c:\\sap\\jcodll;C:\\Program Files\\Intel\\WiFi\\bin\\;C:\\Program Files\\Common Files\\Intel\\WirelessCommon\\;C:\\WINDOWS\\system32;C:\\WINDOWS;C:\\WINDOWS\\System32\\Wbem;C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\;C:\\WINDOWS\\System32\\OpenSSH\\;C:\\Program Files (x86)\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\Program Files\\Intel\\Intel(R) Management Engine Components\\DAL;C:\\SAP\\node-v12.9.1\\;C:\\Program Files\\Git\\bin;C:\\Users\\d062682\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Users\\d062682\\AppData\\Local\\Yarn\\bin;C:\\Program Files\\JetBrains\\WebStorm 2018.3.2\\bin;;C:\\Users\\d062682\\AppData\\Roaming\\npm",
+    "PATHEXT": ".COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC",
+    "PATH_TO_FX": "C:\\Users\\d062682\\AppData\\Local\\SAP\\FeedbackCatcher\\javafx-sdk-11.0.2\\lib",
+    "PROCESSOR_ARCHITECTURE": "AMD64",
+    "PROCESSOR_IDENTIFIER": "Intel64 Family 6 Model 142 Stepping 10, GenuineIntel",
+    "PROCESSOR_LEVEL": "6",
+    "PROCESSOR_REVISION": "8e0a",
+    "ProgramData": "C:\\ProgramData",
+    "ProgramFiles": "C:\\Program Files",
+    "ProgramFiles(x86)": "C:\\Program Files (x86)",
+    "ProgramW6432": "C:\\Program Files",
+    "PSModulePath": "C:\\Program Files\\WindowsPowerShell\\Modules;C:\\WINDOWS\\system32\\WindowsPowerShell\\v1.0\\Modules;C:\\Program Files (x86)\\Microsoft Azure Information Protection\\Powershell",
+    "PUBLIC": "C:\\Users\\Public",
+    "SAP_IPv6_Active": "1",
+    "SESSIONNAME": "Console",
+    "SNC_LIB": "C:\\Program Files (x86)\\SAP\\FrontEnd\\SecureLogin\\lib\\sapcrypto.dll",
+    "SNC_LIB_64": "C:\\Program Files\\SAP\\FrontEnd\\SecureLogin\\lib\\sapcrypto.dll",
+    "SPA_ENV": "cpq",
+    "SSF_LIBRARY_PATH": "C:\\Program Files (x86)\\SAP\\FrontEnd\\SecureLogin\\lib\\sapcrypto.dll",
+    "SSF_LIBRARY_PATH_64": "C:\\Program Files\\SAP\\FrontEnd\\SecureLogin\\lib\\sapcrypto.dll",
+    "SystemDrive": "C:",
+    "SystemRoot": "C:\\WINDOWS",
+    "TEMP": "C:\\Users\\d062682\\AppData\\Local\\Temp",
+    "TMP": "C:\\Users\\d062682\\AppData\\Local\\Temp",
+    "TS_TSLINT_ENABLE_WORKSPACE_LIBRARY_EXECUTION": "true",
+    "UATDATA": "C:\\WINDOWS\\CCM\\UATData\\D9F8C395-CAB8-491d-B8AC-179A1FE1BE77",
+    "USERDNSDOMAIN": "GLOBAL.CORP.SAP",
+    "USERDOMAIN": "GLOBAL",
+    "USERDOMAIN_ROAMINGPROFILE": "GLOBAL",
+    "USERNAME": "D062682",
+    "USERPROFILE": "C:\\Users\\d062682",
+    "WebStorm": "C:\\Program Files\\JetBrains\\WebStorm 2018.3.2\\bin;",
+    "windir": "C:\\WINDOWS"
+  },
+  "sharedObjects": [
+    "C:\\SAP\\node-v12.9.1\\node.exe",
+    "C:\\WINDOWS\\SYSTEM32\\ntdll.dll",
+    "C:\\WINDOWS\\System32\\KERNEL32.DLL",
+    "C:\\WINDOWS\\System32\\KERNELBASE.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dbghelp.dll",
+    "C:\\WINDOWS\\System32\\ucrtbase.dll",
+    "C:\\WINDOWS\\System32\\WS2_32.dll",
+    "C:\\WINDOWS\\System32\\RPCRT4.dll",
+    "C:\\WINDOWS\\System32\\ADVAPI32.dll",
+    "C:\\WINDOWS\\System32\\msvcrt.dll",
+    "C:\\WINDOWS\\System32\\sechost.dll",
+    "C:\\WINDOWS\\System32\\USER32.dll",
+    "C:\\WINDOWS\\System32\\win32u.dll",
+    "C:\\WINDOWS\\System32\\GDI32.dll",
+    "C:\\WINDOWS\\System32\\gdi32full.dll",
+    "C:\\WINDOWS\\System32\\msvcp_win.dll",
+    "C:\\WINDOWS\\System32\\PSAPI.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\IPHLPAPI.DLL",
+    "C:\\WINDOWS\\System32\\CRYPT32.dll",
+    "C:\\WINDOWS\\System32\\MSASN1.dll",
+    "C:\\WINDOWS\\SYSTEM32\\USERENV.dll",
+    "C:\\WINDOWS\\System32\\profapi.dll",
+    "C:\\WINDOWS\\System32\\bcrypt.dll",
+    "C:\\WINDOWS\\SYSTEM32\\WINMM.dll",
+    "C:\\WINDOWS\\SYSTEM32\\winmmbase.dll",
+    "C:\\WINDOWS\\System32\\cfgmgr32.dll",
+    "C:\\WINDOWS\\System32\\bcryptPrimitives.dll",
+    "C:\\WINDOWS\\System32\\IMM32.DLL",
+    "C:\\WINDOWS\\System32\\powrprof.dll",
+    "C:\\WINDOWS\\System32\\UMPDC.dll",
+    "C:\\WINDOWS\\system32\\uxtheme.dll",
+    "C:\\WINDOWS\\System32\\combase.dll",
+    "C:\\WINDOWS\\system32\\mswsock.dll",
+    "C:\\WINDOWS\\System32\\kernel.appcore.dll",
+    "C:\\WINDOWS\\System32\\NSI.dll",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc6.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\dhcpcsvc.DLL",
+    "C:\\WINDOWS\\SYSTEM32\\DNSAPI.dll",
+    "C:\\WINDOWS\\system32\\napinsp.dll",
+    "C:\\WINDOWS\\system32\\pnrpnsp.dll",
+    "C:\\WINDOWS\\System32\\winrnr.dll",
+    "C:\\WINDOWS\\system32\\NLAapi.dll",
+    "C:\\WINDOWS\\system32\\wshbth.dll"
+  ]
+}

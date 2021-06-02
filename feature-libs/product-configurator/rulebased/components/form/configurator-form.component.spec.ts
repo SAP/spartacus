@@ -32,6 +32,7 @@ import { ConfiguratorAttributeRadioButtonComponent } from '../attribute/types/ra
 import { ConfiguratorAttributeReadOnlyComponent } from '../attribute/types/read-only/configurator-attribute-read-only.component';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
@@ -205,8 +206,11 @@ describe('ConfigurationFormComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
         },
-
         { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: ConfiguratorStorefrontUtilsService,
+        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {

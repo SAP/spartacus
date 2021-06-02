@@ -21,7 +21,9 @@ export class ConfiguratorGroupMenuService {
           group?.nativeElement?.id ===
           this.windowRef?.document?.activeElement?.id
       );
-      return groups.toArray().indexOf(group);
+      if (group) {
+        return groups.toArray().indexOf(group);
+      }
     }
     return undefined;
   }
@@ -99,7 +101,7 @@ export class ConfiguratorGroupMenuService {
   }
 
   /**
-   * Switches the group on pressing arrow key.
+   * Switches the group on pressing an arrow key.
    *
    * @param {KeyboardEvent} event - keyboard event
    * @param {number} groupIndex - Group index

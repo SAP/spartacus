@@ -273,11 +273,48 @@ export class ConfiguratorGroupMenuComponent {
     );
   }
 
+  protected isLTRDirection(): boolean {
+    return this.directionService.getDirection() === DirectionMode.LTR;
+  }
+
+  protected isRTLDirection(): boolean {
+    return this.directionService.getDirection() === DirectionMode.RTL;
+  }
+
   /**
-   * Prevents page down behaviour when users press 'ArrowUp' or 'ArrowDown' keys
-   * to change the focus to the corresponding group
+   * Verifies whether the user navigates into a subgroup of the main group menu.
    *
    * @param {KeyboardEvent} event - Keyboard event
+   * @returns {boolean} -'true' if the user navigates into the subgroup, otherwise 'false'.
+   * @protected
+   */
+  protected isForwardsNavigation(event: KeyboardEvent): boolean {
+    return (
+      (event.code === 'ArrowRight' && this.isLTRDirection()) ||
+      (event.code === 'ArrowLeft' && this.isRTLDirection())
+    );
+  }
+
+  /**
+   * Verifies whether the user navigates from a subgroup back to the main group menu.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   * @returns {boolean} -'true' if the user navigates back into the main group menu, otherwise 'false'.
+   * @protected
+   */
+  protected isBackNavigation(event: KeyboardEvent): boolean {
+    return (
+      (event.code === 'ArrowLeft' && this.isLTRDirection()) ||
+      (event.code === 'ArrowRight' && this.isRTLDirection())
+    );
+  }
+
+  /**
+   * Switches the group on pressing an arrow key.
+   *
+   * @param {KeyboardEvent} event - Keyboard event
+   * @param {string} groupIndex - Group index
+   * @param {Configurator.Group} group - Group
    */
   switchGroupOnArrowPress(
     event: KeyboardEvent,
@@ -290,27 +327,24 @@ export class ConfiguratorGroupMenuComponent {
         groupIndex,
         this.groups
       );
-    } else if (
-      (event.code === 'ArrowRight' &&
-        this.directionService.getDirection() === DirectionMode.LTR) ||
-      (event.code === 'ArrowLeft' &&
-        this.directionService.getDirection() === DirectionMode.RTL)
-    ) {
+    } else if (this.isForwardsNavigation(event)) {
       if (group && this.hasSubGroups(group)) {
         this.click(group);
       }
-    } else if (
-      (event.code === 'ArrowLeft' &&
-        this.directionService.getDirection() === DirectionMode.LTR) ||
-      (event.code === 'ArrowRight' &&
-        this.directionService.getDirection() === DirectionMode.RTL)
-    ) {
+    } else if (this.isBackNavigation(event)) {
       if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
         this.navigateUp();
       }
     }
   }
 
+  /**
+   * Verifies whether the parent group contains a selected group.
+   *
+   * @param {string} currentGroupId - Current group ID
+   * @param {Configurator.Group} group - Group
+   * @returns {boolean} - 'true' if the parent group contains a selected group, otherwise 'false'
+   */
   containsSelectedGroup(
     currentGroupId: string,
     group: Configurator.Group
@@ -326,6 +360,14 @@ export class ConfiguratorGroupMenuComponent {
     return isCurrentGroupFound;
   }
 
+  /**
+   * Retrieves the tab index depending on if the the current group is selected
+   * or the parent group contains the selected group.
+   *
+   * @param {string} currentGroupId - Current group ID
+   * @param {Configurator.Group} group - Group
+   * @returns {number} - tab index
+   */
   getTabIndex(currentGroupId: string, group: Configurator.Group): number {
     if (
       !this.isGroupSelected(currentGroupId, group.id) &&
@@ -337,13 +379,24 @@ export class ConfiguratorGroupMenuComponent {
     }
   }
 
+  /**
+   * Verifies whether the current group is selected.
+   *
+   * @param {string} currentGroupId - Current group ID
+   * @param {string} groupId - group ID
+   * @returns {boolean} - 'true' if the current group is selected, otherwise 'false'
+   */
   isGroupSelected(currentGroupId?: string, groupId?: string): boolean {
     return currentGroupId === groupId;
   }
 
+  /**
+   * Generates a group ID for aria-controls.
+   *
+   * @param {string} groupId - group ID
+   * @returns {string | undefined} - generated group ID
+   */
   createAriaControls(groupId?: string): string | undefined {
-    if (groupId) {
-      return groupId + '-group';
-    }
+    return this.configUtils.createGroupId(groupId);
   }
 }
