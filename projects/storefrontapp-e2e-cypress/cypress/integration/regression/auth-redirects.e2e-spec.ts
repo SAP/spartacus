@@ -61,7 +61,6 @@ context('Redirect after auth', () => {
     cy.visit('/my-account/consents');
     cy.location('pathname').should('contain', '/my-account/consents');
 
-    // cy.pause(); //spike todo remove
     cy.get('cx-consent-management-form .form-check').first().click();
     revokeAccessToken();
     cy.get('cx-consent-management-form .form-check').first().click();
