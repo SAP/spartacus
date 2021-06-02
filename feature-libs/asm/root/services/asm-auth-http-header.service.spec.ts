@@ -2,6 +2,7 @@ import { HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
+  AuthRedirectService,
   AuthService,
   AuthStorageService,
   AuthToken,
@@ -52,6 +53,10 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   }
 }
 
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
+  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+}
+
 describe('AsmAuthHttpHeaderService', () => {
   let service: AsmAuthHttpHeaderService;
   let authService: AuthService;
@@ -74,6 +79,7 @@ describe('AsmAuthHttpHeaderService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
       ],
     });
 

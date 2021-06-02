@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { AuthService } from '../../auth/user-auth/facade/auth.service';
 import { AuthToken } from '../../auth/user-auth/models/auth-token.model';
+import { AuthRedirectService } from '../../auth/user-auth/services/auth-redirect.service';
 import { AuthStorageService } from '../../auth/user-auth/services/auth-storage.service';
 import { OAuthLibWrapperService } from '../../auth/user-auth/services/oauth-lib-wrapper.service';
 import { GlobalMessageService } from '../../global-message/facade/global-message.service';
@@ -50,6 +51,10 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   }
 }
 
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
+  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+}
+
 describe('AsmAuthHttpHeaderService', () => {
   let service: AsmAuthHttpHeaderService;
   let authService: AuthService;
@@ -72,6 +77,7 @@ describe('AsmAuthHttpHeaderService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
       ],
     });
 
