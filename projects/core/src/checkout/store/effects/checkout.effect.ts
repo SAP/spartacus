@@ -8,10 +8,8 @@ import {
   map,
   mergeMap,
   switchMap,
-  tap,
 } from 'rxjs/operators';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
-import { ActiveCartService } from '../../../cart/facade/active-cart.service';
 import { CartActions } from '../../../cart/store/actions/index';
 import { CheckoutDetails } from '../../../checkout/models/checkout.model';
 import { GlobalMessageActions } from '../../../global-message/store/actions/index';
@@ -387,9 +385,6 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
-          tap((_) => {
-            this.activeCartService.refreshCart(payload.userId, payload.cartId);
-          }),
           map(
             () =>
               new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
@@ -450,7 +445,6 @@ export class CheckoutEffects {
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
     private checkoutPaymentConnector: CheckoutPaymentConnector,
     private checkoutCostCenterConnector: CheckoutCostCenterConnector,
-    private checkoutConnector: CheckoutConnector,
-    protected activeCartService: ActiveCartService
+    private checkoutConnector: CheckoutConnector
   ) {}
 }

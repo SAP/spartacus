@@ -33,7 +33,6 @@ import {
 } from '../../occ/utils/occ-constants';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
 import { EMAIL_PATTERN } from '../../util/regex-pattern';
-import { CartActions } from '../store/actions';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { activeCartInitialState } from '../store/reducers/multi-cart.reducer';
 import { MultiCartSelectors } from '../store/selectors/index';
@@ -499,17 +498,6 @@ export class ActiveCartService implements OnDestroy {
     });
   }
 
-  /**
-   * Triggers the refresh of the cart with new data from the backend
-   */
-  refreshCart(userId: string, cartId: string): void {
-    this.store.dispatch(
-      new CartActions.LoadCart({
-        userId,
-        cartId,
-      })
-    );
-  }
   /**
    * Indicates if given string is matching email pattern
    */
