@@ -1,4 +1,11 @@
-import { ChangeDetectorRef, Pipe, PipeTransform, Type } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  Pipe,
+  PipeTransform,
+  Type,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, FormControl } from '@angular/forms';
 import {
@@ -25,6 +32,17 @@ class MockNumericPipe implements PipeTransform {
   transform(value: string): string {
     return value;
   }
+}
+
+@Component({
+  selector: 'cx-configure-cart-entry',
+  template: '',
+})
+class MockConfigureCartEntryComponent {
+  @Input() cartEntry: OrderEntry;
+  @Input() readOnly: boolean;
+  @Input() msgBanner: boolean;
+  @Input() disabled: boolean;
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -84,7 +102,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ConfiguratorCartEntryBundleInfoComponent, MockNumericPipe],
+      declarations: [
+        ConfiguratorCartEntryBundleInfoComponent,
+        MockNumericPipe,
+        MockConfigureCartEntryComponent,
+      ],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {

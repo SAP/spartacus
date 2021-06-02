@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  Input,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -7,8 +12,13 @@ import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
-import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
+import {
+  ConfiguratorAttributeProductCardComponent,
+  ConfiguratorAttributeProductCardComponentOptions,
+} from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './configurator-attribute-single-selection-bundle-dropdown.component';
 
@@ -16,7 +26,32 @@ import { ConfiguratorAttributeSingleSelectionBundleDropdownComponent } from './c
   selector: 'cx-configurator-attribute-product-card',
   template: '',
 })
-class MockProductCardComponent {}
+class MockProductCardComponent {
+  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: any;
+}
 
 describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
   let component: ConfiguratorAttributeSingleSelectionBundleDropdownComponent;
@@ -65,6 +100,9 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           ConfiguratorAttributeSingleSelectionBundleDropdownComponent,
           ConfiguratorShowMoreComponent,
           MockProductCardComponent,
+          MockConfiguratorAttributeQuantityComponent,
+          MockConfiguratorPriceComponent,
+          MockFocusDirective,
         ],
         imports: [
           ReactiveFormsModule,

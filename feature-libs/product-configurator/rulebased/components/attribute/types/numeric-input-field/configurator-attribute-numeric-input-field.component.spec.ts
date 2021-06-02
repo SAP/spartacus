@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Directive,
+  Input,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -19,6 +25,13 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-
 })
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
+}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: any;
 }
 
 let DEBOUNCE_TIME: number;
@@ -56,6 +69,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         declarations: [
           ConfiguratorAttributeNumericInputFieldComponent,
           MockTranslateUrlPipe,
+          MockFocusDirective,
         ],
         imports: [ReactiveFormsModule],
         providers: [

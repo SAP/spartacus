@@ -6,24 +6,37 @@ import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { ItemCounterComponent } from '@spartacus/storefront';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
-import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
+import {
+  ConfiguratorAttributeProductCardComponent,
+  ConfiguratorAttributeProductCardComponentOptions,
+} from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeSingleSelectionBundleComponent } from './configurator-attribute-single-selection-bundle.component';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
 })
-class MockProductCardComponent {}
+class MockProductCardComponent {
+  @Input() productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
+}
 
 @Component({
   selector: 'cx-configurator-price',
   template: '',
 })
 class MockConfiguratorPriceComponent {
-  @Input() productPrice: number;
-  @Input() quantity = 1;
-  @Input() totalPrice: number;
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
 }
 
 function getSelected(
@@ -84,6 +97,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
           ItemCounterComponent,
           MockProductCardComponent,
           MockConfiguratorPriceComponent,
+          MockConfiguratorAttributeQuantityComponent,
         ],
       })
         .overrideComponent(
@@ -234,12 +248,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
   describe('getFocusIdOfNearestValue', () => {
     it('should return n/a when value is undefined', () => {
       component.attribute.values = undefined;
-      fixture.detectChanges();
-      expect(component['getFocusIdOfNearestValue'](values[0])).toBe('n/a');
-    });
-
-    it('should return n/a when value is null', () => {
-      component.attribute.values = null;
       fixture.detectChanges();
       expect(component['getFocusIdOfNearestValue'](values[0])).toBe('n/a');
     });

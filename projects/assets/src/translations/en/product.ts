@@ -71,17 +71,6 @@ export const product = {
       deliveryTab: 'Shipping',
     },
   },
-  /**
-   * @deprecated since 3.2
-   * Use feature-library @spartacus/product/variants/assets instead
-   */
-  variant: {
-    style: 'Style',
-    selectedStyle: 'Selected style',
-    size: 'Size',
-    color: 'Color',
-    sizeGuideLabel: 'Style guide',
-  },
   addToWishList: {
     add: 'Add to Wish List',
     remove: 'Remove from Wish List',
