@@ -18,4 +18,9 @@
       {{ item.valueDisplay }}
     </option>
   </select>
+  <cx-configurator-attribute-quantity
+    (changeQuantity)="onChangeQuantity($event, attributeDropDownForm)"
+    [quantityOptions]="extractQuantityParameters(attributeDropDownForm)"
+    *ngIf="withQuantity"
+  ></cx-configurator-attribute-quantity>
 </div>

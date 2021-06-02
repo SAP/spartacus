@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -8,18 +10,23 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  LibraryOptions as SpartacusPersonalizationOptions,
+  CLI_TRACKING_PERSONALIZATION_FEATURE,
+  CLI_TRACKING_TMS_AEP_FEATURE,
+  CLI_TRACKING_TMS_GTM_FEATURE,
+  LibraryOptions as SpartacusTrackingOptions,
   SpartacusOptions,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
-import { CLI_PERSONALIZATION_FEATURE } from '../constants';
+import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const personalizationModulePath =
   'src/app/spartacus/features/tracking/personalization-feature.module.ts';
+const tagManagementModulePath =
+  'src/app/spartacus/features/tracking/tag-management-feature.module.ts';
 
-// TODO: Improve tests after lib-util test update
-describe('Spartacus Personalization schematics: ng-add', () => {
+describe('Spartacus Tracking schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
   let appTree: UnitTestTree;
@@ -39,12 +46,6 @@ describe('Spartacus Personalization schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions: SpartacusPersonalizationOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [CLI_PERSONALIZATION_FEATURE],
-  };
-
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
     configuration: 'b2c',
@@ -52,9 +53,30 @@ describe('Spartacus Personalization schematics: ng-add', () => {
     features: [],
   };
 
+  const libraryNoFeaturesOptions: SpartacusTrackingOptions = {
+    project: 'schematics-test',
+    lazy: true,
+    features: [],
+  };
+
+  const personalizationFeatureOptions: SpartacusTrackingOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_TRACKING_PERSONALIZATION_FEATURE],
+  };
+
+  const gtmFeatureOptions: SpartacusTrackingOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_TRACKING_TMS_GTM_FEATURE],
+  };
+
+  const aepFeatureOptions: SpartacusTrackingOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_TRACKING_TMS_AEP_FEATURE],
+  };
+
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 
@@ -75,7 +97,7 @@ describe('Spartacus Personalization schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -83,66 +105,139 @@ describe('Spartacus Personalization schematics: ng-add', () => {
       .toPromise();
   });
 
+  describe('Without features', () => {
+    beforeEach(async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
+        .toPromise();
+    });
+
+    it('should not create any of the feature modules', () => {
+      expect(appTree.exists(personalizationModulePath)).toBeFalsy();
+      expect(appTree.exists(tagManagementModulePath)).toBeFalsy();
+    });
+
+    it('should install necessary Spartacus libraries', () => {
+      const packageJson = JSON.parse(appTree.readContent('package.json'));
+      let dependencies: Record<string, string> = {};
+      dependencies = { ...packageJson.dependencies };
+      dependencies = { ...dependencies, ...packageJson.devDependencies };
+
+      for (const toAdd in peerDependencies) {
+        // skip the SPARTACUS_SCHEMATICS, as those are added only when running by the Angular CLI, and not in the testing environment
+        if (
+          !peerDependencies.hasOwnProperty(toAdd) ||
+          toAdd === SPARTACUS_SCHEMATICS
+        ) {
+          continue;
+        }
+        // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+        // const expectedVersion = (peerDependencies as Record<
+        //   string,
+        //   string
+        // >)[toAdd];
+        const expectedDependency = dependencies[toAdd];
+        expect(expectedDependency).toBeTruthy();
+        // expect(expectedDependency).toEqual(expectedVersion);
+      }
+    });
+  });
+
   describe('Personalization feature', () => {
+    describe('general setup', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', personalizationFeatureOptions, appTree)
+          .toPromise();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const personalizationModule = appTree.readContent(
+          personalizationModulePath
+        );
+        expect(personalizationModule).toMatchSnapshot();
+      });
+    });
+
     describe('eager loading', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultOptions, lazy: false },
+            {
+              ...personalizationFeatureOptions,
+              lazy: false,
+            },
             appTree
           )
           .toPromise();
       });
 
       it('should import appropriate modules', async () => {
-        const personalizationModule = appTree.readContent(
-          personalizationModulePath
-        );
-        expect(personalizationModule).toContain(
-          `import { PersonalizationRootModule } from "@spartacus/tracking/personalization/root";`
-        );
-        expect(personalizationModule).toContain(
-          `import { PersonalizationModule } from "@spartacus/tracking/personalization";`
-        );
+        const module = appTree.readContent(personalizationModulePath);
+        expect(module).toMatchSnapshot();
       });
+    });
+  });
 
-      it('should not contain lazy loading syntax', async () => {
-        const personalizationModule = appTree.readContent(
-          personalizationModulePath
-        );
-        expect(personalizationModule).not.toContain(
-          `import('@spartacus/tracking/personalization').then(`
-        );
+  describe('Tag Management feature', () => {
+    describe('GTM', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', gtmFeatureOptions, appTree)
+          .toPromise();
+      });
+      describe('general setup', () => {
+        it('should import appropriate modules (without lazy loaded syntax)', async () => {
+          const tagManagementModule = appTree.readContent(
+            tagManagementModulePath
+          );
+          expect(tagManagementModule).toMatchSnapshot();
+        });
       });
     });
 
-    describe('lazy loading', () => {
+    describe('AEP', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', aepFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should import PersonalizationRootModule and contain the lazy loading syntax', async () => {
-        const personalizationModule = appTree.readContent(
-          personalizationModulePath
-        );
-        expect(personalizationModule).toContain(
-          `import { PersonalizationRootModule } from "@spartacus/tracking/personalization/root";`
-        );
-        expect(personalizationModule).toContain(
-          `import('@spartacus/tracking/personalization').then(`
-        );
+      describe('general setup', () => {
+        it('should import appropriate modules (without lazy loaded syntax)', async () => {
+          const tagManagementModule = appTree.readContent(
+            tagManagementModulePath
+          );
+          expect(tagManagementModule).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('GTM and AEP', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            {
+              ...libraryNoFeaturesOptions,
+              features: [
+                CLI_TRACKING_TMS_GTM_FEATURE,
+                CLI_TRACKING_TMS_AEP_FEATURE,
+              ],
+            },
+            appTree
+          )
+          .toPromise();
       });
 
-      it('should not contain the PersonalizationModule import', () => {
-        const personalizationModule = appTree.readContent(
-          personalizationModulePath
-        );
-        expect(personalizationModule).not.toContain(
-          `import { PersonalizationModule } from "@spartacus/tracking/personalization";`
-        );
+      describe('general setup', () => {
+        it('should import appropriate modules (without lazy loaded syntax)', async () => {
+          const tagManagementModule = appTree.readContent(
+            tagManagementModulePath
+          );
+          expect(tagManagementModule).toMatchSnapshot();
+        });
       });
     });
   });

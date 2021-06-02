@@ -18,16 +18,7 @@
       <ng-container *ngIf="currentGroup$ | async as currentGroup">
         <ng-container *ngFor="let group of groups">
           <li
-            class="cx-menu-item"
-            [class.WARNING]="!group.consistent"
-            [class.COMPLETE]="
-              group.complete &&
-              group.consistent &&
-              (isGroupVisited(group, configuration) | async)
-            "
-            [class.ERROR]="
-              !group.complete && (isGroupVisited(group, configuration) | async)
-            "
+            ngClass="{{ getGroupStatusStyles(group, configuration) | async }}"
             [class.DISABLED]="!group.configurable"
             [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
           >
@@ -38,10 +29,13 @@
               role="link"
               tabindex="0"
               (click)="click(group)"
+              (keydown)="preventScrollingOnSpace($event)"
               (keyup)="clickOnEnter($event, group)"
               [cxFocus]="{ key: group.id }"
             >
-              <span>{{ group.description }}</span>
+              <span title="{{ group.description }}">{{
+                group.description
+              }}</span>
               <div class="groupIndicators">
                 <div class="conflictNumberIndicator">
                   {{ getConflictNumber(group) }}

@@ -459,4 +459,60 @@ describe('add-spartacus', () => {
       expect(appModule.includes(`baseUrl:`)).toBe(false);
     });
   });
+
+  describe('when invoked twice', () => {
+    it('should not duplicate imports, exports nor declarations arrays', async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+      // run it again
+      appTree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+
+      const featureModuleContent = appTree.readContent(
+        '/projects/schematics-test/src/app/spartacus/spartacus-features.module.ts'
+      );
+      const importModuleOccurrences =
+        featureModuleContent.match(/AuthModule.forRoot()/gm)?.length ?? -1;
+      expect(importModuleOccurrences).toBe(1);
+
+      const spartacusModuleContent = appTree.readContent(
+        '/projects/schematics-test/src/app/spartacus/spartacus.module.ts'
+      );
+      expect(spartacusModuleContent).toContain(`BaseStorefrontModule`);
+      const exportOccurrences =
+        spartacusModuleContent.match(/BaseStorefrontModule/gm)?.length ?? -1;
+      // we expect three occurrences - one in the import statement, imports array and in the exports array
+      expect(exportOccurrences).toBe(3);
+    });
+
+    it('should not duplicate providers arrays', async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+      // run it again
+      appTree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+
+      const configurationModule = appTree.readContent(
+        '/projects/schematics-test/src/app/spartacus/spartacus-configuration.module.ts'
+      );
+
+      // test the `provideConfig` configs
+      expect(configurationModule).toContain(`provideConfig(layoutConfig)`);
+      const provideConfigOccurrences =
+        configurationModule.match(/provideConfig\(layoutConfig\)/gm)?.length ??
+        -1;
+      expect(provideConfigOccurrences).toBe(1);
+
+      // test other Spartacus-related configs (i.e. NON `provideConfig` configs)
+      expect(configurationModule).toContain(`...defaultCmsContentProviders`);
+      const nonProvideConfigOccurrences =
+        configurationModule.match(/\.\.\.defaultCmsContentProviders/gm)
+          ?.length ?? -1;
+      expect(nonProvideConfigOccurrences).toBe(1);
+    });
+  });
 });

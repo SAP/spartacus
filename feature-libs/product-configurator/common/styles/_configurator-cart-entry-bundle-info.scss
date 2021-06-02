@@ -1,0 +1,100 @@
+%cx-configurator-cart-entry-bundle-info {
+  button {
+    border: none;
+    background-color: transparent;
+    outline-offset: 0px;
+    padding-inline-start: 0px;
+
+    .cx-toggle-hide-items {
+      color: var(--cx-color-primary);
+      font-size: inherit;
+      inline-size: max-content;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+
+  .cx-item-infos {
+    inline-size: 100%;
+    max-block-size: 0;
+    overflow: hidden;
+    font-size: var(--cx-font-small, 0.8rem);
+    transition: all 0.7s ease-in-out;
+    -webkit-transition: all 0.7s ease-in-out;
+
+    &.open {
+      // A larger value than the details need, this will be used to animate the closing/opening.
+      // If the value is to large the closing will "delay" as the max-height will be reduced from the specified value down to 0.
+      max-block-size: fit-content;
+      padding-block-end: 15px;
+    }
+
+    .cx-item-info {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding-block-start: 15px;
+      padding-block-end: 15px;
+      border-bottom: solid 1px var(--cx-color-light);
+
+      .cx-item-name {
+        overflow-wrap: break-word;
+
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+
+        @include media-breakpoint-up(md) {
+          width: 24%;
+        }
+
+        @include media-breakpoint-only(xl) {
+          width: 41.6%;
+        }
+      }
+
+      .cx-item-price,
+      .cx-item-quantity {
+        overflow-wrap: break-word;
+
+        .cx-identifier {
+          min-width: 5rem;
+        }
+
+        .cx-item {
+          @include media-breakpoint-only(xs) {
+            width: 55%;
+          }
+
+          @include media-breakpoint-only(sm) {
+            width: 85%;
+          }
+        }
+
+        @include media-breakpoint-down(sm) {
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+        }
+
+        @include media-breakpoint-up(md) {
+          width: 26%;
+          text-align: center;
+        }
+      }
+
+      .cx-item-price {
+        @include media-breakpoint-only(xl) {
+          width: 17%;
+          text-align: center;
+        }
+      }
+
+      .cx-item-quantity {
+        @include media-breakpoint-only(xl) {
+          width: 26%;
+        }
+      }
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Cart, I18nTestingModule, TranslationService } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
@@ -41,11 +42,20 @@ class MockTranslationService {
   }
 }
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return of();
+  }
+}
+
 describe('SavedCartDetailsOverviewComponent', () => {
   let component: SavedCartDetailsOverviewComponent;
   let fixture: ComponentFixture<SavedCartDetailsOverviewComponent>;
-
-  let savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService;
+  let launchDialogService: LaunchDialogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -56,20 +66,20 @@ describe('SavedCartDetailsOverviewComponent', () => {
           provide: SavedCartDetailsService,
           useClass: MockSavedCartDetailsService,
         },
+        // TODO(#12167): remove unused class and provider
         {
           provide: SavedCartFormLaunchDialogService,
           useClass: MockSavedCartFormLaunchDialogService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
+        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SavedCartDetailsOverviewComponent);
     component = fixture.componentInstance;
 
-    savedCartFormLaunchDialogService = TestBed.inject(
-      SavedCartFormLaunchDialogService
-    );
+    launchDialogService = TestBed.inject(LaunchDialogService);
 
     spyOn(component, 'getCartName').and.callThrough();
     spyOn(component, 'getCartDescription').and.callThrough();
@@ -78,7 +88,7 @@ describe('SavedCartDetailsOverviewComponent', () => {
     spyOn(component, 'getCartItems').and.callThrough();
     spyOn(component, 'getCartQuantity').and.callThrough();
     spyOn(component, 'getCartTotal').and.callThrough();
-    spyOn(savedCartFormLaunchDialogService, 'openDialog').and.stub();
+    spyOn(launchDialogService, 'openDialog').and.stub();
 
     fixture.detectChanges();
   });
@@ -193,7 +203,8 @@ describe('SavedCartDetailsOverviewComponent', () => {
   it('should trigger an open dialog to delete a saved cart', () => {
     component.openDialog(mockSavedCart);
 
-    expect(savedCartFormLaunchDialogService.openDialog).toHaveBeenCalledWith(
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.SAVED_CART,
       component.element,
       component['vcr'],
       {
