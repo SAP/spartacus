@@ -1,16 +1,23 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
+  OnDestroy,
   OnInit,
-  ChangeDetectionStrategy,
+  Optional,
 } from '@angular/core';
-
 import {
   OccConfig,
+  Product,
   VariantOption,
   VariantOptionQualifier,
   VariantQualifier,
 } from '@spartacus/core';
+import {
+  ProductListItemContextSource,
+  ProductListOutlets,
+} from '@spartacus/storefront';
+import { EMPTY, Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-variant-style-icons',
@@ -18,8 +25,17 @@ import {
   styleUrls: ['./product-variant-style-icons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductVariantStyleIconsComponent implements OnInit {
-  constructor(private config: OccConfig) {}
+export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
+  constructor(
+    private config: OccConfig,
+    @Optional()
+    protected productListItemContextSource?: ProductListItemContextSource
+  ) {}
+
+  protected subscriptions = new Subscription();
+  readonly ProductListOutlets = ProductListOutlets;
+  readonly product$: Observable<Product> =
+    this.productListItemContextSource?.product$ ?? EMPTY;
 
   @Input()
   variants: VariantOption[];
@@ -27,6 +43,19 @@ export class ProductVariantStyleIconsComponent implements OnInit {
   variantNames: { [key: string]: string } = {};
 
   ngOnInit() {
+    this.setVariantsNames();
+
+    this.subscriptions.add(
+      this.product$.subscribe((product: Product) => {
+        if (product.variantOptions && product.variantOptions.length) {
+          this.variants = product.variantOptions;
+          this.setVariantsNames();
+        }
+      })
+    );
+  }
+
+  private setVariantsNames() {
     this.variants?.forEach((variant) => {
       if (variant.code && variant.variantOptionQualifiers) {
         this.variantNames[variant.code] =
@@ -58,5 +87,9 @@ export class ProductVariantStyleIconsComponent implements OnInit {
         )
       : null;
     return property ? property.value : '';
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
