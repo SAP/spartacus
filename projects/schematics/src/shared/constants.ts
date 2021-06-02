@@ -533,6 +533,9 @@ export const PRODUCT_VARIANT_STYLE_ICONS_COMPONENT =
   'ProductVariantStyleIconsComponent';
 export const PRODUCT_VARIANT_STYLE_ICONS_MODULE =
   'ProductVariantStyleIconsModule';
+export const DEFAULT_STATE_CONFIG = 'defaultStateConfig';
+export const DEFAULT_LOCAL_STORAGE_KEY = 'DEFAULT_LOCAL_STORAGE_KEY';
+export const DEFAULT_SESSION_STORAGE_KEY = 'DEFAULT_SESSION_STORAGE_KEY';
 
 /***** Removed public api end *****/
 
@@ -667,6 +670,15 @@ export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 /***** APIs end *****/
+
+/***** feature keys start *****/
+export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE = 'rulebased';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE = 'textfield';
+export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE =
+  'productConfiguratorRulebased';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
+  'productConfiguratorTextfield';
+/***** feature keys end *****/
 
 /***** Storefinder start *****/
 export const TODO_SPARTACUS = 'TODO:Spartacus -';

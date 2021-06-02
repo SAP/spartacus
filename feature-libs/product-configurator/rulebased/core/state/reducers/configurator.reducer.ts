@@ -7,10 +7,11 @@ import { ConfiguratorActions } from '../actions/index';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
+  groups: [],
   interactionState: {
-    currentGroup: null,
+    currentGroup: undefined,
     groupsVisited: {},
-    menuParentGroup: null,
+    menuParentGroup: undefined,
   },
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
@@ -101,7 +102,7 @@ export function configuratorReducer(
       };
     }
     case ConfiguratorActions.SET_MENU_PARENT_GROUP: {
-      const newMenuParentGroup: string = action.payload.menuParentGroup;
+      const newMenuParentGroup = action.payload.menuParentGroup;
 
       return {
         ...state,
@@ -119,13 +120,15 @@ export function configuratorReducer(
       };
 
       //Set Current state items
-      Object.keys(state.interactionState.groupsVisited).forEach(
-        (groupId) => (changedInteractionState.groupsVisited[groupId] = true)
-      );
+      if (state.interactionState.groupsVisited) {
+        Object.keys(state.interactionState.groupsVisited).forEach((groupId) =>
+          setGroupsVisited(changedInteractionState, groupId)
+        );
+      }
 
       //Add new Groups
-      groupIds.forEach(
-        (groupId) => (changedInteractionState.groupsVisited[groupId] = true)
+      groupIds.forEach((groupId) =>
+        setGroupsVisited(changedInteractionState, groupId)
       );
 
       return {
@@ -140,16 +143,26 @@ export function configuratorReducer(
   return state;
 }
 
+function setGroupsVisited(
+  changedInteractionState: Configurator.InteractionState,
+  groupId: string
+) {
+  const groupsVisited = changedInteractionState.groupsVisited;
+  if (groupsVisited) {
+    groupsVisited[groupId] = true;
+  }
+}
+
 function setInitialCurrentGroup(
   state: Configurator.Configuration
 ): Configurator.Configuration {
   if (state.interactionState.currentGroup) {
     return state;
   }
-  let initialCurrentGroup = null;
-
-  if (state?.flatGroups?.length > 0) {
-    initialCurrentGroup = state?.flatGroups[0]?.id;
+  let initialCurrentGroup;
+  const flatGroups = state?.flatGroups;
+  if (flatGroups && flatGroups.length > 0) {
+    initialCurrentGroup = flatGroups[0]?.id;
   }
 
   const result = {
@@ -174,9 +187,11 @@ function takeOverChanges(
   state: Configurator.Configuration
 ): Configurator.Configuration {
   const content = { ...action.payload };
+  const groups = content.groups.length > 0 ? content.groups : state.groups;
   const result = {
     ...state,
     ...content,
+    groups: groups,
     interactionState: {
       ...state.interactionState,
       ...content.interactionState,
