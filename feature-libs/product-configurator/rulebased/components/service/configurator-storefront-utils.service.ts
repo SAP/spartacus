@@ -1,7 +1,7 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { WindowRef } from '@spartacus/core';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -14,8 +14,7 @@ import { Configurator } from '../../core/model/configurator.model';
 export class ConfiguratorStorefrontUtilsService {
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    @Inject(PLATFORM_ID) protected platformId: any,
-    @Inject(DOCUMENT) protected document: any,
+    protected windowRef: WindowRef,
     protected keyboardFocusService: KeyboardFocusService
   ) {}
 
@@ -72,6 +71,8 @@ export class ConfiguratorStorefrontUtilsService {
    */
   protected isInViewport(element: Element): boolean {
     const bounding = element.getBoundingClientRect();
+    const window = this.windowRef.nativeWindow;
+    const document = this.windowRef.document;
     return (
       bounding.top >= 0 &&
       bounding.left >= 0 &&
@@ -92,7 +93,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (element instanceof HTMLElement) {
       topOffset = element.offsetTop;
     }
-    window.scroll(0, topOffset);
+    this.windowRef.nativeWindow.scroll(0, topOffset);
   }
 
   /**
@@ -101,9 +102,9 @@ export class ConfiguratorStorefrontUtilsService {
    * @param {string} selector - Selector of the HTML element
    */
   scrollToConfigurationElement(selector: string): void {
-    if (isPlatformBrowser(this.platformId)) {
+    if (this.windowRef.isBrowser()) {
       // we don't want to run this logic when doing SSR
-      const element = document.querySelector(selector);
+      const element = this.windowRef.document.querySelector(selector);
       if (element && !this.isInViewport(element)) {
         this.scroll(element);
       }
@@ -115,8 +116,8 @@ export class ConfiguratorStorefrontUtilsService {
    */
   focusFirstAttribute(): void {
     if (this.keyboardFocusService) {
-      if (isPlatformBrowser(this.platformId)) {
-        const form: HTMLElement | null = document.querySelector(
+      if (this.windowRef.isBrowser()) {
+        const form: HTMLElement | null = this.windowRef.document.querySelector(
           'cx-configurator-form'
         );
         if (form) {

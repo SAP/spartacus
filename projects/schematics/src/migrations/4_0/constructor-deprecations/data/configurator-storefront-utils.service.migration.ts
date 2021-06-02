@@ -2,11 +2,12 @@ import {
   ANGULAR_CORE,
   CONFIGURATOR_GROUPS_SERVICE,
   CONFIGURATOR_STOREFRONT_UTILS_SERVICE,
-  DOCUMENT,
   KEYBOARD_FOCUS_SERVICE,
   PLATFORM_ID_STRING,
+  SPARTACUS_CORE,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   SPARTACUS_STOREFRONTLIB,
+  WINDOW_REF,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -24,10 +25,16 @@ export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION: ConstructorDepreca
       importPath: ANGULAR_CORE,
     },
   ],
+  removeParams: [
+    {
+      className: PLATFORM_ID_STRING,
+      importPath: ANGULAR_CORE,
+    },
+  ],
   addParams: [
     {
-      className: DOCUMENT,
-      importPath: SPARTACUS_STOREFRONTLIB,
+      className: WINDOW_REF,
+      importPath: SPARTACUS_CORE,
     },
     {
       className: KEYBOARD_FOCUS_SERVICE,
