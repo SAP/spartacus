@@ -44,7 +44,8 @@
           "TMS-GTM",
           "TMS-AEPL",
           "Account",
-          "Profile"
+          "Profile",
+          "Checkout"
         ],
         "type": "string"
       },
@@ -124,6 +125,10 @@
           {
             "value": "Profile",
             "label": "User - Profile"
+          },
+          {
+            "value": "Checkout",
+            "label": "Checkout"
           }
         ]
       }
