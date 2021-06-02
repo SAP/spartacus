@@ -31,8 +31,9 @@ export class ModalService {
     protected featureConfigService?: FeatureConfigService
   ) {}
 
-  protected readonly rootComponent = this.applicationRef?.components?.[0]
-    .location?.nativeElement;
+  protected get rootComponent() {
+    return this.applicationRef?.components?.[0]?.location?.nativeElement;
+  }
 
   open(content: any, options?: ModalOptions): ModalRef {
     let activeModal: ModalRef;
