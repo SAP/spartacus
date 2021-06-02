@@ -7,10 +7,10 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:run": "cypress run",
-    "cy:run:ci": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,all,parallel\" --parallel --group B2C --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
-    "cy:run:ci:b2b": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2b,all\" --group B2B --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/b2b/**/*.e2e-spec.ts\"",
-    "cy:run:ci:cds": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,all-cds\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts,cypress/integration/vendor/cds/**/*.e2e-spec.ts\"",
-    "cy:run:ci:flaky": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,b2c,parallel,flaky\" --parallel --group flaky --spec \"cypress/integration/!(vendor|b2b)/**/*.flaky-e2e-spec.ts\"",
+    "cy:run:ci": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2011,b2c,all,parallel\" --parallel --group B2C --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts\"",
+    "cy:run:ci:ssr": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2011,b2c,ssr\" --config baseUrl=http://localhost:4000 --spec \"cypress/integration/regression/checkout/checkout-flow.e2e-spec.ts\"",
+    "cy:run:ci:b2b": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2011,b2b,all\" --group B2B --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/b2b/**/*.e2e-spec.ts\"",
+    "cy:run:ci:cds": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2011,b2c,all-cds\" --spec \"cypress/integration/!(vendor|b2b)/**/*.e2e-spec.ts,cypress/integration/vendor/cds/**/*.e2e-spec.ts\"",
     "cy:run:product-configuration": "cypress run --spec \"cypress/integration/**/*-configuration*.*e2e-spec.ts\"",
     "cy:run:cpq": "cypress run  --config-file cypress.cpq.json --spec \"cypress/integration/**/cpq-configuration.e2e-spec.ts\"",
     "cy:run:ci:cdc": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,cdc\" --group CDC --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/cdc/**/*.e2e-spec.ts\""
