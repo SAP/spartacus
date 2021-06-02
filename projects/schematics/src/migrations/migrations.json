@@ -55,6 +55,11 @@
       "version": "4.0.0",
       "factory": "./4_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
       "description": "Comment about usage of remove public methods or properties"
+    },      
+    "migration-v4-config-deprecations-01": {
+      "version": "4.0.0",
+      "factory": "./4_0/config-deprecations/config-deprecation#migrate",
+      "description": "Handle deprecated configuration properties"
     },
     "migration-v4-rename-symbol-02": {
       "version": "4.0.0",
