@@ -1,8 +1,29 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
+import {
+  DEFAULT_LOCAL_STORAGE_KEY,
+  DEFAULT_SESSION_STORAGE_KEY,
+  DEFAULT_STATE_CONFIG,
+  SPARTACUS_CORE,
+} from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
+  {
+    node: DEFAULT_STATE_CONFIG,
+    importPath: SPARTACUS_CORE,
+    comment: `'${DEFAULT_STATE_CONFIG}' was removed with the whole storage sync mechanism. For syncing your data to and from browser storage use StatePersistenceService.`,
+  },
+  {
+    node: DEFAULT_LOCAL_STORAGE_KEY,
+    importPath: SPARTACUS_CORE,
+    comment: `'${DEFAULT_LOCAL_STORAGE_KEY}' was removed with the whole storage sync mechanism. For syncing your data to and from browser storage use StatePersistenceService.`,
+  },
+  {
+    node: DEFAULT_SESSION_STORAGE_KEY,
+    importPath: SPARTACUS_CORE,
+    comment: `'${DEFAULT_SESSION_STORAGE_KEY}' was removed with the whole storage sync mechanism. For syncing your data to and from browser storage use StatePersistenceService.`,
+  },
   // uncomment product variants deprecation on 4.0 migration works (#11391)
   // // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.component.ts
   // {
