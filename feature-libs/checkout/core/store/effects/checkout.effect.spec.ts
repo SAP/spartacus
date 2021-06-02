@@ -427,13 +427,17 @@ describe('Checkout effect', () => {
         userId: userId,
         cartId: cartId,
       });
-      const completion = new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
+      const completion1 = new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
+        userId: userId,
+        cartId: cartId,
+      });
+      const completion2 = new CartActions.LoadCart({
         userId: userId,
         cartId: cartId,
       });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: completion });
+      const expected = cold('-(bc)', { b: completion1, c: completion2 });
 
       expect(entryEffects.clearCheckoutDeliveryMode$).toBeObservable(expected);
     });
