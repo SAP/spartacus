@@ -13,6 +13,7 @@ import {
   MultiCartService,
   OrderEntry,
   PromotionLocation,
+  PromotionResult,
   SelectiveCartService,
   UserIdService,
 } from '@spartacus/core';
@@ -66,6 +67,8 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
 
+  @Input() promotions: { [key: string]: Observable<PromotionResult[]> } = {};
+
   /**
    * @deprecated since version 3.1
    * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, userIdService: UserIdService, multiCartService: MultiCartService); instead
@@ -111,6 +114,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         ?.getUserId()
         .subscribe((userId) => (this.userId = userId))
     );
+    console.log('CartItemListComponent promotions', this.promotions);
   }
 
   /**

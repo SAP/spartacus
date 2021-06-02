@@ -23,7 +23,22 @@ export class CheckoutPromotionService {
     return appliedOrderPromotions;
   }
 
-  getProductPromotionForEnties(
+  getProductPromotionForOrderEntries(
+    order: Order
+  ): { [key: string]: Observable<PromotionResult[]> } {
+    const allEntryPromotions: {
+      [key: string]: Observable<PromotionResult[]>;
+    } = {};
+    order.entries?.forEach((entry) => {
+      if (entry.entryNumber !== undefined)
+        allEntryPromotions[
+          entry.entryNumber
+        ] = this.getProductPromotionForEntry(entry);
+    });
+    return allEntryPromotions;
+  }
+
+  getProductPromotionForOrderEntries_(
     order: Order
   ): { [key: string]: PromotionResult[] } {
     const allEntryPromotions: { [key: string]: PromotionResult[] } = {};

@@ -5,8 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import { Order, PromotionLocation, PromotionResult } from '@spartacus/core';
-import { PromotionService } from '@spartacus/storefront';
+import { Order, PromotionResult } from '@spartacus/core';
+import { CheckoutPromotionService } from 'feature-libs/checkout/core/services/checkout-promotion.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -15,20 +15,26 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
-  promotionLocation: PromotionLocation = PromotionLocation.Checkout;
   order$: Observable<Order>;
   orderPromotions$: Observable<PromotionResult[]>;
-
   constructor(
     protected checkoutService: CheckoutFacade,
-    protected promotionService: PromotionService
+    protected promotionService: CheckoutPromotionService
   ) {}
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails();
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
+    this.orderPromotions$ = this.promotionService.getOrderPromotions();
+  }
+
+  getAllOrderEntryPromotions(
+    order: Order
+  ): { [key: string]: Observable<PromotionResult[]> } {
+    const allOrderEntryPromotions = this.promotionService.getProductPromotionForOrderEntries(
+      order
     );
+    console.log('getAllOrderEntryPromotions', allOrderEntryPromotions);
+    return allOrderEntryPromotions;
   }
 
   ngOnDestroy() {
