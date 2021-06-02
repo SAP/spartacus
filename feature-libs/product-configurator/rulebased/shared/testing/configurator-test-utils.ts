@@ -2,9 +2,13 @@
  * Configurator component test utils service provides helper functions for the component tests.
  */
 
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Configurator } from '../../core/model';
 
-export class ConfiguratorComponentTestUtilsService {
+export class ConfiguratorTestUtils {
   /**
    * Deep freezes a product configuration, used for testing purposed to ensure test
    * data behaves read-only
@@ -48,6 +52,19 @@ export class ConfiguratorComponentTestUtilsService {
       this.freezePriceSummary(overview.priceSummary);
       overview.groups?.forEach((ovGroup) => this.freezeOvGroup(ovGroup));
     }
+  }
+
+  static createConfiguration(
+    configId: string,
+    owner: CommonConfigurator.Owner = ConfiguratorModelUtils.createInitialOwner()
+  ): Configurator.Configuration {
+    const configuration: Configurator.Configuration = {
+      configId: configId,
+      owner: owner,
+      groups: [],
+      interactionState: {},
+    };
+    return configuration;
   }
 
   protected static freezeOvGroup(overviewGroup: Configurator.GroupOverview) {
