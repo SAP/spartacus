@@ -117,8 +117,6 @@ export const SAVED_CART_FACADE = 'SavedCartFacade';
 export const SAVED_CART_LIST_COMPONENT = 'SavedCartListComponent';
 export const SAVED_CART_FORM_DIALOG_COMPONENT = 'SavedCartFormDialogComponent';
 export const CONFIGURATOR_CART_SERVICE = 'ConfiguratorCartService';
-export const COMMON_CONFIGURATOR_UTILS_SERVICE =
-  'CommonConfiguratorUtilsService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
