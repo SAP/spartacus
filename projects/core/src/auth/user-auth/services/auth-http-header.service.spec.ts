@@ -188,7 +188,9 @@ describe('AuthHttpHeaderService', () => {
       service.handleExpiredRefreshToken();
 
       expect(authService.coreLogout).toHaveBeenCalled();
-      expect(authRedirectService.saveCurrentNavigationUrl).toHaveBeenCalled();
+      expect(
+        authRedirectService.saveCurrentNavigationUrl
+      ).toHaveBeenCalledBefore(routingService.go);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
