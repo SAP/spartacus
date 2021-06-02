@@ -13,15 +13,16 @@ import {
   CLI_STOREFINDER_FEATURE,
   LibraryOptions as SpartacusStorefinderOptions,
   SpartacusOptions,
+  SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
+import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const storeFinderModulePath =
+const featureModulePath =
   'src/app/spartacus/features/storefinder/store-finder-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/storefinder.scss';
 
-// TODO: Improve tests after lib-util test update
 describe('Spartacus Storefinder schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
 
@@ -49,15 +50,20 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
     features: [],
   };
 
-  const defaultFeatureOptions: SpartacusStorefinderOptions = {
+  const libraryNoFeaturesOptions: SpartacusStorefinderOptions = {
     project: 'schematics-test',
     lazy: true,
+    features: [],
+  };
+
+  const storefinderFeatureOptions: SpartacusStorefinderOptions = {
+    ...libraryNoFeaturesOptions,
     features: [CLI_STOREFINDER_FEATURE],
   };
 
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
     );
 
@@ -78,7 +84,7 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -86,45 +92,66 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('When no features are provided', () => {
+  describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
-        .runSchematicAsync(
-          'ng-add',
-          { ...defaultFeatureOptions, features: [] },
-          appTree
-        )
+        .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
         .toPromise();
     });
 
-    it('should not create the feature module', () => {
-      const featureModule = appTree.readContent(storeFinderModulePath);
-      expect(featureModule).toBeFalsy();
+    it('should not create any of the feature modules', () => {
+      expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
-    it('should not add the feature to the feature module', () => {
-      const spartacusFeaturesModule = appTree.readContent(
-        'src/app/spartacus/spartacus-features.module.ts'
-      );
-      expect(spartacusFeaturesModule).toMatchSnapshot();
+
+    it('should install necessary Spartacus libraries', () => {
+      const packageJson = JSON.parse(appTree.readContent('package.json'));
+      let dependencies: Record<string, string> = {};
+      dependencies = { ...packageJson.dependencies };
+      dependencies = { ...dependencies, ...packageJson.devDependencies };
+
+      for (const toAdd in peerDependencies) {
+        // skip the SPARTACUS_SCHEMATICS, as those are added only when running by the Angular CLI, and not in the testing environment
+        if (
+          !peerDependencies.hasOwnProperty(toAdd) ||
+          toAdd === SPARTACUS_SCHEMATICS
+        ) {
+          continue;
+        }
+        // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+        // const expectedVersion = (peerDependencies as Record<
+        //   string,
+        //   string
+        // >)[toAdd];
+        const expectedDependency = dependencies[toAdd];
+        expect(expectedDependency).toBeTruthy();
+        // expect(expectedDependency).toEqual(expectedVersion);
+      }
     });
   });
 
   describe('Storefinder feature', () => {
-    describe('styling', () => {
+    describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', storefinderFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should create a proper scss file', () => {
-        const scssContent = appTree.readContent(scssFilePath);
-        expect(scssContent).toMatchSnapshot();
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
 
-      it('should update angular.json', async () => {
-        const content = appTree.readContent('/angular.json');
-        expect(content).toMatchSnapshot();
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
       });
     });
 
@@ -133,75 +160,15 @@ describe('Spartacus Storefinder schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultFeatureOptions, lazy: false },
+            { ...storefinderFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
       });
 
       it('should import appropriate modules', async () => {
-        const storeFinderModule = appTree.readContent(storeFinderModulePath);
-        expect(storeFinderModule).toContain(
-          `import { StoreFinderRootModule } from "@spartacus/storefinder/root";`
-        );
-        expect(storeFinderModule).toContain(
-          `import { StoreFinderModule } from "@spartacus/storefinder";`
-        );
-      });
-
-      it('should not contain lazy loading syntax', async () => {
-        const storeFinderModule = appTree.readContent(storeFinderModulePath);
-        expect(storeFinderModule).not.toContain(
-          `import('@spartacus/storefinder').then(`
-        );
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import StoreFinderRootModule and contain the lazy loading syntax', async () => {
-        const storeFinderModule = appTree.readContent(storeFinderModulePath);
-        expect(storeFinderModule).toContain(
-          `import { StoreFinderRootModule, STORE_FINDER_FEATURE } from "@spartacus/storefinder/root";`
-        );
-        expect(storeFinderModule).toContain(
-          `import('@spartacus/storefinder').then(`
-        );
-      });
-
-      it('should not contain the StoreFinderModule import', () => {
-        const storeFinderModule = appTree.readContent(storeFinderModulePath);
-        expect(storeFinderModule).not.toContain(
-          `import { StoreFinderModule } from "@spartacus/storefinder";`
-        );
-      });
-    });
-    describe('i18n', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultFeatureOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import the i18n resource and chunk from assets', async () => {
-        const storeFinderModule = appTree.readContent(storeFinderModulePath);
-        expect(storeFinderModule).toContain(
-          `import { storeFinderTranslationChunksConfig, storeFinderTranslations } from "@spartacus/storefinder/assets";`
-        );
-      });
-      it('should provideConfig', async () => {
-        const storeFinderModule = appTree.readContent(storeFinderModulePath);
-        expect(storeFinderModule).toContain(
-          `resources: storeFinderTranslations,`
-        );
-        expect(storeFinderModule).toContain(
-          `chunks: storeFinderTranslationChunksConfig,`
-        );
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
   });

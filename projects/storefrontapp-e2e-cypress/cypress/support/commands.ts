@@ -10,6 +10,7 @@ import './ng-select.commands';
 import './order-placed.commands';
 import './require-logged-in.commands';
 import './require-payment-done.commands';
+import './require-payment-method-added.commands';
 import './require-placed-order.commands';
 import './require-product-added-to-cart.commands';
 import './require-saved-carts.commands';

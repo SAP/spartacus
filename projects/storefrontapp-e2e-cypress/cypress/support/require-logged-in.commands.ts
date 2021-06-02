@@ -78,8 +78,8 @@ Cypress.Commands.add(
     const defaultAccount: AccountData = {
       user: randomString(),
       registrationData: {
-        firstName: 'Winston',
-        lastName: 'Rumfoord',
+        firstName: 'Cypress',
+        lastName: 'User',
         password: 'Password123.',
         titleCode: 'mr',
       },

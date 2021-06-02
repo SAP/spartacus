@@ -8,7 +8,6 @@ import {
   order_type,
   poNumber,
   POWERTOOLS_BASESITE,
-  POWERTOOLS_DEFAULT_DELIVERY_MODE,
   products,
   recurrencePeriod,
   recurrencePeriodMap,
@@ -82,12 +81,20 @@ export function selectAccountPayment() {
     cy.findByText('Account').click({ force: true });
   });
 
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/carts/*?fields=DEFAULT*`
+  ).as('getCart');
+
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
   );
   cy.get('button.btn-primary').click({ force: true });
   cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  cy.wait('@getCart').its('response.statusCode').should('eq', 200);
 }
 
 export function selectCreditCardPayment() {
@@ -110,20 +117,19 @@ export function selectAccountShippingAddress() {
     .find('.cx-summary-amount')
     .should('not.be.empty');
 
-  cy.server();
-
-  cy.route(
-    'GET',
+  cy.intercept(
+    'PUT',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/carts/*`
-  ).as('getCart');
+    )}/orgUsers/current/carts/**/addresses/delivery?addressId=*`
+  ).as('updateAddress');
+
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
     cy.get('.cx-card-actions .cx-card-link').click({ force: true });
   });
 
-  cy.wait('@getCart');
+  cy.wait('@updateAddress').its('response.statusCode').should('eq', 200);
   cy.get('cx-card .card-header').should('contain', 'Selected');
 
   const deliveryPage = waitForPage(
@@ -137,13 +143,11 @@ export function selectAccountShippingAddress() {
     config.shippingAddressAccount
   );
 
-  cy.get('button.btn-primary').click({ force: true });
+  cy.get('button.btn-primary').click();
   cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
 }
 
-export function selectAccountDeliveryMode(
-  deliveryMode: string = POWERTOOLS_DEFAULT_DELIVERY_MODE
-) {
+export function selectAccountDeliveryMode() {
   cy.server();
   cy.route(
     'PUT',
@@ -151,7 +155,7 @@ export function selectAccountDeliveryMode(
   ).as('putDeliveryMode');
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get(`#${deliveryMode}`).should('be.checked');
+  cy.get('cx-delivery-mode input').first().should('be.checked');
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
   // Accessibility

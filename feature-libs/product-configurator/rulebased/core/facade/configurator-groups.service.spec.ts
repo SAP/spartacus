@@ -11,6 +11,7 @@ import {
   productConfiguration,
   productConfigurationWithConflicts,
 } from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { Configurator } from './../model/configurator.model';
@@ -123,9 +124,11 @@ describe('ConfiguratorGroupsService', () => {
 
     it('should return null if no group exist', (done) => {
       const configNoGroups: Configurator.Configuration = {
-        configId: 'abc',
+        ...ConfiguratorTestUtils.createConfiguration(
+          'abc',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
         flatGroups: undefined,
-        owner: ConfiguratorModelUtils.createInitialOwner(),
       };
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(configNoGroups)
