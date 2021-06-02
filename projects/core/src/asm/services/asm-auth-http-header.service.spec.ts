@@ -61,6 +61,7 @@ describe('AsmAuthHttpHeaderService', () => {
   let routingService: RoutingService;
   let csAgentAuthService: CsAgentAuthService;
   let globalMessageService: GlobalMessageService;
+  let authRedirectService: AuthRedirectService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -86,6 +87,7 @@ describe('AsmAuthHttpHeaderService', () => {
     routingService = TestBed.inject(RoutingService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
   it('should be created', () => {
@@ -158,6 +160,7 @@ describe('AsmAuthHttpHeaderService', () => {
       service.handleExpiredRefreshToken();
 
       expect(authService.coreLogout).toHaveBeenCalled();
+      expect(authRedirectService.saveCurrentNavigationUrl).toHaveBeenCalled();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     });
 
