@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import {
   IconLoaderService,
   IconModule,
@@ -36,10 +39,10 @@ describe('ConfigAttributeHeaderComponent', () => {
   let classUnderTest: ConfiguratorAttributeHeaderComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
 
-  const owner: CommonConfigurator.Owner = {
-    id: 'PRODUCT_CODE',
-    type: CommonConfigurator.OwnerType.CART_ENTRY,
-  };
+  const owner = ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.CART_ENTRY,
+    'PRODUCT_CODE'
+  );
 
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
@@ -148,8 +151,36 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
+    it('should return a single-select message key for simple radio buttons attribute type', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'singleSelectRequiredMessage'
+      );
+    });
+
+    it('should return a single-select message key for simple radio buttons - product attribute type', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'singleSelectRequiredMessage'
+      );
+    });
+
+    it('should return a single-select message key for simple checkbox attribute type', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOX;
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'singleSelectRequiredMessage'
+      );
+    });
+
     it('should return a single-select message key for ddlb attribute type', () => {
       classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'singleSelectRequiredMessage'
+      );
+    });
+
+    it('should return a single-select message key for ddlb-product attribute type', () => {
+      classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
       expect(classUnderTest.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
@@ -163,8 +194,16 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    it('should return a multi-select message key for check box list attribute type', () => {
+    it('should return a multi-select message key for checkbox list attribute type', () => {
       classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOXLIST;
+      expect(classUnderTest.getRequiredMessageKey()).toContain(
+        'multiSelectRequiredMessage'
+      );
+    });
+
+    it('should return a multi-select message key for checkbox-product list attribute type', () => {
+      classUnderTest.attribute.uiType =
+        Configurator.UiType.CHECKBOXLIST_PRODUCT;
       expect(classUnderTest.getRequiredMessageKey()).toContain(
         'multiSelectRequiredMessage'
       );

@@ -7,4 +7,9 @@
   padding-block-end: 0px;
 
   margin-inline-start: 17px;
+
+  @include forVersion(3.3) {
+    padding-inline-end: 0px;
+    margin-inline-end: 17px;
+  }
 }

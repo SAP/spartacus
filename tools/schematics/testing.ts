@@ -18,7 +18,7 @@ const featureLibsFolders: string[] = [
   'user',
 ];
 
-const integrationLibsFolders: string[] = ['cdc'];
+const integrationLibsFolders: string[] = ['cdc', 'cds'];
 
 const commands = [
   'publish',
@@ -26,6 +26,7 @@ const commands = [
   'build asm/schematics',
   'build cart/schematics',
   'build cdc/schematics',
+  'build cds/schematics',
   'build organization/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
@@ -123,19 +124,22 @@ function buildSchematicsAndPublish(buildCmd: string): void {
 }
 
 function testAllSchematics(): void {
-  execSync('yarn --cwd projects/schematics run test', {
+  execSync('yarn --cwd projects/schematics run test --coverage', {
     stdio: 'inherit',
   });
 
   featureLibsFolders.forEach((lib) =>
-    execSync(`yarn --cwd feature-libs/${lib} run test:schematics`, {
+    execSync(`yarn --cwd feature-libs/${lib} run test:schematics --coverage`, {
       stdio: 'inherit',
     })
   );
   integrationLibsFolders.forEach((lib) =>
-    execSync(`yarn --cwd integration-libs/${lib} run test:schematics`, {
-      stdio: 'inherit',
-    })
+    execSync(
+      `yarn --cwd integration-libs/${lib} run test:schematics --coverage`,
+      {
+        stdio: 'inherit',
+      }
+    )
   );
 }
 
@@ -150,6 +154,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build asm/schematics':
     case 'build cart/schematics':
     case 'build cdc/schematics':
+    case 'build cds/schematics':
     case 'build organization/schematics':
     case 'build product/schematics':
     case 'build product-configurator/schematics':

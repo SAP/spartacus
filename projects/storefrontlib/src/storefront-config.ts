@@ -20,6 +20,7 @@ import { QualtricsConfig } from './cms-components/misc/qualtrics/config/qualtric
 import { PWAModuleConfig } from './cms-structure/pwa/pwa.module-config';
 import { SeoConfig } from './cms-structure/seo/config';
 import { FeatureToggles } from './feature-toggles';
+import { KeyboardFocusConfig } from './layout';
 import { SkipLinkConfig } from './layout/a11y/skip-link/config/index';
 import { LayoutConfig } from './layout/config/layout-config';
 import { DirectionConfig } from './layout/direction/config/direction.config';
@@ -53,4 +54,5 @@ export type StorefrontConfig =
   | PaginationConfig
   | CartConfig
   | SeoConfig
-  | PageMetaConfig;
+  | PageMetaConfig
+  | KeyboardFocusConfig;

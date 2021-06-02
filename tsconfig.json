@@ -97,6 +97,9 @@
       "@spartacus/product-configurator/rulebased/root": [
         "feature-libs/product-configurator/rulebased/root/public_api"
       ],
+      "@spartacus/product-configurator/rulebased/cpq": [
+        "feature-libs/product-configurator/rulebased/cpq/public_api"
+      ],      
       "@spartacus/product-configurator/textfield": [
         "feature-libs/product-configurator/textfield/public_api"
       ],
