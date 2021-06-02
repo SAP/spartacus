@@ -32,7 +32,7 @@ export class ModalService {
   ) {}
 
   protected readonly rootComponent = this.applicationRef?.components?.[0]
-    .location?.nativeElement;
+    ?.location?.nativeElement;
 
   open(content: any, options?: ModalOptions): ModalRef {
     let activeModal: ModalRef;
