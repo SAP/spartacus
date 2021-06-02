@@ -1,17 +1,17 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
+  OnDestroy,
   OnInit,
-  ChangeDetectionStrategy,
   Optional,
 } from '@angular/core';
-
 import {
   OccConfig,
+  Product,
   VariantOption,
   VariantOptionQualifier,
   VariantQualifier,
-  Product,
 } from '@spartacus/core';
 import {
   ProductListItemContextSource,
@@ -25,7 +25,7 @@ import { EMPTY, Observable, Subscription } from 'rxjs';
   styleUrls: ['./product-variant-style-icons.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductVariantStyleIconsComponent implements OnInit {
+export class ProductVariantStyleIconsComponent implements OnInit, OnDestroy {
   constructor(
     private config: OccConfig,
     @Optional()
