@@ -16,7 +16,7 @@ export class ProtectedRoutesService {
    * @returns boolean
    */
   public get shouldProtect(): boolean {
-    return this.routingConfig.protected;
+    return !!this.routingConfig?.protected;
   }
 
   constructor(
@@ -64,12 +64,12 @@ export class ProtectedRoutesService {
    * Returns a list of paths that are not protected
    */
   protected getNonProtectedPaths(): string[] {
-    return Object.values(this.routingConfig.routes).reduce(
+    return Object.values(this.routingConfig?.routes ?? {}).reduce<string[]>(
       (acc, routeConfig) =>
         routeConfig.protected === false && // must be explicitly false, ignore undefined
         routeConfig.paths &&
         routeConfig.paths.length
-          ? acc.concat(routeConfig.paths)
+          ? acc.concat(routeConfig?.paths ?? [])
           : acc,
       []
     );
