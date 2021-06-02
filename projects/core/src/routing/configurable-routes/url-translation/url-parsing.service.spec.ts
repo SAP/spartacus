@@ -165,7 +165,7 @@ describe('UrlParsingService', () => {
     });
 
     it('should match URL string with path string containing many params', () => {
-      expect(service.matchPath('test/url/123', ':param1/url/param:2')).toBe(
+      expect(service.matchPath('test/url/123', ':param1/url/:param2')).toBe(
         true
       );
     });
