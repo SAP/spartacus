@@ -65,21 +65,6 @@ describe('CustomerEmulationComponent', () => {
     expect(el.query(By.css('dev.fd-alert'))).toBeFalsy();
   });
 
-  it('should display alert message dusring regular customer session.', () => {
-    const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
-    spyOn(userService, 'get').and.returnValue(of(testUser));
-    spyOn(
-      asmComponentService,
-      'isCustomerEmulationSessionInProgress'
-    ).and.returnValue(of(false));
-
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    expect(el.query(By.css('input[formcontrolname="customer"]'))).toBeFalsy();
-    expect(el.query(By.css('div.asm-alert'))).toBeTruthy();
-  });
-
   it("should call logoutCustomer() on 'End Session' button click", () => {
     //customer login
     const testUser = { uid: 'user@test.com', name: 'Test User' } as User;
