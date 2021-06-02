@@ -844,7 +844,7 @@ describe('ConfigurationGroupMenuComponent', () => {
     });
   });
 
-  describe('switchTabOnArrowPress', () => {
+  describe('switchGroupOnArrowPress', () => {
     it('should focus next group items', () => {
       productConfigurationObservable = of(mockProductConfiguration);
       routerStateObservable = of(mockRouterState);

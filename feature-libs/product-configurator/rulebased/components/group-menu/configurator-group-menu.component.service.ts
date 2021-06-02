@@ -41,11 +41,12 @@ export class ConfiguratorGroupMenuService {
     currentGroupIndex: number,
     focusedGroupIndex?: number
   ): number {
-    return focusedGroupIndex
-      ? focusedGroupIndex !== currentGroupIndex
+    if (focusedGroupIndex) {
+      return focusedGroupIndex !== currentGroupIndex
         ? focusedGroupIndex
-        : currentGroupIndex
-      : currentGroupIndex;
+        : currentGroupIndex;
+    }
+    return currentGroupIndex;
   }
 
   /**

@@ -71,12 +71,20 @@ describe('ConfiguratorGroupMenuService', () => {
     });
   });
 
-  describe('updateCurrentTabIndex', () => {
-    it('should return current index', () => {
-      expect(classUnderTest['updateCurrentGroupIndex'](1, 1)).toBe(1);
+  describe('updateCurrentGroupIndex', () => {
+    it('should return current index because focused index is `null`', () => {
+      expect(classUnderTest['updateCurrentGroupIndex'](0, null)).toBe(0);
     });
 
-    it('should return group index', () => {
+    it('should return current index because focused index is `undefined`', () => {
+      expect(classUnderTest['updateCurrentGroupIndex'](0, undefined)).toBe(0);
+    });
+
+    it('should return current index because current index and focused index are equal', () => {
+      expect(classUnderTest['updateCurrentGroupIndex'](0, 0)).toBe(0);
+    });
+
+    it('should return focused index because current index and focused index are not equal', () => {
       expect(classUnderTest['updateCurrentGroupIndex'](1, 2)).toBe(2);
     });
   });
@@ -130,7 +138,7 @@ describe('ConfiguratorGroupMenuService', () => {
     });
   });
 
-  describe('focusPreviousTab', () => {
+  describe('focusPreviousGroup', () => {
     it('should focus previous group items', () => {
       groups.toArray()[0].nativeElement?.focus();
       let focusedElement = document.activeElement;
@@ -154,7 +162,7 @@ describe('ConfiguratorGroupMenuService', () => {
     });
   });
 
-  describe('switchTabOnArrowPress', () => {
+  describe('switchGroupOnArrowPress', () => {
     it('should focus next group items', () => {
       const event = new KeyboardEvent('keydown', {
         code: 'ArrowUp',
