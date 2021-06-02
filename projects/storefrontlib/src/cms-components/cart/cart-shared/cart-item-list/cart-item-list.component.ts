@@ -67,7 +67,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
 
-  @Input() promotions: { [key: string]: Observable<PromotionResult[]> } = {};
+  @Input() promotions: { [key: number]: Observable<PromotionResult[]> } = {};
 
   /**
    * @deprecated since version 3.1

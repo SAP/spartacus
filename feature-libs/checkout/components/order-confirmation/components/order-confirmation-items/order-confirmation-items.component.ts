@@ -4,10 +4,10 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CheckoutPromotionService } from '@spartacus/checkout/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { Order, PromotionResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { CheckoutPromotionService } from '../../../services/checkout-promotion.service';
 
 @Component({
   selector: 'cx-order-confirmation-items',
@@ -29,7 +29,7 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
 
   getAllOrderEntryPromotions(
     order: Order
-  ): { [key: string]: Observable<PromotionResult[]> } {
+  ): { [key: number]: Observable<PromotionResult[]> } {
     const allOrderEntryPromotions = this.promotionService.getProductPromotionForOrderEntries(
       order
     );

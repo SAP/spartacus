@@ -25,29 +25,15 @@ export class CheckoutPromotionService {
 
   getProductPromotionForOrderEntries(
     order: Order
-  ): { [key: string]: Observable<PromotionResult[]> } {
+  ): { [key: number]: Observable<PromotionResult[]> } {
     const allEntryPromotions: {
-      [key: string]: Observable<PromotionResult[]>;
+      [key: number]: Observable<PromotionResult[]>;
     } = {};
     order.entries?.forEach((entry) => {
       if (entry.entryNumber !== undefined)
         allEntryPromotions[
           entry.entryNumber
         ] = this.getProductPromotionForEntry(entry);
-    });
-    return allEntryPromotions;
-  }
-
-  getProductPromotionForOrderEntries_(
-    order: Order
-  ): { [key: string]: PromotionResult[] } {
-    const allEntryPromotions: { [key: string]: PromotionResult[] } = {};
-    order.entries?.forEach((entry) => {
-      if (entry.entryNumber !== undefined)
-        allEntryPromotions[entry.entryNumber] = this.getProductPromotion(
-          entry,
-          order.appliedProductPromotions || []
-        );
     });
     return allEntryPromotions;
   }
