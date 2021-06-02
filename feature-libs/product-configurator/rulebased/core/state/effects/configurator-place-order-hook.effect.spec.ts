@@ -12,7 +12,7 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorActions } from '../actions/index';
 import { CONFIGURATOR_FEATURE } from '../configurator-state';
-import * as fromConfigurationReducers from '../reducers/index';
+import { getConfiguratorReducers } from './../reducers/index';
 import * as fromEffects from './configurator-place-order-hook.effect';
 
 const cartEntriesWOconfiguration: OrderEntry[] = [
@@ -80,10 +80,7 @@ describe('ConfiguratorPlaceOrderHookEffects', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          CONFIGURATOR_FEATURE,
-          fromConfigurationReducers.getConfiguratorReducers()
-        ),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers()),
       ],
 
       providers: [
