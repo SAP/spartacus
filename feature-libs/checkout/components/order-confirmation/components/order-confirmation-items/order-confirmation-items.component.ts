@@ -4,9 +4,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { CheckoutPromotionService } from '@spartacus/checkout/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { Order, PromotionResult } from '@spartacus/core';
-import { CheckoutPromotionService } from 'feature-libs/checkout/core/services/checkout-promotion.service';
 import { Observable } from 'rxjs';
 
 @Component({
