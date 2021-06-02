@@ -1,6 +1,9 @@
 import { standardUser } from '../sample-data/shared-users';
 import { AccountData } from '../support/require-logged-in.commands';
+import { config } from '../support/utils/login';
 import { generateMail, randomString } from './user';
+
+const AUTH_STORAGE_KEY = 'spartacus⚿⚿auth';
 
 /**
  * Creates user, but doesn't log in
@@ -34,10 +37,38 @@ export function createUser(): AccountData {
  * Fakes the expiration of the access token by tampering it's value.
  */
 export function fakeExpiredAccessToken() {
-  const AUTH_STORAGE_KEY = 'spartacus⚿⚿auth';
   cy.window().then((win) => {
     const authState = JSON.parse(win.localStorage.getItem(AUTH_STORAGE_KEY));
     authState.token.access_token = 'fake_expired_access_token';
     win.localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(authState));
+  });
+}
+
+/**
+ * Revokes access token via http endpoint
+ */
+export function revokeAccessToken() {
+  return cy.window().then((win) => {
+    const accessToken = JSON.parse(win.localStorage.getItem(AUTH_STORAGE_KEY))
+      .token.access_token;
+
+    return cy
+      .request({
+        method: 'POST',
+        url: config.revokeTokenUrl,
+        body: {
+          ...config.client,
+          token_type_hint: 'access_token',
+          token: accessToken,
+        },
+        form: true,
+      })
+      .then(() => {
+        Cypress.log({
+          name: 'revokeAccessToken',
+          displayName: 'Access token revoked',
+          message: [`🚨 Access token revoked`],
+        });
+      });
   });
 }
