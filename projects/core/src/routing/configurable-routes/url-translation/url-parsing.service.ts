@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PRIMARY_OUTLET, Router, UrlSegmentGroup } from '@angular/router';
+import { isParam } from './path-utils';
 
 @Injectable({ providedIn: 'root' })
 export class UrlParsingService {
@@ -37,7 +38,7 @@ export class UrlParsingService {
 
     pathSegments = Array.isArray(pathSegments)
       ? pathSegments
-      : this.getPathSegments(pathSegments);
+      : this.getPrimarySegments(pathSegments);
 
     if (urlSegments.length !== pathSegments.length) {
       return false;
@@ -48,17 +49,10 @@ export class UrlParsingService {
       const urlSeg = urlSegments[i];
 
       // compare only static segments:
-      if (!pathSeg.startsWith(':') && pathSeg !== urlSeg) {
+      if (!isParam(pathSeg) && pathSeg !== urlSeg) {
         return false;
       }
     }
     return true;
-  }
-
-  /**
-   * Splits the url by slashes
-   */
-  protected getPathSegments(url: string): string[] {
-    return (url || '').split('/');
   }
 }
