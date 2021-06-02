@@ -41,6 +41,11 @@ export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
 
+export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS =
+  '@spartacus/product/variants/components';
+export const SPARTACUS_PRODUCT_VARIANTS_ROOT =
+  '@spartacus/product/variants/root';
+
 /***** Imports end *****/
 
 /***** Classes start *****/
@@ -513,16 +518,24 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
+export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
+export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
+export const VARIANT_COLOR_SELECTOR_MODULE = 'VariantColorSelectorModule';
+export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
+export const VARIANT_SIZE_SELECTOR_MODULE = 'VariantSizeSelectorModule';
+export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
+export const VARIANT_STYLE_ICONS_MODULE = 'VariantStyleIconsModule';
+export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
+export const VARIANT_STYLE_SELECTOR_MODULE = 'VariantStyleSelectorModule';
+export const PRODUCT_VARIANTS_MODULE = 'ProductVariantsModule';
+
+export const PRODUCT_VARIANT_STYLE_ICONS_COMPONENT =
+  'ProductVariantStyleIconsComponent';
+export const PRODUCT_VARIANT_STYLE_ICONS_MODULE =
+  'ProductVariantStyleIconsModule';
 export const DEFAULT_STATE_CONFIG = 'defaultStateConfig';
 export const DEFAULT_LOCAL_STORAGE_KEY = 'DEFAULT_LOCAL_STORAGE_KEY';
 export const DEFAULT_SESSION_STORAGE_KEY = 'DEFAULT_SESSION_STORAGE_KEY';
-
-// uncomment product variants deprecation on 4.0 migration works (#11391)
-// export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
-// export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
-// export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
-// export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
-// export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
 
 /***** Removed public api end *****/
 
@@ -673,6 +686,8 @@ export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
+export const CSS_V4_DOCS_URL =
+  'https://sap.github.io/spartacus-docs/css-changes-in-version-4/';
 /***** Storefinder end *****/
 
 /******* CLI start *******/

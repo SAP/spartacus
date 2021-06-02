@@ -1,4 +1,4 @@
-<ul class="variant-list">
+<ul class="variant-list" *ngIf="variants && variants.length">
   <li *ngFor="let v of variants">
     <img
       [attr.src]="getVariantThumbnailUrl(v.variantOptionQualifiers)"
