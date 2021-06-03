@@ -10,13 +10,13 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CLI_CART_SAVED_CART_FEATURE,
   LibraryOptions as SpartacusCartOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
-import { CLI_SAVED_CART_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
@@ -58,7 +58,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
   const savedCartFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_SAVED_CART_FEATURE],
+    features: [CLI_CART_SAVED_CART_FEATURE],
   };
 
   beforeEach(async () => {

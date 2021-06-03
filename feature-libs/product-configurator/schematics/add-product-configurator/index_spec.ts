@@ -8,13 +8,14 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
-import { CLI_CPQ_FEATURE, CLI_TEXTFIELD_FEATURE } from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
@@ -49,12 +50,12 @@ describe('Spartacus product configurator schematics: ng-add', () => {
 
   const cpqOptions: SpartacusProductConfiguratorOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CPQ_FEATURE],
+    features: [CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE],
   };
 
   const textfieldOptions: SpartacusProductConfiguratorOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_TEXTFIELD_FEATURE],
+    features: [CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE],
   };
 
   beforeEach(async () => {
@@ -280,7 +281,10 @@ describe('Spartacus product configurator schematics: ng-add', () => {
               'ng-add',
               {
                 ...libraryNoFeaturesOptions,
-                features: [CLI_CPQ_FEATURE, CLI_TEXTFIELD_FEATURE],
+                features: [
+                  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
+                  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+                ],
               },
               appTree
             )
@@ -321,7 +325,10 @@ describe('Spartacus product configurator schematics: ng-add', () => {
               'ng-add',
               {
                 ...libraryNoFeaturesOptions,
-                features: [CLI_CPQ_FEATURE, CLI_TEXTFIELD_FEATURE],
+                features: [
+                  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
+                  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+                ],
                 lazy: false,
               },
               appTree

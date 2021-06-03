@@ -29,6 +29,8 @@ export const SPARTACUS_ASM = '@spartacus/asm';
 export const SPARTACUS_CART = '@spartacus/cart';
 export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
+export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `${SPARTACUS_PRODUCT_CONFIGURATOR}/common`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED = `${SPARTACUS_PRODUCT_CONFIGURATOR}/rulebased`;
 export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
 export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
@@ -40,6 +42,11 @@ export const NGRX_EFFECTS = '@ngrx/effects';
 export const NGRX_ROUTER_STORE = '@ngrx/router-store';
 
 export const NGUNIVERSAL_EXPRESS_ENGINE = '@nguniversal/express-engine';
+
+export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS =
+  '@spartacus/product/variants/components';
+export const SPARTACUS_PRODUCT_VARIANTS_ROOT =
+  '@spartacus/product/variants/root';
 
 /***** Imports end *****/
 
@@ -194,6 +201,7 @@ export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
 export const CART_ITEM_COMPONENT = 'CartItemComponent';
+export const CART_ITEM_CONTEXT = 'CartItemContext';
 export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
 export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
@@ -336,6 +344,23 @@ export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
 
+export const COMMON_CONFIGURATOR_UTILS_SERVICE =
+  'CommonConfiguratorUtilsService';
+export const CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE =
+  'ConfiguratorAttributeQuantityService';
+export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE =
+  'ConfiguratorStorefrontUtilsService';
+export const CONFIGURATOR_GROUPS_SERVICE = 'ConfiguratorGroupsService';
+
+export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
+  'ConfiguratorCartEntryInfoComponent';
+export const CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT =
+  'ConfiguratorAttributeCheckBoxListComponent';
+export const CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT =
+  'ConfiguratorAttributeDropDownComponent';
+export const CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT =
+  'ConfiguratorAttributeRadioButtonComponent';
+
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
 export const PRODUCT_PAGE_EVENT_BUILDER = 'ProductPageEventBuilder';
@@ -344,6 +369,7 @@ export const CONTEXT = 'context';
 export const SEMANTIC_ROUTE = 'semanticRoute';
 export const URL = 'url';
 export const PARAMS = 'params';
+export const INITIALIZE = 'initialize';
 
 /***** Classes end *****/
 
@@ -517,12 +543,30 @@ export const GET_OCC_ENDPOINT = 'getOccEndpoint';
 export const GET_BASE_ENDPOINT = 'getBaseEndpoint';
 export const GET_URL = 'getUrl';
 
-// uncomment product variants deprecation on 4.0 migration works (#11391)
-// export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
-// export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
-// export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
-// export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
-// export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
+export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
+export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
+export const VARIANT_COLOR_SELECTOR_MODULE = 'VariantColorSelectorModule';
+export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
+export const VARIANT_SIZE_SELECTOR_MODULE = 'VariantSizeSelectorModule';
+export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
+export const VARIANT_STYLE_ICONS_MODULE = 'VariantStyleIconsModule';
+export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
+export const VARIANT_STYLE_SELECTOR_MODULE = 'VariantStyleSelectorModule';
+export const PRODUCT_VARIANTS_MODULE = 'ProductVariantsModule';
+
+export const PRODUCT_VARIANT_STYLE_ICONS_COMPONENT =
+  'ProductVariantStyleIconsComponent';
+export const PRODUCT_VARIANT_STYLE_ICONS_MODULE =
+  'ProductVariantStyleIconsModule';
+export const DEFAULT_STATE_CONFIG = 'defaultStateConfig';
+export const DEFAULT_LOCAL_STORAGE_KEY = 'DEFAULT_LOCAL_STORAGE_KEY';
+export const DEFAULT_SESSION_STORAGE_KEY = 'DEFAULT_SESSION_STORAGE_KEY';
+
+export const PERSONALIZATION_MODULE = 'PersonalizationModule';
+export const PERSONALIZATION_CONFIG = 'PersonalizationConfig';
+export const PERSONALIZATION_CONTEXT_SERVICE = 'PersonalizationContextService';
+export const PERSONALIZATION_ACTION = 'PersonalizationAction';
+export const PERSONALIZATION_CONTEXT = 'PersonalizationContext';
 
 /***** Removed public api end *****/
 
@@ -587,6 +631,12 @@ export const INJECT_DECORATOR = 'Inject';
 export const PLATFORM = 'Platform';
 export const PLATFORM_ID_STRING = 'PLATFORM_ID';
 export const ANY_TYPE = 'any';
+export const OBJECT_TYPE = 'Object';
+export const STRING_TYPE = 'string';
+export const DOCUMENT = 'Document';
+export const DOCUMENT_STRING = 'DOCUMENT';
+export const SERVER_REQUEST_URL_STRING = 'SERVER_REQUEST_URL';
+export const SERVER_REQUEST_ORIGIN_STRING = 'SERVER_REQUEST_ORIGIN';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -658,12 +708,23 @@ export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 /***** APIs end *****/
 
+/***** feature keys start *****/
+export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE = 'rulebased';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE = 'textfield';
+export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE =
+  'productConfiguratorRulebased';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
+  'productConfiguratorTextfield';
+/***** feature keys end *****/
+
 /***** Storefinder start *****/
 export const TODO_SPARTACUS = 'TODO:Spartacus -';
 export const CSS_V2_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-2/';
 export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
+export const CSS_V4_DOCS_URL =
+  'https://sap.github.io/spartacus-docs/css-changes-in-version-4/';
 /***** Storefinder end *****/
 
 /******* CLI start *******/
@@ -673,15 +734,34 @@ export const SPARTACUS_FEATURES_MODULE = 'spartacus-features';
 export const SPARTACUS_FEATURES_NG_MODULE = 'SpartacusFeaturesModule';
 export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 
-export const CLI_ASM_FEATURE = 'Assisted Services Module';
-export const CLI_CART_FEATURE = 'Cart';
-export const CLI_ORGANIZATION_FEATURE = 'Organization (b2b feature)';
-export const CLI_PRODUCT_FEATURE = 'Product';
-export const CLI_PRODUCT_CONFIGURATOR_FEATURE = 'Product Configurator';
-export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
-export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
-export const CLI_STOREFINDER_FEATURE = 'Store Finder';
-export const CLI_TRACKING_FEATURE = 'Tracking';
+export const CLI_ASM_FEATURE = 'ASM';
+
+export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
+
 export const CLI_CDC_FEATURE = 'CDC';
+
 export const CLI_CDS_FEATURE = 'CDS';
+
+export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE = 'Administration';
+export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';
+
+export const CLI_PRODUCT_BULK_PRICING_FEATURE = 'Bulk-Pricing';
+export const CLI_PRODUCT_VARIANTS_FEATURE = 'Product-Variants';
+
+export const CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
+  'Textfield-Configurator';
+export const CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE = 'CPQ-Configurator';
+
+export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
+
+export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
+
+export const CLI_STOREFINDER_FEATURE = 'Store-Finder';
+
+export const CLI_TRACKING_PERSONALIZATION_FEATURE = 'Personalization';
+export const CLI_TRACKING_TMS_GTM_FEATURE = 'TMS-GTM';
+export const CLI_TRACKING_TMS_AEP_FEATURE = 'TMS-AEPL';
+
+export const CLI_USER_ACCOUNT_FEATURE = 'Account';
+export const CLI_USER_PROFILE_FEATURE = 'Profile';
 /******* CLI end *******/

@@ -33,7 +33,7 @@ export const mockOccModuleConfig: OccConfig = {
   },
 };
 
-export class MockOccEndpointsService {
+export class MockOccEndpointsService implements Partial<OccEndpointsService> {
   buildUrl(
     endpoint: string,
     _attributes?: DynamicAttributes,
@@ -49,6 +49,9 @@ export class MockOccEndpointsService {
   }
   getBaseUrl() {
     return '';
+  }
+  isConfigured() {
+    return true;
   }
 }
 

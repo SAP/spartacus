@@ -1,4 +1,5 @@
 import { OccConfig } from '../../config/occ-config';
+import { OccEndpointsService } from '../../services';
 
 export const mockOccModuleConfig: OccConfig = {
   backend: {
@@ -13,7 +14,7 @@ export const mockOccModuleConfig: OccConfig = {
   },
 };
 
-export class MockOccEndpointsService {
+export class MockOccEndpointsService implements Partial<OccEndpointsService> {
   buildUrl(endpointKey: string, _urlParams?: object, _queryParams?: object) {
     return this.getEndpoint(endpointKey);
   }
@@ -25,5 +26,8 @@ export class MockOccEndpointsService {
   }
   getBaseUrl() {
     return '';
+  }
+  isConfigured() {
+    return true;
   }
 }
