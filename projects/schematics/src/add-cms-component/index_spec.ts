@@ -101,7 +101,6 @@ describe('add-cms-component', () => {
     project: 'schematics-test',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
