@@ -82,7 +82,7 @@ describe('OccEndpointsService', () => {
 
   describe('isConfigured', () => {
     it('should return true when the endpoint is configured', () => {
-      expect(service.isConfigured('asmCustomerSearch')).toBe(true);
+      expect(service.isConfigured('regions')).toBe(true);
     });
 
     it('should return false when endpoint is not configured', () => {
