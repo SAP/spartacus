@@ -117,13 +117,8 @@ function add_product_configurator {
 
 # Don't install b2b features here (use add_b2b function for that)
 function add_feature_libs {
-  ng add @spartacus/storefinder@${SPARTACUS_VERSION} --interactive false
-  ng add @spartacus/smartedit@${SPARTACUS_VERSION} --interactive false
-  ng add @spartacus/asm@${SPARTACUS_VERSION} --interactive false
-  ng add @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="Personalization" --features="TMS-GTM" --features="TMS-AEPL"
-  ng add @spartacus/product@${SPARTACUS_VERSION} --interactive false
+  ng add @spartacus/tracking@${SPARTACUS_VERSION} --interactive false --features="TMS-GTM" --features="TMS-AEPL"
   ng add @spartacus/qualtrics@${SPARTACUS_VERSION} --interactive false
-  ng add @spartacus/cart@${SPARTACUS_VERSION} --interactive false
 }
 
 function add_spartacus_csr {
