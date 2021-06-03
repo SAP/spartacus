@@ -13,7 +13,7 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
 
   convert(source: Occ.Order, target?: Order): Order {
     if (target === undefined) {
-      target = { ...(source as any) };
+      target = { ...(source as any) } as Order;
     }
 
     if (source.entries) {
@@ -25,7 +25,7 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
     if (source.consignments) {
       target.consignments = source.consignments.map((consignment) => ({
         ...consignment,
-        entries: consignment.entries.map((entry) => ({
+        entries: consignment.entries?.map((entry) => ({
           ...entry,
           orderEntry: this.convertOrderEntry(entry.orderEntry, source.code),
         })),
@@ -41,10 +41,13 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
     return target;
   }
 
-  private convertOrderEntry(source: Occ.OrderEntry, code: string): OrderEntry {
+  private convertOrderEntry(
+    source?: Occ.OrderEntry,
+    code?: string
+  ): OrderEntry {
     return {
       ...source,
-      product: this.converter.convert(source.product, PRODUCT_NORMALIZER),
+      product: this.converter.convert(source?.product, PRODUCT_NORMALIZER),
       orderCode: code,
     };
   }
