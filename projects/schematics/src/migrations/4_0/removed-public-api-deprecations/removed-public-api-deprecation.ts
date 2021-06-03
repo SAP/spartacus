@@ -1,5 +1,10 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
+  PERSONALIZATION_ACTION,
+  PERSONALIZATION_CONFIG,
+  PERSONALIZATION_CONTEXT,
+  PERSONALIZATION_CONTEXT_SERVICE,
+  PERSONALIZATION_MODULE,
   DEFAULT_LOCAL_STORAGE_KEY,
   DEFAULT_SESSION_STORAGE_KEY,
   DEFAULT_STATE_CONFIG,
@@ -26,6 +31,36 @@ import {
 } from '../../../shared/constants';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
+  // projects/core/src/personalization/personalization.module.ts
+  {
+    node: PERSONALIZATION_MODULE,
+    importPath: SPARTACUS_CORE,
+    comment: `${PERSONALIZATION_MODULE} was removed. Use @spartacus/tracking/personalization instead.`,
+  },
+  // projects/core/src/personalization/config/personalization-config.ts
+  {
+    node: PERSONALIZATION_CONFIG,
+    importPath: SPARTACUS_CORE,
+    comment: `${PERSONALIZATION_CONFIG} was moved to @spartacus/tracking/personalization/root.`,
+  },
+  // projects/core/src/personalization/services/personalization-context.service.ts
+  {
+    node: PERSONALIZATION_CONTEXT_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `${PERSONALIZATION_CONTEXT_SERVICE} was moved to @spartacus/tracking/personalization/core.`,
+  },
+  // projects/core/src/personalization/model/personalization-context.model.ts
+  {
+    node: PERSONALIZATION_ACTION,
+    importPath: SPARTACUS_CORE,
+    comment: `${PERSONALIZATION_ACTION} was moved to @spartacus/tracking/personalization/core.`,
+  },
+  // projects/core/src/personalization/model/personalization-context.model.ts
+  {
+    node: PERSONALIZATION_CONTEXT,
+    importPath: SPARTACUS_CORE,
+    comment: `${PERSONALIZATION_CONTEXT} was moved to @spartacus/tracking/personalization/core.`,
+  },
   // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.module.ts
   {
     node: PRODUCT_VARIANTS_MODULE,

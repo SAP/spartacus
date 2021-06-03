@@ -558,6 +558,12 @@ export const DEFAULT_STATE_CONFIG = 'defaultStateConfig';
 export const DEFAULT_LOCAL_STORAGE_KEY = 'DEFAULT_LOCAL_STORAGE_KEY';
 export const DEFAULT_SESSION_STORAGE_KEY = 'DEFAULT_SESSION_STORAGE_KEY';
 
+export const PERSONALIZATION_MODULE = 'PersonalizationModule';
+export const PERSONALIZATION_CONFIG = 'PersonalizationConfig';
+export const PERSONALIZATION_CONTEXT_SERVICE = 'PersonalizationContextService';
+export const PERSONALIZATION_ACTION = 'PersonalizationAction';
+export const PERSONALIZATION_CONTEXT = 'PersonalizationContext';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
