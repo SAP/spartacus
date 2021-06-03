@@ -7,6 +7,7 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 import { RulebasedConfiguratorConnector } from './rulebased-configurator.connector';
@@ -20,13 +21,15 @@ const CART_ID = '98876';
 const CONFIGURATOR_TYPE = 'cpqconfig';
 
 const productConfiguration: Configurator.Configuration = {
-  configId: CONFIG_ID,
-  productCode: PRODUCT_CODE,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE,
-    CONFIGURATOR_TYPE
+  ...ConfiguratorTestUtils.createConfiguration(
+    CONFIG_ID,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE,
+      CONFIGURATOR_TYPE
+    )
   ),
+  productCode: PRODUCT_CODE,
 };
 
 const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
@@ -45,6 +48,7 @@ const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntr
   userId: USER_ID,
   cartId: CART_ID,
   configuration: productConfiguration,
+  cartEntryNumber: '0',
 };
 
 const cartModification: CartModification = {};
