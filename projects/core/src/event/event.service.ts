@@ -1,13 +1,6 @@
-import {
-  AbstractType,
-  Injectable,
-  isDevMode,
-  Optional,
-  Type,
-} from '@angular/core';
+import { Injectable, isDevMode, Type } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { FeatureConfigService } from '../features-config/services/feature-config.service';
 import { createFrom } from '../util/create-from';
 import { CxEvent } from './cx-event';
 import { MergingSubject } from './utils/merging-subject';
@@ -39,16 +32,12 @@ interface EventMeta<T> {
   providedIn: 'root',
 })
 export class EventService {
-  constructor(
-    // TODO: #10896 - remove this
-    /** @deprecated @since 3.1 - this will be removed in 4.0 */ @Optional()
-    protected featureConfigService?: FeatureConfigService
-  ) {}
+  constructor() {}
 
   /**
    * The various events meta are collected in a map, stored by the event type class
    */
-  private eventsMeta = new Map<AbstractType<any> | any, EventMeta<any>>();
+  private eventsMeta = new Map<Type<any> | any, EventMeta<any>>();
 
   /**
    * Register an event source for the given event type.
@@ -64,8 +53,7 @@ export class EventService {
    *
    * @returns a teardown function which unregisters the given event source
    */
-  // TODO: #10896 - change from `AbstractType` to `Type`.
-  register<T>(eventType: AbstractType<T>, source$: Observable<T>): () => void {
+  register<T>(eventType: Type<T>, source$: Observable<T>): () => void {
     const eventMeta = this.getEventMeta(eventType);
     if (eventMeta.mergingSubject.has(source$)) {
       if (isDevMode()) {
@@ -87,7 +75,7 @@ export class EventService {
    * Returns a stream of events for the given event type
    * @param eventTypes event type
    */
-  get<T>(eventType: AbstractType<T>): Observable<T> {
+  get<T>(eventType: Type<T>): Observable<T> {
     let output$ = this.getEventMeta(eventType).mergingSubject.output$;
     if (isDevMode()) {
       output$ = this.getValidatedEventStream(output$, eventType);
@@ -117,7 +105,7 @@ export class EventService {
    * The subject is created on demand, when it's needed for the first time.
    * @param eventType type of event
    */
-  private getInputSubject<T>(eventType: AbstractType<T>): Subject<T> {
+  private getInputSubject<T>(eventType: Type<T>): Subject<T> {
     const eventMeta = this.getEventMeta(eventType);
 
     if (!eventMeta.inputSubject$) {
@@ -130,7 +118,7 @@ export class EventService {
   /**
    * Returns the event meta object for the given event type
    */
-  private getEventMeta<T>(eventType: AbstractType<T>): EventMeta<T> {
+  private getEventMeta<T>(eventType: Type<T>): EventMeta<T> {
     if (!this.eventsMeta.get(eventType)) {
       if (isDevMode()) {
         this.validateEventType(eventType);
@@ -140,23 +128,20 @@ export class EventService {
     return this.eventsMeta.get(eventType);
   }
 
-  private createEventMeta<T>(eventType: AbstractType<T>): void {
+  private createEventMeta<T>(eventType: Type<T>): void {
     const eventMeta: EventMeta<T> = {
       inputSubject$: null, // will be created lazily by the `dispatch` method
       mergingSubject: new MergingSubject<T>(),
     };
     this.eventsMeta.set(eventType, eventMeta);
 
-    // TODO: #10896 - remove this if block, and leave its body
-    if (this.featureConfigService?.isLevel('3.1')) {
-      let parentEvent = Object.getPrototypeOf(eventType);
-      while (
-        parentEvent !== null &&
-        Object.getPrototypeOf(parentEvent) !== Object.getPrototypeOf({})
-      ) {
-        this.register(parentEvent, eventMeta.mergingSubject.output$);
-        parentEvent = Object.getPrototypeOf(parentEvent);
-      }
+    let parentEvent = Object.getPrototypeOf(eventType);
+    while (
+      parentEvent !== null &&
+      Object.getPrototypeOf(parentEvent) !== Object.getPrototypeOf({})
+    ) {
+      this.register(parentEvent, eventMeta.mergingSubject.output$);
+      parentEvent = Object.getPrototypeOf(parentEvent);
     }
   }
 
@@ -165,17 +150,14 @@ export class EventService {
    *
    * Should be used only in dev mode.
    */
-  private validateEventType<T>(eventType: AbstractType<T>): void {
+  private validateEventType<T>(eventType: Type<T>): void {
     if (!eventType?.constructor) {
       throw new Error(
         `EventService:  ${eventType} is not a valid event type. Please provide a class reference.`
       );
     }
 
-    // TODO: #10896 - remove this if block and leave its body
-    if (this.featureConfigService?.isLevel('3.1')) {
-      this.validateCxEvent(eventType);
-    }
+    this.validateCxEvent(eventType);
   }
 
   /**
@@ -183,7 +165,7 @@ export class EventService {
    *
    * Should be used only in the dev mode.
    */
-  private validateCxEvent<T>(eventType: AbstractType<T>): void {
+  private validateCxEvent<T>(eventType: Type<T>): void {
     let parentType = eventType;
     while (
       parentType !== null &&
@@ -208,7 +190,7 @@ export class EventService {
    */
   private getValidatedEventStream<T>(
     source$: Observable<T>,
-    eventType: AbstractType<T>
+    eventType: Type<T>
   ): Observable<T> {
     return source$.pipe(
       tap((event) => {
