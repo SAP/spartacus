@@ -35,43 +35,43 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: SMART_EDIT_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `'SmartEditModule was removed. Use @spartacus/smartedit instead.`,
+    comment: `'${SMART_EDIT_MODULE}' was removed. Use @spartacus/smartedit instead.`,
   },
   // projects/core/src/smart-edit/services/smart-edit.service.ts
   {
     node: SMART_EDIT_SERVICE,
     importPath: SPARTACUS_CORE,
-    comment: `'SmartEditService was moved to @spartacus/smartedit/core.`,
+    comment: `'${SMART_EDIT_SERVICE}' was moved to @spartacus/smartedit/core.`,
   },
   // projects/core/src/personalization/personalization.module.ts
   {
     node: PERSONALIZATION_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `${PERSONALIZATION_MODULE} was removed. Use @spartacus/tracking/personalization instead.`,
+    comment: `'${PERSONALIZATION_MODULE}' was removed. Use @spartacus/tracking/personalization instead.`,
   },
   // projects/core/src/personalization/config/personalization-config.ts
   {
     node: PERSONALIZATION_CONFIG,
     importPath: SPARTACUS_CORE,
-    comment: `${PERSONALIZATION_CONFIG} was moved to @spartacus/tracking/personalization/root.`,
+    comment: `'${PERSONALIZATION_CONFIG}' was moved to @spartacus/tracking/personalization/root.`,
   },
   // projects/core/src/personalization/services/personalization-context.service.ts
   {
     node: PERSONALIZATION_CONTEXT_SERVICE,
     importPath: SPARTACUS_CORE,
-    comment: `${PERSONALIZATION_CONTEXT_SERVICE} was moved to @spartacus/tracking/personalization/core.`,
+    comment: `'${PERSONALIZATION_CONTEXT_SERVICE}' was moved to @spartacus/tracking/personalization/core.`,
   },
   // projects/core/src/personalization/model/personalization-context.model.ts
   {
     node: PERSONALIZATION_ACTION,
     importPath: SPARTACUS_CORE,
-    comment: `${PERSONALIZATION_ACTION} was moved to @spartacus/tracking/personalization/core.`,
+    comment: `'${PERSONALIZATION_ACTION}' was moved to @spartacus/tracking/personalization/core.`,
   },
   // projects/core/src/personalization/model/personalization-context.model.ts
   {
     node: PERSONALIZATION_CONTEXT,
     importPath: SPARTACUS_CORE,
-    comment: `${PERSONALIZATION_CONTEXT} was moved to @spartacus/tracking/personalization/core.`,
+    comment: `'${PERSONALIZATION_CONTEXT}' was moved to @spartacus/tracking/personalization/core.`,
   },
   // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.module.ts
   {
