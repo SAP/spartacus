@@ -8,7 +8,7 @@ import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 /**
- * @deprecated since 4.0, use checkout feature lib instead.
+ * @deprecated since 4.0, it is not be used any more.
  */
 @Injectable({
   providedIn: 'root',
