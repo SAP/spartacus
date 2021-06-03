@@ -1,23 +1,23 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
+  ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
+  DEFAULT_LOCAL_STORAGE_KEY,
+  DEFAULT_SESSION_STORAGE_KEY,
+  DEFAULT_STATE_CONFIG,
   PERSONALIZATION_ACTION,
   PERSONALIZATION_CONFIG,
   PERSONALIZATION_CONTEXT,
   PERSONALIZATION_CONTEXT_SERVICE,
   PERSONALIZATION_MODULE,
-  DEFAULT_LOCAL_STORAGE_KEY,
-  DEFAULT_SESSION_STORAGE_KEY,
-  DEFAULT_STATE_CONFIG,
-  SPARTACUS_CORE,
-} from '../../../shared/constants';
-import { DeprecatedNode } from '../../../shared/utils/file-utils';
-import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
-import {
+  PRODUCT_VARIANTS_MODULE,
   PRODUCT_VARIANT_COMPONENT,
   PRODUCT_VARIANT_GUARD,
   PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
   PRODUCT_VARIANT_STYLE_ICONS_MODULE,
-  PRODUCT_VARIANTS_MODULE,
+  REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE,
+  SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
+  SPARTACUS_CART_SAVED_CART_COMPONENTS,
+  SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
   SPARTACUS_STOREFRONTLIB,
   VARIANT_COLOR_SELECTOR_COMPONENT,
@@ -29,8 +29,25 @@ import {
   VARIANT_STYLE_SELECTOR_COMPONENT,
   VARIANT_STYLE_SELECTOR_MODULE,
 } from '../../../shared/constants';
+import { DeprecatedNode } from '../../../shared/utils/file-utils';
+import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
+  {
+    node: SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
+    importPath: SPARTACUS_CART_SAVED_CART_COMPONENTS,
+    comment: `'${SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE}' has been removed.' 'openDialog' method has been moved to 'LaunchDialogService'.`,
+  },
+  {
+    node: ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE}' has been removed.' 'openDialog' method has been moved to 'LaunchDialogService'.`,
+  },
+  {
+    node: REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE}' has been removed.' 'openDialog' method has been moved to 'LaunchDialogService'.`,
+  },
   // projects/core/src/personalization/personalization.module.ts
   {
     node: PERSONALIZATION_MODULE,
