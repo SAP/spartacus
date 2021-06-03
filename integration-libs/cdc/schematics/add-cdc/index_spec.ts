@@ -93,10 +93,10 @@ describe('Spartacus CDC schematics: ng-add', () => {
       it('should install @spartacus/asm and @spartacus/user', async () => {
         const packageJson = JSON.parse(appTree.readContent('package.json'));
         expect(packageJson.dependencies['@spartacus/asm']).toEqual(
-          `^${featureLibPackageJson.peerDependencies['@spartacus/asm']}`
+          `~${featureLibPackageJson.peerDependencies['@spartacus/asm']}`
         );
         expect(packageJson.dependencies['@spartacus/user']).toEqual(
-          `^${featureLibPackageJson.peerDependencies['@spartacus/user']}`
+          `~${featureLibPackageJson.peerDependencies['@spartacus/user']}`
         );
       });
 

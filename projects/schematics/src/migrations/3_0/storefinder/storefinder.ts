@@ -23,7 +23,7 @@ import {
   ANGULAR_CORE,
   commitChanges,
   getDefaultProjectNameFromWorkspace,
-  getSpartacusSchematicsVersion,
+  getPrefixedSpartacusSchematicsVersion,
   getTsSourceFile,
   installPackageJsonDependencies,
   readPackageJson,
@@ -124,7 +124,7 @@ function removeOldSetup(appModulePath: string): Rule {
 }
 
 function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
   const dependencies: NodeDependency[] = [
     {
       type: NodeDependencyType.Default,

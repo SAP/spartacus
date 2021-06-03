@@ -29,7 +29,7 @@ import {
 import { createImportChange } from '../../../shared/utils/module-file-utils';
 import {
   checkIfSSRIsUsed,
-  getSpartacusSchematicsVersion,
+  getPrefixedSpartacusSchematicsVersion,
   readPackageJson,
 } from '../../../shared/utils/package-utils';
 
@@ -83,7 +83,7 @@ function updateImport(): Rule {
 }
 
 function addSetupPackageJsonDependencies(packageJson: any): Rule {
-  const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
+  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
   const dependencies: NodeDependency[] = [
     {
       type: NodeDependencyType.Default,
