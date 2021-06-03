@@ -145,7 +145,7 @@ describe('CheckoutPromotionService', () => {
     });
   });
 
-  describe('getOrderPromotions', () => {
+  describe('getProductPromotionForAllEntries', () => {
     it('should return appropriate applied product promotions for all entries', (done) => {
       const productPromotionForAllEntries = checkoutPromotionService.getProductPromotionForAllEntries(
         mockCheckoutDetails
