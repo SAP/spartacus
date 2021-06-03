@@ -6,6 +6,7 @@ import {
   CartOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
+  OrderOccModule,
   ProductModule,
   ProductOccModule,
   UserOccTransitionalModule,
@@ -136,6 +137,8 @@ if (environment.cpq) {
     AnonymousConsentsDialogModule,
     AnonymousConsentManagementBannerModule,
 
+    // Order Normalizers
+    OrderOccModule,
     // Product Core
     ProductModule.forRoot(),
     ProductOccModule,
