@@ -369,6 +369,7 @@ export const CONTEXT = 'context';
 export const SEMANTIC_ROUTE = 'semanticRoute';
 export const URL = 'url';
 export const PARAMS = 'params';
+export const INITIALIZE = 'initialize';
 
 /***** Classes end *****/
 
