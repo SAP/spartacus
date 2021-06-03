@@ -22,4 +22,10 @@ export const DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION: ConstructorDeprecation = {
       importPath: SPARTACUS_CORE,
     },
   ],
+  removeParams: [
+    {
+      className: SMART_EDIT_SERVICE,
+      importPath: SPARTACUS_CORE,
+    },
+  ],
 };

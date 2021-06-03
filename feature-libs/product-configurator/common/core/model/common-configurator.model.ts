@@ -19,7 +19,7 @@ export namespace CommonConfigurator {
     /**
      * Configurator type. Derived from the cxRoute
      */
-    configuratorType?: string;
+    configuratorType: string;
   }
 
   export interface ReadConfigurationFromCartEntryParameters {

@@ -1,6 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
+import {
+  Configurator,
+  ConfiguratorTestUtils,
+} from '@spartacus/product-configurator/rulebased';
 import { OccConfiguratorCpqUpdateCartEntrySerializer } from './occ-configurator-cpq-update-cart-entry-serializer';
 
 describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
@@ -14,7 +18,12 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
   const sourceParameters: Configurator.UpdateConfigurationForCartEntryParameters = {
     userId: USER_ID,
     cartId: CART_ID,
-    configuration: { configId: CONFIG_ID, owner: { key: 'B' } },
+    configuration: {
+      ...ConfiguratorTestUtils.createConfiguration(
+        CONFIG_ID,
+        ConfiguratorModelUtils.createInitialOwner()
+      ),
+    },
     cartEntryNumber: ENTRY_NUMBER,
   };
 

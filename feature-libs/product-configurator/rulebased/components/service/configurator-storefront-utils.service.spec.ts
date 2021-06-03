@@ -30,6 +30,7 @@ describe('ConfigUtilsService', () => {
     'testProduct'
   );
   let keyboardFocusService: KeyboardFocusService;
+  let querySelectorOriginal: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,6 +49,11 @@ describe('ConfigUtilsService', () => {
     keyboardFocusService = TestBed.inject(
       KeyboardFocusService as Type<KeyboardFocusService>
     );
+    querySelectorOriginal = document.querySelector;
+  });
+
+  afterEach(() => {
+    document.querySelector = querySelectorOriginal;
   });
 
   it('should be created', () => {
@@ -117,24 +123,30 @@ describe('ConfigUtilsService', () => {
   });
 
   describe('focusFirstAttribute', () => {
-    it('should return no focused attribute because keyboardFocusService is undefined', () => {
+    it('should not delegate to keyboardFocusService if we did not provide that', () => {
       classUnderTest['keyboardFocusService'] = undefined;
       spyOn(keyboardFocusService, 'findFocusable').and.stub();
       classUnderTest.focusFirstAttribute();
       expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
     });
 
-    it('should return no focused attribute because keyboardFocusService is null', () => {
-      classUnderTest['keyboardFocusService'] = null;
-      spyOn(keyboardFocusService, 'findFocusable').and.stub();
-      classUnderTest.focusFirstAttribute();
-      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
-    });
-
-    it('should return no focused attribute because there is no found', () => {
+    it('should delegate to focus service', () => {
+      const theElement = document.createElement('form');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
       spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
       classUnderTest.focusFirstAttribute();
       expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not delegate to focus service if form is not available', () => {
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(null);
+      spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
+      classUnderTest.focusFirstAttribute();
+      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
     });
   });
 });

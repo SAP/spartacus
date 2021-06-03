@@ -15,7 +15,19 @@
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/tracking": ["dist/tracking"],
+      "@spartacus/tracking/personalization/core": [
+        "dist/tracking/personalization/core"
+      ],
+      "@spartacus/tracking/personalization": ["dist/tracking/personalization"],
+      "@spartacus/tracking/personalization/root": [
+        "dist/tracking/personalization/root"
+      ],
+      "@spartacus/tracking/tms/aep": ["dist/tracking/tms/aep"],
+      "@spartacus/tracking/tms/core": ["dist/tracking/tms/core"],
+      "@spartacus/tracking/tms/gtm": ["dist/tracking/tms/gtm"],
+      "@spartacus/tracking/tms": ["dist/tracking/tms"]
     }
   },
   "angularCompilerOptions": {

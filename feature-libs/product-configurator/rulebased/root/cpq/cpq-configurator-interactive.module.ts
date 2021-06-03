@@ -58,6 +58,7 @@ import { defaultCpqInteractiveRoutingConfig } from './default-cpq-interactive-ro
           lg: {
             slots: [
               'CpqConfigHeader',
+              'CpqConfigBanner',
               'CpqConfigMenu',
               'CpqConfigContent',
               'CpqConfigOverviewBanner',
@@ -68,6 +69,7 @@ import { defaultCpqInteractiveRoutingConfig } from './default-cpq-interactive-ro
 
           slots: [
             'CpqConfigHeader',
+            'CpqConfigBanner',
             'CpqConfigContent',
             'CpqConfigOverviewBanner',
             'CpqConfigOverviewContent',

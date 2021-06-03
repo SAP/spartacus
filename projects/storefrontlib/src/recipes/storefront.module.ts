@@ -5,7 +5,6 @@ import { StoreModule } from '@ngrx/store';
 import {
   ExternalRoutesModule,
   OccModule,
-  PersonalizationModule,
   provideConfig,
   SiteContextModule,
 } from '@spartacus/core';
@@ -35,8 +34,6 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     StorefrontFoundationModule,
     MainModule,
     SiteContextModule.forRoot(), // should be imported after RouterModule.forRoot, because it overwrites UrlSerializer
-
-    PersonalizationModule.forRoot(), // should be custom
 
     // opt-in explicitly
     OccModule.forRoot(),

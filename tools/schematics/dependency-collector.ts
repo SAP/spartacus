@@ -5,6 +5,8 @@ const fileName = 'projects/schematics/src/dependencies.json';
 const packageJsonDirectories: string[] = [
   'projects',
   'core-libs',
+  'feature-libs',
+  'integration-libs',
   // our root package.json
   'package.json',
 ];

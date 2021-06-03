@@ -1,5 +1,9 @@
 import { StateUtils } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorType,
+} from '@spartacus/product-configurator/common';
+import { ConfiguratorTestUtils } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 import * as ConfiguratorActions from './configurator.action';
@@ -12,11 +16,11 @@ const OWNER: CommonConfigurator.Owner = {
   id: PRODUCT_CODE,
   type: CommonConfigurator.OwnerType.PRODUCT,
   key: OWNER_KEY,
+  configuratorType: ConfiguratorType.VARIANT,
 };
 const CONFIGURATION: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER),
   productCode: PRODUCT_CODE,
-  configId: CONFIG_ID,
-  owner: OWNER,
 };
 
 describe('ConfiguratorActions', () => {
