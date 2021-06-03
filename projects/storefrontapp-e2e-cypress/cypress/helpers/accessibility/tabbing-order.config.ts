@@ -247,6 +247,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
   ],
   cart: [
+    { value: 'Saved Carts', type: TabbingOrderTypes.LINK },
+    { value: 'Save Cart For Later', type: TabbingOrderTypes.LINK },
     {
       value: 'FUN Flash Single Use Camera, 27+12 pic',
       type: TabbingOrderTypes.LINK,
@@ -2262,5 +2264,18 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.BUTTON,
       value: 'Start Session',
     },
+  ],
+  savedCartDetails: [
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'FUN Flash Single Use Camera, 27+12 pic',
+      type: TabbingOrderTypes.LINK,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Delete Saved Cart', type: TabbingOrderTypes.BUTTON },
+    { value: 'Make cart active', type: TabbingOrderTypes.BUTTON },
   ],
 };
