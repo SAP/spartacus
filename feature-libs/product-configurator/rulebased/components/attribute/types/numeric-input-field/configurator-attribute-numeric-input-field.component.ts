@@ -28,29 +28,9 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   @Input() language: string;
 
-  // TODO(#11681): make config a required dependency
-  /**
-   * @param {ConfiguratorAttributeNumericInputFieldService} configAttributeNumericInputFieldService Service for numeric formatting and validation.
-   * @param {ConfiguratorUISettingsConfig} config Optional configuration for debounce time,
-   * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
-   */
-  constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    config?: ConfiguratorUISettingsConfig
-  );
-
-  /**
-   * @deprecated  since 3.3
-   */
-  constructor(
-    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService
-  );
-
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    protected config?: ConfiguratorUISettingsConfig
+    protected config: ConfiguratorUISettingsConfig
   ) {
     super(config);
   }

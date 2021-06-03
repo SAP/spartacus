@@ -5,7 +5,6 @@ import { StoreModule } from '@ngrx/store';
 import {
   ExternalRoutesModule,
   OccModule,
-  PersonalizationModule,
   provideConfig,
   SiteContextModule,
   SmartEditModule,
@@ -35,7 +34,6 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     SiteContextModule.forRoot(), // should be imported after RouterModule.forRoot, because it overwrites UrlSerializer
 
     SmartEditModule.forRoot(), // should be custom
-    PersonalizationModule.forRoot(), // should be custom
 
     // opt-in explicitly
     OccModule.forRoot(),

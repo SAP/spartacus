@@ -15,7 +15,6 @@ import {
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ReplenishmentOrderCancellationLaunchDialogService } from './replenishment-order-cancellation-launch-dialog.service';
 import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation.component';
 
 const mockReplenishmentOrder: ReplenishmentOrder = {
@@ -36,9 +35,6 @@ class MockUserReplenishmentOrderService {
   clearReplenishmentOrderDetails() {}
 }
 
-class MockReplenishmentOrderCancellationLaunchDialogService {
-  openDialog(_openElement?: ElementRef, _vcr?: ViewContainerRef) {}
-}
 @Pipe({
   name: 'cxUrl',
 })
@@ -72,11 +68,6 @@ describe('ReplenishmentOrderCancellationComponent', () => {
           {
             provide: UserReplenishmentOrderService,
             useClass: MockUserReplenishmentOrderService,
-          },
-          // TODO(#12167): remove unused class and provider
-          {
-            provide: ReplenishmentOrderCancellationLaunchDialogService,
-            useClass: MockReplenishmentOrderCancellationLaunchDialogService,
           },
           {
             provide: LaunchDialogService,
