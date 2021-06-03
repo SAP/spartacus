@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
@@ -10,28 +10,9 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
   templateUrl: './configurator-cart-entry-info.component.html',
 })
 export class ConfiguratorCartEntryInfoComponent {
-  // TODO(#11681): make commonConfigUtilsService a required dependency and remove deprecated constructor
-  /**
-   * Default constructor
-   *
-   * @param {CartItemContext} cartItemContext
-   * @param {CommonConfiguratorUtilsService} commonConfigUtilsService
-   */
   constructor(
-    cartItemContext: CartItemContext,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    commonConfigUtilsService: CommonConfiguratorUtilsService
-  );
-  /**
-   * @deprecated since 3.3
-   */
-  constructor(cartItemContext: CartItemContext);
-
-  constructor(
-    // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
-    @Optional() protected cartItemContext?: CartItemContext,
-    @Optional()
-    protected commonConfigUtilsService?: CommonConfiguratorUtilsService
+    protected cartItemContext: CartItemContext,
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
 
   readonly orderEntry$: Observable<OrderEntry> =
