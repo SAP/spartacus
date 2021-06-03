@@ -15,7 +15,8 @@ describe('OccEndpointsService', () => {
           baseUrl: 'test-baseUrl',
           prefix: '/test-occPrefix',
           endpoints: {
-            asmCustomerSearch: '/assistedservicewebservices/customers/search',
+            regions:
+              '/countries/${isoCode}/regions?fields=regions(name,isocode,isocodeShort)',
             product: {
               default: 'configured-endpoint1/${test}?fields=abc',
               test: 'configured-endpoint1/${test}?fields=test',
@@ -46,15 +47,15 @@ describe('OccEndpointsService', () => {
 
   it('should return raw endpoint', () => {
     const occ = mockOccConfig.backend.occ;
-    expect(service.getRawEndpoint('asmCustomerSearch')).toEqual(
-      occ.baseUrl + occ.endpoints['asmCustomerSearch']
+    expect(service.getRawEndpoint('regions')).toEqual(
+      occ.baseUrl + occ.endpoints['regions']
     );
   });
 
   it('should return raw endpoint value', () => {
     const occ = mockOccConfig.backend.occ;
-    expect(service.getRawEndpointValue('asmCustomerSearch')).toEqual(
-      occ.endpoints['asmCustomerSearch'].toString()
+    expect(service.getRawEndpointValue('regions')).toEqual(
+      occ.endpoints['regions'].toString()
     );
   });
 
@@ -70,7 +71,7 @@ describe('OccEndpointsService', () => {
 
   describe('isConfigured', () => {
     it('should return true when the endpoint is configured', () => {
-      expect(service.isConfigured('asmCustomerSearch')).toBe(true);
+      expect(service.isConfigured('regions')).toBe(true);
     });
 
     it('should return false when endpoint is not configured', () => {
