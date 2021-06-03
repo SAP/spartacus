@@ -102,7 +102,7 @@ class MockCheckoutService {
   }
 }
 
-fdescribe('CheckoutPromotionService', () => {
+describe('CheckoutPromotionService', () => {
   let checkoutPromotionService: CheckoutPromotionService;
 
   beforeEach(() => {
