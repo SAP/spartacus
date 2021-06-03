@@ -6,13 +6,14 @@ import {
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorTestUtils } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions';
 import {
   CONFIGURATOR_FEATURE,
   StateWithConfigurator,
 } from '../configurator-state';
-import * as fromReducers from '../reducers/index';
+import { getConfiguratorReducers } from '../reducers/index';
 import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
@@ -20,16 +21,17 @@ describe('Configurator selectors', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   const productCode = 'CONF_LAPTOP';
   let owner = ConfiguratorModelUtils.createInitialOwner();
-  let configuration: Configurator.Configuration = {
-    configId: 'a',
-    owner: owner,
-  };
-  let configurationWithInteractionState: Configurator.Configuration = {
-    ...configuration,
+  let configuration: Configurator.Configuration = ConfiguratorTestUtils.createConfiguration(
+    'a',
+    owner
+  );
+
+  const configurationWithInteractionState: Configurator.Configuration = {
+    ...ConfiguratorTestUtils.createConfiguration('a', owner),
     interactionState: {
-      currentGroup: null,
+      currentGroup: undefined,
       groupsVisited: {},
-      menuParentGroup: null,
+      menuParentGroup: undefined,
       issueNavigationDone: true,
     },
   };
@@ -40,10 +42,7 @@ describe('Configurator selectors', () => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          CONFIGURATOR_FEATURE,
-          fromReducers.getConfiguratorReducers()
-        ),
+        StoreModule.forFeature(CONFIGURATOR_FEATURE, getConfiguratorReducers()),
       ],
     });
 
@@ -57,14 +56,10 @@ describe('Configurator selectors', () => {
     );
 
     configuration = {
-      configId: 'a',
+      ...ConfiguratorTestUtils.createConfiguration('a', owner),
       productCode: productCode,
-      owner: owner,
     };
-    configurationWithInteractionState = {
-      ...configurationWithInteractionState,
-      ...configuration,
-    };
+
     configuratorUtils.setOwnerKey(owner);
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -77,26 +72,32 @@ describe('Configurator selectors', () => {
           ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
         )
       )
-      .subscribe((value) => (result = value));
-
-    expect(result).toEqual(undefined);
+      .subscribe((value) => {
+        result = value;
+        expect(result).toEqual(undefined);
+      });
   });
 
   it('should return configuration content when selecting with content selector when action was successful', () => {
     let result: Configurator.Configuration;
     store.dispatch(
-      new ConfiguratorActions.CreateConfigurationSuccess(configuration)
+      new ConfiguratorActions.CreateConfigurationSuccess(
+        configurationWithInteractionState
+      )
     );
 
     store
       .pipe(
         select(
-          ConfiguratorSelectors.getConfigurationFactory(configuration.owner.key)
+          ConfiguratorSelectors.getConfigurationFactory(
+            configurationWithInteractionState.owner.key
+          )
         )
       )
-      .subscribe((value) => (result = value));
-
-    expect(result).toEqual(configurationWithInteractionState);
+      .subscribe((value) => {
+        result = value;
+        expect(result).toEqual(configurationWithInteractionState);
+      });
   });
 
   it('should return pending changes as false for an initial call', () => {
@@ -140,7 +141,7 @@ describe('Configurator selectors', () => {
           )
         )
       )
-      .subscribe((value) => expect(value).toEqual(undefined));
+      .subscribe((value) => expect(value).toEqual(false));
   });
 
   it('should get visited status for group', () => {

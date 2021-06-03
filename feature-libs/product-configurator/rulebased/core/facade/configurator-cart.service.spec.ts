@@ -15,10 +15,12 @@ import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
+  ConfiguratorType,
   OrderEntryStatus,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
@@ -61,8 +63,7 @@ const cart: Cart = {
 };
 
 const productConfiguration: Configurator.Configuration = {
-  configId: CONFIG_ID,
-  owner: OWNER_CART_ENTRY,
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_CART_ENTRY),
 };
 
 const cartState: StateUtils.ProcessesLoaderState<Cart> = {
@@ -138,16 +139,19 @@ describe('ConfiguratorCartService', () => {
       id: CART_ENTRY_ID,
       type: CommonConfigurator.OwnerType.CART_ENTRY,
       key: CommonConfigurator.OwnerType.CART_ENTRY + '/' + CART_ENTRY_ID,
+      configuratorType: ConfiguratorType.VARIANT,
     };
     OWNER_ORDER_ENTRY = {
       id: configuratorUtils.getComposedOwnerId(ORDER_ID, ORDER_ENTRY_NUMBER),
       type: CommonConfigurator.OwnerType.ORDER_ENTRY,
       key: CommonConfigurator.OwnerType.ORDER_ENTRY + '/1000+' + CART_ENTRY_ID,
+      configuratorType: ConfiguratorType.VARIANT,
     };
     OWNER_PRODUCT = {
       id: PRODUCT_CODE,
       type: CommonConfigurator.OwnerType.PRODUCT,
       key: CommonConfigurator.OwnerType.PRODUCT + '/' + PRODUCT_CODE,
+      configuratorType: ConfiguratorType.VARIANT,
     };
   });
 
@@ -183,8 +187,10 @@ describe('ConfiguratorCartService', () => {
       };
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
+          ...ConfiguratorTestUtils.createConfiguration(
+            '',
+            ConfiguratorModelUtils.createInitialOwner()
+          ),
         },
       };
 
@@ -214,8 +220,10 @@ describe('ConfiguratorCartService', () => {
 
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
+          ...ConfiguratorTestUtils.createConfiguration(
+            '',
+            ConfiguratorModelUtils.createInitialOwner()
+          ),
         },
       };
 
@@ -239,8 +247,10 @@ describe('ConfiguratorCartService', () => {
 
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
+          ...ConfiguratorTestUtils.createConfiguration(
+            '',
+            ConfiguratorModelUtils.createInitialOwner()
+          ),
         },
       };
 
@@ -282,8 +292,10 @@ describe('ConfiguratorCartService', () => {
       };
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
         value: {
-          configId: '',
-          owner: ConfiguratorModelUtils.createInitialOwner(),
+          ...ConfiguratorTestUtils.createConfiguration(
+            '',
+            ConfiguratorModelUtils.createInitialOwner()
+          ),
         },
       };
 

@@ -1,4 +1,4 @@
-import { delivery } from '../sample-data/checkout-flow';
+import { getDefaultDeliveryModeCode } from './utils/delivery-modes';
 
 declare global {
   namespace Cypress {
@@ -20,18 +20,16 @@ declare global {
     }
   }
 }
+
 Cypress.Commands.add('requireShippingMethodSelected', (auth, cartId) => {
-  function setShippingMethod() {
-    const cartQueryValue = cartId || 'current';
+  const cartQueryValue = cartId || 'current';
+
+  function setShippingMethod(deliveryMode) {
     return cy.request({
       method: 'PUT',
-      url: `${Cypress.env('API_URL')}/${Cypress.env(
-        'OCC_PREFIX'
-      )}/${Cypress.env(
+      url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/${cartQueryValue}/deliverymode?deliveryModeId=${
-        delivery.mode
-      }`,
+      )}/users/current/carts/${cartQueryValue}/deliverymode?deliveryModeId=${deliveryMode}`,
       form: false,
       headers: {
         Authorization: `bearer ${auth.access_token}`,
@@ -40,5 +38,7 @@ Cypress.Commands.add('requireShippingMethodSelected', (auth, cartId) => {
   }
 
   cy.server();
-  setShippingMethod().then((resp) => cy.wrap(resp));
+  getDefaultDeliveryModeCode(auth.access_token, cartId).then((code) =>
+    setShippingMethod(code).then((resp) => cy.wrap(resp))
+  );
 });

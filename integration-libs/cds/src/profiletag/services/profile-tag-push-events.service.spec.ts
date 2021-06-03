@@ -7,8 +7,6 @@ import {
   CxEvent,
   EventService,
   OrderPlacedEvent,
-  PersonalizationContext,
-  PersonalizationContextService,
 } from '@spartacus/core';
 import {
   CartPageEvent,
@@ -18,6 +16,10 @@ import {
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from '@spartacus/storefront';
+import {
+  PersonalizationContext,
+  PersonalizationContextService,
+} from '@spartacus/tracking/personalization/core';
 import { ReplaySubject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';

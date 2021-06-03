@@ -7,7 +7,10 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
+import {
+  Configurator,
+  ConfiguratorTestUtils,
+} from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
 import { CpqConfiguratorOccService } from './../occ/cpq-configurator-occ.service';
 import { CpqConfiguratorRestAdapter } from './cpq-configurator-rest.adapter';
@@ -25,20 +28,19 @@ const owner: CommonConfigurator.Owner = {
     CommonConfigurator.OwnerType.PRODUCT,
     productCode
   ),
+  configuratorType: ConfiguratorType.CPQ,
 };
 
 const productConfiguration: Configurator.Configuration = {
-  configId: configId,
+  ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   productCode: productCode,
-  owner: owner,
 };
 
 const groupId = '123';
 
 const inputForUpdateConfiguration: Configurator.Configuration = {
-  configId: configId,
+  ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   productCode: productCode,
-  owner: owner,
 };
 
 const addToCartParams: Configurator.AddToCartParameters = {
@@ -54,10 +56,7 @@ const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters =
   userId: userId,
   cartId: documentId,
   cartEntryNumber: '3',
-  configuration: {
-    configId: configId,
-    owner: owner,
-  },
+  configuration: ConfiguratorTestUtils.createConfiguration(configId, owner),
 };
 
 const cartResponse: CartModification = {
@@ -173,12 +172,17 @@ describe('CpqConfiguratorRestAdapter', () => {
   });
 
   it('should handle missing product code during create configuration', () => {
-    adapterUnderTest.createConfiguration({ key: owner.key }).subscribe(
-      () => {},
-      (error) => {
-        expect(error).toBeDefined();
-      }
-    );
+    adapterUnderTest
+      .createConfiguration({
+        key: owner.key,
+        configuratorType: ConfiguratorType.CPQ,
+      })
+      .subscribe(
+        () => {},
+        (error) => {
+          expect(error).toBeDefined();
+        }
+      );
   });
 
   it('should delegate read configuration to rest service and map owner', () => {

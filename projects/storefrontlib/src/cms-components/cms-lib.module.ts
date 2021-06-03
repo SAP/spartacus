@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { HamburgerMenuModule } from '../layout/index';
 import { AnonymousConsentManagementBannerModule } from './anonymous-consent-management/anonymous-consent-management.module';
-import { AsmModule } from './asm/asm.module';
 import { CartComponentModule } from './cart/cart.module';
 import { CheckoutComponentModule } from './checkout/checkout.module';
 import { BannerCarouselModule } from './content/banner-carousel/banner-carousel.module';
@@ -56,7 +55,6 @@ import {
 } from './product/index';
 import { ProductImagesModule } from './product/product-images/product-images.module';
 import { ProductSummaryModule } from './product/product-summary/product-summary.module';
-import { ProductVariantsModule } from './product/product-variants/product-variants.module';
 import { UserComponentModule } from './user/user.module';
 import { WishListModule } from './wish-list/wish-list.module';
 
@@ -66,7 +64,6 @@ import { WishListModule } from './wish-list/wish-list.module';
 @NgModule({
   imports: [
     AnonymousConsentManagementBannerModule,
-    AsmModule,
     HamburgerMenuModule,
     CmsParagraphModule,
     LinkModule,
@@ -97,7 +94,6 @@ import { WishListModule } from './wish-list/wish-list.module';
     OrderConfirmationModule,
     ProductImagesModule,
     ProductSummaryModule,
-    ProductVariantsModule,
     ProductIntroModule,
     CheckoutComponentModule,
     BannerCarouselModule,
