@@ -1,3 +1,4 @@
+// TODO(#12167): remove the file
 import { Component, ComponentRef, ViewContainerRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';

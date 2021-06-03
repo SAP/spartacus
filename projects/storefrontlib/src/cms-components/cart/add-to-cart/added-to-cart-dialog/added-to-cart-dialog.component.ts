@@ -48,7 +48,7 @@ export class AddedToCartDialogComponent implements OnInit {
 
   form: FormGroup = new FormGroup({});
 
-  private quantityControl$: Observable<FormControl>;
+  protected quantityControl$: Observable<FormControl>;
 
   constructor(
     protected modalService: ModalService,
@@ -64,7 +64,7 @@ export class AddedToCartDialogComponent implements OnInit {
     if (!this.quantityControl$) {
       this.quantityControl$ = this.entry$.pipe(
         filter((e) => !!e),
-        map((entry) => this.getFormControl(entry)),
+        map((entry) => this.getQuantityFormControl(entry)),
         switchMap(() =>
           this.form.valueChanges.pipe(
             // eslint-disable-next-line import/no-deprecated
@@ -102,7 +102,11 @@ export class AddedToCartDialogComponent implements OnInit {
     );
   }
 
-  private getFormControl(entry: OrderEntry): FormControl {
+  /**
+   * Adds quantity and entryNumber form controls to the FormGroup.
+   * Returns quantity form control.
+   */
+  protected getQuantityFormControl(entry: OrderEntry): FormControl {
     if (!this.form.get('quantity')) {
       const quantity = new FormControl(entry.quantity, { updateOn: 'blur' });
       this.form.addControl('quantity', quantity);

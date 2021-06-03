@@ -19,21 +19,19 @@
       class="cx-product-name"
       [innerHtml]="product.nameHtml"
     ></a>
-    <cx-star-rating
-      *ngIf="product.averageRating"
-      [rating]="product?.averageRating"
-    ></cx-star-rating>
-    <div *ngIf="!product.averageRating" class="cx-product-no-review">
-      {{ 'productDetails.noReviews' | cxTranslate }}
-    </div>
-    <div class="cx-product-price" aria-label="Product price">
-      {{ product.price?.formattedValue }}
-    </div>
 
-    <cx-variant-style-icons
-      *ngIf="product.variantOptions"
-      [variants]="product.variantOptions"
-    ></cx-variant-style-icons>
+    <ng-template [cxOutlet]="ProductListOutlets.ITEM_DETAILS">
+      <cx-star-rating
+        *ngIf="product.averageRating"
+        [rating]="product?.averageRating"
+      ></cx-star-rating>
+      <div *ngIf="!product.averageRating" class="cx-product-no-review">
+        {{ 'productDetails.noReviews' | cxTranslate }}
+      </div>
+      <div class="cx-product-price" aria-label="Product price">
+        {{ product.price?.formattedValue }}
+      </div>
+    </ng-template>
 
     <div class="row">
       <div class="col-12 col-md-8">

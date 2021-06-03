@@ -2,18 +2,23 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+import {
+  FeatureLevelDirective,
+  I18nTestingModule,
+  RoutingService,
+} from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
-  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
@@ -23,18 +28,15 @@ const mockRouterState: any = ConfigurationTestData.mockRouterState;
 const configId = '1234-56-7890';
 
 const configCreate: Configurator.Configuration = {
-  configId: configId,
-  owner: owner,
+  ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   overview: ConfigurationTestData.productConfiguration.overview,
 };
 const configCreate2: Configurator.Configuration = {
-  configId: '1234-11111',
-  owner: owner,
+  ...ConfiguratorTestUtils.createConfiguration('1234-11111', owner),
   overview: ConfigurationTestData.productConfiguration.overview,
 };
 const configInitial: Configurator.Configuration = {
-  configId: configId,
-  owner: owner,
+  ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   overview: {
     groups: [],
   },
@@ -126,6 +128,7 @@ describe('ConfigurationOverviewFormComponent', () => {
         declarations: [
           ConfiguratorOverviewFormComponent,
           ConfiguratorOverviewAttributeComponent,
+          FeatureLevelDirective,
         ],
         providers: [
           {
@@ -195,7 +198,10 @@ describe('ConfigurationOverviewFormComponent', () => {
   it('should detect that a configuration w/o groups has no attributes', () => {
     initialize();
     const configWOOverviewGroups: Configurator.Configuration = {
-      configId: configId,
+      ...ConfiguratorTestUtils.createConfiguration(
+        configId,
+        ConfiguratorModelUtils.createInitialOwner()
+      ),
       overview: {},
     };
     expect(component.hasAttributes(configWOOverviewGroups)).toBe(false);
@@ -204,7 +210,10 @@ describe('ConfigurationOverviewFormComponent', () => {
   it('should detect that a configuration w/o groups that carry attributes does not provide OV attributes', () => {
     initialize();
     const configWOOverviewAttributes: Configurator.Configuration = {
-      configId: configId,
+      ...ConfiguratorTestUtils.createConfiguration(
+        configId,
+        ConfiguratorModelUtils.createInitialOwner()
+      ),
       overview: { groups: [{ id: 'GROUP1' }] },
     };
     expect(component.hasAttributes(configWOOverviewAttributes)).toBe(false);
@@ -342,11 +351,12 @@ describe('ConfigurationOverviewFormComponent', () => {
 
 describe('ConfigurationOverviewFormComponent with forceReload', () => {
   let configuratorCommonsServiceMock: ConfiguratorCommonsService;
-  const theOwner = {
-    id: '1',
-    type: CommonConfigurator.OwnerType.CART_ENTRY,
-    configuratorType: ConfiguratorType.VARIANT,
-  };
+  const theOwner = ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.CART_ENTRY,
+    '1',
+    'cpqconfigurator'
+  );
+
   beforeEach(
     waitForAsync(() => {
       const bed = TestBed.configureTestingModule({

@@ -13,7 +13,8 @@ import {
   ReplenishmentOrder,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReplenishmentOrderCancellationLaunchDialogService } from './replenishment-order-cancellation-launch-dialog.service';
 import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation.component';
 
@@ -45,10 +46,20 @@ class MockUrlPipe implements PipeTransform {
   transform() {}
 }
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return of();
+  }
+}
+
 describe('ReplenishmentOrderCancellationComponent', () => {
   let component: ReplenishmentOrderCancellationComponent;
   let userReplenishmentOrderService: UserReplenishmentOrderService;
-  let replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService;
+  let launchDialogService: LaunchDialogService;
   let fixture: ComponentFixture<ReplenishmentOrderCancellationComponent>;
   let el: DebugElement;
 
@@ -62,9 +73,14 @@ describe('ReplenishmentOrderCancellationComponent', () => {
             provide: UserReplenishmentOrderService,
             useClass: MockUserReplenishmentOrderService,
           },
+          // TODO(#12167): remove unused class and provider
           {
             provide: ReplenishmentOrderCancellationLaunchDialogService,
             useClass: MockReplenishmentOrderCancellationLaunchDialogService,
+          },
+          {
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
           },
         ],
       }).compileComponents();
@@ -76,9 +92,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
     userReplenishmentOrderService = TestBed.inject(
       UserReplenishmentOrderService
     );
-    replenishmentOrderCancellationLaunchDialogService = TestBed.inject(
-      ReplenishmentOrderCancellationLaunchDialogService
-    );
+    launchDialogService = TestBed.inject(LaunchDialogService);
 
     component = fixture.componentInstance;
     el = fixture.debugElement;
@@ -101,16 +115,15 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   });
 
   it('should be able to call the open dialog', () => {
-    spyOn(
-      replenishmentOrderCancellationLaunchDialogService,
-      'openDialog'
-    ).and.stub();
+    spyOn(launchDialogService, 'openDialog').and.stub();
 
     el.query(By.css('button.btn-action:last-child')).nativeElement.click();
 
-    expect(
-      replenishmentOrderCancellationLaunchDialogService.openDialog
-    ).toHaveBeenCalledWith(component.element, component['vcr']);
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.REPLENISHMENT_ORDER,
+      component.element,
+      component['vcr']
+    );
   });
 
   it('should show two action button', () => {

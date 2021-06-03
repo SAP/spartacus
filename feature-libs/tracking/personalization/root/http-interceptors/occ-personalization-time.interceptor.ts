@@ -5,7 +5,7 @@ import {
   HttpRequest,
   HttpResponse,
 } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { OccEndpointsService, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -16,7 +16,7 @@ const PERSONALIZATION_TIME_KEY = 'personalization-time';
 @Injectable({ providedIn: 'root' })
 export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
   private timestamp?: string | null;
-  private requestHeader: string;
+  private requestHeader?: string;
   private enabled = false;
 
   constructor(
@@ -30,7 +30,12 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
         false;
 
       if (this.enabled) {
-        this.requestHeader = this.config.personalization.httpHeaderName.timestamp.toLowerCase();
+        if (!this.config.personalization.httpHeaderName && isDevMode()) {
+          console.warn(
+            `There is no httpHeaderName configured in Personalization`
+          );
+        }
+        this.requestHeader = this.config.personalization.httpHeaderName?.timestamp.toLowerCase();
         this.timestamp = this.winRef.localStorage?.getItem(
           PERSONALIZATION_TIME_KEY
         );
@@ -49,6 +54,7 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
     }
 
     if (
+      this.requestHeader &&
       this.timestamp &&
       request.url.includes(this.occEndpoints.getBaseEndpoint())
     ) {
@@ -62,7 +68,10 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       tap((event) => {
         if (event instanceof HttpResponse) {
-          if (event.headers.keys().includes(this.requestHeader)) {
+          if (
+            this.requestHeader &&
+            event.headers.keys().includes(this.requestHeader)
+          ) {
             const receivedTimestamp = event.headers.get(this.requestHeader);
             if (this.timestamp !== receivedTimestamp) {
               this.timestamp = receivedTimestamp;
