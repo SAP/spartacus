@@ -4,7 +4,7 @@
   "license": "Apache-2.0",
   "author": "SAP, Spartacus team",
   "engines": {
-    "node": ">=10 <14"
+    "node": ">=10 <17"
   },
   "scripts": {
     "build": "env-cmd -e ci,b2c,$SPA_ENV ng build storefrontapp --prod",
