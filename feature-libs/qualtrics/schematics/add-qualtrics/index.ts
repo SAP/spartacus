@@ -27,21 +27,16 @@ import {
 } from '../constants';
 
 export function addQualtricsFeatures(options: SpartacusQualtricsOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+
       shouldAddFeature(CLI_QUALTRICS_FEATURE, options.features)
         ? addQualtricsFeature(options)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }

@@ -1,8 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Cart schematics: ng-add Saved Cart feature styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
+exports[`Spartacus Cart schematics: ng-add Saved Cart feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { SavedCartModule } from \\"@spartacus/cart/saved-cart\\";
+import { savedCartTranslationChunksConfig, savedCartTranslations } from \\"@spartacus/cart/saved-cart/assets\\";
+import { SavedCartRootModule } from \\"@spartacus/cart/saved-cart/root\\";
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
-exports[`Spartacus Cart schematics: ng-add Saved Cart feature styling should update angular.json 1`] = `
+@NgModule({
+  declarations: [],
+  imports: [
+    SavedCartRootModule,
+    SavedCartModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: savedCartTranslations,
+      chunks: savedCartTranslationChunksConfig,
+    },
+  })]
+})
+export class CartSavedCartFeatureModule { }
+"
+`;
+
+exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { savedCartTranslationChunksConfig, savedCartTranslations } from \\"@spartacus/cart/saved-cart/assets\\";
+import { CART_SAVED_CART_FEATURE, SavedCartRootModule } from \\"@spartacus/cart/saved-cart/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    SavedCartRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [CART_SAVED_CART_FEATURE]: {
+        module: () =>
+          import('@spartacus/cart/saved-cart').then((m) => m.SavedCartModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: savedCartTranslations,
+      chunks: savedCartTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class CartSavedCartFeatureModule { }
+"
+`;
+
+exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
+
+exports[`Spartacus Cart schematics: ng-add Saved Cart feature general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,

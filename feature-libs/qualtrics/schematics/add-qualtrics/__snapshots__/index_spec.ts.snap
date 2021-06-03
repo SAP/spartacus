@@ -1,8 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature styling should create a proper scss file 1`] = `"@import \\"@spartacus/qualtrics\\";"`;
+exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { QualtricsModule } from \\"@spartacus/qualtrics\\";
+import { QualtricsRootModule } from \\"@spartacus/qualtrics/root\\";
 
-exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature styling should update angular.json 1`] = `
+@NgModule({
+  declarations: [],
+  imports: [
+    QualtricsRootModule,
+    QualtricsModule
+  ]
+})
+export class QualtricsFeatureModule { }
+"
+`;
+
+exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { QualtricsRootModule, QUALTRICS_FEATURE } from \\"@spartacus/qualtrics/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    QualtricsRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [QUALTRICS_FEATURE]: {
+        module: () =>
+          import('@spartacus/qualtrics').then((m) => m.QualtricsModule),
+      },
+    }
+  })]
+})
+export class QualtricsFeatureModule { }
+"
+`;
+
+exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/qualtrics\\";"`;
+
+exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,
@@ -134,94 +173,4 @@ exports[`Spartacus Qualtrics schematics: ng-add Qualtrics feature styling should
   },
   \\"defaultProject\\": \\"schematics-test\\"
 }"
-`;
-
-exports[`Spartacus Qualtrics schematics: ng-add When no features are provided should not add the feature to the feature module 1`] = `
-"import { NgModule } from '@angular/core';
-import { AnonymousConsentsModule, AuthModule, CartModule, CartOccModule, CheckoutModule, CheckoutOccModule, CostCenterOccModule, ProductModule, ProductOccModule, UserOccTransitionalModule, UserTransitionalModule } from \\"@spartacus/core\\";
-import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CartComponentModule, CartPageEventModule, CategoryNavigationModule, CheckoutComponentModule, CheckoutLoginModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, OrderCancellationModule, OrderConfirmationModule, OrderDetailsModule, OrderHistoryModule, OrderReturnModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, ReplenishmentOrderConfirmationModule, ReplenishmentOrderDetailsModule, ReplenishmentOrderHistoryModule, ReturnRequestDetailModule, ReturnRequestListModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule, WishListModule } from \\"@spartacus/storefront\\";
-
-@NgModule({
-  declarations: [],
-  imports: [
-    // Auth Core
-    AuthModule.forRoot(),
-    LogoutModule,
-    LoginRouteModule,
-    // Basic Cms Components
-    HamburgerMenuModule,
-    SiteContextSelectorModule,
-    LinkModule,
-    BannerModule,
-    CmsParagraphModule,
-    TabParagraphContainerModule,
-    BannerCarouselModule,
-    CategoryNavigationModule,
-    NavigationModule,
-    FooterNavigationModule,
-    BreadcrumbModule,
-    // User Core,
-    UserTransitionalModule,
-    UserOccTransitionalModule,
-    // User UI,
-    AddressBookModule,
-    PaymentMethodsModule,
-    NotificationPreferenceModule,
-    MyInterestsModule,
-    StockNotificationModule,
-    ConsentManagementModule,
-    MyCouponsModule,
-    // Anonymous Consents Core,
-    AnonymousConsentsModule.forRoot(),
-    // Anonymous Consents UI,
-    AnonymousConsentsDialogModule,
-    AnonymousConsentManagementBannerModule,
-    // Product Core,
-    ProductModule.forRoot(),
-    ProductOccModule,
-    // Product UI,
-    ProductDetailsPageModule,
-    ProductListingPageModule,
-    ProductListModule,
-    SearchBoxModule,
-    ProductFacetNavigationModule,
-    ProductTabsModule,
-    ProductCarouselModule,
-    ProductReferencesModule,
-    ProductImagesModule,
-    ProductSummaryModule,
-    ProductIntroModule,
-    // Cart Core,
-    CartModule.forRoot(),
-    CartOccModule,
-    // Cart UI,
-    CartComponentModule,
-    WishListModule,
-    // Checkout Core,
-    CheckoutModule.forRoot(),
-    CheckoutOccModule,
-    CostCenterOccModule,
-    // Checkout UI,
-    CheckoutLoginModule,
-    CheckoutComponentModule,
-    OrderConfirmationModule,
-    // Order,
-    OrderHistoryModule,
-    OrderDetailsModule,
-    OrderCancellationModule,
-    OrderReturnModule,
-    ReturnRequestListModule,
-    ReturnRequestDetailModule,
-    ReplenishmentOrderHistoryModule,
-    ReplenishmentOrderDetailsModule,
-    ReplenishmentOrderConfirmationModule,
-    // Page Events,
-    NavigationEventModule,
-    HomePageEventModule,
-    CartPageEventModule,
-    ProductPageEventModule,
-  ]
-})
-export class SpartacusFeaturesModule { }
-"
 `;

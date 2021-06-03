@@ -1,6 +1,222 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus product configurator schematics: ng-add Product config feature lazy loading with CPQ feature enabled should add b2b features by adding configuration module 1`] = `
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
+import { RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RulebasedConfiguratorRootModule,
+    RulebasedConfiguratorModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: configuratorTranslations,
+      chunks: configuratorTranslationChunksConfig,
+    },
+  })]
+})
+export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RulebasedConfiguratorRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
+        module: () =>
+          import('@spartacus/product-configurator/rulebased').then((m) => m.RulebasedConfiguratorModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: configuratorTranslations,
+      chunks: configuratorTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/product-configurator\\";"`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased general setup styling should update angular.json 1`] = `
+"{
+  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
+  \\"version\\": 1,
+  \\"newProjectRoot\\": \\"\\",
+  \\"projects\\": {
+    \\"schematics-test\\": {
+      \\"projectType\\": \\"application\\",
+      \\"schematics\\": {
+        \\"@schematics/angular:component\\": {
+          \\"style\\": \\"scss\\"
+        }
+      },
+      \\"root\\": \\"\\",
+      \\"sourceRoot\\": \\"src\\",
+      \\"prefix\\": \\"app\\",
+      \\"architect\\": {
+        \\"build\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
+          \\"options\\": {
+            \\"outputPath\\": \\"dist/schematics-test\\",
+            \\"index\\": \\"src/index.html\\",
+            \\"main\\": \\"src/main.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.app.json\\",
+            \\"aot\\": true,
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/product-configurator.scss\\"
+            ],
+            \\"scripts\\": []
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"fileReplacements\\": [
+                {
+                  \\"replace\\": \\"src/environments/environment.ts\\",
+                  \\"with\\": \\"src/environments/environment.prod.ts\\"
+                }
+              ],
+              \\"optimization\\": true,
+              \\"outputHashing\\": \\"all\\",
+              \\"sourceMap\\": false,
+              \\"extractCss\\": true,
+              \\"namedChunks\\": false,
+              \\"extractLicenses\\": true,
+              \\"vendorChunk\\": false,
+              \\"buildOptimizer\\": true,
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"2mb\\",
+                  \\"maximumError\\": \\"5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"6kb\\",
+                  \\"maximumError\\": \\"10kb\\"
+                }
+              ]
+            }
+          }
+        },
+        \\"serve\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"browserTarget\\": \\"schematics-test:build:production\\"
+            }
+          }
+        },
+        \\"extract-i18n\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          }
+        },
+        \\"test\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
+          \\"options\\": {
+            \\"main\\": \\"src/test.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.spec.json\\",
+            \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/product-configurator.scss\\"
+            ],
+            \\"scripts\\": []
+          }
+        },
+        \\"lint\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:tslint\\",
+          \\"options\\": {
+            \\"tsConfig\\": [
+              \\"tsconfig.app.json\\",
+              \\"tsconfig.spec.json\\",
+              \\"e2e/tsconfig.json\\"
+            ],
+            \\"exclude\\": [
+              \\"**/node_modules/**\\"
+            ]
+          }
+        },
+        \\"e2e\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:protractor\\",
+          \\"options\\": {
+            \\"protractorConfig\\": \\"e2e/protractor.conf.js\\",
+            \\"devServerTarget\\": \\"schematics-test:serve\\"
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"devServerTarget\\": \\"schematics-test:serve:production\\"
+            }
+          }
+        }
+      }
+    }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
+}"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with CPQ eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurator/rulebased/cpq\\";
+import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RulebasedConfiguratorRootModule,
+    RulebasedCpqConfiguratorModule,
+    CpqConfiguratorRootModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: configuratorTranslations,
+      chunks: configuratorTranslationChunksConfig,
+    },
+  })]
+})
+export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with CPQ general setup b2b features configuration should be added 1`] = `
 "import { NgModule } from '@angular/core';
 import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
 import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
@@ -38,9 +254,528 @@ export class SpartacusConfigurationModule { }
 "
 `;
 
-exports[`Spartacus product configurator schematics: ng-add Product config feature styling should create a proper scss file 1`] = `"@import \\"@spartacus/product-configurator\\";"`;
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with CPQ general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { CpqConfiguratorRootModule, PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
 
-exports[`Spartacus product configurator schematics: ng-add Product config feature styling should update angular.json 1`] = `
+@NgModule({
+  declarations: [],
+  imports: [
+    RulebasedConfiguratorRootModule,
+    CpqConfiguratorRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
+        module: () =>
+          import('@spartacus/product-configurator/rulebased/cpq').then((m) => m.RulebasedCpqConfiguratorModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: configuratorTranslations,
+      chunks: configuratorTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with CPQ general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/product-configurator\\";"`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with CPQ general setup styling should update angular.json 1`] = `
+"{
+  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
+  \\"version\\": 1,
+  \\"newProjectRoot\\": \\"\\",
+  \\"projects\\": {
+    \\"schematics-test\\": {
+      \\"projectType\\": \\"application\\",
+      \\"schematics\\": {
+        \\"@schematics/angular:component\\": {
+          \\"style\\": \\"scss\\"
+        }
+      },
+      \\"root\\": \\"\\",
+      \\"sourceRoot\\": \\"src\\",
+      \\"prefix\\": \\"app\\",
+      \\"architect\\": {
+        \\"build\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
+          \\"options\\": {
+            \\"outputPath\\": \\"dist/schematics-test\\",
+            \\"index\\": \\"src/index.html\\",
+            \\"main\\": \\"src/main.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.app.json\\",
+            \\"aot\\": true,
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/product-configurator.scss\\"
+            ],
+            \\"scripts\\": []
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"fileReplacements\\": [
+                {
+                  \\"replace\\": \\"src/environments/environment.ts\\",
+                  \\"with\\": \\"src/environments/environment.prod.ts\\"
+                }
+              ],
+              \\"optimization\\": true,
+              \\"outputHashing\\": \\"all\\",
+              \\"sourceMap\\": false,
+              \\"extractCss\\": true,
+              \\"namedChunks\\": false,
+              \\"extractLicenses\\": true,
+              \\"vendorChunk\\": false,
+              \\"buildOptimizer\\": true,
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"2mb\\",
+                  \\"maximumError\\": \\"5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"6kb\\",
+                  \\"maximumError\\": \\"10kb\\"
+                }
+              ]
+            }
+          }
+        },
+        \\"serve\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"browserTarget\\": \\"schematics-test:build:production\\"
+            }
+          }
+        },
+        \\"extract-i18n\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          }
+        },
+        \\"test\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
+          \\"options\\": {
+            \\"main\\": \\"src/test.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.spec.json\\",
+            \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/product-configurator.scss\\"
+            ],
+            \\"scripts\\": []
+          }
+        },
+        \\"lint\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:tslint\\",
+          \\"options\\": {
+            \\"tsConfig\\": [
+              \\"tsconfig.app.json\\",
+              \\"tsconfig.spec.json\\",
+              \\"e2e/tsconfig.json\\"
+            ],
+            \\"exclude\\": [
+              \\"**/node_modules/**\\"
+            ]
+          }
+        },
+        \\"e2e\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:protractor\\",
+          \\"options\\": {
+            \\"protractorConfig\\": \\"e2e/protractor.conf.js\\",
+            \\"devServerTarget\\": \\"schematics-test:serve\\"
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"devServerTarget\\": \\"schematics-test:serve:production\\"
+            }
+          }
+        }
+      }
+    }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
+}"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with Textfield eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { RulebasedConfiguratorModule } from \\"@spartacus/product-configurator/rulebased\\";
+import { RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
+import { TextfieldConfiguratorModule } from \\"@spartacus/product-configurator/textfield\\";
+import { TextfieldConfiguratorRootModule } from \\"@spartacus/product-configurator/textfield/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RulebasedConfiguratorRootModule,
+    RulebasedConfiguratorModule,
+    TextfieldConfiguratorRootModule,
+    TextfieldConfiguratorModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: configuratorTranslations,
+      chunks: configuratorTranslationChunksConfig,
+    },
+  })]
+})
+export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with Textfield general setup b2b features configuration should not be added 1`] = `
+"import { NgModule } from '@angular/core';
+import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+  ],
+  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+    backend: {
+      occ: {
+        baseUrl: 'https://localhost:9002',
+      }
+    },
+  }), provideConfig(<SiteContextConfig>{
+    context: {
+      currency: ['USD'],
+      language: ['en'],
+    },
+  }), provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunksConfig,
+      fallbackLang: 'en'
+    },
+  }), provideConfig(<FeaturesConfig>{
+    features: {
+      level: '3.2'
+    }
+  })]
+})
+export class SpartacusConfigurationModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with Textfield general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
+import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule } from \\"@spartacus/product-configurator/textfield/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RulebasedConfiguratorRootModule,
+    TextfieldConfiguratorRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
+        module: () =>
+          import('@spartacus/product-configurator/rulebased').then((m) => m.RulebasedConfiguratorModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: configuratorTranslations,
+      chunks: configuratorTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE]: {
+        module: () =>
+          import('@spartacus/product-configurator/textfield').then((m) => m.TextfieldConfiguratorModule),
+      },
+    }
+  })
+  ]
+})
+export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with Textfield general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/product-configurator\\";"`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with Textfield general setup styling should update angular.json 1`] = `
+"{
+  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
+  \\"version\\": 1,
+  \\"newProjectRoot\\": \\"\\",
+  \\"projects\\": {
+    \\"schematics-test\\": {
+      \\"projectType\\": \\"application\\",
+      \\"schematics\\": {
+        \\"@schematics/angular:component\\": {
+          \\"style\\": \\"scss\\"
+        }
+      },
+      \\"root\\": \\"\\",
+      \\"sourceRoot\\": \\"src\\",
+      \\"prefix\\": \\"app\\",
+      \\"architect\\": {
+        \\"build\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
+          \\"options\\": {
+            \\"outputPath\\": \\"dist/schematics-test\\",
+            \\"index\\": \\"src/index.html\\",
+            \\"main\\": \\"src/main.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.app.json\\",
+            \\"aot\\": true,
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/product-configurator.scss\\"
+            ],
+            \\"scripts\\": []
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"fileReplacements\\": [
+                {
+                  \\"replace\\": \\"src/environments/environment.ts\\",
+                  \\"with\\": \\"src/environments/environment.prod.ts\\"
+                }
+              ],
+              \\"optimization\\": true,
+              \\"outputHashing\\": \\"all\\",
+              \\"sourceMap\\": false,
+              \\"extractCss\\": true,
+              \\"namedChunks\\": false,
+              \\"extractLicenses\\": true,
+              \\"vendorChunk\\": false,
+              \\"buildOptimizer\\": true,
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"2mb\\",
+                  \\"maximumError\\": \\"5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"6kb\\",
+                  \\"maximumError\\": \\"10kb\\"
+                }
+              ]
+            }
+          }
+        },
+        \\"serve\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"browserTarget\\": \\"schematics-test:build:production\\"
+            }
+          }
+        },
+        \\"extract-i18n\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          }
+        },
+        \\"test\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
+          \\"options\\": {
+            \\"main\\": \\"src/test.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.spec.json\\",
+            \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/product-configurator.scss\\"
+            ],
+            \\"scripts\\": []
+          }
+        },
+        \\"lint\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:tslint\\",
+          \\"options\\": {
+            \\"tsConfig\\": [
+              \\"tsconfig.app.json\\",
+              \\"tsconfig.spec.json\\",
+              \\"e2e/tsconfig.json\\"
+            ],
+            \\"exclude\\": [
+              \\"**/node_modules/**\\"
+            ]
+          }
+        },
+        \\"e2e\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:protractor\\",
+          \\"options\\": {
+            \\"protractorConfig\\": \\"e2e/protractor.conf.js\\",
+            \\"devServerTarget\\": \\"schematics-test:serve\\"
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"devServerTarget\\": \\"schematics-test:serve:production\\"
+            }
+          }
+        }
+      }
+    }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
+}"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with both CPQ and Textfield eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { RulebasedCpqConfiguratorModule } from \\"@spartacus/product-configurator/rulebased/cpq\\";
+import { CpqConfiguratorRootModule, RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
+import { TextfieldConfiguratorModule } from \\"@spartacus/product-configurator/textfield\\";
+import { TextfieldConfiguratorRootModule } from \\"@spartacus/product-configurator/textfield/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RulebasedConfiguratorRootModule,
+    RulebasedCpqConfiguratorModule,
+    CpqConfiguratorRootModule,
+    TextfieldConfiguratorRootModule,
+    TextfieldConfiguratorModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: configuratorTranslations,
+      chunks: configuratorTranslationChunksConfig,
+    },
+  })]
+})
+export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with both CPQ and Textfield general setup b2b features configuration should be added 1`] = `
+"import { NgModule } from '@angular/core';
+import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
+import { defaultB2bCheckoutConfig, defaultB2bOccConfig } from \\"@spartacus/setup\\";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+  ],
+  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+    backend: {
+      occ: {
+        baseUrl: 'https://localhost:9002',
+      }
+    },
+  }), provideConfig(<SiteContextConfig>{
+    context: {
+      currency: ['USD'],
+      language: ['en'],
+    },
+  }), provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunksConfig,
+      fallbackLang: 'en'
+    },
+  }), provideConfig(<FeaturesConfig>{
+    features: {
+      level: '3.2'
+    }
+  }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
+})
+export class SpartacusConfigurationModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with both CPQ and Textfield general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { configuratorTranslationChunksConfig, configuratorTranslations } from \\"@spartacus/product-configurator/common/assets\\";
+import { CpqConfiguratorRootModule, PRODUCT_CONFIGURATOR_RULEBASED_FEATURE, RulebasedConfiguratorRootModule } from \\"@spartacus/product-configurator/rulebased/root\\";
+import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE, TextfieldConfiguratorRootModule } from \\"@spartacus/product-configurator/textfield/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    RulebasedConfiguratorRootModule,
+    CpqConfiguratorRootModule,
+    TextfieldConfiguratorRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
+        module: () =>
+          import('@spartacus/product-configurator/rulebased/cpq').then((m) => m.RulebasedCpqConfiguratorModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: configuratorTranslations,
+      chunks: configuratorTranslationChunksConfig,
+    },
+  }),
+  provideConfig(<CmsConfig>{
+    featureModules: {
+      [PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE]: {
+        module: () =>
+          import('@spartacus/product-configurator/textfield').then((m) => m.TextfieldConfiguratorModule),
+      },
+    }
+  })
+  ]
+})
+export class ProductConfiguratorFeatureModule { }
+"
+`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with both CPQ and Textfield general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/product-configurator\\";"`;
+
+exports[`Spartacus product configurator schematics: ng-add Product config feature Rulebased with both CPQ and Textfield general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,
