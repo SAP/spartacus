@@ -84,18 +84,8 @@ export class CartItemComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     if (this.promotions) {
-      console.log(
-        `CartItemComponent taking supplied promitions for item ${this.item.entryNumber}`,
-        this.item,
-        this.promotions
-      );
       this.appliedProductPromotions$ = this.promotions;
     } else {
-      console.log(
-        `CartItemComponent fetching promotions for item ${this.item.entryNumber}`,
-        this.promotionLocation,
-        this.item
-      );
       this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(
         this.item,
         this.promotionLocation
