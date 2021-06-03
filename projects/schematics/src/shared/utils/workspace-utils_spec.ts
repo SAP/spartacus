@@ -13,6 +13,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
+import { SPARTACUS_CORE } from '../../shared/constants';
 import {
   buildDefaultPath,
   getProjectFromWorkspace,
@@ -40,7 +41,6 @@ describe('Workspace utils', () => {
   };
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
