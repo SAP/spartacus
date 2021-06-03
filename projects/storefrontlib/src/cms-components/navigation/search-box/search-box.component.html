@@ -2,7 +2,7 @@
   <input
     #searchInput
     [placeholder]="'searchBox.placeholder' | cxTranslate"
-    aria-label="search"
+    attr.aria-label="{{ 'searchBox.ariaLabel' | cxTranslate }}"
     (focus)="open()"
     (click)="open()"
     (input)="search(searchInput.value)"
@@ -19,7 +19,7 @@
   />
 
   <button
-    aria-label="reset"
+    attr.aria-label="{{ 'searchBox.resetLabel' | cxTranslate }}"
     (mousedown)="clear(searchInput)"
     (keydown.enter)="clear(searchInput)"
     class="reset"
@@ -28,15 +28,14 @@
     <cx-icon [type]="iconTypes.RESET"></cx-icon>
   </button>
 
-  <button
-    aria-label="search"
+  <div
+    role="presentation"
     class="search"
     (mousedown)="avoidReopen($event); open()"
     (keydown.enter)="avoidReopen($event)"
-    tabindex="0"
   >
     <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
-  </button>
+  </div>
 </label>
 
 <div

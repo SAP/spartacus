@@ -43,6 +43,8 @@ export const common = {
   },
   searchBox: {
     placeholder: 'Search here...',
+    ariaLabel: 'Search, press enter after typing to start searching',
+    resetLabel: 'Reset Search',
     help: {
       insufficientChars: 'Please type more characters',
       noMatch: 'We could not find any results',

@@ -92,7 +92,7 @@
       min-width: 300px;
       max-width: 550px;
       // hide search icon when the input is dirty
-      &.dirty button.search {
+      &.dirty div.search {
         display: none;
       }
     }
@@ -130,13 +130,15 @@
       display: none;
     }
 
-    button {
+    button,
+    div.search {
       color: currentColor;
       flex-basis: 48px;
       text-align: center;
       cursor: pointer;
       background: none;
       border: none;
+      padding: 6px;
       &.reset cx-icon {
         &:before {
           font-size: 1.4rem;
