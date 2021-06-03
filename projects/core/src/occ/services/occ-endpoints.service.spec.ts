@@ -15,7 +15,8 @@ describe('OccEndpointsService', () => {
           baseUrl: 'test-baseUrl',
           prefix: '/test-occPrefix',
           endpoints: {
-            asmCustomerSearch: '/assistedservicewebservices/customers/search',
+            regions:
+              '/countries/${isoCode}/regions?fields=regions(name,isocode,isocodeShort)',
             product: {
               default: 'configured-endpoint1/${test}?fields=abc',
               test: 'configured-endpoint1/${test}?fields=test',
@@ -50,22 +51,22 @@ describe('OccEndpointsService', () => {
 
   it('should return raw endpoint', () => {
     const occ = mockOccConfig.backend.occ;
-    expect(service.getRawEndpoint('asmCustomerSearch')).toEqual(
-      occ.baseUrl + occ.endpoints['asmCustomerSearch']
+    expect(service.getRawEndpoint('regions')).toEqual(
+      occ.baseUrl + occ.endpoints['regions']
     );
   });
 
   it('should return raw endpoint value', () => {
     const occ = mockOccConfig.backend.occ;
-    expect(service.getRawEndpointValue('asmCustomerSearch')).toEqual(
-      occ.endpoints['asmCustomerSearch'].toString()
+    expect(service.getRawEndpointValue('regions')).toEqual(
+      occ.endpoints['regions'].toString()
     );
   });
 
   it('should return occ endpoint', () => {
     const occ = mockOccConfig.backend.occ;
-    expect(service.getOccEndpoint('asmCustomerSearch')).toEqual(
-      occ.baseUrl + occ.prefix + occ.endpoints['asmCustomerSearch']
+    expect(service.getOccEndpoint('regions')).toEqual(
+      occ.baseUrl + occ.prefix + occ.endpoints['regions']
     );
   });
 
@@ -77,6 +78,28 @@ describe('OccEndpointsService', () => {
     expect(service.getBaseEndpoint()).toEqual(
       'test-baseUrl/test-occPrefix/final-baseSite'
     );
+  });
+
+  describe('isConfigured', () => {
+    it('should return true when the endpoint is configured', () => {
+      expect(service.isConfigured('regions')).toBe(true);
+    });
+
+    it('should return false when endpoint is not configured', () => {
+      expect(service.isConfigured('unknown')).toBe(false);
+    });
+
+    it('should return true if endpoint with scope is configured', () => {
+      expect(service.isConfigured('product', 'test')).toBe(true);
+    });
+
+    it('should return true when endpoint have default scope', () => {
+      expect(service.isConfigured('product')).toBe(true);
+    });
+
+    it('should return false for not configured scope', () => {
+      expect(service.isConfigured('product', 'unknown')).toBe(false);
+    });
   });
 
   describe('getUrl', () => {

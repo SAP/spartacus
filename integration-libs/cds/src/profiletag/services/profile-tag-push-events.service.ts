@@ -6,7 +6,6 @@ import {
   Category,
   EventService,
   OrderPlacedEvent,
-  PersonalizationContextService,
 } from '@spartacus/core';
 import {
   CartPageEvent,
@@ -16,6 +15,7 @@ import {
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from '@spartacus/storefront';
+import { PersonalizationContextService } from '@spartacus/tracking/personalization/core';
 import { merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -95,8 +95,8 @@ export class ProfileTagPushEventsService {
       ),
       map(([item, personalizationContext]) => {
         item.data = item.data ? item.data : {};
-        item.data.segments = personalizationContext.segments;
-        item.data.actions = personalizationContext.actions;
+        item.data.segments = personalizationContext?.segments;
+        item.data.actions = personalizationContext?.actions;
         return item;
       })
     );
