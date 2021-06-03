@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 
 /**
- * @deprecated since 4.0, it is not be used any more.
+ * @deprecated since 4.0, it is not used any more.
  */
 @Injectable({
   providedIn: 'root',
