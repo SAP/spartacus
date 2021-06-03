@@ -37,7 +37,17 @@
         ],
         "type": "string"
       },
-      "default": ["Account", "Profile"],
+      "default": [
+        "ASM",
+        "Saved-Cart",
+        "Bulk-Pricing",
+        "Product-Variants",
+        "SmartEdit",
+        "Store-Finder",
+        "Personalization",
+        "Account",
+        "Profile"
+      ],
       "x-prompt": {
         "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the Account feature is required.",
         "type": "list",
