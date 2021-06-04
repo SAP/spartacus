@@ -39,6 +39,10 @@ export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
 export const SPARTACUS_USER = '@spartacus/user';
+export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
+export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
+export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
+export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -651,6 +655,41 @@ export const PERSONALIZATION_CONFIG = 'PersonalizationConfig';
 export const PERSONALIZATION_CONTEXT_SERVICE = 'PersonalizationContextService';
 export const PERSONALIZATION_ACTION = 'PersonalizationAction';
 export const PERSONALIZATION_CONTEXT = 'PersonalizationContext';
+export const TRANSLATION_CHUNKS_CONFIG = 'TranslationChunksConfig';
+export const MINI_LOGIN_TRANSLATION_CHUNK = 'miniLogin';
+export const UPDATE_EMAIL_FORM_TRANSLATION_CHUNK = 'updateEmailForm';
+export const FORGOTTEN_PASSWORD_TRANSLATION_CHUNK = 'forgottenPassword';
+export const LOGIN_FORM_TRANSLATION_CHUNK = 'loginForm';
+export const REGISTER_TRANSLATION_CHUNK = 'register';
+
+export const CMS_LIB_MODULE = 'CmsLibModule';
+export const CLOSE_ACCOUNT_MODULE = 'CloseAccountModule';
+export const FORGOT_PASSWORD_MODULE = 'ForgotPasswordModule';
+export const REGISTER_COMPONENT_MODULE = 'RegisterComponentModule';
+export const RESET_PASSWORD_MODULE = 'ResetPasswordModule';
+export const RESET_PASSWORD_COMPONENT = 'ResetPasswordComponent';
+export const RESET_PASSWORD_FORM_COMPONENT = 'ResetPasswordFormComponent';
+export const LOGIN_COMPONENT = 'LoginComponent';
+export const LOGIN_MODULE = 'LoginModule';
+export const LOGIN_FORM_MODULE = 'LoginFormModule';
+export const LOGIN_REGISTER_COMPONENT = 'LoginRegisterComponent';
+export const LOGIN_REGISTER_MODULE = 'LoginRegisterModule';
+export const UPDATE_EMAIL_MODULE = 'UpdateEmailModule';
+export const UPDATE_PASSWORD_MODULE = 'UpdatePasswordModule';
+export const UPDATE_PROFILE_MODULE = 'UpdateProfileModule';
+export const USER_COMPONENT_MODULE = 'UserComponentModule';
+export const CLOSE_ACCOUNT_COMPONENT = 'CloseAccountComponent';
+export const UPDATE_EMAIL_FORM_COMPONENT = 'UpdateEmailFormComponent';
+export const UPDATE_PASSWORD_COMPONENT = 'UpdatePasswordComponent';
+export const UPDATE_PASSWORD_FORM_COMPONENT = 'UpdatePasswordFormComponent';
+export const UPDATE_PROFILE_COMPONENT = 'UpdateProfileComponent';
+
+// uncomment product variants deprecation on 4.0 migration works (#11391)
+// export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
+// export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
+// export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
+// export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
+// export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
 
 /***** Removed public api end *****/
 

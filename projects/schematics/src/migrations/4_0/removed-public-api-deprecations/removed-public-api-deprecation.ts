@@ -22,6 +22,10 @@ import {
   ASM_UI_UPDATE_CLASS,
   CART_ITEM_COMPONENT,
   CART_PAGE_META_RESOLVER,
+  CLOSE_ACCOUNT_COMPONENT,
+  CLOSE_ACCOUNT_MODAL_COMPONENT,
+  CLOSE_ACCOUNT_MODULE,
+  CMS_LIB_MODULE,
   CONTENT_PAGE_META_RESOLVER,
   CS_AGENT_AUTH_SERVICE,
   CUSTOMER_ACTION,
@@ -40,14 +44,25 @@ import {
   DEFAULT_LOCAL_STORAGE_KEY,
   DEFAULT_SESSION_STORAGE_KEY,
   DEFAULT_STATE_CONFIG,
+  FORGOTTEN_PASSWORD_TRANSLATION_CHUNK,
+  FORGOT_PASSWORD_COMPONENT,
+  FORGOT_PASSWORD_MODULE,
   GET_ASM_STATE,
   GET_ASM_UI,
   GET_CUSTOMER_SEARCH_RESULTS,
   GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE,
   GET_CUSTOMER_SEARCH_RESULTS_LOADING,
   ITEM,
+  LOGIN_COMPONENT,
+  LOGIN_FORM_COMPONENT,
+  LOGIN_FORM_MODULE,
+  LOGIN_FORM_TRANSLATION_CHUNK,
+  LOGIN_MODULE,
+  LOGIN_REGISTER_COMPONENT,
+  LOGIN_REGISTER_MODULE,
   LOGOUT_CUSTOMER_SUPPORT_AGENT,
   LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
+  MINI_LOGIN_TRANSLATION_CHUNK,
   ORDER_ENTRY,
   PERSONALIZATION_ACTION,
   PERSONALIZATION_CONFIG,
@@ -59,15 +74,35 @@ import {
   PRODUCT_VARIANT_GUARD,
   PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
   PRODUCT_VARIANT_STYLE_ICONS_MODULE,
+  REGISTER_COMPONENT,
+  REGISTER_COMPONENT_MODULE,
+  REGISTER_TRANSLATION_CHUNK,
   REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE,
+  RESET_PASSWORD_COMPONENT,
+  RESET_PASSWORD_FORM_COMPONENT,
+  RESET_PASSWORD_MODULE,
   SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
   SPARTACUS_CART_SAVED_CART_COMPONENTS,
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
   SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_USER,
+  SPARTACUS_USER_ACCOUNT_COMPONENTS,
+  SPARTACUS_USER_PROFILE_COMPONENTS,
   STATE_WITH_ASM,
   SYNCED_ASM_STATE,
   TOKEN_TARGET,
+  TRANSLATION_CHUNKS_CONFIG,
+  UPDATE_EMAIL_COMPONENT,
+  UPDATE_EMAIL_FORM_COMPONENT,
+  UPDATE_EMAIL_FORM_TRANSLATION_CHUNK,
+  UPDATE_EMAIL_MODULE,
+  UPDATE_PASSWORD_COMPONENT,
+  UPDATE_PASSWORD_FORM_COMPONENT,
+  UPDATE_PASSWORD_MODULE,
+  UPDATE_PROFILE_COMPONENT,
+  UPDATE_PROFILE_MODULE,
+  USER_COMPONENT_MODULE,
   VARIANT_COLOR_SELECTOR_COMPONENT,
   VARIANT_COLOR_SELECTOR_MODULE,
   VARIANT_SIZE_SELECTOR_COMPONENT,
@@ -479,6 +514,162 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: FEATURE_MODULES_SERVICE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${FEATURE_MODULES_SERVICE}' was removed. Use '${CMS_FEATURES_SERVICE}' instead.`,
+  },
+  // projects/assets/src/translations/translation-chunks-config.ts
+  {
+    node: TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `Following translation chunks '${MINI_LOGIN_TRANSLATION_CHUNK}', '${UPDATE_EMAIL_FORM_TRANSLATION_CHUNK}', '${FORGOTTEN_PASSWORD_TRANSLATION_CHUNK}', '${LOGIN_FORM_TRANSLATION_CHUNK}', '${REGISTER_TRANSLATION_CHUNK}' were moved to ${SPARTACUS_USER}.`,
+  },
+  // projects/storefrontlib/src/cms-components/cms-lib.module.ts
+  {
+    node: CMS_LIB_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `Following module imports '${CLOSE_ACCOUNT_MODULE}', '${FORGOT_PASSWORD_MODULE}', '${RESET_PASSWORD_MODULE}', '${UPDATE_EMAIL_MODULE}', '${UPDATE_PASSWORD_MODULE}', '${UPDATE_PROFILE_MODULE}', '${USER_COMPONENT_MODULE}' were removed. Those modules are now part of ${SPARTACUS_USER}.`,
+  },
+  // projects/storefrontlib/src/cms-components/user/user.module.ts
+  {
+    node: USER_COMPONENT_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `Following module imports '${LOGIN_MODULE}', '${LOGIN_FORM_MODULE}', '${LOGIN_REGISTER_MODULE}', '${REGISTER_COMPONENT_MODULE}' were removed. Those modules are now part of ${SPARTACUS_USER}.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/close-account/close-account.module.ts
+  {
+    node: CLOSE_ACCOUNT_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${CLOSE_ACCOUNT_MODULE}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/close-account/components/close-account/close-account.component.ts
+  {
+    node: CLOSE_ACCOUNT_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${CLOSE_ACCOUNT_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/close-account/components/close-account-modal/close-account-modal.component.ts
+  {
+    node: CLOSE_ACCOUNT_MODAL_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${CLOSE_ACCOUNT_MODAL_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Also there were small changes in component's logic. For more details please look into 4.0 migration documentation.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/forgot-password/forgot-password.module.ts
+  {
+    node: FORGOT_PASSWORD_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${FORGOT_PASSWORD_MODULE}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/forgot-password/forgot-password.component.ts
+  {
+    node: FORGOT_PASSWORD_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${FORGOT_PASSWORD_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed and introduced in new 'ForgotPasswordService'. For more details please look into 4.0 migration documentation.`,
+  },
+  // projects/storefrontlib/src/cms-components/user/login/login.module.ts
+  {
+    node: LOGIN_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${LOGIN_MODULE}' was moved to ${SPARTACUS_USER_ACCOUNT_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/user/login/login.component.ts
+  {
+    node: LOGIN_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${LOGIN_COMPONENT}' was moved to '${SPARTACUS_USER_ACCOUNT_COMPONENTS}'. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
+  },
+  // projects/storefrontlib/src/cms-components/user/login-register/login-register.module.ts
+  {
+    node: LOGIN_REGISTER_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${LOGIN_REGISTER_MODULE}' was moved to ${SPARTACUS_USER_ACCOUNT_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/user/login-register/login-register.component.ts
+  {
+    node: LOGIN_REGISTER_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${LOGIN_REGISTER_COMPONENT}' was moved to '${SPARTACUS_USER_ACCOUNT_COMPONENTS}'.`,
+  },
+  // projects/storefrontlib/src/cms-components/user/login-form/login-form.module.ts
+  {
+    node: LOGIN_FORM_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${LOGIN_FORM_MODULE}' was moved to ${SPARTACUS_USER_ACCOUNT_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/user/login-form/login-form.component.ts
+  {
+    node: LOGIN_FORM_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${LOGIN_FORM_COMPONENT}' was moved to '${SPARTACUS_USER_ACCOUNT_COMPONENTS}'. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
+  },
+  // projects/storefrontlib/src/cms-components/user/register/register.module.ts
+  {
+    node: REGISTER_COMPONENT_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${REGISTER_COMPONENT_MODULE}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/user/register/register.component.ts
+  {
+    node: REGISTER_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${REGISTER_COMPONENT}' was moved to '${SPARTACUS_USER_PROFILE_COMPONENTS}'. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/reset-password/reset-password.module.ts
+  {
+    node: RESET_PASSWORD_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${RESET_PASSWORD_MODULE}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/reset-password/reset-password-form.component.ts
+  {
+    node: RESET_PASSWORD_FORM_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${RESET_PASSWORD_FORM_COMPONENT}' was renamed to '${RESET_PASSWORD_COMPONENT}' and now it can be used from ${SPARTACUS_USER_PROFILE_COMPONENTS}. Also logic for this component was changed. For more details please look into 4.0 migration documentation.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/update-email/update-email.module.ts
+  {
+    node: UPDATE_EMAIL_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${UPDATE_EMAIL_MODULE}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/update-email/update-email.component.ts
+  {
+    node: UPDATE_EMAIL_FORM_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${UPDATE_EMAIL_FORM_COMPONENT}' was removed. For replacement use '${UPDATE_EMAIL_COMPONENT}' from ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/update-email/update-email-form/update-email-form.component.ts
+  {
+    node: UPDATE_EMAIL_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${UPDATE_EMAIL_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/update-password/update-password.module.ts
+  {
+    node: UPDATE_PASSWORD_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${UPDATE_PASSWORD_MODULE}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/update-password/components/update-password-form/update-password-form.component.ts
+  {
+    node: UPDATE_PASSWORD_FORM_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${UPDATE_PASSWORD_FORM_COMPONENT}' was removed. For replacement use '${UPDATE_PASSWORD_COMPONENT}' from ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/update-password/components/update-password/update-password.component.ts
+  {
+    node: UPDATE_PASSWORD_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${UPDATE_PASSWORD_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/update-profile/update-profile.module.ts
+  {
+    node: UPDATE_PROFILE_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${UPDATE_PROFILE_MODULE}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}.`,
+  },
+  // projects/storefrontlib/src/cms-components/myaccount/update-profile/update-profile.component.ts
+  {
+    node: UPDATE_PROFILE_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${UPDATE_PROFILE_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
   },
 ];
 
