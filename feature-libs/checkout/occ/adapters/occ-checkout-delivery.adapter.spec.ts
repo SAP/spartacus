@@ -7,9 +7,11 @@ import {
   Address,
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
+  BaseOccUrlProperties,
   Cart,
   ConverterService,
   DELIVERY_MODE_NORMALIZER,
+  DynamicAttributes,
   Occ,
   OccEndpointsService,
 } from '@spartacus/core';
@@ -26,7 +28,11 @@ const usersEndpoint = 'users';
 const cartsEndpoint = '/carts/';
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {

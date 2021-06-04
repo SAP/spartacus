@@ -6,7 +6,9 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
+  BaseOccUrlProperties,
   ConverterService,
+  DynamicAttributes,
   OccEndpointsService,
   Order,
   ORDER_NORMALIZER,
@@ -26,7 +28,11 @@ const orderData: Order = {
 const usersEndpoint = 'users';
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {
