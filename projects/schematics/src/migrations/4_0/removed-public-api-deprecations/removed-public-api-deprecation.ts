@@ -1,5 +1,9 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
+  CMS_FEATURES_SERVICE,
+  FEATURE_MODULES_SERVICE,
+} from '@spartacus/schematics';
+import {
   ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
   ASM_ADAPTER,
   ASM_AUTH_HTTP_HEADER_SERVICE,
@@ -470,6 +474,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: CART_ITEM_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${ITEM}' interface was removed from ${CART_ITEM_COMPONENT}. User ${ORDER_ENTRY} instad.`,
+  },
+  {
+    node: FEATURE_MODULES_SERVICE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${FEATURE_MODULES_SERVICE}' was removed. Use '${CMS_FEATURES_SERVICE}' instead.`,
   },
 ];
 

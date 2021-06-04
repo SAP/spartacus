@@ -25,6 +25,11 @@ import {
 } from './data/cart-page-event.builder.migration';
 import { CATEGORY_PAGE_META_RESOLVER_MIGRATION } from './data/category-page-meta.resolver.migration';
 import { CHECKOUT_PAGE_META_RESOLVER_MIGRATION } from './data/checkout-page-meta.resolver.migration';
+import {
+  CMS_COMPONENTS_SERVICE_MIGRATION_1,
+  CMS_COMPONENTS_SERVICE_MIGRATION_2,
+  CMS_COMPONENTS_SERVICE_MIGRATION_3,
+} from './data/cms-components.service.migration';
 import { COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION } from './data/component-wrapper.directive.migration';
 import { CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT_MIGRATION } from './data/configurator-attribute-checkbox-list.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
@@ -127,6 +132,9 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   TOGGLE_STATUS_COMPONENT_MIGRATION_V1,
   TOGGLE_STATUS_COMPONENT_MIGRATION_V2,
   DELETE_ITEM_COMPONENT_MIGRATION,
+  CMS_COMPONENTS_SERVICE_MIGRATION_1,
+  CMS_COMPONENTS_SERVICE_MIGRATION_2,
+  CMS_COMPONENTS_SERVICE_MIGRATION_3,
 ];
 
 export function migrate(): Rule {
