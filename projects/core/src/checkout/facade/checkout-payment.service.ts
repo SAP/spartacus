@@ -106,16 +106,16 @@ export class CheckoutPaymentService {
         .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
-      let cart;
+      let cartId;
       this.activeCartService
-        .getActive()
-        .subscribe((activeCart) => (cart = activeCart))
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
-      if (userId && cart) {
+      if (userId && cartId) {
         this.checkoutStore.dispatch(
           new CheckoutActions.SetPaymentDetails({
             userId,
-            cartId: cart.code,
+            cartId,
             paymentDetails: paymentDetails,
           })
         );
