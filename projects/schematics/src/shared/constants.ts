@@ -347,10 +347,20 @@ export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
 export const VIEW_COMPONENT = 'ViewComponent';
 export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
 export const OCC_CMS_COMPONENT_ADAPTER = 'OccCmsComponentAdapter';
+
+export const MESSAGE_SERVICE = 'MessageService';
 export const CURRENT_UNIT_SERVICE = 'CurrentUnitService';
+export const CURRENT_USER_GROUP_SERVICE = 'CurrentUserGroupService';
 export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
+export const UNIT_FORM_COMPONENT = 'UnitFormComponent';
+export const USER_GROUP_USER_LIST_COMPONENT = 'UserGroupUserListComponent';
+export const USER_GROUP_USER_LIST_SERVICE = 'UserGroupUserListService';
+export const TOGGLE_STATUS_COMPONENT = 'ToggleStatusComponent';
+export const DELETE_ITEM_COMPONENT = 'DeleteItemComponent';
+export const ITEM_SERVICE = 'ItemService';
+export const DISABLE_INFO_SERVICE = 'DisableInfoService';
 
 export const SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE =
   'SavedCartFormLaunchDialogService';
@@ -395,6 +405,8 @@ export const SEMANTIC_ROUTE = 'semanticRoute';
 export const URL = 'url';
 export const PARAMS = 'params';
 export const INITIALIZE = 'initialize';
+export const FORM_GROUP = 'formGroup';
+export const FORM$ = 'form$';
 
 /***** Classes end *****/
 

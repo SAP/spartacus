@@ -36,6 +36,7 @@ import {
   CONTENT_PAGE_META_RESOLVER_MIGRATION_V2,
 } from './data/content-page-meta.resolver.migration';
 import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
+import { DELETE_ITEM_COMPONENT_MIGRATION } from './data/delete-item.component.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
@@ -65,9 +66,14 @@ import {
 import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
 import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
 import { SEARCH_PAGE_META_RESOLVER_MIGRATION } from './data/search-page-meta.resolver.migration';
+import {
+  TOGGLE_STATUS_COMPONENT_MIGRATION_V1,
+  TOGGLE_STATUS_COMPONENT_MIGRATION_V2,
+} from './data/toggle-status.component.migration';
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
+import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
@@ -117,6 +123,10 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CART_LIST_ITEM_COMPONENT_MIGRATION_V2,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V3,
   SEARCH_BOX_COMPONENT_MIGRATION,
+  USER_GROUP_USER_LIST_COMPONENT_MIGRATION,
+  TOGGLE_STATUS_COMPONENT_MIGRATION_V1,
+  TOGGLE_STATUS_COMPONENT_MIGRATION_V2,
+  DELETE_ITEM_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
