@@ -15,6 +15,11 @@ import {
 } from './data/anonymous-consent-open-dialog.component.migration';
 import { BASE_PAGE_META_RESOLVER_MIGRATION } from './data/base-page-meta.resolver.migration';
 import {
+  CART_LIST_ITEM_COMPONENT_MIGRATION_V1,
+  CART_LIST_ITEM_COMPONENT_MIGRATION_V2,
+  CART_LIST_ITEM_COMPONENT_MIGRATION_V3,
+} from './data/cart-list-item.component.migration';
+import {
   CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V1,
   CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V2,
 } from './data/cart-page-event.builder.migration';
@@ -107,6 +112,9 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION,
   CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION,
+  CART_LIST_ITEM_COMPONENT_MIGRATION_V1,
+  CART_LIST_ITEM_COMPONENT_MIGRATION_V2,
+  CART_LIST_ITEM_COMPONENT_MIGRATION_V3,
 ];
 
 export function migrate(): Rule {
