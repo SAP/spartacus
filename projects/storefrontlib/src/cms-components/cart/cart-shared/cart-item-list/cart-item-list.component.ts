@@ -208,24 +208,20 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
       tap((value) => {
-        if (item.updateable) {
-          if (
-            value &&
-            this.selectiveCartService &&
-            this.options.isSaveForLater
-          ) {
+        if (item.updateable && value) {
+          if (this.selectiveCartService && this.options.isSaveForLater) {
             this.selectiveCartService.updateEntry(
               value.entryNumber,
               value.quantity
             );
-          } else if (value && this.cartId && this.userId) {
+          } else if (this.cartId && this.userId) {
             this.multiCartService?.updateEntry(
               this.userId,
               this.cartId,
               value.entryNumber,
               value.quantity
             );
-          } else if (value) {
+          } else {
             this.activeCartService.updateEntry(
               value.entryNumber,
               value.quantity
