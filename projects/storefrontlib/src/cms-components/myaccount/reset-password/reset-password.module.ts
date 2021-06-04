@@ -35,6 +35,5 @@ import { ResetPasswordFormComponent } from './reset-password-form.component';
   ],
   declarations: [ResetPasswordFormComponent],
   exports: [ResetPasswordFormComponent],
-  entryComponents: [ResetPasswordFormComponent],
 })
 export class ResetPasswordModule {}

@@ -39,6 +39,5 @@ import { RegisterComponent } from './register.component';
   ],
   declarations: [RegisterComponent],
   exports: [RegisterComponent],
-  entryComponents: [RegisterComponent],
 })
 export class RegisterComponentModule {}

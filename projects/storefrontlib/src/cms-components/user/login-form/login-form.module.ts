@@ -37,6 +37,5 @@ import { LoginFormComponent } from './login-form.component';
   ],
   declarations: [LoginFormComponent],
   exports: [LoginFormComponent],
-  entryComponents: [LoginFormComponent],
 })
 export class LoginFormModule {}

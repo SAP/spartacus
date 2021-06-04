@@ -37,6 +37,5 @@ import { ForgotPasswordComponent } from './forgot-password.component';
   ],
   declarations: [ForgotPasswordComponent],
   exports: [ForgotPasswordComponent],
-  entryComponents: [ForgotPasswordComponent],
 })
 export class ForgotPasswordModule {}

@@ -36,6 +36,5 @@ import { UpdateProfileComponent } from './update-profile.component';
   ],
   declarations: [UpdateProfileComponent, UpdateProfileFormComponent],
   exports: [UpdateProfileComponent, UpdateProfileFormComponent],
-  entryComponents: [UpdateProfileComponent],
 })
 export class UpdateProfileModule {}
