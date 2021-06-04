@@ -13,12 +13,10 @@ import { PageMetaResolver } from './page-meta.resolver';
     },
   ],
 })
-
-// TODO(#10467): Consider renaming to CmsPageModule or PageModule
-export class CmsPageTitleModule {
-  static forRoot(): ModuleWithProviders<CmsPageTitleModule> {
+export class PageMetaModule {
+  static forRoot(): ModuleWithProviders<PageMetaModule> {
     return {
-      ngModule: CmsPageTitleModule,
+      ngModule: PageMetaModule,
       providers: [provideDefaultConfig(defaultPageMetaConfig)],
     };
   }

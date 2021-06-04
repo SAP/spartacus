@@ -16,6 +16,8 @@ import {
   ASM_UI_ACTION,
   ASM_UI_UPDATE,
   ASM_UI_UPDATE_CLASS,
+  CART_PAGE_META_RESOLVER,
+  CONTENT_PAGE_META_RESOLVER,
   CS_AGENT_AUTH_SERVICE,
   CUSTOMER_ACTION,
   CUSTOMER_SEARCH,
@@ -454,6 +456,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: DEFAULT_SESSION_STORAGE_KEY,
     importPath: SPARTACUS_CORE,
     comment: `'${DEFAULT_SESSION_STORAGE_KEY}' was removed with the whole storage sync mechanism. For syncing your data to and from browser storage use StatePersistenceService.`,
+  },
+  {
+    node: CART_PAGE_META_RESOLVER,
+    importPath: SPARTACUS_CORE,
+    comment: `'${CART_PAGE_META_RESOLVER}' was removed since all data is now data driven by CMS page data and is resolved by the ${CONTENT_PAGE_META_RESOLVER}`,
   },
 ];
 
