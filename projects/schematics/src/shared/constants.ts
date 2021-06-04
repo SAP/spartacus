@@ -62,7 +62,6 @@ export const OBSERVABLE_CLASS = 'Observable';
 export const RENDERER_2 = 'Renderer2';
 export const ELEMENT_REF = 'ElementRef';
 export const INJECTOR = 'Injector';
-export const UNIFIED_INJECTOR = 'UnifiedInjector';
 export const COMPILER = 'Compiler';
 
 export const STORE = 'Store';
@@ -216,7 +215,6 @@ export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
 export const CART_ITEM_COMPONENT = 'CartItemComponent';
-export const CART_ITEM_CONTEXT = 'CartItemContext';
 export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
 export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
@@ -329,10 +327,6 @@ export const USER_CONNECTOR = 'UserConnector';
 export const USER_REGISTER_EFFECT = 'UserRegisterEffects';
 export const CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT =
   'ConfiguratorIssuesNotificationComponent';
-export const COMMON_CONFIGURATOR_UTILS_SERVICE =
-  'CommonConfiguratorUtilsService';
-export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
-  'ConfiguratorCartEntryInfoComponent';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
