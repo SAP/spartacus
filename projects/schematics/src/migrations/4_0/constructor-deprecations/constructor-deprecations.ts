@@ -44,6 +44,7 @@ import {
 } from './data/content-page-meta.resolver.migration';
 import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
 import { DELETE_ITEM_COMPONENT_MIGRATION } from './data/delete-item.component.migration';
+import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
@@ -123,6 +124,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V2,
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V1,
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V2,
+  DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
   WINDOW_REF_MIGRATION,
   CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION,
   CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT_MIGRATION,

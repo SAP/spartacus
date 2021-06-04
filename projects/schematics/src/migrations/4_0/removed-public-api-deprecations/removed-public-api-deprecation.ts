@@ -1,7 +1,7 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
   CMS_FEATURES_SERVICE,
-  FEATURE_MODULES_SERVICE,
+  FEATURE_MODULES_SERVICE
 } from '@spartacus/schematics';
 import {
   ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE,
@@ -64,6 +64,9 @@ import {
   LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
   MINI_LOGIN_TRANSLATION_CHUNK,
   ORDER_ENTRY,
+
+
+
   PERSONALIZATION_ACTION,
   PERSONALIZATION_CONFIG,
   PERSONALIZATION_CONTEXT,
@@ -82,7 +85,11 @@ import {
   RESET_PASSWORD_FORM_COMPONENT,
   RESET_PASSWORD_MODULE,
   SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
-  SPARTACUS_CART_SAVED_CART_COMPONENTS,
+
+  SMART_EDIT_MODULE,
+  SMART_EDIT_SERVICE, SPARTACUS_CART_SAVED_CART_COMPONENTS,
+
+
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_VARIANTS_COMPONENTS,
   SPARTACUS_STOREFRONTLIB,
@@ -110,7 +117,7 @@ import {
   VARIANT_STYLE_ICONS_COMPONENT,
   VARIANT_STYLE_ICONS_MODULE,
   VARIANT_STYLE_SELECTOR_COMPONENT,
-  VARIANT_STYLE_SELECTOR_MODULE,
+  VARIANT_STYLE_SELECTOR_MODULE
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
@@ -377,36 +384,47 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE}' has been removed.' 'openDialog' method has been moved to 'LaunchDialogService'.`,
+  // projects/core/src/smart-edit/smart-edit.module.ts
+  {
+    node: SMART_EDIT_MODULE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${SMART_EDIT_MODULE}' was removed. Use @spartacus/smartedit instead.`,
+  },
+  // projects/core/src/smart-edit/services/smart-edit.service.ts
+  {
+    node: SMART_EDIT_SERVICE,
+    importPath: SPARTACUS_CORE,
+    comment: `'${SMART_EDIT_SERVICE}' was moved to @spartacus/smartedit/core.`,
   },
   // projects/core/src/personalization/personalization.module.ts
   {
     node: PERSONALIZATION_MODULE,
     importPath: SPARTACUS_CORE,
-    comment: `${PERSONALIZATION_MODULE} was removed. Use @spartacus/tracking/personalization instead.`,
+    comment: `'${PERSONALIZATION_MODULE}' was removed. Use @spartacus/tracking/personalization instead.`,
   },
   // projects/core/src/personalization/config/personalization-config.ts
   {
     node: PERSONALIZATION_CONFIG,
     importPath: SPARTACUS_CORE,
-    comment: `${PERSONALIZATION_CONFIG} was moved to @spartacus/tracking/personalization/root.`,
+    comment: `'${PERSONALIZATION_CONFIG}' was moved to @spartacus/tracking/personalization/root.`,
   },
   // projects/core/src/personalization/services/personalization-context.service.ts
   {
     node: PERSONALIZATION_CONTEXT_SERVICE,
     importPath: SPARTACUS_CORE,
-    comment: `${PERSONALIZATION_CONTEXT_SERVICE} was moved to @spartacus/tracking/personalization/core.`,
+    comment: `'${PERSONALIZATION_CONTEXT_SERVICE}' was moved to @spartacus/tracking/personalization/core.`,
   },
   // projects/core/src/personalization/model/personalization-context.model.ts
   {
     node: PERSONALIZATION_ACTION,
     importPath: SPARTACUS_CORE,
-    comment: `${PERSONALIZATION_ACTION} was moved to @spartacus/tracking/personalization/core.`,
+    comment: `'${PERSONALIZATION_ACTION}' was moved to @spartacus/tracking/personalization/core.`,
   },
   // projects/core/src/personalization/model/personalization-context.model.ts
   {
     node: PERSONALIZATION_CONTEXT,
     importPath: SPARTACUS_CORE,
-    comment: `${PERSONALIZATION_CONTEXT} was moved to @spartacus/tracking/personalization/core.`,
+    comment: `'${PERSONALIZATION_CONTEXT}' was moved to @spartacus/tracking/personalization/core.`,
   },
   // projects/storefrontlib/src/cms-components/product/product-variants/product-variants.module.ts
   {
