@@ -231,33 +231,12 @@ function configureSpartacusModules(
         });
       });
 
-      [
-        `// Checkout Core,
-        CheckoutModule.forRoot(),`,
-        'CheckoutOccModule,',
-        'CostCenterOccModule,',
-        `// Checkout UI,
-        CheckoutLoginModule,`,
-        'CheckoutComponentModule,',
-        'OrderConfirmationModule,',
-      ].forEach((content) => {
+      ['CostCenterOccModule,'].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
             {
               moduleSpecifier: SPARTACUS_CORE,
-              namedImports: [
-                'CheckoutModule',
-                'CheckoutOccModule',
-                'CostCenterOccModule',
-              ],
-            },
-            {
-              moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-              namedImports: [
-                'CheckoutComponentModule',
-                'CheckoutLoginModule',
-                'OrderConfirmationModule',
-              ],
+              namedImports: ['CostCenterOccModule'],
             },
           ],
           content,
@@ -274,7 +253,6 @@ function configureSpartacusModules(
         'ReturnRequestDetailModule,',
         'ReplenishmentOrderHistoryModule,',
         'ReplenishmentOrderDetailsModule,',
-        'ReplenishmentOrderConfirmationModule,',
         'OrderOccModule',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
@@ -286,7 +264,6 @@ function configureSpartacusModules(
                 'OrderDetailsModule',
                 'OrderHistoryModule',
                 'OrderReturnModule',
-                'ReplenishmentOrderConfirmationModule',
                 'ReplenishmentOrderDetailsModule',
                 'ReplenishmentOrderHistoryModule',
                 'ReturnRequestDetailModule',
