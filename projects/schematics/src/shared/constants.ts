@@ -700,6 +700,8 @@ export const DOCUMENT_STRING = 'DOCUMENT';
 export const SERVER_REQUEST_URL_STRING = 'SERVER_REQUEST_URL';
 export const SERVER_REQUEST_ORIGIN_STRING = 'SERVER_REQUEST_ORIGIN';
 export const INCREMENT = 'increment';
+export const ITEM = 'Item';
+export const ORDER_ENTRY = 'OrderEntry';
 /***** Properties end *****/
 
 /***** APIs start *****/

@@ -19,20 +19,6 @@ import { CartOutlets } from '../../cart-outlets.model';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 import { CartItemContext } from './model/cart-item-context.model';
 
-/**
- * @deprecated since 3.0 - use `OrderEntry` instead
- */
-export interface Item {
-  entryNumber?: number;
-  product?: any;
-  quantity?: any;
-  basePrice?: any;
-  totalPrice?: any;
-  updateable?: boolean;
-  statusSummaryList?: any[];
-  configurationInfos?: any[];
-}
-
 export interface CartItemComponentOptions {
   isSaveForLater?: boolean;
   optionalBtn?: any;

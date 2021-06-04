@@ -16,6 +16,7 @@ import {
   ASM_UI_ACTION,
   ASM_UI_UPDATE,
   ASM_UI_UPDATE_CLASS,
+  CART_ITEM_COMPONENT,
   CART_PAGE_META_RESOLVER,
   CONTENT_PAGE_META_RESOLVER,
   CS_AGENT_AUTH_SERVICE,
@@ -40,8 +41,10 @@ import {
   GET_CUSTOMER_SEARCH_RESULTS,
   GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE,
   GET_CUSTOMER_SEARCH_RESULTS_LOADING,
+  ITEM,
   LOGOUT_CUSTOMER_SUPPORT_AGENT,
   LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS,
+  ORDER_ENTRY,
   PERSONALIZATION_ACTION,
   PERSONALIZATION_CONFIG,
   PERSONALIZATION_CONTEXT,
@@ -461,6 +464,12 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: CART_PAGE_META_RESOLVER,
     importPath: SPARTACUS_CORE,
     comment: `'${CART_PAGE_META_RESOLVER}' was removed since all data is now data driven by CMS page data and is resolved by the ${CONTENT_PAGE_META_RESOLVER}`,
+  },
+  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
+  {
+    node: CART_ITEM_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${ITEM}' interface was removed from ${CART_ITEM_COMPONENT}. User ${ORDER_ENTRY} instad.`,
   },
 ];
 
