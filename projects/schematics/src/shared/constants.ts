@@ -27,6 +27,8 @@ export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `${SPARTACUS_ORGANIZAT
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `${SPARTACUS_ORGANIZATION}/administration/components`;
 export const SPARTACUS_ASM = '@spartacus/asm';
 export const SPARTACUS_CART = '@spartacus/cart';
+export const SPARTACUS_CART_SAVED_CART_COMPONENTS = `${SPARTACUS_CART}/saved-cart/components`;
+export const SPARTACUS_CART_SAVED_CART_ROOT = `${SPARTACUS_CART}/saved-cart/root`;
 export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `${SPARTACUS_PRODUCT_CONFIGURATOR}/common`;
@@ -229,7 +231,7 @@ export const DYNAMIC_ATTRIBUTE_SERVICE = 'DynamicAttributeService';
 export const OUTLET_DIRECTIVE = 'OutletDirective';
 export const OUTLET_SERVICE = 'OutletService';
 export const DEFER_LOADER_SERVICE = 'DeferLoaderService';
-export const LAUNCH_DIALOG_SERVICE = 'LaunchComponentService';
+export const LAUNCH_DIALOG_SERVICE = 'LaunchDialogService';
 export const PLACE_ORDER_COMPONENT = 'PlaceOrderComponent';
 export const USER_INTERESTS_SERVICE = 'UserInterestsService';
 export const USER_NOTIFICATION_PREFERENCE_SERVICE =
@@ -324,8 +326,6 @@ export const LANGUAGE_SERVICE = 'LanguageService';
 export const CURRENCY_SERVICE = 'CurrencyService';
 export const SEARCH_BOX_SERVICE = 'SearchboxService';
 
-export const ASM_AUTH_SERVICE = 'AsmAuthService';
-
 export const FORGOT_PASSWORD_COMPONENT = 'ForgotPasswordComponent';
 export const AUTH_CONFIG_SERVICE = 'AuthConfigService';
 export const CLOSE_ACCOUNT_MODAL_COMPONENT = 'CloseAccountModalComponent';
@@ -344,6 +344,23 @@ export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
 
+export const SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE =
+  'SavedCartFormLaunchDialogService';
+export const ADD_TO_SAVED_CART_COMPONENT = 'AddToSavedCartComponent ';
+export const SAVED_CART_DETAILS_ACTION_COMPONENT =
+  'SavedCartDetailsActionComponent ';
+export const SAVED_CART_DETAILS_OVERVIEW_COMPONENT =
+  'SavedCartDetailsOverviewComponent ';
+export const SAVED_CART_DETAILS_SERVICE = 'SavedCartDetailsService';
+export const SAVED_CART_FACADE = 'SavedCartFacade';
+export const CLEAR_CHECKOUT_SERVICE = 'ClearCheckoutService';
+
+export const REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE =
+  'ReplenishmentOrderCancellationLaunchDialogService';
+export const REPLENISHMENT_ORDER_CANCELLATION_COMPONENT =
+  'ReplenishmentOrderCancellationComponent';
+export const REPLENISHMENT_ORDER_HISTORY_COMPONENT =
+  'ReplenishmentOrderHistoryComponent';
 export const COMMON_CONFIGURATOR_UTILS_SERVICE =
   'CommonConfiguratorUtilsService';
 export const CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE =
@@ -369,6 +386,7 @@ export const CONTEXT = 'context';
 export const SEMANTIC_ROUTE = 'semanticRoute';
 export const URL = 'url';
 export const PARAMS = 'params';
+export const INITIALIZE = 'initialize';
 
 /***** Classes end *****/
 
@@ -470,12 +488,51 @@ export const KYMA_MODULE = 'KymaModule';
 export const KYMA_SERVICE = 'KymaService';
 export const KYMA_CONFIG = 'KymaConfig';
 
-export const CS_AGENT_AUTH_SERVICE = 'CsAgentAuthService';
 export const ASM_SELECTORS = 'AsmSelectors';
 export const ASM_ACTIONS = 'AsmActions';
 export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
 export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
   'CustomerSupportAgentTokenInterceptor ';
+export const ASM_MODULE = 'AsmModule';
+export const ASM_CONFIG = 'AsmConfig';
+export const ASM_ADAPTER = 'AsmAdapter';
+export const ASM_CONNECTOR = 'AsmConnector';
+export const CUSTOMER_SEARCH_PAGE_NORMALIZER =
+  'CUSTOMER_SEARCH_PAGE_NORMALIZER';
+export const ASM_SERVICE = 'AsmService';
+export const CS_AGENT_AUTH_SERVICE = 'CsAgentAuthService';
+export const CUSTOMER_SEARCH_PAGE = 'CustomerSearchPage';
+export const CUSTOMER_SEARCH_OPTIONS = 'CustomerSearchOptions';
+export const ASM_UI = 'AsmUi';
+export const ASM_AUTH_HTTP_HEADER_SERVICE = 'AsmAuthHttpHeaderService';
+export const TOKEN_TARGET = 'TokenTarget';
+export const ASM_AUTH_STORAGE_SERVICE = 'AsmAuthStorageService';
+export const ASM_AUTH_SERVICE = 'AsmAuthService';
+export const SYNCED_ASM_STATE = 'SyncedAsmState';
+export const ASM_STATE_PERSISTENCE_SERVICE = 'AsmStatePersistenceService';
+export const ASM_UI_UPDATE = 'ASM_UI_UPDATE';
+export const ASM_UI_UPDATE_CLASS = 'ASM_UI_UPDATE_CLASS';
+export const ASM_UI_ACTION = 'AsmUiAction';
+export const CUSTOMER_SEARCH = 'CUSTOMER_SEARCH';
+export const CUSTOMER_SEARCH_CLASS = 'CUSTOMER_SEARCH_CLASS';
+export const CUSTOMER_SEARCH_FAIL = 'CUSTOMER_SEARCH_FAIL';
+export const CUSTOMER_SEARCH_FAIL_CLASS = 'CUSTOMER_SEARCH_FAIL_CLASS';
+export const CUSTOMER_SEARCH_SUCCESS = 'CUSTOMER_SEARCH_SUCCESS';
+export const CUSTOMER_SEARCH_SUCCESS_CLASS = 'CUSTOMER_SEARCH_SUCCESS_CLASS';
+export const CUSTOMER_SEARCH_RESET = 'CUSTOMER_SEARCH_RESET';
+export const CUSTOMER_SEARCH_RESET_CLASS = 'CUSTOMER_SEARCH_RESET_CLASS';
+export const CUSTOMER_ACTION = 'CustomerAction';
+export const ASM_FEATURE = 'ASM_FEATURE';
+export const CUSTOMER_SEARCH_DATA = 'CUSTOMER_SEARCH_DATA';
+export const STATE_WITH_ASM = 'StateWithAsm';
+export const ASM_STATE = 'AsmState';
+export const GET_ASM_UI = 'getAsmUi';
+export const GET_CUSTOMER_SEARCH_RESULTS_LOADER_STATE =
+  'getCustomerSearchResultsLoaderState';
+export const GET_CUSTOMER_SEARCH_RESULTS = 'getCustomerSearchResults';
+export const GET_CUSTOMER_SEARCH_RESULTS_LOADING =
+  'getCustomerSearchResultsLoading';
+export const GET_ASM_STATE = 'getAsmState';
 
 export const OCC_STORE_FINDER_ADAPTER = 'OccStoreFinderAdapter';
 export const STORE_FINDER_OCC_MODULE = 'StoreFinderOccModule';
@@ -557,6 +614,12 @@ export const DEFAULT_STATE_CONFIG = 'defaultStateConfig';
 export const DEFAULT_LOCAL_STORAGE_KEY = 'DEFAULT_LOCAL_STORAGE_KEY';
 export const DEFAULT_SESSION_STORAGE_KEY = 'DEFAULT_SESSION_STORAGE_KEY';
 
+export const PERSONALIZATION_MODULE = 'PersonalizationModule';
+export const PERSONALIZATION_CONFIG = 'PersonalizationConfig';
+export const PERSONALIZATION_CONTEXT_SERVICE = 'PersonalizationContextService';
+export const PERSONALIZATION_ACTION = 'PersonalizationAction';
+export const PERSONALIZATION_CONTEXT = 'PersonalizationContext';
+
 /***** Removed public api end *****/
 
 /***** Properties start *****/
@@ -571,6 +634,8 @@ export const LOAD_CLIENT_TOKEN_SUCCESS = 'LOAD_CLIENT_TOKEN_SUCCESS';
 export const LOAD_CLIENT_TOKEN_FAIL_CLASS = 'LoadClientTokenFail';
 export const LOAD_CLIENT_TOKEN_FAIL = 'LOAD_CLIENT_TOKEN_FAIL';
 export const LOGOUT_CUSTOMER_SUPPORT_AGENT = 'LOGOUT_CUSTOMER_SUPPORT_AGENT';
+export const LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS =
+  'LOGOUT_CUSTOMER_SUPPORT_AGENT_CLASS';
 export const LOAD_USER_TOKEN = 'LOAD_USER_TOKEN';
 export const LOAD_USER_TOKEN_FAIL = 'LOAD_USER_TOKEN_FAIL';
 export const LOAD_USER_TOKEN_SUCCESS = 'LOAD_USER_TOKEN_SUCCESS';
@@ -620,6 +685,12 @@ export const INJECT_DECORATOR = 'Inject';
 export const PLATFORM = 'Platform';
 export const PLATFORM_ID_STRING = 'PLATFORM_ID';
 export const ANY_TYPE = 'any';
+export const OBJECT_TYPE = 'Object';
+export const STRING_TYPE = 'string';
+export const DOCUMENT = 'Document';
+export const DOCUMENT_STRING = 'DOCUMENT';
+export const SERVER_REQUEST_URL_STRING = 'SERVER_REQUEST_URL';
+export const SERVER_REQUEST_ORIGIN_STRING = 'SERVER_REQUEST_ORIGIN';
 /***** Properties end *****/
 
 /***** APIs start *****/

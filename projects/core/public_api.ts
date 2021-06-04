@@ -2,7 +2,6 @@
  * Public API Surface of core
  */
 export * from './src/anonymous-consents/index';
-export * from './src/asm/index';
 export * from './src/auth/index';
 export * from './src/cart/index';
 export * from './src/checkout/index';
@@ -15,7 +14,6 @@ export * from './src/i18n/index';
 export * from './src/model/index';
 export * from './src/cost-center/index';
 export * from './src/occ/index';
-export * from './src/personalization/index';
 export * from './src/process/index';
 export * from './src/product/index';
 export * from './src/routing/index';
