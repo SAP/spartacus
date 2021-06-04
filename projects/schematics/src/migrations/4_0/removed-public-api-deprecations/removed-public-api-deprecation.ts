@@ -455,6 +455,21 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     importPath: SPARTACUS_CORE,
     comment: `'${DEFAULT_SESSION_STORAGE_KEY}' was removed with the whole storage sync mechanism. For syncing your data to and from browser storage use StatePersistenceService.`,
   },
+  {
+    node: 'PageEventModule',
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'PageEventModule' was removed, please use 'NavigationEventModule' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
+  },
+  {
+    node: 'PageEventBuilder',
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'PageEventBuilder' was removed, please use 'NavigationEventBuilder' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
+  },
+  {
+    node: 'EventsModule',
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'EventsModule' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
+  },
 ];
 
 export function migrate(): Rule {
