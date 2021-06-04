@@ -137,8 +137,6 @@ if (environment.cpq) {
     AnonymousConsentsDialogModule,
     AnonymousConsentManagementBannerModule,
 
-    // Order Normalizers
-    OrderOccModule,
     // Product Core
     ProductModule.forRoot(),
     ProductOccModule,
@@ -175,6 +173,7 @@ if (environment.cpq) {
     ReturnRequestDetailModule,
     ReplenishmentOrderHistoryModule,
     ReplenishmentOrderDetailsModule,
+    OrderOccModule,
 
     // Page Events
     NavigationEventModule,
