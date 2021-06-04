@@ -164,12 +164,8 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   };
 }
 
-export function prepareDependencies(
-  options: SpartacusOptions
-): NodeDependency[] {
-  const spartacusDependencies = prepareSpartacusDependencies(
-    options.configuration === 'b2b'
-  );
+export function prepareDependencies(): NodeDependency[] {
+  const spartacusDependencies = prepareSpartacusDependencies();
   return spartacusDependencies.concat(prepare3rdPartyDependencies());
 }
 
@@ -235,7 +231,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     const project = getProjectFromWorkspace(tree, options);
 
     return chain([
-      addPackageJsonDependencies(prepareDependencies(options)),
+      addPackageJsonDependencies(prepareDependencies()),
       ensureModuleExists({
         name: SPARTACUS_ROUTING_MODULE,
         path: 'app',
