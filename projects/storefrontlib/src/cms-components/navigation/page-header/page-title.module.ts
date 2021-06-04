@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  CmsPageTitleModule,
+  PageMetaModule,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { PageTitleComponent } from './page-title.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, CmsPageTitleModule],
+  imports: [CommonModule, RouterModule, PageMetaModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
