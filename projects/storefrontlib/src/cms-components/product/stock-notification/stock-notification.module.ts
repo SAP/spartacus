@@ -23,10 +23,6 @@ import { RouterModule } from '@angular/router';
       },
     }),
   ],
-  entryComponents: [
-    StockNotificationComponent,
-    StockNotificationDialogComponent,
-  ],
   exports: [StockNotificationComponent, StockNotificationDialogComponent],
 })
 export class StockNotificationModule {}

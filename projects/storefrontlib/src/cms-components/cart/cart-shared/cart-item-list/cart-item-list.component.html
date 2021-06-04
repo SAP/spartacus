@@ -22,11 +22,7 @@
   <div
     *ngIf="getControl(item) | async as control"
     class="cx-item-list-items"
-    [class.is-changed]="
-      featureConfigService?.isLevel('3.1')
-        ? control.get('quantity').disabled
-        : control.get('quantity').dirty
-    "
+    [class.is-changed]="control.get('quantity').disabled"
   >
     <cx-cart-item
       [item]="item"
