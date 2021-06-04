@@ -23,7 +23,7 @@ export class OccUserAccountAdapter implements UserAccountAdapter {
   ) {}
 
   load(userId: string): Observable<User> {
-    const url = this.occEndpoints.getUrl('user', { userId });
+    const url = this.occEndpoints.buildUrl('user', { urlParams: { userId } });
     return this.http.get<Occ.User>(url).pipe(
       catchError((error) => throwError(normalizeHttpError(error))),
       this.converter.pipeable(USER_ACCOUNT_NORMALIZER)

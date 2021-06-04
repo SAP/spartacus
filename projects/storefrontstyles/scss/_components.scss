@@ -12,7 +12,6 @@ $user-components-whitelist: () !default;
 $cart-components-whitelist: () !default;
 $content-components-whitelist: () !default;
 $misc-components-whitelist: () !default;
-$asm-components-whitelist: () !default;
 $pwa-components-whitelist: () !default;
 $cds-components-whitelist: () !default;
 $wish-list-components-whitelist: () !default;
@@ -29,7 +28,6 @@ $selectors: mergeAll(
     $myaccount-components-whitelist,
     $pwa-components-whitelist,
     $cds-components-whitelist,
-    $asm-components-whitelist,
     $wish-list-components-whitelist
   )
 );

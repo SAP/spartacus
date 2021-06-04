@@ -42,10 +42,5 @@ import { ConfiguratorTextfieldInputFieldComponent } from './input-field/configur
     ConfiguratorTextfieldInputFieldComponent,
     ConfiguratorTextfieldAddToCartButtonComponent,
   ],
-  entryComponents: [
-    ConfiguratorTextfieldFormComponent,
-    ConfiguratorTextfieldInputFieldComponent,
-    ConfiguratorTextfieldAddToCartButtonComponent,
-  ],
 })
 export class TextfieldConfiguratorComponentsModule {}

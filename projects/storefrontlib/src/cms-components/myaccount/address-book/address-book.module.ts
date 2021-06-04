@@ -33,6 +33,5 @@ import { AddressFormModule } from './address-form/address-form.module';
     }),
     UserAddressService,
   ],
-  entryComponents: [AddressBookComponent],
 })
 export class AddressBookModule {}

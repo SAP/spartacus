@@ -52,17 +52,14 @@ export class OccProductSearchAdapter implements ProductSearchAdapter {
     query: string,
     searchConfig: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl(
-      'productSearch',
-      {},
-      {
-        query,
-        ...searchConfig,
-      }
-    );
+    return this.occEndpoints.buildUrl('productSearch', {
+      queryParams: { query, ...searchConfig },
+    });
   }
 
   protected getSuggestionEndpoint(term: string, max: string): string {
-    return this.occEndpoints.getUrl('productSuggestions', {}, { term, max });
+    return this.occEndpoints.buildUrl('productSuggestions', {
+      queryParams: { term, max },
+    });
   }
 }
