@@ -47,6 +47,7 @@ import { DELETE_ITEM_COMPONENT_MIGRATION } from './data/delete-item.component.mi
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
 import { EVENT_SERVICE_CONSTRUCTOR_DEPRECATION } from './data/event.service.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
+import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
@@ -112,6 +113,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   ORGANIZATION_PAGE_META_RESOLVER_MIGRATION,
   ROUTING_SERVICE_MIGRATION,
   COMPONENT_WRAPPER_CONSTRUCTOR_MIGRATION,
+  LOGIN_REGISTER_COMPONENT_MIGRATION,
   ADD_TO_SAVED_CART_COMPONENT_MIGRATION_V1,
   ADD_TO_SAVED_CART_COMPONENT_MIGRATION_V2,
   ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT_MIGRATION_V1,
