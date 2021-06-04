@@ -18,6 +18,12 @@ export function login() {
   loginRegisteredUser();
 }
 
+export function verifyListingTabbingOrder() {
+  // page rendering
+  cy.wait(1000);
+  tabbingOrder('cx-page-layout.AccountPageTemplate', config.savedCartListing);
+}
+
 export function verifyDetailsTabbingOrder() {
   // page rendering
   cy.wait(1000);

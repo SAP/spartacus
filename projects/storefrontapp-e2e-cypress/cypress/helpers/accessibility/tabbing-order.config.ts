@@ -2265,6 +2265,31 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Start Session',
     },
   ],
+  savedCartListing: [
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      type: TabbingOrderTypes.LINK,
+    },
+
+    {
+      value: '1',
+      type: TabbingOrderTypes.LINK,
+    },
+
+    {
+      value: '$3.45',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Make Cart Active',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
   savedCartDetails: [
     {
       type: TabbingOrderTypes.CX_ICON,
