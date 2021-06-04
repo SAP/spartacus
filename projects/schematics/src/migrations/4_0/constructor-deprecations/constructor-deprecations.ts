@@ -14,6 +14,7 @@ import {
   ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION_V2,
 } from './data/anonymous-consent-open-dialog.component.migration';
 import { BASE_PAGE_META_RESOLVER_MIGRATION } from './data/base-page-meta.resolver.migration';
+import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item.component.migration';
 import {
   CART_LIST_ITEM_COMPONENT_MIGRATION_V1,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V2,
@@ -35,6 +36,7 @@ import { CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT_MIGRATION } from './data
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
 import { CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION } from './data/configurator-cart-entry-info.component.migration';
+import { CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION } from './data/configurator-issues-notification.component.migration';
 import { CONFIGURATOR_STOREFRONT_UTILS_SERVICE_MIGRATION } from './data/configurator-storefront-utils.service.migration';
 import {
   CONTENT_PAGE_META_RESOLVER_MIGRATION_V1,
@@ -46,6 +48,8 @@ import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-ev
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
+import { PRODUCT_GRID_ITEM_COMPONENT_MIGRATION } from './data/product-grid-item.component.migration';
+import { PRODUCT_LIST_ITEM_COMPONENT_MIGRATION } from './data/product-list-item.component.migration';
 import { PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/product-page-event.builder.migration';
 import {
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V1,
@@ -135,6 +139,11 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CMS_COMPONENTS_SERVICE_MIGRATION_1,
   CMS_COMPONENTS_SERVICE_MIGRATION_2,
   CMS_COMPONENTS_SERVICE_MIGRATION_3,
+  PRODUCT_LIST_ITEM_COMPONENT_MIGRATION,
+  PRODUCT_GRID_ITEM_COMPONENT_MIGRATION,
+  CART_ITEM_COMPONENT_MIGRATION,
+  CONFIGURATOR_CART_ENTRY_INFO_COMPONENT_MIGRATION,
+  CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {

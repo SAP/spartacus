@@ -226,6 +226,11 @@ export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
 export const PRODUCT_SCROLL_COMPONENT = 'ProductScrollComponent';
 export const PRODUCT_LIST_COMPONENT = 'ProductListComponent';
 export const PRODUCT_LIST_COMPONENT_SERVICE = 'ProductListComponentService';
+export const PRODUCT_LIST_ITEM_COMPONENT = 'ProductListItemComponent';
+export const PRODUCT_LIST_ITEM_CONTEXT_SOURCE = 'ProductListItemContextSource';
+export const PRODUCT_GRID_ITEM_COMPONENT = 'ProductGridItemComponent';
+export const CART_ITEM_CONTEXT_SOURCE = 'CartItemContextSource';
+export const CART_ITEM_CONTEXT = 'CartItemContext';
 export const PAGE_LAYOUT_SERVICE = 'PageLayoutService';
 export const VIEW_CONFIG = 'ViewConfig';
 export const FOOTER_NAVIGATION_COMPONENT = 'FooterNavigationComponent';
@@ -316,6 +321,12 @@ export const ORDER_RETURN_SERVICE = 'OrderReturnService';
 export const PRODUCT_VARIANT_GUARD = 'ProductVariantGuard';
 export const USER_CONNECTOR = 'UserConnector';
 export const USER_REGISTER_EFFECT = 'UserRegisterEffects';
+export const CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT =
+  'ConfiguratorIssuesNotificationComponent';
+export const COMMON_CONFIGURATOR_UTILS_SERVICE =
+  'CommonConfiguratorUtilsService';
+export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
+  'ConfiguratorCartEntryInfoComponent';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
