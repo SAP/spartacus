@@ -56,7 +56,7 @@ describe('OccCheckoutDeliveryAdapter', () => {
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEndpointService, 'getUrl').and.callThrough();
+    spyOn(occEndpointService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -113,11 +113,13 @@ describe('OccCheckoutDeliveryAdapter', () => {
         return req.method === 'PUT' && req.url === 'setDeliveryAddress';
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
         'setDeliveryAddress',
         {
-          userId,
-          cartId,
+          urlParams: {
+            userId,
+            cartId,
+          },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();

@@ -64,7 +64,7 @@ describe('OccCheckoutAdapter', () => {
     occEndpointService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEndpointService, 'getUrl').and.callThrough();
+    spyOn(occEndpointService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -81,8 +81,10 @@ describe('OccCheckoutAdapter', () => {
         return req.method === 'POST' && req.url === 'placeOrder';
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith('placeOrder', {
-        userId,
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith('placeOrder', {
+        urlParams: {
+          userId,
+        },
       });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.params.get('cartId')).toEqual(cartId);
