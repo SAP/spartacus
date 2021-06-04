@@ -682,6 +682,8 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: UPDATE_PROFILE_COMPONENT,
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'${UPDATE_PROFILE_COMPONENT}' was moved to ${SPARTACUS_USER_PROFILE_COMPONENTS}. Logic for this component was changed. For more details please look into 4.0 migration documentation.`,
+  },
+  {
     node: 'PageEventModule',
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'PageEventModule' was removed, please use 'NavigationEventModule' from '${SPARTACUS_STOREFRONTLIB}' instead.`,
