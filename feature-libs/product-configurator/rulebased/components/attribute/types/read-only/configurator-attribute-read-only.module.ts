@@ -15,6 +15,5 @@ import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute
   ],
   declarations: [ConfiguratorAttributeReadOnlyComponent],
   exports: [ConfiguratorAttributeReadOnlyComponent],
-  entryComponents: [ConfiguratorAttributeReadOnlyComponent],
 })
 export class ConfiguratorAttributeReadOnlyModule {}

@@ -20,6 +20,5 @@ import { BulkPricingTableComponent } from './bulk-pricing-table.component';
   ],
   declarations: [BulkPricingTableComponent],
   exports: [BulkPricingTableComponent],
-  entryComponents: [BulkPricingTableComponent],
 })
 export class BulkPricingTableModule {}
