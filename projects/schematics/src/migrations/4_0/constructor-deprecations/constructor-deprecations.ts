@@ -63,6 +63,7 @@ import {
   SAVED_CART_DETAILS_OVERVIEW_COMPONENT_MIGRATION_V2,
 } from './data/saved-cart-details-overview.component.migration';
 import { SEARCH_BOX_COMPONENT_SERVICE_MIGRATION } from './data/search-box-component.service.migration';
+import { SEARCH_BOX_COMPONENT_MIGRATION } from './data/search-box.component.migration';
 import { SEARCH_PAGE_META_RESOLVER_MIGRATION } from './data/search-page-meta.resolver.migration';
 import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
@@ -115,6 +116,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CART_LIST_ITEM_COMPONENT_MIGRATION_V1,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V2,
   CART_LIST_ITEM_COMPONENT_MIGRATION_V3,
+  SEARCH_BOX_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
