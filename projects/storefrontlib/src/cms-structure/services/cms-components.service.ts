@@ -1,5 +1,11 @@
 import { isPlatformServer } from '@angular/common';
-import { Inject, Injectable, isDevMode, NgModuleRef, PLATFORM_ID } from '@angular/core';
+import {
+  Inject,
+  Injectable,
+  isDevMode,
+  NgModuleRef,
+  PLATFORM_ID,
+} from '@angular/core';
 import { Route } from '@angular/router';
 import {
   CmsComponent,
@@ -9,7 +15,7 @@ import {
   CmsConfig,
   ConfigInitializerService,
   deepMerge,
-  DeferLoadingStrategy
+  DeferLoadingStrategy,
 } from '@spartacus/core';
 import { defer, forkJoin, Observable, of } from 'rxjs';
 import { mapTo, share, tap } from 'rxjs/operators';

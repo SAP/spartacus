@@ -32,10 +32,7 @@
       "default": false
     },
     "routingScope": {
-      "enum": [
-        "Child",
-        "Root"
-      ],
+      "enum": ["Child", "Root"],
       "type": "string",
       "description": "The scope for the new routing module.",
       "default": "Child"
@@ -85,21 +82,13 @@
     },
     "viewEncapsulation": {
       "description": "The view encapsulation strategy to use in the new component.",
-      "enum": [
-        "Emulated",
-        "Native",
-        "None",
-        "ShadowDom"
-      ],
+      "enum": ["Emulated", "Native", "None", "ShadowDom"],
       "type": "string",
       "alias": "v"
     },
     "changeDetection": {
       "description": "The change detection strategy to use in the new component.",
-      "enum": [
-        "Default",
-        "OnPush"
-      ],
+      "enum": ["Default", "OnPush"],
       "type": "string",
       "default": "OnPush",
       "alias": "c"
@@ -122,13 +111,7 @@
       "description": "The file extension or preprocessor to use for style files.",
       "type": "string",
       "default": "scss",
-      "enum": [
-        "css",
-        "scss",
-        "sass",
-        "less",
-        "styl"
-      ]
+      "enum": ["css", "scss", "sass", "less", "styl"]
     },
     "type": {
       "type": "string",
@@ -166,7 +149,5 @@
       "description": "When true, applies lint fixes after generating the component."
     }
   },
-  "required": [
-    "name"
-  ]
+  "required": ["name"]
 }
