@@ -366,7 +366,6 @@ export const CURRENT_USER_GROUP_SERVICE = 'CurrentUserGroupService';
 export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
-export const LOGIN_REGISTER_COMPONENT = 'LoginRegisterComponent';
 export const UNIT_FORM_COMPONENT = 'UnitFormComponent';
 export const USER_GROUP_USER_LIST_COMPONENT = 'UserGroupUserListComponent';
 export const USER_GROUP_USER_LIST_SERVICE = 'UserGroupUserListService';
