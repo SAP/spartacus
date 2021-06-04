@@ -9,18 +9,24 @@ import {
 import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
+import {
+  GET_URL_MIGRATION,
+  OCC_ENDPOINTS_SERVICE_MIGRATION,
+} from './data/occ-endpoints.service.migration';
 import { PAGE_EVENT_BUILDER_MIGRATION } from './data/page-event.builder.ts.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
 
 export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...LANGUAGE_SERVICE_MIGRATION,
   ...CURRENCY_SERVICE_MIGRATION,
+  ...OCC_ENDPOINTS_SERVICE_MIGRATION,
   ...CONTENT_PAGE_META_RESOLVER_MIGRATION,
   ...PAGE_META_SERVICE_MIGRATION,
   ...SELECTIVE_CART_SERVICE_MIGRATION,
   ...ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION,
   ...PAGE_EVENT_BUILDER_MIGRATION,
   ...DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
+  ...GET_URL_MIGRATION,
 ];
 
 export function migrate(): Rule {
