@@ -45,6 +45,7 @@ import {
 import { CURRENCY_SERVICE_MIGRATION } from './data/currency.service.migration';
 import { DELETE_ITEM_COMPONENT_MIGRATION } from './data/delete-item.component.migration';
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
+import { EVENT_SERVICE_CONSTRUCTOR_DEPRECATION } from './data/event.service.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
@@ -85,6 +86,9 @@ import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.componen
 import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
 import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
 import { USER_GROUP_USER_LIST_COMPONENT_MIGRATION } from './data/user-group-user-list.component.migration';
+import { UNIT_CHILDREN_COMPONENT_MIGRATION } from './data/unit-children.component.migration';
+import { UNIT_COST_CENTERS_COMPONENT_MIGRATION } from './data/unit-cost-centers.component.migration';
+import { UNIT_USER_LIST_COMPONENT_MIGRATION } from './data/unit-user-list.component.migration';
 import { WINDOW_REF_MIGRATION } from './data/window-ref.migration';
 
 export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
@@ -94,6 +98,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V1,
   CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V2,
   HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION,
+  EVENT_SERVICE_CONSTRUCTOR_DEPRECATION,
   PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION,
   SEARCH_BOX_COMPONENT_SERVICE_MIGRATION,
   CURRENCY_SERVICE_MIGRATION,
