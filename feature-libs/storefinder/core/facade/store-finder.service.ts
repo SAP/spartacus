@@ -81,6 +81,16 @@ export class StoreFinderService implements OnDestroy {
   }
 
   /**
+   * Returns observable for a single store by Id
+   */
+  getFindStoreEntityById(): Observable<StoreEntities> {
+    return this.store.pipe(
+      select(StoreFinderSelectors.getFindStoresEntities),
+      map((data) => data.findStoreEntityById)
+    );
+  }
+
+  /**
    * Returns boolean observable for view all store's loading state
    */
   getViewAllStoresLoading(): Observable<boolean> {
