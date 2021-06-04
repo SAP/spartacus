@@ -2,8 +2,7 @@
 
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/_mixins';
+@import '~bootstrap/scss/mixins';
 
-@import './steps/index';
-@import './order-confirmation/index';
-@import './promotions';
+@import './components/index';
+@import './layout/index';
