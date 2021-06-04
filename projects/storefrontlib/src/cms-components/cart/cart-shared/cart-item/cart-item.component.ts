@@ -3,7 +3,6 @@ import {
   Input,
   OnChanges,
   OnInit,
-  Optional,
   SimpleChanges,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -18,20 +17,6 @@ import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { CartOutlets } from '../../cart-outlets.model';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
 import { CartItemContext } from './model/cart-item-context.model';
-
-/**
- * @deprecated since 3.0 - use `OrderEntry` instead
- */
-export interface Item {
-  entryNumber?: number;
-  product?: any;
-  quantity?: any;
-  basePrice?: any;
-  totalPrice?: any;
-  updateable?: boolean;
-  statusSummaryList?: any[];
-  configurationInfos?: any[];
-}
 
 export interface CartItemComponentOptions {
   isSaveForLater?: boolean;
@@ -64,20 +49,9 @@ export class CartItemComponent implements OnInit, OnChanges {
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
-  // TODO(#10946): make CartItemContextSource a required dependency
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  constructor(
-    promotionService: PromotionService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    cartItemContextSource: CartItemContextSource
-  );
-  /**
-   * @deprecated since 3.1
-   */
-  constructor(promotionService: PromotionService);
   constructor(
     protected promotionService: PromotionService,
-    @Optional() protected cartItemContextSource?: CartItemContextSource
+    protected cartItemContextSource: CartItemContextSource
   ) {}
 
   ngOnInit() {
@@ -89,25 +63,25 @@ export class CartItemComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {
-      this.cartItemContextSource?.compact$.next(this.compact);
+      this.cartItemContextSource.compact$.next(this.compact);
     }
     if (changes?.readonly) {
-      this.cartItemContextSource?.readonly$.next(this.readonly);
+      this.cartItemContextSource.readonly$.next(this.readonly);
     }
     if (changes?.item) {
-      this.cartItemContextSource?.item$.next(this.item);
+      this.cartItemContextSource.item$.next(this.item);
     }
     if (changes?.quantityControl) {
-      this.cartItemContextSource?.quantityControl$.next(this.quantityControl);
+      this.cartItemContextSource.quantityControl$.next(this.quantityControl);
     }
     if (changes?.promotionLocation) {
-      this.cartItemContextSource?.promotionLocation$.next(
+      this.cartItemContextSource.promotionLocation$.next(
         this.promotionLocation
       );
-      this.cartItemContextSource?.location$.next(this.promotionLocation);
+      this.cartItemContextSource.location$.next(this.promotionLocation);
     }
     if (changes?.options) {
-      this.cartItemContextSource?.options$.next(this.options);
+      this.cartItemContextSource.options$.next(this.options);
     }
   }
 

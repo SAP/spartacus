@@ -7,7 +7,6 @@ import {
 import { ListService } from '../../shared/list/list.service';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListService } from './user-group-user-list.service';
-import { MessageService } from '../../shared/message/services/message.service';
 import { SubListComponent } from '../../shared/sub-list/sub-list.component';
 
 @Component({
@@ -23,27 +22,9 @@ import { SubListComponent } from '../../shared/sub-list/sub-list.component';
   ],
 })
 export class UserGroupUserListComponent {
-  /**
-   * @deprecated since version 3.2
-   * Use constructor(protected currentUserGroupService: CurrentUserGroupService, protected userGroupUserListService: UserGroupUserListService) {} instead
-   */
-  // TODO(#11530): Remove deprecated constructors
-  constructor(
-    currentUserGroupService: CurrentUserGroupService,
-    userGroupUserListService: UserGroupUserListService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    messageService: MessageService
-  );
-
-  constructor(
-    currentUserGroupService: CurrentUserGroupService,
-    userGroupUserListService: UserGroupUserListService
-  );
-
   constructor(
     protected currentUserGroupService: CurrentUserGroupService,
-    protected userGroupUserListService: UserGroupUserListService,
-    protected messageService?: MessageService
+    protected userGroupUserListService: UserGroupUserListService
   ) {}
 
   @ViewChild('subList')
@@ -66,25 +47,13 @@ export class UserGroupUserListComponent {
   }
 
   protected notify(item: UserGroup) {
-    // TODO(#11530): Remove deprecated condition
-    if (this.subList) {
-      this.subList.messageService.add({
-        message: {
-          key: `orgUserGroupUsers.unassignAllConfirmation`,
-          params: {
-            item,
-          },
+    this.subList.messageService.add({
+      message: {
+        key: `orgUserGroupUsers.unassignAllConfirmation`,
+        params: {
+          item,
         },
-      });
-    } else {
-      this.messageService?.add({
-        message: {
-          key: `orgUserGroupUsers.unassignAllConfirmation`,
-          params: {
-            item,
-          },
-        },
-      });
-    }
+      },
+    });
   }
 }

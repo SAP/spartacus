@@ -22,30 +22,11 @@ const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
 })
 export class SearchBoxComponentService {
   constructor(
-    searchService: SearchboxService,
-    routingService: RoutingService,
-    translationService: TranslationService,
-    winRef: WindowRef
-  );
-  /**
-   * @deprecated since version 3.1
-   * Use constructor(searchService: SearchboxService, routingService: RoutingService, translationService: TranslationService, winRef: WindowRef, eventService?: EventService) instead
-   */
-  // TODO(#10988): Remove deprecated constructors
-  constructor(
-    searchService: SearchboxService,
-    routingService: RoutingService,
-    translationService: TranslationService,
-    winRef: WindowRef,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    eventService?: EventService
-  );
-  constructor(
     public searchService: SearchboxService,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
     protected winRef: WindowRef,
-    protected eventService?: EventService
+    protected eventService: EventService
   ) {}
 
   /**
@@ -132,16 +113,13 @@ export class SearchBoxComponentService {
    * @param eventData data for the "SearchBoxProductSelectedEvent"
    */
   dispatchProductSelectedEvent(eventData: SearchBoxProductSelectedEvent): void {
-    // TODO(#10988): for 4.0 remove "eventService" check
-    if (this.eventService) {
-      this.eventService.dispatch<SearchBoxProductSelectedEvent>(
-        {
-          freeText: eventData.freeText,
-          productCode: eventData.productCode,
-        },
-        SearchBoxProductSelectedEvent
-      );
-    }
+    this.eventService.dispatch<SearchBoxProductSelectedEvent>(
+      {
+        freeText: eventData.freeText,
+        productCode: eventData.productCode,
+      },
+      SearchBoxProductSelectedEvent
+    );
   }
 
   /**
@@ -152,17 +130,14 @@ export class SearchBoxComponentService {
   dispatchSuggestionSelectedEvent(
     eventData: SearchBoxSuggestionSelectedEvent
   ): void {
-    // TODO(#10988): for 4.0 remove "eventService" check
-    if (this.eventService) {
-      this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
-        {
-          freeText: eventData.freeText,
-          selectedSuggestion: eventData.selectedSuggestion,
-          searchSuggestions: eventData.searchSuggestions,
-        },
-        SearchBoxSuggestionSelectedEvent
-      );
-    }
+    this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
+      {
+        freeText: eventData.freeText,
+        selectedSuggestion: eventData.selectedSuggestion,
+        searchSuggestions: eventData.searchSuggestions,
+      },
+      SearchBoxSuggestionSelectedEvent
+    );
   }
 
   /**
