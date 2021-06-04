@@ -275,6 +275,7 @@ function configureSpartacusModules(
         'ReplenishmentOrderHistoryModule,',
         'ReplenishmentOrderDetailsModule,',
         'ReplenishmentOrderConfirmationModule,',
+        'OrderOccModule',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
@@ -291,6 +292,10 @@ function configureSpartacusModules(
                 'ReturnRequestDetailModule',
                 'ReturnRequestListModule',
               ],
+            },
+            {
+              moduleSpecifier: SPARTACUS_CORE,
+              namedImports: ['OrderOccModule'],
             },
           ],
           content,
