@@ -1,11 +1,13 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { Order, PromotionResult } from '@spartacus/core';
+import { AbstractPromotionService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { CheckoutPromotionService } from '../../../services/checkout-promotion.service';
 
@@ -19,8 +21,10 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
   orderPromotions$: Observable<PromotionResult[]>;
   constructor(
     protected checkoutService: CheckoutFacade,
-    protected promotionService: CheckoutPromotionService
-  ) {}
+    @Inject(CheckoutPromotionService)
+    protected promotionService: AbstractPromotionService
+  )
+  {}
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails();

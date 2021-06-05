@@ -1,6 +1,28 @@
 import { Cart, Order, OrderEntry, PromotionResult } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 export abstract class AbstractPromotionService {
+  abstract getOrderPromotions(): Observable<PromotionResult[]>;
+
+  getProductPromotionForAllEntries(
+    order: Order | Cart
+  ): { [key: number]: Observable<PromotionResult[]> } {
+    const allEntryPromotions: {
+      [key: number]: Observable<PromotionResult[]>;
+    } = {};
+    order.entries?.forEach((entry) => {
+      if (entry.entryNumber !== undefined)
+        allEntryPromotions[
+          entry.entryNumber
+        ] = this.getProductPromotionForEntry(entry);
+    });
+    return allEntryPromotions;
+  }
+
+  protected abstract getProductPromotionForEntry(
+    item: OrderEntry
+  ): Observable<PromotionResult[]>;
+
   protected getOrderPromotionsFromCartHelper(cart: Cart): PromotionResult[] {
     const potentialPromotions = [];
     potentialPromotions.push(...(cart.potentialOrderPromotions || []));
