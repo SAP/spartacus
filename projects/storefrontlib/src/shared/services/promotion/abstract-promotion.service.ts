@@ -19,7 +19,7 @@ export abstract class AbstractPromotionService {
     return allEntryPromotions;
   }
 
-  protected abstract getProductPromotionForEntry(
+  abstract getProductPromotionForEntry(
     item: OrderEntry
   ): Observable<PromotionResult[]>;
 

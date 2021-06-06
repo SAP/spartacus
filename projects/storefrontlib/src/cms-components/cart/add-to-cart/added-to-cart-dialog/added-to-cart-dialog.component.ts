@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
@@ -19,7 +25,8 @@ import {
 } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { AbstractPromotionService } from '../../../../shared/services/promotion/abstract-promotion.service';
+import { CartPromotionService } from '../../cart-promotion.service';
 
 @Component({
   selector: 'cx-added-to-cart-dialog',
@@ -53,7 +60,8 @@ export class AddedToCartDialogComponent implements OnInit {
   constructor(
     protected modalService: ModalService,
     protected cartService: ActiveCartService,
-    protected promotionService: PromotionService
+    @Inject(CartPromotionService)
+    protected promotionService: AbstractPromotionService
   ) {}
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
@@ -92,9 +100,7 @@ export class AddedToCartDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
-    );
+    this.orderPromotions$ = this.promotionService.getOrderPromotions();
     this.addedEntryWasMerged$ = this.loaded$.pipe(
       filter((loaded) => loaded),
       switchMapTo(this.cartService.getEntries()),
@@ -119,5 +125,9 @@ export class AddedToCartDialogComponent implements OnInit {
 
   dismissModal(reason?: any): void {
     this.modalService.dismissActiveModal(reason);
+  }
+
+  getPromotionsForEntry( entry: OrderEntry ) {
+    return this.promotionService.getProductPromotionForEntry(entry);
   }
 }

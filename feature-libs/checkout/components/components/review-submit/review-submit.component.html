@@ -186,7 +186,7 @@
       <cx-cart-item-list
         [items]="entries"
         [readonly]="true"
-        [promotionLocation]="promotionLocation"
+        [promotions]="getAllCartEntryPromotions(cart)"
       ></cx-cart-item-list>
     </div>
   </ng-container>

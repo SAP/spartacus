@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  OnInit,
+} from '@angular/core';
 import {
   ActiveCartService,
   AuthService,
@@ -11,7 +16,8 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { PromotionService } from '../../../shared/services/promotion/promotion.service';
+import { AbstractPromotionService } from '../../../shared/services/promotion/abstract-promotion.service';
+import { CartPromotionService } from '../cart-promotion.service';
 
 @Component({
   selector: 'cx-cart-details',
@@ -30,7 +36,8 @@ export class CartDetailsComponent implements OnInit {
 
   constructor(
     protected activeCartService: ActiveCartService,
-    protected promotionService: PromotionService,
+    @Inject(CartPromotionService)
+    protected promotionService: AbstractPromotionService,
     protected selectiveCartService: SelectiveCartService,
     protected authService: AuthService,
     protected routingService: RoutingService
@@ -38,7 +45,7 @@ export class CartDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
-    this.promotions$ = this.promotionService.getOrderPromotionsFromCart();
+    this.promotions$ = this.promotionService.getOrderPromotions();
 
     this.entries$ = this.activeCartService
       .getEntries()
@@ -62,9 +69,7 @@ export class CartDetailsComponent implements OnInit {
       )
     );
 
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
-    );
+    this.orderPromotions$ = this.promotionService.getOrderPromotions();
   }
 
   saveForLater(item: OrderEntry) {
@@ -74,5 +79,11 @@ export class CartDetailsComponent implements OnInit {
     } else {
       this.routingService.go({ cxRoute: 'login' });
     }
+  }
+
+  getAllCartEntryPromotions(
+    cart: Cart
+  ): { [key: number]: Observable<PromotionResult[]> } {
+    return this.promotionService.getProductPromotionForAllEntries(cart);
   }
 }

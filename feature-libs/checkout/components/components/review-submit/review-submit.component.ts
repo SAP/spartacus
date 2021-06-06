@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
@@ -24,7 +24,12 @@ import {
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card, ICON_TYPE, PromotionService } from '@spartacus/storefront';
+import {
+  AbstractPromotionService,
+  Card,
+  CartPromotionService,
+  ICON_TYPE,
+} from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/index';
@@ -45,7 +50,8 @@ export class ReviewSubmitComponent {
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
-    protected promotionService: PromotionService,
+    @Inject(CartPromotionService)
+    protected promotionService: AbstractPromotionService,
     protected checkoutStepService: CheckoutStepService,
     protected paymentTypeService: PaymentTypeFacade,
     protected checkoutCostCenterService: CheckoutCostCenterFacade,
@@ -83,7 +89,7 @@ export class ReviewSubmitComponent {
   }
 
   get orderPromotions$(): Observable<PromotionResult[]> {
-    return this.promotionService.getOrderPromotions(this.promotionLocation);
+    return this.promotionService.getOrderPromotions();
   }
 
   get countryName$(): Observable<string | undefined> {
@@ -273,5 +279,11 @@ export class ReviewSubmitComponent {
 
   paymentSteps(steps: CheckoutStep[]): CheckoutStep[] {
     return steps.filter((step) => checkoutPaymentSteps.includes(step.type[0]));
+  }
+
+  getAllCartEntryPromotions(
+    cart: Cart
+  ): { [key: number]: Observable<PromotionResult[]> } {
+    return this.promotionService.getProductPromotionForAllEntries(cart);
   }
 }
