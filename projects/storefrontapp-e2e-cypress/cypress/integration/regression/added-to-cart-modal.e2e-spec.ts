@@ -5,7 +5,7 @@ const productId2 = '4812254';
 const productName2 = '500D + 18-55mm IS + EF-S 55-250 IS';
 
 describe('Added to cart modal', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['desktop', 'mobile'], () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
@@ -18,6 +18,7 @@ describe('Added to cart modal', () => {
       cy.get('cx-add-to-cart cx-item-counter input')
         .type('{selectall}{backspace}')
         .type('1000')
+        .blur()
         .should('have.value', '98');
 
       // check if the '+' button is disabled when the quantity is the maximum 'max stock'
@@ -29,6 +30,7 @@ describe('Added to cart modal', () => {
       cy.get('cx-add-to-cart cx-item-counter input')
         .type('{selectall}{backspace}')
         .type('0')
+        .blur()
         .should('have.value', '1');
 
       // check if the '-' button is disabled when the quantity is the minimum '1'
