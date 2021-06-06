@@ -7,9 +7,11 @@ import {
   Address,
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
+  BaseOccUrlProperties,
   Cart,
   ConverterService,
   DELIVERY_MODE_NORMALIZER,
+  DynamicAttributes,
   Occ,
   OccEndpointsService,
 } from '@spartacus/core';
@@ -26,7 +28,11 @@ const usersEndpoint = 'users';
 const cartsEndpoint = '/carts/';
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {
@@ -56,7 +62,7 @@ describe('OccCheckoutDeliveryAdapter', () => {
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEndpointService, 'getUrl').and.callThrough();
+    spyOn(occEndpointService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -113,11 +119,13 @@ describe('OccCheckoutDeliveryAdapter', () => {
         return req.method === 'PUT' && req.url === 'setDeliveryAddress';
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
         'setDeliveryAddress',
         {
-          userId,
-          cartId,
+          urlParams: {
+            userId,
+            cartId,
+          },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();

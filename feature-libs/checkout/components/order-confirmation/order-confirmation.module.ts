@@ -76,6 +76,5 @@ const orderConfirmationComponents = [
   ],
   declarations: [...orderConfirmationComponents],
   exports: [...orderConfirmationComponents],
-  entryComponents: [...orderConfirmationComponents],
 })
 export class OrderConfirmationModule {}

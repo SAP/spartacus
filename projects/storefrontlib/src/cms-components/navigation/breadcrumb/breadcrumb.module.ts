@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
-  CmsPageTitleModule,
+  PageMetaModule,
   provideDefaultConfig,
 } from '@spartacus/core';
 import { BreadcrumbComponent } from './breadcrumb.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, CmsPageTitleModule],
+  imports: [CommonModule, RouterModule, PageMetaModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,6 +21,5 @@ import { BreadcrumbComponent } from './breadcrumb.component';
   ],
   declarations: [BreadcrumbComponent],
   exports: [BreadcrumbComponent],
-  entryComponents: [BreadcrumbComponent],
 })
 export class BreadcrumbModule {}

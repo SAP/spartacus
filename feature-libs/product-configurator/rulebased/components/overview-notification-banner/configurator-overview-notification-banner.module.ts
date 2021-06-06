@@ -23,6 +23,5 @@ import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-
   ],
   declarations: [ConfiguratorOverviewNotificationBannerComponent],
   exports: [ConfiguratorOverviewNotificationBannerComponent],
-  entryComponents: [ConfiguratorOverviewNotificationBannerComponent],
 })
 export class ConfiguratorOverviewNotificationBannerModule {}

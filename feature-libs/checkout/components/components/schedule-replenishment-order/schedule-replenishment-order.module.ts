@@ -19,7 +19,6 @@ import { ScheduleReplenishmentOrderComponent } from './schedule-replenishment-or
     }),
   ],
   declarations: [ScheduleReplenishmentOrderComponent],
-  entryComponents: [ScheduleReplenishmentOrderComponent],
   exports: [ScheduleReplenishmentOrderComponent],
 })
 export class ScheduleReplenishmentOrderModule {}

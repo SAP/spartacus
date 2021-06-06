@@ -23,7 +23,6 @@ import { PaymentFormComponent } from './payment-form.component';
     FormErrorsModule,
   ],
   declarations: [PaymentFormComponent],
-  entryComponents: [PaymentFormComponent],
   exports: [PaymentFormComponent],
 })
 export class PaymentFormModule {}

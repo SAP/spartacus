@@ -47,7 +47,6 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
     }),
   ],
   declarations: [AddToCartComponent, AddedToCartDialogComponent],
-  entryComponents: [AddToCartComponent, AddedToCartDialogComponent],
   exports: [AddToCartComponent, AddedToCartDialogComponent],
 })
 export class AddToCartModule {}

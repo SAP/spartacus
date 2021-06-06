@@ -24,7 +24,6 @@ import { FormErrorsModule } from '../../../../../shared/index';
     FormErrorsModule,
   ],
   declarations: [PaymentFormComponent],
-  entryComponents: [PaymentFormComponent],
   exports: [PaymentFormComponent],
 })
 export class PaymentFormModule {}
