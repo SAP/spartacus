@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { Order, PromotionResult } from '@spartacus/core';
-import { AbstractPromotionService } from '@spartacus/storefront';
+import { PromotionService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { CheckoutPromotionService } from '../../../services/checkout-promotion.service';
 
@@ -22,9 +22,8 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
   constructor(
     protected checkoutService: CheckoutFacade,
     @Inject(CheckoutPromotionService)
-    protected promotionService: AbstractPromotionService
-  )
-  {}
+    protected promotionService: PromotionService
+  ) {}
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails();

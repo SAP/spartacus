@@ -25,10 +25,10 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import {
-  AbstractPromotionService,
   Card,
   CartPromotionService,
   ICON_TYPE,
+  PromotionService,
 } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
@@ -51,7 +51,7 @@ export class ReviewSubmitComponent {
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
     @Inject(CartPromotionService)
-    protected promotionService: AbstractPromotionService,
+    protected promotionService: PromotionService,
     protected checkoutStepService: CheckoutStepService,
     protected paymentTypeService: PaymentTypeFacade,
     protected checkoutCostCenterService: CheckoutCostCenterFacade,

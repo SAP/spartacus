@@ -6,12 +6,12 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AbstractPromotionService } from '../../shared/services/promotion/abstract-promotion.service';
+import { PromotionService } from '../../shared/services/promotion/promotion.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CartPromotionService extends AbstractPromotionService {
+export class CartPromotionService extends PromotionService {
   constructor(protected activeCartService: ActiveCartService) {
     super();
   }

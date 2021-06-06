@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AbstractPromotionService } from '../../../../../shared/services/promotion/abstract-promotion.service';
+import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderPromotionService } from '../order-promotion.service';
 import {
@@ -23,7 +23,7 @@ export class OrderDetailItemsComponent implements OnInit {
   constructor(
     protected orderDetailsService: OrderDetailsService,
     @Inject(OrderPromotionService)
-    protected promotionService: AbstractPromotionService
+    protected promotionService: PromotionService
   ) {}
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;

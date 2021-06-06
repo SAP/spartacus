@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { OrderEntry, PromotionResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AbstractPromotionService } from '../../../../shared/services/promotion/abstract-promotion.service';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { OrderDetailsService } from './order-details.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class OrderPromotionService extends AbstractPromotionService {
+export class OrderPromotionService extends PromotionService {
   constructor(protected orderDetailsService: OrderDetailsService) {
     super();
   }

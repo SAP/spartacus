@@ -25,7 +25,7 @@ import {
 } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { ModalService } from '../../../../shared/components/modal/modal.service';
-import { AbstractPromotionService } from '../../../../shared/services/promotion/abstract-promotion.service';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { CartPromotionService } from '../../cart-promotion.service';
 
 @Component({
@@ -57,7 +57,7 @@ export class AddedToCartDialogComponent implements OnInit {
     protected modalService: ModalService,
     protected cartService: ActiveCartService,
     @Inject(CartPromotionService)
-    protected promotionService: AbstractPromotionService
+    protected promotionService: PromotionService
   ) {}
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
@@ -123,7 +123,7 @@ export class AddedToCartDialogComponent implements OnInit {
     this.modalService.dismissActiveModal(reason);
   }
 
-  getPromotionsForEntry( entry: OrderEntry ) {
+  getPromotionsForEntry(entry: OrderEntry) {
     return this.promotionService.getProductPromotionForEntry(entry);
   }
 }

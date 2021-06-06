@@ -1,7 +1,7 @@
 import { Cart, Order, OrderEntry, PromotionResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
-export abstract class AbstractPromotionService {
+export abstract class PromotionService {
   abstract getOrderPromotions(): Observable<PromotionResult[]>;
 
   getProductPromotionForAllEntries(

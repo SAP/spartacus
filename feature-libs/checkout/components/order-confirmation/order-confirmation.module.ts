@@ -8,11 +8,11 @@ import {
   provideDefaultConfig,
 } from '@spartacus/core';
 import {
-  AbstractPromotionService,
   CardModule,
   CartSharedModule,
   FormErrorsModule,
   OrderOverviewModule,
+  PromotionService,
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
@@ -58,7 +58,7 @@ const orderConfirmationComponents = [
           guards: [OrderConfirmationGuard],
           providers: [
             {
-              provide: AbstractPromotionService,
+              provide: PromotionService,
               useExisting: CheckoutPromotionService,
             },
           ],

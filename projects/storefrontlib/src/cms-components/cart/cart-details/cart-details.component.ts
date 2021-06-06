@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { AbstractPromotionService } from '../../../shared/services/promotion/abstract-promotion.service';
+import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { CartPromotionService } from '../cart-promotion.service';
 
 @Component({
@@ -37,7 +37,7 @@ export class CartDetailsComponent implements OnInit {
   constructor(
     protected activeCartService: ActiveCartService,
     @Inject(CartPromotionService)
-    protected promotionService: AbstractPromotionService,
+    protected promotionService: PromotionService,
     protected selectiveCartService: SelectiveCartService,
     protected authService: AuthService,
     protected routingService: RoutingService
