@@ -327,13 +327,7 @@ describe('add-spartacus', () => {
     describe('urlParameters', () => {
       it('should not set the urlParameters, if not provided', async () => {
         const tree = await schematicRunner
-          .runSchematicAsync(
-            'add-spartacus',
-            {
-              ...defaultOptions,
-            },
-            appTree
-          )
+          .runSchematicAsync('add-spartacus', defaultOptions, appTree)
           .toPromise();
         const appModule = tree.readContent(
           `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
