@@ -175,6 +175,7 @@ describe('CpqConfiguratorRestAdapter', () => {
     adapterUnderTest
       .createConfiguration({
         key: owner.key,
+        id: owner.id,
         configuratorType: ConfiguratorType.CPQ,
       })
       .subscribe(
