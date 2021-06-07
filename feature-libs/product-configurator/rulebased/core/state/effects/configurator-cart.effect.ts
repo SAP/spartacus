@@ -40,7 +40,7 @@ export class ConfiguratorCartEffects {
       return this.configuratorCommonsConnector.addToCart(payload).pipe(
         switchMap((entry: CartModification) => {
           const entryNumber = entry.entry?.entryNumber;
-          if (!entryNumber) {
+          if (entryNumber === undefined) {
             throw Error(ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND);
           } else {
             return [
