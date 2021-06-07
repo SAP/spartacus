@@ -13,6 +13,10 @@ describe('SSR', () => {
       .and('contains', 'INDEX')
       .and('contains', 'FOLLOW');
     cy.get('link[rel="canonical"]').should('have.attr', 'href');
+    cy.get('script[id="json-ld"]')
+      .should('not.be.empty')
+      .and('have.attr', 'type')
+      .and('eq', 'application/ld+json');
   }
 
   it('should render homepage', () => {
