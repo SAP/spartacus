@@ -52,7 +52,7 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
   }
 
   protected getPaymentTypesEndpoint(): string {
-    return this.occEndpoints.getUrl('paymentTypes');
+    return this.occEndpoints.buildUrl('paymentTypes');
   }
 
   protected getSetCartPaymentTypeEndpoint(
@@ -61,12 +61,12 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
     paymentType: string,
     purchaseOrderNumber?: string
   ): string {
-    return this.occEndpoints.getUrl(
-      'setCartPaymentType',
-      { userId, cartId },
-      purchaseOrderNumber
-        ? { paymentType, purchaseOrderNumber }
-        : { paymentType }
-    );
+    const queryParams = purchaseOrderNumber
+      ? { paymentType, purchaseOrderNumber }
+      : { paymentType };
+    return this.occEndpoints.buildUrl('setCartPaymentType', {
+      urlParams: { userId, cartId },
+      queryParams,
+    });
   }
 }

@@ -14,7 +14,7 @@ import {
   OccEndpointsService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { pluck } from 'rxjs/operators';
+import { map, pluck } from 'rxjs/operators';
 
 @Injectable()
 export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
@@ -28,9 +28,11 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.getUrl('createDeliveryAddress', {
-      userId,
-      cartId,
+    return this.occEndpoints.buildUrl('createDeliveryAddress', {
+      urlParams: {
+        userId,
+        cartId,
+      },
     });
   }
 
@@ -39,17 +41,18 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     cartId: string,
     addressId?: string
   ): string {
-    return this.occEndpoints.getUrl(
-      'setDeliveryAddress',
-      { userId, cartId },
-      { addressId }
-    );
+    return this.occEndpoints.buildUrl('setDeliveryAddress', {
+      urlParams: { userId, cartId },
+      queryParams: { addressId },
+    });
   }
 
   protected getDeliveryModeEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('deliveryMode', {
-      userId,
-      cartId,
+    return this.occEndpoints.buildUrl('deliveryMode', {
+      urlParams: {
+        userId,
+        cartId,
+      },
     });
   }
 
@@ -58,18 +61,19 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     cartId: string,
     deliveryModeId?: string
   ): string {
-    return this.occEndpoints.getUrl(
-      'setDeliveryMode',
-      {
+    return this.occEndpoints.buildUrl('setDeliveryMode', {
+      urlParams: {
         userId,
         cartId,
       },
-      { deliveryModeId }
-    );
+      queryParams: { deliveryModeId },
+    });
   }
 
   protected getDeliveryModesEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('deliveryModes', { userId, cartId });
+    return this.occEndpoints.buildUrl('deliveryModes', {
+      urlParams: { userId, cartId },
+    });
   }
 
   public createAddress(

@@ -36,20 +36,21 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     cartId: string,
     paymentDetailsId: string
   ): string {
-    return this.occEndpoints.getUrl(
-      'setCartPaymentDetails',
-      { userId, cartId },
-      { paymentDetailsId }
-    );
+    return this.occEndpoints.buildUrl('setCartPaymentDetails', {
+      urlParams: { userId, cartId },
+      queryParams: { paymentDetailsId },
+    });
   }
 
   protected getPaymentProviderSubInfoEndpoint(
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.getUrl('paymentProviderSubInfo', {
-      userId,
-      cartId,
+    return this.occEndpoints.buildUrl('paymentProviderSubInfo', {
+      urlParams: {
+        userId,
+        cartId,
+      },
     });
   }
 
@@ -57,14 +58,16 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.getUrl('createPaymentDetails', {
-      userId,
-      cartId,
+    return this.occEndpoints.buildUrl('createPaymentDetails', {
+      urlParams: {
+        userId,
+        cartId,
+      },
     });
   }
 
   protected getCardTypesEndpoint(): string {
-    return this.occEndpoints.getUrl('cardTypes');
+    return this.occEndpoints.buildUrl('cardTypes');
   }
 
   public create(

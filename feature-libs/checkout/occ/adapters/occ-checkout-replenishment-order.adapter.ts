@@ -27,13 +27,12 @@ export class OccCheckoutReplenishmentOrderAdapter
     cartId: string,
     termsChecked: string
   ) {
-    return this.occEndpoints.getUrl(
-      'scheduleReplenishmentOrder',
-      {
+    return this.occEndpoints.buildUrl('scheduleReplenishmentOrder', {
+      urlParams: {
         userId,
       },
-      { cartId, termsChecked }
-    );
+      queryParams: { cartId, termsChecked },
+    });
   }
 
   scheduleReplenishmentOrder(

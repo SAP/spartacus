@@ -26,20 +26,21 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     cartId: string,
     termsChecked: string
   ): string {
-    return this.occEndpoints.getUrl(
-      'placeOrder',
-      { userId },
-      { cartId, termsChecked }
-    );
+    return this.occEndpoints.buildUrl('placeOrder', {
+      urlParams: { userId },
+      queryParams: { cartId, termsChecked },
+    });
   }
 
   protected getRemoveDeliveryAddressEndpoint(
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.getUrl('removeDeliveryAddress', {
-      userId,
-      cartId,
+    return this.occEndpoints.buildUrl('removeDeliveryAddress', {
+      urlParams: {
+        userId,
+        cartId,
+      },
     });
   }
 
@@ -47,14 +48,21 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.getUrl('clearDeliveryMode', { userId, cartId });
+    return this.occEndpoints.buildUrl('clearDeliveryMode', {
+      urlParams: { userId, cartId },
+    });
   }
 
   protected getLoadCheckoutDetailsEndpoint(
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.getUrl('loadCheckoutDetails', { userId, cartId });
+    return this.occEndpoints.buildUrl('loadCheckoutDetails', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
   }
 
   public placeOrder(
