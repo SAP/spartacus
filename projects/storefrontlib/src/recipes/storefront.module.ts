@@ -7,9 +7,7 @@ import {
   OccModule,
   provideConfig,
   SiteContextModule,
-  SmartEditModule,
 } from '@spartacus/core';
-import { AsmModule } from '../cms-components/asm/asm.module';
 import { ProductDetailsPageModule } from '../cms-pages/product-details-page/product-details-page.module';
 import { ProductListingPageModule } from '../cms-pages/product-listing-page/product-listing-page.module';
 import { MainModule } from '../layout/main/main.module';
@@ -30,13 +28,9 @@ import { StorefrontFoundationModule } from './storefront-foundation.module';
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
 
-    AsmModule,
-
     StorefrontFoundationModule,
     MainModule,
     SiteContextModule.forRoot(), // should be imported after RouterModule.forRoot, because it overwrites UrlSerializer
-
-    SmartEditModule.forRoot(), // should be custom
 
     // opt-in explicitly
     OccModule.forRoot(),
