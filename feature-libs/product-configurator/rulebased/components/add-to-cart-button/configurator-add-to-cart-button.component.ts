@@ -186,6 +186,7 @@ export class ConfiguratorAddToCartButtonComponent {
             configuration.configId,
             owner
           );
+
           this.configuratorCommonsService
             .getConfiguration(owner)
             .pipe(
