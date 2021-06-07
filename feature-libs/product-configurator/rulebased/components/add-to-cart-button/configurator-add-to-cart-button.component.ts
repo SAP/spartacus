@@ -181,16 +181,11 @@ export class ConfiguratorAddToCartButtonComponent {
             this.configuratorCommonsService.removeConfiguration(owner);
           }
         } else {
-          const productCode = owner.id;
-          if (productCode) {
-            this.configuratorCartService.addToCart(
-              productCode,
-              configuration.configId,
-              owner
-            );
-          } else {
-            throw Error('Product code must be defined');
-          }
+          this.configuratorCartService.addToCart(
+            owner.id,
+            configuration.configId,
+            owner
+          );
           this.configuratorCommonsService
             .getConfiguration(owner)
             .pipe(
