@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Converter, OccConfig, TranslationService } from '@spartacus/core';
-import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { take } from 'rxjs/operators';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
