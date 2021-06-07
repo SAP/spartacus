@@ -27,7 +27,7 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
     return this.http
       .get<Occ.PaymentTypeList>(this.getPaymentTypesEndpoint())
       .pipe(
-        map((paymentTypeList) => paymentTypeList.paymentTypes),
+        map((paymentTypeList) => paymentTypeList.paymentTypes ?? []),
         this.converter.pipeableMany(PAYMENT_TYPE_NORMALIZER)
       );
   }

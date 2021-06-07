@@ -384,12 +384,15 @@ export class CheckoutEffects {
       return this.checkoutConnector
         .clearCheckoutDeliveryMode(payload.userId, payload.cartId)
         .pipe(
-          map(
-            () =>
-              new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
-                ...payload,
-              })
-          ),
+          mergeMap(() => [
+            new CheckoutActions.ClearCheckoutDeliveryModeSuccess({
+              ...payload,
+            }),
+            new CartActions.LoadCart({
+              cartId: payload.cartId,
+              userId: payload.userId,
+            }),
+          ]),
           catchError((error) =>
             from([
               new CheckoutActions.ClearCheckoutDeliveryModeFail({

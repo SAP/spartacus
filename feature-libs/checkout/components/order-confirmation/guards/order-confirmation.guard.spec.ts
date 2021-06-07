@@ -1,11 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  CheckoutService,
-  Order,
-  RoutingService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { CheckoutFacade } from '@spartacus/checkout/root';
+import { Order, RoutingService, SemanticPathService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationGuard } from './order-confirmation.guard';
 
@@ -35,14 +31,14 @@ describe(`OrderConfirmationGuard`, () => {
           provide: RoutingService,
           useValue: { go: jasmine.createSpy() },
         },
-        { provide: CheckoutService, useClass: MockCheckoutService },
+        { provide: CheckoutFacade, useClass: MockCheckoutService },
         { provide: SemanticPathService, useClass: MockSemanticPageService },
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(OrderConfirmationGuard);
-    mockCheckoutService = TestBed.inject(CheckoutService);
+    mockCheckoutService = TestBed.inject(CheckoutFacade);
   });
 
   describe(`when there is NO order details present`, () => {

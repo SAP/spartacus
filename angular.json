@@ -65,6 +65,10 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-user.scss",
                 "bundleName": "user"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-checkout.scss",
+                "bundleName": "checkout"
               }
             ],
             "stylePreprocessorOptions": {

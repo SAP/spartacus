@@ -68,9 +68,9 @@ export class ReviewSubmitComponent {
     return this.checkoutDeliveryService.getDeliveryAddress();
   }
 
-  get deliveryMode$(): Observable<DeliveryMode> {
+  get deliveryMode$(): Observable<DeliveryMode | null | undefined> {
     return this.checkoutDeliveryService.getSelectedDeliveryMode().pipe(
-      tap((selected: DeliveryMode) => {
+      tap((selected: DeliveryMode | null | undefined) => {
         if (selected === null) {
           this.checkoutDeliveryService.loadSupportedDeliveryModes();
         }

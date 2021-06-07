@@ -126,6 +126,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
       .get<Occ.DeliveryModeList>(this.getDeliveryModesEndpoint(userId, cartId))
       .pipe(
         pluck('deliveryModes'),
+        map((modes) => modes ?? []),
         this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)
       );
   }

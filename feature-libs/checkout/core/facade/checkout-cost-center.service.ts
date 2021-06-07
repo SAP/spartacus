@@ -4,7 +4,6 @@ import { CheckoutCostCenterFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   OCC_USER_ID_ANONYMOUS,
-  StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
@@ -16,7 +15,7 @@ import { CheckoutSelectors } from '../store/selectors/index';
 @Injectable()
 export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
   constructor(
-    protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
+    protected checkoutStore: Store<StateWithCheckout>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService
   ) {}

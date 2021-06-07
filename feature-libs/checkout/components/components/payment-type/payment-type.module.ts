@@ -20,7 +20,6 @@ import { PaymentTypeComponent } from './payment-type.component';
     }),
   ],
   declarations: [PaymentTypeComponent],
-  entryComponents: [PaymentTypeComponent],
   exports: [PaymentTypeComponent],
 })
 export class PaymentTypeModule {}

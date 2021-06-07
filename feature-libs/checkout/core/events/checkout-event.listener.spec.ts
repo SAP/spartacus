@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  RestoreSavedCartSuccessEvent,
+  SaveCartSuccessEvent,
+} from '@spartacus/cart/saved-cart/root';
+import { ClearCheckoutFacade } from '@spartacus/checkout/root';
+import {
   CxEvent,
   EventService,
   UserAddressDeleteEvent,
@@ -22,8 +27,12 @@ class MockEventService implements Partial<EventService> {
   }
 }
 
+class MockClearCheckoutFacade implements Partial<ClearCheckoutFacade> {
+  resetCheckoutProcesses(): void {}
+}
 describe('CheckoutEventListener', () => {
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
+  let clearCheckoutFacade: ClearCheckoutFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -37,11 +46,16 @@ describe('CheckoutEventListener', () => {
           provide: CheckoutDeliveryFacade,
           useClass: MockCheckoutDeliveryFacade,
         },
+        {
+          provide: ClearCheckoutFacade,
+          useClass: MockClearCheckoutFacade,
+        },
       ],
     });
 
     TestBed.inject(CheckoutEventListener);
     checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
+    clearCheckoutFacade = TestBed.inject(ClearCheckoutFacade);
   });
 
   it('Should UserAddressUpdateEvent trigger clearCheckoutDeliveryDetails', () => {
@@ -68,11 +82,15 @@ describe('CheckoutEventListener', () => {
     ).toHaveBeenCalled();
   });
 
-  it('Should other events not trigger clearCheckoutDeliveryDetails', () => {
-    spyOn(checkoutDeliveryFacade, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next({} as CxEvent);
-    expect(
-      checkoutDeliveryFacade.clearCheckoutDeliveryDetails
-    ).not.toHaveBeenCalled();
+  it('Should SaveCartSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
+    spyOn(clearCheckoutFacade, 'resetCheckoutProcesses').and.stub();
+    mockEventStream$.next(new SaveCartSuccessEvent());
+    expect(clearCheckoutFacade.resetCheckoutProcesses).toHaveBeenCalled();
+  });
+
+  it('Should RestoreSavedCartSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
+    spyOn(clearCheckoutFacade, 'resetCheckoutProcesses').and.stub();
+    mockEventStream$.next(new RestoreSavedCartSuccessEvent());
+    expect(clearCheckoutFacade.resetCheckoutProcesses).toHaveBeenCalled();
   });
 });

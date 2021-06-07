@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
-  CheckoutService,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
@@ -59,7 +59,7 @@ describe('OrderConfirmationItemsComponent', () => {
           MockReviewSubmitComponent,
         ],
         providers: [
-          { provide: CheckoutService, useClass: MockCheckoutService },
+          { provide: CheckoutFacade, useClass: MockCheckoutService },
           { provide: PromotionService, useClass: MockPromotionService },
           {
             provide: FeaturesConfig,

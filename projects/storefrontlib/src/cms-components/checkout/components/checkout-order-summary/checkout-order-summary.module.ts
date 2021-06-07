@@ -19,7 +19,6 @@ import { CheckoutOrderSummaryComponent } from './checkout-order-summary.componen
     }),
   ],
   declarations: [CheckoutOrderSummaryComponent],
-  entryComponents: [CheckoutOrderSummaryComponent],
   exports: [CheckoutOrderSummaryComponent],
 })
 export class CheckoutOrderSummaryModule {}
