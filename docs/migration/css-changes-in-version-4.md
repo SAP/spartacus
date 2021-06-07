@@ -8,7 +8,7 @@ title: Changes to Styles in 4.0
 
 ## Change in Configurator Attribute Type Components
 
-* `cx-quantity` selector has been added to align its padding to the corresponding attribute type.
+* `cx-quantity` selector has been added to achieve a consistent styling.
 
 ## Changes in Configurator Product Title Component
 
@@ -18,7 +18,7 @@ title: Changes to Styles in 4.0
 
 * `padding` set to 16px/ 32px on `%cx-configurator-product-title` for `cx-details` selector to align spacing depending on the screen size.
 
-* `cx-configurator-image` mixin has been defined on `%cx-configurator-product-title` for `cx-details-image` selector to define the unique styling.
+* `cx-configurator-image` mixin has been defined on `%cx-configurator-product-title` for `cx-details-image` selector to achieve a consistent styling.
 
 * `cx-configurator-truncate-content` mixin has been added on `%cx-configurator-product-title` for `cx-detail-title`, `cx-code` and `cx-description` selectors to enable the truncation for the small widgets.
 
@@ -42,15 +42,15 @@ title: Changes to Styles in 4.0
 
 ## Change in Configurator Attribute Drop-Down Component
 
-* `padding` set to 1rem on `%cx-configurator-attribute-drop-down` for `cx-configurator-attribute-quantity` selector to define the spacing between the drop-down attribute type, and the quantity counter.
+* `padding` set to 1rem on `%cx-configurator-attribute-drop-down` for `cx-configurator-attribute-quantity` selector to define the spacing between the drop-down attribute type and the quantity counter.
 
 ## Change in Configurator Attribute Checkbox List Component
 
-* `padding` set to 1rem on `%cx-configurator-attribute-checkbox-list` to define the spacing between the checkbox-list attribute type, and the quantity counter.
+* `padding` set to 1rem on `%cx-configurator-attribute-checkbox-list` to define the spacing between the checkbox-list attribute type and the quantity counter.
 
 ## Change in Configurator Attribute Radio Button Component
 
-* `padding` set to 1rem on `%cx-configurator-attribute-radio-button` to define the spacing between the radio-button attribute type, and the quantity counter.
+* `padding` set to 1rem on `%cx-configurator-attribute-radio-button` to define the spacing between the radio-button attribute type and the quantity counter.
 
 ## Change in Configurator Previous Next Button Component
 
@@ -70,7 +70,7 @@ title: Changes to Styles in 4.0
 
 ## Changes in Configurator Overview Form Component
 
-* `padding` set to 0px on `%cx-configurator-overview-form` to prevent adding any spacing to the configuration overview form.
+* `padding` set to 0px on `%cx-configurator-overview-form` to fix inconsistent spacings in the configuration overview form.
 
 * `padding` set to 20px and `margin` to 0px on `%cx-configurator-overview-form` for `cx-group` selector to align spacing between the configuration overview groups.
 
@@ -82,7 +82,7 @@ title: Changes to Styles in 4.0
 
 * `display` set to `none / inline` and `visibility` to `hidden` on `%cx-configurator-overview-form` for `cx-attribute-value-pair` selector to define the visibility for the configuration overview attribute value label.
 
-* `padding` set to 20px on `%cx-configurator-overview-form` for `cx-no-attribute-value-pair` selector to align spacing between the configuration overview no attribute value pairs.
+* `padding` set to 20px on `%cx-configurator-overview-form` for `cx-no-attribute-value-pairs` selector to align spacing between the configuration overview form and the container which is shown when there are no results including a link for removing filter(s).
 
 ## Changes in Configurator Overview Attribute Component
 
