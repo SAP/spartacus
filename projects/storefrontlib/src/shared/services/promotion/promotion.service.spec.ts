@@ -32,6 +32,24 @@ const mockAppliedOrderPromotionsForCheckout: PromotionResult[] = [
   },
 ];
 
+const orderEntry0: OrderEntry = {
+  entryNumber: 0,
+  product: {
+    code: '1446509',
+    name: 'testitem',
+  },
+  quantity: 3,
+};
+
+const orderEntry1: OrderEntry = {
+  entryNumber: 1,
+  product: {
+    code: '1687508',
+    name: 'Remote Control Tripod VCT-80AV',
+  },
+  quantity: 1,
+};
+
 const mockCheckoutDetails: Order = {
   code: '1',
   statusDisplay: 'orderDetails.statusDisplay context:Shipped',
@@ -75,24 +93,7 @@ const mockCheckoutDetails: Order = {
   created: new Date('2019-02-11T13:02:58+0000'),
   appliedOrderPromotions: mockAppliedOrderPromotionsForCheckout,
   appliedProductPromotions: mockAppliedProductPromotions,
-  entries: [
-    {
-      entryNumber: 0,
-      product: {
-        code: '1446509',
-        name: 'testitem',
-      },
-      quantity: 3,
-    },
-    {
-      entryNumber: 1,
-      product: {
-        code: '1687508',
-        name: 'Remote Control Tripod VCT-80AV',
-      },
-      quantity: 1,
-    },
-  ],
+  entries: [orderEntry0, orderEntry1],
 };
 
 class MockImplPromotionService extends PromotionService {
@@ -130,9 +131,9 @@ describe('PromotionService', () => {
 
   describe('getProductPromotionForAllEntries', () => {
     it('should return appropriate applied product promotions for all entries', (done) => {
-      const productPromotionForAllEntries = promotionService[
-        'getProductPromotionForAllEntries'
-      ](mockCheckoutDetails);
+      const productPromotionForAllEntries = promotionService.getProductPromotionForAllEntries(
+        mockCheckoutDetails
+      );
       expect(productPromotionForAllEntries).toBeTruthy();
       expect(Object.keys(productPromotionForAllEntries)).toEqual(['0', '1']);
 
@@ -145,6 +146,40 @@ describe('PromotionService', () => {
         expect(promotionsForEntry1[0]).toEqual(mockAppliedProductPromotions[0]);
         done();
       });
+    });
+  });
+
+  describe('getProductPromotion', () => {
+    it('should return appropriate applied product promotion when promotion is consumed by entry', () => {
+      spyOn<any>(promotionService, 'isConsumedByEntry').and.returnValue(true);
+      const productPromotionForOneEnty = promotionService[
+        'getProductPromotion'
+      ](orderEntry0, mockAppliedProductPromotions);
+      expect(productPromotionForOneEnty).toEqual(mockAppliedProductPromotions);
+    });
+    it('should noot return promotions when they are not consumed by entry', () => {
+      spyOn<any>(promotionService, 'isConsumedByEntry').and.returnValue(false);
+      const productPromotionForOneEnty = promotionService[
+        'getProductPromotion'
+      ](orderEntry0, mockAppliedProductPromotions);
+      expect(productPromotionForOneEnty).toEqual([]);
+    });
+  });
+
+  describe('isConsumedByEntry', () => {
+    it('should return true when promotion is consumed by entry', () => {
+      const isConsumedByEntry = promotionService['isConsumedByEntry'](
+        orderEntry1,
+        mockAppliedProductPromotions
+      );
+      expect(isConsumedByEntry).toEqual(true);
+    });
+    it('should return false when promotion is not consumed by entry', () => {
+      const isConsumedByEntry = promotionService['isConsumedByEntry'](
+        orderEntry0,
+        mockAppliedProductPromotions
+      );
+      expect(isConsumedByEntry).toEqual(true);
     });
   });
 });
