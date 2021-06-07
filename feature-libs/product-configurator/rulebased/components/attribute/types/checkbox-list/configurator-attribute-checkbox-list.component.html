@@ -35,6 +35,9 @@
           class="cx-configurator-attribute-value-label form-check-label"
           >{{ value.valueDisplay }}</label
         >
+        <cx-configurator-price
+          [formula]="extractPriceFormulaParametersForValue(value)"
+        ></cx-configurator-price>
       </div>
       <cx-configurator-attribute-quantity
         *ngIf="value.selected && withQuantity && !withQuantityOnAttributeLevel"

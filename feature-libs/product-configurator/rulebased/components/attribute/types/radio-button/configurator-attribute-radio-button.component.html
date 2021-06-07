@@ -44,6 +44,9 @@
         class="form-check-label form-radio-label"
         >{{ value.valueDisplay }}</label
       >
+      <cx-configurator-price
+        [formula]="extractPriceFormulaParametersForValue(value)"
+      ></cx-configurator-price>
     </div>
   </div>
 </fieldset>

@@ -110,12 +110,6 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
-    console.warn('Attribute: ' + this.attribute?.label);
-    console.warn('Attribute quantity: ' + this.attribute?.quantity);
-    console.warn(
-      'Total price: ' + this.attribute?.attributePriceTotal?.formattedValue
-    );
-    console.error('#######################################');
     return {
       quantity: 0,
       price: {
@@ -123,6 +117,22 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
       },
       priceTotal: this.attribute?.attributePriceTotal,
       isLightedUp: true,
+    };
+  }
+
+  /**
+   * Extract corresponding price formula parameters
+   *
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractPriceFormulaParametersForValue(
+    value: Configurator.Value
+  ): ConfiguratorPriceComponentOptions {
+    return {
+      quantity: value?.quantity,
+      price: value?.valuePrice,
+      priceTotal: value?.valuePriceTotal,
+      isLightedUp: value?.selected,
     };
   }
 }
