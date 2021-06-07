@@ -136,7 +136,14 @@
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/incubator": ["dist/incubator"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/cart/validation/assets": ["dist/cart/validation/assets"],
+      "@spartacus/cart/validation/components": [
+        "dist/cart/validation/components"
+      ],
+      "@spartacus/cart/validation": ["dist/cart/validation"],
+      "@spartacus/cart/validation/occ": ["dist/cart/validation/occ"],
+      "@spartacus/cart/validation/root": ["dist/cart/validation/root"]
     }
   }
 }

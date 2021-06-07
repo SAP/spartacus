@@ -214,7 +214,22 @@
       "@spartacus/assets": ["../../projects/assets/src/public_api"],
       "@spartacus/core": ["../../projects/core/public_api"],
       "@spartacus/incubator": ["../../projects/incubator/public_api"],
-      "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"]
+      "@spartacus/storefront": ["../../projects/storefrontlib/src/public_api"],
+      "@spartacus/cart/validation/assets": [
+        "../../feature-libs/cart/validation/assets/public_api"
+      ],
+      "@spartacus/cart/validation/components": [
+        "../../feature-libs/cart/validation/components/public_api"
+      ],
+      "@spartacus/cart/validation": [
+        "../../feature-libs/cart/validation/public_api"
+      ],
+      "@spartacus/cart/validation/occ": [
+        "../../feature-libs/cart/validation/occ/public_api"
+      ],
+      "@spartacus/cart/validation/root": [
+        "../../feature-libs/cart/validation/root/public_api"
+      ]
     }
   },
   "angularCompilerOptions": {
