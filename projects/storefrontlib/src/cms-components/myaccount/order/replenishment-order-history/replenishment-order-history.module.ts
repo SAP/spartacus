@@ -45,6 +45,5 @@ import { defaultReplenishmentOrderCancellationLayoutConfig } from '../replenishm
   ],
   declarations: [ReplenishmentOrderHistoryComponent],
   exports: [ReplenishmentOrderHistoryComponent],
-  entryComponents: [ReplenishmentOrderHistoryComponent],
 })
 export class ReplenishmentOrderHistoryModule {}

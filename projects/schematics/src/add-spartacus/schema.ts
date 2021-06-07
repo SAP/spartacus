@@ -23,10 +23,6 @@ export interface AngularComponentSchema {
    */
   changeDetection?: ChangeDetection;
   /**
-   * When true, the new component is the entry component of the declaring NgModule.
-   */
-  entryComponent: boolean;
-  /**
    * When true, the declaring NgModule exports this component.
    */
   export: boolean;

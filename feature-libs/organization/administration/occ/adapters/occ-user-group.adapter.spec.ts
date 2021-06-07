@@ -32,9 +32,10 @@ const member = {
 };
 
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
+  buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // eslint-disable-next-line no-shadow
-    (url, { userGroupId }) => (url === 'userGroup' ? url + userGroupId : url)
+    (url, { urlParams: { userGroupId } }) =>
+      url === 'userGroup' ? url + userGroupId : url
   );
 }
 
