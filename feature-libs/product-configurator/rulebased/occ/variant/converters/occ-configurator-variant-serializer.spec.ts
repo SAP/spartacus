@@ -92,6 +92,7 @@ describe('OccConfiguratorVariantSerializer', () => {
         attributes: [
           {
             name: 'EXP_NUMBER',
+            key: 'EXP_NUMBER',
             langDepName: 'Expected Number',
             required: true,
             type: OccConfigurator.UiType.NOT_IMPLEMENTED,
@@ -99,6 +100,7 @@ describe('OccConfiguratorVariantSerializer', () => {
 
           {
             name: 'CPQ_CPU',
+            key: 'CPQ_CPU',
             langDepName: 'Processor',
             required: true,
             type: OccConfigurator.UiType.RADIO_BUTTON,
@@ -106,6 +108,7 @@ describe('OccConfiguratorVariantSerializer', () => {
           },
           {
             name: 'CPQ_RAM',
+            key: 'CPQ_RAM',
             langDepName: 'RAM',
             required: false,
             type: OccConfigurator.UiType.SINGLE_SELECTION_IMAGE,

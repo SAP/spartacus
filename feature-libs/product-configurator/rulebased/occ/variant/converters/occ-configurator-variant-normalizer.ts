@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Converter, OccConfig, TranslationService } from '@spartacus/core';
+import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common';
 import { take } from 'rxjs/operators';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
@@ -19,6 +20,8 @@ export class OccConfiguratorVariantNormalizer
   ): Configurator.Configuration {
     const resultTarget: Configurator.Configuration = {
       ...target,
+      owner: target?.owner ?? ConfiguratorModelUtils.createInitialOwner(),
+      interactionState: target?.interactionState ?? {},
       configId: source.configId,
       complete: source.complete,
       totalNumberOfIssues: source.totalNumberOfIssues,
@@ -28,7 +31,11 @@ export class OccConfiguratorVariantNormalizer
     };
 
     source.groups?.forEach((group) =>
-      this.convertGroup(group, resultTarget.groups, resultTarget.flatGroups)
+      this.convertGroup(
+        group,
+        resultTarget.groups,
+        resultTarget.flatGroups ?? []
+      )
     );
 
     return resultTarget;
@@ -84,33 +91,39 @@ export class OccConfiguratorVariantNormalizer
     sourceAttribute: OccConfigurator.Attribute,
     attributeList: Configurator.Attribute[]
   ): void {
+    const numberOfConflicts = sourceAttribute?.conflicts
+      ? sourceAttribute?.conflicts?.length
+      : 0;
     const attribute: Configurator.Attribute = {
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,
       required: sourceAttribute.required,
-      uiType: this.convertAttributeType(sourceAttribute.type),
+      uiType: this.convertAttributeType(
+        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
+      ),
       values: [],
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput: sourceAttribute.formattedValue,
       maxlength:
-        sourceAttribute.maxlength + (sourceAttribute.negativeAllowed ? 1 : 0),
+        (sourceAttribute.maxlength ?? 0) +
+        (sourceAttribute.negativeAllowed ? 1 : 0),
       numDecimalPlaces: sourceAttribute.numberScale,
       negativeAllowed: sourceAttribute.negativeAllowed,
       numTotalLength: sourceAttribute.typeLength,
-      selectedSingleValue: null,
+      selectedSingleValue: undefined,
       images: [],
-      hasConflicts: sourceAttribute?.conflicts?.length > 0 ? true : false,
+      hasConflicts: numberOfConflicts > 0,
     };
 
     if (sourceAttribute.images) {
       sourceAttribute.images.forEach((occImage) =>
-        this.convertImage(occImage, attribute.images)
+        this.convertImage(occImage, attribute.images ?? [])
       );
     }
 
     if (sourceAttribute.domainValues) {
       sourceAttribute.domainValues.forEach((value) =>
-        this.convertValue(value, attribute.values)
+        this.convertValue(value, attribute.values ?? [])
       );
       this.setSelectedSingleValue(attribute);
     }
@@ -121,11 +134,13 @@ export class OccConfiguratorVariantNormalizer
   }
 
   setSelectedSingleValue(attribute: Configurator.Attribute) {
-    const selectedValues = attribute.values
-      .map((entry) => entry)
-      .filter((entry) => entry.selected);
-    if (selectedValues && selectedValues.length === 1) {
-      attribute.selectedSingleValue = selectedValues[0].valueCode;
+    if (attribute.values) {
+      const selectedValues = attribute.values
+        .map((entry) => entry)
+        .filter((entry) => entry.selected);
+      if (selectedValues && selectedValues.length === 1) {
+        attribute.selectedSingleValue = selectedValues[0].valueCode;
+      }
     }
   }
 
@@ -143,7 +158,7 @@ export class OccConfiguratorVariantNormalizer
 
     if (occValue.images) {
       occValue.images.forEach((occImage) =>
-        this.convertImage(occImage, value.images)
+        this.convertImage(occImage, value.images ?? [])
       );
     }
 
@@ -163,13 +178,17 @@ export class OccConfiguratorVariantNormalizer
        * if none provided.
        */
       url:
-        (this.config.backend.media.baseUrl ||
-          this.config.backend.occ.baseUrl ||
+        (this.config?.backend?.media?.baseUrl ||
+          this.config?.backend?.occ?.baseUrl ||
           '') + occImage.url,
       altText: occImage.altText,
       galleryIndex: occImage.galleryIndex,
-      type: this.convertImageType(occImage.imageType),
-      format: this.convertImageFormatType(occImage.format),
+      type: this.convertImageType(
+        occImage.imageType ?? OccConfigurator.ImageType.PRIMARY
+      ),
+      format: this.convertImageFormatType(
+        occImage.format ?? OccConfigurator.ImageFormatType.CSTIC_IMAGE
+      ),
     };
 
     images.push(image);
@@ -316,7 +335,7 @@ export class OccConfiguratorVariantNormalizer
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         const isOneValueSelected =
-          attribute.values.find((value) => value.selected) !== undefined
+          attribute.values?.find((value) => value.selected) !== undefined
             ? true
             : false;
 

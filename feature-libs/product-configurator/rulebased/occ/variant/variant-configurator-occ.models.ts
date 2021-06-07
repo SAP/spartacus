@@ -7,7 +7,7 @@ export namespace OccConfigurator {
     /**
      * @member {string} [configId]
      */
-    configId?: string;
+    configId: string;
     /**
      * @member {boolean} [complete]
      */
@@ -49,20 +49,20 @@ export namespace OccConfigurator {
     consistent?: boolean;
     attributes?: Attribute[];
     description?: string;
-    groupType?: GroupType;
+    groupType: GroupType;
     id?: string;
     name?: string;
     subGroups?: Group[];
   }
 
   export interface Attribute {
-    name?: string;
+    name: string;
     langDepName?: string;
     type?: UiType;
     domainValues?: Value[];
     required?: boolean;
     value?: string;
-    key?: string;
+    key: string;
     formattedValue?: string;
     maxlength?: number;
     images?: Image[];

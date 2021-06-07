@@ -66,7 +66,7 @@ const group3: OccConfigurator.GroupOverview = {
     {
       id: '4',
       groupDescription: 'SubGroupLevel2',
-      characteristicValues: null,
+      characteristicValues: undefined,
     },
   ],
 };

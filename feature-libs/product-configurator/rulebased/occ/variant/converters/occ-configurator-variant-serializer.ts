@@ -54,6 +54,7 @@ export class OccConfiguratorVariantSerializer
     occAttributes: OccConfigurator.Attribute[]
   ): void {
     const targetAttribute: OccConfigurator.Attribute = {
+      key: attribute.name,
       name: attribute.name,
       langDepName: attribute.label,
       required: attribute.required,
