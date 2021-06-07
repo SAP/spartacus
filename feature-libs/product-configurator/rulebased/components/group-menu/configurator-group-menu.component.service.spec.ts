@@ -1,6 +1,6 @@
+import { ElementRef, QueryList } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
-import { ElementRef, QueryList } from '@angular/core';
 
 function createElement(id: string): HTMLElement {
   const element = document.createElement('button');
@@ -60,11 +60,6 @@ describe('ConfiguratorGroupMenuService', () => {
   });
 
   describe('getFocusedElementTabIndex', () => {
-    it('should return undefined because there are no element in the groups list', () => {
-      groups = null;
-      expect(classUnderTest['getFocusedGroupIndex'](groups)).toBeUndefined();
-    });
-
     it('should return index of focused element', () => {
       groups.toArray()[2].nativeElement?.focus();
       expect(classUnderTest['getFocusedGroupIndex'](groups)).toBe(2);
@@ -72,10 +67,6 @@ describe('ConfiguratorGroupMenuService', () => {
   });
 
   describe('updateCurrentGroupIndex', () => {
-    it('should return current index because focused index is `null`', () => {
-      expect(classUnderTest['updateCurrentGroupIndex'](0, null)).toBe(0);
-    });
-
     it('should return current index because focused index is `undefined`', () => {
       expect(classUnderTest['updateCurrentGroupIndex'](0, undefined)).toBe(0);
     });
@@ -217,11 +208,6 @@ describe('ConfiguratorGroupMenuService', () => {
   });
 
   describe('isBackBtnFocused', () => {
-    it('should return undefined because there are no element in the groups list', () => {
-      groups = null;
-      expect(classUnderTest['isBackBtnFocused'](groups)).toBeUndefined();
-    });
-
     it('should return `false` because there is no `cx-menu-back` in the group menu', () => {
       groups.toArray()[2].nativeElement?.focus();
       expect(classUnderTest['isBackBtnFocused'](groups)).toBe(false);
