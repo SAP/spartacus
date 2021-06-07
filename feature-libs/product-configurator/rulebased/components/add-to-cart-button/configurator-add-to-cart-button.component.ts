@@ -6,6 +6,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
@@ -197,30 +198,30 @@ export class ConfiguratorAddToCartButtonComponent {
               take(1)
             )
             .subscribe((configWithNextOwner) => {
-              const nextOwner = configWithNextOwner.nextOwner;
-              if (nextOwner) {
-                this.performNavigation(
-                  configuratorType,
-                  nextOwner,
-                  true,
-                  isOverview,
-                  true
-                );
+              //See preceeding filter operator: configWithNextOwner.nextOwner is always defined here
+              const nextOwner =
+                configWithNextOwner.nextOwner ??
+                ConfiguratorModelUtils.createInitialOwner();
 
-                // we clean up the cart entry related configuration, as we might have a
-                // configuration for the same cart entry number stored already.
-                // (Cart entries might have been deleted)
+              this.performNavigation(
+                configuratorType,
+                nextOwner,
+                true,
+                isOverview,
+                true
+              );
 
-                // we do not clean up the product bound configuration yet, as existing
-                // observables would instantly trigger a re-create.
-                // Cleaning up this obsolete product bound configuration will only happen
-                // when a new config form requests a new observable for a product bound
-                // configuration
+              // we clean up the cart entry related configuration, as we might have a
+              // configuration for the same cart entry number stored already.
+              // (Cart entries might have been deleted)
 
-                this.configuratorCommonsService.removeConfiguration(nextOwner);
-              } else {
-                throw Error('Next owner must be present here');
-              }
+              // we do not clean up the product bound configuration yet, as existing
+              // observables would instantly trigger a re-create.
+              // Cleaning up this obsolete product bound configuration will only happen
+              // when a new config form requests a new observable for a product bound
+              // configuration
+
+              this.configuratorCommonsService.removeConfiguration(nextOwner);
             });
         }
       });
