@@ -142,7 +142,7 @@ context('B2C - Saved Cart', () => {
         waitForCartPageData(sampleData.products[1]);
         visitCartPage();
 
-        verifyCartDetails(sampleData.savedCarts.carts[1]);
+        verifyCartDetails(sampleData.savedCarts.carts[0]);
 
         restoreCart(
           sampleData.products[1],
