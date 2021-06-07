@@ -60,10 +60,5 @@ import { IconModule } from '../../misc/icon/icon.module';
     }),
   ],
   exports: [MyCouponsComponent, CouponClaimComponent],
-  entryComponents: [
-    MyCouponsComponent,
-    CouponDialogComponent,
-    CouponClaimComponent,
-  ],
 })
 export class MyCouponsModule {}
