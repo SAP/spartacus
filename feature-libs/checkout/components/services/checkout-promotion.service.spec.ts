@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import { Order, PromotionResult } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Order, OrderEntry, PromotionResult } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import { CheckoutPromotionService } from './checkout-promotion.service';
 
 const mockAppliedProductPromotions: PromotionResult[] = [
@@ -22,7 +22,7 @@ const mockAppliedProductPromotions: PromotionResult[] = [
   },
 ];
 
-const mockAppliedOrderPromotionsForCheckout: PromotionResult[] = [
+const mockAppliedOrderPromotions: PromotionResult[] = [
   {
     consumedEntries: [
       {
@@ -33,6 +33,23 @@ const mockAppliedOrderPromotionsForCheckout: PromotionResult[] = [
   },
 ];
 
+const orderEntry0: OrderEntry = {
+  entryNumber: 0,
+  product: {
+    code: '1446509',
+    name: 'testitem',
+  },
+  quantity: 3,
+};
+
+const orderEntry1: OrderEntry = {
+  entryNumber: 1,
+  product: {
+    code: '1687508',
+    name: 'Remote Control Tripod VCT-80AV',
+  },
+  quantity: 1,
+};
 const mockCheckoutDetails: Order = {
   code: '1',
   statusDisplay: 'orderDetails.statusDisplay context:Shipped',
@@ -74,26 +91,9 @@ const mockCheckoutDetails: Order = {
     },
   },
   created: new Date('2019-02-11T13:02:58+0000'),
-  appliedOrderPromotions: mockAppliedOrderPromotionsForCheckout,
+  appliedOrderPromotions: mockAppliedOrderPromotions,
   appliedProductPromotions: mockAppliedProductPromotions,
-  entries: [
-    {
-      entryNumber: 0,
-      product: {
-        code: '1446509',
-        name: 'testitem',
-      },
-      quantity: 3,
-    },
-    {
-      entryNumber: 1,
-      product: {
-        code: '1687508',
-        name: 'Remote Control Tripod VCT-80AV',
-      },
-      quantity: 1,
-    },
-  ],
+  entries: [orderEntry0, orderEntry1],
 };
 
 class MockCheckoutService {
@@ -102,7 +102,7 @@ class MockCheckoutService {
   }
 }
 
-describe('CheckoutPromotionService', () => {
+fdescribe('CheckoutPromotionService', () => {
   let checkoutPromotionService: CheckoutPromotionService;
 
   beforeEach(() => {
@@ -124,44 +124,26 @@ describe('CheckoutPromotionService', () => {
   });
 
   describe('getOrderPromotions', () => {
-    const expectedAppliedOrderPromotions = [
-      {
-        consumedEntries: [
-          {
-            orderEntryNumber: 2,
-          },
-        ],
-        description: 'test applied order promotion for checkout',
-      },
-    ];
-    let appliedOrderPromotions: PromotionResult[];
-
-    it('should return appropriate applied order promotions for checkout', () => {
+    it('should return appropriate applied order promotions for checkout', (done) => {
       checkoutPromotionService
         .getOrderPromotions()
-        .subscribe((promotions) => (appliedOrderPromotions = promotions))
+        .subscribe((appliedOrderPromotions) => {
+          expect(appliedOrderPromotions).toEqual(mockAppliedOrderPromotions);
+          done();
+        })
         .unsubscribe();
-      expect(appliedOrderPromotions).toEqual(expectedAppliedOrderPromotions);
     });
-  });
 
-  describe('getProductPromotionForAllEntries', () => {
-    it('should return appropriate applied product promotions for all entries', (done) => {
-      const productPromotionForAllEntries = checkoutPromotionService.getProductPromotionForAllEntries(
-        mockCheckoutDetails
-      );
-      expect(productPromotionForAllEntries).toBeTruthy();
-      expect(Object.keys(productPromotionForAllEntries)).toEqual(['0', '1']);
-
-      combineLatest([
-        productPromotionForAllEntries[0],
-        productPromotionForAllEntries[1],
-      ]).subscribe(([promotionsForEntry0, promotionsForEntry1]) => {
-        expect(promotionsForEntry0.length).toEqual(0);
-        expect(promotionsForEntry1.length).toEqual(1);
-        expect(promotionsForEntry1[0]).toEqual(mockAppliedProductPromotions[0]);
-        done();
-      });
+    it('should return appropriate applied order promotions for checkout', (done) => {
+      checkoutPromotionService
+        .getProductPromotionForEntry(orderEntry1)
+        .subscribe((appliedProductPromotions) => {
+          expect(appliedProductPromotions).toEqual(
+            mockAppliedProductPromotions
+          );
+          done();
+        })
+        .unsubscribe();
     });
   });
 });
