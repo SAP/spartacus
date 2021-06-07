@@ -43,7 +43,9 @@ export const common = {
   },
   searchBox: {
     placeholder: 'Search here...',
-    ariaLabel: 'Search, press enter after typing to start searching',
+    ariaLabel: 'Search here...',
+    initialDescription:
+      'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
     resetLabel: 'Reset Search',
     help: {
       insufficientChars: 'Please type more characters',

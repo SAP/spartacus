@@ -2,7 +2,13 @@
   <input
     #searchInput
     [placeholder]="'searchBox.placeholder' | cxTranslate"
+    autocomplete="off"
     attr.aria-label="{{ 'searchBox.ariaLabel' | cxTranslate }}"
+    aria-describedby="initialDescription"
+    aria-owns="results"
+    aria-expanded="false"
+    aria-autocomplete="both"
+    aria-activedescendant=""
     (focus)="open()"
     (click)="open()"
     (input)="search(searchInput.value)"
@@ -41,7 +47,9 @@
 <div
   *ngIf="results$ | async as result"
   class="results"
+  id="results"
   (click)="close($event, true)"
+  role="listbox"
 >
   <div
     *ngIf="result.message"
@@ -49,65 +57,88 @@
     [innerHTML]="result.message"
   ></div>
 
-  <div class="suggestions">
-    <a
-      *ngFor="let suggestion of result.suggestions"
-      [innerHTML]="suggestion | cxHighlight: searchInput.value"
-      [routerLink]="
-        {
-          cxRoute: 'search',
-          params: { query: suggestion }
-        } | cxUrl
-      "
-      (keydown.arrowup)="focusPreviousChild($event)"
-      (keydown.arrowdown)="focusNextChild($event)"
-      (keydown.enter)="close($event, true)"
-      (keydown.escape)="close($event, true)"
-      (blur)="close($event)"
-      (mousedown)="preventDefault($event)"
-      (click)="
-        dispatchSuggestionEvent({
-          freeText: searchInput.value,
-          selectedSuggestion: suggestion,
-          searchSuggestions: result.suggestions
-        });
-        updateChosenWord(suggestion)
-      "
-    >
-    </a>
-  </div>
+  <ul class="suggestions">
+    <li>
+      <a
+        *ngFor="let suggestion of result.suggestions"
+        [innerHTML]="suggestion | cxHighlight: searchInput.value"
+        [routerLink]="
+          {
+            cxRoute: 'search',
+            params: { query: suggestion }
+          } | cxUrl
+        "
+        (keydown.arrowup)="focusPreviousChild($event)"
+        (keydown.arrowdown)="focusNextChild($event)"
+        (keydown.enter)="close($event, true)"
+        (keydown.escape)="close($event, true)"
+        (blur)="close($event)"
+        (mousedown)="preventDefault($event)"
+        (click)="
+          dispatchSuggestionEvent({
+            freeText: searchInput.value,
+            selectedSuggestion: suggestion,
+            searchSuggestions: result.suggestions
+          });
+          updateChosenWord(suggestion)
+        "
+      >
+      </a>
+    </li>
+  </ul>
 
-  <div class="products" *ngIf="result.products">
-    <a
-      *ngFor="let product of result.products"
-      [routerLink]="
-        {
-          cxRoute: 'product',
-          params: product
-        } | cxUrl
-      "
-      [class.has-media]="config.displayProductImages"
-      (keydown.arrowup)="focusPreviousChild($event)"
-      (keydown.arrowdown)="focusNextChild($event)"
-      (keydown.enter)="close($event, true)"
-      (keydown.escape)="close($event, true)"
-      (blur)="close($event)"
-      (mousedown)="preventDefault($event)"
-      (click)="
-        dispatchProductEvent({
-          freeText: searchInput.value,
-          productCode: product.code
-        })
-      "
-    >
-      <cx-media
-        *ngIf="config.displayProductImages"
-        [container]="product.images?.PRIMARY"
-        format="thumbnail"
-        [alt]="product.summary"
-      ></cx-media>
-      <h4 class="name" [innerHTML]="product.nameHtml"></h4>
-      <span class="price">{{ product.price?.formattedValue }}</span>
-    </a>
+  <ul class="products" *ngIf="result.products" role="listbox">
+    <li>
+      <a
+        *ngFor="let product of result.products"
+        [routerLink]="
+          {
+            cxRoute: 'product',
+            params: product
+          } | cxUrl
+        "
+        [class.has-media]="config.displayProductImages"
+        (keydown.arrowup)="focusPreviousChild($event)"
+        (keydown.arrowdown)="focusNextChild($event)"
+        (keydown.enter)="close($event, true)"
+        (keydown.escape)="close($event, true)"
+        (blur)="close($event)"
+        (mousedown)="preventDefault($event)"
+        (click)="
+          dispatchProductEvent({
+            freeText: searchInput.value,
+            productCode: product.code
+          })
+        "
+      >
+        <cx-media
+          *ngIf="config.displayProductImages"
+          [container]="product.images?.PRIMARY"
+          format="thumbnail"
+          [alt]="product.summary"
+        ></cx-media>
+        <div class="name" [innerHTML]="product.nameHtml"></div>
+        <span class="price">{{ product.price?.formattedValue }}</span>
+      </a>
+    </li>
+  </ul>
+  <span id="initialDescription" style="display: none">
+    {{ 'searchBox.initialDescription' | cxTranslate }}
+  </span>
+  <div
+    *ngIf="result.suggestions != 0 || result.products != 0"
+    aria-live="assertive"
+    class="screen-reader-text"
+    [innerHTML]="
+      result.suggestions.length +
+      ' suggestions and ' +
+      result.suggestions.length +
+      ' products are available.'
+    "
+  >
+    <!-- {{ result.suggestions.length }} 
+    {{ result.products.length }} products available.
+    {{ 'searchBox.initialDescription' | cxTranslate }} -->
   </div>
+  <pre>  {{ result | json }}</pre>
 </div>
