@@ -77,9 +77,9 @@ export class ConfiguratorStorefrontUtilsService {
       bounding.top >= 0 &&
       bounding.left >= 0 &&
       bounding.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
+        (window?.innerHeight || document?.documentElement.clientHeight) &&
       bounding.right <=
-        (window.innerWidth || document.documentElement.clientWidth)
+        (window?.innerWidth || document?.documentElement.clientWidth)
     );
   }
 
@@ -93,7 +93,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (element instanceof HTMLElement) {
       topOffset = element.offsetTop;
     }
-    this.windowRef.nativeWindow.scroll(0, topOffset);
+    this.windowRef.nativeWindow?.scroll(0, topOffset);
   }
 
   /**
@@ -104,7 +104,7 @@ export class ConfiguratorStorefrontUtilsService {
   scrollToConfigurationElement(selector: string): void {
     if (this.windowRef.isBrowser()) {
       // we don't want to run this logic when doing SSR
-      const element = this.windowRef.document.querySelector(selector);
+      const element = this.windowRef.document?.querySelector(selector);
       if (element && !this.isInViewport(element)) {
         this.scroll(element);
       }
@@ -117,7 +117,7 @@ export class ConfiguratorStorefrontUtilsService {
   focusFirstAttribute(): void {
     if (this.keyboardFocusService) {
       if (this.windowRef.isBrowser()) {
-        const form: HTMLElement | null = this.windowRef.document.querySelector(
+        const form: HTMLElement | null = this.windowRef.document?.querySelector(
           'cx-configurator-form'
         );
         if (form) {
