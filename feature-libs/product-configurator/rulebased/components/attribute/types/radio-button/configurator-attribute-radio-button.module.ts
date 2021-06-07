@@ -19,6 +19,5 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
   ],
   declarations: [ConfiguratorAttributeRadioButtonComponent],
   exports: [ConfiguratorAttributeRadioButtonComponent],
-  entryComponents: [ConfiguratorAttributeRadioButtonComponent],
 })
 export class ConfiguratorAttributeRadioButtonModule {}

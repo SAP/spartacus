@@ -70,6 +70,7 @@ export class ConfiguratorUtilsService {
     const newConfiguration: Configurator.Configuration = {
       configId: configuration.configId,
       groups: [],
+      interactionState: {},
       owner: configuration.owner,
       productCode: configuration.productCode,
       updateType,

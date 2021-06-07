@@ -21,6 +21,5 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
   ],
   declarations: [ConfiguratorAttributeDropDownComponent],
   exports: [ConfiguratorAttributeDropDownComponent],
-  entryComponents: [ConfiguratorAttributeDropDownComponent],
 })
 export class ConfiguratorAttributeDropDownModule {}

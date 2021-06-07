@@ -17,6 +17,5 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
   ],
   declarations: [ConfiguratorAttributeNumericInputFieldComponent],
   exports: [ConfiguratorAttributeNumericInputFieldComponent],
-  entryComponents: [ConfiguratorAttributeNumericInputFieldComponent],
 })
 export class ConfiguratorAttributeNumericInputFieldModule {}

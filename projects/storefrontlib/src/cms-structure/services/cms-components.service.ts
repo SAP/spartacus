@@ -19,7 +19,7 @@ import {
 } from '@spartacus/core';
 import { defer, forkJoin, Observable, of } from 'rxjs';
 import { mapTo, share, tap } from 'rxjs/operators';
-import { FeatureModulesService } from './feature-modules.service';
+import { CmsFeaturesService } from './cms-features.service';
 
 /**
  * Service with logic related to resolving component from cms mapping
@@ -28,13 +28,17 @@ import { FeatureModulesService } from './feature-modules.service';
   providedIn: 'root',
 })
 export class CmsComponentsService {
-  private missingComponents: string[] = [];
-  private mappings: { [componentType: string]: CmsComponentMapping } = {};
-  // Copy of initial/static cms mapping configuration unaffected by lazy-loaded modules
-  private staticCmsConfig: CMSComponentConfig | undefined;
+  // Component mappings that were identified as missing
+  protected missingComponents: string[] = [];
 
-  // contains
-  private mappingResolvers: Map<
+  // Already resolved mappings
+  protected mappings: { [componentType: string]: CmsComponentMapping } = {};
+
+  // Copy of initial/static cms mapping configuration unaffected by lazy-loaded modules
+  protected staticCmsConfig: CMSComponentConfig | undefined;
+
+  // Contains already initialized resolvers for specified component typez
+  protected mappingResolvers: Map<
     string,
     Observable<CmsComponentMapping>
   > = new Map();
@@ -42,11 +46,11 @@ export class CmsComponentsService {
   constructor(
     protected config: CmsConfig,
     @Inject(PLATFORM_ID) protected platformId: Object,
-    protected featureModules?: FeatureModulesService,
-    protected configInitializer?: ConfigInitializerService
+    protected featureModules: CmsFeaturesService,
+    protected configInitializer: ConfigInitializerService
   ) {
     this.configInitializer
-      ?.getStable('cmsComponents')
+      .getStable('cmsComponents')
       .subscribe((cmsConfig: CmsConfig) => {
         // we want to grab cms configuration available at config initialization phase
         // as lazy-loaded modules can affect global configuration resulting in

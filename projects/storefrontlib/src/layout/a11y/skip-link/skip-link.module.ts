@@ -25,8 +25,6 @@ import { SkipLinkDirective } from './directive/skip-link.directive';
   ],
   declarations: [SkipLinkComponent, SkipLinkDirective],
   exports: [SkipLinkDirective],
-  entryComponents: [SkipLinkComponent],
-
   providers: [
     provideDefaultConfig(defaultSkipLinkConfig),
     {

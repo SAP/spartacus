@@ -17,6 +17,5 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
   ],
   declarations: [ConfiguratorAttributeCheckBoxComponent],
   exports: [ConfiguratorAttributeCheckBoxComponent],
-  entryComponents: [ConfiguratorAttributeCheckBoxComponent],
 })
 export class ConfiguratorAttributeCheckboxModule {}

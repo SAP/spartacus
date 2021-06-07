@@ -17,6 +17,5 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
   ],
   declarations: [ConfiguratorAttributeSingleSelectionImageComponent],
   exports: [ConfiguratorAttributeSingleSelectionImageComponent],
-  entryComponents: [ConfiguratorAttributeSingleSelectionImageComponent],
 })
 export class ConfiguratorAttributeSingleSelectionImageModule {}
