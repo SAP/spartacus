@@ -42,9 +42,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   iconType = ICON_TYPE;
 
   /**
-   * Reset menu when collapsed
+   * Flag indicates whether to reset the state of menu navigation (ie. Collapse all submenus) when the menu is closed.
    */
-  @Input() resetMenu: boolean;
+  @Input() resetMenuOnClose: boolean;
 
   /**
    * Indicates whether the navigation should support flyout.
@@ -74,14 +74,14 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     router: Router,
     renderer: Renderer2,
     elemRef: ElementRef,
-    hamMenuService: HamburgerMenuService
+    hamburgerMenuService: HamburgerMenuService
   );
 
   constructor(
     private router: Router,
     private renderer: Renderer2,
     private elemRef: ElementRef,
-    @Optional() private hamMenuService?: HamburgerMenuService
+    @Optional() protected hamburgerMenuService?: HamburgerMenuService
   ) {
     this.subscriptions.add(
       this.router.events
@@ -96,12 +96,12 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.resetMenu) this.resetOnMenuCollapse();
+    if (this.resetMenuOnClose) this.resetOnMenuCollapse();
   }
 
-  resetOnMenuCollapse() {
+  resetOnMenuCollapse(): void {
     this.subscriptions.add(
-      this.hamMenuService.isExpanded
+      this.hamburgerMenuService.isExpanded
         .pipe(distinctUntilChanged())
         .subscribe((isExpanded: boolean) => {
           //only react when expanded and proper number of nav node are present.
