@@ -6,13 +6,20 @@ describe('SSR', () => {
     cy.intercept({ method: 'GET', url: '*.js' }, {});
   });
 
-  it('should render homepage', () => {
-    cy.visit('/');
+  function seoChecks() {
     cy.title().should('not.be.empty');
     cy.get('head meta[name="robots"]')
       .should('have.attr', 'content')
       .and('contains', 'INDEX')
       .and('contains', 'FOLLOW');
+    cy.get('link[rel="canonical"]').should('have.attr', 'href');
+  }
+
+  it('should render homepage', () => {
+    cy.visit('/');
+
+    seoChecks();
+
     cy.get('.header').within(() => {
       cy.get('cx-page-slot.SiteLogo').should('be.visible');
       cy.get('.searchbox').should('be.visible');
@@ -22,19 +29,11 @@ describe('SSR', () => {
 
   it('should render PLP', () => {
     cy.visit(plpUrl);
-    cy.title().should('not.be.empty');
-    cy.get('head meta[name="robots"]')
-      .should('have.attr', 'content')
-      .and('contains', 'INDEX')
-      .and('contains', 'FOLLOW');
+    seoChecks();
   });
 
   it('should render PDP', () => {
     cy.visit(pdpUrl);
-    cy.title().should('not.be.empty');
-    cy.get('head meta[name="robots"]')
-      .should('have.attr', 'content')
-      .and('contains', 'INDEX')
-      .and('contains', 'FOLLOW');
+    seoChecks();
   });
 });
