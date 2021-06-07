@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   ActiveCartService,
+  Cart,
   OrderEntry,
   PromotionResult,
 } from '@spartacus/core';
@@ -30,5 +31,15 @@ export class CartPromotionService extends PromotionService {
           this.getProductPromotion(item, cart.appliedProductPromotions || [])
         )
       );
+  }
+
+  private getOrderPromotionsFromCartHelper(cart: Cart): PromotionResult[] {
+    const potentialPromotions = [];
+    potentialPromotions.push(...(cart.potentialOrderPromotions || []));
+
+    const appliedPromotions = [];
+    appliedPromotions.push(...(cart.appliedOrderPromotions || []));
+
+    return [...potentialPromotions, ...appliedPromotions];
   }
 }

@@ -16,7 +16,7 @@ export class OrderPromotionService extends PromotionService {
   getOrderPromotions(): Observable<PromotionResult[]> {
     return this.orderDetailsService
       .getOrderDetails()
-      .pipe(map((order) => this.getOrderPromotionsFromOrderHelper(order)));
+      .pipe(map((order) => order.appliedOrderPromotions || []));
   }
 
   getProductPromotionForEntry(item: OrderEntry): Observable<PromotionResult[]> {

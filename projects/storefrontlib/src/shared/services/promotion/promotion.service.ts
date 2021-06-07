@@ -4,6 +4,10 @@ import { Observable } from 'rxjs';
 export abstract class PromotionService {
   abstract getOrderPromotions(): Observable<PromotionResult[]>;
 
+  abstract getProductPromotionForEntry(
+    item: OrderEntry
+  ): Observable<PromotionResult[]>;
+
   getProductPromotionForAllEntries(
     order: Order | Cart
   ): { [key: number]: Observable<PromotionResult[]> } {
@@ -17,27 +21,6 @@ export abstract class PromotionService {
         ] = this.getProductPromotionForEntry(entry);
     });
     return allEntryPromotions;
-  }
-
-  abstract getProductPromotionForEntry(
-    item: OrderEntry
-  ): Observable<PromotionResult[]>;
-
-  protected getOrderPromotionsFromCartHelper(cart: Cart): PromotionResult[] {
-    const potentialPromotions = [];
-    potentialPromotions.push(...(cart.potentialOrderPromotions || []));
-
-    const appliedPromotions = [];
-    appliedPromotions.push(...(cart.appliedOrderPromotions || []));
-
-    return [...potentialPromotions, ...appliedPromotions];
-  }
-
-  protected getOrderPromotionsFromOrderHelper(order: Order): PromotionResult[] {
-    const appliedOrderPromotions = [];
-    appliedOrderPromotions.push(...(order.appliedOrderPromotions || []));
-
-    return appliedOrderPromotions;
   }
 
   protected getProductPromotion(
