@@ -152,11 +152,13 @@ export class ConfiguratorAddToCartButtonComponent {
       routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY;
     const owner = configuration.owner;
 
-    this.configuratorGroupsService.setGroupStatusVisited(
-      configuration.owner,
-      configuration.interactionState.currentGroup
-    );
-
+    const currentGroup = configuration.interactionState.currentGroup;
+    if (currentGroup) {
+      this.configuratorGroupsService.setGroupStatusVisited(
+        configuration.owner,
+        currentGroup
+      );
+    }
     this.container$
       .pipe(
         filter((cont) => !cont.hasPendingChanges),
@@ -173,18 +175,22 @@ export class ConfiguratorAddToCartButtonComponent {
             owner,
             false,
             isOverview,
-            configuration.isCartEntryUpdateRequired
+            configuration.isCartEntryUpdateRequired ?? false
           );
           if (configuration.isCartEntryUpdateRequired) {
             this.configuratorCommonsService.removeConfiguration(owner);
           }
         } else {
-          this.configuratorCartService.addToCart(
-            owner.id,
-            configuration.configId,
-            owner
-          );
-
+          const productCode = owner.id;
+          if (productCode) {
+            this.configuratorCartService.addToCart(
+              productCode,
+              configuration.configId,
+              owner
+            );
+          } else {
+            throw Error('Product code must be defined');
+          }
           this.configuratorCommonsService
             .getConfiguration(owner)
             .pipe(
@@ -195,27 +201,30 @@ export class ConfiguratorAddToCartButtonComponent {
               take(1)
             )
             .subscribe((configWithNextOwner) => {
-              this.performNavigation(
-                configuratorType,
-                configWithNextOwner.nextOwner,
-                true,
-                isOverview,
-                true
-              );
+              const nextOwner = configWithNextOwner.nextOwner;
+              if (nextOwner) {
+                this.performNavigation(
+                  configuratorType,
+                  nextOwner,
+                  true,
+                  isOverview,
+                  true
+                );
 
-              // we clean up the cart entry related configuration, as we might have a
-              // configuration for the same cart entry number stored already.
-              // (Cart entries might have been deleted)
+                // we clean up the cart entry related configuration, as we might have a
+                // configuration for the same cart entry number stored already.
+                // (Cart entries might have been deleted)
 
-              // we do not clean up the product bound configuration yet, as existing
-              // observables would instantly trigger a re-create.
-              // Cleaning up this obsolete product bound configuration will only happen
-              // when a new config form requests a new observable for a product bound
-              // configuration
+                // we do not clean up the product bound configuration yet, as existing
+                // observables would instantly trigger a re-create.
+                // Cleaning up this obsolete product bound configuration will only happen
+                // when a new config form requests a new observable for a product bound
+                // configuration
 
-              this.configuratorCommonsService.removeConfiguration(
-                configWithNextOwner.nextOwner
-              );
+                this.configuratorCommonsService.removeConfiguration(nextOwner);
+              } else {
+                throw Error('Next owner must be present here');
+              }
             });
         }
       });
