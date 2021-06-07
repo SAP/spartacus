@@ -100,13 +100,13 @@ export class CheckoutPaymentService {
    */
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      let userId;
+      let userId: string | undefined;
       this.userIdService
         .getUserId()
         .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
-      let cartId;
+      let cartId: string | undefined;
       this.activeCartService
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
