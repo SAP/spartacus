@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
@@ -24,12 +24,7 @@ import {
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
-import {
-  Card,
-  CartPromotionService,
-  ICON_TYPE,
-  PromotionService,
-} from '@spartacus/storefront';
+import { Card, ICON_TYPE, PromotionService } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/index';
@@ -50,7 +45,6 @@ export class ReviewSubmitComponent {
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
-    @Inject(CartPromotionService)
     protected promotionService: PromotionService,
     protected checkoutStepService: CheckoutStepService,
     protected paymentTypeService: PaymentTypeFacade,

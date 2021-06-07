@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Consignment,
   Order,
@@ -9,7 +9,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
 import { OrderDetailsService } from '../order-details.service';
-import { OrderPromotionService } from '../order-promotion.service';
 import {
   cancelledValues,
   completedValues,
@@ -22,7 +21,6 @@ import {
 export class OrderDetailItemsComponent implements OnInit {
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    @Inject(OrderPromotionService)
     protected promotionService: PromotionService
   ) {}
 

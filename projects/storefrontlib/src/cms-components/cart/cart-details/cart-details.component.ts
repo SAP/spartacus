@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   ActiveCartService,
   AuthService,
@@ -17,7 +12,6 @@ import {
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { PromotionService } from '../../../shared/services/promotion/promotion.service';
-import { CartPromotionService } from '../cart-promotion.service';
 
 @Component({
   selector: 'cx-cart-details',
@@ -36,7 +30,6 @@ export class CartDetailsComponent implements OnInit {
 
   constructor(
     protected activeCartService: ActiveCartService,
-    @Inject(CartPromotionService)
     protected promotionService: PromotionService,
     protected selectiveCartService: SelectiveCartService,
     protected authService: AuthService,

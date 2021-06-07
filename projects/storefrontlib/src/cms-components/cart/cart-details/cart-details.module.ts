@@ -8,9 +8,11 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../misc/promotions/promotions.module';
-import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
+import { CartPromotionService } from '../cart-promotion.service';
+import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartDetailsComponent } from './cart-details.component';
 
 @NgModule({
@@ -29,6 +31,12 @@ import { CartDetailsComponent } from './cart-details.component';
       cmsComponents: {
         CartComponent: {
           component: CartDetailsComponent,
+          providers: [
+            {
+              provide: PromotionService,
+              useExisting: CartPromotionService,
+            },
+          ],
         },
       },
     }),
