@@ -339,12 +339,6 @@ export interface OccEndpoints {
    */
   consignmentTracking?: string | OccEndpoint;
   /**
-   * Endpoint for asm customer search
-   *
-   * @member {string}
-   */
-  asmCustomerSearch?: string | OccEndpoint;
-  /**
    * Endpoint for cart voucher
    *
    * @member {string}
