@@ -39,6 +39,16 @@
                 "bundleName": "styles"
               },
               {
+                "input": "projects/storefrontapp/src/styles/blue.scss",
+                "inject": false,
+                "bundleName": "blue"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/sparta.scss",
+                "inject": false,
+                "bundleName": "sparta"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-organization.scss",
                 "bundleName": "organization"
               },
