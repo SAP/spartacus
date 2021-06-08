@@ -33,7 +33,7 @@ export class CartPromotionService extends PromotionService {
       );
   }
 
-  private getOrderPromotionsFromCartHelper(cart: Cart): PromotionResult[] {
+  protected getOrderPromotionsFromCartHelper(cart: Cart): PromotionResult[] {
     const potentialPromotions = [];
     potentialPromotions.push(...(cart.potentialOrderPromotions || []));
 
