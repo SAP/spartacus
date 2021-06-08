@@ -85,9 +85,9 @@ describe('CartDetailsComponent', () => {
     'SelectiveCartService',
     [
       'getCart',
-      'getLoaded',
       'removeEntry',
       'getEntries',
+      'isStable',
       'addEntry',
       'isEnabled',
     ]
@@ -129,6 +129,7 @@ describe('CartDetailsComponent', () => {
       }).compileComponents();
 
       mockSelectiveCartService.isEnabled.and.returnValue(true);
+      mockSelectiveCartService.isStable.and.returnValue(of(true));
     })
   );
 
@@ -151,7 +152,6 @@ describe('CartDetailsComponent', () => {
     };
     mockAuthService.isUserLoggedIn.and.returnValue(of(true));
     mockSelectiveCartService.addEntry.and.callThrough();
-    mockSelectiveCartService.getLoaded.and.returnValue(of(true));
     spyOn(activeCartService, 'removeEntry').and.callThrough();
     spyOn(activeCartService, 'getEntries').and.callThrough();
     spyOn(activeCartService, 'isStable').and.returnValue(of(true));

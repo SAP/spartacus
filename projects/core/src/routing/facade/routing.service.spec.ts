@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
 import { UrlCommands } from '../configurable-routes';
@@ -31,6 +32,7 @@ class MockRoutingParamsService {
 describe('RoutingService', () => {
   let store: Store<RouterState>;
   let service: RoutingService;
+  let winRef: WindowRef;
   let urlService: SemanticPathService;
   let routingParamsService: RoutingParamsService;
 
@@ -39,6 +41,7 @@ describe('RoutingService', () => {
       imports: [StoreModule.forRoot({}), RouterTestingModule],
       providers: [
         RoutingService,
+        WindowRef,
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: RoutingParamsService, useClass: MockRoutingParamsService },
       ],
@@ -46,6 +49,7 @@ describe('RoutingService', () => {
 
     store = TestBed.inject(Store);
     service = TestBed.inject(RoutingService);
+    winRef = TestBed.inject(WindowRef);
     urlService = TestBed.inject(SemanticPathService);
     routingParamsService = TestBed.inject(RoutingParamsService);
     spyOn(store, 'dispatch');
@@ -117,7 +121,7 @@ describe('RoutingService', () => {
         cxRoute: 'product',
         params: { code: '123' },
       });
-      expect(url).toEqual('http://localhost:9876/product/123');
+      expect(url).toEqual(`${winRef.document.location.origin}/product/123`);
     });
   });
 

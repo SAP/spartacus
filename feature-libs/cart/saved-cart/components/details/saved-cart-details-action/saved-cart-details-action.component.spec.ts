@@ -10,7 +10,6 @@ import {
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsActionComponent } from './saved-cart-details-action.component';
 
@@ -49,17 +48,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-class MockSavedCartFormLaunchDialogService
-  implements Partial<SavedCartFormLaunchDialogService> {
-  openDialog(
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef,
-    _data?: any
-  ): Observable<any> {
-    return of();
-  }
-}
-
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
     _caller: LAUNCH_CALLER,
@@ -96,11 +84,6 @@ describe('SavedCartDetailsActionComponent', () => {
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
-        },
-        // TODO(#12167): remove unused class and provider
-        {
-          provide: SavedCartFormLaunchDialogService,
-          useClass: MockSavedCartFormLaunchDialogService,
         },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],

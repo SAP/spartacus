@@ -163,7 +163,7 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
   return !!(isServerConfiguration && isServerSideAvailable);
 }
 
-export function prepareSpartacusDependencies(b2b: boolean): NodeDependency[] {
+export function prepareSpartacusDependencies(): NodeDependency[] {
   const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
 
   const spartacusDependencies: NodeDependency[] = [
@@ -188,13 +188,6 @@ export function prepareSpartacusDependencies(b2b: boolean): NodeDependency[] {
       name: SPARTACUS_STYLES,
     },
   ];
-  if (b2b) {
-    spartacusDependencies.push({
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_SETUP,
-    });
-  }
 
   return spartacusDependencies;
 }

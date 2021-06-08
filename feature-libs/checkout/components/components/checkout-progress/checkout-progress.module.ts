@@ -16,7 +16,6 @@ import { MultiLinePipe } from './multiline-titles.pipe';
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
   declarations: [CheckoutProgressComponent, MultiLinePipe],
-  entryComponents: [CheckoutProgressComponent],
   exports: [CheckoutProgressComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{

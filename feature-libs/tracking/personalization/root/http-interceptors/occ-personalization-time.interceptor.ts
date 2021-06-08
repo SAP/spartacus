@@ -56,7 +56,7 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
     if (
       this.requestHeader &&
       this.timestamp &&
-      request.url.includes(this.occEndpoints.getBaseEndpoint())
+      request.url.includes(this.occEndpoints.getBaseUrl())
     ) {
       request = request.clone({
         setHeaders: {
