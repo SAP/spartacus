@@ -115,7 +115,7 @@
           *ngIf="config.displayProductImages"
           [container]="product.images?.PRIMARY"
           format="thumbnail"
-          [alt]="product.summary"
+          alt=""
         ></cx-media>
         <div class="name" [innerHTML]="product.nameHtml"></div>
         <span class="price">{{ product.price?.formattedValue }}</span>
@@ -126,19 +126,12 @@
     {{ 'searchBox.initialDescription' | cxTranslate }}
   </span>
   <div
-    *ngIf="result.suggestions != 0 || result.products != 0"
+    *ngIf="result.suggestions?.length || result.products?.length"
     aria-live="assertive"
-    class="screen-reader-text"
-    [innerHTML]="
-      result.suggestions.length +
-      ' suggestions and ' +
-      result.suggestions.length +
-      ' products are available.'
-    "
+    class="cx-visually-hidden"
   >
-    <!-- {{ result.suggestions.length }} 
-    {{ result.products.length }} products available.
-    {{ 'searchBox.initialDescription' | cxTranslate }} -->
+    {{ result.suggestions?.length }}
+    {{ 'searchBox.suggestionsAnd' | cxTranslate }} {{ result.products?.length }}
+    {{ 'searchBox.productsAreAvailable' | cxTranslate }}
   </div>
-  <pre>  {{ result | json }}</pre>
 </div>

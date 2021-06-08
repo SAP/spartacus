@@ -46,6 +46,8 @@ export const common = {
     ariaLabel: 'Search here...',
     initialDescription:
       'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
+    suggestionsAnd: ' suggestions and ',
+    productsAreAvailable: ' products are available.',
     resetLabel: 'Reset Search',
     help: {
       insufficientChars: 'Please type more characters',
