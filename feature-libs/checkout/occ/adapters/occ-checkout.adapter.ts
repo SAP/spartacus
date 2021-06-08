@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CheckoutAdapter, CheckoutDetails } from '@spartacus/checkout/core';
 import {
@@ -13,10 +13,6 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
-// To be changed to a more optimised params after ticket: C3PO-1076
-const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
-const CARTS_ENDPOINT = '/carts/';
-
 @Injectable()
 export class OccCheckoutAdapter implements CheckoutAdapter {
   constructor(
@@ -25,9 +21,48 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getEndpoint(userId: string, subEndpoint: string): string {
-    const orderEndpoint = 'users/' + userId + subEndpoint;
-    return this.occEndpoints.getEndpoint(orderEndpoint);
+  protected getPlaceOrderEndpoint(
+    userId: string,
+    cartId: string,
+    termsChecked: string
+  ): string {
+    return this.occEndpoints.buildUrl('placeOrder', {
+      urlParams: { userId },
+      queryParams: { cartId, termsChecked },
+    });
+  }
+
+  protected getRemoveDeliveryAddressEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('removeDeliveryAddress', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
+  }
+
+  protected getClearDeliveryModeEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('clearDeliveryMode', {
+      urlParams: { userId, cartId },
+    });
+  }
+
+  protected getLoadCheckoutDetailsEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('loadCheckoutDetails', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
   }
 
   public placeOrder(
@@ -42,15 +77,12 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     if (userId === OCC_USER_ID_ANONYMOUS) {
       headers = InterceptorUtil.createHeader(USE_CLIENT_TOKEN, true, headers);
     }
-    const params = new HttpParams()
-      .set('cartId', cartId)
-      .set('termsChecked', termsChecked.toString());
 
     return this.http
       .post<Occ.Order>(
-        this.occEndpoints.buildUrl('placeOrder', { urlParams: { userId } }),
+        this.getPlaceOrderEndpoint(userId, cartId, termsChecked.toString()),
         {},
-        { headers, params }
+        { headers }
       )
       .pipe(this.converter.pipeable(ORDER_NORMALIZER));
   }
@@ -59,29 +91,23 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
     userId: string,
     cartId: string
   ): Observable<CheckoutDetails> {
-    const url = this.getEndpoint(userId, CARTS_ENDPOINT) + cartId;
-    const params = new HttpParams({
-      fromString: `fields=${CHECKOUT_PARAMS}`,
-    });
-    return this.http.get<CheckoutDetails>(url, { params });
+    return this.http.get<CheckoutDetails>(
+      this.getLoadCheckoutDetailsEndpoint(userId, cartId)
+    );
   }
 
   clearCheckoutDeliveryAddress(
     userId: string,
     cartId: string
   ): Observable<any> {
-    const url = `${this.getEndpoint(
-      userId,
-      CARTS_ENDPOINT
-    )}${cartId}/addresses/delivery`;
-    return this.http.delete<any>(url);
+    return this.http.delete<any>(
+      this.getRemoveDeliveryAddressEndpoint(userId, cartId)
+    );
   }
 
   clearCheckoutDeliveryMode(userId: string, cartId: string): Observable<any> {
-    const url = `${this.getEndpoint(
-      userId,
-      CARTS_ENDPOINT
-    )}${cartId}/deliverymode`;
-    return this.http.delete<any>(url);
+    return this.http.delete<any>(
+      this.getClearDeliveryModeEndpoint(userId, cartId)
+    );
   }
 }

@@ -24,9 +24,56 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getCartEndpoint(userId: string): string {
-    const cartEndpoint = 'users/' + userId + '/carts/';
-    return this.occEndpoints.getEndpoint(cartEndpoint);
+  protected getCreateDeliveryAddressEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('createDeliveryAddress', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
+  }
+
+  protected getSetDeliveryAddressEndpoint(
+    userId: string,
+    cartId: string,
+    addressId?: string
+  ): string {
+    return this.occEndpoints.buildUrl('setDeliveryAddress', {
+      urlParams: { userId, cartId },
+      queryParams: { addressId },
+    });
+  }
+
+  protected getDeliveryModeEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.buildUrl('deliveryMode', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
+  }
+
+  protected getSetDeliveryModeEndpoint(
+    userId: string,
+    cartId: string,
+    deliveryModeId?: string
+  ): string {
+    return this.occEndpoints.buildUrl('setDeliveryMode', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+      queryParams: { deliveryModeId },
+    });
+  }
+
+  protected getDeliveryModesEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.buildUrl('deliveryModes', {
+      urlParams: { userId, cartId },
+    });
   }
 
   public createAddress(
@@ -38,7 +85,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
 
     return this.http
       .post<Occ.Address>(
-        this.getCartEndpoint(userId) + cartId + '/addresses/delivery',
+        this.getCreateDeliveryAddressEndpoint(userId, cartId),
         address,
         {
           headers: new HttpHeaders().set('Content-Type', 'application/json'),
@@ -53,13 +100,8 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     addressId: string
   ): Observable<any> {
     return this.http.put(
-      this.occEndpoints.buildUrl('setDeliveryAddress', {
-        urlParams: { userId, cartId },
-      }),
-      {},
-      {
-        params: { addressId: addressId },
-      }
+      this.getSetDeliveryAddressEndpoint(userId, cartId, addressId),
+      {}
     );
   }
 
@@ -69,17 +111,14 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     deliveryModeId: string
   ): Observable<any> {
     return this.http.put(
-      this.getCartEndpoint(userId) + cartId + '/deliverymode',
-      {},
-      {
-        params: { deliveryModeId: deliveryModeId },
-      }
+      this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId),
+      {}
     );
   }
 
   public getMode(userId: string, cartId: string): Observable<any> {
     return this.http
-      .get(this.getCartEndpoint(userId) + cartId + '/deliverymode')
+      .get(this.getDeliveryModeEndpoint(userId, cartId))
       .pipe(this.converter.pipeable(DELIVERY_MODE_NORMALIZER));
   }
 
@@ -88,9 +127,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     cartId: string
   ): Observable<DeliveryMode[]> {
     return this.http
-      .get<Occ.DeliveryModeList>(
-        this.getCartEndpoint(userId) + cartId + '/deliverymodes'
-      )
+      .get<Occ.DeliveryModeList>(this.getDeliveryModesEndpoint(userId, cartId))
       .pipe(
         pluck('deliveryModes'),
         map((modes) => modes ?? []),
