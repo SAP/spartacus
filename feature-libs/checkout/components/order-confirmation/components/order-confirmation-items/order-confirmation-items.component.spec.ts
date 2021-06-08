@@ -3,12 +3,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
+  Cart,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
   OrderEntry,
   PromotionLocation,
+  PromotionResult,
 } from '@spartacus/core';
 import { PromotionService, PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -39,11 +41,14 @@ class MockCheckoutService {
 }
 
 class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
+  getOrderPromotions(): Observable<PromotionResult[]> {
+    return of([]);
+  }
+  getProductPromotionForAllEntries(
+    _order: Order | Cart
+  ): { [key: number]: Observable<PromotionResult[]> } {
+    return {};
+  }
 }
 
 describe('OrderConfirmationItemsComponent', () => {

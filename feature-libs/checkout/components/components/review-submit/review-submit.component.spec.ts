@@ -18,10 +18,12 @@ import {
   Country,
   DeliveryMode,
   I18nTestingModule,
+  Order,
   OrderEntry,
   PaymentDetails,
   PaymentType,
   PromotionLocation,
+  PromotionResult,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
@@ -196,11 +198,14 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
+  getOrderPromotions(): Observable<PromotionResult[]> {
+    return of([]);
+  }
+  getProductPromotionForAllEntries(
+    _order: Order | Cart
+  ): { [key: number]: Observable<PromotionResult[]> } {
+    return {};
+  }
 }
 
 describe('ReviewSubmitComponent', () => {
