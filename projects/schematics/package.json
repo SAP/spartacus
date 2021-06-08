@@ -11,7 +11,7 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": {
-    "build": "yarn clean && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "build": "yarn clean && yarn --cwd ../../ generate:deps && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
     "clean": "../../node_modules/.bin/rimraf \"index.js*\" \"index.d.ts\" \"src/**/*.js\" \"src/**/*.js.map\" \"src/**/*.d.ts\"",
     "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },

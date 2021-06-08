@@ -6,6 +6,7 @@ import { ItemCounterModule } from '../../../shared/components/item-counter/item-
 import { ProductSummaryComponent } from '../product-summary/product-summary.component';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 class MockCurrentProductService {
   getProduct(): Observable<Product> {
@@ -20,7 +21,12 @@ describe('ProductSummaryComponent in product', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [AddToCartModule, ItemCounterModule, I18nTestingModule],
+        imports: [
+          AddToCartModule,
+          ItemCounterModule,
+          I18nTestingModule,
+          RouterTestingModule,
+        ],
         declarations: [ProductSummaryComponent, OutletDirective],
         providers: [
           {

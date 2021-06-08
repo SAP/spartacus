@@ -131,7 +131,7 @@ describe('PaymentTypeService', () => {
     expect(selected).toEqual('ACCOUNT');
   });
 
-  it('should be able to set the seleced filed if cart has payment type', () => {
+  it('should be able to set the selected field if cart has payment type', () => {
     service.getSelectedPaymentType().subscribe();
     expect(store.dispatch).toHaveBeenCalledWith(
       new CheckoutActions.SetPaymentTypeSuccess(cart)

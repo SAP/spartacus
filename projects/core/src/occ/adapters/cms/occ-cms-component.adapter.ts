@@ -62,19 +62,16 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   }
 
   protected getComponentEndPoint(id: string, pageContext: PageContext): string {
-    return this.occEndpoints.getUrl(
-      'component',
-      { id },
-      this.getContextParams(pageContext)
-    );
+    return this.occEndpoints.buildUrl('component', {
+      urlParams: { id },
+      queryParams: this.getContextParams(pageContext),
+    });
   }
 
   protected getComponentsEndpoint(requestParams: any, fields: string): string {
-    return this.occEndpoints.getUrl(
-      'components',
-      {},
-      { fields, ...requestParams }
-    );
+    return this.occEndpoints.buildUrl('components', {
+      queryParams: { fields, ...requestParams },
+    });
   }
 
   protected getPaginationParams(

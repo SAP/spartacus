@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { NgbTabsetModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   CmsConfig,
   I18nModule,
@@ -36,7 +36,7 @@ import { StoreFinderStoresCountComponent } from './store-finder-stores-count/sto
     ReactiveFormsModule,
     RouterModule,
     ListNavigationModule,
-    NgbTabsetModule,
+    NgbNavModule,
     SpinnerModule,
     UrlModule,
     StoreFinderCoreModule,
@@ -106,13 +106,6 @@ import { StoreFinderStoresCountComponent } from './store-finder-stores-count/sto
     StoreFinderListComponent,
     StoreFinderStoreDescriptionComponent,
     StoreFinderStoresCountComponent,
-    StoreFinderStoreComponent,
-  ],
-  entryComponents: [
-    StoreFinderComponent,
-    StoreFinderSearchResultComponent,
-    StoreFinderStoresCountComponent,
-    StoreFinderGridComponent,
     StoreFinderStoreComponent,
   ],
 })

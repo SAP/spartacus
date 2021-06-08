@@ -20,11 +20,30 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Saved Cart (b2b feature)", "Quick Order (b2b feature)"],
+        "enum": [
+          "Saved-Cart",
+          "Quick Order"
+        ],
         "type": "string"
       },
-      "default": ["Saved Cart (b2b feature)", "Quick Order (b2b feature)"],
-      "x-prompt": "Which Cart features would you like to setup?"
+      "default": [
+        "Saved-Cart",
+        "Quick Order"
+      ],
+      "x-prompt": {
+        "message": "Which Cart features would you like to set up?",
+        "type": "list",
+        "items": [
+          {
+            "value": "Saved-Cart",
+            "label": "Saved Cart"
+          },
+          {
+            "value": "Quick-Order",
+            "label": "Quick Order"
+          }
+        ]
+      }
     }
   },
   "required": []

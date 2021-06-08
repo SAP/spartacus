@@ -20,6 +20,8 @@ export function app() {
     ? 'index.original.html'
     : 'index';
 
+  server.set('trust proxy', 'loopback');
+
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine(
     'html',

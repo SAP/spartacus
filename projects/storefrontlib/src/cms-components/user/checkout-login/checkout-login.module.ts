@@ -28,6 +28,5 @@ import { FormErrorsModule } from '../../../shared/index';
   ],
   declarations: [CheckoutLoginComponent],
   exports: [CheckoutLoginComponent],
-  entryComponents: [CheckoutLoginComponent],
 })
 export class CheckoutLoginModule {}
