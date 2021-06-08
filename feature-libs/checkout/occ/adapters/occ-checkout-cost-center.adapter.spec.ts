@@ -71,7 +71,7 @@ describe('OccCheckoutCostCenterAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            `/users/${userId}/carts/${cartId}/costcenter?fields=DEFAULT&costCenterId=${costCenterId}`
+            `users/${userId}/carts/${cartId}/costcenter?fields=DEFAULT&costCenterId=${costCenterId}`
         );
       });
 

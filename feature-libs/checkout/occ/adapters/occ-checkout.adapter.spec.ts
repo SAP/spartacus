@@ -83,7 +83,7 @@ describe('OccCheckoutAdapter', () => {
         return (
           req.method === 'POST' &&
           req.url ===
-            `/users/${userId}/orders?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`
+            `users/${userId}/orders?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`
         );
       });
 
@@ -99,7 +99,7 @@ describe('OccCheckoutAdapter', () => {
           (req) =>
             req.method === 'POST' &&
             req.url ===
-              `/users/${userId}/orders?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`
+              `users/${userId}/orders?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`
         )
         .flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
@@ -116,7 +116,7 @@ describe('OccCheckoutAdapter', () => {
         return (
           req.method === 'GET' &&
           req.url ===
-            `/users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)`
+            `users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)`
         );
       });
 
@@ -137,7 +137,7 @@ describe('OccCheckoutAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'DELETE' &&
-          req.url === `/users/${userId}/carts/${cartId}/addresses/delivery`
+          req.url === `users/${userId}/carts/${cartId}/addresses/delivery`
         );
       });
 
@@ -156,7 +156,7 @@ describe('OccCheckoutAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'DELETE' &&
-          req.url === `/users/${userId}/carts/${cartId}/deliverymode`
+          req.url === `users/${userId}/carts/${cartId}/deliverymode`
         );
       });
 

@@ -216,7 +216,7 @@ describe('OccCheckoutPaymentAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            `/users/${userId}/carts/${cartId}/paymentdetails?paymentDetailsId=${paymentDetailsId}`
+            `users/${userId}/carts/${cartId}/paymentdetails?paymentDetailsId=${paymentDetailsId}`
         );
       });
 
@@ -237,7 +237,7 @@ describe('OccCheckoutPaymentAdapter', () => {
           return (
             req.method === 'GET' &&
             req.url ===
-              `/users/${userId}/carts/${cartId}/payment/sop/request?responseUrl=sampleUrl`
+              `users/${userId}/carts/${cartId}/payment/sop/request?responseUrl=sampleUrl`
           );
         })
         .flush(paymentProviderInfo);
@@ -254,7 +254,7 @@ describe('OccCheckoutPaymentAdapter', () => {
         .expectOne((req) => {
           return (
             req.method === 'POST' &&
-            req.url === `/users/${userId}/carts/${cartId}/payment/sop/response`
+            req.url === `users/${userId}/carts/${cartId}/payment/sop/response`
           );
         })
         .flush(mockPaymentDetails);
@@ -282,7 +282,7 @@ describe('OccCheckoutPaymentAdapter', () => {
         return (
           req.method === 'GET' &&
           req.url ===
-            `/users/${userId}/carts/${cartId}/payment/sop/request?responseUrl=sampleUrl`
+            `users/${userId}/carts/${cartId}/payment/sop/request?responseUrl=sampleUrl`
         );
       });
 
@@ -370,7 +370,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
-          req.url === `/users/${userId}/carts/${cartId}/payment/sop/response`
+          req.url === `users/${userId}/carts/${cartId}/payment/sop/response`
         );
       });
 
@@ -401,7 +401,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
-          req.url === `/users/${userId}/carts/${cartId}/payment/sop/response`
+          req.url === `users/${userId}/carts/${cartId}/payment/sop/response`
         );
       });
 
@@ -436,7 +436,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       });
 
       const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'GET' && req.url === '/cardtypes';
+        return req.method === 'GET' && req.url === 'cardtypes';
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -446,7 +446,7 @@ describe('OccCheckoutPaymentAdapter', () => {
 
     it('should use converter', () => {
       service.loadCardTypes().subscribe();
-      httpMock.expectOne('/cardtypes').flush({});
+      httpMock.expectOne('cardtypes').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(CARD_TYPE_NORMALIZER);
     });
 

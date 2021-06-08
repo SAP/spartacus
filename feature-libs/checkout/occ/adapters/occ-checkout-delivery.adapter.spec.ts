@@ -84,7 +84,7 @@ describe('OccCheckoutDeliveryAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'POST' &&
-          req.url === `/users/${userId}/carts/${cartId}/addresses/delivery`
+          req.url === `users/${userId}/carts/${cartId}/addresses/delivery`
         );
       });
 
@@ -111,7 +111,7 @@ describe('OccCheckoutDeliveryAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            `/orgUsers/${userId}/carts/${cartId}/addresses/delivery?addressId=${addressId}`
+            `orgUsers/${userId}/carts/${cartId}/addresses/delivery?addressId=${addressId}`
         );
       });
 
@@ -134,7 +134,7 @@ describe('OccCheckoutDeliveryAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
-          req.url === `/users/${userId}/carts/${cartId}/deliverymodes`
+          req.url === `users/${userId}/carts/${cartId}/deliverymodes`
         );
       });
 
@@ -156,7 +156,7 @@ describe('OccCheckoutDeliveryAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
-          req.url === `/users/${userId}/carts/${cartId}/deliverymode`
+          req.url === `users/${userId}/carts/${cartId}/deliverymode`
         );
       });
 
@@ -179,7 +179,7 @@ describe('OccCheckoutDeliveryAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            `/users/${userId}/carts/${cartId}/deliverymode?deliveryModeId=${deliveryModeId}`
+            `users/${userId}/carts/${cartId}/deliverymode?deliveryModeId=${deliveryModeId}`
         );
       });
 

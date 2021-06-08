@@ -85,7 +85,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       });
 
       const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'GET' && req.url === '/paymenttypes';
+        return req.method === 'GET' && req.url === 'paymenttypes';
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -95,7 +95,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
 
     it('should use converter', () => {
       service.loadPaymentTypes().subscribe();
-      httpMock.expectOne('/paymenttypes').flush({});
+      httpMock.expectOne('paymenttypes').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         PAYMENT_TYPE_NORMALIZER
       );
@@ -116,7 +116,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}`
+            `users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}`
         );
       });
 
@@ -141,7 +141,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         return (
           req.method === 'PUT' &&
           req.url ===
-            `/users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}&purchaseOrderNumber=${purchaseOrderNumber}`
+            `users/${userId}/carts/${cartId}/paymenttype?fields=DEFAULT&paymentType=${paymentType}&purchaseOrderNumber=${purchaseOrderNumber}`
         );
       });
 
