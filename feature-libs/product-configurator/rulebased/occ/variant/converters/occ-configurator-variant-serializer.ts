@@ -19,7 +19,7 @@ export class OccConfiguratorVariantSerializer
     };
 
     source.groups.forEach((group) =>
-      this.convertGroup(group, resultTarget.groups ?? [])
+      this.convertGroup(group, resultTarget.groups!)
     );
 
     return resultTarget;
@@ -39,12 +39,12 @@ export class OccConfiguratorVariantSerializer
     };
     if (source.attributes) {
       source.attributes.forEach((attribute) =>
-        this.convertAttribute(attribute, group.attributes ?? [])
+        this.convertAttribute(attribute, group.attributes!)
       );
     }
     if (source.subGroups) {
       source.subGroups.forEach((subGroup) =>
-        this.convertGroup(subGroup, group.subGroups ?? [])
+        this.convertGroup(subGroup, group.subGroups!)
       );
     }
 
@@ -84,7 +84,7 @@ export class OccConfiguratorVariantSerializer
       targetAttribute.domainValues = [];
       if (attribute.values) {
         attribute.values.forEach((value) => {
-          this.convertValue(value, targetAttribute.domainValues ?? []);
+          this.convertValue(value, targetAttribute.domainValues!);
         });
       }
     }

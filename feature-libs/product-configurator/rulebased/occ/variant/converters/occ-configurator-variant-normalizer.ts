@@ -31,11 +31,7 @@ export class OccConfiguratorVariantNormalizer
     };
 
     source.groups?.forEach((group) =>
-      this.convertGroup(
-        group,
-        resultTarget.groups,
-        resultTarget.flatGroups ?? []
-      )
+      this.convertGroup(group, resultTarget.groups, resultTarget.flatGroups!)
     );
 
     return resultTarget;
@@ -117,13 +113,13 @@ export class OccConfiguratorVariantNormalizer
 
     if (sourceAttribute.images) {
       sourceAttribute.images.forEach((occImage) =>
-        this.convertImage(occImage, attribute.images ?? [])
+        this.convertImage(occImage, attribute.images!)
       );
     }
 
     if (sourceAttribute.domainValues) {
       sourceAttribute.domainValues.forEach((value) =>
-        this.convertValue(value, attribute.values ?? [])
+        this.convertValue(value, attribute.values!)
       );
       this.setSelectedSingleValue(attribute);
     }
@@ -158,7 +154,7 @@ export class OccConfiguratorVariantNormalizer
 
     if (occValue.images) {
       occValue.images.forEach((occImage) =>
-        this.convertImage(occImage, value.images ?? [])
+        this.convertImage(occImage, value.images!)
       );
     }
 
