@@ -10,6 +10,7 @@
   <cx-cart-item-list
     [items]="order.entries"
     [readonly]="true"
+    [promotionLocation]="promotionLocation"
     [promotions]="getAllOrderEntryPromotions(order)"
   ></cx-cart-item-list>
 </div>

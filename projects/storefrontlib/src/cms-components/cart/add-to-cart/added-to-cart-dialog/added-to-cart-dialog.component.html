@@ -29,6 +29,7 @@
             [item]="entry"
             [compact]="true"
             [quantityControl]="getQuantityControl() | async"
+            [promotionLocation]="promotionLocation"
             [promotions]="getPromotionsForEntry(entry)"
           ></cx-cart-item>
         </div>

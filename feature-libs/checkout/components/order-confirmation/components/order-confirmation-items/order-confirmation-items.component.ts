@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import { Order, PromotionResult } from '@spartacus/core';
+import { Order, PromotionLocation, PromotionResult } from '@spartacus/core';
 import { PromotionService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 
@@ -15,8 +15,10 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
+  promotionLocation: PromotionLocation = PromotionLocation.Checkout;
   order$: Observable<Order>;
   orderPromotions$: Observable<PromotionResult[]>;
+
   constructor(
     protected checkoutService: CheckoutFacade,
     protected promotionService: PromotionService

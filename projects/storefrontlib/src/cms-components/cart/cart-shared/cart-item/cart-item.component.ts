@@ -6,7 +6,11 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry, PromotionResult } from '@spartacus/core';
+import {
+  OrderEntry,
+  PromotionLocation,
+  PromotionResult,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { CartOutlets } from '../../cart-outlets.model';
@@ -31,6 +35,8 @@ export class CartItemComponent implements OnInit, OnChanges {
   @Input() item: OrderEntry;
   @Input() readonly = false;
   @Input() quantityControl: FormControl;
+
+  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   // TODO: evaluate whether this is generic enough
   @Input() options: CartItemComponentOptions = {
@@ -62,6 +68,12 @@ export class CartItemComponent implements OnInit, OnChanges {
     }
     if (changes?.quantityControl) {
       this.cartItemContextSource.quantityControl$.next(this.quantityControl);
+    }
+    if (changes?.promotionLocation) {
+      this.cartItemContextSource.promotionLocation$.next(
+        this.promotionLocation
+      );
+      this.cartItemContextSource.location$.next(this.promotionLocation);
     }
     if (changes?.options) {
       this.cartItemContextSource.options$.next(this.options);
