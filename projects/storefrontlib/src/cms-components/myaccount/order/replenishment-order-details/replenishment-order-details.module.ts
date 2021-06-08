@@ -17,12 +17,14 @@ import {
   ReplenishmentOrderCancellationDialogModule,
   SpinnerModule,
 } from '../../../../shared/index';
+import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { OrderDetailItemsComponent } from '../order-details/order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from '../order-details/order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from '../order-details/order-details.service';
+import { OrderPromotionService } from '../order-details/order-promotion.service';
 import { OrderHistoryComponent } from '../order-history/order-history.component';
 import { defaultReplenishmentOrderCancellationLayoutConfig } from './default-replenishment-order-cancellation-layout.config';
 import { ReplenishmentOrderCancellationComponent } from './replenishment-order-cancellation/replenishment-order-cancellation.component';
@@ -60,6 +62,10 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
             {
               provide: OrderDetailsService,
               useExisting: ReplenishmentOrderDetailsService,
+            },
+            {
+              provide: PromotionService,
+              useExisting: OrderPromotionService,
             },
           ],
         },
