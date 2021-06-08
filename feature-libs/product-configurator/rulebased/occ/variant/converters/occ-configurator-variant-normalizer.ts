@@ -326,13 +326,8 @@ export class OccConfiguratorVariantNormalizer
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         const isOneValueSelected =
-          attribute.values?.find((value) => value.selected) !== undefined
-            ? true
-            : false;
-
-        if (!isOneValueSelected) {
-          attribute.incomplete = true;
-        }
+          attribute.values?.find((value) => value.selected) !== undefined;
+        attribute.incomplete = !isOneValueSelected;
         break;
       }
     }
