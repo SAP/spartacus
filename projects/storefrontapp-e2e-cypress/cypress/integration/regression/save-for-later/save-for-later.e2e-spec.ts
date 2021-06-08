@@ -1,6 +1,6 @@
 import { login } from '../../../helpers/auth-forms';
 import * as cart from '../../../helpers/cart';
-import * as cartCoupon from '../../../helpers/cart-coupon';
+import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
 import { waitForPage } from '../../../helpers/checkout-flow';
 import {
   addProductToCart,
