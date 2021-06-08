@@ -32,10 +32,12 @@ export class OccQuickOrderAdapter implements QuickOrderAdapter {
     cartId: string,
     entries: OrderEntry[]
   ): string {
-    return this.occEndpoints.getUrl('addToCart', {
-      userId,
-      cartId,
-      entries,
+    return this.occEndpoints.buildUrl('addToCart', {
+      urlParams: {
+        userId,
+        cartId,
+        entries,
+      },
     });
   }
 }
