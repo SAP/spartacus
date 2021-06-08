@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -11,6 +11,7 @@ import {
   Order,
   OrderEntry,
   PromotionLocation,
+  PromotionResult,
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
@@ -39,11 +40,14 @@ interface CartItemComponentOptions {
   optionalBtn?: any;
 }
 class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
+  getOrderPromotions(): Observable<PromotionResult[]> {
+    return of([]);
+  }
+  getProductPromotionForAllEntries(
+    _order: Order | Cart
+  ): { [key: number]: Observable<PromotionResult[]> } {
+    return {};
+  }
 }
 
 @Component({
@@ -76,7 +80,7 @@ class MockCartCouponComponent {
   userId: string;
 }
 
-describe('CartDetailsComponent', () => {
+fdescribe('CartDetailsComponent', () => {
   let component: CartDetailsComponent;
   let fixture: ComponentFixture<CartDetailsComponent>;
   let activeCartService: ActiveCartService;
