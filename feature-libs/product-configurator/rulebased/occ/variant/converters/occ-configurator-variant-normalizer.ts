@@ -183,14 +183,9 @@ export class OccConfiguratorVariantNormalizer
           '') + occImage.url,
       altText: occImage.altText,
       galleryIndex: occImage.galleryIndex,
-      type: this.convertImageType(
-        occImage.imageType ?? OccConfigurator.ImageType.PRIMARY
-      ),
-      format: this.convertImageFormatType(
-        occImage.format ?? OccConfigurator.ImageFormatType.CSTIC_IMAGE
-      ),
+      type: this.convertImageType(occImage.imageType),
+      format: this.convertImageFormatType(occImage.format),
     };
-
     images.push(image);
   }
 

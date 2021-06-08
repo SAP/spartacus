@@ -117,7 +117,7 @@ export namespace OccConfigurator {
   }
 
   export interface GroupOverview {
-    id?: string;
+    id: string;
     groupDescription?: string;
     characteristicValues?: CharacteristicOverview[];
     subGroups?: GroupOverview[];
@@ -128,8 +128,8 @@ export namespace OccConfigurator {
     value: string;
   }
   export interface Image {
-    imageType?: ImageType;
-    format?: ImageFormatType;
+    imageType: ImageType;
+    format: ImageFormatType;
     url?: string;
     altText?: string;
     galleryIndex?: number;

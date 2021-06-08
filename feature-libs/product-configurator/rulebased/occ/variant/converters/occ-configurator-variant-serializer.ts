@@ -19,7 +19,7 @@ export class OccConfiguratorVariantSerializer
     };
 
     source.groups.forEach((group) =>
-      this.convertGroup(group, resultTarget.groups)
+      this.convertGroup(group, resultTarget.groups ?? [])
     );
 
     return resultTarget;
@@ -30,19 +30,21 @@ export class OccConfiguratorVariantSerializer
       name: source.name,
       id: source.id,
       configurable: source.configurable,
-      groupType: this.convertGroupType(source.groupType),
+      groupType: this.convertGroupType(
+        source.groupType ?? Configurator.GroupType.ATTRIBUTE_GROUP
+      ),
       description: source.description,
       attributes: [],
       subGroups: [],
     };
     if (source.attributes) {
       source.attributes.forEach((attribute) =>
-        this.convertAttribute(attribute, group.attributes)
+        this.convertAttribute(attribute, group.attributes ?? [])
       );
     }
     if (source.subGroups) {
       source.subGroups.forEach((subGroup) =>
-        this.convertGroup(subGroup, group.subGroups)
+        this.convertGroup(subGroup, group.subGroups ?? [])
       );
     }
 
@@ -59,7 +61,9 @@ export class OccConfiguratorVariantSerializer
       langDepName: attribute.label,
       required: attribute.required,
       retractTriggered: attribute.retractTriggered,
-      type: this.convertCharacteristicType(attribute.uiType),
+      type: this.convertCharacteristicType(
+        attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
+      ),
     };
 
     if (
@@ -78,9 +82,11 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
       targetAttribute.domainValues = [];
-      attribute.values.forEach((value) => {
-        this.convertValue(value, targetAttribute.domainValues);
-      });
+      if (attribute.values) {
+        attribute.values.forEach((value) => {
+          this.convertValue(value, targetAttribute.domainValues ?? []);
+        });
+      }
     }
 
     occAttributes.push(targetAttribute);
@@ -146,5 +152,6 @@ export class OccConfiguratorVariantSerializer
       case Configurator.GroupType.SUB_ITEM_GROUP:
         return OccConfigurator.GroupType.INSTANCE;
     }
+    return OccConfigurator.GroupType.CSTIC_GROUP;
   }
 }

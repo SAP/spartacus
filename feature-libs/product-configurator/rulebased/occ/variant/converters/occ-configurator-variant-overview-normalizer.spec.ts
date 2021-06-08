@@ -9,6 +9,7 @@ import { OccConfiguratorVariantOverviewNormalizer } from './occ-configurator-var
 const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
 const groupDescription = 'The Group Name';
+const groupId = '1';
 const configId = '1234-4568';
 const PRODUCT_CODE = 'PRODUCT';
 const totalNumberOfIssues = 2;
@@ -26,7 +27,7 @@ const convertedOverview: Configurator.Overview = {
   productCode: PRODUCT_CODE,
   groups: [
     {
-      id: '1',
+      id: groupId,
       groupDescription: groupDescription,
 
       attributes: [
@@ -75,7 +76,7 @@ const subGroups: OccConfigurator.GroupOverview[] = [group3];
 Object.freeze(subGroups);
 
 const group1: OccConfigurator.GroupOverview = {
-  id: '1',
+  id: groupId,
   groupDescription: groupDescription,
   subGroups: [{ id: '11' }],
   characteristicValues: [
@@ -158,13 +159,13 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should cover sub groups', () => {
     const result = occConfiguratorVariantOverviewNormalizer.convert(overview);
-    expect(result.groups.length).toBe(3);
+    expect(result.groups?.length).toBe(3);
   });
 
   it('should be able to handle groups without attributes', () => {
     const group: OccConfigurator.GroupOverview = {
-      subGroups: null,
-      characteristicValues: null,
+      subGroups: undefined,
+      characteristicValues: undefined,
       id: group1.id,
     };
 
@@ -175,6 +176,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should be able to handle groups with subgroups', () => {
     const groupWithSubgroups: OccConfigurator.GroupOverview = {
+      id: groupId,
       subGroups: [group1, group3],
     };
 

@@ -40,9 +40,11 @@ export class OccConfiguratorVariantOverviewNormalizer
     source: OccConfigurator.GroupOverview
   ): Configurator.GroupOverview[] {
     const result: Configurator.GroupOverview[] = [];
-    const characteristicValues: OccConfigurator.CharacteristicOverview[] =
-      source.characteristicValues;
-    const subGroups: OccConfigurator.GroupOverview[] = source.subGroups;
+    const characteristicValues:
+      | OccConfigurator.CharacteristicOverview[]
+      | undefined = source.characteristicValues;
+    const subGroups: OccConfigurator.GroupOverview[] | undefined =
+      source.subGroups;
 
     result.push({
       id: source.id,
