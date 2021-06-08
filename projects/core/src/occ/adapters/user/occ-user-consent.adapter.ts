@@ -32,9 +32,8 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
   }
 
   loadConsent(userId: string, templateId: string): Observable<ConsentTemplate> {
-    const url = this.occEndpoints.getUrl('consentTemplate', {
-      userId,
-      consentTemplateId: templateId,
+    const url = this.occEndpoints.buildUrl('consentTemplate', {
+      urlParams: { userId, consentTemplateId: templateId },
     });
     const headers = new HttpHeaders({ 'Cache-Control': 'no-cache' });
     return this.http
