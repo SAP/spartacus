@@ -15,7 +15,7 @@ const mockSearchPage: Page = {
   slots: {},
 };
 
-const mockRoute: RouterState = {
+const mockRouteData: RouterState = {
   state: {
     params: {
       query: 'Canon',
@@ -23,7 +23,7 @@ const mockRoute: RouterState = {
   },
 } as any;
 
-const mockRoute$ = new BehaviorSubject<RouterState>(mockRoute);
+const mockRoute = new BehaviorSubject<RouterState>(mockRouteData);
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
@@ -43,7 +43,7 @@ class MockProductSearchService {
 
 class MockRoutingService {
   getRouterState() {
-    return mockRoute$.asObservable();
+    return mockRoute.asObservable();
   }
 }
 class MockBasePageMetaResolver {
@@ -77,7 +77,7 @@ describe('SearchPageMetaResolver', () => {
     resolver = TestBed.inject(SearchPageMetaResolver);
     basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
 
-    mockRoute$.next(mockRoute);
+    mockRoute.next(mockRouteData);
   });
 
   it('PageTitleService should be created', () => {
@@ -97,7 +97,7 @@ describe('SearchPageMetaResolver', () => {
   });
 
   it('should resolve title when no query is given', () => {
-    mockRoute$.next({
+    mockRoute.next({
       state: {
         params: {},
       },
