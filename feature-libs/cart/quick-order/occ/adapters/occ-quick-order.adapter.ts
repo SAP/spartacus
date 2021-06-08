@@ -11,7 +11,6 @@ import {
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { QuickOrderAdapter } from '../../core/connectors/quick-order.adapter';
-import { QuickOrderEntry } from '../../core/model/quick-order-entry.model';
 
 @Injectable()
 export class OccQuickOrderAdapter implements QuickOrderAdapter {
@@ -20,17 +19,6 @@ export class OccQuickOrderAdapter implements QuickOrderAdapter {
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
-
-  addToCart(
-    userId: string,
-    cartId: string,
-    entries: QuickOrderEntry[]
-  ): Observable<Cart[]> {
-    return this.http.post<Cart[]>(
-      this.getQuickOrderAddEndpoint(userId, cartId),
-      { orderEntries: entries }
-    );
-  }
 
   createCart(userId: string): Observable<Cart> {
     return this.http
@@ -44,22 +32,19 @@ export class OccQuickOrderAdapter implements QuickOrderAdapter {
       .pipe(this.converter.pipeable(PRODUCT_NORMALIZER));
   }
 
-  protected getQuickOrderAddEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('addToCart', {
-      userId,
-      cartId,
-    });
-  }
-
   protected getQuickOrderCartCreationEndpoint(userId: string): string {
-    return this.occEndpoints.getUrl('createCart', {
-      userId,
+    return this.occEndpoints.buildUrl('createCart', {
+      urlParams: {
+        userId,
+      },
     });
   }
 
   protected getQuickOrderSearchEndpoint(productCode: string): string {
-    return this.occEndpoints.getUrl('product', {
-      productCode,
+    return this.occEndpoints.buildUrl('product', {
+      urlParams: {
+        productCode,
+      },
     });
   }
 }

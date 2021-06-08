@@ -7,10 +7,10 @@ import {
   Product,
   UserIdService,
 } from '@spartacus/core';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import { QuickOrderAdapter } from '../connectors/quick-order.adapter';
-import { QuickOrderEntry } from '../model/quick-order-entry.model';
+// import { QuickOrderEntry } from '../model/quick-order-entry.model';
 
 @Injectable({
   providedIn: 'root',
@@ -101,34 +101,34 @@ export class QuickOrderService {
   /**
    * Add entries to active cart
    */
-  addToCart(cartCode: string, cartGuid?: string): Observable<Cart[]> {
-    return combineLatest([
-      this.userIdService.takeUserId(),
-      this.getEntries(),
-    ]).pipe(
-      switchMap(([userId, entries]) => {
-        console.log(userId, entries);
-        const newEntries: QuickOrderEntry[] = (entries || []).map(
-          (entry: OrderEntry) => {
-            return {
-              quantity: entry.quantity,
-              product: {
-                code: entry?.product?.code,
-              },
-            } as QuickOrderEntry;
-          }
-        );
+  // addToCart(cartCode: string, cartGuid?: string): Observable<Cart[]> {
+  // return combineLatest([
+  //   this.userIdService.takeUserId(),
+  //   this.getEntries(),
+  // ]).pipe(
+  //   switchMap(([userId, entries]) => {
+  //     console.log(userId, entries);
+  //     const newEntries: QuickOrderEntry[] = (entries || []).map(
+  //       (entry: OrderEntry) => {
+  //         return {
+  //           quantity: entry.quantity,
+  //           product: {
+  //             code: entry?.product?.code,
+  //           },
+  //         } as QuickOrderEntry;
+  //       }
+  //     );
 
-        const cart = userId === 'anonymous' ? cartGuid : cartCode;
+  //     const cart = userId === 'anonymous' ? cartGuid : cartCode;
 
-        return this.quickOrderAdapter.addToCart(
-          userId,
-          cart as string,
-          newEntries
-        );
-      })
-    );
-  }
+  //     return this.quickOrderAdapter.addToCart(
+  //       userId,
+  //       cart as string,
+  //       newEntries
+  //     );
+  //   })
+  // );
+  // }
 
   /**
    * Generate Order Entry from Product
