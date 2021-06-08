@@ -24,7 +24,6 @@ import { CheckoutOrchestratorComponent } from './checkout-orchestrator.component
     }),
   ],
   declarations: [CheckoutOrchestratorComponent],
-  entryComponents: [CheckoutOrchestratorComponent],
   exports: [CheckoutOrchestratorComponent],
 })
 export class CheckoutOrchestratorModule {}

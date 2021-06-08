@@ -1,0 +1,19 @@
+@import './multistep-checkout-page';
+
+// The blacklist can be used to prevent template CSS
+// being generated.
+$page-template-blacklist-multistep-checkout: () !default;
+
+// whitelisted page template selectors are processed
+// unless (some) they are blacklisted
+$page-template-whitelist-multistep-checkout: MultiStepCheckoutSummaryPageTemplate !default;
+
+@each $selector in $page-template-whitelist-multistep-checkout {
+  cx-page-layout.#{$selector} {
+    @if (
+      index($page-template-blacklist-multistep-checkout, $selector) == null
+    ) {
+      @extend %#{$selector} !optional;
+    }
+  }
+}

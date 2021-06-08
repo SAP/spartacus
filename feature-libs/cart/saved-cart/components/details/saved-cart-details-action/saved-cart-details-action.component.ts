@@ -11,7 +11,6 @@ import { Cart, GlobalMessageService, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 
 @Component({
@@ -31,9 +30,8 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
     protected savedCartService: SavedCartFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
     protected vcr: ViewContainerRef,
-    protected launchDialogService?: LaunchDialogService
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -57,28 +55,15 @@ export class SavedCartDetailsActionComponent implements OnInit, OnDestroy {
   }
 
   openDialog(cart: Cart): void {
-    // TODO(#12167): use launchDialogService only
-    if (this.launchDialogService) {
-      const dialog = this.launchDialogService.openDialog(
-        LAUNCH_CALLER.SAVED_CART,
-        this.element,
-        this.vcr,
-        { cart, layoutOption: 'delete' }
-      );
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.SAVED_CART,
+      this.element,
+      this.vcr,
+      { cart, layoutOption: 'delete' }
+    );
 
-      if (dialog) {
-        this.subscription.add(dialog.pipe(take(1)).subscribe());
-      }
-    } else {
-      const dialog = this.savedCartFormLaunchDialogService.openDialog(
-        this.element,
-        this.vcr,
-        { cart, layoutOption: 'delete' }
-      );
-
-      if (dialog) {
-        this.subscription.add(dialog.pipe(take(1)).subscribe());
-      }
+    if (dialog) {
+      this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
   }
 

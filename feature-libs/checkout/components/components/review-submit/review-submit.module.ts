@@ -40,7 +40,6 @@ import { ReviewSubmitComponent } from './review-submit.component';
     }),
   ],
   declarations: [ReviewSubmitComponent],
-  entryComponents: [ReviewSubmitComponent],
   exports: [ReviewSubmitComponent],
 })
 export class ReviewSubmitModule {}

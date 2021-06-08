@@ -31,6 +31,5 @@ import { CheckoutLoginComponent } from './checkout-login.component';
   ],
   declarations: [CheckoutLoginComponent],
   exports: [CheckoutLoginComponent],
-  entryComponents: [CheckoutLoginComponent],
 })
 export class CheckoutLoginModule {}

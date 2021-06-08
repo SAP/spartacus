@@ -10,10 +10,8 @@ $layout-components-whitelist: () !default;
 $product-components-whitelist: () !default;
 $user-components-whitelist: () !default;
 $cart-components-whitelist: () !default;
-$checkout-components-whitelist: () !default;
 $content-components-whitelist: () !default;
 $misc-components-whitelist: () !default;
-$asm-components-whitelist: () !default;
 $pwa-components-whitelist: () !default;
 $cds-components-whitelist: () !default;
 $wish-list-components-whitelist: () !default;
@@ -26,12 +24,10 @@ $selectors: mergeAll(
     $content-components-whitelist,
     $product-components-whitelist,
     $cart-components-whitelist,
-    $checkout-components-whitelist,
     $user-components-whitelist,
     $myaccount-components-whitelist,
     $pwa-components-whitelist,
     $cds-components-whitelist,
-    $asm-components-whitelist,
     $wish-list-components-whitelist
   )
 );

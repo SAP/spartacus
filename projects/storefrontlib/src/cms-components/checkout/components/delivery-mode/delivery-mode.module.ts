@@ -24,7 +24,6 @@ import { DeliveryModeComponent } from './delivery-mode.component';
     }),
   ],
   declarations: [DeliveryModeComponent],
-  entryComponents: [DeliveryModeComponent],
   exports: [DeliveryModeComponent],
 })
 export class DeliveryModeModule {}

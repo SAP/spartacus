@@ -25,7 +25,6 @@ import { CheckoutProgressMobileBottomComponent } from './checkout-progress-mobil
     }),
   ],
   declarations: [CheckoutProgressMobileBottomComponent],
-  entryComponents: [CheckoutProgressMobileBottomComponent],
   exports: [CheckoutProgressMobileBottomComponent],
 })
 export class CheckoutProgressMobileBottomModule {}
