@@ -6,19 +6,14 @@ import {
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
+import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 
-export default function (options: any): Rule {
+export default function (options: SpartacusOptions): Rule {
   return (host: Tree, context: SchematicContext) => {
-    const enablePWA = options.pwa;
-    const enableSSR = options.ssr;
     return chain([
       schematic('add-spartacus', options),
-      enablePWA && JSON.parse(options.pwa)
-        ? schematic('add-pwa', options)
-        : noop(),
-      enableSSR && JSON.parse(options.ssr)
-        ? schematic('add-ssr', options)
-        : noop(),
+      options.pwa ? schematic('add-pwa', options) : noop(),
+      options.ssr ? schematic('add-ssr', options) : noop(),
     ])(host, context);
   };
 }

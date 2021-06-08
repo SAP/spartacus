@@ -2,10 +2,34 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
+  CmsConfig,
   provideDefaultConfig,
+  provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { ORGANIZATION_ORDER_APPROVAL_FEATURE } from './feature-name';
+
+// TODO: Inline this factory when we start releasing Ivy compiled libraries
+export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
+  const config: CmsConfig = {
+    featureModules: {
+      [ORGANIZATION_ORDER_APPROVAL_FEATURE]: {
+        cmsComponents: [
+          'OrderApprovalListComponent',
+          'OrderApprovalDetailTotalsComponent',
+          'OrderApprovalDetailApprovalDetailsComponent',
+          'OrderApprovalDetailShippingComponent',
+          'OrderApprovalDetailItemsComponent',
+          'OrderApprovalDetailFormComponent',
+          'AccountOrderDetailsApprovalDetailsComponent',
+        ],
+      },
+    },
+  };
+
+  return config;
+}
 
 @NgModule({
   imports: [
@@ -19,21 +43,9 @@ import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
     ]),
   ],
   providers: [
-    provideDefaultConfig({
-      featureModules: {
-        organizationOrderApproval: {
-          cmsComponents: [
-            'OrderApprovalListComponent',
-            'OrderApprovalDetailTotalsComponent',
-            'OrderApprovalDetailApprovalDetailsComponent',
-            'OrderApprovalDetailShippingComponent',
-            'OrderApprovalDetailItemsComponent',
-            'OrderApprovalDetailFormComponent',
-            'AccountOrderDetailsApprovalDetailsComponent',
-          ],
-        },
-      },
-    }),
+    provideDefaultConfigFactory(
+      defaultOrganizationOrderApprovalComponentsConfig
+    ),
     provideDefaultConfig(<RoutingConfig>{
       routing: {
         routes: {

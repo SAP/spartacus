@@ -72,6 +72,7 @@ describe('StoreFinderService', () => {
 
   const mockStoreEntities: FindStoresState = {
     findStoresEntities: { pointOfServices: [] },
+    findStoreEntityById: {},
   };
   const storeLoading$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   const storeLoaded$: BehaviorSubject<boolean> = new BehaviorSubject(true);
@@ -209,7 +210,7 @@ describe('StoreFinderService', () => {
 
     it('should dispatch findStores action on context change', () => {
       routerParam$.next({ country: 'US' });
-      storeEntities$.next({ findStoresEntities: {} });
+      storeEntities$.next({ findStoresEntities: {}, findStoreEntityById: {} });
       expect(store.dispatch).toHaveBeenCalledWith(
         new StoreFinderActions.FindStores({
           queryText: '',
@@ -225,7 +226,7 @@ describe('StoreFinderService', () => {
 
     it('should dispatch viewStoreById action on context change', () => {
       routerParam$.next({ store: storeId });
-      storeEntities$.next({ findStoresEntities: {} });
+      storeEntities$.next({ findStoresEntities: {}, findStoreEntityById: {} });
       expect(store.dispatch).toHaveBeenCalledWith(
         new StoreFinderActions.FindStoreById({ storeId })
       );

@@ -13,9 +13,9 @@ import {
   Cart,
   RoutingService,
 } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
-import { SavedCartFormLaunchDialogService } from '../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 
 @Component({
   selector: 'cx-add-to-saved-cart',
@@ -34,8 +34,8 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartService,
     protected authService: AuthService,
     protected routingService: RoutingService,
-    protected savedCartFormLaunchDialogService: SavedCartFormLaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   ngOnInit(): void {
@@ -57,7 +57,8 @@ export class AddToSavedCartComponent implements OnInit, OnDestroy {
   }
 
   openDialog(cart: Cart) {
-    const dialog = this.savedCartFormLaunchDialogService.openDialog(
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.SAVED_CART,
       this.element,
       this.vcr,
       { cart, layoutOption: 'save' }

@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -7,15 +9,20 @@ import {
   Style,
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
-import { LibraryOptions, SpartacusOptions } from '@spartacus/schematics';
+import {
+  CLI_CART_QUICK_ORDER_FEATURE,
+  CLI_CART_SAVED_CART_FEATURE,
+  LibraryOptions as SpartacusCartOptions,
+  SpartacusOptions,
+  SPARTACUS_SCHEMATICS,
+} from '@spartacus/schematics';
 import * as path from 'path';
-import { CLI_QUICK_ORDER_FEATURE, CLI_SAVED_CART_FEATURE } from '../constants';
+import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const saveCartFeatureModulePath =
+const featureModulePath =
   'src/app/spartacus/features/cart/cart-saved-cart-feature.module.ts';
-const quickOrderFeatureModulePath =
-  'src/app/spartacus/features/cart/cart-quick-order-feature.module.ts';
+const scssFilePath = 'src/styles/spartacus/cart.scss';
 
 describe('Spartacus Cart schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -37,33 +44,32 @@ describe('Spartacus Cart schematics: ng-add', () => {
     projectRoot: '',
   };
 
-  const defaultOptions: LibraryOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [CLI_SAVED_CART_FEATURE],
-  };
-
-  const quickOrderDefaultOptions: LibraryOptions = {
-    project: 'schematics-test',
-    lazy: true,
-    features: [CLI_QUICK_ORDER_FEATURE],
-  };
-
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
 
+  const libraryNoFeaturesOptions: SpartacusCartOptions = {
+    project: 'schematics-test',
+    lazy: true,
+    features: [],
+  };
+
+  const savedCartFeatureOptions: SpartacusCartOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_CART_SAVED_CART_FEATURE],
+  };
+
+  const quickOrderFeatureOptions: SpartacusCartOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_CART_QUICK_ORDER_FEATURE],
+  };
+
   beforeEach(async () => {
     schematicRunner.registerCollection(
-      '@spartacus/schematics',
+      SPARTACUS_SCHEMATICS,
       '../../projects/schematics/src/collection.json'
-    );
-    schematicRunner.registerCollection(
-      '@spartacus/storefinder',
-      '../../feature-libs/storefinder/schematics/collection.json'
     );
 
     appTree = await schematicRunner
@@ -83,7 +89,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       .toPromise();
     appTree = await schematicRunner
       .runExternalSchematicAsync(
-        '@spartacus/schematics',
+        SPARTACUS_SCHEMATICS,
         'ng-add',
         { ...spartacusDefaultOptions, name: 'schematics-test' },
         appTree
@@ -91,56 +97,70 @@ describe('Spartacus Cart schematics: ng-add', () => {
       .toPromise();
   });
 
-  describe('when no features are selected', () => {
+  describe('Without features', () => {
     beforeEach(async () => {
       appTree = await schematicRunner
         .runSchematicAsync(
           'ng-add',
-          { ...defaultOptions, ...quickOrderDefaultOptions, features: [] },
+          { ...libraryNoFeaturesOptions, features: [] },
           appTree
         )
         .toPromise();
     });
 
-    it('should not install saved-cart', () => {
-      expect(appTree.exists(saveCartFeatureModulePath)).toBeFalsy();
+    it('should not create any of the feature modules', () => {
+      expect(appTree.exists(featureModulePath)).toBeFalsy();
     });
 
-    it('should not install quick-order', () => {
-      expect(appTree.exists(quickOrderFeatureModulePath)).toBeFalsy();
+    it('should install necessary Spartacus libraries', () => {
+      const packageJson = JSON.parse(appTree.readContent('package.json'));
+      let dependencies: Record<string, string> = {};
+      dependencies = { ...packageJson.dependencies };
+      dependencies = { ...dependencies, ...packageJson.devDependencies };
+
+      for (const toAdd in peerDependencies) {
+        // skip the SPARTACUS_SCHEMATICS, as those are added only when running by the Angular CLI, and not in the testing environment
+        if (
+          !peerDependencies.hasOwnProperty(toAdd) ||
+          toAdd === SPARTACUS_SCHEMATICS
+        ) {
+          continue;
+        }
+        // TODO: after 4.0: use this test, as we'll have synced versions between lib's and root package.json
+        // const expectedVersion = (peerDependencies as Record<
+        //   string,
+        //   string
+        // >)[toAdd];
+        const expectedDependency = dependencies[toAdd];
+        expect(expectedDependency).toBeTruthy();
+        // expect(expectedDependency).toEqual(expectedVersion);
+      }
     });
   });
 
   describe('Saved Cart feature', () => {
-    describe('styling', () => {
+    describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
+          .runSchematicAsync('ng-add', savedCartFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should add style import to /src/styles/spartacus/cart.scss', async () => {
-        const content = appTree.readContent('/src/styles/spartacus/cart.scss');
-        expect(content).toEqual(`@import "@spartacus/cart";`);
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
 
-      it('should update angular.json with spartacus/cart.scss', async () => {
-        const content = appTree.readContent('/angular.json');
-        const angularJson = JSON.parse(content);
-        const buildStyles: string[] =
-          angularJson.projects['schematics-test'].architect.build.options
-            .styles;
-        expect(buildStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/cart.scss',
-        ]);
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
 
-        const testStyles: string[] =
-          angularJson.projects['schematics-test'].architect.test.options.styles;
-        expect(testStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/cart.scss',
-        ]);
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
       });
     });
 
@@ -149,108 +169,42 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...defaultOptions, lazy: false },
+            { ...savedCartFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
       });
 
       it('should import appropriate modules', async () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).toContain(
-          `import { SavedCartRootModule } from "@spartacus/cart/saved-cart/root";`
-        );
-        expect(appModule).toContain(
-          `import { SavedCartModule } from "@spartacus/cart/saved-cart";`
-        );
-      });
-
-      it('should not contain lazy loading syntax', async () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).not.toContain(
-          `import('@spartacus/cart/saved-cart').then(`
-        );
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import SavedCartRootModule and contain the lazy loading syntax', async () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).toContain(
-          `import { SavedCartRootModule } from "@spartacus/cart/saved-cart/root";`
-        );
-        expect(appModule).toContain(
-          `import('@spartacus/cart/saved-cart').then(`
-        );
-      });
-
-      it('should not contain the SavedCartModule import', () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).not.toContain(
-          `import { SavedCartModule } from "@spartacus/cart/saved-cart";`
-        );
-      });
-    });
-
-    describe('i18n', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', defaultOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import the i18n resource and chunk from assets', async () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).toContain(
-          `import { savedCartTranslationChunksConfig, savedCartTranslations } from "@spartacus/cart/saved-cart/assets";`
-        );
-      });
-      it('should provideConfig', async () => {
-        const appModule = appTree.readContent(saveCartFeatureModulePath);
-        expect(appModule).toContain(`resources: savedCartTranslations,`);
-        expect(appModule).toContain(
-          `chunks: savedCartTranslationChunksConfig,`
-        );
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
   });
 
   describe('Quick Order feature', () => {
-    describe('styling', () => {
+    describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', quickOrderDefaultOptions, appTree)
+          .runSchematicAsync('ng-add', quickOrderFeatureOptions, appTree)
           .toPromise();
       });
 
-      it('should add style import to /src/styles/spartacus/cart.scss', async () => {
-        const content = appTree.readContent('/src/styles/spartacus/cart.scss');
-        expect(content).toEqual(`@import "@spartacus/cart";`);
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
 
-      it('should update angular.json with spartacus/cart.scss', async () => {
-        const content = appTree.readContent('/angular.json');
-        const angularJson = JSON.parse(content);
-        const buildStyles: string[] =
-          angularJson.projects['schematics-test'].architect.build.options
-            .styles;
-        expect(buildStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/cart.scss',
-        ]);
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
 
-        const testStyles: string[] =
-          angularJson.projects['schematics-test'].architect.test.options.styles;
-        expect(testStyles).toEqual([
-          'src/styles.scss',
-          'src/styles/spartacus/cart.scss',
-        ]);
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
       });
     });
 
@@ -259,74 +213,15 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...quickOrderDefaultOptions, lazy: false },
+            { ...quickOrderFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
       });
 
       it('should import appropriate modules', async () => {
-        const appModule = appTree.readContent(quickOrderFeatureModulePath);
-        expect(appModule).toContain(
-          `import { QuickOrderRootModule } from "@spartacus/cart/quick-order/root";`
-        );
-        expect(appModule).toContain(
-          `import { QuickOrderModule } from "@spartacus/cart/quick-order";`
-        );
-      });
-
-      it('should not contain lazy loading syntax', async () => {
-        const appModule = appTree.readContent(quickOrderFeatureModulePath);
-        expect(appModule).not.toContain(
-          `import('@spartacus/cart/quick-order').then(`
-        );
-      });
-    });
-
-    describe('lazy loading', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', quickOrderDefaultOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import QuickOrderRootModule and contain the lazy loading syntax', async () => {
-        const appModule = appTree.readContent(quickOrderFeatureModulePath);
-        expect(appModule).toContain(
-          `import { QuickOrderRootModule } from "@spartacus/cart/quick-order/root";`
-        );
-        expect(appModule).toContain(
-          `import('@spartacus/cart/quick-order').then(`
-        );
-      });
-
-      it('should not contain the QuickOrderModule import', () => {
-        const appModule = appTree.readContent(quickOrderFeatureModulePath);
-        expect(appModule).not.toContain(
-          `import { QuickOrderModule } from "@spartacus/cart/quick-order";`
-        );
-      });
-    });
-
-    describe('i18n', () => {
-      beforeEach(async () => {
-        appTree = await schematicRunner
-          .runSchematicAsync('ng-add', quickOrderDefaultOptions, appTree)
-          .toPromise();
-      });
-
-      it('should import the i18n resource and chunk from assets', async () => {
-        const appModule = appTree.readContent(quickOrderFeatureModulePath);
-        expect(appModule).toContain(
-          `import { quickOrderTranslationChunksConfig, quickOrderTranslations } from "@spartacus/cart/quick-order/assets";`
-        );
-      });
-      it('should provideConfig', async () => {
-        const appModule = appTree.readContent(quickOrderFeatureModulePath);
-        expect(appModule).toContain(`resources: quickOrderTranslations,`);
-        expect(appModule).toContain(
-          `chunks: quickOrderTranslationChunksConfig,`
-        );
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
   });

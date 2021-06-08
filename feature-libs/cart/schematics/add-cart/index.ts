@@ -7,55 +7,61 @@ import {
 } from '@angular-devkit/schematics';
 import {
   addLibraryFeature,
-  LibraryOptions,
+  addPackageJsonDependenciesForLibrary,
+  CLI_CART_QUICK_ORDER_FEATURE,
+  CLI_CART_SAVED_CART_FEATURE,
+  LibraryOptions as SpartacusCartOptions,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CART,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
+import { peerDependencies } from '../../package.json';
 import {
   CART_FOLDER_NAME,
-  CART_SAVED_CART_FEATURE_NAME,
-  CLI_QUICK_ORDER_FEATURE,
-  CLI_SAVED_CART_FEATURE,
-  QUICK_ORDER_FEATURE_NAME,
+  CART_QUICK_ORDER_MODULE_NAME,
+  CART_SAVED_CART_FEATURE_NAME_CONSTANT,
+  CART_SAVED_CART_MODULE_NAME,
   QUICK_ORDER_MODULE,
   QUICK_ORDER_ROOT_MODULE,
-  QUICK_ORDER_TRANSLATION_CHUNKS_CONFIG,
   QUICK_ORDER_TRANSLATIONS,
+  QUICK_ORDER_TRANSLATION_CHUNKS_CONFIG,
   SAVED_CART_MODULE,
   SAVED_CART_ROOT_MODULE,
-  SAVED_CART_TRANSLATION_CHUNKS_CONFIG,
   SAVED_CART_TRANSLATIONS,
+  SAVED_CART_TRANSLATION_CHUNKS_CONFIG,
   SCSS_FILE_NAME,
+  SPARTACUS_QUICK_ORDER,
   SPARTACUS_QUICK_ORDER_ASSETS,
   SPARTACUS_QUICK_ORDER_ROOT,
-  SPARTACUS_QUICK_ORDER,
+  SPARTACUS_SAVED_CART,
   SPARTACUS_SAVED_CART_ASSETS,
   SPARTACUS_SAVED_CART_ROOT,
-  SPARTACUS_SAVED_CART,
 } from '../constants';
 
-export function addCartFeatures(options: LibraryOptions): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+export function addCartFeatures(options: SpartacusCartOptions): Rule {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      shouldAddFeature(CLI_SAVED_CART_FEATURE, options.features)
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+
+      shouldAddFeature(CLI_CART_SAVED_CART_FEATURE, options.features)
         ? addSavedCartFeature(options)
         : noop(),
-      shouldAddFeature(CLI_QUICK_ORDER_FEATURE, options.features)
+
+      shouldAddFeature(CLI_CART_QUICK_ORDER_FEATURE, options.features)
         ? addQuickOrderFeature(options)
         : noop(),
     ]);
   };
 }
 
-function addSavedCartFeature(options: LibraryOptions): Rule {
+function addSavedCartFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CART_FOLDER_NAME,
-    name: CART_SAVED_CART_FEATURE_NAME,
+    moduleName: CART_SAVED_CART_MODULE_NAME,
     featureModule: {
       name: SAVED_CART_MODULE,
       importPath: SPARTACUS_SAVED_CART,
@@ -63,6 +69,10 @@ function addSavedCartFeature(options: LibraryOptions): Rule {
     rootModule: {
       name: SAVED_CART_ROOT_MODULE,
       importPath: SPARTACUS_SAVED_CART_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_SAVED_CART_ROOT,
+      namedImports: [CART_SAVED_CART_FEATURE_NAME_CONSTANT],
     },
     i18n: {
       resources: SAVED_CART_TRANSLATIONS,
@@ -76,10 +86,10 @@ function addSavedCartFeature(options: LibraryOptions): Rule {
   });
 }
 
-function addQuickOrderFeature(options: LibraryOptions): Rule {
+function addQuickOrderFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CART_FOLDER_NAME,
-    name: QUICK_ORDER_FEATURE_NAME,
+    moduleName: CART_QUICK_ORDER_MODULE_NAME,
     featureModule: {
       name: QUICK_ORDER_MODULE,
       importPath: SPARTACUS_QUICK_ORDER,
@@ -88,6 +98,7 @@ function addQuickOrderFeature(options: LibraryOptions): Rule {
       name: QUICK_ORDER_ROOT_MODULE,
       importPath: SPARTACUS_QUICK_ORDER_ROOT,
     },
+
     i18n: {
       resources: QUICK_ORDER_TRANSLATIONS,
       chunks: QUICK_ORDER_TRANSLATION_CHUNKS_CONFIG,

@@ -6,7 +6,11 @@ import { TestBed } from '@angular/core/testing';
 import { CART_MODIFICATION_NORMALIZER } from '@spartacus/core';
 import { Cart, CartModification } from '../../../model/cart.model';
 import { ConverterService } from '../../../util/converter.service';
-import { OccEndpointsService } from '../../services';
+import {
+  BaseOccUrlProperties,
+  DynamicAttributes,
+  OccEndpointsService,
+} from '../../services';
 import { OccCartEntryAdapter } from './occ-cart-entry.adapter';
 
 const userId = '123';
@@ -20,7 +24,11 @@ const cartModified: CartModification = {
 };
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
   getEndpoint(url: string) {
@@ -49,7 +57,7 @@ describe('OccCartEntryAdapter', () => {
     occEnpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converterService, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -66,18 +74,21 @@ describe('OccCartEntryAdapter', () => {
       const mockReq = httpMock.expectOne({ method: 'POST', url: 'addEntries' });
 
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/x-www-form-urlencoded'
+        'application/json'
       );
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
-        'addEntries',
-        {
+      expect(mockReq.request.body).toEqual({
+        product: { code: '147852' },
+        quantity: 5,
+      });
+
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('addEntries', {
+        urlParams: {
           userId,
           cartId,
           quantity: 5,
         },
-        { code: '147852', qty: 5 }
-      );
+      });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
@@ -90,7 +101,7 @@ describe('OccCartEntryAdapter', () => {
   });
 
   describe('update entry in a cart', () => {
-    it('should update an entry in a cart for given user id, cart id, entryNumber and quantitiy', () => {
+    it('should update an entry in a cart for given user id, cart id, entryNumber and quantity', () => {
       let result;
       occCartEntryAdapter
         .update(userId, cartId, '12345', 5)
@@ -102,18 +113,22 @@ describe('OccCartEntryAdapter', () => {
       });
 
       expect(mockReq.request.headers.get('Content-Type')).toEqual(
-        'application/x-www-form-urlencoded'
+        'application/json'
       );
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(mockReq.request.body).toEqual({ quantity: 5 });
+
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'updateEntries',
         {
-          userId,
-          cartId,
-          entryNumber: '12345',
-        },
-        { qty: 5 }
+          urlParams: {
+            userId,
+            cartId,
+            entryNumber: '12345',
+          },
+        }
       );
+
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartModified);
@@ -131,19 +146,25 @@ describe('OccCartEntryAdapter', () => {
         .subscribe()
         .unsubscribe();
 
-      httpMock.expectOne({
+      const mockReq = httpMock.expectOne({
         method: 'PATCH',
         url: 'updateEntries',
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(mockReq.request.body).toEqual({
+        quantity: 5,
+        deliveryPointOfService: { name: pickupStore },
+      });
+
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'updateEntries',
         {
-          userId,
-          cartId,
-          entryNumber: '12345',
-        },
-        { qty: 5, pickupStore }
+          urlParams: {
+            userId,
+            cartId,
+            entryNumber: '12345',
+          },
+        }
       );
     });
   });
@@ -160,11 +181,16 @@ describe('OccCartEntryAdapter', () => {
         url: 'removeEntries',
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('removeEntries', {
-        userId,
-        cartId,
-        entryNumber: '147852',
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'removeEntries',
+        {
+          urlParams: {
+            userId,
+            cartId,
+            entryNumber: '147852',
+          },
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);

@@ -22,10 +22,8 @@ import {
 import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
 import { defaultScrollConfig } from '../config/default-scroll-config';
-import { ProductVariantsModule } from '../product-variants/product-variants.module';
 import { ProductListComponent } from './container/product-list.component';
 import { ProductScrollComponent } from './container/product-scroll/product-scroll.component';
-import { ProductFacetNavigationComponent } from './product-facet-navigation/product-facet-navigation.component';
 import { ProductGridItemComponent } from './product-grid-item/product-grid-item.component';
 import { ProductListItemComponent } from './product-list-item/product-list-item.component';
 import { ProductViewComponent } from './product-view/product-view.component';
@@ -45,7 +43,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
     SpinnerModule,
     InfiniteScrollModule,
     ViewConfigModule,
-    ProductVariantsModule,
     FeaturesConfigModule,
     OutletModule,
   ],
@@ -79,6 +76,5 @@ import { ProductViewComponent } from './product-view/product-view.component';
     ProductViewComponent,
     ProductScrollComponent,
   ],
-  entryComponents: [ProductListComponent, ProductFacetNavigationComponent],
 })
 export class ProductListModule {}

@@ -1,35 +1,32 @@
-import { Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
 import { MULTI_CART_DATA, StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { CONFIGURATOR_DATA } from '../configurator-state';
 import * as ConfiguratorActions from './configurator-cart.action';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIG_ID = '15468-5464-9852-54682';
+const OWNER_KEY = 'product/' + PRODUCT_CODE;
+const CART_ID = '00000001';
+const ENTRY_NUMBER = '0';
+const USER_ID = 'user';
+const OWNER: CommonConfigurator.Owner = {
+  id: PRODUCT_CODE,
+  type: CommonConfigurator.OwnerType.PRODUCT,
+  key: OWNER_KEY,
+  configuratorType: ConfiguratorType.VARIANT,
+};
 
 const CONFIGURATION: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER),
   productCode: PRODUCT_CODE,
-  configId: CONFIG_ID,
-  owner: { id: PRODUCT_CODE, type: CommonConfigurator.OwnerType.PRODUCT },
 };
 
 describe('ConfiguratorCartActions', () => {
-  let configuratorUtils: CommonConfiguratorUtilsService;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({}).compileComponents();
-      configuratorUtils = TestBed.inject(
-        CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-      );
-      configuratorUtils.setOwnerKey(CONFIGURATION.owner);
-    })
-  );
-
   describe('SetNextOwnerCartEntry', () => {
     const cartEntryNo = '3';
     it('should carry expected meta data', () => {
@@ -41,10 +38,7 @@ describe('ConfiguratorCartActions', () => {
       expect({ ...action }).toEqual({
         type: ConfiguratorActions.SET_NEXT_OWNER_CART_ENTRY,
         payload: { configuration: CONFIGURATION, cartEntryNo: cartEntryNo },
-        meta: StateUtils.entitySuccessMeta(
-          CONFIGURATOR_DATA,
-          CONFIGURATION.owner.key
-        ),
+        meta: StateUtils.entitySuccessMeta(CONFIGURATOR_DATA, OWNER_KEY),
       });
     });
   });
@@ -52,6 +46,9 @@ describe('ConfiguratorCartActions', () => {
   describe('UpdateCartEntry', () => {
     const params: Configurator.UpdateConfigurationForCartEntryParameters = {
       configuration: CONFIGURATION,
+      cartId: CART_ID,
+      userId: USER_ID,
+      cartEntryNumber: ENTRY_NUMBER,
     };
     it('should carry expected meta data', () => {
       const action = new ConfiguratorActions.UpdateCartEntry(params);
@@ -60,10 +57,7 @@ describe('ConfiguratorCartActions', () => {
         type: ConfiguratorActions.UPDATE_CART_ENTRY,
         payload: params,
 
-        meta: StateUtils.entityProcessesIncrementMeta(
-          MULTI_CART_DATA,
-          params.cartId
-        ),
+        meta: StateUtils.entityProcessesIncrementMeta(MULTI_CART_DATA, CART_ID),
       });
     });
   });
@@ -75,7 +69,7 @@ describe('ConfiguratorCartActions', () => {
       productCode: PRODUCT_CODE,
       quantity: 1,
       configId: CONFIGURATION.configId,
-      owner: CONFIGURATION.owner,
+      owner: OWNER,
     };
     it('should carry expected meta data', () => {
       const action = new ConfiguratorActions.AddToCart(params);

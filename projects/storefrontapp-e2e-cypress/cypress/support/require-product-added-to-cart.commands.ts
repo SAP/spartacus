@@ -41,6 +41,27 @@ Cypress.Commands.add(
     }
 
     function addToCart(cartCode: any, productData: any) {
+      // B2B add to cart
+      if (Cypress.env('OCC_PREFIX_USER_ENDPOINT') !== 'users') {
+        return cy.request({
+          method: 'POST',
+          url: `${Cypress.env('API_URL')}/${Cypress.env(
+            'OCC_PREFIX'
+          )}/${Cypress.env('BASE_SITE')}/${Cypress.env(
+            'OCC_PREFIX_USER_ENDPOINT'
+          )}/current/carts/${cartCode}/entries`,
+          body: {
+            code: productData.code,
+            qty: 1,
+          },
+          form: true,
+          headers: {
+            Authorization: `bearer ${auth.access_token}`,
+          },
+        });
+      }
+
+      // B2C add to cart
       return cy.request({
         method: 'POST',
         url: `${Cypress.env('API_URL')}/${Cypress.env(
@@ -49,10 +70,11 @@ Cypress.Commands.add(
           'OCC_PREFIX_USER_ENDPOINT'
         )}/current/carts/${cartCode}/entries`,
         body: {
-          code: productData.code,
+          product: {
+            code: productData.code,
+          },
           qty: 1,
         },
-        form: true,
         headers: {
           Authorization: `bearer ${auth.access_token}`,
         },

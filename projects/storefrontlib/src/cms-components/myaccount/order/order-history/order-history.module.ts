@@ -45,6 +45,5 @@ import { OrderHistoryComponent } from './order-history.component';
       },
     }),
   ],
-  entryComponents: [OrderHistoryComponent],
 })
 export class OrderHistoryModule {}

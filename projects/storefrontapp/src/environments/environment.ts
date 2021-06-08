@@ -22,4 +22,5 @@ export const environment: Environment = {
   // b2b: buildProcess.env.CX_B2B ?? false,
   b2b: true,
   cdc: buildProcess.env.CX_CDC ?? false,
+  cpq: buildProcess.env.CX_CPQ ?? false,
 };

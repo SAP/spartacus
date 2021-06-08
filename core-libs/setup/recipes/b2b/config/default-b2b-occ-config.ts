@@ -5,6 +5,8 @@ export const defaultB2bOccConfig: OccConfig = {
     occ: {
       endpoints: {
         user: 'orgUsers/${userId}',
+        userUpdateProfile: 'users/${userId}',
+        userCloseAccount: 'users/${userId}',
         addEntries:
           'orgUsers/${userId}/carts/${cartId}/entries?quantity=${quantity}',
         setDeliveryAddress:
