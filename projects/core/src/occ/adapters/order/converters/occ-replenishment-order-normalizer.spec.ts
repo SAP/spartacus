@@ -1,5 +1,7 @@
-import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ConverterService, Product, PRODUCT_NORMALIZER } from '@spartacus/core';
+import { waitForAsync, TestBed } from '@angular/core/testing';
+import { Product } from '../../../../model/product.model';
+import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
+import { ConverterService } from '../../../../util/converter.service';
 import { OccReplenishmentOrderNormalizer } from './occ-replenishment-order-normalizer';
 
 class MockConverterService {
