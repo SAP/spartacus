@@ -52,6 +52,7 @@
             order?.unconsignedEntries ? order.unconsignedEntries : order.entries
           "
           [readonly]="true"
+          [promotionLocation]="promotionLocation"
           [promotions]="getAllOrderEntryPromotions(order)"
         ></cx-cart-item-list>
       </div>
