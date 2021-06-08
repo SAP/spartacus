@@ -1,7 +1,8 @@
 declare namespace Cypress {
   interface Chainable {
     /**
-       * Select user menu option
+       * Selects an option from the user menu (top navigation)
+       * This command is Viewport aware (desktop and mobile)
        *
        * @memberof Cypress.Chainable
        *

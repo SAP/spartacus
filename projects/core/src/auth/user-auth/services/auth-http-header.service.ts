@@ -51,7 +51,7 @@ export class AuthHttpHeaderService {
   }
 
   protected isOccUrl(url: string): boolean {
-    return url.includes(this.occEndpoints.getBaseEndpoint());
+    return url.includes(this.occEndpoints.getBaseUrl());
   }
 
   protected getAuthorizationHeader(request: HttpRequest<any>): string {
@@ -59,7 +59,7 @@ export class AuthHttpHeaderService {
     return rawValue;
   }
 
-  protected createAuthorizationHeader(): { Authorization?: string } {
+  protected createAuthorizationHeader(): { Authorization: string } | {} {
     let token;
     this.authStorageService
       .getToken()

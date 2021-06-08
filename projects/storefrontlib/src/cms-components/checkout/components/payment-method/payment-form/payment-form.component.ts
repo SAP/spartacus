@@ -24,13 +24,13 @@ import {
 } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { Card } from '../../../../../shared/components/card/card.component'; // tslint:disable-line
+import { Card } from '../../../../../shared/components/card/card.component'; // eslint-disable-line
 import {
   ModalRef,
   ModalService,
 } from '../../../../../shared/components/modal/index';
 import { ICON_TYPE } from '../../../../misc/icon/index';
-import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // tslint:disable-line
+import { SuggestedAddressDialogComponent } from '../../shipping-address/address-form/suggested-addresses-dialog/suggested-addresses-dialog.component'; // eslint-disable-line
 
 @Component({
   selector: 'cx-payment-form',

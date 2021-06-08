@@ -10,9 +10,9 @@ export interface LoadingScopeConfig {
 }
 
 export interface LoadingScopesConfig {
-  [scope: string]: LoadingScopeConfig;
+  [scope: string]: LoadingScopeConfig | undefined;
 }
 
 export interface LoadingScopes {
-  [model: string]: LoadingScopesConfig;
+  [model: string]: LoadingScopesConfig | undefined;
 }

@@ -95,6 +95,17 @@ class MockGlobalMessageService {
   remove() {}
 }
 
+const MockBadGuestDuplicateEmailResponse = {
+  error: {
+    errors: [
+      {
+        message: 'test@sap.com',
+        type: 'DuplicateUidError',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
 describe('BadRequestHandler', () => {
   let service: BadRequestHandler;
   let globalMessageService: GlobalMessageService;
@@ -184,5 +195,19 @@ describe('BadRequestHandler', () => {
   it('should not handle bad cart error for selective cart', () => {
     service.handleError(MockRequest, MockBadCartResponseForSelectiveCart);
     expect(globalMessageService.add).not.toHaveBeenCalled();
+  });
+
+  it('should handle duplication of a registered email for guest checkout', () => {
+    service.handleError(MockRequest, MockBadGuestDuplicateEmailResponse);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      {
+        key: 'httpHandlers.badRequestGuestDuplicateEmail',
+        params: {
+          errorMessage:
+            MockBadGuestDuplicateEmailResponse.error.errors[0].message,
+        },
+      },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   });
 });

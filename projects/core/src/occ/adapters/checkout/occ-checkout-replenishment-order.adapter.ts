@@ -1,11 +1,11 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CheckoutReplenishmentOrderAdapter } from '../../../checkout/connectors/replenishment-order/checkout-replenishment-order.adapter';
 import {
-  CheckoutReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
   REPLENISHMENT_ORDER_NORMALIZER,
-} from '../../../checkout/index';
+} from '../../../checkout/connectors/replenishment-order/converters';
 import {
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
@@ -41,8 +41,8 @@ export class OccCheckoutReplenishmentOrderAdapter
 
     return this.http
       .post(
-        this.occEndpoints.getUrl('scheduleReplenishmentOrder', {
-          userId,
+        this.occEndpoints.buildUrl('scheduleReplenishmentOrder', {
+          urlParams: { userId },
         }),
         scheduleReplenishmentForm,
         { headers, params }

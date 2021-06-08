@@ -1,4 +1,10 @@
-import { AfterViewInit, Directive, ElementRef } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  ElementRef,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { EscapeFocusDirective } from '../escape/escape-focus.directive';
 import { AutoFocusConfig } from '../keyboard-focus.model';
 import { AutoFocusService } from './auto-focus.service';
@@ -22,11 +28,13 @@ import { AutoFocusService } from './auto-focus.service';
  *
  * `<div [cxAutoFocus]="{autofocus: ':host'}">[...]</div>`
  *
+ * When your element is added dynamically (ie. by using an *ngIf or after a DOM change), the
+ * focus can be refreshed by using the refreshFocus configuration.
  */
 @Directive() // selector: '[cxAutoFocus]'
 export class AutoFocusDirective
   extends EscapeFocusDirective
-  implements AfterViewInit {
+  implements AfterViewInit, OnChanges {
   /** The AutoFocusDirective will be using autofocus by default  */
   protected defaultConfig: AutoFocusConfig = { autofocus: true };
 
@@ -50,6 +58,18 @@ export class AutoFocusDirective
     if (!this.shouldAutofocus || this.hasPersistedFocus) {
       super.ngAfterViewInit();
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    // responsible for refresh focus based on the configured refresh property name
+    if (!!(changes.config.currentValue as AutoFocusConfig)?.refreshFocus) {
+      // ensure the autofocus when it's to provided initially
+      if (!this.config.autofocus) {
+        this.config.autofocus = true;
+      }
+      this.handleFocus();
+    }
+    super.ngOnChanges(changes);
   }
 
   /**
@@ -85,7 +105,7 @@ export class AutoFocusDirective
   /**
    * Helper function to get the first focusable child element.
    *
-   * We keep this private to not polute the API.
+   * We keep this private to not pollute the API.
    */
   private get firstFocusable(): HTMLElement {
     return this.service.findFirstFocusable(this.host, this.config);

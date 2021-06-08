@@ -22,9 +22,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
     comment: [''],
   });
 
-  protected orderApprovalLoading$: Observable<
-    boolean
-  > = this.orderApprovalDetailService
+  protected orderApprovalLoading$: Observable<boolean> = this.orderApprovalDetailService
     .getOrderApprovalCodeFromRoute()
     .pipe(
       switchMap((approvalCode: string) =>
@@ -44,9 +42,7 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
     )
   );
 
-  orderApproval$: Observable<
-    OrderApproval
-  > = this.orderApprovalDetailService.getOrderApproval();
+  orderApproval$: Observable<OrderApproval> = this.orderApprovalDetailService.getOrderApproval();
 
   constructor(
     protected orderApprovalDetailService: OrderApprovalDetailService,

@@ -29,7 +29,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.isInfiniteScroll = this.scrollConfig.view.infiniteScroll.active;
+    this.isInfiniteScroll = this.scrollConfig.view?.infiniteScroll?.active;
 
     this.subscription.add(
       this.pageLayoutService.templateName$

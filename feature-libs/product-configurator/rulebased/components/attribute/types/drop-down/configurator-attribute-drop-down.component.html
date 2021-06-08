@@ -1,0 +1,26 @@
+<div
+  id="{{ createAttributeIdForConfigurator(attribute) }}"
+  class="form-group"
+  *ngIf="attribute.values && attribute.values.length !== 0"
+>
+  <select
+    class="form-control"
+    [formControl]="attributeDropDownForm"
+    [cxFocus]="{ key: attribute.name }"
+    (change)="onSelect()"
+  >
+    <option
+      *ngFor="let item of attribute.values"
+      [label]="item.valueDisplay"
+      [selected]="item.selected"
+      [value]="item.valueCode"
+    >
+      {{ item.valueDisplay }}
+    </option>
+  </select>
+  <cx-configurator-attribute-quantity
+    (changeQuantity)="onChangeQuantity($event, attributeDropDownForm)"
+    [quantityOptions]="extractQuantityParameters(attributeDropDownForm)"
+    *ngIf="withQuantity"
+  ></cx-configurator-attribute-quantity>
+</div>

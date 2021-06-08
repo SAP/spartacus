@@ -3,9 +3,10 @@ import {
   BASE_SITE_CONTEXT_ID,
   CURRENCY_CONTEXT_ID,
   LANGUAGE_CONTEXT_ID,
+  THEME_CONTEXT_ID,
 } from '../../site-context';
+import { JavaRegExpConverter } from '../../util/java-reg-exp-converter/java-reg-exp-converter';
 import { Occ } from '../occ-models';
-import { JavaRegExpConverter } from './java-reg-exp-converter';
 import { OccLoadedConfig } from './occ-loaded-config';
 import { OccLoadedConfigConverter } from './occ-loaded-config-converter';
 
@@ -128,6 +129,7 @@ describe(`OccLoadedConfigConverter`, () => {
             },
           ],
           urlEncodingAttributes: ['language', 'currency'],
+          theme: 'test-theme',
         },
       ];
       const currentUrl = 'testUrl';
@@ -137,6 +139,7 @@ describe(`OccLoadedConfigConverter`, () => {
         languages: ['en', 'de'],
         currencies: ['EUR', 'USD'],
         urlParameters: ['language', 'currency'],
+        theme: 'test-theme',
       });
     });
 
@@ -248,6 +251,7 @@ describe(`OccLoadedConfigConverter`, () => {
         languages: ['de', 'en', 'pl'],
         currencies: ['EUR', 'USD', 'PLN'],
         urlParameters: ['baseSite', 'language', 'currency'],
+        theme: 'test-theme',
       };
     });
 
@@ -264,6 +268,11 @@ describe(`OccLoadedConfigConverter`, () => {
     it(`should convert currencies`, () => {
       const res = converter.toSiteContextConfig(mockExternalConfig);
       expect(res.context[CURRENCY_CONTEXT_ID]).toEqual(['EUR', 'USD', 'PLN']);
+    });
+
+    it(`should convert theme`, () => {
+      const res = converter.toSiteContextConfig(mockExternalConfig);
+      expect(res.context[THEME_CONTEXT_ID]).toEqual(['test-theme']);
     });
   });
 

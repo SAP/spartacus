@@ -1,4 +1,3 @@
-// tslint:disable-next-line:no-implicit-dependencies
 import { JsonObject } from '@angular-devkit/core';
 import * as path from 'path';
 
@@ -56,11 +55,16 @@ const packageJsonPaths = [
   path.join(__dirname, '..', 'projects', 'schematics', 'package.json'),
   path.join(__dirname, '..', 'integration-libs', 'cds', 'package.json'),
   path.join(__dirname, '..', 'core-libs', 'setup', 'package.json'),
+  path.join(__dirname, '..', 'feature-libs', 'user', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'organization', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'product', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'storefinder', 'package.json'),
+  path.join(__dirname, '..', 'feature-libs', 'asm', 'package.json'),
+  path.join(__dirname, '..', 'feature-libs', 'smartedit', 'package.json'),
+  path.join(__dirname, '..', 'feature-libs', 'tracking', 'package.json'),
   path.join(__dirname, '..', 'feature-libs', 'qualtrics', 'package.json'),
   path.join(__dirname, '..', 'integration-libs', 'cdc', 'package.json'),
+  path.join(__dirname, '..', 'feature-libs', 'cart', 'package.json'),
 ];
 
 // All the supported packages. Go through the packages directory and create a map of

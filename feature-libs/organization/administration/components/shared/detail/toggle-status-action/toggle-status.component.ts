@@ -7,6 +7,7 @@ import { ConfirmationMessageComponent } from '../../message/confirmation/confirm
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
+import { DisableInfoService } from '../disable-info/disable-info.service';
 
 /**
  * Reusable component in the my-company is to toggle the disabled state for
@@ -53,7 +54,8 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
 
   constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService<ConfirmationMessageData>
+    protected messageService: MessageService<ConfirmationMessageData>,
+    protected disableInfoService: DisableInfoService<T>
   ) {}
 
   toggle(item: T) {
@@ -66,6 +68,13 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
           message: {
             key: this.i18nRoot + '.messages.deactivate',
             params: { item },
+          },
+          messageTitle: {
+            key: this.i18nRoot + '.messages.deactivateTitle',
+            params: { item },
+          },
+          confirm: {
+            key: 'organization.confirmation.disable',
           },
           component: ConfirmationMessageComponent,
         });
@@ -92,8 +101,8 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   isDisabled(item: T): boolean {
     return (
       this.disabled ??
-      !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
-        ?.active
+      (this.disableInfoService.isParentDisabled(item) ||
+        this.disableInfoService.isRootUnit(item))
     );
   }
 

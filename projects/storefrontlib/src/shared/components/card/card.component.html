@@ -26,12 +26,23 @@
           {{ content.textBold }}
         </div>
         <div *ngFor="let line of content.text">
-          <div class="cx-card-label">{{ line }}</div>
+          <div *ngIf="!truncateText; else truncate" class="cx-card-label">
+            {{ line }}
+          </div>
+
+          <ng-template #truncate>
+            <cx-truncate-text-popover
+              [charactersLimit]="charactersLimit"
+              [content]="line"
+            ></cx-truncate-text-popover>
+          </ng-template>
         </div>
         <div class="cx-card-paragraph" *ngFor="let item of content.paragraphs">
           <div class="cx-card-paragraph-title">{{ item.title }}</div>
           <div *ngFor="let text of item.text">
-            <div class="cx-card-paragraph-text">{{ text }}</div>
+            <div class="cx-card-paragraph-text">
+              {{ text }}
+            </div>
           </div>
         </div>
       </div>

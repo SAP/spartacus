@@ -28,9 +28,9 @@ const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   daysOfWeek: [DaysOfWeek.FRIDAY],
 };
 
-const mockReplenishmentOrderFormData$ = new BehaviorSubject<
-  ScheduleReplenishmentForm
->(mockReplenishmentOrderFormData);
+const mockReplenishmentOrderFormData$ = new BehaviorSubject<ScheduleReplenishmentForm>(
+  mockReplenishmentOrderFormData
+);
 
 class MockCheckoutService {
   placeOrder(): void {}

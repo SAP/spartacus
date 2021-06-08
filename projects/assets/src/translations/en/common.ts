@@ -12,6 +12,7 @@ export const common = {
     home: 'Home',
     noData: 'No data.',
     confirm: 'Confirm',
+    more: 'more',
   },
   pageMetaResolver: {
     category: {
@@ -60,6 +61,8 @@ export const common = {
     badGateway: 'A server error occurred. Please try again later.',
     badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
+    badRequestGuestDuplicateEmail:
+      '{{ errorMessage }} email already exist. Please checkout with a different email to register using a guest account.',
     conflict: 'Already exists.',
     forbidden:
       'You are not authorized to perform this action. Please contact your administrator if you think this is a mistake.',
@@ -90,11 +93,11 @@ export const common = {
         billTo_state:
           'The state/province entered is not valid for this credit card.',
         billTo_country:
-          'The country entered is not valid for this credit card.',
+          'The country/region entered is not valid for this credit card.',
         billTo_postalCode:
           'The zip/postal code is not valid for this credit card.',
         country: {
-          isocode: 'Missing country',
+          isocode: 'Missing country/region',
         },
       },
       invalid: {
@@ -116,10 +119,6 @@ export const common = {
     item_plural: '{{count}} items currently in your cart',
     total: '{{total}}',
     count: '{{count}}',
-  },
-  miniLogin: {
-    userGreeting: 'Hi, {{name}}',
-    signInRegister: 'Sign In / Register',
   },
   skipLink: {
     skipTo: 'Skip to',

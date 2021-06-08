@@ -1,0 +1,48 @@
+cx-product-variants-container {
+  .variant-section {
+    @include media-breakpoint-up(lg) {
+      padding-top: 20px;
+      padding-inline-end: 20px;
+      padding-bottom: 0px;
+      padding-inline-start: 20px;
+    }
+  }
+  .variant-selector {
+    a.size-guide {
+      display: flex;
+      justify-content: flex-end;
+      pointer-events: none;
+    }
+    .style-name {
+      text-transform: capitalize;
+    }
+  }
+  .variant-list {
+    padding: 0;
+
+    li {
+      display: inline-block;
+
+      .variant-button {
+        @include button-reset();
+
+        &:focus {
+          @include visible-focus();
+        }
+
+        img {
+          margin: 3px;
+          border: 1px solid #ddd;
+        }
+      }
+
+      &.selected-variant {
+        button {
+          img {
+            border: 2px solid var(--cx-color-primary);
+          }
+        }
+      }
+    }
+  }
+}

@@ -43,6 +43,9 @@ export function cartEntitiesReducer(
   action: LoaderAction
 ): Cart {
   switch (action.type) {
+    case CartActions.LOAD_CARTS_SUCCESS:
+      return action.payload;
+
     case CartActions.LOAD_CART_SUCCESS:
     case CartActions.CREATE_CART_SUCCESS:
     case CartActions.CREATE_WISH_LIST_SUCCESS:

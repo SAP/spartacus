@@ -7,6 +7,17 @@
             {{
               viewType + '.header' | cxTranslate: { count: getListCount(data) }
             }}
+            <button
+              [cxPopover]="listHint"
+              [cxPopoverOptions]="{
+                placement: 'auto',
+                class: 'hint-popover',
+                appendToBody: true,
+                displayCloseButton: false
+              }"
+            >
+              <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+            </button>
           </h3>
         </div>
 
@@ -64,5 +75,11 @@
 <ng-template #emptyList>
   <p class="instruction is-empty">
     {{ 'organization.messages.emptyList' | cxTranslate }}
+  </p>
+</ng-template>
+
+<ng-template #listHint>
+  <p>
+    {{ viewType + '.hint' | cxTranslate }}
   </p>
 </ng-template>

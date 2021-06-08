@@ -15,19 +15,32 @@ export const defaultPageMetaConfig: PageMetaConfig = {
         property: 'breadcrumbs',
         method: 'resolveBreadcrumbs',
       },
-      // @TODO (#10467) disable (`disabledInCsr`) description, image and robots resolvers to optimize resolving logic
       {
         property: 'description',
         method: 'resolveDescription',
+        disabledInCsr: true,
       },
       {
         property: 'image',
         method: 'resolveImage',
+        disabledInCsr: true,
       },
       {
         property: 'robots',
         method: 'resolveRobots',
+        disabledInCsr: true,
+      },
+      {
+        property: 'canonicalUrl',
+        method: 'resolveCanonicalUrl',
+        disabledInCsr: true,
       },
     ],
+    canonicalUrl: {
+      forceHttps: true,
+      forceWww: false,
+      removeQueryParams: true,
+      forceTrailingSlash: true,
+    },
   },
 };

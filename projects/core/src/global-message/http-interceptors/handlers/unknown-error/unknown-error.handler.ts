@@ -1,7 +1,8 @@
+import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
+import { Priority } from '../../../../util/applicable';
 import { HttpResponseStatus } from '../../../models/response-status.model';
 import { HttpErrorHandler } from '../http-error.handler';
-import { Priority } from '../../../../util/applicable';
 
 /**
  * Unknown Error Handler works as an fallback, to handle errors that were
@@ -16,13 +17,13 @@ export class UnknownErrorHandler extends HttpErrorHandler {
   /**
    * hasMatch always returns true, to mach all errors
    */
-  hasMatch(_errorResponse): boolean {
+  hasMatch(_errorResponse: HttpErrorResponse): boolean {
     return true;
   }
 
-  handleError() {
-    if (isDevMode()) {
-      console.warn(`Unknown http response error: ${this.responseStatus}`);
+  handleError(_request: HttpRequest<any>, errorResponse: HttpErrorResponse) {
+    if (isDevMode() || this.isSsr()) {
+      console.warn(`An unknown http error occurred\n`, errorResponse.message);
     }
   }
 

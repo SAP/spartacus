@@ -27,9 +27,7 @@ import { GlobalMessageSelectors } from '../selectors/index';
 @Injectable()
 export class GlobalMessageEffect {
   @Effect()
-  removeDuplicated$: Observable<
-    GlobalMessageActions.RemoveMessage
-  > = this.actions$.pipe(
+  removeDuplicated$: Observable<GlobalMessageActions.RemoveMessage> = this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     pluck('payload'),
     switchMap((message: GlobalMessage) =>
@@ -59,9 +57,9 @@ export class GlobalMessageEffect {
   );
 
   @Effect()
-  hideAfterDelay$: Observable<
-    GlobalMessageActions.RemoveMessage
-  > = isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
+  hideAfterDelay$: Observable<GlobalMessageActions.RemoveMessage> = isPlatformBrowser(
+    this.platformId
+  ) // we don't want to run this logic when doing SSR
     ? this.actions$.pipe(
         ofType(GlobalMessageActions.ADD_MESSAGE),
         pluck('payload'),

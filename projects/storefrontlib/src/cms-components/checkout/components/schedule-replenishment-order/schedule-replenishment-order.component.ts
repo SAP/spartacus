@@ -30,9 +30,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
     (key) => recurrencePeriod[key]
   );
 
-  selectedOrderType$: Observable<
-    ORDER_TYPE
-  > = this.checkoutService.getCurrentOrderType();
+  selectedOrderType$: Observable<ORDER_TYPE> = this.checkoutService.getCurrentOrderType();
 
   isMonthly: Boolean = false;
   isWeekly: Boolean = false;

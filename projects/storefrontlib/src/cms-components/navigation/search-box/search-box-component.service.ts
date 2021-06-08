@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  EventService,
   ProductSearchPage,
   RoutingService,
   SearchboxService,
@@ -8,6 +9,10 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import {
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from './search-box.events';
 import { SearchBoxConfig, SearchResults } from './search-box.model';
 
 const HAS_SEARCH_RESULT_CLASS = 'has-searchbox-results';
@@ -20,7 +25,8 @@ export class SearchBoxComponentService {
     public searchService: SearchboxService,
     protected routingService: RoutingService,
     protected translationService: TranslationService,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected eventService: EventService
   ) {}
 
   /**
@@ -99,6 +105,39 @@ export class SearchBoxComponentService {
         ? this.winRef.document.body.classList.add(className)
         : this.winRef.document.body.classList.remove(className);
     }
+  }
+
+  /**
+   * Dispatches a searchbox event for product selected
+   *
+   * @param eventData data for the "SearchBoxProductSelectedEvent"
+   */
+  dispatchProductSelectedEvent(eventData: SearchBoxProductSelectedEvent): void {
+    this.eventService.dispatch<SearchBoxProductSelectedEvent>(
+      {
+        freeText: eventData.freeText,
+        productCode: eventData.productCode,
+      },
+      SearchBoxProductSelectedEvent
+    );
+  }
+
+  /**
+   * Dispatches a searchbox event for suggestion selected
+   *
+   * @param eventData data for the "SearchBoxSuggestionSelectedEvent"
+   */
+  dispatchSuggestionSelectedEvent(
+    eventData: SearchBoxSuggestionSelectedEvent
+  ): void {
+    this.eventService.dispatch<SearchBoxSuggestionSelectedEvent>(
+      {
+        freeText: eventData.freeText,
+        selectedSuggestion: eventData.selectedSuggestion,
+        searchSuggestions: eventData.searchSuggestions,
+      },
+      SearchBoxSuggestionSelectedEvent
+    );
   }
 
   /**

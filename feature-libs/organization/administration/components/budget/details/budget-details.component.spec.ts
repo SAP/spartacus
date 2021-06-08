@@ -6,6 +6,7 @@ import { Budget } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { of, Subject } from 'rxjs';
 import {
+  DisableInfoModule,
   ItemExistsDirective,
   MessageService,
   ToggleStatusModule,
@@ -47,6 +48,7 @@ describe('BudgetDetailsComponent', () => {
         CardTestingModule,
         MessageTestingModule,
         ToggleStatusModule,
+        DisableInfoModule,
       ],
       declarations: [BudgetDetailsComponent, ItemExistsDirective],
       providers: [{ provide: ItemService, useClass: MockBudgetItemService }],

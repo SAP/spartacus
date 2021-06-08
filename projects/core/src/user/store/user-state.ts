@@ -11,10 +11,12 @@ import {
   ReturnRequest,
   ReturnRequestList,
 } from '../../model/order.model';
-import { ReplenishmentOrderList } from '../../model/replenishment-order.model';
 import { CostCenter } from '../../model/org-unit.model';
 import { ProductInterestSearchResult } from '../../model/product-interest.model';
-import { ReplenishmentOrder } from '../../model/replenishment-order.model';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderList,
+} from '../../model/replenishment-order.model';
 import { StateUtils } from '../../state/utils/index';
 
 export const USER_FEATURE = 'user';
@@ -58,6 +60,9 @@ export interface StateWithUser {
   [USER_FEATURE]: UserState;
 }
 
+/**
+ * @deprecated since 3.2, moved to the `@spartacus/user` package.
+ */
 export interface UserState {
   account: UserDetailsState;
   addresses: StateUtils.LoaderState<Address[]>;

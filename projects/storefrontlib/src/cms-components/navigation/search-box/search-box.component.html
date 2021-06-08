@@ -4,14 +4,18 @@
     [placeholder]="'searchBox.placeholder' | cxTranslate"
     aria-label="search"
     (focus)="open()"
+    (click)="open()"
     (input)="search(searchInput.value)"
     (blur)="close($event)"
     (keydown.escape)="close($event)"
     (keydown.enter)="
-      close($event, true); launchSearchResult($event, searchInput.value)
+      close($event, true);
+      launchSearchResult($event, searchInput.value);
+      updateChosenWord(searchInput.value)
     "
     (keydown.arrowup)="focusPreviousChild($event)"
     (keydown.arrowdown)="focusNextChild($event)"
+    value="{{ chosenWord }}"
   />
 
   <cx-icon
@@ -59,6 +63,15 @@
       (keydown.enter)="close($event, true)"
       (keydown.escape)="close($event, true)"
       (blur)="close($event)"
+      (mousedown)="preventDefault($event)"
+      (click)="
+        dispatchSuggestionEvent({
+          freeText: searchInput.value,
+          selectedSuggestion: suggestion,
+          searchSuggestions: result.suggestions
+        });
+        updateChosenWord(suggestion)
+      "
     >
     </a>
   </div>
@@ -78,6 +91,13 @@
       (keydown.enter)="close($event, true)"
       (keydown.escape)="close($event, true)"
       (blur)="close($event)"
+      (mousedown)="preventDefault($event)"
+      (click)="
+        dispatchProductEvent({
+          freeText: searchInput.value,
+          productCode: product.code
+        })
+      "
     >
       <cx-media
         *ngIf="config.displayProductImages"

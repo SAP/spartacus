@@ -2,6 +2,8 @@
 
 @import './layout/index';
 
+// TODO (#11607) remove LoginPageTemplate from whitelist
+
 // The $page-template-blacklist can be used to prevent template CSS
 // being generated.
 $page-template-blacklist: () !default;

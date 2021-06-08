@@ -58,4 +58,12 @@
       max-height: 48px;
     }
   }
+
+  .ng-dropdown-panel {
+    span {
+      @include media-breakpoint-down(sm) {
+        white-space: normal;
+      }
+    }
+  }
 }

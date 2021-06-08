@@ -126,7 +126,7 @@ const program = new Command();
 program
   .description('Check configuration in repository for inconsistencies')
   .option('--fix', 'Apply automatic fixes when possible')
-  .option('--breaking-changes', 'Allow breaking changes in transformations');
+  .option('--bump-versions', 'Bump deps versions to match root package.json');
 
 program.parse(process.argv);
 
@@ -142,9 +142,9 @@ export type ProgramOptions = {
    */
   fix: boolean | undefined;
   /**
-   * Sets if also breaking changes should be applied. Use for majors only.
+   * Sets if versions should be bumped. Use for majors only.
    */
-  breakingChanges: boolean | undefined;
+  bumpVersions: boolean | undefined;
 };
 
 const options: ProgramOptions = program.opts() as any;
@@ -223,7 +223,6 @@ const librariesPaths = glob.sync(
   {
     ignore: [
       `projects/storefrontapp-e2e-cypress/${PACKAGE_JSON}`,
-      `projects/dev-schematics/${PACKAGE_JSON}`,
       `projects/storefrontapp/${PACKAGE_JSON}`,
     ],
   }

@@ -1,7 +1,7 @@
 import { Input, Directive } from '@angular/core';
 import { StoreDataService } from '@spartacus/storefinder/core';
 
-// tslint:disable:directive-class-suffix
+/* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
 export class AbstractStoreItemComponent {
   @Input()

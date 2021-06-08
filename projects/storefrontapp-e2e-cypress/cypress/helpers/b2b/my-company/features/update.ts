@@ -50,8 +50,6 @@ export function updateTest(config: MyCompanyConfig) {
       cy.wait('@loadEntityData');
 
       verifyDetails(config, FormType.UPDATE);
-
-      cy.get('cx-icon[type="CLOSE"]').click();
     });
   });
 }

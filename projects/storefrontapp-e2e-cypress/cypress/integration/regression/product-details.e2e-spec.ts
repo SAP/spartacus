@@ -37,7 +37,17 @@ function configureDefaultProduct() {
       currency: ['USD'],
     },
   });
+
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?pageType=ProductPage**`
+  ).as('productPage');
+
   cy.visit('/product/266685');
+
+  cy.wait(`@productPage`);
 }
 
 function configureApparelProduct() {

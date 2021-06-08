@@ -1,0 +1,48 @@
+%cx-configurator-update-message {
+  position: absolute;
+  width: 100%;
+  z-index: 99;
+
+  div.cx-update-msg {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: fit-content;
+    top: 0;
+    @include type('6', 'semi');
+    padding-inline-start: 10px;
+    padding-inline-end: 10px;
+    padding-block-start: 10px;
+    padding-block-end: 10px;
+    background-color: mix(#ffffff, theme-color('info'), 80%);
+    position: sticky;
+
+    &.visible {
+      display: flex;
+
+      cx-spinner {
+        margin-inline-start: 10px;
+        margin-inline-end: 10px;
+
+        .loader-container {
+          block-size: 40px;
+          inline-size: 40px;
+          margin: 0 auto;
+
+          .loader {
+            block-size: 40px;
+            inline-size: 40px;
+
+            &::before {
+              block-size: 40px;
+              inline-size: 40px;
+              border-width: 5px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
