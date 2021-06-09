@@ -269,9 +269,7 @@ describe('SearchBoxComponent', () => {
       it('should clear when clicking on clear button', () => {
         searchBoxComponent.queryText = 'something';
         fixture.detectChanges();
-        const box = fixture.debugElement.query(
-          By.css('input[aria-label="search"]')
-        ).nativeElement;
+        const box = fixture.debugElement.query(By.css('input')).nativeElement;
         box.select();
         fixture.debugElement.query(By.css('.reset')).nativeElement.click();
 
@@ -338,7 +336,7 @@ describe('SearchBoxComponent', () => {
 
         // Focus should begin on searchbox input
         const inputSearchBox: HTMLElement = fixture.debugElement.query(
-          By.css('input[aria-label="search"]')
+          By.css('input')
         ).nativeElement;
         inputSearchBox.focus();
         expect(inputSearchBox).toBe(getFocusedElement());
@@ -348,7 +346,7 @@ describe('SearchBoxComponent', () => {
         searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
 
         expect(
-          fixture.debugElement.query(By.css('.results div > a:first-child'))
+          fixture.debugElement.query(By.css('.results .suggestions > li > a'))
             .nativeElement
         ).toBe(getFocusedElement());
       });
@@ -358,8 +356,9 @@ describe('SearchBoxComponent', () => {
         searchBoxComponent.focusNextChild(new UIEvent('keydown.arrowdown'));
 
         expect(
-          fixture.debugElement.query(By.css('.results div > a:nth-child(2)'))
-            .nativeElement
+          fixture.debugElement.query(
+            By.css('.results .suggestions > li:nth-child(2) > a')
+          ).nativeElement
         ).toBe(getFocusedElement());
       });
 
@@ -368,7 +367,7 @@ describe('SearchBoxComponent', () => {
 
         expect(
           fixture.debugElement.query(
-            By.css('.results div:last-child > a:last-child')
+            By.css('.results .products > li > a:last-child')
           ).nativeElement
         ).toBe(getFocusedElement());
       });
@@ -376,10 +375,11 @@ describe('SearchBoxComponent', () => {
       it('should navigate to second last child', () => {
         searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
         searchBoxComponent.focusPreviousChild(new UIEvent('keydown.arrowup'));
+        fixture.detectChanges();
 
         expect(
           fixture.debugElement.query(
-            By.css('.results div:nth-child(2) > a:last-child')
+            By.css('.results .suggestions > li:nth-child(2) > a')
           ).nativeElement
         ).toBe(getFocusedElement());
       });

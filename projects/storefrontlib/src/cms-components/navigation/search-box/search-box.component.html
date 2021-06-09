@@ -58,9 +58,8 @@
   ></div>
 
   <ul class="suggestions">
-    <li>
+    <li *ngFor="let suggestion of result.suggestions">
       <a
-        *ngFor="let suggestion of result.suggestions"
         [innerHTML]="suggestion | cxHighlight: searchInput.value"
         [routerLink]="
           {
