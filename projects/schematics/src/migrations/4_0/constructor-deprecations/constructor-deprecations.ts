@@ -13,6 +13,9 @@ import {
   ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION_V1,
   ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION_V2,
 } from './data/anonymous-consent-open-dialog.component.migration';
+import { ASM_AUTH_HTTP_HEADER_SERVICE_MIGRATION } from './data/asm-auth-http-header.service.migration';
+import { AUTH_HTTP_HEADER_SERVICE_MIGRATION } from './data/auth-http-header.service.migration';
+import { AUTH_REDIRECT_SERVICE_MIGRATION } from './data/auth-redirect.service.migration';
 import { BASE_PAGE_META_RESOLVER_MIGRATION } from './data/base-page-meta.resolver.migration';
 import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item.component.migration';
 import {
@@ -47,8 +50,8 @@ import { DELETE_ITEM_COMPONENT_MIGRATION } from './data/delete-item.component.mi
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
 import { EVENT_SERVICE_CONSTRUCTOR_DEPRECATION } from './data/event.service.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
-import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
+import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
@@ -59,6 +62,7 @@ import {
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V1,
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V2,
 } from './data/product-page-meta.resolver.migration';
+import { PROTECTED_ROUTES_SERVICE_MIGRATION } from './data/protected-routes.service.migration';
 import {
   REPLENISHMENT_ORDER_CANCELLATION_COMPONENT_MIGRATION_V1,
   REPLENISHMENT_ORDER_CANCELLATION_COMPONENT_MIGRATION_V2,
@@ -146,6 +150,10 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CMS_COMPONENTS_SERVICE_MIGRATION_1,
   CMS_COMPONENTS_SERVICE_MIGRATION_2,
   CMS_COMPONENTS_SERVICE_MIGRATION_3,
+  ASM_AUTH_HTTP_HEADER_SERVICE_MIGRATION,
+  AUTH_HTTP_HEADER_SERVICE_MIGRATION,
+  AUTH_REDIRECT_SERVICE_MIGRATION,
+  PROTECTED_ROUTES_SERVICE_MIGRATION,
   PRODUCT_LIST_ITEM_COMPONENT_MIGRATION,
   PRODUCT_GRID_ITEM_COMPONENT_MIGRATION,
   CART_ITEM_COMPONENT_MIGRATION,
