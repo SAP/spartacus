@@ -3,7 +3,7 @@
     #searchInput
     [placeholder]="'searchBox.placeholder' | cxTranslate"
     autocomplete="off"
-    attr.aria-label="{{ 'searchBox.ariaLabel' | cxTranslate }}"
+    attr.aria-label="{{ 'searchBox.ariaLabelInput' | cxTranslate }}"
     aria-describedby="initialDescription"
     aria-owns="results"
     aria-expanded="false"
@@ -57,7 +57,11 @@
     [innerHTML]="result.message"
   ></div>
 
-  <ul class="suggestions">
+  <ul
+    class="suggestions"
+    attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
+    tabindex="0"
+  >
     <li *ngFor="let suggestion of result.suggestions">
       <a
         [innerHTML]="suggestion | cxHighlight: searchInput.value"
@@ -86,7 +90,12 @@
     </li>
   </ul>
 
-  <ul class="products" *ngIf="result.products" role="listbox">
+  <ul
+    class="products"
+    *ngIf="result.products"
+    attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
+    tabindex="0"
+  >
     <li>
       <a
         *ngFor="let product of result.products"
@@ -115,6 +124,7 @@
           [container]="product.images?.PRIMARY"
           format="thumbnail"
           alt=""
+          role="presentation"
         ></cx-media>
         <div class="name" [innerHTML]="product.nameHtml"></div>
         <span class="price">{{ product.price?.formattedValue }}</span>

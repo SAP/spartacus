@@ -192,7 +192,7 @@
       flex-wrap: wrap;
       list-style: none;
       padding-inline-start: 0;
-      margin-bottom: none;
+      margin-bottom: 0;
       li,
       a {
         flex: 100%;
@@ -203,7 +203,7 @@
     .products {
       list-style: none;
       padding-inline-start: 0;
-      margin-bottom: none;
+      margin-bottom: 0;
 
       @include media-breakpoint-down(sm) {
         display: none;

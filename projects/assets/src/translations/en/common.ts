@@ -43,7 +43,10 @@ export const common = {
   },
   searchBox: {
     placeholder: 'Search here...',
-    ariaLabel: 'Search here...',
+    ariaLabelInput: 'Search here...',
+    ariaLabelSuggestions: 'typing suggestions',
+    ariaLabelProducts: 'product results',
+
     initialDescription:
       'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
     suggestionsAnd: ' suggestions and ',
