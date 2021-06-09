@@ -202,6 +202,18 @@ describe('OccConfiguratorVariantSerializer', () => {
         Configurator.GroupType.SUB_ITEM_GROUP
       )
     ).toBe(OccConfigurator.GroupType.INSTANCE);
+
+    expect(
+      occConfiguratorVariantSerializer.convertGroupType(
+        Configurator.GroupType.CONFLICT_GROUP
+      )
+    ).toBe(OccConfigurator.GroupType.CONFLICT);
+
+    expect(
+      occConfiguratorVariantSerializer.convertGroupType(
+        Configurator.GroupType.CONFLICT_HEADER_GROUP
+      )
+    ).toBe(OccConfigurator.GroupType.CONFLICT_HEADER);
   });
 
   it('should fill formatted value for numeric attributes', () => {

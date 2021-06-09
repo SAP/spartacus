@@ -151,7 +151,10 @@ export class OccConfiguratorVariantSerializer
         return OccConfigurator.GroupType.CSTIC_GROUP;
       case Configurator.GroupType.SUB_ITEM_GROUP:
         return OccConfigurator.GroupType.INSTANCE;
+      case Configurator.GroupType.CONFLICT_GROUP:
+        return OccConfigurator.GroupType.CONFLICT;
+      case Configurator.GroupType.CONFLICT_HEADER_GROUP:
+        return OccConfigurator.GroupType.CONFLICT_HEADER;
     }
-    return OccConfigurator.GroupType.CSTIC_GROUP;
   }
 }

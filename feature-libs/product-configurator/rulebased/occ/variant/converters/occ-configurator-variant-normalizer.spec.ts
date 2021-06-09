@@ -723,4 +723,20 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(attributeMSIWithValue.incomplete).toBe(false);
     });
   });
+
+  describe('convertAttribute', () => {
+    it('should default the attribute type if not specified', () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: attributeName,
+        key: attributeName,
+      };
+      const attributes: Configurator.Attribute[] = [];
+      occConfiguratorVariantNormalizer.convertAttribute(
+        sourceAttribute,
+        attributes
+      );
+      const resultAttribute = attributes[0];
+      expect(resultAttribute.uiType).toBe(Configurator.UiType.NOT_IMPLEMENTED);
+    });
+  });
 });
