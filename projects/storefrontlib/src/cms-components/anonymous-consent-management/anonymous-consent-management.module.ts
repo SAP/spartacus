@@ -42,9 +42,5 @@ import { AnonymousConsentOpenDialogComponent } from './open-dialog/anonymous-con
     AnonymousConsentManagementBannerComponent,
     AnonymousConsentOpenDialogComponent,
   ],
-  entryComponents: [
-    AnonymousConsentManagementBannerComponent,
-    AnonymousConsentOpenDialogComponent,
-  ],
 })
 export class AnonymousConsentManagementBannerModule {}

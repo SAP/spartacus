@@ -33,7 +33,6 @@ export const asm = {
       minutes: 'min',
       reset: 'Reset',
     },
-    standardSessionInProgress: 'Standard customer session in progress.',
     auth: {
       agentLoggedInError:
         'Cannot login as user when there is an active CS agent session. Please either emulate user or logout CS agent.',
