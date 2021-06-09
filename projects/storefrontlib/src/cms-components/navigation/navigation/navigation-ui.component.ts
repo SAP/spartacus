@@ -95,10 +95,16 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     );
   }
 
+  /** During initialization of this component, we will check the resetMenuOnClose flag and attach a menu reset listener if needed.
+   */
   ngOnInit() {
     if (this.resetMenuOnClose) this.resetOnMenuCollapse();
   }
 
+  /**
+   * This method performs the action of resetting the menu (close all sub menus and return to main options)
+   * when the menu is closed.
+   */
   resetOnMenuCollapse(): void {
     this.subscriptions.add(
       this.hamburgerMenuService.isExpanded
