@@ -74,9 +74,11 @@ export class OccPermissionAdapter implements PermissionAdapter {
     userId: string,
     orderApprovalPermissionCode: string
   ): string {
-    return this.occEndpoints.getUrl('permission', {
-      userId,
-      orderApprovalPermissionCode,
+    return this.occEndpoints.buildUrl('permission', {
+      urlParams: {
+        userId,
+        orderApprovalPermissionCode,
+      },
     });
   }
 
@@ -84,10 +86,13 @@ export class OccPermissionAdapter implements PermissionAdapter {
     userId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl('permissions', { userId }, params);
+    return this.occEndpoints.buildUrl('permissions', {
+      urlParams: { userId },
+      queryParams: params,
+    });
   }
 
   protected getPermissionTypesEndpoint(): string {
-    return this.occEndpoints.getUrl('orderApprovalPermissionTypes');
+    return this.occEndpoints.buildUrl('orderApprovalPermissionTypes');
   }
 }

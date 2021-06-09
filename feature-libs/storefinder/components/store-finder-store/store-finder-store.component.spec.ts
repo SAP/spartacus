@@ -15,7 +15,7 @@ import createSpy = jasmine.createSpy;
 
 class MockStoreFinderService implements Partial<StoreFinderService> {
   getStoresLoading = createSpy('getStoresLoading');
-  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
+  getFindStoreEntityById = createSpy('getFindStoreEntityById').and.returnValue(
     of()
   );
   viewStoreById = createSpy('viewStoreById');
