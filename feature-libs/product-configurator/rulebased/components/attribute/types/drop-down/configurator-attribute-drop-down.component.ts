@@ -26,12 +26,4 @@ export class ConfiguratorAttributeDropDownComponent
   ngOnInit() {
     this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
   }
-
-  /**
-   * @deprecated since 3.3
-   * Better use onSelect(this.attributeDropDownForm.value)
-   */
-  onSelect(): void {
-    super.onSelect(this.attributeDropDownForm?.value);
-  }
 }

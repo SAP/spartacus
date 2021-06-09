@@ -15,7 +15,7 @@ export namespace CommonConfigurator {
      * Business identifier of the owner.
      * Can be a product code, a cart entry number, or an order code with order entry number
      */
-    id?: string;
+    id: string;
     /**
      * Configurator type. Derived from the cxRoute
      */
