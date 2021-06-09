@@ -10,8 +10,10 @@ import {
 import {
   CardModule,
   CartNotEmptyGuard,
+  CartPromotionService,
   CartSharedModule,
   IconModule,
+  PromotionService,
   PromotionsModule,
 } from '@spartacus/storefront';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
@@ -35,6 +37,12 @@ import { ReviewSubmitComponent } from './review-submit.component';
           component: ReviewSubmitComponent,
           // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard and others here?
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          providers: [
+            {
+              provide: PromotionService,
+              useExisting: CartPromotionService,
+            },
+          ],
         },
       },
     }),

@@ -1,16 +1,18 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  Cart,
   Consignment,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   Order,
   PromotionLocation,
+  PromotionResult,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
 import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../../../misc/promotions/promotions.module';
@@ -124,11 +126,14 @@ class MockConsignmentTrackingComponent {
 }
 
 class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
+  getOrderPromotions(): Observable<PromotionResult[]> {
+    return of([]);
+  }
+  getProductPromotionForAllEntries(
+    _order: Order | Cart
+  ): { [key: number]: Observable<PromotionResult[]> } {
+    return {};
+  }
 }
 
 describe('OrderDetailItemsComponent', () => {

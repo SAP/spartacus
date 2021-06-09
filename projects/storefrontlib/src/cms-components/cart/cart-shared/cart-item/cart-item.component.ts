@@ -12,7 +12,6 @@ import {
   PromotionResult,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { CartOutlets } from '../../cart-outlets.model';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -45,20 +44,16 @@ export class CartItemComponent implements OnInit, OnChanges {
     optionalBtn: null,
   };
 
+  @Input() promotions: Observable<PromotionResult[]>;
+
   appliedProductPromotions$: Observable<PromotionResult[]>;
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
-  constructor(
-    protected promotionService: PromotionService,
-    protected cartItemContextSource: CartItemContextSource
-  ) {}
+  constructor(protected cartItemContextSource: CartItemContextSource) {}
 
   ngOnInit() {
-    this.appliedProductPromotions$ = this.promotionService.getProductPromotionForEntry(
-      this.item,
-      this.promotionLocation
-    );
+    this.appliedProductPromotions$ = this.promotions;
   }
 
   ngOnChanges(changes?: SimpleChanges) {

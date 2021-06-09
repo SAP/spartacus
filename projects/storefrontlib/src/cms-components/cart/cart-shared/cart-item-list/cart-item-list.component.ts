@@ -12,6 +12,7 @@ import {
   MultiCartService,
   OrderEntry,
   PromotionLocation,
+  PromotionResult,
   SelectiveCartService,
   UserIdService,
 } from '@spartacus/core';
@@ -62,6 +63,8 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         : this.form.enable({ emitEvent: false });
     }
   }
+
+  @Input() promotions: { [key: number]: Observable<PromotionResult[]> } = {};
 
   constructor(
     protected activeCartService: ActiveCartService,

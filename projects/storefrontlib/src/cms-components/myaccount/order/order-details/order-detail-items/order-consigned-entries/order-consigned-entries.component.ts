@@ -4,7 +4,9 @@ import {
   Order,
   OrderEntry,
   PromotionLocation,
+  PromotionResult,
 } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-order-consigned-entries',
@@ -14,6 +16,7 @@ export class OrderConsignedEntriesComponent {
   @Input() consignments: Consignment[];
   @Input() order: Order;
   promotionLocation: PromotionLocation = PromotionLocation.Order;
+  @Input() promotions: { [key: number]: Observable<PromotionResult[]> } = {};
 
   getConsignmentProducts(consignment: Consignment): OrderEntry[] {
     const products: OrderEntry[] = [];

@@ -38,7 +38,7 @@ export class CartDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.cart$ = this.activeCartService.getActive();
-    this.promotions$ = this.promotionService.getOrderPromotionsFromCart();
+    this.promotions$ = this.promotionService.getOrderPromotions();
 
     this.entries$ = this.activeCartService
       .getEntries()
@@ -61,9 +61,7 @@ export class CartDetailsComponent implements OnInit {
       )
     );
 
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
-    );
+    this.orderPromotions$ = this.promotionService.getOrderPromotions();
   }
 
   saveForLater(item: OrderEntry) {
@@ -73,5 +71,11 @@ export class CartDetailsComponent implements OnInit {
     } else {
       this.routingService.go({ cxRoute: 'login' });
     }
+  }
+
+  getAllCartEntryPromotions(
+    cart: Cart
+  ): { [key: number]: Observable<PromotionResult[]> } {
+    return this.promotionService.getProductPromotionForAllEntries(cart);
   }
 }

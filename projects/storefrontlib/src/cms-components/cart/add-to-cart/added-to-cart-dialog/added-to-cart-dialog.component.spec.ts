@@ -6,7 +6,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -17,16 +17,16 @@ import {
   I18nTestingModule,
   OrderEntry,
   PromotionLocation,
+  PromotionResult,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
 import { ModalService } from 'projects/storefrontlib/src/shared/components/modal/modal.service';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ICON_TYPE } from '../../../../cms-components';
+import { CartPromotionService, ICON_TYPE } from '../../../../cms-components';
 import { ModalDirective } from '../../../../shared/components/modal/modal.directive';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
@@ -37,14 +37,8 @@ class MockModalDirective implements Partial<ModalDirective> {
   @Input() cxModal;
 }
 
-class MockActiveCartService {
-  isStable(): Observable<boolean> {
-    return of();
-  }
-
-  updateEntry(_entryNumber: string, _updatedQuantity: number): void {}
-
-  removeEntry(_entry: OrderEntry): void {}
+class MockActiveCartService implements Partial<ActiveCartService> {
+  updateEntry(_entryNumber: number, _quantity: number): void {}
 
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
@@ -103,12 +97,15 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
+class MockCartPromotionService {
+  getOrderPromotions(): Observable<PromotionResult[]> {
+    return of([]);
+  }
+  getProductPromotionForEntry(
+    _item: OrderEntry
+  ): Observable<PromotionResult[]> {
+    return of([]);
+  }
 }
 
 describe('AddedToCartDialogComponent', () => {
@@ -147,8 +144,8 @@ describe('AddedToCartDialogComponent', () => {
             useClass: MockActiveCartService,
           },
           {
-            provide: PromotionService,
-            useClass: MockPromotionService,
+            provide: CartPromotionService,
+            useClass: MockCartPromotionService,
           },
           {
             provide: RoutingService,

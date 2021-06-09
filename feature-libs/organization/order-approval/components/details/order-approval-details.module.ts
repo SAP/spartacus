@@ -16,6 +16,8 @@ import {
   OrderDetailShippingComponent,
   OrderDetailsService,
   OrderDetailTotalsComponent,
+  OrderPromotionService,
+  PromotionService,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { ApproverGuard } from '../../core/guards/approver.guard';
@@ -75,6 +77,10 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
             {
               provide: OrderDetailsService,
               useExisting: OrderApprovalDetailService,
+            },
+            {
+              provide: PromotionService,
+              useExisting: OrderPromotionService,
             },
           ],
           guards: [AuthGuard, ApproverGuard],

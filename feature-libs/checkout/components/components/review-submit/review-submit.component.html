@@ -186,6 +186,7 @@
       <cx-cart-item-list
         [items]="entries"
         [readonly]="true"
+        [promotions]="getAllCartEntryPromotions(cart)"
         [promotionLocation]="promotionLocation"
       ></cx-cart-item-list>
     </div>

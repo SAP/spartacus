@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
   Consignment,
+  Order,
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
@@ -31,12 +32,16 @@ export class OrderDetailItemsComponent implements OnInit {
   cancel$: Observable<Consignment[]>;
 
   ngOnInit() {
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
-    );
+    this.orderPromotions$ = this.promotionService.getOrderPromotions();
     this.others$ = this.getOtherStatus(...completedValues, ...cancelledValues);
     this.completed$ = this.getExactStatus(completedValues);
     this.cancel$ = this.getExactStatus(cancelledValues);
+  }
+
+  getAllOrderEntryPromotions(
+    order: Order
+  ): { [key: number]: Observable<PromotionResult[]> } {
+    return this.promotionService.getProductPromotionForAllEntries(order);
   }
 
   private getExactStatus(

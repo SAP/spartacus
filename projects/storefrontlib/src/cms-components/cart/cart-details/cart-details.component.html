@@ -13,6 +13,7 @@
         [items]="entries"
         [cartIsLoading]="!(cartLoaded$ | async)"
         [promotionLocation]="promotionLocation"
+        [promotions]="getAllCartEntryPromotions(cart)"
         [options]="{
           isSaveForLater: false,
           optionalBtn: saveForLaterBtn

@@ -12,9 +12,11 @@ import {
   CartSharedModule,
   FormErrorsModule,
   OrderOverviewModule,
+  PromotionService,
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
+import { CheckoutPromotionService } from '../services/checkout-promotion.service';
 import { GuestRegisterFormComponent } from './components/guest-register-form/guest-register-form.component';
 import { OrderConfirmationItemsComponent } from './components/order-confirmation-items/order-confirmation-items.component';
 import { OrderConfirmationOverviewComponent } from './components/order-confirmation-overview/order-confirmation-overview.component';
@@ -54,6 +56,12 @@ const orderConfirmationComponents = [
         OrderConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],
+          providers: [
+            {
+              provide: PromotionService,
+              useExisting: CheckoutPromotionService,
+            },
+          ],
         },
         OrderConfirmationTotalsComponent: {
           component: OrderConfirmationTotalsComponent,
