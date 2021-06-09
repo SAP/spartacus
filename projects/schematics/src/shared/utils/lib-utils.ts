@@ -1,6 +1,7 @@
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
+  ExecutionOptions,
   externalSchematic,
   noop,
   Rule,
@@ -84,7 +85,7 @@ import {
   getWorkspace,
 } from './workspace-utils';
 
-export interface LibraryOptions {
+export interface LibraryOptions extends Partial<ExecutionOptions> {
   project: string;
   lazy: boolean;
   features?: string[];
@@ -734,7 +735,8 @@ export function addPackageJsonDependenciesForLibrary<
       }, {} as Record<string, string[]>);
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
       options,
-      cliFeatures
+      cliFeatures,
+      false
     );
     addSchematicsTasks(featureOptions, context);
 
@@ -858,7 +860,8 @@ export function createSpartacusFeatureOptionsForLibrary<
   OPTIONS extends LibraryOptions
 >(
   options: OPTIONS,
-  cliFeatures: Record<string, string[]>
+  cliFeatures: Record<string, string[]>,
+  interactive = true
 ): {
   feature: string;
   options: LibraryOptions;
@@ -869,6 +872,7 @@ export function createSpartacusFeatureOptionsForLibrary<
       ...options,
       // an empty array means that no library features will be installed.
       features: cliFeatures[spartacusLibrary] ?? [],
+      interactive,
     },
   }));
 }
@@ -905,11 +909,17 @@ export function runExternalSpartacusLibrary(
         `Can't run the Spartacus library schematic, please specify the 'collection' argument.`
       );
     }
+
+    const executionOptions: Partial<ExecutionOptions> = {
+      interactive: taskOptions.options.interactive,
+    };
+
     return chain([
       externalSchematic(
         taskOptions.collection,
         taskOptions.name,
-        taskOptions.options
+        taskOptions.options,
+        executionOptions
       ),
     ])(tree, context);
   };

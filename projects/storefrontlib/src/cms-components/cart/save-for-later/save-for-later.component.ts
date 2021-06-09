@@ -38,10 +38,9 @@ export class SaveForLaterComponent implements OnInit {
     this.entries$ = this.selectiveCartService
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
-    // TODO(#10547): Switch in 4.0 `selectiveCartService.getLoaded` to `selectiveCartService.isStable` method
     this.cartLoaded$ = combineLatest([
       this.cartService.isStable(),
-      this.selectiveCartService.getLoaded(),
+      this.selectiveCartService.isStable(),
     ]).pipe(map(([cartLoaded, sflLoaded]) => cartLoaded && sflLoaded));
     this.data$ = this.cmsService.getComponentData(
       'EmptyCartParagraphComponent'

@@ -75,6 +75,7 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:core:with-changelog`
     - [ ] `npm run release:storefront:with-changelog`
     - [ ] `npm run release:user:with-changelog` (needed since `3.2.0-rc.0`)
+    - [ ] `npm run release:tracking:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:cds:with-changelog`
     - [ ] `npm run release:assets:with-changelog`
     - [ ] `npm run release:styles:with-changelog`
@@ -84,7 +85,6 @@ Do the following steps to keep track of spartacussampledata releases:
     - [ ] `npm run release:setup:with-changelog` (needed since `3.0.0-next.1`)
     - [ ] `npm run release:organization:with-changelog` (needed since `3.0.0-next.1`)
     - [ ] `npm run release:storefinder:with-changelog` (needed since `3.0.0-rc.0`)
-    - [ ] `npm run release:tracking:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:product:with-changelog` (needed since `3.2.0-next.1`)
     - [ ] `npm run release:smartedit:with-changelog` (needed since `3.2.0-next.0`)
     - [ ] `npm run release:qualtrics:with-changelog` (needed since `3.1.0-next.0`)

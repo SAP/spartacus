@@ -11,7 +11,6 @@ import { FormControl } from '@angular/forms';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 
@@ -28,29 +27,9 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   @Input() language: string;
 
-  // TODO(#11681): make config a required dependency
-  /**
-   * @param {ConfiguratorAttributeNumericInputFieldService} configAttributeNumericInputFieldService Service for numeric formatting and validation.
-   * @param {ConfiguratorUISettingsConfig} config Optional configuration for debounce time,
-   * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
-   */
-  constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    config?: ConfiguratorUISettingsConfig
-  );
-
-  /**
-   * @deprecated  since 3.3
-   */
-  constructor(
-    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService
-  );
-
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    protected config?: ConfiguratorUISettingsConfig
+    protected config: ConfiguratorUISettingsConfig
   ) {
     super(config);
   }
@@ -103,20 +82,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   ngOnDestroy() {
     super.ngOnDestroy();
-  }
-
-  /**
-   * @deprecated since 3.3
-   * This method should be removed because there is no use for this method.
-   */
-  protected createEventFromInput(): ConfigFormUpdateEvent {
-    return {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
-        ...this.attribute,
-        userInput: this.attributeInputForm.value,
-      },
-    };
   }
 
   protected getInstalledLocale(locale: string): string {
