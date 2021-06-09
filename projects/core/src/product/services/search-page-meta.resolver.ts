@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PageRobotsMeta } from '../../cms/model/page.model';
 import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
@@ -51,10 +51,16 @@ export class SearchPageMetaResolver
     const sources = [this.total$, this.query$];
     return combineLatest(sources).pipe(
       switchMap(([count, query]) =>
-        this.translation.translate('pageMetaResolver.search.title', {
-          count,
-          query,
-        })
+        this.translation
+          .translate('pageMetaResolver.search.default_title')
+          .pipe(
+            mergeMap((defaultQuery) =>
+              this.translation.translate('pageMetaResolver.search.title', {
+                count,
+                query: query || defaultQuery,
+              })
+            )
+          )
       )
     );
   }
