@@ -6,6 +6,7 @@ import {
   CartOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
+  OrderOccModule,
   ProductModule,
   ProductOccModule,
   UserOccTransitionalModule,
@@ -172,6 +173,7 @@ if (environment.cpq) {
     ReturnRequestDetailModule,
     ReplenishmentOrderHistoryModule,
     ReplenishmentOrderDetailsModule,
+    OrderOccModule,
 
     // Page Events
     NavigationEventModule,

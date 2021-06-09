@@ -1,4 +1,3 @@
-import { HttpClientModule } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -6,14 +5,33 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
-  BaseOccUrlProperties,
   ConverterService,
-  DynamicAttributes,
-  OccEndpointsService,
+  OccConfig,
+  OccEndpoints,
   Order,
   ORDER_NORMALIZER,
 } from '@spartacus/core';
 import { OccCheckoutAdapter } from './occ-checkout.adapter';
+
+const MockOccModuleConfig: OccConfig = {
+  backend: {
+    occ: {
+      baseUrl: '',
+      prefix: '',
+      endpoints: {
+        placeOrder: 'users/${userId}/orders?fields=FULL',
+        removeDeliveryAddress:
+          'users/${userId}/carts/${cartId}/addresses/delivery',
+        clearDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
+        loadCheckoutDetails:
+          'users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)',
+      } as OccEndpoints,
+    },
+  },
+  context: {
+    baseSite: [''],
+  },
+};
 
 const userId = '123';
 const cartId = '456';
@@ -25,52 +43,30 @@ const orderData: Order = {
   code: '00001004',
 };
 
-const usersEndpoint = 'users';
-
-class MockOccEndpointsService {
-  buildUrl(
-    endpoint: string,
-    _attributes?: DynamicAttributes,
-    _propertiesToOmit?: BaseOccUrlProperties
-  ) {
-    return this.getEndpoint(endpoint);
-  }
-  getEndpoint(url: string) {
-    return url;
-  }
-}
-
-const checkoutData: CheckoutDetails = {
+const checkoutData: Partial<CheckoutDetails> = {
   deliveryAddress: {
     firstName: 'Janusz',
   },
-  deliveryMode: {},
-  paymentInfo: {},
 };
-const CHECKOUT_PARAMS = 'deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)';
-const cartsEndpoint = 'carts';
 
 describe('OccCheckoutAdapter', () => {
   let service: OccCheckoutAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
-  let occEndpointService: OccEndpointsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, HttpClientTestingModule],
+      imports: [HttpClientTestingModule],
       providers: [
         OccCheckoutAdapter,
-        { provide: OccEndpointsService, useClass: MockOccEndpointsService },
+        { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
     service = TestBed.inject(OccCheckoutAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
-    occEndpointService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEndpointService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -84,16 +80,14 @@ describe('OccCheckoutAdapter', () => {
       });
 
       const mockReq = httpMock.expectOne((req) => {
-        return req.method === 'POST' && req.url === 'placeOrder';
+        return (
+          req.method === 'POST' &&
+          req.url ===
+            `users/${userId}/orders?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`
+        );
       });
 
-      expect(occEndpointService.buildUrl).toHaveBeenCalledWith('placeOrder', {
-        urlParams: {
-          userId,
-        },
-      });
       expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.params.get('cartId')).toEqual(cartId);
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(orderData);
     });
@@ -101,7 +95,12 @@ describe('OccCheckoutAdapter', () => {
     it('should use converter', () => {
       service.placeOrder(userId, cartId, termsChecked).subscribe();
       httpMock
-        .expectOne((req) => req.method === 'POST' && req.url === 'placeOrder')
+        .expectOne(
+          (req) =>
+            req.method === 'POST' &&
+            req.url ===
+              `users/${userId}/orders?fields=FULL&cartId=${cartId}&termsChecked=${termsChecked}`
+        )
         .flush({});
       expect(converter.pipeable).toHaveBeenCalledWith(ORDER_NORMALIZER);
     });
@@ -110,19 +109,19 @@ describe('OccCheckoutAdapter', () => {
   describe('load checkout details', () => {
     it('should load checkout details data for given userId, cartId', () => {
       service.loadCheckoutDetails(userId, cartId).subscribe((result) => {
-        expect(result).toEqual(checkoutData);
+        expect(result).toEqual(checkoutData as CheckoutDetails);
       });
 
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'GET' &&
-          req.url === `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}`
+          req.url ===
+            `users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)`
         );
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(mockReq.request.params.get('fields')).toEqual(CHECKOUT_PARAMS);
       mockReq.flush(checkoutData);
     });
   });
@@ -138,8 +137,7 @@ describe('OccCheckoutAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'DELETE' &&
-          req.url ===
-            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/addresses/delivery`
+          req.url === `users/${userId}/carts/${cartId}/addresses/delivery`
         );
       });
 
@@ -158,8 +156,7 @@ describe('OccCheckoutAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return (
           req.method === 'DELETE' &&
-          req.url ===
-            `${usersEndpoint}/${userId}/${cartsEndpoint}/${cartId}/deliverymode`
+          req.url === `users/${userId}/carts/${cartId}/deliverymode`
         );
       });
 

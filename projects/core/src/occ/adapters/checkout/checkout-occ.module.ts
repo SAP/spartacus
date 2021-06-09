@@ -12,11 +12,9 @@ import {
 import { PaymentTypeAdapter } from '../../../checkout/connectors/payment-type/payment-type.adapter';
 import { CheckoutPaymentAdapter } from '../../../checkout/connectors/payment/checkout-payment.adapter';
 import { provideDefaultConfig } from '../../../config/config-providers';
-import {
-  OccOrderNormalizer,
-  OccReplenishmentOrderFormSerializer,
-  OccReplenishmentOrderNormalizer,
-} from './converters/index';
+import { OccReplenishmentOrderFormSerializer } from './converters/index';
+import { OccOrderNormalizer } from './converters/occ-order-normalizer';
+import { OccReplenishmentOrderNormalizer } from './converters/occ-replenishment-order-normalizer';
 import { defaultOccCheckoutConfig } from './default-occ-checkout-config';
 import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
 import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';

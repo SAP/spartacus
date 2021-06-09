@@ -52,8 +52,8 @@ import { DELETE_ITEM_COMPONENT_MIGRATION } from './data/delete-item.component.mi
 import { DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION } from './data/dynamic-attribute.service.migration';
 import { EVENT_SERVICE_CONSTRUCTOR_DEPRECATION } from './data/event.service.migration';
 import { HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION } from './data/home-page-event.builder.migration';
-import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { LANGUAGE_SERVICE_MIGRATION } from './data/language.service.migration';
+import { LOGIN_REGISTER_COMPONENT_MIGRATION } from './data/login-register.component.migration';
 import { LOGOUT_GUARD_CONSTRUCTOR_MIGRATION } from './data/logout.guard.migration';
 import { ORGANIZATION_PAGE_META_RESOLVER_MIGRATION } from './data/organization-page-meta.resolver.migration';
 import { PAGE_META_SERVICE_MIGRATION } from './data/page-meta.service.migration';
@@ -66,6 +66,7 @@ import {
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V1,
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V2,
 } from './data/product-page-meta.resolver.migration';
+import { QUALTRICS_LOADER_SERVICE_MIGRATION } from './data/qualtrics-loader.service.migration';
 import {
   REPLENISHMENT_ORDER_CANCELLATION_COMPONENT_MIGRATION_V1,
   REPLENISHMENT_ORDER_CANCELLATION_COMPONENT_MIGRATION_V2,
@@ -129,6 +130,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CHECKOUT_EVENT_MODULE_MIGRATION,
   SAVED_CART_LIST_COMPONENT_MIGRATION,
   SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION,
+  QUALTRICS_LOADER_SERVICE_MIGRATION,
   LOGIN_REGISTER_COMPONENT_MIGRATION,
   ADD_TO_SAVED_CART_COMPONENT_MIGRATION_V1,
   ADD_TO_SAVED_CART_COMPONENT_MIGRATION_V2,

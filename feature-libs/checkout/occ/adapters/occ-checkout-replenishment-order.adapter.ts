@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   CheckoutReplenishmentOrderAdapter,
@@ -22,6 +22,19 @@ export class OccCheckoutReplenishmentOrderAdapter
     protected converter: ConverterService
   ) {}
 
+  protected getScheduleReplenishmentOrderEndpoint(
+    userId: string,
+    cartId: string,
+    termsChecked: string
+  ) {
+    return this.occEndpoints.buildUrl('scheduleReplenishmentOrder', {
+      urlParams: {
+        userId,
+      },
+      queryParams: { cartId, termsChecked },
+    });
+  }
+
   scheduleReplenishmentOrder(
     cartId: string,
     scheduleReplenishmentForm: ScheduleReplenishmentForm,
@@ -35,17 +48,15 @@ export class OccCheckoutReplenishmentOrderAdapter
 
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    const params = new HttpParams()
-      .set('cartId', cartId)
-      .set('termsChecked', termsChecked.toString());
-
     return this.http
       .post(
-        this.occEndpoints.buildUrl('scheduleReplenishmentOrder', {
-          urlParams: { userId },
-        }),
+        this.getScheduleReplenishmentOrderEndpoint(
+          userId,
+          cartId,
+          termsChecked.toString()
+        ),
         scheduleReplenishmentForm,
-        { headers, params }
+        { headers }
       )
       .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER));
   }
