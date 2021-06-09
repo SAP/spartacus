@@ -130,10 +130,8 @@
 
       <!-- Promotion -->
 
-      <ng-container
-        *ngIf="appliedProductPromotions$ | async as appliedProductPromotions"
-      >
-        <cx-promotions [promotions]="appliedProductPromotions"></cx-promotions>
+      <ng-container *ngIf="item.promotions">
+        <cx-promotions [promotions]="item.promotions"></cx-promotions>
       </ng-container>
 
       <!-- Actions -->

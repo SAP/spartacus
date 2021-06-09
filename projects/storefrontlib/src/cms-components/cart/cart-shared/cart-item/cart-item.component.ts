@@ -6,12 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {
-  OrderEntry,
-  PromotionLocation,
-  PromotionResult,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { OrderEntry, PromotionLocation } from '@spartacus/core';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { CartOutlets } from '../../cart-outlets.model';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -44,17 +39,12 @@ export class CartItemComponent implements OnInit, OnChanges {
     optionalBtn: null,
   };
 
-  @Input() promotions: Observable<PromotionResult[]>;
-
-  appliedProductPromotions$: Observable<PromotionResult[]>;
   iconTypes = ICON_TYPE;
   readonly CartOutlets = CartOutlets;
 
   constructor(protected cartItemContextSource: CartItemContextSource) {}
 
-  ngOnInit() {
-    this.appliedProductPromotions$ = of(this.item.promotions);
-  }
+  ngOnInit() {}
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {
