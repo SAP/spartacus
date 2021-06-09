@@ -53,31 +53,29 @@ export class StatePersistenceService {
     const subscriptions = new Subscription();
 
     // Do not change order of subscription! Read should happen before write on context change.
-    if (storage) {
-      subscriptions.add(
-        context$
-          .pipe(
-            map((context) => {
-              return readFromStorage(
-                storage,
-                this.generateKeyWithContext(context, key)
-              ) as T | undefined;
-            }),
-            tap((state) => onRead(state))
-          )
-          .subscribe()
-      );
+    subscriptions.add(
+      context$
+        .pipe(
+          map((context) => {
+            return readFromStorage(
+              storage,
+              this.generateKeyWithContext(context, key)
+            ) as T | undefined;
+          }),
+          tap((state) => onRead(state))
+        )
+        .subscribe()
+    );
 
-      subscriptions.add(
-        state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
-          persistToStorage(
-            this.generateKeyWithContext(context, key),
-            state,
-            storage
-          );
-        })
-      );
-    }
+    subscriptions.add(
+      state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
+        persistToStorage(
+          this.generateKeyWithContext(context, key),
+          state,
+          storage
+        );
+      })
+    );
 
     return subscriptions;
   }
@@ -102,10 +100,6 @@ export class StatePersistenceService {
     storageType?: StorageSyncType;
   }): T | undefined {
     const storage = getStorage(storageType, this.winRef);
-
-    if (!storage) {
-      return undefined;
-    }
 
     return readFromStorage(
       storage,
