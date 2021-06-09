@@ -11,7 +11,7 @@ import {
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import { CartOutlets } from '../../cart-outlets.model';
 import { CartItemContextSource } from './model/cart-item-context-source.model';
@@ -53,7 +53,7 @@ export class CartItemComponent implements OnInit, OnChanges {
   constructor(protected cartItemContextSource: CartItemContextSource) {}
 
   ngOnInit() {
-    this.appliedProductPromotions$ = this.promotions;
+    this.appliedProductPromotions$ = of(this.item.promotions);
   }
 
   ngOnChanges(changes?: SimpleChanges) {

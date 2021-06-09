@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { PromotionResult } from 'projects/core/src/model/cart.model';
 import { OrderEntry } from '../../../../model/order.model';
 import { ReplenishmentOrder } from '../../../../model/replenishment-order.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
@@ -22,17 +23,64 @@ export class OccReplenishmentOrderNormalizer
 
     if (source.entries) {
       target.entries = source.entries.map((entry) =>
-        this.convertOrderEntry(entry)
+        this.convertOrderEntry(entry, source.appliedProductPromotions)
       );
     }
 
     return target;
   }
 
-  private convertOrderEntry(source: Occ.OrderEntry): OrderEntry {
-    return {
+  private convertOrderEntry(
+    source?: Occ.OrderEntry,
+    appliedProductPromotions?: PromotionResult[]
+  ): OrderEntry {
+    const orderEntryTarget = {
       ...source,
-      product: this.converter.convert(source.product, PRODUCT_NORMALIZER),
+      product: this.converter.convert(source?.product, PRODUCT_NORMALIZER),
     };
+    return {
+      ...orderEntryTarget,
+      promotions: this.getProductPromotion(
+        orderEntryTarget,
+        appliedProductPromotions
+      ),
+    };
+  }
+
+  protected getProductPromotion(
+    item: OrderEntry,
+    promotions: PromotionResult[]
+  ): PromotionResult[] {
+    const entryPromotions: PromotionResult[] = [];
+    if (promotions && promotions.length > 0) {
+      for (const promotion of promotions) {
+        if (
+          promotion.description &&
+          promotion.consumedEntries &&
+          promotion.consumedEntries.length > 0
+        ) {
+          for (const consumedEntry of promotion.consumedEntries) {
+            if (this.isConsumedByEntry(consumedEntry, item)) {
+              entryPromotions.push(promotion);
+            }
+          }
+        }
+      }
+    }
+    return entryPromotions;
+  }
+
+  protected isConsumedByEntry(consumedEntry: any, entry: any): boolean {
+    const consumedEntryNumber = consumedEntry.orderEntryNumber;
+    if (entry.entries && entry.entries.length > 0) {
+      for (const subEntry of entry.entries) {
+        if (subEntry.entryNumber === consumedEntryNumber) {
+          return true;
+        }
+      }
+      return false;
+    } else {
+      return consumedEntryNumber === entry.entryNumber;
+    }
   }
 }
