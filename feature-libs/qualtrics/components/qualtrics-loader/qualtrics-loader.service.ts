@@ -4,7 +4,7 @@ import {
   Injectable,
   isDevMode,
   OnDestroy,
-  PLATFORM_ID
+  PLATFORM_ID,
 } from '@angular/core';
 import { ScriptLoader, WindowRef } from '@spartacus/core';
 import { EMPTY, fromEvent, Observable, of, Subscription } from 'rxjs';
@@ -68,7 +68,7 @@ export class QualtricsLoaderService implements OnDestroy {
   constructor(
     protected winRef: WindowRef,
     @Inject(PLATFORM_ID) protected platformId: any,
-    protected scriptLoader: ScriptLoader,
+    protected scriptLoader: ScriptLoader
   ) {
     this.initialize();
   }
