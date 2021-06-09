@@ -28,6 +28,7 @@ export const common = {
       title_plural: '{{count}} results for "{{query}}"',
       findProductTitle: '{{count}} result for coupon "{{coupon}}"',
       findProductTitle_plural: '{{count}} results for coupon "{{coupon}}"',
+      default_title: 'All products',
     },
     product: {
       description: '{{description}}',
@@ -119,11 +120,6 @@ export const common = {
     item_plural: '{{count}} items currently in your cart',
     total: '{{total}}',
     count: '{{count}}',
-  },
-  // deprecated since 3.2, moved to @spartacus/user/account/assets
-  miniLogin: {
-    userGreeting: 'Hi, {{name}}',
-    signInRegister: 'Sign In / Register',
   },
   skipLink: {
     skipTo: 'Skip to',

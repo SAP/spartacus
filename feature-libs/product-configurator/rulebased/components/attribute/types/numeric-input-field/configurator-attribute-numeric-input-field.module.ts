@@ -15,6 +15,5 @@ import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-
   ],
   declarations: [ConfiguratorAttributeNumericInputFieldComponent],
   exports: [ConfiguratorAttributeNumericInputFieldComponent],
-  entryComponents: [ConfiguratorAttributeNumericInputFieldComponent],
 })
 export class ConfiguratorAttributeNumericInputFieldModule {}

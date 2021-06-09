@@ -92,6 +92,5 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],
-  entryComponents: [...moduleComponents],
 })
 export class ReplenishmentOrderDetailsModule {}

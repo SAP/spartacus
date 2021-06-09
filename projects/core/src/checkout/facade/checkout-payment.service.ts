@@ -100,22 +100,22 @@ export class CheckoutPaymentService {
    */
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      let userId;
+      let userId: string | undefined;
       this.userIdService
         .getUserId()
         .subscribe((occUserId) => (userId = occUserId))
         .unsubscribe();
 
-      let cart;
+      let cartId: string | undefined;
       this.activeCartService
-        .getActive()
-        .subscribe((activeCart) => (cart = activeCart))
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
-      if (userId && cart) {
+      if (userId && cartId) {
         this.checkoutStore.dispatch(
           new CheckoutActions.SetPaymentDetails({
             userId,
-            cartId: cart.code,
+            cartId,
             paymentDetails: paymentDetails,
           })
         );
