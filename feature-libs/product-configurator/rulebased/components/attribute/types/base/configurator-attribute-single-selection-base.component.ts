@@ -147,6 +147,12 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   extractPriceFormulaParametersForValue(
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions {
+    console.warn('value: ' + value?.valueDisplay);
+    console.warn('value price: ' + value?.valuePrice?.formattedValue);
+    console.warn(
+      'value price total: ' + value?.valuePriceTotal?.formattedValue
+    );
+    console.warn('##########################################');
     return {
       price: value?.valuePrice,
       isLightedUp: value?.selected,

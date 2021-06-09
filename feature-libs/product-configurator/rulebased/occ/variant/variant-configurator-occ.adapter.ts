@@ -19,7 +19,7 @@ import {
   VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
-  VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
+  VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VARIANT_CONFIGURATOR_SERIALIZER,
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './variant-configurator-occ.converters';
@@ -232,15 +232,15 @@ export class VariantConfiguratorOccAdapter
     );
 
     return this.http.get(url).pipe(
-      this.converterService.pipeable(
-        VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER
-      ),
-      map((pricingResult) => {
+      this.converterService.pipeable(VARIANT_CONFIGURATOR_PRICE_NORMALIZER),
+      map((configResult) => {
+        console.log(configResult);
+
         const result: Configurator.Configuration = {
           configId: configuration.configId,
           groups: [],
           interactionState: {},
-          priceSummary: pricingResult,
+          priceSummary: configResult.priceSummary,
           owner: ConfiguratorModelUtils.createInitialOwner(),
         };
         return result;

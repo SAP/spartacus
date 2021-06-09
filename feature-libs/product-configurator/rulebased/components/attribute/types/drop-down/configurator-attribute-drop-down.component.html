@@ -18,6 +18,9 @@
       {{ item.valueDisplay }}
     </option>
   </select>
+  <cx-configurator-price
+    [formula]="extractPriceFormulaParametersForValue(getSelectedValue())"
+  ></cx-configurator-price>
   <div *ngIf="withQuantity" class="cx-attribute-level-quantity-price">
     <cx-configurator-attribute-quantity
       (changeQuantity)="onChangeQuantity($event, attributeDropDownForm)"
