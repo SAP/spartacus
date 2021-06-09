@@ -70,7 +70,7 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: QUALTRICS_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
-    comment: `'${QUALTRICS_MODULE}' was moved to @spartacus/qualtrics/components.`,
+    comment: `'${QUALTRICS_MODULE}' was moved to @spartacus/qualtrics/components and renamed to 'QualtricsComponentsModule'.`,
   },
 ];
 
