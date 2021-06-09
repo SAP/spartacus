@@ -420,6 +420,15 @@ export const INITIALIZE = 'initialize';
 export const FORM_GROUP = 'formGroup';
 export const FORM$ = 'form$';
 
+export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
+  'ConfiguratorAttributeSingleSelectionBaseComponent';
+
+export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
+  'ConfiguratorAttributeNumericInputFieldComponent';
+
+export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
+  'ConfiguratorProductTitleComponent';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -836,6 +845,14 @@ export const GET_LOADED = 'getLoaded';
 export const IS_STABLE = 'isStable';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
+
+export const CREATE_EVENT_FROM_INPUT = 'createEventFromInput';
+export const ON_SELECT = 'onSelect';
+export const ON_DESELECT = 'onDeselect';
+export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
+export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
+export const CLICK_ON_ENTER = 'clickOnEnter';
+
 /***** APIs end *****/
 
 /***** feature keys start *****/
