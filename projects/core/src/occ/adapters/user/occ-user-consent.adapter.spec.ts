@@ -108,11 +108,10 @@ describe('OccUserConsentAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'consentTemplate',
         {
-          userId,
-          consentTemplateId: templateId,
+          urlParams: { userId, consentTemplateId: templateId },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
