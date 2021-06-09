@@ -6,11 +6,16 @@
       [max]="maxQuantity"
       [control]="addToCartForm.get('quantity')"
     ></cx-item-counter>
-    <span class="info">{{
-      hasStock
-        ? ('addToCart.inStock' | cxTranslate)
-        : ('addToCart.outOfStock' | cxTranslate)
-    }}</span>
+    <span
+      class="info"
+      tabindex="0"
+      attr.aria-label="{{ 'addToCart.ariaLabelOutOfStock' | cxTranslate }}"
+      >{{
+        hasStock
+          ? ('addToCart.inStock' | cxTranslate)
+          : ('addToCart.outOfStock' | cxTranslate)
+      }}</span
+    >
   </div>
 
   <button

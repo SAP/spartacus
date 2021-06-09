@@ -37,7 +37,10 @@
   <button
     class="btn btn-primary btn-block btn-notify"
     type="button"
-    disabled="true"
+    aria-disabled="true"
+    attr.aria-label=" {{
+      'stockNotification.ariaLabelDisabledButton' | cxTranslate
+    }}"
   >
     {{ 'stockNotification.notifyMe' | cxTranslate }}
   </button>
