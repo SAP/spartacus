@@ -75,7 +75,6 @@ describe('AuthRedirectService', () => {
     });
 
     it('should clear saved redirect URL', () => {
-      authRedirectStorageService.setRedirectUrl(undefined);
       service.redirect();
       expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
         undefined
