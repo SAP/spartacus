@@ -77,6 +77,11 @@ import {
   PRODUCT_VARIANT_GUARD,
   PRODUCT_VARIANT_STYLE_ICONS_COMPONENT,
   PRODUCT_VARIANT_STYLE_ICONS_MODULE,
+  QUALTRICS_COMPONENT,
+  QUALTRICS_CONFIG,
+  QUALTRICS_EVENT_NAME,
+  QUALTRICS_LOADER_SERVICE,
+  QUALTRICS_MODULE,
   REGISTER_COMPONENT,
   REGISTER_COMPONENT_MODULE,
   REGISTER_TRANSLATION_CHUNK,
@@ -125,6 +130,36 @@ import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
+  // projects/storefrontlib/src/cms-components/misc/qualtrics/config/qualtrics-config.ts
+  {
+    node: QUALTRICS_CONFIG,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${QUALTRICS_CONFIG}' was moved to @spartacus/qualtrics/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts
+  {
+    node: QUALTRICS_EVENT_NAME,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${QUALTRICS_EVENT_NAME}' was moved to @spartacus/qualtrics/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics-loader.service.ts
+  {
+    node: QUALTRICS_LOADER_SERVICE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${QUALTRICS_LOADER_SERVICE}' was moved to @spartacus/qualtrics/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics.component.ts
+  {
+    node: QUALTRICS_COMPONENT,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${QUALTRICS_COMPONENT}' was moved to @spartacus/qualtrics/components.`,
+  },
+  // projects/storefrontlib/src/cms-components/misc/qualtrics/qualtrics.module.ts
+  {
+    node: QUALTRICS_MODULE,
+    importPath: SPARTACUS_STOREFRONTLIB,
+    comment: `'${QUALTRICS_MODULE}' was moved to @spartacus/qualtrics/components and renamed to 'QualtricsComponentsModule'.`,
+  },
   {
     node: B2C_STOREFRONT_MODULE,
     importPath: SPARTACUS_STOREFRONTLIB,
