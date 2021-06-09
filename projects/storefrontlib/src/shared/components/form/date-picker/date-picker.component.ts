@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { DatePickerService } from './date-picker.service';
 
@@ -21,13 +21,21 @@ import { DatePickerService } from './date-picker.service';
 export class DatePickerComponent {
   constructor(protected service: DatePickerService) {}
   @Input() control: FormControl;
-  @Input() min: FormControl;
-  @Input() max: FormControl;
+  @Input() min?: string;
+  @Input() max?: string;
 
-  update() {
-    // we're updating the min/max controls to ensure that validation kicks in
-    this.min?.updateValueAndValidity();
-    this.max?.updateValueAndValidity();
+  @Output() update: EventEmitter<void> = new EventEmitter();
+
+  change() {
+    this.update.emit();
+  }
+
+  get placeholder() {
+    return this.service.placeholder;
+  }
+
+  get pattern() {
+    return this.service.pattern;
   }
 
   /**
@@ -35,6 +43,7 @@ export class DatePickerComponent {
    * loads of console errors coming from the datePipe while the user is typing
    * (in those browsers where the date picker isn't supported).
    */
+
   getDate(date: string): string {
     return this.service.isValidFormat(date) ? date : null;
   }

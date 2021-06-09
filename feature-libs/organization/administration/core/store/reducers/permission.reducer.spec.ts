@@ -143,7 +143,7 @@ describe('Permissions Entities Reducer', () => {
           selected: true,
         };
 
-        const action = new B2BUserActions.CreateB2BUserPermissionSuccess(
+        const action = new B2BUserActions.AssignB2BUserPermissionSuccess(
           payload
         );
         const result = permissionsEntitiesReducer(
@@ -167,7 +167,7 @@ describe('Permissions Entities Reducer', () => {
           ...payload,
         };
 
-        const action = new B2BUserActions.CreateB2BUserPermissionSuccess(
+        const action = new B2BUserActions.AssignB2BUserPermissionSuccess(
           payload
         );
         const result = permissionsEntitiesReducer(payloadPermission, action);
@@ -185,7 +185,7 @@ describe('Permissions Entities Reducer', () => {
           selected: true,
         };
 
-        const action = new B2BUserActions.DeleteB2BUserPermissionSuccess(
+        const action = new B2BUserActions.UnassignB2BUserPermissionSuccess(
           payload
         );
         const result = permissionsEntitiesReducer(
@@ -209,7 +209,7 @@ describe('Permissions Entities Reducer', () => {
           ...payload,
         };
 
-        const action = new B2BUserActions.DeleteB2BUserPermissionSuccess(
+        const action = new B2BUserActions.UnassignB2BUserPermissionSuccess(
           payload
         );
         const result = permissionsEntitiesReducer(payloadPermission, action);

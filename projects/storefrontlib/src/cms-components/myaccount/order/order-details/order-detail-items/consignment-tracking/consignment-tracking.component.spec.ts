@@ -1,7 +1,7 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   Consignment,
   I18nTestingModule,
@@ -11,6 +11,7 @@ import { ModalService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { SpinnerModule } from '../../../../../../shared/components/spinner/spinner.module';
 import { ConsignmentTrackingComponent } from './consignment-tracking.component';
+import createSpy = jasmine.createSpy;
 
 const consignmentStatus: string[] = [
   'DELIVERING',
@@ -32,12 +33,15 @@ const mockConsignment: Consignment = {
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
+class MockModalService {
+  open = createSpy('open');
+}
 
 describe('ConsignmentTrackingComponent', () => {
   let component: ConsignmentTrackingComponent;
   let fixture: ComponentFixture<ConsignmentTrackingComponent>;
   let el: DebugElement;
-  let modalInstance: any;
+  let modalService: ModalService;
 
   const arrayEqyals = (array1: string[], array2: string[]) => {
     let equals = false;
@@ -56,27 +60,28 @@ describe('ConsignmentTrackingComponent', () => {
     'clearConsignmentTracking',
   ]);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [NgbModule, SpinnerModule, I18nTestingModule],
-      declarations: [ConsignmentTrackingComponent, MockTranslateUrlPipe],
-      providers: [
-        { provide: NgbActiveModal, useValue: { open: () => {} } },
-        { provide: UserOrderService, useValue: userOrderService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [NgbModule, SpinnerModule, I18nTestingModule],
+        declarations: [ConsignmentTrackingComponent, MockTranslateUrlPipe],
+        providers: [
+          { provide: ModalService, useClass: MockModalService },
+          { provide: UserOrderService, useValue: userOrderService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsignmentTrackingComponent);
+    modalService = TestBed.inject(ModalService);
     userOrderService.getConsignmentTracking.and.returnValue(
       of({ trackingID: '1234567890' })
     );
     userOrderService.loadConsignmentTracking.and.callFake(
       (_orderCode: string, _consignmentCode: string) => {}
     );
-    modalInstance = TestBed.inject(ModalService);
-    spyOn(modalInstance, 'open').and.returnValue({ componentInstance: {} });
     el = fixture.debugElement;
     component = fixture.componentInstance;
     component.consignment = mockConsignment;
@@ -146,6 +151,6 @@ describe('ConsignmentTrackingComponent', () => {
       component.orderCode,
       mockConsignment.code
     );
-    expect(modalInstance.open).toHaveBeenCalled();
+    expect(modalService.open).toHaveBeenCalled();
   });
 });

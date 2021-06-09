@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Cart, Order } from '@spartacus/core';
 
@@ -66,20 +66,22 @@ describe('OrderDetailTotalsComponent', () => {
   let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    mockOrderDetailsService = <OrderDetailsService>{
-      getOrderDetails() {
-        return of(mockOrder);
-      },
-    };
+  beforeEach(
+    waitForAsync(() => {
+      mockOrderDetailsService = <OrderDetailsService>{
+        getOrderDetails() {
+          return of(mockOrder);
+        },
+      };
 
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: OrderDetailsService, useValue: mockOrderDetailsService },
-      ],
-      declarations: [OrderDetailTotalsComponent, MockOrderSummaryComponent],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        providers: [
+          { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+        ],
+        declarations: [OrderDetailTotalsComponent, MockOrderSummaryComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailTotalsComponent);

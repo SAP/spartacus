@@ -7,6 +7,8 @@
 
   .TopContent {
     --cx-flex-basis: 68%;
+    flex-direction: column;
+    flex-wrap: nowrap;
 
     @include media-breakpoint-down(md) {
       --cx-flex-basis: 100%;

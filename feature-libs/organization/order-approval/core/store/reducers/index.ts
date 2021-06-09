@@ -34,9 +34,9 @@ export function getReducers(): ActionReducerMap<OrderApprovalState> {
   };
 }
 
-export const reducerToken: InjectionToken<ActionReducerMap<
-  OrderApprovalState
->> = new InjectionToken<ActionReducerMap<OrderApprovalState>>(
+export const reducerToken: InjectionToken<
+  ActionReducerMap<OrderApprovalState>
+> = new InjectionToken<ActionReducerMap<OrderApprovalState>>(
   'OrganizationReducers'
 );
 

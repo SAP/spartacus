@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -28,9 +28,9 @@ const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   daysOfWeek: [DaysOfWeek.FRIDAY],
 };
 
-const mockReplenishmentOrderFormData$ = new BehaviorSubject<
-  ScheduleReplenishmentForm
->(mockReplenishmentOrderFormData);
+const mockReplenishmentOrderFormData$ = new BehaviorSubject<ScheduleReplenishmentForm>(
+  mockReplenishmentOrderFormData
+);
 
 class MockCheckoutService {
   placeOrder(): void {}
@@ -97,21 +97,23 @@ describe('PlaceOrderComponent', () => {
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
-      declarations: [MockUrlPipe, PlaceOrderComponent],
-      providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService },
-        {
-          provide: CheckoutReplenishmentFormService,
-          useClass: MockCheckoutReplenishmentFormService,
-        },
-        { provide: RoutingService, useClass: MockRoutingService },
-        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
+        declarations: [MockUrlPipe, PlaceOrderComponent],
+        providers: [
+          { provide: CheckoutService, useClass: MockCheckoutService },
+          {
+            provide: CheckoutReplenishmentFormService,
+            useClass: MockCheckoutReplenishmentFormService,
+          },
+          { provide: RoutingService, useClass: MockRoutingService },
+          { provide: LaunchDialogService, useClass: MockLaunchDialogService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PlaceOrderComponent);

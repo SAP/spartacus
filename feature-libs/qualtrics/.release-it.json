@@ -1,0 +1,34 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "qualtrics-${version}",
+    "commitMessage": "Bumping qualtrics version to ${version}",
+    "tagAnnotation": "Bumping qualtrics version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/qualtrics"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:qualtrics"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/qualtrics@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib qualtrics --to qualtrics-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/schematics"
+          ]
+        }
+      ]
+    }
+  }
+}

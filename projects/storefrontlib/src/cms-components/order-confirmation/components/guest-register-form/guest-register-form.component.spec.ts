@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   AuthService,
@@ -32,17 +32,19 @@ describe('GuestRegisterFormComponent', () => {
   let userService: UserService;
   let routingService: RoutingService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
-      declarations: [GuestRegisterFormComponent],
-      providers: [
-        { provide: AuthService, useClass: MockAuthService },
-        { provide: UserService, useClass: MockUserService },
-        { provide: RoutingService, useClass: MockRoutingService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
+        declarations: [GuestRegisterFormComponent],
+        providers: [
+          { provide: AuthService, useClass: MockAuthService },
+          { provide: UserService, useClass: MockUserService },
+          { provide: RoutingService, useClass: MockRoutingService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GuestRegisterFormComponent);

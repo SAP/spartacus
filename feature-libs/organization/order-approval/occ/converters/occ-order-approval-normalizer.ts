@@ -16,12 +16,10 @@ export class OccOrderApprovalNormalizer
 
   convert(source: Occ.OrderApproval, target?: OrderApproval): OrderApproval {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-      };
-      if (source.order) {
-        target.order = this.converter.convert(source.order, ORDER_NORMALIZER);
-      }
+      target = { ...(source as any) };
+    }
+    if (source.order) {
+      target.order = this.converter.convert(source.order, ORDER_NORMALIZER);
     }
     return target;
   }

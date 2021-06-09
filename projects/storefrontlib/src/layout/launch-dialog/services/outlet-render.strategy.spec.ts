@@ -72,9 +72,9 @@ describe('OutletRenderStrategy', () => {
       ],
     });
 
-    service = TestBed.get(OutletRenderStrategy);
-    outletService = TestBed.get(OutletService);
-    outletRendererService = TestBed.get(OutletRendererService);
+    service = TestBed.inject(OutletRenderStrategy);
+    outletService = TestBed.inject(OutletService);
+    outletRendererService = TestBed.inject(OutletRendererService);
 
     spyOn(outletService, 'add');
     spyOn(outletRendererService, 'render');

@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { Product } from '../../../../model/product.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ConverterService } from '../../../../util/converter.service';
@@ -12,17 +12,19 @@ describe('OccReplenishmentOrderNormalizer', () => {
   let normalizer: OccReplenishmentOrderNormalizer;
   let converter: ConverterService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        OccReplenishmentOrderNormalizer,
-        {
-          provide: ConverterService,
-          useClass: MockConverterService,
-        },
-      ],
-    });
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          OccReplenishmentOrderNormalizer,
+          {
+            provide: ConverterService,
+            useClass: MockConverterService,
+          },
+        ],
+      });
+    })
+  );
 
   beforeEach(() => {
     normalizer = TestBed.inject(OccReplenishmentOrderNormalizer);

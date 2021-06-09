@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
 import { ItemService } from '../../item.service';
 import { ConfirmationMessageComponent } from '../../message/confirmation/confirmation-message.component';
@@ -41,12 +41,12 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   /**
    * resolves the current item.
    */
-  current$ = this.itemService.current$;
+  current$: Observable<T> = this.itemService.current$;
 
   /**
    * resolves if the user is currently in the edit form.
    */
-  isInEditMode$ = this.itemService.isInEditMode$;
+  isInEditMode$: Observable<boolean> = this.itemService.isInEditMode$;
 
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
@@ -61,6 +61,10 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
       this.confirmation = this.messageService.add({
         message: {
           key: this.i18nRoot + '.messages.delete',
+          params: { item },
+        },
+        messageTitle: {
+          key: this.i18nRoot + '.messages.deleteTitle',
           params: { item },
         },
         component: ConfirmationMessageComponent,

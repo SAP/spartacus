@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NotificationPreferenceComponent } from './notification-preference.component';
 import {
   I18nTestingModule,
@@ -48,18 +48,20 @@ describe('NotificationPreferenceComponent', () => {
     },
   ];
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [NotificationPreferenceComponent, MockCxSpinnerComponent],
-      providers: [
-        {
-          provide: UserNotificationPreferenceService,
-          useValue: notificationPreferenceService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [NotificationPreferenceComponent, MockCxSpinnerComponent],
+        providers: [
+          {
+            provide: UserNotificationPreferenceService,
+            useValue: notificationPreferenceService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NotificationPreferenceComponent);

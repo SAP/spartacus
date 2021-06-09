@@ -1,0 +1,20 @@
+<ng-container *ngIf="priceTiers$ | async as priceTiers">
+  <div class="container" *ngIf="priceTiers.length > 0">
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th scope="col">{{ 'bulkPricingTable.quantity' | cxTranslate }}</th>
+          <th scope="col">{{ 'bulkPricingTable.price' | cxTranslate }}</th>
+          <th scope="col">{{ 'bulkPricingTable.discount' | cxTranslate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tier of priceTiers">
+          <td>{{ formatQuantity(tier) }}</td>
+          <td>{{ tier.formattedValue }}</td>
+          <td>{{ tier.formattedDiscount }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>

@@ -29,6 +29,9 @@ import { UserListService } from './services/user-list.service';
 import { UserRoutePageMetaResolver } from './services/user-route-page-meta.resolver';
 import { UserUserGroupListComponent } from './user-groups';
 import { UserAssignedUserGroupListComponent } from './user-groups/assigned/user-assigned-user-group-list.component';
+import { UserDetailsCellComponent } from './details-cell/user-details-cell.component';
+import { UserGroupDetailsCellComponent } from '../user-group/details-cell/user-group-details-cell.component';
+import { PermissionDetailsCellComponent } from '../permission/details-cell/permission-details-cell.component';
 
 const listPath = `organization/users/:${ROUTE_PARAMS.userCode}`;
 const paramsMapping: ParamsMapping = {
@@ -38,45 +41,45 @@ const paramsMapping: ParamsMapping = {
 export const userRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      user: {
+      orgUser: {
         paths: ['organization/users'],
       },
-      userCreate: {
+      orgUserCreate: {
         paths: ['organization/users/create'],
       },
-      userDetails: {
+      orgUserDetails: {
         paths: [listPath],
         paramsMapping,
       },
-      userEdit: {
+      orgUserEdit: {
         paths: [`${listPath}/edit`],
         paramsMapping,
       },
-      userChangePassword: {
+      orgUserChangePassword: {
         paths: [`${listPath}/change-password`],
         paramsMapping,
       },
-      userApprovers: {
+      orgUserApprovers: {
         paths: [`${listPath}/approvers`],
         paramsMapping,
       },
-      userAssignApprovers: {
+      orgUserAssignApprovers: {
         paths: [`${listPath}/approvers/assign`],
         paramsMapping,
       },
-      userPermissions: {
+      orgUserPermissions: {
         paths: [`${listPath}/purchase-limits`],
         paramsMapping,
       },
-      userAssignPermissions: {
+      orgUserAssignPermissions: {
         paths: [`${listPath}/purchase-limits/assign`],
         paramsMapping,
       },
-      userUserGroups: {
+      orgUserUserGroups: {
         paths: [`${listPath}/user-groups`],
         paramsMapping,
       },
-      userAssignUserGroups: {
+      orgUserAssignUserGroups: {
         paths: [`${listPath}/user-groups/assign`],
         paramsMapping,
       },
@@ -102,7 +105,7 @@ export const userCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'user.breadcrumbs.list',
+              breadcrumb: 'orgUser.breadcrumbs.list',
               resolver: UserRoutePageMetaResolver,
             },
           },
@@ -116,7 +119,7 @@ export const userCmsConfig: CmsConfig = {
             path: `:${ROUTE_PARAMS.userCode}`,
             component: UserDetailsComponent,
             data: {
-              cxPageMeta: { breadcrumb: 'user.breadcrumbs.details' },
+              cxPageMeta: { breadcrumb: 'orgUser.breadcrumbs.details' },
             },
             children: [
               {
@@ -130,7 +133,7 @@ export const userCmsConfig: CmsConfig = {
               {
                 path: 'user-groups',
                 data: {
-                  cxPageMeta: { breadcrumb: 'user.breadcrumbs.userGroups' },
+                  cxPageMeta: { breadcrumb: 'orgUser.breadcrumbs.userGroups' },
                 },
                 children: [
                   {
@@ -146,7 +149,7 @@ export const userCmsConfig: CmsConfig = {
               {
                 path: 'approvers',
                 data: {
-                  cxPageMeta: { breadcrumb: 'user.breadcrumbs.approvers' },
+                  cxPageMeta: { breadcrumb: 'orgUser.breadcrumbs.approvers' },
                 },
                 children: [
                   {
@@ -162,7 +165,7 @@ export const userCmsConfig: CmsConfig = {
               {
                 path: 'purchase-limits',
                 data: {
-                  cxPageMeta: { breadcrumb: 'user.breadcrumbs.permissions' },
+                  cxPageMeta: { breadcrumb: 'orgUser.breadcrumbs.permissions' },
                 },
                 children: [
                   {
@@ -188,11 +191,10 @@ export function userTableConfigFactory(): TableConfig {
   return userTableConfig;
 }
 
-const cells = {
-  actions: {
-    dataComponent: AssignCellComponent,
-  },
+const actions = {
+  dataComponent: AssignCellComponent,
 };
+
 const pagination = {
   pageSize: MAX_OCC_INTEGER_VALUE,
 };
@@ -224,39 +226,69 @@ export const userTableConfig: TableConfig = {
     [OrganizationTableType.USER_APPROVERS]: {
       cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_APPROVERS]: {
       cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
+          actions,
+        },
         pagination,
       },
     },
     [OrganizationTableType.USER_USER_GROUPS]: {
-      cells: ['uid', 'actions'],
+      cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserGroupDetailsCellComponent,
+          },
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_USER_GROUPS]: {
-      cells: ['uid', 'actions'],
+      cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserGroupDetailsCellComponent,
+          },
+          actions,
+        },
         pagination,
       },
     },
     [OrganizationTableType.USER_PERMISSIONS]: {
       cells: ['code', 'actions'],
       options: {
-        cells,
+        cells: {
+          code: {
+            dataComponent: PermissionDetailsCellComponent,
+          },
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_PERMISSIONS]: {
       cells: ['code', 'actions'],
       options: {
-        cells,
+        cells: {
+          code: {
+            dataComponent: PermissionDetailsCellComponent,
+          },
+          actions,
+        },
         pagination,
       },
     },

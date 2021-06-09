@@ -1,50 +1,10 @@
 import { product } from '../sample-data/checkout-flow';
-import { config, login, setSessionData } from '../support/utils/login';
 
 export const username = 'test-user-cypress@ydev.hybris.com';
 export const password = 'Password123.';
 export const firstName = 'Test';
 export const lastName = 'User';
 export const titleCode = 'mr';
-
-export function retrieveTokenAndLogin() {
-  function retrieveAuthToken() {
-    return cy.request({
-      method: 'POST',
-      url: config.tokenUrl,
-      body: {
-        ...config.client,
-        grant_type: 'client_credentials',
-      },
-      form: true,
-    });
-  }
-
-  login(username, password, false).then((res) => {
-    if (res.status === 200) {
-      // User is already registered - only set session in localStorage
-      setSessionData({ ...res.body, userId: username });
-    } else {
-      // User needs to be registered
-      retrieveAuthToken().then((response) =>
-        cy.request({
-          method: 'POST',
-          url: config.newUserUrl,
-          body: {
-            firstName: firstName,
-            lastName: lastName,
-            password: password,
-            titleCode: titleCode,
-            uid: username,
-          },
-          headers: {
-            Authorization: `bearer ` + response.body.access_token,
-          },
-        })
-      );
-    }
-  });
-}
 
 export function loginSuccessfully() {
   cy.login('test-user-cypress@ydev.hybris.com', 'Password123.');
@@ -66,15 +26,15 @@ export function addShippingAddress() {
     body: {
       defaultAddress: false,
       titleCode: 'mr',
-      firstName: 'Test',
-      lastName: 'User',
+      firstName: 'Cypress',
+      lastName: 'Customer',
       line1: '999 de Maisonneuve',
       line2: '',
-      town: 'Montreal',
-      region: { isocode: 'US-AK' },
+      town: 'California',
+      region: { isocode: 'US-CA' },
       country: { isocode: 'US' },
-      postalCode: 'H4B3L4',
-      phone: '',
+      postalCode: '90015',
+      phone: '917-000-0000',
     },
   }).then((response) => {
     expect(response.status).to.eq(201);
@@ -196,7 +156,7 @@ export function selectDeliveryMethod() {
     )}/cms/pages?*/checkout/payment-details*`
   ).as('getPaymentPage');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get('#deliveryMode-standard-net').should('be.checked');
+  cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage').its('status').should('eq', 200);
 }
@@ -241,131 +201,4 @@ export function displaySummaryPage() {
   });
   cy.get('cx-cart-item .cx-code').should('contain', product.code);
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
-}
-
-export function deleteShippingAddress() {
-  // Retrieve the address ID
-  cy.request({
-    method: 'GET',
-    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/test-user-cypress@ydev.hybris.com/addresses?lang=en&curr=USD`,
-    headers: {
-      Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
-      }`,
-    },
-  })
-    .then((response) => {
-      const addressResp = response.body.addresses;
-      expect(addressResp[0]).to.have.property('id');
-      return addressResp[0].id;
-    })
-    .then((id) => {
-      // Delete the address
-      cy.request({
-        method: 'DELETE',
-        url: `${Cypress.env('API_URL')}/${Cypress.env(
-          'OCC_PREFIX'
-        )}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/test-user-cypress@ydev.hybris.com/addresses/${id}?lang=en&curr=USD`,
-        headers: {
-          Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
-              .access_token
-          }`,
-        },
-      }).then((response) => {
-        expect(response.status).to.eq(200);
-      });
-    });
-}
-export function deletePaymentCard() {
-  // Retrieve the payment ID
-  cy.request({
-    method: 'GET',
-    url: `${Cypress.env('API_URL')}/${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/test-user-cypress@ydev.hybris.com/paymentdetails?saved=true&lang=en&curr=USD`,
-    headers: {
-      Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
-      }`,
-    },
-  })
-    .then((response) => {
-      const paymentResp = response.body.payments;
-      expect(paymentResp[0]).to.have.property('id');
-      return paymentResp[0].id;
-    })
-    .then((id) => {
-      // Delete the payment
-      cy.request({
-        method: 'DELETE',
-        url: `${Cypress.env('API_URL')}/${Cypress.env(
-          'OCC_PREFIX'
-        )}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/test-user-cypress@ydev.hybris.com/paymentdetails/${id}?lang=en&curr=USD`,
-        headers: {
-          Authorization: `bearer ${
-            JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token
-              .access_token
-          }`,
-        },
-      }).then((response) => {
-        expect(response.status).to.eq(200);
-      });
-    });
-}
-
-export function checkoutAsPersistentUserTest() {
-  it('should login successfully', () => {
-    loginSuccessfully();
-  });
-
-  it('should add a shipping address', () => {
-    addShippingAddress();
-  });
-
-  it('should go to product page from category page', () => {
-    goToProductPageFromCategory();
-  });
-
-  it('should add product to cart', () => {
-    addProductToCart();
-  });
-
-  it('should get cartId and add a payment method', () => {
-    addPaymentMethod();
-  });
-
-  it('should proceed to checkout and select shipping address', () => {
-    selectShippingAddress();
-  });
-
-  it('should choose delivery', () => {
-    selectDeliveryMethod();
-  });
-
-  it('should select payment method', () => {
-    selectPaymentMethod();
-  });
-
-  it('should review and place order', () => {
-    verifyAndPlaceOrder();
-  });
-
-  it('should display summary page', () => {
-    displaySummaryPage();
-  });
-
-  it('should delete shipping address', () => {
-    deleteShippingAddress();
-  });
-
-  it('should delete payment card', () => {
-    deletePaymentCard();
-  });
 }

@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus CDS schematics: ng-add CDS feature with Profile tag configured general setup should create the feature module 1`] = `
+"import { NgModule } from '@angular/core';
+import { CdsConfig, CdsModule } from \\"@spartacus/cds\\";
+import { provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CdsModule.forRoot()
+  ],
+  providers: [provideConfig(<CdsConfig>{
+    cds: {
+      tenant: 'my-tenant',
+      baseUrl: 'my-base-url.com',
+      endpoints: {
+        strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
+      },
+      merchandising: {
+        defaultCarouselViewportThreshold: 80,
+      },
+    },
+  }),
+  provideConfig(<CdsConfig>{
+    cds: {
+      profileTag: {
+        javascriptUrl:
+          'profile-tag-load-url.com',
+        configUrl:
+          'profile-tag-config-url.com',
+        allowInsecureCookies: true,
+      },
+    },
+  })
+  ]
+})
+export class CdsFeatureModule { }
+"
+`;
+
+exports[`Spartacus CDS schematics: ng-add CDS feature without Profile tag general setup should create the feature module 1`] = `
+"import { NgModule } from '@angular/core';
+import { CdsConfig, CdsModule } from \\"@spartacus/cds\\";
+import { provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    CdsModule.forRoot()
+  ],
+  providers: [provideConfig(<CdsConfig>{
+    cds: {
+      tenant: 'my-tenant',
+      baseUrl: 'my-base-url.com',
+      endpoints: {
+        strategyProducts: '/strategy/\${tenant}/strategies/\${strategyId}/products',
+      },
+      merchandising: {
+        defaultCarouselViewportThreshold: 80,
+      },
+    },
+  })]
+})
+export class CdsFeatureModule { }
+"
+`;

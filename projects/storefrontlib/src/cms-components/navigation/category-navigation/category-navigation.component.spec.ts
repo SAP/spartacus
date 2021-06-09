@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CmsNavigationComponent } from '@spartacus/core';
@@ -55,22 +55,24 @@ describe('CategoryNavigationComponent', () => {
     },
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [CategoryNavigationComponent, MockNavigationComponent],
-      providers: [
-        {
-          provide: NavigationService,
-          useValue: mockNavigationService,
-        },
-        {
-          provide: CmsComponentData,
-          useValue: MockCmsNavigationComponent,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [CategoryNavigationComponent, MockNavigationComponent],
+        providers: [
+          {
+            provide: NavigationService,
+            useValue: mockNavigationService,
+          },
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsNavigationComponent,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CategoryNavigationComponent);

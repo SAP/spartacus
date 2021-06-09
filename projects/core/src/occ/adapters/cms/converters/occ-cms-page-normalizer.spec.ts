@@ -1,4 +1,9 @@
 import { TestBed } from '@angular/core/testing';
+import {
+  ContentSlotComponentData,
+  PageRobotsMeta,
+} from 'projects/core/src/cms';
+import { CmsComponent } from 'projects/core/src/model';
 import { ConverterService } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models';
 import { OccCmsPageNormalizer } from './occ-cms-page-normalizer';
@@ -21,7 +26,9 @@ describe('OccCmsPageNormalizer', () => {
 
     occCmsPageNormalizer = TestBed.inject(OccCmsPageNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake(((page) => ({ ...page })) as any);
+    spyOn(converter, 'convert').and.callFake(((page: Occ.CMSPage) => ({
+      ...page,
+    })) as any);
   });
 
   it('should be created', () => {
@@ -29,7 +36,7 @@ describe('OccCmsPageNormalizer', () => {
   });
 
   it('should not convert null', () => {
-    const result = occCmsPageNormalizer.convert(null);
+    const result = occCmsPageNormalizer.convert(null as any);
     expect(result).toEqual({});
   });
 
@@ -41,42 +48,79 @@ describe('OccCmsPageNormalizer', () => {
   describe('page', () => {
     it('should not have pageId', () => {
       const result = occCmsPageNormalizer.convert({});
-      expect(result.page.pageId).toBeUndefined();
-      expect(result.page.label).toBeUndefined();
-      expect(result.page.title).toBeUndefined();
-      expect(result.page.template).toBeUndefined();
+      expect(result?.page?.pageId).toBeUndefined();
+      expect(result?.page?.label).toBeUndefined();
+      expect(result?.page?.title).toBeUndefined();
+      expect(result?.page?.description).toBeUndefined();
+      expect(result?.page?.template).toBeUndefined();
     });
 
     it('should have label', () => {
       const result = occCmsPageNormalizer.convert({ label: '/home' });
-      expect(result.page.label).toEqual('/home');
+      expect(result?.page?.label).toEqual('/home');
     });
 
     it('should have title', () => {
       const result = occCmsPageNormalizer.convert({ title: 'page title' });
-      expect(result.page.title).toEqual('page title');
+      expect(result?.page?.title).toEqual('page title');
+    });
+
+    it('should have description', () => {
+      const result = occCmsPageNormalizer.convert({
+        description: 'page description',
+      });
+      expect(result?.page?.description).toEqual('page description');
     });
 
     it('should have pageId', () => {
       const result = occCmsPageNormalizer.convert({ uid: '1234' });
-      expect(result.page.pageId).toEqual('1234');
+      expect(result?.page?.pageId).toEqual('1234');
     });
 
     it('should have type', () => {
       const result = occCmsPageNormalizer.convert({ typeCode: 'ContentPage' });
-      expect(result.page.type).toEqual('ContentPage');
+      expect(result?.page?.type).toEqual('ContentPage');
     });
 
     it('should have template', () => {
       const result = occCmsPageNormalizer.convert({ template: 'pt' });
-      expect(result.page.template).toEqual('pt');
+      expect(result?.page?.template).toEqual('pt');
+    });
+
+    describe('robots', () => {
+      function createPageWithRobot(robotTag: string) {
+        return occCmsPageNormalizer.convert({ robotTag: robotTag as any });
+      }
+      it('should normalize INDEX_FOLLOW', () => {
+        const result = createPageWithRobot('INDEX_FOLLOW');
+        expect(result?.page?.robots).toContain(PageRobotsMeta.INDEX);
+        expect(result?.page?.robots).toContain(PageRobotsMeta.FOLLOW);
+      });
+
+      it('should normalize INDEX_NOFOLLOW', () => {
+        const result = createPageWithRobot('INDEX_NOFOLLOW');
+        expect(result?.page?.robots).toContain(PageRobotsMeta.INDEX);
+        expect(result?.page?.robots).toContain(PageRobotsMeta.NOFOLLOW);
+      });
+
+      it('should normalize NOINDEX_FOLLOW', () => {
+        const result = createPageWithRobot('NOINDEX_FOLLOW');
+        expect(result?.page?.robots).toContain(PageRobotsMeta.NOINDEX);
+        expect(result?.page?.robots).toContain(PageRobotsMeta.FOLLOW);
+      });
+
+      it('should normalize NOINDEX_NOFOLLOW', () => {
+        const result = createPageWithRobot('NOINDEX_NOFOLLOW');
+        expect(result?.page?.robots).toContain(PageRobotsMeta.NOINDEX);
+        expect(result?.page?.robots).toContain(PageRobotsMeta.NOFOLLOW);
+      });
     });
   });
 
   describe('page slots', () => {
     it('should not convert page slots', () => {
       const result = occCmsPageNormalizer.convert({ uid: '1234' });
-      expect(result.page.slots).toBeUndefined();
+      expect(result?.page?.slots).toBeUndefined();
     });
 
     it('should convert page slots', () => {
@@ -86,8 +130,8 @@ describe('OccCmsPageNormalizer', () => {
         },
       };
       const result = occCmsPageNormalizer.convert(data);
-      expect(result.page.slots.Section1).toBeDefined();
-      expect(result.page.slots.Section2).toBeDefined();
+      expect(result?.page?.slots?.Section1).toBeDefined();
+      expect(result?.page?.slots?.Section2).toBeDefined();
     });
   });
 
@@ -95,13 +139,13 @@ describe('OccCmsPageNormalizer', () => {
     it('should not have components', () => {
       const data = mockPageData({}, 'Section1');
       const result = occCmsPageNormalizer.convert(data);
-      expect(result.page.slots.Section1.components).toBeUndefined();
+      expect(result?.page?.slots?.Section1.components).toBeUndefined();
     });
 
     it('should convert components', () => {
       const data = mockComponent({ uid: '123', typeCode: 'banner' });
       const result = occCmsPageNormalizer.convert(data);
-      const comp = result.page.slots['pos'].components[0];
+      const comp = result?.page?.slots?.['pos']?.components?.[0] ?? {};
       expect(comp.uid).toEqual('123');
       expect(comp.typeCode).toEqual('banner');
       expect(comp.flexType).toEqual('banner');
@@ -113,7 +157,7 @@ describe('OccCmsPageNormalizer', () => {
         typeCode: 'JspIncludeComponent',
       });
       const result = occCmsPageNormalizer.convert(data);
-      const comp = result.page.slots['pos'].components[0];
+      const comp = result?.page?.slots?.['pos']?.components?.[0] ?? {};
       expect(comp.uid).toEqual('123');
       expect(comp.typeCode).toEqual('JspIncludeComponent');
       expect(comp.flexType).toEqual('123');
@@ -126,7 +170,7 @@ describe('OccCmsPageNormalizer', () => {
         flexType: 'Flexible',
       });
       const result = occCmsPageNormalizer.convert(data);
-      const comp = result.page.slots['pos'].components[0];
+      const comp = result?.page?.slots?.['pos']?.components?.[0] ?? {};
       expect(comp.uid).toEqual('123');
       expect(comp.typeCode).toEqual('CMSFlexComponent');
       expect(comp.flexType).toEqual('Flexible');
@@ -149,8 +193,8 @@ describe('OccCmsPageNormalizer', () => {
     it('should add component', () => {
       const data = mockComponent({ uid: '123', typeCode: 'banner' });
       const result = occCmsPageNormalizer.convert(data);
-      expect(result.components[0].uid).toEqual('123');
-      expect(result.components[0].typeCode).toEqual('banner');
+      expect(result.components?.[0]?.uid).toEqual('123');
+      expect(result.components?.[0]?.typeCode).toEqual('banner');
     });
 
     it('should convert modifiedtime to modifiedTime', () => {
@@ -159,10 +203,10 @@ describe('OccCmsPageNormalizer', () => {
         uid: '123',
         typeCode: 'banner',
         modifiedtime: date,
-      });
+      } as ContentSlotComponentData);
       const result = occCmsPageNormalizer.convert(data);
-      expect(result.components[0]['modifiedtime']).toBeUndefined();
-      expect(result.components[0].modifiedTime).toEqual(date);
+      expect(result.components?.[0]['modifiedtime']).toBeUndefined();
+      expect(result.components?.[0].modifiedTime).toEqual(date);
     });
 
     it('should not introduce empty modifiedTime', () => {
@@ -171,11 +215,15 @@ describe('OccCmsPageNormalizer', () => {
         typeCode: 'banner',
       });
       const result = occCmsPageNormalizer.convert(data);
-      expect(result.components[0].modifiedTime).toBeUndefined();
+      expect(result.components?.[0].modifiedTime).toBeUndefined();
     });
   });
 
-  function mockPageData(page, position?, comp?): Occ.CMSPage {
+  function mockPageData(
+    page: Occ.CMSPage,
+    position: string,
+    comp?: CmsComponent
+  ): Occ.CMSPage {
     const data: Occ.CMSPage = {
       ...page,
     };
@@ -187,7 +235,7 @@ describe('OccCmsPageNormalizer', () => {
           },
         ],
       };
-      if (comp) {
+      if (data?.contentSlots?.contentSlot?.[0] && comp) {
         data.contentSlots.contentSlot[0].components = {
           component: [comp],
         };
@@ -196,7 +244,7 @@ describe('OccCmsPageNormalizer', () => {
     return data;
   }
 
-  function mockComponent(comp): Occ.CMSPage {
+  function mockComponent(comp: ContentSlotComponentData): Occ.CMSPage {
     return mockPageData({}, 'pos', comp);
   }
 });

@@ -41,7 +41,7 @@ export class OccCheckoutPaymentTypeAdapter implements PaymentTypeAdapter {
     if (purchaseOrderNumber !== undefined) {
       httpParams = httpParams.set('purchaseOrderNumber', purchaseOrderNumber);
     }
-    /* tslint:disable:max-line-length */
+    /* eslint-disable max-len */
     httpParams = httpParams.set(
       'fields',
       'DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user'

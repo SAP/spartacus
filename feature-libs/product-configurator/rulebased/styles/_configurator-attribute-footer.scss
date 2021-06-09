@@ -1,0 +1,8 @@
+%cx-configurator-attribute-footer {
+  display: flex;
+  flex-direction: row;
+  margin-inline-start: 17px;
+  margin-inline-end: 17px;
+
+  @include cx-configurator-required-error-msg();
+}

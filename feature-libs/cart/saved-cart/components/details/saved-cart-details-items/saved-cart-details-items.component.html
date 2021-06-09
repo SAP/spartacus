@@ -1,0 +1,17 @@
+<ng-container *ngIf="savedCart$ | async as cart">
+  <ng-container *ngIf="cart?.entries?.length > 0; else emptyCartItems">
+    <div class="cart-details-wrapper">
+      <cx-cart-item-list
+        [cartId]="cart.code"
+        [cartIsLoading]="!(cartLoaded$ | async)"
+        [items]="cart.entries"
+        [promotionLocation]="CartLocation.SavedCart"
+      ></cx-cart-item-list>
+    </div>
+  </ng-container>
+</ng-container>
+<ng-template #emptyCartItems>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

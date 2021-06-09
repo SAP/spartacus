@@ -12,6 +12,7 @@ export const common = {
     home: 'Home',
     noData: 'No data.',
     confirm: 'Confirm',
+    more: 'more',
   },
   pageMetaResolver: {
     category: {
@@ -19,14 +20,14 @@ export const common = {
       title_plural: '{{count}} results for {{query}}',
     },
     checkout: {
-      title: 'Checkout {{count}} item',
-      title_plural: 'Checkout {{count}} items',
+      title: 'Checkout',
     },
     search: {
       title: '{{count}} result for "{{query}}"',
       title_plural: '{{count}} results for "{{query}}"',
       findProductTitle: '{{count}} result for coupon "{{coupon}}"',
       findProductTitle_plural: '{{count}} results for coupon "{{coupon}}"',
+      default_title: 'All products',
     },
     product: {
       description: '{{description}}',
@@ -60,7 +61,9 @@ export const common = {
     badGateway: 'A server error occurred. Please try again later.',
     badRequestPleaseLoginAgain: '{{ errorMessage }}. Please login again.',
     badRequestOldPasswordIncorrect: 'Old password incorrect.',
-    conflict: 'Already exists',
+    badRequestGuestDuplicateEmail:
+      '{{ errorMessage }} email already exist. Please checkout with a different email to register using a guest account.',
+    conflict: 'Already exists.',
     forbidden:
       'You are not authorized to perform this action. Please contact your administrator if you think this is a mistake.',
     gatewayTimeout: 'The server did not respond, please try again later.',
@@ -90,11 +93,11 @@ export const common = {
         billTo_state:
           'The state/province entered is not valid for this credit card.',
         billTo_country:
-          'The country entered is not valid for this credit card.',
+          'The country/region entered is not valid for this credit card.',
         billTo_postalCode:
           'The zip/postal code is not valid for this credit card.',
         country: {
-          isocode: 'Missing country',
+          isocode: 'Missing country/region',
         },
       },
       invalid: {
@@ -105,6 +108,7 @@ export const common = {
         password: 'Password entered is not valid.',
         uid: 'UID is not valid.',
         code: 'Code is not valid.',
+        email: 'Email is not valid.',
       },
     },
     cartNotFound: 'Cart not found.',
@@ -115,10 +119,6 @@ export const common = {
     item_plural: '{{count}} items currently in your cart',
     total: '{{total}}',
     count: '{{count}}',
-  },
-  miniLogin: {
-    userGreeting: 'Hi, {{name}}',
-    signInRegister: 'Sign In / Register',
   },
   skipLink: {
     skipTo: 'Skip to',

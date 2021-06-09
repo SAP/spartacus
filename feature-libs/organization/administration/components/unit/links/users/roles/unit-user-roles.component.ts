@@ -70,7 +70,7 @@ export class UnitUserRolesFormComponent {
   protected notify(item: B2BUser) {
     this.messageService.add({
       message: {
-        key: 'unitUserRoles.messages.rolesUpdated',
+        key: 'orgUnitUserRoles.messages.rolesUpdated',
         params: { item },
       },
     });

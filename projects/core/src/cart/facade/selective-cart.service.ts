@@ -17,19 +17,19 @@ import { MultiCartService } from './multi-cart.service';
   providedIn: 'root',
 })
 export class SelectiveCartService {
-  private customerId: string;
-  private userId: string;
-  private cartId: string;
-  private selectiveCart$: Observable<Cart>;
-  private cartId$: BehaviorSubject<string> = new BehaviorSubject<string>(
+  protected customerId: string;
+  protected userId: string;
+  protected cartId: string;
+  protected selectiveCart$: Observable<Cart>;
+  protected cartId$: BehaviorSubject<string> = new BehaviorSubject<string>(
     undefined
   );
 
-  private readonly PREVIOUS_USER_ID_INITIAL_VALUE =
+  protected readonly PREVIOUS_USER_ID_INITIAL_VALUE =
     'PREVIOUS_USER_ID_INITIAL_VALUE';
-  private previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
+  protected previousUserId = this.PREVIOUS_USER_ID_INITIAL_VALUE;
 
-  private cartSelector$ = this.cartId$.pipe(
+  protected cartSelector$ = this.cartId$.pipe(
     switchMap((cartId) => {
       this.cartId = cartId;
       return this.multiCartService.getCartEntity(cartId);
@@ -98,13 +98,19 @@ export class SelectiveCartService {
     return this.multiCartService.getEntries(this.cartId);
   }
 
-  getLoaded(): Observable<boolean> {
-    return this.cartSelector$.pipe(
-      map((cart) => (cart.success || cart.error) && !cart.loading)
+  /**
+   * Returns true when selective cart is stable (not loading and not pending processes on cart)
+   */
+  isStable(): Observable<boolean> {
+    return this.cartId$.pipe(
+      switchMap((cartId) => this.multiCartService.isStable(cartId))
     );
   }
 
-  private load() {
+  /**
+   * Loads logged user's selective cart
+   */
+  protected load() {
     if (this.isLoggedIn(this.userId) && this.cartId) {
       this.multiCartService.loadCart({
         userId: this.userId,
@@ -165,14 +171,20 @@ export class SelectiveCartService {
   isEnabled(): boolean {
     return this.cartConfigService.isSelectiveCartEnabled();
   }
-
-  private isEmpty(cart: Cart): boolean {
+  /**
+   * Indicates if given cart is empty.
+   * Returns true is cart is undefined, null or is an empty object.
+   */
+  protected isEmpty(cart: Cart): boolean {
     return (
       !cart || (typeof cart === 'object' && Object.keys(cart).length === 0)
     );
   }
 
-  private isJustLoggedIn(userId: string): boolean {
+  /**
+   * Indicates if a given user is logged in on account different than preceding user account
+   */
+  protected isJustLoggedIn(userId: string): boolean {
     return (
       this.isLoggedIn(userId) &&
       this.previousUserId !== userId && // *just* logged in
@@ -180,7 +192,10 @@ export class SelectiveCartService {
     );
   }
 
-  private isLoggedIn(userId: string): boolean {
+  /**
+   * Indicates if given user is logged in
+   */
+  protected isLoggedIn(userId: string): boolean {
     return typeof userId !== 'undefined' && userId !== OCC_USER_ID_ANONYMOUS;
   }
 }

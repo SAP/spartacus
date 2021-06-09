@@ -22,9 +22,9 @@ export class CheckoutReplenishmentFormService {
     replenishmentStartDate: new Date().toISOString().split('T')[0],
   };
 
-  private scheduleReplenishmentFormData$: BehaviorSubject<
-    ScheduleReplenishmentForm
-  > = new BehaviorSubject<ScheduleReplenishmentForm>(this.defaultFormData);
+  private scheduleReplenishmentFormData$: BehaviorSubject<ScheduleReplenishmentForm> = new BehaviorSubject<ScheduleReplenishmentForm>(
+    this.defaultFormData
+  );
 
   constructor() {}
 

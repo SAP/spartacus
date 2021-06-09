@@ -50,6 +50,6 @@ describe('B2BUserNormalizer', () => {
 
   it('should convert B2B User with applied target', () => {
     const result = service.convert(orgCustomer, {});
-    expect(result).toEqual({});
+    expect(result).toEqual({ email: orgCustomerId });
   });
 });

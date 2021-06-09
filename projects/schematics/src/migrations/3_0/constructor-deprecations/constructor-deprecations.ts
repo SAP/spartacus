@@ -5,6 +5,7 @@ import { ACTIVE_CART_SERVICE_MIGRATION } from './data/active-cart.service.migrat
 import { AUTH_REDIRECT_SERVICE_CONSTRUCTOR_MIGRATION } from './data/auth-redirect.service.migration';
 import { AUTH_GUARD_CONSTRUCTOR_MIGRATION } from './data/auth.guard.migration';
 import { AUTH_SERVICE_CONSTRUCTOR_MIGRATION } from './data/auth.service.migration';
+import { BREAKPOINT_SERVICE_MIGRATION } from './data/breakpoint.service.migration';
 import { CART_NOT_EMPTY_GUARD_MIGRATION } from './data/cart-not-empty.guard.migration';
 import { CART_VOUCHER_SERVICE_MIGRATION } from './data/cart-voucher.service.migration';
 import { CDC_AUTH_SERVICE_CONSTRUCTOR_MIGRATION } from './data/cdc-auth.service.migration';
@@ -131,6 +132,7 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   PRODUCT_CAROUSEL_SERVICE_MIGRATION,
   VIEW_COMPONENT_MIGRATION,
   SPLIT_VIEW_COMPONENT_MIGRATION,
+  BREAKPOINT_SERVICE_MIGRATION,
 ];
 
 export function migrate(): Rule {

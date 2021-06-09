@@ -16,6 +16,7 @@ class MockUserIdService implements Partial<UserIdService> {
   getUserId() {
     return of('userId');
   }
+  clearUserId() {}
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -103,6 +104,14 @@ describe('AuthStatePersistenceService', () => {
     expect(authRedirectStorageService.setRedirectUrl).toHaveBeenCalledWith(
       'some_url'
     );
+  });
+
+  it('user id should be initialized even when read from storage was empty', () => {
+    spyOn(userIdService, 'clearUserId').and.stub();
+
+    service['onRead']({});
+
+    expect(userIdService.clearUserId).toHaveBeenCalled();
   });
 
   it('should call persistenceService with correct attributes', () => {

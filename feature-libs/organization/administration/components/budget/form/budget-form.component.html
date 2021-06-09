@@ -1,52 +1,57 @@
-<cx-org-form i18nRoot="budget">
+<cx-org-form i18nRoot="orgBudget">
   <ng-container *ngIf="form" [formGroup]="form" main>
     <label>
       <span class="label-content required">{{
-        'budget.name' | cxTranslate
+        'orgBudget.name' | cxTranslate
       }}</span>
       <input
         type="text"
         class="form-control"
         required
-        placeholder="{{ 'budget.name' | cxTranslate }}"
+        placeholder="{{ 'orgBudget.name' | cxTranslate }}"
         formControlName="name"
+        (blur)="createCodeWithName(form.get('name'), form.get('code'))"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
     </label>
 
     <label>
       <span class="label-content required">{{
-        'budget.code' | cxTranslate
+        'orgBudget.code' | cxTranslate
       }}</span>
       <input
         class="form-control"
         type="text"
         required
-        placeholder="{{ 'budget.code' | cxTranslate }}"
+        placeholder="{{ 'orgBudget.code' | cxTranslate }}"
         formControlName="code"
       />
       <cx-form-errors [control]="form.get('code')"></cx-form-errors>
     </label>
 
     <label>
-      <span class="label-content">{{ 'budget.startDate' | cxTranslate }}</span>
+      <span class="label-content">{{
+        'orgBudget.startDate' | cxTranslate
+      }}</span>
       <cx-date-picker
         [control]="form.get('startDate')"
-        [max]="form.get('endDate')"
+        [max]="form.get('endDate').value"
+        (update)="form.get('endDate').updateValueAndValidity()"
       ></cx-date-picker>
     </label>
 
     <label>
-      <span class="label-content">{{ 'budget.endDate' | cxTranslate }}</span>
+      <span class="label-content">{{ 'orgBudget.endDate' | cxTranslate }}</span>
       <cx-date-picker
         [control]="form.get('endDate')"
-        [min]="form.get('startDate')"
+        [min]="form.get('startDate').value"
+        (update)="form.get('startDate').updateValueAndValidity()"
       ></cx-date-picker>
     </label>
 
     <label aria-required="true" [formGroup]="form.get('currency')">
       <span class="label-content required">{{
-        'budget.currency' | cxTranslate
+        'orgBudget.currency' | cxTranslate
       }}</span>
       <ng-select
         formControlName="isocode"
@@ -57,18 +62,18 @@
         bindValue="isocode"
         [class.invalid]="form.get('currency.isocode').invalid"
         appendTo="cx-org-list"
-        [placeholder]="'budget.currency' | cxTranslate"
+        [placeholder]="'orgBudget.currency' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
     </label>
 
     <label>
-      <span class="label-content">{{ 'budget.amount' | cxTranslate }}</span>
+      <span class="label-content">{{ 'orgBudget.amount' | cxTranslate }}</span>
       <input
         type="number"
         class="form-control"
-        placeholder="{{ 'budget.amount' | cxTranslate }}"
+        placeholder="{{ 'orgBudget.amount' | cxTranslate }}"
         formControlName="budget"
         min="0"
       />
@@ -81,18 +86,18 @@
       [formGroup]="form.get('orgUnit')"
     >
       <span class="label-content required">{{
-        'budget.businessUnits' | cxTranslate
+        'orgBudget.businessUnits' | cxTranslate
       }}</span>
       <ng-select
         formControlName="uid"
-        [searchable]="false"
+        [searchable]="true"
         [clearable]="false"
         [items]="units"
         bindLabel="name"
         bindValue="id"
         [readonly]="form.get('orgUnit.uid').disabled"
         appendTo="cx-org-list"
-        [placeholder]="'budget.businessUnits' | cxTranslate"
+        [placeholder]="'orgBudget.businessUnits' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>

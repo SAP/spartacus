@@ -1,0 +1,30 @@
+%cx-configurator-conflict-suggestion {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: mix(#ffffff, theme-color('light'), 90%);
+  border: 1px solid var(--cx-color-light);
+  border-radius: 2px;
+  padding-inline-start: 15px;
+  padding-inline-end: 15px;
+  padding-block-start: 15px;
+  padding-block-end: 15px;
+  margin-inline-start: -20px;
+  margin-inline-end: -20px;
+  margin-block-start: 0px;
+  margin-block-end: 15px;
+
+  @include media-breakpoint-down(sm) {
+    padding-inline-start: 35px;
+    padding-inline-end: 35px;
+    padding-block-start: 15px;
+    padding-block-end: 15px;
+  }
+
+  .cx-title {
+    font-weight: bold;
+    padding-inline-start: 5px;
+    padding-inline-end: 5px;
+  }
+}

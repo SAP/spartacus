@@ -40,7 +40,6 @@ import {
 } from '../shared/utils/file-utils';
 import {
   addToModuleDeclarations,
-  addToModuleEntryComponents,
   addToModuleExports,
   addToModuleImports,
   buildRelativePath,
@@ -126,14 +125,6 @@ function updateModule(options: CxCmsComponentSchema): Rule {
     );
     changes.push(...addToModuleDeclarationsChanges);
 
-    const addToModuleEntryComponentsChanges = addToModuleEntryComponents(
-      tree,
-      modulePath,
-      componentName,
-      moduleTs
-    );
-    changes.push(...addToModuleEntryComponentsChanges);
-
     const addToModuleExportsChanges = addToModuleExports(
       tree,
       modulePath,
@@ -202,13 +193,13 @@ function updateComponent(options: CxCmsComponentSchema): Rule {
     const componentTs = getTsSourceFile(tree, componentPath);
     const nodes = getSourceNodes(componentTs);
     const constructorNode = findConstructor(nodes);
-    const injectionChange = injectService(
+    const injectionChange = injectService({
       constructorNode,
-      componentPath,
-      cmsComponentData,
-      'private',
-      CMS_COMPONENT_DATA_PROPERTY_NAME
-    );
+      path: componentPath,
+      serviceName: cmsComponentData,
+      modifier: 'private',
+      propertyName: CMS_COMPONENT_DATA_PROPERTY_NAME,
+    });
     changes.push(injectionChange);
 
     const componentDataProperty = `  ${CMS_COMPONENT_DATA_PROPERTY_NAME}$: Observable<${strings.classify(
@@ -382,7 +373,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
       export: exportOption,
       name: componentName,
       changeDetection,
-      entryComponent,
       flat,
       inlineStyle,
       inlineTemplate,
@@ -428,7 +418,6 @@ export function addCmsComponent(options: CxCmsComponentSchema): Rule {
         : noop(),
       externalSchematic(ANGULAR_SCHEMATICS, 'component', {
         changeDetection,
-        entryComponent,
         export: exportOption,
         flat,
         inlineStyle,

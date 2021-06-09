@@ -15,7 +15,11 @@ import {
 import { defaultOccConfig } from '../../config/default-occ-config';
 import { OccConfig } from '../../config/occ-config';
 import { Occ } from '../../occ-models/occ.models';
-import { OccEndpointsService } from '../../services';
+import {
+  BaseOccUrlProperties,
+  DynamicAttributes,
+  OccEndpointsService,
+} from '../../services';
 import { OccSiteAdapter } from './occ-site.adapter';
 
 const MockOccModuleConfig: OccConfig = {
@@ -31,22 +35,23 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
-    return this.getEndpoint(endpoint);
-  }
+class MockOccEndpointsService implements Partial<OccEndpointsService> {
   getEndpoint(url: string) {
     return url;
   }
-  getBaseEndpoint() {
+  getBaseUrl() {
     return (
       MockOccModuleConfig.backend.occ.baseUrl +
       MockOccModuleConfig.backend.occ.prefix +
       MockOccModuleConfig.context.baseSite
     );
   }
-  getOccEndpoint(url: string) {
-    return url;
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
+    return endpoint;
   }
 }
 
@@ -72,8 +77,7 @@ describe('OccSiteAdapter', () => {
     converterService = TestBed.inject(ConverterService);
     occEndpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converterService, 'pipeableMany').and.callThrough();
-    spyOn(occEndpointsService, 'getUrl').and.callThrough();
-    spyOn(occEndpointsService, 'getOccEndpoint').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -97,7 +101,7 @@ describe('OccSiteAdapter', () => {
 
       expect(mockRequest.cancelled).toBeFalsy();
       expect(mockRequest.request.responseType).toEqual('json');
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('languages');
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('languages');
       mockRequest.flush(languages);
     });
 
@@ -126,7 +130,7 @@ describe('OccSiteAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('currencies');
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('currencies');
       mockReq.flush(currencies);
     });
 
@@ -172,11 +176,9 @@ describe('OccSiteAdapter', () => {
       httpMock
         .expectOne((req) => req.method === 'GET' && req.url === 'countries')
         .flush({});
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith(
-        'countries',
-        undefined,
-        { type: CountryType.BILLING }
-      );
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('countries', {
+        queryParams: { type: CountryType.BILLING },
+      });
     });
 
     it('should use converter', () => {
@@ -218,8 +220,8 @@ describe('OccSiteAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('regions', {
-        isoCode: countryIsoCode,
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('regions', {
+        urlParams: { isoCode: countryIsoCode },
       });
       mockReq.flush(regions);
     });
@@ -252,7 +254,7 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'baseSites',
+        url: 'baseSitesForConfig',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -266,7 +268,7 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'baseSites',
+        url: 'baseSitesForConfig',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -290,13 +292,15 @@ describe('OccSiteAdapter', () => {
       });
       const mockReq: TestRequest = httpMock.expectOne({
         method: 'GET',
-        url: 'baseSites',
+        url: 'baseSitesForConfig',
       });
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(occEndpointsService.getOccEndpoint).toHaveBeenCalledWith(
-        'baseSites'
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
+        'baseSitesForConfig',
+        {},
+        { baseSite: false }
       );
       mockReq.flush({ baseSites: baseSites });
     });
@@ -304,7 +308,7 @@ describe('OccSiteAdapter', () => {
 
   it('should use converter', () => {
     occSiteAdapter.loadBaseSites().subscribe();
-    httpMock.expectOne('baseSites').flush({});
+    httpMock.expectOne('baseSitesForConfig').flush({});
     expect(converterService.pipeableMany).toHaveBeenCalledWith(
       BASE_SITE_NORMALIZER
     );

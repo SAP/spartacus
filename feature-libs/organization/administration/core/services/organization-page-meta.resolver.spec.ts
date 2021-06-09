@@ -1,11 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import {
   BreadcrumbMeta,
-  CmsService,
   ContentPageMetaResolver,
   I18nTestingModule,
-  Page,
-  PageType,
+  PageRobotsMeta,
   RouterState,
   RoutingService,
   SemanticPathService,
@@ -13,18 +11,6 @@ import {
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrganizationPageMetaResolver } from './organization-page-meta.resolver';
-
-const mockOrganizationPage: Page = {
-  type: PageType.CONTENT_PAGE,
-  template: 'CompanyPageTemplate',
-  slots: {},
-};
-
-class MockCmsService {
-  getCurrentPage(): Observable<Page> {
-    return of(mockOrganizationPage);
-  }
-}
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -50,13 +36,21 @@ class MockContentPageMetaResolver implements Partial<ContentPageMetaResolver> {
     return of('testContentPageTitle');
   }
 
+  resolveDescription(): Observable<string | undefined> {
+    return of('Page description');
+  }
+
   resolveBreadcrumbs() {
     return of([testHomeBreadcrumb]);
+  }
+
+  resolveRobots() {
+    return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
   }
 }
 
 describe('OrganizationPageMetaResolver', () => {
-  let resolver: OrganizationPageMetaResolver;
+  let service: OrganizationPageMetaResolver;
   let routingService: RoutingService;
   let contentPageMetaResolver: ContentPageMetaResolver;
 
@@ -64,7 +58,6 @@ describe('OrganizationPageMetaResolver', () => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
-        { provide: CmsService, useClass: MockCmsService },
         { provide: RoutingService, useClass: MockRoutingService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         {
@@ -74,14 +67,14 @@ describe('OrganizationPageMetaResolver', () => {
       ],
     });
 
-    resolver = TestBed.inject(OrganizationPageMetaResolver);
+    service = TestBed.inject(OrganizationPageMetaResolver);
     routingService = TestBed.inject(RoutingService);
     contentPageMetaResolver = TestBed.inject(ContentPageMetaResolver);
   });
 
   describe('resolveTitle', () => {
     it('should emit title of CMS content page ', async () => {
-      expect(await resolver.resolveTitle().pipe(take(1)).toPromise()).toBe(
+      expect(await service.resolveTitle().pipe(take(1)).toPromise()).toBe(
         'testContentPageTitle'
       );
     });
@@ -97,7 +90,7 @@ describe('OrganizationPageMetaResolver', () => {
 
       it('should NOT return breadcrumb for the Organization page', async () => {
         expect(
-          await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
+          await service.resolveBreadcrumbs().pipe(take(1)).toPromise()
         ).toEqual([testHomeBreadcrumb]);
       });
     });
@@ -110,7 +103,7 @@ describe('OrganizationPageMetaResolver', () => {
 
       beforeEach(() => {
         spyOn(routingService, 'getRouterState').and.returnValue(
-          of({ state: { semanticRoute: 'budgetDetails' } } as any)
+          of({ state: { semanticRoute: 'orgBudgetDetails' } } as any)
         );
 
         spyOn(contentPageMetaResolver, 'resolveBreadcrumbs').and.returnValue(
@@ -120,7 +113,7 @@ describe('OrganizationPageMetaResolver', () => {
 
       it('should insert breadcrumb for the Organization page right after the Homepage breadcrumb', async () => {
         expect(
-          await resolver.resolveBreadcrumbs().pipe(take(1)).toPromise()
+          await service.resolveBreadcrumbs().pipe(take(1)).toPromise()
         ).toEqual([
           testHomeBreadcrumb,
           organizationBreadcrumb,
@@ -128,5 +121,32 @@ describe('OrganizationPageMetaResolver', () => {
         ]);
       });
     });
+  });
+
+  it(`should resolve 'Page description' for resolveDescription()`, () => {
+    let result: string | undefined;
+
+    service
+      .resolveDescription()
+      .subscribe((meta) => {
+        result = meta;
+      })
+      .unsubscribe();
+
+    expect(result).toEqual('Page description');
+  });
+
+  it(`should resolve robots for page data`, () => {
+    let result: PageRobotsMeta[] | undefined;
+
+    service
+      .resolveRobots()
+      .subscribe((meta) => {
+        result = meta;
+      })
+      .unsubscribe();
+
+    expect(result).toContain(PageRobotsMeta.FOLLOW);
+    expect(result).toContain(PageRobotsMeta.INDEX);
   });
 });

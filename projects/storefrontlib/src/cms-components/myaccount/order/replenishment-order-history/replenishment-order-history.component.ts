@@ -13,9 +13,10 @@ import {
   TranslationService,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
-import { ReplenishmentOrderCancellationLaunchDialogService } from '../replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation-launch-dialog.service';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
+import { LaunchDialogService } from '../../../../layout/launch-dialog/services/launch-dialog.service';
+import { LAUNCH_CALLER } from '../../../../layout/launch-dialog/config/launch-config';
 
 @Component({
   selector: 'cx-replenishment-order-history',
@@ -30,9 +31,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   private PAGE_SIZE = 5;
   sortType: string;
 
-  replenishmentOrders$: Observable<
-    ReplenishmentOrderList
-  > = this.userReplenishmentOrderService
+  replenishmentOrders$: Observable<ReplenishmentOrderList> = this.userReplenishmentOrderService
     .getReplenishmentOrderHistoryList(this.PAGE_SIZE)
     .pipe(
       tap((replenishmentOrders: ReplenishmentOrderList) => {
@@ -42,16 +41,14 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
       })
     );
 
-  isLoaded$: Observable<
-    boolean
-  > = this.userReplenishmentOrderService.getReplenishmentOrderHistoryListSuccess();
+  isLoaded$: Observable<boolean> = this.userReplenishmentOrderService.getReplenishmentOrderHistoryListSuccess();
 
   constructor(
     protected routing: RoutingService,
     protected userReplenishmentOrderService: UserReplenishmentOrderService,
-    protected replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
     protected translation: TranslationService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   changeSortCode(sortCode: string): void {
@@ -99,7 +96,8 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
   }
 
   openDialog(event: Event, replenishmentOrderCode: string): void {
-    const dialog = this.replenishmentOrderCancellationLaunchDialogService.openDialog(
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.REPLENISHMENT_ORDER,
       this.element,
       this.vcr,
       replenishmentOrderCode

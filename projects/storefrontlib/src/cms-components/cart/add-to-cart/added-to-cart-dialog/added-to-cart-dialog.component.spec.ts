@@ -6,7 +6,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -118,50 +118,52 @@ describe('AddedToCartDialogComponent', () => {
   let activeCartService: ActiveCartService;
   let mockModalService: MockModalService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        RouterTestingModule,
-        SpinnerModule,
-        I18nTestingModule,
-        PromotionsModule,
-        FeaturesConfigModule,
-      ],
-      declarations: [
-        AddedToCartDialogComponent,
-        MockCartItemComponent,
-        MockUrlPipe,
-        MockCxIconComponent,
-        MockModalDirective,
-      ],
-      providers: [
-        {
-          provide: ModalService,
-          useClass: MockModalService,
-        },
-        {
-          provide: ActiveCartService,
-          useClass: MockActiveCartService,
-        },
-        {
-          provide: PromotionService,
-          useClass: MockPromotionService,
-        },
-        {
-          provide: RoutingService,
-          useClass: MockRoutingService,
-        },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.3' },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          FormsModule,
+          ReactiveFormsModule,
+          RouterTestingModule,
+          SpinnerModule,
+          I18nTestingModule,
+          PromotionsModule,
+          FeaturesConfigModule,
+        ],
+        declarations: [
+          AddedToCartDialogComponent,
+          MockCartItemComponent,
+          MockUrlPipe,
+          MockCxIconComponent,
+          MockModalDirective,
+        ],
+        providers: [
+          {
+            provide: ModalService,
+            useClass: MockModalService,
           },
-        },
-      ],
-    }).compileComponents();
-  }));
+          {
+            provide: ActiveCartService,
+            useClass: MockActiveCartService,
+          },
+          {
+            provide: PromotionService,
+            useClass: MockPromotionService,
+          },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '1.3' },
+            },
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AddedToCartDialogComponent);

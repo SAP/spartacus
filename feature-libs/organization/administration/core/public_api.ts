@@ -1,6 +1,7 @@
 export * from './administration-core.module';
 export * from './connectors/index';
 export * from './guards/index';
+export * from './http-interceptors/index';
 export * from './model/index';
 export * from './services/index';
 export * from './store/actions/index';

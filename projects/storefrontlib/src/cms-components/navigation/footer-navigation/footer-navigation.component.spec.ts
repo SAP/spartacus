@@ -1,5 +1,5 @@
 import { Component, DebugElement, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -69,31 +69,33 @@ describe('FooterNavigationComponent', () => {
     getNavigationNode: createSpy().and.returnValue(of(null)),
   };
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        FooterNavigationComponent,
-        NavigationComponent,
-        MockNavigationUIComponent,
-        MockGenericLinkComponent,
-      ],
-      providers: [
-        {
-          provide: NavigationService,
-          useValue: mockNavigationService,
-        },
-        {
-          provide: CmsComponentData,
-          useValue: MockCmsNavigationComponent,
-        },
-        {
-          provide: AnonymousConsentsConfig,
-          useValue: mockAnonymousConsentsConfig,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [
+          FooterNavigationComponent,
+          NavigationComponent,
+          MockNavigationUIComponent,
+          MockGenericLinkComponent,
+        ],
+        providers: [
+          {
+            provide: NavigationService,
+            useValue: mockNavigationService,
+          },
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsNavigationComponent,
+          },
+          {
+            provide: AnonymousConsentsConfig,
+            useValue: mockAnonymousConsentsConfig,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(FooterNavigationComponent);

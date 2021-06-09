@@ -1,15 +1,19 @@
 import { HttpClient } from '@angular/common/http';
-import i18next, { InitOptions } from 'i18next';
-import i18nextXhrBackend from 'i18next-xhr-backend';
+import { Injectable, OnDestroy } from '@angular/core';
+import { i18n, InitOptions } from 'i18next';
+import i18nextHttpBackend from 'i18next-http-backend';
+import { Subscription } from 'rxjs';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { TranslationResources } from '../translation-resources';
 
 export function i18nextInit(
+  i18next: i18n,
   configInit: ConfigInitializerService,
   languageService: LanguageService,
   httpClient: HttpClient,
-  serverRequestOrigin: string
+  serverRequestOrigin: string,
+  siteContextI18nextSynchronizer: SiteContextI18nextSynchronizer
 ): () => Promise<any> {
   return () =>
     configInit.getStableConfig('i18n').then((config) => {
@@ -22,7 +26,7 @@ export function i18nextInit(
         },
       };
       if (config.i18n.backend) {
-        i18next.use(i18nextXhrBackend);
+        i18next.use(i18nextHttpBackend);
         const loadPath = getLoadPath(
           config.i18n.backend.loadPath,
           serverRequestOrigin
@@ -37,13 +41,16 @@ export function i18nextInit(
       return i18next.init(i18nextConfig, () => {
         // Don't use i18next's 'resources' config key for adding static translations,
         // because it will disable loading chunks from backend. We add resources here, in the init's callback.
-        i18nextAddTranslations(config.i18n.resources);
-        syncI18nextWithSiteContext(languageService);
+        i18nextAddTranslations(i18next, config.i18n.resources);
+        siteContextI18nextSynchronizer.init(i18next, languageService);
       });
     });
 }
 
-export function i18nextAddTranslations(resources: TranslationResources = {}) {
+export function i18nextAddTranslations(
+  i18next: i18n,
+  resources: TranslationResources = {}
+) {
   Object.keys(resources).forEach((lang) => {
     Object.keys(resources[lang]).forEach((chunkName) => {
       i18next.addResourceBundle(
@@ -57,14 +64,25 @@ export function i18nextAddTranslations(resources: TranslationResources = {}) {
   });
 }
 
-export function syncI18nextWithSiteContext(language: LanguageService) {
-  // always update language of i18next on site context (language) change
-  language.getActive().subscribe((lang) => i18next.changeLanguage(lang));
+@Injectable({ providedIn: 'root' })
+export class SiteContextI18nextSynchronizer implements OnDestroy {
+  sub: Subscription;
+
+  init(i18next: i18n, language: LanguageService) {
+    // always update language of i18next on site context (language) change
+    this.sub =
+      this.sub ??
+      language.getActive().subscribe((lang) => i18next.changeLanguage(lang));
+  }
+
+  ngOnDestroy() {
+    this.sub?.unsubscribe();
+  }
 }
 
 /**
  * Returns a function appropriate for i18next to make http calls for JSON files.
- * See docs for `i18next-xhr-backend`: https://github.com/i18next/i18next-xhr-backend#backend-options
+ * See docs for `i18next-http-backend`: https://github.com/i18next/i18next-http-backend#backend-options
  *
  * It uses Angular HttpClient under the hood, so it works in SSR.
  * @param httpClient Angular http client

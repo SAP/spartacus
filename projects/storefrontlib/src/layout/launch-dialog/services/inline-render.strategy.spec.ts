@@ -53,7 +53,7 @@ describe('InlineRenderStrategy', () => {
       declarations: [TestContainerComponent],
     }).compileComponents();
 
-    service = TestBed.get(InlineRenderStrategy);
+    service = TestBed.inject(InlineRenderStrategy);
     component = TestBed.createComponent(TestContainerComponent)
       .componentInstance;
 

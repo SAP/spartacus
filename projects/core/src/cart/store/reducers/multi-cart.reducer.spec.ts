@@ -16,7 +16,7 @@ describe('Multi Cart reducer', () => {
   describe('activeCartReducer', () => {
     describe('LOAD_CART_SUCCESS action', () => {
       it('should set active cart id when extraData.active is truthy', () => {
-        const { activeCartInitialState } = fromMultiCart;
+        const { activeCartDefaultState } = fromMultiCart;
         const payload = {
           extraData: {
             active: true,
@@ -29,14 +29,14 @@ describe('Multi Cart reducer', () => {
         };
         const action = new CartActions.LoadCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
-          activeCartInitialState,
+          activeCartDefaultState,
           action
         );
         expect(state).toEqual('cartCode');
       });
 
       it('should not change active cart id when it is not active cart load', () => {
-        const { activeCartInitialState } = fromMultiCart;
+        const { activeCartDefaultState } = fromMultiCart;
         const payload = {
           extraData: {},
           cart: {
@@ -47,7 +47,7 @@ describe('Multi Cart reducer', () => {
         };
         const action = new CartActions.LoadCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
-          activeCartInitialState,
+          activeCartDefaultState,
           action
         );
         expect(state).toEqual('');
@@ -56,7 +56,7 @@ describe('Multi Cart reducer', () => {
 
     describe('CREATE_MULTI_CART_SUCCESS action', () => {
       it('should set active cart id when extraData.active is truthy', () => {
-        const { activeCartInitialState } = fromMultiCart;
+        const { activeCartDefaultState } = fromMultiCart;
         const payload = {
           extraData: {
             active: true,
@@ -70,14 +70,14 @@ describe('Multi Cart reducer', () => {
         };
         const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
-          activeCartInitialState,
+          activeCartDefaultState,
           action
         );
         expect(state).toEqual('cartCode');
       });
 
       it('should not change active cart id when it is not active cart create', () => {
-        const { activeCartInitialState } = fromMultiCart;
+        const { activeCartDefaultState } = fromMultiCart;
         const payload = {
           cart: {
             code: 'cartCode',
@@ -88,7 +88,7 @@ describe('Multi Cart reducer', () => {
         };
         const action = new CartActions.CreateCartSuccess(payload);
         const state = fromMultiCart.activeCartReducer(
-          activeCartInitialState,
+          activeCartDefaultState,
           action
         );
         expect(state).toEqual('');
@@ -97,7 +97,7 @@ describe('Multi Cart reducer', () => {
 
     describe('CREATE_MULTI_CART action', () => {
       it('should set active cart id when extraData.active is truthy', () => {
-        const { activeCartInitialState } = fromMultiCart;
+        const { activeCartDefaultState } = fromMultiCart;
         const payload = {
           extraData: {
             active: true,
@@ -107,21 +107,21 @@ describe('Multi Cart reducer', () => {
         };
         const action = new CartActions.CreateCart(payload);
         const state = fromMultiCart.activeCartReducer(
-          activeCartInitialState,
+          activeCartDefaultState,
           action
         );
         expect(state).toEqual('temp-uuid');
       });
 
       it('should not change active cart id when it is not active cart create', () => {
-        const { activeCartInitialState } = fromMultiCart;
+        const { activeCartDefaultState } = fromMultiCart;
         const payload = {
           userId: 'userId',
           tempCartId: 'temp-uuid',
         };
         const action = new CartActions.CreateCart(payload);
         const state = fromMultiCart.activeCartReducer(
-          activeCartInitialState,
+          activeCartDefaultState,
           action
         );
         expect(state).toEqual('');
@@ -133,7 +133,7 @@ describe('Multi Cart reducer', () => {
         const initialState = 'cartCode';
         const action = new CartActions.RemoveCart({ cartId: 'cartCode' });
         const state = fromMultiCart.activeCartReducer(initialState, action);
-        expect(state).toEqual(fromMultiCart.activeCartInitialState);
+        expect(state).toEqual(fromMultiCart.activeCartDefaultState);
       });
 
       it('should not change active cart id when non active cart is removed', () => {
@@ -152,7 +152,7 @@ describe('Multi Cart reducer', () => {
           userId: 'userId',
         });
         const state = fromMultiCart.activeCartReducer(initialState, action);
-        expect(state).toEqual(fromMultiCart.activeCartInitialState);
+        expect(state).toEqual(fromMultiCart.activeCartDefaultState);
       });
 
       it('should not change active cart id when non active cart is removed', () => {
@@ -180,6 +180,15 @@ describe('Multi Cart reducer', () => {
         const initialState = 'cartCode';
         const action = new CartActions.ClearCartState();
         const state = fromMultiCart.activeCartReducer(initialState, action);
+        expect(state).toEqual(fromMultiCart.activeCartDefaultState);
+      });
+
+      it('should not change value if cart is still not initialized -> id === null', () => {
+        const action = new CartActions.ClearCartState();
+        const state = fromMultiCart.activeCartReducer(
+          fromMultiCart.activeCartInitialState,
+          action
+        );
         expect(state).toEqual(fromMultiCart.activeCartInitialState);
       });
     });
@@ -210,6 +219,16 @@ describe('Multi Cart reducer', () => {
         const action = new CartActions.LoadCartSuccess(payload);
         const state = fromMultiCart.cartEntitiesReducer(initialState, action);
         expect(state).toEqual(payload.cart);
+      });
+    });
+
+    describe('LOAD_CARTS_SUCCESS action', () => {
+      it('should set cart in state', () => {
+        const initialState = fromMultiCart.cartEntitiesInitialState;
+        const payload = [testCart];
+        const action = new CartActions.LoadCartsSuccess(payload);
+        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        expect(state).toEqual((payload as unknown) as Cart);
       });
     });
 
@@ -259,14 +278,14 @@ describe('Multi Cart reducer', () => {
   describe('wishListReducer', () => {
     describe('CREATE_WISH_LIST_SUCCESS action', () => {
       it('should set wish list code', () => {
-        const { wishListInitialState: wishListinitialState } = fromMultiCart;
+        const { wishListInitialState } = fromMultiCart;
         const payload = {
           cart: testCart,
           userId: 'userId',
         };
         const action = new CartActions.CreateWishListSuccess(payload);
         const state = fromMultiCart.wishListReducer(
-          wishListinitialState,
+          wishListInitialState,
           action
         );
         expect(state).toEqual(code);
@@ -274,7 +293,7 @@ describe('Multi Cart reducer', () => {
     });
     describe('LOAD_WISH_LIST_SUCCESS action', () => {
       it('should set wish list code', () => {
-        const { wishListInitialState: wishListinitialState } = fromMultiCart;
+        const { wishListInitialState } = fromMultiCart;
         const payload = {
           cart: testCart,
           userId: 'userId',
@@ -282,7 +301,7 @@ describe('Multi Cart reducer', () => {
         };
         const action = new CartActions.LoadWishListSuccess(payload);
         const state = fromMultiCart.wishListReducer(
-          wishListinitialState,
+          wishListInitialState,
           action
         );
         expect(state).toEqual(code);

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CheckoutService,
@@ -47,19 +47,21 @@ describe('ScheduleReplenishmentOrderComponent', () => {
   let checkoutService: CheckoutService;
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule, IconTestingModule],
-      declarations: [ScheduleReplenishmentOrderComponent],
-      providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService },
-        {
-          provide: CheckoutReplenishmentFormService,
-          useClass: MockCheckoutReplenishmentFormService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule, IconTestingModule],
+        declarations: [ScheduleReplenishmentOrderComponent],
+        providers: [
+          { provide: CheckoutService, useClass: MockCheckoutService },
+          {
+            provide: CheckoutReplenishmentFormService,
+            useClass: MockCheckoutReplenishmentFormService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ScheduleReplenishmentOrderComponent);

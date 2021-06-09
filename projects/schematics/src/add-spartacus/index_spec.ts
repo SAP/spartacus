@@ -2,7 +2,18 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
+import {
+  SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_STYLES,
+} from '../shared/constants';
 import { Schema as SpartacusOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
@@ -12,18 +23,18 @@ describe('add-spartacus', () => {
 
   let appTree: UnitTestTree;
 
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     newProjectRoot: 'projects',
     version: '0.5.0',
   };
 
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
   };
 
@@ -32,6 +43,8 @@ describe('add-spartacus', () => {
     occPrefix: 'xxx',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
+    lazy: true,
+    features: [],
   };
 
   const newLineRegEx = /(?:\\[rn]|[\r\n]+)+/g;
@@ -61,12 +74,12 @@ describe('add-spartacus', () => {
     const packageJson = tree.readContent('/package.json');
     const packageObj = JSON.parse(packageJson);
     const depPackageList = Object.keys(packageObj.dependencies);
-    expect(depPackageList.includes('@spartacus/core')).toBe(true);
-    expect(depPackageList.includes('@spartacus/storefront')).toBe(true);
-    expect(depPackageList.includes('@spartacus/styles')).toBe(true);
+    expect(depPackageList.includes(SPARTACUS_CORE)).toBe(true);
+    expect(depPackageList.includes(SPARTACUS_STOREFRONTLIB)).toBe(true);
+    expect(depPackageList.includes(SPARTACUS_STYLES)).toBe(true);
   });
 
-  it('Import Spartacus modules in app.module', async () => {
+  it('Import SpartacusModule in app.module', async () => {
     const tree = await schematicRunner
       .runSchematicAsync('add-spartacus', defaultOptions, appTree)
       .toPromise();
@@ -75,10 +88,9 @@ describe('add-spartacus', () => {
     );
     expect(
       appModule.includes(
-        `import { B2cStorefrontModule } from '@spartacus/storefront';`
+        `import { SpartacusModule } from './spartacus/spartacus.module';`
       )
     ).toBe(true);
-    expect(appModule.includes('B2cStorefrontModule.withConfig')).toBe(true);
   });
 
   describe('Setup configuration', () => {
@@ -91,7 +103,7 @@ describe('add-spartacus', () => {
         )
         .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/app/app.module.ts'
+        `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
       expect(appModule.includes(`baseUrl: 'test-url'`)).toBe(true);
     });
@@ -105,7 +117,7 @@ describe('add-spartacus', () => {
         )
         .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/app/app.module.ts'
+        `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
       expect(appModule.includes(`prefix: '/occ/v2/'`)).toBe(true);
     });
@@ -115,7 +127,7 @@ describe('add-spartacus', () => {
         .runSchematicAsync('add-spartacus', { ...defaultOptions }, appTree)
         .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/app/app.module.ts'
+        `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
       expect(appModule.includes(`prefix: '/occ/v2/'`)).toBe(false);
     });
@@ -129,7 +141,7 @@ describe('add-spartacus', () => {
         )
         .toPromise();
       const appModule = tree.readContent(
-        '/projects/schematics-test/src/app/app.module.ts'
+        `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
       );
       expect(appModule.includes(`level: '1.5'`)).toBe(true);
     });
@@ -159,7 +171,7 @@ describe('add-spartacus', () => {
             )
             .toPromise();
           const appModule = tree.readContent(
-            '/projects/schematics-test/src/app/app.module.ts'
+            `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
           );
           expect(appModule.includes(`baseSite: ['test-site']`)).toBe(true);
         });
@@ -177,7 +189,7 @@ describe('add-spartacus', () => {
             )
             .toPromise();
           const appModule = tree.readContent(
-            '/projects/schematics-test/src/app/app.module.ts'
+            `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
           );
 
           expect(
@@ -200,7 +212,7 @@ describe('add-spartacus', () => {
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
         expect(appModule.includes(`baseSite: [`)).toBeFalsy();
@@ -219,7 +231,7 @@ describe('add-spartacus', () => {
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
         expect(appModule.includes(`currency: ['USD']`)).toBe(true);
@@ -236,7 +248,7 @@ describe('add-spartacus', () => {
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
         expect(appModule.includes(`currency: ['RSD']`)).toBe(true);
@@ -253,7 +265,7 @@ describe('add-spartacus', () => {
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
         expect(appModule.includes(`currency: ['CAD', 'RSD']`)).toBe(true);
@@ -271,7 +283,7 @@ describe('add-spartacus', () => {
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
         expect(appModule.includes(`language: ['en']`)).toBe(true);
@@ -282,16 +294,16 @@ describe('add-spartacus', () => {
             'add-spartacus',
             {
               ...defaultOptions,
-              language: 'SR',
+              language: 'RS',
             },
             appTree
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
-        expect(appModule.includes(`language: ['sr']`)).toBe(true);
+        expect(appModule.includes(`language: ['rs']`)).toBe(true);
       });
       it('should set multiple languages', async () => {
         const tree = await schematicRunner
@@ -299,20 +311,54 @@ describe('add-spartacus', () => {
             'add-spartacus',
             {
               ...defaultOptions,
-              language: 'EN,SR',
+              language: 'EN,RS',
             },
             appTree
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
-        expect(appModule.includes(`language: ['en', 'sr']`)).toBe(true);
+        expect(appModule.includes(`language: ['en', 'rs']`)).toBe(true);
       });
     });
 
-    describe('baseSite, language and currency', () => {
+    describe('urlParameters', () => {
+      it('should not set the urlParameters, if not provided', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+          .toPromise();
+        const appModule = tree.readContent(
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+
+        expect(appModule.includes(`urlParameters: ['`)).toBe(false);
+      });
+      it('should set the provided urlParameters', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+              urlParameters: 'baseSite,language,currency',
+            },
+            appTree
+          )
+          .toPromise();
+        const appModule = tree.readContent(
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+
+        expect(
+          appModule.includes(
+            `urlParameters: ['baseSite', 'language', 'currency']`
+          )
+        ).toBe(true);
+      });
+    });
+
+    describe('baseSite, language, currency and urlParameters', () => {
       it('should combine all context params properly', async () => {
         const tree = await schematicRunner
           .runSchematicAsync(
@@ -322,22 +368,27 @@ describe('add-spartacus', () => {
               baseSite:
                 'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
               currency: 'CAD,rsd',
-              language: 'EN,SR',
+              language: 'EN,RS',
+              urlParameters: 'baseSite,language,currency',
             },
             appTree
           )
           .toPromise();
         const appModule = tree.readContent(
-          '/projects/schematics-test/src/app/app.module.ts'
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
         );
 
+        expect(appModule.includes(`currency: ['CAD', 'RSD'],`)).toBe(true);
+        expect(appModule.includes(`language: ['en', 'rs'],`)).toBe(true);
         expect(
-          appModule.includes(`
-      context: {
-        currency: ['CAD', 'RSD'],
-        language: ['en', 'sr'],
-        baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de']
-      },`)
+          appModule.includes(
+            `baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de'],`
+          )
+        ).toBe(true);
+        expect(
+          appModule.includes(
+            `urlParameters: ['baseSite', 'language', 'currency']`
+          )
         ).toBe(true);
       });
     });
@@ -445,6 +496,62 @@ describe('add-spartacus', () => {
         )
       ).toBe(true);
       expect(appModule.includes(`baseUrl:`)).toBe(false);
+    });
+  });
+
+  describe('when invoked twice', () => {
+    it('should not duplicate imports, exports nor declarations arrays', async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+      // run it again
+      appTree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+
+      const featureModuleContent = appTree.readContent(
+        '/projects/schematics-test/src/app/spartacus/spartacus-features.module.ts'
+      );
+      const importModuleOccurrences =
+        featureModuleContent.match(/AuthModule.forRoot()/gm)?.length ?? -1;
+      expect(importModuleOccurrences).toBe(1);
+
+      const spartacusModuleContent = appTree.readContent(
+        '/projects/schematics-test/src/app/spartacus/spartacus.module.ts'
+      );
+      expect(spartacusModuleContent).toContain(`BaseStorefrontModule`);
+      const exportOccurrences =
+        spartacusModuleContent.match(/BaseStorefrontModule/gm)?.length ?? -1;
+      // we expect three occurrences - one in the import statement, imports array and in the exports array
+      expect(exportOccurrences).toBe(3);
+    });
+
+    it('should not duplicate providers arrays', async () => {
+      appTree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+      // run it again
+      appTree = await schematicRunner
+        .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+        .toPromise();
+
+      const configurationModule = appTree.readContent(
+        '/projects/schematics-test/src/app/spartacus/spartacus-configuration.module.ts'
+      );
+
+      // test the `provideConfig` configs
+      expect(configurationModule).toContain(`provideConfig(layoutConfig)`);
+      const provideConfigOccurrences =
+        configurationModule.match(/provideConfig\(layoutConfig\)/gm)?.length ??
+        -1;
+      expect(provideConfigOccurrences).toBe(1);
+
+      // test other Spartacus-related configs (i.e. NON `provideConfig` configs)
+      expect(configurationModule).toContain(`...defaultCmsContentProviders`);
+      const nonProvideConfigOccurrences =
+        configurationModule.match(/\.\.\.defaultCmsContentProviders/gm)
+          ?.length ?? -1;
+      expect(nonProvideConfigOccurrences).toBe(1);
     });
   });
 });

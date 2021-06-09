@@ -1,7 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { ActiveCartService } from '../../cart';
-import { PageMetaResolver, PageMetaService, PageRobotsMeta } from '../../cms';
+import {
+  BasePageMetaResolver,
+  CmsService,
+  PageMetaResolver,
+  PageMetaService,
+  PageRobotsMeta,
+} from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { Cart } from '../../model/cart.model';
 import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
@@ -17,8 +23,20 @@ class MockActiveCartService {
   }
 }
 
+class MockCmsService {}
+
+class MockBasePageMetaResolver {
+  resolveDescription(): Observable<string> {
+    return of();
+  }
+  resolveRobots() {
+    return of();
+  }
+}
+
 describe('CheckoutPageMetaResolver', () => {
   let service: CheckoutPageMetaResolver;
+  let basePageMetaResolver: BasePageMetaResolver;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,10 +49,16 @@ describe('CheckoutPageMetaResolver', () => {
           useExisting: CheckoutPageMetaResolver,
           multi: true,
         },
+        { provide: CmsService, useClass: MockCmsService },
+        {
+          provide: BasePageMetaResolver,
+          useClass: MockBasePageMetaResolver,
+        },
       ],
     });
 
     service = TestBed.inject(CheckoutPageMetaResolver);
+    basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
   });
 
   it('should inject service', () => {
@@ -54,8 +78,29 @@ describe('CheckoutPageMetaResolver', () => {
     expect(result).toEqual('pageMetaResolver.checkout.title count:5');
   });
 
-  it(`should resolve robots`, () => {
-    let result: string[];
+  it(`should resolve 'Page description' for resolveDescription()`, () => {
+    let result: string | undefined;
+
+    spyOn(basePageMetaResolver, 'resolveDescription').and.returnValue(
+      of('Page description')
+    );
+
+    service
+      .resolveDescription()
+      .subscribe((meta) => {
+        result = meta;
+      })
+      .unsubscribe();
+
+    expect(result).toEqual('Page description');
+  });
+
+  it(`should resolve robots for page data`, () => {
+    let result: PageRobotsMeta[] | undefined;
+
+    spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
+      of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX] as PageRobotsMeta[])
+    );
 
     service
       .resolveRobots()
@@ -64,8 +109,7 @@ describe('CheckoutPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result.length).toEqual(2);
-    expect(result).toContain(PageRobotsMeta.NOINDEX);
     expect(result).toContain(PageRobotsMeta.NOFOLLOW);
+    expect(result).toContain(PageRobotsMeta.NOINDEX);
   });
 });

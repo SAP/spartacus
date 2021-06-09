@@ -217,9 +217,7 @@ export class CartEffects {
 
   // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
   @Effect()
-  refreshWithoutProcesses$: Observable<
-    CartActions.LoadCart
-  > = this.actions$.pipe(
+  refreshWithoutProcesses$: Observable<CartActions.LoadCart> = this.actions$.pipe(
     ofType(
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
@@ -247,9 +245,7 @@ export class CartEffects {
   );
 
   @Effect()
-  resetCartDetailsOnSiteContextChange$: Observable<
-    CartActions.ResetCartDetails
-  > = this.actions$.pipe(
+  resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> = this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
       SiteContextActions.CURRENCY_CHANGE

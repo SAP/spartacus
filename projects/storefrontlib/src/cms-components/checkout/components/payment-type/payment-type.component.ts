@@ -31,29 +31,29 @@ export class PaymentTypeComponent {
     PaymentType[]
   > = this.paymentTypeService.getPaymentTypes();
 
-  typeSelected$: Observable<
-    string
-  > = this.paymentTypeService.getSelectedPaymentType().pipe(
-    filter((selected) => selected !== undefined),
-    distinctUntilChanged(),
-    tap((selected) => {
-      this.typeSelected = selected;
-      this.checkoutStepService.resetSteps();
-      this.checkoutStepService.disableEnableStep(
-        CheckoutStepType.PAYMENT_DETAILS,
-        selected === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
-      );
-    })
-  );
+  typeSelected$: Observable<string> = this.paymentTypeService
+    .getSelectedPaymentType()
+    .pipe(
+      filter((selected) => selected !== undefined),
+      distinctUntilChanged(),
+      tap((selected) => {
+        this.typeSelected = selected;
+        this.checkoutStepService.resetSteps();
+        this.checkoutStepService.disableEnableStep(
+          CheckoutStepType.PAYMENT_DETAILS,
+          selected === B2BPaymentTypeEnum.ACCOUNT_PAYMENT
+        );
+      })
+    );
 
-  cartPoNumber$: Observable<
-    string
-  > = this.paymentTypeService.getPoNumber().pipe(
-    filter((po) => po !== undefined),
-    tap((po) => {
-      return (this.cartPoNumber = po);
-    })
-  );
+  cartPoNumber$: Observable<string> = this.paymentTypeService
+    .getPoNumber()
+    .pipe(
+      filter((po) => po !== undefined),
+      tap((po) => {
+        return (this.cartPoNumber = po);
+      })
+    );
 
   constructor(
     protected paymentTypeService: PaymentTypeService,

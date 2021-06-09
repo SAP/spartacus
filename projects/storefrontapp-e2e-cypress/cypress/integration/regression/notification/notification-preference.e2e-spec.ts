@@ -1,28 +1,53 @@
 import { registerAndLogin } from '../../../helpers/update-email';
-import * as notification from '../../../helpers/notification';
+import { viewportContext } from '../../../helpers/viewport-context';
+import {
+  disableNotificationChannel,
+  enableNotificationChannel,
+  navigateToNotificationPreferencePage,
+  updateEmail,
+  verifyEmailChannel,
+} from '../../../helpers/notification';
+import { standardUser } from '../../../sample-data/shared-users';
 
-describe('notification preference test for anonymous user', () => {
-  before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
-  });
+describe('Notification preference', () => {
+  viewportContext(['mobile', 'desktop'], () => {
+    describe('Anonymous user', () => {
+      before(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
+      });
 
-  it('should redirect to login page for anonymous user', () => {
-    notification.verifyNotificationPrefAsAnonymous();
-  });
-});
+      it('should redirect to login page for anonymous user', () => {
+        cy.visit('/my-account/notification-preference');
+        cy.location('pathname').should('contain', '/login');
+      });
+    });
 
-describe('notification preference test for logged in user', () => {
-  before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
-    registerAndLogin();
-    cy.visit('/');
-  });
+    describe('Logged in user', () => {
+      before(() => {
+        cy.window().then((win) => win.sessionStorage.clear());
+        registerAndLogin();
+        cy.visit('/');
+      });
 
-  it('should enable/disable notification preference', () => {
-    notification.verifyNotificationChannel();
-  });
+      it('should enable/disable notification preference', () => {
+        enableNotificationChannel();
 
-  it('should show correct email channel after update email address', () => {
-    notification.verifyChannelValueUpdating();
+        cy.visit('/');
+        navigateToNotificationPreferencePage();
+        cy.get('[type="checkbox"]').first().should('be.checked');
+
+        disableNotificationChannel();
+
+        cy.visit('/');
+        navigateToNotificationPreferencePage();
+        cy.get('[type="checkbox"]').first().should('not.be.checked');
+      });
+
+      it('should show correct email channel after update email address', () => {
+        verifyEmailChannel(standardUser.registrationData.email);
+        const newEmail = updateEmail();
+        verifyEmailChannel(newEmail);
+      });
+    });
   });
 });

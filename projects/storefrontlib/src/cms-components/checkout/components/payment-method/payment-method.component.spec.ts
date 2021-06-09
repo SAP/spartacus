@@ -1,5 +1,5 @@
 import { Component, Input, Type } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -133,46 +133,48 @@ describe('PaymentMethodComponent', () => {
   let mockCheckoutService: CheckoutService;
   let checkoutStepService: CheckoutStepService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        PaymentMethodComponent,
-        MockPaymentFormComponent,
-        CardComponent,
-        MockSpinnerComponent,
-        MockCxIconComponent,
-      ],
-      providers: [
-        { provide: UserPaymentService, useClass: MockUserPaymentService },
-        { provide: CheckoutService, useClass: MockCheckoutService },
-        {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
-        },
-        {
-          provide: ActiveCartService,
-          useClass: MockActiveCartService,
-        },
-        {
-          provide: CheckoutPaymentService,
-          useClass: MockCheckoutPaymentService,
-        },
-        { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-        { provide: ActivatedRoute, useValue: mockActivatedRoute },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          PaymentMethodComponent,
+          MockPaymentFormComponent,
+          CardComponent,
+          MockSpinnerComponent,
+          MockCxIconComponent,
+        ],
+        providers: [
+          { provide: UserPaymentService, useClass: MockUserPaymentService },
+          { provide: CheckoutService, useClass: MockCheckoutService },
+          {
+            provide: CheckoutDeliveryService,
+            useClass: MockCheckoutDeliveryService,
+          },
+          {
+            provide: ActiveCartService,
+            useClass: MockActiveCartService,
+          },
+          {
+            provide: CheckoutPaymentService,
+            useClass: MockCheckoutPaymentService,
+          },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+          { provide: ActivatedRoute, useValue: mockActivatedRoute },
+        ],
+      }).compileComponents();
 
-    mockUserPaymentService = TestBed.inject(UserPaymentService);
-    mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentService);
-    mockActiveCartService = TestBed.inject(ActiveCartService);
-    mockGlobalMessageService = TestBed.inject(GlobalMessageService);
-    mockCheckoutService = TestBed.inject(CheckoutService);
-    checkoutStepService = TestBed.inject(
-      CheckoutStepService as Type<CheckoutStepService>
-    );
-  }));
+      mockUserPaymentService = TestBed.inject(UserPaymentService);
+      mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentService);
+      mockActiveCartService = TestBed.inject(ActiveCartService);
+      mockGlobalMessageService = TestBed.inject(GlobalMessageService);
+      mockCheckoutService = TestBed.inject(CheckoutService);
+      checkoutStepService = TestBed.inject(
+        CheckoutStepService as Type<CheckoutStepService>
+      );
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentMethodComponent);

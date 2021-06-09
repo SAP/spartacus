@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartService, I18nTestingModule } from '@spartacus/core';
@@ -60,16 +60,21 @@ describe('CheckoutProgressMobileTopComponent', () => {
   let component: CheckoutProgressMobileTopComponent;
   let fixture: ComponentFixture<CheckoutProgressMobileTopComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [CheckoutProgressMobileTopComponent, MockTranslateUrlPipe],
-      providers: [
-        { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-        { provide: ActiveCartService, useClass: MockActiveCartService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [
+          CheckoutProgressMobileTopComponent,
+          MockTranslateUrlPipe,
+        ],
+        providers: [
+          { provide: CheckoutStepService, useClass: MockCheckoutStepService },
+          { provide: ActiveCartService, useClass: MockActiveCartService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutProgressMobileTopComponent);

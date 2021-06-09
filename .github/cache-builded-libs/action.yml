@@ -1,0 +1,5 @@
+name: 'Cache builded libs'
+description: 'Cache dist directory with libraries builds'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

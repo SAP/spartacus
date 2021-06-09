@@ -14,5 +14,9 @@ export const DELIVERY_MODE_COMPONENT_MIGRATION: ComponentData = {
       name: 'checkoutStepUrlPrevious',
       comment: `'checkoutStepUrlPrevious' property has been removed.`,
     },
+    {
+      name: 'currentDeliveryModeId',
+      comment: `'currentDeliveryModeId' property has been removed. The current delivery mode selection is stored in the form called "mode" in the "deliveryModeId" input field.`,
+    },
   ],
 };

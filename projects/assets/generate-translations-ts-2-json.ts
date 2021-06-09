@@ -3,13 +3,14 @@ import { translations } from './src/translations/translations';
 
 const assetsDistDir = '../../dist/assets/';
 const translationsDistDir = assetsDistDir + 'i18n-assets/';
-function createDir(dir) {
+function createDir(dir: string) {
   if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
   }
 }
-const getLangDir = (lang) => `${translationsDistDir}${lang}/`;
-const getFileName = (lang, chunk) => `${getLangDir(lang)}${chunk}.json`;
+const getLangDir = (lang: string) => `${translationsDistDir}${lang}/`;
+const getFileName = (lang: string, chunk: string) =>
+  `${getLangDir(lang)}${chunk}.json`;
 
 if (!fs.existsSync(assetsDistDir)) {
   console.log(

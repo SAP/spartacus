@@ -9,7 +9,7 @@ import {
   PipeTransform,
   ViewContainerRef,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -18,8 +18,8 @@ import {
   RoutingService,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
+import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { ReplenishmentOrderCancellationLaunchDialogService } from '../replenishment-order-details/replenishment-order-cancellation/replenishment-order-cancellation-launch-dialog.service';
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';
 
 const mockReplenishmentOrders: ReplenishmentOrderList = {
@@ -77,10 +77,6 @@ class MockSortingComponent {
   @Output() sortListEvent = new EventEmitter<string>();
 }
 
-class MockReplenishmentOrderCancellationLaunchDialogService {
-  openDialog(_openElement?: ElementRef, _vcr?: ViewContainerRef) {}
-}
-
 @Pipe({
   name: 'cxUrl',
 })
@@ -108,42 +104,52 @@ class MockRoutingService {
   go() {}
 }
 
+class MockLaunchDialogService implements Partial<LaunchDialogService> {
+  openDialog(
+    _caller: LAUNCH_CALLER,
+    _openElement?: ElementRef,
+    _vcr?: ViewContainerRef
+  ) {
+    return of();
+  }
+}
+
 describe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
   let userService: UserReplenishmentOrderService;
   let routingService: RoutingService;
-  let replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService;
+  let launchDialogService: LaunchDialogService;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, I18nTestingModule],
-      declarations: [
-        ReplenishmentOrderHistoryComponent,
-        MockUrlPipe,
-        MockPaginationComponent,
-        MockSortingComponent,
-      ],
-      providers: [
-        { provide: RoutingService, useClass: MockRoutingService },
-        {
-          provide: UserReplenishmentOrderService,
-          useClass: MockUserReplenishmentOrderService,
-        },
-        {
-          provide: ReplenishmentOrderCancellationLaunchDialogService,
-          useClass: MockReplenishmentOrderCancellationLaunchDialogService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, I18nTestingModule],
+        declarations: [
+          ReplenishmentOrderHistoryComponent,
+          MockUrlPipe,
+          MockPaginationComponent,
+          MockSortingComponent,
+        ],
+        providers: [
+          { provide: RoutingService, useClass: MockRoutingService },
+          {
+            provide: UserReplenishmentOrderService,
+            useClass: MockUserReplenishmentOrderService,
+          },
+          {
+            provide: LaunchDialogService,
+            useClass: MockLaunchDialogService,
+          },
+        ],
+      }).compileComponents();
 
-    userService = TestBed.inject(UserReplenishmentOrderService);
-    routingService = TestBed.inject(RoutingService);
-    replenishmentOrderCancellationLaunchDialogService = TestBed.inject(
-      ReplenishmentOrderCancellationLaunchDialogService
-    );
-  }));
+      userService = TestBed.inject(UserReplenishmentOrderService);
+      routingService = TestBed.inject(RoutingService);
+      launchDialogService = TestBed.inject(LaunchDialogService);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderHistoryComponent);
@@ -225,10 +231,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
   });
 
   it('should be able to call the open dialog', () => {
-    spyOn(
-      replenishmentOrderCancellationLaunchDialogService,
-      'openDialog'
-    ).and.stub();
+    spyOn(launchDialogService, 'openDialog').and.stub();
 
     replenishmentOrderHistory.next(mockReplenishmentOrders);
 
@@ -236,9 +239,8 @@ describe('ReplenishmentOrderHistoryComponent', () => {
 
     el.query(By.css('.cx-order-cancel:last-child')).nativeElement.click();
 
-    expect(
-      replenishmentOrderCancellationLaunchDialogService.openDialog
-    ).toHaveBeenCalledWith(
+    expect(launchDialogService.openDialog).toHaveBeenCalledWith(
+      LAUNCH_CALLER.REPLENISHMENT_ORDER,
       component.element,
       component['vcr'],
       mockReplenishmentOrders.replenishmentOrders[1].replenishmentOrderCode

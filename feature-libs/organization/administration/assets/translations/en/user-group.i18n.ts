@@ -1,4 +1,4 @@
-export const userGroup = {
+export const orgUserGroup = {
   header: 'All user groups ({{count}})',
   disabled: '(disabled)',
   uid: 'Code',
@@ -10,6 +10,9 @@ export const userGroup = {
   byName: 'Sort by name',
   byUnitName: 'Sort by unit',
   byGroupID: 'Sort by group',
+
+  hint:
+    'User groups allow you to combine users together in one group, for the purposes of assigning purchase limits for many users at once.',
 
   details: {
     title: 'User group Details',
@@ -34,7 +37,9 @@ export const userGroup = {
   messages: {
     update: 'User Group {{ item.name }} updated successfully',
     create: 'User Group {{ item.name }} created successfully',
-    delete: 'Are you sure you want to delete user group {{ item.name }}?',
+    deleteTitle: 'Delete this user group?',
+    delete:
+      'The users in this group are not affected when the user group is deleted.',
     deleted: 'User Group {{ item.name }} deleted successfully',
   },
 
@@ -46,14 +51,14 @@ export const userGroup = {
   },
 };
 
-export const userGroupAssignedUsers = {
+export const orgUserGroupAssignedUsers = {
   title: 'Assigned users',
   subtitle: 'User group: {{ item.name }}',
   assigned: 'User {{item.name}} assigned successfully',
   unassigned: 'User {{item.name}} unassigned successfully',
 };
 
-export const userGroupUsers = {
+export const orgUserGroupUsers = {
   title: 'Manage users',
   subtitle: 'User group: {{ item.name }}',
   assigned: 'User {{item.name}} assigned successfully',
@@ -61,14 +66,14 @@ export const userGroupUsers = {
   unassignAll: 'Unassign All',
   unassignAllConfirmation: 'All users unassigned successfully',
 };
-export const userGroupAssignedPermissions = {
+export const orgUserGroupAssignedPermissions = {
   title: 'Assigned purchase limits',
   subtitle: 'Limit: {{ item.name }}',
   assigned: 'Purchase limits {{item.code}} assigned successfully',
   unassigned: 'Purchase limits {{item.code}} unassigned successfully',
 };
 
-export const userGroupPermissions = {
+export const orgUserGroupPermissions = {
   title: 'Manage purchase limits',
   subtitle: 'Limit: {{ item.name }}',
   assigned: 'Purchase limits {{item.code}} assigned successfully',

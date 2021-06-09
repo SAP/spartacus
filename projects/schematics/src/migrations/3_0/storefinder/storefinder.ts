@@ -17,12 +17,10 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import {
-  addLibraryFeature,
   addPackageJsonDependencies,
   ANGULAR_CORE,
-  CLI_STOREFINDER_FEATURE,
   commitChanges,
   getDefaultProjectNameFromWorkspace,
   getSpartacusSchematicsVersion,
@@ -30,18 +28,10 @@ import {
   installPackageJsonDependencies,
   readPackageJson,
   removeImport,
-  SPARTACUS_MISC,
   SPARTACUS_STOREFINDER,
-  SPARTACUS_STOREFINDER_ASSETS,
-  SPARTACUS_STOREFINDER_ROOT,
   SPARTACUS_STOREFRONTLIB,
-  STOREFINDER_FEATURE_NAME,
   STOREFINDER_MODULE,
-  STOREFINDER_ROOT_MODULE,
-  STOREFINDER_TRANSLATIONS,
-  STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
   STOREFRONT_MODULE,
-  STORE_FINDER_SCSS_FILE_NAME,
 } from '../../../shared/index';
 import {
   getAngularJsonFile,
@@ -54,8 +44,8 @@ export function migrate(): Rule {
 
     const projectName = getDefaultProjectNameFromWorkspace(tree);
     const angularJson = getAngularJsonFile(tree);
-    const mainPath =
-      angularJson.projects[projectName]?.architect?.build?.options?.main;
+    const mainPath = (angularJson.projects[projectName]?.architect?.build
+      ?.options as any)?.main;
     if (!mainPath) {
       throw new SchematicsException(`No main path specified in angular.json.`);
     }
@@ -65,8 +55,10 @@ export function migrate(): Rule {
       ? chain([
           removeOldSetup(appModulePath),
 
-          addMiscPackageJsonDependencies(packageJson),
-          addStorefinderFeature(appModulePath),
+          addStorefinderPackageJsonDependencies(packageJson),
+          // TODO: Re-enable once we have migration to new app structure
+          // newStructureMigration(),
+          // addStorefinderFeature(),
           installPackageJsonDependencies(),
         ])
       : noop();
@@ -131,41 +123,40 @@ function removeOldSetup(appModulePath: string): Rule {
   };
 }
 
-function addMiscPackageJsonDependencies(packageJson: any): Rule {
+function addStorefinderPackageJsonDependencies(packageJson: any): Rule {
   const spartacusVersion = `^${getSpartacusSchematicsVersion()}`;
   const dependencies: NodeDependency[] = [
     {
       type: NodeDependencyType.Default,
       version: spartacusVersion,
-      name: SPARTACUS_MISC,
+      name: SPARTACUS_STOREFINDER,
     },
   ];
   return addPackageJsonDependencies(dependencies, packageJson);
 }
 
-function addStorefinderFeature(appModulePath: string): Rule {
-  return addLibraryFeature(
-    appModulePath,
-    { lazy: false, project: '', features: [CLI_STOREFINDER_FEATURE] },
-    {
-      name: STOREFINDER_FEATURE_NAME,
-      featureModule: {
-        name: STOREFINDER_MODULE,
-        importPath: SPARTACUS_STOREFINDER,
-      },
-      rootModule: {
-        name: STOREFINDER_ROOT_MODULE,
-        importPath: SPARTACUS_STOREFINDER_ROOT,
-      },
-      i18n: {
-        resources: STOREFINDER_TRANSLATIONS,
-        chunks: STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
-        importPath: SPARTACUS_STOREFINDER_ASSETS,
-      },
-      styles: {
-        scssFileName: STORE_FINDER_SCSS_FILE_NAME,
-        importStyle: SPARTACUS_MISC,
-      },
-    }
-  );
-}
+// function addStorefinderFeature(): Rule {
+//   return addLibraryFeature(
+//     { lazy: false, project: '', features: [CLI_STOREFINDER_FEATURE] },
+//     {
+//       name: STOREFINDER_FEATURE_NAME,
+//       featureModule: {
+//         name: STOREFINDER_MODULE,
+//         importPath: SPARTACUS_STOREFINDER,
+//       },
+//       rootModule: {
+//         name: STOREFINDER_ROOT_MODULE,
+//         importPath: SPARTACUS_STOREFINDER_ROOT,
+//       },
+//       i18n: {
+//         resources: STOREFINDER_TRANSLATIONS,
+//         chunks: STOREFINDER_TRANSLATION_CHUNKS_CONFIG,
+//         importPath: SPARTACUS_STOREFINDER_ASSETS,
+//       },
+//       styles: {
+//         scssFileName: STORE_FINDER_SCSS_FILE_NAME,
+//         importStyle: SPARTACUS_STOREFINDER,
+//       },
+//     }
+//   );
+// }

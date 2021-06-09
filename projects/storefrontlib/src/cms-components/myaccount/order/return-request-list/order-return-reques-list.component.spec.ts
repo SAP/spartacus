@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
@@ -54,20 +54,22 @@ describe('OrderReturnRequestListComponent', () => {
   let fixture: ComponentFixture<OrderReturnRequestListComponent>;
   let returnService: OrderReturnRequestService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
-      declarations: [OrderReturnRequestListComponent, MockUrlPipe],
-      providers: [
-        {
-          provide: OrderReturnRequestService,
-          useClass: MockOrderReturnRequestService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, ListNavigationModule, I18nTestingModule],
+        declarations: [OrderReturnRequestListComponent, MockUrlPipe],
+        providers: [
+          {
+            provide: OrderReturnRequestService,
+            useClass: MockOrderReturnRequestService,
+          },
+        ],
+      }).compileComponents();
 
-    returnService = TestBed.inject(OrderReturnRequestService);
-  }));
+      returnService = TestBed.inject(OrderReturnRequestService);
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderReturnRequestListComponent);

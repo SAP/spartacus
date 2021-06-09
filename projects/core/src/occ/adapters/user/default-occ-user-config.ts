@@ -4,7 +4,7 @@ export const defaultOccUserConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        // tslint:disable:max-line-length
+        /* eslint-disable max-len */
         user: 'users/${userId}',
         userRegister: 'users',
         userForgotPassword: 'forgottenpasswordtokens',
@@ -40,7 +40,7 @@ export const defaultOccUserConfig: OccConfig = {
         orderReturnDetail:
           'users/${userId}/orderReturns/${returnRequestCode}?fields=BASIC,returnEntries(BASIC,refundAmount(formattedValue),orderEntry(basePrice(formattedValue),product(name,code,baseOptions,images(DEFAULT,galleryIndex)))),deliveryCost(formattedValue),totalPrice(formattedValue),subTotal(formattedValue)',
         cancelReturn: 'users/${userId}/orderReturns/${returnRequestCode}',
-        // tslint:enable
+        /* eslint-enable */
       },
     },
   },

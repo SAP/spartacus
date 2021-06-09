@@ -5,7 +5,7 @@ import {
   PipeTransform,
   TemplateRef,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -106,31 +106,33 @@ describe('ProductCarouselComponent', () => {
   let component: ProductCarouselComponent;
   let fixture: ComponentFixture<ProductCarouselComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      declarations: [
-        ProductCarouselComponent,
-        MockCarouselComponent,
-        MockMediaComponent,
-        MockUrlPipe,
-      ],
-      providers: [
-        {
-          provide: CmsComponentData,
-          useValue: MockCmsProductCarouselComponent,
-        },
-        {
-          provide: ProductService,
-          useClass: MockProductService,
-        },
-        {
-          provide: FeatureConfigService,
-          useClass: MockFeatureConfigService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule],
+        declarations: [
+          ProductCarouselComponent,
+          MockCarouselComponent,
+          MockMediaComponent,
+          MockUrlPipe,
+        ],
+        providers: [
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsProductCarouselComponent,
+          },
+          {
+            provide: ProductService,
+            useClass: MockProductService,
+          },
+          {
+            provide: FeatureConfigService,
+            useClass: MockFeatureConfigService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductCarouselComponent);
@@ -138,51 +140,75 @@ describe('ProductCarouselComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should be created', async(() => {
-    expect(component).toBeTruthy();
-  }));
+  it(
+    'should be created',
+    waitForAsync(() => {
+      expect(component).toBeTruthy();
+    })
+  );
 
-  it('should have 2 items', async(() => {
-    let items: Observable<Product>[];
-    component.items$.subscribe((i) => (items = i));
-    expect(items.length).toBe(2);
-  }));
+  it(
+    'should have 2 items',
+    waitForAsync(() => {
+      let items: Observable<Product>[];
+      component.items$.subscribe((i) => (items = i));
+      expect(items.length).toBe(2);
+    })
+  );
 
-  it('should have product code 111 in first product', async(() => {
-    let items: Observable<Product>[];
-    component.items$.subscribe((i) => (items = i));
-    let product: Product;
-    items[0].subscribe((p) => (product = p));
+  it(
+    'should have product code 111 in first product',
+    waitForAsync(() => {
+      let items: Observable<Product>[];
+      component.items$.subscribe((i) => (items = i));
+      let product: Product;
+      items[0].subscribe((p) => (product = p));
 
-    expect(product).toBe(mockProducts[1]);
-  }));
+      expect(product).toBe(mockProducts[1]);
+    })
+  );
 
   describe('UI test', () => {
-    it('should have 2 rendered templates', async(() => {
-      const el = fixture.debugElement.queryAll(By.css('a'));
-      expect(el.length).toEqual(2);
-    }));
+    it(
+      'should have 2 rendered templates',
+      waitForAsync(() => {
+        const el = fixture.debugElement.queryAll(By.css('a'));
+        expect(el.length).toEqual(2);
+      })
+    );
 
-    it('should render product name in template', async(() => {
-      const el = fixture.debugElement.query(By.css('a:first-child h4'));
-      expect(el.nativeElement).toBeTruthy();
-      expect(el.nativeElement.innerText).toEqual('product 1');
-    }));
+    it(
+      'should render product name in template',
+      waitForAsync(() => {
+        const el = fixture.debugElement.query(By.css('a:first-child h4'));
+        expect(el.nativeElement).toBeTruthy();
+        expect(el.nativeElement.innerText).toEqual('product 1');
+      })
+    );
 
-    it('should render product price in template', async(() => {
-      const el = fixture.debugElement.query(By.css('a:last-child .price'));
-      expect(el.nativeElement).toBeTruthy();
-      expect(el.nativeElement.innerText).toEqual('$200.00');
-    }));
+    it(
+      'should render product price in template',
+      waitForAsync(() => {
+        const el = fixture.debugElement.query(By.css('a:last-child .price'));
+        expect(el.nativeElement).toBeTruthy();
+        expect(el.nativeElement.innerText).toEqual('$200.00');
+      })
+    );
 
-    it('should render product primary image for the first item', async(() => {
-      const el = fixture.debugElement.query(By.css('a:first-child cx-media'));
-      expect(el.nativeElement).toBeTruthy();
-    }));
+    it(
+      'should render product primary image for the first item',
+      waitForAsync(() => {
+        const el = fixture.debugElement.query(By.css('a:first-child cx-media'));
+        expect(el.nativeElement).toBeTruthy();
+      })
+    );
 
-    it('should render missing product image for the 2nd item as well', async(() => {
-      const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
-      expect(el.nativeElement).toBeTruthy();
-    }));
+    it(
+      'should render missing product image for the 2nd item as well',
+      waitForAsync(() => {
+        const el = fixture.debugElement.query(By.css('a:last-child cx-media'));
+        expect(el.nativeElement).toBeTruthy();
+      })
+    );
   });
 });

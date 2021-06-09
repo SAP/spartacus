@@ -7,8 +7,8 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { IconModule } from '../../misc/icon/icon.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
+import { IconModule } from '../../misc/icon/icon.module';
 import { HighlightPipe } from './highlight.pipe';
 import { SearchBoxComponent } from './search-box.component';
 
@@ -31,7 +31,6 @@ import { SearchBoxComponent } from './search-box.component';
     }),
   ],
   declarations: [SearchBoxComponent, HighlightPipe],
-  entryComponents: [SearchBoxComponent],
   exports: [SearchBoxComponent],
 })
 export class SearchBoxModule {}

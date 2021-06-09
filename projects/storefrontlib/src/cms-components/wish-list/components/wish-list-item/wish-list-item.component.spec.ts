@@ -6,7 +6,7 @@ import {
   Pipe,
   PipeTransform,
 } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, OrderEntry } from '@spartacus/core';
@@ -69,21 +69,23 @@ describe('WishListItemComponent', () => {
   let fixture: ComponentFixture<WishListItemComponent>;
   let el: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, RouterTestingModule],
-      declarations: [
-        WishListItemComponent,
-        MockPictureComponent,
-        MockAddToCartComponent,
-        MockUrlPipe,
-      ],
-    })
-      .overrideComponent(WishListItemComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, RouterTestingModule],
+        declarations: [
+          WishListItemComponent,
+          MockPictureComponent,
+          MockAddToCartComponent,
+          MockUrlPipe,
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(WishListItemComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListItemComponent);

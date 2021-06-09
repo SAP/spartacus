@@ -11,14 +11,18 @@
 
     @for $i from 1 to 6 {
       &:nth-child(#{$i}) {
+        // The rating is visualized with five stars, with a background color that represents
+        // the actual rating. The background uses gradient stops. The rating is rendered in
+        // the primary color (--cx-color-primary), the rest defaults to --cx-color-light.
         background: linear-gradient(
           calc(var(--star-rating-dir, 1) * 90deg),
           var(--cx-color-primary) 0%,
-          var(--cx-color-primary) calc((var(--star-fill) - #{$i} + 1) * 100%),
-          var(--cx-color-light) calc((var(--star-fill) - #{$i} + 1) * 100%)
+          var(--cx-color-primary)
+            calc((var(--star-fill, 0) - #{$i} + 1) * 100%),
+          var(--cx-color-light) calc((var(--star-fill, 0) - #{$i} + 1) * 100%)
         );
         // somehow we cannot move the text related clip and fill color outside this loop.
-        // most likely they cannot come before he definition of the background.
+        // most likely they cannot come before the definition of the background.
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;

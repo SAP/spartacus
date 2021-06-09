@@ -3,7 +3,10 @@ import {
   BreadcrumbMeta,
   ContentPageMetaResolver,
   PageBreadcrumbResolver,
+  PageDescriptionResolver,
   PageMetaResolver,
+  PageRobotsMeta,
+  PageRobotsResolver,
   PageTitleResolver,
   PageType,
   RoutingService,
@@ -23,7 +26,7 @@ import {
  *
  * Breadcrumbs are built in this implementation only.
  *
- * @property {string} ORGANIZATION_ROOT_PATH the default root path for organization pages.
+ * @property {string} ORGANIZATION_SEMANTIC_ROUTE the default root path for organization pages.
  * @property {string} ORGANIZATION_TRANSLATION_KEY the default i18n key for the organization breadcrumb label.
  */
 @Injectable({
@@ -31,7 +34,11 @@ import {
 })
 export class OrganizationPageMetaResolver
   extends PageMetaResolver
-  implements PageBreadcrumbResolver, PageTitleResolver {
+  implements
+    PageBreadcrumbResolver,
+    PageTitleResolver,
+    PageDescriptionResolver,
+    PageRobotsResolver {
   pageTemplate = 'CompanyPageTemplate';
   pageType = PageType.CONTENT_PAGE;
 
@@ -53,6 +60,29 @@ export class OrganizationPageMetaResolver
     protected routingService: RoutingService
   ) {
     super();
+  }
+
+  resolveTitle(): Observable<string | undefined> {
+    return this.contentPageMetaResolver.resolveTitle();
+  }
+
+  resolveDescription(): Observable<string | undefined> {
+    return this.contentPageMetaResolver.resolveDescription();
+  }
+
+  resolveRobots(): Observable<PageRobotsMeta[]> {
+    return this.contentPageMetaResolver.resolveRobots();
+  }
+
+  /**
+   * Returns list of breadcrumbs for:
+   * - the home page
+   * - the organization home page
+   * - the organization's child pages (i.e. cost center list)
+   * - sub-routes of the organization's child pages (i.e. cost center details, edit cost center, ...)
+   */
+  resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
+    return this.breadcrumbs$;
   }
 
   /**
@@ -85,25 +115,10 @@ export class OrganizationPageMetaResolver
     this.organizationPageBreadcrumb$,
     defer(() => this.contentPageMetaResolver.resolveBreadcrumbs()),
   ]).pipe(
-    map(([organizationPageBreadcrumb, breadcrumbs]) => {
+    map(([organizationPageBreadcrumb, breadcrumbs = []]) => {
       const [home, ...restBreadcrumbs] = breadcrumbs;
       return [home, ...organizationPageBreadcrumb, ...restBreadcrumbs];
     }),
     shareReplay({ bufferSize: 1, refCount: true })
   );
-
-  /**
-   * Returns list of breadcrumbs for:
-   * - the home page
-   * - the organization home page
-   * - the organization's child pages (i.e. cost center list)
-   * - sub-routes of the organization's child pages (i.e. cost center details, edit cost center, ...)
-   */
-  resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
-    return this.breadcrumbs$;
-  }
-
-  resolveTitle(): Observable<string> {
-    return this.contentPageMetaResolver.resolveTitle();
-  }
 }

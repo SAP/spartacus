@@ -9,9 +9,9 @@ import {
   Optional,
   ViewContainerRef,
 } from '@angular/core';
-import { ComponentHandler } from '../handlers/component-handler';
 import { CmsComponentMapping, resolveApplicable } from '@spartacus/core';
 import { Observable } from 'rxjs';
+import { ComponentHandler } from '../handlers/component-handler';
 
 /**
  * Responsible for obtaining component handler for specified component mapping
@@ -26,7 +26,7 @@ export class ComponentHandlerService {
     protected handlers: ComponentHandler[]
   ) {}
 
-  protected invalidMappings = new Set<CmsComponentMapping>();
+  protected invalidMappings = new Set<CmsComponentMapping<any>>();
 
   /**
    * Get best matching component handler

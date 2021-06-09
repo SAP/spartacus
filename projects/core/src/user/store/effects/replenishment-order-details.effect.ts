@@ -14,9 +14,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class ReplenishmentOrderDetailsEffect {
   @Effect()
-  loadReplenishmentOrderDetails$: Observable<
-    UserActions.ReplenishmentOrderDetailsAction
-  > = this.actions$.pipe(
+  loadReplenishmentOrderDetails$: Observable<UserActions.ReplenishmentOrderDetailsAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS),
     map((action: UserActions.LoadReplenishmentOrderDetails) => action.payload),
     switchMap((payload) => {
@@ -40,9 +38,7 @@ export class ReplenishmentOrderDetailsEffect {
   );
 
   @Effect()
-  cancelReplenishmentOrder$: Observable<
-    UserActions.ReplenishmentOrderDetailsAction
-  > = this.actions$.pipe(
+  cancelReplenishmentOrder$: Observable<UserActions.ReplenishmentOrderDetailsAction> = this.actions$.pipe(
     ofType(UserActions.CANCEL_REPLENISHMENT_ORDER),
     map((action: UserActions.CancelReplenishmentOrder) => action.payload),
     switchMap((payload) => {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { SelectFocusUtility } from '../services/select-focus.util';
 import { PersistFocusService } from './persist-focus.service';
@@ -18,21 +18,23 @@ describe('PersistFocusService', () => {
   let service: PersistFocusService;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MockComponent],
-      providers: [
-        PersistFocusService,
-        {
-          provide: SelectFocusUtility,
-          useClass: MockSelectFocusUtility,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MockComponent],
+        providers: [
+          PersistFocusService,
+          {
+            provide: SelectFocusUtility,
+            useClass: MockSelectFocusUtility,
+          },
+        ],
+      }).compileComponents();
 
-    service = TestBed.inject(PersistFocusService);
-    fixture = TestBed.createComponent(MockComponent);
-  }));
+      service = TestBed.inject(PersistFocusService);
+      fixture = TestBed.createComponent(MockComponent);
+    })
+  );
 
   it('should inject service', () => {
     expect(service).toBeTruthy();

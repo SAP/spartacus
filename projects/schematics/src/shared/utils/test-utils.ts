@@ -5,7 +5,7 @@ import {
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
 import { findNodes } from '@schematics/angular/utility/ast-utils';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { findConstructor } from './file-utils';
 
 export function writeFile(

@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, isDevMode } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 import {
@@ -38,14 +38,21 @@ export class SiteContextParamsService {
     return getContextParameterDefault(this.config, param);
   }
 
-  getSiteContextService(param: string): SiteContext<any> {
+  getSiteContextService(param: string): SiteContext<any> | undefined {
     if (this.serviceMap[param]) {
-      return this.injector.get<SiteContext<any>>(this.serviceMap[param], null);
+      try {
+        return this.injector.get<SiteContext<any>>(this.serviceMap[param]);
+      } catch {
+        if (isDevMode()) {
+          console.warn(`Couldn't find site context service for '${param}'.`);
+        }
+        return undefined;
+      }
     }
   }
 
   getValue(param: string): string {
-    let value: string;
+    let value: string | undefined;
 
     const service = this.getSiteContextService(param);
     if (service) {
@@ -78,11 +85,13 @@ export class SiteContextParamsService {
     }
 
     return combineLatest(
-      params.map((param) =>
-        this.getSiteContextService(param)
-          .getActive()
-          .pipe(distinctUntilChanged())
-      )
+      params.map((param) => {
+        const service = this.getSiteContextService(param);
+        if (service) {
+          return service.getActive().pipe(distinctUntilChanged());
+        }
+        return of('');
+      })
     ).pipe(filter((value) => value.every((param) => !!param)));
   }
 }

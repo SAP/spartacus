@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   CmsConfig,
   CmsService,
   CMSTabParagraphContainer,
   I18nTestingModule,
-  SmartEditService,
   WindowRef,
 } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -70,37 +69,32 @@ const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{
   data$: of(mockComponentData),
 };
 
-class MockSmartEditService {
-  isLaunchInSmartEdit(): boolean {
-    return true;
-  }
-}
-
 describe('TabParagraphContainerComponent', () => {
   let component: TabParagraphContainerComponent;
   let fixture: ComponentFixture<TabParagraphContainerComponent>;
   let cmsService: CmsService;
   let windowRef: WindowRef;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [
-        TestComponent,
-        TabParagraphContainerComponent,
-        ComponentWrapperDirective,
-        OutletDirective,
-      ],
-      providers: [
-        WindowRef,
-        { provide: CmsComponentData, useValue: MockCmsComponentData },
-        { provide: CmsService, useValue: MockCmsService },
-        { provide: CmsConfig, useValue: MockCmsModuleConfig },
-        { provide: LayoutConfig, useValue: MockLayoutConfig },
-        { provide: SmartEditService, useClass: MockSmartEditService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [
+          TestComponent,
+          TabParagraphContainerComponent,
+          ComponentWrapperDirective,
+          OutletDirective,
+        ],
+        providers: [
+          WindowRef,
+          { provide: CmsComponentData, useValue: MockCmsComponentData },
+          { provide: CmsService, useValue: MockCmsService },
+          { provide: CmsConfig, useValue: MockCmsModuleConfig },
+          { provide: LayoutConfig, useValue: MockLayoutConfig },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TabParagraphContainerComponent);

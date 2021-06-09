@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -85,9 +85,9 @@ describe('CartDetailsComponent', () => {
     'SelectiveCartService',
     [
       'getCart',
-      'getLoaded',
       'removeEntry',
       'getEntries',
+      'isStable',
       'addEntry',
       'isEnabled',
     ]
@@ -99,36 +99,39 @@ describe('CartDetailsComponent', () => {
 
   const mockRoutingService = jasmine.createSpyObj('RoutingService', ['go']);
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        PromotionsModule,
-        I18nTestingModule,
-        FeaturesConfigModule,
-      ],
-      declarations: [
-        CartDetailsComponent,
-        MockCartItemListComponent,
-        MockCartCouponComponent,
-      ],
-      providers: [
-        { provide: SelectiveCartService, useValue: mockSelectiveCartService },
-        { provide: AuthService, useValue: mockAuthService },
-        { provide: RoutingService, useValue: mockRoutingService },
-        {
-          provide: ActiveCartService,
-          useClass: MockActiveCartService,
-        },
-        {
-          provide: PromotionService,
-          useClass: MockPromotionService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule,
+          PromotionsModule,
+          I18nTestingModule,
+          FeaturesConfigModule,
+        ],
+        declarations: [
+          CartDetailsComponent,
+          MockCartItemListComponent,
+          MockCartCouponComponent,
+        ],
+        providers: [
+          { provide: SelectiveCartService, useValue: mockSelectiveCartService },
+          { provide: AuthService, useValue: mockAuthService },
+          { provide: RoutingService, useValue: mockRoutingService },
+          {
+            provide: ActiveCartService,
+            useClass: MockActiveCartService,
+          },
+          {
+            provide: PromotionService,
+            useClass: MockPromotionService,
+          },
+        ],
+      }).compileComponents();
 
-    mockSelectiveCartService.isEnabled.and.returnValue(true);
-  }));
+      mockSelectiveCartService.isEnabled.and.returnValue(true);
+      mockSelectiveCartService.isStable.and.returnValue(of(true));
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CartDetailsComponent);
@@ -149,7 +152,6 @@ describe('CartDetailsComponent', () => {
     };
     mockAuthService.isUserLoggedIn.and.returnValue(of(true));
     mockSelectiveCartService.addEntry.and.callThrough();
-    mockSelectiveCartService.getLoaded.and.returnValue(of(true));
     spyOn(activeCartService, 'removeEntry').and.callThrough();
     spyOn(activeCartService, 'getEntries').and.callThrough();
     spyOn(activeCartService, 'isStable').and.returnValue(of(true));

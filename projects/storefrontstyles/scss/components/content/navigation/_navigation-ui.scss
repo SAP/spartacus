@@ -305,7 +305,7 @@
           @include hideWrapperDesktop();
         }
 
-        /* we only treat the first wrapper as a collapsible container */
+        // We only treat the first wrapper as a collapsible container
         &:hover {
           > .wrapper {
             @include showWrapperDesktop();

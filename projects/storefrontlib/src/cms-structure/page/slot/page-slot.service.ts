@@ -31,7 +31,7 @@ export class PageSlotService {
             el.getBoundingClientRect().top <
             this.document.documentElement.clientHeight
         )
-        .map((el: Element) => el.getAttribute('page-slot'));
+        .map((el: Element) => el.getAttribute('position'));
     }
   }
 

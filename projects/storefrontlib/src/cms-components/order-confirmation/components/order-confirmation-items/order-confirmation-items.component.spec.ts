@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CheckoutService,
@@ -51,25 +51,27 @@ describe('OrderConfirmationItemsComponent', () => {
   let component: OrderConfirmationItemsComponent;
   let fixture: ComponentFixture<OrderConfirmationItemsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule, PromotionsModule, FeaturesConfigModule],
-      declarations: [
-        OrderConfirmationItemsComponent,
-        MockReviewSubmitComponent,
-      ],
-      providers: [
-        { provide: CheckoutService, useClass: MockCheckoutService },
-        { provide: PromotionService, useClass: MockPromotionService },
-        {
-          provide: FeaturesConfig,
-          useValue: {
-            features: { level: '1.3' },
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule, PromotionsModule, FeaturesConfigModule],
+        declarations: [
+          OrderConfirmationItemsComponent,
+          MockReviewSubmitComponent,
+        ],
+        providers: [
+          { provide: CheckoutService, useClass: MockCheckoutService },
+          { provide: PromotionService, useClass: MockPromotionService },
+          {
+            provide: FeaturesConfig,
+            useValue: {
+              features: { level: '1.3' },
+            },
           },
-        },
-      ],
-    }).compileComponents();
-  }));
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderConfirmationItemsComponent);

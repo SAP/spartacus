@@ -1,12 +1,13 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
-import { Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
 import { ItemService } from '../../item.service';
 import { ConfirmationMessageComponent } from '../../message/confirmation/confirmation-message.component';
 import { ConfirmationMessageData } from '../../message/confirmation/confirmation-message.model';
 import { MessageService } from '../../message/services/message.service';
 import { BaseItem } from '../../organization.model';
+import { DisableInfoService } from '../disable-info/disable-info.service';
 
 /**
  * Reusable component in the my-company is to toggle the disabled state for
@@ -41,19 +42,20 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   /**
    * resolves the current item.
    */
-  current$ = this.itemService.current$;
+  current$: Observable<T> = this.itemService.current$;
 
   /**
    * resolves if the user is currently in the edit form.
    */
-  isInEditMode$ = this.itemService.isInEditMode$;
+  isInEditMode$: Observable<boolean> = this.itemService.isInEditMode$;
 
   protected subscription = new Subscription();
   protected confirmation: Subject<ConfirmationMessageData>;
 
   constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService<ConfirmationMessageData>
+    protected messageService: MessageService<ConfirmationMessageData>,
+    protected disableInfoService: DisableInfoService<T>
   ) {}
 
   toggle(item: T) {
@@ -66,6 +68,13 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
           message: {
             key: this.i18nRoot + '.messages.deactivate',
             params: { item },
+          },
+          messageTitle: {
+            key: this.i18nRoot + '.messages.deactivateTitle',
+            params: { item },
+          },
+          confirm: {
+            key: 'organization.confirmation.disable',
           },
           component: ConfirmationMessageComponent,
         });
@@ -92,8 +101,8 @@ export class ToggleStatusComponent<T extends BaseItem> implements OnDestroy {
   isDisabled(item: T): boolean {
     return (
       this.disabled ??
-      !(item.orgUnit || (item as any).unit || (item as any).parentOrgUnit)
-        ?.active
+      (this.disableInfoService.isParentDisabled(item) ||
+        this.disableInfoService.isRootUnit(item))
     );
   }
 

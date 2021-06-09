@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -189,48 +189,50 @@ describe('PaymentFormComponent', () => {
     billingAddress: FormGroup['controls'];
   };
 
-  beforeEach(async(() => {
-    mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
-    mockCheckoutPaymentService = new MockCheckoutPaymentService();
-    mockUserPaymentService = new MockUserPaymentService();
-    mockGlobalMessageService = new MockGlobalMessageService();
-    mockModalService = new MockModalService();
-    mockUserAddressService = new MockUserAddressService();
+  beforeEach(
+    waitForAsync(() => {
+      mockCheckoutDeliveryService = new MockCheckoutDeliveryService();
+      mockCheckoutPaymentService = new MockCheckoutPaymentService();
+      mockUserPaymentService = new MockUserPaymentService();
+      mockGlobalMessageService = new MockGlobalMessageService();
+      mockModalService = new MockModalService();
+      mockUserAddressService = new MockUserAddressService();
 
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        NgSelectModule,
-        I18nTestingModule,
-        FormErrorsModule,
-      ],
-      declarations: [
-        PaymentFormComponent,
-        MockCardComponent,
-        MockBillingAddressFormComponent,
-        MockCxIconComponent,
-        MockSpinnerComponent,
-      ],
-      providers: [
-        { provide: ModalService, useClass: MockModalService },
-        {
-          provide: CheckoutPaymentService,
-          useValue: mockCheckoutPaymentService,
-        },
-        {
-          provide: CheckoutDeliveryService,
-          useValue: mockCheckoutDeliveryService,
-        },
-        { provide: UserPaymentService, useValue: mockUserPaymentService },
-        { provide: GlobalMessageService, useValue: mockGlobalMessageService },
-        { provide: UserAddressService, useValue: mockUserAddressService },
-      ],
-    })
-      .overrideComponent(PaymentFormComponent, {
-        set: { changeDetection: ChangeDetectionStrategy.Default },
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          NgSelectModule,
+          I18nTestingModule,
+          FormErrorsModule,
+        ],
+        declarations: [
+          PaymentFormComponent,
+          MockCardComponent,
+          MockBillingAddressFormComponent,
+          MockCxIconComponent,
+          MockSpinnerComponent,
+        ],
+        providers: [
+          { provide: ModalService, useClass: MockModalService },
+          {
+            provide: CheckoutPaymentService,
+            useValue: mockCheckoutPaymentService,
+          },
+          {
+            provide: CheckoutDeliveryService,
+            useValue: mockCheckoutDeliveryService,
+          },
+          { provide: UserPaymentService, useValue: mockUserPaymentService },
+          { provide: GlobalMessageService, useValue: mockGlobalMessageService },
+          { provide: UserAddressService, useValue: mockUserAddressService },
+        ],
       })
-      .compileComponents();
-  }));
+        .overrideComponent(PaymentFormComponent, {
+          set: { changeDetection: ChangeDetectionStrategy.Default },
+        })
+        .compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentFormComponent);

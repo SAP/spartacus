@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   I18nTestingModule,
@@ -46,27 +46,29 @@ describe('ProductReviewsComponent in product', () => {
   let productReviewsComponent: ProductReviewsComponent;
   let fixture: ComponentFixture<ProductReviewsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        ItemCounterModule,
-        I18nTestingModule,
-        FormErrorsModule,
-      ],
-      providers: [
-        {
-          provide: ProductReviewService,
-          useClass: MockProductReviewService,
-        },
-        {
-          provide: CurrentProductService,
-          useClass: MockCurrentProductService,
-        },
-      ],
-      declarations: [MockStarRatingComponent, ProductReviewsComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          ItemCounterModule,
+          I18nTestingModule,
+          FormErrorsModule,
+        ],
+        providers: [
+          {
+            provide: ProductReviewService,
+            useClass: MockProductReviewService,
+          },
+          {
+            provide: CurrentProductService,
+            useClass: MockCurrentProductService,
+          },
+        ],
+        declarations: [MockStarRatingComponent, ProductReviewsComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProductReviewsComponent);

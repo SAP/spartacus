@@ -83,17 +83,17 @@ export class AuthStatePersistenceService implements OnDestroy {
    * Function called on each browser storage read.
    * Used to update state from browser -> state.
    */
-  protected onRead(state: SyncedAuthState) {
-    if (state) {
-      if (state.token) {
-        this.authStorageService.setToken(state.token);
-      }
-      if (state.userId) {
-        this.userIdService.setUserId(state.userId);
-      }
-      if (state.redirectUrl) {
-        this.authRedirectStorageService.setRedirectUrl(state.redirectUrl);
-      }
+  protected onRead(state: SyncedAuthState | undefined) {
+    if (state?.token) {
+      this.authStorageService.setToken(state.token);
+    }
+    if (state?.redirectUrl) {
+      this.authRedirectStorageService.setRedirectUrl(state.redirectUrl);
+    }
+    if (state?.userId) {
+      this.userIdService.setUserId(state.userId);
+    } else {
+      this.userIdService.clearUserId();
     }
   }
 

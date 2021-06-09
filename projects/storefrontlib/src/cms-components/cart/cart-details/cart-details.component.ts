@@ -49,7 +49,7 @@ export class CartDetailsComponent implements OnInit {
     this.cartLoaded$ = combineLatest([
       this.activeCartService.isStable(),
       this.selectiveCartEnabled
-        ? this.selectiveCartService.getLoaded()
+        ? this.selectiveCartService.isStable()
         : of(false),
       this.authService.isUserLoggedIn(),
     ]).pipe(

@@ -1,8 +1,6 @@
-/* IDEAS TO EXTEND
-  - sizing (variants: small, medium, big)
-  - theme (variants: primary, secondary)
-*/
-
+// IDEAS TO EXTEND
+//   - sizing (variants: small, medium, big)
+// - theme (variants: primary, secondary)
 :root {
   --cx-spinner-radius: 120px;
   --cx-spinner-border-width: 15px;
@@ -59,5 +57,16 @@
     100% {
       transform: rotate(360deg);
     }
+  }
+
+  &.overlay {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    user-select: none;
+    background: rgba(255, 255, 255, 0.5);
+    position: absolute;
+    z-index: 10;
   }
 }

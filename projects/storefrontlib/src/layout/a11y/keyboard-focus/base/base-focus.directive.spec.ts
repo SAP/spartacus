@@ -1,5 +1,5 @@
 import { Component, Directive } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BaseFocusDirective } from './base-focus.directive';
 import { BaseFocusService } from './base-focus.service';
@@ -36,21 +36,23 @@ class MockBaseFocusService {}
 describe('BaseFocusDirective', () => {
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [CustomFocusDirective, MockComponent],
-      providers: [
-        {
-          provide: BaseFocusService,
-          useClass: MockBaseFocusService,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CustomFocusDirective, MockComponent],
+        providers: [
+          {
+            provide: BaseFocusService,
+            useClass: MockBaseFocusService,
+          },
+        ],
+      }).compileComponents();
 
-    fixture = TestBed.createComponent(MockComponent);
+      fixture = TestBed.createComponent(MockComponent);
 
-    fixture.detectChanges();
-  }));
+      fixture.detectChanges();
+    })
+  );
 
   it('should default tabindex to -1', () => {
     const el: HTMLElement = fixture.debugElement.query(By.css('#a'))

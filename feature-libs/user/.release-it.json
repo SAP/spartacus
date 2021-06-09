@@ -1,0 +1,36 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "user-${version}",
+    "commitMessage": "Bumping user version to ${version}",
+    "tagAnnotation": "Bumping user version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/user"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:user"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/user@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib user --to user-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/styles",
+            "peerDependencies.@spartacus/schematics"
+          ]
+        }
+      ]
+    }
+  }
+}

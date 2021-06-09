@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { waitForAsync, TestBed } from '@angular/core/testing';
 import { SelectFocusUtility } from '../services';
 import { LockFocusService } from './lock-focus.service';
 
@@ -12,19 +12,21 @@ class MockSelectFocusUtility {
 describe('LockFocusService', () => {
   let service: LockFocusService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        LockFocusService,
-        {
-          provide: SelectFocusUtility,
-          useClass: MockSelectFocusUtility,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          LockFocusService,
+          {
+            provide: SelectFocusUtility,
+            useClass: MockSelectFocusUtility,
+          },
+        ],
+      }).compileComponents();
 
-    service = TestBed.inject(LockFocusService);
-  }));
+      service = TestBed.inject(LockFocusService);
+    })
+  );
 
   it('should inject service', () => {
     expect(service).toBeTruthy();

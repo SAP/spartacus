@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { EscapeFocusConfig } from '../keyboard-focus.model';
 import { SelectFocusUtility } from '../services';
@@ -16,23 +16,25 @@ describe('EscapeFocusService', () => {
   let focusUtility: SelectFocusUtility;
   let fixture: ComponentFixture<MockComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [MockComponent],
-      providers: [
-        EscapeFocusService,
-        {
-          provide: SelectFocusUtility,
-          useClass: MockSelectFocusUtility,
-        },
-      ],
-    }).compileComponents();
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MockComponent],
+        providers: [
+          EscapeFocusService,
+          {
+            provide: SelectFocusUtility,
+            useClass: MockSelectFocusUtility,
+          },
+        ],
+      }).compileComponents();
 
-    service = TestBed.inject(EscapeFocusService);
-    focusUtility = TestBed.inject(SelectFocusUtility);
+      service = TestBed.inject(EscapeFocusService);
+      focusUtility = TestBed.inject(SelectFocusUtility);
 
-    fixture = TestBed.createComponent(MockComponent);
-  }));
+      fixture = TestBed.createComponent(MockComponent);
+    })
+  );
 
   it('should inject service', () => {
     expect(service).toBeTruthy();

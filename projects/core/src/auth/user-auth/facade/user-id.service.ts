@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { Observable, ReplaySubject, Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -16,9 +16,7 @@ import {
   providedIn: 'root',
 })
 export class UserIdService {
-  private _userId: Observable<string> = new BehaviorSubject<string>(
-    OCC_USER_ID_ANONYMOUS
-  );
+  private _userId: Observable<string> = new ReplaySubject<string>(1);
 
   /**
    * Sets current user id.
@@ -26,7 +24,7 @@ export class UserIdService {
    * @param userId
    */
   public setUserId(userId: string): void {
-    (this._userId as BehaviorSubject<string>).next(userId);
+    (this._userId as ReplaySubject<string>).next(userId);
   }
 
   /**
@@ -63,7 +61,7 @@ export class UserIdService {
    *
    * @returns Observable that emits once and completes with the last userId value.
    */
-  public takeUserId(loggedIn = false): Observable<string | never> {
+  public takeUserId(loggedIn = false): Observable<string> {
     return this.getUserId().pipe(
       take(1),
       map((userId) => {

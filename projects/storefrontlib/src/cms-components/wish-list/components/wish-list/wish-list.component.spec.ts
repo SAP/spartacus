@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   Cart,
   I18nTestingModule,
@@ -39,18 +39,20 @@ describe('WishListComponent', () => {
 
   let wishListService: WishListService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [WishListComponent, MockWishListItemComponent],
-      providers: [
-        {
-          provide: WishListService,
-          useClass: MockWishListService,
-        },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [WishListComponent, MockWishListItemComponent],
+        providers: [
+          {
+            provide: WishListService,
+            useClass: MockWishListService,
+          },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(WishListComponent);

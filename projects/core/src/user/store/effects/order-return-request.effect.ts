@@ -10,9 +10,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class OrderReturnRequestEffect {
   @Effect()
-  createReturnRequest$: Observable<
-    UserActions.OrderReturnRequestAction
-  > = this.actions$.pipe(
+  createReturnRequest$: Observable<UserActions.OrderReturnRequestAction> = this.actions$.pipe(
     ofType(UserActions.CREATE_ORDER_RETURN_REQUEST),
     map((action: UserActions.CreateOrderReturnRequest) => action.payload),
     switchMap((payload) => {
@@ -35,9 +33,7 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  loadReturnRequest$: Observable<
-    UserActions.OrderReturnRequestAction
-  > = this.actions$.pipe(
+  loadReturnRequest$: Observable<UserActions.OrderReturnRequestAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST),
     map((action: UserActions.LoadOrderReturnRequest) => action.payload),
     switchMap((payload) => {
@@ -60,9 +56,7 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  cancelReturnRequest$: Observable<
-    UserActions.OrderReturnRequestAction
-  > = this.actions$.pipe(
+  cancelReturnRequest$: Observable<UserActions.OrderReturnRequestAction> = this.actions$.pipe(
     ofType(UserActions.CANCEL_ORDER_RETURN_REQUEST),
     map((action: UserActions.CancelOrderReturnRequest) => action.payload),
     switchMap((payload) => {
@@ -86,9 +80,7 @@ export class OrderReturnRequestEffect {
   );
 
   @Effect()
-  loadReturnRequestList$: Observable<
-    UserActions.OrderReturnRequestAction
-  > = this.actions$.pipe(
+  loadReturnRequestList$: Observable<UserActions.OrderReturnRequestAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_RETURN_REQUEST_LIST),
     map((action: UserActions.LoadOrderReturnRequestList) => action.payload),
     switchMap((payload) => {

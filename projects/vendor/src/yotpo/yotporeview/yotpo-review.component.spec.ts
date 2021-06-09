@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Product } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { YotpoConfig } from '../yotpoconfig/yotpo-config';
@@ -27,18 +27,20 @@ describe('YotporeviewComponent', () => {
   let component: YotporeviewComponent;
   let fixture: ComponentFixture<YotporeviewComponent>;
   let service: YotpoService;
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        { provide: YotpoConfig, useClass: MockYotpoConfig },
-        {
-          provide: YotpoService,
-          useClass: MockYotpoService,
-        },
-      ],
-      declarations: [YotporeviewComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        providers: [
+          { provide: YotpoConfig, useClass: MockYotpoConfig },
+          {
+            provide: YotpoService,
+            useClass: MockYotpoService,
+          },
+        ],
+        declarations: [YotporeviewComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(YotporeviewComponent);

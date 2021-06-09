@@ -10,7 +10,7 @@ import {
   isImported,
 } from '@schematics/angular/utility/ast-utils';
 import * as shx from 'shelljs';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../../shared/constants';
 import {
   getConstructor,
@@ -406,7 +406,7 @@ import {
 } from '@spartacus/core';
 import {Injectable, Inject} from '@angular/core';
 @Injectable({})
-export class SipPageMetaService extends PageMetaService {
+export class CustomPageMetaService extends PageMetaService {
   constructor(
       @Inject(PageMetaResolver)
       protected resolvers: PageMetaResolver[],
@@ -426,7 +426,7 @@ import {
 } from '@spartacus/core';
 import {Injectable, Inject} from '@angular/core';
 @Injectable({})
-export class SipPageMetaService extends PageMetaService {
+export class CustomPageMetaService extends PageMetaService {
   constructor(
       @Inject(PageMetaResolver)
       protected resolvers: PageMetaResolver[],
@@ -448,7 +448,7 @@ describe('constructor migrations', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../migrations.json')
+      require.resolve('../../test/migrations-test.json')
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));

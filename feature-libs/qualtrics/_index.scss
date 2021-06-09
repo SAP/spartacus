@@ -1,0 +1,6 @@
+// we require a few bootstrap files for the CSS in this code
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/_mixins';
+
+@import './styles/index';

@@ -21,6 +21,8 @@ export const LOAD_CART = '[Cart] Load Cart';
 export const LOAD_CART_FAIL = '[Cart] Load Cart Fail';
 export const LOAD_CART_SUCCESS = '[Cart] Load Cart Success';
 
+export const LOAD_CARTS_SUCCESS = '[Cart] Load Carts Success';
+
 export const ADD_EMAIL_TO_CART = '[Cart] Add Email to Cart';
 export const ADD_EMAIL_TO_CART_FAIL = '[Cart] Add Email to Cart Fail';
 export const ADD_EMAIL_TO_CART_SUCCESS = '[Cart] Add Email to Cart Success';
@@ -148,6 +150,16 @@ export class LoadCartSuccess extends EntitySuccessAction {
   }
 }
 
+export class LoadCartsSuccess extends EntitySuccessAction {
+  readonly type = LOAD_CARTS_SUCCESS;
+  constructor(public payload: Cart[]) {
+    super(
+      MULTI_CART_DATA,
+      payload.map((cart) => cart?.code)
+    );
+  }
+}
+
 interface MergeCartPayload {
   cartId: string;
   userId: string;
@@ -224,6 +236,7 @@ export type CartAction =
   | LoadCart
   | LoadCartFail
   | LoadCartSuccess
+  | LoadCartsSuccess
   | MergeCart
   | MergeCartSuccess
   | ResetCartDetails

@@ -1,0 +1,84 @@
+<ng-template #details>
+  <div class="popover-details">
+    <div class="property">
+      <label>{{ 'orgBudget.name' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgBudgetDetails',
+            params: model
+          } | cxUrl
+        "
+      >
+        {{ model.name }}
+      </a>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.code' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.code }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.startDate' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.startDate | cxDate }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.endDate' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.endDate | cxDate }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.active' | cxTranslate }}</label>
+      <span class="value" [class.is-active]="model.active">
+        {{
+          (model.active ? 'organization.enabled' : 'organization.disabled')
+            | cxTranslate
+        }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.amount' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.budget }} {{ model.currency?.isocode }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgBudget.unit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.orgUnit?.name }}
+      </a>
+    </div>
+  </div>
+</ng-template>
+
+<button
+  class="button text"
+  [cxPopover]="details"
+  [cxPopoverOptions]="{
+    placement: 'auto',
+    class: 'my-company-popover',
+    appendToBody: true,
+    displayCloseButton: true
+  }"
+>
+  {{ model.name }}
+</button>

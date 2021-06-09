@@ -32,7 +32,7 @@ export class CostCenterItemService extends ItemService<CostCenter> {
     value: CostCenter
   ): Observable<OrganizationItemStatus<CostCenter>> {
     this.costCenterService.update(code, value);
-    return this.costCenterService.getLoadingStatus(code);
+    return this.costCenterService.getLoadingStatus(value.code);
   }
 
   protected create(
@@ -43,6 +43,6 @@ export class CostCenterItemService extends ItemService<CostCenter> {
   }
 
   protected getDetailsRoute(): string {
-    return 'costCenterDetails';
+    return 'orgCostCenterDetails';
   }
 }

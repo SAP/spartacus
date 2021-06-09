@@ -15,8 +15,13 @@ import {
   RemoveChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
-import * as ts from 'typescript';
-import { TODO_SPARTACUS, UTF_8 } from '../constants';
+import ts from 'typescript';
+import {
+  ANGULAR_CORE,
+  INJECT_DECORATOR,
+  TODO_SPARTACUS,
+  UTF_8,
+} from '../constants';
 import {
   getAngularJsonFile,
   getDefaultProjectNameFromWorkspace,
@@ -29,7 +34,24 @@ export enum InsertDirection {
 
 export interface ClassType {
   className: string;
-  importPath: string;
+  importPath?: string;
+  literalInference?: string;
+  injectionToken?: {
+    token: string;
+    importPath?: string;
+    isArray?: boolean;
+  };
+}
+
+interface InjectServiceConfiguration {
+  constructorNode: ts.Node | undefined;
+  path: string;
+  serviceName: string;
+  modifier: 'private' | 'protected' | 'public' | 'no-modifier';
+  propertyName?: string;
+  propertyType?: string;
+  injectionToken?: string;
+  isArray?: boolean;
 }
 
 export interface ComponentProperty {
@@ -80,6 +102,13 @@ export interface ConfigDeprecation {
   comment: string;
 }
 
+export interface RenamedSymbol {
+  previousNode: string;
+  previousImportPath: string;
+  newNode?: string;
+  newImportPath: string;
+}
+
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
   if (!buffer) {
@@ -113,8 +142,8 @@ export function getAllTsSourceFiles(
 export function getIndexHtmlPath(tree: Tree): string {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
   const angularJson = getAngularJsonFile(tree);
-  const indexHtml: string =
-    angularJson.projects[projectName]?.architect?.build?.options?.index;
+  const indexHtml: string = (angularJson.projects[projectName]?.architect?.build
+    ?.options as any)?.index;
   if (!indexHtml) {
     throw new SchematicsException('"index.html" file not found.');
   }
@@ -230,7 +259,7 @@ export function insertHtmlComment(
   );
 
   resultingElements
-    .map((node: Element) => node.sourceSpan.start.line)
+    .map((node: Node) => node.sourceSpan.start.line)
     .forEach((line, i) => {
       const split = content.split('\n');
       split.splice(line + i, 0, comment);
@@ -386,7 +415,10 @@ function checkImports(
   parameterClassTypes: ClassType[]
 ): boolean {
   for (const classImport of parameterClassTypes) {
-    if (!isImported(source, classImport.className, classImport.importPath)) {
+    if (
+      classImport.importPath &&
+      !isImported(source, classImport.className, classImport.importPath)
+    ) {
       return false;
     }
   }
@@ -481,21 +513,25 @@ export function addConstructorParam(
   if (!constructorNode) {
     throw new SchematicsException(`No constructor found in ${sourcePath}.`);
   }
-
   const changes: Change[] = [];
-
   if (!isInjected(constructorNode, paramToAdd)) {
     changes.push(
-      injectService(
+      injectService({
         constructorNode,
-        sourcePath,
-        paramToAdd.className,
-        'no-modifier'
-      )
+        path: sourcePath,
+        serviceName: paramToAdd.className,
+        modifier: 'no-modifier',
+        propertyType: paramToAdd.literalInference,
+        injectionToken: paramToAdd.injectionToken?.token,
+        isArray: paramToAdd.injectionToken?.isArray,
+      })
     );
   }
 
-  if (!isImported(source, paramToAdd.className, paramToAdd.importPath)) {
+  if (
+    paramToAdd.importPath &&
+    !isImported(source, paramToAdd.className, paramToAdd.importPath)
+  ) {
     changes.push(
       insertImport(
         source,
@@ -504,6 +540,37 @@ export function addConstructorParam(
         paramToAdd.importPath
       )
     );
+  }
+  if (paramToAdd.injectionToken?.token) {
+    if (!isImported(source, INJECT_DECORATOR, ANGULAR_CORE)) {
+      changes.push(
+        insertImport(source, sourcePath, INJECT_DECORATOR, ANGULAR_CORE)
+      );
+    }
+
+    /**
+     * This is for the case when an injection token is the same as the import's type.
+     * In this case we don't want to add two imports.
+     * Ex: `@Inject(LaunchRenderStrategy) launchRenderStrategy: LaunchRenderStrategy[]`
+     */
+    if (
+      paramToAdd.injectionToken.importPath &&
+      paramToAdd.injectionToken.token !== paramToAdd.className &&
+      !isImported(
+        source,
+        paramToAdd.injectionToken.token,
+        paramToAdd.injectionToken.importPath
+      )
+    ) {
+      changes.push(
+        insertImport(
+          source,
+          sourcePath,
+          paramToAdd.injectionToken.token,
+          paramToAdd.injectionToken.importPath
+        )
+      );
+    }
   }
 
   const paramName = getParamName(source, constructorNode, paramToAdd);
@@ -532,13 +599,22 @@ export function removeConstructorParam(
 
   if (shouldRemoveImportAndParam(source, paramToRemove)) {
     const importRemovalChange = removeImport(source, paramToRemove);
+    const injectImportRemovalChange = removeInjectImports(
+      source,
+      constructorNode,
+      paramToRemove
+    );
     const constructorParamRemovalChanges = removeConstructorParamInternal(
       sourcePath,
       constructorNode,
       paramToRemove
     );
 
-    changes.push(importRemovalChange, ...constructorParamRemovalChanges);
+    changes.push(
+      importRemovalChange,
+      ...constructorParamRemovalChanges,
+      ...injectImportRemovalChange
+    );
   }
   const paramName = getParamName(source, constructorNode, paramToRemove);
   if (!paramName) {
@@ -553,6 +629,19 @@ export function removeConstructorParam(
   changes.push(...superRemoval);
 
   return changes;
+}
+
+export function shouldRemoveDecorator(
+  constructorNode: ts.Node,
+  decoratorIdentifier: string
+): boolean {
+  const decoratorParameters = findNodes(
+    constructorNode,
+    ts.SyntaxKind.Decorator
+  ).filter((x) => x.getText().includes(decoratorIdentifier));
+
+  // if there are 0, or exactly 1 usage of the `decoratorIdentifier` in the whole class, we can safely remove it.
+  return decoratorParameters.length < 2;
 }
 
 function getParamName(
@@ -629,6 +718,45 @@ function shouldRemoveImportAndParam(
   return true;
 }
 
+export function removeInjectImports(
+  source: ts.SourceFile,
+  constructorNode: ts.Node,
+  paramToRemove: ClassType
+): Change[] {
+  if (!paramToRemove.injectionToken) {
+    return [new NoopChange()];
+  }
+
+  const importRemovalChange: Change[] = [];
+
+  if (shouldRemoveDecorator(constructorNode, INJECT_DECORATOR))
+    importRemovalChange.push(
+      removeImport(source, {
+        className: INJECT_DECORATOR,
+        importPath: ANGULAR_CORE,
+      })
+    );
+
+  /**
+   * This is for the case when an injection token is the same as the import's type.
+   * In this case we don't want to have two import removal changes.
+   * Ex: `@Inject(LaunchRenderStrategy) launchRenderStrategy: LaunchRenderStrategy[]`
+   */
+  if (
+    paramToRemove.injectionToken.importPath &&
+    paramToRemove.injectionToken.token !== paramToRemove.className
+  ) {
+    importRemovalChange.push(
+      removeImport(source, {
+        className: paramToRemove.injectionToken.token,
+        importPath: paramToRemove.injectionToken.importPath,
+      })
+    );
+  }
+
+  return importRemovalChange;
+}
+
 export function removeImport(
   source: ts.SourceFile,
   importToRemove: ClassType
@@ -685,6 +813,10 @@ function getImportDeclarationNode(
   source: ts.SourceFile,
   importToCheck: ClassType
 ): ts.Node | undefined {
+  if (!importToCheck.importPath) {
+    return undefined;
+  }
+
   // collect al the import declarations
   const importDeclarationNodes = getImportDeclarations(
     source,
@@ -805,21 +937,22 @@ function updateConstructorSuperNode(
   constructorNode: ts.Node,
   propertyName: string
 ): InsertChange {
-  const callExpressions = findNodes(
-    constructorNode,
-    ts.SyntaxKind.CallExpression
-  );
+  const callBlock = findNodes(constructorNode, ts.SyntaxKind.Block);
   propertyName = strings.camelize(propertyName);
 
-  if (callExpressions.length === 0) {
-    throw new SchematicsException('No super() call found.');
+  if (callBlock.length === 0) {
+    throw new SchematicsException('No constructor body found.');
   }
+
+  const callExpression = findNodes(callBlock[0], ts.SyntaxKind.CallExpression);
+
   // super has to be the first expression in constructor
-  const firstCallExpression = callExpressions[0];
+  const firstCallExpression = callExpression[0];
   const superKeyword = findNodes(
     firstCallExpression,
     ts.SyntaxKind.SuperKeyword
   );
+
   if (superKeyword && superKeyword.length === 0) {
     throw new SchematicsException('No super() call found.');
   }
@@ -841,34 +974,38 @@ function updateConstructorSuperNode(
 }
 
 export function injectService(
-  constructorNode: ts.Node | undefined,
-  path: string,
-  serviceName: string,
-  modifier: 'private' | 'protected' | 'public' | 'no-modifier',
-  propertyName?: string
+  config: InjectServiceConfiguration
 ): InsertChange {
-  if (!constructorNode) {
-    throw new SchematicsException(`No constructor found in ${path}.`);
+  if (!config.constructorNode) {
+    throw new SchematicsException(`No constructor found in ${config.path}.`);
   }
 
-  const constructorParameters = getConstructorParameterList(constructorNode);
+  const constructorParameters = getConstructorParameterList(
+    config.constructorNode
+  );
 
   let toInsert = '';
-  let position = constructorNode.getStart() + 'constructor('.length;
+  let position = config.constructorNode.getStart() + 'constructor('.length;
   if (constructorParameters.length > 0) {
     toInsert += ', ';
     const lastParam = constructorParameters[constructorParameters.length - 1];
     position = lastParam.end;
   }
 
-  propertyName = propertyName
-    ? strings.camelize(propertyName)
-    : strings.camelize(serviceName);
+  config.propertyName = config.propertyName
+    ? strings.camelize(config.propertyName)
+    : strings.camelize(config.serviceName);
 
-  if (modifier !== 'no-modifier') toInsert += `${modifier} `;
-  toInsert += `${propertyName}: ${strings.classify(serviceName)}`;
+  config.propertyType =
+    config.propertyType ?? strings.classify(config.serviceName);
 
-  return new InsertChange(path, position, toInsert);
+  if (config.injectionToken) toInsert += `@Inject(${config.injectionToken}) `;
+  if (config.modifier !== 'no-modifier') toInsert += `${config.modifier} `;
+  toInsert += `${config.propertyName}: ${config.propertyType}`;
+
+  if (config.isArray) toInsert += '[]';
+
+  return new InsertChange(config.path, position, toInsert);
 }
 
 export function buildSpartacusComment(comment: string): string {
@@ -1085,19 +1222,20 @@ export function getMetadataProperty(
   propertyName: string
 ): ts.PropertyAssignment {
   const properties = (metadata as ts.ObjectLiteralExpression).properties;
-  const property = properties
-    .filter((prop) => prop.kind === ts.SyntaxKind.PropertyAssignment)
-    .filter((prop: ts.PropertyAssignment) => {
-      const name = prop.name;
-      switch (name.kind) {
-        case ts.SyntaxKind.Identifier:
-          return (name as ts.Identifier).getText() === propertyName;
-        case ts.SyntaxKind.StringLiteral:
-          return (name as ts.StringLiteral).text === propertyName;
-      }
-
+  const property = properties.filter((prop) => {
+    if (!ts.isPropertyAssignment(prop)) {
       return false;
-    })[0];
+    }
+    const name = prop.name;
+    switch (name.kind) {
+      case ts.SyntaxKind.Identifier:
+        return (name as ts.Identifier).getText() === propertyName;
+      case ts.SyntaxKind.StringLiteral:
+        return (name as ts.StringLiteral).text === propertyName;
+    }
+
+    return false;
+  })[0];
 
   return property as ts.PropertyAssignment;
 }

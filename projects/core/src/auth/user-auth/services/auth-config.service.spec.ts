@@ -32,6 +32,7 @@ const mockOccConfig: OccConfig = {
 describe('AuthConfigService', () => {
   let service: AuthConfigService;
   let authConfig: AuthConfig;
+  let occConfig: OccConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,13 +45,14 @@ describe('AuthConfigService', () => {
         },
         {
           provide: OccConfig,
-          useValue: mockOccConfig,
+          useValue: JSON.parse(JSON.stringify(mockOccConfig)),
         },
       ],
     });
 
     service = TestBed.inject(AuthConfigService);
     authConfig = TestBed.inject(AuthConfig);
+    occConfig = TestBed.inject(OccConfig);
   });
 
   it('should inject service', () => {
@@ -77,6 +79,12 @@ describe('AuthConfigService', () => {
     it('should return baseUrl based on occ baseUrl, when auth baseUrl is not provided', () => {
       authConfig.authentication.baseUrl = undefined;
       expect(service.getBaseUrl()).toEqual('occBaseUrl/authorizationserver');
+    });
+
+    it('should return relative url when both occ baseUrl and auth baseUrl are not provided', () => {
+      authConfig.authentication.baseUrl = undefined;
+      occConfig.backend = undefined;
+      expect(service.getBaseUrl()).toEqual('/authorizationserver');
     });
   });
 

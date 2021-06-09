@@ -1,5 +1,5 @@
 import { Directive, Input } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
 import { SkipLink, SkipLinkConfig } from '../config/index';
@@ -44,19 +44,21 @@ describe('SkipLinkComponent', () => {
   let skipLinkComponent: SkipLinkComponent;
   let fixture: ComponentFixture<SkipLinkComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      declarations: [SkipLinkComponent, MockFocusDirective],
-      providers: [
-        {
-          provide: SkipLinkConfig,
-          useValue: { skipLinks: [mockSkipLinks] },
-        },
-        { provide: SkipLinkService, useClass: MockSkipLinkService },
-      ],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        declarations: [SkipLinkComponent, MockFocusDirective],
+        providers: [
+          {
+            provide: SkipLinkConfig,
+            useValue: { skipLinks: [mockSkipLinks] },
+          },
+          { provide: SkipLinkService, useClass: MockSkipLinkService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(async () => {
     fixture = TestBed.createComponent(SkipLinkComponent);

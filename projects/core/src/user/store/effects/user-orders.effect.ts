@@ -20,9 +20,7 @@ export class UserOrdersEffect {
   ) {}
 
   @Effect()
-  loadUserOrders$: Observable<
-    UserActions.UserOrdersAction
-  > = this.actions$.pipe(
+  loadUserOrders$: Observable<UserActions.UserOrdersAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ORDERS),
     map((action: UserActions.LoadUserOrders) => action.payload),
     switchMap((payload) => {
@@ -52,9 +50,7 @@ export class UserOrdersEffect {
   );
 
   @Effect()
-  resetUserOrders$: Observable<
-    UserActions.ClearUserOrders
-  > = this.actions$.pipe(
+  resetUserOrders$: Observable<UserActions.ClearUserOrders> = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     map(() => {
       return new UserActions.ClearUserOrders();

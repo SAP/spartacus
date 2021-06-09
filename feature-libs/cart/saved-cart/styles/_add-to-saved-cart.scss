@@ -1,0 +1,33 @@
+cx-add-to-saved-cart {
+  max-height: 70px;
+
+  .cx-add-to-saved-cart-container {
+    display: flex;
+    justify-content: start;
+    margin-top: 3rem;
+
+    .cx-action-link {
+      &:last-child {
+        margin-inline-end: 0;
+        &:before {
+          content: '|';
+          color: var(--cx-color-light);
+          display: inline-block;
+          text-decoration: none;
+          margin-inline-start: 0.313rem;
+          margin-inline-end: 0.313rem;
+        }
+      }
+    }
+
+    @include media-breakpoint-up(sm) {
+      justify-content: flex-end;
+    }
+  }
+
+  button {
+    &:focus {
+      @include visible-focus();
+    }
+  }
+}

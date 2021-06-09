@@ -1,6 +1,6 @@
 export interface SearchBoxConfig {
-  displaySuggestions: boolean;
-  displayProducts: boolean;
+  displaySuggestions?: boolean;
+  displayProducts?: boolean;
   displayProductImages?: boolean;
   maxProducts?: number;
   maxSuggestions?: number;

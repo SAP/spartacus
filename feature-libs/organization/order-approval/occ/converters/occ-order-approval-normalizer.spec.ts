@@ -89,6 +89,6 @@ describe('OrderApprovalNormalizer', () => {
 
   it('should convert occOrderApproval with applied target', () => {
     const result = service.convert(occOrderApproval, {});
-    expect(result).toEqual({});
+    expect(result).toEqual({ order: { code: 'orderCode-converted' } });
   });
 });

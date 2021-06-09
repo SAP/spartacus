@@ -22,6 +22,7 @@ import { BudgetFormComponent } from './form/budget-form.component';
 import { BudgetItemService } from './services/budget-item.service';
 import { BudgetListService } from './services/budget-list.service';
 import { BudgetRoutePageMetaResolver } from './services/budget-route-page-meta.resolver';
+import { CostCenterDetailsCellComponent } from '../cost-center/details-cell/cost-center-details-cell.component';
 
 const listPath = `organization/budgets/:${ROUTE_PARAMS.budgetCode}`;
 const paramsMapping: ParamsMapping = {
@@ -31,21 +32,21 @@ const paramsMapping: ParamsMapping = {
 export const budgetRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      budget: {
+      orgBudget: {
         paths: ['organization/budgets'],
       },
-      budgetCreate: {
+      orgBudgetCreate: {
         paths: ['organization/budgets/create'],
       },
-      budgetDetails: {
+      orgBudgetDetails: {
         paths: [`${listPath}`],
         paramsMapping,
       },
-      budgetCostCenters: {
+      orgBudgetCostCenters: {
         paths: [`${listPath}/cost-centers`],
         paramsMapping,
       },
-      budgetEdit: {
+      orgBudgetEdit: {
         paths: [`${listPath}/edit`],
         paramsMapping,
       },
@@ -71,7 +72,7 @@ export const budgetCmsConfig: CmsConfig = {
         parent: {
           data: {
             cxPageMeta: {
-              breadcrumb: 'budget.breadcrumbs.list',
+              breadcrumb: 'orgBudget.breadcrumbs.list',
               resolver: BudgetRoutePageMetaResolver,
             },
           },
@@ -86,7 +87,7 @@ export const budgetCmsConfig: CmsConfig = {
             component: BudgetDetailsComponent,
             data: {
               cxPageMeta: {
-                breadcrumb: 'budget.breadcrumbs.details',
+                breadcrumb: 'orgBudget.breadcrumbs.details',
               },
             },
             children: [
@@ -139,6 +140,11 @@ export const budgetTableConfig: TableConfig = {
     [OrganizationTableType.BUDGET_ASSIGNED_COST_CENTERS]: {
       cells: ['name'],
       options: {
+        cells: {
+          name: {
+            dataComponent: CostCenterDetailsCellComponent,
+          },
+        },
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },

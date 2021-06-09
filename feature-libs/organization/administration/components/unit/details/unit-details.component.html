@@ -1,4 +1,9 @@
-<cx-org-card *ngIf="model$ | async as model" i18nRoot="unit.details">
+<cx-org-card
+  *ngIf="model$ | async as model"
+  i18nRoot="orgUnit.details"
+  [cxFocus]="{ refreshFocus: model }"
+  [showHint]="true"
+>
   <a
     actions
     class="link edit"
@@ -11,26 +16,33 @@
   <cx-org-toggle-status
     actions
     key="uid"
-    i18nRoot="unit"
+    i18nRoot="orgUnit"
   ></cx-org-toggle-status>
+
+  <cx-org-disable-info
+    info
+    i18nRoot="orgUnit"
+    [displayInfoConfig]="{ disabledDisable: true }"
+  >
+  </cx-org-disable-info>
 
   <section main class="details" cxOrgItemExists>
     <div class="property">
-      <label>{{ 'unit.name' | cxTranslate }}</label>
+      <label>{{ 'orgUnit.name' | cxTranslate }}</label>
       <span class="value">
         {{ model.name }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'unit.uid' | cxTranslate }}</label>
+      <label>{{ 'orgUnit.uid' | cxTranslate }}</label>
       <span class="value">
         {{ model.uid }}
       </span>
     </div>
 
     <div class="property">
-      <label>{{ 'unit.active' | cxTranslate }}</label>
+      <label>{{ 'orgUnit.active' | cxTranslate }}</label>
       <span class="value" [class.is-active]="model.active">
         {{
           (model.active ? 'organization.enabled' : 'organization.disabled')
@@ -40,19 +52,19 @@
     </div>
 
     <div class="property" *ngIf="model.approvalProcess?.name">
-      <label>{{ 'unit.approvalProcess' | cxTranslate }}</label>
+      <label>{{ 'orgUnit.approvalProcess' | cxTranslate }}</label>
       <span class="value">
         {{ model.approvalProcess?.name }}
       </span>
     </div>
 
     <div class="property" *ngIf="model.parentOrgUnit">
-      <label>{{ 'unit.parentUnit' | cxTranslate }}</label>
+      <label>{{ 'orgUnit.parentUnit' | cxTranslate }}</label>
       <a
         class="value"
         [routerLink]="
           {
-            cxRoute: 'unitDetails',
+            cxRoute: 'orgUnitDetails',
             params: model.parentOrgUnit
           } | cxUrl
         "
@@ -69,35 +81,35 @@
         [routerLink]="{ cxRoute: 'orgUnitChildren', params: model } | cxUrl"
         routerLinkActive="is-current"
       >
-        {{ 'unit.links.units' | cxTranslate }}
+        {{ 'orgUnit.links.units' | cxTranslate }}
       </a>
       <a
         class="link"
-        [routerLink]="{ cxRoute: 'unitUserList', params: model } | cxUrl"
+        [routerLink]="{ cxRoute: 'orgUnitUserList', params: model } | cxUrl"
         routerLinkActive="is-current"
       >
-        {{ 'unit.links.users' | cxTranslate }}
+        {{ 'orgUnit.links.users' | cxTranslate }}
       </a>
       <a
         class="link"
         [routerLink]="{ cxRoute: 'orgUnitApprovers', params: model } | cxUrl"
         routerLinkActive="is-current"
       >
-        {{ 'unit.links.approvers' | cxTranslate }}
+        {{ 'orgUnit.links.approvers' | cxTranslate }}
       </a>
       <a
         class="link"
-        [routerLink]="{ cxRoute: 'unitAddressList', params: model } | cxUrl"
+        [routerLink]="{ cxRoute: 'orgUnitAddressList', params: model } | cxUrl"
         routerLinkActive="is-current"
       >
-        {{ 'unit.links.shippingAddresses' | cxTranslate }}
+        {{ 'orgUnit.links.shippingAddresses' | cxTranslate }}
       </a>
       <a
         class="link"
         [routerLink]="{ cxRoute: 'orgUnitCostCenters', params: model } | cxUrl"
         routerLinkActive="is-current"
       >
-        {{ 'unit.links.costCenters' | cxTranslate }}
+        {{ 'orgUnit.links.costCenters' | cxTranslate }}
       </a>
     </ng-container>
   </section>

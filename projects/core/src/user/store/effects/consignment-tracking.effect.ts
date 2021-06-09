@@ -10,9 +10,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class ConsignmentTrackingEffects {
   @Effect()
-  loadConsignmentTracking$: Observable<
-    UserActions.ConsignmentTrackingAction
-  > = this.actions$.pipe(
+  loadConsignmentTracking$: Observable<UserActions.ConsignmentTrackingAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_CONSIGNMENT_TRACKING),
     map((action: UserActions.LoadConsignmentTracking) => action.payload),
     switchMap((payload) => {

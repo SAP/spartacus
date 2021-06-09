@@ -58,6 +58,11 @@ export interface SsrOptimizationOptions {
    * Default value is 60 seconds.
    */
   forcedSsrTimeout?: number;
+
+  /**
+   * Enable detailed logs for troubleshooting problems
+   */
+  debug?: boolean;
 }
 
 export enum RenderingStrategy {

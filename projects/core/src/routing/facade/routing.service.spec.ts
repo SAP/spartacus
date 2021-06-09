@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { WindowRef } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
 import { UrlCommands } from '../configurable-routes';
@@ -30,14 +32,16 @@ class MockRoutingParamsService {
 describe('RoutingService', () => {
   let store: Store<RouterState>;
   let service: RoutingService;
+  let winRef: WindowRef;
   let urlService: SemanticPathService;
   let routingParamsService: RoutingParamsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({})],
+      imports: [StoreModule.forRoot({}), RouterTestingModule],
       providers: [
         RoutingService,
+        WindowRef,
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: RoutingParamsService, useClass: MockRoutingParamsService },
       ],
@@ -45,6 +49,7 @@ describe('RoutingService', () => {
 
     store = TestBed.inject(Store);
     service = TestBed.inject(RoutingService);
+    winRef = TestBed.inject(WindowRef);
     urlService = TestBed.inject(SemanticPathService);
     routingParamsService = TestBed.inject(RoutingParamsService);
     spyOn(store, 'dispatch');
@@ -81,6 +86,42 @@ describe('RoutingService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new RoutingActions.RouteGoByUrlAction('test')
       );
+    });
+  });
+
+  describe('getUrl', () => {
+    it('should resolve the relative url from the urlCommands', () => {
+      spyOn(urlService, 'transform').and.returnValue(['product', '123']);
+      const url = service.getUrl({
+        cxRoute: 'product',
+        params: { code: '123' },
+      });
+      expect(url).toEqual('/product/123');
+    });
+
+    it('should resolve the relative url from the urlCommands and NavigationExtras', () => {
+      spyOn(urlService, 'transform').and.returnValue([
+        'category',
+        'SLR_CAMERAS',
+      ]);
+
+      const queryParams = { sortBy: 'price-desc' };
+      const url = service.getUrl(
+        { cxRoute: 'category', params: { code: 'SLR_CAMERAS' } },
+        { queryParams }
+      );
+      expect(url).toEqual('/category/SLR_CAMERAS?sortBy=price-desc');
+    });
+  });
+
+  describe('getFullUrl', () => {
+    it('should resolve the absolute url from the urlCommands', () => {
+      spyOn(urlService, 'transform').and.returnValue(['product', '123']);
+      const url = service.getFullUrl({
+        cxRoute: 'product',
+        params: { code: '123' },
+      });
+      expect(url).toEqual(`${winRef.document.location.origin}/product/123`);
     });
   });
 

@@ -12,9 +12,9 @@ import { CurrentItemService } from '../../../../shared/current-item.service';
 export class CurrentUnitAddressService extends CurrentItemService<Address> {
   // override item$ as we need to use the unit code as well
   readonly item$: Observable<Address> = this.b2bUnit$.pipe(
-    filter((unit) => Boolean(unit)),
-    switchMap((unit) =>
-      this.key$.pipe(switchMap((code: string) => this.getItem(unit, code)))
+    filter((unitUid) => Boolean(unitUid)),
+    switchMap((unitUid) =>
+      this.key$.pipe(switchMap((code: string) => this.getItem(unitUid, code)))
     )
   );
 
@@ -26,7 +26,7 @@ export class CurrentUnitAddressService extends CurrentItemService<Address> {
   }
 
   getDetailsRoute(): string {
-    return 'unitAddressDetails';
+    return 'orgUnitAddressDetails';
   }
 
   protected getParamKey() {
@@ -34,7 +34,9 @@ export class CurrentUnitAddressService extends CurrentItemService<Address> {
   }
 
   protected getItem(unitUid: string, addressId: string): Observable<Address> {
-    return addressId ? this.unitService.getAddress(unitUid, addressId) : of({});
+    return addressId
+      ? this.unitService.getAddress(unitUid, addressId)
+      : of(null);
   }
 
   getError(code: string): Observable<boolean> {

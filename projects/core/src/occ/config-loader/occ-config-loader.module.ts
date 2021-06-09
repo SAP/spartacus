@@ -3,17 +3,26 @@ import {
   ConfigInitializer,
   CONFIG_INITIALIZER,
 } from '../../config/config-initializer/config-initializer';
+import { FeatureConfigService } from '../../features-config/services/feature-config.service';
 import { SiteContextConfig } from '../../site-context/config/site-context-config';
 import { BASE_SITE_CONTEXT_ID } from '../../site-context/providers/context-ids';
 import { OccConfigLoaderService } from './occ-config-loader.service';
 
 /**
  * Initializes the Spartacus config asynchronously basing on the external config
+ *
+ * @deprecated since 3.2 - use `SiteContextConfigInitializer` instead
+ * Not a public API though.
  */
+// TODO(#11515): drop it 4.0
 export function initConfig(
   configLoader: OccConfigLoaderService,
-  config: SiteContextConfig
-): ConfigInitializer {
+  config: SiteContextConfig,
+  featureConfigService: FeatureConfigService
+): ConfigInitializer | null {
+  if (featureConfigService.isLevel('3.2')) {
+    return null;
+  }
   /**
    * Load config for `context` from backend only when there is no static config for `context.baseSite`
    */
@@ -28,7 +37,10 @@ export function initConfig(
 
 /**
  * Re-provides the external config chunk given before Angular bootstrap
+ *
+ * @deprecated since 3.2, use `SiteContextConfigInitializer` instead
  */
+// TODO(#11515): drop it 4.0
 @NgModule()
 export class OccConfigLoaderModule {
   static forRoot(): ModuleWithProviders<OccConfigLoaderModule> {
@@ -38,7 +50,11 @@ export class OccConfigLoaderModule {
         {
           provide: CONFIG_INITIALIZER,
           useFactory: initConfig,
-          deps: [OccConfigLoaderService, SiteContextConfig],
+          deps: [
+            OccConfigLoaderService,
+            SiteContextConfig,
+            FeatureConfigService,
+          ],
           multi: true,
         },
       ],

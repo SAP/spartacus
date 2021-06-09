@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { I18nTestingModule, Order, ReplenishmentOrder } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderDetailsService } from '../order-details.service';
@@ -50,15 +50,17 @@ describe('OrderDetailShippingComponent', () => {
   let fixture: ComponentFixture<OrderDetailShippingComponent>;
   let orderDetailsService: OrderDetailsService;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
-      providers: [
-        { provide: OrderDetailsService, useClass: MockOrderDetailsService },
-      ],
-      declarations: [OrderDetailShippingComponent],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
+        providers: [
+          { provide: OrderDetailsService, useClass: MockOrderDetailsService },
+        ],
+        declarations: [OrderDetailShippingComponent],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailShippingComponent);
