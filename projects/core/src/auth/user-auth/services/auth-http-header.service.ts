@@ -94,10 +94,6 @@ export class AuthHttpHeaderService {
    * Logout user, redirected to login page and informs about expired session.
    */
   public handleExpiredRefreshToken(): void {
-    // Logout user
-    // TODO(#9638): Use logout route when it will support passing redirect url
-    this.authService.coreLogout();
-
     // There might be 2 cases:
     // 1. when user is already on some page (router is stable) and performs an UI action
     // that triggers http call (i.e. button click to save data in backend)
@@ -107,6 +103,11 @@ export class AuthHttpHeaderService {
     // In the second case, we want to remember the anticipated url before we navigate to
     // the login page, so we can redirect back to that URL after user authenticates.
     this.authRedirectService.saveCurrentNavigationUrl();
+
+    // Logout user
+    // TODO(#9638): Use logout route when it will support passing redirect url
+    this.authService.coreLogout();
+
     this.routingService.go({ cxRoute: 'login' });
 
     this.globalMessageService.add(
