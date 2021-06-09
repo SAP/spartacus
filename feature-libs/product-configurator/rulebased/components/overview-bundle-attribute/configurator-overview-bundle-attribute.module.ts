@@ -9,6 +9,5 @@ import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-ove
   imports: [CommonModule, MediaModule, I18nModule, ConfiguratorPriceModule],
   declarations: [ConfiguratorOverviewBundleAttributeComponent],
   exports: [ConfiguratorOverviewBundleAttributeComponent],
-  entryComponents: [ConfiguratorOverviewBundleAttributeComponent],
 })
 export class ConfiguratorOverviewBundleAttributeModule {}

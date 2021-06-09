@@ -21,10 +21,8 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     productCode: string,
     quantity: number = 1
   ): Observable<CartModification> {
-    const url = this.occEndpointsService.getUrl('addEntries', {
-      userId,
-      cartId,
-      quantity,
+    const url = this.occEndpointsService.buildUrl('addEntries', {
+      urlParams: { userId, cartId, quantity },
     });
 
     // Handle b2b case where the x-www-form-urlencoded is still used
@@ -76,10 +74,12 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/json',
     });
 
-    const url = this.occEndpointsService.getUrl('updateEntries', {
-      userId,
-      cartId,
-      entryNumber,
+    const url = this.occEndpointsService.buildUrl('updateEntries', {
+      urlParams: {
+        userId,
+        cartId,
+        entryNumber,
+      },
     });
 
     return this.http
@@ -96,10 +96,12 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    const url = this.occEndpointsService.getUrl('removeEntries', {
-      userId,
-      cartId,
-      entryNumber,
+    const url = this.occEndpointsService.buildUrl('removeEntries', {
+      urlParams: {
+        userId,
+        cartId,
+        entryNumber,
+      },
     });
 
     return this.http.delete(url, { headers });

@@ -6,6 +6,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
@@ -152,11 +153,13 @@ export class ConfiguratorAddToCartButtonComponent {
       routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY;
     const owner = configuration.owner;
 
-    this.configuratorGroupsService.setGroupStatusVisited(
-      configuration.owner,
-      configuration.interactionState.currentGroup
-    );
-
+    const currentGroup = configuration.interactionState.currentGroup;
+    if (currentGroup) {
+      this.configuratorGroupsService.setGroupStatusVisited(
+        configuration.owner,
+        currentGroup
+      );
+    }
     this.container$
       .pipe(
         filter((cont) => !cont.hasPendingChanges),
@@ -173,7 +176,7 @@ export class ConfiguratorAddToCartButtonComponent {
             owner,
             false,
             isOverview,
-            configuration.isCartEntryUpdateRequired
+            configuration.isCartEntryUpdateRequired ?? false
           );
           if (configuration.isCartEntryUpdateRequired) {
             this.configuratorCommonsService.removeConfiguration(owner);
@@ -195,9 +198,14 @@ export class ConfiguratorAddToCartButtonComponent {
               take(1)
             )
             .subscribe((configWithNextOwner) => {
+              //See preceeding filter operator: configWithNextOwner.nextOwner is always defined here
+              const nextOwner =
+                configWithNextOwner.nextOwner ??
+                ConfiguratorModelUtils.createInitialOwner();
+
               this.performNavigation(
                 configuratorType,
-                configWithNextOwner.nextOwner,
+                nextOwner,
                 true,
                 isOverview,
                 true
@@ -213,9 +221,7 @@ export class ConfiguratorAddToCartButtonComponent {
               // when a new config form requests a new observable for a product bound
               // configuration
 
-              this.configuratorCommonsService.removeConfiguration(
-                configWithNextOwner.nextOwner
-              );
+              this.configuratorCommonsService.removeConfiguration(nextOwner);
             });
         }
       });
