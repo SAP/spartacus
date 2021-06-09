@@ -14,13 +14,16 @@ import {
   LibraryOptions as SpartacusCartOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  CLI_CART_VALIDATION_FEATURE
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
+const savedCartFeatureModulePath =
   'src/app/spartacus/features/cart/cart-saved-cart-feature.module.ts';
+const cartValidationFeatureModulePath =
+  'src/app/spartacus/features/cart/cart-validation-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/cart.scss';
 
 describe('Spartacus Cart schematics: ng-add', () => {
@@ -58,6 +61,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
   const savedCartFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
     features: [CLI_CART_SAVED_CART_FEATURE],
+  };
+
+  const cartValidationFeatureOptions: SpartacusCartOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_CART_VALIDATION_FEATURE],
   };
 
   beforeEach(async () => {
@@ -103,7 +111,8 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(savedCartFeatureModulePath)).toBeFalsy();
+      expect(appTree.exists(cartValidationFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -141,7 +150,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(savedCartFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -170,7 +179,51 @@ describe('Spartacus Cart schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(savedCartFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('Cart Validation feature', () => {
+    describe('general setup', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', cartValidationFeatureOptions, appTree)
+          .toPromise();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(cartValidationFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('eager loading', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...cartValidationFeatureOptions, lazy: false },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(cartValidationFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
