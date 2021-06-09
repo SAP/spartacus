@@ -9,9 +9,9 @@
   },
   "videoUploadOnPasses": false,
   "env": {
+    "API_URL": "https://spartacus-devci7674.eastus.cloudapp.azure.com:9002",
     "CLIENT_ID": "mobile_android",
     "CLIENT_SECRET": "secret",
-    "API_URL": "https://20.83.184.244:9002",
     "OCC_PREFIX": "/occ/v2",
     "OCC_PREFIX_USER_ENDPOINT": "orgUsers",
     "OCC_PREFIX_ORDER_ENDPOINT": "orders",

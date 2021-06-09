@@ -9,7 +9,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartService,
   ConsignmentEntry,
-  FeatureConfigService,
   MultiCartService,
   OrderEntry,
   PromotionLocation,
@@ -41,9 +40,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   @Input() cartId: string;
 
   private _items: OrderEntry[] = [];
-  form: FormGroup = this.featureConfigService?.isLevel('3.1')
-    ? new FormGroup({})
-    : undefined;
+  form: FormGroup = new FormGroup({});
 
   @Input('items')
   set items(items: OrderEntry[]) {
@@ -66,43 +63,11 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * @deprecated since version 3.1
-   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, userIdService: UserIdService, multiCartService: MultiCartService); instead
-   */
-  // TODO(#11037): Remove deprecated constructors
-  constructor(
-    activeCartService: ActiveCartService,
-    selectiveCartService: SelectiveCartService
-  );
-
-  /**
-   * @deprecated since version 3.2
-   * Use constructor(activeCartService: ActiveCartService, selectiveCartService: SelectiveCartService, featureConfigService: FeatureConfigService, userIdService: UserIdService, multiCartService: MultiCartService); instead
-   */
-  // TODO(#11037): Remove deprecated constructors
-  constructor(
-    activeCartService: ActiveCartService,
-    selectiveCartService: SelectiveCartService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService: FeatureConfigService
-  );
-
-  constructor(
-    activeCartService: ActiveCartService,
-    selectiveCartService: SelectiveCartService,
-    featureConfigService: FeatureConfigService,
-    userIdService: UserIdService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    multiCartService: MultiCartService
-  );
-
   constructor(
     protected activeCartService: ActiveCartService,
     protected selectiveCartService: SelectiveCartService,
-    public featureConfigService?: FeatureConfigService,
-    protected userIdService?: UserIdService,
-    protected multiCartService?: MultiCartService
+    protected userIdService: UserIdService,
+    protected multiCartService: MultiCartService
   ) {}
 
   ngOnInit(): void {
@@ -137,24 +102,17 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       // We'd like to avoid the unnecessary re-renders of unchanged cart items after the data reload.
       // OCC cart entries don't have any unique identifier that we could use in Angular `trackBy`.
       // So we update each array element to the new object only when it's any different to the previous one.
-      if (this.featureConfigService?.isLevel('3.1')) {
-        for (let i = 0; i < Math.max(items.length, this._items.length); i++) {
-          // Checking if previous item is different than new one
-          if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
-            // Removing obsolete item's form control
-            if (this._items[i] && this.form) {
-              this.form.removeControl(this.getControlName(this._items[i]));
-            }
-            // If given index does not exist in new items list, remove old element on this position. Otherwise, update array element with new item value.
-            if (!items[i]) {
-              this._items.splice(i, 1);
-            } else {
-              this._items[i] = items[i];
-            }
+      for (let i = 0; i < Math.max(items.length, this._items.length); i++) {
+        if (JSON.stringify(this._items?.[i]) !== JSON.stringify(items[i])) {
+          if (this._items[i] && this.form) {
+            this.form.removeControl(this.getControlName(this._items[i]));
+          }
+          if (!items[i]) {
+            this._items.splice(i, 1);
+          } else {
+            this._items[i] = items[i];
           }
         }
-      } else {
-        this._items = items;
       }
     }
   }
@@ -163,10 +121,6 @@ export class CartItemListComponent implements OnInit, OnDestroy {
    * Creates form models for list items
    */
   protected createForm(): void {
-    if (!this.featureConfigService?.isLevel('3.1')) {
-      this.form = new FormGroup({});
-    }
-
     this._items.forEach((item) => {
       const controlName = this.getControlName(item);
       const group = new FormGroup({

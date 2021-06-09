@@ -30,10 +30,9 @@ const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
 const groupId = 'GROUP-1';
 const cartId = 'CART-1234';
-const cartEntryNumber = '1';
 const userId = 'theUser';
 const quantity = 1;
-const entryNumber = 47;
+const entryNumber = 0;
 const emptyStatus = '';
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
@@ -159,16 +158,16 @@ describe('ConfiguratorCartEffect', () => {
       );
       const addOwnerAction = new ConfiguratorActions.AddNextOwner({
         ownerKey: productConfiguration.owner.key,
-        cartEntryNo: cartEntryNumber,
+        cartEntryNo: entryNumber.toString(),
       });
 
       const setNextOwnerAction = new ConfiguratorActions.SetNextOwnerCartEntry({
         configuration: productConfiguration,
-        cartEntryNo: cartEntryNumber,
+        cartEntryNo: entryNumber.toString(),
       });
       const newCartEntryOwner = ConfiguratorModelUtils.createOwner(
         CommonConfigurator.OwnerType.CART_ENTRY,
-        cartEntryNumber
+        entryNumber.toString()
       );
 
       const setInteractionStateAction = new ConfiguratorActions.SetInteractionState(
