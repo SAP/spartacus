@@ -1,7 +1,7 @@
 import { waitForPage } from './checkout-flow';
 
 export function loginUsingUserWithOrder() {
-  const username = 'test-user-with-orders@ydev.hybris.com';
+  const username = 'test-user-with-orders@sap.cx.com';
   const password = 'pw4all';
   cy.login(username, password);
 

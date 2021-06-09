@@ -28,6 +28,7 @@ export const common = {
       title_plural: '{{count}} results for "{{query}}"',
       findProductTitle: '{{count}} result for coupon "{{coupon}}"',
       findProductTitle_plural: '{{count}} results for coupon "{{coupon}}"',
+      default_title: 'All products',
     },
     product: {
       description: '{{description}}',
