@@ -554,6 +554,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     {
       value: 'Back',
       type: TabbingOrderTypes.LINK,

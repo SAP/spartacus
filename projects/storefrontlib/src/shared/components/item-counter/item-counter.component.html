@@ -2,7 +2,7 @@
   type="button"
   (click)="decrement()"
   [disabled]="control.disabled || control.value <= min"
-  tabindex="0"
+  [tabindex]="control.disabled || control.value <= min ? -1 : 0"
   attr.aria-label="{{ 'itemCounter.removeOne' | cxTranslate }}"
 >
   -
