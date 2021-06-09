@@ -81,8 +81,6 @@ Cypress.Commands.add(
       });
     }
 
-    cy.server();
-
     createCart().then((cart) => {
       addToCart(cart.body.code, productData).then((response) => {
         response.body.cartId = cart.body.code; // need this in the response for later use
