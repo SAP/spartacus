@@ -35,7 +35,7 @@ class MockRoutingService implements Partial<RoutingService> {
 }
 
 class MockOccEndpointsService implements Partial<OccEndpointsService> {
-  getBaseEndpoint() {
+  getBaseUrl() {
     return 'some-server/occ';
   }
 }

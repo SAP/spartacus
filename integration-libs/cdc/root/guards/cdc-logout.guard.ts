@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
+  AuthRedirectService,
   AuthService,
   CmsService,
   ProtectedRoutesService,
@@ -24,9 +25,17 @@ export class CdcLogoutGuard extends LogoutGuard {
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
     protected router: Router,
-    protected winRef: WindowRef
+    protected winRef: WindowRef,
+    protected authRedirectService: AuthRedirectService
   ) {
-    super(auth, cms, semanticPathService, protectedRoutes, router);
+    super(
+      auth,
+      cms,
+      semanticPathService,
+      protectedRoutes,
+      router,
+      authRedirectService
+    );
   }
 
   /**
