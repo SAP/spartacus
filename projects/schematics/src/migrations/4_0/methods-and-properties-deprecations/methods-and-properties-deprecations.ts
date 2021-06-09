@@ -2,6 +2,10 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { MethodPropertyDeprecation } from '../../../shared/utils/file-utils';
 import { migrateMethodPropertiesDeprecation } from '../../mechanism/methods-and-properties-deprecations/methods-and-properties-deprecations';
 import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION } from './data/added-to-cart-dialog-component.migration';
+import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
+import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
+import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
+import { CONFIGURATOR_PRODUCT_TITLE_COMPONENT_MIGRATION } from './data/configurator-product-title.component.migration';
 import {
   CONTENT_PAGE_META_RESOLVER_MIGRATION,
   PAGE_META_SERVICE_MIGRATION,
@@ -27,6 +31,10 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...PAGE_EVENT_BUILDER_MIGRATION,
   ...DYNAMIC_ATTRIBUTE_SERVICE_MIGRATION,
   ...GET_URL_MIGRATION,
+  ...CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION,
+  ...CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION,
+  ...CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION,
+  ...CONFIGURATOR_PRODUCT_TITLE_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {

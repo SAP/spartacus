@@ -16,11 +16,9 @@
     "tslib": "^2.0.0"
   },
   "peerDependencies": {
-    "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
     "@spartacus/checkout": "3.2.0-next.2",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2"
+    "@spartacus/core": "3.2.0-next.2"
   },
   "optionalDependencies": {
     "@nguniversal/express-engine": "^10.1.0",
