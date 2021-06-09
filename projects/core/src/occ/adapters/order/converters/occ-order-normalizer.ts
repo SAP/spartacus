@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PromotionResult } from 'projects/core/src/model/cart.model';
+import { PromotionResult } from '../../../../model/cart.model';
 import { Order, OrderEntry } from '../../../../model/order.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import {
