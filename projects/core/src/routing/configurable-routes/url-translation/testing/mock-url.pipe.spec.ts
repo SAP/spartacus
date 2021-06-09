@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { MockUrlPipe, URL_TESTING_WHITELISTED_PARAMS } from './mock-url.pipe';
+import { MockUrlPipe, URL_TESTING_ALLOWLISTED_PARAMS } from './mock-url.pipe';
 
 describe('MockUrlPipe', () => {
   let pipe: MockUrlPipe;
@@ -55,7 +55,7 @@ describe('MockUrlPipe', () => {
         providers: [
           MockUrlPipe,
           {
-            provide: URL_TESTING_WHITELISTED_PARAMS,
+            provide: URL_TESTING_ALLOWLISTED_PARAMS,
             useValue: ['code', 'name'],
           },
         ],

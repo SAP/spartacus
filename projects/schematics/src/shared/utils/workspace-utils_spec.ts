@@ -14,6 +14,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
+import { SPARTACUS_CORE } from '../../shared/constants';
 import {
   buildDefaultPath,
   getAngularJsonFile,
@@ -27,7 +28,6 @@ import {
   isWorkspaceSchema,
   validateSpartacusInstallation,
 } from './workspace-utils';
-import { SPARTACUS_CORE } from '../../shared/constants';
 
 const collectionPath = path.join(__dirname, '../../collection.json');
 const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -158,7 +158,6 @@ describe('Workspace utils', () => {
   };
   const defaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };

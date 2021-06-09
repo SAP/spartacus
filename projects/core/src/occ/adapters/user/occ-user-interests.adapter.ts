@@ -49,10 +49,15 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
     }
 
     return this.http
-      .get(this.occEndpoints.getUrl('getProductInterests', { userId }), {
-        headers,
-        params,
-      })
+      .get(
+        this.occEndpoints.buildUrl('getProductInterests', {
+          urlParams: { userId },
+        }),
+        {
+          headers,
+          params,
+        }
+      )
       .pipe(
         this.converter.pipeable(PRODUCT_INTERESTS_NORMALIZER),
         catchError((error: any) => throwError(error))
@@ -70,9 +75,14 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
         .set('notificationType', entry.interestType);
       r.push(
         this.http
-          .delete(this.occEndpoints.getUrl('productInterests', { userId }), {
-            params: params,
-          })
+          .delete(
+            this.occEndpoints.buildUrl('productInterests', {
+              urlParams: { userId },
+            }),
+            {
+              params: params,
+            }
+          )
           .pipe(catchError((error: any) => throwError(error)))
       );
     });
@@ -89,7 +99,9 @@ export class OccUserInterestsAdapter implements UserInterestsAdapter {
       .set('notificationType', notificationType.toString());
     return this.http
       .post(
-        this.occEndpoints.getUrl('productInterests', { userId }),
+        this.occEndpoints.buildUrl('productInterests', {
+          urlParams: { userId },
+        }),
         {},
         {
           headers,
