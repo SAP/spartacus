@@ -20,8 +20,7 @@ export const common = {
       title_plural: '{{count}} results for {{query}}',
     },
     checkout: {
-      title: 'Checkout {{count}} item',
-      title_plural: 'Checkout {{count}} items',
+      title: 'Checkout',
     },
     search: {
       title: '{{count}} result for "{{query}}"',
