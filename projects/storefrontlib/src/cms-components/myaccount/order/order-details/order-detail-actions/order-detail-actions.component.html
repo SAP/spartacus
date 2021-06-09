@@ -1,4 +1,4 @@
-<ng-container *ngIf="order$ | async as order">
+<ng-container *ngIf="order$ | async as order; else orderNotExist">
   <div class="cx-nav row">
     <div class="col-xs-12 col-md-4 col-lg-3">
       <button
@@ -38,3 +38,20 @@
     </div>
   </div>
 </ng-container>
+
+<ng-template #orderNotExist>
+  <div class="cx-nav row">
+    <div class="col-12 header">
+      <h2>Order not found</h2>
+    </div>
+
+    <div class="col-xs-12 col-md-4 col-lg-3">
+      <button
+        [routerLink]="{ cxRoute: 'orders' } | cxUrl"
+        class="btn btn-block btn-action"
+      >
+        {{ 'orderDetails.backToTheList' | cxTranslate }}
+      </button>
+    </div>
+  </div>
+</ng-template>

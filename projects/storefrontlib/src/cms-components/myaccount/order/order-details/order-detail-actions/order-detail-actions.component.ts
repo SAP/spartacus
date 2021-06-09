@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -9,5 +10,7 @@ import { OrderDetailsService } from '../order-details.service';
 export class OrderDetailActionsComponent {
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
-  order$: Observable<any> = this.orderDetailsService.getOrderDetails();
+  order$: Observable<any> = this.orderDetailsService
+    .getOrderDetails()
+    .pipe(filter((order) => Object.keys(order).length > 0));
 }

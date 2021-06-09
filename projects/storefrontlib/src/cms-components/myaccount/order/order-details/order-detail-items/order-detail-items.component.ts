@@ -5,7 +5,7 @@ import {
   PromotionResult,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
 import { OrderDetailsService } from '../order-details.service';
 import {
@@ -24,7 +24,9 @@ export class OrderDetailItemsComponent implements OnInit {
   ) {}
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
-  order$: Observable<any> = this.orderDetailsService.getOrderDetails();
+  order$: Observable<any> = this.orderDetailsService
+    .getOrderDetails()
+    .pipe(filter((order) => Object.keys(order).length > 0));
   orderPromotions$: Observable<PromotionResult[]>;
   others$: Observable<Consignment[]>;
   completed$: Observable<Consignment[]>;
