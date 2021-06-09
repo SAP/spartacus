@@ -29,14 +29,14 @@ export class ConfiguratorOverviewNotificationBannerComponent {
       this.configuratorCommonsService.getConfiguration(routerData.owner)
     ),
     map((configuration) => {
+      //In case overview carries number of issues: We take it from there.
+      //otherwise configuration's number will be accurate
       if (configuration.overview?.totalNumberOfIssues) {
         return configuration.overview.totalNumberOfIssues;
-      } else if (configuration.totalNumberOfIssues) {
-        return configuration.totalNumberOfIssues;
-      } else {
-        //TODO fix before merging to develop. We can never reach that line
-        return 0;
-      }
+      } else
+        return configuration.totalNumberOfIssues
+          ? configuration.totalNumberOfIssues
+          : 0;
     })
   );
 

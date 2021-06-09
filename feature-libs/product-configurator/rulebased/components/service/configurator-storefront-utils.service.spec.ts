@@ -1,6 +1,10 @@
+import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -16,18 +20,17 @@ class MockConfiguratorGroupsService {
 }
 
 class MockKeyboardFocusService {
-  findFocusable(): HTMLElement[] {
-    return undefined;
-  }
+  findFocusable() {}
 }
 
 describe('ConfigUtilsService', () => {
   let classUnderTest: ConfiguratorStorefrontUtilsService;
-
-  const owner: CommonConfigurator.Owner = {
-    id: 'testProduct',
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  };
+  const owner = ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.PRODUCT,
+    'testProduct'
+  );
+  let keyboardFocusService: KeyboardFocusService;
+  let querySelectorOriginal: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,6 +46,14 @@ describe('ConfigUtilsService', () => {
       ],
     });
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
+    keyboardFocusService = TestBed.inject(
+      KeyboardFocusService as Type<KeyboardFocusService>
+    );
+    querySelectorOriginal = document.querySelector;
+  });
+
+  afterEach(() => {
+    document.querySelector = querySelectorOriginal;
   });
 
   it('should be created', () => {
@@ -109,5 +120,33 @@ describe('ConfigUtilsService', () => {
     expect(values[0].selected).toBe(true);
     expect(values[1].name).toBe(attribute.values[1].name);
     expect(values[1].selected).toBe(false);
+  });
+
+  describe('focusFirstAttribute', () => {
+    it('should not delegate to keyboardFocusService if we did not provide that', () => {
+      classUnderTest['keyboardFocusService'] = undefined;
+      spyOn(keyboardFocusService, 'findFocusable').and.stub();
+      classUnderTest.focusFirstAttribute();
+      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+    });
+
+    it('should delegate to focus service', () => {
+      const theElement = document.createElement('form');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
+      spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
+      classUnderTest.focusFirstAttribute();
+      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not delegate to focus service if form is not available', () => {
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(null);
+      spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
+      classUnderTest.focusFirstAttribute();
+      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+    });
   });
 });

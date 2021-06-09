@@ -124,7 +124,7 @@ function buildSchematicsAndPublish(buildCmd: string): void {
 }
 
 function testAllSchematics(): void {
-  execSync('yarn --cwd projects/schematics run test', {
+  execSync('yarn --cwd projects/schematics run test --coverage', {
     stdio: 'inherit',
   });
 

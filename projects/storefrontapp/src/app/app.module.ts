@@ -14,6 +14,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   ConfigModule,
+  FeatureModuleConfig,
   FeaturesConfig,
   I18nConfig,
   OccConfig,
@@ -22,8 +23,14 @@ import {
   TestConfigModule,
 } from '@spartacus/core';
 import { configuratorTranslations } from '@spartacus/product-configurator/common/assets';
-import { RulebasedConfiguratorRootModule } from '@spartacus/product-configurator/rulebased/root';
-import { TextfieldConfiguratorRootModule } from '@spartacus/product-configurator/textfield/root';
+import {
+  PRODUCT_CONFIGURATOR_RULEBASED_FEATURE,
+  RulebasedConfiguratorRootModule,
+} from '@spartacus/product-configurator/rulebased/root';
+import {
+  PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+  TextfieldConfiguratorRootModule,
+} from '@spartacus/product-configurator/textfield/root';
 import { StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
@@ -41,16 +48,20 @@ if (!environment.production) {
 
 // PRODUCT CONFIGURATOR
 // TODO(#10883): Move product configurator to a separate feature module
-const ruleBasedVcFeatureConfiguration = {
-  productConfiguratorRulebased: {
+const ruleBasedVcFeatureConfiguration: {
+  [featureName: string]: FeatureModuleConfig | string;
+} = {
+  [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
     module: () =>
       import('@spartacus/product-configurator/rulebased').then(
         (m) => m.RulebasedConfiguratorModule
       ),
   },
 };
-const ruleBasedCpqFeatureConfiguration = {
-  productConfiguratorRulebased: {
+const ruleBasedCpqFeatureConfiguration: {
+  [featureName: string]: FeatureModuleConfig | string;
+} = {
+  [PRODUCT_CONFIGURATOR_RULEBASED_FEATURE]: {
     module: () =>
       import('@spartacus/product-configurator/rulebased/cpq').then(
         (m) => m.RulebasedCpqConfiguratorModule
@@ -80,7 +91,7 @@ const ruleBasedFeatureConfiguration = environment.cpq
       },
       featureModules: {
         ...ruleBasedFeatureConfiguration,
-        productConfiguratorTextfield: {
+        [PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE]: {
           module: () =>
             import('@spartacus/product-configurator/textfield').then(
               (m) => m.TextfieldConfiguratorModule
@@ -127,7 +138,7 @@ const ruleBasedFeatureConfiguration = environment.cpq
     }),
     provideConfig(<FeaturesConfig>{
       features: {
-        level: '3.2',
+        level: '3.3',
       },
     }),
   ],
