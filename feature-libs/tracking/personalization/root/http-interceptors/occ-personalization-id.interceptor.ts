@@ -56,7 +56,7 @@ export class OccPersonalizationIdInterceptor implements HttpInterceptor {
     if (
       this.requestHeader &&
       this.personalizationId &&
-      request.url.includes(this.occEndpoints.getBaseEndpoint())
+      request.url.includes(this.occEndpoints.getBaseUrl())
     ) {
       request = request.clone({
         setHeaders: {

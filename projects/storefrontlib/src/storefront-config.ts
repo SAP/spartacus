@@ -1,6 +1,5 @@
 import {
   AnonymousConsentsConfig,
-  AsmConfig,
   AuthConfig,
   CartConfig,
   CmsConfig,
@@ -9,7 +8,6 @@ import {
   I18nConfig,
   OccConfig,
   PageMetaConfig,
-  PersonalizationConfig,
   RoutingConfig,
   SiteContextConfig,
   StateConfig,
@@ -43,14 +41,12 @@ export type StorefrontConfig =
   | MediaConfig
   | RoutingConfig
   | I18nConfig
-  | PersonalizationConfig
   | IconConfig
   | CheckoutConfig
   | GlobalMessageConfig
   | ExternalRoutesConfig
   | ViewConfig
   | FeatureToggles
-  | AsmConfig
   | SkipLinkConfig
   | PaginationConfig
   | CartConfig

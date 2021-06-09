@@ -1,5 +1,4 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { FeatureConfigService } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { filter, first, take } from 'rxjs/operators';
@@ -53,38 +52,15 @@ export class DeleteItemComponent<T extends BaseItem> implements OnDestroy {
   protected confirmation: Subject<ConfirmationMessageData>;
 
   constructor(
-    itemService: ItemService<T>,
-    messageService: MessageService<ConfirmationMessageData>
-  );
-
-  /**
-   * @deprecated since version 3.2
-   * Use constructor( protected itemService: ItemService<T>, protected messageService: MessageService<ConfirmationMessageData>, protected featureConfigService: FeatureConfigService) {} instead
-   */
-  // TODO(#11387): Remove deprecated constructors
-  constructor(
-    itemService: ItemService<T>,
-    messageService: MessageService<ConfirmationMessageData>,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    featureConfigService: FeatureConfigService
-  );
-
-  constructor(
     protected itemService: ItemService<T>,
-    protected messageService: MessageService<ConfirmationMessageData>,
-    protected featureConfigService?: FeatureConfigService
+    protected messageService: MessageService<ConfirmationMessageData>
   ) {}
 
   delete(item: T) {
     if (!this.confirmation) {
       this.confirmation = this.messageService.add({
         message: {
-          key: `${this.i18nRoot}${
-            //TODO(#11387): Replace deleteBody with delete
-            this.featureConfigService?.isLevel('3.2')
-              ? '.messages.deleteBody'
-              : '.messages.delete'
-          }`,
+          key: this.i18nRoot + '.messages.delete',
           params: { item },
         },
         messageTitle: {

@@ -104,27 +104,6 @@ describe('CommonConfiguratorUtilsService', () => {
     }).toThrow();
   });
 
-  it('should throw an error if for owner type PRODUCT if no product code is present', () => {
-    owner.type = CommonConfigurator.OwnerType.PRODUCT;
-    expect(function () {
-      classUnderTest.setOwnerKey(owner);
-    }).toThrow();
-  });
-
-  it('should throw an error if for owner type CART_ENTRY no cart entry link is present', () => {
-    owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
-    expect(function () {
-      classUnderTest.setOwnerKey(owner);
-    }).toThrow();
-  });
-
-  it('should throw an error if for owner type ORDER_ENTRY no order entry link is present', () => {
-    owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
-    expect(function () {
-      classUnderTest.setOwnerKey(owner);
-    }).toThrow();
-  });
-
   it('should compose an owner ID from 2 attributes', () => {
     expect(classUnderTest.getComposedOwnerId(documentId, entryNumber)).toBe(
       documentId + '+' + entryNumber

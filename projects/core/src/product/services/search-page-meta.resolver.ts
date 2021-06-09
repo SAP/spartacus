@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { combineLatest, Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PageRobotsMeta } from '../../cms/model/page.model';
 import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
@@ -36,27 +36,11 @@ export class SearchPageMetaResolver
     .getRouterState()
     .pipe(map((state) => state.state.params['query']));
 
-  // TODO(#10467): Remove deprecated constructors
-  constructor(
-    routingService: RoutingService,
-    productSearchService: ProductSearchService,
-    translation: TranslationService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    basePageMetaResolver?: BasePageMetaResolver
-  );
-  /**
-   * @deprecated since 3.1 we'll use the `BasePageMetaResolver` going forward
-   */
-  constructor(
-    routingService: RoutingService,
-    productSearchService: ProductSearchService,
-    translation: TranslationService
-  );
   constructor(
     protected routingService: RoutingService,
     protected productSearchService: ProductSearchService,
     protected translation: TranslationService,
-    protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -67,22 +51,22 @@ export class SearchPageMetaResolver
     const sources = [this.total$, this.query$];
     return combineLatest(sources).pipe(
       switchMap(([count, query]) =>
-        this.translation.translate('pageMetaResolver.search.title', {
-          count,
-          query,
-        })
+        this.translation
+          .translate('pageMetaResolver.search.default_title')
+          .pipe(
+            mergeMap((defaultQuery) =>
+              this.translation.translate('pageMetaResolver.search.title', {
+                count,
+                query: query || defaultQuery,
+              })
+            )
+          )
       )
     );
   }
 
-  /**
-   * @override
-   * This is added in 3.1 and will be ignored if the `BasePageMetaResolver` is not
-   * available.
-   */
-  // TODO(#10467) drop the 3.1 note.
   resolveRobots(): Observable<PageRobotsMeta[]> {
-    return this.basePageMetaResolver?.resolveRobots() ?? of([]);
+    return this.basePageMetaResolver.resolveRobots();
   }
 
   /**
@@ -92,6 +76,6 @@ export class SearchPageMetaResolver
    * the all query parameters are removed and https and www are added explicitly.
    */
   resolveCanonicalUrl(): Observable<string> {
-    return this.basePageMetaResolver?.resolveCanonicalUrl() ?? of();
+    return this.basePageMetaResolver.resolveCanonicalUrl();
   }
 }

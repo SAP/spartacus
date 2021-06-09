@@ -7,6 +7,5 @@ import { ConfiguratorShowMoreComponent } from './configurator-show-more.componen
   imports: [CommonModule, I18nModule],
   declarations: [ConfiguratorShowMoreComponent],
   exports: [ConfiguratorShowMoreComponent],
-  entryComponents: [ConfiguratorShowMoreComponent],
 })
 export class ConfiguratorShowMoreModule {}
