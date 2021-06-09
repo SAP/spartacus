@@ -33,7 +33,7 @@ export class MyCouponsComponentService {
         params: { query: this.buildSearchParam(coupon) },
       },
       {
-        state: {
+        queryParams: {
           couponcode: coupon.couponId,
         },
       }

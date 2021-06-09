@@ -52,7 +52,7 @@ describe('MyCouponsComponentService', () => {
         params: { query: RELEVANCE },
       },
       {
-        state: {
+        queryParams: {
           couponcode: 'CouponForAllProduct',
         },
       }
@@ -69,7 +69,7 @@ describe('MyCouponsComponentService', () => {
         },
       },
       {
-        state: {
+        queryParams: {
           couponcode: 'CouponForPartProduct',
         },
       }

@@ -8,7 +8,7 @@ import { StoreFinderSearchComponent } from './store-finder-search.component';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 const query = {
-  state: {
+  queryParams: {
     query: 'address',
   },
 };
@@ -81,7 +81,7 @@ describe('StoreFinderSearchComponent', () => {
   });
 
   it('should dispatch new query', () => {
-    component.searchBox.setValue(query.state.query);
+    component.searchBox.setValue(query.queryParams.query);
     component.findStores(component.searchBox.value);
     expect(routingService.go).toHaveBeenCalledWith(
       ['store-finder/find'],
@@ -90,7 +90,7 @@ describe('StoreFinderSearchComponent', () => {
   });
 
   it('should call onKey and dispatch query', () => {
-    component.searchBox.setValue(query.state.query);
+    component.searchBox.setValue(query.queryParams.query);
     component.onKey(keyEvent);
     expect(routingService.go).toHaveBeenCalledWith(
       ['store-finder/find'],
@@ -106,7 +106,7 @@ describe('StoreFinderSearchComponent', () => {
   it('should view stores near by my location', () => {
     component.viewStoresWithMyLoc();
     expect(routingService.go).toHaveBeenCalledWith(['store-finder/find'], {
-      state: {
+      queryParams: {
         useMyLocation: true,
       },
     });
@@ -114,8 +114,8 @@ describe('StoreFinderSearchComponent', () => {
 
   it('should call findStores if search value provided and Enter is an event', () => {
     spyOn(component, 'findStores');
-    component.searchBox.setValue(query.state.query);
+    component.searchBox.setValue(query.queryParams.query);
     component.onKey(keyEvent);
-    expect(component.findStores).toHaveBeenCalledWith(query.state.query);
+    expect(component.findStores).toHaveBeenCalledWith(query.queryParams.query);
   });
 });

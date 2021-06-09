@@ -15,7 +15,7 @@ export class StoreFinderSearchComponent {
 
   findStores(address: string) {
     this.routingService.go(['store-finder/find'], {
-      state: {
+      queryParams: {
         query: address,
       },
     });
@@ -23,7 +23,7 @@ export class StoreFinderSearchComponent {
 
   viewStoresWithMyLoc() {
     this.routingService.go(['store-finder/find'], {
-      state: {
+      queryParams: {
         useMyLocation: true,
       },
     });
