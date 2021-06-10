@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { provideDefaultConfig } from '@spartacus/core';
+import { Config, provideDefaultConfig } from '@spartacus/core';
 import { RulebasedConfiguratorConnector } from '@spartacus/product-configurator/rulebased';
 import { CpqConfiguratorNormalizer } from './converters/cpq-configurator-normalizer';
 import { CpqConfiguratorOverviewNormalizer } from './converters/cpq-configurator-overview-normalizer';
@@ -44,7 +44,7 @@ import { defaultCpqConfiguratorEndpointConfig } from './default-cpq-configurator
       useClass: CpqConfiguratorOverviewNormalizer,
       multi: true,
     },
-    provideDefaultConfig(defaultCpqConfiguratorEndpointConfig),
+    provideDefaultConfig(defaultCpqConfiguratorEndpointConfig as Config),
   ],
 })
 export class CpqConfiguratorRestModule {}

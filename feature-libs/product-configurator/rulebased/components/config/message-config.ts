@@ -5,3 +5,7 @@ export abstract class MessageConfig {
     };
   };
 }
+
+declare module '@spartacus/core' {
+  interface Config extends MessageConfig {}
+}
