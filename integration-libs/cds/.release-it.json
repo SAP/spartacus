@@ -10,7 +10,7 @@
     "publishPath": "./../../dist/cds"
   },
   "hooks": {
-    "after:version:bump": "cd ../.. && ng build cds --prod"
+    "after:version:bump": "cd ../.. && yarn build:cds"
   },
   "github": {
     "release": true,
@@ -25,7 +25,9 @@
           "file": "package.json",
           "path": [
             "peerDependencies.@spartacus/core",
-            "peerDependencies.@spartacus/storefront"
+            "peerDependencies.@spartacus/schematics",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/tracking"
           ]
         }
       ]

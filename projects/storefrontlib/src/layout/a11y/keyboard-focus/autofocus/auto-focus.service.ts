@@ -27,7 +27,7 @@ export class AutoFocusService extends EscapeFocusService {
   }
 
   /**
-   * Indicates whether any of the focusabe child elements is focused.
+   * Indicates whether any of the focusable child elements is focused.
    */
   hasPersistedFocus(host: HTMLElement, config: PersistFocusConfig): boolean {
     return !!this.getPersisted(host, this.getPersistenceGroup(host, config));

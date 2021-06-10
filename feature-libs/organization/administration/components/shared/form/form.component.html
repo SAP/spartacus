@@ -5,8 +5,13 @@
     [i18nRoot]="i18n"
     cxOrgItemActive
     [subtitle]="subtitle"
+    [cxFocus]="{ autofocus: 'input', refreshFocus: form }"
   >
-    <button actions class="button primary" [disabled]="disabled$ | async">
+    <button
+      actions
+      class="button primary"
+      [disabled]="form.disabled || (disabled$ | async)"
+    >
       {{ 'organization.save' | cxTranslate }}
     </button>
     <button actions class="link" routerLink="../" type="button">

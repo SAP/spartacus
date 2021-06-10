@@ -1,17 +1,24 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import {
   CmsSearchBoxComponent,
   I18nTestingModule,
+  PageType,
   ProductSearchService,
+  RoutingService,
+  RouterState,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import { SearchBoxComponentService } from './search-box-component.service';
 import { SearchBoxComponent } from './search-box.component';
+import {
+  SearchBoxProductSelectedEvent,
+  SearchBoxSuggestionSelectedEvent,
+} from './search-box.events';
 import { SearchResults } from './search-box.model';
 
 const mockSearchBoxComponentData: CmsSearchBoxComponent = {
@@ -67,17 +74,41 @@ class MockMediaComponent {
   @Input() alt;
 }
 
+const mockRouterState: RouterState = {
+  nextState: undefined,
+  state: {
+    url: null,
+    queryParams: null,
+    params: null,
+    context: null,
+    cmsRequired: null,
+  },
+  navigationId: null,
+};
+
+const routerState$: BehaviorSubject<RouterState> = new BehaviorSubject(
+  mockRouterState
+);
+
+const PRODUCT_SEARCH_STRING = 'camera';
+
+class MockRoutingService implements Partial<RoutingService> {
+  getRouterState = () => routerState$.asObservable();
+}
+
 describe('SearchBoxComponent', () => {
   let searchBoxComponent: SearchBoxComponent;
   let fixture: ComponentFixture<SearchBoxComponent>;
   let serviceSpy: SearchBoxComponentService;
   let cmsComponentData: CmsComponentData<CmsSearchBoxComponent>;
+  let routingService: RoutingService;
 
   function getFocusedElement(): HTMLElement {
     return <HTMLElement>document.activeElement;
   }
 
-  class SearchBoxComponentServiceSpy {
+  class SearchBoxComponentServiceSpy
+    implements Partial<SearchBoxComponentService> {
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() =>
       of(<SearchResults>{
@@ -90,7 +121,12 @@ describe('SearchBoxComponent', () => {
         ],
       })
     );
-
+    dispatchSuggestionSelectedEvent = jasmine.createSpy(
+      'dispatchSuggestionSelectedEvent'
+    );
+    dispatchProductSelectedEvent = jasmine.createSpy(
+      'dispatchSuggestionSelectedEvent'
+    );
     search() {}
     toggleBodyClass() {}
   }
@@ -123,6 +159,10 @@ describe('SearchBoxComponent', () => {
             provide: SearchBoxComponentService,
             useClass: SearchBoxComponentServiceSpy,
           },
+          {
+            provide: RoutingService,
+            useClass: MockRoutingService,
+          },
         ],
       }).compileComponents();
     })
@@ -138,12 +178,16 @@ describe('SearchBoxComponent', () => {
 
       fixture = TestBed.createComponent(SearchBoxComponent);
       searchBoxComponent = fixture.componentInstance;
+      searchBoxComponent.ngOnInit();
+
+      routingService = TestBed.inject(RoutingService);
 
       serviceSpy = fixture.debugElement.injector.get(
         SearchBoxComponentService
       ) as any;
 
       spyOn(searchBoxComponent, 'search').and.callThrough();
+      spyOn(routingService, 'getRouterState').and.callThrough();
     });
 
     it('should be created', () => {
@@ -164,7 +208,6 @@ describe('SearchBoxComponent', () => {
 
     it('should launch the search page, given it is not an empty search', () => {
       const input = fixture.debugElement.query(By.css('input'));
-      const PRODUCT_SEARCH_STRING = 'camera';
 
       input.nativeElement.value = PRODUCT_SEARCH_STRING;
       input.triggerEventHandler('keydown.enter', {});
@@ -262,6 +305,31 @@ describe('SearchBoxComponent', () => {
       ).toBeTruthy();
     });
 
+    it('should contain chosen word from the dropdown', () => {
+      const input = fixture.debugElement.query(By.css('input'));
+      mockRouterState.state.context = {
+        id: 'search',
+        type: PageType.CONTENT_PAGE,
+      };
+      input.nativeElement.value = PRODUCT_SEARCH_STRING;
+      input.triggerEventHandler('keydown.enter', {});
+      routerState$.next(mockRouterState);
+      fixture.detectChanges();
+      expect(searchBoxComponent.chosenWord).toEqual(PRODUCT_SEARCH_STRING);
+      expect(input.nativeElement.value).toEqual(PRODUCT_SEARCH_STRING);
+    });
+
+    it('should not contain searched word when navigating to another page', () => {
+      const input = fixture.debugElement.query(By.css('input'));
+      mockRouterState.state.context = null;
+      input.nativeElement.value = PRODUCT_SEARCH_STRING;
+      input.triggerEventHandler('keydown.enter', {});
+      routerState$.next(mockRouterState);
+      fixture.detectChanges();
+      expect(searchBoxComponent.chosenWord).toEqual('');
+      expect(input.nativeElement.value).toEqual('');
+    });
+
     describe('Arrow key tests', () => {
       beforeEach(() => {
         searchBoxComponent.queryText = 'te';
@@ -313,6 +381,34 @@ describe('SearchBoxComponent', () => {
             By.css('.results div:nth-child(2) > a:last-child')
           ).nativeElement
         ).toBe(getFocusedElement());
+      });
+    });
+
+    describe('Events', () => {
+      it('should dispatch suggestion selected event', () => {
+        const mockEventData: SearchBoxSuggestionSelectedEvent = {
+          freeText: 'camera',
+          selectedSuggestion: 'camera',
+          searchSuggestions: [{ value: 'camera' }, { value: 'camileo' }],
+        };
+
+        searchBoxComponent.dispatchSuggestionEvent(mockEventData);
+
+        expect(serviceSpy.dispatchSuggestionSelectedEvent).toHaveBeenCalledWith(
+          mockEventData
+        );
+      });
+      it('should dispatch product selected event', () => {
+        const mockEventData: SearchBoxProductSelectedEvent = {
+          freeText: 'camera',
+          productCode: '12345',
+        };
+
+        searchBoxComponent.dispatchProductEvent(mockEventData);
+
+        expect(serviceSpy.dispatchProductSelectedEvent).toHaveBeenCalledWith(
+          mockEventData
+        );
       });
     });
   });

@@ -1,0 +1,12 @@
+cx-saved-cart-details-action {
+  .cx-saved-cart-restore-btns {
+    justify-content: flex-end;
+    margin: 2rem 0;
+
+    @include media-breakpoint-down(md) {
+      > *:first-child {
+        margin-bottom: 1em;
+      }
+    }
+  }
+}

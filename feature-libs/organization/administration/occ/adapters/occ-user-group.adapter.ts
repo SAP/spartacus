@@ -16,6 +16,7 @@ import {
   UserGroupAdapter,
   USER_GROUPS_NORMALIZER,
   USER_GROUP_NORMALIZER,
+  USER_GROUP_SERIALIZER,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
@@ -67,6 +68,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   }
 
   create(userId: string, userGroup: UserGroup): Observable<UserGroup> {
+    userGroup = this.converter.convert(userGroup, USER_GROUP_SERIALIZER);
     return this.http
       .post<Occ.OrgUnitUserGroup>(this.getUserGroupsEndpoint(userId), userGroup)
       .pipe(this.converter.pipeable(USER_GROUP_NORMALIZER));
@@ -85,6 +87,7 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
     userGroupId: string,
     userGroup: UserGroup
   ): Observable<UserGroup> {
+    userGroup = this.converter.convert(userGroup, USER_GROUP_SERIALIZER);
     return this.http
       .patch<Occ.OrgUnitUserGroup>(
         this.getUserGroupEndpoint(userId, userGroupId),
@@ -148,9 +151,11 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
   }
 
   protected getUserGroupEndpoint(userId: string, userGroupId: string): string {
-    return this.occEndpoints.getUrl('userGroup', {
-      userId,
-      userGroupId,
+    return this.occEndpoints.buildUrl('userGroup', {
+      urlParams: {
+        userId,
+        userGroupId,
+      },
     });
   }
 
@@ -158,7 +163,10 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
     userId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl('userGroups', { userId }, params);
+    return this.occEndpoints.buildUrl('userGroups', {
+      urlParams: { userId },
+      queryParams: params,
+    });
   }
 
   protected getAvailableCustomersEndpoint(
@@ -166,11 +174,10 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
     userGroupId: string,
     params?: SearchConfig | { orgCustomerId: string }
   ): string {
-    return this.occEndpoints.getUrl(
-      'userGroupAvailableOrgCustomers',
-      { userId, userGroupId },
-      params
-    );
+    return this.occEndpoints.buildUrl('userGroupAvailableOrgCustomers', {
+      urlParams: { userId, userGroupId },
+      queryParams: params,
+    });
   }
 
   protected getPermissionsEndpoint(
@@ -178,10 +185,9 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
     userGroupId: string,
     params?: SearchConfig | { orgCustomerId: string }
   ): string {
-    return this.occEndpoints.getUrl(
+    return this.occEndpoints.buildUrl(
       'userGroupAvailableOrderApprovalPermissions',
-      { userId, userGroupId },
-      params
+      { urlParams: { userId, userGroupId }, queryParams: params }
     );
   }
 
@@ -190,10 +196,12 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
     userGroupId: string,
     orgCustomerId: string
   ): string {
-    return this.occEndpoints.getUrl('userGroupMember', {
-      userId,
-      userGroupId,
-      orgCustomerId,
+    return this.occEndpoints.buildUrl('userGroupMember', {
+      urlParams: {
+        userId,
+        userGroupId,
+        orgCustomerId,
+      },
     });
   }
 
@@ -202,11 +210,10 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
     userGroupId: string,
     params?: SearchConfig | { orgCustomerId: string }
   ): string {
-    return this.occEndpoints.getUrl(
-      'userGroupMembers',
-      { userId, userGroupId },
-      params
-    );
+    return this.occEndpoints.buildUrl('userGroupMembers', {
+      urlParams: { userId, userGroupId },
+      queryParams: params,
+    });
   }
 
   protected getOrderApprovalPermissionsEndpoint(
@@ -214,14 +221,10 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
     userGroupId: string,
     params?: SearchConfig | { orderApprovalPermissionCode: string }
   ): string {
-    return this.occEndpoints.getUrl(
-      'userGroupOrderApprovalPermissions',
-      {
-        userId,
-        userGroupId,
-      },
-      params
-    );
+    return this.occEndpoints.buildUrl('userGroupOrderApprovalPermissions', {
+      urlParams: { userId, userGroupId },
+      queryParams: params,
+    });
   }
 
   protected getOrderApprovalPermissionEndpoint(
@@ -229,10 +232,12 @@ export class OccUserGroupAdapter implements UserGroupAdapter {
     userGroupId: string,
     orderApprovalPermissionCode: string
   ): string {
-    return this.occEndpoints.getUrl('userGroupOrderApprovalPermission', {
-      userId,
-      userGroupId,
-      orderApprovalPermissionCode,
+    return this.occEndpoints.buildUrl('userGroupOrderApprovalPermission', {
+      urlParams: {
+        userId,
+        userGroupId,
+        orderApprovalPermissionCode,
+      },
     });
   }
 }

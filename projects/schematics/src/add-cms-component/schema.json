@@ -26,7 +26,6 @@
       "alias": "cms-model-path",
       "default": "@spartacus/core"
     },
-
     "routing": {
       "type": "boolean",
       "description": "When true, creates a routing module.",
@@ -53,7 +52,6 @@
       "description": "The declaring NgModule.",
       "alias": "m"
     },
-
     "project": {
       "type": "string",
       "description": "The name of the project.",
@@ -144,11 +142,6 @@
       "type": "boolean",
       "default": true,
       "description": "When true, the declaring NgModule exports this component."
-    },
-    "entryComponent": {
-      "type": "boolean",
-      "default": true,
-      "description": "When true, the new component is the entry component of the declaring NgModule."
     },
     "lintFix": {
       "type": "boolean",

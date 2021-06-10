@@ -1,4 +1,4 @@
-import { Injectable, Optional } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { CmsService } from '../../cms/facade/cms.service';
@@ -35,50 +35,35 @@ export class CategoryPageMetaResolver
   protected searchPage$: Observable<
     ProductSearchPage | Page
   > = this.cms.getCurrentPage().pipe(
-    filter(Boolean),
+    filter((page) => Boolean(page)),
     switchMap((page: Page) =>
       // only the existence of a plp component tells us if products
       // are rendered or if this is an ordinary content page
       this.hasProductListComponent(page)
-        ? this.productSearchService.getResults().pipe(filter(Boolean))
+        ? this.productSearchService
+            .getResults()
+            .pipe(filter((result) => Boolean(result)))
         : of(page)
     )
   );
 
-  /**
-   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
-   */
-  // TODO(#10467): Remove deprecated constructors
-  constructor(
-    productSearchService: ProductSearchService,
-    cmsService: CmsService,
-    translation: TranslationService
-  );
-  constructor(
-    productSearchService: ProductSearchService,
-    cmsService: CmsService,
-    translation: TranslationService,
-    // tslint:disable-next-line: unified-signatures
-    basePageMetaResolver?: BasePageMetaResolver,
-    metaResolversConfigService?: MetaResolversConfigService
-  );
   constructor(
     protected productSearchService: ProductSearchService,
     protected cms: CmsService,
     protected translation: TranslationService,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver,
-    protected metaResolversConfigService?: MetaResolversConfigService
+    protected basePageMetaResolver: BasePageMetaResolver,
+    protected metaResolversConfigService: MetaResolversConfigService
   ) {
     super();
     this.pageType = PageType.CATEGORY_PAGE;
   }
 
   resolveTitle(): Observable<string> {
-    return this.searchPage$.pipe(
+    return (<Observable<ProductSearchPage>>this.searchPage$).pipe(
       filter((page: ProductSearchPage) => !!page.pagination),
       switchMap((p: ProductSearchPage) =>
         this.translation.translate('pageMetaResolver.category.title', {
-          count: p.pagination.totalResults,
+          count: p.pagination?.totalResults,
           query: p.breadcrumbs?.length
             ? p.breadcrumbs[0].facetValueName
             : undefined,
@@ -89,13 +74,13 @@ export class CategoryPageMetaResolver
 
   resolveBreadcrumbs(): Observable<BreadcrumbMeta[]> {
     return combineLatest([
-      this.searchPage$.pipe(),
+      (<Observable<ProductSearchPage>>this.searchPage$).pipe(),
       this.translation.translate('common.home'),
     ]).pipe(
-      map(([p, label]: [ProductSearchPage, string]) =>
-        p.breadcrumbs
-          ? this.resolveBreadcrumbData(<ProductSearchPage>p, label)
-          : null
+      map(([page, label]: [ProductSearchPage, string]) =>
+        page.breadcrumbs
+          ? this.resolveBreadcrumbData(<ProductSearchPage>page, label)
+          : []
       )
     );
   }
@@ -107,45 +92,47 @@ export class CategoryPageMetaResolver
     const breadcrumbs: BreadcrumbMeta[] = [];
     breadcrumbs.push({ label: label, link: '/' });
 
-    for (const br of page.breadcrumbs) {
-      if (br.facetCode === 'category' || br.facetCode === 'allCategories') {
-        breadcrumbs.push({
-          label: br.facetValueName,
-          link: `/c/${br.facetValueCode}`,
-        });
-      }
-      if (br.facetCode === 'brand') {
-        breadcrumbs.push({
-          label: br.facetValueName,
-          link: `/Brands/${br.facetValueName}/c/${br.facetValueCode}`,
-        });
+    for (const br of page.breadcrumbs ?? []) {
+      if (br.facetValueName) {
+        if (br.facetCode === 'category' || br.facetCode === 'allCategories') {
+          breadcrumbs.push({
+            label: br.facetValueName,
+            link: `/c/${br.facetValueCode}`,
+          });
+        }
+        if (br.facetCode === 'brand') {
+          breadcrumbs.push({
+            label: br.facetValueName,
+            link: `/Brands/${br.facetValueName}/c/${br.facetValueCode}`,
+          });
+        }
       }
     }
     return breadcrumbs;
   }
 
   protected hasProductListComponent(page: Page): boolean {
-    return !!Object.keys(page.slots).find(
+    return !!Object.keys(page.slots || {}).find(
       (key) =>
-        !!page.slots[key].components?.find(
+        !!page.slots?.[key].components?.find(
           (comp) =>
-            // TODO: could be removed in 4.0
-            comp.typeCode === 'CMSProductListComponent' ||
-            comp.typeCode === 'ProductGridComponent' ||
-            //
             this.isProductListComponent(comp)
         )
     );
   }
 
-  /**
-   * @override
-   * This is added in 3.1 and will be ignored if the `BasePageMetaResolver` is not
-   * available.
-   */
-  // TODO(#10467) drop the 3.1 note.
   resolveRobots(): Observable<PageRobotsMeta[]> {
-    return this.basePageMetaResolver?.resolveRobots() ?? of([]);
+    return this.basePageMetaResolver.resolveRobots();
+  }
+
+  /**
+   * Resolves the canonical url for the category listing page.
+   *
+   * The default options will be used to resolve the url, which means that
+   * all query parameters are removed and https and www are added explicitly.
+   */
+  resolveCanonicalUrl(): Observable<string> {
+    return this.basePageMetaResolver.resolveCanonicalUrl();
   }
 
   private isProductListComponent(comp: CmsComponent): boolean {

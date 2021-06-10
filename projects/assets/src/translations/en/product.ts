@@ -71,13 +71,6 @@ export const product = {
       deliveryTab: 'Shipping',
     },
   },
-  variant: {
-    style: 'Style',
-    selectedStyle: 'Selected style',
-    size: 'Size',
-    color: 'Color',
-    sizeGuideLabel: 'Style guide',
-  },
   addToWishList: {
     add: 'Add to Wish List',
     remove: 'Remove from Wish List',

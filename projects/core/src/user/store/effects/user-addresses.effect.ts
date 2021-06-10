@@ -15,9 +15,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class UserAddressesEffects {
   @Effect()
-  loadUserAddresses$: Observable<
-    UserActions.UserAddressesAction
-  > = this.actions$.pipe(
+  loadUserAddresses$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ADDRESSES),
     map((action: UserActions.LoadUserAddresses) => action.payload),
     mergeMap((payload) => {
@@ -33,9 +31,7 @@ export class UserAddressesEffects {
   );
 
   @Effect()
-  addUserAddress$: Observable<
-    UserActions.UserAddressesAction
-  > = this.actions$.pipe(
+  addUserAddress$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
     ofType(UserActions.ADD_USER_ADDRESS),
     map((action: UserActions.AddUserAddress) => action.payload),
     mergeMap((payload) => {
@@ -53,9 +49,7 @@ export class UserAddressesEffects {
   );
 
   @Effect()
-  updateUserAddress$: Observable<
-    UserActions.UserAddressesAction
-  > = this.actions$.pipe(
+  updateUserAddress$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
     ofType(UserActions.UPDATE_USER_ADDRESS),
     map((action: UserActions.UpdateUserAddress) => action.payload),
     mergeMap((payload) => {
@@ -82,9 +76,7 @@ export class UserAddressesEffects {
   );
 
   @Effect()
-  deleteUserAddress$: Observable<
-    UserActions.UserAddressesAction
-  > = this.actions$.pipe(
+  deleteUserAddress$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
     ofType(UserActions.DELETE_USER_ADDRESS),
     map((action: UserActions.DeleteUserAddress) => action.payload),
     mergeMap((payload) => {

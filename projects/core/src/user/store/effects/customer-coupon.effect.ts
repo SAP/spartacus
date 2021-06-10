@@ -10,9 +10,7 @@ import { normalizeHttpError } from '../../../util/normalize-http-error';
 @Injectable()
 export class CustomerCouponEffects {
   @Effect()
-  loadCustomerCoupons$: Observable<
-    fromCustomerCouponsAction.CustomerCouponAction
-  > = this.actions$.pipe(
+  loadCustomerCoupons$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = this.actions$.pipe(
     ofType(fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS),
     map(
       (action: fromCustomerCouponsAction.LoadCustomerCoupons) => action.payload
@@ -43,9 +41,7 @@ export class CustomerCouponEffects {
   );
 
   @Effect()
-  subscribeCustomerCoupon$: Observable<
-    fromCustomerCouponsAction.CustomerCouponAction
-  > = this.actions$.pipe(
+  subscribeCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = this.actions$.pipe(
     ofType(fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON),
     map(
       (action: fromCustomerCouponsAction.SubscribeCustomerCoupon) =>
@@ -72,9 +68,7 @@ export class CustomerCouponEffects {
   );
 
   @Effect()
-  unsubscribeCustomerCoupon$: Observable<
-    fromCustomerCouponsAction.CustomerCouponAction
-  > = this.actions$.pipe(
+  unsubscribeCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = this.actions$.pipe(
     ofType(fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON),
     map(
       (action: fromCustomerCouponsAction.UnsubscribeCustomerCoupon) =>
@@ -101,9 +95,7 @@ export class CustomerCouponEffects {
   );
 
   @Effect()
-  claimCustomerCoupon$: Observable<
-    fromCustomerCouponsAction.CustomerCouponAction
-  > = this.actions$.pipe(
+  claimCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = this.actions$.pipe(
     ofType(fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON),
     map(
       (action: fromCustomerCouponsAction.ClaimCustomerCoupon) => action.payload

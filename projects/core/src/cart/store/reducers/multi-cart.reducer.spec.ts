@@ -222,6 +222,16 @@ describe('Multi Cart reducer', () => {
       });
     });
 
+    describe('LOAD_CARTS_SUCCESS action', () => {
+      it('should set cart in state', () => {
+        const initialState = fromMultiCart.cartEntitiesInitialState;
+        const payload = [testCart];
+        const action = new CartActions.LoadCartsSuccess(payload);
+        const state = fromMultiCart.cartEntitiesReducer(initialState, action);
+        expect(state).toEqual((payload as unknown) as Cart);
+      });
+    });
+
     describe('CREATE_MULTI_CART_SUCCESS action', () => {
       it('should set cart in state', () => {
         const initialState = {};

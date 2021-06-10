@@ -3,7 +3,6 @@
 import 'zone.js/dist/zone';
 import 'zone.js/dist/zone-testing';
 import { getTestBed } from '@angular/core/testing';
-import '@angular/localize/init';
 import {
   BrowserDynamicTestingModule,
   platformBrowserDynamicTesting,
@@ -32,4 +31,4 @@ context
   .keys()
   // filter tests from node_modules
   .filter((key) => !key.startsWith('@'))
-  .map(context);
+  .forEach(context);

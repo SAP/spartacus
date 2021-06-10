@@ -1,17 +1,13 @@
-import { Component, DebugElement } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, DebugElement, Directive, Input } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { OutletDirective } from '../../cms-structure';
 import { MockFeatureDirective } from '../../shared/test/mock-feature-directive';
 import { HamburgerMenuService } from '../header/hamburger-menu/hamburger-menu.service';
 import { StorefrontComponent } from './storefront.component';
 
-@Component({
-  selector: 'cx-asm',
-  template: '',
-})
-class MockAsmRootComponent {}
 @Component({
   selector: 'cx-header',
   template: '',
@@ -22,7 +18,7 @@ class MockHeaderComponent {}
   selector: 'cx-global-message',
   template: '',
 })
-class MockGlobalMessagerComponent {}
+class MockGlobalMessageComponent {}
 
 @Component({
   selector: 'cx-page-slot',
@@ -58,6 +54,13 @@ class MockHamburgerMenuService {
   toggle(_forceCollapse?: boolean): void {}
 }
 
+@Directive({
+  selector: '[cxOutlet]',
+})
+class MockOutletDirective implements Partial<OutletDirective> {
+  @Input() cxOutlet: string;
+}
+
 describe('StorefrontComponent', () => {
   let component: StorefrontComponent;
   let fixture: ComponentFixture<StorefrontComponent>;
@@ -71,13 +74,13 @@ describe('StorefrontComponent', () => {
         declarations: [
           StorefrontComponent,
           MockHeaderComponent,
-          MockGlobalMessagerComponent,
+          MockGlobalMessageComponent,
           MockFooterComponent,
           DynamicSlotComponent,
           MockPageLayoutComponent,
-          MockAsmRootComponent,
           MockFeatureDirective,
           MockSchemaComponent,
+          MockOutletDirective,
         ],
         providers: [
           {

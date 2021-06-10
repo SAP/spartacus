@@ -13,6 +13,7 @@ import {
 } from '@spartacus/storefront';
 import { MessageModule } from '../message/message.module';
 import { ListComponent } from './list.component';
+import { PopoverModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { ListComponent } from './list.component';
     FormsModule,
     MessageModule,
     KeyboardFocusModule,
+    PopoverModule,
   ],
   declarations: [ListComponent],
   exports: [ListComponent],

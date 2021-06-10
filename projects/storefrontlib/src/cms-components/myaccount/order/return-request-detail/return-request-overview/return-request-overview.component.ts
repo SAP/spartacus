@@ -20,9 +20,7 @@ export class ReturnRequestOverviewComponent implements OnInit, OnDestroy {
   rma: string;
   subscription: Subscription;
 
-  returnRequest$: Observable<
-    ReturnRequest
-  > = this.returnRequestService
+  returnRequest$: Observable<ReturnRequest> = this.returnRequestService
     .getReturnRequest()
     .pipe(tap((returnRequest) => (this.rma = returnRequest.rma)));
 

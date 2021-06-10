@@ -1,0 +1,34 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "tracking-${version}",
+    "commitMessage": "Bumping tracking version to ${version}",
+    "tagAnnotation": "Bumping tracking version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/tracking"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:tracking"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/tracking@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib tracking --to tracking-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/schematics"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -22,6 +22,7 @@ import { BudgetFormComponent } from './form/budget-form.component';
 import { BudgetItemService } from './services/budget-item.service';
 import { BudgetListService } from './services/budget-list.service';
 import { BudgetRoutePageMetaResolver } from './services/budget-route-page-meta.resolver';
+import { CostCenterDetailsCellComponent } from '../cost-center/details-cell/cost-center-details-cell.component';
 
 const listPath = `organization/budgets/:${ROUTE_PARAMS.budgetCode}`;
 const paramsMapping: ParamsMapping = {
@@ -139,6 +140,11 @@ export const budgetTableConfig: TableConfig = {
     [OrganizationTableType.BUDGET_ASSIGNED_COST_CENTERS]: {
       cells: ['name'],
       options: {
+        cells: {
+          name: {
+            dataComponent: CostCenterDetailsCellComponent,
+          },
+        },
         pagination: {
           pageSize: MAX_OCC_INTEGER_VALUE,
         },

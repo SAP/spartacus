@@ -12,10 +12,7 @@
     "importHelpers": true,
     "types": [],
     "lib": ["esnext", "dom"],
-    "paths": {
-      "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
-    }
+    "paths": {}
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,

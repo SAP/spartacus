@@ -51,15 +51,18 @@ class MockProductSearchService {
     });
   }
 }
-class MockBasePageMetaResolver {
+class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
   resolveRobots() {
     return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
+  }
+  resolveCanonicalUrl(): Observable<string> {
+    return of();
   }
 }
 
 describe('CategoryPageMetaResolver', () => {
   let service: CategoryPageMetaResolver;
-
+  let basePageMetaResolver: BasePageMetaResolver;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
@@ -72,6 +75,7 @@ describe('CategoryPageMetaResolver', () => {
     });
 
     service = TestBed.inject(CategoryPageMetaResolver);
+    basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
   });
 
   it('should resolve title', () => {
@@ -98,15 +102,19 @@ describe('CategoryPageMetaResolver', () => {
     expect(result.length).toEqual(2);
   });
 
-  describe('resolveRobots', () => {
-    it('should resolve title from the BasePageMetaResolver', async () => {
-      let result;
-      service
-        .resolveRobots()
-        .subscribe((robots) => (result = robots))
-        .unsubscribe();
-      expect(result).toContain(PageRobotsMeta.FOLLOW);
-      expect(result).toContain(PageRobotsMeta.INDEX);
-    });
+  it('should resolve robots from the BasePageMetaResolver', async () => {
+    let result;
+    service
+      .resolveRobots()
+      .subscribe((robots) => (result = robots))
+      .unsubscribe();
+    expect(result).toContain(PageRobotsMeta.FOLLOW);
+    expect(result).toContain(PageRobotsMeta.INDEX);
+  });
+
+  it('should resolve canonical url from the BasePageMetaResolver.resolveCanonicalUrl()', async () => {
+    spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.callThrough();
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+    expect(basePageMetaResolver.resolveCanonicalUrl).toHaveBeenCalled();
   });
 });

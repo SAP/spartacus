@@ -1,11 +1,12 @@
-import { Injectable, Optional } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { PageRobotsMeta } from '../../cms/model/page.model';
 import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
 import { PageMetaResolver } from '../../cms/page/page-meta.resolver';
 import {
+  PageDescriptionResolver,
   PageRobotsResolver,
   PageTitleResolver,
 } from '../../cms/page/page.resolvers';
@@ -24,27 +25,13 @@ import { PageType } from '../../model/cms.model';
 })
 export class CheckoutPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageRobotsResolver {
+  implements PageTitleResolver, PageDescriptionResolver, PageRobotsResolver {
   protected cart$ = this.activeCartService.getActive();
 
-  /**
-   * @deprecated since 3.1, we'll use the BasePageMetaResolver in future versions
-   */
-  // TODO(#10467): Remove deprecated constructors
-  constructor(
-    translation: TranslationService,
-    activeCartService: ActiveCartService
-  );
-  constructor(
-    translation: TranslationService,
-    activeCartService: ActiveCartService,
-    // tslint:disable-next-line: unified-signatures
-    basePageMetaResolver?: BasePageMetaResolver
-  );
   constructor(
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    protected basePageMetaResolver: BasePageMetaResolver
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -52,7 +39,11 @@ export class CheckoutPageMetaResolver
   }
 
   /**
-   * Resolves the page title from the translation `pageMetaResolver.checkout.title`
+   * @override
+   * Resolves the page title from the translation `pageMetaResolver.checkout.title`. The
+   * cart total item `count` is passed to the translation, so it can be used in the title.
+   *
+   * The title from the page data is ignored for this page title.
    */
   resolveTitle(): Observable<string> {
     return this.cart$.pipe(
@@ -64,11 +55,11 @@ export class CheckoutPageMetaResolver
     );
   }
 
-  /**
-   * @Override Returns robots for the checkout pages, which default to NOINDEX/NOFOLLOW.
-   */
-  // TODO(#10467): resolve robots from `BasePageMetaResolver` instead
+  resolveDescription(): Observable<string | undefined> {
+    return this.basePageMetaResolver.resolveDescription();
+  }
+
   resolveRobots(): Observable<PageRobotsMeta[]> {
-    return of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX]);
+    return this.basePageMetaResolver.resolveRobots();
   }
 }

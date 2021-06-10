@@ -1,8 +1,9 @@
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { ErrorHandler } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
@@ -24,7 +25,6 @@ import {
   UnknownErrorHandler,
 } from './handlers';
 import { HttpErrorInterceptor } from './http-error.interceptor';
-import { ErrorHandler } from '@angular/core';
 import createSpy = jasmine.createSpy;
 
 describe('HttpErrorInterceptor', () => {
@@ -189,7 +189,8 @@ describe('HttpErrorInterceptor', () => {
         });
         mockReq.flush({}, { status: 123, statusText: 'unknown' });
         expect(console.warn).toHaveBeenCalledWith(
-          `Unknown http response error: ${HttpResponseStatus.UNKNOWN}`
+          `An unknown http error occurred\n`,
+          'Http failure response for /unknown: 123 unknown'
         );
       });
     });

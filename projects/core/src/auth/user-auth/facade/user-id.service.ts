@@ -61,7 +61,7 @@ export class UserIdService {
    *
    * @returns Observable that emits once and completes with the last userId value.
    */
-  public takeUserId(loggedIn = false): Observable<string | never> {
+  public takeUserId(loggedIn = false): Observable<string> {
     return this.getUserId().pipe(
       take(1),
       map((userId) => {

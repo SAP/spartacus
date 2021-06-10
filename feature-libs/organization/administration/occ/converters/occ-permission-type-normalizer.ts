@@ -14,9 +14,7 @@ export class OccPermissionTypeNormalizer
     target?: OrderApprovalPermissionType
   ): OrderApprovalPermissionType {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-      };
+      target = { ...(source as any) };
     }
     return target;
   }

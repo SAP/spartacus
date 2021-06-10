@@ -10,11 +10,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const architect_1 = require("@angular-devkit/architect");
+const fs_1 = require("fs");
+const globModule = require("glob");
+const path = require("path");
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
-const fs_1 = require("fs");
-const path = require("path");
-const globModule = require("glob");
 const util_1 = require("util");
 const glob = util_1.promisify(globModule);
 const DELIMITER_START = '/** AUGMENTABLE_TYPES_START */';
@@ -71,31 +71,39 @@ function propagateAugmentableTypes(libPath, logger) {
         const files = yield glob(libPath + '/**/package.json');
         for (const packageJsonFile of files) {
             try {
+                // get typings file from package.json
                 let packageData = JSON.parse(yield fs_1.promises.readFile(packageJsonFile, 'utf8'));
                 const typingsFile = packageData.typings;
                 if (!typingsFile) {
                     continue;
                 }
-                const typingsFilePath = path.join(libPath, typingsFile);
+                const packageJsonDir = path.dirname(packageJsonFile);
+                const typingsFilePath = path.join(packageJsonDir, typingsFile);
                 let typingsFileSource = yield fs_1.promises.readFile(typingsFilePath, 'utf8');
+                // look for export from public api file
                 const regex = /export \* from '(.+)\'/;
                 const publicApiFile = typingsFileSource.match(regex)[1];
-                const apiFilePath = path.join(libPath, publicApiFile + '.d.ts');
+                const apiFilePath = path.join(packageJsonDir, publicApiFile + '.d.ts');
                 let publicApiFileSource = yield fs_1.promises.readFile(apiFilePath, 'utf8');
+                // find augmentable types delimiter in public api file
                 const augTypesStart = publicApiFileSource.indexOf(DELIMITER_START);
                 if (augTypesStart === -1) {
-                    return;
+                    continue;
                 }
                 const augTypesEnd = publicApiFileSource.indexOf(DELIMITER_END) + DELIMITER_END.length + 1;
+                // extract augmentable types block
                 const augTypes = publicApiFileSource.substr(augTypesStart, augTypesEnd - augTypesStart);
+                // remove augmentable types block from public api file
                 publicApiFileSource =
                     publicApiFileSource.substr(0, augTypesStart) +
                         publicApiFileSource.substr(augTypesEnd);
+                // incorporate augmentable types block into typings file
                 const firstExportPos = typingsFileSource.indexOf('export *');
                 typingsFileSource =
                     typingsFileSource.substr(0, firstExportPos) +
                         augTypes +
                         typingsFileSource.substr(firstExportPos);
+                // write results
                 yield fs_1.promises.writeFile(apiFilePath, publicApiFileSource, 'utf8');
                 yield fs_1.promises.writeFile(typingsFilePath, typingsFileSource, 'utf8');
                 logger.info('Propagated types from ' + apiFilePath + ' to ' + typingsFilePath);

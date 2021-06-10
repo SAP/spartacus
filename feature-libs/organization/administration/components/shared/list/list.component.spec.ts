@@ -6,7 +6,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { EntitiesModel, I18nTestingModule } from '@spartacus/core';
-import { Table } from '@spartacus/storefront';
+import { PopoverModule, Table } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { IconTestingModule } from 'projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/src/layout/a11y/keyboard-focus/focus-testing.module';
@@ -17,6 +17,7 @@ import { ItemService } from '../item.service';
 import { ListComponent } from './list.component';
 import { ListService } from './list.service';
 import createSpy = jasmine.createSpy;
+import { OrganizationTableType } from '@spartacus/organization/administration/components';
 
 interface Mock {
   code: string;
@@ -68,7 +69,7 @@ class MockItemService {
 }
 
 @Component({
-  // tslint:disable-next-line: component-selector
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'cx-table',
   template: '',
 })
@@ -78,6 +79,7 @@ class MockTableComponent {
   @Input() currentItem;
   @Input() i18nRoot;
   @Output() launch = new EventEmitter();
+  @Input() showHint = true;
 }
 
 @Component({
@@ -90,6 +92,7 @@ class MockListComponent extends ListComponent<Mock> {
   ) {
     super(baseListService, organizationItemService);
   }
+  viewType = OrganizationTableType.BUDGET;
 }
 
 describe('ListComponent', () => {
@@ -111,6 +114,7 @@ describe('ListComponent', () => {
         NgSelectModule,
         FormsModule,
         KeyboardFocusTestingModule,
+        PopoverModule,
       ],
       declarations: [MockListComponent, MockTableComponent],
       providers: [
@@ -209,6 +213,33 @@ describe('ListComponent', () => {
     it('should show is-empty message', () => {
       const el = fixture.debugElement.query(By.css('p.is-empty'));
       expect(el).toBeTruthy();
+    });
+  });
+
+  describe('hint', () => {
+    beforeEach(() => {
+      spyOn(service, 'getData').and.returnValue(of(mockEmptyList));
+      fixture = TestBed.createComponent(MockListComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+    it('should not show hint by default', () => {
+      const el = fixture.debugElement.query(
+        By.css('cx-popover > .popover-body > p')
+      );
+      expect(el).toBeFalsy();
+    });
+
+    it('should display hint after click info button', () => {
+      const infoButton = fixture.debugElement.query(
+        By.css('button[ng-reflect-cx-popover]')
+      ).nativeElement;
+      infoButton.click();
+      const el = fixture.debugElement.query(
+        By.css('cx-popover > .popover-body > p')
+      );
+      expect(el).toBeTruthy();
+      expect(el.nativeElement.innerText).toBe('orgBudget.hint');
     });
   });
 });

@@ -9,5 +9,5 @@
       "rxjs": "rxjs"
     }
   },
-  "assets": ["**/*.scss"]
+  "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
 }

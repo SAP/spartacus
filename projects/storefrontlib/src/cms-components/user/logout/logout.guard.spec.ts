@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  AuthRedirectService,
   AuthService,
   CmsService,
   ProtectedRoutesService,
@@ -37,11 +38,16 @@ class MockProtectedRoutesService implements Partial<ProtectedRoutesService> {
   }
 }
 
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
+  reportNotAuthGuard() {}
+}
+
 describe('LogoutGuard', () => {
   let logoutGuard: LogoutGuard;
   let authService: AuthService;
   let protectedRoutesService: ProtectedRoutesService;
   let cmsService: CmsService;
+  let authRedirectService: AuthRedirectService;
 
   let zone: NgZone;
   let router: Router;
@@ -83,6 +89,7 @@ describe('LogoutGuard', () => {
           provide: ProtectedRoutesService,
           useClass: MockProtectedRoutesService,
         },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
         SemanticPathService,
       ],
     });
@@ -92,11 +99,20 @@ describe('LogoutGuard', () => {
     cmsService = TestBed.inject(CmsService);
     protectedRoutesService = TestBed.inject(ProtectedRoutesService);
     zone = TestBed.inject(NgZone);
+    authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
   describe('When user is authorized,', () => {
     beforeEach(() => {
       spyOn(authService, 'coreLogout').and.callThrough();
+    });
+
+    it('should report with reportNotAuthGuard to AuthRedirectService', () => {
+      spyOn(authRedirectService, 'reportNotAuthGuard').and.callThrough();
+
+      logoutGuard.canActivate();
+
+      expect(authRedirectService.reportNotAuthGuard).toHaveBeenCalled();
     });
 
     it('should logout and clear user state', async () => {

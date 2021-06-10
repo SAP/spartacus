@@ -12,9 +12,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class UserConsentsEffect {
   @Effect()
-  resetConsents$: Observable<
-    UserActions.ResetLoadUserConsents
-  > = this.actions$.pipe(
+  resetConsents$: Observable<UserActions.ResetLoadUserConsents> = this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     map(() => new UserActions.ResetLoadUserConsents())
   );
@@ -74,9 +72,7 @@ export class UserConsentsEffect {
   );
 
   @Effect()
-  withdrawConsent$: Observable<
-    UserActions.UserConsentsAction
-  > = this.actions$.pipe(
+  withdrawConsent$: Observable<UserActions.UserConsentsAction> = this.actions$.pipe(
     ofType(UserActions.WITHDRAW_USER_CONSENT),
     map((action: UserActions.WithdrawUserConsent) => action.payload),
     concatMap(({ userId, consentCode }) =>

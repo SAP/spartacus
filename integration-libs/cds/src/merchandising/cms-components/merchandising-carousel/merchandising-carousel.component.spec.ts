@@ -47,7 +47,7 @@ class MockCarouselComponent {
  */
 @Directive({
   selector: '[cxAttributes]',
-  // tslint:disable-next-line:no-inputs-metadata-property
+  // eslint-disable-next-line @angular-eslint/no-inputs-metadata-property
   inputs: ['cxAttributes', 'cxAttributesNamePrefix'],
 })
 class MockAttributesDirective {

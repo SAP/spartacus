@@ -23,9 +23,9 @@ export function clearMultiCartState(
 
 export const multiCartMetaReducers: MetaReducer<any>[] = [clearMultiCartState];
 
-export const multiCartReducerToken: InjectionToken<ActionReducerMap<
-  MultiCartState
->> = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
+export const multiCartReducerToken: InjectionToken<
+  ActionReducerMap<MultiCartState>
+> = new InjectionToken<ActionReducerMap<MultiCartState>>('MultiCartReducers');
 
 export function getMultiCartReducers(): ActionReducerMap<MultiCartState> {
   return {

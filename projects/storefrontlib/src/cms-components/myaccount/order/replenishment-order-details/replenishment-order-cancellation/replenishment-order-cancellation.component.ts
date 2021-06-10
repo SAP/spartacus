@@ -9,9 +9,10 @@ import {
   ReplenishmentOrder,
   UserReplenishmentOrderService,
 } from '@spartacus/core';
+import { LaunchDialogService } from '../../../../../layout/launch-dialog/services/launch-dialog.service';
+import { LAUNCH_CALLER } from '../../../../../layout/launch-dialog/config/launch-config';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { ReplenishmentOrderCancellationLaunchDialogService } from './replenishment-order-cancellation-launch-dialog.service';
 
 @Component({
   selector: 'cx-replenishment-order-cancellation',
@@ -22,18 +23,17 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
 
   private subscription = new Subscription();
 
-  replenishmentOrder$: Observable<
-    ReplenishmentOrder
-  > = this.userReplenishmentOrderService.getReplenishmentOrderDetails();
+  replenishmentOrder$: Observable<ReplenishmentOrder> = this.userReplenishmentOrderService.getReplenishmentOrderDetails();
 
   constructor(
     protected userReplenishmentOrderService: UserReplenishmentOrderService,
-    protected replenishmentOrderCancellationLaunchDialogService: ReplenishmentOrderCancellationLaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
+    protected launchDialogService: LaunchDialogService
   ) {}
 
   openDialog() {
-    const dialog = this.replenishmentOrderCancellationLaunchDialogService.openDialog(
+    const dialog = this.launchDialogService.openDialog(
+      LAUNCH_CALLER.REPLENISHMENT_ORDER,
       this.element,
       this.vcr
     );

@@ -7,10 +7,10 @@ POSITIONAL=()
 readonly help_display="Usage: $0 [ command_options ] [ param ]
 
     command options:
-        --suite, -s                             choose an e2e suite to run. Default: b2c
-        --integration, -i                       run an additional e2e integration suite (cds, cdc, etc)
+        --suite, -s                             e2e suite to run (b2c, b2b, cds, flaky). Default: b2c
         --environment, --env                    [ 2005 | 2011 | ccv2]. Default: 2005
         --help, -h                              show help
+        --ssr                                   Run ssr smoke test
 "
 
 while [ "${1:0:1}" == "-" ]
@@ -21,14 +21,13 @@ do
             shift
             shift
             ;;
-        '--integration' | '-i' )
-            INTEGRATION=":$2"
-            shift
-            shift
-            ;;
         '--environment' | '--env' )
             CI_ENV=":$2"
             shift
+            shift
+            ;;
+        '--ssr' )
+            SSR=true
             shift
             ;;
         '--help' | '-h' )
@@ -47,10 +46,6 @@ done
 
 set -- "${POSITIONAL[@]}"
 
-if [[ -z "${CI_ENV}" ]]; then
-    CI_ENV=":2005"
-fi
-
 echo '-----'
 echo "Building Spartacus libraries"
 
@@ -58,7 +53,7 @@ yarn install
 
 (cd projects/storefrontapp-e2e-cypress && yarn install)
 
-yarn build:libs && yarn build"${INTEGRATION}" 2>&1 | tee build.log
+yarn build:libs 2>&1 | tee build.log
 
 results=$(grep "Warning: Can't resolve all parameters for" build.log || true)
 if [[ -z "${results}" ]]; then
@@ -69,10 +64,26 @@ else
     rm build.log
     exit 1
 fi
-
 echo '-----'
-echo "Running Cypress end to end tests"
+echo "Building Spartacus storefrontapp"
+yarn build
 
-yarn e2e:cy"${INTEGRATION}":start-run-ci"${CI_ENV}${SUITE}"
+if [[ "${SSR}" = true ]]; then
+    echo "Building Spartacus storefrontapp (SSR PROD mode)"
+    yarn build:ssr:ci
 
-echo "Running Cypress end to end tests finished"
+    echo "Starting Spartacus storefrontapp in SSR mode"
+    (yarn serve:ssr &)
+
+    echo '-----'
+    echo "Running SSR Cypress smoke test"
+
+    yarn e2e:run:ci:ssr
+else
+    yarn start:pwa &
+
+    echo '-----'
+    echo "Running Cypress end to end tests"
+
+    yarn e2e:run:ci"${SUITE}"
+fi

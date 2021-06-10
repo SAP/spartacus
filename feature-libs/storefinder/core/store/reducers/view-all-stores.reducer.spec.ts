@@ -6,7 +6,7 @@ describe('View All Stores Reducer', () => {
     it('should return the default state', () => {
       const { initialState } = fromReducers;
       const action = {} as any;
-      const state = fromReducers.reducer(undefined, action);
+      const state = fromReducers.viewAllStoresReducer(undefined, action);
 
       expect(state).toBe(initialState);
     });
@@ -18,9 +18,15 @@ describe('View All Stores Reducer', () => {
       const { initialState } = fromReducers;
       const loadAction = new StoreFinderActions.ViewAllStores();
 
-      const loadingState = fromReducers.reducer(initialState, loadAction);
+      const loadingState = fromReducers.viewAllStoresReducer(
+        initialState,
+        loadAction
+      );
       const resultAction = new StoreFinderActions.ViewAllStoresSuccess(results);
-      const state = fromReducers.reducer(loadingState, resultAction);
+      const state = fromReducers.viewAllStoresReducer(
+        loadingState,
+        resultAction
+      );
 
       expect(state.viewAllStoresEntities).toEqual(results);
     });

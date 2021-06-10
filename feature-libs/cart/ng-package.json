@@ -1,0 +1,13 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/cart",
+  "lib": {
+    "entryFile": "./public_api.ts",
+    "umdModuleIds": {
+      "@spartacus/core": "core",
+      "@spartacus/storefront": "storefront",
+      "rxjs": "rxjs"
+    }
+  },
+  "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
+}

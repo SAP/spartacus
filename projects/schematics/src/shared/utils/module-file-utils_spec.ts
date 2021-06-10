@@ -2,14 +2,18 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from '@angular-devkit/schematics/testing';
+import {
+  Schema as ApplicationOptions,
+  Style,
+} from '@schematics/angular/application/schema';
+import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { UTF_8 } from '../constants';
 import { getPathResultsForFile } from './file-utils';
 import {
   addImport,
   addToModuleDeclarations,
-  addToModuleEntryComponents,
   addToModuleExports,
   addToModuleImports,
   getTemplateInfo,
@@ -40,16 +44,16 @@ export class Test {}
 
 describe('Module file utils', () => {
   let appTree: UnitTestTree;
-  const workspaceOptions: any = {
+  const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     version: '0.5.0',
   };
-  const appOptions: any = {
+  const appOptions: ApplicationOptions = {
     name: 'schematics-test',
     inlineStyle: false,
     inlineTemplate: false,
     routing: false,
-    style: 'scss',
+    style: Style.Scss,
     skipTests: false,
     projectRoot: '',
   };
@@ -152,25 +156,7 @@ describe('Module file utils', () => {
         expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
       });
     });
-    describe('addToModuleEntryComponents', () => {
-      it('should add passed position to entryComponents array', async () => {
-        const appModulePath = getPathResultsForFile(
-          appTree,
-          'app.module.ts',
-          'src'
-        )[0];
-        expect(appModulePath).toBeTruthy();
-        const resultChange = addToModuleEntryComponents(
-          appTree,
-          appModulePath,
-          'MockUnitTestModule'
-        );
 
-        expect(resultChange).toBeTruthy();
-        expect(resultChange.length).toEqual(1);
-        expect(resultChange[0].toAdd).toContain('MockUnitTestModule');
-      });
-    });
     describe('addToModuleExports', () => {
       it('should add passed position to exports array', async () => {
         const appModulePath = getPathResultsForFile(

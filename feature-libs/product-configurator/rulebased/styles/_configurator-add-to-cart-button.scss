@@ -1,0 +1,11 @@
+%cx-configurator-add-to-cart-button {
+  .cx-add-to-cart-btn-container {
+    max-width: 1140px;
+
+    @include cx-configurator-footer-container();
+
+    button.cx-add-to-cart-btn {
+      @include cx-configurator-footer-container-item();
+    }
+  }
+}
