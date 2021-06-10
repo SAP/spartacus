@@ -14,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
 import { IconConfig } from './cms-components/misc/icon/icon.model';
-import { QualtricsConfig } from './cms-components/misc/qualtrics/config/qualtrics-config';
 import { PWAModuleConfig } from './cms-structure/pwa/pwa.module-config';
 import { SeoConfig } from './cms-structure/seo/config';
 import { FeatureToggles } from './feature-toggles';
@@ -31,7 +30,6 @@ export type StorefrontConfig =
   | AuthConfig
   | CmsConfig
   | OccConfig
-  | QualtricsConfig
   | StateConfig
   | PWAModuleConfig
   | SiteContextConfig
