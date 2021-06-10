@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  Cart,
   Consignment,
   FeaturesConfig,
   FeaturesConfigModule,
@@ -128,11 +127,6 @@ class MockConsignmentTrackingComponent {
 class MockPromotionService {
   getOrderPromotions(): Observable<PromotionResult[]> {
     return of([]);
-  }
-  getProductPromotionForAllEntries(
-    _order: Order | Cart
-  ): { [key: number]: Observable<PromotionResult[]> } {
-    return {};
   }
 }
 
