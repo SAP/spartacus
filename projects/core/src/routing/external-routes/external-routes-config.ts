@@ -14,8 +14,6 @@ export abstract class ExternalRoutesConfig {
 
 declare module '../../config/config-tokens' {
   interface Config {
-    routing?: {
-      internal?: string[];
-    } & RoutingConfig['routing'];
+    routing?: ExternalRoutesConfig['routing'] & RoutingConfig['routing'];
   }
 }
