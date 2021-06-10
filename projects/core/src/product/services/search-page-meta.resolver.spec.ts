@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { RouterState } from '@angular/router';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CmsService, Page, PageRobotsMeta } from '../../cms';
 import { BasePageMetaResolver } from '../../cms/page/base-page-meta.resolver';
 import { I18nTestingModule } from '../../i18n';
@@ -13,6 +14,16 @@ const mockSearchPage: Page = {
   template: 'SearchResultsListPageTemplate',
   slots: {},
 };
+
+const mockRouteData: RouterState = {
+  state: {
+    params: {
+      query: 'Canon',
+    },
+  },
+} as any;
+
+const mockRoute = new BehaviorSubject<RouterState>(mockRouteData);
 
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
@@ -32,13 +43,7 @@ class MockProductSearchService {
 
 class MockRoutingService {
   getRouterState() {
-    return of({
-      state: {
-        params: {
-          query: 'Canon',
-        },
-      },
-    });
+    return mockRoute.asObservable();
   }
 }
 class MockBasePageMetaResolver {
@@ -71,6 +76,8 @@ describe('SearchPageMetaResolver', () => {
 
     resolver = TestBed.inject(SearchPageMetaResolver);
     basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
+
+    mockRoute.next(mockRouteData);
   });
 
   it('PageTitleService should be created', () => {
@@ -78,7 +85,7 @@ describe('SearchPageMetaResolver', () => {
   });
 
   it('should resolve title', () => {
-    let result: string;
+    let result: string | undefined;
     resolver
       .resolveTitle()
       .subscribe((value) => {
@@ -89,11 +96,31 @@ describe('SearchPageMetaResolver', () => {
     expect(result).toEqual('pageMetaResolver.search.title count:3 query:Canon');
   });
 
+  it('should resolve title when no query is given', () => {
+    mockRoute.next({
+      state: {
+        params: {},
+      },
+    } as any);
+
+    let result: string | undefined;
+    resolver
+      .resolveTitle()
+      .subscribe((value) => {
+        result = value;
+      })
+      .unsubscribe();
+
+    expect(result).toEqual(
+      'pageMetaResolver.search.title count:3 query:pageMetaResolver.search.default_title'
+    );
+  });
+
   it('should resolve robots from the BasePageMetaResolver', async () => {
     spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
       of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX])
     );
-    let result;
+    let result: PageRobotsMeta[] | undefined;
     resolver
       .resolveRobots()
       .subscribe((robots) => (result = robots))

@@ -28,8 +28,8 @@ export const cartWithB2bProduct: SampleCartProduct = {
 };
 
 export const b2bAccountShipToUser: SampleUser = {
-  email: 'powertools-test-user-with-orders@ydev.hybris.com',
-  password: 'Password123.',
+  email: 'powertools-test-user-with-orders@sap.cx.com',
+  password: 'pw4all',
   fullName: 'PunchOut Customer',
   address: {
     city: 'Chicago',

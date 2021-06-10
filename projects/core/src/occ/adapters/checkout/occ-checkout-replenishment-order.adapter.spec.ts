@@ -58,7 +58,7 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
     occEndpointService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEndpointService, 'getUrl').and.callThrough();
+    spyOn(occEndpointService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -86,10 +86,12 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
         );
       });
 
-      expect(occEndpointService.getUrl).toHaveBeenCalledWith(
+      expect(occEndpointService.buildUrl).toHaveBeenCalledWith(
         'scheduleReplenishmentOrder',
         {
-          userId: mockUserId,
+          urlParams: {
+            userId: mockUserId,
+          },
         }
       );
 
