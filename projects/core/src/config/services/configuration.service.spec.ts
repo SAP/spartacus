@@ -13,8 +13,8 @@ import { ConfigurationService } from './configuration.service';
 
 @NgModule({
   providers: [
-    provideDefaultConfig({ b: 'module default b' }),
-    provideConfig({ c: 'module c', d: 'module d' }),
+    provideDefaultConfig({ b: 'module default b' } as Config),
+    provideConfig({ c: 'module c', d: 'module d' } as Config),
   ],
 })
 export class TestModule {}
@@ -29,10 +29,10 @@ describe('ConfigurationService', () => {
           a: 'default a',
           b: 'default b',
           c: 'default c',
-        }),
+        } as Config),
         provideConfig({
           d: 'root d',
-        }),
+        } as Config),
       ],
     });
     service = TestBed.inject(ConfigurationService);
@@ -93,7 +93,7 @@ describe('ConfigurationService', () => {
 
       it('should apply change to global configuration', () => {
         eventService.dispatch(moduleEvent);
-        const config = TestBed.inject(Config);
+        const config: any = TestBed.inject(Config);
         expect(config.a).toEqual('default a');
         expect(config.b).toEqual('module default b');
         expect(config.c).toEqual('module c');
@@ -117,7 +117,7 @@ describe('ConfigurationService', () => {
         });
         it('should not apply changes to global configuration', () => {
           eventService.dispatch(moduleEvent);
-          const config = TestBed.inject(Config);
+          const config: any = TestBed.inject(Config);
           expect(config.a).toEqual('default a');
           expect(config.b).toEqual('default b');
           expect(config.c).toEqual('default c');

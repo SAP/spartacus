@@ -16,7 +16,7 @@ import {
 })
 export class ConfigInitializerService {
   constructor(
-    protected config: Config,
+    @Inject(Config) protected config: Config,
     @Optional()
     @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
     protected initializerGuard: any,
