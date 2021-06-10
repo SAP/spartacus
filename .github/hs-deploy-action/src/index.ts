@@ -19,7 +19,7 @@ async function run() {
 
   if (eventName === 'push') {
     console.log(`Push event. Payload: ${JSON.stringify(context.payload)}`);
-    branch = context.payload.push.head.ref;
+    branch = context.payload.ref.replace('refs/heads/', '');
   } else if (eventName === 'pull_request') {
     console.log(`PR event. Payload: ${JSON.stringify(context.payload)}`);
     branch = context.payload.pull_request.head.ref;
