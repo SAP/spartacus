@@ -22,15 +22,10 @@ import {
   PaymentDetails,
   PaymentType,
   PromotionLocation,
-  PromotionResult,
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
-import {
-  Card,
-  PromotionService,
-  PromotionsModule,
-} from '@spartacus/storefront';
+import { Card, PromotionsModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { IconTestingModule } from '../../../../../projects/storefrontlib/src/cms-components/misc/icon/testing/icon-testing.module';
 import { CheckoutStepService } from '../../services/index';
@@ -196,12 +191,6 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockPromotionService {
-  getOrderPromotions(): Observable<PromotionResult[]> {
-    return of([]);
-  }
-}
-
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
@@ -236,10 +225,6 @@ describe('ReviewSubmitComponent', () => {
           {
             provide: CheckoutStepService,
             useClass: MockCheckoutStepService,
-          },
-          {
-            provide: PromotionService,
-            useClass: MockPromotionService,
           },
           {
             provide: PaymentTypeFacade,
