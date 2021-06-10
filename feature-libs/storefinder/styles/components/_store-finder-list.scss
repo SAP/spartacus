@@ -107,8 +107,10 @@
     font-weight: 600;
     overflow: hidden;
     white-space: nowrap;
-    text-overflow: ellipsis;
-    max-width: 85vw;
+
+    cx-icon {
+      margin: 0 0.2rem 0 0;
+    }
   }
 
   ul.nav {
