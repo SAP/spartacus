@@ -200,6 +200,21 @@ describe('SavedCartFormDialogComponent', () => {
     );
   });
 
+  // TODO(#12660): Remove once backend is updated
+  it('should provide default value to saveCartDescription when empty', () => {
+    spyOn(savedCartService, 'editSavedCart');
+
+    mockDialogData$.next({ cart: {}, layoutOption: 'edit' });
+
+    component.saveOrEditCart(mockCartId);
+
+    expect(savedCartService.editSavedCart).toHaveBeenCalledWith({
+      cartId: mockCartId,
+      saveCartName: '',
+      saveCartDescription: '-',
+    });
+  });
+
   describe('should return actual characters left', () => {
     it('when form control has value', () => {
       component?.form?.get('description')?.setValue('test');
