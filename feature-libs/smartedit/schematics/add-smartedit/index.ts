@@ -9,9 +9,10 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CLI_SMARTEDIT_FEATURE,
-  LibraryOptions as SpartacusSmartEditOptions,
+  CustomConfig,
   readPackageJson,
   shouldAddFeature,
+  SMART_EDIT_CONFIG,
   SPARTACUS_SMARTEDIT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -25,6 +26,7 @@ import {
   SPARTACUS_SMARTEDIT_ASSETS,
   SPARTACUS_SMARTEDIT_ROOT,
 } from '../constants';
+import { Schema as SpartacusSmartEditOptions } from './schema';
 
 export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
@@ -42,6 +44,29 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
 }
 
 function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
+  const customConfig: CustomConfig[] = [];
+  if (options.storefrontPreviewRoute || options.allowOrigin) {
+    let content = `<${SMART_EDIT_CONFIG}>{
+      smartEdit: {\n`;
+    if (options.storefrontPreviewRoute) {
+      content += `storefrontPreviewRoute: '${options.storefrontPreviewRoute}',\n`;
+    }
+    if (options.allowOrigin) {
+      content += `allowOrigin: '${options.allowOrigin}',\n`;
+    }
+    content += `},\n}`;
+
+    customConfig.push({
+      import: [
+        {
+          moduleSpecifier: SPARTACUS_SMARTEDIT_ROOT,
+          namedImports: [SMART_EDIT_CONFIG],
+        },
+      ],
+      content,
+    });
+  }
+
   return addLibraryFeature(options, {
     folderName: SMARTEDIT_FOLDER_NAME,
     moduleName: SMARTEDIT_MODULE_NAME,
@@ -57,6 +82,7 @@ function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
       moduleSpecifier: SPARTACUS_SMARTEDIT_ROOT,
       namedImports: [SMARTEDIT_FEATURE_NAME_CONSTANT],
     },
+    customConfig,
     assets: {
       input: SPARTACUS_SMARTEDIT_ASSETS,
       glob: '**/*',
