@@ -32,7 +32,7 @@ async function run() {
 
   if (UPP_ACTION === 'deploy') {
     await build();
-    await deploy(github, octoKit);
+    await deploy(github, octoKit, branch);
     console.log('--> Hosting service deployment done');
   } else if (UPP_ACTION === 'undeploy') {
     await undeploy(branch);
