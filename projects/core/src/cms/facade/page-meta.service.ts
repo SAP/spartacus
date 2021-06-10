@@ -1,10 +1,18 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, isDevMode, PLATFORM_ID } from '@angular/core';
 import { defer, Observable, of } from 'rxjs';
-import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+} from 'rxjs/operators';
 import { UnifiedInjector } from '../../lazy-loading/unified-injector';
+import { RoutingService } from '../../routing/facade/routing.service';
 import { resolveApplicable } from '../../util/applicable';
 import { uniteLatest } from '../../util/rxjs/unite-latest';
+import { isNotNullable } from '../../util/type-guards';
 import { Page, PageMeta } from '../model/page.model';
 import { PageMetaConfig } from '../page/config/page-meta.config';
 import { PageMetaResolver } from '../page/page-meta.resolver';
@@ -33,7 +41,9 @@ export class PageMetaService {
     protected cms: CmsService,
     protected unifiedInjector?: UnifiedInjector,
     protected pageMetaConfig?: PageMetaConfig,
-    @Inject(PLATFORM_ID) protected platformId?: string
+    @Inject(PLATFORM_ID) protected platformId?: string,
+    // TODO(): make routing service mandatory
+    protected routingService?: RoutingService
   ) {}
 
   /**
@@ -51,12 +61,22 @@ export class PageMetaService {
     robots: 'resolveRobots',
   };
 
-  protected meta$: Observable<PageMeta | null> = defer(() =>
-    this.cms.getCurrentPage()
-  ).pipe(
-    filter((page) => Boolean(page)),
-    switchMap((page: Page) => this.getMetaResolver(page)),
-    switchMap((metaResolver: PageMetaResolver) =>
+  // TODO(): make routing service mandatory
+  protected semanticRoute$: Observable<string | undefined> = this.routingService
+    ? defer(() => this.routingService?.getRouterState()).pipe(
+        map((routerState) => routerState.state.semanticRoute),
+        distinctUntilChanged()
+      )
+    : of(undefined);
+
+  protected meta$: Observable<PageMeta | null> = this.semanticRoute$.pipe(
+    switchMap((semanticRoute) =>
+      this.cms.getCurrentPage().pipe(
+        filter((page) => isNotNullable(page)),
+        switchMap((page) => this.getMetaResolver(page, semanticRoute))
+      )
+    ),
+    switchMap((metaResolver: PageMetaResolver | undefined) =>
       metaResolver ? this.resolve(metaResolver) : of(null)
     ),
     shareReplay({ bufferSize: 1, refCount: true })
@@ -136,10 +156,20 @@ export class PageMetaService {
    * Resolvers match by default on `PageType` and `page.template`.
    */
   protected getMetaResolver(
-    page: Page
+    page: Page,
+    semanticRoute?: string
   ): Observable<PageMetaResolver | undefined> {
     return this.resolvers$.pipe(
-      map((resolvers) => resolveApplicable(resolvers, [page], [page]))
+      map((resolvers) => {
+        const res = resolveApplicable(
+          resolvers,
+          [page, semanticRoute],
+          [page, semanticRoute]
+        );
+        console.debug(resolvers); // spike todo remove
+        console.debug(page.template, semanticRoute, res.constructor.name); // spike todo remove
+        return res;
+      })
     );
   }
 }
