@@ -23,7 +23,9 @@ export class ConfigInitializerService {
     @Inject(RootConfig) protected rootConfig: Config
   ) {}
 
-  protected ongoingScopes$ = new BehaviorSubject<string[]>([]);
+  protected ongoingScopes$ = new BehaviorSubject<string[] | undefined>(
+    undefined
+  );
 
   /**
    * Returns true if config is stable, i.e. all CONFIG_INITIALIZERS resolved correctly
