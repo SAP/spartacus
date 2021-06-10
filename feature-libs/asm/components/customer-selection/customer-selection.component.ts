@@ -9,8 +9,8 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AsmService, CustomerSearchPage } from '@spartacus/asm/core';
-import { Config, User } from '@spartacus/core';
+import { AsmConfig, AsmService, CustomerSearchPage } from '@spartacus/asm/core';
+import { User } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
@@ -39,11 +39,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
   constructor(
     protected fb: FormBuilder,
     protected asmService: AsmService,
-    protected config: Config
-  ) {
-    // console.log('new config', conf);
-    // console.log('old config', config);
-  }
+    protected config: AsmConfig
+  ) {}
 
   ngOnInit(): void {
     this.customerSelectionForm = this.fb.group({

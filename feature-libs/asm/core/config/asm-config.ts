@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import '@spartacus/core';
 import { Config, OccConfig } from '@spartacus/core';
 
-/**
- * @deprecated Use regular `Config` to access spartacus configuration
- */
 @Injectable({
   providedIn: 'root',
   useExisting: Config,

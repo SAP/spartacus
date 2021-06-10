@@ -2,13 +2,13 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   AsmAdapter,
+  AsmConfig,
   CustomerSearchOptions,
   CustomerSearchPage,
   CUSTOMER_SEARCH_PAGE_NORMALIZER,
 } from '@spartacus/asm/core';
 import {
   BaseSiteService,
-  Config,
   ConverterService,
   InterceptorUtil,
   OccEndpointsService,
@@ -24,7 +24,7 @@ export class OccAsmAdapter implements AsmAdapter {
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
     protected converterService: ConverterService,
-    protected config: Config,
+    protected config: AsmConfig,
     protected baseSiteService: BaseSiteService
   ) {
     this.baseSiteService
