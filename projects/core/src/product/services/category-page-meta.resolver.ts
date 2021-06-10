@@ -114,9 +114,8 @@ export class CategoryPageMetaResolver
   protected hasProductListComponent(page: Page): boolean {
     return !!Object.keys(page.slots || {}).find(
       (key) =>
-        !!page.slots?.[key].components?.find(
-          (comp) =>
-            this.isProductListComponent(comp)
+        !!page.slots?.[key].components?.find((comp) =>
+          this.isProductListComponent(comp)
         )
     );
   }
