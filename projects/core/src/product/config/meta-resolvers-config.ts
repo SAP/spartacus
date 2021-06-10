@@ -7,6 +7,6 @@ import { Config } from '../../config/config-tokens';
 })
 export abstract class MetaResolversConfig {
   categoryPageMetaResolver?: {
-    productListComponents: string[];
+    productListComponents?: string[];
   };
 }
