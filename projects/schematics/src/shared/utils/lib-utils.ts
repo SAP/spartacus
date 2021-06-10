@@ -279,14 +279,12 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
   }
 
   const basePath = process.cwd();
-  let result = false;
   for (const tsconfigPath of buildPaths) {
     if (spartacusFeatureModuleExists(tree, tsconfigPath, basePath)) {
-      result = true;
-      break;
+      return true;
     }
   }
-  return result;
+  return false;
 }
 
 function spartacusFeatureModuleExists(
