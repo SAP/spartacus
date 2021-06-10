@@ -29,6 +29,7 @@ import { OrderEntry } from '../../model/order.model';
 import {
   OCC_CART_ID_CURRENT,
   OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
   OCC_USER_ID_GUEST,
 } from '../../occ/utils/occ-constants';
 import { ProcessesLoaderState } from '../../state/utils/processes-loader/processes-loader-state';
@@ -134,7 +135,8 @@ export class ActiveCartService implements OnDestroy {
           isStable &&
           this.isEmpty(cart) &&
           !loaded &&
-          !isTempCartId(cartId)
+          !isTempCartId(cartId) &&
+          !(userId === OCC_USER_ID_CURRENT && cartId)
         ) {
           this.load(cartId, userId);
         }
