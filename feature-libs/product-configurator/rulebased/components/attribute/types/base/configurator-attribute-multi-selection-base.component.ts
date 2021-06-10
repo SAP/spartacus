@@ -6,7 +6,7 @@ import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/co
 import { map } from 'rxjs/operators';
 import { BehaviorSubject } from 'rxjs';
 import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
-import { ConfiguratorPriceComponentOptions } from '../../../price';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix

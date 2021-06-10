@@ -17,47 +17,64 @@ export class OccConfiguratorVariantPriceNormalizer
     };
 
     source?.attributes?.forEach((attr) => {
-      const attributeUIKey = attr?.csticUiKey.split('@');
+      const uiKeys = attr?.csticUiKey.split('@');
+      const attribute = this.convertAttribute(
+        uiKeys.pop(),
+        this.convertValue(attr?.priceSupplements)
+      );
 
-      const priceSupplements = attr?.priceSupplements;
-      let values: Configurator.Value[] = [];
-
-      priceSupplements.forEach((obj) => {
-        const value: Configurator.Value = {
-          valueCode: obj?.attributeValueKey,
-          valuePrice: obj?.priceValue,
-        };
-        values.push(value);
-      });
-
-      const attribute: Configurator.Attribute = {
-        name: attributeUIKey[attributeUIKey?.length - 1],
-        values: values,
+      const group: Configurator.Group = {
+        id: uiKeys[0],
+        subGroups: [],
+        attributes: [],
       };
-      //remove last element from array because it is the attribute name
-      attributeUIKey.pop();
-
-      for (let index = 0; index < attributeUIKey?.length; index++) {
-        const group: Configurator.Group = {
-          id: attributeUIKey[index],
-          subGroups: [],
-          attributes: [],
-        };
-        if (attributeUIKey.length > 1) {
-          group?.attributes.push(attribute);
-        } else {
+      if (uiKeys.length === 1) {
+        group?.attributes.push(attribute);
+      } else {
+        for (let index = 1; index < uiKeys.length; index++) {
           const subGroup: Configurator.Group = {
-            id: attributeUIKey[index + 1],
+            id: uiKeys[index],
             subGroups: [],
             attributes: [],
           };
-          subGroup?.attributes.push(attribute);
-          group.subGroups.push(subGroup);
+          if (index === uiKeys.length - 1) {
+            subGroup?.attributes.push(attribute);
+          }
+
+          if (group?.subGroups?.indexOf(subGroup) === -1) {
+            group?.subGroups.push(subGroup);
+          }
         }
+      }
+      if (resultTarget?.groups?.indexOf(group) === -1) {
         resultTarget?.groups?.push(group);
       }
     });
 
     return resultTarget;
+  }
+
+  convertValue(
+    occValues: OccConfigurator.ValueSupplements[]
+  ): Configurator.Value[] {
+    let values: Configurator.Value[] = [];
+    occValues.forEach((occValue) => {
+      const value: Configurator.Value = {
+        valueCode: occValue.attributeValueKey,
+        valuePrice: occValue.priceValue,
+      };
+      values.push(value);
+    });
+    return values;
+  }
+
+  convertAttribute(
+    attributeName: string,
+    values: Configurator.Value[]
+  ): Configurator.Attribute {
+    return {
+      name: attributeName,
+      values: values,
+    };
   }
 }
