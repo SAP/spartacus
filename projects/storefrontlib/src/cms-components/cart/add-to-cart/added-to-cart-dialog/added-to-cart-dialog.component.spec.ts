@@ -12,6 +12,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
+  Cart,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
@@ -41,6 +42,10 @@ class MockActiveCartService implements Partial<ActiveCartService> {
 
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
+  }
+
+  getActive(): Observable<Cart> {
+    return of({});
   }
 }
 
