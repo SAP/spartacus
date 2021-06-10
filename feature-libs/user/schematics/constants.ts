@@ -4,7 +4,6 @@ export const USER_FOLDER_NAME = 'user';
 export const SCSS_FILE_NAME = 'user.scss';
 export const USER_MODULE_NAME = 'User';
 
-export const CLI_ACCOUNT_FEATURE = 'Account';
 export const USER_ACCOUNT_FEATURE_NAME_CONSTANT = 'USER_ACCOUNT_FEATURE';
 export const USER_ACCOUNT_MODULE = 'UserAccountModule';
 export const USER_ACCOUNT_ROOT_MODULE = 'UserAccountRootModule';
@@ -15,7 +14,6 @@ export const USER_ACCOUNT_TRANSLATIONS = 'userAccountTranslations';
 export const USER_ACCOUNT_TRANSLATION_CHUNKS_CONFIG =
   'userAccountTranslationChunksConfig';
 
-export const CLI_PROFILE_FEATURE = 'Profile';
 export const USER_PROFILE_FEATURE_NAME_CONSTANT = 'USER_PROFILE_FEATURE';
 export const USER_PROFILE_MODULE = 'UserProfileModule';
 export const USER_PROFILE_ROOT_MODULE = 'UserProfileRootModule';

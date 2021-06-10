@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { filter, tap, withLatestFrom } from 'rxjs/operators';
-import { ProfileTagEventService } from '..';
 import { ProfileTagLifecycleService } from '../services/profile-tag-lifecycle.service';
 import { ProfileTagPushEventsService } from '../services/profile-tag-push-events.service';
+import { ProfileTagEventService } from '../services/profiletag-event.service';
 
 @Injectable({
   providedIn: 'root',

@@ -93,14 +93,6 @@ class MockViewConfig {
   };
 }
 
-@Component({
-  selector: 'cx-variant-style-icons',
-  template: 'test',
-})
-class MockStyleIconsComponent {
-  @Input() variants: any[];
-}
-
 describe('ProductListComponent', () => {
   let component: ProductListComponent;
   let fixture: ComponentFixture<ProductListComponent>;
@@ -144,7 +136,6 @@ describe('ProductListComponent', () => {
           MockUrlPipe,
           MockCxIconComponent,
           ProductScrollComponent,
-          MockStyleIconsComponent,
           MockFeatureLevelDirective,
         ],
       }).compileComponents();
