@@ -17,7 +17,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, tap } from 'rxjs/operators';
 import { CartItemComponentOptions } from '../cart-item/cart-item.component';
 
 @Component({
@@ -207,21 +207,26 @@ export class CartItemListComponent implements OnInit, OnDestroy {
     return this.form.get(this.getControlName(item)).valueChanges.pipe(
       // eslint-disable-next-line import/no-deprecated
       startWith(null),
-      map((value) => {
-        if (value && this.selectiveCartService && this.options.isSaveForLater) {
-          this.selectiveCartService.updateEntry(
-            value.entryNumber,
-            value.quantity
-          );
-        } else if (value && this.cartId && this.userId) {
-          this.multiCartService?.updateEntry(
-            this.userId,
-            this.cartId,
-            value.entryNumber,
-            value.quantity
-          );
-        } else if (value) {
-          this.activeCartService.updateEntry(value.entryNumber, value.quantity);
+      tap((value) => {
+        if (item.updateable && value) {
+          if (this.selectiveCartService && this.options.isSaveForLater) {
+            this.selectiveCartService.updateEntry(
+              value.entryNumber,
+              value.quantity
+            );
+          } else if (this.cartId && this.userId) {
+            this.multiCartService?.updateEntry(
+              this.userId,
+              this.cartId,
+              value.entryNumber,
+              value.quantity
+            );
+          } else {
+            this.activeCartService.updateEntry(
+              value.entryNumber,
+              value.quantity
+            );
+          }
         }
       }),
       map(() => <FormGroup>this.form.get(this.getControlName(item)))
