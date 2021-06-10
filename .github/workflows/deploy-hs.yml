@@ -1,6 +1,12 @@
 on:
   pull_request:
     types: [opened, synchronize]
+    branches:
+    - 'feature/GH-**'
+    - 'epic/**'
+    - '!develop'
+    - '!release/3.4.x'
+    - '!feature/GH-12615'
   push:
     branches:
       - develop
