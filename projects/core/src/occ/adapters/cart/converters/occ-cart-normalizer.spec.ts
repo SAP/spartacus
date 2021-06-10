@@ -1,4 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { ORDER_ENTRY_PROMOTIONS_NORMALIZER } from '../../../../cart/connectors/cart/converters';
+import { Product } from '../../../../model/product.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccCartNormalizer } from './occ-cart-normalizer';
@@ -6,6 +8,7 @@ import { OccCartNormalizer } from './occ-cart-normalizer';
 class MockConverterService {
   convert() {}
 }
+
 describe('OccCartNormalizer', () => {
   let occCartNormalizer: OccCartNormalizer;
   let converter: ConverterService;
@@ -20,10 +23,19 @@ describe('OccCartNormalizer', () => {
 
     occCartNormalizer = TestBed.inject(OccCartNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake(((product) => ({
-      ...product,
-      code: product.code + 'converted',
-    })) as any);
+
+    spyOn(converter, 'convert').and.callFake(function (arg: any) {
+      if (arg.code) {
+        return {
+          ...arg,
+          code: (arg as Product).code + 'converted',
+        } as any;
+      } else {
+        return [
+          { entryNumber: 0, promotions: [{ description: 'tested Promotion' }] },
+        ] as any;
+      }
+    });
   });
 
   it('should be created', () => {
@@ -33,11 +45,19 @@ describe('OccCartNormalizer', () => {
   it('should convert cart entries', () => {
     const product = { code: 'test1' };
     const cart = {
-      entries: [{ product }],
+      entries: [{ entryNumber: 0, product }],
     };
+
     const result = occCartNormalizer.convert(cart);
     expect(result.entries[0].product.code).toBe('test1converted');
+    expect(result.entries[0].promotions[0].description).toBe(
+      'tested Promotion'
+    );
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
+    expect(converter.convert).toHaveBeenCalledWith(
+      result,
+      ORDER_ENTRY_PROMOTIONS_NORMALIZER
+    );
   });
 
   it('should not contain duplicated pomotions', () => {
