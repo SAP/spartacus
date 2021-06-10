@@ -28,9 +28,9 @@ export class CartAddEntrySuccessEvent extends CartEvent {
   static readonly type = 'CartAddEntrySuccessEvent';
   productCode: string;
   quantity: number;
-  entry: OrderEntry;
-  quantityAdded: number;
-  deliveryModeChanged: boolean;
+  entry?: OrderEntry;
+  quantityAdded?: number;
+  deliveryModeChanged?: boolean;
 }
 
 export class CartAddEntryFailEvent extends CartEvent {
