@@ -21,15 +21,15 @@ export class ConfigurationService implements OnDestroy {
    *
    * Ambient configuration can appear when we lazy load module with configuration
    */
-  readonly unifiedConfig$: Observable<any>;
+  readonly unifiedConfig$: Observable<Config>;
 
   /**
    * Global application configuration
    */
   readonly config: Config;
 
-  private readonly ambientDefaultConfig: any = {};
-  private readonly ambientConfig: any = {};
+  private readonly ambientDefaultConfig: Config = {};
+  private readonly ambientConfig: Config = {};
 
   private subscription: Subscription;
 
@@ -69,10 +69,13 @@ export class ConfigurationService implements OnDestroy {
 
   private processConfig(configChunks: Config[], defaultConfigChunks: Config[]) {
     if (defaultConfigChunks?.length) {
-      deepMerge(this.ambientDefaultConfig, ...defaultConfigChunks);
+      deepMerge(
+        this.ambientDefaultConfig as Record<string, unknown>,
+        ...defaultConfigChunks
+      );
     }
     if (configChunks.length) {
-      deepMerge(this.ambientConfig, ...configChunks);
+      deepMerge(this.ambientConfig as Record<string, unknown>, ...configChunks);
     }
 
     if (configChunks.length || defaultConfigChunks.length) {
@@ -81,7 +84,7 @@ export class ConfigurationService implements OnDestroy {
   }
 
   private emitUnifiedConfig(): void {
-    const newConfig = deepMerge(
+    const newConfig: Config = deepMerge(
       {},
       this.defaultConfig,
       this.ambientDefaultConfig,

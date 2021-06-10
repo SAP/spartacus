@@ -1,18 +1,13 @@
 import { inject, Injectable, InjectFlags, InjectionToken } from '@angular/core';
 import { deepMerge } from './utils/deep-merge';
 
-/**
- * Global Configuration injection token, can be used to inject configuration to any part of the app
- */
-// export const Config = new InjectionToken('Configuration', {
-//   providedIn: 'root',
-//   factory: () => deepMerge({}, inject(DefaultConfig), inject(RootConfig)),
-// });
-
 export function factory() {
   return deepMerge({}, inject(DefaultConfig), inject(RootConfig));
 }
 
+/**
+ * Global Configuration, can be used to inject configuration to any part of the app
+ */
 @Injectable({
   providedIn: 'root',
   useFactory: factory,

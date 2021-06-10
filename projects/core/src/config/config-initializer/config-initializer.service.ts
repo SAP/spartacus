@@ -16,7 +16,7 @@ import {
 })
 export class ConfigInitializerService {
   constructor(
-    @Inject(Config) protected config: Config,
+    protected config: Config,
     @Optional()
     @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
     protected initializerGuard: any,
@@ -51,7 +51,10 @@ export class ConfigInitializerService {
       return of(this.config);
     }
     return this.ongoingScopes$.pipe(
-      filter((ongoingScopes) => this.areReady(scopes, ongoingScopes)),
+      filter(
+        (ongoingScopes) =>
+          !!ongoingScopes && this.areReady(scopes, ongoingScopes)
+      ),
       take(1),
       mapTo(this.config)
     );
@@ -70,7 +73,7 @@ export class ConfigInitializerService {
    * @param scopes
    */
   protected finishScopes(scopes: string[]) {
-    const newScopes = [...this.ongoingScopes$.value];
+    const newScopes = [...(this.ongoingScopes$.value ?? [])];
     for (const scope of scopes) {
       newScopes.splice(newScopes.indexOf(scope), 1);
     }
