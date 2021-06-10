@@ -11,17 +11,19 @@ async function run() {
     throw new Error('Github token missing in action');
   }
 
-  const context = github.context;
-  const pr = context.payload.pull_request;
-
-  if (!pr) {
-    throw new Error(
-      'Missing pull request context! Make sure to run this action only for pull_requests.'
-    );
-  }
-
-  const branch = pr.head.ref;
   const octoKit = github.getOctokit(GITHUB_TOKEN);
+  const context = github.context;
+  const eventName = context.eventName;
+
+  let branch;
+
+  if (eventName === 'push') {
+    console.log(`Push event. Payload: ${JSON.stringify(context.payload)}`);
+    branch = context.payload.push.head.ref;
+  } else if (eventName === 'pull_request') {
+    console.log(`PR event. Payload: ${JSON.stringify(context.payload)}`);
+    branch = context.payload.pull_request.head.ref;
+  }
 
   console.log(`Starting Hosting service deployment of PR branch ${branch}.`);
 
