@@ -1,4 +1,4 @@
-<ng-container *ngIf="order$ | async as order; else orderNotExist">
+<ng-container *ngIf="order$ | async as order; else isNotReady">
   <div class="cx-nav row">
     <div class="col-xs-12 col-md-4 col-lg-3">
       <button
@@ -39,19 +39,27 @@
   </div>
 </ng-container>
 
-<ng-template #orderNotExist>
-  <div class="cx-nav row">
-    <div class="col-12 header">
-      <h2>{{ 'orderDetails.orderNotFound' | cxTranslate }}</h2>
+<ng-template #isNotReady>
+  <ng-container *ngIf="isLoading$ | async; else orderNotExist">
+    <div class="cx-spinner">
+      <cx-spinner></cx-spinner>
     </div>
+  </ng-container>
 
-    <div class="col-xs-12 col-md-4 col-lg-3">
-      <button
-        [routerLink]="{ cxRoute: 'orders' } | cxUrl"
-        class="btn btn-block btn-action"
-      >
-        {{ 'orderDetails.backToTheList' | cxTranslate }}
-      </button>
+  <ng-template #orderNotExist>
+    <div class="cx-nav row">
+      <div class="col-12 header">
+        <h2>{{ 'orderDetails.orderNotFound' | cxTranslate }}</h2>
+      </div>
+
+      <div class="col-xs-12 col-md-4 col-lg-3">
+        <button
+          [routerLink]="{ cxRoute: 'orders' } | cxUrl"
+          class="btn btn-block btn-action"
+        >
+          {{ 'orderDetails.backToTheList' | cxTranslate }}
+        </button>
+      </div>
     </div>
-  </div>
+  </ng-template>
 </ng-template>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Order, RoutingService, UserOrderService } from '@spartacus/core';
+import { LoaderState } from 'projects/core/src/state/utils/loader/loader-state';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -35,6 +36,10 @@ export class OrderDetailsService {
       }),
       shareReplay({ bufferSize: 1, refCount: true })
     );
+  }
+
+  getOrderDetailsState(): Observable<LoaderState<Order>> {
+    return this.userOrderService.getOrderDetailsState();
   }
 
   getOrderDetails(): Observable<Order> {

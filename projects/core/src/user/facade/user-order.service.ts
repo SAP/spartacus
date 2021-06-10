@@ -16,6 +16,7 @@ import {
   getProcessSuccessFactory,
 } from '../../process/store/selectors/process.selectors';
 import { RoutingService } from '../../routing/facade/routing.service';
+import { LoaderState } from '../../state/utils/loader/loader-state';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { CANCEL_ORDER_PROCESS_ID, StateWithUser } from '../store/user-state';
@@ -35,6 +36,13 @@ export class UserOrderService {
    */
   getOrderDetails(): Observable<Order> {
     return this.store.pipe(select(UsersSelectors.getOrderDetails));
+  }
+
+  /**
+   * Returns an order details state
+   */
+  getOrderDetailsState(): Observable<LoaderState<Order>> {
+    return this.store.pipe(select(UsersSelectors.getOrderState));
   }
 
   /**

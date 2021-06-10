@@ -13,4 +13,8 @@ export class OrderDetailActionsComponent {
   order$: Observable<any> = this.orderDetailsService
     .getOrderDetails()
     .pipe(map((order) => (Object.keys(order).length ? order : null)));
+
+  isLoading$ = this.orderDetailsService
+    .getOrderDetailsState()
+    .pipe(map((state) => state.loading));
 }
