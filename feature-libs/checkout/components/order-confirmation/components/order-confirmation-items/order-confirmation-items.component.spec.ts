@@ -9,9 +9,8 @@ import {
   Order,
   OrderEntry,
   PromotionLocation,
-  PromotionResult,
 } from '@spartacus/core';
-import { PromotionService, PromotionsModule } from '@spartacus/storefront';
+import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 
@@ -39,12 +38,6 @@ class MockCheckoutService {
   }
 }
 
-class MockPromotionService {
-  getOrderPromotions(): Observable<PromotionResult[]> {
-    return of([]);
-  }
-}
-
 describe('OrderConfirmationItemsComponent', () => {
   let component: OrderConfirmationItemsComponent;
   let fixture: ComponentFixture<OrderConfirmationItemsComponent>;
@@ -59,7 +52,6 @@ describe('OrderConfirmationItemsComponent', () => {
         ],
         providers: [
           { provide: CheckoutFacade, useClass: MockCheckoutService },
-          { provide: PromotionService, useClass: MockPromotionService },
           {
             provide: FeaturesConfig,
             useValue: {
