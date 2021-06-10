@@ -4,6 +4,6 @@
 @import './tab-paragraph-container/index';
 @import './global-message/index';
 
-$content-components-whitelist: cx-banner, cx-link, cx-media, cx-carousel,
+$content-components-allowlist: cx-banner, cx-link, cx-media, cx-carousel,
   cx-banner-carousel, cx-global-message, cx-navigation-ui, cx-footer-navigation,
   cx-category-navigation, cx-breadcrumb !default;
