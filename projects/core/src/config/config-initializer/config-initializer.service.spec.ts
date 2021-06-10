@@ -13,11 +13,11 @@ const MockConfig = {
 const configInitializers = [
   {
     scopes: ['scope1'],
-    configFactory: async () => ({ scope1: 'final' }),
+    configFactory: async () => ({ scope1: 'final' } as Config),
   },
   {
     scopes: ['scope2.nested'],
-    configFactory: async () => ({ scope2: { nested: true } }),
+    configFactory: async () => ({ scope2: { nested: true } } as Config),
   },
 ];
 
