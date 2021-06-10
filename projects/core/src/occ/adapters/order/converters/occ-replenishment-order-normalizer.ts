@@ -8,6 +8,7 @@ import {
   ConverterService,
 } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
+
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderNormalizer
   implements Converter<Occ.ReplenishmentOrder, ReplenishmentOrder> {

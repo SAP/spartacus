@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderEntry, PromotionResult } from '@spartacus/core';
+import { PromotionResult } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
@@ -17,15 +17,5 @@ export class OrderPromotionService extends PromotionService {
     return this.orderDetailsService
       .getOrderDetails()
       .pipe(map((order) => order.appliedOrderPromotions || []));
-  }
-
-  getProductPromotionForEntry(item: OrderEntry): Observable<PromotionResult[]> {
-    return this.orderDetailsService
-      .getOrderDetails()
-      .pipe(
-        map((order) =>
-          this.getProductPromotion(item, order.appliedProductPromotions || [])
-        )
-      );
   }
 }

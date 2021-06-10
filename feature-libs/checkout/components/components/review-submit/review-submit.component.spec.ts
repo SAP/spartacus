@@ -18,7 +18,6 @@ import {
   Country,
   DeliveryMode,
   I18nTestingModule,
-  Order,
   OrderEntry,
   PaymentDetails,
   PaymentType,
@@ -200,11 +199,6 @@ class MockUrlPipe implements PipeTransform {
 class MockPromotionService {
   getOrderPromotions(): Observable<PromotionResult[]> {
     return of([]);
-  }
-  getProductPromotionForAllEntries(
-    _order: Order | Cart
-  ): { [key: number]: Observable<PromotionResult[]> } {
-    return {};
   }
 }
 

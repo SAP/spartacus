@@ -13,21 +13,18 @@
       *ngIf="others$ | async as others"
       [order]="order"
       [consignments]="others"
-      [promotions]="getAllOrderEntryPromotions(order)"
     ></cx-order-consigned-entries>
 
     <cx-order-consigned-entries
       *ngIf="completed$ | async as completed"
       [order]="order"
       [consignments]="completed"
-      [promotions]="getAllOrderEntryPromotions(order)"
     ></cx-order-consigned-entries>
 
     <cx-order-consigned-entries
       *ngIf="cancel$ | async as cancel"
       [order]="order"
       [consignments]="cancel"
-      [promotions]="getAllOrderEntryPromotions(order)"
     ></cx-order-consigned-entries>
   </ng-container>
 
@@ -53,7 +50,6 @@
           "
           [readonly]="true"
           [promotionLocation]="promotionLocation"
-          [promotions]="getAllOrderEntryPromotions(order)"
         ></cx-cart-item-list>
       </div>
     </div>

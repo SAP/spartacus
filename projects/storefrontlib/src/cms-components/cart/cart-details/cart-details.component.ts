@@ -72,10 +72,4 @@ export class CartDetailsComponent implements OnInit {
       this.routingService.go({ cxRoute: 'login' });
     }
   }
-
-  getAllCartEntryPromotions(
-    cart: Cart
-  ): { [key: number]: Observable<PromotionResult[]> } {
-    return this.promotionService.getProductPromotionForAllEntries(cart);
-  }
 }

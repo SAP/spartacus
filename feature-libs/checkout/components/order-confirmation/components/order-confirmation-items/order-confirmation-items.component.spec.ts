@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
-  Cart,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
@@ -43,11 +42,6 @@ class MockCheckoutService {
 class MockPromotionService {
   getOrderPromotions(): Observable<PromotionResult[]> {
     return of([]);
-  }
-  getProductPromotionForAllEntries(
-    _order: Order | Cart
-  ): { [key: number]: Observable<PromotionResult[]> } {
-    return {};
   }
 }
 

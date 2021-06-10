@@ -43,11 +43,6 @@ class MockPromotionService {
   getOrderPromotions(): Observable<PromotionResult[]> {
     return of([]);
   }
-  getProductPromotionForAllEntries(
-    _order: Order | Cart
-  ): { [key: number]: Observable<PromotionResult[]> } {
-    return {};
-  }
 }
 
 @Component({

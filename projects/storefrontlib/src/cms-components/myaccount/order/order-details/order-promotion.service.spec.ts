@@ -133,17 +133,5 @@ describe('OrderPromotionService', () => {
         })
         .unsubscribe();
     });
-
-    it('should return appropriate applied order promotions for entry', (done) => {
-      orderPromotionService
-        .getProductPromotionForEntry(orderEntry1)
-        .subscribe((appliedProductPromotions) => {
-          expect(appliedProductPromotions).toEqual(
-            mockAppliedProductPromotions
-          );
-          done();
-        })
-        .unsubscribe();
-    });
   });
 });

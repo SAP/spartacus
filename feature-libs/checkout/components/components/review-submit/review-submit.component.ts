@@ -274,10 +274,4 @@ export class ReviewSubmitComponent {
   paymentSteps(steps: CheckoutStep[]): CheckoutStep[] {
     return steps.filter((step) => checkoutPaymentSteps.includes(step.type[0]));
   }
-
-  getAllCartEntryPromotions(
-    cart: Cart
-  ): { [key: number]: Observable<PromotionResult[]> } {
-    return this.promotionService.getProductPromotionForAllEntries(cart);
-  }
 }
