@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import { OrderEntry, PromotionResult } from '@spartacus/core';
+import { PromotionResult } from '@spartacus/core';
 import { PromotionService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -17,15 +17,5 @@ export class CheckoutPromotionService extends PromotionService {
     return this.checkoutFacade
       .getOrderDetails()
       .pipe(map((order) => order.appliedOrderPromotions || []));
-  }
-
-  getProductPromotionForEntry(item: OrderEntry): Observable<PromotionResult[]> {
-    return this.checkoutFacade
-      .getOrderDetails()
-      .pipe(
-        map((order) =>
-          this.getProductPromotion(item, order.appliedProductPromotions || [])
-        )
-      );
   }
 }

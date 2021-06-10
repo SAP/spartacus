@@ -114,8 +114,4 @@ export class AddedToCartDialogComponent implements OnInit {
   dismissModal(reason?: any): void {
     this.modalService.dismissActiveModal(reason);
   }
-
-  getPromotionsForEntry(entry: OrderEntry): Observable<PromotionResult[]> {
-    return this.promotionService.getProductPromotionForEntry(entry);
-  }
 }

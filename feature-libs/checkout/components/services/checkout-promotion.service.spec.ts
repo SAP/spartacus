@@ -133,17 +133,5 @@ describe('CheckoutPromotionService', () => {
         })
         .unsubscribe();
     });
-
-    it('should return appropriate applied order promotions for checkout', (done) => {
-      checkoutPromotionService
-        .getProductPromotionForEntry(orderEntry1)
-        .subscribe((appliedProductPromotions) => {
-          expect(appliedProductPromotions).toEqual(
-            mockAppliedProductPromotions
-          );
-          done();
-        })
-        .unsubscribe();
-    });
   });
 });

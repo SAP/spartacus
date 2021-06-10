@@ -104,17 +104,5 @@ describe('CartPromotionService', () => {
         })
         .unsubscribe();
     });
-
-    it('should return appropriate applied order promotions for entry', (done) => {
-      cartPromotionService
-        .getProductPromotionForEntry(cartEntry1)
-        .subscribe((appliedProductPromotions) => {
-          expect(appliedProductPromotions).toEqual(
-            mockAppliedProductPromotions
-          );
-          done();
-        })
-        .unsubscribe();
-    });
   });
 });
