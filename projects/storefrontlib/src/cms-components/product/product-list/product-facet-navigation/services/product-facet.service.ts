@@ -19,23 +19,32 @@ import { FacetList } from '../facet.model';
   providedIn: 'root',
 })
 export class ProductFacetService {
-  protected readonly routeState$ = this.routing
-    .getRouterState()
-    .pipe(pluck('state'));
-
-  protected readonly searchResult$: Observable<ProductSearchPage> = this.routeState$.pipe(
-    switchMap((state) =>
-      this.productListComponentService.model$.pipe(
-        filter((page) => this.filterForPage(state, page)),
-        map((page) => this.mapResults(state, page))
-      )
-    )
-  );
-
   constructor(
     protected routing: RoutingService,
     protected productListComponentService: ProductListComponentService
   ) {}
+
+  protected readonly routeState$ = this.routing
+    .getRouterState()
+    .pipe(pluck('state'));
+
+  /**
+   * Returns the search results for the current page.
+   */
+  protected readonly searchResult$: Observable<ProductSearchPage> = this.routeState$.pipe(
+    switchMap((state) =>
+      this.productListComponentService.model$.pipe(
+        filter((page) => this.filterForPage(state, page)),
+        map((page) => ({
+          ...page,
+          breadcrumbs: this.filterBreadcrumbs(
+            page?.breadcrumbs ?? [],
+            state.params
+          ),
+        }))
+      )
+    )
+  );
 
   /**
    * Observes the facets and active facets for the given page. The facet data
@@ -59,9 +68,12 @@ export class ProductFacetService {
     state: ActivatedRouterStateSnapshot,
     page: ProductSearchPage
   ): boolean {
+    if (!page.currentQuery?.query?.value) {
+      return false;
+    }
     if (state.context.type === PageType.CATEGORY_PAGE) {
       return (
-        page.currentQuery?.query?.value?.indexOf(
+        page.currentQuery.query.value.indexOf(
           `allCategories:${state.context.id}`
         ) > -1
       );
@@ -76,40 +88,26 @@ export class ProductFacetService {
     return false;
   }
 
-  private mapResults(
-    state: ActivatedRouterStateSnapshot,
-    page: ProductSearchPage
-  ): ProductSearchPage {
-    return {
-      ...page,
-      breadcrumbs: this.filterBreadcrumbs(page.breadcrumbs, state.params),
-    };
-  }
-
   /**
-   * filter breadcrumbs which are not actively selected
-   * but coming from the route navigation
+   * Filter breadcrumbs which are not actively selected but coming from
+   * the route navigation.
+   *
+   * The breadcrumbs might include the active category page code, which is not actively
+   * selected by the user.
    */
-  private filterBreadcrumbs(
+  protected filterBreadcrumbs(
     breadcrumbs: Breadcrumb[],
     params: Params
   ): Breadcrumb[] {
     return breadcrumbs
       ? breadcrumbs.filter(
-          (breadcrumb) => !this.hasBreadcrumb(breadcrumb, params)
+          (breadcrumb) =>
+            !(
+              breadcrumb.facetCode === 'allCategories' &&
+              (breadcrumb.facetValueCode === params.categoryCode ||
+                breadcrumb.facetValueCode === params.brandCode)
+            )
         )
       : [];
-  }
-
-  /**
-   * Indicates whether the breadcrumb is related to navigation parameters,
-   * since either the category or brand code should match those codes.
-   */
-  private hasBreadcrumb(breadcrumb: Breadcrumb, params: Params): boolean {
-    return (
-      breadcrumb.facetCode === 'allCategories' &&
-      (breadcrumb.facetValueCode === params.categoryCode ||
-        breadcrumb.facetValueCode === params.brandCode)
-    );
   }
 }

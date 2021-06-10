@@ -41,7 +41,6 @@ class AnyComponent {}
 class Any2Component {}
 @NgModule({
   declarations: [AnyComponent, Any2Component],
-  entryComponents: [AnyComponent, Any2Component],
 })
 class AnyModule {}
 

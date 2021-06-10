@@ -62,12 +62,12 @@
     <!-- mobile tabs for column set only -->
 
     <div *ngIf="locations?.stores" class="cx-columns-mobile">
-      <ngb-tabset justify="center">
-        <ngb-tab>
-          <ng-template ngbTabTitle>
+      <ul ngbNav #nav="ngbNav">
+        <li ngbNavItem>
+          <a ngbNavLink>
             {{ 'storeFinder.listView' | cxTranslate }}
-          </ng-template>
-          <ng-template ngbTabContent>
+          </a>
+          <ng-template ngbNavContent>
             <div class="cx-address-col">
               <div class="cx-store-details" *ngIf="isDetailsModeVisible">
                 <cx-store-finder-store-description
@@ -101,12 +101,12 @@
               </ol>
             </div>
           </ng-template>
-        </ngb-tab>
-        <ngb-tab>
-          <ng-template ngbTabTitle>
+        </li>
+        <li ngbNavItem>
+          <a ngbNavLink>
             {{ 'storeFinder.mapView' | cxTranslate }}
-          </ng-template>
-          <ng-template ngbTabContent>
+          </a>
+          <ng-template ngbNavContent>
             <div class="cx-map-col">
               <cx-store-finder-map
                 #storeMap
@@ -115,8 +115,9 @@
               ></cx-store-finder-map>
             </div>
           </ng-template>
-        </ngb-tab>
-      </ngb-tabset>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav"></div>
     </div>
 
     <!-- mobile tabs end -->

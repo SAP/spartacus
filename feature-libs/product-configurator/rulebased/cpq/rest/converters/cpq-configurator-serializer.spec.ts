@@ -1,7 +1,10 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
-import { ConfiguratorType } from 'feature-libs/product-configurator/common';
+import {
+  Configurator,
+  ConfiguratorTestUtils,
+} from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorSerializer } from './cpq-configurator-serializer';
 
@@ -126,9 +129,11 @@ const groups: Configurator.Group[] = [
 ];
 
 const configuration: Configurator.Configuration = {
-  configId: configId,
+  ...ConfiguratorTestUtils.createConfiguration(
+    configId,
+    ConfiguratorModelUtils.createInitialOwner()
+  ),
   groups: groups,
-  owner: { key: 'A', configuratorType: ConfiguratorType.CPQ },
 };
 
 describe('CpqConfiguratorSerializer', () => {

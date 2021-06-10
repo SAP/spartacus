@@ -1,29 +1,20 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { CheckoutConfigService } from '@spartacus/storefront';
 import { LoginRegisterComponent } from './login-register.component';
 
 describe('LoginRegisterComponent', () => {
   let component: LoginRegisterComponent;
   let fixture: ComponentFixture<LoginRegisterComponent>;
 
-  let checkoutConfigService;
-
   @Pipe({
     name: 'cxUrl',
   })
   class MockUrlPipe implements PipeTransform {
     transform() {}
-  }
-
-  class MockCheckoutConfigService {
-    isGuestCheckout() {
-      return false;
-    }
   }
 
   class MockActivatedRoute {
@@ -37,10 +28,7 @@ describe('LoginRegisterComponent', () => {
   const testBedDefaults = {
     imports: [RouterTestingModule, I18nTestingModule],
     declarations: [LoginRegisterComponent, MockUrlPipe],
-    providers: [
-      { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
-      { provide: ActivatedRoute, useClass: MockActivatedRoute },
-    ],
+    providers: [{ provide: ActivatedRoute, useClass: MockActivatedRoute }],
   };
 
   function createComponent() {
@@ -100,9 +88,6 @@ describe('LoginRegisterComponent', () => {
       TestBed.compileComponents();
 
       createComponent();
-      checkoutConfigService = TestBed.inject(CheckoutConfigService);
-
-      spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
 
       callNgInit();
 

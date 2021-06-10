@@ -32,7 +32,7 @@ describe('SaveForLaterComponent', () => {
   let component: SaveForLaterComponent;
   let fixture: ComponentFixture<SaveForLaterComponent>;
 
-  const mockCartService = jasmine.createSpyObj('ActiveCartService', [
+  const mockActiveCartService = jasmine.createSpyObj('ActiveCartService', [
     'addEntry',
     'isStable',
     'getActive',
@@ -40,7 +40,7 @@ describe('SaveForLaterComponent', () => {
 
   const mockSelectiveCartService = jasmine.createSpyObj(
     'SelectiveCartService',
-    ['getCart', 'getLoaded', 'removeEntry', 'getEntries']
+    ['getCart', 'isStable', 'removeEntry', 'getEntries']
   );
 
   const mockCmsService = jasmine.createSpyObj('CmsService', [
@@ -54,7 +54,7 @@ describe('SaveForLaterComponent', () => {
         imports: [FeaturesConfigModule, I18nTestingModule],
         providers: [
           { provide: CmsService, useValue: mockCmsService },
-          { provide: ActiveCartService, useValue: mockCartService },
+          { provide: ActiveCartService, useValue: mockActiveCartService },
           { provide: SelectiveCartService, useValue: mockSelectiveCartService },
         ],
       }).compileComponents();
@@ -65,12 +65,12 @@ describe('SaveForLaterComponent', () => {
     fixture = TestBed.createComponent(SaveForLaterComponent);
     component = fixture.componentInstance;
 
-    mockCartService.isStable.and.returnValue(of(true));
-    mockCartService.getActive.and.returnValue(
+    mockSelectiveCartService.isStable.and.returnValue(of(true));
+    mockActiveCartService.isStable.and.returnValue(of(true));
+    mockActiveCartService.getActive.and.returnValue(
       of<Cart>({ code: '00001', totalItems: 0 })
     );
     mockCmsService.getComponentData.and.returnValue(of({ content: 'content' }));
-    mockSelectiveCartService.getLoaded.and.returnValue(of(true));
     mockSelectiveCartService.getCart.and.returnValue(
       of<Cart>({ code: '123' })
     );
@@ -120,7 +120,7 @@ describe('SaveForLaterComponent', () => {
     };
     component.moveToCart(mockItem);
     expect(mockSelectiveCartService.removeEntry).toHaveBeenCalledWith(mockItem);
-    expect(mockCartService.addEntry).toHaveBeenCalledWith(
+    expect(mockActiveCartService.addEntry).toHaveBeenCalledWith(
       mockItem.product.code,
       mockItem.quantity
     );
