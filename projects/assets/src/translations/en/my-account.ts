@@ -57,6 +57,7 @@ export const myAccount = {
       admin: 'Assigned To Administrator',
     },
     backToTheList: 'Back to the list',
+    orderNotFound: 'Order not found',
     consignmentTracking: {
       action: 'Track package',
       dialog: {

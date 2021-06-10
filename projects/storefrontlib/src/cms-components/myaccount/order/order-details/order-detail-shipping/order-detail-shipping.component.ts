@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Order } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -16,6 +16,6 @@ export class OrderDetailShippingComponent implements OnInit {
   ngOnInit() {
     this.order$ = this.orderDetailsService
       .getOrderDetails()
-      .pipe(filter((order) => Object.keys(order).length > 0));
+      .pipe(map((order) => (Object.keys(order).length ? order : null)));
   }
 }

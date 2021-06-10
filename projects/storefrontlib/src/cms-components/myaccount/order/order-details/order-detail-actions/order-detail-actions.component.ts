@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -12,5 +12,5 @@ export class OrderDetailActionsComponent {
 
   order$: Observable<any> = this.orderDetailsService
     .getOrderDetails()
-    .pipe(filter((order) => Object.keys(order).length > 0));
+    .pipe(map((order) => (Object.keys(order).length ? order : null)));
 }
