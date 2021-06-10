@@ -11,11 +11,9 @@ import {
   CardModule,
   CartSharedModule,
   FormErrorsModule,
-  PromotionService,
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
-import { CheckoutPromotionService } from '../services/checkout-promotion.service';
 import { OrderConfirmationItemsComponent } from './components/order-confirmation-items/order-confirmation-items.component';
 import { OrderConfirmationOverviewComponent } from './components/order-confirmation-overview/order-confirmation-overview.component';
 import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
@@ -47,13 +45,6 @@ import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
         },
         ReplenishmentConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,
-          providers: [
-            {
-              provide: PromotionService,
-              useExisting: CheckoutPromotionService,
-            },
-          ],
-
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationTotalsComponent: {

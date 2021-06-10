@@ -24,7 +24,7 @@ import {
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
-import { Card, ICON_TYPE, PromotionService } from '@spartacus/storefront';
+import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/index';
@@ -45,7 +45,6 @@ export class ReviewSubmitComponent {
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
-    protected promotionService: PromotionService,
     protected checkoutStepService: CheckoutStepService,
     protected paymentTypeService: PaymentTypeFacade,
     protected checkoutCostCenterService: CheckoutCostCenterFacade,
@@ -83,7 +82,14 @@ export class ReviewSubmitComponent {
   }
 
   get orderPromotions$(): Observable<PromotionResult[]> {
-    return this.promotionService.getOrderPromotions();
+    return this.activeCartService
+      .getActive()
+      .pipe(
+        map((cart) => [
+          ...(cart.potentialOrderPromotions || []),
+          ...(cart.appliedOrderPromotions || []),
+        ])
+      );
   }
 
   get countryName$(): Observable<string | undefined> {

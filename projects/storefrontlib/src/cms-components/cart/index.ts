@@ -8,7 +8,6 @@ export * from './cart-details/cart-details.module';
 export * from './cart-not-empty.guard';
 export * from './cart-outlets.model';
 export * from './cart-page-layout-handler';
-export * from './cart-promotion.service';
 export * from './cart-shared/index';
 export * from './cart-totals/cart-totals.component';
 export * from './cart-totals/cart-totals.module';

@@ -12,19 +12,19 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   ActiveCartService,
+  Cart,
   FeaturesConfig,
   FeaturesConfigModule,
   I18nTestingModule,
   OrderEntry,
   PromotionLocation,
-  PromotionResult,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
 import { ModalService } from 'projects/storefrontlib/src/shared/components/modal/modal.service';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CartPromotionService, ICON_TYPE } from '../../../../cms-components';
+import { ICON_TYPE } from '../../../../cms-components';
 import { ModalDirective } from '../../../../shared/components/modal/modal.directive';
 import { SpinnerModule } from '../../../../shared/components/spinner/spinner.module';
 import { PromotionsModule } from '../../../misc/promotions/promotions.module';
@@ -42,6 +42,10 @@ class MockActiveCartService implements Partial<ActiveCartService> {
 
   getEntries(): Observable<OrderEntry[]> {
     return of([]);
+  }
+
+  getActive(): Observable<Cart> {
+    return of({});
   }
 }
 
@@ -97,17 +101,6 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockCartPromotionService {
-  getOrderPromotions(): Observable<PromotionResult[]> {
-    return of([]);
-  }
-  getProductPromotionForEntry(
-    _item: OrderEntry
-  ): Observable<PromotionResult[]> {
-    return of([]);
-  }
-}
-
 describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
@@ -142,10 +135,6 @@ describe('AddedToCartDialogComponent', () => {
           {
             provide: ActiveCartService,
             useClass: MockActiveCartService,
-          },
-          {
-            provide: CartPromotionService,
-            useClass: MockCartPromotionService,
           },
           {
             provide: RoutingService,

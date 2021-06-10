@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { Order, PromotionLocation, PromotionResult } from '@spartacus/core';
-import { PromotionService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-confirmation-items',
@@ -19,14 +19,13 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
   order$: Observable<Order>;
   orderPromotions$: Observable<PromotionResult[]>;
 
-  constructor(
-    protected checkoutService: CheckoutFacade,
-    protected promotionService: PromotionService
-  ) {}
+  constructor(protected checkoutService: CheckoutFacade) {}
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails();
-    this.orderPromotions$ = this.promotionService.getOrderPromotions();
+    this.orderPromotions$ = this.checkoutService
+      .getOrderDetails()
+      .pipe(map((order) => order.appliedOrderPromotions || []));
   }
 
   ngOnDestroy() {

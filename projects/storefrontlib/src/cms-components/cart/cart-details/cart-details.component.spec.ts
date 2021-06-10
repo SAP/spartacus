@@ -11,12 +11,10 @@ import {
   Order,
   OrderEntry,
   PromotionLocation,
-  PromotionResult,
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../misc/promotions/promotions.module';
 import { CartDetailsComponent } from './cart-details.component';
 
@@ -38,11 +36,6 @@ class MockActiveCartService {
 interface CartItemComponentOptions {
   isSaveForLater?: boolean;
   optionalBtn?: any;
-}
-class MockPromotionService {
-  getOrderPromotions(): Observable<PromotionResult[]> {
-    return of([]);
-  }
 }
 
 @Component({
@@ -119,10 +112,6 @@ describe('CartDetailsComponent', () => {
           {
             provide: ActiveCartService,
             useClass: MockActiveCartService,
-          },
-          {
-            provide: PromotionService,
-            useClass: MockPromotionService,
           },
         ],
       }).compileComponents();
