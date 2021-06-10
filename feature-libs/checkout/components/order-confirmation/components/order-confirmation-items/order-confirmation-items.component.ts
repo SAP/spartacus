@@ -29,15 +29,6 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
     this.orderPromotions$ = this.promotionService.getOrderPromotions();
   }
 
-  getAllOrderEntryPromotions(
-    order: Order
-  ): { [key: number]: Observable<PromotionResult[]> } {
-    const allOrderEntryPromotions = this.promotionService.getProductPromotionForAllEntries(
-      order
-    );
-    return allOrderEntryPromotions;
-  }
-
   ngOnDestroy() {
     this.checkoutService.clearCheckoutData();
   }
