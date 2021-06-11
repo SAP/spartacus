@@ -81,17 +81,6 @@ export class ReviewSubmitComponent {
     return this.checkoutPaymentService.getPaymentDetails();
   }
 
-  get orderPromotions$(): Observable<PromotionResult[]> {
-    return this.activeCartService
-      .getActive()
-      .pipe(
-        map((cart) => [
-          ...(cart.potentialOrderPromotions || []),
-          ...(cart.appliedOrderPromotions || []),
-        ])
-      );
-  }
-
   get countryName$(): Observable<string | undefined> {
     return this.deliveryAddress$.pipe(
       switchMap((address: Address) =>

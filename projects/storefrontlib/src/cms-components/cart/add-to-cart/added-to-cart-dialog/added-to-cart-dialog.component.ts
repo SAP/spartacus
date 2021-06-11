@@ -5,7 +5,6 @@ import {
   Cart,
   OrderEntry,
   PromotionLocation,
-  PromotionResult,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
@@ -32,7 +31,6 @@ export class AddedToCartDialogComponent implements OnInit {
   loaded$: Observable<boolean>;
   addedEntryWasMerged$: Observable<boolean>;
   numberOfEntriesBeforeAdd: number;
-  orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
@@ -86,15 +84,6 @@ export class AddedToCartDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.orderPromotions$ = this.cartService
-      .getActive()
-      .pipe(
-        map((cart) => [
-          ...(cart.potentialOrderPromotions || []),
-          ...(cart.appliedOrderPromotions || []),
-        ])
-      );
-
     this.addedEntryWasMerged$ = this.loaded$.pipe(
       filter((loaded) => loaded),
       switchMapTo(this.cartService.getEntries()),

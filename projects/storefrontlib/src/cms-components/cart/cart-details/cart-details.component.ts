@@ -5,7 +5,6 @@ import {
   Cart,
   OrderEntry,
   PromotionLocation,
-  PromotionResult,
   RoutingService,
   SelectiveCartService,
 } from '@spartacus/core';
@@ -22,7 +21,6 @@ export class CartDetailsComponent implements OnInit {
   entries$: Observable<OrderEntry[]>;
   cartLoaded$: Observable<boolean>;
   loggedIn = false;
-  orderPromotions$: Observable<PromotionResult[]>;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
   selectiveCartEnabled: boolean;
 
@@ -56,15 +54,6 @@ export class CartDetailsComponent implements OnInit {
           : cartLoaded
       )
     );
-
-    this.orderPromotions$ = this.activeCartService
-      .getActive()
-      .pipe(
-        map((cart) => [
-          ...(cart.potentialOrderPromotions || []),
-          ...(cart.appliedOrderPromotions || []),
-        ])
-      );
   }
 
   saveForLater(item: OrderEntry) {
