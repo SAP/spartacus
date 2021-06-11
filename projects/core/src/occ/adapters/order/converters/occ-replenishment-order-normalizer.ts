@@ -24,16 +24,18 @@ export class OccReplenishmentOrderNormalizer
       target = { ...(source as any) } as ReplenishmentOrder;
     }
 
-    target.entries = source.entries?.map((entry) => ({
-      ...entry,
-      product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
-      promotions: this.entryPromotionService
-        ? this.entryPromotionService.getProductPromotion(
-            entry,
-            source.appliedProductPromotions
-          )
-        : [],
-    }));
+    if (source.entries) {
+      target.entries = source.entries.map((entry) => ({
+        ...entry,
+        product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
+        promotions: this.entryPromotionService
+          ? this.entryPromotionService.getProductPromotion(
+              entry,
+              source.appliedProductPromotions
+            )
+          : [],
+      }));
+    }
 
     return target;
   }

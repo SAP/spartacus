@@ -22,16 +22,18 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
 
     this.removeDuplicatePromotions(source, target);
 
-    target.entries = source.entries?.map((entry) => ({
-      ...entry,
-      product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
-      promotions: this.entryPromotionService
-        ? this.entryPromotionService.getProductPromotion(
-            entry,
-            target?.appliedProductPromotions
-          )
-        : [],
-    }));
+    if (source.entries) {
+      target.entries = source.entries.map((entry) => ({
+        ...entry,
+        product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
+        promotions: this.entryPromotionService
+          ? this.entryPromotionService.getProductPromotion(
+              entry,
+              target?.appliedProductPromotions
+            )
+          : [],
+      }));
+    }
 
     return target;
   }
