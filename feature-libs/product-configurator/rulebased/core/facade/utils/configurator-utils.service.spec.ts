@@ -6,6 +6,7 @@ import {
   GROUP_ID_1,
   GROUP_ID_2,
   productConfiguration,
+  subGroupWith2Attributes,
 } from '../../../shared/testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
@@ -40,7 +41,7 @@ const group1: Configurator.Group = {
     {
       name: ATTRIBUTE_NAME_2,
       uiType: Configurator.UiType.DROPDOWN,
-      userInput: null,
+      userInput: undefined,
     },
   ],
 };
@@ -71,7 +72,7 @@ const group3: Configurator.Group = {
     {
       name: ATTRIBUTE_NAME_3_2,
       uiType: Configurator.UiType.DROPDOWN,
-      userInput: null,
+      userInput: undefined,
     },
   ],
 };
@@ -143,8 +144,8 @@ describe('ConfiguratorGroupUtilsService', () => {
   it('should find parent group from group', () => {
     const parentGroup = classUnderTest.getParentGroup(
       productConfiguration.groups,
-      productConfiguration.groups[2].subGroups[0],
-      null
+      subGroupWith2Attributes,
+      undefined
     );
 
     expect(parentGroup).toBe(productConfiguration.groups[2]);
@@ -160,10 +161,6 @@ describe('ConfiguratorGroupUtilsService', () => {
   });
 
   describe('isConfigurationCreated', () => {
-    it('should tell from undefined config', () => {
-      const configuration: Configurator.Configuration = undefined;
-      expect(classUnderTest.isConfigurationCreated(configuration)).toBe(false);
-    });
     it('should tell from config ID', () => {
       const configuration: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(
@@ -234,10 +231,7 @@ describe('ConfiguratorGroupUtilsService', () => {
         productConfigurationMultiLevel.groups,
         groupPath
       );
-      expect(groupPath.length).toBe(
-        3,
-        'Expected path or 3 groups but was: ' + JSON.stringify(groupPath)
-      );
+      expect(groupPath.length).toBe(3);
       expect(groupPath[2].name).toBe(GROUP_ROOT);
       expect(groupPath[0].name).toBe(GROUP_NAME);
     });
@@ -290,11 +284,17 @@ describe('ConfiguratorGroupUtilsService', () => {
         Configurator.GroupType.ATTRIBUTE_GROUP
       );
 
-      expect(groupForUpdateRequest.subGroups.length).toBe(1);
-      expect(groupForUpdateRequest.subGroups[0].subGroups.length).toBe(1);
-      expect(
-        groupForUpdateRequest.subGroups[0].subGroups[0].attributes
-      ).toEqual([changedAttribute]);
+      expect(groupForUpdateRequest.subGroups?.length).toBe(1);
+      const firstSubGroup = groupForUpdateRequest.subGroups
+        ? groupForUpdateRequest.subGroups[0]
+        : undefined;
+      if (firstSubGroup?.subGroups) {
+        expect(firstSubGroup.subGroups[0].attributes).toEqual([
+          changedAttribute,
+        ]);
+      } else {
+        fail();
+      }
     });
 
     it('should create a new configuration object for changes received, containing exactly one attribute as part of the current group', () => {
@@ -309,11 +309,11 @@ describe('ConfiguratorGroupUtilsService', () => {
         productConfiguration
       );
       const attributes = groupForUpdateRequest.attributes;
-      expect(attributes).toBeDefined(
-        'We expect changed attributes in configuration for the update request'
-      );
-      expect(attributes.length).toBe(1);
-      expect(attributes[0]).toBe(changedAttribute);
+      expect(attributes).toBeDefined();
+      expect(attributes?.length).toBe(1);
+      if (attributes) {
+        expect(attributes[0]).toBe(changedAttribute);
+      }
     });
 
     it('should throw an error if group for change is not part of the configuration', () => {

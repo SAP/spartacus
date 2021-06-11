@@ -117,11 +117,13 @@ const attributeNumeric: Configurator.Attribute = {
 
 const groups: Configurator.Group[] = [
   {
+    id: '1',
     configurable: true,
     groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
     attributes: [firstAttribute, attributeRB],
   },
   {
+    id: '2',
     configurable: true,
     groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
     attributes: [attributeDDLB, attributeCB],

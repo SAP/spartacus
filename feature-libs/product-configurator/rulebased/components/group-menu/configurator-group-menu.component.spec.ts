@@ -27,8 +27,8 @@ import {
   CONFIGURATOR_ROUTE,
   GROUP_ID_1,
   mockRouterState,
-  PRODUCT_CODE,
   productConfiguration,
+  PRODUCT_CODE,
 } from '../../shared/testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
@@ -451,19 +451,21 @@ describe('ConfigurationGroupMenuComponent', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
     initialize();
-    const groupWithConflicts = {
+    const groupWithConflicts: Configurator.Group = {
+      id: '1',
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       subGroups: [
-        { groupType: Configurator.GroupType.CONFLICT_GROUP },
-        { groupType: Configurator.GroupType.CONFLICT_GROUP },
+        { id: '2', groupType: Configurator.GroupType.CONFLICT_GROUP },
+        { id: '3', groupType: Configurator.GroupType.CONFLICT_GROUP },
       ],
     };
     expect(component.getConflictNumber(groupWithConflicts)).toBe('(2)');
-    const attributeGroup = {
+    const attributeGroup: Configurator.Group = {
+      id: '1',
       groupType: Configurator.GroupType.SUB_ITEM_GROUP,
       subGroups: [
-        { groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
-        { groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
+        { id: '2', groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
+        { id: '3', groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
       ],
     };
     expect(component.getConflictNumber(attributeGroup)).toBe('');

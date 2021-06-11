@@ -11,21 +11,23 @@ export class ConfiguratorUtilsService {
    * @param groups List of groups where we search for parent
    * @param group If already part of groups, no further search is needed, and we return the provided parent group
    * @param parentGroup Optional.
-   * @returns Parent group. Might be null
+   * @returns Parent group. Might be undefined
    */
   getParentGroup(
     groups: Configurator.Group[],
     group: Configurator.Group,
-    parentGroup: Configurator.Group = null
-  ): Configurator.Group {
+    parentGroup?: Configurator.Group
+  ): Configurator.Group | undefined {
     if (groups.includes(group)) {
       return parentGroup;
     }
 
     return groups
-      .map((currentGroup) =>
-        this.getParentGroup(currentGroup.subGroups, group, currentGroup)
-      )
+      .map((currentGroup) => {
+        return currentGroup.subGroups
+          ? this.getParentGroup(currentGroup.subGroups, group, currentGroup)
+          : undefined;
+      })
       .filter((foundGroup) => foundGroup)
       .pop();
   }
@@ -38,11 +40,38 @@ export class ConfiguratorUtilsService {
     if (currentGroup) {
       return currentGroup;
     }
+    const groupFound = this.getGroupFromSubGroups(groups, groupId);
 
-    return groups
-      .map((group) => this.getGroupById(group.subGroups, groupId))
+    //we can safely assumed that a group exists, as we know the ID belongs to a
+    //group part of the configuration
+    return groupFound!;
+  }
+
+  protected getGroupByIdIfPresent(
+    groups: Configurator.Group[],
+    groupId: string
+  ): Configurator.Group | undefined {
+    const currentGroup = groups.find((group) => group.id === groupId);
+    if (currentGroup) {
+      return currentGroup;
+    }
+
+    return this.getGroupFromSubGroups(groups, groupId);
+  }
+
+  protected getGroupFromSubGroups(
+    groups: Configurator.Group[],
+    groupId: string
+  ): Configurator.Group | undefined {
+    const groupFound = groups
+      .map((group) => {
+        return group.subGroups
+          ? this.getGroupByIdIfPresent(group.subGroups, groupId)
+          : undefined;
+      })
       .filter((foundGroup) => foundGroup)
       .pop();
+    return groupFound;
   }
 
   hasSubGroups(group: Configurator.Group): boolean {
@@ -50,7 +79,7 @@ export class ConfiguratorUtilsService {
   }
 
   isConfigurationCreated(configuration: Configurator.Configuration): boolean {
-    const configId: String = configuration?.configId;
+    const configId: String = configuration.configId;
     return (
       configId !== undefined &&
       configId.length !== 0 &&
@@ -78,11 +107,15 @@ export class ConfiguratorUtilsService {
 
     const groupPath: Configurator.Group[] = [];
 
-    this.buildGroupPath(
-      changedAttribute.groupId,
-      configuration.groups,
-      groupPath
-    );
+    if (changedAttribute.groupId) {
+      this.buildGroupPath(
+        changedAttribute.groupId,
+        configuration.groups,
+        groupPath
+      );
+    } else {
+      throw Error('GroupId must be available at attribute level during update');
+    }
 
     const groupPathLength = groupPath.length;
 
@@ -121,7 +154,7 @@ export class ConfiguratorUtilsService {
     groupPath: Configurator.Group[]
   ): boolean {
     let haveFoundGroup = false;
-    const group: Configurator.Group = groupList.find(
+    const group: Configurator.Group | undefined = groupList.find(
       (currentGroup) => currentGroup.id === groupId
     );
 
@@ -132,7 +165,10 @@ export class ConfiguratorUtilsService {
       groupList
         .filter((currentGroup) => currentGroup.subGroups)
         .forEach((currentGroup) => {
-          if (this.buildGroupPath(groupId, currentGroup.subGroups, groupPath)) {
+          if (
+            currentGroup.subGroups &&
+            this.buildGroupPath(groupId, currentGroup.subGroups, groupPath)
+          ) {
             groupPath.push(currentGroup);
             haveFoundGroup = true;
           }

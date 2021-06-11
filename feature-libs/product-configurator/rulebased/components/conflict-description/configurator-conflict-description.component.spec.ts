@@ -44,9 +44,15 @@ describe('ConfigurationConflictDescriptionComponent', () => {
   });
 
   it('should return true for conflict group', () => {
-    const conflictGroup = { groupType: Configurator.GroupType.CONFLICT_GROUP };
+    const conflictGroup: Configurator.Group = {
+      id: '1',
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+    };
     expect(component.displayConflictDescription(conflictGroup)).toBe(true);
-    const group = { groupType: Configurator.GroupType.ATTRIBUTE_GROUP };
+    const group: Configurator.Group = {
+      id: '2',
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+    };
     expect(component.displayConflictDescription(group)).toBe(false);
   });
 });

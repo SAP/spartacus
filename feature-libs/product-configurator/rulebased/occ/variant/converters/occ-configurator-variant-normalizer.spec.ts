@@ -416,6 +416,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should set description for a general group', () => {
     const generalGroup: Configurator.Group = {
       name: generalGroupName,
+      id: generalGroupName,
     };
 
     occConfiguratorVariantNormalizer.setGroupDescription(generalGroup);
@@ -426,6 +427,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const conflictHeaderGroup: Configurator.Group = {
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       name: conflictHeaderGroupName,
+      id: conflictHeaderGroupName,
     };
 
     occConfiguratorVariantNormalizer.setGroupDescription(conflictHeaderGroup);
@@ -438,6 +440,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const conflictGroup: Configurator.Group = {
       groupType: Configurator.GroupType.CONFLICT_GROUP,
       name: conflictGroupName,
+      id: conflictGroupName,
       description: conflictExplanation,
     };
 

@@ -42,7 +42,7 @@ export namespace Configurator {
 
   export interface Group {
     attributes?: Attribute[];
-    id?: string;
+    id: string;
     name?: string;
     description?: string;
     groupType?: GroupType;

@@ -53,6 +53,28 @@ const groupsWithoutIssues: Configurator.Group = {
   ],
   subGroups: [],
 };
+
+export const subGroupWith2Attributes: Configurator.Group = {
+  id: GROUP_ID_4,
+  configurable: true,
+  subGroups: [],
+  groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+  attributes: [
+    {
+      name: 'ATTRIBUTE_5_STRING',
+      uiType: Configurator.UiType.STRING,
+      required: true,
+      incomplete: false,
+    },
+    {
+      name: 'ATTRIBUTE_5_DROPDOWN',
+      uiType: Configurator.UiType.DROPDOWN,
+      required: true,
+      incomplete: true,
+    },
+  ],
+};
+
 export const productConfigurationWithoutIssues: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(
     CONFIG_ID,
@@ -85,7 +107,6 @@ export const productConfiguration: Configurator.Configuration = {
       ],
       subGroups: [],
     },
-
     {
       id: GROUP_ID_2,
       configurable: true,
@@ -110,28 +131,7 @@ export const productConfiguration: Configurator.Configuration = {
           incomplete: true,
         },
       ],
-      subGroups: [
-        {
-          id: GROUP_ID_4,
-          configurable: true,
-          subGroups: [],
-          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
-          attributes: [
-            {
-              name: 'ATTRIBUTE_5_STRING',
-              uiType: Configurator.UiType.STRING,
-              required: true,
-              incomplete: false,
-            },
-            {
-              name: 'ATTRIBUTE_5_DROPDOWN',
-              uiType: Configurator.UiType.DROPDOWN,
-              required: true,
-              incomplete: true,
-            },
-          ],
-        },
-      ],
+      subGroups: [subGroupWith2Attributes],
     },
     {
       id: GROUP_ID_5,
