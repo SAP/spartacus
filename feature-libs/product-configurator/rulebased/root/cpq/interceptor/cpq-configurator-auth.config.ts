@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
+import '@spartacus/product-configurator/common';
 
-export interface ProductConfiguratorConfig {
+export interface ProductConfiguratorCpqAuthConfig {
   cpq?: {
     authentication: {
       /** We should stop using/sending a token shortly before expiration,
@@ -22,9 +23,10 @@ export interface ProductConfiguratorConfig {
   useExisting: Config,
 })
 export abstract class CpqConfiguratorAuthConfig {
-  productConfigurator?: ProductConfiguratorConfig;
+  productConfigurator?: ProductConfiguratorCpqAuthConfig;
 }
 
-declare module '@spartacus/core' {
-  interface Config extends CpqConfiguratorAuthConfig {}
+declare module '@spartacus/product-configurator/common' {
+  interface ProductConfiguratorConfig
+    extends ProductConfiguratorCpqAuthConfig {}
 }
