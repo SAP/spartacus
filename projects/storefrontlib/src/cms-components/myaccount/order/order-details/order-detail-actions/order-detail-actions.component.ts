@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
