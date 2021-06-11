@@ -9,9 +9,7 @@ import { OrderDetailsService } from '../order-details.service';
 export class OrderDetailActionsComponent {
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
-  state$ = this.orderDetailsService
-    .getOrderDetailsState()
-    .pipe(tap((data: any) => console.log(data)));
+  state$ = this.orderDetailsService.getOrderDetailsState();
 
   isValidOrder(data: any): boolean {
     return Object.keys(data).length ? data : null;
