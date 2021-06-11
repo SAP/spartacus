@@ -7,13 +7,14 @@ assignees: ''
 
 ---
 
-## General steps
+## Steps before the release
 
 - [ ] Validate that all merged tickets were tested (QA column must be empty, except for tickets marked as `not-blocking-release`)
 - [ ] Create new maintenance branch (`release/*.*.x`) if it doesn't exist yet
 - [ ] Announce new maintenance branch (Set topic in tribe channel)
 - [ ] Create release branch `release/*.*.*` from the corresponding branch (develop/maintenance)
 - [ ] Follow the steps to [release update schematics](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
+- [ ] Update the maintenance branch on the Hosting service deployment github action (workflows/deploy-hs.yml)
 - [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
 
     ```bash
@@ -64,6 +65,8 @@ Do the following steps to keep track of spartacussampledata releases:
   - [ ] push created tags: `git push origin --tags`
 
 ---
+
+## Release specific steps
 
 - [ ] Before you release libraries, fetch all git tags from github with `git fetch origin --tags` (required to generate release notes)
 - [ ] Release libraries with release scripts:
