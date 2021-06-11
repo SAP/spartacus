@@ -128,9 +128,7 @@ export class OrderOverviewComponent {
   getOrderStatusCardContent(status: string): Observable<Card> {
     return combineLatest([
       this.translation.translate('checkoutOrderConfirmation.status'),
-      this.translation.translate('orderDetails.statusDisplay', {
-        context: status,
-      }),
+      this.translation.translate('orderDetails.statusDisplay_' + status),
     ]).pipe(
       map(([textTitle, textStatus]) => ({
         title: textTitle,

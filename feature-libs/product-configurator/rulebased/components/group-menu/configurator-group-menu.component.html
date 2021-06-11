@@ -1,66 +1,66 @@
 <ng-container *ngIf="configuration$ | async as configuration">
-  <ul>
-    <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
-      <li class="cx-menu-back" *ngIf="parentGroup !== null">
-        <a
-          class="cx-menu-back-link"
-          role="link"
-          tabindex="0"
-          (click)="navigateUp()"
-          (keyup)="navigateUpOnEnter($event)"
-        >
-          <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
-          {{ 'configurator.button.back' | cxTranslate }}</a
-        >
-      </li>
-    </ng-container>
+  <div class="cx-group-menu" role="tablist">
     <ng-container *ngIf="displayedGroups$ | async as groups">
       <ng-container *ngIf="currentGroup$ | async as currentGroup">
-        <ng-container *ngFor="let group of groups">
-          <li
+        <ng-container *ngFor="let group of groups; let groupIndex = index">
+          <ng-container *ngIf="displayedParentGroup$ | async as parentGroup">
+            <button
+              *ngIf="parentGroup !== null && groupIndex === 0"
+              #groupItem
+              class="cx-menu-back"
+              role="tab"
+              [attr.aria-selected]="false"
+              [cxFocus]="{ autofocus: true }"
+              (click)="navigateUp()"
+              (keydown)="switchGroupOnArrowPress($event, groupIndex, group)"
+            >
+              <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
+              {{ 'configurator.button.back' | cxTranslate }}
+            </button>
+          </ng-container>
+          <button
+            #groupItem
+            id="{{ group.id }}"
             ngClass="{{ getGroupStatusStyles(group, configuration) | async }}"
+            role="tab"
             [class.DISABLED]="!group.configurable"
             [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
+            [class.active]="isGroupSelected(currentGroup.id, group.id)"
+            [class.disable]="!group.configurable"
+            [attr.aria-selected]="isGroupSelected(currentGroup.id, group.id)"
+            [attr.aria-controls]="createAriaControls(group.id)"
+            [cxFocus]="{
+              key: group.id,
+              autofocus:
+                isGroupSelected(currentGroup.id, group.id) ||
+                containsSelectedGroup(currentGroup.id, group)
+            }"
+            (click)="click(group)"
+            [tabindex]="getTabIndex(currentGroup.id, group)"
+            (keydown)="switchGroupOnArrowPress($event, groupIndex, group)"
           >
-            <a
-              class="cx-menu-item-link"
-              [class.active]="currentGroup.id === group.id"
-              [class.disable]="!group.configurable"
-              role="link"
-              tabindex="0"
-              (click)="click(group)"
-              (keydown)="preventScrollingOnSpace($event)"
-              (keyup)="clickOnEnter($event, group)"
-              [cxFocus]="{ key: group.id }"
-            >
-              <span title="{{ group.description }}">{{
-                group.description
-              }}</span>
-              <div class="groupIndicators">
-                <div class="conflictNumberIndicator">
-                  {{ getConflictNumber(group) }}
-                </div>
-                <div class="groupStatusIndicator">
-                  <cx-icon class="WARNING" [type]="iconTypes.WARNING"></cx-icon>
-                </div>
-                <div class="groupStatusIndicator">
-                  <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
-                  <cx-icon
-                    class="COMPLETE"
-                    [type]="iconTypes.SUCCESS"
-                  ></cx-icon>
-                </div>
-                <div class="subGroupIndicator">
-                  <cx-icon
-                    *ngIf="hasSubGroups(group)"
-                    [type]="iconTypes.CARET_RIGHT"
-                  ></cx-icon>
-                </div>
+            <span title="{{ group.description }}">{{ group.description }}</span>
+            <div class="groupIndicators">
+              <div class="conflictNumberIndicator">
+                {{ getConflictNumber(group) }}
               </div>
-            </a>
-          </li>
+              <div class="groupStatusIndicator">
+                <cx-icon class="WARNING" [type]="iconTypes.WARNING"></cx-icon>
+              </div>
+              <div class="groupStatusIndicator">
+                <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
+                <cx-icon class="COMPLETE" [type]="iconTypes.SUCCESS"></cx-icon>
+              </div>
+              <div class="subGroupIndicator">
+                <cx-icon
+                  *ngIf="hasSubGroups(group)"
+                  [type]="iconTypes.CARET_RIGHT"
+                ></cx-icon>
+              </div>
+            </div>
+          </button>
         </ng-container>
       </ng-container>
     </ng-container>
-  </ul>
+  </div>
 </ng-container>
