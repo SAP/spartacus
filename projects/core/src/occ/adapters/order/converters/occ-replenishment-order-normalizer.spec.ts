@@ -1,18 +1,27 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ORDER_ENTRY_PROMOTIONS_NORMALIZER } from '../../../../cart/connectors/cart/converters';
+import { PromotionResult } from '../../../../model/cart.model';
 import { Product } from '../../../../model/product.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ConverterService } from '../../../../util/converter.service';
+import { OrderEntryPromotionsService } from '../../cart/converters/order-entry-promotions-service';
 import { OccReplenishmentOrderNormalizer } from './occ-replenishment-order-normalizer';
 
 class MockConverterService {
   convert() {}
 }
 
-const product = { code: 'test1' };
-const order = {
-  entries: [{ entryNumber: 0, product }],
-};
+const mockPromotions: PromotionResult[] = [
+  {
+    promotion: {
+      code: 'product_percentage_discount',
+    },
+  },
+];
+class MockOrderEntryPromotionsService {
+  getProductPromotion() {
+    return mockPromotions;
+  }
+}
 
 describe('OccReplenishmentOrderNormalizer', () => {
   let normalizer: OccReplenishmentOrderNormalizer;
@@ -27,6 +36,10 @@ describe('OccReplenishmentOrderNormalizer', () => {
             provide: ConverterService,
             useClass: MockConverterService,
           },
+          {
+            provide: OrderEntryPromotionsService,
+            useClass: MockOrderEntryPromotionsService,
+          },
         ],
       });
     })
@@ -36,22 +49,13 @@ describe('OccReplenishmentOrderNormalizer', () => {
     normalizer = TestBed.inject(OccReplenishmentOrderNormalizer);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'convert').and.callFake(function (arg: any) {
-      if (arg.code) {
-        return {
-          ...arg,
-          code: (arg as Product).code + 'converted',
-        } as any;
-      } else {
-        return [
-          {
-            entryNumber: 0,
-            product: arg.entries[0].product,
-            promotions: [{ description: 'tested Promotion' }],
-          },
-        ] as any;
-      }
-    });
+    spyOn(converter, 'convert').and.callFake(
+      (product) =>
+        ({
+          ...product,
+          code: (product as Product).code + 'converted',
+        } as any)
+    );
   });
 
   it('should create', () => {
@@ -59,15 +63,13 @@ describe('OccReplenishmentOrderNormalizer', () => {
   });
 
   it('should convert order entries', () => {
+    const product = { code: 'test1' };
+    const order = {
+      entries: [{ product }],
+    };
     const result = normalizer.convert(order);
     expect(result.entries[0].product.code).toBe('test1converted');
-    expect(result.entries[0].promotions[0].description).toBe(
-      'tested Promotion'
-    );
+    expect(result.entries[0].promotions).toEqual(mockPromotions);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
-    expect(converter.convert).toHaveBeenCalledWith(
-      result,
-      ORDER_ENTRY_PROMOTIONS_NORMALIZER
-    );
   });
 });

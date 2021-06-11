@@ -1,37 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Cart, PromotionResult } from '../../../../model/cart.model';
-import {
-  Order,
-  OrderEntry,
-  PromotionOrderEntryConsumed,
-} from '../../../../model/order.model';
-import { ReplenishmentOrder } from '../../../../model/replenishment-order.model';
-import { Converter } from '../../../../util/converter.service';
+import { PromotionResult } from '../../../../model/cart.model';
+import { PromotionOrderEntryConsumed } from '../../../../model/order.model';
+import { Occ } from '../../../occ-models/occ.models';
 
 @Injectable({ providedIn: 'root' })
-export class OrderEntryPromotionsNormalizer
-  implements Converter<Order | Cart | ReplenishmentOrder, OrderEntry[]> {
-  convert(
-    source: Order | Cart | ReplenishmentOrder,
-    target?: OrderEntry[]
-  ): OrderEntry[] {
-    if (target === undefined) {
-      target = source.entries ?? [];
-    }
-
-    target = target.map((entry) => ({
-      ...entry,
-      promotions: this.getProductPromotion(
-        entry,
-        source.appliedProductPromotions
-      ),
-    }));
-
-    return target;
-  }
-
-  protected getProductPromotion(
-    item: OrderEntry,
+export class OrderEntryPromotionsService {
+  /**
+   * Get consumed promotions for the given order entry
+   *
+   * @param item
+   * @param promotions
+   * @returns consumed promotions for this entry
+   */
+  getProductPromotion(
+    item?: Occ.OrderEntry,
     promotions?: PromotionResult[]
   ): PromotionResult[] {
     const entryPromotions: PromotionResult[] = [];
@@ -58,7 +40,7 @@ export class OrderEntryPromotionsNormalizer
     entry: any
   ): boolean {
     const consumedEntryNumber = consumedEntry.orderEntryNumber;
-    if (entry.entries && entry.entries.length > 0) {
+    if (entry && entry.entries && entry.entries.length > 0) {
       for (const subEntry of entry.entries) {
         if (subEntry.entryNumber === consumedEntryNumber) {
           return true;
@@ -66,7 +48,7 @@ export class OrderEntryPromotionsNormalizer
       }
       return false;
     } else {
-      return consumedEntryNumber === entry.entryNumber;
+      return consumedEntryNumber === entry?.entryNumber;
     }
   }
 }

@@ -1,12 +1,25 @@
 import { TestBed } from '@angular/core/testing';
-import { ORDER_ENTRY_PROMOTIONS_NORMALIZER } from '../../../../cart/connectors/cart/converters';
-import { Product } from '../../../../model/product.model';
+import { PromotionResult } from '../../../../model/cart.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ConverterService } from '../../../../util/converter.service';
 import { OccCartNormalizer } from './occ-cart-normalizer';
+import { OrderEntryPromotionsService } from './order-entry-promotions-service';
 
 class MockConverterService {
   convert() {}
+}
+
+const mockPromotions: PromotionResult[] = [
+  {
+    promotion: {
+      code: 'product_percentage_discount',
+    },
+  },
+];
+class MockOrderEntryPromotionsService {
+  getProductPromotion() {
+    return mockPromotions;
+  }
 }
 
 describe('OccCartNormalizer', () => {
@@ -18,28 +31,19 @@ describe('OccCartNormalizer', () => {
       providers: [
         OccCartNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
+        {
+          provide: OrderEntryPromotionsService,
+          useClass: MockOrderEntryPromotionsService,
+        },
       ],
     });
 
     occCartNormalizer = TestBed.inject(OccCartNormalizer);
     converter = TestBed.inject(ConverterService);
-
-    spyOn(converter, 'convert').and.callFake(function (arg: any) {
-      if (arg.code) {
-        return {
-          ...arg,
-          code: (arg as Product).code + 'converted',
-        } as any;
-      } else {
-        return [
-          {
-            entryNumber: 0,
-            product: arg.entries[0].product,
-            promotions: [{ description: 'tested Promotion' }],
-          },
-        ] as any;
-      }
-    });
+    spyOn(converter, 'convert').and.callFake(((product) => ({
+      ...product,
+      code: product.code + 'converted',
+    })) as any);
   });
 
   it('should be created', () => {
@@ -49,25 +53,17 @@ describe('OccCartNormalizer', () => {
   it('should convert cart entries', () => {
     const product = { code: 'test1' };
     const cart = {
-      entries: [{ entryNumber: 0, product }],
+      entries: [{ product }],
     };
-
     const result = occCartNormalizer.convert(cart);
     expect(result.entries[0].product.code).toBe('test1converted');
-    expect(result.entries[0].promotions[0].description).toBe(
-      'tested Promotion'
-    );
+    expect(result.entries[0].promotions).toEqual(mockPromotions);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
-    expect(converter.convert).toHaveBeenCalledWith(
-      result,
-      ORDER_ENTRY_PROMOTIONS_NORMALIZER
-    );
   });
 
   it('should not contain duplicated pomotions', () => {
-    const product = { code: 'test1' };
     const cart = {
-      entries: [{ entryNumber: 0, product }],
+      guid: '17',
       appliedOrderPromotions: [
         {
           consumedEntries: [],
