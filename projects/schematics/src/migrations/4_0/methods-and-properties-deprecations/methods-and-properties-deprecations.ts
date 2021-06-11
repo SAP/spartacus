@@ -7,6 +7,7 @@ import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/con
 import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
 import { CONFIGURATOR_PRODUCT_TITLE_COMPONENT_MIGRATION } from './data/configurator-product-title.component.migration';
+import { CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION } from './data/configurator-group-menu.component.migration';
 import {
   CONTENT_PAGE_META_RESOLVER_MIGRATION,
   PAGE_META_SERVICE_MIGRATION,
@@ -39,6 +40,7 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CONFIGURATOR_PRODUCT_TITLE_COMPONENT_MIGRATION,
   ...CART_DETAILS_COMPONENT_MIGRATION,
   ...ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
+  ...CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
