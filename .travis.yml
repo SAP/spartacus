@@ -13,7 +13,7 @@ branches:
 defaults: &defaults
   script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
 jobs:
-  - script: "./ci-scripts/unit-tests-sonar.sh sonar"
+  - script: "./ci-scripts/unit-tests-sonar.sh"
     name: "Unit tests / Sonar"
   - script: "./ci-scripts/e2e-cypress.sh --ssr"
     name: "SSR build / smoke test"
