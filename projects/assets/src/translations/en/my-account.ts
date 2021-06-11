@@ -104,8 +104,6 @@ export const myAccount = {
     noReplenishmentOrders:
       'We have no replenishment order records for this account.',
     startShopping: 'Start Shopping',
-    // TODO: deprecated, to remove in 4.0
-    sortByMostRecent: 'Sort by Most recent',
     sortBy: 'Sort by',
     replenishmentOrderHistory: 'Replenishment Order History',
     replenishmentOrderId: 'Replenishment #',
@@ -189,8 +187,6 @@ export const myAccount = {
     startDateDesc: 'Start Date (descending)',
     endDateAsc: 'End Date (ascending)',
     endDateDesc: 'End Date (descending)',
-    // TODO: deprecated, to remove in 4.0
-    sortByMostRecent: 'Sort by Most recent',
     sortBy: 'Sort by',
     notesPreffix:
       'You can set your preferred channels for receiving coupon notifications on the ',
@@ -216,8 +212,6 @@ export const myAccount = {
     lowStock: 'Low Stock',
     outOfStock: 'Out of Stock',
     BACK_IN_STOCK: 'Back In Stock',
-    // TODO: deprecated, to remove in 4.0
-    sortByMostRecent: 'Sort by Most recent',
     sortBy: 'Sort by',
     expirationDate: ' - Till {{ expirationDate }}',
     productId: 'ID {{ code }}',
@@ -238,8 +232,6 @@ export const myAccount = {
     orderId: 'Order #',
     date: 'Date Created',
     status: 'Status',
-    // TODO: deprecated, to remove in 4.0
-    sortByMostRecent: 'Sort by Most recent',
     sortBy: 'Sort by',
     statusDisplay_APPROVAL_PENDING: 'Approval Pending',
     statusDisplay_CANCELED: 'Cancelled',
