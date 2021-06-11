@@ -5,8 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import { Order, PromotionLocation, PromotionResult } from '@spartacus/core';
-import { PromotionService } from '@spartacus/storefront';
+import { Order, PromotionLocation } from '@spartacus/core';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -17,18 +16,11 @@ import { Observable } from 'rxjs';
 export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
   promotionLocation: PromotionLocation = PromotionLocation.Checkout;
   order$: Observable<Order>;
-  orderPromotions$: Observable<PromotionResult[]>;
 
-  constructor(
-    protected checkoutService: CheckoutFacade,
-    protected promotionService: PromotionService
-  ) {}
+  constructor(protected checkoutService: CheckoutFacade) {}
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails();
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
-    );
   }
 
   ngOnDestroy() {

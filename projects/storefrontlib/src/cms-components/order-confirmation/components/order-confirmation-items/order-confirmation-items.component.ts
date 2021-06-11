@@ -10,8 +10,7 @@ import {
   PromotionLocation,
   PromotionResult,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
+import { Observable, of } from 'rxjs';
 
 /**
  * @deprecated since 4.0, use checkout feature lib instead.
@@ -26,16 +25,11 @@ export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
   order$: Observable<Order>;
   orderPromotions$: Observable<PromotionResult[]>;
 
-  constructor(
-    protected checkoutService: CheckoutService,
-    protected promotionService: PromotionService
-  ) {}
+  constructor(protected checkoutService: CheckoutService) {}
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails();
-    this.orderPromotions$ = this.promotionService.getOrderPromotions(
-      this.promotionLocation
-    );
+    this.orderPromotions$ = of([]);
   }
 
   ngOnDestroy() {

@@ -179,9 +179,13 @@
       class="cx-review-cart-item col-md-12"
       *ngIf="entries$ | async as entries"
     >
-      <ng-container *ngIf="orderPromotions$ | async as orderPromotions">
-        <cx-promotions [promotions]="orderPromotions"></cx-promotions>
-      </ng-container>
+      <cx-promotions
+        [promotions]="
+          (cart.appliedOrderPromotions || []).concat(
+            cart.potentialOrderPromotions || []
+          )
+        "
+      ></cx-promotions>
 
       <cx-cart-item-list
         [items]="entries"

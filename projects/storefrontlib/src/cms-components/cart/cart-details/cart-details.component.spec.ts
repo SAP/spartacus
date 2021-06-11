@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -15,7 +15,6 @@ import {
   SelectiveCartService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { PromotionService } from '../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../misc/promotions/promotions.module';
 import { CartDetailsComponent } from './cart-details.component';
 
@@ -37,13 +36,6 @@ class MockActiveCartService {
 interface CartItemComponentOptions {
   isSaveForLater?: boolean;
   optionalBtn?: any;
-}
-class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
 }
 
 @Component({
@@ -120,10 +112,6 @@ describe('CartDetailsComponent', () => {
           {
             provide: ActiveCartService,
             useClass: MockActiveCartService,
-          },
-          {
-            provide: PromotionService,
-            useClass: MockPromotionService,
           },
         ],
       }).compileComponents();

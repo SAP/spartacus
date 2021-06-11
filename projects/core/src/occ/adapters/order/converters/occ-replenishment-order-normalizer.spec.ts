@@ -1,11 +1,26 @@
-import { waitForAsync, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
+import { PromotionResult } from '../../../../model/cart.model';
 import { Product } from '../../../../model/product.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import { ConverterService } from '../../../../util/converter.service';
+import { OrderEntryPromotionsService } from '../../cart/converters/order-entry-promotions-service';
 import { OccReplenishmentOrderNormalizer } from './occ-replenishment-order-normalizer';
 
 class MockConverterService {
   convert() {}
+}
+
+const mockPromotions: PromotionResult[] = [
+  {
+    promotion: {
+      code: 'product_percentage_discount',
+    },
+  },
+];
+class MockOrderEntryPromotionsService {
+  getProductPromotion() {
+    return mockPromotions;
+  }
 }
 
 describe('OccReplenishmentOrderNormalizer', () => {
@@ -20,6 +35,10 @@ describe('OccReplenishmentOrderNormalizer', () => {
           {
             provide: ConverterService,
             useClass: MockConverterService,
+          },
+          {
+            provide: OrderEntryPromotionsService,
+            useClass: MockOrderEntryPromotionsService,
           },
         ],
       });
@@ -50,6 +69,7 @@ describe('OccReplenishmentOrderNormalizer', () => {
     };
     const result = normalizer.convert(order);
     expect(result.entries[0].product.code).toBe('test1converted');
+    expect(result.entries[0].promotions).toEqual(mockPromotions);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
   });
 });

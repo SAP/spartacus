@@ -798,6 +798,8 @@ export const SERVER_REQUEST_ORIGIN_STRING = 'SERVER_REQUEST_ORIGIN';
 export const INCREMENT = 'increment';
 export const ITEM = 'Item';
 export const ORDER_ENTRY = 'OrderEntry';
+export const ORDER_PROMOTIONS$ = 'orderPromotions$';
+
 /***** Properties end *****/
 
 /***** APIs start *****/

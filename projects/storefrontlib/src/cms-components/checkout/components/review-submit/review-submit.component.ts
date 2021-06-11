@@ -18,10 +18,9 @@ import {
   UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { Card } from '../../../../shared/components/card/card.component';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
 import {
   checkoutPaymentSteps,
@@ -50,7 +49,6 @@ export class ReviewSubmitComponent {
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
-    protected promotionService: PromotionService,
     protected checkoutStepService: CheckoutStepService,
     protected paymentTypeService: PaymentTypeService,
     protected checkoutCostCenterService: CheckoutCostCenterService,
@@ -88,7 +86,7 @@ export class ReviewSubmitComponent {
   }
 
   get orderPromotions$(): Observable<PromotionResult[]> {
-    return this.promotionService.getOrderPromotions(this.promotionLocation);
+    return of([]);
   }
 
   get countryName$(): Observable<string> {

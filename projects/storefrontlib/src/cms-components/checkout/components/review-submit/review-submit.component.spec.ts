@@ -24,7 +24,6 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { PromotionsModule } from '../../..';
 import { Card } from '../../../../shared/components/card/card.component';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { IconTestingModule } from '../../../misc/icon/testing/icon-testing.module';
 import { CheckoutStep, CheckoutStepType } from '../../model/index';
 import { CheckoutStepService } from '../../services/index';
@@ -189,14 +188,6 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
-}
-
 describe('ReviewSubmitComponent', () => {
   let component: ReviewSubmitComponent;
   let fixture: ComponentFixture<ReviewSubmitComponent>;
@@ -231,10 +222,6 @@ describe('ReviewSubmitComponent', () => {
           {
             provide: CheckoutStepService,
             useClass: MockCheckoutStepService,
-          },
-          {
-            provide: PromotionService,
-            useClass: MockPromotionService,
           },
           {
             provide: PaymentTypeService,

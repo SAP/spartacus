@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { OrderEntry } from '../../../../model/order.model';
 import { ReplenishmentOrder } from '../../../../model/replenishment-order.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import {
@@ -7,10 +6,15 @@ import {
   ConverterService,
 } from '../../../../util/converter.service';
 import { Occ } from '../../../occ-models/occ.models';
+import { OrderEntryPromotionsService } from '../../cart/converters/order-entry-promotions-service';
+
 @Injectable({ providedIn: 'root' })
 export class OccReplenishmentOrderNormalizer
   implements Converter<Occ.ReplenishmentOrder, ReplenishmentOrder> {
-  constructor(private converter: ConverterService) {}
+  constructor(
+    private converter: ConverterService,
+    private entryPromotionService?: OrderEntryPromotionsService
+  ) {}
 
   convert(
     source: Occ.ReplenishmentOrder,
@@ -21,18 +25,18 @@ export class OccReplenishmentOrderNormalizer
     }
 
     if (source.entries) {
-      target.entries = source.entries.map((entry) =>
-        this.convertOrderEntry(entry)
-      );
+      target.entries = source.entries.map((entry) => ({
+        ...entry,
+        product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
+        promotions: this.entryPromotionService
+          ? this.entryPromotionService.getProductPromotion(
+              entry,
+              source.appliedProductPromotions
+            )
+          : [],
+      }));
     }
 
     return target;
-  }
-
-  private convertOrderEntry(source: Occ.OrderEntry): OrderEntry {
-    return {
-      ...source,
-      product: this.converter.convert(source.product, PRODUCT_NORMALIZER),
-    };
   }
 }
