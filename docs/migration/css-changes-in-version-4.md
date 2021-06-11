@@ -22,8 +22,10 @@ title: Changes to Styles in 4.0
 
 * `cx-configurator-truncate-content` mixin has been added on `%cx-configurator-product-title` for `cx-detail-title`, `cx-code` and `cx-description` selectors to enable the truncation for the small widgets.
 
-## Change in Configurator Group Menu Component
+## Changes in Configurator Group Menu Component
 
+* `cx-group-menu` class replace `ul` element on `%cx-configurator-group-menu`.
+  
 * `cx-configurator-truncate-content` mixin has been added on `%cx-configurator-group-menu` for `span` selector to enable the configuration group title truncation for the small widgets.
 
 ## Changes in Configurator Form Component
