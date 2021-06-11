@@ -16,7 +16,7 @@ import { OccProductSearchAdapter } from './occ-product-search.adapter';
 import createSpy = jasmine.createSpy;
 
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
+  buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
     // eslint-disable-next-line no-shadow
     (url) => url
   );
@@ -75,14 +75,12 @@ describe('OccProductSearchAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(endpoints.getUrl).toHaveBeenCalledWith(
-        'productSearch',
-        {},
-        {
+      expect(endpoints.buildUrl).toHaveBeenCalledWith('productSearch', {
+        queryParams: {
           query: queryText,
           pageSize: mockSearchConfig.pageSize,
-        }
-      );
+        },
+      });
       mockReq.flush(searchResults);
     });
 
@@ -110,14 +108,12 @@ describe('OccProductSearchAdapter', () => {
 
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
-      expect(endpoints.getUrl).toHaveBeenCalledWith(
-        'productSuggestions',
-        {},
-        {
+      expect(endpoints.buildUrl).toHaveBeenCalledWith('productSuggestions', {
+        queryParams: {
           term: queryText,
           max: mockSearchConfig.pageSize.toString(),
-        }
-      );
+        },
+      });
       mockReq.flush(suggestionList);
     });
 

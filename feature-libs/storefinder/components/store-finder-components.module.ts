@@ -108,12 +108,5 @@ import { StoreFinderStoresCountComponent } from './store-finder-stores-count/sto
     StoreFinderStoresCountComponent,
     StoreFinderStoreComponent,
   ],
-  entryComponents: [
-    StoreFinderComponent,
-    StoreFinderSearchResultComponent,
-    StoreFinderStoresCountComponent,
-    StoreFinderGridComponent,
-    StoreFinderStoreComponent,
-  ],
 })
 export class StoreFinderComponentsModule {}

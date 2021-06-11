@@ -10,6 +10,7 @@ export const ANGULAR_HTTP = '@angular/common/http';
 export const RXJS = 'rxjs';
 export const ANGULAR_COMMON = '@angular/common';
 export const ANGULAR_PLATFORM_BROWSER = '@angular/platform-browser';
+export const PLATFORM_ID = 'PLATFORM_ID';
 export const ANGULAR_OAUTH2_OIDC = 'angular-oauth2-oidc';
 
 export const SPARTACUS_SCOPE = '@spartacus/';
@@ -34,10 +35,15 @@ export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `${SPARTACUS_PRODUCT_CONFIGURATOR}/common`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED = `${SPARTACUS_PRODUCT_CONFIGURATOR}/rulebased`;
 export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
+export const SPARTACUS_QUALTRICS_COMPONENTS = `${SPARTACUS_QUALTRICS}/components`;
 export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
 export const SPARTACUS_USER = '@spartacus/user';
+export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
+export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
+export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
+export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -83,6 +89,11 @@ export const BASE_STOREFRONT_MODULE = 'BaseStorefrontModule';
 export const STOREFRONT_MODULE = 'StorefrontModule';
 export const B2C_STOREFRONT_MODULE = 'B2cStorefrontModule';
 export const B2B_STOREFRONT_MODULE = 'B2bStorefrontModule';
+export const MAIN_MODULE = 'MainModule';
+export const STOREFRONT_FOUNDATION_MODULE = 'StorefrontFoundationModule';
+export const VIEW_CONFIG_MODULE = 'ViewConfigModule';
+export const OCC_MODULE = 'OccModule';
+export const EVENTS_MODULE = 'EventsModule';
 export const CONFIG_MODULE_CLASS = 'ConfigModule';
 export const CMS_COMPONENT_DATA_CLASS = 'CmsComponentData';
 export const PROVIDE_CONFIG_FUNCTION = 'provideConfig';
@@ -104,16 +115,23 @@ export const USER_ADDRESS_SERVICE = 'UserAddressService';
 export const AUTH_SERVICE = 'AuthService';
 export const FEATURE_CONFIG_SERVICE = 'FeatureConfigService';
 export const FEATURE_MODULES_SERVICE = 'FeatureModulesService';
+export const CMS_FEATURES_SERVICE = 'CmsFeaturesService';
 export const SEMANTIC_PATH_SERVICE = 'SemanticPathService';
 export const CMS_SERVICE = 'CmsService';
 export const PAGE_META_SERVICE = 'PageMetaService';
+export const PAGE_META_CONFIG = 'PageMetaConfig';
 export const STORE_DATA_SERVICE = 'StoreDataService';
 export const SPLIT_VIEW_SERVICE = 'SplitViewService';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
+export const BASE_PAGE_META_RESOLVER = 'BasePageMetaResolver';
+export const PAGE_LINK_SERVICE = 'PageLinkService';
 export const PRODUCT_PAGE_META_RESOLVER = 'ProductPageMetaResolver';
+export const SEARCH_PAGE_META_RESOLVER = 'SearchPageMetaResolver';
 export const CATEGORY_PAGE_META_RESOLVER = 'CategoryPageMetaResolver';
+export const CART_PAGE_META_RESOLVER = `CartPageMetaResolver`;
 export const CHECKOUT_PAGE_META_RESOLVER = 'CheckoutPageMetaResolver';
+export const ORGANIZATION_PAGE_META_RESOLVER = 'OrganizationPageMetaResolver';
 
 export const PRODUCT_SEARCH_SERVICE = 'ProductSearchService';
 export const CHECKOUT_SERVICE = 'CheckoutService';
@@ -171,6 +189,7 @@ export const CDS_SPARTACUS_EVENT_SERVICE = 'SpartacusEventService';
 export const CONSENT_SERVICE = 'ConsentService';
 export const EVENT_SERVICE = 'EventService';
 export const CDS_CONFIG = 'CdsConfig';
+export const SMART_EDIT_CONFIG = 'SmartEditConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const LOGOUT_GUARD = 'LogoutGuard';
@@ -203,7 +222,6 @@ export const CART_COUPON_COMPONENT = 'CartCouponComponent';
 export const CUSTOMER_COUPON_SERVICE = 'CustomerCouponService';
 export const CART_ITEM_LIST_COMPONENT = 'CartItemListComponent';
 export const CART_ITEM_COMPONENT = 'CartItemComponent';
-export const CART_ITEM_CONTEXT = 'CartItemContext';
 export const PROTECTED_ROUTES_SERVICE = 'ProtectedRoutesService';
 export const PROTECTED_ROUTES_GUARD = 'ProtectedRoutesGuard';
 export const LOGIN_FORM_COMPONENT = 'LoginFormComponent';
@@ -217,6 +235,11 @@ export const PRODUCT_CAROUSEL_COMPONENT = 'ProductCarouselComponent';
 export const PRODUCT_SCROLL_COMPONENT = 'ProductScrollComponent';
 export const PRODUCT_LIST_COMPONENT = 'ProductListComponent';
 export const PRODUCT_LIST_COMPONENT_SERVICE = 'ProductListComponentService';
+export const PRODUCT_LIST_ITEM_COMPONENT = 'ProductListItemComponent';
+export const PRODUCT_LIST_ITEM_CONTEXT_SOURCE = 'ProductListItemContextSource';
+export const PRODUCT_GRID_ITEM_COMPONENT = 'ProductGridItemComponent';
+export const CART_ITEM_CONTEXT_SOURCE = 'CartItemContextSource';
+export const CART_ITEM_CONTEXT = 'CartItemContext';
 export const PAGE_LAYOUT_SERVICE = 'PageLayoutService';
 export const VIEW_CONFIG = 'ViewConfig';
 export const FOOTER_NAVIGATION_COMPONENT = 'FooterNavigationComponent';
@@ -246,6 +269,7 @@ export const CMS_MAPPING_SERVICE = 'CmsMappingService';
 export const COMPONENT_HANDLER_SERVICE = 'ComponentHandlerService';
 export const CMS_INJECTOR_SERVICE = 'CmsInjectorService';
 export const SMART_EDIT_SERVICE = 'SmartEditService';
+export const SMART_EDIT_MODULE = 'SmartEditModule';
 export const STORE_FINDER_SEARCH_RESULT_COMPONENT =
   'StoreFinderSearchResultComponent';
 export const STORE_FINDER_SERVICE = 'StoreFinderService';
@@ -263,6 +287,8 @@ export const QUALTRICS_LOADER_SERVICE = 'QualtricsLoaderService';
 export const RENDERER_FACTORY_2 = 'RendererFactory2';
 export const QUALTRICS_CONFIG = 'QualtricsConfig';
 export const QUALTRICS_COMPONENT = 'QualtricsComponent';
+export const QUALTRICS_EVENT_NAME = 'QUALTRICS_EVENT_NAME';
+export const QUALTRICS_MODULE = 'QualtricsModule';
 export const PRODUCT_FACET_NAVIGATION_COMPONENT =
   'ProductFacetNavigationComponent';
 export const BREAKPOINT_SERVICE = 'BreakpointService';
@@ -276,6 +302,7 @@ export const HAMBURGER_MENU_SERVICE = 'HamburgerMenuService';
 export const ROUTING_PARAMS_SERVICE = 'RoutingParamsService';
 export const CONFIG_INITIALIZER_SERVICE = 'ConfigInitializerService';
 export const LAZY_MODULES_SERVICE = 'LazyModulesService';
+export const UNIFIED_INJECTOR = 'UnifiedInjector';
 export const ANONYMOUS_CONSENT_MANAGEMENT_BANNER_COMPONENT =
   'AnonymousConsentManagementBannerComponent';
 export const ANONYMOUS_CONSENT_LAUNCH_DIALOG_SERVICE =
@@ -307,6 +334,8 @@ export const ORDER_RETURN_SERVICE = 'OrderReturnService';
 export const PRODUCT_VARIANT_GUARD = 'ProductVariantGuard';
 export const USER_CONNECTOR = 'UserConnector';
 export const USER_REGISTER_EFFECT = 'UserRegisterEffects';
+export const CONFIGURATOR_ISSUES_NOTIFICATION_COMPONENT =
+  'ConfiguratorIssuesNotificationComponent';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -339,10 +368,20 @@ export const ANONYMOUS_CONSENT_TEMPLATES_CONNECTOR =
 export const VIEW_COMPONENT = 'ViewComponent';
 export const SPLIT_VIEW_COMPONENT = 'SplitViewComponent';
 export const OCC_CMS_COMPONENT_ADAPTER = 'OccCmsComponentAdapter';
+
+export const MESSAGE_SERVICE = 'MessageService';
 export const CURRENT_UNIT_SERVICE = 'CurrentUnitService';
+export const CURRENT_USER_GROUP_SERVICE = 'CurrentUserGroupService';
 export const UNIT_CHILDREN_COMPONENT = 'UnitChildrenComponent';
 export const UNIT_COST_CENTER_LIST_COMPONENT = 'UnitCostCenterListComponent';
 export const UNIT_USER_LIST_COMPONENT = 'UnitUserListComponent';
+export const UNIT_FORM_COMPONENT = 'UnitFormComponent';
+export const USER_GROUP_USER_LIST_COMPONENT = 'UserGroupUserListComponent';
+export const USER_GROUP_USER_LIST_SERVICE = 'UserGroupUserListService';
+export const TOGGLE_STATUS_COMPONENT = 'ToggleStatusComponent';
+export const DELETE_ITEM_COMPONENT = 'DeleteItemComponent';
+export const ITEM_SERVICE = 'ItemService';
+export const DISABLE_INFO_SERVICE = 'DisableInfoService';
 
 export const SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE =
   'SavedCartFormLaunchDialogService';
@@ -386,7 +425,19 @@ export const CONTEXT = 'context';
 export const SEMANTIC_ROUTE = 'semanticRoute';
 export const URL = 'url';
 export const PARAMS = 'params';
+export const SCRIPT_LOADER_SERVICE = 'ScriptLoader';
 export const INITIALIZE = 'initialize';
+export const FORM_GROUP = 'formGroup';
+export const FORM$ = 'form$';
+
+export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
+  'ConfiguratorAttributeSingleSelectionBaseComponent';
+
+export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
+  'ConfiguratorAttributeNumericInputFieldComponent';
+
+export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
+  'ConfiguratorProductTitleComponent';
 
 /***** Classes end *****/
 
@@ -595,6 +646,10 @@ export const LAYOUT_CONFIG = 'LayoutConfig';
 export const TOKEN_REVOCATION_HEADER = 'TOKEN_REVOCATION_HEADER';
 export const SPLIT_VIEW_DEACTIVATE_GUARD = 'SplitViewDeactivateGuard';
 
+export const GET_OCC_ENDPOINT = 'getOccEndpoint';
+export const GET_BASE_ENDPOINT = 'getBaseEndpoint';
+export const GET_URL = 'getUrl';
+
 export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
 export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
 export const VARIANT_COLOR_SELECTOR_MODULE = 'VariantColorSelectorModule';
@@ -619,6 +674,41 @@ export const PERSONALIZATION_CONFIG = 'PersonalizationConfig';
 export const PERSONALIZATION_CONTEXT_SERVICE = 'PersonalizationContextService';
 export const PERSONALIZATION_ACTION = 'PersonalizationAction';
 export const PERSONALIZATION_CONTEXT = 'PersonalizationContext';
+export const TRANSLATION_CHUNKS_CONFIG = 'TranslationChunksConfig';
+export const MINI_LOGIN_TRANSLATION_CHUNK = 'miniLogin';
+export const UPDATE_EMAIL_FORM_TRANSLATION_CHUNK = 'updateEmailForm';
+export const FORGOTTEN_PASSWORD_TRANSLATION_CHUNK = 'forgottenPassword';
+export const LOGIN_FORM_TRANSLATION_CHUNK = 'loginForm';
+export const REGISTER_TRANSLATION_CHUNK = 'register';
+
+export const CMS_LIB_MODULE = 'CmsLibModule';
+export const CLOSE_ACCOUNT_MODULE = 'CloseAccountModule';
+export const FORGOT_PASSWORD_MODULE = 'ForgotPasswordModule';
+export const REGISTER_COMPONENT_MODULE = 'RegisterComponentModule';
+export const RESET_PASSWORD_MODULE = 'ResetPasswordModule';
+export const RESET_PASSWORD_COMPONENT = 'ResetPasswordComponent';
+export const RESET_PASSWORD_FORM_COMPONENT = 'ResetPasswordFormComponent';
+export const LOGIN_COMPONENT = 'LoginComponent';
+export const LOGIN_MODULE = 'LoginModule';
+export const LOGIN_FORM_MODULE = 'LoginFormModule';
+export const LOGIN_REGISTER_COMPONENT = 'LoginRegisterComponent';
+export const LOGIN_REGISTER_MODULE = 'LoginRegisterModule';
+export const UPDATE_EMAIL_MODULE = 'UpdateEmailModule';
+export const UPDATE_PASSWORD_MODULE = 'UpdatePasswordModule';
+export const UPDATE_PROFILE_MODULE = 'UpdateProfileModule';
+export const USER_COMPONENT_MODULE = 'UserComponentModule';
+export const CLOSE_ACCOUNT_COMPONENT = 'CloseAccountComponent';
+export const UPDATE_EMAIL_FORM_COMPONENT = 'UpdateEmailFormComponent';
+export const UPDATE_PASSWORD_COMPONENT = 'UpdatePasswordComponent';
+export const UPDATE_PASSWORD_FORM_COMPONENT = 'UpdatePasswordFormComponent';
+export const UPDATE_PROFILE_COMPONENT = 'UpdateProfileComponent';
+
+// uncomment product variants deprecation on 4.0 migration works (#11391)
+// export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
+// export const VARIANT_COLOR_SELECTOR_COMPONENT = 'VariantColorSelectorComponent';
+// export const VARIANT_SIZE_SELECTOR_COMPONENT = 'VariantSizeSelectorComponent';
+// export const VARIANT_STYLE_ICONS_COMPONENT = 'VariantStyleIconsComponent';
+// export const VARIANT_STYLE_SELECTOR_COMPONENT = 'VariantStyleSelectorComponent';
 
 /***** Removed public api end *****/
 
@@ -691,6 +781,9 @@ export const DOCUMENT = 'Document';
 export const DOCUMENT_STRING = 'DOCUMENT';
 export const SERVER_REQUEST_URL_STRING = 'SERVER_REQUEST_URL';
 export const SERVER_REQUEST_ORIGIN_STRING = 'SERVER_REQUEST_ORIGIN';
+export const INCREMENT = 'increment';
+export const ITEM = 'Item';
+export const ORDER_ENTRY = 'OrderEntry';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -758,8 +851,18 @@ export const SET_RATE = 'setRate';
 export const GET_META = 'getMeta';
 export const GET_META_RESOLVER = 'getMetaResolver';
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
+export const GET_LOADED = 'getLoaded';
+export const IS_STABLE = 'isStable';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
+
+export const CREATE_EVENT_FROM_INPUT = 'createEventFromInput';
+export const ON_SELECT = 'onSelect';
+export const ON_DESELECT = 'onDeselect';
+export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
+export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
+export const CLICK_ON_ENTER = 'clickOnEnter';
+
 /***** APIs end *****/
 
 /***** feature keys start *****/

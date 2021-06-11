@@ -44,9 +44,7 @@
             for="paymentType-{{ type.code }}"
           >
             <div class="cx-payment-type">
-              {{
-                'paymentTypes.paymentType' | cxTranslate: { context: type.code }
-              }}
+              {{ 'paymentTypes.paymentType_' + type?.code | cxTranslate }}
             </div>
           </label>
         </div>
