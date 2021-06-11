@@ -28,8 +28,11 @@ export const orgPurchaseLimit = {
     subtitle: '',
   },
 
-  byName: 'Sort by name',
-  byUnitName: 'Sort by unit',
+  sortBy: 'Sort by',
+  sort: {
+    byName: 'name',
+    byUnitName: 'unit',
+  },
 
   messages: {
     deactivateTitle: 'Disable this purchase limit?',

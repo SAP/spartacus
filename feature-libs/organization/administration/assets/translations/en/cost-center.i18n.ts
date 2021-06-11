@@ -8,9 +8,12 @@ export const orgCostCenter = {
   unit: 'Parent Unit',
   actions: '',
 
-  byName: 'Sort by name',
-  byCode: 'Sort by code',
-  byUnitName: 'Sort by unit',
+  sortBy: 'Sort by',
+  sort: {
+    byName: 'name',
+    byUnitName: 'unit',
+    byCode: 'code',
+  },
 
   hint:
     "All orders placed through your organization's purchase account are linked to a cost center for tracking purposes. Each unit can have multiple cost centers. To limit spending, budgets are assigned to cost centers. A buyer selects a cost center when checking out.",

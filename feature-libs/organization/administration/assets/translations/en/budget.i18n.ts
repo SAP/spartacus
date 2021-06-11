@@ -13,10 +13,13 @@ export const orgBudget = {
   endDate: 'End',
   actions: '',
 
-  byName: 'Sort by name',
-  byUnitName: 'Sort by unit',
-  byCode: 'Sort by code',
-  byValue: 'Sort by value',
+  sortBy: 'Sort by',
+  sort: {
+    byName: 'name',
+    byUnitName: 'unit',
+    byCode: 'code',
+    byValue: 'value',
+  },
 
   hint:
     'Budgets set overall purchase limits and are assigned to cost centers. A buyer selects a cost center when checking out.',

@@ -21,21 +21,24 @@
           </h3>
         </div>
 
-        <label class="actions">
-          <ng-select
-            class="sort"
-            *ngIf="data.pagination?.sort"
-            [searchable]="false"
-            [clearable]="false"
-            (change)="sort(data.pagination)"
-            [tabIndex]="0"
-            [(ngModel)]="sortCode"
-            [attr.aria-label]="structure.type + '.' + sortCode | cxTranslate"
-          >
-            <ng-option *ngFor="let sort of data.sorts" [value]="sort.code">
-              {{ structure.type + '.' + sort.code | cxTranslate }}
-            </ng-option>
-          </ng-select>
+        <div class="actions">
+          <label>
+            <span>{{ structure.type + '.sortBy' | cxTranslate }}</span>
+            <ng-select
+              name="sort"
+              class="sort"
+              *ngIf="data.pagination?.sort"
+              [searchable]="false"
+              [clearable]="false"
+              (change)="sort(data.pagination)"
+              [tabIndex]="0"
+              [(ngModel)]="sortCode"
+            >
+              <ng-option *ngFor="let sort of data.sorts" [value]="sort.code">
+                {{ structure.type + '.sort.' + sort.code | cxTranslate }}
+              </ng-option>
+            </ng-select>
+          </label>
 
           <ng-content select="[actions]"></ng-content>
 
@@ -46,7 +49,7 @@
           >
             {{ 'organization.add' | cxTranslate }}
           </a>
-        </label>
+        </div>
       </div>
 
       <cx-table
