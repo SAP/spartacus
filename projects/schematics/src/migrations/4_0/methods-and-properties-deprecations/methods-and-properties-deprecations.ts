@@ -2,6 +2,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { MethodPropertyDeprecation } from '../../../shared/utils/file-utils';
 import { migrateMethodPropertiesDeprecation } from '../../mechanism/methods-and-properties-deprecations/methods-and-properties-deprecations';
 import { ADDED_TO_CART_DIALOG_COMPONENT_MIGRATION } from './data/added-to-cart-dialog-component.migration';
+import { CART_DETAILS_COMPONENT_MIGRATION } from './data/cart-details-component.migration';
 import { CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT_MIGRATION } from './data/configurator-attribute-drop-down.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION } from './data/configurator-attribute-numeric-input-field.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION } from './data/configurator-attribute-radio-button.component.migration';
@@ -17,6 +18,7 @@ import {
   GET_URL_MIGRATION,
   OCC_ENDPOINTS_SERVICE_MIGRATION,
 } from './data/occ-endpoints.service.migration';
+import { ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION } from './data/order-detail-items.component.migration';
 import { PAGE_EVENT_BUILDER_MIGRATION } from './data/page-event.builder.ts.migration';
 import { SELECTIVE_CART_SERVICE_MIGRATION } from './data/selective-cart.service.migration';
 
@@ -35,6 +37,8 @@ export const METHOD_PROPERTY_DATA: MethodPropertyDeprecation[] = [
   ...CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION,
   ...CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT_MIGRATION,
   ...CONFIGURATOR_PRODUCT_TITLE_COMPONENT_MIGRATION,
+  ...CART_DETAILS_COMPONENT_MIGRATION,
+  ...ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
