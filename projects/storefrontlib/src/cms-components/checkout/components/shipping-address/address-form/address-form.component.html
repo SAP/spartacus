@@ -17,7 +17,6 @@
                 bindLabel="name"
                 bindValue="isocode"
                 placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
-                [attr.aria-label]="'addressForm.selectOne' | cxTranslate"
                 (change)="countrySelected($event)"
               >
               </ng-select>
@@ -43,7 +42,6 @@
                 bindLabel="name"
                 bindValue="code"
                 [placeholder]="'addressForm.title' | cxTranslate"
-                [attr.aria-label]="'addressForm.title' | cxTranslate"
               >
               </ng-select>
             </label>
@@ -165,7 +163,6 @@
                   bindLabel="{{ regions[0].name ? 'name' : 'isocode' }}"
                   bindValue="{{ regions[0].name ? 'isocode' : 'region' }}"
                   placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
-                  [attr.aria-label]="'addressForm.selectOne' | cxTranslate"
                 >
                 </ng-select>
                 <cx-form-errors
