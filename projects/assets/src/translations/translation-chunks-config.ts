@@ -42,15 +42,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'returnRequest',
   ],
   pwa: ['pwa'],
-  checkout: [
-    'checkout',
-    'checkoutAddress',
-    'checkoutOrderConfirmation',
-    'checkoutReview',
-    'checkoutShipping',
-    'checkoutProgress',
-    'checkoutPO',
-  ],
   product: [
     'productDetails',
     'productList',
