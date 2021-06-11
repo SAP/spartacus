@@ -34,4 +34,5 @@ export { AuthToken } from './src/auth/user-auth/models/auth-token.model';
 export { Order, OrderEntry, DeliveryMode } from './src/model/order.model';
 export { OccEndpoints } from './src/occ/occ-models/occ-endpoints.model';
 export { Config } from './src/config/config-tokens';
+export { RoutingSubConfig } from './src/routing/configurable-routes/config/routing-config';
 /** AUGMENTABLE_TYPES_END */

@@ -18,22 +18,24 @@ export const enum RouteLoadStrategy {
   useExisting: Config,
 })
 export abstract class RoutingConfig {
-  routing?: {
-    /**
-     * Configuration of semantic routes. Key is route's name. Value is the config specific to this route.
-     */
-    routes?: RoutesConfig;
+  routing?: RoutingSubConfig;
+}
 
-    /**
-     * When true, it closes the storefront for unauthorized users, except from routes that have individual config flag `protected: false`
-     */
-    protected?: boolean;
+export interface RoutingSubConfig {
+  /**
+   * Configuration of semantic routes. Key is route's name. Value is the config specific to this route.
+   */
+  routes?: RoutesConfig;
 
-    /**
-     * Global load strategy which is used as a fallback for loading data on each navigation
-     */
-    loadStrategy?: RouteLoadStrategy;
-  };
+  /**
+   * When true, it closes the storefront for unauthorized users, except from routes that have individual config flag `protected: false`
+   */
+  protected?: boolean;
+
+  /**
+   * Global load strategy which is used as a fallback for loading data on each navigation
+   */
+  loadStrategy?: RouteLoadStrategy;
 }
 
 declare module '../../../config/config-tokens' {

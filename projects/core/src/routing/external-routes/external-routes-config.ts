@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Config } from '../../config/config-tokens';
-import { RoutingConfig } from '../configurable-routes';
+
+interface ExternalRoutesSubConfig {
+  internal?: string[];
+}
 
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
 })
 export abstract class ExternalRoutesConfig {
-  routing?: {
-    internal?: string[];
-  };
+  routing?: ExternalRoutesSubConfig;
 }
 
-declare module '../../config/config-tokens' {
-  interface Config {
-    routing?: ExternalRoutesConfig['routing'] & RoutingConfig['routing'];
-  }
+declare module '../configurable-routes/config/routing-config' {
+  interface RoutingSubConfig extends ExternalRoutesSubConfig {}
 }
