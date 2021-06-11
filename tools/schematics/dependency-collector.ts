@@ -1,5 +1,16 @@
 import { execSync } from 'child_process';
+import { Command } from 'commander';
 import fs from 'fs';
+
+/**
+ * Options you can pass to the script
+ */
+export type ProgramOptions = {
+  /**
+   * Compare with the old file
+   */
+  compare?: boolean;
+};
 
 const fileName = 'projects/schematics/src/dependencies.json';
 const tempFileName = `${fileName.substring(0, fileName.length - 5)}-temp.json`;
@@ -92,24 +103,36 @@ function format(path: string): void {
   );
 }
 
-function run(): void {
-  let oldContent: string | undefined;
-  if (fs.existsSync(fileName)) {
-    oldContent = read(fileName);
-  }
+function run(options: ProgramOptions): void {
   const newContent = JSON.stringify(
     collect(packageJsonDirectories),
     undefined,
     2
   );
 
-  if (oldContent) {
-    compareFiles({ name: tempFileName, oldContent, newContent });
-    cleanup();
+  if (options.compare) {
+    let oldContent: string | undefined;
+    if (fs.existsSync(fileName)) {
+      oldContent = read(fileName);
+    }
+    if (oldContent) {
+      compareFiles({ name: tempFileName, oldContent, newContent });
+      cleanup();
+    }
   }
 
   save(fileName, newContent);
   format(fileName);
 }
 
-run();
+const program = new Command();
+program
+  .description('Collect dependencies from all libraries')
+  .option(
+    '--compare',
+    'Compare with the old file, and fail the process if there are differences.'
+  );
+
+program.parse(process.argv);
+
+run(program.opts() as ProgramOptions);
