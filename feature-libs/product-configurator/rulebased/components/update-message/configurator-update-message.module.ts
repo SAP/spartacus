@@ -21,7 +21,7 @@ import { ConfiguratorUpdateMessageComponent } from './configurator-update-messag
         },
       },
     }),
-    provideDefaultConfig(DefaultMessageConfig as Config),
+    provideDefaultConfig(DefaultMessageConfig),
     { provide: MessageConfig, useExisting: Config },
   ],
   declarations: [ConfiguratorUpdateMessageComponent],

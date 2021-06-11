@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
 
 export interface ProductConfiguratorConfig {
-  cpq: {
+  cpq?: {
     authentication: {
       /** We should stop using/sending a token shortly before expiration,
        * to avoid that it is actually expired when evaluated in the target system.
