@@ -51,7 +51,7 @@ export class ConfiguratorCommonsService {
           owner.key
         )
       ),
-      map((configurationState) => configurationState.loading)
+      map((configurationState) => configurationState.loading ?? false)
     );
   }
 
@@ -88,21 +88,23 @@ export class ConfiguratorCommonsService {
   getOrCreateConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    switch (owner.type) {
-      case CommonConfigurator.OwnerType.PRODUCT: {
-        return this.getOrCreateConfigurationForProduct(owner);
+    if (owner.type) {
+      switch (owner.type) {
+        case CommonConfigurator.OwnerType.PRODUCT: {
+          return this.getOrCreateConfigurationForProduct(owner);
+        }
+        case CommonConfigurator.OwnerType.CART_ENTRY: {
+          return this.configuratorCartService.readConfigurationForCartEntry(
+            owner
+          );
+        }
+        case CommonConfigurator.OwnerType.ORDER_ENTRY: {
+          return this.configuratorCartService.readConfigurationForOrderEntry(
+            owner
+          );
+        }
       }
-      case CommonConfigurator.OwnerType.CART_ENTRY: {
-        return this.configuratorCartService.readConfigurationForCartEntry(
-          owner
-        );
-      }
-      case CommonConfigurator.OwnerType.ORDER_ENTRY: {
-        return this.configuratorCartService.readConfigurationForOrderEntry(
-          owner
-        );
-      }
-    }
+    } else throw Error('At this point the owner type needs to be defined');
   }
 
   /**
@@ -242,9 +244,10 @@ export class ConfiguratorCommonsService {
       ),
       tap((configurationState) => {
         if (
-          !this.configuratorUtils.isConfigurationCreated(
-            configurationState.value
-          ) &&
+          (configurationState.value === undefined ||
+            !this.configuratorUtils.isConfigurationCreated(
+              configurationState.value
+            )) &&
           configurationState.loading !== true &&
           configurationState.error !== true
         ) {
@@ -253,10 +256,15 @@ export class ConfiguratorCommonsService {
           );
         }
       }),
-      filter((configurationState) =>
-        this.configuratorUtils.isConfigurationCreated(configurationState.value)
+      filter(
+        (configurationState) =>
+          configurationState.value !== undefined &&
+          this.configuratorUtils.isConfigurationCreated(
+            configurationState.value
+          )
       ),
-      map((configurationState) => configurationState.value)
+      //save to assume configuration is defined after previous filter
+      map((configurationState) => configurationState.value!)
     );
   }
 

@@ -69,9 +69,9 @@ const productConfiguration: Configurator.Configuration = {
 const cartState: StateUtils.ProcessesLoaderState<Cart> = {
   value: cart,
 };
-let cartStateObs = null;
-let isStableObs = null;
-let checkoutLoadingObs = null;
+let cartStateObs: Observable<StateUtils.ProcessesLoaderState<Cart>>;
+let isStableObs: Observable<boolean>;
+let checkoutLoadingObs: Observable<boolean>;
 class MockActiveCartService {
   requireLoadedCart(): Observable<StateUtils.ProcessesLoaderState<Cart>> {
     return cartStateObs;

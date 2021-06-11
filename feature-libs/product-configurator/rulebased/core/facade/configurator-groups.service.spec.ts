@@ -138,7 +138,7 @@ describe('ConfiguratorGroupsService', () => {
         productConfiguration.owner
       );
       currentGroupId.subscribe((groupId) => {
-        expect(groupId).toBeNull();
+        expect(groupId).toBeUndefined();
         done();
       });
     });
@@ -187,7 +187,7 @@ describe('ConfiguratorGroupsService', () => {
 
       expect(currentGroup).toBeDefined();
       currentGroup.subscribe((groupId) => {
-        expect(groupId).toEqual(null);
+        expect(groupId).toBeUndefined();
         done();
       });
     });
@@ -284,24 +284,6 @@ describe('ConfiguratorGroupsService', () => {
     );
   });
 
-  it('should set change group to undefined it no conflict group exists (caller has to verify this)', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
-
-    classUnderTest.navigateToConflictSolver(
-      productConfigurationWithConflicts.owner
-    );
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.ChangeGroup({
-        configuration: productConfiguration,
-        groupId: undefined,
-        parentGroupId: null,
-      })
-    );
-  });
-
   it('should go to first incomplete group', () => {
     spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
       of(productConfiguration)
@@ -312,25 +294,7 @@ describe('ConfiguratorGroupsService', () => {
       new ConfiguratorActions.ChangeGroup({
         configuration: productConfiguration,
         groupId: productConfiguration.flatGroups[0].id,
-        parentGroupId: null,
-      })
-    );
-  });
-
-  it('should set change group to undefined if no incomplete group exists (caller has to verify this)', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
-    spyOn(configGroupStatusService, 'getFirstIncompleteGroup').and.returnValue(
-      undefined
-    );
-    classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.ChangeGroup({
-        configuration: productConfiguration,
-        groupId: undefined,
-        parentGroupId: null,
+        parentGroupId: undefined,
       })
     );
   });

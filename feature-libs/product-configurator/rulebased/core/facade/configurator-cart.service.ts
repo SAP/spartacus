@@ -62,10 +62,12 @@ export class ConfiguratorCartService {
                 .getUserId()
                 .pipe(take(1))
                 .subscribe((userId) => {
+                  //It's safe to assume we got the cartState.value after we required
+                  //a loaded cart
                   const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
                     userId: userId,
                     cartId: this.commonConfigUtilsService.getCartId(
-                      cartState.value
+                      cartState.value!
                     ),
                     cartEntryNumber: owner.id,
                     owner: owner,
@@ -79,10 +81,13 @@ export class ConfiguratorCartService {
             });
         }
       }),
-      filter((configurationState) =>
-        this.isConfigurationCreated(configurationState.value)
+      filter(
+        (configurationState) =>
+          configurationState.value != undefined &&
+          this.isConfigurationCreated(configurationState.value)
       ),
-      map((configurationState) => configurationState.value)
+      //save to assume configuration is defined after previous filter
+      map((configurationState) => configurationState.value!)
     );
   }
   /**
@@ -117,10 +122,13 @@ export class ConfiguratorCartService {
           );
         }
       }),
-      filter((configurationState) =>
-        this.isConfigurationCreated(configurationState.value)
+      filter(
+        (configurationState) =>
+          configurationState.value != undefined &&
+          this.isConfigurationCreated(configurationState.value)
       ),
-      map((configurationState) => configurationState.value)
+      //save to assume configuration is defined after previous filter
+      map((configurationState) => configurationState.value!)
     );
   }
 
@@ -144,9 +152,11 @@ export class ConfiguratorCartService {
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
+            //It's safe to assume we got the cart.value after we required
+            //a loaded cart
             const addToCartParameters: Configurator.AddToCartParameters = {
               userId: userId,
-              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
+              cartId: this.commonConfigUtilsService.getCartId(cartState.value!),
               productCode: productCode,
               quantity: 1,
               configId: configId,
@@ -175,9 +185,11 @@ export class ConfiguratorCartService {
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
+            //It's safe to assume we got the cart.value after we required
+            //a loaded cart
             const parameters: Configurator.UpdateConfigurationForCartEntryParameters = {
               userId: userId,
-              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
+              cartId: this.commonConfigUtilsService.getCartId(cartState.value!),
               cartEntryNumber: configuration.owner.id,
               configuration: configuration,
             };
@@ -193,8 +205,10 @@ export class ConfiguratorCartService {
    * @returns True if and only if there is at least one cart entry with product configuration issues
    */
   activeCartHasIssues(): Observable<boolean> {
+    //It's safe to assume we got the cart.value after we required
+    //a loaded cart
     return this.activeCartService.requireLoadedCart().pipe(
-      map((cartState) => cartState.value.entries),
+      map((cartState) => cartState.value!.entries),
       map((entries) =>
         entries
           ? entries.filter((entry) =>
@@ -216,8 +230,10 @@ export class ConfiguratorCartService {
   protected configurationNeedsReading(
     configurationState: StateUtils.LoaderState<Configurator.Configuration>
   ): boolean {
+    //It's safe to assume we got the cart.value after we required
+    //a loaded cart
     return (
-      !this.isConfigurationCreated(configurationState.value) &&
+      !this.isConfigurationCreated(configurationState.value!) &&
       !configurationState.loading &&
       !configurationState.error
     );

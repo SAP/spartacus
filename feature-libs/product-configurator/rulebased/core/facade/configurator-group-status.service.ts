@@ -45,12 +45,14 @@ export class ConfiguratorGroupStatusService {
    */
   getFirstIncompleteGroup(
     configuration: Configurator.Configuration
-  ): Configurator.Group {
+  ): Configurator.Group | undefined {
     return configuration.flatGroups
-      .filter(
-        (group) => group.groupType !== Configurator.GroupType.CONFLICT_GROUP
-      )
-      .find((group) => !group.complete);
+      ? configuration.flatGroups
+          .filter(
+            (group) => group.groupType !== Configurator.GroupType.CONFLICT_GROUP
+          )
+          .find((group) => !group.complete)
+      : undefined;
   }
 
   /**
@@ -74,12 +76,14 @@ export class ConfiguratorGroupStatusService {
 
     const visitedGroupIds = [];
     visitedGroupIds.push(group.id);
-    this.getParentGroupStatusVisited(
-      configuration,
-      group.id,
-      parentGroup,
-      visitedGroupIds
-    );
+    if (parentGroup) {
+      this.getParentGroupStatusVisited(
+        configuration,
+        group.id,
+        parentGroup,
+        visitedGroupIds
+      );
+    }
 
     this.store.dispatch(
       new ConfiguratorActions.SetGroupsVisited({
@@ -122,19 +126,21 @@ export class ConfiguratorGroupStatusService {
         .subscribe((isVisited) => {
           if (isVisited) {
             visitedGroupIds.push(parentGroup.id);
-
-            this.getParentGroupStatusVisited(
-              configuration,
-              parentGroup.id,
-              this.configuratorUtilsService.getParentGroup(
+            const grandParentGroup = this.configuratorUtilsService.getParentGroup(
+              configuration.groups,
+              this.configuratorUtilsService.getGroupById(
                 configuration.groups,
-                this.configuratorUtilsService.getGroupById(
-                  configuration.groups,
-                  parentGroup.id
-                )
-              ),
-              visitedGroupIds
+                parentGroup.id
+              )
             );
+            if (grandParentGroup) {
+              this.getParentGroupStatusVisited(
+                configuration,
+                parentGroup.id,
+                grandParentGroup,
+                visitedGroupIds
+              );
+            }
           }
         });
     }

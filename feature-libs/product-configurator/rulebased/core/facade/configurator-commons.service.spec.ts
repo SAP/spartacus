@@ -55,7 +55,7 @@ const group1: Configurator.Group = {
     {
       name: ATTRIBUTE_NAME_2,
       uiType: Configurator.UiType.DROPDOWN,
-      userInput: null,
+      userInput: undefined,
     },
   ],
 };
@@ -83,10 +83,10 @@ const configurationState: ConfiguratorState = {
   configurations: { entities: {} },
 };
 
-let configCartObservable;
-let configOrderObservable;
-let isStableObservable;
-let cartObs;
+let configCartObservable: Observable<Configurator.Configuration>;
+let configOrderObservable: Observable<Configurator.Configuration>;
+let isStableObservable: Observable<boolean>;
+let cartObs: Observable<Cart>;
 
 class MockActiveCartService {
   isStable(): Observable<boolean> {
