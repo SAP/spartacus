@@ -92,6 +92,7 @@ export namespace Configurator {
     id: string;
     groupDescription?: string;
     attributes?: AttributeOverview[];
+    subGroups?: GroupOverview[];
   }
 
   export interface AttributeOverview {
