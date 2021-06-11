@@ -36,16 +36,22 @@ describe('OccReplenishmentOrderNormalizer', () => {
     normalizer = TestBed.inject(OccReplenishmentOrderNormalizer);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'convert')
-      .withArgs(product, PRODUCT_NORMALIZER)
-      .and.returnValue({
-        ...product,
-        code: (product as Product).code + 'converted',
-      } as any)
-      .withArgs(order, ORDER_ENTRY_PROMOTIONS_NORMALIZER)
-      .and.returnValue([
-        { entryNumber: 0, promotions: [{ description: 'tested Promotion' }] },
-      ]);
+    spyOn(converter, 'convert').and.callFake(function (arg: any) {
+      if (arg.code) {
+        return {
+          ...arg,
+          code: (arg as Product).code + 'converted',
+        } as any;
+      } else {
+        return [
+          {
+            entryNumber: 0,
+            product: arg.entries[0].product,
+            promotions: [{ description: 'tested Promotion' }],
+          },
+        ] as any;
+      }
+    });
   });
 
   it('should create', () => {

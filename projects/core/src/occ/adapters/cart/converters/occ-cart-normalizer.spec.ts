@@ -32,7 +32,11 @@ describe('OccCartNormalizer', () => {
         } as any;
       } else {
         return [
-          { entryNumber: 0, promotions: [{ description: 'tested Promotion' }] },
+          {
+            entryNumber: 0,
+            product: arg.entries[0].product,
+            promotions: [{ description: 'tested Promotion' }],
+          },
         ] as any;
       }
     });
@@ -61,8 +65,9 @@ describe('OccCartNormalizer', () => {
   });
 
   it('should not contain duplicated pomotions', () => {
+    const product = { code: 'test1' };
     const cart = {
-      guid: '17',
+      entries: [{ entryNumber: 0, product }],
       appliedOrderPromotions: [
         {
           consumedEntries: [],

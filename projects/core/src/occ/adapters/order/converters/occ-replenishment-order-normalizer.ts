@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ORDER_ENTRY_PROMOTIONS_NORMALIZER } from '../../../../cart/connectors/cart/converters';
-import { OrderEntry } from '../../../../model/order.model';
 import { ReplenishmentOrder } from '../../../../model/replenishment-order.model';
 import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import {
@@ -27,25 +26,11 @@ export class OccReplenishmentOrderNormalizer
       ORDER_ENTRY_PROMOTIONS_NORMALIZER
     );
 
-    if (source.entries) {
-      target.entries = source.entries.map((entry) =>
-        this.convertOrderEntry(entry, entriesWithPromotions)
-      );
-    }
+    target.entries = entriesWithPromotions.map((entry) => ({
+      ...entry,
+      product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
+    }));
 
     return target;
-  }
-
-  private convertOrderEntry(
-    source: Occ.OrderEntry,
-    entriesWithPromotions: OrderEntry[]
-  ): OrderEntry {
-    return {
-      ...source,
-      product: this.converter.convert(source?.product, PRODUCT_NORMALIZER),
-      promotions: entriesWithPromotions.find(
-        (item) => item.entryNumber === source.entryNumber
-      )?.promotions,
-    };
   }
 }

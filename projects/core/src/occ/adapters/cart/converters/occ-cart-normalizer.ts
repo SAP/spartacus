@@ -24,15 +24,10 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
       ORDER_ENTRY_PROMOTIONS_NORMALIZER
     );
 
-    if (source && source.entries) {
-      target.entries = source.entries.map((entry) => ({
-        ...entry,
-        product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
-        promotions: entriesWithPromotions.find(
-          (item) => item.entryNumber === entry.entryNumber
-        )?.promotions,
-      }));
-    }
+    target.entries = entriesWithPromotions.map((entry) => ({
+      ...entry,
+      product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
+    }));
 
     return target;
   }
