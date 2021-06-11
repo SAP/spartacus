@@ -24,7 +24,7 @@ title: Changes to Styles in 4.0
 
 ## Changes in Configurator Group Menu Component
 
-- `cx-group-menu` class replace `ul` element on `%cx-configurator-group-menu`.
+- `cx-group-menu` class replaces `ul` element on `%cx-configurator-group-menu`.
 - `cx-configurator-truncate-content` mixin has been added on `%cx-configurator-group-menu` for `span` selector to enable the configuration group title truncation for the small widgets.
 
 ## Changes in Configurator Form Component
