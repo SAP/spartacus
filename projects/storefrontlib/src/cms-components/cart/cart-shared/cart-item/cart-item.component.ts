@@ -1,10 +1,4 @@
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry, PromotionLocation } from '@spartacus/core';
 import { ICON_TYPE } from '../../../misc/icon/icon.model';
@@ -25,7 +19,7 @@ export interface CartItemComponentOptions {
     { provide: CartItemContext, useExisting: CartItemContextSource },
   ],
 })
-export class CartItemComponent implements OnInit, OnChanges {
+export class CartItemComponent implements OnChanges {
   @Input() compact = false;
   @Input() item: OrderEntry;
   @Input() readonly = false;
@@ -43,8 +37,6 @@ export class CartItemComponent implements OnInit, OnChanges {
   readonly CartOutlets = CartOutlets;
 
   constructor(protected cartItemContextSource: CartItemContextSource) {}
-
-  ngOnInit() {}
 
   ngOnChanges(changes?: SimpleChanges) {
     if (changes?.compact) {

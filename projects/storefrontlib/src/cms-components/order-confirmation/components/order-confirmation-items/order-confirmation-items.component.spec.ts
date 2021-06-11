@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
   CheckoutService,
@@ -11,7 +11,6 @@ import {
   PromotionLocation,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 
@@ -39,14 +38,6 @@ class MockCheckoutService {
   }
 }
 
-class MockPromotionService {
-  getOrderPromotions(): void {}
-  getOrderPromotionsFromCart(): void {}
-  getOrderPromotionsFromCheckout(): void {}
-  getOrderPromotionsFromOrder(): void {}
-  getProductPromotionForEntry(): void {}
-}
-
 describe('OrderConfirmationItemsComponent', () => {
   let component: OrderConfirmationItemsComponent;
   let fixture: ComponentFixture<OrderConfirmationItemsComponent>;
@@ -61,7 +52,6 @@ describe('OrderConfirmationItemsComponent', () => {
         ],
         providers: [
           { provide: CheckoutService, useClass: MockCheckoutService },
-          { provide: PromotionService, useClass: MockPromotionService },
           {
             provide: FeaturesConfig,
             useValue: {

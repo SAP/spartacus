@@ -9,11 +9,9 @@ import {
   I18nTestingModule,
   Order,
   PromotionLocation,
-  PromotionResult,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CardModule } from '../../../../../shared/components/card/card.module';
-import { PromotionService } from '../../../../../shared/services/promotion/promotion.service';
 import { PromotionsModule } from '../../../../misc/promotions/promotions.module';
 import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
@@ -124,12 +122,6 @@ class MockConsignmentTrackingComponent {
   orderCode: string;
 }
 
-class MockPromotionService {
-  getOrderPromotions(): Observable<PromotionResult[]> {
-    return of([]);
-  }
-}
-
 describe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
   let fixture: ComponentFixture<OrderDetailItemsComponent>;
@@ -159,10 +151,6 @@ describe('OrderDetailItemsComponent', () => {
             useValue: {
               features: { level: '1.4', consignmentTracking: true },
             },
-          },
-          {
-            provide: PromotionService,
-            useClass: MockPromotionService,
           },
         ],
         declarations: [

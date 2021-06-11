@@ -18,7 +18,6 @@ import {
   OrderOverviewModule,
   SpinnerModule,
 } from '../../../../shared/index';
-import { PromotionService } from '../../../../shared/services/promotion/promotion.service';
 import { CartSharedModule } from '../../../cart/cart-shared/cart-shared.module';
 import { PromotionsModule } from '../../../misc/promotions/promotions.module';
 import { OrderDetailActionsComponent } from './order-detail-actions/order-detail-actions.component';
@@ -28,7 +27,6 @@ import { OrderDetailItemsComponent } from './order-detail-items/order-detail-ite
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
 import { OrderDetailsService } from './order-details.service';
-import { OrderPromotionService } from './order-promotion.service';
 
 const moduleComponents = [
   OrderDetailActionsComponent,
@@ -74,12 +72,6 @@ const moduleComponents = [
         },
         AccountOrderDetailsItemsComponent: {
           component: OrderDetailItemsComponent,
-          providers: [
-            {
-              provide: PromotionService,
-              useExisting: OrderPromotionService,
-            },
-          ],
         },
         AccountOrderDetailsTotalsComponent: {
           component: OrderDetailTotalsComponent,
