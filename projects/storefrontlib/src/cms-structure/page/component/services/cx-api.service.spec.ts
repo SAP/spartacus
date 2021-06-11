@@ -30,9 +30,6 @@ import { CxApiService } from './cx-api.service';
 
 class MockAuthService {}
 class MockActiveCartService {}
-class MockCheckoutService {}
-class MockCheckoutDeliveryService {}
-class MockCheckoutPaymentService {}
 class MockCmsService {}
 class MockPageMetaService {}
 class MockFeatureConfigService {}
