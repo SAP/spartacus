@@ -3,9 +3,6 @@ import {
   ActiveCartService,
   AuthService,
   BaseSiteService,
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-  CheckoutService,
   CmsService,
   CurrencyService,
   FeatureConfigService,
@@ -76,16 +73,6 @@ describe('CxApiService', () => {
         CxApiService,
         { provide: AuthService, useClass: MockAuthService },
         { provide: ActiveCartService, useClass: MockActiveCartService },
-        { provide: CheckoutService, useClass: MockCheckoutService },
-        {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
-        },
-        {
-          provide: CheckoutPaymentService,
-          useClass: MockCheckoutPaymentService,
-        },
-
         { provide: CmsService, useClass: MockCmsService },
 
         { provide: PageMetaService, useClass: MockPageMetaService },
