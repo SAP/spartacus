@@ -9,13 +9,7 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
-import {
-  ANGULAR_HTTP,
-  SPARTACUS_CONFIGURATION_MODULE,
-  SPARTACUS_FEATURES_MODULE,
-  SPARTACUS_MODULE,
-  SPARTACUS_ROUTING_MODULE,
-} from '../shared/constants';
+import { ANGULAR_HTTP, SPARTACUS_ROUTING_MODULE } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -42,6 +36,7 @@ import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths'
 import {
   getProjectFromWorkspace,
   getProjectTargets,
+  scaffoldStructure,
 } from '../shared/utils/workspace-utils';
 import { addSpartacusConfiguration } from './configuration';
 import { setupRouterModule } from './router';
@@ -232,37 +227,23 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(prepareDependencies()),
+      scaffoldStructure(options),
+
       ensureModuleExists({
         name: SPARTACUS_ROUTING_MODULE,
         path: 'app',
         module: 'app',
         project: options.project,
       }),
+
       setupRouterModule(options.project),
+
       setupStoreModules(options.project),
 
-      ensureModuleExists({
-        name: SPARTACUS_MODULE,
-        path: 'app/spartacus',
-        module: 'app',
-        project: options.project,
-      }),
       setupSpartacusModule(options.project),
 
-      ensureModuleExists({
-        name: SPARTACUS_FEATURES_MODULE,
-        path: 'app/spartacus',
-        module: 'spartacus',
-        project: options.project,
-      }),
       setupSpartacusFeaturesModule(options.project),
 
-      ensureModuleExists({
-        name: SPARTACUS_CONFIGURATION_MODULE,
-        path: 'app/spartacus',
-        module: 'spartacus',
-        project: options.project,
-      }),
       addSpartacusConfiguration(options),
 
       updateAppModule(options.project),
