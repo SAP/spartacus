@@ -32,17 +32,20 @@ const mockUnknownMediaContainer = {
     url: 'random1.url',
     format: 'unknownFormat1',
     altText: 'alt text for unknown-1',
+    role: 'presentation',
   },
   unknownFormat2: {
     url: 'random2.url',
     format: 'unknownFormat2',
     altText: 'alt text for unknown-2',
+    role: 'presentation',
   },
 };
 
 const mockMedia: Image = {
   url: 'media.url',
   altText: 'alt text for media',
+  role: 'presentation',
 };
 
 const mockBestFormatMediaContainer: MediaContainer = {
@@ -50,21 +53,25 @@ const mockBestFormatMediaContainer: MediaContainer = {
     url: 'format-1.url',
     format: 'format1',
     altText: 'alt text for format-1',
+    role: 'presentation',
   },
   format2: {
     url: 'format-2.url',
     format: 'format2',
     altText: 'alt text for format-2',
+    role: 'presentation',
   },
   format400: {
     url: 'format-400.url',
     format: 'format400',
     altText: 'alt text for format-400',
+    role: 'presentation',
   },
   format600: {
     url: 'format-600.url',
     format: 'format600',
     altText: 'alt text for format-600',
+    role: 'presentation',
   },
 };
 
@@ -80,7 +87,7 @@ const mockUrlContainer = {
   },
 };
 
-describe('MediaService', () => {
+fdescribe('MediaService', () => {
   describe('with eager loaded config', () => {
     let mediaService: MediaService;
 
@@ -199,6 +206,47 @@ describe('MediaService', () => {
               'custom alt'
             ).alt
           ).toEqual('custom alt');
+        });
+      });
+
+      describe('role', () => {
+        it('should return role for media', () => {
+          expect(mediaService.getMedia(mockMedia).role).toBe('presentation');
+        });
+
+        it('should return role for best media', () => {
+          expect(mediaService.getMedia(mockBestFormatMediaContainer).role).toBe(
+            'presentation'
+          );
+        });
+
+        it('should return role for specific format', () => {
+          expect(
+            mediaService.getMedia(mockBestFormatMediaContainer, 'format400')
+              .role
+          ).toBe('presentation');
+        });
+
+        it('should return role for best format', () => {
+          expect(
+            mediaService.getMedia(mockBestFormatMediaContainer, 'unknown').role
+          ).toBe('presentation');
+        });
+
+        it('should return role for random format', () => {
+          expect(
+            mediaService.getMedia(mockUnknownMediaContainer, 'unknown').role
+          ).toBe('presentation');
+        });
+
+        it('should return given role', () => {
+          expect(
+            mediaService.getMedia(
+              mockBestFormatMediaContainer,
+              'format400',
+              'custom role'
+            ).role
+          ).toEqual('custom role');
         });
       });
 

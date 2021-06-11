@@ -5,8 +5,7 @@
     autocomplete="off"
     attr.aria-label="{{ 'searchBox.ariaLabelInput' | cxTranslate }}"
     aria-describedby="initialDescription"
-    aria-owns="results"
-    aria-expanded="false"
+    aria-controls="results"
     aria-autocomplete="both"
     aria-activedescendant=""
     (focus)="open()"
@@ -96,9 +95,8 @@
     attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
     tabindex="0"
   >
-    <li>
+    <li *ngFor="let product of result.products">
       <a
-        *ngFor="let product of result.products"
         [routerLink]="
           {
             cxRoute: 'product',
@@ -123,7 +121,7 @@
           *ngIf="config.displayProductImages"
           [container]="product.images?.PRIMARY"
           format="thumbnail"
-          alt=""
+          alt="test"
           role="presentation"
         ></cx-media>
         <div class="name" [innerHTML]="product.nameHtml"></div>
