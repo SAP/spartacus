@@ -21,7 +21,7 @@
           </h3>
         </div>
 
-        <div class="actions">
+        <label class="actions">
           <ng-select
             class="sort"
             *ngIf="data.pagination?.sort"
@@ -30,7 +30,7 @@
             (change)="sort(data.pagination)"
             [tabIndex]="0"
             [(ngModel)]="sortCode"
-            [attr.aria-label]="sortCode"
+            [attr.aria-label]="structure.type + '.' + sortCode | cxTranslate"
           >
             <ng-option *ngFor="let sort of data.sorts" [value]="sort.code">
               {{ structure.type + '.' + sort.code | cxTranslate }}
@@ -46,7 +46,7 @@
           >
             {{ 'organization.add' | cxTranslate }}
           </a>
-        </div>
+        </label>
       </div>
 
       <cx-table
