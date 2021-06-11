@@ -195,3 +195,9 @@
     font-size: 1rem;
   }
 }
+
+@media only screen and (max-width: 400px) {
+  %cx-popover {
+    max-width: 50%;
+  }
+}
