@@ -407,15 +407,26 @@ export const CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE =
 export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE =
   'ConfiguratorStorefrontUtilsService';
 export const CONFIGURATOR_GROUPS_SERVICE = 'ConfiguratorGroupsService';
-
+export const CONFIGURATOR_COMMONS_SERVICE = 'ConfiguratorCommonsService';
+export const CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE =
+  'ConfiguratorRouterExtractorService';
 export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
   'ConfiguratorCartEntryInfoComponent';
+export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
+  'ConfiguratorAttributeSingleSelectionBaseComponent';
+export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
+  'ConfiguratorAttributeNumericInputFieldComponent';
 export const CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT =
   'ConfiguratorAttributeCheckBoxListComponent';
 export const CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT =
   'ConfiguratorAttributeDropDownComponent';
 export const CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT =
   'ConfiguratorAttributeRadioButtonComponent';
+export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
+  'ConfiguratorProductTitleComponent';
+export const CONFIGURATOR_GROUP_MENU_COMPONENT =
+  'ConfiguratorGroupMenuComponent';
+export const CONFIGURATOR_FORM_COMPONENT = 'ConfiguratorFormComponent';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
@@ -429,15 +440,6 @@ export const SCRIPT_LOADER_SERVICE = 'ScriptLoader';
 export const INITIALIZE = 'initialize';
 export const FORM_GROUP = 'formGroup';
 export const FORM$ = 'form$';
-
-export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
-  'ConfiguratorAttributeSingleSelectionBaseComponent';
-
-export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
-  'ConfiguratorAttributeNumericInputFieldComponent';
-
-export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
-  'ConfiguratorProductTitleComponent';
 
 /***** Classes end *****/
 
@@ -862,6 +864,7 @@ export const ON_DESELECT = 'onDeselect';
 export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
 export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
 export const CLICK_ON_ENTER = 'clickOnEnter';
+export const NAVIGATE_UP_ON_ENTER = 'navigateUpOnEnter';
 
 /***** APIs end *****/
 
