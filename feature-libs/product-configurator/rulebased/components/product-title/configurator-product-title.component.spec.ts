@@ -23,6 +23,7 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -41,27 +42,32 @@ const mockRouterState: any = {
 };
 
 const config: Configurator.Configuration = {
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE
+  ...ConfiguratorTestUtils.createConfiguration(
+    CONFIG_ID,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
   ),
-  configId: CONFIG_ID,
+
   productCode: PRODUCT_CODE,
 };
 
 const orderEntryconfig: Configurator.Configuration = {
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.ORDER_ENTRY,
-    PRODUCT_CODE
+  ...ConfiguratorTestUtils.createConfiguration(
+    CONFIG_ID,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.ORDER_ENTRY,
+      PRODUCT_CODE
+    )
   ),
-  configId: CONFIG_ID,
   overview: {
     productCode: PRODUCT_CODE,
   },
 };
 
 const orderEntryconfigWoOverview: Configurator.Configuration = {
-  owner: {
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.ORDER_ENTRY,
     key: ConfiguratorModelUtils.getOwnerKey(
@@ -69,8 +75,7 @@ const orderEntryconfigWoOverview: Configurator.Configuration = {
       PRODUCT_CODE
     ),
     configuratorType: ConfiguratorType.VARIANT,
-  },
-  configId: CONFIG_ID,
+  }),
 };
 
 const imageURL = 'some URL';
@@ -135,6 +140,15 @@ class MockCxIconComponent {
   @Input() type: any;
 }
 
+@Component({
+  template: '',
+  selector: 'cx-media',
+})
+class MockMediaComponent {
+  @Input() container: any;
+  @Input() format: any;
+}
+
 describe('ConfigProductTitleComponent', () => {
   let component: ConfiguratorProductTitleComponent;
   let fixture: ComponentFixture<ConfiguratorProductTitleComponent>;
@@ -151,7 +165,11 @@ describe('ConfigProductTitleComponent', () => {
           NgSelectModule,
           FeaturesConfigModule,
         ],
-        declarations: [ConfiguratorProductTitleComponent, MockCxIconComponent],
+        declarations: [
+          ConfiguratorProductTitleComponent,
+          MockCxIconComponent,
+          MockMediaComponent,
+        ],
         providers: [
           {
             provide: Router,
@@ -279,14 +297,5 @@ describe('ConfigProductTitleComponent', () => {
       '.cx-title',
       PRODUCT_NAME
     );
-  });
-
-  it('should return undefined for getProductImageURL/Alttext if not properly defined', () => {
-    product.images.PRIMARY = {};
-    expect(component.getProductImageURL(product)).toBeUndefined();
-    product.images = {};
-    expect(component.getProductImageURL(product)).toBeUndefined();
-    expect(component.getProductImageURL({})).toBeUndefined();
-    expect(component.getProductImageAlt({})).toBeUndefined();
   });
 });

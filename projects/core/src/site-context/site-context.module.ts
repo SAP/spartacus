@@ -13,6 +13,7 @@ import { defaultSiteContextConfigFactory } from './config/default-site-context-c
 import { SiteContextConfig } from './config/site-context-config';
 import { SiteContextEventModule } from './events/site-context-event.module';
 import { BASE_SITE_CONTEXT_ID } from './providers/context-ids';
+import { contextInitializerProviders } from './providers/context-initializer-providers';
 import { contextServiceMapProvider } from './providers/context-service-map';
 import { contextServiceProviders } from './providers/context-service-providers';
 import { siteContextParamsProviders } from './providers/site-context-params-providers';
@@ -62,6 +63,7 @@ export class SiteContextModule {
           ],
           multi: true,
         },
+        ...contextInitializerProviders,
       ],
     };
   }
