@@ -18,14 +18,14 @@ async function run() {
   let branch;
 
   if (eventName === 'push') {
-    console.log(`Push event. Payload: ${JSON.stringify(context.payload)}`);
     branch = context.payload.ref.replace('refs/heads/', '');
   } else if (eventName === 'pull_request') {
-    console.log(`PR event. Payload: ${JSON.stringify(context.payload)}`);
     branch = context.payload.pull_request.head.ref;
   }
 
-  console.log(`Starting Hosting service deployment of PR branch ${branch}.`);
+  console.log(
+    `Starting Hosting service deployment on '${eventName}' of branch '${branch}'`
+  );
 
   //run sh to get CLI and prep
   await exec.exec('sh', ['./.github/hs-deploy-action/upp-cli-setup.sh']);
@@ -33,7 +33,7 @@ async function run() {
   if (UPP_ACTION === 'deploy') {
     await build();
     await deploy(github, octoKit, branch);
-    console.log('--> Hosting service deployment done');
+    console.log('--> Hosting service deployment done!');
   } else if (UPP_ACTION === 'undeploy') {
     await undeploy(branch);
   }

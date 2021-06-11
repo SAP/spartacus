@@ -6,12 +6,10 @@ on:
     - 'epic/**'
     - '!develop'
     - '!release/3.4.x'
-    - '!feature/GH-12615'
   push:
     branches:
       - develop
       - release/3.4.x
-      - feature/GH-12615
 name: Hosting service - Deploy
 jobs:
   hostingServiceDeploy:
