@@ -19,7 +19,6 @@ import {
   OrderEntry,
   PaymentDetails,
   PromotionLocation,
-  PromotionResult,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
