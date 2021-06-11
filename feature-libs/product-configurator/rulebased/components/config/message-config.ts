@@ -1,11 +1,14 @@
-export abstract class MessageConfig {
-  productConfigurator: {
-    updateConfigurationMessage?: {
-      waitingTime?: number;
-    };
+interface ProductConfiguratorMessageConfig {
+  updateConfigurationMessage?: {
+    waitingTime?: number;
   };
 }
 
-declare module '@spartacus/core' {
-  interface Config extends MessageConfig {}
+export abstract class MessageConfig {
+  productConfigurator?: ProductConfiguratorMessageConfig;
+}
+
+declare module '@spartacus/product-configurator/rulebased/root' {
+  interface ProductConfiguratorConfig
+    extends ProductConfiguratorMessageConfig {}
 }

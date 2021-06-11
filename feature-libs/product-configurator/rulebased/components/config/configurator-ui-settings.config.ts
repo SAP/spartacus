@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Config } from '@spartacus/core';
 
+interface ProductConfiguratorUISettingsConfig {
+  updateDebounceTime?: {
+    quantity?: number;
+    input?: number;
+  };
+}
+
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
 })
 export abstract class ConfiguratorUISettingsConfig {
-  productConfigurator?: {
-    updateDebounceTime?: {
-      quantity?: number;
-      input?: number;
-    };
-  };
+  productConfigurator?: ProductConfiguratorUISettingsConfig;
 }
 
-declare module '@spartacus/core' {
-  interface Config extends ConfiguratorUISettingsConfig {}
+declare module '@spartacus/product-configurator/rulebased/root' {
+  interface ProductConfiguratorConfig
+    extends ProductConfiguratorUISettingsConfig {}
 }
