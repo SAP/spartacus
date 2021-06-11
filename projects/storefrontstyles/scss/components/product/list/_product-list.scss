@@ -49,7 +49,15 @@
 
   .cx-sort-dropdown {
     height: 48px;
-
+    align-items: center;
+    display: flex;
+    span {
+      margin-right: 0.5rem;
+      flex: none;
+    }
+    cx-sorting {
+      width: -webkit-fill-available;
+    }
     .ng-arrow-wrapper {
       padding-inline-end: 35px;
     }
