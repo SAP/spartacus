@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -10,11 +9,11 @@ import { OrderDetailsService } from '../order-details.service';
 export class OrderDetailActionsComponent {
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
-  order$: Observable<any> = this.orderDetailsService
-    .getOrderDetails()
-    .pipe(map((order) => (Object.keys(order).length ? order : null)));
-
-  isLoading$ = this.orderDetailsService
+  state$ = this.orderDetailsService
     .getOrderDetailsState()
-    .pipe(map((state) => state.loading));
+    .pipe(tap((data: any) => console.log(data)));
+
+  isValidOrder(data: any): boolean {
+    return Object.keys(data).length ? data : null;
+  }
 }
