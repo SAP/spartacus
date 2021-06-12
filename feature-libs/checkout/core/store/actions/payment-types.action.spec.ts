@@ -1,6 +1,6 @@
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import { CheckoutActions } from '../actions/index';
-import { PROCESS_FEATURE, GET_PAYMENT_TYPES_PROCESS_ID } from '@spartacus/core';
-import { StateUtils } from '@spartacus/core';
+import { GET_PAYMENT_TYPES_PROCESS_ID } from '../checkout-state';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
