@@ -58,7 +58,7 @@ export class UserAddressesEffects {
       return this.userAddressConnector
         .update(payload.userId, payload.addressId, payload.address)
         .pipe(
-          map((data) => {
+          map((_data) => {
             // don't show the message if just setting address as default
             if (
               payload.address &&
@@ -73,7 +73,10 @@ export class UserAddressesEffects {
               );
               return new UserActions.LoadUserAddresses(payload.userId);
             } else {
-              return new UserActions.UpdateUserAddressSuccess(data);
+              return new UserActions.UpdateUserAddressSuccess({
+                address: payload.address,
+                addressId: payload.addressId,
+              });
             }
           }),
           catchError((error) =>
@@ -91,8 +94,8 @@ export class UserAddressesEffects {
       return this.userAddressConnector
         .delete(payload.userId, payload.addressId)
         .pipe(
-          map((data) => {
-            return new UserActions.DeleteUserAddressSuccess(data);
+          map((_data) => {
+            return new UserActions.DeleteUserAddressSuccess(payload.addressId);
           }),
           catchError((error) =>
             of(new UserActions.DeleteUserAddressFail(normalizeHttpError(error)))
