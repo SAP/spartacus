@@ -3,9 +3,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { CxEvent } from '../../event/cx-event';
 import { EventService } from '../../event/event.service';
 import {
-  UserAddressDeleteEvent,
-  UserAddressSetAsDefaultEvent,
-  UserAddressUpdateEvent,
+  DeleteUserAddressSuccessEvent,
+  SetDefaultUserAddressSuccessEvent,
+  UpdateUserAddressSuccessEvent,
 } from '../../user/events';
 import { CheckoutDeliveryService } from '../facade/checkout-delivery.service';
 import { CheckoutEventListener } from './checkout-event.listener';
@@ -44,25 +44,25 @@ describe('CheckoutEventListener', () => {
     checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
   });
 
-  it('Should UserAddressUpdateEvent trigger clearCheckoutDeliveryDetails', () => {
+  it('Should UpdateUserAddressSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new UserAddressUpdateEvent());
+    mockEventStream$.next(new UpdateUserAddressSuccessEvent());
     expect(
       checkoutDeliveryService.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();
   });
 
-  it('Should UserAddressDeleteEvent trigger clearCheckoutDeliveryDetails', () => {
+  it('Should DeleteUserAddressSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new UserAddressDeleteEvent());
+    mockEventStream$.next(new DeleteUserAddressSuccessEvent());
     expect(
       checkoutDeliveryService.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();
   });
 
-  it('Should UserAddressSetAsDefaultEvent trigger clearCheckoutDeliveryDetails', () => {
+  it('Should SetDefaultUserAddressSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new UserAddressSetAsDefaultEvent());
+    mockEventStream$.next(new SetDefaultUserAddressSuccessEvent());
     expect(
       checkoutDeliveryService.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();

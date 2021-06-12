@@ -6,9 +6,9 @@ import { take } from 'rxjs/operators';
 import { UserActions } from '../store';
 import { UserEventBuilder } from './user-event.builder';
 import {
-  UserAddressCreateEvent,
-  UserAddressDeleteEvent,
-  UserAddressUpdateEvent,
+  AddUserAddressSuccessEvent,
+  DeleteUserAddressSuccessEvent,
+  UpdateUserAddressSuccessEvent,
 } from './user.events';
 
 interface ActionWithPayload extends Action {
@@ -32,11 +32,11 @@ describe('UserEventBuilder', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  it('UserAddressUpdateEvent', (done) => {
+  it('UpdateUserAddressSuccessEvent', (done) => {
     const payload: any = { test: 'test' };
 
     eventService
-      .get(UserAddressUpdateEvent)
+      .get(UpdateUserAddressSuccessEvent)
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual(jasmine.objectContaining(payload));
@@ -46,11 +46,11 @@ describe('UserEventBuilder', () => {
     actions$.next({ type: UserActions.UPDATE_USER_ADDRESS_SUCCESS, payload });
   });
 
-  it('UserAddressCreateEvent', (done) => {
+  it('AddUserAddressSuccessEvent', (done) => {
     const payload: any = { test: 'test' };
 
     eventService
-      .get(UserAddressCreateEvent)
+      .get(AddUserAddressSuccessEvent)
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual(jasmine.objectContaining(payload));
@@ -60,11 +60,11 @@ describe('UserEventBuilder', () => {
     actions$.next({ type: UserActions.ADD_USER_ADDRESS_SUCCESS, payload });
   });
 
-  it('UserAddressDeleteEvent', (done) => {
+  it('DeleteUserAddressSuccessEvent', (done) => {
     const payload: any = { test: 'test' };
 
     eventService
-      .get(UserAddressDeleteEvent)
+      .get(DeleteUserAddressSuccessEvent)
       .pipe(take(1))
       .subscribe((result) => {
         expect(result).toEqual(jasmine.objectContaining(payload));

@@ -10,7 +10,7 @@ import {
 import { Address } from '../../../model/address.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
-import { UserAddressSetAsDefaultEvent } from '../../events/user.events';
+import { SetDefaultUserAddressSuccessEvent } from '../../events/user.events';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';
 
@@ -65,11 +65,11 @@ export class UserAddressesEffects {
               Object.keys(payload.address).length === 1 &&
               payload.address.defaultAddress
             ) {
-              this.eventService.dispatch<UserAddressSetAsDefaultEvent>(
+              this.eventService.dispatch<SetDefaultUserAddressSuccessEvent>(
                 {
                   addressId: payload.addressId,
                 },
-                UserAddressSetAsDefaultEvent
+                SetDefaultUserAddressSuccessEvent
               );
               return new UserActions.LoadUserAddresses(payload.userId);
             } else {

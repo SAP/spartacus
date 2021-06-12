@@ -3,10 +3,10 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { EventService } from '../../event/event.service';
 import {
-  UserAddressDeleteEvent,
+  DeleteUserAddressSuccessEvent,
   UserAddressEvent,
-  UserAddressSetAsDefaultEvent,
-  UserAddressUpdateEvent,
+  SetDefaultUserAddressSuccessEvent,
+  UpdateUserAddressSuccessEvent,
 } from '../../user/events/user.events';
 import { CheckoutDeliveryService } from '../facade/checkout-delivery.service';
 
@@ -33,9 +33,9 @@ export class CheckoutEventListener implements OnDestroy {
         .pipe(
           filter((event) => {
             return (
-              event instanceof UserAddressUpdateEvent ||
-              event instanceof UserAddressDeleteEvent ||
-              event instanceof UserAddressSetAsDefaultEvent
+              event instanceof UpdateUserAddressSuccessEvent ||
+              event instanceof DeleteUserAddressSuccessEvent ||
+              event instanceof SetDefaultUserAddressSuccessEvent
             );
           })
         )

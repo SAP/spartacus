@@ -8,7 +8,7 @@ import { Address } from '../../../model/address.model';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { UserAddressAdapter } from '../../connectors/address/user-address.adapter';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
-import { UserAddressSetAsDefaultEvent } from '../../events/user.events';
+import { SetDefaultUserAddressSuccessEvent } from '../../events/user.events';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';
 import * as fromUserAddressesEffect from './user-addresses.effect';
@@ -135,7 +135,7 @@ describe('User Addresses effect', () => {
         {
           addressId: '123',
         },
-        UserAddressSetAsDefaultEvent
+        SetDefaultUserAddressSuccessEvent
       );
     });
   });

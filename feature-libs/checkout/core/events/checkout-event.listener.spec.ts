@@ -6,10 +6,10 @@ import {
 import { ClearCheckoutFacade } from '@spartacus/checkout/root';
 import {
   CxEvent,
+  DeleteUserAddressSuccessEvent,
   EventService,
-  UserAddressDeleteEvent,
-  UserAddressSetAsDefaultEvent,
-  UserAddressUpdateEvent,
+  SetDefaultUserAddressSuccessEvent,
+  UpdateUserAddressSuccessEvent,
 } from '@spartacus/core';
 import { CheckoutDeliveryFacade } from 'feature-libs/checkout/root/facade/checkout-delivery.facade';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -58,25 +58,25 @@ describe('CheckoutEventListener', () => {
     clearCheckoutFacade = TestBed.inject(ClearCheckoutFacade);
   });
 
-  it('Should UserAddressUpdateEvent trigger clearCheckoutDeliveryDetails', () => {
+  it('Should UpdateUserAddressSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryFacade, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new UserAddressUpdateEvent());
+    mockEventStream$.next(new UpdateUserAddressSuccessEvent());
     expect(
       checkoutDeliveryFacade.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();
   });
 
-  it('Should UserAddressDeleteEvent trigger clearCheckoutDeliveryDetails', () => {
+  it('Should DeleteUserAddressSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryFacade, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new UserAddressDeleteEvent());
+    mockEventStream$.next(new DeleteUserAddressSuccessEvent());
     expect(
       checkoutDeliveryFacade.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();
   });
 
-  it('Should UserAddressSetAsDefaultEvent trigger clearCheckoutDeliveryDetails', () => {
+  it('Should SetDefaultUserAddressSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryFacade, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new UserAddressSetAsDefaultEvent());
+    mockEventStream$.next(new SetDefaultUserAddressSuccessEvent());
     expect(
       checkoutDeliveryFacade.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();
