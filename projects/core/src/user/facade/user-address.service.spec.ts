@@ -3,7 +3,6 @@ import { Store, StoreModule } from '@ngrx/store';
 import { Observable, of, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { EventService } from '../../event/event.service';
 import {
   Address,
   AddressValidation,
@@ -14,12 +13,6 @@ import { OCC_USER_ID_CURRENT } from '../../occ/utils/occ-constants';
 import { PROCESS_FEATURE } from '../../process/store/process-state';
 import * as fromProcessReducers from '../../process/store/reducers';
 import { UserAddressConnector } from '../connectors/address/user-address.connector';
-import {
-  UserAddressCreateEvent,
-  UserAddressDeleteEvent,
-  UserAddressSetAsDefaultEvent,
-  UserAddressUpdateEvent,
-} from '../events/user.events';
 import { UserActions } from '../store/actions/index';
 import * as fromStoreReducers from '../store/reducers/index';
 import { StateWithUser, USER_FEATURE } from '../store/user-state';
@@ -60,15 +53,10 @@ const mockAddress: Address = {
   country: { isocode: 'JP' },
 };
 
-class MockEventService {
-  dispatch = jasmine.createSpy();
-}
-
 describe('UserAddressService', () => {
   let service: UserAddressService;
   let store: Store<StateWithUser>;
   let userAddressConnector: UserAddressConnector;
-  let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -84,10 +72,6 @@ describe('UserAddressService', () => {
         UserAddressService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: UserAddressConnector, useClass: MockUserAddressConnector },
-        {
-          provide: EventService,
-          useClass: MockEventService,
-        },
       ],
     });
 
@@ -95,7 +79,6 @@ describe('UserAddressService', () => {
     spyOn(store, 'dispatch').and.callThrough();
     service = TestBed.inject(UserAddressService);
     userAddressConnector = TestBed.inject(UserAddressConnector);
-    eventService = TestBed.inject(EventService);
   });
 
   it('should UserAddressService is injected', inject(
@@ -201,12 +184,6 @@ describe('UserAddressService', () => {
         address: mockAddress,
       })
     );
-    expect(eventService.dispatch).toHaveBeenCalledWith(
-      {
-        address: mockAddress,
-      },
-      UserAddressCreateEvent
-    );
   });
 
   it('should be able to update user address', () => {
@@ -222,13 +199,6 @@ describe('UserAddressService', () => {
         address: mockAddressUpdate,
       })
     );
-    expect(eventService.dispatch).toHaveBeenCalledWith(
-      {
-        addressId: '123',
-        address: mockAddressUpdate,
-      },
-      UserAddressUpdateEvent
-    );
   });
 
   it('should be able to delete user address', () => {
@@ -238,12 +208,6 @@ describe('UserAddressService', () => {
         userId: OCC_USER_ID_CURRENT,
         addressId: '123',
       })
-    );
-    expect(eventService.dispatch).toHaveBeenCalledWith(
-      {
-        addressId: '123',
-      },
-      UserAddressDeleteEvent
     );
   });
 
@@ -257,12 +221,6 @@ describe('UserAddressService', () => {
           defaultAddress: true,
         },
       })
-    );
-    expect(eventService.dispatch).toHaveBeenCalledWith(
-      {
-        addressId: '123',
-      },
-      UserAddressSetAsDefaultEvent
     );
   });
 

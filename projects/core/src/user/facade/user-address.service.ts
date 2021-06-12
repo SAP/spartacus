@@ -3,7 +3,6 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
-import { EventService } from '../../event/event.service';
 import {
   Address,
   AddressValidation,
@@ -16,12 +15,6 @@ import {
   CommandService,
 } from '../../util/command-query/command.service';
 import { UserAddressConnector } from '../connectors/address/user-address.connector';
-import {
-  UserAddressCreateEvent,
-  UserAddressDeleteEvent,
-  UserAddressSetAsDefaultEvent,
-  UserAddressUpdateEvent,
-} from '../events/user.events';
 import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { StateWithUser } from '../store/user-state';
@@ -34,8 +27,7 @@ export class UserAddressService {
     protected store: Store<StateWithUser | StateWithProcess<void>>,
     protected userIdService: UserIdService,
     protected userAddressConnector: UserAddressConnector,
-    protected command: CommandService,
-    protected eventService: EventService
+    protected command: CommandService
   ) {}
 
   /**
@@ -60,12 +52,6 @@ export class UserAddressService {
         })
       );
     });
-    this.eventService.dispatch<UserAddressCreateEvent>(
-      {
-        address,
-      },
-      UserAddressCreateEvent
-    );
   }
 
   /**
@@ -82,13 +68,6 @@ export class UserAddressService {
         })
       );
     });
-
-    this.eventService.dispatch<UserAddressSetAsDefaultEvent>(
-      {
-        addressId,
-      },
-      UserAddressSetAsDefaultEvent
-    );
   }
 
   /**
@@ -106,14 +85,6 @@ export class UserAddressService {
         })
       );
     });
-
-    this.eventService.dispatch<UserAddressUpdateEvent>(
-      {
-        addressId,
-        address,
-      },
-      UserAddressUpdateEvent
-    );
   }
 
   /**
@@ -129,13 +100,6 @@ export class UserAddressService {
         })
       );
     });
-
-    this.eventService.dispatch<UserAddressDeleteEvent>(
-      {
-        addressId,
-      },
-      UserAddressDeleteEvent
-    );
   }
 
   /**

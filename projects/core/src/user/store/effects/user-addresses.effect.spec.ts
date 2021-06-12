@@ -2,11 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { EventService } from '../../../event/event.service';
 import { GlobalMessageService } from '../../../global-message/index';
 import { Address } from '../../../model/address.model';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { UserAddressAdapter } from '../../connectors/address/user-address.adapter';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
+import { UserAddressSetAsDefaultEvent } from '../../events/user.events';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';
 import * as fromUserAddressesEffect from './user-addresses.effect';
@@ -17,6 +19,10 @@ class MockUserAddressService {
 
 class MockGlobalMessageService {
   add = jasmine.createSpy();
+}
+
+class MockEventService {
+  dispatch = jasmine.createSpy();
 }
 
 const mockUserAddresses: Address[] = [{ id: 'address123' }];
@@ -36,6 +42,7 @@ describe('User Addresses effect', () => {
   let userAddressesEffect: fromUserAddressesEffect.UserAddressesEffects;
   let userAddressConnector: UserAddressConnector;
   let actions$: Observable<any>;
+  let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -45,6 +52,10 @@ describe('User Addresses effect', () => {
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         provideMockActions(() => actions$),
+        {
+          provide: EventService,
+          useClass: MockEventService,
+        },
       ],
     });
 
@@ -52,6 +63,7 @@ describe('User Addresses effect', () => {
       fromUserAddressesEffect.UserAddressesEffects
     );
     userAddressConnector = TestBed.inject(UserAddressConnector);
+    eventService = TestBed.inject(EventService);
 
     spyOn(userAddressConnector, 'getAll').and.returnValue(
       of(mockUserAddresses)
@@ -104,6 +116,27 @@ describe('User Addresses effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(userAddressesEffect.updateUserAddress$).toBeObservable(expected);
+    });
+
+    it('should set address as default', () => {
+      const action = new UserActions.UpdateUserAddress({
+        userId: OCC_USER_ID_CURRENT,
+        addressId: '123',
+        address: {
+          defaultAddress: true,
+        },
+      });
+      const completion = new UserActions.LoadUserAddresses(OCC_USER_ID_CURRENT);
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: completion });
+      expect(userAddressesEffect.updateUserAddress$).toBeObservable(expected);
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {
+          addressId: '123',
+        },
+        UserAddressSetAsDefaultEvent
+      );
     });
   });
 

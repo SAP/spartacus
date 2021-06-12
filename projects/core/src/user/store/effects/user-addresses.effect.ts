@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
+import { EventService } from '../../../event/event.service';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -9,6 +10,7 @@ import {
 import { Address } from '../../../model/address.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
+import { UserAddressSetAsDefaultEvent } from '../../events/user.events';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';
 
@@ -63,6 +65,12 @@ export class UserAddressesEffects {
               Object.keys(payload.address).length === 1 &&
               payload.address.defaultAddress
             ) {
+              this.eventService.dispatch<UserAddressSetAsDefaultEvent>(
+                {
+                  addressId: payload.addressId,
+                },
+                UserAddressSetAsDefaultEvent
+              );
               return new UserActions.LoadUserAddresses(payload.userId);
             } else {
               return new UserActions.UpdateUserAddressSuccess(data);
@@ -133,7 +141,8 @@ export class UserAddressesEffects {
     private actions$: Actions,
     private userAddressConnector: UserAddressConnector,
     private userAddressService: UserAddressService,
-    private messageService: GlobalMessageService
+    private messageService: GlobalMessageService,
+    private eventService: EventService
   ) {}
 
   /**
