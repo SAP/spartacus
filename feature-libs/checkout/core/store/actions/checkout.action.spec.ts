@@ -5,15 +5,10 @@ import {
   Order,
   PaymentDetails,
   PROCESS_FEATURE,
-  SET_COST_CENTER_PROCESS_ID,
-  SET_DELIVERY_ADDRESS_PROCESS_ID,
-  SET_DELIVERY_MODE_PROCESS_ID,
-  SET_PAYMENT_DETAILS_PROCESS_ID,
-  SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
 } from '@spartacus/core';
 import { StateUtils } from '@spartacus/core';
 import { CheckoutActions } from '../actions/index';
-import { PLACED_ORDER_PROCESS_ID } from '../checkout-state';
+import { PLACED_ORDER_PROCESS_ID, SET_COST_CENTER_PROCESS_ID, SET_DELIVERY_ADDRESS_PROCESS_ID, SET_DELIVERY_MODE_PROCESS_ID, SET_PAYMENT_DETAILS_PROCESS_ID, SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID } from '../checkout-state';
 
 const userId = 'testUserId';
 const cartId = 'testCartId';
