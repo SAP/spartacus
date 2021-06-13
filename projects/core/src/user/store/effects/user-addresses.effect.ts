@@ -10,7 +10,12 @@ import {
 import { Address } from '../../../model/address.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
-import { SetDefaultUserAddressSuccessEvent } from '../../events/user.events';
+import {
+  AddUserAddressSuccessEvent,
+  DeleteUserAddressSuccessEvent,
+  SetDefaultUserAddressSuccessEvent,
+  UpdateUserAddressSuccessEvent,
+} from '../../events/user.events';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';
 
@@ -41,6 +46,13 @@ export class UserAddressesEffects {
         .add(payload.userId, payload.address)
         .pipe(
           map((data: any) => {
+            this.eventService.dispatch<AddUserAddressSuccessEvent>(
+              {
+                address: data as Address,
+              },
+              AddUserAddressSuccessEvent
+            );
+
             return new UserActions.AddUserAddressSuccess(data);
           }),
           catchError((error) =>
@@ -73,6 +85,13 @@ export class UserAddressesEffects {
               );
               return new UserActions.LoadUserAddresses(payload.userId);
             } else {
+              this.eventService.dispatch<UpdateUserAddressSuccessEvent>(
+                {
+                  addressId: payload.addressId,
+                  address: payload.address,
+                },
+                UpdateUserAddressSuccessEvent
+              );
               return new UserActions.UpdateUserAddressSuccess(data);
             }
           }),
@@ -92,6 +111,12 @@ export class UserAddressesEffects {
         .delete(payload.userId, payload.addressId)
         .pipe(
           map((data) => {
+            this.eventService.dispatch<DeleteUserAddressSuccessEvent>(
+              {
+                addressId: payload.addressId,
+              },
+              DeleteUserAddressSuccessEvent
+            );
             return new UserActions.DeleteUserAddressSuccess(data);
           }),
           catchError((error) =>

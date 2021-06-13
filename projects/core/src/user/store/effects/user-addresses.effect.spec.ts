@@ -8,7 +8,12 @@ import { Address } from '../../../model/address.model';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { UserAddressAdapter } from '../../connectors/address/user-address.adapter';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
-import { SetDefaultUserAddressSuccessEvent } from '../../events/user.events';
+import {
+  AddUserAddressSuccessEvent,
+  DeleteUserAddressSuccessEvent,
+  SetDefaultUserAddressSuccessEvent,
+  UpdateUserAddressSuccessEvent,
+} from '../../events/user.events';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';
 import * as fromUserAddressesEffect from './user-addresses.effect';
@@ -99,6 +104,12 @@ describe('User Addresses effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(userAddressesEffect.addUserAddress$).toBeObservable(expected);
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {
+          address: {},
+        },
+        AddUserAddressSuccessEvent
+      );
     });
   });
 
@@ -116,6 +127,15 @@ describe('User Addresses effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: completion });
       expect(userAddressesEffect.updateUserAddress$).toBeObservable(expected);
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {
+          addressId: '123',
+          address: {
+            firstName: 'test',
+          },
+        },
+        UpdateUserAddressSuccessEvent
+      );
     });
 
     it('should set address as default', () => {
@@ -151,6 +171,12 @@ describe('User Addresses effect', () => {
 
       const expected = cold('-b', { b: completion });
       expect(userAddressesEffect.deleteUserAddress$).toBeObservable(expected);
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {
+          addressId: 'address123',
+        },
+        DeleteUserAddressSuccessEvent
+      );
     });
   });
 });

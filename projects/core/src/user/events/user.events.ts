@@ -20,4 +20,5 @@ export class SetDefaultUserAddressSuccessEvent extends UserAddressEvent {
 
 export class AddUserAddressSuccessEvent extends UserAddressEvent {
   static readonly type = 'AddUserAddressSuccessEvent';
+  address: Address;
 }
