@@ -268,12 +268,12 @@ describe('SearchBoxComponent', () => {
       it('should clear when clicking on clear button', () => {
         searchBoxComponent.queryText = 'something';
         fixture.detectChanges();
-
         fixture.debugElement.query(By.css('.reset')).nativeElement.click();
 
         const box = fixture.debugElement.query(
-          By.css('input[aria-label="Search"]')
+          By.css('input[aria-label="common.ariaLabel.search"]')
         ).nativeElement;
+
         expect(box.value).toBe('');
         expect(box).toBe(getFocusedElement());
       });
@@ -337,7 +337,7 @@ describe('SearchBoxComponent', () => {
 
         // Focus should begin on searchbox input
         const inputSearchBox: HTMLElement = fixture.debugElement.query(
-          By.css('input[aria-label="Search"]')
+          By.css('input[aria-label="common.ariaLabel.search"]')
         ).nativeElement;
         inputSearchBox.focus();
         expect(inputSearchBox).toBe(getFocusedElement());
