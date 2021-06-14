@@ -255,10 +255,10 @@ export function addLibraryFeature<T extends LibraryOptions>(
       options.project
     );
     if (!spartacusFeatureModuleExists) {
-      context.logger.warn(
-        'Please migrate manually to new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/ and add the library once again. Old app structure is no longer supported.'
-      );
       context.logger.info('Scaffolding the new app structure...');
+      context.logger.warn(
+        'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
+      );
     }
     return chain([
       spartacusFeatureModuleExists ? noop() : scaffoldStructure(options),
