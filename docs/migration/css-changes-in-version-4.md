@@ -87,3 +87,49 @@ title: Changes to Styles in 4.0
 * `width` set to 40% on `%cx-configurator-overview-attribute` for `cx-attribute-value` selector to use only 40% of the width for the small widgets.
 
 * `width` set to 60% on `%cx-configurator-overview-attribute` for `cx-attribute-label` selector to use only 60% of the width for the small widgets.
+
+## Change in Cart Item Component
+* `h2` added under `.cx-name` to account for the change in markup template for improved screen reader support (a11y)
+
+## Changes in Order Summary Component 
+* `h4` changed to `h3` to account for the change in markup template for improved screen reader support (a11y)
+
+## Changes in Review Submit Component
+* `type(3)` added `.cx-review-title` class to retain previous style after changes in the markup template
+
+## Changes in `_index.scss` 
+* new component `cx-page-header` added to allow list (a11y)
+
+## Changed in Category Navigation Component 
+* `h5` changed to `span` to account for the change in markup template for improved screen reader support (a11y) 
+* `nav.is-open > h5` changed to `li.is-open > span` to remove headings from category navigation for improved categorization in screen reader elements dialog (a11y)
+
+## Changes in Footer Navigation Component 
+* `h5` changed to `span` under `.flyout`, `@include media-breakpoint-down(md)`, `nav` and `nav >` to account for the change in markup template for improved screen reader support (a11y)
+
+## Card Component 
+* `.cx-card-title` class added (a11y)
+
+## Carousel Component 
+* `h3` changed to `h2` to account for the change in markup template for improved screen reader support (a11y)
+
+## Product Carousel Component
+* `h4` changed to `h3` to account for the change in markup template for improved screen reader support (a11y)
+
+## Product List Item Component 
+* `h2` added to account for the change in markup template for improved screen reader support (a11y)
+
+## Wish List Item Component 
+* `h2` added to account for the change in markup template for improved screen reader support (a11y)
+
+## Checkout Media Style Component 
+* `type(3)` and `font-weight` added to retain existing styling after change in markup template for improved screen reader support (a11y)
+
+## `_index.scss` Changes 
+* `_screen-reader.scss` added which will contain screen reader specific styles (a11y)
+
+## `_screen-reader.scss` Changes 
+* `.cx-visually-hidden` class added. This class can be utilized to hide elements specific for Screen Reader announcement and narration (a11y)
+
+
+
