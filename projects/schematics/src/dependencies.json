@@ -46,9 +46,10 @@
     "bootstrap": "^4.0"
   },
   "@spartacus/setup": {
+    "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2"
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/storefront": "3.4.0-rc.0"
   },
   "@spartacus/asm": {
     "@angular-devkit/schematics": "^10.2.1",
@@ -57,9 +58,9 @@
     "@angular/forms": "^10.2.4",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
+    "@spartacus/storefront": "3.4.0-rc.0",
     "rxjs": "^6.6.0"
   },
   "@spartacus/cart": {
@@ -70,10 +71,10 @@
     "@angular/router": "^10.1.0",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2",
-    "@spartacus/styles": "3.2.0-next.2",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
+    "@spartacus/storefront": "3.4.0-rc.0",
+    "@spartacus/styles": "3.4.0-rc.0",
     "bootstrap": "^4.0",
     "rxjs": "^6.6.0"
   },
@@ -86,9 +87,9 @@
     "@ng-select/ng-select": "^5.0.9",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
+    "@spartacus/storefront": "3.4.0-rc.0",
     "bootstrap": "^4.0",
     "rxjs": "^6.6.0"
   },
@@ -97,9 +98,9 @@
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
     "@angular/router": "^10.1.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
+    "@spartacus/storefront": "3.4.0-rc.0",
     "bootstrap": "^4.0",
     "rxjs": "^6.6.0"
   },
@@ -112,18 +113,18 @@
     "@ng-select/ng-select": "^5.0.9",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2",
-    "@spartacus/styles": "3.2.0-next.2",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
+    "@spartacus/storefront": "3.4.0-rc.0",
+    "@spartacus/styles": "3.4.0-rc.0",
     "rxjs": "^6.6.0"
   },
   "@spartacus/qualtrics": {
     "@angular-devkit/schematics": "^10.1.0",
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
     "bootstrap": "^4.0",
     "rxjs": "^6.6.0"
   },
@@ -131,8 +132,8 @@
     "@angular-devkit/schematics": "^10.1.0",
     "@angular/common": "^10.1.0",
     "@angular/core": "^10.1.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
     "rxjs": "^6.6.0"
   },
   "@spartacus/storefinder": {
@@ -144,9 +145,9 @@
     "@ng-bootstrap/ng-bootstrap": "^7.0.0",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
+    "@spartacus/storefront": "3.4.0-rc.0",
     "bootstrap": "^4.3.1",
     "rxjs": "^6.6.0"
   },
@@ -154,8 +155,8 @@
     "@angular-devkit/schematics": "^10.2.1",
     "@angular/common": "^10.2.4",
     "@angular/core": "^10.1.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
     "rxjs": "^6.6.0"
   },
   "@spartacus/user": {
@@ -165,10 +166,10 @@
     "@angular/forms": "^10.1.0",
     "@angular/router": "^10.1.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2",
-    "@spartacus/styles": "3.2.0-next.2",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
+    "@spartacus/storefront": "3.4.0-rc.0",
+    "@spartacus/styles": "3.4.0-rc.0",
     "rxjs": "^6.6.0"
   },
   "@spartacus/cdc": {
@@ -178,11 +179,11 @@
     "@angular/router": "^10.1.0",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/asm": "3.2.0-next.2",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2",
-    "@spartacus/user": "3.2.0-next.2",
+    "@spartacus/asm": "3.4.0-rc.0",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
+    "@spartacus/storefront": "3.4.0-rc.0",
+    "@spartacus/user": "3.4.0-rc.0",
     "rxjs": "^6.6.0"
   },
   "@spartacus/cds": {
@@ -191,10 +192,10 @@
     "@angular/core": "^10.1.0",
     "@angular/router": "^10.1.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
-    "@spartacus/storefront": "3.2.0-next.2",
-    "@spartacus/tracking": "3.2.0-next.2",
+    "@spartacus/core": "3.4.0-rc.0",
+    "@spartacus/schematics": "3.4.0-rc.0",
+    "@spartacus/storefront": "3.4.0-rc.0",
+    "@spartacus/tracking": "3.4.0-rc.0",
     "rxjs": "^6.6.0"
   },
   "storefrontapp": {
