@@ -63,3 +63,13 @@ export function getWishlistName(customerId: string): string {
 export function isTempCartId(cartId: string): boolean {
   return cartId.startsWith('temp-');
 }
+
+/**
+ * Checks if specified cart id is identified as guid.
+ */
+export function isCartIdGuid(cartId: string) {
+  const regex: RegExp = new RegExp(
+    '^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$'
+  );
+  return regex.test(cartId);
+}
