@@ -30,7 +30,6 @@ import { PaymentMethodComponent } from './payment-method.component';
     }),
   ],
   declarations: [PaymentMethodComponent],
-  entryComponents: [PaymentMethodComponent],
   exports: [PaymentMethodComponent],
 })
 export class PaymentMethodModule {}

@@ -1,0 +1,270 @@
+.santorini {
+  --cx-color-background: #f1f1f1;
+  --cx-color-text: #212738;
+  --cx-color-inverse: #ffffff;
+  --cx-color-transparent: transparent;
+  --cx-color-primary: #2480c5;
+  --cx-color-secondary: #a1aabf;
+  --cx-buttons-border-radius: 27px;
+  --cx-buttons-border-width: 3px;
+  --cx-color-dark: #212738;
+  --cx-button-text-transform: uppercase;
+  --cx-spinner-primary-color: #2480c5;
+  --cx-text-decoration: underline;
+
+  cx-page-layout.CompanyPageTemplate cx-banner cx-media {
+    --cx-img-filter: invert(46%) sepia(9%) saturate(3655%) hue-rotate(163deg)
+      brightness(94%) contrast(96%);
+  }
+
+  header .SiteLinks {
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  .btn-link:hover {
+    color: var(--cx-color-primary);
+  }
+
+  cx-site-context-selector {
+    select {
+      background-color: var(--cx-color-background);
+      color: var(--cx-color-text);
+    }
+    cx-icon {
+      color: var(--cx-color-text);
+    }
+  }
+
+  header {
+    background-color: var(--cx-color-background);
+
+    @include media-breakpoint-up(lg) {
+      background: linear-gradient(
+        to top,
+        var(--cx-color-dark) 67px,
+        var(--cx-color-background) 0
+      );
+    }
+
+    cx-link a {
+      color: var(--cx-color-primary);
+    }
+
+    .NavigationBar {
+      @include media-breakpoint-up(lg) {
+        background-color: var(--cx-color-dark);
+      }
+    }
+
+    .hamburger-inner,
+    .hamburger-inner::before,
+    .hamburger-inner::after {
+      background-color: var(--cx-color-primary);
+    }
+  }
+
+  cx-breadcrumb {
+    box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
+    @include media-breakpoint-up(lg) {
+      box-shadow: none;
+    }
+  }
+
+  cx-searchbox {
+    > * {
+      @include media-breakpoint-up(md) {
+        background-color: var(--cx-color-inverse);
+      }
+    }
+    label {
+      border: 0 none;
+      @include media-breakpoint-up(md) {
+        border: 1px solid var(--cx-color-secondary);
+      }
+
+      input,
+      cx-icon {
+        color: var(--cx-color-primary);
+        @include media-breakpoint-up(md) {
+          color: var(--cx-color-secondary);
+        }
+      }
+    }
+  }
+
+  cx-login {
+    .cx-login-greet,
+    cx-navigation-ui.flyout h5 {
+      color: var(--cx-color-text);
+    }
+  }
+
+  cx-breadcrumb nav span a {
+    color: var(--cx-color-primary);
+  }
+
+  cx-saved-cart-list {
+    .cx-saved-cart-list-cart-name {
+      .cx-saved-cart-list-value {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  cx-add-to-saved-cart-container {
+    .cx-action-link {
+      color: var(--cx-color-primary);
+      @include type('6');
+    }
+  }
+
+  .cx-action-link {
+    color: var(--cx-color-primary);
+  }
+
+  cx-saved-cart-details-items .cx-total,
+  cx-cart-details .cx-total {
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  cx-cart-item-list .cx-item-list-header,
+  cx-wish-list .cx-item-list-header {
+    color: var(--cx-color-text);
+  }
+
+  cx-cart-item .cx-code,
+  cx-product-intro .code {
+    color: var(--cx-color-text);
+  }
+
+  cx-cart-item {
+    .cx-actions {
+      button.link {
+        color: var(--cx-color-primary);
+        font-weight: var(--cx-font-weight-semi);
+        @include type('6');
+      }
+    }
+
+    .cx-name .cx-link {
+      font-weight: var(--cx-font-weight-semi);
+      color: var(--cx-color-primary);
+      text-decoration: var(--cx-text-decoration);
+    }
+
+    .cx-compact {
+      .cx-price {
+        .cx-value,
+        .cx-label {
+          font-size: var(--cx-font-size);
+        }
+      }
+    }
+  }
+
+  cx-facet a.selected {
+    color: var(--cx-color-primary);
+  }
+
+  a.btn {
+    line-height: var(--cx-line-height, 1.6);
+  }
+
+  .btn {
+    @include type('5');
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  button.btn-outline-text,
+  button.btn-action,
+  a.btn-outline-text,
+  a.btn-action {
+    color: var(--cx-color-primary);
+    border-color: var(--cx-color-primary);
+    background-color: var(--cx-color-inverse);
+    border-width: var(--cx-buttons-border-width);
+  }
+
+  .btn-action,
+  .btn-outline-text {
+    &:hover {
+      border-width: var(--cx-buttons-border-width);
+    }
+  }
+
+  a.btn-primary,
+  button.btn-primary {
+    background-color: var(--cx-color-primary);
+    border-color: var(--cx-color-primary);
+  }
+
+  cx-add-to-cart .quantity .info {
+    color: var(--cx-color-text);
+    @include type('8');
+  }
+
+  cx-order-history {
+    .cx-order-history-code .cx-order-history-value {
+      color: var(--cx-color-primary);
+      font-weight: var(--cx-font-weight-semi);
+    }
+  }
+
+  %cx-pagination {
+    a {
+      @include type('4');
+      font-weight: var(--cx-font-weight-normal);
+
+      &.current {
+        font-weight: var(--cx-font-weight-bold);
+      }
+    }
+  }
+
+  cx-item-counter {
+    button {
+      font-size: var(--cx-font-size, 1.25rem);
+    }
+  }
+
+  cx-org-list {
+    button,
+    .btn,
+    a.button,
+    a.link,
+    button.link,
+    .actions .primary {
+      border-radius: var(--cx-buttons-border-radius);
+      padding: 0 25px;
+    }
+  }
+
+  cx-page-layout.CompanyPageTemplate {
+    cx-banner cx-media {
+      img {
+        filter: var(--cx-img-filter);
+      }
+    }
+  }
+
+  cx-facet {
+    a,
+    button {
+      cx-icon {
+        color: var(--cx-color-secondary);
+      }
+    }
+  }
+
+  cx-store-finder-stores-count {
+    .cx-title {
+      color: var(--cx-color-primary);
+    }
+
+    .cx-set {
+      .btn-link {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+}

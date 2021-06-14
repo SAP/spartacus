@@ -11,10 +11,6 @@ export enum OrganizationTableType {
   UNIT_CHILDREN = 'orgUnitChildren',
   UNIT_APPROVERS = 'orgUnitApprovers',
   UNIT_ASSIGNED_APPROVERS = 'orgUnitAssignedApprovers',
-  /**
-   * @deprecated since 3.0, unused value
-   */
-  UNIT_ASSIGNED_ROLES = 'orgUnitAssignRoles',
   UNIT_ADDRESS = 'orgUnitAddress',
   UNIT_COST_CENTERS = 'orgUnitCostCenters',
   USER_GROUP = 'orgUserGroup',

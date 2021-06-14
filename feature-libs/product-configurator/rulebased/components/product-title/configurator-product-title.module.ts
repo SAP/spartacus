@@ -33,6 +33,5 @@ import { ConfiguratorProductTitleComponent } from './configurator-product-title.
   ],
   declarations: [ConfiguratorProductTitleComponent],
   exports: [ConfiguratorProductTitleComponent],
-  entryComponents: [ConfiguratorProductTitleComponent],
 })
 export class ConfiguratorProductTitleModule {}
