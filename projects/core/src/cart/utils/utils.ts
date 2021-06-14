@@ -67,7 +67,7 @@ export function isTempCartId(cartId: string): boolean {
 /**
  * Checks if specified cart id is identified as guid.
  */
-export function isCartIdGuid(cartId: string) {
+export function isCartIdGuid(cartId: string): boolean {
   const regex: RegExp = new RegExp(
     '^[{]?[0-9a-fA-F]{8}-([0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}[}]?$'
   );
