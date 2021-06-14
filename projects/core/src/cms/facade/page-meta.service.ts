@@ -12,51 +12,32 @@ import { CmsService } from './cms.service';
 
 /**
  * Service that collects the page meta data by using injected page resolvers.
- *
- * Deprecation note: with version 4.0, we'll make the optional constructor arguments mandatory.
  */
-// TODO(#10467): Remove and deprecated note.
 @Injectable({
   providedIn: 'root',
 })
 export class PageMetaService {
-  private resolvers$: Observable<PageMetaResolver[]> = this.unifiedInjector
-    ? (this.unifiedInjector
-        .getMulti(PageMetaResolver)
-        .pipe(shareReplay({ bufferSize: 1, refCount: true })) as Observable<
-        PageMetaResolver[]
-      >)
-    : of();
-
-  // TODO(#10467): Drop optional constructor arguments.
   constructor(
     protected cms: CmsService,
-    protected unifiedInjector?: UnifiedInjector,
-    protected pageMetaConfig?: PageMetaConfig,
-    @Inject(PLATFORM_ID) protected platformId?: string
+    protected unifiedInjector: UnifiedInjector,
+    protected pageMetaConfig: PageMetaConfig,
+    @Inject(PLATFORM_ID) protected platformId: string
   ) {}
 
-  /**
-   * The list of resolver interfaces will be evaluated for the pageResolvers.
-   *
-   * @deprecated since 3.1, use the configured resolvers instead from `PageMetaConfig.resolvers`.
-   */
-  // TODO(#10467): Remove and migrate property
-  protected resolverMethods: { [key: string]: string } = {
-    title: 'resolveTitle',
-    heading: 'resolveHeading',
-    description: 'resolveDescription',
-    breadcrumbs: 'resolveBreadcrumbs',
-    image: 'resolveImage',
-    robots: 'resolveRobots',
-  };
+  protected resolvers$: Observable<
+    PageMetaResolver[]
+  > = this.unifiedInjector
+    .getMulti(PageMetaResolver)
+    .pipe(shareReplay({ bufferSize: 1, refCount: true })) as Observable<
+    PageMetaResolver[]
+  >;
 
   protected meta$: Observable<PageMeta | null> = defer(() =>
     this.cms.getCurrentPage()
   ).pipe(
     filter((page) => Boolean(page)),
     switchMap((page: Page) => this.getMetaResolver(page)),
-    switchMap((metaResolver: PageMetaResolver) =>
+    switchMap((metaResolver: PageMetaResolver | undefined) =>
       metaResolver ? this.resolve(metaResolver) : of(null)
     ),
     shareReplay({ bufferSize: 1, refCount: true })
@@ -79,16 +60,22 @@ export class PageMetaService {
   protected resolve(metaResolver: PageMetaResolver): Observable<PageMeta> {
     const resolverMethods = this.getResolverMethods();
     const resolvedData: Observable<PageMeta>[] = Object.keys(resolverMethods)
-      .filter((key) => metaResolver[resolverMethods[key]])
+      // TODO: Revisit if typing is possible here with Template Literal Types when we update to TS >=4.1
+      .filter((key) => (metaResolver as any)[resolverMethods[key]])
       .map((key) => {
-        return metaResolver[resolverMethods[key]]().pipe(
-          map((data) => ({ [key]: data }))
-        );
+        return (metaResolver as any)
+          [resolverMethods[key]]()
+          .pipe(map((data) => ({ [key]: data })));
       });
 
-    return uniteLatest(resolvedData).pipe(
-      map((data) => Object.assign({}, ...data))
-    );
+    if (resolvedData.length === 0) {
+      // uniteLatest will fail otherwise
+      return of({});
+    } else {
+      return uniteLatest(resolvedData).pipe(
+        map((data) => Object.assign({}, ...data))
+      );
+    }
   }
 
   /**
@@ -105,27 +92,22 @@ export class PageMetaService {
    * relevant during browsing.
    */
   protected getResolverMethods(): { [property: string]: string } {
-    let resolverMethods = {};
-    const configured = this.pageMetaConfig?.pageMeta?.resolvers;
-    if (configured) {
-      configured
-        // filter the resolvers to avoid unnecessary processing in CSR
-        .filter((resolver) => {
-          return (
-            // always resolve in SSR
-            !isPlatformBrowser(this.platformId ?? '') ||
-            // resolve in CSR when it's not disabled
-            !resolver.disabledInCsr ||
-            // resolve in CSR when resolver is enabled in devMode
-            (isDevMode() && this.pageMetaConfig?.pageMeta?.enableInDevMode)
-          );
-        })
-        .forEach(
-          (resolver) => (resolverMethods[resolver.property] = resolver.method)
+    let resolverMethods: Record<string, string> = {};
+    // filter the resolvers to avoid unnecessary processing in CSR
+    this.pageMetaConfig?.pageMeta?.resolvers
+      ?.filter((resolver) => {
+        return (
+          // always resolve in SSR
+          !isPlatformBrowser(this.platformId ?? '') ||
+          // resolve in CSR when it's not disabled
+          !resolver.disabledInCsr ||
+          // resolve in CSR when resolver is enabled in devMode
+          (isDevMode() && this.pageMetaConfig?.pageMeta?.enableInDevMode)
         );
-    } else {
-      resolverMethods = this.resolverMethods;
-    }
+      })
+      .forEach(
+        (resolver) => (resolverMethods[resolver.property] = resolver.method)
+      );
     return resolverMethods;
   }
 

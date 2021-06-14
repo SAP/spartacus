@@ -51,12 +51,14 @@ import { defaultCpqInteractiveRoutingConfig } from './default-cpq-interactive-ro
           },
 
           navigation: {
+            lg: { slots: [] },
             slots: ['SiteLogin', 'SiteContext', 'SiteLinks', 'CpqConfigMenu'],
           },
 
           lg: {
             slots: [
               'CpqConfigHeader',
+              'CpqConfigBanner',
               'CpqConfigMenu',
               'CpqConfigContent',
               'CpqConfigOverviewBanner',
@@ -67,6 +69,7 @@ import { defaultCpqInteractiveRoutingConfig } from './default-cpq-interactive-ro
 
           slots: [
             'CpqConfigHeader',
+            'CpqConfigBanner',
             'CpqConfigContent',
             'CpqConfigOverviewBanner',
             'CpqConfigOverviewContent',

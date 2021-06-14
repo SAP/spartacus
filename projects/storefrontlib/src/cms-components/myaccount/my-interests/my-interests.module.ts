@@ -36,6 +36,5 @@ import {
     }),
   ],
   exports: [MyInterestsComponent],
-  entryComponents: [MyInterestsComponent],
 })
 export class MyInterestsModule {}

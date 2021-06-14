@@ -7,7 +7,6 @@ import {
 } from './checkout-flow';
 
 export const POWERTOOLS_BASESITE = 'powertools-spa';
-export const POWERTOOLS_DEFAULT_DELIVERY_MODE = 'deliveryMode-standard-net';
 export const USER_REQUEST_ENDPOINT = 'orgUsers';
 export const ORDER_REQUEST_ENDPOINT = 'replenishmentOrders';
 export const poNumber = '123';
@@ -29,8 +28,8 @@ export const cartWithB2bProduct: SampleCartProduct = {
 };
 
 export const b2bAccountShipToUser: SampleUser = {
-  email: 'powertools-test-user-with-orders@ydev.hybris.com',
-  password: 'Password123.',
+  email: 'powertools-test-user-with-orders@sap.cx.com',
+  password: 'pw4all',
   fullName: 'PunchOut Customer',
   address: {
     city: 'Chicago',

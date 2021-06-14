@@ -16,6 +16,5 @@ import { GenericLinkModule } from '../../../shared/components/generic-link/gener
   ],
   declarations: [LinkComponent],
   exports: [LinkComponent],
-  entryComponents: [LinkComponent],
 })
 export class LinkModule {}

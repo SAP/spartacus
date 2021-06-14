@@ -2,6 +2,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   CommonConfigurator,
+  ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
@@ -11,6 +12,7 @@ import { CommonConfiguratorTestUtilsService } from '../../../common/shared/testi
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import {
+  CONFIG_ID,
   productConfiguration,
   productConfigurationWithConflicts,
   productConfigurationWithoutIssues,
@@ -36,21 +38,21 @@ const configuratorType = ConfiguratorType.VARIANT;
 const routerData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
-  owner: {
-    type: CommonConfigurator.OwnerType.CART_ENTRY,
-    id: '3',
-    configuratorType: configuratorType,
-  },
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.CART_ENTRY,
+    '3',
+    configuratorType
+  ),
 };
 
 const orderRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.OVERVIEW,
   isOwnerCartEntry: true,
-  owner: {
-    type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-    id: '3',
-    configuratorType: configuratorType,
-  },
+  owner: ConfiguratorModelUtils.createOwner(
+    CommonConfigurator.OwnerType.ORDER_ENTRY,
+    '3',
+    configuratorType
+  ),
 };
 
 let routerObs;
@@ -153,6 +155,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
   it('should display banner when there are issues counted in Configurator.Overview', () => {
     const productConfigurationWithConflictsCountedInOverview: Configurator.Configuration = productConfigurationWithoutIssues;
     productConfigurationWithConflictsCountedInOverview.overview = {
+      configId: CONFIG_ID,
       totalNumberOfIssues: 5,
     };
     configurationObs = of(productConfigurationWithConflictsCountedInOverview);

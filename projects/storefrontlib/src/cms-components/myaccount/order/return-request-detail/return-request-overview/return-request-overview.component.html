@@ -36,8 +36,8 @@
       </div>
       <div class="cx-detail-value">
         {{
-          'returnRequestList.statusDisplay'
-            | cxTranslate: { context: returnRequest.status }
+          'returnRequestList.statusDisplay_' + returnRequest?.status
+            | cxTranslate
         }}
       </div>
     </div>

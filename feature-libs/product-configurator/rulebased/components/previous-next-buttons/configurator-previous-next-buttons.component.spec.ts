@@ -9,6 +9,7 @@ import {
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -21,6 +22,7 @@ import {
   GROUP_ID_1,
   PRODUCT_CODE,
 } from '../../shared/testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
@@ -56,13 +58,15 @@ const groups: Configurator.Group = {
 };
 
 const configWithoutGroups: Configurator.Configuration = {
-  configId: 'CONFIG_ID',
+  ...ConfiguratorTestUtils.createConfiguration(
+    'CONFIG_ID',
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
+  ),
   productCode: PRODUCT_CODE,
   totalNumberOfIssues: 0,
-  owner: {
-    id: PRODUCT_CODE,
-    type: CommonConfigurator.OwnerType.PRODUCT,
-  },
   groups: [groups],
   flatGroups: [groups],
 };

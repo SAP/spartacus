@@ -22,6 +22,5 @@ import { SaveForLaterComponent } from './save-for-later.component';
   ],
   declarations: [SaveForLaterComponent],
   exports: [SaveForLaterComponent],
-  entryComponents: [SaveForLaterComponent],
 })
 export class SaveForLaterModule {}

@@ -7,6 +7,7 @@ import {
   CommonConfigurator,
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
@@ -15,6 +16,7 @@ import { IconLoaderService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
 import { ConfiguratorConflictAndErrorMessagesComponent } from './configurator-conflict-and-error-messages.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -34,20 +36,26 @@ const mockRouterData: any = {
 };
 
 const configWOMessages: Configurator.Configuration = {
-  owner: {
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
-  },
-  configId: CONFIG_ID,
-  productCode: PRODUCT_CODE,
+    key: ConfiguratorModelUtils.getOwnerKey(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    ),
+    configuratorType: ConfiguratorType.VARIANT,
+  }),
 };
 const configWithMessages: Configurator.Configuration = {
-  owner: {
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
-  },
-  configId: CONFIG_ID,
-  productCode: PRODUCT_CODE,
+    key: ConfiguratorModelUtils.getOwnerKey(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    ),
+    configuratorType: ConfiguratorType.VARIANT,
+  }),
   errorMessages: ['test error message 1', 'test error message 2'],
   warningMessages: [
     'test warning message 1',
@@ -56,12 +64,15 @@ const configWithMessages: Configurator.Configuration = {
   ],
 };
 const configWithOnlyOneMessage: Configurator.Configuration = {
-  owner: {
+  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
     id: PRODUCT_CODE,
     type: CommonConfigurator.OwnerType.PRODUCT,
-  },
-  configId: CONFIG_ID,
-  productCode: PRODUCT_CODE,
+    key: ConfiguratorModelUtils.getOwnerKey(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    ),
+    configuratorType: ConfiguratorType.VARIANT,
+  }),
   errorMessages: ['test error message 1'],
   warningMessages: ['test warning message 1'],
 };
