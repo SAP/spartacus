@@ -22,6 +22,51 @@ if [[ -n "$coverage" ]]; then
     exit 1
 fi
 
+echo "Running unit tests and code coverage for cart library"
+exec 5>&1
+output=$(ng test cart --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+echo "Running schematics unit tests and code coverage for cart library"
+exec 5>&1
+output=$(yarn --cwd feature-libs/cart run test:schematics --coverage=true | tee /dev/fd/5)
+
+echo "Running unit tests and code coverage for setup"
+exec 5>&1
+output=$(ng test setup --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+
+echo "Running unit tests and code coverage for user"
+exec 5>&1
+output=$(ng test user --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+echo "Running schematics unit tests and code coverage for user library"
+exec 5>&1
+output=$(yarn --cwd feature-libs/user run test:schematics --coverage=true | tee /dev/fd/5)
+
+echo "Running unit tests and code coverage for product library"
+exec 5>&1
+output=$(ng test product --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
+coverage=$(echo $output | grep -i "does not meet global threshold" || true)
+if [[ -n "$coverage" ]]; then
+    echo "Error: Tests did not meet coverage expectations"
+    exit 1
+fi
+echo "Running schematics unit tests and code coverage for product library"
+exec 5>&1
+output=$(yarn --cwd feature-libs/product run test:schematics --coverage=true | tee /dev/fd/5)
+
 if [[ $1 == '-h' ]]; then
     echo "Usage: $0 [sonar (to run sonar scan)]"
     exit 1
