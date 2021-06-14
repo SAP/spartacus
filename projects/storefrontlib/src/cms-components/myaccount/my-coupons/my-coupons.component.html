@@ -9,9 +9,10 @@
         *ngIf="couponResult.pagination.totalCount > 0; else noCoupons"
       >
         <div class="cx-my-coupons-sort top row">
-          <div
+          <label
             class="cx-my-coupons-form-group form-group col-sm-12 col-md-4 col-lg-4"
           >
+            <span>{{ 'myCoupons.sortBy' | cxTranslate }}</span>
             <cx-sorting
               [sortOptions]="sortOptions"
               [sortLabels]="sortLabels | async"
@@ -19,7 +20,7 @@
               [selectedOption]="sort"
             >
             </cx-sorting>
-          </div>
+          </label>
           <div class="cx-my-coupons-pagination cx-mycoupon-thead-mobile">
             <cx-pagination
               [pagination]="pagination"
