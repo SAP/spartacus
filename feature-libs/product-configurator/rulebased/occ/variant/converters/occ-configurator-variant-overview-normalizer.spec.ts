@@ -1,6 +1,11 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, TranslationService } from '@spartacus/core';
+import {
+  GROUP_ID_1,
+  GROUP_ID_2,
+  GROUP_ID_3,
+} from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-data';
 import { Observable, of } from 'rxjs';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
@@ -36,11 +41,13 @@ const convertedOverview: Configurator.Overview = {
           value: 'V1',
         },
       ],
-    },
-    {
-      id: '11',
-      groupDescription: undefined,
-      attributes: [],
+      subGroups: [
+        {
+          id: '11',
+          groupDescription: undefined,
+          attributes: [],
+        },
+      ],
     },
     {
       id: '2',
@@ -75,16 +82,17 @@ Object.freeze(group3);
 const subGroups: OccConfigurator.GroupOverview[] = [group3];
 Object.freeze(subGroups);
 
+const subgroup: OccConfigurator.GroupOverview = { id: '11' };
 const group1: OccConfigurator.GroupOverview = {
   id: groupId,
   groupDescription: groupDescription,
-  subGroups: [{ id: '11' }],
   characteristicValues: [
     {
       characteristic: 'C1',
       value: 'V1',
     },
   ],
+  subGroups: [subgroup],
 };
 Object.freeze(group1);
 
@@ -159,7 +167,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should cover sub groups', () => {
     const result = occConfiguratorVariantOverviewNormalizer.convert(overview);
-    expect(result.groups?.length).toBe(3);
+    expect(result.groups?.length).toBe(2);
   });
 
   it('should be able to handle groups without attributes', () => {
@@ -183,7 +191,33 @@ describe('OccConfiguratorVariantNormalizer', () => {
     const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
       groupWithSubgroups
     );
-    expect(result.length).toBe(5);
+    expect(result.length).toBe(1);
+  });
+
+  it('should fill subgroups in the target model accross 3 levels', () => {
+    const thirdLevelGroup: OccConfigurator.GroupOverview = { id: GROUP_ID_1 };
+    const secondLevelGroup: OccConfigurator.GroupOverview = {
+      id: GROUP_ID_2,
+      subGroups: [thirdLevelGroup],
+    };
+    const groupWithSubgroups: OccConfigurator.GroupOverview = {
+      id: GROUP_ID_3,
+      subGroups: [group1, group3, secondLevelGroup],
+    };
+
+    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
+      groupWithSubgroups
+    );
+    const rootGroup = result[0];
+    expect(rootGroup).toBeDefined();
+    const subGroups = rootGroup.subGroups;
+    if (subGroups) {
+      expect(subGroups.length).toBe(3);
+      const secondLevelGroupInResult = subGroups[2];
+      expect(secondLevelGroupInResult.subGroups?.length).toBe(1);
+    } else {
+      fail();
+    }
   });
   it('should set description for a general group', () => {
     const generalTargetGroup: Configurator.GroupOverview = {
