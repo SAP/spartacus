@@ -11,16 +11,6 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   forgotPassword: { paths: ['login/forgot-password'], protected: false },
   resetPassword: { paths: ['login/pw/change'], protected: false },
   logout: { paths: ['logout'], protected: false },
-  checkoutLogin: { paths: ['checkout-login'] },
-
-  checkout: { paths: ['checkout'] },
-  checkoutPaymentType: { paths: ['checkout/payment-type'] },
-  checkoutShippingAddress: { paths: ['checkout/shipping-address'] },
-  checkoutDeliveryMode: { paths: ['checkout/delivery-mode'] },
-  checkoutPaymentDetails: { paths: ['checkout/payment-details'] },
-  checkoutReviewOrder: { paths: ['checkout/review-order'] },
-  orderConfirmation: { paths: ['order-confirmation'] },
-  replenishmentConfirmation: { paths: ['replenishment/confirmation'] },
 
   // plp routes
   search: { paths: ['search/:query'] },

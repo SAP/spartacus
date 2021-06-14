@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import {
+  provideConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
+import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
 import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
 
@@ -47,6 +49,7 @@ export function defaultCheckoutComponentsConfig() {
   imports: [],
   providers: [
     ...interceptors,
+    provideConfig(defaultCheckoutRoutingConfig),
     provideDefaultConfig(defaultCheckoutConfig),
     provideDefaultConfigFactory(defaultCheckoutComponentsConfig),
   ],
