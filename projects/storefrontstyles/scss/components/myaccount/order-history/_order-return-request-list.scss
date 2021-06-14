@@ -127,7 +127,15 @@
   .cx-order-history-form-group {
     padding: 0;
     margin-bottom: 0;
-
+    align-items: center;
+    display: flex;
+    span {
+      margin-right: 0.5rem;
+      flex: none;
+    }
+    cx-sorting {
+      width: -webkit-fill-available;
+    }
     @include media-breakpoint-down(sm) {
       padding: 1.25rem;
     }
