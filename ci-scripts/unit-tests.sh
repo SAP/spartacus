@@ -40,18 +40,6 @@ echo "Running schematics unit tests and code coverage for cdc library"
 exec 5>&1
 output=$(yarn --cwd integration-libs/cdc run test:schematics --coverage=true | tee /dev/fd/5)
 
-echo "Running unit tests and code coverage for organization library"
-exec 5>&1
-output=$(ng test organization --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
-coverage=$(echo $output | grep -i "does not meet global threshold" || true)
-if [[ -n "$coverage" ]]; then
-    echo "Error: Tests did not meet coverage expectations"
-    exit 1
-fi
-echo "Running schematics unit tests and code coverage for organization library"
-exec 5>&1
-output=$(yarn --cwd feature-libs/organization run test:schematics --coverage=true | tee /dev/fd/5)
-
 echo "Running unit tests and code coverage for storefinder library"
 exec 5>&1
 output=$(ng test storefinder --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
@@ -63,18 +51,6 @@ fi
 echo "Running schematics unit tests and code coverage for storefinder library"
 exec 5>&1
 output=$(yarn --cwd feature-libs/storefinder run test:schematics --coverage=true | tee /dev/fd/5)
-
-echo "Running unit tests and code coverage for smartedit library"
-exec 5>&1
-output=$(ng test smartedit --sourceMap --watch=false --code-coverage --browsers=ChromeHeadless | tee /dev/fd/5)
-coverage=$(echo $output | grep -i "does not meet global threshold" || true)
-if [[ -n "$coverage" ]]; then
-    echo "Error: Tests did not meet coverage expectations"
-    exit 1
-fi
-echo "Running schematics unit tests and code coverage for smartedit library"
-exec 5>&1
-output=$(yarn --cwd feature-libs/smartedit run test:schematics --coverage=true | tee /dev/fd/5)
 
 echo "Running unit tests and code coverage for qualtrics library"
 exec 5>&1
@@ -111,7 +87,6 @@ fi
 echo "Running schematics unit tests and code coverage for tracking library"
 exec 5>&1
 output=$(yarn --cwd feature-libs/tracking run test:schematics --coverage=true | tee /dev/fd/5)
-
 
 echo "Running unit tests and code coverage for schematics library"
 exec 5>&1
