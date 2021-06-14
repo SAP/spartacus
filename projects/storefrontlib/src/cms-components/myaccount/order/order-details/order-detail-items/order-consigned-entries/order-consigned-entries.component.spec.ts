@@ -1,6 +1,7 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   Consignment,
   FeaturesConfig,
@@ -98,7 +99,12 @@ describe('OrderConsignedEntriesComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [CardModule, I18nTestingModule, FeaturesConfigModule],
+        imports: [
+          CardModule,
+          I18nTestingModule,
+          FeaturesConfigModule,
+          RouterTestingModule,
+        ],
         providers: [
           {
             provide: FeaturesConfig,

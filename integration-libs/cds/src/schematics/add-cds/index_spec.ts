@@ -1,5 +1,6 @@
 /// <reference types="jest" />
 
+import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -11,8 +12,11 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CLI_CDS_FEATURE,
+  CLI_TRACKING_PERSONALIZATION_FEATURE,
+  LibraryOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  SPARTACUS_TRACKING,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../../package.json';
@@ -44,7 +48,6 @@ describe('Spartacus CDS schematics: ng-add', () => {
 
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
@@ -142,6 +145,37 @@ describe('Spartacus CDS schematics: ng-add', () => {
         it('should create the feature module', async () => {
           const module = appTree.readContent(featureModulePath);
           expect(module).toMatchSnapshot();
+        });
+
+        it('should run the proper installation tasks', async () => {
+          const tasks = schematicRunner.tasks
+            .filter((task) => task.name === 'run-schematic')
+            .map(
+              (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
+            );
+          expect(tasks.length).toEqual(2);
+
+          const trackingTask = tasks[0];
+          expect(trackingTask).toBeTruthy();
+          expect(trackingTask.name).toEqual('add-spartacus-library');
+          expect(trackingTask.options).toHaveProperty(
+            'collection',
+            SPARTACUS_TRACKING
+          );
+          expect(trackingTask.options.options?.features).toEqual([]);
+
+          const trackingTaskWithSubFeatures = tasks[1];
+          expect(trackingTaskWithSubFeatures).toBeTruthy();
+          expect(trackingTaskWithSubFeatures.name).toEqual(
+            'add-spartacus-library'
+          );
+          expect(trackingTaskWithSubFeatures.options).toHaveProperty(
+            'collection',
+            SPARTACUS_TRACKING
+          );
+          expect(
+            trackingTaskWithSubFeatures.options.options?.features
+          ).toEqual([CLI_TRACKING_PERSONALIZATION_FEATURE]);
         });
       });
 

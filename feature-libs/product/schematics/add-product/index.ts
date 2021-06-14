@@ -8,6 +8,8 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CLI_PRODUCT_BULK_PRICING_FEATURE,
+  CLI_PRODUCT_VARIANTS_FEATURE,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
   shouldAddFeature,
@@ -22,8 +24,6 @@ import {
   BULK_PRICING_ROOT_MODULE,
   BULK_PRICING_TRANSLATIONS,
   BULK_PRICING_TRANSLATION_CHUNKS_CONFIG,
-  CLI_BULK_PRICING_FEATURE,
-  CLI_VARIANTS_FEATURE,
   PRODUCT_FOLDER_NAME,
   PRODUCT_SCSS_FILE_NAME,
   SPARTACUS_BULK_PRICING,
@@ -41,25 +41,20 @@ import {
 } from '../constants';
 
 export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
     return chain([
-      shouldAddFeature(CLI_BULK_PRICING_FEATURE, options.features)
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+
+      shouldAddFeature(CLI_PRODUCT_BULK_PRICING_FEATURE, options.features)
         ? addBulkPricingFeature(options)
         : noop(),
 
-      shouldAddFeature(CLI_VARIANTS_FEATURE, options.features)
+      shouldAddFeature(CLI_PRODUCT_VARIANTS_FEATURE, options.features)
         ? addVariantsFeature(options)
         : noop(),
-
-      addPackageJsonDependenciesForLibrary({
-        packageJson,
-        context,
-        dependencies: peerDependencies,
-        options,
-      }),
     ]);
   };
 }

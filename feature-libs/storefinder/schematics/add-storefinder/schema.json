@@ -19,7 +19,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["Store Finder"]
+      "default": ["Store-Finder"]
     }
   },
   "required": []

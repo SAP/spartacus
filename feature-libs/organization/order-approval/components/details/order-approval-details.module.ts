@@ -94,9 +94,5 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
     OrderApprovalDetailFormComponent,
     OrderDetailPermissionResultsComponent,
   ],
-  entryComponents: [
-    OrderApprovalDetailFormComponent,
-    OrderDetailPermissionResultsComponent,
-  ],
 })
 export class OrderApprovalDetailsModule {}

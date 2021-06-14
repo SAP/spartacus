@@ -10,17 +10,15 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CLI_TRACKING_PERSONALIZATION_FEATURE,
+  CLI_TRACKING_TMS_AEP_FEATURE,
+  CLI_TRACKING_TMS_GTM_FEATURE,
   LibraryOptions as SpartacusTrackingOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
-import {
-  CLI_PERSONALIZATION_FEATURE,
-  CLI_TMS_AEP_FEATURE,
-  CLI_TMS_GTM_FEATURE,
-} from '../constants';
 
 const collectionPath = path.join(__dirname, '../collection.json');
 const personalizationModulePath =
@@ -50,7 +48,6 @@ describe('Spartacus Tracking schematics: ng-add', () => {
 
   const spartacusDefaultOptions: SpartacusOptions = {
     project: 'schematics-test',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
@@ -63,17 +60,17 @@ describe('Spartacus Tracking schematics: ng-add', () => {
 
   const personalizationFeatureOptions: SpartacusTrackingOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_PERSONALIZATION_FEATURE],
+    features: [CLI_TRACKING_PERSONALIZATION_FEATURE],
   };
 
   const gtmFeatureOptions: SpartacusTrackingOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_TMS_GTM_FEATURE],
+    features: [CLI_TRACKING_TMS_GTM_FEATURE],
   };
 
   const aepFeatureOptions: SpartacusTrackingOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_TMS_AEP_FEATURE],
+    features: [CLI_TRACKING_TMS_AEP_FEATURE],
   };
 
   beforeEach(async () => {
@@ -223,7 +220,10 @@ describe('Spartacus Tracking schematics: ng-add', () => {
             'ng-add',
             {
               ...libraryNoFeaturesOptions,
-              features: [CLI_TMS_GTM_FEATURE, CLI_TMS_AEP_FEATURE],
+              features: [
+                CLI_TRACKING_TMS_GTM_FEATURE,
+                CLI_TRACKING_TMS_AEP_FEATURE,
+              ],
             },
             appTree
           )
