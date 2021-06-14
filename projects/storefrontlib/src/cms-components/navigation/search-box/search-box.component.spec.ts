@@ -271,7 +271,7 @@ describe('SearchBoxComponent', () => {
         fixture.debugElement.query(By.css('.reset')).nativeElement.click();
 
         const box = fixture.debugElement.query(
-          By.css('input[aria-label="common.ariaLabel.search"]')
+          By.css('input[aria-label="common.search"]')
         ).nativeElement;
 
         expect(box.value).toBe('');
@@ -337,7 +337,7 @@ describe('SearchBoxComponent', () => {
 
         // Focus should begin on searchbox input
         const inputSearchBox: HTMLElement = fixture.debugElement.query(
-          By.css('input[aria-label="common.ariaLabel.search"]')
+          By.css('input[aria-label="common.search"]')
         ).nativeElement;
         inputSearchBox.focus();
         expect(inputSearchBox).toBe(getFocusedElement());

@@ -13,15 +13,11 @@ export const common = {
     noData: 'No data.',
     confirm: 'Confirm',
     more: 'more',
-    ariaLabel: {
-      close: 'Close',
-      delete: 'Delete',
-      loading: 'Loading',
-      menu: 'Menu',
-      reset: 'Reset',
-      save: 'Save',
-      search: 'Search',
-    },
+    close: 'Close',
+    loading: 'Loading',
+    menu: 'Menu',
+    reset: 'Reset',
+    search: 'Search',
   },
   pageMetaResolver: {
     category: {
