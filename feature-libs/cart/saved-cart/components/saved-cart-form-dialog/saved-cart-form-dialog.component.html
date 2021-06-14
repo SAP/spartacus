@@ -107,7 +107,7 @@
             <button
               *ngIf="cart.code"
               (click)="deleteCart(cart.code)"
-              [attr.aria-label]="'common.ariaLabel.delete' | cxTranslate"
+              [attr.aria-label]="'common.delete' | cxTranslate"
               [disabled]="isDisableDeleteButton$ | async"
               class="ml-2 btn btn-primary"
               type="button"
@@ -182,7 +182,7 @@
             </button>
             <button
               (click)="saveOrEditCart(cart?.code)"
-              [attr.aria-label]="'common.ariaLabel.save' | cxTranslate"
+              [attr.aria-label]="'common.save' | cxTranslate"
               [disabled]="form.invalid || (isLoading$ | async)"
               class="btn btn-primary"
               type="button"
