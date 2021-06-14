@@ -1,5 +1,3 @@
-import { experimental } from '@angular-devkit/core';
-import { italic } from '@angular-devkit/core/src/terminal';
 import {
   chain,
   noop,
@@ -49,6 +47,7 @@ import { Schema as SpartacusOptions } from './schema';
 import { setupSpartacusModule } from './spartacus';
 import { setupSpartacusFeaturesModule } from './spartacus-features';
 import { setupStoreModules } from './store';
+import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 
 function installStyles(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext): void => {
@@ -83,9 +82,7 @@ function installStyles(options: SpartacusOptions): Rule {
 
     if (!buffer) {
       context.logger.warn(
-        `Could not read the default style file within the project ${italic(
-          styleFilePath
-        )}`
+        `Could not read the default style file within the project ${styleFilePath}`
       );
       context.logger.warn(
         `Please consider manually importing spartacus styles.`
@@ -112,7 +109,7 @@ function installStyles(options: SpartacusOptions): Rule {
 }
 
 function updateMainComponent(
-  project: experimental.workspace.WorkspaceProject,
+  project: WorkspaceProject,
   options: SpartacusOptions
 ): Rule {
   return (host: Tree, context: SchematicContext): Tree | void => {
@@ -267,7 +264,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
       updateAppModule(options.project),
       installStyles(options),
-      updateMainComponent(project, options),
+      updateMainComponent(project as WorkspaceProject, options),
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
 
       addSpartacusFeatures(options),
