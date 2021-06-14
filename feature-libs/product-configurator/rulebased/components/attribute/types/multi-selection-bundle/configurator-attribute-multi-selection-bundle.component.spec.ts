@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -7,15 +13,40 @@ import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configura
 import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
-import { ConfiguratorAttributeProductCardComponent } from '../../product-card/configurator-attribute-product-card.component';
+import {
+  ConfiguratorAttributeProductCardComponent,
+  ConfiguratorAttributeProductCardComponentOptions,
+} from '../../product-card/configurator-attribute-product-card.component';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurator-attribute-multi-selection-bundle.component';
 
 @Component({
   selector: 'cx-configurator-attribute-product-card',
   template: '',
 })
-class MockProductCardComponent {}
+class MockProductCardComponent {
+  @Input()
+  productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  @Output() changeQuantity = new EventEmitter<number>();
+}
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
 
 function getSelected(
   component: ConfiguratorAttributeMultiSelectionBundleComponent,
@@ -74,6 +105,8 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
           ConfiguratorShowMoreComponent,
           ItemCounterComponent,
           MockProductCardComponent,
+          MockConfiguratorAttributeQuantityComponent,
+          MockConfiguratorPriceComponent,
         ],
       })
         .overrideComponent(ConfiguratorAttributeMultiSelectionBundleComponent, {

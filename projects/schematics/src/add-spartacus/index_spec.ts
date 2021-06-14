@@ -43,7 +43,6 @@ describe('add-spartacus', () => {
     occPrefix: 'xxx',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
@@ -325,7 +324,41 @@ describe('add-spartacus', () => {
       });
     });
 
-    describe('baseSite, language and currency', () => {
+    describe('urlParameters', () => {
+      it('should not set the urlParameters, if not provided', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+          .toPromise();
+        const appModule = tree.readContent(
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+
+        expect(appModule.includes(`urlParameters: ['`)).toBe(false);
+      });
+      it('should set the provided urlParameters', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+              urlParameters: 'baseSite,language,currency',
+            },
+            appTree
+          )
+          .toPromise();
+        const appModule = tree.readContent(
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+
+        expect(
+          appModule.includes(
+            `urlParameters: ['baseSite', 'language', 'currency']`
+          )
+        ).toBe(true);
+      });
+    });
+
+    describe('baseSite, language, currency and urlParameters', () => {
       it('should combine all context params properly', async () => {
         const tree = await schematicRunner
           .runSchematicAsync(
@@ -336,6 +369,7 @@ describe('add-spartacus', () => {
                 'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
               currency: 'CAD,rsd',
               language: 'EN,RS',
+              urlParameters: 'baseSite,language,currency',
             },
             appTree
           )
@@ -348,7 +382,12 @@ describe('add-spartacus', () => {
         expect(appModule.includes(`language: ['en', 'rs'],`)).toBe(true);
         expect(
           appModule.includes(
-            `baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de']`
+            `baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de'],`
+          )
+        ).toBe(true);
+        expect(
+          appModule.includes(
+            `urlParameters: ['baseSite', 'language', 'currency']`
           )
         ).toBe(true);
       });

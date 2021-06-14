@@ -25,9 +25,7 @@ export const orgUnit = {
 
   messages: {
     deactivateTitle: 'Disable this unit?',
-    deactivate: 'Are you sure you want to disable this unit?',
-    deactivateBody:
-      "Disabling a unit has wide-ranging affects on your commerce organization. ALL the unit's child units, users, budgets, and cost centers will also disabled.",
+    deactivate: `Disabling a unit has wide-ranging affects on your commerce organization. ALL the unit's child units, users, budgets, and cost centers will also disabled.`,
     confirmEnabled: 'Unit {{item.name}} enabled successfully',
     confirmDisabled: 'Unit {{item.name}} disabled successfully',
     update: 'Unit {{ item.name }} updated successfully',
@@ -188,7 +186,7 @@ export const orgUnitAddress = {
   title: 'Shipping addresses',
   subtitle: 'Unit: {{item.name}}',
 
-  country: 'Country',
+  country: 'Country/Region',
   titles: 'Title',
   firstName: 'First name',
   lastName: 'Last name',
@@ -224,10 +222,8 @@ export const orgUnitAddress = {
     update:
       'Address {{ item.firstName }} {{ item.lastName }} updated successfully',
     delete:
-      'Are you sure you want to delete address {{ item.firstName }} {{ item.lastName }}?',
-    deleteTitle: 'Delete this address?',
-    deleteBody:
       'The address cannot be brought back. Existing orders are not affected.',
+    deleteTitle: 'Delete this address?',
     deleted:
       'Address {{ item.firstName }} {{ item.lastName }} deleted successfully',
   },

@@ -1,58 +1,30 @@
-import { Component, Optional } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry, PromotionLocation } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/core';
 import { CartItemContext } from '@spartacus/storefront';
-import { EMPTY, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-configurator-cart-entry-info',
   templateUrl: './configurator-cart-entry-info.component.html',
 })
 export class ConfiguratorCartEntryInfoComponent {
-  // TODO(#11681): make commonConfigUtilsService a required dependency and remove deprecated constructor
-  /**
-   * Default constructor
-   *
-   * @param {CartItemContext} cartItemContext
-   * @param {CommonConfiguratorUtilsService} commonConfigUtilsService
-   */
   constructor(
-    cartItemContext: CartItemContext,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    commonConfigUtilsService: CommonConfiguratorUtilsService
-  );
-  /**
-   * @deprecated since 3.3
-   */
-  constructor(cartItemContext: CartItemContext);
-
-  constructor(
-    // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
-    @Optional() protected cartItemContext?: CartItemContext,
-    @Optional()
-    protected commonConfigUtilsService?: CommonConfiguratorUtilsService
+    protected cartItemContext: CartItemContext,
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
 
-  readonly orderEntry$: Observable<OrderEntry> =
-    this.cartItemContext?.item$ ?? EMPTY;
+  readonly orderEntry$: Observable<OrderEntry> = this.cartItemContext.item$;
 
-  readonly quantityControl$: Observable<FormControl> =
-    this.cartItemContext?.quantityControl$ ?? EMPTY;
+  readonly quantityControl$: Observable<FormControl> = this.cartItemContext
+    .quantityControl$;
 
-  readonly readonly$: Observable<boolean> =
-    this.cartItemContext?.readonly$ ?? EMPTY;
+  readonly readonly$: Observable<boolean> = this.cartItemContext.readonly$;
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
-  readonly shouldShowButton$: Observable<boolean> = (
-    this.cartItemContext?.location$ ?? EMPTY
-  ).pipe(
-    map(
-      (location) =>
-        location !== PromotionLocation.SaveForLater &&
-        location !== PromotionLocation.SavedCart
-    )
+  readonly shouldShowButton$: Observable<boolean> = this.commonConfigUtilsService.isActiveCartContext(
+    this.cartItemContext
   );
 
   /**
@@ -79,10 +51,12 @@ export class ConfiguratorCartEntryInfoComponent {
    */
   isAttributeBasedConfigurator(item: OrderEntry): boolean {
     const configurationInfos = item.configurationInfos;
-    return configurationInfos
-      ? this.commonConfigUtilsService?.isAttributeBasedConfigurator(
+
+    const attributeBased = configurationInfos
+      ? this.commonConfigUtilsService.isAttributeBasedConfigurator(
           configurationInfos[0]?.configuratorType
         )
       : false;
+    return attributeBased ? attributeBased : false;
   }
 }

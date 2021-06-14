@@ -11,38 +11,121 @@
         "$source": "projectName"
       }
     },
-    "configuration": {
-      "description": "The Spartacus configuration to use in the application.",
-      "type": "string",
-      "default": "b2c",
-      "enum": ["b2c", "b2b"],
-      "x-prompt": {
-        "message": "Please choose which configuration you would like to add.",
-        "type": "list",
-        "items": ["b2c", "b2b"]
-      }
-    },
     "features": {
       "type": "array",
       "uniqueItems": true,
       "items": {
         "enum": [
-          "Assisted Services Module",
-          "Cart",
+          "ASM",
+          "Saved-Cart",
           "CDC",
           "CDS",
-          "Organization (b2b feature)",
-          "Product",
-          "Product Configurator",
+          "Administration",
+          "Order-Approval",
+          "Bulk-Pricing",
+          "Product-Variants",
+          "Textfield-Configurator",
+          "CPQ-Configurator",
           "Qualtrics",
           "SmartEdit",
-          "Store Finder",
-          "Tracking"
+          "Store-Finder",
+          "Personalization",
+          "TMS-GTM",
+          "TMS-AEPL",
+          "Account",
+          "Profile"
         ],
         "type": "string"
       },
-      "default": [],
-      "x-prompt": "Which Spartacus features would you like to setup?"
+      "default": [
+        "ASM",
+        "Saved-Cart",
+        "Bulk-Pricing",
+        "Product-Variants",
+        "SmartEdit",
+        "Store-Finder",
+        "Personalization",
+        "Account",
+        "Profile"
+      ],
+      "x-prompt": {
+        "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the Account feature is required.",
+        "type": "list",
+        "items": [
+          {
+            "value": "ASM",
+            "label": "Assisted Services Module"
+          },
+          {
+            "value": "Saved-Cart",
+            "label": "Saved Cart"
+          },
+          {
+            "value": "CDC",
+            "label": "Customer Data Cloud Integration"
+          },
+          {
+            "value": "CDS",
+            "label": "Context-Driven Services Integration"
+          },
+          {
+            "value": "Administration",
+            "label": "Organization - Adminstration (b2b feature)"
+          },
+          {
+            "value": "Order-Approval",
+            "label": "Organization - Order Approval (b2b feature)"
+          },
+          {
+            "value": "Bulk-Pricing",
+            "label": "Product - Bulk Pricing"
+          },
+          {
+            "value": "Product-Variants",
+            "label": "Product - Variants"
+          },
+          {
+            "value": "Textfield-Configurator",
+            "label": "Product Configurator - Textfield Configurator"
+          },
+          {
+            "value": "CPQ-Configurator",
+            "label": "Product Configurator - CPQ Configurator (b2b feature)"
+          },
+          {
+            "value": "Qualtrics",
+            "label": "Qualtrics"
+          },
+          {
+            "value": "SmartEdit",
+            "label": "SmartEdit"
+          },
+          {
+            "value": "Store-Finder",
+            "label": "Store Finder"
+          },
+          {
+            "value": "Personalization",
+            "label": "Tracking - Personalization"
+          },
+          {
+            "value": "TMS-GTM",
+            "label": "Tracking - Tag Management System - Google Tag Manager"
+          },
+          {
+            "value": "TMS-AEPL",
+            "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
+          },
+          {
+            "value": "Account",
+            "label": "User - Account"
+          },
+          {
+            "value": "Profile",
+            "label": "User - Profile"
+          }
+        ]
+      }
     },
     "lazy": {
       "type": "boolean",
@@ -71,6 +154,10 @@
       "type": "string",
       "description": "A comma-separated list of languages to use in Spartacus",
       "default": "en"
+    },
+    "urlParameters": {
+      "type": "string",
+      "description": "A comma-separated list that represents the order of site-context parameters. E.g.: ['baseSite', 'language', 'currency']"
     },
     "useMetaTags": {
       "type": "boolean",

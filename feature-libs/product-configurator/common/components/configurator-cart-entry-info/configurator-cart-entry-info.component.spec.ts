@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
@@ -25,6 +26,17 @@ class MockCartItemContext implements Partial<CartItemContext> {
     PromotionLocation.SaveForLater
   );
 }
+
+@Component({
+  selector: 'cx-configure-cart-entry',
+  template: '',
+})
+class MockConfigureCartEntryComponent {
+  @Input() cartEntry: OrderEntry;
+  @Input() readOnly: boolean;
+  @Input() msgBanner: boolean;
+  @Input() disabled: boolean;
+}
 describe('ConfiguratorCartEntryInfoComponent', () => {
   let component: ConfiguratorCartEntryInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
@@ -39,7 +51,10 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
           I18nTestingModule,
           FeaturesConfigModule,
         ],
-        declarations: [ConfiguratorCartEntryInfoComponent],
+        declarations: [
+          ConfiguratorCartEntryInfoComponent,
+          MockConfigureCartEntryComponent,
+        ],
         providers: [
           { provide: CartItemContext, useClass: MockCartItemContext },
           {
@@ -95,22 +110,20 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   describe('configuration infos', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
-        configurationInfos: null,
+        statusSummaryList: undefined,
+        configurationInfos: undefined,
       });
       mockCartItemContext.readonly$.next(false);
 
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        0,
-        "expected configuration info identified by selector '.cx-configuration-info' not to be present, but it is! innerHtml: " +
-          htmlElem.innerHTML
+        0
       );
     });
 
     it('should be displayed if model provides a success entry', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configurationLabel: 'Color',
@@ -125,15 +138,13 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        1,
-        "expected configuration info identified by selector '.cx-configuration-info' to be present, but it is not! innerHtml: " +
-          htmlElem.innerHTML
+        1
       );
     });
 
     it('should be displayed if model provides a warning entry', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configurationLabel: 'Pricing',
@@ -148,47 +159,8 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       fixture.detectChanges();
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
-        1,
-        "expected configuration info identified by selector '.cx-configuration-info' to be present, but it is not! innerHtml: " +
-          htmlElem.innerHTML
+        1
       );
-    });
-
-    it('should disable product configuration when context is SaveForLater', () => {
-      mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
-      fixture.detectChanges();
-
-      let result: boolean | undefined;
-
-      component.shouldShowButton$
-        .subscribe((data) => (result = data))
-        .unsubscribe();
-
-      expect(result).toEqual(false);
-    });
-
-    it('should disable product configuration when context is SavedCart', () => {
-      mockCartItemContext.location$.next(PromotionLocation.SavedCart);
-      fixture.detectChanges();
-      let result: boolean | undefined;
-
-      component.shouldShowButton$
-        .subscribe((data) => (result = data))
-        .unsubscribe();
-
-      expect(result).toEqual(false);
-    });
-
-    it('should display configure button if context is NOT related to saved carts ', () => {
-      mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
-      fixture.detectChanges();
-      let result: boolean | undefined;
-
-      component.shouldShowButton$
-        .subscribe((data) => (result = data))
-        .unsubscribe();
-
-      expect(result).toEqual(true);
     });
 
     describe('hasStatus', () => {
@@ -229,6 +201,42 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       it('should return false if no configurationInfos are provided', () => {
         const entry: OrderEntry = {};
         expect(component.isAttributeBasedConfigurator(entry)).toBe(false);
+      });
+    });
+
+    describe('shouldShowButton', () => {
+      beforeEach(() => {
+        const quantityControl = new FormControl();
+
+        mockCartItemContext.quantityControl$.next(quantityControl);
+        mockCartItemContext.item$.next({
+          statusSummaryList: undefined,
+          product: { configurable: true },
+          configurationInfos: [
+            {
+              configuratorType: ConfiguratorType.VARIANT,
+            },
+          ],
+        });
+      });
+      it('should prevent the rendering of "edit configuration" if context is SaveForLater', () => {
+        mockCartItemContext.location$.next(PromotionLocation.SaveForLater);
+        fixture.detectChanges();
+
+        const htmlElem = fixture.nativeElement;
+        expect(
+          htmlElem.querySelectorAll('.cx-configure-cart-entry').length
+        ).toBe(0);
+      });
+
+      it('should allow the rendering of "edit configuration" if context is active cart', () => {
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
+        fixture.detectChanges();
+
+        const htmlElem = fixture.nativeElement;
+        expect(
+          htmlElem.querySelectorAll('cx-configure-cart-entry').length
+        ).toBe(1);
       });
     });
   });
