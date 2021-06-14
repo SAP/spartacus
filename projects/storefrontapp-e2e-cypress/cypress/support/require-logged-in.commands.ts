@@ -5,7 +5,7 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you are logged in. Returns generated email.
+       * Registers a new user and logs him in. Returns user (generated) email.
        *
        * @memberof Cypress.Chainable
        *
@@ -79,7 +79,7 @@ Cypress.Commands.add(
       user: randomString(),
       registrationData: {
         firstName: 'Cypress',
-        lastName: 'User',
+        lastName: 'TestUser',
         password: 'Password123.',
         titleCode: 'mr',
       },

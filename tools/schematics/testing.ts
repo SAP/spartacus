@@ -46,11 +46,12 @@ const buildLibRegEx = new RegExp('build (.*?)/schematics');
 let currentVersion: semver.SemVer | null;
 
 function startVerdaccio(): ChildProcess {
-  console.log('Starting verdaccio');
+  console.log('Waiting for verdaccio to boot...');
   execSync('rm -rf ./scripts/install/storage');
   const res = exec('verdaccio --config ./scripts/install/config.yaml');
   console.log('Pointing npm to verdaccio');
   execSync(`npm config set @spartacus:registry http://localhost:4873/`);
+  execSync(`npx wait-on http://localhost:4873/`);
   return res;
 }
 
@@ -184,10 +185,6 @@ let verdaccioProcess: ChildProcess | undefined;
 async function program(): Promise<void> {
   verdaccioProcess = startVerdaccio();
   try {
-    // Give time for verdaccio to boot up
-    console.log('Waiting for verdaccio to boot...');
-    execSync(`sleep 15`);
-
     while (true) {
       const response: { command: Command } = await prompt({
         name: 'command',

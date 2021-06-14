@@ -15,6 +15,5 @@ import { ConfiguratorAttributeFooterComponent } from './configurator-attribute-f
   ],
   declarations: [ConfiguratorAttributeFooterComponent],
   exports: [ConfiguratorAttributeFooterComponent],
-  entryComponents: [ConfiguratorAttributeFooterComponent],
 })
 export class ConfiguratorAttributeFooterModule {}

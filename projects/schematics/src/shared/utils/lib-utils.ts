@@ -1,6 +1,7 @@
 import { dasherize } from '@angular-devkit/core/src/utils/strings';
 import {
   chain,
+  ExecutionOptions,
   externalSchematic,
   noop,
   Rule,
@@ -82,9 +83,10 @@ import {
   getDefaultProjectNameFromWorkspace,
   getSourceRoot,
   getWorkspace,
+  scaffoldStructure,
 } from './workspace-utils';
 
-export interface LibraryOptions {
+export interface LibraryOptions extends Partial<ExecutionOptions> {
   project: string;
   lazy: boolean;
   features?: string[];
@@ -247,17 +249,20 @@ export function addLibraryFeature<T extends LibraryOptions>(
   options: T,
   config: FeatureConfig
 ): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree, context: SchematicContext) => {
     const spartacusFeatureModuleExists = checkAppStructure(
       tree,
       options.project
     );
     if (!spartacusFeatureModuleExists) {
-      throw new SchematicsException(
-        'Please migrate manually to new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/ and add the library once again. Old app structure is no longer supported.'
+      context.logger.info('Scaffolding the new app structure...');
+      context.logger.warn(
+        'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
       );
     }
     return chain([
+      spartacusFeatureModuleExists ? noop() : scaffoldStructure(options),
+
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
@@ -278,14 +283,12 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
   }
 
   const basePath = process.cwd();
-  let result = false;
   for (const tsconfigPath of buildPaths) {
     if (spartacusFeatureModuleExists(tree, tsconfigPath, basePath)) {
-      result = true;
-      break;
+      return true;
     }
   }
-  return result;
+  return false;
 }
 
 function spartacusFeatureModuleExists(
@@ -734,7 +737,8 @@ export function addPackageJsonDependenciesForLibrary<
       }, {} as Record<string, string[]>);
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
       options,
-      cliFeatures
+      cliFeatures,
+      false
     );
     addSchematicsTasks(featureOptions, context);
 
@@ -858,7 +862,8 @@ export function createSpartacusFeatureOptionsForLibrary<
   OPTIONS extends LibraryOptions
 >(
   options: OPTIONS,
-  cliFeatures: Record<string, string[]>
+  cliFeatures: Record<string, string[]>,
+  interactive = true
 ): {
   feature: string;
   options: LibraryOptions;
@@ -869,6 +874,7 @@ export function createSpartacusFeatureOptionsForLibrary<
       ...options,
       // an empty array means that no library features will be installed.
       features: cliFeatures[spartacusLibrary] ?? [],
+      interactive,
     },
   }));
 }
@@ -905,11 +911,17 @@ export function runExternalSpartacusLibrary(
         `Can't run the Spartacus library schematic, please specify the 'collection' argument.`
       );
     }
+
+    const executionOptions: Partial<ExecutionOptions> = {
+      interactive: taskOptions.options.interactive,
+    };
+
     return chain([
       externalSchematic(
         taskOptions.collection,
         taskOptions.name,
-        taskOptions.options
+        taskOptions.options,
+        executionOptions
       ),
     ])(tree, context);
   };

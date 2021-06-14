@@ -36,7 +36,7 @@ export class ConfiguratorModelUtils {
    * @returns Initial owner
    */
   static createInitialOwner(): CommonConfigurator.Owner {
-    return { key: 'INITIAL', configuratorType: 'INITIAL' };
+    return { key: 'INITIAL', configuratorType: 'INITIAL', id: 'INITIAL' };
   }
 
   /**
