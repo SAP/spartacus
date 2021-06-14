@@ -227,7 +227,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
 
     return chain([
       addPackageJsonDependencies(prepareDependencies()),
-      scaffoldStructure(options),
 
       ensureModuleExists({
         name: SPARTACUS_ROUTING_MODULE,
@@ -235,10 +234,11 @@ export function addSpartacus(options: SpartacusOptions): Rule {
         module: 'app',
         project: options.project,
       }),
-
       setupRouterModule(options.project),
 
       setupStoreModules(options.project),
+
+      scaffoldStructure(options),
 
       setupSpartacusModule(options.project),
 
