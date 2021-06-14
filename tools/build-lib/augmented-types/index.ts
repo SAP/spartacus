@@ -52,7 +52,7 @@ async function ngPackagrBuild(
   options: NgPackagrBuilderOptions & JsonObject
 ): Promise<BuilderOutput> {
   const builderRun = await context.scheduleBuilder(
-    '@angular-devkit/build-ng-packagr:build',
+    '@angular-devkit/build-angular:ng-packagr',
     options
   );
   return await builderRun.result;
