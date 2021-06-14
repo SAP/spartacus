@@ -11,21 +11,34 @@ export class OccConfiguratorVariantSerializer
     source: Configurator.Configuration,
     target?: OccConfigurator.Configuration
   ): OccConfigurator.Configuration {
+    const resultGroups: OccConfigurator.Group[] = [];
+    source.groups.forEach((group) => this.convertGroup(group, resultGroups));
+
     const resultTarget: OccConfigurator.Configuration = {
       ...target,
       configId: source.configId,
       complete: source.complete,
-      groups: [],
+      groups: resultGroups,
     };
-
-    source.groups.forEach((group) =>
-      this.convertGroup(group, resultTarget.groups!)
-    );
 
     return resultTarget;
   }
 
   convertGroup(source: Configurator.Group, occGroups: OccConfigurator.Group[]) {
+    const resultSubGroups: OccConfigurator.Group[] = [];
+    const resultAttributes: OccConfigurator.Attribute[] = [];
+
+    if (source.attributes) {
+      source.attributes.forEach((attribute) =>
+        this.convertAttribute(attribute, resultAttributes)
+      );
+    }
+    if (source.subGroups) {
+      source.subGroups.forEach((subGroup) =>
+        this.convertGroup(subGroup, resultSubGroups)
+      );
+    }
+
     const group: OccConfigurator.Group = {
       name: source.name,
       id: source.id,
@@ -34,19 +47,9 @@ export class OccConfiguratorVariantSerializer
         source.groupType ?? Configurator.GroupType.ATTRIBUTE_GROUP
       ),
       description: source.description,
-      attributes: [],
-      subGroups: [],
+      attributes: resultAttributes,
+      subGroups: resultSubGroups,
     };
-    if (source.attributes) {
-      source.attributes.forEach((attribute) =>
-        this.convertAttribute(attribute, group.attributes!)
-      );
-    }
-    if (source.subGroups) {
-      source.subGroups.forEach((subGroup) =>
-        this.convertGroup(subGroup, group.subGroups!)
-      );
-    }
 
     occGroups.push(group);
   }
@@ -81,12 +84,13 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.CHECKBOX ||
       attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
-      targetAttribute.domainValues = [];
+      const domainValues: OccConfigurator.Value[] = [];
       if (attribute.values) {
         attribute.values.forEach((value) => {
-          this.convertValue(value, targetAttribute.domainValues!);
+          this.convertValue(value, domainValues);
         });
       }
+      targetAttribute.domainValues = domainValues;
     }
 
     occAttributes.push(targetAttribute);

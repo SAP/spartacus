@@ -60,12 +60,13 @@ export class OccConfiguratorVariantOverviewNormalizer
 
     this.setGeneralDescription(group);
     if (subGroups) {
-      group.subGroups = [];
+      const resultSubGroups: Configurator.GroupOverview[] = [];
       subGroups.forEach((subGroup) =>
         this.convertGroup(subGroup).forEach((groupArray) =>
-          group.subGroups!.push(groupArray)
+          resultSubGroups.push(groupArray)
         )
       );
+      group.subGroups = resultSubGroups;
     }
     result.push(group);
     return result;
