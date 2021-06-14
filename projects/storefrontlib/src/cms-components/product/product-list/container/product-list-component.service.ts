@@ -19,6 +19,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { ProductListRouteParams, SearchCriteria } from './product-list.model';
+import { ViewConfig } from '../../../../shared/config/view-config';
 
 /**
  * The `ProductListComponentService` is used to search products. The service is used
@@ -30,9 +31,6 @@ import { ProductListRouteParams, SearchCriteria } from './product-list.model';
  */
 @Injectable({ providedIn: 'root' })
 export class ProductListComponentService {
-  // TODO: make it configurable
-  protected defaultPageSize = 12;
-
   protected readonly RELEVANCE_ALLCATEGORIES = ':relevance:allCategories:';
 
   constructor(
@@ -41,7 +39,8 @@ export class ProductListComponentService {
     protected activatedRoute: ActivatedRoute,
     protected currencyService: CurrencyService,
     protected languageService: LanguageService,
-    protected router: Router
+    protected router: Router,
+    protected viewConfig: ViewConfig
   ) {}
 
   /**
@@ -109,7 +108,7 @@ export class ProductListComponentService {
   ): SearchCriteria {
     return {
       query: queryParams.query || this.getQueryFromRouteParams(routeParams),
-      pageSize: queryParams.pageSize || this.defaultPageSize,
+      pageSize: queryParams.pageSize || this.viewConfig.view?.defaultPageSize,
       currentPage: queryParams.currentPage,
       sortCode: queryParams.sortCode,
     };
