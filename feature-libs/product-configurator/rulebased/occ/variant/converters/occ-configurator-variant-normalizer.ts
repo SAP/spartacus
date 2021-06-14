@@ -27,12 +27,12 @@ export class OccConfiguratorVariantNormalizer
       totalNumberOfIssues: source.totalNumberOfIssues,
       productCode: source.rootProduct,
       groups: [],
-      flatGroups: [],
     };
-
+    const flatGroups: Configurator.Group[] = [];
     source.groups?.forEach((group) =>
-      this.convertGroup(group, resultTarget.groups, resultTarget.flatGroups!)
+      this.convertGroup(group, resultTarget.groups, flatGroups)
     );
+    resultTarget.flatGroups = flatGroups;
 
     return resultTarget;
   }
@@ -90,6 +90,22 @@ export class OccConfiguratorVariantNormalizer
     const numberOfConflicts = sourceAttribute?.conflicts
       ? sourceAttribute?.conflicts?.length
       : 0;
+
+    const attributeImages: Configurator.Image[] = [];
+    const attributeValues: Configurator.Value[] = [];
+
+    if (sourceAttribute.images) {
+      sourceAttribute.images.forEach((occImage) =>
+        this.convertImage(occImage, attributeImages)
+      );
+    }
+
+    if (sourceAttribute.domainValues) {
+      sourceAttribute.domainValues.forEach((value) =>
+        this.convertValue(value, attributeValues)
+      );
+    }
+
     const attribute: Configurator.Attribute = {
       name: sourceAttribute.name,
       label: sourceAttribute.langDepName,
@@ -97,7 +113,6 @@ export class OccConfiguratorVariantNormalizer
       uiType: this.convertAttributeType(
         sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
       ),
-      values: [],
       groupId: this.getGroupId(sourceAttribute.key, sourceAttribute.name),
       userInput: sourceAttribute.formattedValue,
       maxlength:
@@ -107,22 +122,12 @@ export class OccConfiguratorVariantNormalizer
       negativeAllowed: sourceAttribute.negativeAllowed,
       numTotalLength: sourceAttribute.typeLength,
       selectedSingleValue: undefined,
-      images: [],
       hasConflicts: numberOfConflicts > 0,
+      images: attributeImages,
+      values: attributeValues,
     };
 
-    if (sourceAttribute.images) {
-      sourceAttribute.images.forEach((occImage) =>
-        this.convertImage(occImage, attribute.images!)
-      );
-    }
-
-    if (sourceAttribute.domainValues) {
-      sourceAttribute.domainValues.forEach((value) =>
-        this.convertValue(value, attribute.values!)
-      );
-      this.setSelectedSingleValue(attribute);
-    }
+    this.setSelectedSingleValue(attribute);
 
     //Has to be called after setSelectedSingleValue because it depends on the value of this property
     this.compileAttributeIncomplete(attribute);
@@ -144,19 +149,20 @@ export class OccConfiguratorVariantNormalizer
     occValue: OccConfigurator.Value,
     values: Configurator.Value[]
   ): void {
+    const valueImages: Configurator.Image[] = [];
+    if (occValue.images) {
+      occValue.images.forEach((occImage) =>
+        this.convertImage(occImage, valueImages)
+      );
+    }
+
     const value: Configurator.Value = {
       valueCode: occValue.key,
       valueDisplay: occValue.langDepName,
       name: occValue.name,
       selected: occValue.selected,
-      images: [],
+      images: valueImages,
     };
-
-    if (occValue.images) {
-      occValue.images.forEach((occImage) =>
-        this.convertImage(occImage, value.images!)
-      );
-    }
 
     values.push(value);
   }
