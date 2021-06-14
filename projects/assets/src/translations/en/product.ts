@@ -9,9 +9,7 @@ export const product = {
     share: 'Share',
     showReviews: 'Show reviews',
     noReviews: 'No reviews yet',
-    ariaLabel: {
-      productPrice: 'Product price',
-    },
+    productPrice: 'Product price',
   },
   productList: {
     filterBy: {
@@ -24,9 +22,7 @@ export const product = {
     sortByRelevance: 'Sort by Relevance',
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
-    ariaLabel: {
-      productSearchPagination: 'Product search pagination',
-    },
+    productSearchPagination: 'Product search pagination',
   },
   productFacetNavigation: {
     filterBy: {
@@ -42,9 +38,7 @@ export const product = {
     id: 'ID',
     showReviews: 'Show reviews',
     share: 'Share',
-    ariaLabel: {
-      newItemPrice: 'New item price',
-    },
+    newItemPrice: 'New item price',
   },
   productReview: {
     overallRating: 'Overall Rating',
