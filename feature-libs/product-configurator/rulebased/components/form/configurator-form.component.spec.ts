@@ -32,6 +32,7 @@ import { ConfiguratorAttributeRadioButtonComponent } from '../attribute/types/ra
 import { ConfiguratorAttributeReadOnlyComponent } from '../attribute/types/read-only/configurator-attribute-read-only.component';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CONFIGURATOR_ROUTE = 'configureCPQCONFIGURATOR';
@@ -205,8 +206,11 @@ describe('ConfigurationFormComponent', () => {
           provide: ConfiguratorGroupsService,
           useClass: MockConfiguratorGroupsService,
         },
-
         { provide: LanguageService, useValue: mockLanguageService },
+        {
+          provide: ConfiguratorStorefrontUtilsService,
+          useClass: ConfiguratorStorefrontUtilsService,
+        },
       ],
     })
       .overrideComponent(ConfiguratorAttributeHeaderComponent, {
@@ -395,5 +399,19 @@ describe('ConfigurationFormComponent', () => {
     });
 
     expect(configuratorCommonsService.updateConfiguration).toHaveBeenCalled();
+  });
+
+  describe('createGroupId', () => {
+    it('should return empty string because groupID is null', () => {
+      expect(createComponent().createGroupId(null)).toBeUndefined();
+    });
+
+    it('should return empty string because groupID is undefined', () => {
+      expect(createComponent().createGroupId(undefined)).toBeUndefined();
+    });
+
+    it('should return group ID string', () => {
+      expect(createComponent().createGroupId('1234')).toBe('1234-group');
+    });
   });
 });
