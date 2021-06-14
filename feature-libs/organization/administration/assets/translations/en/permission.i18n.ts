@@ -30,8 +30,8 @@ export const orgPurchaseLimit = {
 
   sortBy: 'Sort by',
   sort: {
-    byName: 'name',
-    byUnitName: 'unit',
+    byName: 'Name',
+    byUnitName: 'Unit',
   },
 
   messages: {

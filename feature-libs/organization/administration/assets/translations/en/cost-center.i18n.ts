@@ -10,9 +10,9 @@ export const orgCostCenter = {
 
   sortBy: 'Sort by',
   sort: {
-    byName: 'name',
-    byUnitName: 'unit',
-    byCode: 'code',
+    byName: 'Name',
+    byUnitName: 'Unit',
+    byCode: 'Code',
   },
 
   hint:

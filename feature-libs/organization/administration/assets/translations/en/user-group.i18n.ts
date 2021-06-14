@@ -9,9 +9,9 @@ export const orgUserGroup = {
 
   sortBy: 'Sort by',
   sort: {
-    byName: 'name',
-    byUnitName: 'unit',
-    byGroupID: 'group',
+    byName: 'Name',
+    byUnitName: 'Unit',
+    byGroupID: 'Group',
   },
 
   hint:

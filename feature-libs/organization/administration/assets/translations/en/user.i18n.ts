@@ -21,8 +21,8 @@ export const orgUser = {
 
   sortBy: 'Sort by',
   sort: {
-    byName: 'name',
-    byUnit: 'unit',
+    byName: 'Name',
+    byUnit: 'Unit',
   },
 
   details: {

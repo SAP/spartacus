@@ -15,10 +15,10 @@ export const orgBudget = {
 
   sortBy: 'Sort by',
   sort: {
-    byName: 'name',
-    byUnitName: 'unit',
-    byCode: 'code',
-    byValue: 'value',
+    byName: 'Name',
+    byUnitName: 'Unit',
+    byCode: 'Code',
+    byValue: 'Value',
   },
 
   hint:
