@@ -11,40 +11,45 @@ export class OccConfiguratorVariantSerializer
     source: Configurator.Configuration,
     target?: OccConfigurator.Configuration
   ): OccConfigurator.Configuration {
+    const resultGroups: OccConfigurator.Group[] = [];
+    source.groups.forEach((group) => this.convertGroup(group, resultGroups));
+
     const resultTarget: OccConfigurator.Configuration = {
       ...target,
       configId: source.configId,
       complete: source.complete,
-      groups: [],
+      groups: resultGroups,
     };
-
-    source.groups.forEach((group) =>
-      this.convertGroup(group, resultTarget.groups)
-    );
 
     return resultTarget;
   }
 
   convertGroup(source: Configurator.Group, occGroups: OccConfigurator.Group[]) {
-    const group: OccConfigurator.Group = {
-      name: source.name,
-      id: source.id,
-      configurable: source.configurable,
-      groupType: this.convertGroupType(source.groupType),
-      description: source.description,
-      attributes: [],
-      subGroups: [],
-    };
+    const resultSubGroups: OccConfigurator.Group[] = [];
+    const resultAttributes: OccConfigurator.Attribute[] = [];
+
     if (source.attributes) {
       source.attributes.forEach((attribute) =>
-        this.convertAttribute(attribute, group.attributes)
+        this.convertAttribute(attribute, resultAttributes)
       );
     }
     if (source.subGroups) {
       source.subGroups.forEach((subGroup) =>
-        this.convertGroup(subGroup, group.subGroups)
+        this.convertGroup(subGroup, resultSubGroups)
       );
     }
+
+    const group: OccConfigurator.Group = {
+      name: source.name,
+      id: source.id,
+      configurable: source.configurable,
+      groupType: this.convertGroupType(
+        source.groupType ?? Configurator.GroupType.ATTRIBUTE_GROUP
+      ),
+      description: source.description,
+      attributes: resultAttributes,
+      subGroups: resultSubGroups,
+    };
 
     occGroups.push(group);
   }
@@ -54,11 +59,14 @@ export class OccConfiguratorVariantSerializer
     occAttributes: OccConfigurator.Attribute[]
   ): void {
     const targetAttribute: OccConfigurator.Attribute = {
+      key: attribute.name,
       name: attribute.name,
       langDepName: attribute.label,
       required: attribute.required,
       retractTriggered: attribute.retractTriggered,
-      type: this.convertCharacteristicType(attribute.uiType),
+      type: this.convertCharacteristicType(
+        attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
+      ),
     };
 
     if (
@@ -76,10 +84,13 @@ export class OccConfiguratorVariantSerializer
       attribute.uiType === Configurator.UiType.CHECKBOX ||
       attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
-      targetAttribute.domainValues = [];
-      attribute.values.forEach((value) => {
-        this.convertValue(value, targetAttribute.domainValues);
-      });
+      const domainValues: OccConfigurator.Value[] = [];
+      if (attribute.values) {
+        attribute.values.forEach((value) => {
+          this.convertValue(value, domainValues);
+        });
+      }
+      targetAttribute.domainValues = domainValues;
     }
 
     occAttributes.push(targetAttribute);
@@ -144,6 +155,10 @@ export class OccConfiguratorVariantSerializer
         return OccConfigurator.GroupType.CSTIC_GROUP;
       case Configurator.GroupType.SUB_ITEM_GROUP:
         return OccConfigurator.GroupType.INSTANCE;
+      case Configurator.GroupType.CONFLICT_GROUP:
+        return OccConfigurator.GroupType.CONFLICT;
+      case Configurator.GroupType.CONFLICT_HEADER_GROUP:
+        return OccConfigurator.GroupType.CONFLICT_HEADER;
     }
   }
 }
