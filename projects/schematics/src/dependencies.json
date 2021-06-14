@@ -214,7 +214,7 @@
     "@ngrx/effects": "^10.0.0",
     "@ngrx/router-store": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@nguniversal/express-engine": "^10.1.0",
+    "@nguniversal/express-engine": "^11.2.1",
     "@types/googlemaps": "^3.37.5",
     "angular-oauth2-oidc": "^10.0.1",
     "bootstrap": "^4.3.1",
