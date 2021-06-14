@@ -532,6 +532,15 @@ describe('ConfiguratorCommonsService', () => {
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
+
+    it('should throw error in case owner type not present', () => {
+      expect(function () {
+        callGetOrCreate(
+          serviceUnderTest,
+          ConfiguratorModelUtils.createInitialOwner()
+        );
+      }).toThrow();
+    });
   });
 
   describe('hasConflicts', () => {

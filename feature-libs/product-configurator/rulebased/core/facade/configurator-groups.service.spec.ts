@@ -5,6 +5,7 @@ import { ActiveCartService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import {
+  CONFIG_ID,
   GROUP_ID_1,
   GROUP_ID_2,
   GROUP_ID_4,
@@ -144,18 +145,39 @@ describe('ConfiguratorGroupsService', () => {
     });
   });
 
-  it('should get the parentGroup from uiState', (done) => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
-    const parentGroup = classUnderTest.getMenuParentGroup(
-      productConfiguration.owner
-    );
+  describe('getMenuParentGroup', () => {
+    it('should get the parentGroup from uiState', (done) => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      const parentGroup = classUnderTest.getMenuParentGroup(
+        productConfiguration.owner
+      );
 
-    expect(parentGroup).toBeDefined();
-    parentGroup.subscribe((group) => {
-      expect(group).toBe(productConfiguration.groups[2]);
-      done();
+      expect(parentGroup).toBeDefined();
+      parentGroup.subscribe((group) => {
+        expect(group).toBe(productConfiguration.groups[2]);
+        done();
+      });
+    });
+    it('should throw an error if menu parent group has not been written to the store yet', (done) => {
+      const configurationWoMenuParentGroup = ConfiguratorTestUtils.createConfiguration(
+        CONFIG_ID,
+        ConfiguratorModelUtils.createInitialOwner()
+      );
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configurationWoMenuParentGroup)
+      );
+
+      console.log('CHHI test start');
+      expect(() =>
+        classUnderTest
+          .getMenuParentGroup(configurationWoMenuParentGroup.owner)
+          .subscribe((group) => {
+            expect(group).toBeUndefined();
+            done();
+          })
+      ).toBeDefined();
     });
   });
 

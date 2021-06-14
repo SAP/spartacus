@@ -104,7 +104,7 @@ export class ConfiguratorCommonsService {
           );
         }
       }
-    } else throw Error('At this point the owner type needs to be defined');
+    } else throw new Error('At this point the owner type needs to be defined');
   }
 
   /**
