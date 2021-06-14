@@ -10,6 +10,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from './configurator-form.event';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-form',
@@ -46,7 +47,8 @@ export class ConfiguratorFormComponent implements OnInit {
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected languageService: LanguageService
+    protected languageService: LanguageService,
+    protected configUtils: ConfiguratorStorefrontUtilsService
   ) {}
 
   ngOnInit(): void {
@@ -95,5 +97,15 @@ export class ConfiguratorFormComponent implements OnInit {
 
   isConflictGroupType(groupType: Configurator.GroupType): boolean {
     return this.configuratorGroupsService.isConflictGroupType(groupType);
+  }
+
+  /**
+   * Generates a group ID.
+   *
+   * @param {string} groupId - group ID
+   * @returns {string | undefined} - generated group ID
+   */
+  createGroupId(groupId?: string): string | undefined {
+    return this.configUtils.createGroupId(groupId);
   }
 }
