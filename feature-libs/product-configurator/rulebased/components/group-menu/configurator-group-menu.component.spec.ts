@@ -862,7 +862,11 @@ describe('ConfigurationGroupMenuComponent', () => {
         code: 'ArrowUp',
       });
 
-      component.switchGroupOnArrowPress(event, 0);
+      const group: Configurator.Group = mockProductConfiguration.groups[2];
+      const currentGroup: Configurator.Group =
+        mockProductConfiguration.groups[0];
+
+      component.switchGroupOnArrowPress(event, 0, group, currentGroup);
       expect(configGroupMenuService.switchGroupOnArrowPress).toHaveBeenCalled();
     });
 
@@ -871,7 +875,11 @@ describe('ConfigurationGroupMenuComponent', () => {
         code: 'ArrowDown',
       });
 
-      component.switchGroupOnArrowPress(event, 0);
+      const group: Configurator.Group = mockProductConfiguration.groups[2];
+      const currentGroup: Configurator.Group =
+        mockProductConfiguration.groups[0];
+
+      component.switchGroupOnArrowPress(event, 0, group, currentGroup);
       expect(configGroupMenuService.switchGroupOnArrowPress).toHaveBeenCalled();
     });
   });
