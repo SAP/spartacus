@@ -43,7 +43,7 @@ class SemanticPathServiceStub implements Partial<SemanticPathService> {
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  reportAuthGuard = jasmine.createSpy('reportAuthGuard');
+  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
 }
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
@@ -147,7 +147,7 @@ describe('CheckoutAuthGuard', () => {
 
       it('should notify AuthRedirectService with the current navigation', () => {
         checkoutGuard.canActivate().subscribe().unsubscribe();
-        expect(authRedirectService.reportAuthGuard).toHaveBeenCalled();
+        expect(authRedirectService.saveCurrentNavigationUrl).toHaveBeenCalled();
       });
     });
 
@@ -176,7 +176,9 @@ describe('CheckoutAuthGuard', () => {
       spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
 
       checkoutGuard.canActivate().subscribe().unsubscribe();
-      expect(authRedirectService.reportAuthGuard).not.toHaveBeenCalled();
+      expect(
+        authRedirectService.saveCurrentNavigationUrl
+      ).not.toHaveBeenCalled();
     });
   });
 

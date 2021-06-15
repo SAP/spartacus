@@ -1,8 +1,13 @@
 <div class="cx-dialog-header modal-header">
   <div class="cx-dialog-title modal-title">
-    {{ 'checkoutAddress.verifyYourAddress' | cxTranslate }}
+    {{ 'addressSuggestion.verifyYourAddress' | cxTranslate }}
   </div>
-  <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+  <button
+    type="button"
+    class="close"
+    [attr.aria-label]="'common.close' | cxTranslate"
+    (click)="closeModal()"
+  >
     <span aria-hidden="true">
       <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
     </span>
@@ -13,8 +18,8 @@
     <div class="row">
       <div class="cx-dialog-info col-md-12">
         <p>
-          {{ 'checkoutAddress.ensureAccuracySuggestChange' | cxTranslate }}
-          {{ 'checkoutAddress.chooseAddressToUse' | cxTranslate }}
+          {{ 'addressSuggestion.ensureAccuracySuggestChange' | cxTranslate }}
+          {{ 'addressSuggestion.chooseAddressToUse' | cxTranslate }}
         </p>
       </div>
     </div>
@@ -37,7 +42,7 @@
             class="form-check-label cx-dialog-label"
             [for]="'suggested-addresses--suggested-' + i"
           >
-            {{ 'checkoutAddress.suggestedAddress' | cxTranslate }}
+            {{ 'addressSuggestion.suggestedAddress' | cxTranslate }}
             {{ suggestedAddresses?.length > 1 ? i + 1 : null }}
           </label>
           <div class="cx-dialog-suggested">
@@ -64,7 +69,7 @@
             class="form-check-label cx-dialog-label"
             for="suggested-addresses--entered"
           >
-            {{ 'checkoutAddress.enteredAddress' | cxTranslate }}
+            {{ 'addressSuggestion.enteredAddress' | cxTranslate }}
           </label>
           <div class="cx-dialog-entered">
             {{ enteredAddress?.firstName }} {{ enteredAddress?.lastName }}<br />
@@ -84,14 +89,14 @@
           class="btn btn-secondary btn-block cx-dialog-buttons"
           (click)="closeModal()"
         >
-          {{ 'checkoutAddress.editAddress' | cxTranslate }}
+          {{ 'addressSuggestion.editAddress' | cxTranslate }}
         </button>
         <button
           cxAutoFocus
           class="btn btn-primary btn-block cx-dialog-buttons"
           (click)="closeModal(selectedAddress)"
         >
-          {{ 'checkoutAddress.saveAddress' | cxTranslate }}
+          {{ 'addressSuggestion.saveAddress' | cxTranslate }}
         </button>
       </div>
     </div>
