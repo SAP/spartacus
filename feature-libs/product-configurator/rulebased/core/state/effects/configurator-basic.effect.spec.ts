@@ -9,6 +9,7 @@ import {
   CommonConfigurator,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { CONFIG_ID } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-data';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
@@ -62,6 +63,7 @@ const productConfiguration: Configurator.Configuration = {
   complete: true,
   consistent: true,
   overview: {
+    configId: CONFIG_ID,
     groups: [
       {
         id: groupIdA,
@@ -249,7 +251,7 @@ describe('ConfiguratorEffect', () => {
       const overviewSuccessAction = new ConfiguratorActions.GetConfigurationOverviewSuccess(
         {
           ownerKey: owner.key,
-          overview: productConfiguration.overview ?? {},
+          overview: productConfiguration.overview ?? { configId: CONFIG_ID },
         }
       );
       actions$ = hot('-a', { a: action });
