@@ -53,7 +53,7 @@ export class NavigatedPushEvent implements ProfileTagPushEvent {
 
 export class ConsentChangedPushEvent implements ProfileTagPushEvent {
   name = 'ConsentChanged';
-  data: { granted: boolean }; //= { granted: undefined };
+  data: { granted: boolean | undefined }; //= { granted: undefined };
   constructor(granted: boolean) {
     this.data.granted = granted;
   }
