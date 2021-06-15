@@ -28,9 +28,9 @@ export class DpLocalStorageService {
   }
 
   readCardRegistrationState(): DpPaymentRequest {
-    const paymentRequest = this.statePersistenceService.readStateFromStorage<DpPaymentRequest>(
+    const paymentRequest = this.statePersistenceService.readStateFromStorage(
       { key: KEY }
-    );
+    ) as DpPaymentRequest;
 
     this.clearDpStorage();
     return paymentRequest;
