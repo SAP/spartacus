@@ -56,7 +56,6 @@ export const myAccount = {
     statusDisplay_assigned: {
       admin: 'Assigned To Administrator',
     },
-    backToTheList: 'Back to the list',
     orderNotFound: 'Order not found',
     consignmentTracking: {
       action: 'Track package',
