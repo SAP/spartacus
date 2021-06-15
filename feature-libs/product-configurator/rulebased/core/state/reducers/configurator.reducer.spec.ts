@@ -41,6 +41,7 @@ const configuration: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   owner: owner,
   groups: groups,
+  flatGroups: [],
   isCartEntryUpdateRequired: false,
   interactionState: interactionState,
 };
@@ -49,6 +50,7 @@ const configurationWithoutOv: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   owner: owner,
   groups: groups,
+  flatGroups: [],
   isCartEntryUpdateRequired: false,
   interactionState: interactionState,
 };

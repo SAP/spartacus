@@ -78,8 +78,8 @@ export class ConfiguratorUtilsService {
     return group.subGroups ? group.subGroups.length > 0 : false;
   }
 
-  isConfigurationCreated(configuration: Configurator.Configuration): boolean {
-    const configId: String = configuration.configId;
+  isConfigurationCreated(configuration?: Configurator.Configuration): boolean {
+    const configId = configuration?.configId;
     return (
       configId !== undefined &&
       configId.length !== 0 &&
@@ -99,6 +99,7 @@ export class ConfiguratorUtilsService {
     const newConfiguration: Configurator.Configuration = {
       configId: configuration.configId,
       groups: [],
+      flatGroups: [],
       interactionState: {},
       owner: configuration.owner,
       productCode: configuration.productCode,

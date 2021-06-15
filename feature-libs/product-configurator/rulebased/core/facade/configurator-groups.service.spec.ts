@@ -123,13 +123,12 @@ describe('ConfiguratorGroupsService', () => {
       });
     });
 
-    it('should return null if no group exist', (done) => {
+    it('should return undefined if no group exist', (done) => {
       const configNoGroups: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(
           'abc',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        flatGroups: undefined,
       };
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(configNoGroups)
@@ -160,7 +159,7 @@ describe('ConfiguratorGroupsService', () => {
         done();
       });
     });
-    it('should throw an error if menu parent group has not been written to the store yet', (done) => {
+    it('should return undefined if menu parent group is not availaible in uiState', (done) => {
       const configurationWoMenuParentGroup = ConfiguratorTestUtils.createConfiguration(
         CONFIG_ID,
         ConfiguratorModelUtils.createInitialOwner()
@@ -168,16 +167,15 @@ describe('ConfiguratorGroupsService', () => {
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(configurationWoMenuParentGroup)
       );
+      const parentGroup = classUnderTest.getMenuParentGroup(
+        productConfiguration.owner
+      );
 
-      console.log('CHHI test start');
-      expect(() =>
-        classUnderTest
-          .getMenuParentGroup(configurationWoMenuParentGroup.owner)
-          .subscribe((group) => {
-            expect(group).toBeUndefined();
-            done();
-          })
-      ).toBeDefined();
+      expect(parentGroup).toBeDefined();
+      parentGroup.subscribe((group) => {
+        expect(group).toBeUndefined();
+        done();
+      });
     });
   });
 
@@ -322,14 +320,20 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   it('should delegate calls for parent group to the facade utils service', () => {
-    classUnderTest.getParentGroup(
-      productConfiguration.groups,
-      productConfiguration.groups[2].subGroups[0]
-    );
-    expect(configFacadeUtilsService.getParentGroup).toHaveBeenCalledWith(
-      productConfiguration.groups,
-      productConfiguration.groups[2].subGroups[0]
-    );
+    const groupLevel1_3 = productConfiguration.groups[2];
+    const groupLevel2_0 = groupLevel1_3.subGroups
+      ? groupLevel1_3.subGroups[0]
+      : undefined;
+
+    if (groupLevel2_0) {
+      classUnderTest.getParentGroup(productConfiguration.groups, groupLevel2_0);
+      expect(configFacadeUtilsService.getParentGroup).toHaveBeenCalledWith(
+        productConfiguration.groups,
+        groupLevel2_0
+      );
+    } else {
+      fail();
+    }
   });
 
   it('should delegate calls for sub groups to the facade utils service', () => {

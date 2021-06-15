@@ -111,26 +111,16 @@ export class ConfiguratorGroupsService {
    */
   getMenuParentGroup(
     owner: CommonConfigurator.Owner
-  ): Observable<Configurator.Group> {
-    console.log('CHHI getMenuParentGroup start');
+  ): Observable<Configurator.Group | undefined> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       map((configuration) => {
-        console.log(
-          'CHHI getMenuParentGroup config retrieved: ' +
-            configuration.interactionState.menuParentGroup
-        );
         const menuParentGroup = configuration.interactionState.menuParentGroup;
-        if (menuParentGroup) {
-          return this.configuratorUtilsService.getGroupById(
-            configuration.groups,
-            menuParentGroup
-          );
-        } else {
-          console.log('CHHI throwing err');
-          throw new Error(
-            'At this point the menu parent group needs to be available'
-          );
-        }
+        return menuParentGroup
+          ? this.configuratorUtilsService.getGroupById(
+              configuration.groups,
+              menuParentGroup
+            )
+          : undefined;
       })
     );
   }

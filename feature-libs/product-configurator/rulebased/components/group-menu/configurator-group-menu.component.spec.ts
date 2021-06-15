@@ -71,6 +71,7 @@ const simpleConfig: Configurator.Configuration = {
       subGroups: [],
     },
   ],
+  flatGroups: [],
   interactionState: {
     issueNavigationDone: false,
   },

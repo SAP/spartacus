@@ -59,7 +59,7 @@ export namespace Configurator {
     totalNumberOfIssues?: number;
     productCode?: string;
     groups: Group[];
-    flatGroups?: Group[];
+    flatGroups: Group[];
     priceSummary?: PriceSummary;
     overview?: Overview;
     owner: CommonConfigurator.Owner;

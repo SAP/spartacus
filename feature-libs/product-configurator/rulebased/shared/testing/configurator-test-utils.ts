@@ -62,6 +62,7 @@ export class ConfiguratorTestUtils {
       configId: configId,
       owner: owner,
       groups: [],
+      flatGroups: [],
       interactionState: {},
     };
     return configuration;
