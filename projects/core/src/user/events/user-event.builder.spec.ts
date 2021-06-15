@@ -43,7 +43,7 @@ describe('UserEventBuilder', () => {
         done();
       });
 
-    actions$.next({ type: UserActions.UPDATE_USER_ADDRESS_SUCCESS, payload });
+    actions$.next({ type: UserActions.UPDATE_USER_ADDRESS, payload });
   });
 
   it('AddUserAddressEvent', (done) => {
@@ -57,7 +57,7 @@ describe('UserEventBuilder', () => {
         done();
       });
 
-    actions$.next({ type: UserActions.ADD_USER_ADDRESS_SUCCESS, payload });
+    actions$.next({ type: UserActions.ADD_USER_ADDRESS, payload });
   });
 
   it('DeleteUserAddressEvent', (done) => {
@@ -71,6 +71,6 @@ describe('UserEventBuilder', () => {
         done();
       });
 
-    actions$.next({ type: UserActions.DELETE_USER_ADDRESS_SUCCESS, payload });
+    actions$.next({ type: UserActions.DELETE_USER_ADDRESS, payload });
   });
 });
