@@ -96,10 +96,9 @@ export class OrderOverviewComponent {
     return this.translation
       .translate('checkoutOrderConfirmation.orderNumber')
       .pipe(
-        filter(() => Boolean(orderCode)),
         map((textTitle) => ({
           title: textTitle,
-          text: [orderCode],
+          text: [orderCode || '-'],
         }))
       );
   }
@@ -114,7 +113,7 @@ export class OrderOverviewComponent {
           if (Boolean(isoDate)) {
             date = this.getDate(new Date(isoDate));
           } else {
-            date = this.getDate(new Date());
+            date = '-';
           }
 
           return {
@@ -132,7 +131,7 @@ export class OrderOverviewComponent {
     ]).pipe(
       map(([textTitle, textStatus]) => ({
         title: textTitle,
-        text: [textStatus],
+        text: [textStatus || '-'],
       }))
     );
   }
@@ -177,28 +176,45 @@ export class OrderOverviewComponent {
 
   getAddressCardContent(deliveryAddress: Address): Observable<Card> {
     return this.translation.translate('addressCard.shipTo').pipe(
-      filter(() => Boolean(deliveryAddress)),
-      map((textTitle) => ({
-        title: textTitle,
-        textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
-        text: [deliveryAddress.formattedAddress, deliveryAddress.country.name],
-      }))
+      map((textTitle) => {
+        const addressCard = { title: textTitle, text: ['-'] };
+
+        if (deliveryAddress) {
+          addressCard.text = [
+            deliveryAddress.formattedAddress,
+            deliveryAddress.country.name,
+          ];
+
+          Object.assign(addressCard, {
+            textBold: `${deliveryAddress.firstName} ${deliveryAddress.lastName}`,
+          });
+        }
+
+        return addressCard;
+      })
     );
   }
 
   getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
     return this.translation.translate('checkoutShipping.shippingMethod').pipe(
-      filter(() => Boolean(deliveryMode)),
-      map((textTitle) => ({
-        title: textTitle,
-        textBold: deliveryMode.name,
-        text: [
-          deliveryMode.description,
-          deliveryMode.deliveryCost?.formattedValue
-            ? deliveryMode.deliveryCost?.formattedValue
-            : '',
-        ],
-      }))
+      map((textTitle) => {
+        const deliveryModeCard = { title: textTitle, text: ['-'] };
+
+        if (deliveryMode) {
+          deliveryModeCard.text = [
+            deliveryMode.description,
+            deliveryMode.deliveryCost?.formattedValue
+              ? deliveryMode.deliveryCost?.formattedValue
+              : '',
+          ];
+
+          Object.assign(deliveryModeCard, {
+            textBold: deliveryMode.name,
+          });
+        }
+
+        return deliveryModeCard;
+      })
     );
   }
 

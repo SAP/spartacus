@@ -54,9 +54,11 @@
           [content]="getOrderCurrentDateCardContent(order?.created) | async"
         ></cx-card>
 
-        <cx-card
-          [content]="getOrderStatusCardContent(order.statusDisplay) | async"
-        ></cx-card>
+        <ng-container *ngIf="order.statusDisplay">
+          <cx-card
+            [content]="getOrderStatusCardContent(order.statusDisplay) | async"
+          ></cx-card>
+        </ng-container>
       </div>
     </ng-template>
 
@@ -81,13 +83,13 @@
     </ng-container>
 
     <div class="cx-summary-card">
-      <ng-container *ngIf="order.deliveryAddress">
+      <ng-container>
         <cx-card
           [content]="getAddressCardContent(order?.deliveryAddress) | async"
         ></cx-card>
       </ng-container>
 
-      <ng-container *ngIf="order.deliveryMode">
+      <ng-container>
         <cx-card
           [content]="getDeliveryModeCardContent(order?.deliveryMode) | async"
         ></cx-card>

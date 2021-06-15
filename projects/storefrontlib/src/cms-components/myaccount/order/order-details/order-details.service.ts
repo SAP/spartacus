@@ -39,7 +39,9 @@ export class OrderDetailsService {
   }
 
   getOrderDetailsState(): Observable<LoaderState<Order>> {
-    return this.userOrderService.getOrderDetailsState();
+    return this.orderLoad$.pipe(
+      switchMap(() => this.userOrderService.getOrderDetailsState())
+    );
   }
 
   getOrderDetails(): Observable<Order> {

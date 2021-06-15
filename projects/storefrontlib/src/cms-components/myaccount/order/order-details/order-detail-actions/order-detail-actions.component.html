@@ -1,73 +1,50 @@
 <ng-container *ngIf="state$ | async as state">
-  <ng-container *ngIf="!state.loading; else loading">
-    <ng-container
-      *ngIf="isValidOrder(state.value) as order; else orderNotExist"
+  <div class="cx-nav row">
+    <div
+      *ngIf="!state.loading && !isValidOrder(state.value)"
+      class="col-12 header"
     >
-      <div class="cx-nav row">
-        <div class="col-xs-12 col-md-4 col-lg-3">
-          <button
-            [routerLink]="{ cxRoute: 'orders' } | cxUrl"
-            class="btn btn-block btn-action"
-          >
-            {{ 'common.back' | cxTranslate }}
-          </button>
-        </div>
-
-        <div class="col-xs-12 col-md-4 col-lg-3">
-          <a
-            *ngIf="order.cancellable"
-            [routerLink]="
-              {
-                cxRoute: 'orderCancel',
-                params: order
-              } | cxUrl
-            "
-            class="btn btn-block btn-action"
-          >
-            {{
-              'orderDetails.cancellationAndReturn.cancelAction' | cxTranslate
-            }}
-          </a>
-
-          <a
-            *ngIf="order.returnable"
-            [routerLink]="
-              {
-                cxRoute: 'orderReturn',
-                params: order
-              } | cxUrl
-            "
-            class="btn btn-block btn-action"
-          >
-            {{
-              'orderDetails.cancellationAndReturn.returnAction' | cxTranslate
-            }}
-          </a>
-        </div>
-      </div>
-    </ng-container>
-
-    <ng-template #orderNotExist>
-      <div class="cx-nav row">
-        <div class="col-12 header">
-          <h2>{{ 'orderDetails.orderNotFound' | cxTranslate }}</h2>
-        </div>
-
-        <div class="col-xs-12 col-md-4 col-lg-3">
-          <button
-            [routerLink]="{ cxRoute: 'orders' } | cxUrl"
-            class="btn btn-block btn-action"
-          >
-            {{ 'orderDetails.backToTheList' | cxTranslate }}
-          </button>
-        </div>
-      </div>
-    </ng-template>
-  </ng-container>
-
-  <ng-template #loading>
-    <div class="cx-spinner">
-      <cx-spinner></cx-spinner>
+      <h2>{{ 'orderDetails.orderNotFound' | cxTranslate }}</h2>
     </div>
-  </ng-template>
+
+    <div class="col-xs-12 col-md-4 col-lg-3">
+      <button
+        [routerLink]="{ cxRoute: 'orders' } | cxUrl"
+        class="btn btn-block btn-action"
+      >
+        {{ 'common.back' | cxTranslate }}
+      </button>
+    </div>
+
+    <div
+      *ngIf="isValidOrder(state.value) as order"
+      class="col-xs-12 col-md-4 col-lg-3"
+    >
+      <a
+        *ngIf="order.cancellable"
+        [routerLink]="
+          {
+            cxRoute: 'orderCancel',
+            params: order
+          } | cxUrl
+        "
+        class="btn btn-block btn-action"
+      >
+        {{ 'orderDetails.cancellationAndReturn.cancelAction' | cxTranslate }}
+      </a>
+
+      <a
+        *ngIf="order.returnable"
+        [routerLink]="
+          {
+            cxRoute: 'orderReturn',
+            params: order
+          } | cxUrl
+        "
+        class="btn btn-block btn-action"
+      >
+        {{ 'orderDetails.cancellationAndReturn.returnAction' | cxTranslate }}
+      </a>
+    </div>
+  </div>
 </ng-container>
