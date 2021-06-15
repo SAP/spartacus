@@ -41,6 +41,5 @@ import { AddressBookComponentService } from './address-book.component.service';
     }),
     UserAddressService,
   ],
-  entryComponents: [AddressBookComponent],
 })
 export class AddressBookModule {}

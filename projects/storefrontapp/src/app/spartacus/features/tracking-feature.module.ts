@@ -6,7 +6,10 @@ import {
   provideConfig,
 } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
-import { PersonalizationRootModule } from '@spartacus/tracking/personalization/root';
+import {
+  PersonalizationRootModule,
+  PERSONALIZATION_FEATURE,
+} from '@spartacus/tracking/personalization/root';
 import { AepModule } from '@spartacus/tracking/tms/aep';
 import { BaseTmsModule, TmsConfig } from '@spartacus/tracking/tms/core';
 import { GtmModule } from '@spartacus/tracking/tms/gtm';
@@ -31,7 +34,7 @@ import { GtmModule } from '@spartacus/tracking/tms/gtm';
     }),
     provideConfig(<CmsConfig>{
       featureModules: {
-        personalization: {
+        [PERSONALIZATION_FEATURE]: {
           module: () =>
             import('@spartacus/tracking/personalization').then(
               (m) => m.PersonalizationModule

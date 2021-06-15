@@ -13,6 +13,7 @@ import {
 import { SpinnerModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import createSpy = jasmine.createSpy;
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 const location: PointOfService = {
   displayName: 'Test Store',
@@ -55,6 +56,7 @@ describe('StoreFinderDisplayListComponent', () => {
           HttpClientTestingModule,
           SpinnerModule,
           I18nTestingModule,
+          NgbNavModule,
         ],
         schemas: [NO_ERRORS_SCHEMA],
         declarations: [StoreFinderListComponent, StoreFinderMapComponent],

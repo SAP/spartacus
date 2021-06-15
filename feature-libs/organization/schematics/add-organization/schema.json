@@ -20,17 +20,21 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": [
-          "Administration (b2b feature)",
-          "Order-approval (b2b feature)"
-        ],
+        "enum": ["Administration", "Order-Approval"],
         "type": "string"
       },
-      "default": [
-        "Administration (b2b feature)",
-        "Order-approval (b2b feature)"
-      ],
-      "x-prompt": "Which Organization features would you like to setup?"
+      "default": ["Administration", "Order-Approval"],
+      "x-prompt": {
+        "message": "Which Organization features would you like to set up?",
+        "type": "list",
+        "items": [
+          {
+            "value": "Administration",
+            "label": "Administration (b2b feature)"
+          },
+          { "value": "Order-Approval", "label": "Order Approval (b2b feature)" }
+        ]
+      }
     }
   },
   "required": []

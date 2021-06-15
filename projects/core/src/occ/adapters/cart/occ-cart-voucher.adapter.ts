@@ -21,7 +21,9 @@ export class OccCartVoucherAdapter implements CartVoucherAdapter {
   ) {}
 
   protected getCartVoucherEndpoint(userId: string, cartId): string {
-    return this.occEndpoints.getUrl('cartVoucher', { userId, cartId });
+    return this.occEndpoints.buildUrl('cartVoucher', {
+      urlParams: { userId, cartId },
+    });
   }
 
   protected getHeaders(userId: string): HttpHeaders {

@@ -1,7 +1,18 @@
-import { ChangeDetectorRef, Pipe, PipeTransform, Type } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  Pipe,
+  PipeTransform,
+  Type,
+} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, FormControl } from '@angular/forms';
-import { I18nTestingModule, OrderEntry } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/core';
 import {
   CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
@@ -10,7 +21,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService, CartItemContext } from '@spartacus/storefront';
-import { of, ReplaySubject } from 'rxjs';
+import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
@@ -23,10 +34,24 @@ class MockNumericPipe implements PipeTransform {
   }
 }
 
+@Component({
+  selector: 'cx-configure-cart-entry',
+  template: '',
+})
+class MockConfigureCartEntryComponent {
+  @Input() cartEntry: OrderEntry;
+  @Input() readOnly: boolean;
+  @Input() msgBanner: boolean;
+  @Input() disabled: boolean;
+}
+
 class MockCartItemContext implements Partial<CartItemContext> {
   item$ = new ReplaySubject<OrderEntry>(1);
   readonly$ = new ReplaySubject<boolean>(1);
   quantityControl$ = new ReplaySubject<FormControl>(1);
+  location$ = new BehaviorSubject<PromotionLocation>(
+    PromotionLocation.SaveForLater
+  );
 }
 
 const configurationInfos: ConfigurationInfo[] = [
@@ -54,6 +79,16 @@ const entry: OrderEntry = {
   configurationInfos: configurationInfos,
 };
 
+function setConfiguratorTypeIntoFirstConfigInfo(
+  entry: OrderEntry,
+  configuratorType: string
+) {
+  const configInfos = entry.configurationInfos;
+  if (configInfos && configInfos[0]) {
+    configInfos[0].configuratorType = configuratorType;
+  }
+}
+
 describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   let component: ConfiguratorCartEntryBundleInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryBundleInfoComponent>;
@@ -67,7 +102,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [ConfiguratorCartEntryBundleInfoComponent, MockNumericPipe],
+      declarations: [
+        ConfiguratorCartEntryBundleInfoComponent,
+        MockNumericPipe,
+        MockConfigureCartEntryComponent,
+      ],
       providers: [
         { provide: CartItemContext, useClass: MockCartItemContext },
         {
@@ -144,7 +183,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
   describe('bundle info for cart entry', () => {
     it('should not be displayed if model provides empty array', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configuratorType: 'ANOTHERCPQCONFIGURATOR',
@@ -163,7 +202,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     it('should be displayed if model provides a success entry', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configurationLabel: 'Color',
@@ -185,7 +224,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
     it('should be displayed if model provides a warning entry', () => {
       mockCartItemContext.item$.next({
-        statusSummaryList: null,
+        statusSummaryList: undefined,
         configurationInfos: [
           {
             configurationLabel: 'Pricing',
@@ -218,14 +257,18 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
   describe('isBundleBasedConfigurator', () => {
     it('should return false because the configurator type is not bundle based one', () => {
-      entry.configurationInfos[0].configuratorType =
-        'notBundleBasedConfiguratorType';
+      setConfiguratorTypeIntoFirstConfigInfo(
+        entry,
+        'notBundleBasedConfiguratorType'
+      );
+
       fixture.detectChanges();
       expect(component.isBundleBasedConfigurator(entry)).toBe(false);
     });
 
     it('should return true because the configurator type is a bundle based one', () => {
-      entry.configurationInfos[0].configuratorType = ConfiguratorType.CPQ;
+      setConfiguratorTypeIntoFirstConfigInfo(entry, ConfiguratorType.CPQ);
+
       fixture.detectChanges();
       expect(component.isBundleBasedConfigurator(entry)).toBe(true);
     });
@@ -245,9 +288,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       let result: boolean;
       component
         .isDesktop()
-        .subscribe((br) => (result = br))
+        .subscribe((br) => {
+          result = br;
+          expect(result).toBe(false);
+        })
         .unsubscribe();
-      expect(result).toBe(false);
     });
 
     it('should return `true` because we deal with desktop widget', () => {
@@ -255,9 +300,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
       let result: boolean;
       component
         .isDesktop()
-        .subscribe((br) => (result = br))
+        .subscribe((br) => {
+          result = br;
+          expect(result).toBe(true);
+        })
         .unsubscribe();
-      expect(result).toBe(true);
     });
   });
 
@@ -265,12 +312,13 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     describe('without any line item information', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
-          statusSummaryList: null,
+          statusSummaryList: undefined,
           configurationInfos: [],
           product: {
             configurable: true,
           },
         });
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
         mockCartItemContext.readonly$.next(false);
         mockCartItemContext.quantityControl$.next(new FormControl());
         fixture.detectChanges();
@@ -310,12 +358,13 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     describe('with line item information', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
-          statusSummaryList: null,
+          statusSummaryList: undefined,
           configurationInfos: configurationInfos,
           product: {
             configurable: true,
           },
         });
+        mockCartItemContext.location$.next(PromotionLocation.ActiveCart);
         mockCartItemContext.readonly$.next(false);
         mockCartItemContext.quantityControl$.next(new FormControl());
         fixture.detectChanges();
@@ -383,7 +432,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     describe('cart entry bundle info with price and quantity', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
-          statusSummaryList: null,
+          statusSummaryList: undefined,
           configurationInfos: [
             {
               configurationLabel: 'Canon ABC',
@@ -524,7 +573,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     describe('cart entry bundle info with only quantity', () => {
       beforeEach(() => {
         mockCartItemContext.item$.next({
-          statusSummaryList: null,
+          statusSummaryList: undefined,
           configurationInfos: [
             {
               configurationLabel: 'Canon ABC',
@@ -636,6 +685,44 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           '.cx-item-quantity span.cx-item',
           '10'
         );
+      });
+    });
+
+    describe('shouldShowButton', () => {
+      beforeEach(() => {
+        const quantityControl = new FormControl();
+        mockCartItemContext.quantityControl$?.next(quantityControl);
+        mockCartItemContext.item$?.next({
+          product: { configurable: true },
+          configurationInfos: [
+            {
+              configurationLabel: 'Canon ABC',
+              configurationValue: '10',
+              configuratorType: ConfiguratorType.CPQ,
+              status: 'SUCCESS',
+            },
+          ],
+        });
+      });
+      it('should prevent the rendering of "edit configuration" if context is SaveForLater', () => {
+        mockCartItemContext.location$?.next(PromotionLocation.SaveForLater);
+        fixture.detectChanges();
+
+        const htmlElem = fixture.nativeElement;
+        expect(
+          htmlElem.querySelectorAll('.cx-configure-cart-entry').length
+        ).toBe(0);
+      });
+
+      it('should allow the rendering of "edit configuration" if context is active cart', () => {
+        mockCartItemContext.location$?.next(PromotionLocation.ActiveCart);
+
+        fixture.detectChanges();
+
+        const htmlElem = fixture.nativeElement;
+        expect(
+          htmlElem.querySelectorAll('cx-configure-cart-entry').length
+        ).toBe(1);
       });
     });
   });

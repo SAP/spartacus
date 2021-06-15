@@ -5,7 +5,8 @@ import {
   SPARTACUS_SETUP,
 } from '../constants';
 import { isImportedFromSpartacusLibs } from './import-utils';
-import { getModule, Import } from './new-module-utils';
+import { CustomConfig } from './lib-utils';
+import { getModule } from './new-module-utils';
 
 export function getSpartacusProviders(sourceFile: SourceFile): Node[] {
   const module = getModule(sourceFile);
@@ -16,31 +17,31 @@ export function getSpartacusProviders(sourceFile: SourceFile): Node[] {
     tsMorph.SyntaxKind.ObjectLiteralExpression
   );
   const providers: Node[] = [];
-  if (literal) {
-    const properties =
-      literal.getChildrenOfKind(tsMorph.SyntaxKind.PropertyAssignment) ?? [];
-    properties.forEach((property) => {
-      if (
-        property.getNameNode().getText() === 'providers' &&
-        property.getInitializerIfKind(tsMorph.SyntaxKind.ArrayLiteralExpression)
-      ) {
-        const initializer = property.getInitializerIfKind(
-          tsMorph.SyntaxKind.ArrayLiteralExpression
-        );
-        initializer?.getElements().forEach((element) => {
-          if (Node.isCallExpression(element) || Node.isSpreadElement(element)) {
-            const expression = element.getExpression();
-            if (
-              Node.isIdentifier(expression) &&
-              isImportedFromSpartacusLibs(expression)
-            ) {
-              providers.push(element);
-            }
+
+  const properties =
+    literal?.getChildrenOfKind(tsMorph.SyntaxKind.PropertyAssignment) ?? [];
+  properties.forEach((property) => {
+    if (
+      property.getNameNode().getText() === 'providers' &&
+      property.getInitializerIfKind(tsMorph.SyntaxKind.ArrayLiteralExpression)
+    ) {
+      const initializer = property.getInitializerIfKind(
+        tsMorph.SyntaxKind.ArrayLiteralExpression
+      );
+      initializer?.getElements().forEach((element) => {
+        if (Node.isCallExpression(element) || Node.isSpreadElement(element)) {
+          const expression = element.getExpression();
+          if (
+            Node.isIdentifier(expression) &&
+            isImportedFromSpartacusLibs(expression)
+          ) {
+            providers.push(element);
           }
-        });
-      }
-    });
-  }
+        }
+      });
+    }
+  });
+
   return providers;
 }
 
@@ -60,7 +61,7 @@ export function normalizeConfiguration(config: string | Node): string {
   return newConfig;
 }
 
-export function getB2bConfiguration(): { import: Import[]; content: string }[] {
+export function getB2bConfiguration(): CustomConfig[] {
   return [
     {
       import: [
