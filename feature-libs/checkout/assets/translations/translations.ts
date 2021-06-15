@@ -6,5 +6,13 @@ export const checkoutTranslations: TranslationResources = {
 };
 
 export const checkoutTranslationChunksConfig: TranslationChunksConfig = {
-  checkout: ['checkout'],
+  checkout: [
+    'checkout',
+    'checkoutAddress',
+    'checkoutOrderConfirmation',
+    'checkoutReview',
+    'checkoutShipping',
+    'checkoutProgress',
+    'checkoutPO',
+  ],
 };

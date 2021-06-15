@@ -7,7 +7,7 @@ import {
   RoutingConfigService,
 } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
-import { defaultStorefrontRoutesConfig } from '../../../../projects/storefrontlib/src/cms-structure/routing/default-routing-config';
+import { defaultCheckoutRoutingConfig } from '../../root/config/default-checkout-routing-config';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
@@ -15,7 +15,8 @@ import { CheckoutGuard } from './checkout.guard';
 
 const isExpressCheckoutSet = new BehaviorSubject(false);
 const setDefaultCheckoutDetailsSuccess = new BehaviorSubject(false);
-const MockRoutesConfig: RoutesConfig = defaultStorefrontRoutesConfig;
+const MockRoutesConfig: RoutesConfig =
+  defaultCheckoutRoutingConfig.routing?.routes;
 
 class MockCheckoutConfigService {
   isExpressCheckout() {
