@@ -143,7 +143,7 @@
       flex: none;
     }
     cx-sorting {
-      width: fill-available;
+      width: 100%;
     }
     @include media-breakpoint-down(sm) {
       padding: 1.25rem;
