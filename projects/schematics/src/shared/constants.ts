@@ -875,6 +875,7 @@ export const GET_LOADED = 'getLoaded';
 export const IS_STABLE = 'isStable';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
+export const GO = 'go';
 
 export const CREATE_EVENT_FROM_INPUT = 'createEventFromInput';
 export const ON_SELECT = 'onSelect';
