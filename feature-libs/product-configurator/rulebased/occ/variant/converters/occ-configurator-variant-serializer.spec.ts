@@ -92,7 +92,6 @@ describe('OccConfiguratorVariantSerializer', () => {
         attributes: [
           {
             name: 'EXP_NUMBER',
-            key: 'EXP_NUMBER',
             langDepName: 'Expected Number',
             required: true,
             type: OccConfigurator.UiType.NOT_IMPLEMENTED,
@@ -100,7 +99,6 @@ describe('OccConfiguratorVariantSerializer', () => {
 
           {
             name: 'CPQ_CPU',
-            key: 'CPQ_CPU',
             langDepName: 'Processor',
             required: true,
             type: OccConfigurator.UiType.RADIO_BUTTON,
@@ -108,7 +106,6 @@ describe('OccConfiguratorVariantSerializer', () => {
           },
           {
             name: 'CPQ_RAM',
-            key: 'CPQ_RAM',
             langDepName: 'RAM',
             required: false,
             type: OccConfigurator.UiType.SINGLE_SELECTION_IMAGE,
@@ -181,13 +178,8 @@ describe('OccConfiguratorVariantSerializer', () => {
 
     occConfiguratorVariantSerializer.convertGroup(groupWithSubGroup, occGroups);
     expect(occGroups.length).toBe(1);
-    const subGroups = occGroups[0].subGroups;
-    if (subGroups) {
-      expect(subGroups.length).toBe(1);
-      expect(subGroups[0].id).toBe(GROUP_ID);
-    } else {
-      fail();
-    }
+    expect(occGroups[0].subGroups.length).toBe(1);
+    expect(occGroups[0].subGroups[0].id).toBe(GROUP_ID);
   });
 
   it('should map group types properly', () => {
@@ -202,18 +194,6 @@ describe('OccConfiguratorVariantSerializer', () => {
         Configurator.GroupType.SUB_ITEM_GROUP
       )
     ).toBe(OccConfigurator.GroupType.INSTANCE);
-
-    expect(
-      occConfiguratorVariantSerializer.convertGroupType(
-        Configurator.GroupType.CONFLICT_GROUP
-      )
-    ).toBe(OccConfigurator.GroupType.CONFLICT);
-
-    expect(
-      occConfiguratorVariantSerializer.convertGroupType(
-        Configurator.GroupType.CONFLICT_HEADER_GROUP
-      )
-    ).toBe(OccConfigurator.GroupType.CONFLICT_HEADER);
   });
 
   it('should fill formatted value for numeric attributes', () => {
@@ -223,7 +203,7 @@ describe('OccConfiguratorVariantSerializer', () => {
       retractTriggered: false,
       uiType: Configurator.UiType.NUMERIC,
     };
-    const occAttributes: OccConfigurator.Attribute[] = [];
+    const occAttributes = [];
     occConfiguratorVariantSerializer.convertAttribute(
       numericAttribute,
       occAttributes
@@ -239,7 +219,7 @@ describe('OccConfiguratorVariantSerializer', () => {
       retractTriggered: false,
       uiType: Configurator.UiType.STRING,
     };
-    const occAttributes: OccConfigurator.Attribute[] = [];
+    const occAttributes = [];
     occConfiguratorVariantSerializer.convertAttribute(
       stringAttribute,
       occAttributes
@@ -259,19 +239,14 @@ describe('OccConfiguratorVariantSerializer', () => {
         { valueCode: 'code2', valueDisplay: 'name2' },
       ],
     };
-    const occAttributes: OccConfigurator.Attribute[] = [];
+    const occAttributes = [];
     occConfiguratorVariantSerializer.convertAttribute(
       mvAttribute,
       occAttributes
     );
-    const domainValues = occAttributes[0].domainValues;
-    if (domainValues) {
-      expect(domainValues.length).toBe(2);
-      expect(domainValues[0].key).toBe('code1');
-      expect(domainValues[1].langDepName).toBe('name2');
-    } else {
-      fail();
-    }
+    expect(occAttributes[0].domainValues.length).toBe(2);
+    expect(occAttributes[0].domainValues[0].key).toBe('code1');
+    expect(occAttributes[0].domainValues[1].langDepName).toBe('name2');
   });
 
   it('should consider that an attribute was retracted', () => {
@@ -279,7 +254,7 @@ describe('OccConfiguratorVariantSerializer', () => {
       name: 'attr',
       retractTriggered: true,
     };
-    const occAttributes: OccConfigurator.Attribute[] = [];
+    const occAttributes = [];
     occConfiguratorVariantSerializer.convertAttribute(
       attributeWithRetraction,
       occAttributes

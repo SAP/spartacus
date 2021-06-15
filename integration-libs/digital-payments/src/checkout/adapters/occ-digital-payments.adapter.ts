@@ -23,7 +23,7 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     cartId = CURRENT_CART
   ): Observable<any> {
     return this.http.post<any>(
-      `${this.occEndpoints.getBaseUrl()}/users/${userId}/carts/${cartId}/payment/digitalPayments/request`,
+      `${this.occEndpoints.getBaseEndpoint()}/users/${userId}/carts/${cartId}/payment/digitalPayments/request`,
       null
     );
   }
@@ -39,7 +39,7 @@ export class OccDigitalPaymentsAdapter implements DigitalPaymentsAdapter {
     params = params.append('sign', signature);
 
     return this.http.post<any>(
-      `${this.occEndpoints.getBaseUrl()}/users/${userId}/carts/${cartId}/payment/digitalPayments/response`,
+      `${this.occEndpoints.getBaseEndpoint()}/users/${userId}/carts/${cartId}/payment/digitalPayments/response`,
       null,
       { params: params }
     );

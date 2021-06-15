@@ -1,11 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, TranslationService } from '@spartacus/core';
-import {
-  GROUP_ID_1,
-  GROUP_ID_2,
-  GROUP_ID_3,
-} from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-data';
 import { Observable, of } from 'rxjs';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
@@ -14,7 +9,6 @@ import { OccConfiguratorVariantOverviewNormalizer } from './occ-configurator-var
 const generalGroupName = '_GEN';
 const generalGroupDescription = 'General';
 const groupDescription = 'The Group Name';
-const groupId = '1';
 const configId = '1234-4568';
 const PRODUCT_CODE = 'PRODUCT';
 const totalNumberOfIssues = 2;
@@ -32,7 +26,7 @@ const convertedOverview: Configurator.Overview = {
   productCode: PRODUCT_CODE,
   groups: [
     {
-      id: groupId,
+      id: '1',
       groupDescription: groupDescription,
 
       attributes: [
@@ -74,7 +68,7 @@ const group3: OccConfigurator.GroupOverview = {
     {
       id: '4',
       groupDescription: 'SubGroupLevel2',
-      characteristicValues: undefined,
+      characteristicValues: null,
     },
   ],
 };
@@ -84,7 +78,7 @@ Object.freeze(subGroups);
 
 const subgroup: OccConfigurator.GroupOverview = { id: '11' };
 const group1: OccConfigurator.GroupOverview = {
-  id: groupId,
+  id: '1',
   groupDescription: groupDescription,
   characteristicValues: [
     {
@@ -172,8 +166,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should be able to handle groups without attributes', () => {
     const group: OccConfigurator.GroupOverview = {
-      subGroups: undefined,
-      characteristicValues: undefined,
+      subGroups: null,
+      characteristicValues: null,
       id: group1.id,
     };
 
@@ -184,7 +178,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should be able to handle groups with subgroups', () => {
     const groupWithSubgroups: OccConfigurator.GroupOverview = {
-      id: groupId,
       subGroups: [group1, group3],
     };
 
@@ -195,13 +188,11 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   it('should fill subgroups in the target model accross 3 levels', () => {
-    const thirdLevelGroup: OccConfigurator.GroupOverview = { id: GROUP_ID_1 };
+    const thirdLevelGroup: OccConfigurator.GroupOverview = {};
     const secondLevelGroup: OccConfigurator.GroupOverview = {
-      id: GROUP_ID_2,
       subGroups: [thirdLevelGroup],
     };
     const groupWithSubgroups: OccConfigurator.GroupOverview = {
-      id: GROUP_ID_3,
       subGroups: [group1, group3, secondLevelGroup],
     };
 

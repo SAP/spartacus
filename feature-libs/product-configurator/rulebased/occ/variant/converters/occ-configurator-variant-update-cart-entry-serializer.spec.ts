@@ -59,8 +59,8 @@ describe('OccConfiguratorVariantUpdateCartEntrySerializer', () => {
     );
     expect(convertedParameters.userId).toEqual(targetParameters.userId);
     expect(convertedParameters.configId).toEqual(targetParameters.configId);
-    expect(convertedParameters.product?.code).toEqual(
-      targetParameters.product?.code
+    expect(convertedParameters.product.code).toEqual(
+      targetParameters.product.code
     );
     expect(convertedParameters.configurationInfos[0].configuratorType).toEqual(
       CONFIGURATOR_TYPE

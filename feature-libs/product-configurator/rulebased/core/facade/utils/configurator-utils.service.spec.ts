@@ -199,7 +199,7 @@ describe('ConfiguratorGroupUtilsService', () => {
           'a',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        overview: { configId: CONFIG_ID },
+        overview: {},
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });

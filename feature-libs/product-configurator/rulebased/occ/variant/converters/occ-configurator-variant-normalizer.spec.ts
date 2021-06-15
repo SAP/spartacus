@@ -10,7 +10,6 @@ import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 import { OccConfiguratorVariantNormalizer } from './occ-configurator-variant-normalizer';
 
-const configId = '192826';
 const attributeName = 'name';
 const valueKey = 'BK';
 const valueName = 'Black';
@@ -29,7 +28,6 @@ const conflictExplanation =
 
 const groupName = 'GROUP1';
 const groupDescription = 'The Group Name';
-const maxlength = 3;
 let flatGroups: Configurator.Group[] = [];
 let groups: Configurator.Group[] = [];
 
@@ -174,23 +172,15 @@ const attributeMSIWithValue: Configurator.Attribute = {
   ],
 };
 const configuration: OccConfigurator.Configuration = {
-  configId: configId,
   complete: true,
   rootProduct: 'CONF_PRODUCT',
   groups: [
     {
       attributes: [occAttributeWithValues],
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-      subGroups: [
-        {
-          attributes: [occAttributeWithValues],
-          groupType: OccConfigurator.GroupType.CSTIC_GROUP,
-        },
-      ],
+      subGroups: [{ attributes: [occAttributeWithValues] }],
     },
     {
       attributes: [occAttributeWithValues],
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
     },
   ],
 };
@@ -285,31 +275,26 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should convert subgroups', () => {
     const result = occConfiguratorVariantNormalizer.convert(configuration);
-    const subGroups = result.groups[0].subGroups;
-    const attributes = subGroups ? subGroups[0].attributes : [];
-    expect(attributes?.length).toBe(1);
+    expect(result.groups[0].subGroups[0].attributes.length).toBe(1);
   });
 
   it('should convert empty subgroups to empty array', () => {
     const result = occConfiguratorVariantNormalizer.convert(configuration);
-    const subGroups = result.groups[1].subGroups;
-    expect(subGroups ? subGroups.length : 1).toBe(0);
+    expect(result.groups[1].subGroups.length).toBe(0);
   });
 
   it('should convert attributes and values', () => {
     const result = occConfiguratorVariantNormalizer.convert(configuration);
     const attributes = result.groups[0].attributes;
     expect(attributes).toBeDefined();
-    expect(attributes?.length).toBe(1);
-    const attribute: Configurator.Attribute = attributes
-      ? attributes[0]
-      : { name: '' };
+    expect(attributes.length).toBe(1);
+    const attribute = attributes[0];
     expect(attribute.name).toBe(attributeName);
     expect(attribute.required).toBe(requiredFlag);
     expect(attribute.selectedSingleValue).toBe(valueKey2);
     expect(attribute.uiType).toBe(Configurator.UiType.RADIOBUTTON);
     const values = attribute.values;
-    expect(values?.length).toBe(2);
+    expect(values.length).toBe(2);
   });
 
   it('should convert values', () => {
@@ -329,7 +314,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should tell if attribute is numeric and know if negative values are allowed', () => {
     const attributes: Configurator.Attribute[] = [];
     const numericOccAttribute: OccConfigurator.Attribute = {
-      name: attributeName,
       value: '23.234',
       negativeAllowed: true,
       type: OccConfigurator.UiType.READ_ONLY,
@@ -346,8 +330,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should increase maximum length if negative numbers are allowed', () => {
     const attributes: Configurator.Attribute[] = [];
     const numericOccAttribute: OccConfigurator.Attribute = {
-      name: attributeName,
-      maxlength: maxlength,
+      maxlength: 3,
       negativeAllowed: true,
       key: groupKey,
     };
@@ -356,7 +339,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       attributes
     );
 
-    expect(attributes[0].maxlength).toBe(maxlength + 1);
+    expect(attributes[0].maxlength).toBe(numericOccAttribute.maxlength + 1);
   });
 
   it('should convert a standard group', () => {
@@ -388,7 +371,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should convert a group with no attributes', () => {
     const groupsWithoutAttributes: OccConfigurator.Group = {
       name: groupName,
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
     };
 
     occConfiguratorVariantNormalizer.convertGroup(
@@ -402,7 +384,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
   it('should convert a general group', () => {
     const generalGroup: OccConfigurator.Group = {
       name: generalGroupName,
-      groupType: OccConfigurator.GroupType.CSTIC_GROUP,
     };
 
     occConfiguratorVariantNormalizer.convertGroup(
@@ -607,35 +588,30 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   it('should convert image with media URL configured', () => {
-    const images: Configurator.Image[] = [];
-    const media = occConfig?.backend?.media;
-    if (media) {
-      media.baseUrl = 'https://mediaBackendBaseUrl/';
+    const images = [];
+    occConfig.backend.media.baseUrl = 'https://mediaBackendBaseUrl/';
 
-      occConfiguratorVariantNormalizer.convertImage(occImage, images);
+    occConfiguratorVariantNormalizer.convertImage(occImage, images);
 
-      expect(images.length).toBe(1);
-      expect(images[0].url).toBe(
-        'https://mediaBackendBaseUrl/media?This%20%is%20%a%20%URL'
-      );
+    expect(images.length).toBe(1);
+    expect(images[0].url).toBe(
+      'https://mediaBackendBaseUrl/media?This%20%is%20%a%20%URL'
+    );
 
-      occConfiguratorVariantNormalizer.convertImage(occImage, images);
-      expect(images.length).toBe(2);
-    }
+    occConfiguratorVariantNormalizer.convertImage(occImage, images);
+    expect(images.length).toBe(2);
   });
 
   it('should convert image with no media URL configured', () => {
-    const images: Configurator.Image[] = [];
-    const media = occConfig?.backend?.media;
-    if (media) {
-      media.baseUrl = undefined;
-      occConfiguratorVariantNormalizer.convertImage(occImage, images);
+    const images = [];
+    occConfig.backend.media.baseUrl = null;
 
-      expect(images.length).toBe(1);
-      expect(images[0].url).toBe(
-        'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
-      );
-    }
+    occConfiguratorVariantNormalizer.convertImage(occImage, images);
+
+    expect(images.length).toBe(1);
+    expect(images[0].url).toBe(
+      'https://occBackendBaseUrl/media?This%20%is%20%a%20%URL'
+    );
   });
 
   describe('check the setting of incomplete', () => {
@@ -721,22 +697,6 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
       expect(attributeMSIWOValue.incomplete).toBe(true);
       expect(attributeMSIWithValue.incomplete).toBe(false);
-    });
-  });
-
-  describe('convertAttribute', () => {
-    it('should default the attribute type if not specified', () => {
-      const sourceAttribute: OccConfigurator.Attribute = {
-        name: attributeName,
-        key: attributeName,
-      };
-      const attributes: Configurator.Attribute[] = [];
-      occConfiguratorVariantNormalizer.convertAttribute(
-        sourceAttribute,
-        attributes
-      );
-      const resultAttribute = attributes[0];
-      expect(resultAttribute.uiType).toBe(Configurator.UiType.NOT_IMPLEMENTED);
     });
   });
 });

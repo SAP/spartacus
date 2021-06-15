@@ -81,6 +81,7 @@ describe('dependency management migrations', () => {
     });
     it('should update them', async () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+      await schematicRunner.engine.executePostTasks().toPromise();
 
       const packageJson = appTree.readContent('/package.json');
       const updatedVersion: string = JSON.parse(packageJson).dependencies.rxjs;
@@ -107,6 +108,7 @@ describe('dependency management migrations', () => {
     });
     it('should downgrade them', async () => {
       await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+      await schematicRunner.engine.executePostTasks().toPromise();
 
       const packageJson = appTree.readContent('/package.json');
       const updatedVersion: string = JSON.parse(packageJson).dependencies

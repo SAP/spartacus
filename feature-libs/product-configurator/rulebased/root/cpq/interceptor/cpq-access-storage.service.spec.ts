@@ -39,7 +39,6 @@ const expiredAccessData: CpqAccessData = {
 const accessDataSoonExpiring: CpqAccessData = {
   accessToken: 'validTokenSoonExpiring',
   endpoint: 'https://cpq',
-  accessTokenExpirationTime: 0,
 };
 let accessDataObs: Observable<CpqAccessData>;
 let authDataObs: Observable<Boolean>;
@@ -142,7 +141,7 @@ describe('CpqAccessStorageService', () => {
       counter++;
     });
 
-    expect(counter).toBe(3);
+    expect(counter).toBe(3, '3 consumes should have been called each once');
   });
 
   it('should transparently fetch new token, when access data has expired', fakeAsync(() => {
