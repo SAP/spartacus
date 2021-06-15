@@ -107,26 +107,26 @@ title: Changes to Styles in 4.0
 ## Changes in Footer Navigation Component 
 * `h5` changed to `span` under `.flyout`, `@include media-breakpoint-down(md)`, `nav` and `nav >` to account for the change in markup template for improved screen reader support (a11y)
 
-## Card Component 
+## Changes in Card Component 
 * `.cx-card-title` class added (a11y)
 
-## Carousel Component
+## Changes in Carousel Component
 * `h3` changed to `h2` to account for the change in markup template for improved screen reader support (a11y)
 
-## Product Carousel Component
+## Changes in Product Carousel Component
 * `h4` changed to `h3` to account for the change in markup template for improved screen reader support (a11y)
 
-## Product List Item Component 
+## Changes in Product List Item Component 
 * `h2` added to account for the change in markup template for improved screen reader support (a11y)
 
-## Wish List Item Component 
+## Changes in Wish List Item Component 
 * `h2` added to account for the change in markup template for improved screen reader support (a11y)
 
-## Checkout Media Style Component 
+## Changes in Checkout Media Style Component 
 * `type(3)` and `font-weight` added to retain existing styling after change in markup template for improved screen reader support (a11y)
 
-## `_index.scss` Changes 
+## Changes in `_index.scss` Changes 
 * `_screen-reader.scss` added which will contain screen reader specific styles (a11y)
 
-## `_screen-reader.scss` Changes 
+## Changes in `_screen-reader.scss` Changes 
 * `.cx-visually-hidden` class added. This class can be utilized to hide elements specific for Screen Reader announcement and narration (a11y)
