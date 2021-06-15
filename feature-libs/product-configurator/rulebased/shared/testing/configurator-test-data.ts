@@ -234,6 +234,7 @@ export const productConfiguration: Configurator.Configuration = {
     issueNavigationDone: true,
   },
   overview: {
+    configId: CONFIG_ID,
     groups: [
       {
         id: '1',
