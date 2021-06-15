@@ -107,10 +107,8 @@ const mockOrder: Order = {
   },
 };
 
-const mockFormattedAddress: string[] = [
-  'test1, , test3, test4',
-  'test1, test2, test3, test4',
-];
+const mockUnformattedAddress = 'test1, , test3, test4';
+const mockFormattedAddress = 'test1, test2, test3, test4';
 
 class MockTranslationService {
   translate(): Observable<string> {
@@ -500,7 +498,7 @@ describe('OrderOverviewComponent', () => {
   describe('normalize formatted address', () => {
     it('should normalize address when line 2 is empty in address', () => {
       const address = component['normalizeFormattedAddress'](
-        mockFormattedAddress[0]
+        mockUnformattedAddress
       );
 
       expect(address).toEqual('test1, test3, test4');
@@ -508,10 +506,10 @@ describe('OrderOverviewComponent', () => {
 
     it('should not change the format when line 2 exist in address', () => {
       const address = component['normalizeFormattedAddress'](
-        mockFormattedAddress[1]
+        mockFormattedAddress
       );
 
-      expect(address).toEqual(mockFormattedAddress[1]);
+      expect(address).toEqual(mockFormattedAddress);
     });
   });
 });
