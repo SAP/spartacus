@@ -21,16 +21,16 @@ export class DpLocalStorageService {
   ) {}
 
   syncCardRegistrationState(): void {
-    this.statePersistenceService.syncWithStorage<DpPaymentRequest|undefined>({
+    this.statePersistenceService.syncWithStorage<DpPaymentRequest | undefined>({
       key: KEY,
       state$: this.getPaymentRequestState(),
     });
   }
 
   readCardRegistrationState(): DpPaymentRequest {
-    const paymentRequest = this.statePersistenceService.readStateFromStorage(
-      { key: KEY }
-    ) as DpPaymentRequest;
+    const paymentRequest = this.statePersistenceService.readStateFromStorage({
+      key: KEY,
+    }) as DpPaymentRequest;
 
     this.clearDpStorage();
     return paymentRequest;
