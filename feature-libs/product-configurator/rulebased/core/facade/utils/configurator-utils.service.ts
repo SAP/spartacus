@@ -83,7 +83,8 @@ export class ConfiguratorUtilsService {
     return (
       configId !== undefined &&
       configId.length !== 0 &&
-      (configuration?.flatGroups !== undefined ||
+      configuration !== undefined &&
+      (configuration.flatGroups.length > 0 ||
         configuration?.overview !== undefined)
     );
   }
@@ -183,6 +184,7 @@ export class ConfiguratorUtilsService {
     const changedGroup: Configurator.Group = {
       groupType: group.groupType,
       id: group.id,
+      subGroups: [],
     };
     return changedGroup;
   }

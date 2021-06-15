@@ -3,9 +3,9 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { ConfiguratorTestUtils } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
+import { ConfiguratorTestUtils } from './../../../shared/testing/configurator-test-utils';
 import * as StateReduce from './configurator.reducer';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -28,12 +28,8 @@ const interactionState: Configurator.InteractionState = {
 };
 
 const groups: Configurator.Group[] = [
-  {
-    id: 'firstGroup',
-  },
-  {
-    id: 'secondGroup',
-  },
+  ConfiguratorTestUtils.createGroup('firstGroup'),
+  ConfiguratorTestUtils.createGroup('secondGroup'),
 ];
 
 const configuration: Configurator.Configuration = {
@@ -85,12 +81,8 @@ describe('Configurator reducer', () => {
         productCode: PRODUCT_CODE,
         overview: { configId: CONFIG_ID },
         flatGroups: [
-          {
-            id: 'flatFirstGroup',
-          },
-          {
-            id: 'flatSecondGroup',
-          },
+          ConfiguratorTestUtils.createGroup('flatFirstGroup'),
+          ConfiguratorTestUtils.createGroup('flatFirstGroup'),
         ],
       };
       const action = new ConfiguratorActions.CreateConfigurationSuccess(

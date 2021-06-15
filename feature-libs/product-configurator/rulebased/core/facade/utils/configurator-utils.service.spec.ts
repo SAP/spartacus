@@ -29,7 +29,7 @@ const ATTRIBUTE_NAME_3_2 = 'Attribute_DropDown';
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const OWNER_PRODUCT = ConfiguratorModelUtils.createInitialOwner();
 const group1: Configurator.Group = {
-  id: GROUP_ID_1,
+  ...ConfiguratorTestUtils.createGroup(GROUP_ID_1),
   name: GROUP_NAME,
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
   attributes: [
@@ -47,13 +47,13 @@ const group1: Configurator.Group = {
 };
 
 const group2: Configurator.Group = {
-  id: GROUP_ID_2,
+  ...ConfiguratorTestUtils.createGroup(GROUP_ID_2),
   name: GROUP_NAME_2,
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
 };
 
 const group31: Configurator.Group = {
-  id: GROUP_ID_31,
+  ...ConfiguratorTestUtils.createGroup(GROUP_ID_31),
   name: GROUP_NAME_LEVEL1_CHILD_2,
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
 };
@@ -167,7 +167,7 @@ describe('ConfiguratorGroupUtilsService', () => {
           'a',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        flatGroups: [],
+        flatGroups: [ConfiguratorTestUtils.createGroup('1')],
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });

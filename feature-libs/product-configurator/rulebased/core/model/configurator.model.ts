@@ -49,7 +49,7 @@ export namespace Configurator {
     configurable?: boolean;
     complete?: boolean;
     consistent?: boolean;
-    subGroups?: Group[];
+    subGroups: Group[];
   }
 
   export interface Configuration {

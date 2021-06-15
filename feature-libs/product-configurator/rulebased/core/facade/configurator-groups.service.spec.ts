@@ -320,20 +320,14 @@ describe('ConfiguratorGroupsService', () => {
   });
 
   it('should delegate calls for parent group to the facade utils service', () => {
-    const groupLevel1_3 = productConfiguration.groups[2];
-    const groupLevel2_0 = groupLevel1_3.subGroups
-      ? groupLevel1_3.subGroups[0]
-      : undefined;
-
-    if (groupLevel2_0) {
-      classUnderTest.getParentGroup(productConfiguration.groups, groupLevel2_0);
-      expect(configFacadeUtilsService.getParentGroup).toHaveBeenCalledWith(
-        productConfiguration.groups,
-        groupLevel2_0
-      );
-    } else {
-      fail();
-    }
+    classUnderTest.getParentGroup(
+      productConfiguration.groups,
+      productConfiguration.groups[2].subGroups[0]
+    );
+    expect(configFacadeUtilsService.getParentGroup).toHaveBeenCalledWith(
+      productConfiguration.groups,
+      productConfiguration.groups[2].subGroups[0]
+    );
   });
 
   it('should delegate calls for sub groups to the facade utils service', () => {

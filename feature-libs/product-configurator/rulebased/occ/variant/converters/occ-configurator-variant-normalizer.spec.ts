@@ -5,6 +5,7 @@ import {
   OccConfig,
   TranslationService,
 } from '@spartacus/core';
+import { ConfiguratorTestUtils } from 'feature-libs/product-configurator/rulebased/shared/testing';
 import { Observable, of } from 'rxjs';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
@@ -415,8 +416,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should set description for a general group', () => {
     const generalGroup: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup(generalGroupName),
       name: generalGroupName,
-      id: generalGroupName,
     };
 
     occConfiguratorVariantNormalizer.setGroupDescription(generalGroup);
@@ -425,9 +426,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should set description for conflict header group', () => {
     const conflictHeaderGroup: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup(conflictHeaderGroupName),
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       name: conflictHeaderGroupName,
-      id: conflictHeaderGroupName,
     };
 
     occConfiguratorVariantNormalizer.setGroupDescription(conflictHeaderGroup);
@@ -438,9 +439,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
   it('should set description for conflict group and should store conflict explanation in group.name', () => {
     const conflictGroup: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup(conflictGroupName),
       groupType: Configurator.GroupType.CONFLICT_GROUP,
       name: conflictGroupName,
-      id: conflictGroupName,
       description: conflictExplanation,
     };
 

@@ -22,6 +22,7 @@ import { take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../shared/testing';
 import {
   ATTRIBUTE_1_CHECKBOX,
   CONFIGURATOR_ROUTE,
@@ -456,8 +457,14 @@ describe('ConfigurationGroupMenuComponent', () => {
       id: '1',
       groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
       subGroups: [
-        { id: '2', groupType: Configurator.GroupType.CONFLICT_GROUP },
-        { id: '3', groupType: Configurator.GroupType.CONFLICT_GROUP },
+        {
+          ...ConfiguratorTestUtils.createGroup('2'),
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+        },
+        {
+          ...ConfiguratorTestUtils.createGroup('2'),
+          groupType: Configurator.GroupType.CONFLICT_GROUP,
+        },
       ],
     };
     expect(component.getConflictNumber(groupWithConflicts)).toBe('(2)');
@@ -465,8 +472,14 @@ describe('ConfigurationGroupMenuComponent', () => {
       id: '1',
       groupType: Configurator.GroupType.SUB_ITEM_GROUP,
       subGroups: [
-        { id: '2', groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
-        { id: '3', groupType: Configurator.GroupType.ATTRIBUTE_GROUP },
+        {
+          ...ConfiguratorTestUtils.createGroup('2'),
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        },
+        {
+          ...ConfiguratorTestUtils.createGroup('3'),
+          groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        },
       ],
     };
     expect(component.getConflictNumber(attributeGroup)).toBe('');

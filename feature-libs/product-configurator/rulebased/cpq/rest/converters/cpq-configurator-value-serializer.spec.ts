@@ -17,7 +17,7 @@ const configuration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(configId),
   groups: [
     {
-      id: groupIdOfChangedAttribute,
+      ...ConfiguratorTestUtils.createGroup(groupIdOfChangedAttribute),
       attributes: [
         {
           attrCode: attrCode,

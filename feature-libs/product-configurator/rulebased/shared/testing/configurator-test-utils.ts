@@ -68,6 +68,15 @@ export class ConfiguratorTestUtils {
     return configuration;
   }
 
+  static createGroup(groupId: string): Configurator.Group {
+    const group: Configurator.Group = {
+      id: groupId,
+      subGroups: [],
+      attributes: [],
+    };
+    return group;
+  }
+
   protected static freezeOvGroup(overviewGroup: Configurator.GroupOverview) {
     Object.freeze(overviewGroup);
     overviewGroup.attributes?.forEach((ovAttribute) =>

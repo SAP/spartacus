@@ -43,7 +43,7 @@ const ORDER_ID = '0000011';
 const ORDER_ENTRY_NUMBER = 2;
 
 const group1: Configurator.Group = {
-  id: GROUP_ID_1,
+  ...ConfiguratorTestUtils.createGroup(GROUP_ID_1),
   name: GROUP_NAME,
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
   attributes: [
@@ -61,7 +61,7 @@ const group1: Configurator.Group = {
 };
 
 const group2: Configurator.Group = {
-  id: GROUP_ID_2,
+  ...ConfiguratorTestUtils.createGroup(GROUP_ID_2),
   name: GROUP_NAME_2,
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
 };
