@@ -1,6 +1,10 @@
 import { DigitalPaymentActions } from '../actions';
 import { DpPaymentRequest } from '../../models';
+<<<<<<< HEAD
 export const initialState: DpPaymentRequest = undefined;
+=======
+export const initialState: DpPaymentRequest = {};
+>>>>>>> feature/digital-payment
 export const emptyState: DpPaymentRequest = {};
 
 export function reducer(
@@ -16,10 +20,17 @@ export function reducer(
       return {
         url: action.payload.postUrl,
         sessionId: action.payload.parameters.entry.find(
+<<<<<<< HEAD
           (it) => it.key === 'session_id'
         ).value,
         signature: action.payload.parameters.entry.find(
           (it) => it.key === 'signature'
+=======
+          (it:any) => it.key === 'session_id'
+        ).value,
+        signature: action.payload.parameters.entry.find(
+          (it:any) => it.key === 'signature'
+>>>>>>> feature/digital-payment
         ).value,
       };
     }

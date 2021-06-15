@@ -21,22 +21,36 @@ export class DpLocalStorageService {
   ) {}
 
   syncCardRegistrationState(): void {
+<<<<<<< HEAD
     this.statePersistenceService.syncWithStorage<DpPaymentRequest>({
+=======
+    this.statePersistenceService.syncWithStorage<DpPaymentRequest|undefined>({
+>>>>>>> feature/digital-payment
       key: KEY,
       state$: this.getPaymentRequestState(),
     });
   }
 
   readCardRegistrationState(): DpPaymentRequest {
+<<<<<<< HEAD
     const paymentRequest = this.statePersistenceService.readStateFromStorage<
       DpPaymentRequest
     >({ key: KEY });
+=======
+    const paymentRequest = this.statePersistenceService.readStateFromStorage<DpPaymentRequest>(
+      { key: KEY }
+    );
+>>>>>>> feature/digital-payment
 
     this.clearDpStorage();
     return paymentRequest;
   }
 
+<<<<<<< HEAD
   protected getPaymentRequestState(): Observable<DpPaymentRequest> {
+=======
+  protected getPaymentRequestState(): Observable<DpPaymentRequest | undefined> {
+>>>>>>> feature/digital-payment
     return this.dpStore.pipe(
       select(DigitalPaymentSelectors.getDpCheckoutPaymentRequestState),
       map((state) => state.value)

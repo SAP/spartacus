@@ -324,6 +324,10 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/cdc':
       config.library = '@spartacus/cdc';
       break;
+    case 'digital-payments':
+    case '@spartacus/digital-payments':
+      config.library = '@spartacus/digital-payments';
+      break;
     case 'storefinder':
     case '@spartacus/storefinder':
       config.library = '@spartacus/storefinder';

@@ -1,7 +1,11 @@
 {
   "name": "@spartacus/digital-payments",
   "version": "0.300.0",
+<<<<<<< HEAD
   "description": "Digital Payment Integration library for Spartacus",
+=======
+  "description": "Customer Data Cloud Integration library for Spartacus",
+>>>>>>> feature/digital-payment
   "keywords": [
     "spartacus",
     "framework",
@@ -23,9 +27,15 @@
     "@ng-select/ng-select": "^5.0.9",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
+<<<<<<< HEAD
     "@spartacus/assets": "3.1.0-next.0",
     "@spartacus/core": "3.1.0-next.0",
     "@spartacus/storefront": "3.1.0-next.0",
+=======
+    "@spartacus/assets": "3.2.0-next.2",
+    "@spartacus/core": "3.2.0-next.2",
+    "@spartacus/storefront": "3.2.0-next.2",
+>>>>>>> feature/digital-payment
     "rxjs": "^6.6.0"
   },
   "publishConfig": {

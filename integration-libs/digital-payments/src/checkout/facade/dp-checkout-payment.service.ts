@@ -12,14 +12,22 @@ import { DigitalPaymentActions, DigitalPaymentSelectors } from '../store';
 })
 export class DpCheckoutPaymentService {
   constructor(protected dpStore: Store<StateWithDigitalPayments>) {}
+<<<<<<< HEAD
   w;
+=======
+  //w;
+>>>>>>> feature/digital-payment
   loadCardRegistrationDetails(): void {
     this.dpStore.dispatch(
       new DigitalPaymentActions.LoadCheckoutPaymentRequest()
     );
   }
 
+<<<<<<< HEAD
   getCardRegistrationDetails(): Observable<DpPaymentRequest> {
+=======
+  getCardRegistrationDetails(): Observable<DpPaymentRequest | undefined> {
+>>>>>>> feature/digital-payment
     return this.dpStore.pipe(
       select(DigitalPaymentSelectors.getDpCheckoutPaymentRequestState),
       tap((state) => {
@@ -44,7 +52,11 @@ export class DpCheckoutPaymentService {
   createPaymentDetails(
     sessionId: string,
     signature: string
+<<<<<<< HEAD
   ): Observable<PaymentDetails> {
+=======
+  ): Observable<PaymentDetails | undefined> {
+>>>>>>> feature/digital-payment
     return this.dpStore.pipe(
       select(DigitalPaymentSelectors.getDpCheckoutPaymentDetailsState),
       tap((state) => {
