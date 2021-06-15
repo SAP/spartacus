@@ -27,21 +27,21 @@ export class UserEventBuilder {
    */
   protected updateUserAddressSuccessEvent(): void {
     this.stateEventService.register({
-      action: UserActions.UPDATE_USER_ADDRESS_SUCCESS,
+      action: UserActions.UPDATE_USER_ADDRESS,
       event: UpdateUserAddressSuccessEvent,
     });
   }
 
   protected addUserAddressSuccessEvent(): void {
     this.stateEventService.register({
-      action: UserActions.ADD_USER_ADDRESS_SUCCESS,
+      action: UserActions.ADD_USER_ADDRESS,
       event: AddUserAddressSuccessEvent,
     });
   }
 
   protected deleteUserAddressSuccessEvent(): void {
     this.stateEventService.register({
-      action: UserActions.DELETE_USER_ADDRESS_SUCCESS,
+      action: UserActions.DELETE_USER_ADDRESS,
       event: DeleteUserAddressSuccessEvent,
     });
   }

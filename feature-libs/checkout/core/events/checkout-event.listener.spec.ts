@@ -8,7 +8,6 @@ import {
   CxEvent,
   DeleteUserAddressSuccessEvent,
   EventService,
-  SetDefaultUserAddressSuccessEvent,
   UpdateUserAddressSuccessEvent,
 } from '@spartacus/core';
 import { CheckoutDeliveryFacade } from 'feature-libs/checkout/root/facade/checkout-delivery.facade';
@@ -69,14 +68,6 @@ describe('CheckoutEventListener', () => {
   it('Should DeleteUserAddressSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryFacade, 'clearCheckoutDeliveryDetails');
     mockEventStream$.next(new DeleteUserAddressSuccessEvent());
-    expect(
-      checkoutDeliveryFacade.clearCheckoutDeliveryDetails
-    ).toHaveBeenCalled();
-  });
-
-  it('Should SetDefaultUserAddressSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
-    spyOn(checkoutDeliveryFacade, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new SetDefaultUserAddressSuccessEvent());
     expect(
       checkoutDeliveryFacade.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();

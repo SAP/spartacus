@@ -11,7 +11,6 @@ import {
 import {
   DeleteUserAddressSuccessEvent,
   EventService,
-  SetDefaultUserAddressSuccessEvent,
   UpdateUserAddressSuccessEvent,
   UserAddressEvent,
 } from '@spartacus/core';
@@ -47,8 +46,7 @@ export class CheckoutEventListener implements OnDestroy {
           filter((event) => {
             return (
               event instanceof UpdateUserAddressSuccessEvent ||
-              event instanceof DeleteUserAddressSuccessEvent ||
-              event instanceof SetDefaultUserAddressSuccessEvent
+              event instanceof DeleteUserAddressSuccessEvent
             );
           })
         )
