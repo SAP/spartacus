@@ -107,4 +107,9 @@ export const product = {
         'Subscribing you to Out of Stock notifications for this product',
     },
   },
+  itemCounter: {
+    removeOne: 'Remove one',
+    addOneMore: 'Add one more',
+    quantity: 'Quantity',
+  },
 };
