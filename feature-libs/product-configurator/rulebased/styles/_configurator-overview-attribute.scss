@@ -9,8 +9,6 @@
     font-weight: 600;
 
     @include media-breakpoint-up(md) {
-      width: 41.6666666667%;
-
       width: 40%;
     }
   }
