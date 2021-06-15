@@ -1,7 +1,7 @@
 {
   "name": "@spartacus/digital-payments",
   "version": "0.300.0",
-  "description": "Customer Data Cloud Integration library for Spartacus",
+  "description": "Digital Payment Integration library for Spartacus",
   "keywords": [
     "spartacus",
     "framework",
@@ -14,6 +14,11 @@
   "license": "Apache-2.0",
   "dependencies": {
     "tslib": "^2.0.0"
+  },
+  "scripts": {
+    "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
+    "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "peerDependencies": {
     "@angular/common": "^10.2.4",
