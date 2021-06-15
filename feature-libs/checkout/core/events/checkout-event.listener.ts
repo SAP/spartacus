@@ -9,11 +9,10 @@ import {
   ClearCheckoutFacade,
 } from '@spartacus/checkout/root';
 import {
+  DeleteUserAddressEvent,
   EventService,
-  UserAddressDeleteEvent,
+  UpdateUserAddressEvent,
   UserAddressEvent,
-  UserAddressSetAsDefaultEvent,
-  UserAddressUpdateEvent,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -37,7 +36,7 @@ export class CheckoutEventListener implements OnDestroy {
    * Clears the checkout delivery info when an address in the address book is
    * changed ( updated, set as default or deleted )
    *
-   * Listens for UserAddressUpdateEvent or UserAddressDeleteEvent or UserAddressSetAsDefaultEvent
+   * Listens for UpdateUserAddressEvent or DeleteUserAddressEvent or SetDefaultUserAddressSuccessEvent
    */
   protected onUserAddressChange() {
     this.subscription.add(
@@ -46,9 +45,8 @@ export class CheckoutEventListener implements OnDestroy {
         .pipe(
           filter((event) => {
             return (
-              event instanceof UserAddressUpdateEvent ||
-              event instanceof UserAddressDeleteEvent ||
-              event instanceof UserAddressSetAsDefaultEvent
+              event instanceof UpdateUserAddressEvent ||
+              event instanceof DeleteUserAddressEvent
             );
           })
         )

@@ -19,7 +19,7 @@ export const ADDRESS_BOOK_COMPONENT_MIGRATION: ConstructorDeprecation = {
     { className: CHECKOUT_DELIVERY_SERVICE, importPath: SPARTACUS_CORE },
   ],
   removeParams: [
-    { className: CHECKOUT_DELIVERY_SERVICE, importPath: SPARTACUS_CORE },
     { className: USER_ADDRESS_SERVICE, importPath: SPARTACUS_CORE },
+    { className: CHECKOUT_DELIVERY_SERVICE, importPath: SPARTACUS_CORE },
   ],
 };

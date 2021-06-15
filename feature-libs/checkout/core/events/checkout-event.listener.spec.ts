@@ -6,10 +6,9 @@ import {
 import { ClearCheckoutFacade } from '@spartacus/checkout/root';
 import {
   CxEvent,
+  DeleteUserAddressEvent,
   EventService,
-  UserAddressDeleteEvent,
-  UserAddressSetAsDefaultEvent,
-  UserAddressUpdateEvent,
+  UpdateUserAddressEvent,
 } from '@spartacus/core';
 import { CheckoutDeliveryFacade } from 'feature-libs/checkout/root/facade/checkout-delivery.facade';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -58,25 +57,17 @@ describe('CheckoutEventListener', () => {
     clearCheckoutFacade = TestBed.inject(ClearCheckoutFacade);
   });
 
-  it('Should UserAddressUpdateEvent trigger clearCheckoutDeliveryDetails', () => {
+  it('Should UpdateUserAddressEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryFacade, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new UserAddressUpdateEvent());
+    mockEventStream$.next(new UpdateUserAddressEvent());
     expect(
       checkoutDeliveryFacade.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();
   });
 
-  it('Should UserAddressDeleteEvent trigger clearCheckoutDeliveryDetails', () => {
+  it('Should DeleteUserAddressEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryFacade, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new UserAddressDeleteEvent());
-    expect(
-      checkoutDeliveryFacade.clearCheckoutDeliveryDetails
-    ).toHaveBeenCalled();
-  });
-
-  it('Should UserAddressSetAsDefaultEvent trigger clearCheckoutDeliveryDetails', () => {
-    spyOn(checkoutDeliveryFacade, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new UserAddressSetAsDefaultEvent());
+    mockEventStream$.next(new DeleteUserAddressEvent());
     expect(
       checkoutDeliveryFacade.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();
