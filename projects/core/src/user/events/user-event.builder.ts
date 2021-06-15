@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { StateEventService } from '../../state/event/state-event.service';
 import { UserActions } from '../store/actions/index';
 import {
-  AddUserAddressSuccessEvent,
-  DeleteUserAddressSuccessEvent,
-  UpdateUserAddressSuccessEvent,
+  AddUserAddressEvent,
+  DeleteUserAddressEvent,
+  UpdateUserAddressEvent,
 } from './user.events';
 
 @Injectable()
@@ -17,32 +17,32 @@ export class UserEventBuilder {
    * Registers user events
    */
   protected register(): void {
-    this.updateUserAddressSuccessEvent();
-    this.deleteUserAddressSuccessEvent();
-    this.addUserAddressSuccessEvent();
+    this.updateUserAddressEvent();
+    this.deleteUserAddressEvent();
+    this.addUserAddressEvent();
   }
 
   /**
    * Register an address successfully updated event
    */
-  protected updateUserAddressSuccessEvent(): void {
+  protected updateUserAddressEvent(): void {
     this.stateEventService.register({
       action: UserActions.UPDATE_USER_ADDRESS,
-      event: UpdateUserAddressSuccessEvent,
+      event: UpdateUserAddressEvent,
     });
   }
 
-  protected addUserAddressSuccessEvent(): void {
+  protected addUserAddressEvent(): void {
     this.stateEventService.register({
       action: UserActions.ADD_USER_ADDRESS,
-      event: AddUserAddressSuccessEvent,
+      event: AddUserAddressEvent,
     });
   }
 
-  protected deleteUserAddressSuccessEvent(): void {
+  protected deleteUserAddressEvent(): void {
     this.stateEventService.register({
       action: UserActions.DELETE_USER_ADDRESS,
-      event: DeleteUserAddressSuccessEvent,
+      event: DeleteUserAddressEvent,
     });
   }
 }

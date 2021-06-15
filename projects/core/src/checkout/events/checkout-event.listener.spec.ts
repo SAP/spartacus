@@ -3,9 +3,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { CxEvent } from '../../event/cx-event';
 import { EventService } from '../../event/event.service';
 import {
-  DeleteUserAddressSuccessEvent,
-  SetDefaultUserAddressSuccessEvent,
-  UpdateUserAddressSuccessEvent,
+  DeleteUserAddressEvent,
+  UpdateUserAddressEvent,
 } from '../../user/events';
 import { CheckoutDeliveryService } from '../facade/checkout-delivery.service';
 import { CheckoutEventListener } from './checkout-event.listener';
@@ -44,25 +43,17 @@ describe('CheckoutEventListener', () => {
     checkoutDeliveryService = TestBed.inject(CheckoutDeliveryService);
   });
 
-  it('Should UpdateUserAddressSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
+  it('Should UpdateUserAddressEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new UpdateUserAddressSuccessEvent());
+    mockEventStream$.next(new UpdateUserAddressEvent());
     expect(
       checkoutDeliveryService.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();
   });
 
-  it('Should DeleteUserAddressSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
+  it('Should DeleteUserAddressEvent trigger clearCheckoutDeliveryDetails', () => {
     spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new DeleteUserAddressSuccessEvent());
-    expect(
-      checkoutDeliveryService.clearCheckoutDeliveryDetails
-    ).toHaveBeenCalled();
-  });
-
-  it('Should SetDefaultUserAddressSuccessEvent trigger clearCheckoutDeliveryDetails', () => {
-    spyOn(checkoutDeliveryService, 'clearCheckoutDeliveryDetails');
-    mockEventStream$.next(new SetDefaultUserAddressSuccessEvent());
+    mockEventStream$.next(new DeleteUserAddressEvent());
     expect(
       checkoutDeliveryService.clearCheckoutDeliveryDetails
     ).toHaveBeenCalled();

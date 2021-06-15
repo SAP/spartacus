@@ -3,21 +3,17 @@ import { Address } from '../../model/address.model';
 
 export abstract class UserAddressEvent extends CxEvent {}
 
-export class UpdateUserAddressSuccessEvent extends UserAddressEvent {
-  static readonly type = 'UpdateUserAddressSuccessEvent';
+export class UpdateUserAddressEvent extends UserAddressEvent {
+  static readonly type = 'UpdateUserAddressEvent';
   addressId: string;
   address: Address;
 }
-export class DeleteUserAddressSuccessEvent extends UserAddressEvent {
-  static readonly type = 'DeleteUserAddressSuccessEvent';
+
+export class DeleteUserAddressEvent extends UserAddressEvent {
+  static readonly type = 'DeleteUserAddressEvent';
   addressId: string;
 }
 
-export class SetDefaultUserAddressSuccessEvent extends UserAddressEvent {
-  static readonly type = 'SetDefaultUserAddressSuccessEvent';
-  addressId: string;
-}
-
-export class AddUserAddressSuccessEvent extends UserAddressEvent {
-  static readonly type = 'AddUserAddressSuccessEvent';
+export class AddUserAddressEvent extends UserAddressEvent {
+  static readonly type = 'AddUserAddressEvent';
 }
