@@ -81,7 +81,7 @@ export namespace Configurator {
   }
 
   export interface Overview {
-    configId?: string;
+    configId: string;
     totalNumberOfIssues?: number;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
@@ -92,6 +92,7 @@ export namespace Configurator {
     id: string;
     groupDescription?: string;
     attributes?: AttributeOverview[];
+    subGroups?: GroupOverview[];
   }
 
   export interface AttributeOverview {
