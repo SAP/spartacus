@@ -83,6 +83,7 @@ import {
   getDefaultProjectNameFromWorkspace,
   getSourceRoot,
   getWorkspace,
+  scaffoldStructure,
 } from './workspace-utils';
 
 export interface LibraryOptions extends Partial<ExecutionOptions> {
@@ -248,17 +249,20 @@ export function addLibraryFeature<T extends LibraryOptions>(
   options: T,
   config: FeatureConfig
 ): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree, context: SchematicContext) => {
     const spartacusFeatureModuleExists = checkAppStructure(
       tree,
       options.project
     );
     if (!spartacusFeatureModuleExists) {
-      throw new SchematicsException(
-        'Please migrate manually to new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/ and add the library once again. Old app structure is no longer supported.'
+      context.logger.info('Scaffolding the new app structure...');
+      context.logger.warn(
+        'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
       );
     }
     return chain([
+      spartacusFeatureModuleExists ? noop() : scaffoldStructure(options),
+
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
@@ -279,14 +283,12 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
   }
 
   const basePath = process.cwd();
-  let result = false;
   for (const tsconfigPath of buildPaths) {
     if (spartacusFeatureModuleExists(tree, tsconfigPath, basePath)) {
-      result = true;
-      break;
+      return true;
     }
   }
-  return result;
+  return false;
 }
 
 function spartacusFeatureModuleExists(
