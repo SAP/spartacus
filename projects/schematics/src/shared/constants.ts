@@ -178,6 +178,8 @@ export const CHECKOUT_PROGRESS_MOBILE_TOP_COMPONENT =
   'CheckoutProgressMobileTopComponent';
 export const CHECKOUT_CONFIG = 'CheckoutConfig';
 export const SEO_CONFIG = 'SeoConfig';
+export const URL_PARSING_SERVICE = 'UrlParsingService';
+export const ROUTING_CONFIG = 'RoutingConfig';
 export const ROUTING_CONFIG_SERVICE = 'RoutingConfigService';
 export const PAYMENT_METHOD_COMPONENT = 'PaymentMethodComponent';
 export const USER_PAYMENT_SERVICE = 'UserPaymentService';
@@ -189,6 +191,7 @@ export const CDS_SPARTACUS_EVENT_SERVICE = 'SpartacusEventService';
 export const CONSENT_SERVICE = 'ConsentService';
 export const EVENT_SERVICE = 'EventService';
 export const CDS_CONFIG = 'CdsConfig';
+export const SMART_EDIT_CONFIG = 'SmartEditConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const LOGOUT_GUARD = 'LogoutGuard';
@@ -406,15 +409,26 @@ export const CONFIGURATOR_ATTRIBUTE_QUANTITY_SERVICE =
 export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE =
   'ConfiguratorStorefrontUtilsService';
 export const CONFIGURATOR_GROUPS_SERVICE = 'ConfiguratorGroupsService';
-
+export const CONFIGURATOR_COMMONS_SERVICE = 'ConfiguratorCommonsService';
+export const CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE =
+  'ConfiguratorRouterExtractorService';
 export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
   'ConfiguratorCartEntryInfoComponent';
+export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
+  'ConfiguratorAttributeSingleSelectionBaseComponent';
+export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
+  'ConfiguratorAttributeNumericInputFieldComponent';
 export const CONFIGURATOR_ATTRIBUTE_CHECKBOX_LIST_COMPONENT =
   'ConfiguratorAttributeCheckBoxListComponent';
 export const CONFIGURATOR_ATTRIBUTE_DROP_DOWN_COMPONENT =
   'ConfiguratorAttributeDropDownComponent';
 export const CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT =
   'ConfiguratorAttributeRadioButtonComponent';
+export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
+  'ConfiguratorProductTitleComponent';
+export const CONFIGURATOR_GROUP_MENU_COMPONENT =
+  'ConfiguratorGroupMenuComponent';
+export const CONFIGURATOR_FORM_COMPONENT = 'ConfiguratorFormComponent';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
@@ -428,15 +442,6 @@ export const SCRIPT_LOADER_SERVICE = 'ScriptLoader';
 export const INITIALIZE = 'initialize';
 export const FORM_GROUP = 'formGroup';
 export const FORM$ = 'form$';
-
-export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BASE_COMPONENT =
-  'ConfiguratorAttributeSingleSelectionBaseComponent';
-
-export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT =
-  'ConfiguratorAttributeNumericInputFieldComponent';
-
-export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
-  'ConfiguratorProductTitleComponent';
 
 /***** Classes end *****/
 
@@ -554,7 +559,9 @@ export const CS_AGENT_AUTH_SERVICE = 'CsAgentAuthService';
 export const CUSTOMER_SEARCH_PAGE = 'CustomerSearchPage';
 export const CUSTOMER_SEARCH_OPTIONS = 'CustomerSearchOptions';
 export const ASM_UI = 'AsmUi';
+export const AUTH_FLOW_ROUTES_SERVICE = 'AuthFlowRoutesService';
 export const ASM_AUTH_HTTP_HEADER_SERVICE = 'AsmAuthHttpHeaderService';
+export const AUTH_HTTP_HEADER_SERVICE = 'AuthHttpHeaderService';
 export const TOKEN_TARGET = 'TokenTarget';
 export const ASM_AUTH_STORAGE_SERVICE = 'AsmAuthStorageService';
 export const ASM_AUTH_SERVICE = 'AsmAuthService';
@@ -861,6 +868,7 @@ export const ON_DESELECT = 'onDeselect';
 export const GET_PRODUCT_IMAGE_URL = 'getProductImageURL';
 export const GET_PRODUCT_IMAGE_ALT = 'getProductImageAlt';
 export const CLICK_ON_ENTER = 'clickOnEnter';
+export const NAVIGATE_UP_ON_ENTER = 'navigateUpOnEnter';
 
 /***** APIs end *****/
 
