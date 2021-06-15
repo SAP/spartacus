@@ -47,7 +47,7 @@ context('Product search product type flow', () => {
 
         clickSearchIcon();
 
-        cy.get('cx-searchbox input[aria-label="search"]').type(
+        cy.get('cx-searchbox input[aria-label="Search"]').type(
           `${category}{enter}`
         );
 
