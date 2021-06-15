@@ -110,7 +110,7 @@ title: Changes to Styles in 4.0
 ## Card Component 
 * `.cx-card-title` class added (a11y)
 
-## Carousel Component 
+## Carousel Component
 * `h3` changed to `h2` to account for the change in markup template for improved screen reader support (a11y)
 
 ## Product Carousel Component
@@ -130,6 +130,3 @@ title: Changes to Styles in 4.0
 
 ## `_screen-reader.scss` Changes 
 * `.cx-visually-hidden` class added. This class can be utilized to hide elements specific for Screen Reader announcement and narration (a11y)
-
-
-
