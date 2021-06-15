@@ -26,22 +26,20 @@ export class OrderOverviewComponent {
   constructor(protected translation: TranslationService) {}
 
   getReplenishmentCodeCardContent(orderCode: string): Observable<Card> {
-    return this.translation
-      .translate('checkoutOrderConfirmation.replenishmentNumber')
-      .pipe(
-        filter(() => Boolean(orderCode)),
-        map((textTitle) => ({
-          title: textTitle,
-          text: [orderCode],
-        }))
-      );
+    return this.translation.translate('orderDetails.replenishmentId').pipe(
+      filter(() => Boolean(orderCode)),
+      map((textTitle) => ({
+        title: textTitle,
+        text: [orderCode],
+      }))
+    );
   }
 
   getReplenishmentActiveCardContent(active: boolean): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutOrderConfirmation.status'),
-      this.translation.translate('checkoutOrderConfirmation.active'),
-      this.translation.translate('checkoutOrderConfirmation.cancelled'),
+      this.translation.translate('orderDetails.status'),
+      this.translation.translate('orderDetails.active'),
+      this.translation.translate('orderDetails.cancelled'),
     ]).pipe(
       map(([textTitle, textActive, textCancelled]) => ({
         title: textTitle,
@@ -51,7 +49,7 @@ export class OrderOverviewComponent {
   }
 
   getReplenishmentStartOnCardContent(isoDate: string): Observable<Card> {
-    return this.translation.translate('checkoutReview.startOn').pipe(
+    return this.translation.translate('orderDetails.startOn').pipe(
       filter(() => Boolean(isoDate)),
       map((textTitle) => {
         const date = this.getDate(new Date(isoDate));
@@ -65,69 +63,61 @@ export class OrderOverviewComponent {
   }
 
   getReplenishmentFrequencyCardContent(frequency: string): Observable<Card> {
-    return this.translation
-      .translate('checkoutOrderConfirmation.frequency')
-      .pipe(
-        filter(() => Boolean(frequency)),
-        map((textTitle) => ({
-          title: textTitle,
-          text: [frequency],
-        }))
-      );
+    return this.translation.translate('orderDetails.frequency').pipe(
+      filter(() => Boolean(frequency)),
+      map((textTitle) => ({
+        title: textTitle,
+        text: [frequency],
+      }))
+    );
   }
 
   getReplenishmentNextDateCardContent(isoDate: string): Observable<Card> {
-    return this.translation
-      .translate('checkoutOrderConfirmation.nextOrderDate')
-      .pipe(
-        filter(() => Boolean(isoDate)),
-        map((textTitle) => {
-          const date = this.getDate(new Date(isoDate));
+    return this.translation.translate('orderDetails.nextOrderDate').pipe(
+      filter(() => Boolean(isoDate)),
+      map((textTitle) => {
+        const date = this.getDate(new Date(isoDate));
 
-          return {
-            title: textTitle,
-            text: [date],
-          };
-        })
-      );
+        return {
+          title: textTitle,
+          text: [date],
+        };
+      })
+    );
   }
 
   getOrderCodeCardContent(orderCode: string): Observable<Card> {
-    return this.translation
-      .translate('checkoutOrderConfirmation.orderNumber')
-      .pipe(
-        filter(() => Boolean(orderCode)),
-        map((textTitle) => ({
-          title: textTitle,
-          text: [orderCode],
-        }))
-      );
+    return this.translation.translate('orderDetails.orderNumber').pipe(
+      filter(() => Boolean(orderCode)),
+      map((textTitle) => ({
+        title: textTitle,
+        text: [orderCode],
+      }))
+    );
   }
 
   getOrderCurrentDateCardContent(isoDate?: string): Observable<Card> {
-    return this.translation
-      .translate('checkoutOrderConfirmation.placedOn')
-      .pipe(
-        map((textTitle) => {
-          let date: string;
+    return this.translation.translate('orderDetails.placedOn').pipe(
+      map((textTitle) => {
+        let date: string;
 
-          if (Boolean(isoDate)) {
-            date = this.getDate(new Date(isoDate));
-          } else {
-            date = this.getDate(new Date());
-          }
+        if (Boolean(isoDate)) {
+          date = this.getDate(new Date(isoDate));
+        } else {
+          date = this.getDate(new Date());
+        }
 
-          return {
-            title: textTitle,
-            text: [date],
-          };
-        })
-      );
+        return {
+          title: textTitle,
+          text: [date],
+        };
+      })
+    );
   }
 
   getOrderStatusCardContent(status: string): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutOrderConfirmation.status'),
+      this.translation.translate('orderDetails.status'),
       this.translation.translate('orderDetails.statusDisplay_' + status),
     ]).pipe(
       map(([textTitle, textStatus]) => ({
@@ -139,8 +129,8 @@ export class OrderOverviewComponent {
 
   getPurchaseOrderNumber(poNumber: string): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutReview.poNumber'),
-      this.translation.translate('checkoutPO.noPoNumber'),
+      this.translation.translate('orderDetails.purchaseOrderNumber'),
+      this.translation.translate('orderDetails.emptyPurchaseOrderId'),
     ]).pipe(
       map(([textTitle, noneTextTitle]) => ({
         title: textTitle,
@@ -153,7 +143,7 @@ export class OrderOverviewComponent {
     hasPaymentInfo: PaymentDetails
   ): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutProgress.methodOfPayment'),
+      this.translation.translate('orderDetails.methodOfPayment'),
       this.translation.translate('paymentTypes.paymentType_ACCOUNT'),
       this.translation.translate('paymentTypes.paymentType_CARD'),
     ]).pipe(
@@ -165,7 +155,7 @@ export class OrderOverviewComponent {
   }
 
   getCostCenterCardContent(costCenter: CostCenter): Observable<Card> {
-    return this.translation.translate('checkoutPO.costCenter').pipe(
+    return this.translation.translate('orderDetails.costCenter').pipe(
       filter(() => Boolean(costCenter)),
       map((textTitle) => ({
         title: textTitle,
@@ -187,7 +177,7 @@ export class OrderOverviewComponent {
   }
 
   getDeliveryModeCardContent(deliveryMode: DeliveryMode): Observable<Card> {
-    return this.translation.translate('checkoutShipping.shippingMethod').pipe(
+    return this.translation.translate('orderDetails.shippingMethod').pipe(
       filter(() => Boolean(deliveryMode)),
       map((textTitle) => ({
         title: textTitle,
