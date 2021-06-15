@@ -50,7 +50,7 @@ export class CheckoutAuthGuard implements CanActivate {
             if (this.activeCartService.isGuestCart()) {
               return Boolean(cartUser);
             }
-            this.authRedirectService.saveCurrentNavigationUrl();
+            this.authRedirectService.reportAuthGuard();
             if (this.checkoutConfigService.isGuestCheckout()) {
               return this.router.createUrlTree(
                 [this.semanticPathService.get('login')],

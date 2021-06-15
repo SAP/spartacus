@@ -20,7 +20,7 @@ class SemanticPathServiceStub implements Partial<SemanticPathService> {
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+  reportAuthGuard = jasmine.createSpy('reportAuthGuard');
 }
 
 describe('AuthGuard', () => {
@@ -67,7 +67,7 @@ describe('AuthGuard', () => {
 
     it('should notify AuthRedirectService with the current navigation', () => {
       guard.canActivate().subscribe().unsubscribe();
-      expect(authRedirectService.saveCurrentNavigationUrl).toHaveBeenCalled();
+      expect(authRedirectService.reportAuthGuard).toHaveBeenCalled();
     });
   });
 

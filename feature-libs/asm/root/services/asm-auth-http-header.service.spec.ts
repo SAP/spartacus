@@ -2,7 +2,6 @@ import { HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
-  AuthRedirectService,
   AuthService,
   AuthStorageService,
   AuthToken,
@@ -53,17 +52,12 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   }
 }
 
-class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
-}
-
 describe('AsmAuthHttpHeaderService', () => {
   let service: AsmAuthHttpHeaderService;
   let authService: AuthService;
   let routingService: RoutingService;
   let csAgentAuthService: CsAgentAuthService;
   let globalMessageService: GlobalMessageService;
-  let authRedirectService: AuthRedirectService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -80,7 +74,6 @@ describe('AsmAuthHttpHeaderService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
-        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
       ],
     });
 
@@ -89,7 +82,6 @@ describe('AsmAuthHttpHeaderService', () => {
     routingService = TestBed.inject(RoutingService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
     globalMessageService = TestBed.inject(GlobalMessageService);
-    authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
   it('should be created', () => {
@@ -162,9 +154,6 @@ describe('AsmAuthHttpHeaderService', () => {
       service.handleExpiredRefreshToken();
 
       expect(authService.coreLogout).toHaveBeenCalled();
-      expect(
-        authRedirectService.saveCurrentNavigationUrl
-      ).toHaveBeenCalledBefore(routingService.go);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     });
 

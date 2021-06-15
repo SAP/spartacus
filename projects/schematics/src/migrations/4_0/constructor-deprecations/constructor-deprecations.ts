@@ -13,9 +13,6 @@ import {
   ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION_V1,
   ANONYMOUS_CONSENT_OPEN_DIALOG_COMPONENT_MIGRATION_V2,
 } from './data/anonymous-consent-open-dialog.component.migration';
-import { ASM_AUTH_HTTP_HEADER_SERVICE_MIGRATION } from './data/asm-auth-http-header.service.migration';
-import { AUTH_HTTP_HEADER_SERVICE_MIGRATION } from './data/auth-http-header.service.migration';
-import { AUTH_REDIRECT_SERVICE_MIGRATION } from './data/auth-redirect.service.migration';
 import { BASE_PAGE_META_RESOLVER_MIGRATION } from './data/base-page-meta.resolver.migration';
 import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item.component.migration';
 import {
@@ -63,7 +60,6 @@ import {
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V1,
   PRODUCT_PAGE_META_RESOLVER_MIGRATION_V2,
 } from './data/product-page-meta.resolver.migration';
-import { PROTECTED_ROUTES_SERVICE_MIGRATION } from './data/protected-routes.service.migration';
 import { QUALTRICS_LOADER_SERVICE_MIGRATION } from './data/qualtrics-loader.service.migration';
 import {
   REPLENISHMENT_ORDER_CANCELLATION_COMPONENT_MIGRATION_V1,
@@ -153,10 +149,6 @@ export const CONSTRUCTOR_DEPRECATION_DATA: ConstructorDeprecation[] = [
   CMS_COMPONENTS_SERVICE_MIGRATION_1,
   CMS_COMPONENTS_SERVICE_MIGRATION_2,
   CMS_COMPONENTS_SERVICE_MIGRATION_3,
-  ASM_AUTH_HTTP_HEADER_SERVICE_MIGRATION,
-  AUTH_HTTP_HEADER_SERVICE_MIGRATION,
-  AUTH_REDIRECT_SERVICE_MIGRATION,
-  PROTECTED_ROUTES_SERVICE_MIGRATION,
   PRODUCT_LIST_ITEM_COMPONENT_MIGRATION,
   PRODUCT_GRID_ITEM_COMPONENT_MIGRATION,
   CART_ITEM_COMPONENT_MIGRATION,

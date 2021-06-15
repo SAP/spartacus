@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { RoutingConfig } from '../configurable-routes/config/routing-config';
-import { UrlParsingService } from '../configurable-routes/url-translation/url-parsing.service';
 
 @Injectable({ providedIn: 'root' })
 export class ProtectedRoutesService {
@@ -16,13 +15,10 @@ export class ProtectedRoutesService {
    * @returns boolean
    */
   public get shouldProtect(): boolean {
-    return !!this.routingConfig?.protected;
+    return this.routingConfig.protected;
   }
 
-  constructor(
-    protected config: RoutingConfig,
-    protected urlParsingService: UrlParsingService
-  ) {
+  constructor(protected config: RoutingConfig) {
     if (this.shouldProtect) {
       // pre-process config for performance:
       this.nonProtectedPaths = this.getNonProtectedPaths().map((path) =>
@@ -57,19 +53,32 @@ export class ProtectedRoutesService {
    * Tells whether the url matches the path
    */
   protected matchPath(urlSegments: string[], pathSegments: string[]): boolean {
-    return this.urlParsingService.matchPath(urlSegments, pathSegments);
+    if (urlSegments.length !== pathSegments.length) {
+      return false;
+    }
+
+    for (let i = 0; i < pathSegments.length; i++) {
+      const pathSeg = pathSegments[i];
+      const urlSeg = urlSegments[i];
+
+      // compare only static segments:
+      if (!pathSeg.startsWith(':') && pathSeg !== urlSeg) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
    * Returns a list of paths that are not protected
    */
   protected getNonProtectedPaths(): string[] {
-    return Object.values(this.routingConfig?.routes ?? {}).reduce<string[]>(
+    return Object.values(this.routingConfig.routes).reduce(
       (acc, routeConfig) =>
         routeConfig.protected === false && // must be explicitly false, ignore undefined
         routeConfig.paths &&
         routeConfig.paths.length
-          ? acc.concat(routeConfig?.paths ?? [])
+          ? acc.concat(routeConfig.paths)
           : acc,
       []
     );

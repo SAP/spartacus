@@ -10,7 +10,6 @@ import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthService } from '../facade/auth.service';
 import { AuthToken } from '../models/auth-token.model';
 import { AuthHttpHeaderService } from './auth-http-header.service';
-import { AuthRedirectService } from './auth-redirect.service';
 import { AuthStorageService } from './auth-storage.service';
 import { OAuthLibWrapperService } from './oauth-lib-wrapper.service';
 
@@ -44,10 +43,6 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add() {}
 }
 
-class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
-}
-
 describe('AuthHttpHeaderService', () => {
   let service: AuthHttpHeaderService;
   let oAuthLibWrapperService: OAuthLibWrapperService;
@@ -55,8 +50,6 @@ describe('AuthHttpHeaderService', () => {
   let authStorageService: AuthStorageService;
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
-  let authRedirectService: AuthRedirectService;
-
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
@@ -71,7 +64,6 @@ describe('AuthHttpHeaderService', () => {
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
-        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
       ],
     });
 
@@ -81,7 +73,6 @@ describe('AuthHttpHeaderService', () => {
     routingService = TestBed.inject(RoutingService);
     globalMessageService = TestBed.inject(GlobalMessageService);
     authStorageService = TestBed.inject(AuthStorageService);
-    authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
   it('should be created', () => {
@@ -180,7 +171,7 @@ describe('AuthHttpHeaderService', () => {
   });
 
   describe('handleExpiredRefreshToken', () => {
-    it('should logout user, save current navigation url, and redirect to login page', () => {
+    it('should logout user and redirect to login page', () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
@@ -188,9 +179,6 @@ describe('AuthHttpHeaderService', () => {
       service.handleExpiredRefreshToken();
 
       expect(authService.coreLogout).toHaveBeenCalled();
-      expect(
-        authRedirectService.saveCurrentNavigationUrl
-      ).toHaveBeenCalledBefore(routingService.go);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
       expect(globalMessageService.add).toHaveBeenCalledWith(
         {
