@@ -13,13 +13,13 @@ export const carts: SampleCartProduct[] = [
   },
   {
     estimatedShipping: '11.99',
-    total: '$79.11',
-    totalAndShipping: '$91.10',
+    total: '$86.37',
+    totalAndShipping: '$98.36',
   },
 ];
 
 export const products: SampleProduct[] = [
   { name: 'DSC-N1', code: '358639' },
   { name: 'Digital Camera Tripod', code: '932577' },
-  { name: 'Micro Webcam', code: '1377492' },
+  { name: 'QuickCam for Notebooks Pro', code: '479742' },
 ];
