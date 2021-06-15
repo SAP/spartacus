@@ -242,7 +242,6 @@ describe('ProductScrollComponent', () => {
       beforeEach(() => {
         const scrollConfig: ViewConfig = {
           view: {
-            defaultPageSize: 12,
             infiniteScroll: {
               active: true,
               productLimit: 2,
@@ -294,7 +293,6 @@ describe('ProductScrollComponent', () => {
       beforeEach(() => {
         const scrollConfig: ViewConfig = {
           view: {
-            defaultPageSize: 12,
             infiniteScroll: {
               active: true,
               showMoreButton: true,

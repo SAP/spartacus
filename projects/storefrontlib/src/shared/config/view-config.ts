@@ -10,7 +10,7 @@ export abstract class ViewConfig {
     /**
      * Configurations related to the view of the application
      */
-    defaultPageSize: number;
+    defaultPageSize?: number;
     infiniteScroll?: {
       active?: boolean;
       productLimit?: number;

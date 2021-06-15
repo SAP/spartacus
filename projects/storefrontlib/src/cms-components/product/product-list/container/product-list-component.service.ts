@@ -40,7 +40,7 @@ export class ProductListComponentService {
     protected currencyService: CurrencyService,
     protected languageService: LanguageService,
     protected router: Router,
-    protected viewConfig: ViewConfig
+    protected config: ViewConfig
   ) {}
 
   /**
@@ -108,7 +108,7 @@ export class ProductListComponentService {
   ): SearchCriteria {
     return {
       query: queryParams.query || this.getQueryFromRouteParams(routeParams),
-      pageSize: queryParams.pageSize || this.viewConfig.view?.defaultPageSize,
+      pageSize: queryParams.pageSize || this.config.view?.defaultPageSize,
       currentPage: queryParams.currentPage,
       sortCode: queryParams.sortCode,
     };
