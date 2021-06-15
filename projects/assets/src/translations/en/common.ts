@@ -13,6 +13,11 @@ export const common = {
     noData: 'No data.',
     confirm: 'Confirm',
     more: 'more',
+    close: 'Close',
+    loading: 'Loading',
+    menu: 'Menu',
+    reset: 'Reset',
+    search: 'Search',
   },
   pageMetaResolver: {
     category: {
@@ -20,8 +25,7 @@ export const common = {
       title_plural: '{{count}} results for {{query}}',
     },
     checkout: {
-      title: 'Checkout {{count}} item',
-      title_plural: 'Checkout {{count}} items',
+      title: 'Checkout',
     },
     search: {
       title: '{{count}} result for "{{query}}"',

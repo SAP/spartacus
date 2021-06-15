@@ -1,4 +1,4 @@
 @import './wish-list';
 @import './wish-list-item';
 
-$wish-list-components-whitelist: cx-wish-list, cx-wish-list-item !default;
+$wish-list-components-allowlist: cx-wish-list, cx-wish-list-item !default;

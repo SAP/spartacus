@@ -28,7 +28,10 @@
       <div *ngIf="!product.averageRating" class="cx-product-no-review">
         {{ 'productDetails.noReviews' | cxTranslate }}
       </div>
-      <div class="cx-product-price" aria-label="Product price">
+      <div
+        class="cx-product-price"
+        [attr.aria-label]="'productDetails.productPrice' | cxTranslate"
+      >
         {{ product.price?.formattedValue }}
       </div>
     </ng-template>
