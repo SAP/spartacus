@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
-import { EventService } from '../../../event/event.service';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -10,7 +9,6 @@ import {
 import { Address } from '../../../model/address.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserAddressConnector } from '../../connectors/address/user-address.connector';
-import { SetDefaultUserAddressSuccessEvent } from '../../events/user.events';
 import { UserAddressService } from '../../facade/user-address.service';
 import { UserActions } from '../actions/index';
 
@@ -58,25 +56,16 @@ export class UserAddressesEffects {
       return this.userAddressConnector
         .update(payload.userId, payload.addressId, payload.address)
         .pipe(
-          map((_data) => {
+          map((data) => {
             // don't show the message if just setting address as default
             if (
               payload.address &&
               Object.keys(payload.address).length === 1 &&
               payload.address.defaultAddress
             ) {
-              this.eventService.dispatch<SetDefaultUserAddressSuccessEvent>(
-                {
-                  addressId: payload.addressId,
-                },
-                SetDefaultUserAddressSuccessEvent
-              );
               return new UserActions.LoadUserAddresses(payload.userId);
             } else {
-              return new UserActions.UpdateUserAddressSuccess({
-                address: payload.address,
-                addressId: payload.addressId,
-              });
+              return new UserActions.UpdateUserAddressSuccess(data);
             }
           }),
           catchError((error) =>
@@ -94,8 +83,8 @@ export class UserAddressesEffects {
       return this.userAddressConnector
         .delete(payload.userId, payload.addressId)
         .pipe(
-          map((_data) => {
-            return new UserActions.DeleteUserAddressSuccess(payload.addressId);
+          map((data) => {
+            return new UserActions.DeleteUserAddressSuccess(data);
           }),
           catchError((error) =>
             of(new UserActions.DeleteUserAddressFail(normalizeHttpError(error)))
@@ -144,8 +133,7 @@ export class UserAddressesEffects {
     private actions$: Actions,
     private userAddressConnector: UserAddressConnector,
     private userAddressService: UserAddressService,
-    private messageService: GlobalMessageService,
-    private eventService: EventService
+    private messageService: GlobalMessageService
   ) {}
 
   /**
