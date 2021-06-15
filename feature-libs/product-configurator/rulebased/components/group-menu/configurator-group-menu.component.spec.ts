@@ -11,7 +11,12 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { HamburgerMenuService, ICON_TYPE } from '@spartacus/storefront';
+import {
+  DirectionMode,
+  DirectionService,
+  HamburgerMenuService,
+  ICON_TYPE,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -22,13 +27,15 @@ import {
   CONFIGURATOR_ROUTE,
   GROUP_ID_1,
   mockRouterState,
-  productConfiguration,
   PRODUCT_CODE,
+  productConfiguration,
 } from '../../shared/testing/configurator-test-data';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
+import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
 
 let mockGroupVisited = false;
+let mockDirection = DirectionMode.LTR;
 const mockProductConfiguration: Configurator.Configuration = productConfiguration;
 
 class MockRoutingService {
@@ -153,6 +160,12 @@ class MockConfiguratorCommonsService {
   }
 }
 
+class MockDirectionService {
+  getDirection() {
+    return direction;
+  }
+}
+
 @Directive({
   selector: '[cxFocus]',
 })
@@ -174,13 +187,17 @@ let configuratorGroupsService: ConfiguratorGroupsService;
 let hamburgerMenuService: HamburgerMenuService;
 let htmlElem: HTMLElement;
 let configuratorUtils: CommonConfiguratorUtilsService;
+let configGroupMenuService: ConfiguratorGroupMenuService;
 let routerStateObservable;
 let groupVisitedObservable;
 let productConfigurationObservable;
 let isConflictGroupType;
+let directionService: DirectionService;
+let direction: DirectionMode;
 
 function initialize() {
   groupVisitedObservable = of(mockGroupVisited);
+  direction = mockDirection;
   fixture = TestBed.createComponent(ConfiguratorGroupMenuComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
@@ -220,6 +237,10 @@ describe('ConfigurationGroupMenuComponent', () => {
             provide: ConfiguratorStorefrontUtilsService,
             useClass: ConfiguratorStorefrontUtilsService,
           },
+          {
+            provide: DirectionService,
+            useClass: MockDirectionService,
+          },
         ],
       });
     })
@@ -231,20 +252,31 @@ describe('ConfigurationGroupMenuComponent', () => {
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-
-    hamburgerMenuService = TestBed.inject(
-      HamburgerMenuService as Type<HamburgerMenuService>
-    );
-    configuratorUtils = TestBed.inject(
-      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
-    );
-    configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
     spyOn(configuratorGroupsService, 'navigateToGroup').and.stub();
     spyOn(configuratorGroupsService, 'setMenuParentGroup').and.stub();
     spyOn(configuratorGroupsService, 'isGroupVisited').and.callThrough();
     isConflictGroupType = false;
     spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
+
+    hamburgerMenuService = TestBed.inject(
+      HamburgerMenuService as Type<HamburgerMenuService>
+    );
     spyOn(hamburgerMenuService, 'toggle').and.stub();
+
+    configuratorUtils = TestBed.inject(
+      CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
+    );
+    configuratorUtils.setOwnerKey(mockProductConfiguration.owner);
+
+    configGroupMenuService = TestBed.inject(
+      ConfiguratorGroupMenuService as Type<ConfiguratorGroupMenuService>
+    );
+    spyOn(configGroupMenuService, 'switchGroupOnArrowPress').and.stub();
+
+    directionService = TestBed.inject(
+      DirectionService as Type<DirectionService>
+    );
+    spyOn(directionService, 'getDirection').and.callThrough();
   });
 
   it('should create component', () => {
@@ -349,48 +381,6 @@ describe('ConfigurationGroupMenuComponent', () => {
     expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
   });
 
-  it('should set current group in case of hitting Enter on a different group', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-
-    const event = new KeyboardEvent('keypress', {
-      code: 'Enter',
-    });
-    component.clickOnEnter(event, mockProductConfiguration.groups[0]);
-
-    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalled();
-    expect(hamburgerMenuService.toggle).toHaveBeenCalled();
-  });
-
-  it('should not set current group and not execute navigation in case of hitting Enter on a same group', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-
-    const event = new KeyboardEvent('keypress', {
-      code: 'Enter',
-    });
-    component.clickOnEnter(event, mockProductConfiguration.groups[1]);
-
-    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(0);
-    expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
-  });
-
-  it('should do nothing hitting key other than enter on a group', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    initialize();
-
-    const event = new KeyboardEvent('keypress', {
-      code: 'Space',
-    });
-    component.clickOnEnter(event, mockProductConfiguration.groups[1]);
-
-    expect(configuratorGroupsService.navigateToGroup).toHaveBeenCalledTimes(0);
-    expect(hamburgerMenuService.toggle).toHaveBeenCalledTimes(0);
-  });
-
   it('should condense groups', () => {
     productConfigurationObservable = of(mockProductConfiguration);
     routerStateObservable = of(mockRouterState);
@@ -441,38 +431,6 @@ describe('ConfigurationGroupMenuComponent', () => {
     component.navigateUp();
     expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
     expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
-  });
-
-  it('should navigate up on hitting enter', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
-      mockProductConfiguration.groups[0]
-    );
-    initialize();
-    const event = new KeyboardEvent('keypress', {
-      code: 'Enter',
-    });
-    component.navigateUpOnEnter(event);
-    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
-    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
-  });
-
-  it('should not navigate up on hitting a key other than enter and space', () => {
-    productConfigurationObservable = of(mockProductConfiguration);
-    routerStateObservable = of(mockRouterState);
-    spyOn(configuratorGroupsService, 'getParentGroup').and.returnValue(
-      mockProductConfiguration.groups[0]
-    );
-    initialize();
-    const event = new KeyboardEvent('keypress', {
-      code: 'ShiftRight',
-    });
-    component.navigateUpOnEnter(event);
-    expect(configuratorGroupsService.getParentGroup).toHaveBeenCalledTimes(0);
-    expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalledTimes(
-      0
-    );
   });
 
   it('should call correct methods for groups with and without subgroups', () => {
@@ -738,7 +696,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'li.cx-menu-item.WARNING'
+        '.cx-menu-item.WARNING'
       );
     });
 
@@ -753,7 +711,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'li.cx-menu-item.WARNING'
+        '.cx-menu-item.WARNING'
       );
     });
 
@@ -769,7 +727,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'li.cx-menu-item.WARNING'
+        '.cx-menu-item.WARNING'
       );
     });
 
@@ -786,7 +744,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'li.cx-menu-item.COMPLETE'
+        '.cx-menu-item.COMPLETE'
       );
     });
 
@@ -802,7 +760,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'li.cx-menu-item.COMPLETE'
+        '.cx-menu-item.COMPLETE'
       );
     });
 
@@ -818,7 +776,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'li.cx-menu-item.COMPLETE'
+        '.cx-menu-item.COMPLETE'
       );
     });
 
@@ -835,7 +793,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'li.cx-menu-item.COMPLETE'
+        '.cx-menu-item.COMPLETE'
       );
     });
 
@@ -850,7 +808,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
-        'li.cx-menu-item.ERROR'
+        '.cx-menu-item.ERROR'
       );
     });
 
@@ -865,7 +823,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'li.cx-menu-item.ERROR'
+        '.cx-menu-item.ERROR'
       );
     });
 
@@ -881,8 +839,134 @@ describe('ConfigurationGroupMenuComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
-        'li.cx-menu-item.DISABLED'
+        '.cx-menu-item.DISABLED'
       );
+    });
+  });
+
+  describe('switchGroupOnArrowPress', () => {
+    it('should focus next group items', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowUp',
+      });
+
+      component.switchGroupOnArrowPress(event, 0);
+      expect(configGroupMenuService.switchGroupOnArrowPress).toHaveBeenCalled();
+    });
+
+    it('should focus previous group items', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      initialize();
+
+      const event = new KeyboardEvent('keydown', {
+        code: 'ArrowDown',
+      });
+
+      component.switchGroupOnArrowPress(event, 0);
+      expect(configGroupMenuService.switchGroupOnArrowPress).toHaveBeenCalled();
+    });
+
+    describe('LTR direction', () => {
+      it('should navigate back to parent group', () => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        mockDirection = DirectionMode.LTR;
+        initialize();
+        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
+        spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+
+        let event = new KeyboardEvent('keydown', {
+          code: 'ArrowLeft',
+        });
+
+        component.switchGroupOnArrowPress(event, 0);
+        expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
+        expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      });
+
+      it('should navigate to subgroups', () => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        mockDirection = DirectionMode.LTR;
+        initialize();
+        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(
+          false
+        );
+
+        let event = new KeyboardEvent('keydown', {
+          code: 'ArrowRight',
+        });
+
+        component.switchGroupOnArrowPress(
+          event,
+          0,
+          mockProductConfiguration.groups[2]
+        );
+
+        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      });
+    });
+
+    describe('RTL direction', () => {
+      it('should navigate back to parent group', () => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        mockDirection = DirectionMode.RTL;
+        initialize();
+        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(true);
+        spyOn(configuratorGroupsService, 'getParentGroup').and.callThrough();
+
+        let event = new KeyboardEvent('keydown', {
+          code: 'ArrowRight',
+        });
+
+        component.switchGroupOnArrowPress(event, 0);
+        expect(configGroupMenuService.isBackBtnFocused).toHaveBeenCalled();
+        expect(configuratorGroupsService.getParentGroup).toHaveBeenCalled();
+        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      });
+
+      it('should navigate to subgroups', () => {
+        productConfigurationObservable = of(mockProductConfiguration);
+        routerStateObservable = of(mockRouterState);
+        mockDirection = DirectionMode.RTL;
+        initialize();
+        spyOn(configGroupMenuService, 'isBackBtnFocused').and.returnValue(
+          false
+        );
+
+        let event = new KeyboardEvent('keydown', {
+          code: 'ArrowLeft',
+        });
+
+        component.switchGroupOnArrowPress(
+          event,
+          0,
+          mockProductConfiguration.groups[2]
+        );
+
+        expect(configuratorGroupsService.setMenuParentGroup).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('createAriaControls', () => {
+    it('should return empty string because groupID is null', () => {
+      expect(component.createAriaControls(null)).toBeUndefined();
+    });
+
+    it('should return empty string because groupID is undefined', () => {
+      expect(component.createAriaControls(undefined)).toBeUndefined();
+    });
+
+    it('should return aria-controls string', () => {
+      expect(component.createAriaControls('1234')).toBe('1234-group');
     });
   });
 });

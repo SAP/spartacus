@@ -8,23 +8,8 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import {
-  NodeDependency,
-  NodeDependencyType,
-} from '@schematics/angular/utility/dependencies';
-import collectedDependencies from '../dependencies.json';
-import {
-  ANGULAR_HTTP,
-  SPARTACUS_ASSETS,
-  SPARTACUS_CONFIGURATION_MODULE,
-  SPARTACUS_CORE,
-  SPARTACUS_FEATURES_MODULE,
-  SPARTACUS_MODULE,
-  SPARTACUS_ROUTING_MODULE,
-  SPARTACUS_SETUP,
-  SPARTACUS_STOREFRONTLIB,
-  SPARTACUS_STYLES,
-} from '../shared/constants';
+import { NodeDependency } from '@schematics/angular/utility/dependencies';
+import { ANGULAR_HTTP, SPARTACUS_ROUTING_MODULE } from '../shared/constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -39,10 +24,11 @@ import {
   ensureModuleExists,
 } from '../shared/utils/new-module-utils';
 import {
-  createDependencies,
   getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
   mapPackageToNodeDependencies,
+  prepare3rdPartyDependencies,
+  prepareSpartacusDependencies,
   readPackageJson,
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
@@ -50,6 +36,7 @@ import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths'
 import {
   getProjectFromWorkspace,
   getProjectTargets,
+  scaffoldStructure,
 } from '../shared/utils/workspace-utils';
 import { addSpartacusConfiguration } from './configuration';
 import { setupRouterModule } from './router';
@@ -172,46 +159,9 @@ function updateIndexFile(tree: Tree, options: SpartacusOptions): Rule {
   };
 }
 
-function prepareDependencies(options: SpartacusOptions): NodeDependency[] {
-  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
-
-  const spartacusDependencies: NodeDependency[] = [
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_CORE,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_STOREFRONTLIB,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_ASSETS,
-    },
-    {
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_STYLES,
-    },
-  ];
-  if (options.configuration === 'b2b') {
-    spartacusDependencies.push({
-      type: NodeDependencyType.Default,
-      version: spartacusVersion,
-      name: SPARTACUS_SETUP,
-    });
-  }
-
-  const thirdPartyDependencies = createDependencies({
-    ...collectedDependencies[SPARTACUS_CORE],
-    ...collectedDependencies[SPARTACUS_STOREFRONTLIB],
-    ...collectedDependencies[SPARTACUS_STYLES],
-    ...collectedDependencies[SPARTACUS_ASSETS],
-  });
-  return spartacusDependencies.concat(thirdPartyDependencies);
+export function prepareDependencies(): NodeDependency[] {
+  const spartacusDependencies = prepareSpartacusDependencies();
+  return spartacusDependencies.concat(prepare3rdPartyDependencies());
 }
 
 function updateAppModule(project: string): Rule {
@@ -276,7 +226,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     const project = getProjectFromWorkspace(tree, options);
 
     return chain([
-      addPackageJsonDependencies(prepareDependencies(options)),
+      addPackageJsonDependencies(prepareDependencies()),
+
       ensureModuleExists({
         name: SPARTACUS_ROUTING_MODULE,
         path: 'app',
@@ -284,30 +235,15 @@ export function addSpartacus(options: SpartacusOptions): Rule {
         project: options.project,
       }),
       setupRouterModule(options.project),
+
       setupStoreModules(options.project),
 
-      ensureModuleExists({
-        name: SPARTACUS_MODULE,
-        path: 'app/spartacus',
-        module: 'app',
-        project: options.project,
-      }),
+      scaffoldStructure(options),
+
       setupSpartacusModule(options.project),
 
-      ensureModuleExists({
-        name: SPARTACUS_FEATURES_MODULE,
-        path: 'app/spartacus',
-        module: 'spartacus',
-        project: options.project,
-      }),
       setupSpartacusFeaturesModule(options.project),
 
-      ensureModuleExists({
-        name: SPARTACUS_CONFIGURATION_MODULE,
-        path: 'app/spartacus',
-        module: 'spartacus',
-        project: options.project,
-      }),
       addSpartacusConfiguration(options),
 
       updateAppModule(options.project),

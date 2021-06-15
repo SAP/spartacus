@@ -11,6 +11,7 @@ import { MediaModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
 
 @Pipe({
@@ -55,8 +56,7 @@ class MockProductService {
   template: '',
 })
 class MockConfiguratorPriceComponent {
-  @Input() productPrice: number;
-  @Input() quantity = 1;
+  @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 describe('ConfiguratorOverviewBundleAttributeComponent', () => {

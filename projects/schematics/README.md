@@ -38,7 +38,9 @@ The best way to test an unpublished schematic is to publish it to a local npm re
 
 ### Preparing setup
 
-- Install verdaccio `npm i -g verdaccio@4` (only for the first time)
+- Install verdaccio `$ npm i -g verdaccio@4` (only for the first time)
+- Run it: `$ verdaccio`
+- Create an npm user: `$ npm adduser --registry http://localhost:4873`. After completing the registration of a new user, stop the verdaccio. This setup is only required to do once.
 - Create new angular project `ng new schematics-test --style=scss`
 - Run verdaccio script `ts-node ./tools/schematics/testing.ts` (or `./node_modules/ts-node/dist/bin.js ./tools/schematics/testing.ts` in case you don't have _ts-node_ installed globally).
 
@@ -147,6 +149,7 @@ The migration scripts that are listed here should be executed each time customer
 - `migration-v*-component-deprecations-05`
 - `migration-v*-css-06`
 - `migration-v*-config-deprecations-09`
+- `migration-v*-dependency-management-03`
 
 The `v*` refers _only_ to the _latest major_ Spartacus version (v3 as of this moment).
 

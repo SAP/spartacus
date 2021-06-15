@@ -21,6 +21,5 @@ import { ProfileTagComponent } from './profile-tag.component';
   ],
   exports: [ProfileTagComponent],
   declarations: [ProfileTagComponent],
-  entryComponents: [ProfileTagComponent],
 })
 export class ProfileTagCmsModule {}

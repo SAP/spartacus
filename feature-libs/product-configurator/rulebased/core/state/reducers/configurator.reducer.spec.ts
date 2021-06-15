@@ -3,12 +3,16 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorTestUtils } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import * as StateReduce from './configurator.reducer';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const CONFIG_ID = '1234-234';
 const CART_ID = '000000001';
+const ENTRY_NUMBER = '0';
+const USER_ID = 'user';
 const owner: CommonConfigurator.Owner = {
   type: CommonConfigurator.OwnerType.PRODUCT,
   id: PRODUCT_CODE,
@@ -75,10 +79,9 @@ describe('Configurator reducer', () => {
     });
     it('should take current group from flatGroups if current group in interaction state is undefined', () => {
       const configurationWithoutCurrentGroup: Configurator.Configuration = {
-        owner: owner,
+        ...ConfiguratorTestUtils.createConfiguration('A', owner),
         productCode: PRODUCT_CODE,
-        configId: 'A',
-        overview: {},
+        overview: { configId: CONFIG_ID },
         flatGroups: [
           {
             id: 'flatFirstGroup',
@@ -183,9 +186,11 @@ describe('Configurator reducer', () => {
         configuration
       );
       const configurationWithOverview: Configurator.Configuration = {
-        configId: 'A',
-        overview: {},
-        owner: ConfiguratorModelUtils.createInitialOwner(),
+        ...ConfiguratorTestUtils.createConfiguration(
+          'A',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        overview: { configId: CONFIG_ID },
       };
       const state = StateReduce.configuratorReducer(
         configurationWithOverview,
@@ -201,11 +206,38 @@ describe('Configurator reducer', () => {
       const params: Configurator.UpdateConfigurationForCartEntryParameters = {
         configuration: configuration,
         cartId: CART_ID,
+        userId: USER_ID,
+        cartEntryNumber: ENTRY_NUMBER,
       };
       const action = new ConfiguratorActions.UpdateCartEntry(params);
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.isCartEntryUpdateRequired).toEqual(false);
+    });
+  });
+
+  describe('UpdatePriceSummarySuccess action', () => {
+    it('should keep the existing groups altough it does not provide groups in its data', () => {
+      const actionProvidingState = new ConfiguratorActions.CreateConfigurationSuccess(
+        configuration
+      );
+      const firstState = StateReduce.configuratorReducer(
+        undefined,
+        actionProvidingState
+      );
+      const configurationWithPriceSummary: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(
+          'A',
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        priceSummary: { basePrice: {} },
+      };
+      const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
+        configurationWithPriceSummary
+      );
+      const state = StateReduce.configuratorReducer(firstState, action);
+
+      expect(state.groups.length).toBe(2);
     });
   });
 
@@ -219,7 +251,7 @@ describe('Configurator reducer', () => {
       expect(state.configId).toEqual('ds');
 
       const action2 = new ConfiguratorActions.RemoveConfiguration({
-        ownerKey: configuration.productCode,
+        ownerKey: PRODUCT_CODE,
       });
       state = StateReduce.configuratorReducer(undefined, action2);
 
@@ -326,7 +358,10 @@ describe('Configurator reducer', () => {
   describe('GetConfigurationOverviewSuccess action', () => {
     it('should put configuration overview into the state', () => {
       const priceSummary: Configurator.PriceSummary = {};
-      const overview: Configurator.Overview = { priceSummary: priceSummary };
+      const overview: Configurator.Overview = {
+        configId: CONFIG_ID,
+        priceSummary: priceSummary,
+      };
       const action = new ConfiguratorActions.GetConfigurationOverviewSuccess({
         ownerKey: configuration.owner.key,
         overview: overview,
@@ -340,7 +375,7 @@ describe('Configurator reducer', () => {
 
   describe('GetConfigurationOverviewSuccess action', () => {
     it('should put configuration overview into the state', () => {
-      const overview: Configurator.Overview = {};
+      const overview: Configurator.Overview = { configId: CONFIG_ID };
       const action = new ConfiguratorActions.GetConfigurationOverviewSuccess({
         ownerKey: configuration.owner.key,
         overview: overview,
@@ -352,7 +387,10 @@ describe('Configurator reducer', () => {
 
     it('should copy price summary from OV to configuration', () => {
       const priceSummary: Configurator.PriceSummary = {};
-      const overview: Configurator.Overview = { priceSummary: priceSummary };
+      const overview: Configurator.Overview = {
+        configId: CONFIG_ID,
+        priceSummary: priceSummary,
+      };
       const action = new ConfiguratorActions.GetConfigurationOverviewSuccess({
         ownerKey: configuration.owner.key,
         overview: overview,
@@ -365,7 +403,7 @@ describe('Configurator reducer', () => {
 
   describe('ReadOrderEntryConfigurationSuccess action', () => {
     it('should put configuration overview into the state', () => {
-      const overview: Configurator.Overview = {};
+      const overview: Configurator.Overview = { configId: CONFIG_ID };
       configuration.overview = overview;
       const action = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
         configuration
@@ -377,7 +415,10 @@ describe('Configurator reducer', () => {
 
     it('should copy price summary from OV to configuration', () => {
       const priceSummary: Configurator.PriceSummary = {};
-      const overview: Configurator.Overview = { priceSummary: priceSummary };
+      const overview: Configurator.Overview = {
+        configId: CONFIG_ID,
+        priceSummary: priceSummary,
+      };
       configuration.overview = overview;
       const action = new ConfiguratorActions.ReadOrderEntryConfigurationSuccess(
         configuration
@@ -406,7 +447,7 @@ describe('Configurator reducer', () => {
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state.nextOwner).toBeDefined();
-      expect(state.nextOwner.type).toBe(
+      expect(state.nextOwner?.type).toBe(
         CommonConfigurator.OwnerType.CART_ENTRY
       );
     });
