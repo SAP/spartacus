@@ -8,8 +8,8 @@ import { DigitalPaymentsState } from '../digital-payments-state';
 import { InjectionToken, Provider } from '@angular/core';
 import { ActionReducerMap } from '@ngrx/store';
 
- import * as fromPaymentRequest from './dp-checkout-payment-request.reducer';
- import * as fromCheckoutPaymentDetails from './dp-checkout-payment-details.reducer';
+import * as fromPaymentRequest from './dp-checkout-payment-request.reducer';
+import * as fromCheckoutPaymentDetails from './dp-checkout-payment-details.reducer';
 
 export function getReducers(): ActionReducerMap<DigitalPaymentsState> {
   return {
