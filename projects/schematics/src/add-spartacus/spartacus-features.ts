@@ -320,7 +320,10 @@ function configureSpartacusModules(
         });
       });
 
-      [`ExternalRoutesModule.forRoot(),`].forEach((content) => {
+      [
+        `// External routes,
+      ExternalRoutesModule.forRoot(),`,
+      ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
             {
