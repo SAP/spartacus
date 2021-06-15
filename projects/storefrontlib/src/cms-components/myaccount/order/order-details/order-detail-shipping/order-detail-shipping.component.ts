@@ -1,18 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Order } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
   selector: 'cx-order-details-shipping',
   templateUrl: './order-detail-shipping.component.html',
 })
-export class OrderDetailShippingComponent implements OnInit {
+export class OrderDetailShippingComponent {
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
-  order$: Observable<Order>;
-
-  ngOnInit() {
-    this.order$ = this.orderDetailsService.getOrderDetails();
-  }
+  state$ = this.orderDetailsService.getOrderDetailsState();
 }

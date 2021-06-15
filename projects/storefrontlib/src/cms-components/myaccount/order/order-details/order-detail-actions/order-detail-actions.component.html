@@ -1,9 +1,6 @@
 <ng-container *ngIf="state$ | async as state">
   <div class="cx-nav row">
-    <div
-      *ngIf="!state.loading && !isValidOrder(state.value)"
-      class="col-12 header"
-    >
+    <div *ngIf="state.error" class="col-12 header">
       <h2>{{ 'orderDetails.orderNotFound' | cxTranslate }}</h2>
     </div>
 
@@ -16,10 +13,7 @@
       </button>
     </div>
 
-    <div
-      *ngIf="isValidOrder(state.value) as order"
-      class="col-xs-12 col-md-4 col-lg-3"
-    >
+    <div *ngIf="state.value as order" class="col-xs-12 col-md-4 col-lg-3">
       <a
         *ngIf="order.cancellable"
         [routerLink]="
