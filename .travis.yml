@@ -35,8 +35,12 @@ jobs:
   - script:
     name: "E2E tests for B2C, 4th job"
     <<: *defaults
-  - script: "export CYPRESS_CONFIG=cypress.ci.cdc.json && export SPA_ENV='cdc' && ./ci-scripts/e2e-cypress.sh -s cdc || exit 0"
-    name: "E2E tests for CDC"
+  - script:
+    name: "E2E tests for B2C, 5th job"
+    <<: *defaults
+  - script:
+    name: "E2E tests for B2C, 6th job"
+    <<: *defaults
 addons:
   chrome: stable
   sonarcloud:
