@@ -578,13 +578,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "integration-libs/digital-payments/tsconfig.lib.json",
-              "integration-libs/digital-payments/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**"]
+            "lintFilePatterns": [
+              "integration-libs/digital-payments/**/*.ts",
+              "integration-libs/digital-payments/**/*.html"
+            ]
           }
         }
       }
