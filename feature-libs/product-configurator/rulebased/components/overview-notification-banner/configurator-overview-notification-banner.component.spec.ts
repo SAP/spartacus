@@ -12,6 +12,7 @@ import { CommonConfiguratorTestUtilsService } from '../../../common/shared/testi
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import {
+  CONFIG_ID,
   productConfiguration,
   productConfigurationWithConflicts,
   productConfigurationWithoutIssues,
@@ -154,6 +155,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
   it('should display banner when there are issues counted in Configurator.Overview', () => {
     const productConfigurationWithConflictsCountedInOverview: Configurator.Configuration = productConfigurationWithoutIssues;
     productConfigurationWithConflictsCountedInOverview.overview = {
+      configId: CONFIG_ID,
       totalNumberOfIssues: 5,
     };
     configurationObs = of(productConfigurationWithConflictsCountedInOverview);

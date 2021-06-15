@@ -6,11 +6,27 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
   cart: { paths: ['cart'] },
 
   // semantic links for login related pages
-  login: { paths: ['login'], protected: false },
-  register: { paths: ['login/register'], protected: false },
-  forgotPassword: { paths: ['login/forgot-password'], protected: false },
-  resetPassword: { paths: ['login/pw/change'], protected: false },
-  logout: { paths: ['logout'], protected: false },
+  login: {
+    paths: ['login'],
+    protected: false,
+    authFlow: true,
+  },
+  register: {
+    paths: ['login/register'],
+    protected: false,
+    authFlow: true,
+  },
+  forgotPassword: {
+    paths: ['login/forgot-password'],
+    protected: false,
+    authFlow: true,
+  },
+  resetPassword: {
+    paths: ['login/pw/change'],
+    protected: false,
+    authFlow: true,
+  },
+  logout: { paths: ['logout'], protected: false, authFlow: true },
 
   // plp routes
   search: { paths: ['search/:query'] },

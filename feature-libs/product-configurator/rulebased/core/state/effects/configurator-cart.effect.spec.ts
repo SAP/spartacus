@@ -15,6 +15,7 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { CONFIG_ID } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-data';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
@@ -51,6 +52,7 @@ const productConfiguration: Configurator.Configuration = {
   complete: true,
   consistent: true,
   overview: {
+    configId: CONFIG_ID,
     groups: [
       {
         id: 'a',

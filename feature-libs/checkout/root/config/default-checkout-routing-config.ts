@@ -3,7 +3,7 @@ import { RoutingConfig } from '@spartacus/core';
 export const defaultCheckoutRoutingConfig: RoutingConfig = {
   routing: {
     routes: {
-      checkoutLogin: { paths: ['checkout-login'] },
+      checkoutLogin: { paths: ['checkout-login'], authFlow: true },
       checkout: { paths: ['checkout'] },
       checkoutPaymentType: { paths: ['checkout/payment-type'] },
       checkoutShippingAddress: { paths: ['checkout/shipping-address'] },
