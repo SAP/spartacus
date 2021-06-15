@@ -22,11 +22,14 @@
         </div>
 
         <div class="actions">
-          <label *ngIf="data.pagination?.sort">
-            <span>{{ structure.type + '.sortBy' | cxTranslate }}</span>
+          <label>
+            <span *ngIf="data.pagination?.sort">{{
+              structure.type + '.sortBy' | cxTranslate
+            }}</span>
             <ng-select
               name="sort"
               class="sort"
+              *ngIf="data.pagination?.sort"
               [searchable]="false"
               [clearable]="false"
               (change)="sort(data.pagination)"
