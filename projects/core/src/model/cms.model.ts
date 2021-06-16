@@ -152,8 +152,8 @@ export interface CmsNavigationComponent extends CmsComponent {
   showLanguageCurrency?: string;
   navigationNode?: CmsNavigationNode;
   /**
-    Flag indicates whether to reset the state of menu navigation (ie. Collapse all submenus) when the menu is closed.
-  **/
+   * Flag indicates whether to reset the state of menu navigation (ie. Collapse all submenus) when the menu is closed.
+   */
   resetMenuOnClose?: boolean;
 }
 
