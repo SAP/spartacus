@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import * as NgrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
@@ -35,6 +36,7 @@ describe('RoutingService', () => {
   let winRef: WindowRef;
   let urlService: SemanticPathService;
   let routingParamsService: RoutingParamsService;
+  let router: Router;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +54,7 @@ describe('RoutingService', () => {
     winRef = TestBed.inject(WindowRef);
     urlService = TestBed.inject(SemanticPathService);
     routingParamsService = TestBed.inject(RoutingParamsService);
+    router = TestBed.inject(Router);
     spyOn(store, 'dispatch');
   });
 
@@ -71,11 +74,22 @@ describe('RoutingService', () => {
       );
     });
 
-    it('should call url service service with given array of commands', () => {
-      spyOn(urlService, 'transform');
+    it('should call url service with given array of commands', () => {
       const commands = ['testString', { cxRoute: 'testRoute' }];
+      const resultPath = ['testString', 'testPath'];
+      spyOn(urlService, 'transform').and.returnValue(resultPath);
       service.go(commands);
       expect(urlService.transform).toHaveBeenCalledWith(commands);
+    });
+
+    it('should return Promise for the Angular navigation', () => {
+      const navigationPromise = Promise.resolve(true);
+      const queryParams = { test: true };
+      spyOn(urlService, 'transform').and.returnValue(['url']);
+      spyOn(router, 'navigate').and.returnValue(navigationPromise);
+      const result = service.go(['url'], { queryParams });
+      expect(router.navigate).toHaveBeenCalledWith(['url'], { queryParams });
+      expect(result).toBe(navigationPromise);
     });
   });
 
@@ -85,6 +99,15 @@ describe('RoutingService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new RoutingActions.RouteGoByUrlAction('test')
       );
+    });
+
+    it('should return Promise for the Angular navigation', () => {
+      const navigationPromise = Promise.resolve(true);
+      const queryParams = { test: true };
+      spyOn(router, 'navigateByUrl').and.returnValue(navigationPromise);
+      const result = service.goByUrl('url', { queryParams });
+      expect(router.navigateByUrl).toHaveBeenCalledWith('url', { queryParams });
+      expect(result).toBe(navigationPromise);
     });
   });
 

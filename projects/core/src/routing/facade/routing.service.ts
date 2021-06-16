@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
@@ -20,7 +21,8 @@ export class RoutingService {
     protected winRef: WindowRef,
     protected semanticPathService: SemanticPathService,
     protected routingParamsService: RoutingParamsService,
-    protected router: Router
+    protected router: Router,
+    protected location: Location
   ) {}
 
   /**
@@ -71,10 +73,12 @@ export class RoutingService {
   /**
    * Navigation with a new state into history
    * @param commands: url commands
-   * @param query
    * @param extras: Represents the extra options used during navigation.
+   *
+   * @returns Promise that resolves to `true` when navigation succeeds,
+   *          to `false` when navigation fails, or is rejected on error.
    */
-  go(commands: UrlCommands, extras?: NavigationExtras): void {
+  go(commands: UrlCommands, extras?: NavigationExtras): Promise<boolean> {
     const path = this.semanticPathService.transform(commands);
     return this.navigate(path, extras);
   }
@@ -110,11 +114,16 @@ export class RoutingService {
   }
 
   /**
-   * Navigation using URL
+   * Navigation using absolute route path
    * @param url
+   * @param extras: Represents the extra options used during navigation.
+   *
+   * @returns Promise that resolves to `true` when navigation succeeds,
+   *          to `false` when navigation fails, or is rejected on error.
    */
-  goByUrl(url: string) {
+  goByUrl(url: string, extras?: NavigationExtras): Promise<boolean> {
     this.store.dispatch(new RoutingActions.RouteGoByUrlAction(url));
+    return this.router.navigateByUrl(url, extras);
   }
 
   /**
@@ -126,6 +135,7 @@ export class RoutingService {
     );
     if (isLastPageInApp) {
       this.store.dispatch(new RoutingActions.RouteBackAction());
+      this.location.back();
       return;
     }
     this.go(['/']);
@@ -137,20 +147,24 @@ export class RoutingService {
    */
   forward(): void {
     this.store.dispatch(new RoutingActions.RouteForwardAction());
+    this.location.forward();
   }
 
   /**
    * Navigation with a new state into history
    * @param path
-   * @param query
    * @param extras: Represents the extra options used during navigation.
+   *
+   * @returns Promise that resolves to `true` when navigation succeeds,
+   *          to `false` when navigation fails, or is rejected on error.
    */
-  protected navigate(path: any[], extras?: NavigationExtras): void {
+  protected navigate(path: any[], extras?: NavigationExtras): Promise<boolean> {
     this.store.dispatch(
       new RoutingActions.RouteGoAction({
         path,
         extras,
       })
     );
+    return this.router.navigate(path, extras);
   }
 }
