@@ -12,7 +12,6 @@ import {
   SiteContextConfig,
   StateConfig,
 } from '@spartacus/core';
-import { CheckoutConfig } from './cms-components/checkout/config/checkout-config';
 import { IconConfig } from './cms-components/misc/icon/icon.model';
 import { PWAModuleConfig } from './cms-structure/pwa/pwa.module-config';
 import { SeoConfig } from './cms-structure/seo/config';
@@ -39,7 +38,6 @@ export type StorefrontConfig =
   | RoutingConfig
   | I18nConfig
   | IconConfig
-  | CheckoutConfig
   | GlobalMessageConfig
   | ExternalRoutesConfig
   | ViewConfig
