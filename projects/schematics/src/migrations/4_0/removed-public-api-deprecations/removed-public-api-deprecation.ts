@@ -89,6 +89,12 @@ import {
   RESET_PASSWORD_COMPONENT,
   RESET_PASSWORD_FORM_COMPONENT,
   RESET_PASSWORD_MODULE,
+  ROUTE_BACK_ACTION,
+  ROUTE_FORWARD_ACTION,
+  ROUTE_GO_ACTION,
+  ROUTE_GO_BY_URL_ACTION,
+  ROUTING_ACTIONS,
+  ROUTING_SERVICE,
   SAVED_CART_FORM_LAUNCH_DIALOG_SERVICE,
   SMART_EDIT_MODULE,
   SMART_EDIT_SERVICE,
@@ -786,6 +792,11 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'EventsModule',
     importPath: SPARTACUS_STOREFRONTLIB,
     comment: `'EventsModule' was removed, please use individual imports instead. (e.g. CartPageEventModule, ProductPageEventModule, etc.)`,
+  },
+  {
+    node: ROUTING_ACTIONS,
+    importPath: SPARTACUS_CORE,
+    comment: `The following '${ROUTING_ACTIONS}' has been removed: '${ROUTE_GO_ACTION}', '${ROUTE_GO_BY_URL_ACTION}', '${ROUTE_BACK_ACTION}' and '${ROUTE_FORWARD_ACTION}'. Please just use the methods of the ${ROUTING_SERVICE}, respectively: 'go()', 'goByUrl()', 'back()' and 'forward()'.`,
   },
 ];
 
