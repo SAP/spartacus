@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 
 @Component({
@@ -8,5 +9,11 @@ import { OrderDetailsService } from '../order-details.service';
 export class OrderDetailActionsComponent {
   constructor(protected orderDetailsService: OrderDetailsService) {}
 
-  state$ = this.orderDetailsService.getOrderDetailsState();
+  error$ = this.orderDetailsService
+    .getOrderDetailsState()
+    .pipe(map((state) => state.error));
+
+  order$ = this.orderDetailsService
+    .getOrderDetailsState()
+    .pipe(map((state) => state.value));
 }
