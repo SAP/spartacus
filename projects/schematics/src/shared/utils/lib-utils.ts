@@ -784,7 +784,7 @@ function logFeatureInstallation(
   }
 }
 
-export function shouldAddDependency(
+function shouldAddDependency(
   dependency: NodeDependency,
   packageJson?: any
 ): boolean {
