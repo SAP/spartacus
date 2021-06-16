@@ -49,7 +49,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   /**
    * This value represents the number of navigation node options we expect.
    */
-  numMenuNodes: number = 6;
+  @Input() numMenuNodes: number;
 
   /**
    * Indicates whether the navigation should support flyout.
@@ -104,7 +104,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    * During initialization of this component, we will check the resetMenuOnClose flag and attach a menu reset listener if needed.
    */
   ngOnInit() {
-    if (this.resetMenuOnClose) this.resetOnMenuCollapse();
+    if (this.resetMenuOnClose) {
+      this.resetOnMenuCollapse();
+    }
   }
 
   /**
@@ -117,7 +119,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         .pipe(distinctUntilChanged())
         .subscribe((isExpanded: boolean) => {
           //only react when expanded and proper number of nav node are present.
-          if (isExpanded && this.node.children?.length > this.numMenuNodes) {
+          if (isExpanded && this.node.children?.length === this.numMenuNodes) {
             if (this.openNodes?.length > 0) {
               this.reinitalizeMenu();
             }
