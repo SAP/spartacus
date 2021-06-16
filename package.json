@@ -159,6 +159,7 @@
     "conventional-commits-parser": "^3.0.1",
     "core-js": "^3.2.1",
     "cross-env": "^7.0.0",
+    "cypress": "^7.5.0",
     "ejs": "^2.6.2",
     "enquirer": "^2.3.6",
     "env-cmd": "^10.1.0",
@@ -205,5 +206,19 @@
     "ts-node": "~8.3.0",
     "typescript": "~4.0.2",
     "webpack-cli": "^3.3.12"
-  }
+  },
+  "description": "![JavaScript storefront (spartacus)](docs/assets/spartacus-blue.png)",
+  "main": "extra-webpack.config.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SAP/spartacus.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/SAP/spartacus/issues"
+  },
+  "homepage": "https://github.com/SAP/spartacus#readme"
 }
