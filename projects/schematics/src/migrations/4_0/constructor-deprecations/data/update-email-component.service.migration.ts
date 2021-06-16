@@ -1,4 +1,3 @@
-import { SPARTACUS_USER_PROFILE_ROOT } from 'feature-libs/user/schematics/constants';
 import {
   UPDATE_EMAIL_COMPONENT_SERVICE,
   SPARTACUS_USER_PROFILE_COMPONENTS,
@@ -8,6 +7,7 @@ import {
   GLOBAL_MESSAGE_SERVICE,
   AUTH_SERVICE,
   AUTH_REDIRECT_SERVICE,
+  SPARTACUS_USER_PROFILE_ROOT,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 

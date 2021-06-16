@@ -43,6 +43,7 @@ export const SPARTACUS_USER = '@spartacus/user';
 export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
 export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
 export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
+export const SPARTACUS_USER_PROFILE_ROOT = `${SPARTACUS_USER_PROFILE}/root`;
 export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
 export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
 
