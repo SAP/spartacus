@@ -122,7 +122,6 @@ export class RoutingService {
    *          to `false` when navigation fails, or is rejected on error.
    */
   goByUrl(url: string, extras?: NavigationExtras): Promise<boolean> {
-    this.store.dispatch(new RoutingActions.RouteGoByUrlAction(url));
     return this.router.navigateByUrl(url, extras);
   }
 
@@ -134,7 +133,6 @@ export class RoutingService {
       this.winRef.nativeWindow.location.origin
     );
     if (isLastPageInApp) {
-      this.store.dispatch(new RoutingActions.RouteBackAction());
       this.location.back();
       return;
     }
@@ -146,7 +144,6 @@ export class RoutingService {
    * Navigating forward
    */
   forward(): void {
-    this.store.dispatch(new RoutingActions.RouteForwardAction());
     this.location.forward();
   }
 
@@ -159,12 +156,6 @@ export class RoutingService {
    *          to `false` when navigation fails, or is rejected on error.
    */
   protected navigate(path: any[], extras?: NavigationExtras): Promise<boolean> {
-    this.store.dispatch(
-      new RoutingActions.RouteGoAction({
-        path,
-        extras,
-      })
-    );
     return this.router.navigate(path, extras);
   }
 }
