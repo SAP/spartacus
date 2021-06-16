@@ -9,11 +9,7 @@
     font-weight: 600;
 
     @include media-breakpoint-up(md) {
-      width: 41.6666666667%;
-
-      @include forVersion(3.3) {
-        width: 40%;
-      }
+      width: 40%;
     }
   }
 
@@ -22,11 +18,7 @@
     width: 100%;
 
     @include media-breakpoint-up(md) {
-      width: 58.3333333333%;
-
-      @include forVersion(3.3) {
-        width: 60%;
-      }
+      width: 60%;
     }
   }
 }

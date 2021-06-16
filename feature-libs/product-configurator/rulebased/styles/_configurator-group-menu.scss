@@ -67,9 +67,7 @@
         overflow: hidden;
         line-break: anywhere;
 
-        @include forVersion(3.3) {
-          @include cx-configurator-truncate-content();
-        }
+        @include cx-configurator-truncate-content();
       }
 
       .groupIndicators {
